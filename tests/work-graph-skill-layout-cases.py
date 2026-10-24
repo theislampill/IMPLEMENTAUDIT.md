@@ -38,7 +38,7 @@ class CatalogCases(unittest.TestCase):
         self.assertEqual(contract["programs"], {
             "tests/skill-layout-contract.test.sh": "1139d5406839aec5ebdfd82eb0ad63ec9f3c5404cabf3a6c377af0db4a546a7e",
             "scripts/check-skill-layout-contract.sh": "b73e014aa4727d064108515fd959f1d9efb799b2afa1d02f0e7677bd51d02988",
-            "scripts/run-work-graph-verifier.sh": "345f51885abbeeda2e4ecd0de503febe50f30f853630a44c0c1277f414c1f9ae"})
+            "scripts/run-work-graph-verifier.sh": "532b06dbe91298bf71d44c88ecf20186adc93b4e3fb16ee2c4d12bc2edee45ff"})
         checker = (ROOT / "scripts/check-skill-layout-contract.sh").read_text()
         body = checker.split("<<'PY'\n", 1)[1].split("\nPY\n", 1)[0]
         syntax = ast.parse(body)

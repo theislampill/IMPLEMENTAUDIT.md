@@ -4,9 +4,9 @@
 set -euo pipefail
 if [ "${1:-}" = "--isolated-leaf" ]; then
   # The task acquirer supplies the closed filesystem/environment. This route
-  # emits no canonical terminal marker and inherits no evidence descriptors.
-  [ "$#" -eq 4 ] || exit 2
-  exec python -c '
+  # emits no canonical terminal marker. The default closes every evidence fd.
+  if [ "$#" -eq 4 ]; then
+    exec python -c '
 import hashlib, os, sys
 source, digest = sys.argv[1:]
 if hashlib.sha256(source.encode()).hexdigest() != digest:
@@ -14,6 +14,190 @@ if hashlib.sha256(source.encode()).hexdigest() != digest:
 os.closerange(3, 4096)
 os.execv("/usr/bin/bash", ["bash", "--noprofile", "--norc", "-c", source])
 ' "$3" "$4"
+  fi
+  [ "$#" -eq 6 ] && [ "$5" = "ORIGINAL96_PRIVATE_DOCS_V1" ] || exit 2
+  # Only the fixed original96 image owns a writable docs parent. Its existing
+  # bootstrap retains one bounded census fd; the actual original receives none.
+  exec python -I -B -c '
+import fcntl, hashlib, json, os, signal, stat, struct, subprocess, sys
+
+def identity(info):
+    return (info.st_dev, info.st_ino, info.st_mode, info.st_nlink,
+            info.st_size, info.st_mtime_ns, info.st_ctime_ns)
+
+def census(root, config):
+    result = {"files": {}, "directories": {}}
+    count = 0
+    def visit(directory, relative):
+        nonlocal count
+        count += 1
+        if count > config["entry_limit"]:
+            raise ValueError("private census entry bound exceeded")
+        before = os.fstat(directory)
+        result["directories"][relative] = dict(mode=stat.S_IMODE(before.st_mode),
+            read_only=bool(os.fstatvfs(directory).f_flag & os.ST_RDONLY), nlink=before.st_nlink)
+        names = []
+        with os.scandir(directory) as entries:
+            for entry in entries:
+                if len(names) + count >= config["entry_limit"]:
+                    raise ValueError("private census directory population bound exceeded")
+                names.append(entry.name)
+        for name in sorted(names):
+            path = name if relative == "." else relative + "/" + name
+            if len(path.encode("utf-8")) > config["path_bytes"]:
+                raise ValueError("private census path bound exceeded")
+            info = os.stat(name, dir_fd=directory, follow_symlinks=False)
+            flags = os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK
+            if stat.S_ISDIR(info.st_mode):
+                member = os.open(name, flags | os.O_DIRECTORY, dir_fd=directory)
+                try:
+                    if identity(info) != identity(os.fstat(member)):
+                        raise ValueError("private census directory changed")
+                    visit(member, path)
+                finally:
+                    os.close(member)
+            elif stat.S_ISREG(info.st_mode):
+                count += 1
+                if count > config["entry_limit"] or info.st_size > config["file_bytes"]:
+                    raise ValueError("private census file bound exceeded")
+                member = os.open(name, flags, dir_fd=directory)
+                try:
+                    before_file = os.fstat(member)
+                    if not stat.S_ISREG(before_file.st_mode) or identity(info) != identity(before_file):
+                        raise ValueError("private census file changed")
+                    digest, size = hashlib.sha256(), 0
+                    while True:
+                        data = os.read(member, min(1024**2, config["file_bytes"] + 1 - size))
+                        if not data:
+                            break
+                        size += len(data)
+                        if size > config["file_bytes"]:
+                            raise ValueError("private census file grew beyond bound")
+                        digest.update(data)
+                    if size != before_file.st_size or identity(before_file) != identity(os.fstat(member)):
+                        raise ValueError("private census bytes changed")
+                    result["files"][path] = dict(mode=stat.S_IMODE(before_file.st_mode),
+                        bytes=size, sha256=digest.hexdigest(), nlink=before_file.st_nlink,
+                        read_only=bool(os.fstatvfs(member).f_flag & os.ST_RDONLY))
+                finally:
+                    os.close(member)
+            else:
+                raise ValueError("nonordinary member in private census")
+        if identity(before) != identity(os.fstat(directory)):
+            raise ValueError("private census directory changed during read")
+    descriptor = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_NONBLOCK)
+    try:
+        visit(descriptor, ".")
+    finally:
+        os.close(descriptor)
+    return result
+
+def observe(config):
+    mounts = {}
+    for path in config["immutable_paths"]:
+        descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+        try:
+            mounts[path] = bool(os.fstatvfs(descriptor).f_flag & os.ST_RDONLY)
+        finally:
+            os.close(descriptor)
+    return dict(docs=census(config["root"], config), tmp=census(config["tmp_root"], config),
+                immutable_mounts=mounts)
+
+def baseline_matches(observed, baseline):
+    return (set(observed["files"]) == set(baseline["files"])
+        and {name: entry["mode"] for name, entry in observed["directories"].items()} == baseline["directories"]
+        and all({key: observed["files"][name][key] for key in ("mode", "bytes", "sha256")} == expected
+                for name, expected in baseline["files"].items()))
+
+def require_before(observed, config):
+    if (not baseline_matches(observed["docs"], config["baseline"])
+            or observed["tmp"]["files"] or set(observed["tmp"]["directories"]) != {"."}
+            or observed["docs"]["directories"]["."]["read_only"] is not False
+            or observed["tmp"]["directories"]["."]["read_only"] is not False
+            or set(observed["immutable_mounts"]) != set(config["immutable_paths"])
+            or not all(value is True for value in observed["immutable_mounts"].values())):
+        raise ValueError("original96 before census differs from its protected image")
+
+def store_record(descriptor, record, capacity):
+    data = json.dumps(record, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("ascii")
+    if len(data) > capacity - 8:
+        raise ValueError("private census report bound exceeded")
+    def write_all(data, offset):
+        while data:
+            written = os.pwrite(descriptor, data, offset)
+            if written <= 0:
+                raise OSError("private census short write")
+            data, offset = data[written:], offset + written
+    write_all(bytes(8), 0)
+    write_all(data, 8)
+    write_all(struct.pack("!Q", len(data)), 0)
+
+node, source, digest, policy, fd_text = sys.argv[1:]
+if (node != "COMMAND:tests/claim-boundary-proof-levels.test.sh:0"
+        or source != "bash tests/claim-boundary-proof-levels.test.sh\n"
+        or hashlib.sha256(source.encode()).hexdigest() != digest
+        or policy != "ORIGINAL96_PRIVATE_DOCS_V1"):
+    raise SystemExit(2)
+descriptor = int(fd_text)
+capacity = 4 * 1024**2
+if not 3 <= descriptor < 4096 or os.fstat(descriptor).st_size != capacity:
+    raise SystemExit(2)
+seals = fcntl.fcntl(descriptor, fcntl.F_GET_SEALS)
+if seals != fcntl.F_SEAL_GROW | fcntl.F_SEAL_SHRINK:
+    raise SystemExit(2)
+os.closerange(3, descriptor)
+os.closerange(descriptor + 1, 4096)
+os.set_inheritable(descriptor, False)
+config_fd = os.open("/profile/original96-overlay.json", os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+try:
+    if not stat.S_ISREG(os.fstat(config_fd).st_mode):
+        raise ValueError("nonordinary fixed census configuration")
+    raw = os.read(config_fd, 1024**2 + 1)
+    if len(raw) > 1024**2:
+        raise ValueError("fixed census configuration bound exceeded")
+    config = json.loads(raw)
+finally:
+    os.close(config_fd)
+if (config["policy"] != policy or config["root"] != "/work/docs" or config["tmp_root"] != "/tmp"
+        or config["buffer_bytes"] != capacity):
+    raise SystemExit(2)
+record = dict(schema="implementaudit.original96-private-observation.v1", policy=policy,
+              phase="INITIAL", original_started=False)
+child, original_exit = None, None
+try:
+    record.update(phase="BEFORE", before=observe(config))
+    store_record(descriptor, record, capacity)
+    require_before(record["before"], config)
+    child = subprocess.Popen(["/usr/bin/bash", "--noprofile", "--norc", "-c", source], close_fds=True)
+    record.update(phase="RUNNING", original_started=True)
+    store_record(descriptor, record, capacity)
+    original_exit = child.wait()
+    record.update(original_exit=original_exit, after=observe(config), phase="AFTER")
+    store_record(descriptor, record, capacity)
+except BaseException as error:
+    if child is not None:
+        if child.poll() is None:
+            child.kill()
+        original_exit = child.wait()
+        record.update(original_started=True, original_exit=original_exit)
+    record.update(phase="ERROR", error_type=type(error).__name__, detail=str(error)[:4096])
+    try:
+        store_record(descriptor, record, capacity)
+    except (OSError, ValueError):
+        pass
+    print("original96 private census refused: " + type(error).__name__, file=sys.stderr)
+finally:
+    os.close(descriptor)
+if original_exit is None:
+    raise SystemExit(2)
+if original_exit < 0:
+    selected_signal = -original_exit
+    if selected_signal not in (signal.SIGKILL, signal.SIGSTOP):
+        signal.signal(selected_signal, signal.SIG_DFL)
+    os.kill(os.getpid(), selected_signal)
+    os._exit(128 + selected_signal)
+raise SystemExit(original_exit)
+' "$2" "$3" "$4" "$5" "$6"
 fi
 if [ "$#" -lt 4 ]; then
   printf 'work-graph-verifier: command stream, trace, node count and stream digest required\n' >&2

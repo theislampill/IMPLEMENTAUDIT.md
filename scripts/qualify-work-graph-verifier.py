@@ -1435,6 +1435,122 @@ class VerifierTaskSession:
             os.close(fd)
             raise
 
+    def _claim_overlay_configuration_v1(self, files, directories):
+        """One fixed original96 image policy, derived only from acquired bytes."""
+        root, config_path = "/work/docs", "/profile/original96-overlay.json"
+        source_directories = sorted(name for name in set(directories)
+            if name == "/work" or name.startswith("/work/"))
+        source_files = {name: dict(mode=mode, bytes=len(data), sha256=sha(data))
+            for name, (data, mode) in sorted(files.items()) if name.startswith("/work/")}
+        if root not in source_directories or root + "/claim-probe-proof-levels.md" in set(source_files) | set(source_directories):
+            raise WG.WorkGraphError("original96 requires its docs parent and initially absent probe")
+        readonly_subtrees = sorted(name for name in source_directories
+            if name.startswith(root + "/") and name.count("/") == 3)
+        baseline = dict(files={name[len(root)+1:]: entry for name, entry in source_files.items() if name.startswith(root + "/")},
+            directories={"." if name == root else name[len(root)+1:]: 0o755 for name in source_directories
+                         if name == root or name.startswith(root + "/")})
+        config = dict(schema="implementaudit.original96-overlay-config.v1", policy="ORIGINAL96_PRIVATE_DOCS_V1",
+            root=root, tmp_root="/tmp", probe="claim-probe-proof-levels.md", buffer_bytes=4 * 1024**2,
+            entry_limit=4096, path_bytes=2048, file_bytes=self.LIMITS["file_bytes"],
+            baseline=baseline, immutable_paths=sorted(set(source_files) | (set(source_directories) - {root}) | {"/"}))
+        raw = self._encode(config)
+        if len(raw) > 1024**2 or self.LIMITS["scratch_bytes"] != 32 * 1024**2:
+            raise WG.WorkGraphError("original96 fixed overlay/configuration capacity refused")
+        policy = dict(policy="ORIGINAL96_PRIVATE_DOCS_V1", root=root, overlay_bytes=1024**2,
+            tmp_bytes=31 * 1024**2, census_buffer_bytes=4 * 1024**2,
+            config_path=config_path, config_sha256=sha(raw), readonly_subtrees=readonly_subtrees,
+            writable_namespace="NEW_NAMES_AND_NEW_DESCENDANTS_UNDER_DOCS_PARENT_EXISTING_MOUNTS_READ_ONLY",
+            census="BEFORE_AND_AFTER_STATE_NOT_A_TEMPORAL_WRITE_TRACE")
+        return config, raw, policy
+
+    def _claim_overlay_guard_v1(self, files, manifest, node):
+        policy = manifest.get("private_source_overlay")
+        if policy is None:
+            if self.SCOPE == "CONTROLLED_TASK_CLAIM_BOUNDARY_V1":
+                raise WG.WorkGraphError("original96 requires its fixed private source overlay")
+            return None
+        if (self.SCOPE != "CONTROLLED_TASK_CLAIM_BOUNDARY_V1" or manifest.get("root_read_only") is not True
+                or manifest.get("source_materialization") is not None
+                or manifest.get("data_permissions") != "OWNER_0600_READ_ONLY_MOUNT"
+                or any(mode not in (0o600, 0o555) for _, mode in files.values())
+                or node.get("id") != "COMMAND:tests/claim-boundary-proof-levels.test.sh:0"
+                or node.get("source") != "bash tests/claim-boundary-proof-levels.test.sh\n"):
+            raise WG.WorkGraphError("unsupported fixed private source overlay")
+        config, raw, expected = self._claim_overlay_configuration_v1(files, manifest["directories"])
+        if policy != expected or files.get(expected["config_path"]) != (raw, 0o600):
+            raise WG.WorkGraphError("private source overlay differs from the acquired fixed configuration")
+        return config
+
+    @staticmethod
+    def _claim_census_buffer_v1():
+        fd = os.memfd_create("r0035-private-source-census", os.MFD_ALLOW_SEALING | os.MFD_CLOEXEC)
+        try:
+            os.ftruncate(fd, 4 * 1024**2)
+            fcntl.fcntl(fd, fcntl.F_ADD_SEALS, fcntl.F_SEAL_GROW | fcntl.F_SEAL_SHRINK)
+            return fd
+        except BaseException:
+            os.close(fd)
+            raise
+
+    @staticmethod
+    def _claim_effects_decode_v1(raw, config):
+        """Decode bounded actual observations; never infer a missing phase."""
+        result = dict(schema="implementaudit.original96-private-effects.v1", policy="ORIGINAL96_PRIVATE_DOCS_V1",
+            authority="NONE", observation="UNOBSERVED", buffer_sha256=sha(raw),
+            original_started="UNOBSERVED", original_exit="UNOBSERVED", clean_private_namespace=False,
+            protected_members_unchanged=False, census="BEFORE_AND_AFTER_STATE_NOT_A_TEMPORAL_WRITE_TRACE")
+        try:
+            if len(raw) != config["buffer_bytes"]:
+                raise ValueError("census buffer length changed")
+            length = struct.unpack("!Q", raw[:8])[0]
+            if not 0 < length <= len(raw) - 8:
+                raise ValueError("no complete bounded census record")
+            record = WG.decode_strict_json_bytes(raw[8:8+length], "private source census")
+            if (type(record) is not dict or record.get("policy") != "ORIGINAL96_PRIVATE_DOCS_V1"
+                    or type(record.get("original_started")) is not bool):
+                raise ValueError("unsupported census record")
+            result.update(observation="PARTIAL", record=record, original_started=record["original_started"],
+                          original_exit=record.get("original_exit", "UNOBSERVED"))
+
+            def baseline_matches(census):
+                return (set(census["files"]) == set(config["baseline"]["files"])
+                    and {name: entry["mode"] for name, entry in census["directories"].items()} == config["baseline"]["directories"]
+                    and all({key: census["files"][name][key] for key in ("mode", "bytes", "sha256")} == expected
+                            for name, expected in config["baseline"]["files"].items()))
+
+            def immutable_matches(phase):
+                values = phase["immutable_mounts"]
+                return set(values) == set(config["immutable_paths"]) and all(value is True for value in values.values())
+
+            def empty_tmp(phase):
+                return phase["tmp"]["files"] == {} and set(phase["tmp"]["directories"]) == {"."}
+
+            before = record["before"]
+            if (not baseline_matches(before["docs"]) or not empty_tmp(before) or not immutable_matches(before)
+                    or before["docs"]["directories"]["."]["read_only"] is not False
+                    or before["tmp"]["directories"]["."]["read_only"] is not False):
+                raise ValueError("before census differs from the acquired protected namespace")
+            if record.get("phase") != "AFTER" or not record["original_started"]:
+                return result
+            original_exit = record.get("original_exit")
+            if type(original_exit) is not int or not -64 <= original_exit <= 255:
+                raise ValueError("actual original exit is missing or malformed")
+            after = record["after"]
+            protected = immutable_matches(after) and all(
+                {key: after["docs"]["files"].get(name, {}).get(key) for key in ("mode", "bytes", "sha256")} == expected
+                for name, expected in config["baseline"]["files"].items())
+            protected = protected and all(after["docs"]["directories"].get(name, {}).get("mode") == mode
+                for name, mode in config["baseline"]["directories"].items())
+            clean = (baseline_matches(after["docs"]) and empty_tmp(after)
+                and after["docs"]["directories"]["."]["read_only"] is False
+                and after["tmp"]["directories"]["."]["read_only"] is False
+                and after["tmp"]["directories"]["."]["mode"] == before["tmp"]["directories"]["."]["mode"])
+            result.update(observation="COMPLETE", protected_members_unchanged=protected, clean_private_namespace=clean)
+            return result
+        except (AttributeError, KeyError, TypeError, ValueError, struct.error) as error:
+            result.update(observation="REFUSED", reason=str(error))
+            return result
+
     def _execute(self, acquired, node, decision, directory):
         files, manifest = acquired["images"][node["id"]]
         materialization = manifest.get("source_materialization")
@@ -1454,17 +1570,25 @@ class VerifierTaskSession:
                 not copy_permissions and ("copy_umask" in manifest or any(mode == 0o666 for _, mode in files.values()))) or (
                 any(mode == 0o666 and not name.startswith("/work/") for name, (_, mode) in files.items())):
             raise WG.WorkGraphError("unsupported read-only source image permissions")
+        overlay_config = self._claim_overlay_guard_v1(files, manifest, node)
+        overlay = manifest.get("private_source_overlay")
         directory.mkdir()
         self._write(directory / "image.json", manifest)
         fds = []
+        census_fd, private_effects = None, None
         try:
             args = ["--unshare-all", "--unshare-user", "--die-with-parent", "--new-session", "--clearenv", "--cap-drop", "ALL"]
             for key, value in sorted(self.environment.items()):
                 args += ["--setenv", key, value]
             for name in sorted(set(manifest["directories"]) | {"/dev", "/tmp"}, key=lambda s: (s.count("/"), s)):
-                # --dir defaults to0755 and resets its one-operation modifier.
-                # The fixed copy policy can use that spelling for every directory.
-                args += (["--dir", name] if copy_permissions else ["--perms", "0755", "--dir", name])
+                if overlay is not None and name == overlay["root"]:
+                    args += ["--perms", "0755", "--size", str(overlay["overlay_bytes"]), "--tmpfs", name]
+                elif overlay is not None and name in overlay["readonly_subtrees"]:
+                    args += ["--perms", "0755", "--tmpfs", name]
+                else:
+                    # --dir defaults to0755 and resets its one-operation modifier.
+                    # The fixed copy policy can use that spelling for every directory.
+                    args += (["--dir", name] if copy_permissions else ["--perms", "0755", "--dir", name])
             for name, (data, mode) in sorted(files.items()):
                 fd = self._sealed(data)
                 fds.append(fd)
@@ -1483,10 +1607,17 @@ class VerifierTaskSession:
                 args += [kind, str(fd), name]
             seccomp_fd = self._sealed(self.SECCOMP)
             fds.append(seccomp_fd)
-            args += ["--dev-bind", "/dev/null", "/dev/null", "--size", str(self.LIMITS["scratch_bytes"]), "--tmpfs", "/tmp",
+            if overlay is not None:
+                for name in overlay["readonly_subtrees"]:
+                    args += ["--remount-ro", name]
+                census_fd = self._claim_census_buffer_v1()
+                fds.append(census_fd)
+            args += ["--dev-bind", "/dev/null", "/dev/null", "--size", str(self.LIMITS["scratch_bytes"] if overlay is None else overlay["tmp_bytes"]), "--tmpfs", "/tmp",
                      "--remount-ro", "/", "--chdir", "/work", "--seccomp", str(seccomp_fd)]
             command = ["/usr/bin/bash", "--noprofile", "--norc", "/work/scripts/run-work-graph-verifier.sh",
                        "--isolated-leaf", node["id"], node["source"], node["source_sha256"]]
+            if overlay is not None:
+                command += ["ORIGINAL96_PRIVATE_DOCS_V1", str(census_fd)]
             # --args is still counted by bubblewrap's9000-argument parser.
             # Include the outer --args/FD and checker argv, then keep margin.
             argument_count = len(args) + 2 + len(command)
@@ -1500,7 +1631,8 @@ class VerifierTaskSession:
                         command_sha256=node["source_sha256"], input_key=decision["key"],
                         image_digest=acquired["acquired"]["inputs"][node["id"]]["image_digest"],
                         descriptor_count=len(fds), argument_count=argument_count, argument_limit=8500,
-                        descriptor_custody="SEALED_INPUTS_ONLY_CLOSED_BEFORE_CHECKER"))
+                        descriptor_custody=("SEALED_INPUTS_ONLY_CLOSED_BEFORE_CHECKER" if overlay is None
+                            else "SEALED_INPUTS_CLOSED_BOOTSTRAP_CENSUS_FD_NOT_INHERITED_BY_ORIGINAL")))
             def limits():
                 resource.setrlimit(resource.RLIMIT_CPU, (self.LIMITS["cpu_seconds"],) * 2)
                 resource.setrlimit(resource.RLIMIT_AS, (self.LIMITS["address_bytes"],) * 2)
@@ -1547,14 +1679,35 @@ class VerifierTaskSession:
                     os.fsync(stdout.fileno())
                     os.fsync(stderr.fileno())
         finally:
-            for fd in fds:
-                os.close(fd)
+            try:
+                if census_fd is not None:
+                    fcntl.fcntl(census_fd, fcntl.F_ADD_SEALS, fcntl.F_SEAL_WRITE | fcntl.F_SEAL_SEAL)
+                    census_raw = os.pread(census_fd, overlay["census_buffer_bytes"], 0)
+                    self._write(directory / "source-effects.buffer", census_raw)
+                    private_effects = self._claim_effects_decode_v1(census_raw, overlay_config)
+                    self._write(directory / "source-effects.json", private_effects)
+            finally:
+                for fd in fds:
+                    os.close(fd)
         raw = {name: self._regular(directory / name)[1] for name in ("stdout.log", "stderr.log", "exit-code.txt", "image.json", "dispatch.json")}
+        if overlay is not None:
+            raw.update({name: self._regular(directory / name)[1] for name in ("source-effects.buffer", "source-effects.json")})
+            if code == 0 and complete and (private_effects["observation"] != "COMPLETE"
+                    or private_effects["original_exit"] != 0 or not private_effects["protected_members_unchanged"]
+                    or not private_effects["clean_private_namespace"]):
+                raise WG.WorkGraphError("actual successful exit lacks a complete matching private-source census")
         result = dict(schema="implementaudit.verifier-issued-result.v1", scope=acquired["acquired"]["scope"],
                       producer=self.producer, node=node["id"], key=decision["key"], dispatch=self.dispatch_count,
                       source_digest=self._object(self._encode(acquired["state"])), exit=code, complete=complete,
                       stdout_sha256=sha(raw["stdout.log"]), stderr_sha256=sha(raw["stderr.log"]),
                       semantic_artifacts=[], authority="NONE")
+        if overlay is not None:
+            result.update(semantic_artifacts=[dict(path="source-effects.json", sha256=sha(raw["source-effects.json"]))],
+                private_source_effects=dict(policy=overlay["policy"], observation=private_effects["observation"],
+                    original_started=private_effects["original_started"], original_exit=private_effects["original_exit"],
+                    protected_members_unchanged=private_effects["protected_members_unchanged"],
+                    clean_private_namespace=private_effects["clean_private_namespace"],
+                    mutable_namespace=overlay["writable_namespace"], authority="NONE"))
         raw["receipt.json"] = self._encode(result)
         self._write(directory / "receipt.json", raw["receipt.json"])
         required = [member["sha256"] for member in manifest["files"]] + [result["source_digest"], manifest["seccomp_sha256"]]
@@ -1700,6 +1853,7 @@ _FINITE_MODES = {
     "native-integration": "CONTROLLED_TASK_NATIVE_INTEGRATION_V1",
     "audit-retention": "CONTROLLED_TASK_AUDIT_RETENTION_V1",
     "audit-object-contract": "CONTROLLED_TASK_AUDIT_OBJECT_CONTRACT_V1",
+    "claim-boundary": "CONTROLLED_TASK_CLAIM_BOUNDARY_V1",
 }
 
 

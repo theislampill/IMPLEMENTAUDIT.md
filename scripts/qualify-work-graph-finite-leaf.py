@@ -36,6 +36,12 @@ PLANNER_COPY_PROFILE = "CONTROLLED_TASK_PLANNER_COPY_V1"
 FANOUT_PROFILE = "CONTROLLED_TASK_FANOUT_COVERAGE_V1"
 SKILL_LAYOUT_PROFILE = "CONTROLLED_TASK_SKILL_LAYOUT_V1"
 NATIVE_INTEGRATION_PROFILE = "CONTROLLED_TASK_NATIVE_INTEGRATION_V1"
+CLAIM_BOUNDARY_PROFILE = "CONTROLLED_TASK_CLAIM_BOUNDARY_V1"
+CLAIM_BOUNDARY_POLICY = "ORIGINAL96_PRIVATE_DOCS_V1"
+CLAIM_BOUNDARY_PROBE = "docs/claim-probe-proof-levels.md"
+CLAIM_BOUNDARY_OVERLAY_BYTES = 1024**2
+CLAIM_BOUNDARY_CENSUS_BYTES = 4 * 1024**2
+CLAIM_BOUNDARY_CONFIG = "/profile/original96-overlay.json"
 # Necessary anchors only: these deliberately overcount original diagnostics,
 # including exempt examples. They bound allocation; the original decides truth.
 _NATIVE_FORBIDDEN_BOUND_ANCHORS = (b"Foreign", b"foreign", b"Category", b"STATUS", b"non-native")
@@ -266,6 +272,25 @@ AUDIT_OBJECT_CONTRACT_GIT_READS = (
         "refs/implementaudit/current-generation-migrations/"),
 )
 _CONTRACTS = {
+    CLAIM_BOUNDARY_PROFILE: dict(label="claim-boundary", index=96,
+        program="tests/claim-boundary-proof-levels.test.sh",
+        programs={
+            "tests/claim-boundary-proof-levels.test.sh": "cfbe5425fb95a829f6630fe6ddc703b2fbb094100a2fc7ba32259052bbd10bd4",
+            "scripts/check-public-claim-boundaries.sh": "7187805b0d8be133244dda1057339b828de41a2799fa4bb3f8a045e75438c9ee"},
+        data=("README.md", "docs/audits/INDEX.md", "docs/audits/RETENTION.md",
+            "skills/implementaudit/templates/final-report.md",
+            "fixtures/claim-boundaries/allowed-proof-wording.md",
+            "fixtures/claim-boundaries/negative-unqualified-proven.md",
+            "fixtures/claim-boundaries/negative-archived-verdict-unqualified.md",
+            "docs/portal/pages/research-lineage-s3e.html",
+            "docs/portal/pages/research-lineage-evolved-css.html",
+            "docs/portal/pages/reference-index.html", RUNNER),
+        bounds=dict(file_bytes=1024**2, total_bytes=8 * 1024**2, files=14),
+        complete_public=dict(file_bytes=128 * 1024**2, total_bytes=256 * 1024**2,
+            entries=4096, depth=40, path_bytes=2048),
+        source_modes="NORMALIZED_0600_READ_ONLY_MOUNT",
+        projection="COMPLETE_ACTUAL_ROOT_MEMBERSHIP_PUBLIC_READ_BYTES_EXCLUDED_CONTENT_TYPED_PLACEHOLDERS_FIXED_PRIVATE_DOCS_OVERLAY",
+        pinned_data={RUNNER: "532b06dbe91298bf71d44c88ecf20186adc93b4e3fb16ee2c4d12bc2edee45ff"}),
     AUDIT_OBJECT_CONTRACT_PROFILE: dict(label="audit-object-contract", index=73,
         program="tests/audit-object-routing-contract.test.sh",
         programs={
@@ -286,7 +311,7 @@ _CONTRACTS = {
         scratch_bytes=64 * 1024**2,
         source_modes="COPY_0666_UMASK_022_READ_ONLY_ROOT",
         projection="SEVEN_PINNED_PROGRAMS_COMPLETE_STANDALONE_SOURCE_GIT_LEGACY_BRANCH_DATA_REAL_EMPTY_CONTROLLER_OBSERVATION_PRIVATE_WRITES_ONLY",
-        pinned_data={RUNNER: "345f51885abbeeda2e4ecd0de503febe50f30f853630a44c0c1277f414c1f9ae",
+        pinned_data={RUNNER: "532b06dbe91298bf71d44c88ecf20186adc93b4e3fb16ee2c4d12bc2edee45ff",
             AUDIT_OBJECT_CONTRACT_PROCESS + "/mission.json": "691ad2e347ff8f3b0ccd5abf740697ee8c1320509369e2b62b145161c5ff994a",
             AUDIT_OBJECT_CONTRACT_PROCESS + "/result.json": "ec2da2058181bf72de89bb9bd64ad892918ad586333e1ded35c0f67ae0b41489"},
         # These inputs select native/controller, publication, citation and other
@@ -325,7 +350,7 @@ _CONTRACTS = {
             "scripts/check-skill-layout-contract.sh": "b73e014aa4727d064108515fd959f1d9efb799b2afa1d02f0e7677bd51d02988",
             # The original scans scripts as data. Pin the engine runner too:
             # its captured source must survive the existing launcher insertion.
-            RUNNER: "345f51885abbeeda2e4ecd0de503febe50f30f853630a44c0c1277f414c1f9ae"},
+            RUNNER: "532b06dbe91298bf71d44c88ecf20186adc93b4e3fb16ee2c4d12bc2edee45ff"},
         data=("README.md", "AGENTS.md", ".codex-plugin/plugin.json"),
         bounds=dict(file_bytes=128 * 1024, total_bytes=8 * 1024**2, files=7),
         source_modes="NORMALIZED_0444_READ_ONLY",
@@ -601,7 +626,7 @@ def contract_for(profile):
                                                      COMMIT_PROFILE, AGENTS_PROFILE, ESCALATION_PROFILE, TOPOLOGY_PROFILE,
                                                      CAPABILITY_PROFILE, ISSUES_PROFILE, TERMINAL_PROFILE,
                                                      BACKGROUND_PROFILE, LIFECYCLE_PROFILE, PLAN_QUALITY_PROFILE,
-                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE):
+                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE):
         raise ValueError("unsupported finite-leaf profile")
     return copy.deepcopy(_CONTRACTS[profile])
 
@@ -615,7 +640,7 @@ def image_subject(state, *, profile=PROFILE):
     """Retain the registry bytes whenever the original actually reads them."""
     contract_for(profile)
     return {name: value for name, value in state["files"].items()
-            if name != REGISTRY or profile in (REGISTRY_PROFILE, SKILL_LAYOUT_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE)}
+            if name != REGISTRY or profile in (REGISTRY_PROFILE, SKILL_LAYOUT_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE)}
 
 
 def select_node(compiler, registry, environment, *, profile=PROFILE):
@@ -1067,6 +1092,157 @@ def skill_layout_output_bounds(state, objects):
         basis="ALL_POSSIBLE_DECODED_LINES_AND_STRUCTURAL_TREE_MARKERS_NOT_ACCEPTANCE")
 
 
+def claim_boundary_read_roles(state):
+    """Exact I/O selectors only; never an answer about original claim wording."""
+    contract = contract_for(CLAIM_BOUNDARY_PROFILE)
+    direct = set(contract["programs"]) | set(contract["data"]) | {REGISTRY}
+    readers = {"README.md", "CONTRIBUTING.md", "AGENTS.md", "docs/portal/site.json"}
+    blocked = {".git", ".IMPLEMENTAUDIT", "dist", "graphify-out", ".graphify", ".activegraph", "tmp", "temp"}
+    binary = {".png", ".jpg", ".jpeg", ".gif", ".zip", ".skill", ".ico", ".pdf"}
+    roles = {}
+    for name in state["files"]:
+        path = Path(name)
+        selected = []
+        if name in direct:
+            selected.append("DIRECT_OR_EXECUTABLE")
+        if name in readers or name.startswith("docs/portal/pages/"):
+            selected.append("CURRENT_READER")
+        frozen = (name.startswith("docs/research/genealogy/") and
+                  ("/corpus/" in "/" + name or name.startswith("docs/research/genealogy/method/source-prompts/")))
+        if (name != "scripts/check-public-claim-boundaries.sh" and not frozen
+                and not name.startswith("docs/audits/") and not any(part in blocked for part in path.parts)
+                and path.suffix.lower() not in binary):
+            selected.append("WHOLE_ROOT")
+        roles[name] = selected
+    return roles
+
+
+def claim_boundary_output_bounds(state, objects, roles):
+    """Overcount necessary output anchors without copying semantic exemptions."""
+    # Split physical source literals preserve the original's scan of this file.
+    unsupported = ("verified " + "install", "install " + "verified", "marketplace " + "verified",
+        "verified " + "marketplace", "auto-" + "update", "auto-" + "updates", "auto-" + "install",
+        "automatically " + "update", "universal host " + "support", "published " + "package",
+        "package publication " + "verified", "attestation " + "generated", "signed " + "release",
+        "sbom " + "generated", "spdx " + "generated", "mit " + "license", "apache " + "license")
+    stale = ("r0024 / #167 remains open and was not " + "shipped or qualified in this release",
+        "do not replace bytes under an " + "already-published tag",
+        "current release-gate-verified public release is " + "`v0.3.3.0`",
+        "release-gate verified live public release remains " + "`v0.2.9.0`",
+        "last release-gate verified live public release " + "`v0.2.9.0`",
+        "live public v0.2.9.0 " + "release",
+        "install-codex-from-release.sh --tag " + "v0.2.9.0 --version 0.2.9")
+    portal = ("complete " + "glossary", "full " + "terminology", "better " + "than x",
+        "beats " + "every", "de" + "feats", "surpasses " + "all")
+    reader = ("three invocation " + "shapes", "three valid invocation " + "shapes", "three invocation " + "modes")
+    proof = ("PRO" + "VEN", "SUR" + "PASSED")
+    diagnostic, failures, line_count, largest, largest_lines = 64 * 1024, 0, 0, 0, 0
+    read_bytes = 0
+    for name, selected in roles.items():
+        if not selected:
+            continue
+        raw = objects[state["files"][name]["sha256"]]
+        if len(raw) > 16 * 1024**2:
+            raise ValueError("public source image member exceeds the existing file limit")
+        largest, read_bytes = max(largest, len(raw)), read_bytes + len(raw)
+        # Replacement decoding only enlarges allocation. Originals retain their
+        # actual strict direct reads and recursive undecodable-file behavior.
+        text = raw.decode("utf-8", errors="replace")
+        lines = text.splitlines()
+        line_count += len(lines)
+        largest_lines = max(largest_lines, len(lines))
+        anchors = ()
+        if "WHOLE_ROOT" in selected:
+            anchors += unsupported + stale
+            if name.startswith("docs/portal/"):
+                anchors += portal
+        if "CURRENT_READER" in selected:
+            anchors += reader
+        for number, line in enumerate(text.lower().splitlines(), 1):
+            hits = sum(anchor in line for anchor in anchors)
+            failures += hits
+            diagnostic += hits * (len(name.encode("utf-8")) + len(str(number)) + 512)
+        if "WHOLE_ROOT" in selected or name in ("docs/audits/INDEX.md", "docs/audits/RETENTION.md"):
+            for number, line in enumerate(lines, 1):
+                if any(anchor in line.upper() for anchor in proof):
+                    failures += 1
+                    diagnostic += len(name.encode("utf-8")) + len(str(number)) + 1024
+    names = {*state["files"], *state["directories"]}
+    portal_names = (
+        "docs/portal/pages/research-lineage-s3e.html", "docs/portal/pages/research-lineage-evolved-css.html",
+        "docs/portal/pages/reference-index.html")
+    portal_bytes = sum(state["files"][name]["bytes"] for name in portal_names)
+    strict_names = ("README.md", "docs/audits/INDEX.md", "docs/audits/RETENTION.md", *portal_names)
+    strict_largest = max(state["files"][name]["bytes"] for name in strict_names)
+    anchor_diagnostic = diagnostic - 64 * 1024
+    # Only these six direct Python reads can emit a strict-decoder traceback.
+    # Both recursive scans catch UnicodeDecodeError and skip that file. The
+    # three portal regex families each emit at most one match per owner; four
+    # times their full source bytes also covers that data-derived output.
+    diagnostic += 16 * 1024 + 4 * strict_largest + 4 * portal_bytes
+    # Actual sequential lifetimes: reserve eight full-size Unicode buffers
+    # for old/new text, lowercasing working/result buffers, line slices and
+    # a retained line, at four bytes per source byte, plus two raw buffers.
+    # Only one splitlines
+    # population is live; allow 128 bytes of object/slot overhead per line.
+    # The independent margins retain diagnostics/join/encoding, direct README
+    # tokenization, all portal owners/mutation, paths, startup and both census
+    # observations. These bounds do not inspect semantic exemptions or predict
+    # the original result, and do not charge all sequential files as live.
+    memory_parts = dict(startup_bytes=64 * 1024**2, sequential_file_buffers=34 * largest,
+        split_line_objects=128 * largest_lines, persistent_portal_data=16 * portal_bytes,
+        diagnostics_and_encoding=16 * diagnostic, strict_direct_read_working=80 * strict_largest,
+        namespace_objects=96 * sum(len(name.encode("utf-8")) for name in names) + 512 * len(names),
+        census_buffers=4 * CLAIM_BOUNDARY_CENSUS_BYTES)
+    memory = sum(memory_parts.values())
+    immediate = sum(name.startswith("docs/") and name.count("/") == 1 for name in names)
+    overlay_required = (immediate + 3) * 65536  # root, probe metadata and one rounded probe payload
+    if overlay_required > CLAIM_BOUNDARY_OVERLAY_BYTES:
+        raise ValueError("original96 docs namespace exceeds its fixed private overlay reservation")
+    return dict(diagnostic_file_bound=diagnostic, max_stderr_bytes=diagnostic + 64 * 1024,
+        max_stdout_bytes=4096, original_data_memory_reservation=memory,
+        memory_components=memory_parts, necessary_anchor_diagnostic_bytes=anchor_diagnostic,
+        strict_direct_largest_read_bytes=strict_largest, strict_decoder_margin_bytes=4 * strict_largest,
+        portal_match_margin_bytes=4 * portal_bytes, diagnostic_fixed_margin_bytes=80 * 1024,
+        possible_diagnostic_entries=failures, decoded_line_count=line_count, read_bytes=read_bytes,
+        largest_read_file_bytes=largest, largest_read_file_line_count=largest_lines,
+        original_checker_calls=5, wrapper_require_calls=22,
+        overlay_required_bytes=overlay_required, overlay_bytes=CLAIM_BOUNDARY_OVERLAY_BYTES,
+        census_buffer_bytes=CLAIM_BOUNDARY_CENSUS_BYTES, immediate_docs_entries=immediate,
+        basis="COMPLETE_PUBLIC_READ_POPULATIONS_NECESSARY_ANCHORS_NO_EXEMPTION_OR_ACCEPTANCE_COPY")
+
+
+def claim_boundary_inputs(prefix, root, objects, contract):
+    state, stamps = prefix.snapshot_tree(root, objects, contract["complete_public"])
+    if "docs" not in state["directories"]:
+        raise ValueError("original96 docs parent is absent")
+    if CLAIM_BOUNDARY_PROBE in state["files"] or CLAIM_BOUNDARY_PROBE in state["directories"]:
+        raise ValueError("original96 private probe must initially be absent")
+    for name, value in state["files"].items():
+        if value["mode"] not in (0o444, 0o644, 0o755) or len(name.encode("utf-8")) > contract["complete_public"]["path_bytes"]:
+            raise ValueError("unsupported original96 physical source member")
+    if any(mode not in (0o700, 0o755) or len(name.encode("utf-8")) > contract["complete_public"]["path_bytes"]
+           for name, mode in state["directories"].items()):
+        raise ValueError("unsupported original96 physical source directory")
+    roles = claim_boundary_read_roles(state)
+    license_kind = "FILE" if "LICENSE" in state["files"] else "DIRECTORY" if "LICENSE" in state["directories"] else "MISSING"
+    record = dict(read_roles=roles, initial_probe=dict(path=CLAIM_BOUNDARY_PROBE, kind="MISSING"),
+        license_presence=license_kind, resources=claim_boundary_output_bounds(state, objects, roles),
+        projection=dict(files={name: dict(kind="FILE", reads=selected) for name, selected in roles.items()},
+                        directories=state["directories"]), currentness=stamps,
+        effect="FIXED_PRIVATE_DOCS_NEW_NAMESPACE_WITH_EXISTING_MEMBERS_READ_ONLY")
+    return state, record
+
+
+def claim_boundary_image_files(state, objects):
+    """Stage every observed type/read byte before fixed compact mode selection."""
+    roles = state["public_inputs"]["read_roles"]
+    if set(roles) != set(state["files"]):
+        raise ValueError("original96 image lacks complete read-selector coverage")
+    return {"/work/" + name: (objects[entry["sha256"]] if roles[name] else b"", 0o444)
+            for name, entry in state["files"].items()}
+
+
 def snapshot_complete_git_inputs(prefix, root, objects, contract, git_owner, environment):
     """Acquire a genuine complete standalone source through existing owners."""
     if git_owner is None or environment is None:
@@ -1412,6 +1588,14 @@ def snapshot_source(prefix, root, objects, *, profile=PROFILE, registry_snapshot
             state["complete_git_inputs"]["resources"] = audit_object_contract_output_bounds(state, objects)
         else:
             state["complete_git_inputs"]["resources"] = retention_output_bounds(state, objects)
+    if profile == CLAIM_BOUNDARY_PROFILE:
+        complete, observation = claim_boundary_inputs(prefix, root, objects, contract)
+        if any(complete["files"].get(name) != entry for name, entry in state["files"].items()):
+            raise ValueError("original96 literal reads changed during complete acquisition")
+        state["files"].update(complete["files"])
+        state["directories"].update(complete["directories"])
+        state["public_inputs"] = observation
+        stamps["public_inputs"] = observation["currentness"]
     if "recursive" in contract:
         recursive, currentness = snapshot_recursive_inputs(prefix, root, objects, contract["recursive"])
         state["files"].update(recursive["files"])
@@ -1476,7 +1660,33 @@ def temporary_requirements(state, *, profile=PROFILE):
     sizes = [state["files"][name]["bytes"] for name in contract["data"]]
     rounded = lambda size: ((size + granule - 1) // granule) * granule
     extra = {}
-    if profile == NATIVE_INTEGRATION_PROFILE:
+    if profile == CLAIM_BOUNDARY_PROFILE:
+        bound = state["public_inputs"]["resources"]
+        checker = state["files"]["scripts/check-public-claim-boundaries.sh"]["bytes"]
+        # One diagnostic is overwritten twice. Each of five synchronous Bash
+        # checker calls closes its possible heredoc spool before returning, so
+        # only one spool can coexist with the retained diagnostic. The
+        # separate fixed docs quota already covers its existing mountpoints,
+        # root metadata, one probe inode and its <=128-byte fixed payload.
+        sizes = (bound["diagnostic_file_bound"], checker)
+        tmp_required = sum(map(rounded, sizes)) + (len(sizes) + 1) * granule
+        if tmp_required > 31 * 1024**2:
+            raise ValueError("original96 private diagnostic/spools exceed its fixed tmp capacity")
+        return dict(copies=0, files=len(sizes) + 1, directories=1, content_bytes=sum(sizes) + 128,
+            allocation_granule=granule, observed_page_bytes=page,
+            overhead_bytes=(len(sizes) + 1) * granule,
+            required_bytes=tmp_required + CLAIM_BOUNDARY_OVERLAY_BYTES,
+            tmp_required_bytes=tmp_required, tmp_capacity_bytes=31 * 1024**2,
+            overlay_required_bytes=bound["overlay_required_bytes"], overlay_capacity_bytes=CLAIM_BOUNDARY_OVERLAY_BYTES,
+            largest_file_bytes=max(*sizes, CLAIM_BOUNDARY_CENSUS_BYTES),
+            max_stdout_bytes=bound["max_stdout_bytes"], max_stderr_bytes=bound["max_stderr_bytes"],
+            diagnostic_file_bound=bound["diagnostic_file_bound"], checker_spools=1,
+            total_checker_spool_opportunities=5, diagnostic_files=1, diagnostic_overwrites=2,
+            probe_bytes=128, probe_writes=4, original_checker_calls=5, wrapper_require_calls=22,
+            census_buffer_bytes=CLAIM_BOUNDARY_CENSUS_BYTES,
+            original_data_memory_reservation=bound["original_data_memory_reservation"],
+            basis="COMPLETE_PUBLIC_READ_BOUNDS_ONE_LIVE_SPOOL_ONE_OVERWRITTEN_DIAGNOSTIC_FIXED_PRIVATE_DOCS_QUOTA")
+    elif profile == NATIVE_INTEGRATION_PROFILE:
         bound = state["recursive_inputs"]["resources"]
         copied = [entry["bytes"] + 128 for name, entry in state["files"].items()
                   if name.startswith(("skills/", "fixtures/native-integration/"))]
@@ -1802,7 +2012,7 @@ def finite_image_permissions(files, source, *, profile=PROFILE):
             raise ValueError("unsupported acquired skill-layout image branch")
         source_modes = contract["present_git"]["source_modes"]
     if source_modes == "NORMALIZED_0600_READ_ONLY_MOUNT":
-        if profile not in (RETENTION_PROFILE, SKILL_LAYOUT_PROFILE):
+        if profile not in (RETENTION_PROFILE, SKILL_LAYOUT_PROFILE, CLAIM_BOUNDARY_PROFILE):
             raise ValueError("unsupported compact read-only image profile")
         return retention_readonly_image(files), dict(source_modes=source_modes,
             data_permissions="OWNER_0600_READ_ONLY_MOUNT")
@@ -2025,10 +2235,14 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                 value["mode"] if contract["source_modes"] in (
                     "PRESERVE_READ_ONLY_MOUNT", "COPY_0666_UMASK_022_READ_ONLY_ROOT") else 0o444)
                 for name, value in subject.items()})
+            if profile == CLAIM_BOUNDARY_PROFILE:
+                files.update(claim_boundary_image_files(source, objects))
             if profile == SKILL_LAYOUT_PROFILE and files["/work/" + RUNNER][0] != objects[self._engine[RUNNER]]:
                 raise compiler.WorkGraphError("observed skill-layout runner differs from fixed engine runner")
             if profile in (RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE) and source["files"][RUNNER]["sha256"] != self._engine[RUNNER]:
                 raise compiler.WorkGraphError("original-readable runner differs from captured engine bytes")
+            if profile == CLAIM_BOUNDARY_PROFILE and files["/work/" + RUNNER][0] != objects[self._engine[RUNNER]]:
+                raise compiler.WorkGraphError("observed original96 runner differs from fixed engine runner")
             files["/work/" + RUNNER] = (objects[self._engine[RUNNER]], 0o555)
             files, image_permissions = finite_image_permissions(files, source, profile=profile)
             if profile == AUDIT_OBJECT_CONTRACT_PROFILE:
@@ -2049,6 +2263,16 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                     if kind == "FILE":
                         files["/work/" + name] = (b"", 0o444)
                 subject["directory:skills"] = membership
+            overlay = None
+            if profile == CLAIM_BOUNDARY_PROFILE:
+                # The complete pinned wrapper/checker consume file kinds and
+                # readable bytes, never permission-bit values. The fixed compact
+                # image policy above has already normalized these bytes.
+                membership = source["public_inputs"]["projection"]
+                source_directories = {"/work"} | {"/work/" + name for name in source["directories"] if name != "."}
+                _, configuration, overlay = self._claim_overlay_configuration_v1(files, source_directories)
+                files[CLAIM_BOUNDARY_CONFIG] = (configuration, 0o600)
+                objects.setdefault(digest(configuration), configuration)
             manifest, image_key = self._image(files, subject,
                 membership if profile == REGISTRY_PROFILE else None)
             if profile == TOPOLOGY_PROFILE:
@@ -2085,6 +2309,26 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
             if "data_permissions" in image_permissions:
                 manifest["data_permissions"] = image_permissions["data_permissions"]
                 image_key = self._object(self._encode(manifest))
+            if profile == CLAIM_BOUNDARY_PROFILE:
+                image_bytes = sum(len(data) for data, _ in files.values())
+                descriptors = len(files) + 3 + 64  # args, seccomp, census and established observer margin
+                original_memory = temporary["original_data_memory_reservation"]
+                if descriptors > self.LIMITS["descriptors"] or image_bytes > self.LIMITS["address_bytes"] // 4:
+                    raise compiler.WorkGraphError("complete public image/census exceeds finite descriptor/memory reservation")
+                temporary["image_reservation"] = dict(descriptors=descriptors, observer_descriptor_margin=64,
+                    mounted_bytes=image_bytes, image_address_reservation_bytes=self.LIMITS["address_bytes"] // 4,
+                    original_data_memory_reservation=original_memory)
+                manifest["directories"] = sorted(set(manifest["directories"]) | source_directories)
+                manifest["directory_membership"] = membership
+                manifest["source_projection"] = contract["projection"]
+                manifest["private_source_overlay"] = overlay
+                manifest["data_permissions"] = "OWNER_0600_READ_ONLY_MOUNT"
+                manifest["semantic_artifacts"] = ["source-effects.json"]
+                manifest["writable_resources"] = ["fixed 1 MiB private docs parent including new descendants",
+                    "fixed 31 MiB private /tmp", "fixed 4 MiB bootstrap census buffer not inherited by original",
+                    "/dev/null", "stdout", "stderr"]
+                manifest["startup"] = "EXISTING_ISOLATED_LEAF_FIXED_ORIGINAL96_CENSUS_PYTHON_I_B_ORIGINAL_ENVIRONMENT_UNCHANGED"
+                image_key = self._object(self._encode(manifest))
             if profile in (SAFEGUARD_PROFILE, INSTALLED_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE):
                 # The original physical helper validator requires st_nlink=1.
                 # Select this fixed policy in the acquired image, never from a
@@ -2114,6 +2358,11 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                 namespace="UNSHARE_ALL_NO_PROC_NO_GENERAL_DEV_NO_HOST_ROOT", stdin="EMPTY",
                 mutable_resources=["private bounded /tmp", "/dev/null", "observer stdout/stderr"],
                 effects="PRIVATE_WRITES_DISCARDED_NO_PREDECESSOR_OR_SUCCESSOR_SUBSTITUTION", authority="NONE")
+            if profile == CLAIM_BOUNDARY_PROFILE:
+                acquired.update(source_bounds=contract["complete_public"], private_source_overlay=overlay,
+                    directory_modes="NORMALIZED_0755_EXISTING_MEMBERS_READ_ONLY_FIXED_DOCS_PARENT_WRITABLE",
+                    mutable_resources=manifest["writable_resources"],
+                    effects="ACTUAL_BEFORE_AFTER_PRIVATE_NAMESPACE_CENSUS_NOT_A_TEMPORAL_WRITE_TRACE")
             key = self._object(prefix.encode(acquired))
             required = set(objects) | {source_key, graph_key, runtime_key, runtime_observation_key,
                 image_key, manifest["seccomp_sha256"], key}
