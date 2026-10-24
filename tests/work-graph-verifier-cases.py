@@ -1867,7 +1867,9 @@ def fixture_capture_environment_cases(directory):
         "tests/work-graph-repro-events-cases.py", "tests/work-graph-correspondence-preflight-cases.py",
         "tests/work-graph-audit-spec-cases.py", "tests/work-graph-andon-cases.py",
         "tests/work-graph-finite-batch-cases.py", "tests/work-graph-finite-entry-cases.py",
-        "tests/work-graph-finite-next-cases.py", "tests/work-graph-readme-effect-cases.py"]
+        "tests/work-graph-finite-next-cases.py", "tests/work-graph-topology-cases.py",
+        "tests/work-graph-recursive-cases.py", "tests/work-graph-literal-cases.py",
+        "tests/work-graph-readme-effect-cases.py"]
     assert all(not row["capture_keys"] for row in rows), ("outer capture escaped into child fixture", rows)
     assert all(row["sentinel"] == "unrelated environment preserved" for row in rows)
 

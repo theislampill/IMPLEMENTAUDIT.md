@@ -22,6 +22,12 @@ PROFILES = {
     "commit-message": "CONTROLLED_TASK_COMMIT_MESSAGE_V1",
     "agents-bootstrap": "CONTROLLED_TASK_AGENTS_BOOTSTRAP_V1",
     "andon-escalation": "CONTROLLED_TASK_ANDON_ESCALATION_V1",
+    "internal-skill-topology": "CONTROLLED_TASK_INTERNAL_SKILL_TOPOLOGY_V1",
+    "capability-ledger": "CONTROLLED_TASK_CAPABILITY_LEDGER_V1",
+    "issues-deferred": "CONTROLLED_TASK_ISSUES_DEFERRED_V1",
+    "no-terminal-cap": "CONTROLLED_TASK_NO_TERMINAL_CAP_V1",
+    "background-chain": "CONTROLLED_TASK_BACKGROUND_CHAIN_V1",
+    "plan-lifecycle": "CONTROLLED_TASK_PLAN_LIFECYCLE_V1",
 }
 
 
@@ -41,11 +47,12 @@ class FactoryCases(unittest.TestCase):
         self.q = load()
 
     def test_all_explicit_profiles_have_separate_live_session_custody(self):
+        self.assertEqual(self.q._FINITE_MODES, PROFILES)
         sessions = [self.q.create_finite_leaf_session(ROOT, self.base / mode, profile=profile)
                     for mode, profile in PROFILES.items()]
         self.assertEqual([s.SCOPE for s in sessions], list(PROFILES.values()))
-        self.assertEqual(len({type(s) for s in sessions}), 7)
-        self.assertEqual(len({s.producer for s in sessions}), 7)
+        self.assertEqual(len({type(s) for s in sessions}), 13)
+        self.assertEqual(len({s.producer for s in sessions}), 13)
         for s in sessions:
             record = json.loads((s.output / "session.json").read_bytes())
             self.assertEqual(record["receipt_custody"], "LIVE_PRODUCER_ONLY_NO_IMPORT")

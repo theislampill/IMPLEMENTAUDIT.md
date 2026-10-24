@@ -27,7 +27,7 @@ PINS = types.MappingProxyType({
     'scripts/work-graph-readme-effect.py': 'edbc4802f2f0bcb3df0de08225315f56fcf11b8f2a906aacf408f4a1529a84be',
     'scripts/readme-effect-bootstrap.py': 'ae5a841510b72bf24e59c8dd42e57a062e29c1730919f4b20ab420d750fcda57',
     'scripts/qualify-work-graph-prefix.py': '86f4e02dbf7b25ee3a4dab2fb90ef4dd3e21cfe350e8ce38470e36c4f4733016',
-    'scripts/qualify-work-graph-verifier.py': 'c8fe85bd96c43774f5218dff7206a842b7cc9f286233bc5da1d69a108db466c8',
+    'scripts/qualify-work-graph-verifier.py': '90225446eeee32acc70450deea71e7743cf3f49d9ddd61bc3a720537fd1f8113',
     'scripts/work-graph-completion.py': '102df817e0233de2f89c5b56cdb5a013376b381ba718578dbb18672e2becd5b9',
     'scripts/run-work-graph-verifier.sh': '345f51885abbeeda2e4ecd0de503febe50f30f853630a44c0c1277f414c1f9ae',
     'skills/implementaudit/scripts/compile-work-graph.py': '7e604e35766f42b425f6d3f25df576facdba409fc10000c35a5aee84e1644748',

@@ -1644,6 +1644,12 @@ _FINITE_MODES = {
     "commit-message": "CONTROLLED_TASK_COMMIT_MESSAGE_V1",
     "agents-bootstrap": "CONTROLLED_TASK_AGENTS_BOOTSTRAP_V1",
     "andon-escalation": "CONTROLLED_TASK_ANDON_ESCALATION_V1",
+    "internal-skill-topology": "CONTROLLED_TASK_INTERNAL_SKILL_TOPOLOGY_V1",
+    "capability-ledger": "CONTROLLED_TASK_CAPABILITY_LEDGER_V1",
+    "issues-deferred": "CONTROLLED_TASK_ISSUES_DEFERRED_V1",
+    "no-terminal-cap": "CONTROLLED_TASK_NO_TERMINAL_CAP_V1",
+    "background-chain": "CONTROLLED_TASK_BACKGROUND_CHAIN_V1",
+    "plan-lifecycle": "CONTROLLED_TASK_PLAN_LIFECYCLE_V1",
 }
 
 
