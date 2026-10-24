@@ -415,3 +415,57 @@ limitation are both retained in the frozen qualification record, SHA-256
 `dab65040eee9d15193b5144b8ece3bf292df4a4af32285bcf5dd8540f5ca272d`.
 Independent review, package and public CI results belong to the containing
 increment's publication receipt. Original C01–C09 decisions remain separate.
+
+## R002D P007/P012/P032: six ordinary installed interpretations
+
+Six fresh contexts interpreted ordinary task prompts after reading the actual
+Codex-style plugin installed from published `bbf3ef0b04be36720ee49395c7e9c53b27101a2b`,
+tree `a597e7462ac21386ca55fa14cfcbc04f8e6a0da3`, plugin SHA-256
+`02f89ad4a0b296b487872bf59b1b6cbafec661a0048d9d4e1a4cb4ee165e2b88`.
+The task prompts, separate evaluators and source identities were frozen and
+independently reviewed before dispatch. The interpreter task prompts contained
+no property IDs, desired headings or expected answers; the separate evaluator
+criteria were not supplied to interpreters. Each first response was archived without repair or
+rerun; all six were sealed before a fresh evaluator read any answer.
+
+| Original requirement | Actual bounded interpretation evidence | Independent disposition |
+|---|---|---|
+| P007 controlled refinement | A changed meaning of completed invalidates affected API/browser readiness while retaining historical and unaffected encoding/billing evidence. | PASS for case01. |
+| P007 cheap control | One approved spelling correction uses its owner, narrow renderer check and existing record without wholesale replanning or suite repetition. | PASS for case02. |
+| P012 justified allocation | The response derives the 0.90-second worker budget from the 2.00-second outcome, other budgets and 0.10-second reserve; preserves delegation, assumptions and reopen conditions. | PASS for case03. |
+| P012 unsupported allocation | Unjustified 50-ms/24-worker targets remain hypotheses; authorized local measurement proceeds without invented production authority or release readiness. | PASS for case04. |
+| P032 early risky integration | Available real components are connected early to discriminate lost acknowledgement, retry, duplicates and acknowledgement versus durable storage. Results and repairs remain prospective. | PASS for case05. |
+| P032 justified deferral | A prohibited destructive production test waits for the concrete isolated-rig/owner window; trace/schema evidence stays limited and the independent README correction proceeds. | PASS for case06. |
+
+These are six individual interpretation findings, not an automatic aggregate
+acceptance decision. The independent report binds every essential criterion to
+actual response text and finds no contradicted or omitted criterion. Its
+evaluation manifest SHA-256 is
+`4368cb47f81ca5607d3cb208bfe91dd8935d54db6ce406b29501797f73ff826a`;
+report SHA-256 `3e7f6b8b3195d558b5926d4b486baca6b0092d8b4f11a4739ccfeeec5d0a01e8`.
+The frozen task/evaluator and first-response identities, exact read captures,
+original failures/history and all individual dispositions are preserved together.
+
+The ten recorded consumed owner files are byte-identical in the current
+`46e5591d79b7bb02e07c848ae01a911c1a50d5db` source and plugin
+`8c49e22da11821d56418b8ec23e93bdd9892703ecfc08ac74c87762542b30c53`.
+Their union digest is
+`a2ba0d5348770cdbd030794a86e57f148ae6b83f4e64e3343235049ffabb548a`.
+Only the unchanged consumed guidance is reused: the later C05 helper was not
+invoked by these hypothetical tasks, and the original interpretation package
+identity is not relabelled as a fresh final-candidate model invocation.
+
+The recorder provides cooperative captured-byte/read receipts. It writes its
+receipt before stdout; a receipt alone cannot prove complete delivery. Completion
+markers were part of the acquisition protocol; the preserved recorder entries
+alone do not independently establish complete output delivery. An authenticated
+full host transcript, native activation, hostile isolation and skill-only
+causation are not established. Agents inherited the reported GPT-6 Astra Pro model with no
+override; the per-invocation revision is unavailable. Ambient guidance remains
+a possible contributor. These responses propose work; no described product
+change, performance test, handoff or integration effect was actually performed.
+
+This separately advances P007/P012/P032 portable semantic qualification. It does
+not discharge all 72 properties, P039 realised intended use, the conditional
+P016/P017 architecture obligation, prospective SSS/AMA work, original terminal
+ActiveGraph/native self-dogfood, release readiness or whole R002D acceptance.

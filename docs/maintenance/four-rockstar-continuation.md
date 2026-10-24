@@ -247,3 +247,18 @@ against the published bbf3ef0b package and are being executed as fresh installed
 source interpretations. Results and exact source reuse must be recorded before
 claiming qualification. They cannot replace the independent broker/corroboration
 or exact-final ActiveGraph self-dogfood requirement.
+
+## R002D ordinary interpretation continuation
+
+P007, P012 and P032 now each have a material case and a cheap, negative or
+justified-deferral control interpreted in six fresh contexts on the actual
+`bbf3ef0b` plugin. A separate frozen-oracle evaluator found each first response
+PASS; no response or oracle was repaired and no interpretation was rerun.
+Evaluation manifest: `4368cb47f81ca5607d3cb208bfe91dd8935d54db6ce406b29501797f73ff826a`.
+The integration record gives each criterion's scope and exact original package.
+All ten consumed guidance files match current `46e5591d` source and plugin,
+allowing explicit unchanged-source reuse only. This is not fresh model execution
+on the later package, authenticated native delivery, actual product effects or
+whole R002D acceptance. Preserve the original self-dogfood/ActiveGraph obligation
+and historical version-specific receipts; a new offline candidate run is a
+separate evidence stream and cannot supply missing broker/issuer authority.
