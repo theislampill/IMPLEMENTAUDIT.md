@@ -229,3 +229,21 @@ acceptance result. Original installed-model safety/security qualifications,
 authentic selected-policy custody, actual native effect receiving gates and
 all separate original acceptance decisions remain open. Exact public commit,
 tree, package and CI are reported in the containing publication receipt.
+
+
+## Subsequent C05 continuation checkpoint
+
+The previously proposed journal/result ordering probe is now executed and its
+narrow loss of observed execution history is reproduced. The bounded correction
+and actual tests are recorded in the integration document. Reuse the original
+REDs and exact corrected-source evidence; do not restart that probe as new work.
+The final-directory-fsync limitation remains explicit: stored COMMITTED alone
+is not successful execution/durability evidence when actual stdout is F75 and
+the durable hook is absent. Original C05 and the other C01–C09 criteria remain
+open at their original scope. No automatic recovery or P53 decision is supplied.
+
+R002D's six ordinary task prompts and separate semantic evaluators are frozen
+against the published bbf3ef0b package and are being executed as fresh installed-
+source interpretations. Results and exact source reuse must be recorded before
+claiming qualification. They cannot replace the independent broker/corroboration
+or exact-final ActiveGraph self-dogfood requirement.

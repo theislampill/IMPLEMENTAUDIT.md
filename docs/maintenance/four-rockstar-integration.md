@@ -349,3 +349,69 @@ hosted CI results belong to this increment's publication receipt; they do not
 qualify the previously over-budget combined four-source package. The fixed
 cap and reserve are unchanged. Roll back each source correction with its
 matching test addition, preserving this original-failure record.
+
+
+## Parallel commission: terminal journal/result custody
+
+The next R0030 increment starts at published head
+`bbf3ef0b04be36720ee49395c7e9c53b27101a2b`, tree
+`a597e7462ac21386ca55fa14cfcbc04f8e6a0da3`. The earlier captured-input and
+R002C/R002E corrections remain unchanged. The observed-mutation owner had a
+separate C05 interval: it durably deleted the terminal journal before creating
+the durable result. Two actual SIGKILL schedules left neither file. The target
+matched the intended candidate and authority still bound the planned operation,
+but the last observed execution history was absent. Actual recovery and retry
+refused without effects; no unsafe retry or native false closure was observed.
+
+The helper now retains the journal through guard, lock and namespace-gate
+release adjudication. A clean journal-bearing path first durably writes a
+`RECOVERY_REQUIRED` / `RESIDUE_RETAINED` result checkpoint. Only explicit
+persistence success permits journal cleanup. The completed result is written
+and fsynced to `result.tmp`, atomically replaces the checkpoint, and is followed
+by transaction-directory fsync. Actual journal-cleanup effects enter the final
+result after they occur. Cleanup failures remain inside terminal adjudication;
+they do not re-enter target rollback after guard release.
+
+The fixed v2/v3 field schemas and original authority/fence owner are unchanged.
+The declared effect plan adds the temporary result and final replacement.
+Uncertain outcomes retain the applicable transaction, journal, temporary result
+and result custody. The durable-terminal hook runs only after persistence
+success. These are cooperating helper effects, with no automatic recovery or
+external exactly-once promise. P53 remains an owner decision.
+
+Two new crash assertions first failed against the unchanged predecessor. Seven
+focused controls pass on helper SHA-256
+`f860ac5a3520f029cfcb0c314f30817ad65a492698e8d975ae1a1edf17ac6676`:
+ordinary/protected success, both crash intervals, first checkpoint fsync failure,
+final temporary-file fsync failure and journal-cleanup directory-fsync failure.
+The existing guard-loss, uncertain-abort and protected-rollback controls pass.
+The complete affected mutation wrapper passed once in 98.846 seconds with the
+same helper and test SHA-256
+`a3d3a634367cad6df40eab176dad7165d1663cf7e71aca9e46d6dae2e9faea2b`.
+The final test SHA-256
+`8b191ff6ab53cefc1a1cd4e41c8ee670fbc1d0ff336e98ef0a7e9c5569f9e791`
+adds the separately executed final-directory-fsync characterization and a
+signal-constant portability correction. The earlier wrapper is not relabelled
+as a run of those later test bytes. No Windows execution is claimed.
+
+### Retained final-directory-fsync limitation
+
+A further actual fault occurs after `result.tmp` replaces `result.json`, when
+the following transaction-directory fsync fails. At that point the pending
+checkpoint has been replaced and journal/temp are absent. The retained result
+file contains `COMMITTED`, released guard state and 98 serialized effects,
+including the final fsync predeclared under the inherited future-effect
+convention. Actual stdout instead reports F75 / `RESULT_PERSISTENCE_FAILURE`
+with the 97 observed effects; no durable-terminal hook is emitted. The helper
+retains TX/result custody, and actual recovery/retry preserve it without effects.
+
+The final file preserves execution history at this edge, but its status and
+future-effect rows alone cannot prove that directory fsync succeeded. The
+consumer must retain the failed execution disposition and missing durable
+completion evidence. This increment does not claim power-loss durability,
+successful automatic restoration, complete C05 acceptance or native effect
+acceptance. The narrower journal-to-result custody advance and this remaining
+limitation are both retained in the frozen qualification record, SHA-256
+`dab65040eee9d15193b5144b8ece3bf292df4a4af32285bcf5dd8540f5ca272d`.
+Independent review, package and public CI results belong to the containing
+increment's publication receipt. Original C01–C09 decisions remain separate.

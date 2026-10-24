@@ -576,6 +576,7 @@ AUTHORITY = TX / "authority.json"
 JOURNAL = TX / "journal.json"
 JOURNAL_TMP = TX / "journal.tmp"
 RESULT = TX / "result.json"
+RESULT_TMP = TX / "result.tmp"
 DISPOSITION = TX / "disposition.json"
 BACKUP = TX / "backup.bin"
 STAGE = TX / "stage.bin"
@@ -629,7 +630,8 @@ plan(TX, ["transaction-dir"], ["mkdir", "rmdir", "fsync"], "durable")
 plan(AUTHORITY, ["authority"], ["create", "write", "unlink", "fsync"], "durable")
 plan(JOURNAL, ["journal", "residue"], ["create", "write", "replace", "unlink", "fsync"], "conditional-residue")
 plan(JOURNAL_TMP, ["journal-temp"], ["create", "write", "replace", "unlink", "fsync"], "transient")
-plan(RESULT, ["result"], ["create", "write", "fsync"], "durable")
+plan(RESULT, ["result"], ["create", "write", "replace", "fsync"], "durable")
+plan(RESULT_TMP, ["result-temp"], ["create", "write", "replace", "fsync"], "transient")
 plan(DISPOSITION, ["disposition"], [], "durable")
 plan(BACKUP, ["backup", "residue"], ["link", "replace", "unlink", "fsync"], "conditional-residue")
 plan(STAGE, ["stage", "residue"], ["create", "write", "link", "unlink", "fsync"], "conditional-residue")
@@ -1587,34 +1589,53 @@ def result_record(status, reason_code, residue_paths, effect_rows):
     }
 
 
-def persist_result_record(status, reason_code, residue_paths):
+def persist_result_record(status, reason_code, residue_paths, replace_existing=False):
     result_before = path_identity(RESULT)
     transaction_identity = path_identity(TX)
-    future = future_effect_rows(
-        [
-            (RESULT, "create", result_before, None),
-            (RESULT, "write", result_before, None),
-            (RESULT, "fsync", None, None),
-            (TX, "fsync", transaction_identity, transaction_identity),
-        ]
-    )
-    payload = result_record(status, reason_code, residue_paths, actual + future)
-    write_new(RESULT, canonical(payload), effect_rows=future[:3], sync_parent=False)
-    fsync_dir(TX, future[3])
+    if replace_existing:
+        temporary_before = path_identity(RESULT_TMP)
+        if result_before.get("kind") != "regular" or temporary_before.get("kind") != "absent":
+            raise RuntimeError("TERMINAL_CHECKPOINT_CUSTODY_CHANGED")
+        future = future_effect_rows(
+            [
+                (RESULT_TMP, "create", temporary_before, None),
+                (RESULT_TMP, "write", temporary_before, None),
+                (RESULT_TMP, "fsync", None, None),
+                (RESULT_TMP, "replace", None, {"kind": "absent"}),
+                (RESULT, "replace", result_before, None),
+                (TX, "fsync", transaction_identity, transaction_identity),
+            ]
+        )
+        payload = result_record(status, reason_code, residue_paths, actual + future)
+        write_new(RESULT_TMP, canonical(payload), effect_rows=future[:3], sync_parent=False)
+        replace(RESULT_TMP, RESULT, effect_rows=future[3:5], sync_parents=False)
+        fsync_dir(TX, future[5])
+    else:
+        future = future_effect_rows(
+            [
+                (RESULT, "create", result_before, None),
+                (RESULT, "write", result_before, None),
+                (RESULT, "fsync", None, None),
+                (TX, "fsync", transaction_identity, transaction_identity),
+            ]
+        )
+        payload = result_record(status, reason_code, residue_paths, actual + future)
+        write_new(RESULT, canonical(payload), effect_rows=future[:3], sync_parent=False)
+        fsync_dir(TX, future[3])
     return result_record(status, reason_code, residue_paths, actual)
 
 
-def persist_terminal_or_fallback(status, reason_code, residue_paths):
+def persist_terminal_or_fallback(status, reason_code, residue_paths, replace_existing=False):
     try:
-        return status, persist_result_record(status, reason_code, residue_paths)
+        result = persist_result_record(status, reason_code, residue_paths, replace_existing)
+        return True, status, result
     except (OSError, RuntimeError):
         fallback_paths = list(residue_paths)
-        if path_identity(TX).get("kind") == "directory" and TX not in fallback_paths:
-            fallback_paths.append(TX)
-        if path_identity(RESULT).get("kind") != "absent":
-            fallback_paths.append(RESULT)
+        for path in (TX, JOURNAL, RESULT_TMP, RESULT):
+            if path not in fallback_paths and path_identity(path).get("kind") != "absent":
+                fallback_paths.append(path)
         status = "ROLLBACK_FAILED_WITH_RESIDUE"
-        return status, result_record(status, "RESULT_PERSISTENCE_FAILURE", fallback_paths, actual)
+        return False, status, result_record(status, "RESULT_PERSISTENCE_FAILURE", fallback_paths, actual)
 
 
 def initialisation_residue_paths():
@@ -1643,7 +1664,7 @@ def emit_initialisation_failure():
     status = "MUTATION_FAILED_NO_STATE_CHANGE" if not residue_paths else "ROLLBACK_FAILED_WITH_RESIDUE"
     result = result_record(status, "INITIALISATION_IO_FAILURE", residue_paths, actual)
     if status == "ROLLBACK_FAILED_WITH_RESIDUE" and path_identity(TX).get("kind") == "directory":
-        status, result = persist_terminal_or_fallback(status, "INITIALISATION_IO_FAILURE", residue_paths)
+        _, status, result = persist_terminal_or_fallback(status, "INITIALISATION_IO_FAILURE", residue_paths)
     print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
     raise SystemExit(EXITS[status])
 
@@ -1863,6 +1884,7 @@ terminal_finalized = False
 def final_result(status, reason_code="NONE", residue_paths=(), post_path=None):
     global retain_owned_locks, terminal_finalized
     uncertain_paths = list(residue_paths)
+    cleanup_journal = False
     if authority_guard is not None:
         try:
             # Hold publication exclusion through every target/rollback effect
@@ -1875,12 +1897,13 @@ def final_result(status, reason_code="NONE", residue_paths=(), post_path=None):
         if release_authority_guard():
             status, reason_code = "UNKNOWN", "MANUAL_RECONCILIATION"
             uncertain_paths.extend([JOURNAL, TX])
-    if uncertain_paths:
+    if uncertain_paths or status in {"UNKNOWN", "ROLLBACK_FAILED_WITH_RESIDUE"}:
         retain_owned_locks = True
         uncertain_paths.extend(owned_lock_residue_paths())
+        if not uncertain_paths:
+            uncertain_paths.append(TX)
     else:
-        if path_identity(JOURNAL).get("kind") != "absent":
-            unlink(JOURNAL)
+        cleanup_journal = path_identity(JOURNAL).get("kind") != "absent"
         release_locks()
         release_lock_root()
         cleanup_residue = owned_lock_residue_paths()
@@ -1899,10 +1922,36 @@ def final_result(status, reason_code="NONE", residue_paths=(), post_path=None):
         reason_code = "GATE_RELEASE_FAILURE"
         uncertain_paths.append(LOCK_GATE)
         uncertain_paths.extend(owned_lock_residue_paths())
-    status, result = persist_terminal_or_fallback(status, reason_code, uncertain_paths)
+    if uncertain_paths and path_identity(JOURNAL).get("kind") != "absent":
+        uncertain_paths.append(JOURNAL)
+    if cleanup_journal and not uncertain_paths:
+        # The pending result replaces no custody: retain the terminal journal
+        # until this observed-execution checkpoint is durable. Cleanup itself
+        # enters the final result only after it actually occurs.
+        durable, pending_status, pending_result = persist_terminal_or_fallback(
+            "RECOVERY_REQUIRED", "RESIDUE_RETAINED", [JOURNAL]
+        )
+        if not durable:
+            status, result = pending_status, pending_result
+        else:
+            try:
+                unlink(JOURNAL)
+            except (OSError, RuntimeError):
+                # Target effects and guard release have already completed.
+                # Do not re-enter target rollback for a cleanup-only failure.
+                status, reason_code = "ROLLBACK_FAILED_WITH_RESIDUE", "IO_FAILURE"
+                uncertain_paths.append(TX)
+                if path_identity(JOURNAL).get("kind") != "absent":
+                    uncertain_paths.append(JOURNAL)
+            durable, status, result = persist_terminal_or_fallback(
+                status, reason_code, uncertain_paths, replace_existing=True
+            )
+    else:
+        durable, status, result = persist_terminal_or_fallback(status, reason_code, uncertain_paths)
     if status == "ROLLBACK_FAILED_WITH_RESIDUE":
         retain_owned_locks = True
-    phase_hook("terminal-result-durable")
+    if durable:
+        phase_hook("terminal-result-durable")
     terminal_finalized = True
     print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
     raise SystemExit(EXITS[status])

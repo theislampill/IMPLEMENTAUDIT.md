@@ -479,6 +479,7 @@ else:
    elif 'journal-temp' in path_roles and 'create' in effects: required='replace'
    elif 'backup' in path_roles and any(x in effects for x in ('link','replace')): required='unlink'
    elif 'stage' in path_roles and 'create' in effects: required='unlink'
+   elif 'result-temp' in path_roles and 'create' in effects: required='replace'
    elif 'result' in path_roles: required='fsync'
    if required is not None and required not in effects: raise SystemExit(f'{label}: clean result omitted {required} for {key}')
   released=sum('replace' in actual_by.get(key,[]) for key,value in roles.items() if 'path-lock' in value)
@@ -500,7 +501,12 @@ if r['transaction_id'] is not None and planned:
   effects=[row['effect'] for row in journal_temp]
   if effects[:3]!=['create','write','fsync'] or 'replace' not in effects[3:]: raise SystemExit(f'{label}: journal physical write ordering incomplete: {effects!r}')
  result_rows=[row for key,value in roles.items() if 'result' in value for row in actual_rows.get(key,[]) if row['outcome']=='applied']
- if [row['effect'] for row in result_rows] != ['create','write','fsync']: raise SystemExit(f'{label}: result physical write ordering incomplete')
+ result_effects=[row['effect'] for row in result_rows]
+ result_temp=[row for key,value in roles.items() if 'result-temp' in value for row in actual_rows.get(key,[]) if row['outcome']=='applied']
+ if result_temp:
+  if result_effects!=['create','write','fsync','replace'] or [row['effect'] for row in result_temp]!=['create','write','fsync','replace']: raise SystemExit(f'{label}: checkpoint/final result publication ordering incomplete')
+ else:
+  if result_effects!=['create','write','fsync']: raise SystemExit(f'{label}: result physical write ordering incomplete')
 print(json.dumps({'transaction_id':r['transaction_id'],'planned_effect_set':planned,'residue':r['residue']}))
 PY
 }
@@ -1076,6 +1082,255 @@ PY
   assert_hex R36-DRIFT-correct-token-winner "$fixture_repo/target" 45585445524e414c2d57494e4e4552
 }
 
+terminal_journal_custody_heldouts() {
+  # Deleting the only execution checkpoint before its successor is durable
+  # must fail these actual-helper crash and persistence-failure controls.
+  "$python_bin" - "$repo_root" "$tmp/terminal-journal" "${1:-all}" <<'PY'
+import hashlib,importlib.util,json,os,signal,stat,sys
+from pathlib import Path
+sys.dont_write_bytecode=True
+repo,base=map(Path,sys.argv[1:3]); selected=sys.argv[3]
+spec=importlib.util.spec_from_file_location('r36_fence_fixture',repo/'tests/distributed_generation_fence.py')
+fence=importlib.util.module_from_spec(spec); spec.loader.exec_module(fence)
+require=fence.require
+cases=('ordinary-success','protected-success','before-result','after-journal-unlink',
+       'checkpoint-fsync','final-result-fsync','journal-unlink-fsync','final-directory-fsync')
+require(selected=='all' or selected in cases,'unknown terminal-journal case')
+base.mkdir(parents=True,exist_ok=True)
+
+def read_record(path):
+    return json.loads(path.read_bytes())
+
+def snapshot(fixture,tx):
+    paths=[fixture.repo/'target',tx,*tx.rglob('*')]
+    locks=fixture.repo/'.IMPLEMENTAUDIT/.r36-locks'
+    paths.extend([locks,*locks.rglob('*')])
+    result={}
+    for path in paths:
+        st=path.lstat()
+        identity=[st.st_dev,st.st_ino,st.st_mode,st.st_nlink]
+        if stat.S_ISREG(st.st_mode):
+            identity.append(hashlib.sha256(path.read_bytes()).hexdigest())
+        result[str(path.relative_to(fixture.repo))]=identity
+    return result
+
+def execution_checkpoint(record,transaction):
+    require(record['transaction_id']==transaction,'checkpoint lost attempt identity')
+    rows=record.get('actual_effect_set',[])
+    require(any(row['scope']=='repo' and row['path']=='target' and row['effect']=='link'
+                and row['outcome']=='applied' for row in rows),
+            'checkpoint lacks observed target publication')
+    require(record['identity_bindings']['effect']['planned_effect_set_sha256']==record['planned_effect_set_sha256'],
+            'checkpoint lost effect-plan binding')
+    require(record['authority_publication_guard']['state'] in {'HELD','RELEASED'},
+            'plan-only authority is not an execution checkpoint')
+    post=record.get('post_identities',record.get('current_identities',[]))
+    require(any(row['path']=='target' and row['identity'].get('sha256')==hashlib.sha256(fence.CANDIDATE).hexdigest()
+                for row in post),'checkpoint lost observed target identity')
+
+def assert_effects(payload):
+    planned={(row['scope'],row['path']):row for row in payload['planned_effect_set']}
+    expected=hashlib.sha256(json.dumps(payload['planned_effect_set'],sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()
+    require(payload['planned_effect_set_sha256']==expected,'effect-plan digest mismatch')
+    actual=payload['actual_effect_set']
+    for index,row in enumerate(actual,1):
+        require(row['sequence']==index,'effect sequence is not contiguous')
+        require(row['effect'] in planned[(row['scope'],row['path'])]['allowed_effects'],
+                'actual effect escaped predeclared plan')
+        if row['scope']=='repo' and row['outcome']=='applied' and row['effect'] in {'create','mkdir','link','replace','unlink','rmdir'}:
+            parent=str(Path(row['path']).parent).replace('\\','/')
+            require(any(later['scope']=='repo' and later['path']==parent and later['effect']=='fsync'
+                        and later['outcome']=='applied' and later['sequence']>index for later in actual),
+                    'actual mutation lacks later parent-directory fsync')
+    return actual
+
+for name in cases if selected=='all' else (selected,):
+    fixture=fence.Fixture(base/name)
+    protected=name!='ordinary-success'
+    if not protected:
+        fixture.fence_path.unlink(); fixture.fence_path.parent.rmdir()
+    preimage=fixture.repo/'artifacts/preimage.bin'; preimage.write_bytes(fence.PREIMAGE)
+    refs_before=fixture.run_command(['git','show-ref']).stdout
+    fault_seen=fixture.base/'fault-seen.json'
+    checkpoint_before_cleanup=fixture.base/'checkpoint-before-cleanup.json'
+    durable_hook=fixture.base/'terminal-durable'
+    helper=fence.HELPER
+    if not name.endswith('-success'):
+        injection=f'''import signal
+mode={name!r}
+fault_seen=Path({str(fault_seen)!r})
+checkpoint_capture=Path({str(checkpoint_before_cleanup)!r})
+durable_marker=Path({str(durable_hook)!r})
+original_unlink=unlink; original_terminal=persist_terminal_or_fallback
+original_fsync=os.fsync; original_sync=sync_directory_raw; original_hook=phase_hook
+injected={{"done":False,"journal_cleanup":False,"final_publication":False}}
+def mark_fault():
+    injected["done"]=True
+    fault_seen.write_text(json.dumps({{"fault":mode}}))
+def terminate_probe():
+    mark_fault()
+    if os.name == "nt": os._exit(137)
+    os.kill(os.getpid(),signal.SIGKILL)
+def observed_unlink(path,*pos,**kw):
+    if Path(path)==JOURNAL:
+        injected["journal_cleanup"]=True
+        if RESULT.exists(): checkpoint_capture.write_bytes(RESULT.read_bytes())
+    result=original_unlink(path,*pos,**kw)
+    if Path(path)==JOURNAL and mode=="after-journal-unlink": terminate_probe()
+    return result
+def observed_terminal(*pos,**kw):
+    if mode=="before-result" and not injected["done"]: terminate_probe()
+    return original_terminal(*pos,**kw)
+def failing_fsync(fd):
+    path=RESULT if mode=="checkpoint-fsync" else TX/"result.tmp"
+    if mode in {{"checkpoint-fsync","final-result-fsync"}} and not injected["done"] and path.is_file():
+        actual=os.fstat(fd); expected=path.stat()
+        if stat.S_ISREG(actual.st_mode) and (actual.st_dev,actual.st_ino)==(expected.st_dev,expected.st_ino):
+            mark_fault(); raise OSError(28,"injected terminal file fsync failure")
+    return original_fsync(fd)
+def observed_final_replace(source,destination,*pos,**kw):
+    result=original_replace(source,destination,*pos,**kw)
+    if Path(source)==TX/"result.tmp" and Path(destination)==RESULT:
+        injected["final_publication"]=True
+    return result
+def failing_sync(path):
+    if mode=="final-directory-fsync" and injected["final_publication"] and path==TX and not injected["done"]:
+        mark_fault(); raise OSError(28,"injected final result directory fsync failure")
+    if mode=="journal-unlink-fsync" and injected["journal_cleanup"] and path==TX and not JOURNAL.exists() and not injected["done"]:
+        mark_fault(); raise OSError(28,"injected journal unlink parent fsync failure")
+    return original_sync(path)
+def observed_hook(phase):
+    if phase=="terminal-result-durable": durable_marker.touch()
+    return original_hook(phase)
+globals()["unlink"]=observed_unlink
+globals()["persist_terminal_or_fallback"]=observed_terminal
+globals()["sync_directory_raw"]=failing_sync
+globals()["phase_hook"]=observed_hook
+if mode=="final-directory-fsync":
+    original_replace=replace
+    globals()["replace"]=observed_final_replace
+os.fsync=failing_fsync'''
+        helper=fixture.instrument('init',injection)
+    command=fixture.command(helper,required=protected)
+    command[command.index('--preimage')+1]=str(preimage)
+    result=fixture.run_command(command,check=False,timeout=25)
+    (fixture.base/'sink.out').write_text(result.stdout)
+    (fixture.base/'sink.err').write_text(result.stderr)
+    require(not result.stderr,f'{name}: unexpected diagnostic: {result.stderr}')
+    require((fixture.repo/'target').read_bytes()==fence.CANDIDATE,f'{name}: target state changed')
+    require(fixture.run_command(['git','show-ref']).stdout==refs_before,'verify-only guard changed authority refs')
+    txs=list((fixture.run/'mutation-transactions').iterdir()); require(len(txs)==1,'transaction custody missing')
+    tx=txs[0]; journal=tx/'journal.json'; saved=tx/'result.json'; staged=tx/'result.tmp'
+    authority=read_record(tx/'authority.json')
+    require(authority['observations']['candidate']['sha256']==hashlib.sha256(fence.CANDIDATE).hexdigest(),
+            'authority lost candidate identity')
+    if name.endswith('-success'):
+        payload=json.loads(result.stdout)
+        fence.assert_result(fixture,result,payload,'COMMITTED','NONE',fence.CANDIDATE,protected=protected)
+        fence.assert_stored_schemas(fixture,payload,protected)
+        require(read_record(saved)==payload,'durable final result differs from stdout')
+        require(not journal.exists() and not staged.exists() and not payload['residue'],'clean result retained cleanup residue')
+        actual=assert_effects(payload)
+        roles={role:row['path'] for row in payload['planned_effect_set'] for role in row['roles']}
+        effects=lambda role:[row for row in actual if row['scope']=='repo' and row['path']==roles[role] and row['outcome']=='applied']
+        result_rows=effects('result'); temp_rows=effects('result-temp')
+        require([row['effect'] for row in result_rows]==['create','write','fsync','replace'],
+                'final result omitted durable checkpoint or atomic promotion')
+        require([row['effect'] for row in temp_rows]==['create','write','fsync','replace'],
+                'final result staging order is incomplete')
+        deletion=next(row for row in effects('journal') if row['effect']=='unlink')
+        require(result_rows[2]['sequence']<deletion['sequence']<temp_rows[0]['sequence'],
+                'journal cleanup was not between durable checkpoint and final publication')
+        if protected: fence.assert_guard_effects(fixture,payload)
+    else:
+        require(fault_seen.exists(),f'{name}: named fault was not reached')
+        if name in {'before-result','after-journal-unlink'}:
+            require(result.returncode in {-getattr(signal,'SIGKILL',9),137} and not result.stdout,
+                    'crash emitted a terminal result or did not terminate abruptly')
+            if name=='before-result':
+                require(journal.is_file(),'D48-C05 RED: terminal journal removed before durable successor')
+                execution_checkpoint(read_record(journal),authority['transaction_id'])
+            else:
+                require(not journal.exists(),'journal deletion fault was not after actual deletion')
+                require(saved.is_file(),'D48-C05 RED: journal deletion left no durable execution checkpoint')
+                pending=read_record(saved)
+                require(pending['status']=='RECOVERY_REQUIRED' and pending['reason_code']=='RESIDUE_RETAINED',
+                        'crash checkpoint claimed terminal success')
+                execution_checkpoint(pending,authority['transaction_id'])
+        else:
+            require(result.returncode==75,'persistence/cleanup fault did not return F75')
+            payload=json.loads(result.stdout)
+            require(payload['status']=='ROLLBACK_FAILED_WITH_RESIDUE','fault claimed clean completion')
+            reason='IO_FAILURE' if name=='journal-unlink-fsync' else 'RESULT_PERSISTENCE_FAILURE'
+            require(payload['reason_code']==reason,'fault lost exact failure reason')
+            require(payload['retry_permitted'] is False,'fault granted retry')
+            residues={row['path'] for row in payload['residue']}
+            require(str(tx.relative_to(fixture.repo)).replace('\\','/') in residues,'fault lost transaction custody')
+            if name=='checkpoint-fsync':
+                require(journal.is_file(),'D48-C05 RED: failed checkpoint consumed terminal journal')
+                require(str(journal.relative_to(fixture.repo)).replace('\\','/') in residues,'fallback omitted journal custody')
+                execution_checkpoint(read_record(journal),authority['transaction_id'])
+                require(not durable_hook.exists(),'failed checkpoint claimed durable terminal result')
+            elif name=='final-result-fsync':
+                require(not journal.exists() and staged.is_file(),'final-persistence fault did not retain exact pending residue')
+                require(read_record(saved)==read_record(checkpoint_before_cleanup),'failed promotion altered durable checkpoint')
+                require(read_record(saved)['status']=='RECOVERY_REQUIRED','failed promotion lost pending state')
+                require(str(staged.relative_to(fixture.repo)).replace('\\','/') in residues,'fallback omitted result staging residue')
+                execution_checkpoint(read_record(saved),authority['transaction_id'])
+                require(not durable_hook.exists(),'failed final publication claimed durability')
+            elif name=='final-directory-fsync':
+                # The inherited future-effect convention serializes publication
+                # effects before they execute. This edge must return F75; saved
+                # status alone is not proof of the final directory fsync.
+                require(not journal.exists() and not staged.exists(),'final rename did not consume the journal/temp')
+                final=read_record(saved); pending=read_record(checkpoint_before_cleanup)
+                require(pending['status']=='RECOVERY_REQUIRED' and final['status']=='COMMITTED',
+                        'fault did not follow replacement of the pending result')
+                execution_checkpoint(final,authority['transaction_id'])
+                require(final['actual_effect_set'][:-1]==payload['actual_effect_set'],
+                        'F75 did not preserve exactly the observed publication prefix')
+                last=final['actual_effect_set'][-1]
+                require(last['effect']=='fsync' and last['path']==str(tx.relative_to(fixture.repo)).replace('\\','/')
+                        and last['outcome']=='applied','saved result lost inherited future-fsync representation')
+                require(str(saved.relative_to(fixture.repo)).replace('\\','/') in residues,
+                        'F75 omitted the uncertain final result')
+                require(not durable_hook.exists(),'failed final directory fsync claimed durability')
+                print('R36_FINAL_DIRECTORY_FSYNC='+json.dumps({
+                    'stdout_status':payload['status'],'stdout_reason':payload['reason_code'],
+                    'retained_result_status':final['status'],'retained_guard':final['authority_publication_guard']['state'],
+                    'journal_exists':journal.exists(),'result_tmp_exists':staged.exists(),
+                    'retained_result_sha256':hashlib.sha256(saved.read_bytes()).hexdigest(),
+                    'predecessor_checkpoint_sha256':hashlib.sha256(checkpoint_before_cleanup.read_bytes()).hexdigest(),
+                    'observed_effect_count':len(payload['actual_effect_set']),
+                    'serialized_effect_count':len(final['actual_effect_set']),
+                    'final_directory_fsync_confirmed':False,
+                    'terminal_marker_emitted':durable_hook.exists()}),flush=True)
+            else:
+                require(checkpoint_before_cleanup.is_file(),'D48-C05 RED: journal cleanup ran without durable checkpoint')
+                execution_checkpoint(read_record(checkpoint_before_cleanup),authority['transaction_id'])
+                require(read_record(saved)==payload,'durable cleanup-failure result differs from stdout')
+                actual=assert_effects(payload)
+                released=max(row['sequence'] for row in actual if row['scope']=='git-common' and row['effect']=='unlink')
+                require(not any(row['scope']=='repo' and (row['path']=='target' or row['path'].endswith(('/backup.bin','/stage.bin')))
+                                and row['sequence']>released for row in actual),
+                        'journal cleanup failure re-entered target rollback after guard release')
+        before=snapshot(fixture,tx)
+        recover=fixture.run_command(['bash',str(fence.HELPER),'--repo-root',str(fixture.repo),
+            '--run-root',str(fixture.run),'--phase','1','--step','1','--operation','recover',
+            '--journal',str(journal),'--token',authority['transaction_id']],check=False)
+        require(recover.returncode==64 and not recover.stdout,'unsupported recovery mutated or falsely completed')
+        retry=fixture.command(required=True)
+        retry[retry.index('--preimage')+1]=str(preimage)
+        replay=fixture.run_command(retry,check=False)
+        payload=json.loads(replay.stdout)
+        require(replay.returncode==65 and payload['status']=='CONFLICT_REBASE'
+                and payload['reason_code']=='PREIMAGE_DRIFT' and not payload['actual_effect_set'],
+                'incomplete transaction was automatically retried')
+        require(snapshot(fixture,tx)==before,'recovery/refusal consumed target or retained custody')
+    print(f'R36_TERMINAL_JOURNAL_CUSTODY {name}=PASS',flush=True)
+PY
+}
+
 true_kill_requires_manual_custody() {
   # A SIGKILL cannot emit a terminal JSON object.  The durable, pre-existing
   # journal is therefore the only truthful recovery-required report: it must
@@ -1194,7 +1449,7 @@ def independent_allowed(record):
   relative(tx):{'mkdir','fsync'},
   relative(tx/'authority.json'):{'create','write','fsync'},
   relative(tx/'released-locks'):{'mkdir','fsync'},
-  relative(tx/'result.json'):{'create','write','fsync'},
+  relative(tx/'result.json'):{'create','write','fsync','replace'},
   relative(tx/'result.tmp'):{'create','write','fsync','replace','unlink'},
   relative(repo/'.IMPLEMENTAUDIT'):{'fsync'},
   relative(repo/'.IMPLEMENTAUDIT'/'.r36-locks'):{'mkdir','fsync'},
@@ -1912,6 +2167,7 @@ PY
   canonical_observation_races
   patch_input_capture_heldouts
   external_drift_and_recovery
+  terminal_journal_custody_heldouts
   true_kill_requires_manual_custody
   interrupted_move_requires_manual_custody
   causal_review_heldouts
@@ -1919,6 +2175,7 @@ PY
 }
 
 case "${1:-}" in
+  --terminal-journal-custody-heldouts) terminal_journal_custody_heldouts "${2:-all}"; printf 'R36_TERMINAL_JOURNAL_CUSTODY_HELDOUTS=PASS\n'; exit 0;;
   --patch-input-capture-heldouts) fixture_self_check; patch_input_capture_heldouts "${2:-all}"; printf 'R36_PATCH_INPUT_CAPTURE_HELDOUTS=PASS\n'; exit 0;;
   --post-compaction-marker-deletion-heldout) post_compaction_marker_deletion_heldout; printf 'HOST_NEUTRAL_CONTINUITY_MARKER_DELETION_HELDOUT=PASS\n'; exit 0;;
   --post-compaction-continuity-heldout) post_compaction_continuity_heldout; printf 'HOST_NEUTRAL_CONTINUITY_HELDOUT=PASS\n'; exit 0;;
