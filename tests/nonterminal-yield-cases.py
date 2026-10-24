@@ -139,16 +139,6 @@ def consumed_read_set_controls(parent, *, selected=None):
 
 def dependency_profile_controls(parent):
     # Boundaries are portable input limits, never a native-host capability claim.
-    root = write_case(parent / 'background-profile')
-    chain = root / 'background/chain-17'; chain.mkdir(parents=True)
-    (chain / 'launch-intent.md').write_text('Legacy task-owned background declaration.\n')
-    plain = subprocess.run(['bash', str(HELPER), str(root)], text=True, capture_output=True)
-    assert plain.returncode == 0, plain.stdout + plain.stderr
-    for arguments in (['--nonterminal-yield'], ['--turn-disposition', 'NONTERMINAL_YIELD']):
-        result = subprocess.run(['bash', str(HELPER)] + arguments + [str(root)], text=True, capture_output=True)
-        assert result.returncode == 3 and 'OUT_OF_PROFILE' in result.stderr, result.stdout + result.stderr
-        assert 'native' not in result.stderr.lower(), 'portable profile was mislabeled native unavailability'
-    print('PASS explicit-background-read-profile')
     root = write_case(parent / 'successor-profile')
     (root / 'current-review.md').write_text('successor-review: pending original owner validation\n')
     result = subprocess.run(['bash', str(HELPER), '--nonterminal-yield', str(root)], text=True, capture_output=True)
@@ -160,7 +150,209 @@ def dependency_profile_controls(parent):
     result = subprocess.run(['bash', str(HELPER), '--nonterminal-yield', str(root)], text=True, capture_output=True)
     assert result.returncode != 0 and 'aliased yield read-set' in result.stderr, result.stdout + result.stderr
     print('PASS direct-scanned-record-alias-refused')
-    return 3
+    return 2
+
+
+
+def background_read_set_controls(parent, *, selected=None):
+    """Actual background consumers select bytes; ignored logs cannot revoke yield."""
+    def fixture(name, kind):
+        root = write_case(parent / ('background-' + name))
+        chain = root / 'background/chain-17'
+        if kind == 'absent':
+            return root, chain
+        chain.mkdir(parents=True)
+        intent = 'command: legacy-owned-job\n'
+        if kind in {'no-status', 'modern', 'owned'}:
+            intent += ('poll_budget: 3\nterminal_signal: chain.done\n'
+                       'expected_duration: 90m\ntransport_timeout: 10m\nlaunch_mode: detached\n')
+        if kind == 'closed':
+            intent += ('verification_window:\n  - surfaces: [bounded-input]\n'
+                       '    closed_at: 0123456789abcdef0123456789abcdef01234567\n    state: closed\n')
+            (chain / 'chain.done').touch()
+        (chain / 'launch-intent.md').write_text(intent)
+        (chain / 'logs').mkdir()
+        (chain / 'logs/output.log').write_text('task-owned output\n')
+        if kind in {'modern', 'owned'}:
+            (chain / 'chain-status.txt').write_text('checkpoint: C1\nwait: blocking | signal=chain.done\n')
+        if kind == 'owned':
+            (chain / 'chain-status.txt').write_text(
+                'kill: pid=123 | host_boot_id=boot-1 | process_creation_time=2026-08-06T01:02:03Z\n')
+            (chain / 'process-started.json').write_text(json.dumps({
+                'lane_id': 'chain-17', 'host_os': 'windows', 'host_boot_id': 'boot-1',
+                'pid': 123, 'process_creation_time': '2026-08-06T01:02:03Z'}))
+        return root, chain
+
+    def run(root, arguments=('--nonterminal-yield',), environment=None):
+        command = ['bash', str(HELPER), *arguments, str(root)]
+        process = subprocess.Popen(command, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            start_new_session=True, env=os.environ | {'PYTHONDONTWRITEBYTECODE': '1'} | (environment or {}))
+        try:
+            stdout, stderr = process.communicate(timeout=5)
+        except subprocess.TimeoutExpired:
+            os.killpg(process.pid, signal.SIGKILL)
+            process.communicate()
+            raise AssertionError(root.name + ': background read blocked instead of returning a disposition')
+        return subprocess.CompletedProcess(command, process.returncode, stdout, stderr)
+
+    count = 0
+    def wanted(name):
+        return selected is None or name in selected
+    def accepted(result, name, code=0, reason=''):
+        assert result.returncode == code and reason in result.stderr, name + ': ' + result.stdout + result.stderr
+
+    # Admission must preserve the original structural owner, including its
+    # closed-window, broad-kill and process-identity negatives.
+    stable = [
+        ('legacy', 'legacy', '', 0, ''),
+        ('closed', 'closed', '', 0, ''),
+        ('no-status', 'no-status', '', 0, ''),
+        ('modern', 'modern', '', 0, ''),
+        ('owned-kill', 'owned', '', 0, ''),
+        ('missing-completion', 'closed', "(chain/'chain.done').unlink()", 1, 'closed verification window lacks chain.done'),
+        ('nested-broad-kill', 'modern', "(chain/'logs/output.log').write_text('pkill -f unsafe-name\\n')", 1, 'broad kill authority'),
+        ('foreign-process', 'owned', "(chain/'process-started.json').write_text('{}')", 1, 'kill identity not ledger-owned'),
+        ('owned-process-selector', 'modern', "(chain/'logs/output.log').write_text('Get-Process -Id 123\\n')", 0, ''),
+        ('snapshot-prefix-command', 'modern', "(chain/'logs/output.log').write_text('Get-Process unsafe-name\\n')", 1, 'broad Get-Process'),
+        ('large-binary-log', 'modern', "(chain/'logs/output.log').write_bytes(b'\\xff' + b'x'*1_000_017)", 0, ''),
+    ]
+    for name, kind, setup, code, reason in stable:
+        if not wanted(name): continue
+        root, chain = fixture(name, kind)
+        exec(setup)
+        environment = {}
+        if name == 'snapshot-prefix-command':
+            temporary = parent / 'Get-Process -Id 123'; temporary.mkdir()
+            environment['TMPDIR'] = str(temporary)
+        before = inventory(root)
+        accepted(run(root, (), environment), name + ' structural', code, reason)
+        accepted(run(root, environment=environment), name, code, reason)
+        if name in {'legacy', 'modern'}:
+            accepted(run(root, ('--turn-disposition', 'NONTERMINAL_YIELD')), name + ' composed')
+        assert inventory(root) == before, name + ': background validator mutated its inputs'
+        count += 1; print('PASS background-' + name)
+
+    # Distinct source names can share the original owner's display ID because
+    # command substitution strips trailing newlines. Copies must remain private
+    # to each source chain; completion/status presence cannot cross between them.
+    for name, kind, second_name, code in (
+        ('multi-chain-complete', 'closed', 'lane-a\n', 0),
+        ('distinct-chain-missing-completion', 'closed', 'lane-b', 1),
+        ('colliding-name-missing-completion', 'closed', 'lane-a\n', 1),
+        ('colliding-name-no-status', 'modern', 'lane-a\n', 0),
+    ):
+        if not wanted(name): continue
+        root, chain = fixture(name, kind)
+        first = chain.with_name('lane-a'); chain.rename(first)
+        second = first.with_name(second_name); shutil.copytree(first, second)
+        if name == 'multi-chain-complete':
+            shutil.copytree(first, first.with_name('lane-a\n\n'))
+        elif kind == 'closed':
+            (second/'chain.done').unlink()
+        else:
+            (second/'chain-status.txt').unlink()
+            (second/'logs/output.log').write_text('pkill -f intentionally-unread\n')
+        before = inventory(root)
+        results = [run(root, arguments) for arguments in
+                   ((), ('--nonterminal-yield',), ('--turn-disposition', 'NONTERMINAL_YIELD'))]
+        observed = [{'code': r.returncode, 'stdout': r.stdout, 'stderr': r.stderr} for r in results]
+        assert [r.returncode for r in results] == [code]*3, name + ': ' + json.dumps(observed)
+        if code:
+            assert all('closed verification window lacks chain.done' in r.stderr for r in results), observed
+        assert inventory(root) == before, name + ': validator mutated a source chain'
+        count += 1; print('PASS background-' + name)
+
+    # Schedule changes after the actual background function has returned, at
+    # the existing late predicate boundary. Every relevant byte/presence/name
+    # change must revoke admission; irrelevant output changes must not.
+    drift = [
+        ('intent-drift', 'legacy', "(chain/'launch-intent.md').write_text('command: changed-job\\n')", 1),
+        ('completion-removed', 'closed', "(chain/'chain.done').unlink()", 1),
+        ('completion-bytes-unread', 'closed', "(chain/'chain.done').write_text('presence-only change\\n')", 0),
+        ('status-created', 'no-status', "(chain/'chain-status.txt').write_text('running\\n')", 1),
+        ('status-drift', 'modern', "(chain/'chain-status.txt').write_text('probe: 1\\n')", 1),
+        ('nested-bytes-drift', 'modern', "(chain/'logs/output.log').write_text('changed output\\n')", 1),
+        ('nested-member-created', 'modern', "(chain/'logs/late.log').write_text('late output\\n')", 1),
+        ('process-identity-drift', 'owned', "(chain/'process-started.json').write_text('{}')", 1),
+        ('legacy-log-unread', 'legacy', "(chain/'logs/output.log').write_text('pkill -f ignored-log\\n')", 0),
+        ('no-status-log-unread', 'no-status', "(chain/'logs/output.log').write_text('pkill -f ignored-log\\n')", 0),
+        ('chain-created', 'legacy', "p=root/'background/chain-18';p.mkdir();(p/'launch-intent.md').write_text('command: new-job\\n')", 1),
+        ('chain-removed', 'legacy', "chain.rename(root/'background/.retired-chain')", 1),
+        ('background-created', 'absent', "(root/'background').mkdir()", 1),
+    ]
+    for name, kind, mutation, code in drift:
+        if not wanted(name): continue
+        root, chain = fixture(name, kind)
+        accepted(run(root), name + ' baseline')
+        trigger = parent / (name + '-trigger')
+        schedule = parent / (name + '-schedule.bash')
+        source = 'from pathlib import Path;root=Path(' + repr(str(root)) + ');chain=Path(' + repr(str(chain)) + ');' + mutation
+        schedule.write_text('python() {\n'
+            '  if [ "$#" -eq 4 ] && [ "$1" = -B ] && [ "$2" = - ] && [ "$3" = ' + shlex.quote(str(root/'STATE.md')) + ' ]; then\n'
+            '    command python -B -c ' + shlex.quote(source) + '\n'
+            '    printf triggered > ' + shlex.quote(str(trigger)) + '\n'
+            '  fi\n  command python "$@"\n}\nexport -f python\n')
+        result = run(root, environment={'BASH_ENV': str(schedule)})
+        assert trigger.exists(), name + ': real post-consumption boundary was not reached'
+        accepted(result, name, code, 'yield read-set' if code else '')
+        count += 1; print('PASS background-' + name)
+
+    unsafe = [
+        ('intent-symlink', 'legacy', 'launch-intent.md', 'symlink'),
+        ('intent-hardlink', 'legacy', 'launch-intent.md', 'hardlink'),
+        ('completion-symlink', 'closed', 'chain.done', 'symlink'),
+        ('completion-hardlink', 'closed', 'chain.done', 'hardlink'),
+        ('nested-symlink', 'modern', 'logs/output.log', 'symlink'),
+        ('chain-symlink', 'modern', '.', 'symlink'),
+    ]
+    if hasattr(os, 'mkfifo'):
+        unsafe += [('status-fifo', 'modern', 'chain-status.txt', 'fifo'),
+                   ('nested-fifo', 'modern', 'logs/output.log', 'fifo')]
+    for name, kind, raw, shape in unsafe:
+        if not wanted(name): continue
+        root, chain = fixture(name, kind)
+        target = chain / raw
+        retained = parent / (name + '-original')
+        target.rename(retained)
+        if shape == 'symlink': target.symlink_to(retained, target_is_directory=retained.is_dir())
+        elif shape == 'hardlink': os.link(retained, target)
+        else: os.mkfifo(target)
+        result = run(root)
+        accepted(result, name, 1, 'yield read-set')
+        count += 1; print('PASS background-' + name)
+
+    if hasattr(os, 'mkfifo'):
+        for kind in ('legacy', 'no-status'):
+            name = kind + '-fifo-unread'
+            if not wanted(name): continue
+            root, chain = fixture(name, kind)
+            (chain/'logs/output.log').unlink(); os.mkfifo(chain/'logs/output.log')
+            accepted(run(root), name)
+            count += 1; print('PASS background-' + name)
+        # Replace original source with a FIFO precisely before real grep would
+        # consume it. The safely captured bytes may be read; final recheck must
+        # refuse the changed source without entering the FIFO.
+        for name, kind, target, condition in (
+            ('intent-consumer-fifo', 'legacy', 'launch-intent.md', '[[ "${@: -1}" = */launch-intent.md ]]'),
+            ('recursive-consumer-fifo', 'modern', 'logs/output.log', '[ "${1:-}" = -R ]'),
+        ):
+            if not wanted(name): continue
+            root, chain = fixture(name, kind)
+            trigger = parent / (name + '-trigger')
+            schedule = parent / (name + '-schedule.bash')
+            mutation = ('from pathlib import Path;import os;p=Path(' + repr(str(chain/target)) +
+                        ');p.rename(p.with_name(p.name+".original"));os.mkfifo(p)')
+            schedule.write_text('grep() {\n  if ' + condition + ' && [ ! -f ' + shlex.quote(str(trigger)) + ' ]; then\n'
+                '    command python -B -c ' + shlex.quote(mutation) + '\n'
+                '    printf triggered > ' + shlex.quote(str(trigger)) + '\n'
+                '  fi\n  command grep "$@"\n}\nexport -f grep\n')
+            result = run(root, environment={'BASH_ENV': str(schedule)})
+            assert trigger.exists(), name + ': real grep boundary was not reached'
+            accepted(result, name, 1, 'yield read-set')
+            count += 1; print('PASS background-' + name)
+    if selected is not None:
+        assert count == len(selected), 'unknown or unavailable background selector'
+    return count
 
 
 def main():
@@ -273,7 +465,8 @@ def main():
     dependency_count = 0
     with tempfile.TemporaryDirectory(prefix="r37-yield-") as temporary:
         parent = Path(temporary)
-        dependency_count = consumed_read_set_controls(parent) + dependency_profile_controls(parent)
+        dependency_count = (consumed_read_set_controls(parent) + dependency_profile_controls(parent)
+                            + background_read_set_controls(parent))
         for index, (name, want, changes, kwargs, suffix) in enumerate(cases):
             root = write_case(parent / str(index), changes, suffix=suffix, **kwargs)
             before = inventory(root)

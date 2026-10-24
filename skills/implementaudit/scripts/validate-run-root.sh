@@ -860,13 +860,31 @@ intent_has_invalid_closed_anchor() {
   ' "$1"
 }
 check_background_chains() {
-  local root="$1" state="$2" chain id intent status budget signal expected timeout mode cadence why es ts polls line pid boot created rc
+  local root="$1" state="$2" chain source_chain id intent status budget signal expected timeout mode cadence why es ts polls line pid boot created rc
   [ -d "$root/background" ] || return
+  local content_only=()
+  # Temporary copy pathnames must not masquerade as an owned process selector.
+  [ "$nonterminal_yield" != yes ] || content_only=(-h)
   for chain in "$root"/background/*; do
     [ -d "$chain" ] || continue; id="$(basename "$chain")"
+    source_chain="$chain"
+    if [ "$nonterminal_yield" = yes ]; then
+      # Read the original owner's grammar from safe copies. Rechecks below bind
+      # the original paths; a later FIFO swap cannot block the shell consumers.
+      # Display IDs can collide (for example after trailing-newline removal).
+      # Each original chain needs private completion/status/recursive copies.
+      chain="$(mktemp -d "$validation_snapshots/background.XXXXXXXX")" \
+        || { err "yield read-set background snapshot allocation failed"; continue; }
+      yield_track_dependency --capture "$source_chain/launch-intent.md" "$chain/launch-intent.md" \
+        || { err "yield read-set background intent capture failed"; continue; }
+    fi
     intent="$chain/launch-intent.md"; status="$chain/chain-status.txt"
     [ -f "$intent" ] || { err "background/$id missing launch-intent.md"; continue; }
     if intent_has_closed_window "$intent"; then
+      if [ "$nonterminal_yield" = yes ]; then
+        yield_track_dependency --background-presence "$source_chain/chain.done" "$chain/chain.done" \
+          || { err "yield read-set background completion capture failed"; continue; }
+      fi
       [ -f "$chain/chain.done" ] \
         || err "background/$id closed verification window lacks chain.done"
       if intent_has_invalid_closed_anchor "$intent"; then
@@ -893,7 +911,15 @@ check_background_chains() {
     es="$(duration_seconds "$expected" 2>/dev/null || :)"; ts="$(duration_seconds "$timeout" 2>/dev/null || :)"
     [ -n "$es" ] || err "background/$id invalid expected_duration"; [ -n "$ts" ] || err "background/$id invalid transport_timeout"
     if [ -n "$es" ] && [ -n "$ts" ] && [ "$mode" = inline ] && [ "$es" -ge "$ts" ]; then err "background/$id inline launch meets/exceeds ceiling"; fi
+    if [ "$nonterminal_yield" = yes ]; then
+      yield_track_dependency --background-status "$source_chain/chain-status.txt" "$status" \
+        || { err "yield read-set background status capture failed"; continue; }
+    fi
     [ -f "$status" ] || continue
+    if [ "$nonterminal_yield" = yes ]; then
+      yield_track_dependency --background-scan "$source_chain" "$chain" \
+        || { err "yield read-set background scan capture failed"; continue; }
+    fi
     polls="$(grep -c '^probe:' "$status" 2>/dev/null || :)"
     if [[ "$budget" =~ ^[1-9][0-9]*$ ]] && [ "$polls" -gt "$budget" ] &&
        { [ ! -f "$state" ] || ! awk -v n="$budget" 'index(tolower($0),"hung-command")&&index(tolower($0),"supervision-overrun")&&index(tolower($0),"poll_budget " n " exceeded"){f=1} END{exit !f}' "$state"; }; then
@@ -903,7 +929,7 @@ check_background_chains() {
     elif [ "$cadence" = terminal-only ] && grep -q '^report: item=' "$status"; then err "background/$id terminal-only narrated item"; fi
     awk '/^checkpoint:/{c=NR}/^wait: blocking/{if(!c||c>=NR)b=1}END{exit b}' "$status" || err "background/$id wait lacks checkpoint"
     grep -R -E -q "Name[[:space:]]*=[[:space:]]*['\"][^'\"]*\\.exe|pkill[[:space:]]+-f|taskkill([.]exe)?[[:space:]].*/IM|Get-CimInstance[[:space:]]+Win32_Process" "$chain" 2>/dev/null && err "background/$id broad kill authority"
-    if grep -R -E 'Get-Process([[:space:]]|$)' "$chain" 2>/dev/null | grep -Evq 'Get-Process[[:space:]]+-Id([[:space:]]|$)'; then err "background/$id broad Get-Process"; fi
+    if grep -R "${content_only[@]}" -E 'Get-Process([[:space:]]|$)' "$chain" 2>/dev/null | grep -Evq 'Get-Process[[:space:]]+-Id([[:space:]]|$)'; then err "background/$id broad Get-Process"; fi
     while IFS= read -r line; do
       pid="$(sed -n 's/.*pid=\([0-9][0-9]*\).*/\1/p' <<<"$line")"; boot="$(sed -n 's/.*host_boot_id=\([^ |]*\).*/\1/p' <<<"$line")"; created="$(sed -n 's/.*process_creation_time=\([^ |]*\).*/\1/p' <<<"$line")"
       if [ -z "$pid" ] || [ -z "$boot" ] || [ -z "$created" ] || [ ! -f "$chain/process-started.json" ]; then err "background/$id kill lacks process-started.json identity"; continue; fi
@@ -1074,12 +1100,13 @@ esac
 yield_read_identity() {
   "${reader_py[@]}" - "$state" "$roadmap" "$run_root" "$@" <<'PYIDENTITY'
 import hashlib,json,os,re,stat,sys
+from contextlib import nullcontext
 from pathlib import Path
 state,roadmap,root=map(Path,sys.argv[1:4])
 operation=sys.argv[4:]
 records={}
 class Unsupported(ValueError): pass
-def read(path,textual=True):
+def read(path,textual=True,snapshot=None):
     path=path.absolute()
     for node in (path,*path.parents):
         info=node.lstat()
@@ -1089,14 +1116,16 @@ def read(path,textual=True):
     if not stat.S_ISREG(info.st_mode) or info.st_nlink!=1 or (textual and info.st_size>1_000_000):
         raise ValueError('unsafe yield read-set member')
     signature=lambda x:[x.st_dev,x.st_ino,x.st_size,x.st_mtime_ns,x.st_ctime_ns]
+    if snapshot is not None:snapshot.parent.mkdir(parents=True,exist_ok=True)
     fd=os.open(path,os.O_RDONLY|getattr(os,'O_NOFOLLOW',0)|getattr(os,'O_NONBLOCK',0))
-    with os.fdopen(fd,'rb') as handle:
+    with os.fdopen(fd,'rb') as handle, (snapshot.open('wb') if snapshot is not None else nullcontext()) as copied:
         opened=os.fstat(handle.fileno())
         if not stat.S_ISREG(opened.st_mode):
             raise ValueError('nonregular yield read-set member after open')
         digest=hashlib.sha256()
         if textual:
             data=handle.read(1_000_001);digest.update(data)
+            if copied is not None:copied.write(data)
         else:
             # A consumed capture is fingerprinted as bytes. Its native owner
             # decides content applicability; no text encoding or log-size cap.
@@ -1105,6 +1134,7 @@ def read(path,textual=True):
                 chunk=handle.read(65536)
                 if not chunk:break
                 digest.update(chunk)
+                if copied is not None:copied.write(chunk)
         closed=os.fstat(handle.fileno())
     if (textual and len(data)>1_000_000) or not signature(info)==signature(opened)==signature(closed)==signature(path.lstat()):
         raise ValueError('yield read-set changed during capture')
@@ -1121,6 +1151,31 @@ def presence(path):
     if not stat.S_ISREG(info.st_mode) or getattr(info,'st_file_attributes',0)&0x400:
         raise ValueError('unsafe yield read-set presence dependency')
     records[str(path.absolute())]=['present-file',info.st_dev,info.st_ino]
+def background_directory(path):
+    for node in (path,*path.parents):
+        info=node.lstat()
+        if not stat.S_ISDIR(info.st_mode) or getattr(info,'st_file_attributes',0)&0x400:
+            raise ValueError('unsafe yield read-set background directory')
+    return path.lstat()
+def background_namespace(path):
+    key='background-chains:'+str(path.absolute())
+    if not os.path.lexists(path):records[key]=None;return
+    info=background_directory(path);chains=[]
+    for child in sorted(path.iterdir()):
+        if child.name.startswith('.'):continue
+        entry=child.lstat()
+        if stat.S_ISLNK(entry.st_mode) or getattr(entry,'st_file_attributes',0)&0x400:
+            raise ValueError('aliased yield read-set background chain')
+        if stat.S_ISDIR(entry.st_mode):chains.append([str(child),entry.st_dev,entry.st_ino])
+    records[key]=[[info.st_dev,info.st_ino],chains]
+def background_scan(path,snapshot=None):
+    info=background_directory(path);children=sorted(path.iterdir())
+    records['background-members:'+str(path.absolute())]=[
+        [info.st_dev,info.st_ino,info.st_mtime_ns,info.st_ctime_ns],[p.name for p in children]]
+    for child in children:
+        entry=child.lstat();target=snapshot/child.name if snapshot is not None else None
+        if stat.S_ISDIR(entry.st_mode):background_scan(child,target)
+        else:read(child,textual=False,snapshot=target)
 def members(directory,pattern,recursive=False):
     if not os.path.lexists(directory):
         records['members:'+str(directory)+':'+pattern]=None
@@ -1135,8 +1190,19 @@ def members(directory,pattern,recursive=False):
     return selected
 try:
     if operation:
-        kind,raw=operation;path=Path(raw)
-        if kind=='--capture':read(path,textual=False)
+        kind,raw,*destination=operation;path=Path(raw)
+        if len(destination)>1:raise ValueError('invalid yield snapshot destination')
+        snapshot=Path(destination[0]) if destination else None
+        if kind=='--capture':read(path,textual=False,snapshot=snapshot)
+        elif kind=='--background-status':
+            if os.path.lexists(path):read(path,textual=False,snapshot=snapshot)
+            else:records[str(path.absolute())]=None
+        elif kind=='--background-presence':
+            background_directory(path.parent);presence(path)
+            if os.path.lexists(path):
+                if path.lstat().st_nlink!=1:raise ValueError('aliased yield read-set completion presence')
+                if snapshot is not None:snapshot.touch()
+        elif kind=='--background-scan':background_scan(path,snapshot)
         elif kind=='--optional':optional(path)
         elif kind=='--presence':presence(path)
         elif kind=='--respec':
@@ -1178,12 +1244,7 @@ try:
             siblings=sorted(str(p) for p in root.parent.iterdir()
                             if not p.name.startswith('.') and p.is_dir() and p!=root)
             records['sibling-members:'+str(root.parent)]=siblings
-        background=root/'background'
-        if os.path.lexists(background):
-            if not background.is_dir() or background.is_symlink():raise ValueError('unsafe background namespace')
-            chains=[p for p in background.iterdir() if not p.name.startswith('.') and p.is_dir()]
-            if chains:raise Unsupported('recursive background-chain scans require their original owner')
-        records['background-chains']=[]
+        background_namespace(root/'background')
     sys.stdout.write(json.dumps(records,sort_keys=True,separators=(',',':'))+'\n')
 except Unsupported as exc:
     sys.stderr.write('validate-run-root: OUT_OF_PROFILE: unsupported yield read-set dependency: '+str(exc)+'; no yield disposition\n')
@@ -1198,7 +1259,7 @@ yield_dependency_modes=(); yield_dependency_paths=(); yield_dependency_identitie
 yield_track_dependency() {
   [ "$nonterminal_yield" = yes ] || return 0
   local identity
-  identity="$(yield_read_identity "$1" "$2")" || return $?
+  identity="$(yield_read_identity "$@")" || return $?
   yield_dependency_modes+=("$1"); yield_dependency_paths+=("$2")
   yield_dependency_identities+=("$identity")
 }

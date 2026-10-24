@@ -429,3 +429,148 @@ no acceptance. Independent resolver work and original currentness/custody
 owners remain outside this change. Same-reviewer verification and parent
 integration gates remain required. These record results supply no native Stop,
 authentic host binding, child acceptance, READY/JOIN, closure or release authority.
+
+
+### Finite background consumed-read-set increment — 2026-10-24
+
+This bounded continuation starts from published head
+`7972729673882594cc934a33b308b04d1c5057a1`, tree
+`6ec95252a7fec87463a0681e6e2db7ef31282fb9`, with validator SHA-256
+`3c575f14d3a9886281900ff8a8cc7837e0a44714e6fb0db464770dcb62560c28`.
+A finite regular-file legacy chain passed the actual ordinary structural
+validator (exit 0), while direct and composed nonterminal yield both returned
+`OUT_OF_PROFILE` (exit 3). The original executable discriminator is retained as
+`incoming-discriminator.json`, SHA-256 `062009a787896fbdb1db1e981666983e6bb398266b27249ead5544532031e3d3`;
+the test-first refusal is `focused-red.json`, SHA-256
+`539ec6143188fe618ebd0973292e2c095ba67d74ec4ce2d8084e2b568cd8d311`. The earlier blanket-background
+profile restriction remains historical evidence above; this increment narrows it.
+
+The same read-set helper now binds the background namespace and selected chain
+directory identities, then captures dependencies at the existing consumers:
+
+| Existing structural branch | Bound dependency |
+|---|---|
+| Every selected chain | `launch-intent.md` bytes; selected background namespace and directory identity. |
+| An applicable closed verification window | `chain.done` regular-file presence and identity. Its otherwise unread contents are not fingerprinted. |
+| Modern intent before a status file exists | `chain-status.txt` absence, in addition to the intent. Arbitrary nested logs remain unread. |
+| Modern intent with a status file | Recursive directory membership and regular-file bytes actually covered by the existing scans, including status, nested logs and applicable process identity. |
+
+The existing temporary validation directory holds safely captured copies for
+the original shell/JSON consumers. Streaming nonblocking opens validate regular
+file descriptors and retain original-path identities for the final recheck.
+Relevant symbolic links, hard links and nonregular paths refuse; a FIFO swap
+immediately before either intent grep or recursive grep cannot block that
+consumer. Legacy and no-status nested logs are neither copied nor hashed,
+including an unconsumed FIFO. Ordinary structural mode keeps its prior branch.
+Repository-only successor-review dependencies remain explicitly `OUT_OF_PROFILE`.
+
+The first successor, validator SHA-256
+`356e052b3a6c6cd2c3cc50de8d5438fe2dad4e8782b71bc00ebf40f1b6833ba4`,
+passed **34 new controls / 58 helper invocations** and **8 focused compatibility
+controls / 14 helper invocations**. These include original closed-window,
+broad-kill and process-identity negatives; relevant byte/presence/namespace
+mutation; ignored-log positives; large/binary scan input; link/FIFO refusal;
+and two actual scheduled FIFO replacements at shell-reader boundaries.
+Captures: `focused-green-1.json` SHA-256 `8e66075ee289e8b3b9d486a1f790fc2024d85f941d9865b5826f094904b82408`;
+`compatibility-green.json` SHA-256 `ba5d7ac5fb1677749bfd23d7409d91504b9166c9037058ac8547524f1bf76886`.
+
+A further actual probe found a successor defect: a temporary directory component
+`Get-Process -Id 123` appeared in grep's filename prefix and incorrectly hid a
+broad process selector. Ordinary structural validation refused the record while
+yield accepted it. Both the first nondiscriminating path probe and this refined
+failure remain retained; the latter is `snapshot-prefix-red.json`, SHA-256
+`3a7e95f511edab30beae3638b07c2dd1307c84f1625e431cdfa5caf2e42b2d8c`. Yield-copy scans now suppress
+filename prefixes for that existing content check. Ordinary structural parsing
+is unchanged; actual `Get-Process -Id` content still passes. Two new test controls
+preserve this distinction, with test-first failure retained separately.
+
+The final validator SHA-256 is `d2948b74de673e1a7544c66404e9a70698034c4c8e0f5c2434750c80363c38f9`;
+final test SHA-256 is `921ef26a5f665ce66b8e69cf227711d29afeaae700bfb1e3a9d5def91da123da`. On those exact
+bytes, **6 affected background controls / 13 helper invocations** pass, including
+the new prefix negative and owned-selector positive, modern composed yield,
+owned kill identity, nested broad-kill refusal, and large/binary scan input.
+Final capture: `prefix-final-green.json`, SHA-256
+`f44d4edfb37311a302a10417083f9fcbff239aa0ab9f9a3dc99f94302d0b38f0`. Bash syntax, Python test-file
+syntax and scoped diff checks pass. The read/capture mechanism is byte-identical
+to the first successor's mechanism; unchanged earlier controls were not replayed
+for the prefix-only correction. The new fixture set contains 36 distinct
+background controls; no all-36 final-source execution is claimed by this lane.
+Earlier 101/55 banks and the 3/12 normalization/header follow-up remain bound to
+their recorded sources and were not repeated.
+
+These are supplied-record results with authority NONE. The supplemental
+three-way wrapper retains its separate inventory/profile limits; this extension
+does not widen them. No authentic host binding, native Stop, child acceptance,
+READY/JOIN, lifecycle decision, issue closure or release is established. All
+**36 original nested cases, 14 mutation families, 17 terminal criteria and
+15 host-turn conditions** remain independent original obligations. Continuous
+writers and unsafe dependency shapes are not qualified as stable regular-file
+inputs. No new public mode, helper, governor or controller writer was added.
+
+Rollback is the coherent three-file validator/test/addendum unit from its saved
+preimages; it restores the known profile refusal and must preserve every incoming
+and successor observation. AGENTS changes are not warranted by this bounded
+existing-owner correction. Independent review of the exact source packet is the
+next receiving gate, followed by parent integration and changed-payload package
+qualification. This authoring lane performed no commit, publication, controller
+mutation, package build or whole-programme acceptance.
+
+
+#### Independent background review follow-up — private chain snapshots
+
+Independent review returned `GAP-REVISE` for the preceding three-file packet.
+Report SHA-256:
+`7a6be0d85e698a39d2b3b42926534a5a54c8298970147958377036561e8f926c`;
+review binding:
+`6392bc7bf1772b32d0fad53bca3103ad3a968de3c0094d7040c0093639dbdb85`.
+F1 found that separate source names `lane-a` and `lane-a\n` share the existing
+owner's display ID because shell command substitution removes trailing newlines.
+Using that ID as a snapshot path allowed state to pass between distinct chains.
+The initial namespace and final original-path identities were correct; the
+semantic consumers were reading a shared destination.
+
+| Retained independent and reproduced witness | Structural / direct yield / composed yield before correction | Corrected results |
+|---|---|---|
+| Both chains declare a closed window; only the first has `chain.done` | **1 / 0 / 0**: the second chain borrowed completion presence. | **1 / 1 / 1** |
+| First modern chain has status; second has no status and an intentionally unread broad-kill log | **0 / 1 / 1**: borrowed status activated an inapplicable recursive scan. | **0 / 0 / 0** |
+
+Both original witness captures and the exact reviewed three-file preimages are
+retained in `r37-background/review-followup-1`. Their independent capture
+SHA-256 values remain `fcab15083b52169a58d321eb06b34a0a4feb94fc186795efedccd887bb784051`
+and `88c6640f2581cbc1bed6a29a6cd6dccb8c7c0d1fc6a3837af135f0fc1c07c366`.
+The new test-first reproduction, `f1-test-red.json`, SHA-256
+`78b3e5c5c2b658de3230e2457785f817288f21580ee784eca1377236500696f6`, exercised all three modes for each
+witness on unchanged validator `d2948b74de673e1a7544c66404e9a70698034c4c8e0f5c2434750c80363c38f9`.
+
+The correction allocates one fresh private temporary directory per original
+chain under the existing validation snapshot root. It changes neither the chain
+ID where the original owner uses it nor any original-path capture/recheck.
+It imposes no chain-name restriction and does not merely clear a completion
+marker. Status and arbitrary recursive members cannot cross between chains.
+The safe streaming readers, status-absence branch and yield-only `grep -h`
+content rule remain unchanged.
+
+Final validator SHA-256: `aa8669b201380c0be6773b207b1d07d9e6721b6f646879729257433544d3bb12`.
+Final test SHA-256: `173de42e3faa6294dc0b8ca0a6dd80c0ccdcec8c7696e2bea0ac08a1d1222b54`.
+**Four new controls / twelve helper invocations** pass on those bytes: both F1
+witnesses, a distinct-name missing-completion negative and a complete three-chain
+positive whose names differ only by trailing newlines. **Six focused existing
+controls / ten helper invocations** also pass: intent mutation, new status after
+consumption, both actual shell-reader FIFO replacements, temporary-prefix
+refusal and an actual owned process selector. The combined result is **10 controls
+/ 22 invocations**, retained in `f1-green.json`, SHA-256
+`1b26735084b945ec5a730d841b75c41a1e817533ba5c1adb8890f4ac4e672628`. Bash syntax, Python test-file syntax,
+scoped diff checks and exact source readback pass. The previous 36 authored
+background controls and every original acceptance population remain retained;
+no whole-bank replay or all-40 final-source execution is claimed.
+
+This follow-up is based on public head
+`ef702280361b91294a32a7c89bc3cd3ef1543605`, tree
+`882d3824a1d1efa225d49edf463dc74cee850219`, after separate R0033 publication.
+Only these three R0037 working files are in this packet; their earlier reviewed
+bytes had not been published. The independent F1 failure is retained, not erased
+by the repair. Same-reviewer focused verification is the next receiving gate,
+followed by root-owned exact combined package qualification and any guarded
+publication. Native Stop, authentic host binding, child acceptance, READY/JOIN,
+closure and release remain outside this portable evidence. Rollback is the
+three saved reviewed preimages; it restores F1 and grants no acceptance.
