@@ -272,6 +272,16 @@ Graphify modes: `bash <skill-dir>/scripts/validate-run-root.sh --graph-freshness
 <skill-dir>/scripts/validate-run-root.sh --graph-parent <catalog> <repo> <scope>
 <reason>` revalidates then broadens/falls back.
 
+For a selected portable nonterminal-yield record check, run
+`bash <skill-dir>/scripts/validate-run-root.sh --nonterminal-yield <run-root>`.
+For the composed branch check, run
+`bash <skill-dir>/scripts/validate-run-root.sh --turn-disposition <disposition> <run-root>`
+with the explicit record and applicable plan inputs listed in PROTOCOL.
+This is record-only validation with no host authority. The existing governor
+selects it under `references/host-session-binding.md`; native Stop remains
+unsupported. The evidential-support values consumer is governor-procedural:
+its pre-load and post-return commands in SKILL.md grant no native authority.
+
 When the native audit object opens a scarce-resource phase, `validate-phase.sh` consumes its receipt, launch, stub, hash, environment-key names, and terminal then invokes `check-authorization-binding.sh --phase <phase> --rehearsal <receipt> --launch <launch>`. The wrapper crosses a checker-owned mediator to the bounded producer; its zero exit precedes checker terminal publication. A failed rehearsal blocks launch; repair/re-run stays manual.
 
 Before publishing a governed verification window, invoke
@@ -290,6 +300,8 @@ consumer route.
 helper-mode: validate-run-root.sh|--graph-freshness|<graph.json> <repo-root>|stale
 helper-mode: validate-run-root.sh|--graph-scope|<catalog> <repo> <path> [path...]|smallest
 helper-mode: validate-run-root.sh|--graph-parent|<catalog> <repo> <scope> <reason>|fallback
+helper-mode: validate-run-root.sh|--nonterminal-yield|<run-root>|record-only-no-host-authority
+helper-mode: validate-run-root.sh|--turn-disposition|<disposition> <run-root>|composed-record-only-no-host-authority
 helper-mode: check-authorization-binding.sh|--phase --rehearsal --launch|<phase> <receipt> <launch>|failed-rehearsal-blocks-launch|scripts/validate-phase.sh
 helper-mode: check-evidence-anchor.sh|--window-transition|<transition> <launch-intent> --entry <n> --repo-root <repo>|governed-window-publication|-
 
@@ -314,6 +326,7 @@ helper-route: scripts/validate-phase.sh|R|phase|P|-|<phase>|exit-code
 helper-route: scripts/validate-run-root.sh|R|run-root|S|-|<root>|invalid
 
 helper-route: scripts/resolve-internal-skill.py|I|child-resolution|S#governor-routed-internal-cognition|S#governor-routed-internal-cognition|--governor SKILL.md --child <child>|no-load-credit
+helper-route: scripts/validate-audit-implement-return.py|R|before-load|S#governor-routed-internal-cognition|-|--envelope <envelope>|remaining-route-gates
 helper-route: scripts/resolve-durable-identity.py|S|identity-diagnosis|R#durable-identity-diagnostic|-|--canonical <identity>|no-allocation
 helper-route: scripts/host-session-binding.py|R|selected-attribution|references/host-session-binding.md|-|--store <store> lookup --host-id <host> --host-session-id <session>|no-host-activation
 helper-route: scripts/host-stop-interlock.py|R|selected-stop-attribution|references/host-session-binding.md|-|none|unsupported-host-effects

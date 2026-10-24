@@ -137,6 +137,15 @@ Standing gate owners: `check-action-selection-contract.sh`,
   and truthful open/nonblocking R001C disposition. Retained prepublication rows
   in the archive remain historical qualification evidence.
 
+## R0033 / R0037 portable integration source milestone
+
+- `archive/r0033-r0037-integration/README.md` — separately maintained #207 and
+  #211 acceptance ledgers, current-source repairs, preserved original failures,
+  exact preimages and concurrent-owner composition [proof level: PL2 instructions
+  + PL4 structural consumers + PL5 constructed controls; native admission and
+  issue acceptance remain open]. Final publication/package/CI identities belong
+  to the associated draft PR and its terminal execution receipts.
+
 ## Boundary
 
 The index points to current proof owners only. Detailed historical narratives,

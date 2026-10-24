@@ -2244,7 +2244,7 @@ def _native_validate_context(context):
         if type(delivery['source_digest']) is not str or not DIGEST_RE.fullmatch(delivery['source_digest']):
             raise WorkGraphError('delivery hold: source digest required')
 
-_NATIVE_ROUTE_PRODUCER_SHA256 = '8ed51e393f4f8a3be631e48255e9aeca59dcf120a803f1601a034e5ab9e02389'
+_NATIVE_ROUTE_PRODUCER_SHA256 = 'cde0db3f9bbb7203572835dd8311c1f1cd3758baf6ec9aac117b98bb715e5525'
 
 
 _NATIVE_ROUTE_PRODUCER_BYTES = 371304

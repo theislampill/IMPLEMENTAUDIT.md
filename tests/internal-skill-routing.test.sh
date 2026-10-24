@@ -4,6 +4,9 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
+PYTHONDONTWRITEBYTECODE=1 python3 tests/evidential-support-cases.py
+PYTHONDONTWRITEBYTECODE=1 python3 tests/internal-skill-resolver-custody.py
+
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
@@ -275,6 +278,9 @@ fi
 
 printf 'internal-skill-routing.test: resolver controls ok\n'
 
+python tests/cognition-obligation-cases.py
+PYTHONDONTWRITEBYTECODE=1 python3 tests/cognition-pending-durability.py
+
 python - <<'PY'
 from __future__ import annotations
 
@@ -292,10 +298,19 @@ class Event:
 
 
 def accepts(events: list[Event]) -> bool:
+    # This is the routing-observability oracle, not native admission or result
+    # consumption. Required observations are explicit fixture inputs; a receipt
+    # or governor-equivalent narration cannot silently erase that obligation.
+    boundaries = [(index, event.value) for index, event in enumerate(events)
+                  if event.kind == "completed-resumed-boundary"]
+    # The proved completed event entails the obligation even if its projection
+    # is absent. This fixture oracle does not authenticate the event itself.
+    required = sorted({event.value for event in events if event.kind == "required-obligation"}
+                      | {value for _index, value in boundaries})
     loads = [(index, event) for index, event in enumerate(events) if event.kind == "child-loaded"]
     announces = [(index, event) for index, event in enumerate(events) if event.kind == "route-announcement"]
     if not loads:
-        return not announces
+        return not announces and not required
     if len(loads) != 1 or len(announces) != 1:
         return False
     load_index, load = loads[0]
@@ -304,15 +319,25 @@ def accepts(events: list[Event]) -> bool:
         return False
     if load.value == "audit-state":
         receipts = [(index, event) for index, event in enumerate(events) if event.kind == "verified-receipt"]
-        if len(receipts) != 1 or receipts[0][0] >= load_index:
-            return False
+        if len(receipts) == 1 and receipts[0][0] < load_index:
+            gate_index = receipts[0][0]
+        else:
+            selected = [(index, value) for index, value in boundaries if value in required and index < load_index]
+            if (len(receipts) != 0 or len(required) != 1 or len(selected) != 1
+                    or not any(event.kind == "currentness-unresolved" for event in events[:load_index])
+                    or not any(event.kind == "authority-ceiling" and event.value == "NONE"
+                               for event in events[:load_index])):
+                return False
+            gate_index = selected[0][0]
         first_permitted_message = min(
             (event.message for index, event in enumerate(events)
-             if index > receipts[0][0] and event.kind == "assistant-narration"),
+             if index > gate_index and event.kind == "assistant-narration"),
             default=announce.message,
         )
         if announce.message != first_permitted_message:
             return False
+    elif required:
+        return False
     return True
 
 
@@ -346,6 +371,57 @@ cases = {
     "governor-only-equivalent-reasoning": (
         True,
         [Event("verified-receipt"), Event("assistant-narration", "state-like", 1)],
+    ),
+    "completed-boundary-without-projection-cannot-use-governor": (
+        False,
+        [Event("completed-resumed-boundary", "b1"), Event("verified-receipt"),
+         Event("assistant-narration", "state-like", 1)],
+    ),
+    "completed-boundary-without-projection-cannot-load-assess": (
+        False,
+        [Event("completed-resumed-boundary", "b1"), Event("child-loaded", "audit-assess"),
+         Event("route-announcement", "audit-assess", 1)],
+    ),
+    "completed-boundary-without-projection-retains-bounded-route": (
+        True,
+        [Event("completed-resumed-boundary", "b1"), Event("currentness-unresolved"),
+         Event("authority-ceiling", "NONE"), Event("child-loaded", "audit-state"),
+         Event("route-announcement", "audit-state", 1)],
+    ),
+    "required-boundary-cannot-use-governor-substitution": (
+        False,
+        [Event("completed-resumed-boundary", "b1"), Event("required-obligation", "b1"),
+         Event("verified-receipt"), Event("assistant-narration", "state-like", 1)],
+    ),
+    "required-boundary-unresolved-bounded-load": (
+        True,
+        [Event("completed-resumed-boundary", "b1"), Event("required-obligation", "b1"),
+         Event("currentness-unresolved"), Event("authority-ceiling", "NONE"),
+         Event("child-loaded", "audit-state"), Event("route-announcement", "audit-state", 1),
+         Event("assistant-narration", message=1)],
+    ),
+    "unresolved-without-completed-boundary-refuses": (
+        False,
+        [Event("required-obligation", "b1"), Event("currentness-unresolved"),
+         Event("authority-ceiling", "NONE"), Event("child-loaded", "audit-state"),
+         Event("route-announcement", "audit-state", 1)],
+    ),
+    "unresolved-foreign-boundary-refuses": (
+        False,
+        [Event("completed-resumed-boundary", "b2"), Event("required-obligation", "b1"),
+         Event("currentness-unresolved"), Event("authority-ceiling", "NONE"),
+         Event("child-loaded", "audit-state"), Event("route-announcement", "audit-state", 1)],
+    ),
+    "unresolved-authority-claim-refuses": (
+        False,
+        [Event("completed-resumed-boundary", "b1"), Event("required-obligation", "b1"),
+         Event("currentness-unresolved"), Event("authority-ceiling", "MUTATION"),
+         Event("child-loaded", "audit-state"), Event("route-announcement", "audit-state", 1)],
+    ),
+    "required-state-obligation-cannot-load-other-child": (
+        False,
+        [Event("required-obligation", "b1"), Event("child-loaded", "audit-assess"),
+         Event("route-announcement", "audit-assess", 1)],
     ),
     "false-route-announcement": (
         False,
@@ -500,3 +576,5 @@ print(
     f"({len(secondary_cases)}/{len(secondary_cases)})"
 )
 PY
+
+PYTHONDONTWRITEBYTECODE=1 python3 tests/cognition-lifecycle-composition.py

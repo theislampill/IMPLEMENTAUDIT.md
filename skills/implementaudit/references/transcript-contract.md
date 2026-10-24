@@ -284,6 +284,107 @@ After migration, token-bound `--read-resume-state` reads preserve the required
 STATE-then-ROADMAP order under `PRE_RESUME_EVIDENCE`. They do not replace fresh
 native receipt verification or confer currentness; see `continuity.md`.
 
+
+## Evidential-support contract
+
+Use the read-only stdlib owner
+`../scripts/validate-audit-implement-return.py`. Existing
+mechanical owners establish facts first; this consumer only validates supplied
+values. Its `VALUE_VALIDATION` output does not authenticate host currentness,
+authority, evidence, semantic sufficiency or native admission.
+
+```bash
+python3 scripts/validate-audit-implement-return.py --envelope envelope.json
+python3 scripts/validate-audit-implement-return.py --envelope envelope.json --result result.json --current-envelope current.json
+```
+
+Paths above are relative to the executing governor directory. The first form
+checks pre-load values. The second requires freshly supplied current facts,
+validates the current envelope, and demands complete equality with the original
+before reading the result. Any subject, configuration, evidence, consumer,
+decision-time, candidate or executing-package drift returns to the governor;
+no stale result is consumed. Fresh values alone do not prove host freshness.
+
+The exact envelope keys are `contract_version`, `child`, `routing_owner`,
+`entry`, `subject_class`, `semantic_need`, `subject`, `package`, `evidence_set`,
+`claims`, `assumptions`, `limitations`, `defeaters`, `unresolved_obligations`,
+`mechanical`, `currentness`, `release_currentness`, `maintainer_scope`; only the
+release branch also requires `candidate`. The unchanged package maintainer-only
+admission applies to both branches; a non-release subject grants no wider caller
+authority.
+
+| Field | Exact value or nested keys |
+|---|---|
+| `contract_version` | `implementaudit.evidential-support.v2` |
+| `child`, `routing_owner`, `entry` | `audit-implement`, `/implementaudit`, `GOVERNOR` |
+| `semantic_need` | `REQUIRED`, `MECHANICALLY_SETTLED`, or `ORDINARY_REVERSIBLE`; the latter two return `BYPASS` and cannot consume a child result |
+| `subject` | `identity`, `configuration`, `proposition`, `boundary`, `consumer`, `consequence`, `decision_time` (ISO date-time with timezone) |
+| `package` | Executing package `identity`, `sha256` |
+| `evidence_set` | `identity`, `sha256`, `manifest`; checksum is over the canonical manifest JSON |
+| Each manifest item | `evidence_id`, `sha256`, `scope`, `common_source`, `independence`; retain common-source/correlation limits, including an explicit statement when independence is unestablished |
+| Each envelope claim | `claim_id`, `subject_class`, `proposition`, `boundary`, `evidence_ids`; unique IDs, declared class matches the envelope, evidence references belong to the manifest |
+| `mechanical` | `identity`, `hashes`, `parity`, `package`, `reachability`, `version`, `authority`, `custody` are `VERIFIED`; `writer_conflict`, `known_invalidators` are `CLEAR`; `required_tests` is `SATISFIED` |
+| `currentness` | `subject`, `configuration`, `evidence_set`, `consumer`, `decision_time` are all `VERIFIED` |
+| `release_currentness` | Release: `VERIFIED`; non-release: `NOT_APPLICABLE` |
+| `candidate` (release only) | `source`, `commit`, `tree`, `artifact_sha256`, `package_sha256`, `install`, `host`; commit/tree are 40 lowercase hexadecimal characters |
+| `maintainer_scope` (both branches) | `VERIFIED`; unchanged package admission ceiling |
+
+Assumptions, limitations, defeaters and unresolved obligations are explicit
+string lists, possibly empty. SHA-256 values are 64 lowercase hexadecimal
+characters. Canonical JSON uses sorted keys, UTF-8, unescaped Unicode and no
+separator whitespace. Each regular input file is at most 131072 bytes, each
+list at most 128 items, and each nonempty string at most 4096 characters.
+Duplicate JSON keys, nonstandard constants, symlinks, unknown keys, wrong
+types/versions/states and authority fields outside the schema refuse. Evidence
+hashes identify supplied evidence; this consumer does not open or authenticate
+evidence objects or determine whether prose has been deceptively classified.
+
+### Bounded return and legacy compatibility
+
+Every result has exactly `contract_version`, `subject_class`, `envelope_sha256`,
+`authority` (`NONE`), `rationale`, `limitations`, `gaps`, and `progression_advice`.
+The digest binds the complete original canonical envelope. Advice is
+non-authoritative and gives no permission. Semantic results also contain
+`support_state` and `claims`. Each returned claim has exactly `claim_id`,
+`support_state`, `rationale`, `limitations`, `gaps`, `conditions`, `defeaters`;
+the claim-ID set equals the original envelope's set. Rationale and advice are
+nonempty strings; all limitations/gaps/conditions/defeaters are string lists.
+
+`CONDITIONAL` names exact outstanding conditions; other states cannot hide
+conditions. `UNRESOLVED` names the evidence gaps rather than manufacturing a
+contradiction. Apply the specific transport rule before that general gap rule:
+local evidence offered for a broader deployment claim stays `CONDITIONAL` or
+`NOT_SUPPORTED` until evidence closes the transport bridge. Use `CONDITIONAL`
+with the exact outstanding transport qualifications, or `NOT_SUPPORTED` with
+the reason the evidence cannot support the requested boundary. This boundary
+judgement does not assert that the system has failed; absence of transport
+evidence is not a factual counterexample. Do not use `UNRESOLVED` to bypass
+this specific state bound, or silently narrow the requested deployment claim.
+A separately stated narrower proposition can still be `SUPPORTED` within its
+demonstrated scope. Other missing-evidence judgements retain `UNRESOLVED` and
+their exact gaps. For multiple claims the conservative summary is `NOT_SUPPORTED`
+if any claim has that state, otherwise `UNRESOLVED`, otherwise `CONDITIONAL`,
+otherwise `SUPPORTED`. This consistency rule does not prove the judgement.
+
+The release result additionally preserves the exact `legacy_disposition`:
+
+| `legacy_disposition` | `support_state` and required meaning |
+|---|---|
+| `established` | `SUPPORTED`; preserve exact established scope |
+| `contradicted` | `NOT_SUPPORTED`; preserve named defeaters |
+| `insufficient` | `UNRESOLVED`; absence of evidence is not contradiction |
+| `qualification gap` | `CONDITIONAL`; name the missing qualification |
+| `unresolved` | `UNRESOLVED`; preserve unresolved obligations |
+| `boundary not supportable` | `NOT_SUPPORTED`; rationale names the scope/boundary reason |
+| `stale` / `identity mismatch` | Deterministic precondition refusal; `support_state` and `claims` are absent, never null or a semantic state |
+
+Non-release results have no `legacy_disposition`. Old release consumers keep
+the exact v1 token set until their versioned migration is qualified. Validator
+exit 0 means value-valid or pre-load `BYPASS`; exit 1 with `REFUSED` preserves a
+legacy deterministic refusal; exit 2 means invalid input, failed supplied
+preconditions or drift. None of these exits authorizes a consequential action.
+
+
 ## Child-skill routing observability
 
 A governed child route is user-visible only after the exact package gate,
@@ -318,6 +419,32 @@ execution permission. This exception does not turn dispatch, reservation, failed
 return or matching output into accepted occurrence consumption. Native routing,
 observation and accepted JOIN remain continuity-owned.
 
+Preserve the existing owners' distinct evidence states; a transcript label is
+not a transition receipt:
+
+| State | Evidence boundary |
+|---|---|
+| Observation | Original physical occurrence, selected/prior/retry identity, source offsets/hash and scope/cutoff are identified; no child has run. |
+| Reservation / OPEN | A scope is reserved or a route transaction opened; failed dispatch leaves its obligation pending. |
+| LOAD | The exact selected child source was actually delivered and loaded; an attempted invocation or resolver lookup is insufficient. |
+| RETURNED | That invocation produced its actual first original result; a later corrected copy is a distinct supported retry. |
+| ACCEPTED | The existing governor/continuity owner checked identity, currentness, ceiling and covered scope; a success-shaped return is insufficient. |
+| JOINED | The existing R0035 receiving owner completed the required result JOIN; acceptance alone cannot substitute for it. |
+| Consumed | The continuity owner discharged only the accepted and joined covered scope/version. Uncovered successors remain pending, including equal H0/session labels. |
+
+Missing currentness/epoch constrains the required bounded recovery result, not
+its existence. Recover interrupted subordinate work locally from its retained
+scope and actual result/absence; never mark a reservation or incomplete JOIN
+consumed to make the governor appear converged. A route unavailable on a host
+remains a typed capability gap with the original obligation retained.
+
+Disclose only the selected capability and necessary evidence. Procedural skills
+supply methods within an owner, never a fifth child, independence, admission or
+authority. A subordinate lacking capability returns its typed gap, affected
+scope and retained evidence to the governor. Local recovery keeps that owner
+and actual effect ceiling. Authority-NONE prose is not host enforcement;
+delegation or child chaining cannot evade the ceiling.
+
 Verification inside a child may report an already-known cheap deterministic failure;
 after return, the governor may handle that result without another model child.
 If verification establishes that a new constraint defeats the selected countermeasure
@@ -341,7 +468,10 @@ IMPLEMENTAUDIT_RUN_COMPLETE
 
 Rules:
 
-- Emit each final audit marker exactly once per run.
+- Emit `AUDIT_START`, `AUDIT_VERIFY`, and applicable `AUDIT_GAPS`/`AUDIT_WARNING`
+  per final-audit round. Emit `AUDIT_COMPLETE`, `AUDIT_HANDOFF` and
+  `IMPLEMENTAUDIT_RUN_COMPLETE` once per run. Phase-local `ANDON_HANDOFF`
+  follows its own phase contract.
   Do not replay a completion marker in a later summary or final response. Once
   emitted at its transition, later prose may describe the state but must not
   print that marker again.
