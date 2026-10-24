@@ -142,8 +142,8 @@ def dependency_profile_controls(parent):
     root = write_case(parent / 'successor-profile')
     (root / 'current-review.md').write_text('successor-review: pending original owner validation\n')
     result = subprocess.run(['bash', str(HELPER), '--nonterminal-yield', str(root)], text=True, capture_output=True)
-    assert result.returncode == 3 and 'OUT_OF_PROFILE' in result.stderr, result.stdout + result.stderr
-    print('PASS explicit-repository-review-profile')
+    assert result.returncode == 1 and 'live successor/non-verdict contract failed' in result.stderr, result.stdout + result.stderr
+    print('PASS malformed-repository-review-record-refused')
     root = write_case(parent / 'direct-record-alias')
     target = parent / 'aliased-record.md'; target.write_text('Current ordinary record.\n')
     (root / 'live-review.md').symlink_to(target)
@@ -152,6 +152,235 @@ def dependency_profile_controls(parent):
     print('PASS direct-scanned-record-alias-refused')
     return 2
 
+
+
+
+def successor_review_controls(parent, *, selected=None):
+    """A repository review may yield only through its unchanged semantic owner."""
+    checker = ROOT / 'scripts/check-cold-review-contract.sh'
+    def fixture(name):
+        root = write_case(parent/('review-' + name), {
+            'Status': 'INTERRUPTED', 'Stop source': 'owner-event-17',
+            'Interruption point': 'Smoke A input validation', 'Interruption log': '1',
+            'Next action': 'Wait for owner-event-17 continuation authorization'}, suffix=
+            '| 1 | o1 | 1 | transport-infrastructure | owner-event-17 at Smoke A input validation | Hold affected review | checkpoint C1 | open (rerun pending) |\n')
+        inputs = root/'review-inputs'; inputs.mkdir()
+        prior = inputs/'predecessor.md'; current = inputs/'successor.md'
+        prior.write_text('review-packet-scope: scope: alpha,beta | technique: bounded-read | evidence_mode: inline\n')
+        current.write_text('review-packet-scope: scope: alpha | technique: bounded-read | evidence_mode: reference\n')
+        (inputs/'findings.md').write_text('# finding-a\n\nfinding-record: id: finding-a | status: provisional\n\nOne concrete input remains to be checked.\n')
+        digest = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+        record = root/'review-record.md'
+        record.write_text(
+            'lane-status: status: REVIEWER_RUNTIME_NON_VERDICT | predecessor_failure_origin: transport-infrastructure | failure_determinism: content-deterministic | origin_detail: receiver-interruption | predecessor_occurrence: o1 | provisional_findings: review-inputs/findings.md#finding-a | substantive_verdict_consumed: no\n'
+            'successor-review: attempt: 1 | predecessor_failure_origin: transport-infrastructure | failure_determinism: content-deterministic | origin_detail: receiver-interruption | predecessor_occurrence: o1 | predecessor_packet_scope_file: review-inputs/predecessor.md | predecessor_packet_scope_sha256: ' + digest(prior) +
+            ' | packet_scope_file: review-inputs/successor.md | packet_scope_sha256: ' + digest(current) +
+            ' | packet_alteration: scope-narrowed+evidence-by-reference | andon_class: transport-infrastructure | provisional_findings_carried: review-inputs/findings.md#finding-a\n')
+        return root, record, prior, current
+
+    def run(root, mode='direct', environment=None):
+        arguments = {'owner': ['bash', str(checker), '--run-root'], 'structural': ['bash', str(HELPER)],
+                     'direct': ['bash', str(HELPER), '--nonterminal-yield'],
+                     'composed': ['bash', str(HELPER), '--turn-disposition', 'NONTERMINAL_YIELD']}[mode]
+        command = arguments + [str(root)]
+        process = subprocess.Popen(command, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            start_new_session=True, env=os.environ | {'PYTHONDONTWRITEBYTECODE': '1'} | (environment or {}))
+        try: stdout, stderr = process.communicate(timeout=5)
+        except subprocess.TimeoutExpired:
+            os.killpg(process.pid, signal.SIGKILL); process.communicate()
+            raise AssertionError(root.name + ': review consumer blocked')
+        return subprocess.CompletedProcess(command, process.returncode, stdout, stderr)
+
+    def accepted(result, name, code=0, reason=''):
+        assert result.returncode == code and reason in result.stderr, name + ': ' + result.stdout + result.stderr
+    def wanted(name): return selected is None or name in selected
+    count = 0
+    stable = [
+        ('interrupted-resumed', 0, ''), ('transient-unchanged', 0, ''), ('fenced-example', 0, ''),
+        ('bad-digest', 1, 'packet_scope_sha256 does not match'),
+        ('dropped-finding', 1, 'replacement packet did not carry'),
+        ('unaltered-deterministic', 1, 'materially unaltered packet'),
+        ('foreign-occurrence', 1, 'predecessor_occurrence must resolve'),
+        ('invalid-finding', 1, 'exact finding-record'),
+    ]
+    for name, code, reason in stable:
+        if not wanted(name): continue
+        root, record, prior, current = fixture(name)
+        if name == 'bad-digest':
+            record.write_text(record.read_text().replace(hashlib.sha256(current.read_bytes()).hexdigest(), '0'*64))
+        elif name == 'dropped-finding':
+            record.write_text(record.read_text().replace('provisional_findings_carried: review-inputs/findings.md#finding-a', 'provisional_findings_carried: none'))
+        elif name in {'transient-unchanged', 'unaltered-deterministic'}:
+            previous = hashlib.sha256(current.read_bytes()).hexdigest(); current.write_bytes(prior.read_bytes())
+            record.write_text(record.read_text().replace(previous, hashlib.sha256(current.read_bytes()).hexdigest()).replace('packet_alteration: scope-narrowed+evidence-by-reference', 'packet_alteration: none'))
+            if name == 'transient-unchanged': record.write_text(record.read_text().replace('content-deterministic', 'transient'))
+        elif name == 'foreign-occurrence':
+            record.write_text(record.read_text().replace('predecessor_occurrence: o1', 'predecessor_occurrence: o2'))
+        elif name == 'invalid-finding':
+            path = root/'review-inputs/findings.md'; path.write_text(path.read_text().replace('status: provisional', 'status: resolved'))
+        elif name == 'fenced-example':
+            (root/'example.md').write_text('```text\nsuccessor-review: packet_scope_file: absent-example.md\n```\n')
+        before = inventory(root)
+        for mode in ('owner', 'structural', 'direct', 'composed'):
+            accepted(run(root, mode), name + ' ' + mode, code, reason)
+        assert inventory(root) == before, name + ': reader changed source inputs'
+        if name == 'interrupted-resumed':
+            state = root/'STATE.md'
+            state.write_text(state.read_text().replace('| Status | INTERRUPTED |', '| Status | IN_PHASE |').replace(
+                'Wait for owner-event-17 continuation authorization', 'Validate the carried provisional finding before redispatch'))
+            before = inventory(root)
+            for mode in ('owner', 'structural', 'direct', 'composed'): accepted(run(root, mode), name + ' resumed ' + mode)
+            assert inventory(root) == before, name + ': resumed reader changed source inputs'
+        count += 1; print('PASS successor-review-' + name)
+
+    drift = [
+        ('prior-packet-drift', 'review-inputs/predecessor.md', 'altered prior packet\n', 1),
+        ('current-packet-drift', 'review-inputs/successor.md', 'altered current packet\n', 1),
+        ('finding-drift', 'review-inputs/findings.md', 'finding no longer provisional\n', 1),
+        ('direct-record-created', 'new-review.md', 'successor-review: invalid\n', 1),
+        ('unread-log-drift', 'logs/live.log', 'independent output changed\n', 0),
+    ]
+    for name, target, replacement, code in drift:
+        if not wanted(name): continue
+        root, _, _, _ = fixture(name)
+        if name == 'unread-log-drift':
+            (root/'logs').mkdir(); (root/target).write_text('independent output\n')
+        accepted(run(root), name + ' baseline')
+        trigger = parent/(name + '-trigger'); schedule = parent/(name + '-schedule.bash')
+        mutation = 'from pathlib import Path;Path(' + repr(str(root/target)) + ').write_text(' + repr(replacement) + ')'
+        schedule.write_text('bash() {\n  case "$1" in */check-cold-review-contract.sh)\n'
+            '    command bash "$@"; result=$?\n    command python -B -c ' + shlex.quote(mutation) + '\n'
+            '    printf triggered > ' + shlex.quote(str(trigger)) + '\n    return "$result";;\n  esac\n  command bash "$@"\n}\nexport -f bash\n')
+        result = run(root, environment={'BASH_ENV': str(schedule)})
+        assert trigger.exists(), name + ': actual semantic checker did not return'
+        accepted(result, name, code, 'yield read-set' if code else '')
+        count += 1; print('PASS successor-review-' + name)
+
+    for name, shape in (('packet-symlink', 'symlink'), ('packet-hardlink', 'hardlink'), ('finding-fifo', 'fifo')):
+        if not wanted(name): continue
+        if shape == 'fifo' and not hasattr(os, 'mkfifo'): continue
+        root, _, _, current = fixture(name)
+        target = root/'review-inputs/findings.md' if shape == 'fifo' else current
+        retained = target.with_suffix('.retained'); target.rename(retained)
+        if shape == 'symlink': target.symlink_to(retained)
+        elif shape == 'hardlink': os.link(retained, target)
+        else: os.mkfifo(target)
+        accepted(run(root), name, 1, 'yield read-set')
+        count += 1; print('PASS successor-review-' + name)
+
+    # The private records are a distinct consumed surface. Exercise both the
+    # original-to-copy binding and the final currentness check through the owner.
+    snapshots = [
+        ('private-finding-substitution-direct', 'direct', 'before',
+         'p=s/"review-inputs/findings.md";p.write_text(p.read_text().replace("status: resolved","status: provisional"))', 1),
+        ('private-finding-substitution-composed', 'composed', 'before',
+         'p=s/"review-inputs/findings.md";p.write_text(p.read_text().replace("status: resolved","status: provisional"))', 1),
+        ('private-redirected-dependency', 'direct', 'before',
+         'p=s/"review-inputs/findings.md";(s/"review-inputs/redirected.md").write_bytes(p.read_bytes());p.unlink();p=s/"review-record.md";p.write_text(p.read_text().replace("review-inputs/findings.md#finding-a","review-inputs/redirected.md#finding-a"))', 1),
+        ('private-direct-created', 'direct', 'after',
+         '(s/"later.md").write_text("# Later direct record"+chr(10))', 1),
+        ('private-state-missing', 'composed', 'after', '(s/"STATE.md").unlink()', 1),
+        ('private-finding-replaced', 'composed', 'after',
+         'p=s/"review-inputs/findings.md";q=p.with_name("replacement.pending");q.write_bytes(p.read_bytes());q.replace(p)', 1),
+        ('private-finding-changed', 'direct', 'after',
+         'p=s/"review-inputs/findings.md";p.write_text(p.read_text()+chr(10)+"# Changed private finding"+chr(10))', 1),
+        ('private-finding-fifo', 'direct', 'after',
+         'p=s/"review-inputs/findings.md";p.unlink();os.mkfifo(p)', 1),
+        ('private-unread-log', 'direct', 'after',
+         '(s/"logs").mkdir();(s/"logs/live.log").write_text("unread private output"+chr(10))', 0),
+    ]
+    for name, mode, boundary, mutation, code in snapshots:
+        if not wanted(name): continue
+        if name == 'private-finding-fifo' and not hasattr(os, 'mkfifo'): continue
+        root, _, _, _ = fixture(name)
+        if name.startswith('private-finding-substitution'):
+            path = root/'review-inputs/findings.md'; path.write_text(path.read_text().replace('status: provisional', 'status: resolved'))
+        before = inventory(root)
+        trigger = parent/(name + '-trigger'); schedule = parent/(name + '-schedule.bash')
+        source = 'from pathlib import Path;import os,sys;s=Path(sys.argv[1]).parent/"records";' + mutation
+        mutate = '    command python -B -c ' + shlex.quote(source) + ' "$1" || return $?\n'
+        schedule.write_text('bash() {\n  case "$1" in "${TMPDIR}/"*/check-cold-review-contract.sh)\n' +
+            (mutate if boundary == 'before' else '') + '    command bash "$@"; result=$?\n' +
+            (mutate if boundary == 'after' else '') + '    printf "%s\\n" "$result" > ' + shlex.quote(str(trigger)) +
+            '\n    return "$result";;\n  esac\n  command bash "$@"\n}\nexport -f bash\n')
+        result = run(root, mode, {'BASH_ENV': str(schedule)})
+        assert trigger.exists() and trigger.read_text().strip() == '0', name + ': actual semantic checker did not accept its consumed snapshot'
+        accepted(result, name, code, 'yield read-set' if code else '')
+        assert inventory(root) == before, name + ': private mutation changed original inputs'
+        count += 1; print('PASS successor-review-' + name)
+
+    name = 'private-finding-before-binding'
+    if wanted(name):
+        root, _, _, _ = fixture(name)
+        finding = root/'review-inputs/findings.md'
+        finding.write_text(finding.read_text().replace('status: provisional', 'status: resolved'))
+        before = inventory(root)
+        wrapper = parent/(name + '-python'); wrapper.mkdir()
+        trigger = parent/(name + '-trigger'); owner_trigger = parent/(name + '-owner-trigger')
+        python = wrapper/'python'
+        python.write_text('\n'.join([
+            '#!' + sys.executable, 'from pathlib import Path', 'import os,sys',
+            'args=[a for a in sys.argv[1:] if a != "-B"]',
+            'if "--successor-review" in args:',
+            '    source=sys.stdin.read();prior_lstat=Path.lstat;trigger=Path(' + repr(str(trigger)) + ')',
+            '    def scheduled_lstat(path,*rest,**kw):',
+            '        p=Path(path)',
+            '        if p.parts[-3:]==("records","review-inputs","findings.md") and str(p).startswith(os.environ["TMPDIR"]+os.sep) and not trigger.exists():',
+            '            assert "status: resolved" in p.read_text()',
+            '            p.write_text(p.read_text().replace("status: resolved","status: provisional"))',
+            '            trigger.write_text("substituted before first private read")',
+            '        return prior_lstat(p,*rest,**kw)',
+            '    Path.lstat=scheduled_lstat;sys.argv=args',
+            '    exec(compile(source,"<unchanged-private-capture>","exec"),{"__name__":"__main__"})',
+            'else:', '    os.execv(sys.executable,[sys.executable]+sys.argv[1:])', '']))
+        python.chmod(0o700)
+        schedule = parent/(name + '-schedule.bash')
+        schedule.write_text('bash() {\n  case "$1" in "${TMPDIR}/"*/check-cold-review-contract.sh)\n'
+            '    printf reached > ' + shlex.quote(str(owner_trigger)) + ';;\n  esac\n  command bash "$@"\n}\nexport -f bash\n')
+        result = run(root, environment={'PATH': str(wrapper) + os.pathsep + os.environ['PATH'], 'BASH_ENV': str(schedule)})
+        assert trigger.exists(), name + ': first private-file read was not reached'
+        assert not owner_trigger.exists(), name + ': substituted input reached the semantic owner'
+        accepted(result, name, 1, 'successor snapshot bytes differ from source capture')
+        assert inventory(root) == before, name + ': original inputs changed'
+        count += 1; print('PASS successor-review-' + name)
+
+    # Reject unqualified private owner bytes before Bash can execute them.
+    for name, mode, mutation in (
+        ('unqualified-owner-before-execution', 'direct', 'p.write_text("#!/usr/bin/env bash\\nprintf UNQUALIFIED_CODE_EXECUTED >&2\\n")'),
+        ('missing-owner-before-execution', 'composed', 'p.unlink()'),
+    ):
+        if not wanted(name): continue
+        root, _, _, _ = fixture(name)
+        trigger = parent/(name + '-trigger'); schedule = parent/(name + '-schedule.bash')
+        source = 'from pathlib import Path;import sys;p=Path(sys.argv[1]);' + mutation
+        schedule.write_text('python() {\n  if [ "$#" -eq 7 ] && [ "$6" = --successor-owner ] && [ ! -f ' + shlex.quote(str(trigger)) + ' ]; then\n'
+            '    case "$7" in "${TMPDIR}/"*/check-cold-review-contract.sh)\n'
+            '      command python -B -c ' + shlex.quote(source) + ' "$7"\n'
+            '      printf triggered > ' + shlex.quote(str(trigger)) + ';;\n    esac\n  fi\n  command python "$@"\n}\nexport -f python\n')
+        result = run(root, mode, {'BASH_ENV': str(schedule)})
+        assert trigger.exists(), name + ': private owner qualification boundary was not reached'
+        accepted(result, name, 3, 'OUT_OF_PROFILE')
+        assert 'UNQUALIFIED_CODE_EXECUTED' not in result.stdout + result.stderr, name + ': unqualified code executed'
+        count += 1; print('PASS successor-review-' + name)
+
+    # Mutate only private executed-owner copies, never the repository checker.
+    # The semantic checker first returns a genuine result; changed/missing code
+    # at the final boundary must revoke the qualified profile in both routes.
+    for name, mode, mutation in (('executed-owner-changed', 'direct', 'p.write_text(p.read_text()+"\\n# changed after execution\\n")'),
+                                 ('executed-owner-missing', 'composed', 'p.unlink()')):
+        if not wanted(name): continue
+        root, _, _, _ = fixture(name)
+        trigger = parent/(name + '-trigger'); schedule = parent/(name + '-schedule.bash')
+        source = 'from pathlib import Path;import sys;p=Path(sys.argv[1]);' + mutation
+        schedule.write_text('bash() {\n  case "$1" in "${TMPDIR}/"*/check-cold-review-contract.sh)\n'
+            '    command bash "$@"; result=$?\n    command python -B -c ' + shlex.quote(source) + ' "$1"\n'
+            '    printf triggered > ' + shlex.quote(str(trigger)) + '\n    return "$result";;\n  esac\n  command bash "$@"\n}\nexport -f bash\n')
+        result = run(root, mode, {'BASH_ENV': str(schedule)})
+        assert trigger.exists(), name + ': qualified private owner was not consumed'
+        accepted(result, name, 3, 'OUT_OF_PROFILE')
+        count += 1; print('PASS successor-review-' + name)
+    if selected is not None: assert count == len(selected), 'unknown or unavailable successor-review selector'
+    return count
 
 
 def background_read_set_controls(parent, *, selected=None):
@@ -466,7 +695,7 @@ def main():
     with tempfile.TemporaryDirectory(prefix="r37-yield-") as temporary:
         parent = Path(temporary)
         dependency_count = (consumed_read_set_controls(parent) + dependency_profile_controls(parent)
-                            + background_read_set_controls(parent))
+                            + background_read_set_controls(parent) + successor_review_controls(parent))
         for index, (name, want, changes, kwargs, suffix) in enumerate(cases):
             root = write_case(parent / str(index), changes, suffix=suffix, **kwargs)
             before = inventory(root)

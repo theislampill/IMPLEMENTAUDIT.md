@@ -574,3 +574,172 @@ followed by root-owned exact combined package qualification and any guarded
 publication. Native Stop, authentic host binding, child acceptance, READY/JOIN,
 closure and release remain outside this portable evidence. Rollback is the
 three saved reviewed preimages; it restores F1 and grants no acceptance.
+
+
+### Repository-backed successor-review yield inputs — 2026-10-24
+
+This separate increment starts from public head
+`acfb6e578bd646355aa3ec318bd13fa8216ad339`, tree
+`f9475b40e5d0559597119142a9a1a0bcc2831cfa`, after the background and R0033 receiver
+repairs were published. Their completed evidence is preserved and was not replayed.
+The original issue #211 turn-yield amendment requires a legitimate interrupted
+record and safe continuation to remain distinguishable from abandonment; it does
+not promote a partial reviewer result into a substantive verdict or closure.
+
+A finite interrupted root carried a transport Andon, a provisional finding, and a
+materially altered successor packet. The unchanged repository semantic checker
+and ordinary structural validator both returned **0**, while direct and composed
+yield returned **3 / OUT_OF_PROFILE**. A corrupted packet digest returned **1**
+through both actual owners. `successor-review/incoming-discriminator.json` retains
+these **0 / 0 / 3 / 3** and negative results, SHA-256
+`23489edfc17b2b32248b117916dc8ded4eb577040e1bab810e871a8fc3ed6e3a`. The new admission assertion
+then failed on unchanged validator `aa8669b201380c0be6773b207b1d07d9e6721b6f646879729257433544d3bb12`;
+`test-first-red.json` SHA-256 `bba28897837f1d0859218f1b8f1fb88936cbdac7822b362cdda18bd1751bfe9e`.
+
+The existing yield read-set now qualifies only the repository checker whose
+exact bytes are SHA-256
+`9f762b1e602154bd37d561b3564ad58720934467f26a760a8cffec29727e55d1`.
+That checker remains unchanged and owns every semantic decision: field grammar,
+transport occurrence, packet digest, material alteration, finding retention and
+non-verdict status. The read-set extension selects only its current consumed
+inputs; it does not implement a second review acceptance predicate.
+
+| Current semantic owner input | Bound evidence |
+|---|---|
+| Direct Markdown records, including canonical STATE Andon facts | Direct-file membership and exact bytes, with the owner's fenced-example handling. |
+| `predecessor_packet_scope_file` and `packet_scope_file` | Referenced contained regular-file bytes. |
+| `provisional_findings` and `provisional_findings_carried` | Referenced finding-file bytes; heading/provisional semantics remain checker-owned. |
+| Repository checker and private executed copy | Exact qualified bytes, file identities, and final rechecks. |
+
+The original repository path selects the checker; a target run-root lookalike
+cannot replace it. Safe copies under the existing validation temporary directory
+supply both the checker and its record inputs. Original-path dependencies and the
+executed checker copy are rechecked at the existing final boundary. Composed
+yield also rechecks the repository checker identity before returning a disposition.
+Changed, missing or unqualified owner bytes return **OUT_OF_PROFILE**, before
+execution or at final recheck as applicable. A future checker revision requires
+requalification of its actual read map; no future-parser contract is inferred.
+Installed projections without this repository owner remain outside this profile.
+That boundary is not a native-host availability claim or a waiver.
+
+Final validator SHA-256: `f718190e377e4b507b92046fa39dce5dc38d78aab1253647563b31e8580dc02b`.
+Final test SHA-256: `2207f6cf78fca180a4e1a68997ae15ec79096ff8327cbca88f9f83883530813f`.
+On those validator bytes, **18 new controls / 51 top-level checker-validator
+invocations** pass, including an interrupted-to-resumed record sequence, transient
+unchanged-packet continuation, fenced examples, original semantic negatives,
+post-consumption packet/finding/direct-record mutation, unread-log mutation,
+unsafe dependency refusal, and changed/missing executed-owner copies at final
+recheck. Two additional pre-execution owner controls pass on the same validator:
+changed or missing private checker copies produce exit 3, and unqualified code
+is not executed. These are **20 new controls / 53 top-level invocations** in two
+bounded runs, with the first test-source snapshot retained separately.
+
+Captures: `focused-green-1.json` SHA-256 `8615b62914fb4d4c29a93462444eb668496d824b1f14f8b2fa2bf5c9d293d04c`;
+`owner-entry-green.json` SHA-256 `fc5b7c1591c3010e2e2843d624b59ba08298c9fab518cb5585910138b0844d46`.
+**Five focused existing controls / eight invocations** also pass: new direct
+record detection, both respec whitespace cases, malformed repository review
+refusal through its actual owner, and direct-record alias refusal.
+`compatible-green.json` SHA-256 `335fa4f6d2ef234258c3474eae99aabc9b9974d9bdf9c32ecbace106f89a30eb`.
+Bash syntax, Python test syntax, scoped diff and exact source/unchanged-owner
+readbacks pass. No completed background bank, whole campaign or package build
+was repeated by this lane.
+
+The supplied record sequence proves portable interruption/continuation data
+eligibility only. It proves no actual resumed host session, reviewer acceptance,
+child lifecycle, authenticated Stop, graph/READY/JOIN, controller currentness,
+closure or release. An unread nested log stays outside direct yield's comparison;
+the composed wrapper retains its separate broader inventory limits. Terminal and
+handoff routes retain their repository-review profile restriction and original
+owners. All original **36 nested cases, 14 mutation families, 17 terminal criteria
+and 15 host-turn conditions** remain independent obligations.
+
+Rollback restores the coherent three saved preimages and the known blanket review
+profile refusal. The earlier `OUT_OF_PROFILE` rows above remain source-bound
+history; only this exact repository-backed yield profile is newly qualified.
+AGENTS changes are not warranted. Independent review of the exact three-file
+packet is the next receiving gate, followed by root-owned combined integration
+and changed-package qualification. No semantic-owner source, route/compiler,
+frontier/P35, graph/READY/JOIN, controller, publication or native adapter was
+changed by this authoring lane.
+
+
+### Successor-review private input binding follow-up (R37-SR-F1) — 2026-10-24
+
+Independent review of the preceding `f718190e...` candidate found a concrete
+portable false acceptance. An original finding with `status: resolved` failed
+the unchanged semantic checker, direct yield and composed yield (**1 / 1 / 1**).
+Changing only the private copied finding to `status: provisional` immediately
+before the checker consumed it produced direct/composed success (**0 / 0**).
+Original input inventories and the repository checker were unchanged. The prior
+candidate, its **20 new controls / 53 calls** and **five existing controls / eight
+calls**, the initial **0 / 0 / 3 / 3** discriminator and bad-digest negatives,
+and the independent failure remain source-bound history; none are erased or
+relabeled as acceptance of the repair.
+
+Independent report SHA-256:
+`addf33857113bc0b6b7c6eb358398eef168cc417d0daa7e97e1c6261c43095b3`;
+review manifest SHA-256:
+`fb619d84c4631978fe9f4d83eabd2c5599284599837935243ae1289d8c34fcf3`.
+The author reproduced all five actual calls on the rejected source, then the two
+new regression assertions failed with the same **0 / 0** false acceptance before
+implementation changed. Follow-up evidence is retained under
+`successor-review/review-followup-1/`.
+
+The correction extends the existing capture, without changing the semantic
+owner. Original safe reads now derive expected relative-path membership and
+SHA-256 digests for direct Markdown (including STATE) and the selected packet and
+finding files. Before consumption, the private direct-record population and
+selected private bytes must match those original expectations. Separate private
+file identities, bytes and root identity join the same retained dependency token.
+At final acceptance, the original read map selects the comparison paths again,
+but the copied tree is only read, never recopied. Both original and private
+identities must still equal the initial token. A copied row that drops or redirects
+a reference therefore cannot shrink the original expected set. Unreferenced
+nested logs remain outside this direct consumed-input population.
+
+Repaired validator SHA-256:
+`f78b874a6f089583b45a1ccb02617aa32d6bf57c4d6d64ab5e173e891a09f684`.
+Final test SHA-256:
+`27d1dd05f5dbbce6a4852005622af6d3fbb10d168a08ffcf0ffd30bffc7cb4f3`.
+The validator did not change across the following bounded qualification attempts:
+
+| Attempt | Actual calls | Outcome retained |
+|---|---:|---|
+| First focused batch | 17 | Five controls passed in 16 calls; a new fixture's assumption that all findings may be dropped was correctly rejected by the semantic owner. |
+| Resumed batch | 2 | Corrected valid-reference redirection passed; a new membership-mutation snippet failed to parse because of a quoted newline. |
+| Remaining corrected controls | 9 | Nine controls passed, after correcting/compiling the three affected mutation snippets. |
+| Exact retained reviewer substitutions | 2 | The unchanged checker accepted both private substitutions (0/0); repaired direct/composed yield refused both (1/1), originals unchanged. |
+
+The completed control population is **ten new controls / ten calls** and **five
+affected existing controls / sixteen calls**, across the three source-specific
+batches, plus the two exact retained witness calls. The two aborted test-fixture
+attempts above are additional calls, not successes. Their logs and exact test
+preimages are retained; no unchanged bank was rerun to conceal either failure.
+
+New controls cover both finding substitutions, private reference redirection,
+new direct membership, missing private STATE, byte-preserving file replacement,
+changed bytes, FIFO replacement without blocking, and an unread nested-log
+positive. A separate substitution before the first private-file baseline proves
+that a freshly substituted private digest cannot establish its own expectation:
+the original-to-copy digest check refuses before the semantic owner is invoked.
+Affected existing controls retain interrupted/resumed eligibility, an original
+invalid-finding refusal, unread original-log eligibility, and OUT_OF_PROFILE for
+unqualified owner entry and missing executed-owner bytes at final recheck.
+
+The exact retained invalid finding remains SHA-256
+`b4da37eac9d14898b0df818a95491599cce0413c3fe6324bec0987e37af8dfb3`.
+Retained-witness result SHA-256: `690db6e9c507d92904e28e898a330e0b5ead10ba35a4e05d89ba013a7a6d514b`.
+The repository semantic owner remains
+`9f762b1e602154bd37d561b3564ad58720934467f26a760a8cffec29727e55d1`.
+Changed/missing/unqualified owner code still has no permissive admission. These
+checks bind the portable selected inputs at capture and final comparison; they
+are not immutable execution/effect binding or evidence of a native host session,
+protected controller, resume receipt, child acceptance, Stop, READY/JOIN, closure,
+or release. The earlier finite-resource and installed-profile limits remain.
+
+Same-reviewer verification of the new exact packet is the next receiving gate,
+followed by root-owned combined qualification and guarded publication if accepted.
+No package build, commit, publication, product semantic-owner change, or change to
+other ownership surfaces was performed by this follow-up. Rollback restores the
+three preserved reviewed preimages and their known R37-SR-F1 failure; it conveys
+no acceptance. The original broader R0037 obligations remain independent.

@@ -157,6 +157,7 @@ try:
     def source_identity():
         return inventory(owner.parent) # Packaged directory identities, references, templates and executable source.
     before=inventory(read_root);source_before=source_identity()
+    review_owner=None;review_owner_before=None
     with tempfile.TemporaryDirectory(prefix='disposition-pair-') as tmp:
         pair=Path(tmp)/'pair';pair.mkdir()
         reader=[sys.executable,'-B',str(owner/'read-canonical-pair.py'),'--run-root',str(root),'--output',str(pair),'--native-guards']
@@ -184,7 +185,11 @@ try:
             for path in root.glob('*'):
                 if path.suffix.lower()=='.md' and ('steer' in path.name.lower() or 'advisory' in path.name.lower()):contained(path)
         direct_records=[safe_read(p)[0].decode('utf-8') for p in record_root.glob('*.md')]
-        if any(re.search(r'(?m)^(successor-review:|lane-status: status: REVIEWER_RUNTIME_NON_VERDICT)',text) for text in direct_records):refuse('unsupported repository-only review dependency')
+        if any(re.search(r'(?m)^(successor-review:|lane-status: status: REVIEWER_RUNTIME_NON_VERDICT)',text) for text in direct_records):
+            if args.disposition!='NONTERMINAL_YIELD':refuse('unsupported repository-only review dependency')
+            review_owner=owner.parents[2]/'scripts/check-cold-review-contract.sh'
+            try:review_owner_before=safe_read(review_owner)[1] if os.path.lexists(review_owner) else None
+            except (OSError,ValueError) as exc:refuse('unsupported repository review owner: '+str(exc))
         for phase in (root/'phases').glob('phase-*.md'):
             # Check the supported dependency profile, leaving DONE applicability
             # and missing required captures with their existing semantic owner.
@@ -313,6 +318,10 @@ try:
             else:refuse('handoff basis must be owner-request or andon')
             run(['bash',str(owner/'check-handoff-packet.sh'),str(packet),'--repo-root',repo])
         if selected.returncode==0:run(reader+['--verify-current'])
+        if review_owner is not None:
+            try:review_owner_after=safe_read(review_owner)[1] if os.path.lexists(review_owner) else None
+            except (OSError,ValueError) as exc:refuse('unsupported repository review owner: '+str(exc))
+            if review_owner_before!=review_owner_after:refuse('unsupported repository review owner changed during disposition validation')
         if before!=inventory(read_root):refuse('read-set changed during disposition validation')
         if source_before!=source_identity():refuse('packaged owner source changed during validation')
         if args.disposition!='NONTERMINAL_YIELD' and repo_before!=git_identity():refuse('repository identity changed during disposition validation')
@@ -1101,7 +1110,7 @@ yield_read_identity() {
   "${reader_py[@]}" - "$state" "$roadmap" "$run_root" "$@" <<'PYIDENTITY'
 import hashlib,json,os,re,stat,sys
 from contextlib import nullcontext
-from pathlib import Path
+from pathlib import Path,PurePosixPath
 state,roadmap,root=map(Path,sys.argv[1:4])
 operation=sys.argv[4:]
 records={}
@@ -1188,12 +1197,66 @@ def members(directory,pattern,recursive=False):
         selected=sorted(p for p in directory.glob(pattern) if p.is_file() or p.is_symlink())
     records['members:'+str(directory)+':'+pattern]=[str(p) for p in selected]
     return selected
+def successor_review(path,snapshot=None,*,capture=False):
+    # This read map is qualified only for the exact repository checker below.
+    # Its semantic parser remains the sole owner of row/schema acceptance.
+    references=set();expected={}
+    if snapshot is not None and capture:snapshot.mkdir(parents=True,exist_ok=True)
+    direct=members(path,'*.md')
+    for source in direct:
+        text=read(source,snapshot=snapshot/source.name if snapshot is not None and capture else None)
+        expected[source.name]=records[str(source.absolute())][1]
+        fenced=False
+        for line in text.splitlines():
+            if line.startswith('```'):fenced=not fenced;continue
+            if fenced:continue
+            if line.startswith('successor-review:'):
+                file_fields={'predecessor_packet_scope_file','packet_scope_file'}
+                finding_fields={'provisional_findings_carried'}
+            elif line.startswith('lane-status:'):
+                file_fields=set();finding_fields={'provisional_findings'}
+            else:continue
+            for part in line.split('|')[1:]:
+                key,separator,value=part.partition(':');key=key.strip();value=value.strip()
+                if not separator:continue
+                if key in file_fields:references.add(value)
+                elif key in finding_fields and value!='none':
+                    references.update(ref.strip().split('#',1)[0] for ref in value.split(','))
+    for raw in sorted(references):
+        pure=PurePosixPath(raw)
+        if pure.is_absolute() or '..' in pure.parts or '.' in pure.parts or ':' in raw or '\\' in raw:
+            raise ValueError('unsafe yield read-set successor reference')
+        relative=Path(*pure.parts)
+        source=path/relative
+        read(source,textual=False,snapshot=snapshot/relative if snapshot is not None and capture else None)
+        expected[relative.as_posix()]=records[str(source.absolute())][1]
+    if snapshot is not None:
+        # Expected members and bytes come from the original safe reads, never
+        # from parsing the private copy. A copied row cannot hide a dependency.
+        if [p.name for p in members(snapshot,'*.md')]!=[p.name for p in direct]:
+            raise ValueError('successor snapshot direct membership differs from source capture')
+        info=snapshot.lstat()
+        records['successor-snapshot:'+str(snapshot.absolute())]=[info.st_dev,info.st_ino]
+        for relative,digest in sorted(expected.items()):
+            copied=snapshot/relative
+            read(copied,textual=False)
+            if records[str(copied.absolute())][1]!=digest:
+                raise ValueError('successor snapshot bytes differ from source capture')
 try:
     if operation:
         kind,raw,*destination=operation;path=Path(raw)
         if len(destination)>1:raise ValueError('invalid yield snapshot destination')
         snapshot=Path(destination[0]) if destination else None
-        if kind=='--capture':read(path,textual=False,snapshot=snapshot)
+        if kind=='--successor-owner':
+            try:read(path,snapshot=snapshot)
+            except (OSError,ValueError) as exc:
+                raise Unsupported('repository successor review owner unavailable: '+str(exc))
+            if records[str(path.absolute())][1]!='9f762b1e602154bd37d561b3564ad58720934467f26a760a8cffec29727e55d1':
+                raise Unsupported('repository successor review owner bytes are not qualified')
+        elif kind in {'--successor-review','--successor-review-current'}:
+            if snapshot is None:raise ValueError('successor snapshot destination is required')
+            successor_review(path,snapshot,capture=kind=='--successor-review')
+        elif kind=='--capture':read(path,textual=False,snapshot=snapshot)
         elif kind=='--background-status':
             if os.path.lexists(path):read(path,textual=False,snapshot=snapshot)
             else:records[str(path.absolute())]=None
@@ -1228,9 +1291,7 @@ try:
         for path in members(root/'phases','phase-*.md',recursive=True):read(path)
         record_root=state.parent/'native-records' if state.name=='native-STATE.md' else root
         for path in members(record_root,'*.md'):
-            record=read(path)
-            if re.search(r'(?m)^(successor-review:|lane-status: status: REVIEWER_RUNTIME_NON_VERDICT)',record):
-                raise Unsupported('repository-only successor review dependencies require their original owner')
+            read(path)
         # Match the late Current phase parser, including backtick normalization.
         lines=text.splitlines()
         if lines.count('## Current phase')==1:
@@ -1255,13 +1316,16 @@ except (OSError,ValueError) as exc:
 PYIDENTITY
 }
 yield_initial_identity=""
-yield_dependency_modes=(); yield_dependency_paths=(); yield_dependency_identities=()
+yield_dependency_modes=(); yield_dependency_paths=(); yield_dependency_identities=(); yield_dependency_snapshots=()
 yield_track_dependency() {
   [ "$nonterminal_yield" = yes ] || return 0
-  local identity
+  local identity mode="$1" snapshot=""
   identity="$(yield_read_identity "$@")" || return $?
-  yield_dependency_modes+=("$1"); yield_dependency_paths+=("$2")
-  yield_dependency_identities+=("$identity")
+  if [ "$mode" = --successor-review ]; then
+    mode=--successor-review-current; snapshot="$3"
+  fi
+  yield_dependency_modes+=("$mode"); yield_dependency_paths+=("$2")
+  yield_dependency_identities+=("$identity"); yield_dependency_snapshots+=("$snapshot")
 }
 if [ "$nonterminal_yield" = yes ]; then
   yield_initial_identity="$(yield_read_identity)"
@@ -1700,9 +1764,29 @@ if grep -E -q '^(successor-review:|lane-status: status: REVIEWER_RUNTIME_NON_VER
   validator_repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." 2>/dev/null && pwd || true)"
   live_cold_checker="$validator_repo_root/scripts/check-cold-review-contract.sh" # source repo checker; absent from installed skill by design
   if [ -z "$validator_repo_root" ] || [ ! -f "$live_cold_checker" ] || [ -L "$live_cold_checker" ]; then
+    if [ "$nonterminal_yield" = yes ]; then
+      printf 'validate-run-root: OUT_OF_PROFILE: repository successor review owner unavailable; no yield disposition\n' >&2
+      exit 3
+    fi
     err "live successor/non-verdict rows require the repository cold-review checker"
-  elif ! bash "$live_cold_checker" --run-root "$canonical_record_root" >/dev/null; then
-    err "live successor/non-verdict contract failed"
+  else
+    cold_checker_args=(--run-root "$canonical_record_root")
+    if [ "$nonterminal_yield" = yes ]; then
+      if review_snapshot="$(mktemp -d "$validation_snapshots/review.XXXXXXXX")" &&
+         yield_track_dependency --successor-owner "$live_cold_checker" "$review_snapshot/check-cold-review-contract.sh" &&
+         yield_track_dependency --successor-owner "$review_snapshot/check-cold-review-contract.sh" &&
+         yield_track_dependency --successor-review "$canonical_record_root" "$review_snapshot/records"; then
+        live_cold_checker="$review_snapshot/check-cold-review-contract.sh"
+        cold_checker_args=(--repo-root "$validator_repo_root" --run-root "$review_snapshot/records")
+      else
+        capture_rc=$?; [ "$capture_rc" -ne 3 ] || exit 3
+        err "yield read-set successor review capture failed"
+        live_cold_checker=""
+      fi
+    fi
+    if [ -n "$live_cold_checker" ] && ! bash "$live_cold_checker" "${cold_checker_args[@]}" >/dev/null; then
+      err "live successor/non-verdict contract failed"
+    fi
   fi
 fi
 
@@ -1980,7 +2064,16 @@ if [ "$nonterminal_yield" = yes ] && [ "$err_count" -eq 0 ]; then
   yield_final_identity="$(yield_read_identity)" || err "yield read-set recheck failed"
   [ "$yield_initial_identity" = "$yield_final_identity" ] || err "yield read-set changed during validation"
   for i in "${!yield_dependency_paths[@]}"; do
-    dependency_identity="$(yield_read_identity "${yield_dependency_modes[$i]}" "${yield_dependency_paths[$i]}")" || err "yield read-set dependency recheck failed"
+    dependency_arguments=("${yield_dependency_modes[$i]}" "${yield_dependency_paths[$i]}")
+    if [ -n "${yield_dependency_snapshots[$i]}" ]; then
+      dependency_arguments+=("${yield_dependency_snapshots[$i]}")
+    fi
+    dependency_identity="$(yield_read_identity "${dependency_arguments[@]}")"
+    capture_rc=$?
+    if [ "$capture_rc" -ne 0 ]; then
+      [ "$capture_rc" -ne 3 ] || exit 3
+      err "yield read-set dependency recheck failed"
+    fi
     [ "${yield_dependency_identities[$i]}" = "$dependency_identity" ] || err "yield read-set consumed dependency changed during validation"
   done
 fi
