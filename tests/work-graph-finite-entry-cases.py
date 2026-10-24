@@ -40,6 +40,7 @@ PROFILES = {
     "skill-layout": "CONTROLLED_TASK_SKILL_LAYOUT_V1",
     "native-integration": "CONTROLLED_TASK_NATIVE_INTEGRATION_V1",
     "audit-retention": "CONTROLLED_TASK_AUDIT_RETENTION_V1",
+    "audit-object-contract": "CONTROLLED_TASK_AUDIT_OBJECT_CONTRACT_V1",
 }
 
 

@@ -1446,6 +1446,14 @@ class VerifierTaskSession:
                 data_permissions is not None and manifest.get("root_read_only") is not True) or (
                 data_permissions is None and any(mode == 0o600 for _, mode in files.values())):
             raise WG.WorkGraphError("unsupported read-only data image permissions")
+        source_permissions = manifest.get("source_permissions")
+        copy_permissions = source_permissions == "COPY_0666_UMASK_022_READ_ONLY_ROOT"
+        if source_permissions not in (None, "COPY_0666_UMASK_022_READ_ONLY_ROOT") or (
+                copy_permissions and (materialization != "SINGLE_LINK_FILES_READ_ONLY_ROOT" or
+                    data_permissions != "OWNER_0600_READ_ONLY_MOUNT" or manifest.get("copy_umask") != 0o022)) or (
+                not copy_permissions and ("copy_umask" in manifest or any(mode == 0o666 for _, mode in files.values()))) or (
+                any(mode == 0o666 and not name.startswith("/work/") for name, (_, mode) in files.items())):
+            raise WG.WorkGraphError("unsupported read-only source image permissions")
         directory.mkdir()
         self._write(directory / "image.json", manifest)
         fds = []
@@ -1454,7 +1462,9 @@ class VerifierTaskSession:
             for key, value in sorted(self.environment.items()):
                 args += ["--setenv", key, value]
             for name in sorted(set(manifest["directories"]) | {"/dev", "/tmp"}, key=lambda s: (s.count("/"), s)):
-                args += ["--perms", "0755", "--dir", name]
+                # --dir defaults to0755 and resets its one-operation modifier.
+                # The fixed copy policy can use that spelling for every directory.
+                args += (["--dir", name] if copy_permissions else ["--perms", "0755", "--dir", name])
             for name, (data, mode) in sorted(files.items()):
                 fd = self._sealed(data)
                 fds.append(fd)
@@ -1463,10 +1473,12 @@ class VerifierTaskSession:
                 # Both routes copy the same sealed bytes; the existing final
                 # root remount makes --file source members read-only as well.
                 kind = "--file" if materialization is not None and name.startswith("/work/") else "--ro-bind-data"
-                # A fixed finite image may select owner-only data mode0600,
-                # the default of --ro-bind-data. The mount remains read-only;
-                # --file has a different default and always keeps explicit mode.
-                if mode != 0o600 or kind != "--ro-bind-data":
+                # Only fixed acquired policies select these defaults. Both
+                # representations remain read-only before the checker starts;
+                # copied0666 data becomes0644 under the captured umask022.
+                default_mode = (kind == "--ro-bind-data" and mode == 0o600) or (
+                    kind == "--file" and mode == 0o666 and copy_permissions)
+                if not default_mode:
                     args += ["--perms", oct(mode)[2:]]
                 args += [kind, str(fd), name]
             seccomp_fd = self._sealed(self.SECCOMP)
@@ -1687,6 +1699,7 @@ _FINITE_MODES = {
     "skill-layout": "CONTROLLED_TASK_SKILL_LAYOUT_V1",
     "native-integration": "CONTROLLED_TASK_NATIVE_INTEGRATION_V1",
     "audit-retention": "CONTROLLED_TASK_AUDIT_RETENTION_V1",
+    "audit-object-contract": "CONTROLLED_TASK_AUDIT_OBJECT_CONTRACT_V1",
 }
 
 
@@ -1871,17 +1884,19 @@ def _preflight_git_index_v1(data, *, ordinary_only=False):
     return result
 
 
-def _preflight_git_context_v1(*, root=None, environment=None, finite_ls_files=False, finite_skill_layout=False):
+def _preflight_git_context_v1(*, root=None, environment=None, finite_ls_files=False,
+                              finite_skill_layout=False, finite_controller_population=False):
     """Admit the actual declared context; never silently discard Git config.
 
     The caller must already have excluded system/global config and system
     attributes in the intended run environment. Other selectors are refused.
     The finite local config subset and physical selections are digest-bound.
     """
-    if (type(finite_ls_files) is not bool or type(finite_skill_layout) is not bool or
-            (finite_ls_files and finite_skill_layout)):
-        raise WG.WorkGraphError("preflight Git observation profile must be explicit")
-    finite_source = finite_ls_files or finite_skill_layout
+    if (any(type(value) is not bool for value in
+            (finite_ls_files, finite_skill_layout, finite_controller_population)) or
+            sum((finite_ls_files, finite_skill_layout, finite_controller_population)) > 1):
+        raise WG.WorkGraphError("preflight Git observation profile must be explicit; requires one fixed finite profile")
+    finite_source = finite_ls_files or finite_skill_layout or finite_controller_population
     require_source_descriptor_api()
     if not finite_source:
         if root is not None or environment is not None:
@@ -2002,7 +2017,8 @@ def _preflight_git_context_v1(*, root=None, environment=None, finite_ls_files=Fa
     if finite_source:
         binding.update(read_profile="FINITE_ORIGINAL_LS_FILES_COMPLETE_STANDALONE_SOURCE", ownership=ownership,
                        owner_relation="ACTUAL_SOURCE_AND_GIT_UID_EQUALS_PRODUCER_NO_SAFE_DIRECTORY_OVERRIDE")
-        selector = {"finite_skill_layout": True} if finite_skill_layout else {"finite_ls_files": True}
+        selector = ({"finite_skill_layout": True} if finite_skill_layout else
+                    {"finite_controller_population": True} if finite_controller_population else {"finite_ls_files": True})
         result.update(finite_request=dict(root=str(root), environment=environment, **selector),
                       captured_control_bytes=control_bytes)
         if finite_skill_layout:
@@ -2013,6 +2029,11 @@ def _preflight_git_context_v1(*, root=None, environment=None, finite_ls_files=Fa
                 raise WG.WorkGraphError("finite skill-layout Git observation exceeds stream capacity")
             binding.update(read_profile="FINITE_ORIGINAL86_SKILL_LAYOUT_TRACKED_PATH",
                            observation_bounds=dict(stdout_bytes=stdout_bound, stderr_bytes=64 * 1024))
+    if finite_controller_population:
+        binding.update(read_profile="FINITE_ORIGINAL73_LEGACY_CONTROLLER_POPULATION", ownership=ownership,
+                       owner_relation="ACTUAL_SOURCE_AND_GIT_UID_EQUALS_PRODUCER_NO_SAFE_DIRECTORY_OVERRIDE")
+        result.update(finite_request=dict(root=str(root), environment=environment, finite_controller_population=True),
+                      captured_control_bytes=control_bytes)
     return result
 
 
@@ -2026,7 +2047,14 @@ def _preflight_git_capture_v1(context, args):
     skill_layout = request.get("finite_skill_layout") is True
     if skill_layout:
         allowed = {("ls-files", "--error-unmatch", "skills/SKILL.md")}
-    if (args not in allowed or (request and not skill_layout and args != ("ls-files", "-z")) or
+    elif request.get("finite_controller_population") is True:
+        allowed = {("rev-parse", "--show-toplevel"),
+            ("for-each-ref", "--format=%(refname)%09%(symref)%09%(objecttype)",
+             "refs/implementaudit/controllers/", "refs/implementaudit/current-generations/",
+             "refs/implementaudit/current-generation-migrations/")}
+    elif request:
+        allowed = {("ls-files", "-z")}
+    if (args not in allowed or
             _preflight_git_context_v1(**request) != context):
         raise WG.WorkGraphError("preflight Git observation context or fixed command changed")
     selected = context["binding"]["executable"]["resolved_path"]
@@ -2044,6 +2072,13 @@ def _preflight_git_capture_v1(context, args):
                         len(observed.stderr) > bounds["stderr_bytes"]):
                     raise WG.WorkGraphError("finite skill-layout Git observation has an unsupported result or stream")
                 value = dict(exit=observed.returncode, stdout=observed.stdout, stderr=observed.stderr)
+            elif request.get("finite_controller_population") is True:
+                observed = subprocess.run([selected, "--no-pager", *args], cwd=Path(request["root"]),
+                    env=context["environment"], stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                    executable="/proc/self/fd/" + str(fd), pass_fds=(fd,), timeout=15)
+                if observed.returncode != 0 or observed.stderr:
+                    raise WG.WorkGraphError("preflight Git controller-population read refused its actual exit or stderr")
+                value = observed.stdout
             else:
                 value = subprocess.check_output([selected, "--no-pager", *args], cwd=Path(request["root"]) if request else ROOT,
                     env=context["environment"], stdin=subprocess.DEVNULL, stderr=subprocess.PIPE,

@@ -41,6 +41,7 @@ NATIVE_INTEGRATION_PROFILE = "CONTROLLED_TASK_NATIVE_INTEGRATION_V1"
 _NATIVE_FORBIDDEN_BOUND_ANCHORS = (b"Foreign", b"foreign", b"Category", b"STATUS", b"non-native")
 _NATIVE_HYGIENE_BOUND_ANCHORS = ("hunter2", "akia", "ghp_", "sk-", "password", "apikey", "api_key", "api-key")
 RETENTION_PROFILE = "CONTROLLED_TASK_AUDIT_RETENTION_V1"
+AUDIT_OBJECT_CONTRACT_PROFILE = "CONTROLLED_TASK_AUDIT_OBJECT_CONTRACT_V1"
 # Output-allocation upper bound only. The pinned original checker still decides
 # acceptance. Ignore its negation exemptions and overcount every possible
 # strike/ladder line; a small bound never constitutes a successful scan.
@@ -251,7 +252,51 @@ SKILL_LAYOUT_REQUIRED = (
     ".claude-plugin/plugin.json", ".claude-plugin/marketplace.json", "scripts/build-release-asset.sh",
 )
 _SKILL_LAYOUT_GIT_ARGS = ("ls-files", "--error-unmatch", "skills/SKILL.md")
+AUDIT_OBJECT_CONTRACT_COPY_INPUTS = (
+    *("skills/implementaudit/references/" + name + ".md" for name in (
+        "audit-category-matrix", "audit-playbook", "plan-lifecycle", "routing", "child-agents",
+        "planning-depth", "phase-design", "goal-format", "transcript-contract")),
+    *("skills/implementaudit/templates/" + name for name in ("THINKING.md", "phase-goal.txt", "PROTOCOL.md")),
+)
+AUDIT_OBJECT_CONTRACT_PROCESS = "fixtures/audit-object-routing/process-history-run"
+AUDIT_OBJECT_CONTRACT_GIT_READS = (
+    ("rev-parse", "--show-toplevel"),
+    ("for-each-ref", "--format=%(refname)%09%(symref)%09%(objecttype)",
+        "refs/implementaudit/controllers/", "refs/implementaudit/current-generations/",
+        "refs/implementaudit/current-generation-migrations/"),
+)
 _CONTRACTS = {
+    AUDIT_OBJECT_CONTRACT_PROFILE: dict(label="audit-object-contract", index=73,
+        program="tests/audit-object-routing-contract.test.sh",
+        programs={
+            "tests/audit-object-routing-contract.test.sh": "7b816cf5a9fc1f346d9dfd098972fa71f65019511321f3b58f6229f91d1565a9",
+            "scripts/check-audit-object-routing-contract.sh": "def461d7fea840fcbed399b3c278fcae3307c5013ea14e47539e6744dde39a50",
+            "scripts/check-cold-review-contract.sh": "9f762b1e602154bd37d561b3564ad58720934467f26a760a8cffec29727e55d1",
+            "skills/implementaudit/scripts/validate-run-root.sh": "d8b046b5417dce13ed66a5ac5fffaf3d18fae40c97d42aef8b38470500d575a6",
+            "skills/implementaudit/scripts/check-closure-surface.sh": "ba994fed1fb6c5d4688627bd31a577e7ce6fec5f6214fa3cc1093c9b70337ed7",
+            "skills/implementaudit/scripts/read-canonical-pair.py": "4dafb199a0bfad23f461a74d5e39197d092ae2de5f7162f9a56ce6300aa38e6b",
+            "skills/implementaudit/scripts/canonical_custody.py": "bfa07f0088f2df7b8c1196ccd149ebf8c6874337b35ac9a9c91ac51367a7fb1f"},
+        data=(*AUDIT_OBJECT_CONTRACT_COPY_INPUTS, RUNNER,
+            AUDIT_OBJECT_CONTRACT_PROCESS + "/mission.json", AUDIT_OBJECT_CONTRACT_PROCESS + "/result.json"),
+        bounds=dict(file_bytes=1024 * 1024, total_bytes=8 * 1024**2, files=23),
+        complete_git=dict(file_bytes=16 * 1024**2, total_bytes=192 * 1024**2,
+            entries=4096, depth=40, path_bytes=2048),
+        # Actual private copies alone exceed 32 MiB under the inherited allocation
+        # granule. This fixed original73-only ceiling is not input-driven growth.
+        scratch_bytes=64 * 1024**2,
+        source_modes="COPY_0666_UMASK_022_READ_ONLY_ROOT",
+        projection="SEVEN_PINNED_PROGRAMS_COMPLETE_STANDALONE_SOURCE_GIT_LEGACY_BRANCH_DATA_REAL_EMPTY_CONTROLLER_OBSERVATION_PRIVATE_WRITES_ONLY",
+        pinned_data={RUNNER: "345f51885abbeeda2e4ecd0de503febe50f30f853630a44c0c1277f414c1f9ae",
+            AUDIT_OBJECT_CONTRACT_PROCESS + "/mission.json": "691ad2e347ff8f3b0ccd5abf740697ee8c1320509369e2b62b145161c5ff994a",
+            AUDIT_OBJECT_CONTRACT_PROCESS + "/result.json": "ec2da2058181bf72de89bb9bd64ad892918ad586333e1ded35c0f67ae0b41489"},
+        # These inputs select native/controller, publication, citation and other
+        # dynamic readers. Bind complete actual trees, including absent members;
+        # never replace those readers with inferred success or native answers.
+        pinned_trees={
+            "fixtures/audit-object-routing/retrospective": "a5fcfa97b04449320d5d95459d9470d12444b1a93fa2c214935f3003f3a62961",
+            "fixtures/run-root/micro-conformant": "8ebbef48b1a8d9f14f1a296cb4662915dacf2beeff282ffcaac6dbc19c4f7916",
+            "fixtures/run-root/micro-with-stage62-disposition": "7e94f8fff3c3e4b5033b2abb7bc7671400715e11f8db6c522c856c0416dca262",
+            "fixtures/run-root/no-sentinel-legacy": "61b9e3e21568d5c300dac14235157c4a4a80abdafd8a8d3db215f4ca59eaa540"}),
     NATIVE_INTEGRATION_PROFILE: dict(label="native-integration", index=74, program="tests/native-integration.test.sh",
         programs={
             "tests/native-integration.test.sh": "f9743dc224dafc38cc34e7b09acadb8bfff9ea900307db0a81f59ec8736201c8",
@@ -556,7 +601,7 @@ def contract_for(profile):
                                                      COMMIT_PROFILE, AGENTS_PROFILE, ESCALATION_PROFILE, TOPOLOGY_PROFILE,
                                                      CAPABILITY_PROFILE, ISSUES_PROFILE, TERMINAL_PROFILE,
                                                      BACKGROUND_PROFILE, LIFECYCLE_PROFILE, PLAN_QUALITY_PROFILE,
-                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE):
+                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE):
         raise ValueError("unsupported finite-leaf profile")
     return copy.deepcopy(_CONTRACTS[profile])
 
@@ -570,7 +615,7 @@ def image_subject(state, *, profile=PROFILE):
     """Retain the registry bytes whenever the original actually reads them."""
     contract_for(profile)
     return {name: value for name, value in state["files"].items()
-            if name != REGISTRY or profile in (REGISTRY_PROFILE, SKILL_LAYOUT_PROFILE, RETENTION_PROFILE)}
+            if name != REGISTRY or profile in (REGISTRY_PROFILE, SKILL_LAYOUT_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE)}
 
 
 def select_node(compiler, registry, environment, *, profile=PROFILE):
@@ -1151,6 +1196,163 @@ def snapshot_skill_layout_git(prefix, root, objects, state, contract, git_owner,
     return complete, detail, feature
 
 
+def audit_object_contract_inputs(prefix, root, state, objects, contract, git_owner, environment):
+    """Bind actual legacy selectors and the observed controller-ref population."""
+    for name, expected in contract["pinned_trees"].items():
+        subtree = dict(files={key: value for key, value in state["files"].items() if key.startswith(name + "/")},
+            directories={key: value for key, value in state["directories"].items()
+                         if key == name or key.startswith(name + "/")})
+        if digest(prefix.encode(subtree)) != expected:
+            raise ValueError("unsupported original73 legacy branch tree: " + name)
+    copied_roots = ("skills", "fixtures/audit-object-routing")
+    if any(name not in state["directories"] for name in (*copied_roots,
+            AUDIT_OBJECT_CONTRACT_PROCESS, AUDIT_OBJECT_CONTRACT_PROCESS + "/corpus")):
+        raise ValueError("required original73 complete read/copy tree is absent")
+    if AUDIT_OBJECT_CONTRACT_PROCESS + "/corpus/old-1.jsonl" not in state["files"]:
+        raise ValueError("required original73 private sed operand is absent")
+    if "fixtures/audit-object-routing/category-matrix.md" not in state["files"]:
+        raise ValueError("required original73 private category sed operand is absent")
+    for kind in ("files", "directories"):
+        for name, value in state[kind].items():
+            if any(name == tree or name.startswith(tree + "/") for tree in copied_roots):
+                mode = value["mode"] if kind == "files" else value
+                if mode not in ((0o644, 0o755) if kind == "files" else (0o755,)):
+                    raise ValueError("original73 copied input mode is unsupported")
+    # The shared complete-Git owner already refuses every nested .git route.
+    # All seven fixed source run roots therefore discover this same actual
+    # standalone repository. Private copies retain real non-repository calls.
+    context = git_owner["context"](root=root, environment=environment, finite_controller_population=True)
+    prior = state["complete_git_inputs"]["git"]
+    for key in ("executable", "executable_file_identity", "git_directory", "common_directory",
+                "index_format", "controls", "ownership", "declared_environment_sha256"):
+        if context["binding"][key] != prior[key]:
+            raise ValueError("original73 Git context differs from complete acquired source")
+    for path, raw in context["captured_control_bytes"].items():
+        try:
+            name = Path(path).relative_to(root).as_posix()
+        except ValueError:
+            raise ValueError("original73 Git control escapes complete source") from None
+        if name not in state["files"] or objects[state["files"][name]["sha256"]] != raw:
+            raise ValueError("original73 Git control differs from captured bytes")
+    observations = []
+    for args in AUDIT_OBJECT_CONTRACT_GIT_READS:
+        raw = git_owner["capture"](context, args)
+        key = digest(raw)
+        objects.setdefault(key, raw)
+        observations.append(dict(argv=["git", "--no-pager", *args], exit=0,
+            stdout_sha256=key, stdout_bytes=len(raw), stderr_sha256=digest(b""), stderr_bytes=0))
+        if args[0] == "rev-parse" and raw != os.fsencode(str(root)) + b"\n":
+            raise ValueError("original73 actual Git discovery differs from its complete source root")
+        if args[0] == "for-each-ref" and raw:
+            raise ValueError("original73 requires an actually observed empty controller-ref population")
+    current, stamps = prefix.snapshot_tree(root, {}, contract["complete_git"])
+    if current != dict(files=state["files"], directories=state["directories"]) or (
+            stamps != state["complete_git_inputs"]["currentness"]):
+        raise ValueError("original73 complete source changed during controller observation")
+    return dict(policy="ACTUAL_COMPLETE_STANDALONE_GIT_EMPTY_CONTROLLER_POPULATION_ONLY",
+        git=context["binding"], observations=observations,
+        legacy_trees=dict(contract["pinned_trees"]),
+        original_calls="SEVEN_REPOSITORY_DISCOVERIES_AND_POPULATIONS_FOUR_PRIVATE_NON_REPOSITORY_DISCOVERIES",
+        effect="READ_ONLY_OBSERVATIONS_NEVER_SUBSTITUTED_FOR_ORIGINAL_GIT_OUTPUT_OR_NATIVE_AUTHORITY")
+
+
+def audit_object_contract_output_bounds(state, objects):
+    """Allocate every retained private copy; original checkers own all verdicts."""
+    source = state["files"]
+    routing = "fixtures/audit-object-routing"
+    process = AUDIT_OBJECT_CONTRACT_PROCESS
+    private, directories = {}, {"."}
+
+    def directory(name):
+        directories.add(name)
+        directories.update(str(parent) for parent in Path(name).parents)
+
+    def put(name, size):
+        if name in private:
+            raise ValueError("original73 private allocation aliases a retained file")
+        private[name] = size
+        directory(str(Path(name).parent))
+
+    def tree(source_root, target):
+        for name, value in source.items():
+            if name.startswith(source_root + "/"):
+                put(target + name[len(source_root):], value["bytes"])
+        for name in state["directories"]:
+            if name == source_root or name.startswith(source_root + "/"):
+                directory(target + name[len(source_root):])
+
+    for label in ("fixture-only", "runtime-only", "no-execute-preflight", "no-category-strength"):
+        for name in AUDIT_OBJECT_CONTRACT_COPY_INPUTS:
+            put(label + "/" + name, source[name]["bytes"])
+        if label == "runtime-only":
+            directory(label + "/" + routing)
+        else:
+            tree(routing, label + "/" + routing)
+    mutations = ("population", "absent-surface", "replay-count", "citation", "truncated-read",
+                 "carrier-drift", "single-session", "compendium-order", "prewindow-signature")
+    for label in mutations:
+        tree(process, "process-" + label)
+    # The one growing sed replacement adds less than one byte per input byte.
+    # Every other pinned replacement/deletion preserves or shortens its input.
+    private["process-prewindow-signature/corpus/old-1.jsonl"] *= 2
+    micro = "fixtures/run-root/micro-conformant/root"
+    for label, extra in (("micro-extra", "plans/retrospective.md"),
+                         *(("micro-nested-" + name, "extra/" + name)
+                           for name in (".claimed", "STATE.md", "deferrals.jsonl"))):
+        for name in (".claimed", "STATE.md"):
+            put(label + "/root/" + name, source[micro + "/" + name]["bytes"])
+        put(label + "/root/" + extra, 48)  # Both fixed printf bodies fit.
+    report, binary = 4096, 0
+    scan = [name for name in source if name.startswith(("skills/", routing + "/"))]
+    for name in scan:
+        raw = objects[source[name]["sha256"]]
+        binary += len(name.encode("utf-8")) + 256
+        for number, line in enumerate(raw.split(b"\n"), 1):
+            # Both fixed grep expressions require this exact ASCII anchor.
+            # Count every such LF line, including malformed UTF-8 and exempt
+            # prose. Original private edits never introduce this anchor.
+            if b"/implementaudit " in line:
+                report += len(name.encode("utf-8")) + len(str(number)) + len(line) + 3
+    diagnostic = report + 2 * binary + 64 * 1024
+    sed_sizes = [source[name]["bytes"] for name in (
+        "skills/implementaudit/references/plan-lifecycle.md", routing + "/category-matrix.md")]
+    sed_sizes += [source[process + "/result.json"]["bytes"]] * 8
+    sed_sizes += [2 * source[process + "/corpus/old-1.jsonl"]["bytes"]]
+    spool_sizes = [source["scripts/check-audit-object-routing-contract.sh"]["bytes"]] * 10
+    spool_sizes += [source["skills/implementaudit/scripts/check-closure-surface.sh"]["bytes"]] * 3
+    spool_sizes += [source["scripts/check-cold-review-contract.sh"]["bytes"]]
+    # Seven source roots and four private roots each create a two-directory
+    # validation snapshot. Charge all eleven even though their traps are serial.
+    reader_directories = 22
+    names = {*source, *state["directories"]}
+    process_bytes = sum(value["bytes"] for name, value in source.items() if name.startswith(process + "/"))
+    git_population_bytes = sum(value["bytes"] for name, value in source.items()
+        if name.startswith(".git/refs/") or name in (".git/packed-refs", ".git/config", ".git/HEAD"))
+    copy_errors = sum(4 * len(name.encode("utf-8")) + 512 for name in (*private, *directories))
+    process_diagnostic = 4 * max((value["bytes"] for name, value in source.items()
+        if name.startswith(process + "/")), default=0) + 64 * 1024
+    stderr = 2 * binary + diagnostic + process_diagnostic + copy_errors + 64 * 1024
+    memory = (64 * 1024**2 + 96 * process_bytes + 32 * git_population_bytes
+        + 8 * max((source[name]["bytes"] for name in scan), default=0)
+        + 64 * sum(len(name.encode("utf-8")) for name in names) + 512 * len(names))
+    return dict(private_copy_sizes=list(private.values()), private_file_entries=len(private),
+        private_directories=len(directories), reader_snapshot_directories=reader_directories,
+        sed_temporary_sizes=sed_sizes, possible_heredoc_spool_sizes=spool_sizes,
+        report_file_bound=report, diagnostic_file_bound=diagnostic, binary_diagnostic_bytes=binary,
+        copy_error_bound=copy_errors, max_stderr_bytes=stderr,
+        original_data_memory_reservation=memory, original_checker_calls=36,
+        process_history_checker_calls=10, run_root_validator_calls=12,
+        basis="COMPLETE_COPIED_BYTES_NAMES_MODES_FIXED_LEGACY_SELECTORS_AND_NECESSARY_GREP_ANCHOR_NOT_ACCEPTANCE")
+
+
+def audit_object_contract_runtime_binding(source, runtime, objects):
+    result = retention_runtime_binding(source, runtime, objects)
+    del result["original_argv"]
+    result["original_argvs"] = [["git", *args] for args in AUDIT_OBJECT_CONTRACT_GIT_READS]
+    result["controller_population"] = source["complete_git_inputs"]["controller_population"]
+    return result
+
+
 def snapshot_source(prefix, root, objects, *, profile=PROFILE, registry_snapshot=None, git_owner=None, environment=None):
     """Acquire the literal closure and the profile's complete typed namespace.
 
@@ -1204,7 +1406,12 @@ def snapshot_source(prefix, root, objects, *, profile=PROFILE, registry_snapshot
         state["directories"].update(complete["directories"])
         state["complete_git_inputs"] = currentness
         stamps["complete_git_inputs"] = currentness
-        state["complete_git_inputs"]["resources"] = retention_output_bounds(state, objects)
+        if profile == AUDIT_OBJECT_CONTRACT_PROFILE:
+            state["complete_git_inputs"]["controller_population"] = audit_object_contract_inputs(
+                prefix, root, state, objects, contract, git_owner, environment)
+            state["complete_git_inputs"]["resources"] = audit_object_contract_output_bounds(state, objects)
+        else:
+            state["complete_git_inputs"]["resources"] = retention_output_bounds(state, objects)
     if "recursive" in contract:
         recursive, currentness = snapshot_recursive_inputs(prefix, root, objects, contract["recursive"])
         state["files"].update(recursive["files"])
@@ -1293,6 +1500,23 @@ def temporary_requirements(state, *, profile=PROFILE):
             copied_source_bytes=bound["copied_source_bytes"], diagnostic_files=7, diagnostic_file_bound=diagnostic,
             grep_report_files=2, grep_report_file_bound=report, sed_temporary_files=3,
             sed_temporary_bytes=list(sed_sizes), checker_spools=8, checker_spool_bytes=8 * checker)
+    elif profile == AUDIT_OBJECT_CONTRACT_PROFILE:
+        bound = state["complete_git_inputs"]["resources"]
+        sizes = (*bound["private_copy_sizes"], *bound["sed_temporary_sizes"],
+            *((bound["diagnostic_file_bound"],) * 5), bound["report_file_bound"],
+            *bound["possible_heredoc_spool_sizes"])
+        copies, files = bound["private_file_entries"], len(sizes)
+        directories = bound["private_directories"] + bound["reader_snapshot_directories"]
+        content, allocated = sum(sizes), sum(map(rounded, sizes))
+        extra = dict(largest_file_bytes=max(sizes), max_stdout_bytes=4096,
+            max_stderr_bytes=bound["max_stderr_bytes"],
+            original_data_memory_reservation=bound["original_data_memory_reservation"],
+            diagnostic_file_bound=bound["diagnostic_file_bound"], report_file_bound=bound["report_file_bound"],
+            private_file_entries=copies, private_directories=bound["private_directories"],
+            reader_snapshot_directories=bound["reader_snapshot_directories"],
+            sed_temporaries=len(bound["sed_temporary_sizes"]), possible_heredoc_spools=len(bound["possible_heredoc_spool_sizes"]),
+            original_checker_calls=36, diagnostic_files=5,
+            capacity_disposition="EXPLICIT_ORIGINAL73_64MIB_CONTRACT_NO_AUTOMATIC_EXPANSION")
     elif profile == RETENTION_PROFILE:
         bound = state["complete_git_inputs"]["resources"]
         diagnostic = bound["diagnostic_file_bound"]
@@ -1548,6 +1772,18 @@ def retention_image_reservation(files, limits):
                 address_reservation_bytes=limits["address_bytes"] // 4, image_member_limit=member_limit)
 
 
+def copy_readonly_image(files):
+    """Preserve complete copy bytes and resulting modes under fixed umask022."""
+    result = {}
+    for name, (raw, mode) in files.items():
+        source = name.startswith("/work/")
+        if mode not in ((0o444, 0o555, 0o644, 0o755) if source else (0o444, 0o555)):
+            raise ValueError("unsupported copy image mode")
+        projected = (0o666 if mode == 0o644 else mode) if source else (0o600 if mode == 0o444 else mode)
+        result[name] = (raw, projected)
+    return result
+
+
 def retention_readonly_image(files):
     """Keep every captured member; use the RO data mount's compact0600 mode."""
     if any(mode not in (0o444, 0o555) for _, mode in files.values()):
@@ -1705,7 +1941,7 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                          if profile == REGISTRY_PROFILE else None)
     git_owner = ({"context": base._acquire.__globals__["_preflight_git_context_v1"],
                   "capture": base._acquire.__globals__["_preflight_git_capture_v1"]}
-                 if profile in (RETENTION_PROFILE, SKILL_LAYOUT_PROFILE) else None)
+                 if profile in (RETENTION_PROFILE, SKILL_LAYOUT_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE) else None)
 
     class FiniteVerifierSession(parent):
         SCOPE = profile
@@ -1718,8 +1954,10 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
             # Original74 retains seven private trees; its fixed ceiling
             # enters the same existing acquisition/image/key owners.
             LIMITS["scratch_bytes"] = 128 * 1024**2
+        elif profile == AUDIT_OBJECT_CONTRACT_PROFILE:
+            LIMITS["scratch_bytes"] = contract["scratch_bytes"]
         ENVIRONMENT = (dict(parent.ENVIRONMENT, HOME="/nonexistent", GIT_ATTR_NOSYSTEM="1")
-                       if profile == RETENTION_PROFILE else parent.ENVIRONMENT)
+                       if profile in (RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE) else parent.ENVIRONMENT)
 
         def __init__(self, source_root, output, *, max_age=3600):
             # Preserve the namespace owner's raw-path refusal before inherited
@@ -1761,7 +1999,9 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
             temporary = temporary_requirements(source, profile=profile)
             require_resource_capacity(temporary, self.LIMITS)
             runtime = finite_runtime(prefix, objects, profile=profile)
-            if "complete_git_inputs" in source:
+            if profile == AUDIT_OBJECT_CONTRACT_PROFILE:
+                runtime["audit_object_contract_git_binding"] = audit_object_contract_runtime_binding(source, runtime, objects)
+            elif "complete_git_inputs" in source:
                 runtime["retention_git_binding"] = retention_runtime_binding(source, runtime, objects, profile=profile)
             engine_objects = {}
             for name, expected in self._engine.items():
@@ -1782,14 +2022,17 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
             files = dict(runtime_files)
             subject = image_subject(source, profile=profile)
             files.update({"/work/" + name: (objects[value["sha256"]],
-                value["mode"] if contract["source_modes"] == "PRESERVE_READ_ONLY_MOUNT" else 0o444)
+                value["mode"] if contract["source_modes"] in (
+                    "PRESERVE_READ_ONLY_MOUNT", "COPY_0666_UMASK_022_READ_ONLY_ROOT") else 0o444)
                 for name, value in subject.items()})
             if profile == SKILL_LAYOUT_PROFILE and files["/work/" + RUNNER][0] != objects[self._engine[RUNNER]]:
                 raise compiler.WorkGraphError("observed skill-layout runner differs from fixed engine runner")
-            if profile == RETENTION_PROFILE and source["files"][RUNNER]["sha256"] != self._engine[RUNNER]:
+            if profile in (RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE) and source["files"][RUNNER]["sha256"] != self._engine[RUNNER]:
                 raise compiler.WorkGraphError("original-readable runner differs from captured engine bytes")
             files["/work/" + RUNNER] = (objects[self._engine[RUNNER]], 0o555)
             files, image_permissions = finite_image_permissions(files, source, profile=profile)
+            if profile == AUDIT_OBJECT_CONTRACT_PROFILE:
+                files = copy_readonly_image(files)
             if "complete_git_inputs" in source:
                 temporary["image_reservation"] = retention_image_reservation(files, self.LIMITS)
             membership = None
@@ -1835,17 +2078,23 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                 manifest["directory_membership"] = source["complete_git_inputs"]["projection"]
                 manifest["source_projection"] = (contract["present_git"]["projection"]
                     if profile == SKILL_LAYOUT_PROFILE else contract["projection"])
-                manifest["git_startup"] = runtime["retention_git_binding"]
+                manifest["git_startup"] = runtime["audit_object_contract_git_binding" if
+                    profile == AUDIT_OBJECT_CONTRACT_PROFILE else "retention_git_binding"]
                 manifest["image_reservation"] = temporary["image_reservation"]
                 image_key = self._object(self._encode(manifest))
             if "data_permissions" in image_permissions:
                 manifest["data_permissions"] = image_permissions["data_permissions"]
                 image_key = self._object(self._encode(manifest))
-            if profile in (SAFEGUARD_PROFILE, INSTALLED_PROFILE):
+            if profile in (SAFEGUARD_PROFILE, INSTALLED_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE):
                 # The original physical helper validator requires st_nlink=1.
                 # Select this fixed policy in the acquired image, never from a
                 # public argument. Its hash binds execution and retained reuse.
                 manifest["source_materialization"] = "SINGLE_LINK_FILES_READ_ONLY_ROOT"
+                image_key = self._object(self._encode(manifest))
+            if profile == AUDIT_OBJECT_CONTRACT_PROFILE:
+                manifest["data_permissions"] = "OWNER_0600_READ_ONLY_MOUNT"
+                manifest["source_permissions"] = contract["source_modes"]
+                manifest["copy_umask"] = runtime["umask"]
                 image_key = self._object(self._encode(manifest))
             source_key = self._object(prefix.encode(source))
             graph_key = self._object(self._encode(graph))
