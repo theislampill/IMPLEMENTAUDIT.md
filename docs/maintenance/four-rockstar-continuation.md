@@ -284,3 +284,23 @@ all 68 properties. Continue the separately frozen R002E ordinary security-trigge
 and cheap-path tasks without importing their results into R002C or substituting
 fixture requirements for authentic approved-policy custody. Original R002D
 self-dogfood and R0030 C01–C09/P53 boundaries remain unchanged.
+
+## R002E ordinary local-effect continuation
+
+The three sealed first tasks on actual public `1e5dc873` are independently PASS
+at their frozen local scopes: actual account-ownership correction, current-component
+refusal with actual preview containment, and the narrow reversible help correction.
+The preview remains disabled and the matching component remains unavailable.
+Original failures and the cheap-case handoff's minor newline representation defect
+are preserved. Assessment output manifest:
+`92cfce6fcc28264dc79f2d9384c9941039bc6944be0a8c1c6f61c095c2b70130`.
+
+Reuse this bounded ordinary-task evidence without rerunning first cases or the
+unchanged canonical bank. It does not establish prompt-independent skill causation,
+authenticated context delivery or native receiving authority. The original
+60/117 census, policy/private-crosswalk custody, private held-outs, historical
+final-package obligation and actual applicable receiving controls remain separate.
+Do not substitute the fictional fixture requirements for the missing approved
+policy. Continue the independently executable R0030 partial-failure/source-currentness
+work while preserving P53, and preserve the prior R002C diagnostic gap and R002D
+version-bound/final-candidate evidence at their actual identities.
