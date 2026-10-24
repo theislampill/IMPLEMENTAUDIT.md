@@ -1857,6 +1857,7 @@ _FINITE_MODES = {
     "terminology-integration": "CONTROLLED_TASK_TERMINOLOGY_INTEGRATION_V1",
     "lean-discipline": "CONTROLLED_TASK_LEAN_DISCIPLINE_V1",
     "internal-skill-routing": "CONTROLLED_TASK_INTERNAL_SKILL_ROUTING_V1",
+    "bootstrap-load-budget": "CONTROLLED_TASK_BOOTSTRAP_LOAD_BUDGET_V1",
 }
 
 

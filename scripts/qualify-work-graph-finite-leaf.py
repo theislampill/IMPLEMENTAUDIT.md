@@ -51,6 +51,14 @@ RETENTION_PROFILE = "CONTROLLED_TASK_AUDIT_RETENTION_V1"
 INTERNAL_ROUTING_PROFILE = "CONTROLLED_TASK_INTERNAL_SKILL_ROUTING_V1"
 LEAN_DISCIPLINE_PROFILE = "CONTROLLED_TASK_LEAN_DISCIPLINE_V1"
 AUDIT_OBJECT_CONTRACT_PROFILE = "CONTROLLED_TASK_AUDIT_OBJECT_CONTRACT_V1"
+BOOTSTRAP_BUDGET_PROFILE = "CONTROLLED_TASK_BOOTSTRAP_LOAD_BUDGET_V1"
+# Inspected seq ELF: its only DT_NEEDED member is libc, with this existing
+# loader. The original uses the fixed integer command `seq 1 500` under C locale.
+_BOOTSTRAP_RUNTIME_PINS = {
+    "/usr/bin/seq": "92fa557e00e39d994a226dac51f4b579321bb39ae07eaf1b34ed871a53098b15",
+    "/lib/x86_64-linux-gnu/libc.so.6": "511f825ee075610ac9c0f7f91e2c13de2000d0f7b859f6461137e809a0a009d0",
+    "/lib64/ld-linux-x86-64.so.2": "6222a16be7f2d458d6870efe6e715fc0c8d45766fb79cf7dcc3125538d703e28",
+}
 TERMINOLOGY_PROFILE = "CONTROLLED_TASK_TERMINOLOGY_INTEGRATION_V1"
 # Output-allocation upper bound only. The pinned original checker still decides
 # acceptance. Ignore its negation exemptions and overcount every possible
@@ -309,7 +317,37 @@ INTERNAL_ROUTING_READS = (
 )
 INTERNAL_ROUTING_COPY_ROOTS = ("skills/implementaudit", *("skills/" + child for child in INTERNAL_ROUTING_CHILDREN))
 INTERNAL_ROUTING_PEER_ROOT = "plugins/implementaudit/skills/implementaudit"
+BOOTSTRAP_COPY_INPUTS = (
+    "scripts/check-skill-bootstrap-budget.sh", "scripts/package-contract.py",
+    "package/implementaudit-package.json", "fixtures/semantic-preservation/cases.json",
+    "fixtures/semantic-preservation/evaluate.py", "fixtures/semantic-preservation/test-cases.sh",
+)
 _CONTRACTS = {
+    BOOTSTRAP_BUDGET_PROFILE: dict(label="bootstrap-load-budget", index=88,
+        program="tests/skill-bootstrap-budget.test.sh",
+        programs={
+            "tests/skill-bootstrap-budget.test.sh": "604cafce4181e2cd2c99f9f6f9e5971f8f372f6ad842c112ef1356cb7cfcd7e0",
+            "scripts/check-skill-bootstrap-budget.sh": "966af6e57de7f056de40944ad64f6ce1f1c86d038cdbdf2b65d7f61d52d28c67",
+            "fixtures/semantic-preservation/evaluate.py": "e0dbc9006ff8be8cb312e3f0cd9eeba6507a73cba2a4011112f860b2381cb895"},
+        data=("scripts/package-contract.py", "package/implementaudit-package.json",
+            "fixtures/semantic-preservation/cases.json", "fixtures/semantic-preservation/test-cases.sh",
+            "fixtures/skill-bootstrap-budget/negative-full-read-installed-payload.md"),
+        bounds=dict(file_bytes=1024 * 1024, total_bytes=8 * 1024**2, files=9),
+        # The evaluator parses the builder as data, never as an imported module.
+        # Pin both path-bearing data owners; all semantic skill bytes stay data.
+        pinned_data={
+            "scripts/package-contract.py": "f3fa90f6c1e7b75527eddd988a6977f27db669bec337f65ff9c2b1ceae50621f",
+            "fixtures/semantic-preservation/cases.json": "8bb25e8a6bf78dba9568f4e8186727d4dfcc85665ce9dbfd53af63e7f980b623"},
+        source_modes="PRESERVE_READ_ONLY_MOUNT",
+        projection="THREE_PINNED_ORIGINAL_PROGRAMS_COMPLETE_SKILLS_TREE_FIXED_DYNAMIC_DATA_READERS_16_CHECKER_CALLS_PRIVATE_WRITES_ONLY",
+        recursive=dict(roots=("skills",), optional=False, bounds=_RECURSIVE_BOUNDS,
+            required_members=(
+                *("skills/" + name + "/SKILL.md" for name in
+                    ("implementaudit", "audit-state", "audit-assess", "audit-implement", "audit-andon")),
+                "skills/implementaudit/templates/final-report.md",
+                "skills/implementaudit/templates/read-only-plan.md",
+                *("skills/implementaudit/references/" + name + ".md" for name in
+                    ("sidecars", "repo-state-comparison", "phase-design", "lean-operating-discipline", "plan-lifecycle"))))),
     INTERNAL_ROUTING_PROFILE: dict(label="internal-skill-routing", index=78, program="tests/internal-skill-routing.test.sh",
         programs={
             "tests/internal-skill-routing.test.sh": "3b612782c02982d549f4e99726283e854a26ede25b2396a2fb090fcbe9057df5",
@@ -707,7 +745,7 @@ def contract_for(profile):
                                                      COMMIT_PROFILE, AGENTS_PROFILE, ESCALATION_PROFILE, TOPOLOGY_PROFILE,
                                                      CAPABILITY_PROFILE, ISSUES_PROFILE, TERMINAL_PROFILE,
                                                      BACKGROUND_PROFILE, LIFECYCLE_PROFILE, PLAN_QUALITY_PROFILE,
-                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE, LEAN_DISCIPLINE_PROFILE, INTERNAL_ROUTING_PROFILE):
+                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE, LEAN_DISCIPLINE_PROFILE, INTERNAL_ROUTING_PROFILE, BOOTSTRAP_BUDGET_PROFILE):
         raise ValueError("unsupported finite-leaf profile")
     return copy.deepcopy(_CONTRACTS[profile])
 
@@ -2245,6 +2283,40 @@ def temporary_requirements(state, *, profile=PROFILE):
         content, allocated = sum(sizes), sum(map(rounded, sizes))
         extra = dict(largest_file_bytes=max(sizes), max_stdout_bytes=4096,
             max_stderr_bytes=4 * data_bytes + granule)
+    elif profile == BOOTSTRAP_BUDGET_PROFILE:
+        governor = "skills/implementaudit/SKILL.md"
+        owner = "skills/implementaudit/references/plan-lifecycle.md"
+        # Exact pinned route replacements add at most two quote characters per
+        # original character plus fixed fence/comment bytes. Never judge whether
+        # the route or owner is semantically valid while calculating storage.
+        governor_max = max(21999, 3 * state["files"][governor]["bytes"] + 1024)
+        owner_max = state["files"][owner]["bytes"] + 34
+        copied = [governor_max if name == governor else owner_max if name == owner else row["bytes"]
+                  for name, row in state["files"].items() if name.startswith("skills/")]
+        copied_directories = sum(name == "skills" or name.startswith("skills/")
+                                 for name in state["directories"])
+        # The checker fails fast. Also reserve aggregate shutil copy errors,
+        # path repr/decoder expansion, fixed tracebacks and the wrapper's repr
+        # of a captured failed-check output. No acceptance expression is tested.
+        diagnostic = granule + 4 * max(row["bytes"] for row in state["files"].values())
+        diagnostic += 12 * sum(len(name.encode("ascii", "backslashreplace")) + 256
+                               for name in set(state["files"]) | set(state["directories"]))
+        oversized = state["files"][governor]["bytes"] + 500 * 35
+        checker = state["files"]["scripts/check-skill-bootstrap-budget.sh"]["bytes"]
+        wrapper = state["files"][contract["program"]]["bytes"]
+        # One complete tree and six literal copies persist. Charge both logs,
+        # the padded document and all16 checker + one wrapper heredoc spools
+        # concurrently, even where this Bash uses anonymous pipes instead.
+        sizes = (*copied, *(state["files"][name]["bytes"] for name in BOOTSTRAP_COPY_INPUTS),
+                 oversized, diagnostic, diagnostic, *((checker,) * 16), wrapper)
+        copies, files, directories = 1, len(sizes), copied_directories + 6
+        content, allocated = sum(sizes), sum(map(rounded, sizes))
+        extra = dict(largest_file_bytes=max(sizes), max_stdout_bytes=4096,
+            max_stderr_bytes=4 * diagnostic + granule, diagnostic_file_bound=diagnostic,
+            copied_source_files=len(copied), copied_source_directories=copied_directories,
+            private_copy_files=len(copied) + 6, governor_private_max_bytes=governor_max,
+            owner_private_max_bytes=owner_max, oversized_private_bytes=oversized,
+            original_checker_calls=16, private_bootstrap_controls=13, possible_heredoc_spools=17)
     elif profile == PLANNER_COPY_PROFILE:
         copied = [value["bytes"] for name, value in state["files"].items()
                   if name.startswith(("skills/", "fixtures/"))]
@@ -2439,6 +2511,36 @@ def retention_runtime_binding(source, runtime, objects, *, profile=RETENTION_PRO
                 custody="ACTUAL_CAPTURED_SYSTEM_GIT_BYTES_ORIGINAL_COMMAND_OUTPUT_NEVER_SUBSTITUTED")
 
 
+def _capture_bootstrap_runtime(prefix, runtime, objects):
+    """Capture the original fixed seq executable and its physical closure."""
+    dependencies = ("/lib/x86_64-linux-gnu/libc.so.6", "/lib64/ld-linux-x86-64.so.2")
+    for name in dependencies:
+        pin = _BOOTSTRAP_RUNTIME_PINS[name]
+        observed, entry = runtime["observations"].get(name), runtime["files"].get(name)
+        if observed is None or entry is None or entry["sha256"] != pin or digest(objects.get(pin, b"")) != pin:
+            raise ValueError("unsupported seq loader/libc closure")
+        original = Path(name)
+        resolved = original.resolve(strict=True)
+        if str(resolved) != observed["resolved"]:
+            raise ValueError("seq runtime closure alias changed")
+        current, captured = prefix.read_regular(resolved, prefix.RUNTIME_BOUNDS["file_bytes"], single_link=False)
+        if current["identity"] != observed["identity"] or digest(captured) != pin or original.resolve(strict=True) != resolved:
+            raise ValueError("seq runtime closure changed during acquisition")
+    path = Path("/usr/bin/seq")
+    metadata, raw = prefix.read_regular(path, prefix.RUNTIME_BOUNDS["file_bytes"])
+    key = digest(raw)
+    if key != _BOOTSTRAP_RUNTIME_PINS[str(path)] or metadata["mode"] != 0o755:
+        raise ValueError("unsupported captured seq executable")
+    again, current = prefix.read_regular(path, prefix.RUNTIME_BOUNDS["file_bytes"])
+    if metadata != again or raw != current:
+        raise ValueError("seq executable changed during acquisition")
+    objects.setdefault(key, raw)
+    runtime["files"][str(path)] = dict(mode=0o555, bytes=len(raw), sha256=key)
+    runtime["observations"][str(path)] = dict(resolved=str(path), mode=metadata["mode"],
+        bytes=len(raw), sha256=key, identity=metadata["identity"])
+    runtime["bootstrap_tool_closure"] = dict(_BOOTSTRAP_RUNTIME_PINS)
+
+
 def _capture_topology_runtime(prefix, runtime, objects):
     """Extend the existing captured runtime with one inspected fixed ELF."""
     dependencies = ("/lib/x86_64-linux-gnu/libc.so.6", "/lib64/ld-linux-x86-64.so.2")
@@ -2520,6 +2622,8 @@ def finite_runtime(prefix, objects, *, profile=PROFILE):
         _capture_topology_runtime(prefix, runtime, objects)
     if profile == PLANNER_COPY_PROFILE:
         _capture_planner_runtime(prefix, runtime, objects)
+    if profile == BOOTSTRAP_BUDGET_PROFILE:
+        _capture_bootstrap_runtime(prefix, runtime, objects)
     # The existing isolated-leaf bootstrap necessarily execs this wrapper before
     # the original shell. Fix its descendants' umask without changing the
     # observer process or introducing another executor.
