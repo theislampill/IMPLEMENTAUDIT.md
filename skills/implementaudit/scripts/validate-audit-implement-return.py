@@ -80,7 +80,21 @@ def invalid_constant(value):
     raise Invalid("nonstandard JSON constant: " + value)
 
 
-def read_json(path):
+def file_signature(value):
+    return tuple(getattr(value, field) for field in
+                 ("st_dev", "st_ino", "st_size", "st_mtime_ns", "st_ctime_ns"))
+
+
+def recheck_inputs(read_set):
+    # A bounded race check at this decision, not an atomic acceptance fence.
+    for path, captured in read_set:
+        current = os.stat(path, follow_symlinks=False)
+        require(stat.S_ISREG(current.st_mode) and
+                file_signature(current) == file_signature(captured),
+                "JSON input changed before the validation decision")
+
+
+def read_json(path, read_set):
     selected = os.stat(path, follow_symlinks=False)
     require(stat.S_ISREG(selected.st_mode), "JSON input must be a regular file, not a symlink")
     flags = os.O_RDONLY | getattr(os, "O_NONBLOCK", 0) | getattr(os, "O_NOFOLLOW", 0)
@@ -93,9 +107,9 @@ def read_json(path):
         raw = stream.read(MAX_BYTES + 1)
         after = os.fstat(stream.fileno())
     require(len(raw) <= MAX_BYTES, "JSON input exceeds 131072 bytes")
-    fields = ("st_dev", "st_ino", "st_size", "st_mtime_ns", "st_ctime_ns")
-    require(all(getattr(before, field) == getattr(after, field) for field in fields),
+    require(file_signature(before) == file_signature(after),
             "JSON input changed while being read")
+    read_set.append((path, after))
     return json.loads(raw.decode("utf-8"), object_pairs_hook=unique_object, parse_constant=invalid_constant)
 
 
@@ -228,18 +242,21 @@ def main():
               "mode": "POST_RETURN" if args.result is not None else "PRE_LOAD"}
     code = 0
     try:
-        packet = read_json(args.envelope)
+        read_set = []
+        packet = read_json(args.envelope, read_set)
         envelope(packet)
         packet_digest = digest(packet)
         if args.result is None:
+            recheck_inputs(read_set)
             output.update(status="VALID" if packet["semantic_need"] == "REQUIRED" else "BYPASS",
                           envelope_sha256=packet_digest)
         else:
             require(packet["semantic_need"] == "REQUIRED", "mechanically settled or ordinary work must bypass child consumption")
-            current = read_json(args.current_envelope)
+            current = read_json(args.current_envelope, read_set)
             envelope(current)
             require(current == packet, "envelope drift: return to governor before reading semantic result")
-            refusal = result(read_json(args.result), packet, packet_digest)
+            refusal = result(read_json(args.result, read_set), packet, packet_digest)
+            recheck_inputs(read_set)
             output.update(status="REFUSED" if refusal else "VALID", envelope_sha256=packet_digest)
             if refusal:
                 output["legacy_disposition"] = refusal

@@ -396,6 +396,76 @@ class SubprocessTests(unittest.TestCase):
             self.assertIn("paired", process.stderr)
 
 
+class FileCustodyTests(unittest.TestCase):
+    """Inputs consumed for one decision must retain their captured file identity."""
+
+    def test_consumed_inputs_remain_bound_through_the_decision(self):
+        # The wrapper performs real file mutations at deterministic I/O boundaries.
+        # It delegates both reads/parsing and the full CLI to the unchanged owner;
+        # omitting the owner's final recheck makes these negatives return VALID.
+        runner = r"""
+import json, os, runpy, sys
+from pathlib import Path
+root, source, subject, action = Path(sys.argv[1]), Path(sys.argv[2]), sys.argv[3], sys.argv[4]
+real_open, real_loads = os.open, json.loads
+fired = False
+def mutate():
+    global fired
+    if fired or action == 'stable':
+        return
+    fired = True
+    path = root / (subject + '.json')
+    raw = path.read_bytes()
+    if action == 'replace':
+        replacement = root / 'replacement.json'
+        replacement.write_bytes(raw)
+        os.replace(replacement, path)
+    elif action == 'write':
+        path.write_bytes(raw + b'\n')
+    elif action == 'unlink':
+        path.unlink()
+def observed_open(path, *args, **kwargs):
+    if Path(path) == root / 'result.json' and subject != 'result':
+        mutate()
+    return real_open(path, *args, **kwargs)
+def observed_loads(raw, *args, **kwargs):
+    value = real_loads(raw, *args, **kwargs)
+    if isinstance(value, dict) and value.get('authority') == 'NONE' and subject == 'result':
+        mutate()
+    return value
+os.open, json.loads = observed_open, observed_loads
+sys.argv = [str(source), '--envelope', str(root / 'envelope.json'),
+            '--result', str(root / 'result.json'), '--current-envelope', str(root / 'current.json')]
+runpy.run_path(str(source), run_name='__main__')
+"""
+        cases = [("current", "stable", 0, "VALID")]
+        cases += [(subject, action, 2, "INVALID")
+                  for subject in ("envelope", "current", "result")
+                  for action in ("replace", "write", "unlink")]
+        global SUBPROCESS_CASES
+        with tempfile.TemporaryDirectory(prefix="evidential-custody-") as tmp:
+            root = Path(tmp)
+            driver = root / "interleave.py"
+            driver.write_text(runner, encoding="utf-8")
+            packet = envelope()
+            for subject, action, expected_code, expected_status in cases:
+                with self.subTest(subject=subject, action=action):
+                    for name, value in (("envelope", packet), ("current", packet),
+                                        ("result", result_for(packet))):
+                        (root / (name + ".json")).write_text(json.dumps(value), encoding="utf-8")
+                    process = subprocess.run(
+                        [os.sys.executable, str(driver), str(root), str(VALIDATOR), subject, action],
+                        capture_output=True, text=True, timeout=5)
+                    SUBPROCESS_CASES += 1
+                    self.assertEqual(process.returncode, expected_code, process.stdout + process.stderr)
+                    self.assertEqual(process.stderr, "")
+                    output = json.loads(process.stdout)
+                    self.assertEqual(output["status"], expected_status)
+                    self.assertEqual(output["authority"], "NONE")
+                    self.assertEqual(output["validation"], "VALUE_VALIDATION")
+                    self.assertIn("does not authenticate", output["proof_limit"])
+
+
 class ExactContractTests(unittest.TestCase):
     def test_exact_consumer_exists(self):
         self.assertTrue(

@@ -411,3 +411,40 @@ head/CI results belong to the containing increment's execution receipt.
 
 Rollback reverts the resolver and its registered regression bank together,
 retaining this original failure record and all pre-existing qualifications.
+
+## Portable supplied-input custody through the post-return decision
+
+A further source-level discriminator on published parent
+`7972729673882594cc934a33b308b04d1c5057a1` found that the v2 supplied-value
+consumer checked each descriptor only during its individual read. Replacing or
+rewriting the current-envelope file at the subsequent result-file open still
+returned `VALID`; the original two actual process witnesses are retained. A
+ten-case extension then preserved one unchanged positive and reproduced nine
+failures: replacement by an equal-byte file, rewrite and deletion of each of
+the original envelope, current envelope and result after its bytes were consumed.
+The fixture supplies deterministic interleavings around real file operations
+and executes the actual consumer; it does not authenticate native events.
+
+The existing regular-file reader now retains each captured descriptor identity
+and checks all supplied input paths immediately before a valid, refused or
+bypass decision. Nonregular/replaced paths or changed device/inode, size, mtime
+or ctime refuse. JSON is still parsed from the captured bytes, with the same
+canonical digest, exact v2 fields, authority `NONE`, branch gates and cheap-path
+semantics. No second router, native issuer or accepting lifecycle owner is added.
+
+On helper SHA-256
+`170699fc3571640f67223f2a80fd9ba42ecc79b498f1f14c0292c53e5b599301`,
+the complete affected supplied-value bank passed **24 methods and 154 counted
+CLI cases**, including all ten new custody cases, in 4.854 seconds. The original
+nine failures and two earlier witnesses remain retained separately. Independent
+review and the exact isolated publication candidate remain receiving gates at
+this addendum's creation; their later receipts must be read at their own identity.
+
+This advances portable consumed-input/post-return binding only. Metadata
+rechecks are bounded race detection, not an atomic fence around a later receiver,
+a hostile-writer security primitive, independent authentication of the supplied
+currentness assertions, physical child occurrence, full-payload delivery, actual
+result acceptance, pending consumption or JOIN. A change after the last check
+can still occur; the receiving governor must perform its own currentness and
+authority gate. The original seven criteria and 45 routing/instrumentation
+cases remain separately open, and R0035 retains graph/READY/JOIN ownership.
