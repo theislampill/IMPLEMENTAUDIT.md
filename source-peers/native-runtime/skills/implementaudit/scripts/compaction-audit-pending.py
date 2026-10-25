@@ -156,9 +156,17 @@ def blank(session):
 
 def load(store, session):
     path = state_path(store, session)
-    if not path.exists():
+    if not os.path.lexists(path):
+        # A missing leaf under an alias is unavailable custody, not empty state.
+        ancestor = path.parent
+        while not os.path.lexists(ancestor):
+            ancestor = ancestor.parent
+        CORE.safe_existing_directory(str(ancestor), 'compaction audit pending state ancestor')
         return blank(session)
-    require(path.stat().st_size <= MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
+    info = path.lstat()
+    if CORE.unsafe_file(info):
+        CORE.fail('compaction audit pending state is not a safe regular file')
+    require(info.st_size <= MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
     value = CORE.read_json(path, 'compaction audit pending state')
     require(set(blank(session)) <= set(value) <= set(blank(session)) | {'current_assignment', 'successor_stage', 'successor_assignment'} and value['schema'] == SCHEMA and (value['session_id'] == session) and (type(value['revision']) is int) and isinstance(value['observations'], dict) and isinstance(value['assignments'], dict), 'PENDING_STATE_SHAPE')
     return value

@@ -104,14 +104,15 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-audit-pending.py",
       "materialized_path": "skills/implementaudit/scripts/compaction-audit-pending.py",
-      "bytes": 62044,
-      "sha256": "0c673a96c86a131d73cb8dbf4ec0dce124943fd2f2c72c7b26af9a024249a986",
+      "bytes": 62470,
+      "sha256": "caca3f0a512b7c4e020fa8e6093e375e9ad849712e660612f82d680f90ebc0f9",
       "semantic_owner": "R003A/continuity",
       "mode": "100644",
       "source_preimage_sha256": "bbb6e9707a351531809708ce427056ce77560df4351de9ed64b48aff41a12329",
       "modified": true,
       "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
-      "source_delta_sha256": "efa76b9360b07f751481a5240c6ef6ddc4a0073755b35881041e1d9864885a97"
+      "source_delta_sha256": "efa76b9360b07f751481a5240c6ef6ddc4a0073755b35881041e1d9864885a97",
+      "additional_delta": "R0033 portable pending path custody: preserve genuine absence; refuse lexically present unsafe leaf or ancestor before interpreting an empty state. Applied to SHA256 0c673a96c86a131d73cb8dbf4ec0dce124943fd2f2c72c7b26af9a024249a986; original generic projection provenance retained."
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_file_custody.py",

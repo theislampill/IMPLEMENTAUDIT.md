@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""PORTABLE process-crash qualification of the unchanged pending semantic owner.
+"""PORTABLE process-crash and path-custody qualification of the pending owner.
 
 Uses real H0/pending CLIs and constructed attribution only. The worker seams
 import the actual owner: status denies observation/writes and crash exits
@@ -162,7 +162,9 @@ class Harness:
         return result
 
     def preserve(self, number, stage):
-        if not self.pending.exists():
+        # Unsafe-path controls must never follow a link or read a FIFO while
+        # preserving the actual process boundary.
+        if self.pending.is_symlink() or not self.pending.is_file():
             return None
         raw = self.pending.read_bytes()
         path = self.preimages / (f"{number:03d}-{stage}.pending.json")
@@ -404,6 +406,85 @@ def exercise(h, reservation_refusal):
               raw='{"currentness":"UNRESOLVED","currentness":"VERIFIED","measured_epoch":null}')
 
 
+def exercise_path_custody(h):
+    """Absent state stays cheap; a present unsafe path cannot mean absence.
+
+    Each mutation is confined to the constructed store. Existing pending bytes
+    are retained separately and restored before the next control. No selector,
+    observed native result, acceptance or JOIN is supplied.
+    """
+    original = h.pending.read_bytes()
+    before = h.snapshot()
+    regular = h.call("status")
+    h.held(regular)
+    require(before == h.snapshot(), "regular pending status wrote state")
+    h.mark("path-custody-regular-pending-reloads-read-only")
+
+    retained = h.pending.with_name("retained-path-custody.pending.json")
+    h.pending.rename(retained)
+    try:
+        before = h.snapshot()
+        absent = h.call("status")
+        require(absent["decision"] == "NO_PENDING_AUDIT"
+                and not absent["audit_state_required"]
+                and not absent["state_dependent_decisions_held"]
+                and before == h.snapshot(), "genuinely absent pending state changed")
+        h.mark("path-custody-genuine-absence-remains-read-only")
+    finally:
+        retained.rename(h.pending)
+
+    def refuses_without_write(name, action):
+        before = h.snapshot()
+        limits = {"currentness": "UNRESOLVED", "measured_epoch": None}
+        value = h.call(action, limits if action == "resume" else None, expected_exit=2)
+        require(value["status"] == "PENDING_OPERATION_REFUSED"
+                and "decision" not in value,
+                name + ": unsafe custody yielded a decision")
+        require(before == h.snapshot(), name + ": refusal altered pending custody")
+        h.mark(name)
+
+    h.pending.rename(retained)
+    try:
+        h.pending.symlink_to(h.pending.with_name("absent-path-custody-target"))
+        for action in ("status", "resume"):
+            refuses_without_write("path-custody-dangling-file-refuses-" + action, action)
+    finally:
+        h.pending.unlink(missing_ok=True)
+        retained.rename(h.pending)
+
+    parent = h.pending.parent
+    retained_parent = parent.with_name(parent.name + "-retained-path-custody")
+    parent.rename(retained_parent)
+    try:
+        parent.symlink_to(parent.with_name("absent-path-custody-directory"), target_is_directory=True)
+        for action in ("status", "resume"):
+            refuses_without_write("path-custody-dangling-ancestor-refuses-" + action, action)
+    finally:
+        parent.unlink(missing_ok=True)
+        retained_parent.rename(parent)
+
+    h.pending.rename(retained)
+    try:
+        # A real FIFO detects an accidental blocking read where supported;
+        # elsewhere an actual directory still exercises the nonregular fence.
+        kind = "fifo" if hasattr(os, "mkfifo") else "directory"
+        if kind == "fifo":
+            os.mkfifo(h.pending)
+        else:
+            h.pending.mkdir()
+        refuses_without_write("path-custody-" + kind + "-refuses-status", "status")
+    finally:
+        if h.pending.is_dir():
+            h.pending.rmdir()
+        else:
+            h.pending.unlink(missing_ok=True)
+        retained.rename(h.pending)
+
+    require(h.pending.read_bytes() == original and h.call("status") == regular,
+            "path custody controls changed the retained pending obligation")
+    h.mark("path-custody-original-pending-restored-exactly")
+
+
 def source_pins(repo):
     # These are the owners executed/imported by this bounded CLI qualification.
     names = ("compaction-audit-pending.py", "host-session-binding.py", "compaction-result-observation.py",
@@ -417,6 +498,11 @@ def reservation_refusal_profile(pins):
     # differs. Bind the same four source owners recorded by source_pins; do not
     # accept either reason interchangeably or infer it from the response.
     profiles = {
+        ("caca3f0a512b7c4e020fa8e6093e375e9ad849712e660612f82d680f90ebc0f9",
+         "5848edf46581f885521fb677377f4742b630ac8ff0ab0b906ec0e00520fcf896",
+         "1d7b7acaa9d1a481608ebf62ca5be8f30f25af0f5dc56d2bf4e795dce9c67c91",
+         "62558bb209129c66b55d2a97325d16db4aecfd2ecbeb71323dd44070a50f0890"):
+            ("068cb188acbac913088954a45dc1594846b2c81e", "NONPROTECTED_FIXED_SELECTION_UNBOUND"),
         ("0c673a96c86a131d73cb8dbf4ec0dce124943fd2f2c72c7b26af9a024249a986",
          "5848edf46581f885521fb677377f4742b630ac8ff0ab0b906ec0e00520fcf896",
          "1d7b7acaa9d1a481608ebf62ca5be8f30f25af0f5dc56d2bf4e795dce9c67c91",
@@ -470,6 +556,7 @@ def main():
                               for target in node.targets)]
         require(selections == [None], "portable test requires the original absent native selection")
         exercise(h, profile["expected_reason"])
+        exercise_path_custody(h)
         require(source_pins(repo) == pins, "actual source owners changed during qualification")
         report["result"] = "PASS"
     except Exception as error:

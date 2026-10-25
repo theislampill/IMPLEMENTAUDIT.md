@@ -607,3 +607,58 @@ post-edit review, exact package/projection checks, publication and hosted CI are
 root-owned receiving gates at this addendum's creation. Rollback restores the
 three-file increment together while retaining these original failures and all
 prior qualifications; it does not turn the predecessor oracle into valid proof.
+
+
+## Portable pending-state path custody correction
+
+On parent `e65bc9f7af86912f2a0d8243ba8261ae288c5a97`, the actual selected
+`compaction-audit-pending.py` treated a dangling pending-file link as absence.
+After an isolated real H0 binding/resume created an unconsumed obligation,
+`status` returned `NO_PENDING_AUDIT` with decisions no longer held; a subsequent
+`resume` replaced the dangling link with fresh state. A dangling pending-directory
+ancestor also produced the empty decision. These are portable source defects,
+not observations of authenticated child events or physical compaction.
+
+The correction is confined to `load()`: distinguish lexical presence, validate
+the nearest existing ancestor before treating a genuinely missing leaf as blank,
+and reject an unsafe nonregular leaf before its bounded read. The existing
+CORE safe-file/JSON readers remain the custody owners. Genuine absence retains
+the original cheap status path. No parser, issuer, selector, child population,
+R0035 graph/READY/JOIN semantics, R0037 owner or native authority is added.
+
+The runtime changes from 62,044 bytes / SHA-256
+`0c673a96c86a131d73cb8dbf4ec0dce124943fd2f2c72c7b26af9a024249a986`
+to 62,470 bytes /
+`caca3f0a512b7c4e020fa8e6093e375e9ad849712e660612f82d680f90ebc0f9`.
+All other runtime AST nodes are unchanged. The source-peer manifest retains
+its original projection provenance and records this additional derived delta.
+
+The two initial actual-CLI REDs used five and four processes. The new registered
+regression failed on the predecessor after seven processes. The final focused
+qualification passed ten controls across thirteen actual processes: genuine
+absence, regular pending read-only reload, dangling leaf and ancestor status/
+resume refusal without mutation, real FIFO nonblocking refusal, and exact
+restoration. Eight controls join the existing runner. The preceding focused
+GREEN on test `fe97010d...` is separately retained; final author evidence belongs
+to test `9464dd33...`. Neither is relabelled as a replay of the historical
+17-control/38-process bank. Final focused report SHA-256:
+`68b7534da40531caa869f9ae5fb6222598ef5b8cef79eac3f5281ec653af448c`.
+
+One receiving qualification used local source-only commit
+`068cb188acbac913088954a45dc1594846b2c81e`, tree
+`aba66de6c2fb7d3fd560032f8bf50585c1444439`: five actual processes establish the
+unchanged early `NONPROTECTED_FIXED_SELECTION_UNBOUND` refusal, no pending write,
+and continued held state. Its exact four-owner tuple is added to the existing
+reservation profile; all three historical tuples remain unchanged. This is
+pre-selection refusal evidence only. Exact final source/test/manifest/ledger,
+independent review, package scope and public CI are bound by the publication
+receipt and retained evidence, not inferred from this local candidate.
+
+This increment advances safe portable pending-state consumption. Actual native
+selection/OPEN/full LOAD/RETURN, physical occurrence authentication, result
+acceptance and covered-scope consumption remain unproved. A genuinely deleted
+state file remains indistinguishable from never-created state without an
+independent authoritative history; this bounded correction does not claim
+atomic protection against a hostile concurrent writer or power-loss durability.
+The original R0033 populations, failed evidence and separate acceptance decision
+remain unchanged and OPEN.
