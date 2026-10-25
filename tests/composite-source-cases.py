@@ -1,13 +1,17 @@
 """Combined portable interfaces only; no authentic admission or native effects."""
 import hashlib
+import ast
+import io
 import importlib.util
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import subprocess
 import sys
 import tempfile
+import tokenize
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -23,6 +27,22 @@ def load(name, path):
 
 
 class CompositeSourceCases(unittest.TestCase):
+    def test_shell_scanner_retains_logical_statement_boundaries(self):
+        checker = (ROOT / "scripts/check-helper-reachability.sh").read_text(encoding="utf-8")
+        python = checker.split("<<'PY'\n", 1)[1].rsplit("\nPY", 1)[0]
+        function = next(node for node in ast.parse(python).body
+                        if isinstance(node, ast.FunctionDef) and node.name == "captured_shell_companion")
+        namespace = dict(ast=ast, io=io, json=json, hashlib=hashlib, re=re, tokenize=tokenize,
+                         projection_payloads={"standalone_compatibility": {
+                             "scripts/claim-run-rotation.py": (CORE / "claim-run-rotation.py").read_bytes()}})
+        exec(compile(ast.Module(body=[function], type_ignores=[]), "source_scanner", "exec"), namespace)
+        source = (CORE / "claim-run.sh").read_text(encoding="utf-8")
+        check = namespace["captured_shell_companion"]
+        self.assertTrue(check("claim-run-rotation.py", source))
+        changed = source.replace('exec(compile(raw, str(path), "exec",', 'exec\n(compile(raw, str(path), "exec",')
+        self.assertNotEqual(changed, source)
+        self.assertFalse(check("claim-run-rotation.py", changed))
+
     def test_current_pending_fixture_profile_is_exact_and_still_refuses_native_reservation(self):
         fixture = load("composite_pending_fixture", ROOT / "tests/cognition-pending-durability.py")
         pins = fixture.source_pins(ROOT)
