@@ -1437,6 +1437,8 @@ class VerifierTaskSession:
 
     def _claim_overlay_configuration_v1(self, files, directories):
         """One fixed original96 image policy, derived only from acquired bytes."""
+        if self.SCOPE == "CONTROLLED_TASK_CUSTODY_APPEND_V1":
+            return self._custody_overlay_configuration_v1(files, directories)
         root, config_path = "/work/docs", "/profile/original96-overlay.json"
         source_directories = sorted(name for name in set(directories)
             if name == "/work" or name.startswith("/work/"))
@@ -1463,12 +1465,71 @@ class VerifierTaskSession:
             census="BEFORE_AND_AFTER_STATE_NOT_A_TEMPORAL_WRITE_TRACE")
         return config, raw, policy
 
+    def _custody_overlay_configuration_v1(self, files, directories):
+        """The same C3 owner, with a full-byte fixed private original105 root."""
+        root, config_path = "/work", "/profile/original105-overlay.json"
+        source_directories = sorted(name for name in set(directories)
+            if name == root or name.startswith(root + "/"))
+        source_files = {name: dict(mode=mode, bytes=len(data), sha256=sha(data))
+            for name, (data, mode) in sorted(files.items()) if name.startswith(root + "/")}
+        if root not in source_directories or any(entry["mode"] not in (0o444, 0o644, 0o755)
+                for entry in source_files.values()):
+            raise WG.WorkGraphError("original105 requires complete supported source modes")
+        readonly_subtrees = sorted(name for name in source_directories
+            if name.startswith(root + "/") and name.count("/") == 2)
+        baseline = dict(files={name[len(root)+1:]: entry for name, entry in source_files.items()},
+            directories={"." if name == root else name[len(root)+1:]: 0o755 for name in source_directories})
+        config = dict(schema="implementaudit.original105-overlay-config.v1", policy="ORIGINAL105_PRIVATE_WORK_V1",
+            root=root, tmp_root="/tmp", census_key="source", buffer_bytes=4 * 1024**2,
+            entry_limit=4096, path_bytes=2048, file_bytes=self.LIMITS["file_bytes"],
+            baseline=baseline, immutable_paths=sorted(set(source_files) | (set(source_directories) - {root}) | {"/"}))
+        raw = self._encode(config)
+        if len(raw) > 1024**2 or self.LIMITS["scratch_bytes"] != 32 * 1024**2:
+            raise WG.WorkGraphError("original105 fixed overlay/configuration capacity refused")
+        # Count the entire serialized baseline, two observations and worst-width
+        # per-member metadata, without claiming any original execution.
+        census = dict(files={name: dict(entry, nlink=2**63-1, read_only=False)
+                            for name, entry in baseline["files"].items()},
+            directories={name: dict(mode=mode, nlink=2**63-1, read_only=False)
+                         for name, mode in baseline["directories"].items()})
+        # store_record uses ensure_ascii=True. Charge that actual spelling,
+        # including escaped non-ASCII source names, rather than UTF-8 size.
+        census_encoding = lambda value: json.dumps(value, sort_keys=True,
+            separators=(",", ":"), ensure_ascii=True).encode("ascii")
+        census_bound = 2 * len(census_encoding(census)) + 2 * len(census_encoding(
+            {name: False for name in config["immutable_paths"]})) + 65536
+        if census_bound > config["buffer_bytes"] - 8:
+            raise WG.WorkGraphError("original105 complete census exceeds its fixed buffer")
+        policy = dict(policy="ORIGINAL105_PRIVATE_WORK_V1", root=root, overlay_bytes=2 * 1024**2,
+            tmp_bytes=30 * 1024**2, census_buffer_bytes=4 * 1024**2,
+            config_path=config_path, config_sha256=sha(raw), readonly_subtrees=readonly_subtrees,
+            census_record_bound=census_bound,
+            writable_namespace="NEW_NAMES_AND_NEW_DESCENDANTS_UNDER_PRIVATE_WORK_EXISTING_MEMBERS_READ_ONLY",
+            census="BEFORE_AND_AFTER_STATE_NOT_A_TEMPORAL_WRITE_TRACE")
+        return config, raw, policy
+
     def _claim_overlay_guard_v1(self, files, manifest, node):
         policy = manifest.get("private_source_overlay")
         if policy is None:
-            if self.SCOPE == "CONTROLLED_TASK_CLAIM_BOUNDARY_V1":
-                raise WG.WorkGraphError("original96 requires its fixed private source overlay")
+            if self.SCOPE in ("CONTROLLED_TASK_CLAIM_BOUNDARY_V1", "CONTROLLED_TASK_CUSTODY_APPEND_V1"):
+                label = "original105" if self.SCOPE == "CONTROLLED_TASK_CUSTODY_APPEND_V1" else "original96"
+                raise WG.WorkGraphError(label + " requires its fixed private source overlay")
             return None
+        if self.SCOPE == "CONTROLLED_TASK_CUSTODY_APPEND_V1":
+            if (manifest.get("root_read_only") is not True
+                    or manifest.get("source_materialization") != "SINGLE_LINK_FILES_READ_ONLY_ROOT"
+                    or manifest.get("source_permissions") != "PRESERVE_MODES_PRIVATE_ROOT_READ_ONLY_EXISTING_MEMBERS"
+                    or manifest.get("copy_umask") != 0o022
+                    or manifest.get("data_permissions") != "OWNER_0600_READ_ONLY_MOUNT"
+                    or any(mode not in ((0o444, 0o644, 0o755) if name.startswith("/work/") else (0o600, 0o555))
+                           for name, (_, mode) in files.items())
+                    or node.get("id") != "COMMAND:tests/custody-append.test.sh:0"
+                    or node.get("source") != "bash tests/custody-append.test.sh\n"):
+                raise WG.WorkGraphError("unsupported fixed original105 private source overlay")
+            config, raw, expected = self._claim_overlay_configuration_v1(files, manifest["directories"])
+            if policy != expected or files.get(expected["config_path"]) != (raw, 0o600):
+                raise WG.WorkGraphError("private source overlay differs from the acquired fixed configuration")
+            return config
         if (self.SCOPE != "CONTROLLED_TASK_CLAIM_BOUNDARY_V1" or manifest.get("root_read_only") is not True
                 or manifest.get("source_materialization") is not None
                 or manifest.get("data_permissions") != "OWNER_0600_READ_ONLY_MOUNT"
@@ -1495,18 +1556,24 @@ class VerifierTaskSession:
     @staticmethod
     def _claim_effects_decode_v1(raw, config):
         """Decode bounded actual observations; never infer a missing phase."""
-        result = dict(schema="implementaudit.original96-private-effects.v1", policy="ORIGINAL96_PRIVATE_DOCS_V1",
+        policy = config.get("policy")
+        custody = policy == "ORIGINAL105_PRIVATE_WORK_V1"
+        source_key = "source" if custody else "docs"
+        result = dict(schema=("implementaudit.original105-private-effects.v1" if custody
+                              else "implementaudit.original96-private-effects.v1"), policy=policy,
             authority="NONE", observation="UNOBSERVED", buffer_sha256=sha(raw),
             original_started="UNOBSERVED", original_exit="UNOBSERVED", clean_private_namespace=False,
             protected_members_unchanged=False, census="BEFORE_AND_AFTER_STATE_NOT_A_TEMPORAL_WRITE_TRACE")
         try:
+            if policy not in ("ORIGINAL96_PRIVATE_DOCS_V1", "ORIGINAL105_PRIVATE_WORK_V1"):
+                raise ValueError("unsupported census policy")
             if len(raw) != config["buffer_bytes"]:
                 raise ValueError("census buffer length changed")
             length = struct.unpack("!Q", raw[:8])[0]
             if not 0 < length <= len(raw) - 8:
                 raise ValueError("no complete bounded census record")
             record = WG.decode_strict_json_bytes(raw[8:8+length], "private source census")
-            if (type(record) is not dict or record.get("policy") != "ORIGINAL96_PRIVATE_DOCS_V1"
+            if (type(record) is not dict or record.get("policy") != policy
                     or type(record.get("original_started")) is not bool):
                 raise ValueError("unsupported census record")
             result.update(observation="PARTIAL", record=record, original_started=record["original_started"],
@@ -1526,8 +1593,8 @@ class VerifierTaskSession:
                 return phase["tmp"]["files"] == {} and set(phase["tmp"]["directories"]) == {"."}
 
             before = record["before"]
-            if (not baseline_matches(before["docs"]) or not empty_tmp(before) or not immutable_matches(before)
-                    or before["docs"]["directories"]["."]["read_only"] is not False
+            if (not baseline_matches(before[source_key]) or not empty_tmp(before) or not immutable_matches(before)
+                    or before[source_key]["directories"]["."]["read_only"] is not False
                     or before["tmp"]["directories"]["."]["read_only"] is not False):
                 raise ValueError("before census differs from the acquired protected namespace")
             if record.get("phase") != "AFTER" or not record["original_started"]:
@@ -1537,12 +1604,12 @@ class VerifierTaskSession:
                 raise ValueError("actual original exit is missing or malformed")
             after = record["after"]
             protected = immutable_matches(after) and all(
-                {key: after["docs"]["files"].get(name, {}).get(key) for key in ("mode", "bytes", "sha256")} == expected
+                {key: after[source_key]["files"].get(name, {}).get(key) for key in ("mode", "bytes", "sha256")} == expected
                 for name, expected in config["baseline"]["files"].items())
-            protected = protected and all(after["docs"]["directories"].get(name, {}).get("mode") == mode
+            protected = protected and all(after[source_key]["directories"].get(name, {}).get("mode") == mode
                 for name, mode in config["baseline"]["directories"].items())
-            clean = (baseline_matches(after["docs"]) and empty_tmp(after)
-                and after["docs"]["directories"]["."]["read_only"] is False
+            clean = (baseline_matches(after[source_key]) and empty_tmp(after)
+                and after[source_key]["directories"]["."]["read_only"] is False
                 and after["tmp"]["directories"]["."]["read_only"] is False
                 and after["tmp"]["directories"]["."]["mode"] == before["tmp"]["directories"]["."]["mode"])
             result.update(observation="COMPLETE", protected_members_unchanged=protected, clean_private_namespace=clean)
@@ -1662,10 +1729,16 @@ class VerifierTaskSession:
             raise WG.WorkGraphError("unsupported read-only data image permissions")
         source_permissions = manifest.get("source_permissions")
         copy_permissions = source_permissions == "COPY_0666_UMASK_022_READ_ONLY_ROOT"
-        if source_permissions not in (None, "COPY_0666_UMASK_022_READ_ONLY_ROOT") or (
+        private_work_permissions = source_permissions == "PRESERVE_MODES_PRIVATE_ROOT_READ_ONLY_EXISTING_MEMBERS"
+        if source_permissions not in (None, "COPY_0666_UMASK_022_READ_ONLY_ROOT",
+                "PRESERVE_MODES_PRIVATE_ROOT_READ_ONLY_EXISTING_MEMBERS") or (
                 copy_permissions and (materialization != "SINGLE_LINK_FILES_READ_ONLY_ROOT" or
                     data_permissions != "OWNER_0600_READ_ONLY_MOUNT" or manifest.get("copy_umask") != 0o022)) or (
-                not copy_permissions and ("copy_umask" in manifest or any(mode == 0o666 for _, mode in files.values()))) or (
+                private_work_permissions and (self.SCOPE != "CONTROLLED_TASK_CUSTODY_APPEND_V1" or
+                    materialization != "SINGLE_LINK_FILES_READ_ONLY_ROOT" or
+                    data_permissions != "OWNER_0600_READ_ONLY_MOUNT" or manifest.get("copy_umask") != 0o022)) or (
+                not copy_permissions and (any(mode == 0o666 for _, mode in files.values()) or
+                    (not private_work_permissions and "copy_umask" in manifest))) or (
                 any(mode == 0o666 and not name.startswith("/work/") for name, (_, mode) in files.items())):
             raise WG.WorkGraphError("unsupported read-only source image permissions")
         overlay_config = self._claim_overlay_guard_v1(files, manifest, node)
@@ -1687,7 +1760,7 @@ class VerifierTaskSession:
                 else:
                     # --dir defaults to0755 and resets its one-operation modifier.
                     # The fixed copy policy can use that spelling for every directory.
-                    args += (["--dir", name] if copy_permissions else ["--perms", "0755", "--dir", name])
+                    args += (["--dir", name] if copy_permissions or private_work_permissions else ["--perms", "0755", "--dir", name])
             for name, (data, mode) in sorted(files.items()):
                 fd = self._sealed(data)
                 fds.append(fd)
@@ -1696,11 +1769,17 @@ class VerifierTaskSession:
                 # Both routes copy the same sealed bytes; the existing final
                 # root remount makes --file source members read-only as well.
                 kind = "--file" if materialization is not None and name.startswith("/work/") else "--ro-bind-data"
+                if private_work_permissions and name.startswith("/work/") and name.count("/") == 2:
+                    # A file directly below the writable parent needs its own
+                    # read-only mount. Descendant files are protected by their
+                    # separately read-only immediate directory mount.
+                    kind = "--ro-bind-data"
                 # Only fixed acquired policies select these defaults. Both
                 # representations remain read-only before the checker starts;
                 # copied0666 data becomes0644 under the captured umask022.
                 default_mode = (kind == "--ro-bind-data" and mode == 0o600) or (
-                    kind == "--file" and mode == 0o666 and copy_permissions)
+                    kind == "--file" and mode == 0o666 and copy_permissions) or (
+                    kind == "--file" and mode == 0o644 and private_work_permissions)
                 if not default_mode:
                     args += ["--perms", oct(mode)[2:]]
                 args += [kind, str(fd), name]
@@ -1720,12 +1799,14 @@ class VerifierTaskSession:
             command = ["/usr/bin/bash", "--noprofile", "--norc", "/work/scripts/run-work-graph-verifier.sh",
                        "--isolated-leaf", node["id"], node["source"], node["source_sha256"]]
             if overlay is not None:
-                command += ["ORIGINAL96_PRIVATE_DOCS_V1", str(census_fd)]
+                command += [overlay["policy"], str(census_fd)]
             # --args is still counted by bubblewrap's9000-argument parser.
             # Include the outer --args/FD and checker argv, then keep margin.
             argument_count = len(args) + 2 + len(command)
             if argument_count > 8500:
                 raise WG.WorkGraphError("snapshot exceeds supported launcher argument budget")
+            if private_work_permissions and argument_count != manifest.get("image_reservation", {}).get("launcher_argument_count"):
+                raise WG.WorkGraphError("original105 launcher differs from its exact acquired argument reservation")
             args_fd = self._sealed(b"\0".join(a.encode() for a in args) + b"\0")
             fds.append(args_fd)
             if max(fds) >= self.LIMITS["descriptors"]:
@@ -1737,6 +1818,8 @@ class VerifierTaskSession:
                         descriptor_custody=("SEALED_INPUTS_ONLY_CLOSED_BEFORE_CHECKER" if overlay is None
                             else "SEALED_INPUTS_CLOSED_BOOTSTRAP_CENSUS_FD_NOT_INHERITED_BY_ORIGINAL")))
             def limits():
+                if private_work_permissions:
+                    os.umask(0o022)
                 resource.setrlimit(resource.RLIMIT_CPU, (self.LIMITS["cpu_seconds"],) * 2)
                 resource.setrlimit(resource.RLIMIT_AS, (self.LIMITS["address_bytes"],) * 2)
                 resource.setrlimit(resource.RLIMIT_FSIZE, (self.LIMITS["file_bytes"],) * 2)
@@ -1967,6 +2050,7 @@ _FINITE_MODES = {
     "package-shape-claims": "CONTROLLED_TASK_PACKAGE_SHAPE_CLAIMS_V1",
     "mini-audit-loop": "CONTROLLED_TASK_MINI_AUDIT_LOOP_V1",
     "action-selection-contract": "CONTROLLED_TASK_ACTION_SELECTION_CONTRACT_V1",
+    "custody-append": "CONTROLLED_TASK_CUSTODY_APPEND_V1",
 }
 
 
