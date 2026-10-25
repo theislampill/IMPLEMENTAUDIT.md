@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Original registry-wrapper/marker-order controls on one finite owner."""
+import importlib.util
 import hashlib
 import json
 import os
@@ -9,6 +10,10 @@ from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_historical_spec = importlib.util.spec_from_file_location("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+H = importlib.util.module_from_spec(_historical_spec)
+_historical_spec.loader.exec_module(H)
 HELPER = ROOT / "scripts/qualify-work-graph-finite-leaf.py"
 REGISTRY_PROFILE = "CONTROLLED_TASK_REGISTRY_WRAPPER_V1"
 MARKER_PROFILE = "CONTROLLED_TASK_MARKER_ORDER_V1"
@@ -35,7 +40,7 @@ class SelectionCases(unittest.TestCase):
         self.A, _ = shared.load("finite_batch_selection", HELPER)
 
     def select(self, profile, index, program):
-        registry = (ROOT / "scripts/verify-package.sh").read_bytes()
+        registry = H.original("scripts/verify-package.sh")
         graph, scope, node = self.A.select_node(Q.WG, registry, P.ENVIRONMENT, profile=profile)
         self.assertEqual(len(graph["nodes"]), 117)
         self.assertEqual(node, graph["nodes"][index])
@@ -76,7 +81,7 @@ class RegistryFixture(shared.ProfileFixture):
 
 class RegistryAdmissionCases(RegistryFixture, unittest.TestCase):
     def test_raw_parent_traversal_refuses_before_evidence_creation(self):
-        cls = self.A.bind_session(Q.VerifierTaskSession, Q.WG, ROOT, self.helper, profile=self.profile)
+        cls = self.A.bind_session(Q.VerifierTaskSession, Q.WG, Q.ROOT, self.helper, profile=self.profile)
         cases = ((self.source / ".." / "source", self.base / "refused-source", self.base / "refused-source"),
                  (self.source, self.base / "unused" / ".." / "refused-output", self.base / "refused-output"))
         for source, output, actual in cases:

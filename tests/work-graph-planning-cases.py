@@ -8,6 +8,10 @@ from pathlib import Path
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_historical_spec = importlib.util.spec_from_file_location("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+H = importlib.util.module_from_spec(_historical_spec)
+_historical_spec.loader.exec_module(H)
 spec = importlib.util.spec_from_file_location("planning_profile_support", ROOT / "tests/work-graph-audit-spec-cases.py")
 shared = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(shared)
@@ -47,7 +51,7 @@ class CatalogCases(unittest.TestCase):
         self.assertEqual(missing, [], "missing exact original-node profiles")
 
     def test_original_117_node_mapping_and_public_modes(self):
-        registry = (ROOT / "scripts/verify-package.sh").read_bytes()
+        registry = H.original("scripts/verify-package.sh")
         for profile, (index, program, mode, count) in MAPPING.items():
             with self.subTest(profile=profile):
                 graph, scope, node = self.A.select_node(Q.WG, registry, P.ENVIRONMENT, profile=profile)

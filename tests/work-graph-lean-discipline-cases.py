@@ -16,6 +16,10 @@ from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_historical_spec = importlib.util.spec_from_file_location("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+H = importlib.util.module_from_spec(_historical_spec)
+_historical_spec.loader.exec_module(H)
 PROFILE = "CONTROLLED_TASK_LEAN_DISCIPLINE_V1"
 PROGRAM = "tests/lean-discipline.test.sh"
 NODE = "COMMAND:" + PROGRAM + ":0"
@@ -40,7 +44,7 @@ class CatalogCases(unittest.TestCase):
         qualifier = load("scripts/qualify-work-graph-verifier.py")
         prefix = load("scripts/qualify-work-graph-prefix.py")
         graph, scope, node = helper.select_node(qualifier.WG,
-            (ROOT / helper.REGISTRY).read_bytes(), prefix.ENVIRONMENT, profile=PROFILE)
+            H.original("scripts/verify-package.sh"), prefix.ENVIRONMENT, profile=PROFILE)
         self.assertEqual((len(graph["nodes"]), node), (117, graph["nodes"][24]))
         self.assertEqual((node["id"], node["source"]), (NODE, "bash " + PROGRAM + "\n"))
         self.assertEqual((scope["nodes"], len(scope["omitted_nodes"])), ([NODE], 116))
@@ -49,7 +53,7 @@ class CatalogCases(unittest.TestCase):
         self.assertEqual(set(contract["programs"]), {PROGRAM, "scripts/check-lean-discipline.sh",
             "fixtures/semantic-preservation/test-cases.sh", "fixtures/semantic-preservation/evaluate.py"})
         for name, pin in contract["programs"].items():
-            self.assertEqual(hashlib.sha256((ROOT / name).read_bytes()).hexdigest(), pin)
+            self.assertEqual(hashlib.sha256(H.input_bytes(name)).hexdigest(), pin)
         wrapper = (ROOT / PROGRAM).read_text()
         self.assertEqual(wrapper.count("T=$(make_temp)"), 14)
         self.assertEqual(wrapper.count("scripts/check-lean-discipline.sh\" >/dev/null") +
@@ -64,14 +68,14 @@ class CatalogCases(unittest.TestCase):
 class SourceFixture:
     def setUp(self):
         self.A = load("scripts/qualify-work-graph-finite-leaf.py")
-        self.P = load("scripts/qualify-work-graph-prefix.py")
-        self.Q = load("scripts/qualify-work-graph-verifier.py")
+        self.P = H.P
+        self.Q = H.Q
         self.temporary = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary.cleanup)
         self.base = Path(self.temporary.name)
         self.source = self.base / "source"
         for name in self.A.source_paths(PROFILE):
-            self.write(name, (ROOT / name).read_bytes(), (ROOT / name).stat().st_mode & 0o777)
+            self.write(name, H.input_bytes(name), H.input_mode(name))
 
     def write(self, name, raw, mode=0o644):
         path = self.source / name
@@ -90,7 +94,7 @@ class SourceFixture:
 
     def session(self):
         raw = (ROOT / "scripts/qualify-work-graph-finite-leaf.py").read_bytes()
-        cls = self.A.bind_session(self.Q.VerifierTaskSession, self.Q.WG, ROOT, raw, profile=PROFILE)
+        cls = self.A.bind_session(self.Q.VerifierTaskSession, self.Q.WG, self.Q.ROOT, raw, profile=PROFILE)
         return cls(self.source, self.base / "evidence")
 
     def assert_refuses_before_runtime(self, session, expected):
@@ -313,7 +317,7 @@ class LiveCases(unittest.TestCase):
         self.source = self.base / "source"
         shutil.copytree(ROOT, self.source, symlinks=True)
         self.A = load("scripts/qualify-work-graph-finite-leaf.py")
-        self.P = load("scripts/qualify-work-graph-prefix.py")
+        self.P = H.P
 
     def invoke(self):
         before, before_stamps = self.A.snapshot_source(self.P, self.source, {}, profile=PROFILE)

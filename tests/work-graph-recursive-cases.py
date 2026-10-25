@@ -13,6 +13,10 @@ import unittest
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_historical_spec = importlib.util.spec_from_file_location("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+H = importlib.util.module_from_spec(_historical_spec)
+_historical_spec.loader.exec_module(H)
 HELPER = ROOT / "scripts/qualify-work-graph-finite-leaf.py"
 spec = importlib.util.spec_from_file_location("recursive_support", ROOT / "tests/work-graph-audit-spec-cases.py")
 shared = importlib.util.module_from_spec(spec)
@@ -29,7 +33,7 @@ MAPPING = {CAPABILITY:(69,"tests/capability-ledger.test.sh"),
 class CatalogCases(unittest.TestCase):
     def selected(self, profile):
         catalog, _ = shared.load("recursive_catalog", HELPER)
-        registry = (ROOT / "scripts/verify-package.sh").read_bytes()
+        registry = H.original("scripts/verify-package.sh")
         try:
             graph, scope, node = catalog.select_node(Q.WG, registry, P.ENVIRONMENT, profile=profile)
         except ValueError as exc:
@@ -61,6 +65,7 @@ class RecursiveFixture(shared.ProfileFixture):
             if (ROOT/name).exists():
                 path=self.source/name;path.parent.mkdir(parents=True,exist_ok=True)
                 shutil.copy2(ROOT/name,path)
+        self.restore_historical_inputs()
 
     def session(self,name="evidence",**options):
         return Q.create_finite_leaf_session(self.source,self.base/name,profile=self.profile,**options)

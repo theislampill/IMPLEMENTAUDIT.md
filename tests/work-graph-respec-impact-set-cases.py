@@ -13,6 +13,10 @@ import unittest
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_historical_spec = importlib.util.spec_from_file_location("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+H = importlib.util.module_from_spec(_historical_spec)
+_historical_spec.loader.exec_module(H)
 spec = importlib.util.spec_from_file_location("respec_support", ROOT / "tests/work-graph-audit-spec-cases.py")
 shared = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(shared)
@@ -39,7 +43,7 @@ class CatalogCases(unittest.TestCase):
             contract = A.contract_for(PROFILE)
         except ValueError as error:
             self.fail("missing exact original44 profile/source consumer: " + str(error))
-        registry = (ROOT / "scripts/verify-package.sh").read_bytes()
+        registry = H.original("scripts/verify-package.sh")
         graph, scope, node = A.select_node(Q.WG, registry, P.ENVIRONMENT, profile=PROFILE)
         self.assertEqual((len(graph["nodes"]), node), (117, graph["nodes"][44]))
         self.assertEqual(node["source"], "bash tests/respec-impact-set-contract.test.sh\n")
@@ -271,13 +275,7 @@ class EntryCases(RespecFixture, unittest.TestCase):
 
     def test_cached_helper_custody_change_refuses(self):
         # Cached code cannot outlive the exact source engine that issued it.
-        engine = self.base / "engine"
-        for name in ("scripts/qualify-work-graph-verifier.py", "scripts/qualify-work-graph-finite-leaf.py",
-                     "scripts/qualify-work-graph-prefix.py", "scripts/run-work-graph-verifier.sh",
-                     "skills/implementaudit/scripts/compile-work-graph.py"):
-            path = engine / name
-            path.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(ROOT / name, path)
+        engine = H.copy_engine(self.base / "engine")
         qualifier, _ = shared.load("respec_changed_engine", engine / "scripts/qualify-work-graph-verifier.py")
         session = qualifier.create_finite_leaf_session(self.source, self.base / "held", profile=PROFILE)
         helper = engine / "scripts/qualify-work-graph-finite-leaf.py"

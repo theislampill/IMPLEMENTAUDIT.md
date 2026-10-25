@@ -10,6 +10,10 @@ import unittest
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_historical_spec = importlib.util.spec_from_file_location("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+H = importlib.util.module_from_spec(_historical_spec)
+_historical_spec.loader.exec_module(H)
 spec = importlib.util.spec_from_file_location("planner_copy_support", ROOT / "tests/work-graph-audit-spec-cases.py")
 shared = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(shared)
@@ -25,7 +29,7 @@ class CatalogCases(unittest.TestCase):
             contract = A.contract_for(PROFILE)
         except ValueError as error:
             self.fail("missing original46 acquisition profile: " + str(error))
-        graph, scope, node = A.select_node(Q.WG, (ROOT / "scripts/verify-package.sh").read_bytes(), P.ENVIRONMENT, profile=PROFILE)
+        graph, scope, node = A.select_node(Q.WG, H.original("scripts/verify-package.sh"), P.ENVIRONMENT, profile=PROFILE)
         self.assertEqual((len(graph["nodes"]), node), (117, graph["nodes"][46]))
         self.assertEqual(node["source"], "bash " + PROGRAM + "\n")
         self.assertEqual(len(scope["omitted_nodes"]), 116)
@@ -38,11 +42,11 @@ class CatalogCases(unittest.TestCase):
 
     def test_fixed_profile_scratch_limits_preserve_defaults_and_planner_image_key(self):
         A, raw = shared.load("planner_copy_limits", ROOT / "scripts/qualify-work-graph-finite-leaf.py")
-        parent = P.bind_session(Q.VerifierTaskSession, Q.WG, ROOT,
+        parent = P.bind_session(Q.VerifierTaskSession, Q.WG, Q.ROOT,
             (ROOT / "scripts/qualify-work-graph-prefix.py").read_bytes())
         classes = {}
         for profile in Q._FINITE_MODES.values():
-            cls = A.bind_session(Q.VerifierTaskSession, Q.WG, ROOT, raw, profile=profile)
+            cls = A.bind_session(Q.VerifierTaskSession, Q.WG, Q.ROOT, raw, profile=profile)
             classes[profile] = cls
             expected = dict(parent.LIMITS)
             if profile == PROFILE:
@@ -79,6 +83,7 @@ class CopyFixture(shared.ProfileFixture):
         super().setUp()
         for name in ("skills", "fixtures"):
             shutil.copytree(ROOT / name, self.source / name, dirs_exist_ok=True)
+        self.restore_historical_inputs()
 
     def session(self, name="evidence", **options):
         return self.source_admission_session(Q.create_finite_leaf_session(

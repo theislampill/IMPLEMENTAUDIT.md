@@ -11,6 +11,10 @@ import unittest
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_historical_spec = importlib.util.spec_from_file_location("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+H = importlib.util.module_from_spec(_historical_spec)
+_historical_spec.loader.exec_module(H)
 HELPER = ROOT / "scripts/qualify-work-graph-finite-leaf.py"
 spec = importlib.util.spec_from_file_location("finite_next_support", ROOT / "tests/work-graph-audit-spec-cases.py")
 shared = importlib.util.module_from_spec(spec)
@@ -30,7 +34,7 @@ class CatalogCases(unittest.TestCase):
         self.A, _ = shared.load("finite_next_catalog", HELPER)
 
     def test_exact_original_indices_and_omitted_population(self):
-        registry = (ROOT / "scripts/verify-package.sh").read_bytes()
+        registry = H.original("scripts/verify-package.sh")
         for profile, (index, program, count) in MAPPING.items():
             with self.subTest(profile=profile):
                 graph, scope, node = self.A.select_node(Q.WG, registry, P.ENVIRONMENT, profile=profile)
@@ -45,7 +49,7 @@ class CatalogCases(unittest.TestCase):
         for profile in ("future", "CONTROLLED_TASK_COMMIT_MESSAGE_V2", None, {}):
             with self.subTest(profile=profile), self.assertRaises(ValueError):
                 self.A.contract_for(profile)
-        registry = (ROOT / "scripts/verify-package.sh").read_bytes()
+        registry = H.original("scripts/verify-package.sh")
         for profile in PROFILES:
             with self.subTest(profile=profile), self.assertRaisesRegex(ValueError, "registry"):
                 self.A.select_node(Q.WG, registry + b"\n", P.ENVIRONMENT, profile=profile)

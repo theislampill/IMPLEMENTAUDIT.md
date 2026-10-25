@@ -25,8 +25,8 @@ def load(name, path):
     return module, data
 
 
-Q, _ = load("audit_spec_qualifier", ROOT / "scripts/qualify-work-graph-verifier.py")
-P, _ = load("audit_spec_prefix", ROOT / "scripts/qualify-work-graph-prefix.py")
+H, _ = load("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+Q, P = H.Q, H.P
 
 
 class ProfileFixture:
@@ -44,8 +44,16 @@ class ProfileFixture:
         for name in self.A.source_paths(self.profile):
             path = self.source / name
             path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_bytes((ROOT / name).read_bytes())
-            path.chmod((ROOT / name).stat().st_mode & 0o777)
+            if self.SOURCE_ADMISSION_ONLY:
+                H.copy_input(name, path)
+            else:
+                path.write_bytes((ROOT / name).read_bytes())
+                path.chmod((ROOT / name).stat().st_mode & 0o777)
+
+    def restore_historical_inputs(self):
+        # Construction only, after recursive copies and before any mutation.
+        if self.SOURCE_ADMISSION_ONLY:
+            H.populate_pins(self.source, self.A.contract_for(self.profile))
 
     def snapshot(self):
         objects = {}
@@ -79,13 +87,13 @@ class ProfileFixture:
         return session
 
     def session(self, name="evidence", **options):
-        cls = self.A.bind_session(Q.VerifierTaskSession, Q.WG, ROOT, self.helper, profile=self.profile)
+        cls = self.A.bind_session(Q.VerifierTaskSession, Q.WG, Q.ROOT, self.helper, profile=self.profile)
         return self.source_admission_session(cls(self.source, self.base / name, **options))
 
 
 class AdmissionCases(ProfileFixture, unittest.TestCase):
     def test_profile_selects_exact_original_node_without_prefix(self):
-        registry = (ROOT / "scripts/verify-package.sh").read_bytes()
+        registry = H.original("scripts/verify-package.sh")
         graph, scope, node = self.A.select_node(Q.WG, registry, P.ENVIRONMENT)
         self.assertEqual(len(graph["nodes"]), 117)
         self.assertEqual(node, graph["nodes"][57])

@@ -14,6 +14,10 @@ import unittest
 from unittest.mock import patch, sentinel
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_historical_spec = importlib.util.spec_from_file_location("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+H = importlib.util.module_from_spec(_historical_spec)
+_historical_spec.loader.exec_module(H)
 OWNER = ROOT / "scripts/work-graph-readme-effect.py"
 LOADER = ROOT / "scripts/load-work-graph-readme-effect.py"
 SUBJECTS = ("scripts/generate-readme-diagrams.sh", "README.md",
@@ -39,16 +43,19 @@ def load(path):
 
 
 class EffectFixture:
+    HISTORICAL_FIXTURE = True
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory(prefix="r0035-readme-effect-")
         self.addCleanup(self.temporary.cleanup)
         self.base = Path(self.temporary.name)
         self.addCleanup(self.retain_completed_case)
         self.source = self.base / "source"
+        self.owner_path = (H.copy_readme_engine(self.base / "selected-engine") / "scripts/work-graph-readme-effect.py"
+                           if self.HISTORICAL_FIXTURE else OWNER)
         for name in (*SUBJECTS, "scripts/verify-package.sh"):
             path = self.source / name
             path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_bytes((ROOT / name).read_bytes())
+            path.write_bytes(H.input_bytes(name) if self.HISTORICAL_FIXTURE else (ROOT / name).read_bytes())
         readme = self.source / "README.md"
         original = readme.read_bytes()
         marker = b"<!-- BEGIN: implementaudit-diagram:tooling-architecture -->"
@@ -57,7 +64,7 @@ class EffectFixture:
         readme.write_bytes(self.stale)
 
     def owner_session(self):
-        self.owner = load(OWNER)
+        self.owner = load(self.owner_path)
         session = self.owner.EffectSession(self.source, self.base / "evidence")
         self.addCleanup(session.close)
         return session
@@ -95,13 +102,7 @@ class EffectFixture:
 
 class LoaderCases(EffectFixture, unittest.TestCase):
     def engine(self, name="engine"):
-        engine = self.base / name
-        loader, _ = load_module(LOADER)
-        for relative in (*loader.PINS, loader.LOADER):
-            path = engine / relative
-            path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_bytes((ROOT / relative).read_bytes())
-        return engine
+        return H.copy_readme_engine(self.base / name)
 
     def loader(self, engine):
         return load_module(engine / "scripts/load-work-graph-readme-effect.py")[0]
@@ -241,14 +242,14 @@ class LoaderCases(EffectFixture, unittest.TestCase):
         self.assertFalse(marker.exists())
 
     def test_exact_capture_and_independent_installation_have_separate_owners(self):
-        first = load(OWNER)
+        first = load(self.owner_path)
         engine = self.engine()
         second = load(engine / "scripts/work-graph-readme-effect.py")
         self.assertEqual(first.LOADED_HELPER, OWNER.read_bytes())
         self.assertEqual(second.LOADED_HELPER, first.LOADED_HELPER)
         self.assertEqual(first.Q.DRIVER_SOURCE_IDENTITY, "CAPTURED_EXECUTED_BUFFER")
         self.assertEqual(second.Q.DRIVER_SOURCE_IDENTITY, "CAPTURED_EXECUTED_BUFFER")
-        self.assertEqual(first.Q.LOADED_DRIVER, (ROOT / first.QUALIFIER).read_bytes())
+        self.assertEqual(first.Q.LOADED_DRIVER, H.original(first.QUALIFIER))
         self.assertEqual(second.Q.LOADED_DRIVER_PATH, engine / second.QUALIFIER)
         self.assertEqual(second.Q.LOADED_COMPILER_PATH, engine / second.COMPILER)
         self.assertIsNot(first.Q, second.Q)
@@ -287,7 +288,7 @@ class LoaderCases(EffectFixture, unittest.TestCase):
 
 class AdmissionCases(EffectFixture, unittest.TestCase):
     def test_literal_source_population_and_data_change_are_acquired(self):
-        owner = load(OWNER)
+        owner = load(self.owner_path)
         objects = {}
         first, stamps = owner.snapshot_source(self.source, objects)
         self.assertEqual(set(first["files"]), set((*SUBJECTS, "scripts/verify-package.sh")))
@@ -326,7 +327,7 @@ class AdmissionCases(EffectFixture, unittest.TestCase):
         self.assertEqual(list(session.output.rglob("result.json")), [])
 
     def test_missing_linked_oversized_and_expanding_data_refuse(self):
-        owner = load(OWNER)
+        owner = load(self.owner_path)
         path = self.source / "docs/diagrams/tooling-architecture.mmd"
         original = path.read_bytes()
         outside = self.base / "outside"
@@ -364,13 +365,8 @@ class AdmissionCases(EffectFixture, unittest.TestCase):
         self.assertEqual(session.dispatch_count, 0)
 
     def test_changed_loaded_bootstrap_refuses(self):
-        engine = self.base / "engine"
-        original = load(OWNER)
-        names = (*original.ENGINE_PINS, "scripts/load-work-graph-readme-effect.py")
-        for name in names:
-            path = engine / name
-            path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_bytes((ROOT / name).read_bytes())
+        engine = H.copy_readme_engine(self.base / "engine")
+        original = load(self.owner_path)
         owner = load(engine / original.HELPER)
         bootstrap = engine / original.BOOTSTRAP
         bootstrap.write_bytes(bootstrap.read_bytes() + b"\n")
@@ -381,6 +377,7 @@ class AdmissionCases(EffectFixture, unittest.TestCase):
 @unittest.skipUnless(os.environ.get("R0035_README_EFFECT_LIVE") == "1",
                      "set R0035_README_EFFECT_LIVE=1 for serial actual namespace controls")
 class PhysicalHandoffCases(EffectFixture, unittest.TestCase):
+    HISTORICAL_FIXTURE = False
 
     def test_stale_readme_requires_actual_owned_effect_transfer(self):
         # This direct precondition witness is not namespace qualification. The

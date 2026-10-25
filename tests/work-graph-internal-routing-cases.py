@@ -13,6 +13,10 @@ import unittest
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_historical_spec = importlib.util.spec_from_file_location("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+H = importlib.util.module_from_spec(_historical_spec)
+_historical_spec.loader.exec_module(H)
 PROFILE = "CONTROLLED_TASK_INTERNAL_SKILL_ROUTING_V1"
 NODE = "COMMAND:tests/internal-skill-routing.test.sh:0"
 
@@ -37,7 +41,7 @@ class CatalogCases(unittest.TestCase):
         contract = helper.contract_for(PROFILE)
         self.assertEqual((contract["label"], contract["index"], contract["program"]),
                          ("internal-skill-routing", 78, "tests/internal-skill-routing.test.sh"))
-        graph, scope, node = helper.select_node(Q.WG, (ROOT / helper.REGISTRY).read_bytes(), P.ENVIRONMENT, profile=PROFILE)
+        graph, scope, node = helper.select_node(Q.WG, H.original("scripts/verify-package.sh"), P.ENVIRONMENT, profile=PROFILE)
         self.assertEqual((len(graph["nodes"]), node), (117, graph["nodes"][78]))
         self.assertEqual((node["id"], node["source"]), (NODE, "bash tests/internal-skill-routing.test.sh\n"))
         self.assertEqual((scope["nodes"], len(scope["omitted_nodes"])), ([NODE], 116))
@@ -46,7 +50,7 @@ class CatalogCases(unittest.TestCase):
         self.assertEqual(len(contract["data"]), 7)
         self.assertEqual(contract["recursive"]["roots"], ("skills", "plugins/implementaudit/skills/implementaudit"))
         for name, pin in contract["programs"].items():
-            self.assertEqual(hashlib.sha256((ROOT / name).read_bytes()).hexdigest(), pin)
+            self.assertEqual(hashlib.sha256(H.input_bytes(name)).hexdigest(), pin)
         self.assertNotIn("complete_git", contract)
 
 
@@ -58,6 +62,7 @@ class Fixture(shared.ProfileFixture):
         shutil.copytree(ROOT / "skills", self.source / "skills", dirs_exist_ok=True)
         for directory in (self.source, *(p for p in self.source.rglob("*") if p.is_dir())):
             directory.chmod(0o755)
+        self.restore_historical_inputs()
 
     def write(self, name, raw, mode=0o644):
         path = self.source / name
@@ -183,7 +188,7 @@ class AdmissionCases(Fixture, unittest.TestCase):
         self.assertGreaterEqual(reservation["content_bytes"], bound["copied_source_bytes"] +
             4 * sum(state["files"][name]["bytes"] for name in bound["standalone_paths"]))
         session = self.session()
-        parent = P.bind_session(Q.VerifierTaskSession, Q.WG, ROOT, (ROOT / "scripts/qualify-work-graph-prefix.py").read_bytes())
+        parent = P.bind_session(Q.VerifierTaskSession, Q.WG, Q.ROOT, (ROOT / "scripts/qualify-work-graph-prefix.py").read_bytes())
         self.assertEqual(session.LIMITS, parent.LIMITS)
         self.assertEqual(session.LIMITS["scratch_bytes"], 32 * 1024**2)
         self.A.require_resource_capacity(reservation, session.LIMITS)

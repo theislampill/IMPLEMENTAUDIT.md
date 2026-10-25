@@ -11,6 +11,10 @@ import unittest
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_historical_spec = importlib.util.spec_from_file_location("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+H = importlib.util.module_from_spec(_historical_spec)
+_historical_spec.loader.exec_module(H)
 HELPER = ROOT / "scripts/qualify-work-graph-finite-leaf.py"
 spec = importlib.util.spec_from_file_location("literal_profile_support", ROOT / "tests/work-graph-audit-spec-cases.py")
 shared = importlib.util.module_from_spec(spec)
@@ -48,7 +52,7 @@ class CatalogCases(unittest.TestCase):
         except ValueError as error:
             self.fail("missing explicit original-node contract: " + profile + ": " + str(error))
         index, program, count = MAPPING[profile]
-        registry = (ROOT / "scripts/verify-package.sh").read_bytes()
+        registry = H.original("scripts/verify-package.sh")
         graph, scope, node = self.A.select_node(Q.WG, registry, P.ENVIRONMENT, profile=profile)
         self.assertEqual(len(graph["nodes"]), 117)
         self.assertEqual(node, graph["nodes"][index])
@@ -70,7 +74,7 @@ class CatalogCases(unittest.TestCase):
         for profile in ("future", "CONTROLLED_TASK_BACKGROUND_CHAIN_V2", None, {}):
             with self.subTest(profile=profile), self.assertRaises(ValueError):
                 self.A.contract_for(profile)
-        registry = (ROOT / "scripts/verify-package.sh").read_bytes()
+        registry = H.original("scripts/verify-package.sh")
         for profile in PROFILES:
             with self.subTest(profile=profile), self.assertRaisesRegex(ValueError, "registry"):
                 self.A.select_node(Q.WG, registry + b"\n", P.ENVIRONMENT, profile=profile)

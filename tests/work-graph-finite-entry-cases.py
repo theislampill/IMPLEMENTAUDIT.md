@@ -12,6 +12,10 @@ import unittest
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_historical_spec = importlib.util.spec_from_file_location("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+H = importlib.util.module_from_spec(_historical_spec)
+_historical_spec.loader.exec_module(H)
 DRIVER = "scripts/qualify-work-graph-verifier.py"
 HELPER = "scripts/qualify-work-graph-finite-leaf.py"
 PROFILES = {
@@ -66,7 +70,7 @@ class FactoryCases(unittest.TestCase):
         self.temporary = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary.cleanup)
         self.base = Path(self.temporary.name)
-        self.q = load()
+        self.q = load(H.copy_engine(self.base / "fixture-engine"))
 
     def test_all_explicit_profiles_have_separate_live_session_custody(self):
         self.assertEqual(self.q._FINITE_MODES, PROFILES)
@@ -101,12 +105,7 @@ class FactoryCases(unittest.TestCase):
             self.assertFalse(output.exists())
 
     def test_changed_cached_helper_and_same_bytes_foreign_engine_refuse_custody(self):
-        engine = self.base / "engine"
-        for name in (DRIVER, HELPER, "scripts/qualify-work-graph-prefix.py",
-                     "scripts/run-work-graph-verifier.sh", "skills/implementaudit/scripts/compile-work-graph.py"):
-            path = engine / name
-            path.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(ROOT / name, path)
+        engine = H.copy_engine(self.base / "engine")
         q = load(engine)
         session = q.create_finite_leaf_session(ROOT, self.base / "first")
         path = engine / HELPER

@@ -15,6 +15,10 @@ from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_historical_spec = importlib.util.spec_from_file_location("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+H = importlib.util.module_from_spec(_historical_spec)
+_historical_spec.loader.exec_module(H)
 PROFILE = "CONTROLLED_TASK_AUDIT_OBJECT_CONTRACT_V1"
 spec = importlib.util.spec_from_file_location("audit_object_contract_support", ROOT / "tests/work-graph-audit-spec-cases.py")
 shared = importlib.util.module_from_spec(spec)
@@ -213,7 +217,7 @@ class CatalogCases(unittest.TestCase):
     def test_original_mapping_full_import_closure_and_private_copy_modes(self):
         helper = load_helper()
         contract = helper.contract_for(PROFILE)
-        graph, scope, node = helper.select_node(Q.WG, (ROOT / helper.REGISTRY).read_bytes(), ENVIRONMENT, profile=PROFILE)
+        graph, scope, node = helper.select_node(Q.WG, H.original("scripts/verify-package.sh"), ENVIRONMENT, profile=PROFILE)
         self.assertEqual((len(graph["nodes"]), node), (117, graph["nodes"][73]))
         self.assertEqual(node["source"], "bash tests/audit-object-routing-contract.test.sh\n")
         self.assertEqual((scope["nodes"], len(scope["omitted_nodes"])),
@@ -225,7 +229,7 @@ class CatalogCases(unittest.TestCase):
             "skills/implementaudit/scripts/check-closure-surface.sh", "skills/implementaudit/scripts/read-canonical-pair.py",
             "skills/implementaudit/scripts/canonical_custody.py"})
         for name, pin in contract["programs"].items():
-            self.assertEqual(hashlib.sha256((ROOT / name).read_bytes()).hexdigest(), pin)
+            self.assertEqual(hashlib.sha256(H.input_bytes(name)).hexdigest(), pin)
         self.assertEqual(contract["source_modes"], "COPY_0666_UMASK_022_READ_ONLY_ROOT")
         self.assertEqual(len(helper.source_paths(PROFILE)), 23)
         self.assertEqual(set(contract["pinned_data"]), {helper.RUNNER, PROCESS + "/mission.json", PROCESS + "/result.json"})
@@ -253,6 +257,7 @@ class ContractFixture(shared.ProfileFixture):
             shutil.copytree(ROOT / name, self.source / name, dirs_exist_ok=True)
         self.git("init", "--quiet", "--template=", str(self.source))
         self.git("-C", str(self.source), "add", "--all")
+        self.restore_historical_inputs()
 
     def git(self, *args, data=None):
         options = dict(input=data) if data is not None else dict(stdin=subprocess.DEVNULL)

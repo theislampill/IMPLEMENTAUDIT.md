@@ -9,6 +9,10 @@ import unittest
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_historical_spec = importlib.util.spec_from_file_location("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+H = importlib.util.module_from_spec(_historical_spec)
+_historical_spec.loader.exec_module(H)
 PROFILE = "CONTROLLED_TASK_ACTION_SELECTION_CONTRACT_V1"
 MODE = "action-selection-contract"
 PROGRAM = "tests/action-selection-contract.test.sh"
@@ -92,8 +96,8 @@ class SourceCases(B.ProfileFixture, unittest.TestCase):
         for name in FIXTURES:
             path = self.source / name
             path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_bytes((ROOT / name).read_bytes())
-            path.chmod((ROOT / name).stat().st_mode & 0o777)
+            path.write_bytes(H.input_bytes(name))
+            path.chmod(H.input_mode(name))
         for guard in (
             mock.patch.object(B.P, "acquire_runtime", side_effect=AssertionError("runtime acquisition forbidden")),
             mock.patch.object(self.A, "finite_runtime", side_effect=AssertionError("runtime acquisition forbidden")),
@@ -130,7 +134,7 @@ class SourceCases(B.ProfileFixture, unittest.TestCase):
         modes = next(node.value for node in entry.body if isinstance(node, ast.Assign)
             and any(isinstance(t, ast.Name) and t.id == "PROFILES" for t in node.targets))
         self.assertEqual(ast.literal_eval(modes)[MODE], PROFILE)
-        graph, scope, node = self.A.select_node(B.Q.WG, (ROOT / self.A.REGISTRY).read_bytes(), B.P.ENVIRONMENT, profile=PROFILE)
+        graph, scope, node = self.A.select_node(B.Q.WG, H.original("scripts/verify-package.sh"), B.P.ENVIRONMENT, profile=PROFILE)
         self.assertEqual(len(graph["nodes"]), 117)
         self.assertEqual(node, graph["nodes"][90])
         self.assertEqual(node["source"], "bash " + PROGRAM + "\n")
@@ -151,7 +155,7 @@ class SourceCases(B.ProfileFixture, unittest.TestCase):
         pins = next(node.value for node in loader.body if isinstance(node, ast.Assign)
             and any(isinstance(t, ast.Name) and t.id == "PINS" for t in node.targets))
         self.assertEqual(ast.literal_eval(pins.args[0])["scripts/qualify-work-graph-verifier.py"],
-                         hashlib.sha256((ROOT / "scripts/qualify-work-graph-verifier.py").read_bytes()).hexdigest())
+                         hashlib.sha256(H.original("scripts/qualify-work-graph-verifier.py")).hexdigest())
         self.assertIn(b'"${py_cmd[@]}" tests/work-graph-action-selection-cases.py\n',
                       (ROOT / "tests/work-graph-verifier.test.sh").read_bytes())
 

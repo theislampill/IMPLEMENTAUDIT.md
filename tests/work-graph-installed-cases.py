@@ -9,6 +9,10 @@ import shutil
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_historical_spec = importlib.util.spec_from_file_location("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+H = importlib.util.module_from_spec(_historical_spec)
+_historical_spec.loader.exec_module(H)
 spec = importlib.util.spec_from_file_location("installed_support", ROOT / "tests/work-graph-audit-spec-cases.py")
 shared = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(shared)
@@ -116,7 +120,7 @@ class CatalogCases(unittest.TestCase):
             contract = A.contract_for(PROFILE)
         except ValueError as error:
             self.fail("missing exact original85 profile: " + str(error))
-        graph, scope, node = A.select_node(Q.WG, (ROOT / "scripts/verify-package.sh").read_bytes(), P.ENVIRONMENT, profile=PROFILE)
+        graph, scope, node = A.select_node(Q.WG, H.original("scripts/verify-package.sh"), P.ENVIRONMENT, profile=PROFILE)
         self.assertEqual((len(graph["nodes"]), node), (117, graph["nodes"][85]))
         self.assertEqual(node["source"], "bash " + PROGRAM + "\n")
         self.assertEqual(scope["nodes"], ["COMMAND:" + PROGRAM + ":0"])
@@ -134,6 +138,11 @@ class InstalledFixture(shared.ProfileFixture):
     def setUp(self):
         super().setUp()
         shutil.copytree(ROOT / "skills", self.source / "skills", dirs_exist_ok=True)
+        self.restore_historical_inputs()
+        if self.SOURCE_ADMISSION_ONLY:
+            # The original29-route fixture binds the original route-owner data.
+            name = "skills/implementaudit/references/repo-state-comparison.md"
+            H.copy_input(name, self.source / name)
 
     def session(self, name="evidence", **options):
         return self.source_admission_session(Q.create_finite_leaf_session(

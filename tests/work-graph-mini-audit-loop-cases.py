@@ -18,6 +18,10 @@ import unittest
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_historical_spec = importlib.util.spec_from_file_location("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+H = importlib.util.module_from_spec(_historical_spec)
+_historical_spec.loader.exec_module(H)
 PROFILE = "CONTROLLED_TASK_MINI_AUDIT_LOOP_V1"
 MODE = "mini-audit-loop"
 PROGRAM = "tests/e2e-mini-audit-loop.test.sh"
@@ -114,7 +118,7 @@ class CatalogCases(MiniFixture, unittest.TestCase):
         modes = next(node.value for node in entry.body if isinstance(node, ast.Assign)
                      and any(isinstance(target, ast.Name) and target.id == "PROFILES" for target in node.targets))
         self.assertEqual(ast.literal_eval(modes)[MODE], PROFILE)
-        registry = (ROOT / self.A.REGISTRY).read_bytes()
+        registry = H.original("scripts/verify-package.sh")
         graph, scope, node = self.A.select_node(B.Q.WG, registry, B.P.ENVIRONMENT, profile=PROFILE)
         self.assertEqual(len(graph["nodes"]), 117)
         self.assertEqual(node, graph["nodes"][87])

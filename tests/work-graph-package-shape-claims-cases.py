@@ -8,6 +8,10 @@ import unittest
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_historical_spec = importlib.util.spec_from_file_location("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+H = importlib.util.module_from_spec(_historical_spec)
+_historical_spec.loader.exec_module(H)
 spec = importlib.util.spec_from_file_location("package_shape_support", ROOT / "tests/work-graph-audit-spec-cases.py")
 shared = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(shared)
@@ -34,7 +38,7 @@ class CatalogCases(unittest.TestCase):
             contract = A.contract_for(PROFILE)
         except ValueError as error:
             self.fail("missing exact original75 profile/source consumer: " + str(error))
-        registry = (ROOT / "scripts/verify-package.sh").read_bytes()
+        registry = H.original("scripts/verify-package.sh")
         graph, scope, node = A.select_node(Q.WG, registry, P.ENVIRONMENT, profile=PROFILE)
         self.assertEqual((len(graph["nodes"]), node), (117, graph["nodes"][75]))
         self.assertEqual(node["source"], "bash tests/package-shape-claims.test.sh\n")

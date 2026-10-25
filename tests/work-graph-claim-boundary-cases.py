@@ -15,6 +15,10 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_historical_spec = importlib.util.spec_from_file_location("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+H = importlib.util.module_from_spec(_historical_spec)
+_historical_spec.loader.exec_module(H)
 PROFILE = "CONTROLLED_TASK_CLAIM_BOUNDARY_V1"
 POLICY = "ORIGINAL96_PRIVATE_DOCS_V1"
 PROGRAM = "tests/claim-boundary-proof-levels.test.sh"
@@ -55,7 +59,7 @@ class CatalogCases(unittest.TestCase):
         self.assertEqual(missing, [], "missing exact original96 profile")
         q = load("claim_catalog_owner", "scripts/qualify-work-graph-verifier.py")
         p = load("claim_catalog_prefix", "scripts/qualify-work-graph-prefix.py")
-        registry = (ROOT / helper.REGISTRY).read_bytes()
+        registry = H.original("scripts/verify-package.sh")
         graph, scope, node = helper.select_node(q.WG, registry, p.ENVIRONMENT, profile=PROFILE)
         self.assertEqual((len(graph["nodes"]), node), (117, graph["nodes"][96]))
         self.assertEqual((node["id"], node["source"]), ("COMMAND:" + PROGRAM + ":0", "bash " + PROGRAM + "\n"))
@@ -78,7 +82,7 @@ class SourceFixture(unittest.TestCase):
         for name in self.h.source_paths(PROFILE):
             target = self.source / name
             target.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(ROOT / name, target)
+            H.copy_input(name, target)
 
     def snapshot(self):
         objects = {}

@@ -13,6 +13,10 @@ import unittest
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_historical_spec = importlib.util.spec_from_file_location("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+H = importlib.util.module_from_spec(_historical_spec)
+_historical_spec.loader.exec_module(H)
 HELPER = ROOT / "scripts/qualify-work-graph-finite-leaf.py"
 spec = importlib.util.spec_from_file_location("topology_support", ROOT / "tests/work-graph-audit-spec-cases.py")
 shared = importlib.util.module_from_spec(spec)
@@ -27,7 +31,7 @@ NODE = "COMMAND:" + PROGRAM + ":0"
 class CatalogCases(unittest.TestCase):
     def test_original_node77_is_selected_from_unchanged_117_node_registry(self):
         catalog, _ = shared.load("topology_catalog", HELPER)
-        registry = (ROOT / "scripts/verify-package.sh").read_bytes()
+        registry = H.original("scripts/verify-package.sh")
         try:
             graph, scope, node = catalog.select_node(Q.WG, registry, P.ENVIRONMENT, profile=PROFILE)
         except ValueError as exc:

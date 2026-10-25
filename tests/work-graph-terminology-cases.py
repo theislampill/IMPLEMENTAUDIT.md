@@ -11,6 +11,10 @@ import unittest
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_historical_spec = importlib.util.spec_from_file_location("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+H = importlib.util.module_from_spec(_historical_spec)
+_historical_spec.loader.exec_module(H)
 spec = importlib.util.spec_from_file_location('terminology_profile_support', ROOT / 'tests/work-graph-audit-spec-cases.py')
 shared = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(shared)
@@ -24,7 +28,7 @@ class CatalogCases(unittest.TestCase):
         self.assertEqual(Q._FINITE_MODES['terminology-integration'], PROFILE)
         owner, _ = shared.load('terminology_catalog', ROOT / 'scripts/qualify-work-graph-finite-leaf.py')
         contract = owner.contract_for(PROFILE)
-        graph, scope, node = owner.select_node(Q.WG, (ROOT / owner.REGISTRY).read_bytes(), P.ENVIRONMENT, profile=PROFILE)
+        graph, scope, node = owner.select_node(Q.WG, H.original("scripts/verify-package.sh"), P.ENVIRONMENT, profile=PROFILE)
         self.assertEqual((len(graph['nodes']), node), (117, graph['nodes'][79]))
         self.assertEqual(node['source'], 'bash tests/terminology-integration.test.sh\n')
         self.assertEqual((scope['nodes'], len(scope['omitted_nodes'])), (['COMMAND:tests/terminology-integration.test.sh:0'], 116))
@@ -32,7 +36,7 @@ class CatalogCases(unittest.TestCase):
             'tests/terminology-integration.test.sh': 'b35439ef0d21f8c9802a506cddf30dfbbf1258411a7606f4e94f23b89eaf4bb1',
             'scripts/check-terminology-integration.sh': 'dc5269818c3719a7a4c1fcb9ec8bc8076d4edbf37d07a5d3ce60cb73e0e7bc93'})
         for name, pin in contract['programs'].items():
-            self.assertEqual(hashlib.sha256((ROOT / name).read_bytes()).hexdigest(), pin)
+            self.assertEqual(hashlib.sha256(H.input_bytes(name)).hexdigest(), pin)
         wrapper = (ROOT / 'tests/terminology-integration.test.sh').read_text()
         self.assertIn('cp -r . "$t/repo" 2>/dev/null || true', wrapper)
         self.assertEqual(wrapper.count('T=$(make_temp)'), 9)

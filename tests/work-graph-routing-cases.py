@@ -9,6 +9,10 @@ import re
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_historical_spec = importlib.util.spec_from_file_location("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+H = importlib.util.module_from_spec(_historical_spec)
+_historical_spec.loader.exec_module(H)
 spec = importlib.util.spec_from_file_location("routing_profile_support", ROOT / "tests/work-graph-audit-spec-cases.py")
 shared = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(shared)
@@ -28,7 +32,7 @@ class CatalogCases(unittest.TestCase):
         self.assertIsNotNone(contract, "missing exact original54 routing profile")
 
     def test_original_mapping_and_literal_read_copy_closure(self):
-        graph, scope, node = self.A.select_node(Q.WG, (ROOT / self.A.REGISTRY).read_bytes(), P.ENVIRONMENT, profile=PROFILE)
+        graph, scope, node = self.A.select_node(Q.WG, H.original("scripts/verify-package.sh"), P.ENVIRONMENT, profile=PROFILE)
         self.assertEqual((len(graph["nodes"]), node), (117, graph["nodes"][54]))
         self.assertEqual(node["source"], "bash tests/routing.test.sh\n")
         self.assertEqual((scope["nodes"], len(scope["omitted_nodes"])), (["COMMAND:tests/routing.test.sh:0"], 116))

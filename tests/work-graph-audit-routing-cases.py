@@ -8,6 +8,10 @@ from pathlib import Path
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_historical_spec = importlib.util.spec_from_file_location("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+H = importlib.util.module_from_spec(_historical_spec)
+_historical_spec.loader.exec_module(H)
 spec = importlib.util.spec_from_file_location("audit_routing_recursive", ROOT / "tests/work-graph-recursive-cases.py")
 R = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(R)
@@ -19,7 +23,7 @@ R.MAPPING[PROFILE] = (70, PROGRAM)
 class CatalogCases(unittest.TestCase):
     def test_original70_mapping_is_explicit_and_registry_bound(self):
         catalog, _ = R.shared.load("audit_routing_catalog", R.HELPER)
-        registry = (ROOT / "scripts/verify-package.sh").read_bytes()
+        registry = H.original("scripts/verify-package.sh")
         graph, scope, node = catalog.select_node(R.Q.WG, registry, R.P.ENVIRONMENT, profile=PROFILE)
         self.assertEqual(len(graph["nodes"]), 117)
         self.assertEqual(node, graph["nodes"][70])

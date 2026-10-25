@@ -14,6 +14,10 @@ import unittest
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_historical_spec = importlib.util.spec_from_file_location("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+H = importlib.util.module_from_spec(_historical_spec)
+_historical_spec.loader.exec_module(H)
 spec = importlib.util.spec_from_file_location("retention_profile_support", ROOT / "tests/work-graph-audit-spec-cases.py")
 shared = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(shared)
@@ -146,7 +150,7 @@ class CatalogCases(unittest.TestCase):
 
     def test_exact_original_and_all_file_filter_are_preserved(self):
         contract = self.A.contract_for(PROFILE)
-        graph, scope, node = self.A.select_node(Q.WG, (ROOT / self.A.REGISTRY).read_bytes(), ENVIRONMENT, profile=PROFILE)
+        graph, scope, node = self.A.select_node(Q.WG, H.original("scripts/verify-package.sh"), ENVIRONMENT, profile=PROFILE)
         self.assertEqual((len(graph["nodes"]), node), (117, graph["nodes"][58]))
         self.assertEqual(node["source"], "bash tests/audit-retention.test.sh\n")
         self.assertEqual((scope["nodes"], len(scope["omitted_nodes"])), (["COMMAND:tests/audit-retention.test.sh:0"], 116))
@@ -155,7 +159,7 @@ class CatalogCases(unittest.TestCase):
             "tests/audit-retention.test.sh": "9c06e2ddcc380d7a6eb5f73c620a32c90f99c6805a5195227e63f98a47028a2c",
             "scripts/check-audit-retention.sh": "386d7475f7111a5e5349672b01e9c68f5fa0f15cfcf100930d8dae187370937e"})
         for name, pin in contract["programs"].items():
-            self.assertEqual(hashlib.sha256((ROOT / name).read_bytes()).hexdigest(), pin)
+            self.assertEqual(hashlib.sha256(H.input_bytes(name)).hexdigest(), pin)
         wrapper, checker = ((ROOT / name).read_text() for name in contract["programs"])
         self.assertEqual(wrapper.count("bash scripts/check-audit-retention.sh"), 4)
         self.assertIn('["git", "ls-files", "-z"]', checker)

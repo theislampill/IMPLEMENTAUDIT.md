@@ -11,6 +11,10 @@ import unittest
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_historical_spec = importlib.util.spec_from_file_location("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+H = importlib.util.module_from_spec(_historical_spec)
+_historical_spec.loader.exec_module(H)
 spec = importlib.util.spec_from_file_location("layout_profile_support", ROOT / "tests/work-graph-audit-spec-cases.py")
 shared = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(shared)
@@ -29,7 +33,7 @@ class CatalogCases(unittest.TestCase):
 
     def test_exact_mapping_whole_programs_and_complete_scan_roots(self):
         helper, _ = shared.load("layout_catalog", ROOT / "scripts/qualify-work-graph-finite-leaf.py")
-        graph, scope, node = helper.select_node(Q.WG, (ROOT / helper.REGISTRY).read_bytes(), P.ENVIRONMENT, profile=PROFILE)
+        graph, scope, node = helper.select_node(Q.WG, H.original("scripts/verify-package.sh"), P.ENVIRONMENT, profile=PROFILE)
         self.assertEqual((len(graph["nodes"]), node), (117, graph["nodes"][86]))
         self.assertEqual(node["source"], "bash tests/skill-layout-contract.test.sh\n")
         self.assertEqual((scope["nodes"], len(scope["omitted_nodes"])), ([node["id"]], 116))
@@ -63,6 +67,7 @@ class LayoutFixture(shared.ProfileFixture):
         if (ROOT / "CONTRIBUTING.md").exists():
             shutil.copyfile(ROOT / "CONTRIBUTING.md", self.source / "CONTRIBUTING.md")
         self.assertFalse((self.source / ".git").exists())
+        self.restore_historical_inputs()
 
     def session(self, name="evidence", **options):
         return self.source_admission_session(Q.create_finite_leaf_session(

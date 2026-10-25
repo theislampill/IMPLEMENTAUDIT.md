@@ -45,7 +45,7 @@ def stat_record(info, **changes):
 def historical_program(path):
     # Historical admission must still consume its original executable bytes.
     if path == "scripts/package-contract.py":
-        return (ROOT / "fixtures/work-graph-registry/original-package-contract.py").read_bytes()
+        return (ROOT / "test-support/work-graph-registry/original-package-contract.py").read_bytes()
     return (ROOT / path).read_bytes()
 
 
@@ -98,7 +98,7 @@ class AdmissionCases(unittest.TestCase):
                     self.P.identity(stat_record(original, **{field: invalid}))
 
     def test_original_group_is_exact_source_prefix_without_successor(self):
-        registry = (ROOT / "fixtures/work-graph-registry/original117/verify-package.sh").read_bytes()
+        registry = (ROOT / "test-support/work-graph-registry/original117/verify-package.sh").read_bytes()
         graph, scope, data = self.P.select_prefix(Q.WG, registry, self.P.ENVIRONMENT)
         self.assertEqual(len(scope["nodes"]), 23)
         self.assertEqual(len(graph["nodes"]), 117)
@@ -237,7 +237,7 @@ class AdmissionCases(unittest.TestCase):
             self.P.validate_programs(state)
 
     def test_prefix24_selects_only_the_next_original_command(self):
-        registry = (ROOT / "fixtures/work-graph-registry/original117/verify-package.sh").read_bytes()
+        registry = (ROOT / "test-support/work-graph-registry/original117/verify-package.sh").read_bytes()
         try:
             graph, scope, data = self.P.select_prefix(Q.WG, registry, self.P.ENVIRONMENT,
                 profile="COMPOSED_SOURCE_PREFIX_24_V1")

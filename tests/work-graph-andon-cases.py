@@ -11,6 +11,10 @@ from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_historical_spec = importlib.util.spec_from_file_location("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+H = importlib.util.module_from_spec(_historical_spec)
+_historical_spec.loader.exec_module(H)
 HELPER = ROOT / "scripts/qualify-work-graph-finite-leaf.py"
 PROFILE = "CONTROLLED_TASK_ANDON_CLASS_V1"
 DATA = ("skills/implementaudit/SKILL.md", "skills/implementaudit/templates/PROTOCOL.md",
@@ -37,7 +41,7 @@ class AdmissionCases(shared.ProfileFixture, unittest.TestCase):
         super().setUp()
 
     def test_exact_original_andon_node_and_no_other_admission(self):
-        registry = (ROOT / "scripts/verify-package.sh").read_bytes()
+        registry = H.original("scripts/verify-package.sh")
         graph, scope, node = self.A.select_node(Q.WG, registry, P.ENVIRONMENT, profile=PROFILE)
         self.assertEqual(len(graph["nodes"]), 117)
         self.assertEqual(node, graph["nodes"][25])
@@ -61,7 +65,7 @@ class AdmissionCases(shared.ProfileFixture, unittest.TestCase):
     def test_unknown_profile_refuses_before_output_creation(self):
         for profile in ("andon", "CONTROLLED_TASK_FUTURE_V1", None, [], {}):
             with self.subTest(profile=profile), self.assertRaisesRegex(ValueError, "profile"):
-                cls = self.A.bind_session(Q.VerifierTaskSession, Q.WG, ROOT, self.helper, profile=profile)
+                cls = self.A.bind_session(Q.VerifierTaskSession, Q.WG, Q.ROOT, self.helper, profile=profile)
                 cls(self.source, self.base / "unexpected")
             self.assertFalse((self.base / "unexpected").exists())
 

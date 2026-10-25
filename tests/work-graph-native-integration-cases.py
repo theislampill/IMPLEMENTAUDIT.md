@@ -8,6 +8,10 @@ import shutil
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_historical_spec = importlib.util.spec_from_file_location("historical_fixture", ROOT / "tests/work-graph-historical-fixture.py")
+H = importlib.util.module_from_spec(_historical_spec)
+_historical_spec.loader.exec_module(H)
 spec = importlib.util.spec_from_file_location("native_integration_recursive", ROOT / "tests/work-graph-recursive-cases.py")
 R = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(R)
@@ -19,7 +23,7 @@ R.MAPPING[PROFILE] = (74, PROGRAM)
 class CatalogCases(unittest.TestCase):
     def test_original74_mapping_is_explicit_and_registry_bound(self):
         catalog, _ = R.shared.load("native_integration_catalog", R.HELPER)
-        registry = (ROOT / "scripts/verify-package.sh").read_bytes()
+        registry = H.original("scripts/verify-package.sh")
         graph, scope, node = catalog.select_node(R.Q.WG, registry, R.P.ENVIRONMENT, profile=PROFILE)
         self.assertEqual(len(graph["nodes"]), 117)
         self.assertEqual(node, graph["nodes"][74])
@@ -210,7 +214,7 @@ class AdmissionCases(Fixture, unittest.TestCase):
         profiles = {R.Q._FINITE_MODES[label] for label in labels}
         self.assertEqual(len(profiles), 18)
         for profile in profiles:
-            cls = self.A.bind_session(R.Q.VerifierTaskSession, R.Q.WG, ROOT, self.helper, profile=profile)
+            cls = self.A.bind_session(R.Q.VerifierTaskSession, R.Q.WG, R.Q.ROOT, self.helper, profile=profile)
             self.assertEqual(cls.LIMITS, old_limits)
         _, reservation = self.requirements()
         with self.assertRaisesRegex(ValueError, "scratch capacity"):
