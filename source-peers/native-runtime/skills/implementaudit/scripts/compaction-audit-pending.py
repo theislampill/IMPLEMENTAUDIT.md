@@ -223,6 +223,9 @@ def load(store, session):
     # token before stored state can reach a decision or mutation.
     if nonfinite_reason is not None:
         raise Refusal(nonfinite_reason)
+    require(all(type(value[key]) is int and value[key] >= 0
+                for key in ('revision', 'signals', 'unresolved_signal_version')),
+            'PENDING_STATE_COUNTERS')
     return value
 
 def save(store, state):

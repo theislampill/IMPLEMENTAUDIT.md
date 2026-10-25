@@ -718,6 +718,12 @@ def reservation_refusal_profile(pins):
     # differs. Bind the same four source owners recorded by source_pins; do not
     # accept either reason interchangeably or infer it from the response.
     profiles = {
+        # R0033 top-level counter-domain correction; preselection path unchanged.
+        ("e748ebae90de3d9ae4775dbf6b4138edcb2d3ece4a2d10089040d532e4768308",
+         "5848edf46581f885521fb677377f4742b630ac8ff0ab0b906ec0e00520fcf896",
+         "1d7b7acaa9d1a481608ebf62ca5be8f30f25af0f5dc56d2bf4e795dce9c67c91",
+         "62558bb209129c66b55d2a97325d16db4aecfd2ecbeb71323dd44070a50f0890"):
+            ("source-sha256:e748ebae90de3d9ae4775dbf6b4138edcb2d3ece4a2d10089040d532e4768308", "NONPROTECTED_FIXED_SELECTION_UNBOUND"),
         # Exact receiving postimage; the pre-selection operation is unchanged.
         ("3ce71493fda766729335df9bfc6fedef66c03735334b6e881b353b0d4b76736a",
          "5848edf46581f885521fb677377f4742b630ac8ff0ab0b906ec0e00520fcf896",

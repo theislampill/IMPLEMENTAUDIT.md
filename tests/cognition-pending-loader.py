@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Finite actual-consumer stored-loader controls; no native authority.
 
-The default selection runs three new discriminators with real H0/pending setup.
+The default selection runs stored-loader and top-level counter discriminators
+with real H0/pending setup. --top-level-counter-controls-only selects the
+finite counter increment without replaying the earlier loader population.
 --include-existing-counter-controls also reuses the original selected NaN
 counter tests and an actual integer successor, without replaying the old bank.
 Every process, preimage and physical before/after census is retained.
@@ -194,11 +196,95 @@ def compatibility(h):
     h.mark("actual-integer-successor-retains-original-four-file-read-guard")
 
 
+def top_level_counter_controls(h, regular):
+    """A malformed finite counter cannot supply a decision or be overwritten.
+
+    The initial empty-state pair is a fresh fixed-source successor to the
+    retained first negative-counter witness. Remaining cases change one field
+    in a real unresolved-resume state. No signal hook or native event runs.
+    """
+    original = h.pending.read_bytes()
+    state = json.loads(original)
+    empty = dict(state)
+    empty.update(revision=0, signals=0, unresolved_signal_version=0,
+                 observations={})
+    empty_wire = (json.dumps(empty, indent=2, sort_keys=True) + "\n").encode()
+    try:
+        h.pending.write_bytes(empty_wire)
+        before = h.snapshot()
+        value = h.call("status", mode="status-guard")
+        BASE.require(value["decision"] == "NO_PENDING_AUDIT" and before == h.snapshot(),
+                     "genuine empty counters did not retain read-only empty status")
+        h.mark("top-counter-empty-zero-status")
+        wire = empty_wire.replace(b'"unresolved_signal_version": 0',
+                                  b'"unresolved_signal_version": -1', 1)
+        BASE.require(wire != empty_wire, "empty negative counter was not substituted")
+        h.pending.write_bytes(wire)
+        (h.evidence / "top-counter-empty-negative.input").write_bytes(wire)
+        before = h.snapshot()
+        value = h.call("status", expected_exit=2)
+        BASE.require(value["status"] == "PENDING_OPERATION_REFUSED"
+                     and value["reason"] == "PENDING_STATE_COUNTERS" and "decision" not in value,
+                     "negative empty counter reached a pending decision")
+        BASE.require(before == h.snapshot(), "negative empty counter refusal changed store")
+        h.mark("top-counter-empty-negative-refuses-status")
+    finally:
+        h.pending.write_bytes(original)
+
+    for key in ("revision", "signals", "unresolved_signal_version"):
+        prefix = ('"' + key + '": ').encode()
+        needle = prefix + json.dumps(state[key]).encode()
+        BASE.require(original.count(needle) == 1, "top-level field is not unique")
+        for integer in (0, 1):
+            try:
+                h.pending.write_bytes(original.replace(needle, prefix + str(integer).encode(), 1))
+                before = h.snapshot()
+                value = h.call("status", mode="status-guard")
+                h.held(value)
+                BASE.require(before == h.snapshot(), "valid integer status changed store")
+                h.mark("top-counter-" + key + "-integer-" + str(integer) + "-held")
+            finally:
+                h.pending.write_bytes(original)
+        tokens = [("negative", b"-1"), ("boolean", b"true"),
+                  ("fraction", b"0.5"), ("string", b'"0"'), ("null", b"null"),
+                  ("nan", b"NaN"), ("overflow", b"1e999")]
+        for name, token in tokens:
+            reason = ("PENDING_STATE_SHAPE" if key == "revision" and name != "negative"
+                      else "PENDING_STATE_JSON_CONSTANT" if name == "nan"
+                      else "PENDING_STATE_JSON_NUMBER" if name == "overflow"
+                      else "PENDING_STATE_COUNTERS")
+            wire = original.replace(needle, prefix + token, 1)
+            changed = json.loads(wire)
+            BASE.require({k: v for k, v in changed.items() if k != key}
+                         == {k: v for k, v in state.items() if k != key},
+                         "counter mutation changed another field")
+            for action in ("status", "resume"):
+                case = "top-counter-" + key + "-" + name + "-refuses-" + action
+                try:
+                    h.pending.write_bytes(wire)
+                    (h.evidence / (case + ".input")).write_bytes(wire)
+                    before = h.snapshot()
+                    value = h.call(action, {"currentness": "UNRESOLVED", "measured_epoch": None}
+                                   if action == "resume" else None, expected_exit=2)
+                    BASE.require(value["status"] == "PENDING_OPERATION_REFUSED"
+                                 and value["reason"] == reason and "decision" not in value,
+                                 case + ": malformed state yielded wrong refusal")
+                    BASE.require(before == h.snapshot(), case + ": refusal changed store")
+                    h.mark(case)
+                finally:
+                    h.pending.write_bytes(original)
+    before = h.snapshot()
+    BASE.require(h.call("status", mode="status-guard") == regular and before == h.snapshot()
+                 and h.pending.read_bytes() == original, "original unresolved state was not retained")
+    h.mark("top-counter-original-unresolved-state-retained")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo-root", type=Path, default=ROOT)
     parser.add_argument("--evidence-dir", type=Path)
     parser.add_argument("--include-existing-counter-controls", action="store_true")
+    parser.add_argument("--top-level-counter-controls-only", action="store_true")
     args = parser.parse_args()
     repo = args.repo_root.resolve(strict=True)
     evidence = args.evidence_dir.absolute() if args.evidence_dir else Path(tempfile.mkdtemp(prefix="pending-loader-"))
@@ -209,7 +295,8 @@ def main():
     report = {"schema": "constructed.pending-stored-loader-qualification.v1", "authority": "NONE",
               "host_activation_proven": False, "native_JOIN_consumption": "UNPROVED",
               "native_lifecycle": "NOT_CLAIMED", "source_sha256": pins, "evidence_dir": str(evidence),
-              "selection": "new-controls-and-original-counter-compatibility" if args.include_existing_counter_controls else "three-new-controls",
+              "selection": "top-level-counter-controls-only" if args.top_level_counter_controls_only else "stored-loader-and-top-level-counters",
+              "include_existing_counter_controls": args.include_existing_counter_controls,
               "failures": []}
     try:
         tree = ast.parse((repo / BASE.PEER / "compaction-source-owner-codex-app.py").read_bytes())
@@ -217,7 +304,9 @@ def main():
                       and any(isinstance(target, ast.Name) and target.id == "NONPROTECTED_SELECTION_PIN" for target in node.targets)]
         BASE.require(selections == [None], "original absent native selection required")
         regular = setup(h)
-        report["failures"] = exercise_new_controls(h, regular)
+        if not args.top_level_counter_controls_only:
+            report["failures"] = exercise_new_controls(h, regular)
+        top_level_counter_controls(h, regular)
         if args.include_existing_counter_controls:
             compatibility(h)
         BASE.require(BASE.source_pins(repo) == pins, "actual source owners changed")
