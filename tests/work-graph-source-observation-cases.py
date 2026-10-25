@@ -28,6 +28,7 @@ def load(path, name):
 
 WG = load(ROOT / "skills/implementaudit/scripts/compile-work-graph.py", "closure_graph")
 OE = load(ROOT / "scripts/operational-evidence.py", "closure_receiver")
+H = load(ROOT / "tests/work-graph-historical-fixture.py", "closure_historical_inputs")
 
 
 class EnvelopeControls(unittest.TestCase):
@@ -113,13 +114,14 @@ class ReceivingClosureControls(unittest.TestCase):
         self.rows = []
         for name, size, digest, mode in OE._NATIVE_CONTINUITY_SIX_SOURCE_PROFILE_V1:
             path = self.source / name
-            shutil.copyfile(ROOT / "skills/implementaudit/scripts" / name, path)
+            path.write_bytes(H.original("skills/implementaudit/scripts/" + name))
             path.chmod(mode)
             self.rows.append(dict(name=name, path=str(path), bytes=size, sha256=digest,
                                  mode=mode, links=1, readonly=True, seals=15))
         self.adapter = self.root / "scripts/work-graph-continuity-transport.py"
         self.adapter.parent.mkdir()
-        shutil.copy2(ROOT / "scripts/work-graph-continuity-transport.py", self.adapter)
+        self.adapter.write_bytes(H.original("scripts/work-graph-continuity-transport.py"))
+        self.adapter.chmod(H.input_mode("scripts/work-graph-continuity-transport.py"))
         raw = self.adapter.read_bytes()
         self.value = dict(schema="implementaudit.native-continuity-closure.v1",
             execution=dict(schema="implementaudit.continuity-source-closure.v2",
@@ -129,12 +131,14 @@ class ReceivingClosureControls(unittest.TestCase):
             transport=dict(path=str(self.adapter), bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest(),
                            mode=self.adapter.stat().st_mode & 4095))
         self.pair = dict(claim_sha256=self.rows[0]["sha256"], validate_sha256=self.rows[1]["sha256"])
-        self.owner_file = patch.object(OE, "__file__", str(self.root / "scripts/operational-evidence.py"))
-        self.owner_file.start()
-        self.addCleanup(self.owner_file.stop)
+        # Execute the actual current receiver from its physical fixed root.
+        receiver = self.root / "scripts/operational-evidence.py"
+        receiver.write_bytes((ROOT / "scripts/operational-evidence.py").read_bytes())
+        shutil.copyfile(ROOT / "scripts/operational_query_policy.py", receiver.with_name("operational_query_policy.py"))
+        self.owner = load(receiver, "physical_current_closure_receiver")
 
     def check(self, value=None):
-        OE._native_check_continuity_closure_v1(self.value if value is None else value,
+        self.owner._native_check_continuity_closure_v1(self.value if value is None else value,
                                               self.root, self.compiler, self.pair)
 
     def test_06_real_held_source_reads_accept_only_complete_same_checkout_closure(self):
@@ -153,23 +157,53 @@ class ReceivingClosureControls(unittest.TestCase):
                          lambda v: v["execution"]["startup"].update(dont_write_bytecode=False)):
             value = copy.deepcopy(self.value)
             mutation(value)
-            with self.subTest(value=value), self.assertRaises(OE.OperationalEvidenceError):
+            with self.subTest(value=value), self.assertRaises(self.owner.OperationalEvidenceError):
                 self.check(value)
+
+    def test_current_transport_is_bound_without_replacing_historical_identity(self):
+        self.check()
+        raw = (ROOT / "scripts/work-graph-continuity-transport.py").read_bytes()
+        self.adapter.write_bytes(raw)
+        self.value["transport"].update(bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest())
+        self.check()
+        self.adapter.write_bytes(raw + b"\n")
+        with self.assertRaises(self.owner.OperationalEvidenceError):
+            self.check()
+
+    def test_current_files_cannot_be_presented_as_historical_receipt(self):
+        self.check()
+        changed = 0
+        for path in (*(self.source / row["name"] for row in self.rows), self.adapter):
+            original = path.read_bytes()
+            current = (ROOT / path.relative_to(self.root)).read_bytes()
+            if current == original:
+                continue
+            changed += 1
+            try:
+                path.write_bytes(current)
+                with self.subTest(path=path), self.assertRaises(self.owner.OperationalEvidenceError):
+                    self.check()
+                self.assertEqual(path.read_bytes(), current, "receiver repaired its input")
+            finally:
+                path.write_bytes(original)
+        self.assertGreater(changed, 0)
 
     def test_07_captured_path_never_selects_a_read(self):
         value = copy.deepcopy(self.value)
         value["execution"]["members"][2]["path"] = "/foreign/do-not-open"
-        with patch.object(OE, "_native_file", wraps=OE._native_file) as reads:
-            with self.assertRaises(OE.OperationalEvidenceError):
+        with patch.object(self.owner, "_native_file", wraps=self.owner._native_file) as reads:
+            with self.assertRaises(self.owner.OperationalEvidenceError):
                 self.check(value)
-        self.assertNotIn(Path("/foreign/do-not-open"), [call.args[0] for call in reads.call_args_list])
+        paths = [call.args[0] for call in reads.call_args_list]
+        self.assertIn(self.source / "claim-run.sh", paths)
+        self.assertNotIn(Path("/foreign/do-not-open"), paths)
 
     def test_08_changed_companion_and_adapter_refuse(self):
         for path in (self.source / "canonical_custody.py", self.adapter):
             original = path.read_bytes()
             try:
                 path.write_bytes(original + b"\n# changed after source acquisition\n")
-                with self.subTest(path=path), self.assertRaises(OE.OperationalEvidenceError):
+                with self.subTest(path=path), self.assertRaises(self.owner.OperationalEvidenceError):
                     self.check()
             finally:
                 path.write_bytes(original)
@@ -179,20 +213,20 @@ class ReceivingClosureControls(unittest.TestCase):
         real = path.with_name("retained-custody.py")
         path.rename(real)
         path.symlink_to(real)
-        with self.assertRaises(OE.OperationalEvidenceError):
+        with self.assertRaises(self.owner.OperationalEvidenceError):
             self.check()
         path.unlink()
         path.hardlink_to(real)
-        with self.assertRaises(OE.OperationalEvidenceError):
+        with self.assertRaises(self.owner.OperationalEvidenceError):
             self.check()
 
     def test_10_legacy_none_is_explicit_and_never_promotes_current_six_sources(self):
         legacy = dict(zip(("claim_sha256", "validate_sha256"), WG._NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE))
-        OE._native_check_continuity_closure_v1(None, self.root, self.compiler, legacy)
-        with self.assertRaises(OE.OperationalEvidenceError):
-            OE._native_check_continuity_closure_v1(None, self.root, self.compiler, self.pair)
-        with self.assertRaises(OE.OperationalEvidenceError):
-            OE._native_check_continuity_closure_v1(self.value, self.root, self.compiler, legacy)
+        self.owner._native_check_continuity_closure_v1(None, self.root, self.compiler, legacy)
+        with self.assertRaises(self.owner.OperationalEvidenceError):
+            self.owner._native_check_continuity_closure_v1(None, self.root, self.compiler, self.pair)
+        with self.assertRaises(self.owner.OperationalEvidenceError):
+            self.owner._native_check_continuity_closure_v1(self.value, self.root, self.compiler, legacy)
 
 
 if __name__ == "__main__":

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Finite repository-only transport controls on disposable Git/run fixtures.
 
+Current engine code runs with exact historical six-source inputs.
 These are constructed source/interface observations, not host continuity credit.
 The existing claim/rotation owners create fixture receipts; no live controller is
 inspected. Run from the repository root with PYTHONDONTWRITEBYTECODE=1.
@@ -43,9 +44,15 @@ def load(name, path):
     return module
 
 
-OWNER = load("r0035_transport_source_owner", ROOT / "scripts/operational-evidence.py")
+HISTORICAL = load("transport_historical_inputs", ROOT / "tests/work-graph-historical-fixture.py")
+_ENGINE = tempfile.TemporaryDirectory(prefix="transport-historical-engine-")
+SOURCE_ROOT = HISTORICAL.copy_continuity_engine(Path(_ENGINE.name))
+SCRIPTS = SOURCE_ROOT / "skills/implementaudit/scripts"
+TRANSPORT = SOURCE_ROOT / "scripts/work-graph-continuity-transport.py"
+OWNER = load("r0035_transport_source_owner", SOURCE_ROOT / "scripts/operational-evidence.py")
 FIXTURES = load("r0035_transport_constructed_fixture",
                 ROOT / "fixtures/canonical-state-rotation/claim_transaction_test.py")
+FIXTURES.POST = SCRIPTS
 ADAPTER = load("r0035_transport_host_probe", TRANSPORT) if TRANSPORT.exists() else None
 REQUIRE_SUPPORTED_HOST = "--require-supported-host" in sys.argv
 if REQUIRE_SUPPORTED_HOST:
@@ -236,7 +243,7 @@ class TransportControls(unittest.TestCase):
 
     def test_01_old_transport_reopens_the_wrong_companion_path(self):
         # Catch accidental claims that the old two-source transport was already
-        # compatible: its real current-source invocation must retain this failure.
+        # compatible: its actual historical six-source invocation retains this failure.
         with tempfile.TemporaryDirectory(dir=self.base) as temporary:
             root = Path(temporary)
             claim, validate = ((SCRIPTS / name).read_bytes() for name in NAMES[:2])
@@ -487,6 +494,7 @@ sys.dont_write_bytecode=True
 import importlib.util,json,pathlib
 spec=importlib.util.spec_from_file_location("constructed_owner_fixture",sys.argv[1])
 fixture=importlib.util.module_from_spec(spec); sys.modules[spec.name]=fixture; spec.loader.exec_module(fixture)
+fixture.POST=pathlib.Path(sys.argv[3])
 subject=fixture.RealHelperIntegration(); subject.persistent_repo=pathlib.Path(sys.argv[2])
 try:
     subject.setUp(); rotated=subject.rotate()
@@ -497,7 +505,7 @@ finally:
 '''
         built = subprocess.run([sys.executable, "-B", "-c", construction,
                   str(ROOT / "fixtures/canonical-state-rotation/claim_transaction_test.py"),
-                  str(Path(cls.temp.name) / "repo")], stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                  str(Path(cls.temp.name) / "repo"), str(SCRIPTS)], stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                   env=dict(os.environ, PYTHONDONTWRITEBYTECODE="1"), timeout=45, check=False)
         if built.returncode:
             raise AssertionError(built.stderr.decode())

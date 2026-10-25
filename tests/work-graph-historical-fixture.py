@@ -79,6 +79,23 @@ def copy_engine(destination):
     return destination
 
 
+def copy_continuity_engine(destination):
+    """Current compiler/receiver/transport over the exact historical six sources."""
+    destination = Path(destination)
+    for name in ("scripts/operational-evidence.py", "scripts/operational_query_policy.py",
+                 "scripts/work-graph-continuity-transport.py",
+                 "skills/implementaudit/scripts/compile-work-graph.py"):
+        path = destination / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes((ROOT / name).read_bytes())
+        path.chmod((ROOT / name).stat().st_mode & 0o777)
+    for name in ("claim-run.sh", "validate-run-root.sh", "claim-run-rotation.py",
+                 "rotate-canonical-state.py", "canonical_hot_projection.py", "canonical_custody.py"):
+        copy_input("skills/implementaudit/scripts/" + name,
+                   destination / "skills/implementaudit/scripts" / name)
+    return destination
+
+
 def copy_readme_engine(destination):
     """Current fixed loader/owner tested against its complete exact selected closure."""
     destination = Path(destination)

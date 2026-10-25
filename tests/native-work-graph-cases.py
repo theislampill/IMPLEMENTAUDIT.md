@@ -343,12 +343,18 @@ def source_composition_controls(root, expected, scratch):
     """Keep constructed diagnostics separate from acquired repository evidence."""
     compiler = REPO / "skills/implementaudit/scripts/compile-work-graph.py"
     peer = REPO / "source-peers/route-graph/skills/implementaudit/scripts/compile-work-graph.py"
-    compiler_raw = compiler.read_bytes()
-    assert compiler_raw == peer.read_bytes(), "canonical and frozen compiler source differ"
+    compiler_raw, peer_raw = compiler.read_bytes(), peer.read_bytes()
+    if compiler_raw != peer_raw:
+        # The combined owners retain their distinct original route identities.
+        # Admit only this exact literal difference; all other bytes must agree.
+        canonical_pin = b"_NATIVE_ROUTE_PRODUCER_SHA256 = '8ed51e393f4f8a3be631e48255e9aeca59dcf120a803f1601a034e5ab9e02389'"
+        peer_pin = b"_NATIVE_ROUTE_PRODUCER_SHA256 = 'cde0db3f9bbb7203572835dd8311c1f1cd3758baf6ec9aac117b98bb715e5525'"
+        assert compiler_raw.count(canonical_pin) == peer_raw.count(peer_pin) == 1
+        assert compiler_raw.replace(canonical_pin, peer_pin, 1) == peer_raw, "unqualified compiler source difference"
     manifest = json.loads((REPO / "source-peers/route-graph/SOURCE_MANIFEST.json").read_bytes())
     entry = next(row for row in manifest["files"] if row["semantic_owner"] == "R0035")
-    assert entry["bytes"] == len(compiler_raw)
-    assert entry["sha256"] == hashlib.sha256(compiler_raw).hexdigest()
+    assert entry["bytes"] == len(peer_raw)
+    assert entry["sha256"] == hashlib.sha256(peer_raw).hexdigest()
 
     # The distribution contains the compiler, not the repository-only reader.
     # Execute exactly that layout, then compare the complete derived projection.
@@ -403,7 +409,7 @@ def source_composition_controls(root, expected, scratch):
         finally:
             path.write_bytes(before)
     assert wg.read_native_run_v1(root) == expected
-    print("native-work-graph: identical canonical/peer source; installed constructed intake and closing fences; no native fallback")
+    print("native-work-graph: exact canonical/peer source pair; installed constructed intake and closing fences; no native fallback")
 
 
 def main():

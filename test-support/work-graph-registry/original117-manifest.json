@@ -218,6 +218,36 @@
       "sha256": "a3b8ebfdbecacab5d0c24effa565fd799a4eaaeaf5376fe45676132c455326ba",
       "bytes": 6380,
       "mode": 420
+    },
+    "skills/implementaudit/scripts/claim-run.sh": {
+      "specimen": "original117/skills/implementaudit/scripts/claim-run.sh",
+      "sha256": "50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383",
+      "bytes": 17368,
+      "mode": 420
+    },
+    "skills/implementaudit/scripts/claim-run-rotation.py": {
+      "specimen": "original117/skills/implementaudit/scripts/claim-run-rotation.py",
+      "sha256": "6f62f57d3a5873570161022e2ccc04cdb061655fa338bcb2c5ea1624b80454ca",
+      "bytes": 103754,
+      "mode": 420
+    },
+    "skills/implementaudit/scripts/rotate-canonical-state.py": {
+      "specimen": "original117/skills/implementaudit/scripts/rotate-canonical-state.py",
+      "sha256": "7989a08128fedabe531fc92114baff755e77e08aebea547253793b625496bb26",
+      "bytes": 92941,
+      "mode": 493
+    },
+    "skills/implementaudit/scripts/canonical_hot_projection.py": {
+      "specimen": "original117/skills/implementaudit/scripts/canonical_hot_projection.py",
+      "sha256": "fe733b91dff4f031ed3ab80761d669de59c0270cd7f85325a14a2d47f9ba5276",
+      "bytes": 57891,
+      "mode": 493
+    },
+    "scripts/work-graph-continuity-transport.py": {
+      "specimen": "original117/scripts/work-graph-continuity-transport.py",
+      "sha256": "de6025b8c5e48d924643387e85c1554d60b4208c751e0b5f64376cb53368f2ce",
+      "bytes": 40203,
+      "mode": 420
     }
   }
 }

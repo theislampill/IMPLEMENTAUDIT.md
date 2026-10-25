@@ -1836,6 +1836,11 @@ _NATIVE_LEGACY_CONTINUITY_PAIRS_V1 = (
 
 _NATIVE_CONTINUITY_TRANSPORT_SHA256 = 'de6025b8c5e48d924643387e85c1554d60b4208c751e0b5f64376cb53368f2ce'
 _NATIVE_CONTINUITY_TRANSPORT_BYTES = 40203
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1 = {
+    _NATIVE_CONTINUITY_TRANSPORT_SHA256: _NATIVE_CONTINUITY_TRANSPORT_BYTES,
+    # Same six-source runtime plus the exact combined original14 source selector.
+    'ba79f1ba7d7f8908f869141ca3bfd950430e63932bbffdb5994892c54a052b01': 41212,
+}
 
 
 def _native_check_continuity_closure_v1(value, repository, compiler_path, pair):
@@ -1877,8 +1882,7 @@ def _native_check_continuity_closure_v1(value, repository, compiler_path, pair):
     path = root / "scripts/work-graph-continuity-transport.py"
     raw = _native_file(path, "$native.continuity_transport", 64 * 1024)
     info = path.lstat()
-    if (len(raw) != _NATIVE_CONTINUITY_TRANSPORT_BYTES
-            or hashlib.sha256(raw).hexdigest() != _NATIVE_CONTINUITY_TRANSPORT_SHA256
+    if (_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1.get(hashlib.sha256(raw).hexdigest()) != len(raw)
             or info.st_nlink != 1):
         _error("OE_NATIVE_CURRENT_CHANGED", "$native.continuity_transport", "transport source differs from the executed profile")
     execution = dict(schema="implementaudit.continuity-source-closure.v2",

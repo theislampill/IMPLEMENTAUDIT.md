@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Exact source-profile composition controls; no authentic host admission.
 
-The default exercises this checkout. --source-root selects an independently
+The default exercises current engine code with pinned historical six-source inputs
+and verifies that current helpers cannot use that historical contract.
+--source-root selects an independently
 materialized, immutable published-source composition for the same controls.
 It never supplies source pins or replaces a production acceptance predicate.
 """
@@ -39,10 +41,26 @@ def snapshot(root):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--source-root', type=Path, default=ROOT)
+    parser.add_argument('--source-root', type=Path)
     parser.add_argument('--evidence', type=Path)
     args = parser.parse_args()
-    source = args.source_root.absolute()
+    historical = None
+    if args.source_root is None:
+        current = load(ROOT / 'skills/implementaudit/scripts/compile-work-graph.py', 'current_composition_graph')
+        current_owner, _, _ = current._native_static_owner_module_v1()
+        claim, validate = [(ROOT / 'skills/implementaudit/scripts' / name).read_bytes()
+                           for name in ('claim-run.sh', 'validate-run-root.sh')]
+        try:
+            current._native_six_source_transport_v1(current_owner, claim, validate)
+        except current.WorkGraphError as error:
+            assert str(error) == 'native continuity helpers are not an explicitly selected source domain'
+        else:
+            raise AssertionError('current source silently acquired the historical six-source domain')
+        inputs = load(ROOT / 'tests/work-graph-historical-fixture.py', 'composition_historical_inputs')
+        historical = tempfile.TemporaryDirectory(prefix='historical-continuity-engine-')
+        source = inputs.copy_continuity_engine(Path(historical.name))
+    else:
+        source = args.source_root.absolute()
     scripts = source / 'skills/implementaudit/scripts'
     graph = load(scripts / 'compile-work-graph.py', 'composition_graph')
     owner, _, _ = graph._native_static_owner_module_v1()
@@ -114,7 +132,8 @@ def main():
                 results.append(dict(command=arguments[0], status='PASS', closure=observed['closure']))
         finally:
             fixture.close()
-    report = dict(scope='CONSTRUCTED_LEGACY_CURRENTNESS_AND_SOURCE_CUSTODY',
+    report = dict(scope='CURRENT_ENGINE_HISTORICAL_SIX_SOURCE_INPUTS' if historical else 'EXPLICIT_SOURCE_COMPOSITION',
+                  current_source_gate='UNQUALIFIED_HELPER_PAIR_REFUSED' if historical else 'EXPLICIT_SOURCE_SUBJECT',
                   native_admission='NOT_ESTABLISHED', sources=profile,
                   transport_sha256=hashlib.sha256(adapter_source[1]).hexdigest(),
                   source_controls=checked, commands=results)
@@ -122,6 +141,8 @@ def main():
         args.evidence.parent.mkdir(parents=True, exist_ok=True)
         args.evidence.write_text(json.dumps(report, indent=2) + '\n')
     print(json.dumps(report, sort_keys=True))
+    if historical is not None:
+        historical.cleanup()
     return 0
 
 
