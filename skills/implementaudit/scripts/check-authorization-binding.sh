@@ -339,7 +339,13 @@ in_range() {  # value, spec
   case "$spec" in
     *..*) local lo="${spec%%..*}" hi="${spec##*..}"
           [ "$v" -ge "$lo" ] 2>/dev/null && [ "$v" -le "$hi" ] 2>/dev/null ;;
-    *"|"*) printf '%s' "|$spec|" | grep -qF "|$v|" ;;
+    *"|"*) while :; do
+            [ "$v" = "${spec%%|*}" ] && return 0
+            case "$spec" in
+              *"|"*) spec="${spec#*|}";;
+              *) return 1;;
+            esac
+          done ;;
     *) [ "$v" = "$spec" ] ;;
   esac
 }

@@ -701,3 +701,4 @@ print(
 PY
 
 PYTHONDONTWRITEBYTECODE=1 python3 tests/cognition-lifecycle-composition.py
+PYTHONDONTWRITEBYTECODE=1 python3 tests/cognition-delivery-capture.py

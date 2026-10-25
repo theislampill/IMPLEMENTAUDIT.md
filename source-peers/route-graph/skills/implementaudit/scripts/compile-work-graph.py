@@ -2336,6 +2336,8 @@ _NATIVE_ROUTE_PRODUCER_PROFILES_V1 = {
     'ba0e378b9f4744b5109317ad10ae98487d12d16060ec737aeb18f55e34fb2451': 375105,
     # Exact retained-source-map receiving delta from R0033 donor79316011.
     '1bf45fa3104dcde045fcd528d57b601323e9476dcb735afdd88b1c27dde8e9ca': 375946,
+    # Exact nonblocking delivery capture received from R0033 donor899d32f8.
+    'd060782e690d163e2b0db014be429c64cf976e7b1e8d554113ee8f4843a3b1bb': 376700,
 }
 
 
