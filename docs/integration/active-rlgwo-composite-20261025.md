@@ -1,5 +1,9 @@
 # Active RLGWO composite: finite source waves 1 and 2
 
+This is the retained wave1/2 record. The later owner-authorized capacity and
+qualification continuation is recorded in [PR255 capacity continuation](pr255-capacity-continuation-20261025.md).
+Its prospective budget decision does not alter the historical results below.
+
 This draft combines five frozen engineering donors and repairs their demonstrated source seams. It is **not merge-ready**: both package roles exceed the unchanged capacity contract, and native/receiving requirements remain. No original issue is closed or admitted by this record.
 
 ## Finite wave 2: published authorization correction
