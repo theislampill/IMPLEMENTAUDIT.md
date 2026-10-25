@@ -144,7 +144,10 @@ if [ "$receiver_requires_reproduction" = yes ]; then
 fi
 
 has_claims="$(get has_state_claims)"
-if [ "${has_claims,,}" = "no" ]; then
+# A sender's denial cannot erase a populated Class-1 claim. Only a genuinely
+# empty claim population may skip the existing live comparisons below.
+if [ "${has_claims,,}" = "no" ] &&
+   [ -z "$(get subject_repo)$(get claimed_branch)$(get claimed_tree)$(get claimed_clean)" ]; then
   printf 'check-handoff-packet: nothing mechanical to verify (no Class-1 state claims)\n'
   exit 0
 fi

@@ -276,4 +276,45 @@ for variant in trailing-space trailing-spaces trailing-tab leading-tab space-bef
   fi
 done
 
+# P. A sender denial cannot suppress any populated Class-1 claim. Removing
+# any recognized field from the no-claims guard must fail its actual comparison.
+for claim in subject_repo claimed_branch claimed_tree claimed_clean; do
+  case "$claim" in
+    subject_repo) false_value=R37-DEFINITELY-NOT-THIS-REPO ;;
+    claimed_branch) false_value="$live_branch-r37-other" ;;
+    claimed_tree) false_value=0000000000000000000000000000000000000000 ;;
+    claimed_clean)
+      if [ "$live_clean" = yes ]; then false_value=no; else false_value=yes; fi
+      ;;
+  esac
+  cat > "$tmp/denied-$claim.pkt" <<EOF
+packet_id: r37-denied-$claim
+packet_version: 1
+packet_content_hash: r37-claim-flag-regression
+sender_run_id: r37-constructed-regression
+$claim: $false_value
+has_state_claims: no
+owner_acceptance: retained R37 test judgment
+EOF
+  code=0
+  out="$(bash "$scorer" "$tmp/denied-$claim.pkt" --repo-root "$repo_root" 2>&1)" || code=$?
+  [ "$code" -eq 1 ] || fail "denied $claim escaped its actual comparison (exit $code)"
+  printf '%s' "$out" | grep -q 'CONTRADICTED' \
+    || fail "denied $claim did not retain the Class-1 contradiction"
+  printf '%s' "$out" | grep -q 'evidence-mismatch' \
+    || fail "denied $claim did not name the existing abnormality"
+  printf '%s' "$out" | grep -Fq 'Class-3 preserved verbatim: retained R37 test judgment' \
+    || fail "denied $claim dropped the owner's verbatim judgment"
+done
+
+# A denial also cannot manufacture a contradiction: true populated claims
+# still take the existing comparison path and pass. D/I/L retain no-claims use.
+sed 's/^has_state_claims: yes$/has_state_claims: no/' "$tmp/match.pkt" \
+  > "$tmp/denied-matching.pkt"
+out="$(bash "$scorer" "$tmp/denied-matching.pkt" --repo-root "$repo_root" 2>&1)" \
+  || fail "matching populated claims were rejected because of the sender denial"
+printf '%s' "$out" | grep -q 'verified.*Class-1 claims confirmed' \
+  || fail "matching populated claims bypassed receiver verification"
+printf 'handoff-packet-contract: claim-flag controls ok (four contradictory fields + matching claims)\n'
+
 printf 'handoff-packet-contract: ok (contract + receiver-current/complete/incomplete/cheap-path + contradicted/matching/owner/no-claims + minimal-fields + 4 Fable adversarial)\n'
