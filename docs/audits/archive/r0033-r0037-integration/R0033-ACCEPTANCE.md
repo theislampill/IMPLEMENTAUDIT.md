@@ -827,3 +827,61 @@ detection, hostile-writer atomicity, power-loss durability, physical occurrence,
 OPEN/full LOAD/use, original RETURN, result acceptance or covered-scope consumption.
 R0035 retains graph/READY/JOIN/frontier ownership. All original populations and
 authority/receiving boundaries remain intact.
+
+## Current R0039 pending-loader composition and exact receiving tuple
+
+The source-accessible PR254 proposal is now implemented and exercised in a
+disposable receiving composition. Its original duplicate-key and dangling-leaf
+failures remain failures. Current PR252 `124e4b5eed90ca031a18b6be72104c802ea6ca91`
+still carries those exact three pending/H0/observation dependency blobs; the
+original twelve-process differential was reused at that source scope.
+
+The new projection uses combined core
+`e4fc52757d3082d12f17137600034c5ca008e82b`, all thirteen current R0039 native
+peers and the three selected route peers. All four R0039 frozen core dependency
+identities match that combined core. This is repository source composition,
+not an installed or admitted native runtime. No controller, native selection,
+receipt or protected pending state was copied.
+
+One new four-command baseline creates an actual unresolved obligation using
+the existing H0 and pending CLIs, then supplies a deliberately malformed
+stored interval: version1/consumed2. The current R0039 status command returns
+exit0/NO_PENDING_AUDIT. That is retained as an actual failed discriminator,
+not successful acceptance. Baseline result SHA-256:
+`fc9beea4afba8f3c757a59b942a9793190ff0ebb8ad6aa42bbabaafe2de384fb`.
+
+The minimum receiving correction replaces only R0039 `load()` with the exact
+published R0033 strict-path, bounded-read, unique-key and counter-domain body.
+All other R0039 pending source bytes, including its owned-stdio and C02
+additions, remain unchanged. The proposed pending source is 65,171 bytes,
+SHA-256 `9b5faf290e08d3df77b15d5e5301a3760c4e599d16719cf8f72e1768522ea691`.
+Its manifest keeps historical provenance and native non-admission, changing
+only that row's current size, digest and additive delta description.
+
+Fourteen actual candidate CLI calls pass the prospectively fixed affected
+checks: unresolved held state; duplicate-key and dangling-leaf refusal;
+counter refusal on both status and resume; exact restoration; the existing
+NONPROTECTED_PROJECTION_PROFILE_REQUIRED reservation refusal and
+NONPROTECTED_SELECTED_ROOT_REQUIRED registration refusal; and a real later
+unconsumed successor reloaded by a fresh process. Every refusal preserves the
+complete captured store snapshot. Host activation remains explicitly false,
+there is no assignment, and no covered scope is consumed. Candidate result
+SHA-256: `750a20e8aec1c6c8517621e211c7106f790a2ea451af3ce9b6a6a301d117ae2f`.
+
+The existing R0033 qualification receiver adds only this exact four-owner
+tuple. The old receiver refuses the new tuple, the additive receiver accepts
+its declared source-specific refusal, and a changed pending digest still
+refuses. All six historical tuples and the remaining test AST are preserved.
+That is an executable test-receiver check, not another pending runtime bank.
+The qualified-checkpoint field explicitly names a source SHA, not an invented
+Git commit. The two-file runtime/manifest correction belongs to the R0039
+owner as a source-bound receiving proposal; this PR does not publish it to
+PR252 or silently replace its own peer with that foreign composition.
+
+R0033 remains OPEN with its original seven criteria and 45 routing cases.
+R0037's 36/14/17/15 populations also remain unchanged. This increment establishes
+portable stored-obligation handling in the stated composition only. Native
+selection, physical OPEN/full LOAD/use/RETURN, authenticated result acceptance,
+JOIN, actual physical occurrence, protected durability and covered consumption
+remain separate receiving gates. No full schema, hostile-writer atomicity,
+Windows, power-loss or final combined package claim follows.
