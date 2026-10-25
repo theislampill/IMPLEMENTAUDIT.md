@@ -4772,7 +4772,7 @@ def standalone_child_delivery_identity(
 def resolved_child_delivery_path(mapped_child: str, governor: Path, resolver: Path) -> Path:
     before = child_delivery_snapshot(resolver, "internal-child resolver")
     if (hashlib.sha256(before[0]).hexdigest() ==
-            'be553c29e1092643a71e6b50260d760bab15bbc76cd3c2091d05c4b52b8f302e'
+            '97ce587a295cfa0f13276a8dfccf63ca9f679352fdcf0d769a095eab5284b67d'
             and mapped_child in {'audit-state', 'audit-assess', 'audit-implement', 'audit-andon'}):
         import io
         import functools

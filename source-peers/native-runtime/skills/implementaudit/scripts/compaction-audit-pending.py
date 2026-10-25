@@ -168,11 +168,48 @@ def blank(session):
 
 def load(store, session):
     path = state_path(store, session)
-    if not path.exists():
+    if not os.path.lexists(path):
+        # A missing leaf under an alias is unavailable custody, not empty state.
+        ancestor = path.parent
+        while not os.path.lexists(ancestor):
+            ancestor = ancestor.parent
+        CORE.safe_existing_directory(str(ancestor), 'compaction audit pending state ancestor')
         return blank(session)
-    require(path.stat().st_size <= MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
-    value = CORE.read_json(path, 'compaction audit pending state')
+    info = path.lstat()
+    if CORE.unsafe_file(info):
+        CORE.fail('compaction audit pending state is not a safe regular file')
+    require(info.st_size <= MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
+    CORE.safe_existing_directory(str(path.parent), 'compaction audit pending state')
+    flags = os.O_RDONLY | getattr(os, 'O_NOFOLLOW', 0) | getattr(os, 'O_NONBLOCK', 0) | getattr(os, 'O_BINARY', 0)
+    descriptor = os.open(path, flags)
+    try:
+        opened = os.fstat(descriptor)
+        if CORE.unsafe_file(opened):
+            CORE.fail('compaction audit pending state is not a safe regular file')
+        require((opened.st_dev, opened.st_ino) == (info.st_dev, info.st_ino), 'PENDING_STATE_CHANGED_DURING_READ')
+        require(opened.st_size <= MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
+        # One admitted descriptor supplies the bounded UTF-8 buffer to decode.
+        raw = bytearray()
+        while len(raw) <= MAX_STATE:
+            chunk = os.read(descriptor, min(65536, MAX_STATE + 1 - len(raw)))
+            if not chunk:
+                break
+            raw.extend(chunk)
+        require(len(raw) <= MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
+    finally:
+        os.close(descriptor)
+    try:
+        value = decode(raw.decode('utf-8'))
+    except (UnicodeError, json.JSONDecodeError) as exc:
+        CORE.fail('compaction audit pending state is unreadable or malformed: ' + str(exc))
+    if not isinstance(value, dict):
+        CORE.fail('compaction audit pending state is not an object')
     require(set(blank(session)) <= set(value) <= set(blank(session)) | {'current_assignment', 'successor_stage', 'successor_assignment'} and value['schema'] == SCHEMA and (value['session_id'] == session) and (type(value['revision']) is int) and isinstance(value['observations'], dict) and isinstance(value['assignments'], dict), 'PENDING_STATE_SHAPE')
+    for item in value['observations'].values():
+        require(isinstance(item, dict) and type(item.get('version')) is int and item['version'] > 0
+                and type(item.get('consumed_version')) is int
+                and 0 <= item['consumed_version'] <= item['version'],
+                'PENDING_OBSERVATION_COUNTERS')
     return value
 
 def save(store, state):

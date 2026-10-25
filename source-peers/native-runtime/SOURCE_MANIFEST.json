@@ -116,15 +116,15 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-audit-pending.py",
       "materialized_path": "skills/implementaudit/scripts/compaction-audit-pending.py",
-      "bytes": 63178,
-      "sha256": "e6516032d8d93e00a530c0753ed23e1b51cdcf2b27e45611b3923f3922718c34",
+      "bytes": 65171,
+      "sha256": "9b5faf290e08d3df77b15d5e5301a3760c4e599d16719cf8f72e1768522ea691",
       "semantic_owner": "R003A/continuity",
       "mode": "100644",
       "source_preimage_sha256": "bbb6e9707a351531809708ce427056ce77560df4351de9ed64b48aff41a12329",
       "modified": true,
       "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
       "source_delta_sha256": "efa76b9360b07f751481a5240c6ef6ddc4a0073755b35881041e1d9864885a97",
-      "additional_delta": "R0039 distinct owned-stdio0.153.4 source profile; existing owners and default refusals retained; no private selection or native admission; composed R0039 native-v3/C02 source candidate; no native admission",
+      "additional_delta": "R0039 distinct owned-stdio0.153.4 source profile; existing owners and default refusals retained; no private selection or native admission; composed R0039 native-v3/C02 source candidate; no native admission; composed PR253 strict bounded descriptor decode, lexical custody and exact observation counters; retains R0039 additions",
       "composition_preimage_sha256": "aacbf3c65f9d36d933160f5169b4f09f126d36db9ae2e9770d1004d9b7cef52d"
     },
     {

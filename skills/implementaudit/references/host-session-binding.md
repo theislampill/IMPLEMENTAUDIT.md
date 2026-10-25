@@ -312,3 +312,66 @@ canonical dispatch, the standalone applicability of each file, and executable
 source identity. The corresponding package-role checks must run on that exact
 composed source before a retained-file or hook-command claim is made. Copying
 or directly calling a donor helper does not establish a supported host route.
+
+## Portable nonterminal-yield record predicate (R0037)
+
+For an already selected governed run, the governor can check the durable
+continuation record through the existing run-root owner:
+
+```text
+bash <skill-dir>/scripts/validate-run-root.sh --nonterminal-yield <run-root>
+```
+
+This additive mode runs full structural validation, consumes the same selected
+canonical STATE/ROADMAP view, and rechecks that view after consumption. A local
+read-set identity also binds the selected STATE, ROADMAP and numbered phase
+across structural and yield checks, including legacy selection; it grants no
+new currentness authority. It keeps
+the original full, micro and ledger modes. Its success means that the record
+meets the portable yield predicate. It does not authenticate a host event or
+grant currentness, Stop, effect, handoff or closure authority. The governor
+still proves the exact controller/claim/currentness binding through its existing
+owners before consuming the result. The selected native Stop adapter continues
+to report unsupported effect authentication; this mode does not enable it.
+
+The existing STATE Current phase table is the record owner. A yield keeps
+`Audit object state` explicitly `open` and uses a nonterminal status. It binds
+the Phase, Last check, Owner/source, Authorization state, a concrete Next action
+and Re-entry condition. A numbered phase must resolve its actual phase
+specification. A not-yet-run intake records its exact reason instead of inventing
+completed evidence. The mode rejects duplicate fields, terminal/handoff markers,
+blank or placeholder actions, missing phase identity and unsafe record files.
+Action text is checked for a concrete continuation and unresolved templates,
+not a closed list of English verbs. Semantic truth remains governor-owned.
+
+Only the applicable state needs further facts in that same table:
+
+| Status | Durable continuation facts |
+|---|---|
+| `IN_PHASE` | Current checkpoint and Last completed step |
+| `PAUSED` | Pause reason, Resume point and Pause trigger (`clarification`, `owner-authority`, `external-wait` or `user-interruption`) |
+| `BLOCKED` | Blocker, Containment and concrete Next probe |
+| `INTERRUPTED` | Stop source, Interruption point and Interruption log naming its exact existing Andon row |
+| `open` / `READY_TO_DISPATCH` | Pending decision and exact Next action |
+
+A user-interruption pause records `Pause phase context` as `IN_PROGRESS` or
+`OUTSIDE_PHASE`. Only `IN_PROGRESS` requires a numbered phase and the existing
+IMPLEMENTAUDIT_PAUSE record with matching Phase, pause Status, Last completed
+step and `STATE.md: updated`. `OUTSIDE_PHASE` permits truthful intake or
+pre-dispatch pause without that inapplicable marker and rejects a fabricated
+one. Phase-spec START/DONE anchors are templates, not execution chronology;
+this context is a supplied record fact, not native event authentication.
+An owner stop must bind the same source and interruption point in its
+Andon row using complete identity boundaries and the same numbered phase.
+A same-phase pause block cannot contradict a supplied Last completed step. An
+external-wait pause also records Blocker, Containment and concrete Next probe.
+These are conditions for the selected yield, not a new lifecycle,
+mandatory worksheet for ordinary work, or automatic conversion of a wait into
+handoff. Source parsing cannot prove the truth of an asserted fact; its evidence
+and authority remain with the governor and their original owners.
+
+TY-1 through TY-5 allow the corresponding truthful continuation record; TY-6
+refuses bare abandonment. Any terminal or handoff claim routes to its original
+audit predicate and cannot escape through yield. A forced host turn ending is
+neither closure nor handoff. Ordinary unbound sessions retain the immediate
+native cheap path and do not invoke this validator.

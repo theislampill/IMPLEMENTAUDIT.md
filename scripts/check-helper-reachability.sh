@@ -432,6 +432,13 @@ implemented_mode_sets["claim-run.sh"] = claim_public_modes((skill_root / "script
 graph_helper = "validate-run-root.sh"
 graph_text = (skill_root / "scripts" / graph_helper).read_text(encoding="utf-8")
 implemented_mode_sets[graph_helper] = sorted(set(re.findall(r"--graph-[a-z0-9-]+", graph_text)))
+# The additive record mode is dispatched by the ordinary argument parser,
+# outside the graph case. Require that actual parser branch, not a prose token.
+if re.search(r'^elif \[ "\$\{1:-\}" = "--nonterminal-yield" \]; then$', graph_text, re.M):
+    implemented_mode_sets[graph_helper].append("--nonterminal-yield")
+if re.search(r'^if \[ "\$\{1:-\}" = "--turn-disposition" \]; then$', graph_text, re.M):
+    implemented_mode_sets[graph_helper].append("--turn-disposition")
+
 rehearsal_helper, rehearsal_mode = "check-authorization-binding.sh", "--phase --rehearsal --launch"
 # R0020: static census records the declared mode; candidate-bound F10 below is
 # the only execution authority for its parser, mediator, wrapper, and stub.
