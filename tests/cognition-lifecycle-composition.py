@@ -3,6 +3,8 @@
 import argparse
 import ast
 import copy
+import contextlib
+import io
 import hashlib
 import importlib.util
 import json
@@ -22,16 +24,60 @@ def load(name, path):
     return module
 
 
+def retained_source_map_controls(source):
+    """Closed value domains only; no retained record or native authority is issued."""
+    route = load('retained_route_source_owner', source)
+    def values(names):
+        return {name: 'sha256:' + hashlib.sha256(name.encode()).hexdigest() for name in names}
+    legacy4 = values(('SKILL.md', 'route-obligations.md', 'route-transaction.py', 'claim-run.sh'))
+    legacy5 = {**legacy4, **values(('resolve-internal-skill.py',))}
+    current12 = {**legacy5, **values(('claim-run-rotation.py', 'rotate-canonical-state.py',
+        'canonical_hot_projection.py', 'canonical_custody.py', 'canonical_rotation_inputs.py',
+        'read-canonical-pair.py', 'validate-run-root.sh'))}
+    missing = {key: value for key, value in current12.items() if key != 'canonical_rotation_inputs.py'}
+    extra = {**current12, **values(('foreign-owner.py',))}
+    cases = (
+        ('preserved-legacy-four', legacy4, True, True),
+        ('canonical-legacy-five', legacy5, False, True),
+        ('canonical-current-twelve', current12, False, True),
+        ('partial-current-domain', missing, False, False),
+        ('foreign-added-domain', extra, False, False),
+        ('current-domain-cannot-be-preserved-legacy', current12, True, False),
+    )
+    for name, value, preserved, accepted in cases:
+        output, code, returned = io.StringIO(), 0, None
+        with contextlib.redirect_stdout(output):
+            try:
+                returned = route.retained_route_source_digests_v1(value, preserved)
+            except SystemExit as exc:
+                code = exc.code
+        assert (code == 0) == accepted, (name, code, output.getvalue())
+        if accepted:
+            assert returned is value, name
+        else:
+            result = json.loads(output.getvalue())
+            assert code == 2 and result['decision'] == 'PENDING' and result['advance_allowed'] is False
+            assert result['error'] == 'stale unsatisfied route package source digests has the wrong shape'
+        print('PASS retained-source-map-' + name)
+    return len(cases)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--governor', type=Path, default=ROOT / 'skills/implementaudit')
+    parser.add_argument('--retained-source-map-only', action='store_true')
     args = parser.parse_args()
+    route_source = ROOT / 'source-peers/route-graph/skills/implementaudit/scripts/route-transaction.py'
+    count = retained_source_map_controls(route_source)
+    if args.retained_source_map_only:
+        print(json.dumps({'controls': count, 'scope': 'RETAINED_SOURCE_MAP_VALUES_ONLY',
+                          'native_authority': False}, sort_keys=True))
+        return
     scripts = args.governor.resolve() / 'scripts'
     support = load('support_fixtures', ROOT / 'tests/evidential-support-cases.py')
     yields = load('yield_fixtures', ROOT / 'tests/nonterminal-yield-cases.py')
     terminal = load('terminal_fixtures', ROOT / 'tests/host_session_terminal.py')
     terminal.SOURCE = scripts
-    count = 0
 
     def check(condition, name):
         nonlocal count

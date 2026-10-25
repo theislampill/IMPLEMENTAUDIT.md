@@ -2334,6 +2334,8 @@ _NATIVE_ROUTE_PRODUCER_PROFILES_V1 = {
     'ad0367c90db2a23580a2f37ecb6b87d2b774e04ce524a95bf159f038062fafa4': 375105,
     # Combined source, still subject to separate actual acceptance.
     'ba0e378b9f4744b5109317ad10ae98487d12d16060ec737aeb18f55e34fb2451': 375105,
+    # Exact retained-source-map receiving delta from R0033 donor79316011.
+    '1bf45fa3104dcde045fcd528d57b601323e9476dcb735afdd88b1c27dde8e9ca': 375946,
 }
 
 

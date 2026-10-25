@@ -204,10 +204,28 @@ class CompositeSourceCases(unittest.TestCase):
             transport._source_profile(changed)
 
     def test_combined_route_producer_is_source_selected(self):
-        graph = load("composite_graph", ROOT / "source-peers/route-graph/skills/implementaudit/scripts/compile-work-graph.py")
-        raw = (ROOT / "source-peers/route-graph/skills/implementaudit/scripts/route-transaction.py").read_bytes()
-        self.assertEqual(graph._NATIVE_ROUTE_PRODUCER_PROFILES_V1.get(hashlib.sha256(raw).hexdigest()), len(raw))
-        self.assertNotIn(hashlib.sha256(raw + b"\n").hexdigest(), graph._NATIVE_ROUTE_PRODUCER_PROFILES_V1)
+        peer = ROOT / "source-peers/route-graph/skills/implementaudit/scripts"
+        raw = (peer / "route-transaction.py").read_bytes()
+        for source in (CORE, peer):
+            with self.subTest(source=source), tempfile.TemporaryDirectory(prefix="composite-route-") as temp:
+                target = Path(temp)
+                shutil.copyfile(source / "compile-work-graph.py", target / "compile-work-graph.py")
+                for name in ("route-transaction.py", "route_request_policy.py"):
+                    shutil.copyfile(peer / name, target / name)
+                graph = load("composite_graph", target / "compile-work-graph.py")
+                self.assertEqual(graph._NATIVE_ROUTE_PRODUCER_PROFILES_V1.get(hashlib.sha256(raw).hexdigest()), len(raw))
+                module, path, captured = graph._native_route_scope_module_v1()
+                self.assertEqual(path, target / "route-transaction.py")
+                self.assertEqual(captured, raw)
+                self.assertTrue(callable(module.read_current_route_scope_v1))
+                (target / "route-transaction.py").write_bytes(raw + b"\n")
+                with self.assertRaisesRegex(graph.WorkGraphError, "source identity changed"):
+                    graph._native_route_scope_module_v1()
+                (target / "route-transaction.py").write_bytes(raw)
+                policy = target / "route_request_policy.py"
+                policy.write_bytes(policy.read_bytes() + b"\n")
+                with self.assertRaisesRegex(graph.WorkGraphError, "dependency is unavailable or mismatched"):
+                    graph._native_route_scope_module_v1()
 
     def test_overlay_retains_lifecycle_record_interface(self):
         result = subprocess.run([shutil.which("bash"), (PEER / "validate-run-root.sh").as_posix(),

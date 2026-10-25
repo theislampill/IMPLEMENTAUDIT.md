@@ -5792,6 +5792,28 @@ def is_exact_preserved_unopenable_required_record(record_oid: str, record: dict[
     )
 
 
+def retained_route_source_digests_v1(value: Any, preserved_unopenable: bool) -> dict[str, str]:
+    """Validate the closed retained source-map domains; confer no route authority."""
+    source_digest_keys = {
+        "SKILL.md", "route-obligations.md", "route-transaction.py", "claim-run.sh"
+    }
+    if not preserved_unopenable:
+        source_digest_keys.add("resolve-internal-skill.py")
+        # Preserve the exact legacy domain while receiving the complete current
+        # original14 owner read set. Partial or additional domains still refuse.
+        current_source_digest_keys = source_digest_keys | {
+            "claim-run-rotation.py", "rotate-canonical-state.py", "canonical_hot_projection.py",
+            "canonical_custody.py", "canonical_rotation_inputs.py", "read-canonical-pair.py",
+            "validate-run-root.sh",
+        }
+        if isinstance(value, dict) and set(value) == current_source_digest_keys:
+            source_digest_keys = current_source_digest_keys
+    source_digests = exact_keys(value, source_digest_keys, "stale unsatisfied route package source digests")
+    if any(not isinstance(item, str) or not HEX_RE.fullmatch(item) for item in source_digests.values()):
+        fail("stale unsatisfied route package source digest is malformed", decision="REQUIRED")
+    return source_digests
+
+
 def validate_stale_unsatisfied_custody(
     repo: Path,
     common: str,
@@ -5915,18 +5937,7 @@ def validate_stale_unsatisfied_custody(
         repo, "rev-parse", "HEAD^{tree}"
     ):
         fail("stale unsatisfied route package has foreign repository identity", decision="REQUIRED")
-    source_digest_keys = {
-        "SKILL.md", "route-obligations.md", "route-transaction.py", "claim-run.sh"
-    }
-    if not preserved_unopenable:
-        source_digest_keys.add("resolve-internal-skill.py")
-    source_digests = exact_keys(
-        package["source_digests"],
-        source_digest_keys,
-        "stale unsatisfied route package source digests",
-    )
-    if any(not isinstance(value, str) or not HEX_RE.fullmatch(value) for value in source_digests.values()):
-        fail("stale unsatisfied route package source digest is malformed", decision="REQUIRED")
+    retained_route_source_digests_v1(package["source_digests"], preserved_unopenable)
     expected_executable = {
         "requested": "route-trigger",
         "resolved": "R0033:unadmitted" if preserved_unopenable else "R0033:built-in",
