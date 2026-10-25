@@ -838,17 +838,20 @@ def replacement_batch_apply():
                        "--repo-root", os.fspath(REPO), "--run-root", os.fspath(RUN), "--phase", str(args.phase),
                        "--step", str(row["step"]), "--preimage", os.fspath(repo_path(row["preimage"])),
                        "--candidate", os.fspath(repo_path(row["candidate"]))]
+            transport = canonical({
+                "source": base64.b64encode(captured_source).decode("ascii"), "restriction": restriction,
+            })
+            report["attempted_rows"] += 1
             try:
-                returned = subprocess.run(command, input=canonical({
-                    "source": base64.b64encode(captured_source).decode("ascii"), "restriction": restriction,
-                }), capture_output=True, cwd=os.fspath(REPO), check=False)
+                returned = subprocess.run(command, input=transport,
+                                          capture_output=True, cwd=os.fspath(REPO), check=False)
             except OSError as error:
-                result_row["classification_reason"] = "DISPATCH_UNAVAILABLE"
+                result_row.update(disposition="UNKNOWN", dispatch_started=None,
+                                  classification_reason="DISPATCH_UNAVAILABLE")
                 result_row["dispatch_exception"] = {"type": type(error).__name__, "errno": error.errno, "message": str(error)}
                 report.update(status="UNKNOWN", reason_code="DISPATCH_UNAVAILABLE", stopped_ordinal=ordinal)
                 code = EXITS["UNKNOWN"]
                 break
-            report["attempted_rows"] += 1
             classified = classify_replacement_return(returned.stdout, returned.returncode, expected)
             result_row.update(dispatch_started=True, returncode=returned.returncode,
                               stdout=raw_record(returned.stdout), stderr=raw_record(returned.stderr),

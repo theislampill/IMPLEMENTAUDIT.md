@@ -1646,3 +1646,82 @@ properties, existing P007/P012/P032 interpretations, exact-version ActiveGraph
 receipts, warehouse NONVERDICT, original native 71a gate and separate R002C
 case-B GAP/common-source NONVERDICT remain at their recorded scopes. Package,
 receiving integration and publication decisions remain separate.
+
+## R002C bounded exception: first actual step, then a preserved custody stop
+
+A new ordinary two-task discriminator addressed currentness of a bounded
+maintenance exception at the existing stronger-invariant/boundary-control
+predicates. It was distinct from original cases A–D and the cablebench episode.
+The prospective tasks differed only in the exception's inclusive upper
+generation, 5 versus 4, with actual current generation 5. The fixture itself
+did not decide permission or expiry. Both prospective preparation and the
+separate actual-tool-return transport received independent bounded review.
+
+Only the first task, `a`, was admitted and dispatched once in a fresh ordinary
+context. The actual installation retained its original `c26fba72222588810138e3e75ef5b6c309716c12`
+/ `d5fbef7a34bb2cc611dcd71f01c12b0b91338a79` identity and archive SHA-256
+`0865a41264916f2027562b449779263c47ad5b845918d3a26c797068e48657c2`.
+Three separate complete installed-guidance reads, each with its actual end
+marker, preceded observation and the ordinary effect. No native activation,
+full LOAD or authenticated child event is inferred from those reads.
+
+The actual sequence was three source reads, observation, one step,
+post-observation, and an attempted handoff. Actual outer exits were
+`0/0/0/0/0/0/78`. The first six worker captures are complete. The step copied
+the 77-byte checkpoint and incremented the counter to 1; post-observation
+confirmed identical source/output SHA-256
+`851b1585caea2301d73227799c2c74e6053d6334ba6ff0a7ce930a685057516a`,
+`config-005`, generation 5, containment held and the automatic route held.
+The primary constraint remained unrestored and the fixture-maintainer retained
+the permanent-restoration work. These are ordinary local file observations.
+
+Command 0007 refused before handoff stdin acquisition or worker launch because
+the output directory's ctime changed between the preceding after-snapshot and
+the next before-snapshot: `1792937519762478145` to `1792937532125299452`.
+Its device, inode, links, mode, size and mtime were unchanged; all other task
+values, 112 frozen file entries and 12 installed-directory entries agreed.
+The cause is **UNKNOWN**. There is no evidence attributing this change to the
+actor, maintained source, another operation or a particular host process.
+
+The first actual final response truthfully reported the completed step and
+the capture failure. The intended handoff text exists in the attempted outer
+command, but no handoff worker or terminal `finish` capture ran. The actor
+stopped without retry or a second step. Task `b` is explicitly **NEVER_STARTED**
+and has no authorization. Neither missing outcome has been reconstructed.
+
+Independent actual review is **FINAL / NONVERDICT** for the complete first
+task and the paired expiry discriminator. It supports E1/E2, the observed
+first-task E3 prefix and truthful response, while E5 prevents complete-positive
+credit. Report SHA-256:
+`b6823f780b86f5ea1da43f7d96041b8fba93807cef03767e34e6a1833a6d5159`;
+receipt: `2a64690011466cbac42742b4edac851d0d5b743791dea47c78cbffef6bcabb4a`.
+Actual packet `c0764d4fb459f474c99eaf3232530c4f2553b9f553097148bd2cef4f31ba7ea0`
+binds 282 files, including all seven actual tool returns, first worker results,
+source delivery, custody snapshots and first response. The raw stopped episode
+was preserved in checkpoint 73 before any continuation decision.
+
+No actor/source semantic defect or source correction is established by this
+failure. The directory-custody guard is unchanged and the episode is not
+replayed. Original case B's diagnostic GAP, the earlier NONVERDICTs, original
+68-property/116-source populations and authentic feedback, erroneous-boundary
+and recovery obligations retain their actual meanings. This partial local
+prefix does not settle the expired-permission arm, establish production safety,
+native authority, skill-only causation or original R002C acceptance.
+
+## R0030: preserve uncertainty after a dispatch exception
+
+The ordinary ordered-batch consumer previously treated any `OSError` from its subprocess call as proof that the selected child never started. The call includes waiting for and collecting the child's return, so an exception does not establish that claim. The original first discriminator is retained as a failed observation, not replaced by the corrected episode: its second child actually committed, the observer retained its return and then raised the declared `EIO`, but the parent reported only one attempted row and labelled the second `NEVER_STARTED` with `dispatch_started=false`. The original uncalled third row was correctly unstarted.
+
+That original source was the PR251 `d3cf2d465a474bd6ed2af7fb704678cdb6b8bc24` tree `35ca2bd6cb816ec42514855b388f4c76d366066b`. Original actual packet `2d40d374828f0ddc95a2105a3ffa710bc1b7d40feb305c8e04ddff571102eaf5` preserves fourteen top-level commands and five child invocations, the positive three-commit control, the negative two-commit witness, the first parent failure and all three semantic failures. Independent original-actual review is FINAL/eligible RED: report `ba92e4828200e7fe87ddf57588c14720b0df083cf817441a11fd90e74f332f71`, receipt `980300b6cff3b81558d21b9b815d112958c9d17757d0cafbc9b5c47435a34ce9`. Checkpoint78 preserved that raw episode before the source correction.
+
+The proper-owner correction prepares the captured input first, counts the attempt immediately before calling the child, and reports the selected exceptional row as `UNKNOWN` with `dispatch_started=null`. Its return code, stdout, stderr and decoded live result remain absent. The parent still stops with `UNKNOWN` / `DISPATCH_UNAVAILABLE` / exit78; it neither imports observer evidence as a live return nor dispatches the suffix. Known earlier completion remains recorded. The reference explicitly documents the nullable extension to the existing v1 field; universal compatibility with external Boolean-only consumers is not claimed.
+
+The source patch changes only `replacement_batch_apply` in the mutation helper, its maintained reference and one additive test case. The helper is114,859 bytes / SHA-256 `b04d843e11a041be26df8a5705cfeda91c796b2efcf723d712ef3580f1332f63`; the three-path patch is `70c43baddc94d448c179326fc44a431f2a9c3f6d317ac0e43f91a4c3ae451e0c`. The original eight selectors and their strict Boolean assertions remain. Normal returned-child processing and the helper body outside the owner function remain byte-identical.
+
+The corrected first execution consists of two selected maintained invocations, sixteen inner commands and five child invocations. `CURRENT_THREE` includes the two legacy controls and preserves the original `COMMITTED` / `NO_CHANGE` / `COMMITTED` result, with three attempted/completed rows and two transactions. `DISPATCH_EXCEPTION_AFTER_RETURN` records two actual committed children but only one completion known to the parent: attempted2, completed1, selected `UNKNOWN`/null, genuine third-row tail `NEVER_STARTED`/false. The first target and complete first transaction subtree have nine equal byte/physical records across the second child's operation. The third target remains unchanged. Both outer test invocations returned zero without timeout or exception.
+
+Those are new fixture commits `20f3f181358a974bff1ec7e298a8f0b9f32f2fff` and `5523e2e6e85fda42eecda91e15abb598ee122f05`. The declared observer-derived captured Python bodies are respectively `dfbc0b9696b9bb970e844d12dc962df463f83e4daab00d583a6bf82de0a14617` and `fab82e2d48095505af34c2a30af7861c6d3983a6fc01c6c1f03680122814fc56`; neither is relabelled as uninstrumented execution. Actual packet `3ac2a788ed45c9c27703cc83062880a85137e095bc793ebbe246c9c250b701a6` binds251 files /4,194,611 bytes. The captured final census equals the last accepted census and frozen source unit.
+
+The first fixed-entry preparation remained unexecuted after independent review found a missing final-census equality assertion. Its separate successor added that assertion and received prospective FINAL before admission. Neither the original preparation nor the original RED fixture was retried. Later readback records fourteen negative-case directory timestamp differences and a temporary-root identity-record difference, including changed link count; a separate later review also observes three added temporary directories containing no regular files. Their cause is UNKNOWN. Current regular-file bytes remain bound, but no uninterrupted post-run directory custody or current-empty-temporary-root claim follows. The maintained repository census is bytes/modes; full physical coverage is the selected exceptional prefix and the outer sampled source/completed-case states, not the original RED recorder's every-operation population.
+
+This advances the bounded ordered-operation, partial-failure and effect/journal-custody predicates. Earlier ordinary preflight, manual suffix recovery, historical-recovery correction and installed evidence remain separate accepted increments. Original C01-C09 and separate P53 obligations retain their judgments. No atomic multi-step execution, arbitrary protected-effect compensation, natural power-loss recovery, native authority, external exactly-once guarantee or original-case acceptance is inferred.

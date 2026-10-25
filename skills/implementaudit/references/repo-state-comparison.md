@@ -338,14 +338,19 @@ Physical capture/recheck is an observed regular-file boundary, not an atomic
 snapshot or exclusion of arbitrary same-principal writers.
 
 The single stdout `implementaudit.replacement-batch-apply.v1` report retains
-the actual preflight and each attempted row's actual exit, lossless base64
-stdout/stderr, decoded result and classification. `COMPLETED` requires exit zero
+the actual preflight, initiated dispatch-attempt count, and each returned row's
+actual exit, lossless base64 stdout/stderr, decoded result and classification.
+`COMPLETED` requires exit zero
 and an identity-matching ordinary v2 `COMMITTED` or `NO_CHANGE` result. The latter
 has no transaction and empty effect sets. A valid non-success stops the batch
 with its ordinary exit; missing, malformed, duplicate/nonfinite or inconsistent
 results yield `UNKNOWN` / 78. Later rows are explicitly `NEVER_STARTED`, without
-invented exits, streams or transactions. A launch failure remains unstarted
-and records its actual exception. Preflight refusal starts no child.
+invented exits, streams or transactions. An `OSError` from the complete dispatch
+call does not prove whether its child started: the selected attempt is counted,
+its disposition is `UNKNOWN`, and `dispatch_started` is null. The actual
+exception is retained; absent live exit, streams and decoded result remain null.
+This nullable v1 exception field is distinct from the false field on genuinely
+uncalled later rows. Preflight refusal starts no child.
 
 The completed prefix remains intact. There is no automatic retry, compensation,
 aggregate atomicity, authority or durable batch receipt. Interruption after

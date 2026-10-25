@@ -2615,7 +2615,7 @@ evidence.mkdir(parents=True, exist_ok=False)
 selected = sys.argv[5] if len(sys.argv) > 5 else 'all'
 case_names = ('CURRENT_THREE', 'STOP_MIDDLE_TARGET_DRIFT', 'ALL_TARGET_PREFLIGHT_REFUSAL',
               'SELECTED_EVIDENCE_DRIFT', 'PHASE_IDENTITY_DRIFT', 'MISSING_LIVE_RETURN',
-              'PARSER_ONLY_REJECTIONS', 'CAPTURED_SOURCE')
+              'PARSER_ONLY_REJECTIONS', 'CAPTURED_SOURCE', 'DISPATCH_EXCEPTION_AFTER_RETURN')
 assert selected in ('all', *case_names), 'unknown ordered consumer selector'
 records, outcomes = [], []
 source = helper.read_text(encoding='utf-8')
@@ -2704,7 +2704,7 @@ def fixture(name):
     rows = []
     for step, target in enumerate(('row-a', 'row-b', 'row-c'), 1):
         before = ('%s ORIGINAL\n' % target).encode()
-        after = before if step == 2 and name != 'MISSING_LIVE_RETURN' else ('%s REPLACED\n' % target).encode()
+        after = before if step == 2 and name not in ('MISSING_LIVE_RETURN', 'DISPATCH_EXCEPTION_AFTER_RETURN') else ('%s REPLACED\n' % target).encode()
         (repo / target).write_bytes(before)
         (repo / 'artifacts' / ('pre-' + target)).write_bytes(before)
         (repo / 'artifacts' / ('candidate-' + target)).write_bytes(after)
@@ -2746,6 +2746,46 @@ def derived_helper(case_dir, name):
                 {action or 'pass'}
         return returned
     subprocess.run = observed_run'''
+    if name == 'DISPATCH_EXCEPTION_AFTER_RETURN':
+        # Retain the actual child return before any prefix observation. It is
+        # observer evidence, not a live return available to the batch parent.
+        prefix_capture = '''    prefix_roots = []
+    def prefix_snapshot():
+        import stat as prefix_stat
+        captured = {}
+        for root in prefix_roots:
+            paths = [root, *sorted(root.rglob("*"))] if root.is_dir() else [root]
+            for path in paths:
+                before = path.lstat()
+                fields = ("st_dev", "st_ino", "st_mode", "st_nlink", "st_size", "st_mtime_ns", "st_ctime_ns")
+                row = {key: getattr(before, key) for key in fields}
+                if prefix_stat.S_ISREG(before.st_mode):
+                    data = path.read_bytes()
+                    row.update(kind="file", sha256=digest(data), byte_length=len(data))
+                elif prefix_stat.S_ISDIR(before.st_mode):
+                    row["kind"] = "directory"
+                else:
+                    raise RuntimeError("unexpected prefix member type")
+                after = path.lstat()
+                if any(getattr(after, key) != getattr(before, key) for key in fields):
+                    raise RuntimeError("prefix changed during observation")
+                captured[str(path)] = row
+        return captured
+'''
+        anchor = '    def observed_run(command, *values, **options):\n'
+        require(parent.count(anchor) == 1, 'exception observer insertion is not unique')
+        parent = parent.replace(anchor, prefix_capture + anchor)
+        witness = f'''            if selected_step == 1:
+                first = json.loads(returned.stdout)
+                prefix_roots.extend([REPO / "row-a", RUN / "mutation-transactions" / first["transaction_id"]])
+                Path({str(case_dir / 'PREFIX-BEFORE-SECOND.json')!r}).write_text(json.dumps(prefix_snapshot()) + "\\n")
+            if selected_step == 2:
+                Path({str(case_dir / 'PREFIX-AFTER-SECOND.json')!r}).write_text(json.dumps(prefix_snapshot()) + "\\n")
+                raise OSError(5, "declared post-return dispatch exception")
+'''
+        anchor = '        return returned\n'
+        require(parent.count(anchor) == 1, 'exception return boundary is not unique')
+        parent = parent.replace(anchor, witness + anchor)
     if name == 'CAPTURED_SOURCE':
         parent += '\n    Path(' + repr(str(invoked)) + ').write_bytes(b"#!/usr/bin/env bash\\nexit 79\\n")'
     if name == 'MISSING_LIVE_RETURN':
@@ -2811,7 +2851,7 @@ def run_case(name):
         expected_exit, expected_status, expected_completed = 65, 'STOPPED', 1
     elif name == 'ALL_TARGET_PREFLIGHT_REFUSAL':
         expected_exit, expected_status, expected_completed = 65, 'REFUSED', 0
-    elif name == 'MISSING_LIVE_RETURN':
+    elif name in ('MISSING_LIVE_RETURN', 'DISPATCH_EXCEPTION_AFTER_RETURN'):
         expected_exit, expected_status, expected_completed = 78, 'UNKNOWN', 1
     require((actual.returncode, report['status'], report['completed_rows']) == (expected_exit, expected_status, expected_completed),
             name + ': unexpected status/count/exit ' + repr((actual.returncode, report['status'], report['completed_rows'])))
@@ -2822,13 +2862,25 @@ def run_case(name):
         if ordinal >= attempted:
             require(row['disposition'] == 'NEVER_STARTED' and row['dispatch_started'] is False
                     and row['returncode'] is row['stdout'] is row['stderr'] is row['decoded_result'] is None, name + ': invented tail evidence')
+        elif name == 'DISPATCH_EXCEPTION_AFTER_RETURN' and ordinal == 1:
+            observed = trace_rows[ordinal]
+            require(row['disposition'] == 'UNKNOWN' and row['dispatch_started'] is None
+                    and row['classification_reason'] == 'DISPATCH_UNAVAILABLE', name + ': false start/outcome certainty')
+            require(row['returncode'] is row['stdout'] is row['stderr'] is row['decoded_result'] is None,
+                    name + ': observer return promoted to parent live evidence')
+            require(row['dispatch_exception'] == {'type': 'OSError', 'errno': 5,
+                    'message': '[Errno 5] declared post-return dispatch exception'}, name + ': actual exception lost')
+            require(observed['returncode'] == 0 and json.loads(base64.b64decode(observed['stdout']))['status'] == 'COMMITTED',
+                    name + ': selected second child did not actually commit')
+            require(observed['source_sha256'] == sha(captured) and observed['source_byte_length'] == len(captured),
+                    name + ': exceptional child source changed')
         else:
             observed = trace_rows[ordinal]
             require(row['dispatch_started'] is True and row['returncode'] == observed['returncode'], name + ': actual exit lost')
             require(byte_record(row['stdout']) == base64.b64decode(observed['stdout'])
                     and byte_record(row['stderr']) == base64.b64decode(observed['stderr']), name + ': raw return changed')
             require(observed['source_sha256'] == sha(captured) and observed['source_byte_length'] == len(captured), name + ': child reopened source')
-    expected_tx = [1, 3] if expected_status == 'COMPLETED' else ([1, 2] if name == 'MISSING_LIVE_RETURN' else ([1] if attempted else []))
+    expected_tx = [1, 3] if expected_status == 'COMPLETED' else ([1, 2] if name in ('MISSING_LIVE_RETURN', 'DISPATCH_EXCEPTION_AFTER_RETURN') else ([1] if attempted else []))
     tx_parent = run / 'mutation-transactions'
     transactions = sorted(path.name for path in tx_parent.iterdir()) if tx_parent.exists() else []
     require(transactions == [f'{claim}-p1-s{step}' for step in expected_tx], name + ': transaction population')
@@ -2851,6 +2903,13 @@ def run_case(name):
         require(row['disposition'] == 'UNKNOWN' and row['returncode'] == 0 and byte_record(row['stdout']) == b''
                 and row['decoded_result'] is None, name + ': saved result promoted to live return')
         require((repo / 'row-b').read_bytes() == b'row-b REPLACED\n', name + ': missing actual second effect')
+    if name == 'DISPATCH_EXCEPTION_AFTER_RETURN':
+        require(report['reason_code'] == 'DISPATCH_UNAVAILABLE' and report['stopped_ordinal'] == 1,
+                name + ': exception aggregate boundary changed')
+        require((repo / 'row-b').read_bytes() == b'row-b REPLACED\n', name + ': missing actual second effect')
+        require(json.loads((case_dir / 'PREFIX-BEFORE-SECOND.json').read_bytes()) ==
+                json.loads((case_dir / 'PREFIX-AFTER-SECOND.json').read_bytes()),
+                name + ': earlier target or complete transaction custody changed')
     if attempted < 3:
         require((repo / 'row-c').read_bytes() == b'row-c ORIGINAL\n', name + ': tail target changed')
     if attempted == 0:
