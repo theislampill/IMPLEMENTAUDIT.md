@@ -111,7 +111,16 @@ class ReceivingClosureControls(unittest.TestCase):
         self.compiler = self.source / "compile-work-graph.py"
         self.compiler.write_bytes(b"constructed path anchor; compiler bytes checked by enclosing owner")
         self.rows = []
-        for name, size, digest, mode in OE._NATIVE_CONTINUITY_SIX_SOURCE_PROFILE_V1:
+        # Bind this constructed receiver to the complete current qualified tuple.
+        # The historical six-source profile remains an unchanged compatibility input.
+        profile = []
+        for name, _, _, _ in OE._NATIVE_CONTINUITY_SIX_SOURCE_PROFILE_V1:
+            source = ROOT / "skills/implementaudit/scripts" / name
+            raw = source.read_bytes()
+            profile.append((name, len(raw), hashlib.sha256(raw).hexdigest(),
+                            source.stat().st_mode & 4095))
+        self.assertIn(tuple(profile), OE._NATIVE_CONTINUITY_SOURCE_PROFILES_V1)
+        for name, size, digest, mode in profile:
             path = self.source / name
             shutil.copyfile(ROOT / "skills/implementaudit/scripts" / name, path)
             path.chmod(mode)
