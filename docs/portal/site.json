@@ -26,7 +26,12 @@
     "skills/implementaudit/references/audit-playbook.md",
     "skills/implementaudit/references/issue-ready-work-orders.md",
     "skills/implementaudit/templates/final-report.md",
-    "skills/implementaudit/references/terminology-integration.md"
+    "skills/implementaudit/references/terminology-integration.md",
+    "docs/research/implementaudit/r003f-actual-receiving.json",
+    "docs/research/implementaudit/r0041-actual-receiving.json",
+    "docs/research/implementaudit/r003f-r0041-receiving-inputs.json",
+    "docs/research/implementaudit/r003f-r0041-bwp-receiving.json",
+    "docs/research/implementaudit/r003f-r0041-engineering-evidence.json"
   ],
   "nav": [
     {

@@ -1,6 +1,7 @@
 {
   "format": "implementaudit.bwp-original-lineage-qualification.v1",
-  "work_order": "R0041", "canonical_allocation": "Published existing work-order reference; unallocated in selected main canonical registry. No new allocation.",
+  "work_order": "R0041", "__published_identity_work_order": "Published work-order reference; unallocated in the selected main canonical registry. No allocation is made.",
+  "canonical_allocation": "Published existing work-order reference; unallocated in selected main canonical registry. No new allocation.",
   "issue": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/230",
   "scope": "Original EWM content and separate target/receiving qualification; no automatic issue or embedded-component closure.",
   "source_base": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
@@ -116,7 +117,7 @@
       "sha256": "cb5dbaff70adf8a19e798f0823b6d5f23abc5d5d1ac12ef9a2e932ba177aebee"
     }
   ],
-  "receiving_state": "PENDING_ACTUAL_COLD_CONSUMPTION",
+  "receiving_state": "ACTUAL_BOUNDED_SOURCE_AND_CASE_RECEIVING_ACCEPTED_WITH_RESIDUALS",
   "rows": [
     {
       "id": "EWM:EWM-001",
@@ -248,10 +249,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain case-17/q-17/reply-17 bindings and resolve any changed correlation before admission.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/0",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/continuity.md",
+            "section": "Canonical generations and readers; native resume; pending occurrences",
+            "role": "Currentness and continuity owner; this report cannot mint or satisfy its receipt."
+          },
+          {
+            "path": "docs/operational-evidence.md",
+            "section": "Explicit invocation and receiving boundary; Ordinary accepted result and receiving projection; Canonical evidence and failure collection",
+            "role": "R0038 observation owner; ATTEMPT, RECEIPT, EFFECT, RECOVERY and CLOSURE stay distinct."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No enacted identity-resolution trace or alias-reuse policy.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Strongly retain distinction of lifecycles, not a compulsory UUID for every noun.",
@@ -397,10 +414,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Hold those mappings and acquire state predicates and transition effects.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/1",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          },
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No supported actual-state version2 mapping for the failing proposals.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "The invariant is explicit meaning when meaning matters, not compulsory automation.",
@@ -553,10 +586,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Apply the selected closure policy to exact remaining obligations and record the actual outcome.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/2",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          },
+          {
+            "path": "docs/operational-evidence.md",
+            "section": "Explicit invocation and receiving boundary; Ordinary accepted result and receiving projection; Canonical evidence and failure collection",
+            "role": "R0038 observation owner; ATTEMPT, RECEIPT, EFFECT, RECOVERY and CLOSURE stay distinct."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No real closure or native residual inventory observed.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Retain scoped completion accounting, not a universal rule that every child must succeed.",
@@ -711,10 +760,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Choose an adequate alternative for the live consumer without introducing a migration engine by default.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/3",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          },
+          {
+            "path": "skills/implementaudit/references/lean-operating-discipline.md",
+            "section": "Engineering-value admission, retention, and retirement",
+            "role": "Consumer-based retention including older products and transferred obligations."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "Actual operating costs and execution are unproved.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Strong as a selection principle; no empirical claim that the smallest tool always has the best outcome.",
@@ -863,10 +928,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Review combined state/data/actor/effect prerequisites before consequence.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/4",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          },
+          {
+            "path": "skills/implementaudit/references/phase-design.md",
+            "section": "Rule P4-17 Triggered state-synthesis acceptance",
+            "role": "Separates authority, evaluator, consequence, recovery and proposal-independent justification."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No complete executable task contract for a real target instance.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Retain integrated interpretation but allow selective modelling of irrelevant perspectives.",
@@ -1011,10 +1092,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Hold the ambiguous branch for an authoritative outcome or supported uncertainty policy.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/5",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          },
+          {
+            "path": "docs/operational-evidence.md",
+            "section": "Explicit invocation and receiving boundary; Ordinary accepted result and receiving projection; Canonical evidence and failure collection",
+            "role": "R0038 observation owner; ATTEMPT, RECEIPT, EFFECT, RECOVERY and CLOSURE stay distinct."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "True/false/multiple-match behavior has no enacted fixture here.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "The strongly retained property is declared branch meaning, not universal exclusive choice.",
@@ -1167,10 +1264,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "If parallel convergence is selected, inspect absent, late, duplicate and re-entered arrivals at its existing JOIN.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/6",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/child-agents.md",
+            "section": "Independence; Work-conserving ready-cell frontier",
+            "role": "Existing governor-controlled child, dependency, resource, authority and named-JOIN boundaries."
+          },
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "Activation IDs, branch reset rules and late/re-entry traces are absent.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Retain precise context-specific synchronisation; do not claim the taxonomy settles every formalisation dispute.",
@@ -1312,10 +1425,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Keep an explicit bounded task list unless dynamic multiplicity is needed; then account for remaining children.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/7",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/child-agents.md",
+            "section": "Independence; Work-conserving ready-cell frontier",
+            "role": "Existing governor-controlled child, dependency, resource, authority and named-JOIN boundaries."
+          },
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "No closed membership, threshold or residual-child policy.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Useful only when multiplicity exists; no reason to manufacture child workflows for a single task.",
@@ -1461,10 +1590,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "If timeout and reply compete, define winner commitment and retain obligations from late responses.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/8",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/continuity.md",
+            "section": "Canonical generations and readers; native resume; pending occurrences",
+            "role": "Currentness and continuity owner; this report cannot mint or satisfy its receipt."
+          },
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "Arbitration and losing-response consequences are absent.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Conditional coordination mechanism, not a universal requirement for event-driven infrastructure.",
@@ -1609,10 +1754,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Identify the actual conflict and serialize only its scope when such work is selected.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/9",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/child-agents.md",
+            "section": "Independence; Work-conserving ready-cell frontier",
+            "role": "Existing governor-controlled child, dependency, resource, authority and named-JOIN boundaries."
+          },
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "No shared-resource interference relation or lock lifetime.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Retain only for an actual interference relation; concurrency itself is not a defect.",
@@ -1761,10 +1922,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "State the required progress quantifier and obtain its argument before promising termination.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/10",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          },
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No ranking measure, finite bound or justified fairness premise.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Retain as a legitimate coordination form, not a mandatory feature or a promise that every workflow terminates.",
@@ -1921,10 +2098,21 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Keep a simpler adequate representation; require preserved behavior before transformation.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/11",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "No structured/unstructured transformation or equivalence criterion.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "No universal superiority claim is warranted for either block structure or unrestricted graphs.",
@@ -2077,10 +2265,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "On a triggered cancellation/JOIN, exclude both impossible waiting and fabricated success.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/12",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/child-agents.md",
+            "section": "Independence; Work-conserving ready-cell frontier",
+            "role": "Existing governor-controlled child, dependency, resource, authority and named-JOIN boundaries."
+          },
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "Cancellation scope, branch state and mandatory-result disposition are absent.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Core coupling survives, but there is no universal rule that cancellation satisfies every join.",
@@ -2229,10 +2433,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain successor and supported reply route until actual transfer and closure are evidenced.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/13",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          },
+          {
+            "path": "skills/implementaudit/references/lean-operating-discipline.md",
+            "section": "Engineering-value admission, retention, and retirement",
+            "role": "Consumer-based retention including older products and transferred obligations."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No real descendant shutdown or late-callback handling is observed.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Retain explicit termination meaning, not mandatory synchronised shutdown across every organisation.",
@@ -2378,10 +2598,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Request a formal net analysis only if its structural guarantee is the selected assurance claim.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/14",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          },
+          {
+            "path": "skills/implementaudit/references/phase-design.md",
+            "section": "Rule P4-17 Triggered state-synthesis acceptance",
+            "role": "Separates authority, evaluator, consequence, recovery and proposal-independent justification."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "Actual net, marking, theorem and engine correspondence are absent.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Strong formal evidence within assumptions; retain as assumption-sensitive, not universally mandatory.",
@@ -2526,10 +2762,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Specify the exact guarantee and obtain an enabled escape or justified progress argument.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/15",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          },
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "Scheduler, cooperation and fairness premises are unproved.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Assumption-sensitive selection survives; no single strongest definition is always appropriate.",
@@ -2681,10 +2933,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain the bounded contradiction; escalate only for a more complex consequential model.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/16",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          },
+          {
+            "path": "skills/implementaudit/references/phase-design.md",
+            "section": "Rule P4-17 Triggered state-synthesis acceptance",
+            "role": "Separates authority, evaluator, consequence, recovery and proposal-independent justification."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No arbitrary workflow abstraction or enacted-version conformance is established.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Conditional method; verification must earn its cost and cannot replace environmental evidence.",
@@ -2845,10 +3113,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Qualify the used implementation subset at its execution boundary before claiming native behavior.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/17",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/phase-design.md",
+            "section": "Rule P4-17 Triggered state-synthesis acceptance",
+            "role": "Separates authority, evaluator, consequence, recovery and proposal-independent justification."
+          },
+          {
+            "path": "docs/operational-evidence.md",
+            "section": "Explicit invocation and receiving boundary; Ordinary accepted result and receiving projection; Canonical evidence and failure collection",
+            "role": "R0038 observation owner; ATTEMPT, RECEIPT, EFFECT, RECOVERY and CLOSURE stay distinct."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "No engine/version conformance, fault, race or upgrade run.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Strongly retain the distinction and checking obligation where a model verdict is relied upon; no current engine ranking is inferred.",
@@ -3005,10 +3289,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Use actual availability evidence when material; preserve truthful wait or escalation.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/18",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          },
+          {
+            "path": "skills/implementaudit/references/child-agents.md",
+            "section": "Independence; Work-conserving ready-cell frontier",
+            "role": "Existing governor-controlled child, dependency, resource, authority and named-JOIN boundaries."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "Live capacity, calendars, deadlines and service guarantee are missing.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Retain where progress depends on scarce resources; no claim that every workflow requires an optimiser.",
@@ -3155,10 +3455,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Hold migration; obtain a lawful state/data transformation or keep supported version1.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/19",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          },
+          {
+            "path": "skills/implementaudit/references/phase-design.md",
+            "section": "Rule P4-17 Triggered state-synthesis acceptance",
+            "role": "Separates authority, evaluator, consequence, recovery and proposal-independent justification."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No permissible producer, waiver or supported rework mapping.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Retain information availability and binding checks; do not pretend this packet proves arbitrary data semantics.",
@@ -3303,10 +3619,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Carry necessary values with binding/provenance and request the missing decision-changing input.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/20",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          },
+          {
+            "path": "skills/implementaudit/references/repo-state-comparison.md",
+            "section": "Consequential asynchronous work; interface/schema/configuration/environment/authority binding (lines 175-182)",
+            "role": "Binds consequence evidence to the actual environment and requalifies affected changed identity."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "Real data-owner, binding-time and access enforcement are unobserved.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Conditional on shared/passed data; strict global data exposure is not retained.",
@@ -3461,10 +3793,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain the old reply route or establish exact accepted transfer before changing it.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/21",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/continuity.md",
+            "section": "Canonical generations and readers; native resume; pending occurrences",
+            "role": "Currentness and continuity owner; this report cannot mint or satisfy its receipt."
+          },
+          {
+            "path": "docs/operational-evidence.md",
+            "section": "Explicit invocation and receiving boundary; Ordinary accepted result and receiving projection; Canonical evidence and failure collection",
+            "role": "R0038 observation owner; ATTEMPT, RECEIPT, EFFECT, RECOVERY and CLOSURE stay distinct."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "Q4 lacks a valid new correlation map.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Strongly retain correct association whenever asynchronous or multi-case work exists.",
@@ -3603,10 +3951,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain the conditional option; identify a concrete relationship simpler case bindings cannot represent.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/22",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          },
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "No many-to-many object population or cross-object constraints.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Retain for fitting object structures; reject the claim that all workflows should be recast as one artefact model.",
@@ -3756,10 +4120,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "If mutable values control action, bind current versions or reread and expose unresolved races.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/23",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/repo-state-comparison.md",
+            "section": "Consequential asynchronous work; interface/schema/configuration/environment/authority binding (lines 175-182)",
+            "role": "Binds consequence evidence to the actual environment and requalifies affected changed identity."
+          },
+          {
+            "path": "skills/implementaudit/references/continuity.md",
+            "section": "Canonical generations and readers; native resume; pending occurrences",
+            "role": "Currentness and continuity owner; this report cannot mint or satisfy its receipt."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "No relevance-specific freshness or conflict rule.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Assumption-sensitive because the necessary consistency level depends on the decision and external cooperation.",
@@ -3915,10 +4295,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain the commitment and obtain the entitled parties' specific substitution authority.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/24",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          },
+          {
+            "path": "skills/implementaudit/references/phase-design.md",
+            "section": "Rule P4-17 Triggered state-synthesis acceptance",
+            "role": "Separates authority, evaluator, consequence, recovery and proposal-independent justification."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No grant covering changed obligations.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Retain the distinction; the required proof of authority is domain-specific and outside this neutral corpus.",
@@ -4063,10 +4459,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Keep a current responsible party and lawful next transition for the open reply.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/25",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          },
+          {
+            "path": "skills/implementaudit/references/child-agents.md",
+            "section": "Independence; Work-conserving ready-cell frontier",
+            "role": "Existing governor-controlled child, dependency, resource, authority and named-JOIN boundaries."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No native claim, exclusivity or reassignment event.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Strongly retain accountable ownership when responsibility may otherwise be ambiguous.",
@@ -4211,10 +4623,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Recommend only the permitted route and demand actual handover evidence before completion.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/26",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          },
+          {
+            "path": "skills/implementaudit/references/issue-ready-work-orders.md",
+            "section": "Durable continuation before allocation",
+            "role": "Preserves source states, residuals, entitled receiver readback and actionable continuation; no allocation authority here."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No live handover execution or cessation by the original performer.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Context-specific mechanism; no universal obligation to support arbitrary delegation.",
@@ -4367,10 +4795,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Add no scheduler; expose real overload for accountable allocation when triggered.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/27",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          },
+          {
+            "path": "skills/implementaudit/references/child-agents.md",
+            "section": "Independence; Work-conserving ready-cell frontier",
+            "role": "Existing governor-controlled child, dependency, resource, authority and named-JOIN boundaries."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "Actual demand, capacity and allocation authority are missing.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Conditional; no particular fairness metric or scheduling algorithm is universally justified.",
@@ -4517,10 +4961,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Check a full actual assignment when duty rules exist; do not weaken rules to obtain a solution.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/28",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          },
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "No task/user constraints, authorization sets or past assignments.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Strong model-level basis with narrow assumptions; retain as assumption-sensitive.",
@@ -4680,10 +5140,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Record performed and declined separately and use the authorised acceptance/decline policy.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/29",
+        "current_applicable_owner": [
+          {
+            "path": "docs/operational-evidence.md",
+            "section": "Explicit invocation and receiving boundary; Ordinary accepted result and receiving projection; Canonical evidence and failure collection",
+            "role": "R0038 observation owner; ATTEMPT, RECEIPT, EFFECT, RECOVERY and CLOSURE stay distinct."
+          },
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No evidence of satisfactory recipient effect.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Strongly retain the distinction, not universal distrust of human reports.",
@@ -4839,10 +5315,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Keep bounded judgment/feedback; collect the actual workaround before redesign.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/30",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          },
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "Participant evidence and revision authority are absent.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Retain participant-informed discretion; foundational original texts have access limits but later primary studies were inspected.",
@@ -4987,10 +5479,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Hold send-outcome-unknown and route the exception to the effect owner.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/31",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          },
+          {
+            "path": "docs/operational-evidence.md",
+            "section": "Explicit invocation and receiving boundary; Ordinary accepted result and receiving projection; Canonical evidence and failure collection",
+            "role": "R0038 observation owner; ATTEMPT, RECEIPT, EFFECT, RECOVERY and CLOSURE stay distinct."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No authoritative reconciliation or safe-repeat contract.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Retain explicit anticipated handling where failures matter; automation is conditional.",
@@ -5144,10 +5652,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Seek a bounded authorised repair or continue the supported old version.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/32",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          },
+          {
+            "path": "skills/implementaudit/references/phase-design.md",
+            "section": "Rule P4-17 Triggered state-synthesis acceptance",
+            "role": "Separates authority, evaluator, consequence, recovery and proposal-independent justification."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No authorised repair, supported restart or state substitute.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Conditional and authority-sensitive; the packet supplies no universal emergency powers.",
@@ -5297,10 +5821,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "On interruption distinguish request, acknowledgment and actual stop before dependent work.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/33",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/continuity.md",
+            "section": "Canonical generations and readers; native resume; pending occurrences",
+            "role": "Currentness and continuity owner; this report cannot mint or satisfy its receipt."
+          },
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "Effective cancellation scope and external cooperation are absent.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Strong distinction whenever interruption exists; no universal cancellation implementation is prescribed.",
@@ -5455,10 +5995,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Query/reconcile under original operation identity; preserve UNKNOWN if outcome stays inaccessible.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/34",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/repo-state-comparison.md",
+            "section": "Consequential asynchronous work; interface/schema/configuration/environment/authority binding (lines 175-182)",
+            "role": "Binds consequence evidence to the actual environment and requalifies affected changed identity."
+          },
+          {
+            "path": "docs/operational-evidence.md",
+            "section": "Explicit invocation and receiving boundary; Ordinary accepted result and receiving projection; Canonical evidence and failure collection",
+            "role": "R0038 observation owner; ATTEMPT, RECEIPT, EFFECT, RECOVERY and CLOSURE stay distinct."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No authoritative outcome or justified repeat protocol.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Strongly retain epistemic distinction; no blanket rule against retries.",
@@ -5606,10 +6162,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Treat any remedy as its own action and retain residual differences.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/35",
+        "current_applicable_owner": [
+          {
+            "path": "docs/operational-evidence.md",
+            "section": "Explicit invocation and receiving boundary; Ordinary accepted result and receiving projection; Canonical evidence and failure collection",
+            "role": "R0038 observation owner; ATTEMPT, RECEIPT, EFFECT, RECOVERY and CLOSURE stay distinct."
+          },
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No external inverse, compensator authority or remedial effect.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Strongly retain rollback/compensation distinction; no compulsory compensator for actions with no meaningful inverse.",
@@ -5758,10 +6330,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "If a remedy fails, retain its material residue with lawful ownership, transfer or accepted uncertainty.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/36",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          },
+          {
+            "path": "docs/operational-evidence.md",
+            "section": "Explicit invocation and receiving boundary; Ordinary accepted result and receiving projection; Canonical evidence and failure collection",
+            "role": "R0038 observation owner; ATTEMPT, RECEIPT, EFFECT, RECOVERY and CLOSURE stay distinct."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "No remedy status, affected recipient or accepted residue disposition.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Retain proportionate residual accounting; legitimate transfer can close an engine case without claiming the world was restored.",
@@ -5915,10 +6503,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Attribute each proposed action and acceptance to its entitled participant.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/37",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          },
+          {
+            "path": "skills/implementaudit/references/phase-design.md",
+            "section": "Rule P4-17 Triggered state-synthesis acceptance",
+            "role": "Separates authority, evaluator, consequence, recovery and proposal-independent justification."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "Actual cross-participant execution and native acceptance are unobserved.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Contextual architecture choice, not an ideology favouring all-central or all-distributed control.",
@@ -6080,10 +6684,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain message meaning and unresolved replies; require participant evidence for acceptance.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/38",
+        "current_applicable_owner": [
+          {
+            "path": "docs/operational-evidence.md",
+            "section": "Explicit invocation and receiving boundary; Ordinary accepted result and receiving projection; Canonical evidence and failure collection",
+            "role": "R0038 observation owner; ATTEMPT, RECEIPT, EFFECT, RECOVERY and CLOSURE stay distinct."
+          },
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No actual late/reordered/duplicate-message protocol is qualified.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Retain explicit meanings for consequential boundary messages; no universal message taxonomy is imposed.",
@@ -6228,10 +6848,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Hold the progress claim and supply a supported escape or revise the interaction.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/39",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          },
+          {
+            "path": "skills/implementaudit/references/child-agents.md",
+            "section": "Independence; Work-conserving ready-cell frontier",
+            "role": "Existing governor-controlled child, dependency, resource, authority and named-JOIN boundaries."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No escape transition or justified cooperation premise.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Strong formal basis for the distinction; global guarantees remain assumption-sensitive.",
@@ -6385,10 +7021,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "For portability, name its semantic layer and qualify used behavior or accepted loss.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/40",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          },
+          {
+            "path": "skills/implementaudit/references/phase-design.md",
+            "section": "Rule P4-17 Triggered state-synthesis acceptance",
+            "role": "Separates authority, evaluator, consequence, recovery and proposal-independent justification."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "No receiving environment or behavior-transfer witness.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Conditional economic/design property; universal cross-engine portability is not retained.",
@@ -6542,10 +7194,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Use the existing continuity owner for real recovery and retain uncertain outside effects.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/41",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/continuity.md",
+            "section": "Canonical generations and readers; native resume; pending occurrences",
+            "role": "Currentness and continuity owner; this report cannot mint or satisfy its receipt."
+          },
+          {
+            "path": "skills/implementaudit/references/canonical-state-rotation.md",
+            "section": "Pending occurrences and retirement",
+            "role": "Native rotation/history owner; TC06 and TC11 preserve readers, history and affected reuse boundaries."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "No live persisted state, crash point or native resume.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Retain when continuity matters; not every simple task needs a durable execution platform.",
@@ -6703,10 +7371,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Refuse reset/retry until repeat safety or a permitted uncertainty disposition is established.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/42",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/repo-state-comparison.md",
+            "section": "Consequential asynchronous work; interface/schema/configuration/environment/authority binding (lines 175-182)",
+            "role": "Binds consequence evidence to the actual environment and requalifies affected changed identity."
+          },
+          {
+            "path": "docs/operational-evidence.md",
+            "section": "Explicit invocation and receiving boundary; Ordinary accepted result and receiving projection; Canonical evidence and failure collection",
+            "role": "R0038 observation owner; ATTEMPT, RECEIPT, EFFECT, RECOVERY and CLOSURE stay distinct."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No stable external key, participant repeat guarantee or effect count.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Strongly retain duplicate-effect control wherever repetition is possible; no single technique is universally necessary.",
@@ -6870,10 +7554,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Keep approval, attempted send and unknown delivery distinct; acquire effect-owner outcome evidence.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/43",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/repo-state-comparison.md",
+            "section": "Consequential asynchronous work; interface/schema/configuration/environment/authority binding (lines 175-182)",
+            "role": "Binds consequence evidence to the actual environment and requalifies affected changed identity."
+          },
+          {
+            "path": "docs/operational-evidence.md",
+            "section": "Explicit invocation and receiving boundary; Ordinary accepted result and receiving projection; Canonical evidence and failure collection",
+            "role": "R0038 observation owner; ATTEMPT, RECEIPT, EFFECT, RECOVERY and CLOSURE stay distinct."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "External outcome remains UNKNOWN without reconciliation.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Retain conditional reconciliation rather than a requirement to query every pure task after every restart.",
@@ -7018,10 +7718,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Do not impose replay machinery; test supported history only if that runtime is actually selected.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/44",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          },
+          {
+            "path": "skills/implementaudit/references/continuity.md",
+            "section": "Canonical generations and readers; native resume; pending occurrences",
+            "role": "Currentness and continuity owner; this report cannot mint or satisfy its receipt."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "No replay engine, command-matching contract or compatible history.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Retain only for replay-based implementations and clearly delimited deterministic components.",
@@ -7183,10 +7899,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain necessary old state; retire only after exact supported successor/discharge evidence.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/45",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/lean-operating-discipline.md",
+            "section": "Engineering-value admission, retention, and retirement",
+            "role": "Consumer-based retention including older products and transferred obligations."
+          },
+          {
+            "path": "skills/implementaudit/references/canonical-state-rotation.md",
+            "section": "Pending occurrences and retirement",
+            "role": "Native rotation/history owner; TC06 and TC11 preserve readers, history and affected reuse boundaries."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No consumer discharge or sufficient replacement record.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Retain explicit retention rationale, not any fixed duration or compulsory event sourcing.",
@@ -7345,10 +8077,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Preserve original facts and reacquire only changed continuation obligations.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/46",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/continuity.md",
+            "section": "Canonical generations and readers; native resume; pending occurrences",
+            "role": "Currentness and continuity owner; this report cannot mint or satisfy its receipt."
+          },
+          {
+            "path": "skills/implementaudit/references/repo-state-comparison.md",
+            "section": "Consequential asynchronous work; interface/schema/configuration/environment/authority binding (lines 175-182)",
+            "role": "Binds consequence evidence to the actual environment and requalifies affected changed identity."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No current compatible mapping or renewed affected evidence in Q6.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Assumption-sensitive because compatibility differs across engines and external dependencies.",
@@ -7504,10 +8252,31 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Recommend Q1 on supplied premises, supported old continuation, or authorised Q9 close/restart with consequence accounting.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/47",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/continuity.md",
+            "section": "Canonical generations and readers; native resume; pending occurrences",
+            "role": "Currentness and continuity owner; this report cannot mint or satisfy its receipt."
+          },
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          },
+          {
+            "path": "skills/implementaudit/references/repo-state-comparison.md",
+            "section": "Consequential asynchronous work; interface/schema/configuration/environment/authority binding (lines 175-182)",
+            "role": "Binds consequence evidence to the actual environment and requalifies affected changed identity."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No actual migration or installed-host acceptance; each failing case lacks its named discriminator.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Strongly retain the distinction when migration is attempted; checked migration is not compulsory for every release.",
@@ -7658,10 +8427,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Keep governing version, readers and reply correlation until obligations are lawfully discharged.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/48",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/continuity.md",
+            "section": "Canonical generations and readers; native resume; pending occurrences",
+            "role": "Currentness and continuity owner; this report cannot mint or satisfy its receipt."
+          },
+          {
+            "path": "skills/implementaudit/references/lean-operating-discipline.md",
+            "section": "Engineering-value admission, retention, and retirement",
+            "role": "Consumer-based retention including older products and transferred obligations."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No deployment or eventual retirement event.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Conditional alternative that can dominate migration, not a universal architecture requirement.",
@@ -7813,10 +8598,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Choose an adequate obligation-preserving option with explicit authority and completion scope.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/49",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          },
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No evidence warrants a general adaptive subsystem.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Retain the discriminating taxonomy as a selection aid, not a maturity ladder.",
@@ -7966,10 +8767,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Reject the conjunction and obtain a jointly consistent authorised configuration.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/50",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          },
+          {
+            "path": "skills/implementaudit/references/phase-design.md",
+            "section": "Rule P4-17 Triggered state-synthesis acceptance",
+            "role": "Separates authority, evaluator, consequence, recovery and proposal-independent justification."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No declarative engine or arbitrary-trace correctness is established.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Conditional method, not a universal replacement for sequences or proof of user comprehension.",
@@ -8123,10 +8940,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Use bounded judgment when needed and retain the current prescribed route otherwise.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/51",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          },
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "Discretionary authority, context and observable result are absent.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Retain for appropriate uncertainty and skill conditions; no general outcome superiority is established.",
@@ -8272,10 +9105,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "If runtime planning is selected, distinguish available from chosen work and its outcome.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/52",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          },
+          {
+            "path": "skills/implementaudit/references/lean-operating-discipline.md",
+            "section": "Engineering-value admission, retention, and retirement",
+            "role": "Consumer-based retention including older products and transferred obligations."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "Selected/declined case-item population and completion states are absent.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Conditional case-management mechanism; no compulsory CMMN adoption.",
@@ -8417,10 +9266,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Keep manual or explicit variants until a concrete repeated need justifies a worklet.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/53",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          },
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "Context, subworkflow interface and rule-extension authority are missing.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Conditional adaptive mechanism; demonstration scenarios do not prove general deployment benefit.",
@@ -8588,10 +9453,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain old meaning and distinguish new evidence establishing current interpretation.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/54",
+        "current_applicable_owner": [
+          {
+            "path": "docs/operational-evidence.md",
+            "section": "Explicit invocation and receiving boundary; Ordinary accepted result and receiving projection; Canonical evidence and failure collection",
+            "role": "R0038 observation owner; ATTEMPT, RECEIPT, EFFECT, RECOVERY and CLOSURE stay distinct."
+          },
+          {
+            "path": "skills/implementaudit/references/canonical-state-rotation.md",
+            "section": "Pending occurrences and retirement",
+            "role": "Native rotation/history owner; TC06 and TC11 preserve readers, history and affected reuse boundaries."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No real event-schema/clock/order implementation is qualified.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Retain histories when they have a real consumer; recording every event is not required.",
@@ -8748,10 +9629,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Acquire the intended traces and abstraction before treating mismatch as real-work deviation.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/55",
+        "current_applicable_owner": [
+          {
+            "path": "docs/operational-evidence.md",
+            "section": "Explicit invocation and receiving boundary; Ordinary accepted result and receiving projection; Canonical evidence and failure collection",
+            "role": "R0038 observation owner; ATTEMPT, RECEIPT, EFFECT, RECOVERY and CLOSURE stay distinct."
+          },
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "Abstraction, coverage, selection and comparison model are absent.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Assumption-sensitive interface with process mining; no sibling synthesis was consulted.",
@@ -8916,10 +9813,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Add no dashboard; bind a material signal to an actual decision when triggered.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/56",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          },
+          {
+            "path": "skills/implementaudit/references/lean-operating-discipline.md",
+            "section": "Engineering-value admission, retention, and retirement",
+            "role": "Consumer-based retention including older products and transferred obligations."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "Live consumer, actionable signal and incentive assessment are absent.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Useful but easily gamed; fault frequency and resource impact need not rank problems the same way.",
@@ -9089,10 +10002,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "State the boundary and acquire participant evidence for any stronger claim.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/57",
+        "current_applicable_owner": [
+          {
+            "path": "docs/operational-evidence.md",
+            "section": "Explicit invocation and receiving boundary; Ordinary accepted result and receiving projection; Canonical evidence and failure collection",
+            "role": "R0038 observation owner; ATTEMPT, RECEIPT, EFFECT, RECOVERY and CLOSURE stay distinct."
+          },
+          {
+            "path": "skills/implementaudit/references/repo-state-comparison.md",
+            "section": "Consequential asynchronous work; interface/schema/configuration/environment/authority binding (lines 175-182)",
+            "role": "Binds consequence evidence to the actual environment and requalifies affected changed identity."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No external success or complete-world observation.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Strongly retain the distinction; no general demand for omniscient observation.",
@@ -9237,10 +10166,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Add no scientific workflow work; reopen on an actual scientific consumer and claim.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/58",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          },
+          {
+            "path": "skills/implementaudit/references/issue-ready-work-orders.md",
+            "section": "Durable continuation before allocation",
+            "role": "Preserves source states, residuals, entitled receiver readback and actionable continuation; no allocation authority here."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_NON_TRIGGER_PRESERVED",
+        "first_missing_discriminator": "No scientific computation, reuse claim or output oracle.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Retain for scientific reuse; decay-study full texts remain access-limited, so no decay rate is exported.",
@@ -9383,10 +10328,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Add no scientific scheduler; reopen only on a concrete domain trigger.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/59",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          },
+          {
+            "path": "skills/implementaudit/references/issue-ready-work-orders.md",
+            "section": "Durable continuation before allocation",
+            "role": "Preserves source states, residuals, entitled receiver readback and actionable continuation; no allocation authority here."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_NON_TRIGGER_PRESERVED",
+        "first_missing_discriminator": "No relevant sites, allocations, inputs or movement constraints.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Contextual scientific execution property; no universal cloud or engine choice follows.",
@@ -9538,10 +10499,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Inspect actual semantics only when consequential low-code use is in scope.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/60",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          },
+          {
+            "path": "skills/implementaudit/references/phase-design.md",
+            "section": "Rule P4-17 Triggered state-synthesis acceptance",
+            "role": "Separates authority, evaluator, consequence, recovery and proposal-independent justification."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "No visual definition, hidden extensions, behavior export or exit-cost evidence.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Conditional; current static studies do not establish universal benefit or failure rates.",
@@ -9706,10 +10683,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Return evidence to the governor; keep execution behind current owner and authority checks.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/61",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/phase-design.md",
+            "section": "Rule P4-17 Triggered state-synthesis acceptance",
+            "role": "Separates authority, evaluator, consequence, recovery and proposal-independent justification."
+          },
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No separately enforced native model-action boundary or general reliability.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Assumption-sensitive; preprints/static corpora do not validate general autonomous reliability.",
@@ -9868,10 +10861,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Obtain a suitable comparison before making benefit claims.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/62",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          },
+          {
+            "path": "skills/implementaudit/references/lean-operating-discipline.md",
+            "section": "Engineering-value admission, retention, and retirement",
+            "role": "Consumer-based retention including older products and transferred obligations."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_CONDITIONAL_CRITERION_NO_SELECTED_OPERATIONAL_WITNESS",
+        "first_missing_discriminator": "No real outcome sample, counterfactual, failed-deployment census or burden distribution.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Conditional evidence practice; the available longitudinal study does not justify universal economic claims.",
@@ -10016,10 +11025,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Preserve excluded behavior if a DAG is selected; do not manufacture loops.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/63",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          },
+          {
+            "path": "skills/implementaudit/references/child-agents.md",
+            "section": "Independence; Work-conserving ready-cell frontier",
+            "role": "Existing governor-controlled child, dependency, resource, authority and named-JOIN boundaries."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_NEGATIVE_OR_SUPERSEDED_GUARD_PRESERVED",
+        "first_missing_discriminator": "No particular target representation is shown to lose recurrence or interruption.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Rejected as a general property, while DAGs remain useful domain-specific forms.",
@@ -10170,10 +11195,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Use truthful uncertainty and reconciliation until a scoped guarantee is evidenced.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/64",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/repo-state-comparison.md",
+            "section": "Consequential asynchronous work; interface/schema/configuration/environment/authority binding (lines 175-182)",
+            "role": "Binds consequence evidence to the actual environment and requalifies affected changed identity."
+          },
+          {
+            "path": "docs/operational-evidence.md",
+            "section": "Explicit invocation and receiving boundary; Ordinary accepted result and receiving projection; Canonical evidence and failure collection",
+            "role": "R0038 observation owner; ATTEMPT, RECEIPT, EFFECT, RECOVERY and CLOSURE stay distinct."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_NEGATIVE_OR_SUPERSEDED_GUARD_PRESERVED",
+        "first_missing_discriminator": "No cooperative external effect boundary or repeat guarantee.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Reject only the unqualified claim, not the formal results of cooperative systems.",
@@ -10321,10 +11362,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Treat the diagram as representation and acquire changed decision-bearing evidence.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/65",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/phase-design.md",
+            "section": "Rule P4-17 Triggered state-synthesis acceptance",
+            "role": "Separates authority, evaluator, consequence, recovery and proposal-independent justification."
+          },
+          {
+            "path": "docs/operational-evidence.md",
+            "section": "Explicit invocation and receiving boundary; Ordinary accepted result and receiving projection; Canonical evidence and failure collection",
+            "role": "R0038 observation owner; ATTEMPT, RECEIPT, EFFECT, RECOVERY and CLOSURE stay distinct."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_NEGATIVE_OR_SUPERSEDED_GUARD_PRESERVED",
+        "first_missing_discriminator": "No current mapping or execution evidence accompanies it.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Ceremony, not a general property; EWM-018 carries the stronger corresponding obligation.",
@@ -10467,10 +11524,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Refuse the weak rule and evaluate actual-state migration or supported alternatives.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/66",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/continuity.md",
+            "section": "Canonical generations and readers; native resume; pending occurrences",
+            "role": "Currentness and continuity owner; this report cannot mint or satisfy its receipt."
+          },
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_NEGATIVE_OR_SUPERSEDED_GUARD_PRESERVED",
+        "first_missing_discriminator": "Missed predecessor and absent producer remain unaddressed.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Superseded, retained in the denominator to prevent reintroduction of the weaker rule.",
@@ -10623,10 +11696,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Preserve history and require applicable evidence for stronger claims.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/67",
+        "current_applicable_owner": [
+          {
+            "path": "docs/operational-evidence.md",
+            "section": "Explicit invocation and receiving boundary; Ordinary accepted result and receiving projection; Canonical evidence and failure collection",
+            "role": "R0038 observation owner; ATTEMPT, RECEIPT, EFFECT, RECOVERY and CLOSURE stay distinct."
+          },
+          {
+            "path": "skills/implementaudit/references/repo-state-comparison.md",
+            "section": "Consequential asynchronous work; interface/schema/configuration/environment/authority binding (lines 175-182)",
+            "role": "Binds consequence evidence to the actual environment and requalifies affected changed identity."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_NEGATIVE_OR_SUPERSEDED_GUARD_PRESERVED",
+        "first_missing_discriminator": "No observation turns performed into recipient-accepted.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "No general property; valid scoped histories remain useful.",
@@ -10769,10 +11858,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Separate original/remedial effects and retain unrestored differences.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/68",
+        "current_applicable_owner": [
+          {
+            "path": "docs/operational-evidence.md",
+            "section": "Explicit invocation and receiving boundary; Ordinary accepted result and receiving projection; Canonical evidence and failure collection",
+            "role": "R0038 observation owner; ATTEMPT, RECEIPT, EFFECT, RECOVERY and CLOSURE stay distinct."
+          },
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_NEGATIVE_OR_SUPERSEDED_GUARD_PRESERVED",
+        "first_missing_discriminator": "Possible delivery and irreversible consequences remain unresolved.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "No general property of world restoration follows from a compensation handler.",
@@ -10927,10 +12032,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Compare needed behavior, fidelity and lifecycle cost when selection is requested.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/69",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          },
+          {
+            "path": "skills/implementaudit/references/lean-operating-discipline.md",
+            "section": "Engineering-value admission, retention, and retirement",
+            "role": "Consumer-based retention including older products and transferred obligations."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_NEGATIVE_OR_SUPERSEDED_GUARD_PRESERVED",
+        "first_missing_discriminator": "No unmet coordination need justifies extra features.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Reject feature-maximality as a general property; pattern vocabulary remains useful.",
@@ -11076,10 +12197,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Keep no-intervention and simpler coordination as valid future comparators.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/70",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          },
+          {
+            "path": "skills/implementaudit/references/lean-operating-discipline.md",
+            "section": "Engineering-value admission, retention, and retirement",
+            "role": "Consumer-based retention including older products and transferred obligations."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_NEGATIVE_OR_SUPERSEDED_GUARD_PRESERVED",
+        "first_missing_discriminator": "No credible comparison or burden distribution.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "No universal engineering property of improvement is established.",
@@ -11236,10 +12373,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain what live continuation needs and retire only after consumer-specific discharge.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/71",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/lean-operating-discipline.md",
+            "section": "Engineering-value admission, retention, and retirement",
+            "role": "Consumer-based retention including older products and transferred obligations."
+          },
+          {
+            "path": "skills/implementaudit/references/canonical-state-rotation.md",
+            "section": "Pending occurrences and retirement",
+            "role": "Native rotation/history owner; TC06 and TC11 preserve readers, history and affected reuse boundaries."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_NEGATIVE_OR_SUPERSEDED_GUARD_PRESERVED",
+        "first_missing_discriminator": "No proof their consumers ended or a sufficient successor took over.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Reject the universal requirement, not long retention where justified.",
@@ -11398,10 +12551,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Bind current meaning and affected evidence/grants; reuse unaffected history without rewriting or replay.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/72",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/repo-state-comparison.md",
+            "section": "Consequential asynchronous work; interface/schema/configuration/environment/authority binding (lines 175-182)",
+            "role": "Binds consequence evidence to the actual environment and requalifies affected changed identity."
+          },
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No examined compatibility relation from generation4 to generation5.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Assumption-sensitive proposal with positive controlled prototype evidence; closed-world pinning remains a supported cheaper alternative. No established consensus or universal correctness/effect guarantee is inferred.",
@@ -11565,10 +12734,31 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Keep the research discriminator; only a separately authorised bounded experiment with fallback is a possible next inquiry.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/73",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/phase-design.md",
+            "section": "Rule P4-17 Triggered state-synthesis acceptance",
+            "role": "Separates authority, evaluator, consequence, recovery and proposal-independent justification."
+          },
+          {
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+            "role": "Bounded evidence and control-depth selection; unchanged-meaning and authority requirements."
+          },
+          {
+            "path": "skills/implementaudit/references/issue-ready-work-orders.md",
+            "section": "Durable continuation before allocation",
+            "role": "Preserves source states, residuals, entitled receiver readback and actionable continuation; no allocation authority here."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_UNRESOLVED_RESEARCH_PRESERVED",
+        "first_missing_discriminator": "Independent preserved-obligation, authority, consequence and net-benefit evidence is absent.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Unresolved general effectiveness/guarantee claim, not an unexamined topic and not a prohibition on bounded experiments.",
@@ -11723,10 +12913,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Account for material residue by fulfillment, authorised decline/discharge or exact accepted transfer.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/74",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          },
+          {
+            "path": "skills/implementaudit/references/issue-ready-work-orders.md",
+            "section": "Durable continuation before allocation",
+            "role": "Preserves source states, residuals, entitled receiver readback and actionable continuation; no allocation authority here."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No actual closure, waiver, transfer or native receiving occurs here.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Retain as a reasoned composition-induced criterion, with source-supported parts and no claim of empirical validation of the combined scheme.",
@@ -11892,10 +13098,31 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Hold each affected continuation for its discriminator while preserving supported old-version/history access.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/75",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/continuity.md",
+            "section": "Canonical generations and readers; native resume; pending occurrences",
+            "role": "Currentness and continuity owner; this report cannot mint or satisfy its receipt."
+          },
+          {
+            "path": "skills/implementaudit/references/repo-state-comparison.md",
+            "section": "Consequential asynchronous work; interface/schema/configuration/environment/authority binding (lines 175-182)",
+            "role": "Binds consequence evidence to the actual environment and requalifies affected changed identity."
+          },
+          {
+            "path": "skills/implementaudit/references/issue-ready-work-orders.md",
+            "section": "Durable continuation before allocation",
+            "role": "Preserves source states, residuals, entitled receiver readback and actionable continuation; no allocation authority here."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "Q4 lacks a route, Q5 an outcome, Q6 current compatibility.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Retain as analytical synthesis, not a newly proven universal theorem; downgrade automation when its prerequisites cannot be met.",
@@ -12060,10 +13287,26 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Preserve request, commitment, performance and satisfaction/decline without a universal four-form ritual.",
+        "actual_receiving_route": "r0041-actual-receiving.json#/members/76",
+        "current_applicable_owner": [
+          {
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+            "role": "Governor plan, handoff, reconciliation and closure policy owner."
+          },
+          {
+            "path": "docs/operational-evidence.md",
+            "section": "Explicit invocation and receiving boundary; Ordinary accepted result and receiving projection; Canonical evidence and failure collection",
+            "role": "R0038 observation owner; ATTEMPT, RECEIPT, EFFECT, RECOVERY and CLOSURE stay distinct."
+          }
+        ],
+        "actual_bounded_disposition": "RECEIVED_BOUNDED_CONSTRUCTED_CASE_DISCRIMINATOR",
+        "first_missing_discriminator": "No real new recipient acceptance follows from this report.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/1"
       },
       "residual": {
         "source_boundary": "Contextual operating mechanism with a real consumer; no claim that every workflow must implement its four phases.",
@@ -12074,5 +13317,29 @@
         "horizon": "UNKNOWN; no implementation deadline or general capability promised."
       }
     }
-  ]
+  ],
+  "current_receiving": {
+    "observed_raw_return": {
+      "logical_name": "ewm-receiver.json",
+      "bytes": 435243,
+      "sha256": "eae20ea327ab5f9f9fb54f129e93461dc08dfc303d7f377fbc750ea1271a2768"
+    },
+    "publication": "r0041-actual-receiving.json",
+    "original_observation_carrier": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/98be791ae0e2165095d6accc8c1c4435c52123b1/docs/research/implementaudit/r0041-member-qualification.json",
+    "root_decision": {
+      "lineage": "EWM",
+      "original_population": 77,
+      "all_members_received": true,
+      "original_and_available_preparation_states_match": true,
+      "specific_actions_and_missing_discriminators_present": true,
+      "cases_examined": 11,
+      "actual_raw_receiver_file": "ewm-receiver.json",
+      "actual_raw_receiver_sha256": "eae20ea327ab5f9f9fb54f129e93461dc08dfc303d7f377fbc750ea1271a2768",
+      "root_disposition": "ACCEPT_BOUNDED_SOURCE_RECEIVING_AND_CASE_INTERPRETATION_WITH_RESIDUALS",
+      "original_RLGWO_acceptance": "INCOMPLETE_NOT_CLOSED",
+      "runtime_change": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+      "limit": "No property-wide product PASS, native/installed execution, empirical intervention benefit, or general autonomy/migration safety inferred."
+    },
+    "claim_limit": "Original RLGWO acceptance remains INCOMPLETE_NOT_CLOSED. Source receiving, model interpretation, actual branch/PR effects and product/native acceptance are different evidence classes."
+  }
 }

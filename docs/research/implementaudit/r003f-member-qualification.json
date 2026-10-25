@@ -1,6 +1,7 @@
 {
   "format": "implementaudit.bwp-original-lineage-qualification.v1",
-  "work_order": "R003F", "canonical_allocation": "Published existing work-order reference; unallocated in selected main canonical registry. No new allocation.",
+  "work_order": "R003F", "__published_identity_work_order": "Published work-order reference; unallocated in the selected main canonical registry. No allocation is made.",
+  "canonical_allocation": "Published existing work-order reference; unallocated in selected main canonical registry. No new allocation.",
   "issue": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/225",
   "scope": "Original EBPM content and separate target/receiving qualification; no automatic issue or embedded-component closure.",
   "source_base": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
@@ -116,7 +117,7 @@
       "sha256": "cb5dbaff70adf8a19e798f0823b6d5f23abc5d5d1ac12ef9a2e932ba177aebee"
     }
   ],
-  "receiving_state": "PENDING_ACTUAL_COLD_CONSUMPTION",
+  "receiving_state": "ACTUAL_BOUNDED_SOURCE_AND_CASE_RECEIVING_ACCEPTED_WITH_RESIDUALS",
   "rows": [
     {
       "id": "EBPM:EBPM-001",
@@ -239,10 +240,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Return all 73 scoped decisions to the existing governor and retain affected-party questions for any later consequential intervention.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/0",
+        "current_applicable_owner": {
+          "contract_key": "R",
+          "name": "Existing receiving and durable-continuation owner",
+          "role": "The authorised /implementaudit governor receives this result; R003F/#225 remains the substantive EBPM work-order reference. No lifetime steward is appointed.", "__published_identity_role": "Published work-order reference; unallocated in the selected main canonical registry. No allocation is made.",
+          "source_actor_authority": "Responsible managers can commit resources; beneficiaries and affected workers contribute outcome evidence. Analysts cannot decide whose interests prevail merely by drawing the boundary.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "SIMPLER_MECHANISM_SUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "The actual receiving task names the governor as consumer and preservation of 73 distinguishable obligations as the required result. That is enough purpose definition for this bounded handoff; it supplies no organisational beneficiary-outcome evidence."
+        },
+        "first_missing_discriminator": "For any process redesign: affected recipients, competing interests and an observed outcome in that actual setting.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained as a robust criterion/mechanism distinction within the declared trigger; this is not a claim of universally quantified economic benefit. The outcome orientation is preserved, with explicit affected-party and conflicting-purpose qualifications rather than a single unquestioned customer metric.",
@@ -374,10 +390,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Preserve unknown external burdens and refuse general improvement or retirement credit; request only the affected-interface evidence if a real change is proposed.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/1",
+        "current_applicable_owner": {
+          "contract_key": "A",
+          "name": "Existing action-selection and engineering-value owner",
+          "role": "The existing governor selects proportionate work within the actual grant; domain actors retain their own powers.",
+          "source_actor_authority": "A local owner may change its own work but cannot bind a partner unilaterally. Cross-boundary obligations require agreement with the actors bearing them.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "EVIDENCE_INSUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "No supplied observation measures downstream organisational burdens. A local branch operation or completed review cannot establish an end-to-end gain, and a predecessor cannot be retired while obligations would disappear."
+        },
+        "first_missing_discriminator": "Receiving-side effort, risk and outcome evidence across the actual proposed change boundary.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained only in the stated criticism-tested form, with authority, evidence and consequence limits preserved. End-to-end scope is refined into a bounded, revisable consequence boundary; total omniscience is not required.",
@@ -511,10 +542,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Use the exact 73-member identity list and retain unresolved preparation rows and nonclosure in the continuation carrier.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/2",
+        "current_applicable_owner": {
+          "contract_key": "R",
+          "name": "Existing receiving and durable-continuation owner",
+          "role": "The authorised /implementaudit governor receives this result; R003F/#225 remains the substantive EBPM work-order reference. No lifetime steward is appointed.", "__published_identity_role": "Published work-order reference; unallocated in the selected main canonical registry. No allocation is made.",
+          "source_actor_authority": "Operational owners and recipients define business completion; a system administrator defines only the system’s representational boundary.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "SIMPLER_MECHANISM_SUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "The original denominator is 73 stable identities, with 65 unrecovered later member states explicitly distinguishable from completed reception. Case or task completion is not inferred from a success label."
+        },
+        "first_missing_discriminator": "For organisational closure: an agreed case/object identity and completion meaning including continuing obligations.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "A genuine option, not an unconditional requirement; selection depends on the stated trigger, prerequisites and cheaper alternatives. A routine transaction model is retained where useful and narrowed for multi-object, evolving and knowledge-intensive work.",
@@ -646,10 +692,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Complete the authorised source receiving and leave unrelated process interventions unactivated.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/3",
+        "current_applicable_owner": {
+          "contract_key": "A",
+          "name": "Existing action-selection and engineering-value owner",
+          "role": "The existing governor selects proportionate work within the actual grant; domain actors retain their own powers.",
+          "source_actor_authority": "Sponsors allocate scarce effort; affected process owners challenge feasibility and displacement assumptions.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "SIMPLER_MECHANISM_SUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "This bounded qualification has an authorised scope and definite inputs. A new enterprise portfolio is unnecessary; D22 is a concrete example where a narrow repair stays on the direct path."
+        },
+        "first_missing_discriminator": "For a competing intervention portfolio: consequence, dependency and capacity evidence that would change prioritisation.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "A genuine option, not an unconditional requirement; selection depends on the stated trigger, prerequisites and cheaper alternatives. Portfolio identification is retained as a resource-allocation aid, not a prerequisite to every improvement.",
@@ -782,10 +843,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Keep existing member and relation locators together; inspect only connected dependencies if a material premise changes.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/4",
+        "current_applicable_owner": {
+          "contract_key": "R",
+          "name": "Existing receiving and durable-continuation owner",
+          "role": "The authorised /implementaudit governor receives this result; R003F/#225 remains the substantive EBPM work-order reference. No lifetime steward is appointed.", "__published_identity_role": "Published work-order reference; unallocated in the selected main canonical registry. No allocation is made.",
+          "source_actor_authority": "Enterprise/process coordinators maintain the map with local expertise; the architecture does not override functional or contractual authority.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "CONDITIONAL_IMPROVEMENT_OPPORTUNITY",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "Guarded relations and member identities can support a bounded dependency account. They do not demonstrate an organisation's performed architecture, and convergence does not merge owners or delete members."
+        },
+        "first_missing_discriminator": "Actual handoff/shared-resource dependencies and the distinctions a future change consumer needs.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained only in the stated criticism-tested form, with authority, evidence and consequence limits preserved. Architecture becomes purpose-fit coordination support rather than a required comprehensive enterprise taxonomy.",
@@ -918,10 +994,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain source provenance and uncertainty; commission a proportionate independent walkthrough only when a performed-work claim needs it.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/5",
+        "current_applicable_owner": {
+          "contract_key": "O",
+          "name": "Existing operational-evidence and observation owner",
+          "role": "The evidence consumer preserves recorded observations and omissions; native authentication remains with the real source owner.",
+          "source_actor_authority": "Analysts synthesise evidence; performers and recipients can correct it. Sponsorship does not entitle an analyst to dismiss inconvenient observations.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "EVIDENCE_INSUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "Original records and their derived qualification projection are not independent observations of performed work. Hash equality establishes content identity only; no organisational ground-truth claim is earned."
+        },
+        "first_missing_discriminator": "A genuinely distinct, relevant observation channel or representative performed-work cases.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained as a robust criterion/mechanism distinction within the declared trigger; this is not a claim of universally quantified economic benefit. Discovery is refined from producing one approved map to establishing a bounded, source-aware account of performed work.",
@@ -1053,10 +1144,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Return explicit disagreements and missing evidence to the existing governor without converting this model response into participant consent.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/6",
+        "current_applicable_owner": {
+          "contract_key": "R",
+          "name": "Existing receiving and durable-continuation owner",
+          "role": "The authorised /implementaudit governor receives this result; R003F/#225 remains the substantive EBPM work-order reference. No lifetime steward is appointed.", "__published_identity_role": "Published work-order reference; unallocated in the selected main canonical registry. No allocation is made.",
+          "source_actor_authority": "Participants validate their knowledge, not necessarily the whole process; sponsors resolve authorised choices without erasing dissent.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "CONDITIONAL_IMPROVEMENT_OPPORTUNITY",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "This fresh receiving interpretation supplies one actual consumer readback and preserves disagreements with proposals. It is not evidence that all affected organisational participants understand or endorse a design."
+        },
+        "first_missing_discriminator": "Discriminating cases answered by the relevant performers/recipients, and a lawful route for material disagreement.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained only in the stated criticism-tested form, with authority, evidence and consequence limits preserved. Participation is retained as situated validation and influence, not an attendance or signature requirement.",
@@ -1186,10 +1292,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain the finite stimulus scope and named omissions; require variant evidence before any broader redesign claim.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/7",
+        "current_applicable_owner": {
+          "contract_key": "E",
+          "name": "Existing phase-design acceptance and evaluator owner",
+          "role": "The entitled acceptance owner assesses claim-specific evidence; this receiver supplies candidate interpretation only.",
+          "source_actor_authority": "Process investigators select cases with performers and recipients; owners accept the resulting uncertainty or commission further inquiry.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "CONDITIONAL_IMPROVEMENT_OPPORTUNITY",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "The episode covers all original identities plus nine supplied decision stimuli, including negative cases. That finite coverage does not establish coverage of real process variants or rare harmful cases."
+        },
+        "first_missing_discriminator": "A risk-relevant real case-class census, including incomplete, abandoned and unlogged cases.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained only in the stated criticism-tested form, with authority, evidence and consequence limits preserved. A normal-flow account is expanded only where consequential variants warrant it; uncertainty remains explicit.",
@@ -1328,10 +1449,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Reject the comparison as benefit evidence, preserve the reported tallies as reported, and reacquire the complete comparable population.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/8",
+        "current_applicable_owner": {
+          "contract_key": "O",
+          "name": "Existing operational-evidence and observation owner",
+          "role": "The evidence consumer preserves recorded observations and omissions; native authentication remains with the real source owner.",
+          "source_actor_authority": "Data custodians explain instrumentation; analysts own inference limits; process owners decide whether evidence is adequate for action.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "EVIDENCE_INSUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "D08 expressly invalidates the new observation population by omitting unresolved cases and five failures. Exact calculation over selected rows cannot repair the data-generation boundary."
+        },
+        "first_missing_discriminator": "Complete inclusion/exclusion rules, omitted-case accounting, case attribution and versioned event/outcome definitions.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Useful only while the material data, model or transfer assumptions remain defensible; a violated assumption can reverse the decision. Event-based evidence is retained as a powerful but bounded observation channel, not a replacement for all other discovery.",
@@ -1462,10 +1598,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Use the current full-content carrier and exact locators for this handoff; retain unsupported uses and the PARTIALLY_ABSORBED preparation label.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/9",
+        "current_applicable_owner": {
+          "contract_key": "R",
+          "name": "Existing receiving and durable-continuation owner",
+          "role": "The authorised /implementaudit governor receives this result; R003F/#225 remains the substantive EBPM work-order reference. No lifetime steward is appointed.", "__published_identity_role": "Published work-order reference; unallocated in the selected main canonical registry. No allocation is made.",
+          "source_actor_authority": "The intended users help judge fitness; a notation specialist cannot infer business authority from technical sophistication.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "SIMPLER_MECHANISM_SUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "The accessible full original content and scoped decision fields let this consumer distinguish source, historical and prepared states. Carrier C demonstrates that matching digests without content cannot do that."
+        },
+        "first_missing_discriminator": "For a different consumer or use: a task-specific test that the necessary distinctions remain accessible and intelligible.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained as a robust criterion/mechanism distinction within the declared trigger; this is not a claim of universally quantified economic benefit. Modelling is preserved as a functional instrument with explicit purpose and limits, not as the entirety of BPM.",
@@ -1601,10 +1752,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Report the checked quality dimension with each conclusion and retain untested dimensions.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/10",
+        "current_applicable_owner": {
+          "contract_key": "E",
+          "name": "Existing phase-design acceptance and evaluator owner",
+          "role": "The entitled acceptance owner assesses claim-specific evidence; this receiver supplies candidate interpretation only.",
+          "source_actor_authority": "Tool validators assess encoded rules; domain experts assess meaning; users demonstrate comprehension. None alone certifies the other dimensions.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "SIMPLER_MECHANISM_SUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "Structural hash/census checks and semantic action judgements are separately reported here. Neither a valid JSON carrier nor model agreement certifies organisational fidelity or user comprehension."
+        },
+        "first_missing_discriminator": "Domain-correspondence evidence and representative-user evidence if those quality claims are made.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained only in the stated criticism-tested form, with authority, evidence and consequence limits preserved. Separate quality criteria are retained with purpose-specific evidence rather than one undifferentiated quality score.",
@@ -1734,10 +1900,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Keep the minimum adequate receiving presentation with richer content accessible; do not impose a modelling standard or infer full absorption.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/11",
+        "current_applicable_owner": {
+          "contract_key": "A",
+          "name": "Existing action-selection and engineering-value owner",
+          "role": "The existing governor selects proportionate work within the actual grant; domain actors retain their own powers.",
+          "source_actor_authority": "Modellers propose changes; users and domain experts check that useful meaning has not been lost.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "SIMPLER_MECHANISM_SUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "Bounded views and exact full-record access reduce reading overhead while preserving the decision distinctions; no element-count rule is needed. Partial preparation is retained, and no measured comprehension benefit is claimed."
+        },
+        "first_missing_discriminator": "A concrete lost distinction or comparative user-task failure that would justify a different representation.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "The protected comprehension function survives, while formal compliance or complexity thresholds can become counterproductive ceremony. Heuristics become prompts for task-based improvement rather than universal numerical thresholds.",
@@ -1866,10 +2047,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Preserve exact labels, explain their scopes, and correct only demonstrated ambiguity.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/12",
+        "current_applicable_owner": {
+          "contract_key": "R",
+          "name": "Existing receiving and durable-continuation owner",
+          "role": "The authorised /implementaudit governor receives this result; R003F/#225 remains the substantive EBPM work-order reference. No lifetime steward is appointed.", "__published_identity_role": "Published work-order reference; unallocated in the selected main canonical registry. No allocation is made.",
+          "source_actor_authority": "Domain participants determine meaning; model maintainers ensure consistent use without overriding legitimate local terminology.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "SIMPLER_MECHANISM_SUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "Exact status labels and identities prevent materially different states from becoming one generic success label. No domain-language disagreement requiring a new glossary has been supplied."
+        },
+        "first_missing_discriminator": "A concrete consequential ambiguity for the intended user.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "A genuine option, not an unconditional requirement; selection depends on the stated trigger, prerequisites and cheaper alternatives. Label guidance is narrowed to interpretable domain meaning rather than syntactic uniformity.",
@@ -2005,10 +2201,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Keep model, implementation, external effect and acceptance claims separate in the existing evidence owner.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/13",
+        "current_applicable_owner": {
+          "contract_key": "E",
+          "name": "Existing phase-design acceptance and evaluator owner",
+          "role": "The entitled acceptance owner assesses claim-specific evidence; this receiver supplies candidate interpretation only.",
+          "source_actor_authority": "Implementers control deployed semantics within their authority; process owners and recipients establish real obligations and completion criteria.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "SIMPLER_MECHANISM_SUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "The result is an interpretation of source and cases. D17's reported branch readback is a distinct operation observation; neither this report nor a modelled process is executable or organisational completion proof."
+        },
+        "first_missing_discriminator": "A versioned implementation contract and independently observed external completion before claiming enactment.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained as a robust criterion/mechanism distinction within the declared trigger; this is not a claim of universally quantified economic benefit. The model-to-execution connection is retained as a contract requiring evidence, not an automatic benefit of standard notation.",
@@ -2145,10 +2356,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Return the rationale to the authorised governor; change no decision rights or operating commitments.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/14",
+        "current_applicable_owner": {
+          "contract_key": "G",
+          "name": "Existing sole-governor and authorisation owner",
+          "role": "The actual user/entitled organisational actor supplies effect authority; /implementaudit retains its lifecycle decisions. A delegated receiver, model, diagram or crosswalk owns none.",
+          "source_actor_authority": "A rule author or prediction service is not automatically the legitimate decision maker; accountable actors retain domain-specific authority.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "SIMPLER_MECHANISM_SUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "The consumer may evaluate a proposal but cannot authorise its effects. D03 lacks a consequential grant, and D26 cannot transfer one through an analytical relation."
+        },
+        "first_missing_discriminator": "For an actual decision-rule change: the legitimate decision-maker, inputs, policy version and effect scope.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "A genuine option, not an unconditional requirement; selection depends on the stated trigger, prerequisites and cheaper alternatives. Decision separation is retained conditionally, with authority and external effects kept distinct from represented logic.",
@@ -2279,10 +2505,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain the conditional alternative and use ordinary bounded review; reopen only for an identified adaptive-work need.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/15",
+        "current_applicable_owner": {
+          "contract_key": "A",
+          "name": "Existing action-selection and engineering-value owner",
+          "role": "The existing governor selects proportionate work within the actual grant; domain actors retain their own powers.",
+          "source_actor_authority": "Case workers plan within professional and organisational authority; system flexibility does not grant new powers.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "INAPPLICABLE",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "No case-management or declarative operating system is being selected in this episode. CONDITIONAL preparation does not activate one, and the representation-selection question remains distinct from EBPM-073 checking."
+        },
+        "first_missing_discriminator": "A real adaptive-work case whose goals, constraints and competence make the support choice consequential.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "A genuine option, not an unconditional requirement; selection depends on the stated trigger, prerequisites and cheaper alternatives. Procedural, case-oriented and declarative forms remain alternatives or bounded hybrids; no universal replacement is asserted.",
@@ -2418,10 +2659,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Report each descriptive measure with its population and uncertainty and withhold an end-to-end improvement judgement.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/16",
+        "current_applicable_owner": {
+          "contract_key": "E",
+          "name": "Existing phase-design acceptance and evaluator owner",
+          "role": "The entitled acceptance owner assesses claim-specific evidence; this receiver supplies candidate interpretation only.",
+          "source_actor_authority": "Accountable decision makers choose priorities with affected-party input; analysts expose measurement limitations rather than choosing values by convenience.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "EVIDENCE_INSUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "D29 yields different aggregate and stratified descriptions; D08 changes the population and success meaning. Neither supports an overall benefit claim, and no affected-party harm measures were supplied."
+        },
+        "first_missing_discriminator": "Comparable outcome definitions, complete denominators, protected outcomes and material group effects.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained as a robust criterion/mechanism distinction within the declared trigger; this is not a claim of universally quantified economic benefit. Multidimensional assessment is retained with explicit outcome validity and conflict adjudication, not mandatory proliferation of indicators.",
@@ -2554,10 +2810,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Label the reported timing as elapsed episode time only; inspect a small timeline if a delay intervention is later proposed.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/17",
+        "current_applicable_owner": {
+          "contract_key": "A",
+          "name": "Existing action-selection and engineering-value owner",
+          "role": "The existing governor selects proportionate work within the actual grant; domain actors retain their own powers.",
+          "source_actor_authority": "Analysts interpret time evidence with performers; owners can change allocation or handoff arrangements within their authority.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "EVIDENCE_INSUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "The receiver can record wall-clock duration of this episode. That is not worker effort, resource occupancy or a causal saving from the method."
+        },
+        "first_missing_discriminator": "A case timeline with valid clock meanings and observed active work, waiting, overlap and displaced burden.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained as a robust criterion/mechanism distinction within the declared trigger; this is not a claim of universally quantified economic benefit. Time decomposition is retained with explicit observation semantics rather than stopwatch precision for its own sake.",
@@ -2689,10 +2960,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Leave capacity unchanged; use a bounded workload comparison if a supported queue problem activates the criterion.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/18",
+        "current_applicable_owner": {
+          "contract_key": "A",
+          "name": "Existing action-selection and engineering-value owner",
+          "role": "The existing governor selects proportionate work within the actual grant; domain actors retain their own powers.",
+          "source_actor_authority": "Resource managers can change capacity and assignment; analysts supply conditional predictions, not authority to alter staffing or worker obligations.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "INAPPLICABLE",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "No real queue, arrival process or resource-allocation intervention is under evaluation. The source's conditional capacity mechanism is preserved without creating a simulation or staffing mandate."
+        },
+        "first_missing_discriminator": "Arrival/service variability, actual allocation, recovery headroom and downstream load for a concrete bottleneck.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Useful only while the material data, model or transfer assumptions remain defensible; a violated assumption can reverse the decision. Analytical imports are retained as bounded mechanisms; maximum utilisation is rejected as a universal objective.",
@@ -2826,10 +3112,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Return the missing-identity, false-state and inaccessible-content diagnoses to the existing carrier owner for a bounded correction.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/19",
+        "current_applicable_owner": {
+          "contract_key": "R",
+          "name": "Existing receiving and durable-continuation owner",
+          "role": "The authorised /implementaudit governor receives this result; R003F/#225 remains the substantive EBPM work-order reference. No lifetime steward is appointed.", "__published_identity_role": "Published work-order reference; unallocated in the selected main canonical registry. No allocation is made.",
+          "source_actor_authority": "Sending and receiving actors jointly identify the mechanism; an owner needs authority or agreement to change both sides.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "CONDITIONAL_IMPROVEMENT_OPPORTUNITY",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "The three mutants expose exact information defects in a proposed handoff. Correcting them is a plausible local repair, but this exercise measures no reduction of rework or transferred burden."
+        },
+        "first_missing_discriminator": "Actual failed-handoff/rework cases and evidence that a correction preserves useful checks and reduces the relevant burden.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained only in the stated criticism-tested form, with authority, evidence and consequence limits preserved. Waste-removal language is refined into function-sensitive diagnosis of rework and coordination.",
@@ -2959,10 +3260,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Use direct calculation for the supplied case and retain simulation as an unactivated conditional option.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/20",
+        "current_applicable_owner": {
+          "contract_key": "A",
+          "name": "Existing action-selection and engineering-value owner",
+          "role": "The existing governor selects proportionate work within the actual grant; domain actors retain their own powers.",
+          "source_actor_authority": "Analysts own model assumptions; operational decision makers decide whether the conditional evidence justifies action.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "INAPPLICABLE",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "Arithmetic suffices for D29; no simulation-supported operational choice is supplied. Constructed cases are not forecasts or observed intervention effects."
+        },
+        "first_missing_discriminator": "A consequential decision needing simulation plus calibration, current-state and uncertainty evidence.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Useful only while the material data, model or transfer assumptions remain defensible; a violated assumption can reverse the decision. Current-state and uncertainty-aware forms refine older simulation practice without eliminating epistemic uncertainty.",
@@ -3094,10 +3410,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Reject both supplied causal/benefit promotions, retain the exact descriptive calculations, and seek the cheapest justified comparison or authorised bounded trial if action is needed.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/21",
+        "current_applicable_owner": {
+          "contract_key": "E",
+          "name": "Existing phase-design acceptance and evaluator owner",
+          "role": "The entitled acceptance owner assesses claim-specific evidence; this receiver supplies candidate interpretation only.",
+          "source_actor_authority": "Analysts can identify evidence limits; authorised owners decide on precaution, experimentation or non-intervention.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "EVIDENCE_INSUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "D29's aggregate decline and equal-stratum improvement are descriptive, not causal; D08 lacks comparable measurement. TC10 requires version, case mix, selection and unit bindings. PARTIALLY_ABSORBED preparation is not empirical benefit or mechanical enforcement."
+        },
+        "first_missing_discriminator": "A defensible causal comparison for T2 versus rival allocation/selection mechanisms; for D08, first recover comparable outcome and inclusion semantics.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained as a robust criterion/mechanism distinction within the declared trigger; this is not a claim of universally quantified economic benefit. Causal inquiry is strengthened while speculative causal certainty is rejected; precautionary action can remain justified for other explicit reasons.",
@@ -3230,10 +3561,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Select the bounded next action named for each case, retaining non-intervention and existing-owner repair as valid alternatives.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/22",
+        "current_applicable_owner": {
+          "contract_key": "A",
+          "name": "Existing action-selection and engineering-value owner",
+          "role": "The existing governor selects proportionate work within the actual grant; domain actors retain their own powers.",
+          "source_actor_authority": "Owners/sponsors authorise changes within their remit; performers and recipients contribute feasibility and harm evidence.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "SIMPLER_MECHANISM_SUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "The supplied proposals can be compared with narrower alternatives: retain research, repair the carrier, obtain a discriminator, or perform the authorised typo correction. No new redesign programme is needed to choose those actions."
+        },
+        "first_missing_discriminator": "A supported problem/mechanism and evaluation route before choosing a real organisational redesign.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained only in the stated criticism-tested form, with authority, evidence and consequence limits preserved. Redesign is retained as conditional inquiry plus intervention, not a universal best-practice recipe.",
@@ -3365,10 +3711,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Keep the predecessor active for the unresolved scope until the existing receiving/retirement owner verifies a complete successor.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/23",
+        "current_applicable_owner": {
+          "contract_key": "R",
+          "name": "Existing receiving and durable-continuation owner",
+          "role": "The authorised /implementaudit governor receives this result; R003F/#225 remains the substantive EBPM work-order reference. No lifetime steward is appointed.", "__published_identity_role": "Published work-order reference; unallocated in the selected main canonical registry. No allocation is made.",
+          "source_actor_authority": "The owner can propose deletion; the party accountable for the controlled consequence must be involved in accepting the changed exposure.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "EVIDENCE_INSUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "Retirement would remove real continuation functions in D11 and D05. A missing member or inaccessible content cannot be declared covered; no replacement acceptance has been earned."
+        },
+        "first_missing_discriminator": "Equivalent accessible coverage, an entitled receiving owner, readback and explicit disposition of every unresolved obligation.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained only in the stated criticism-tested form, with authority, evidence and consequence limits preserved. Elimination becomes a function-preserving or explicitly risk-accepting intervention rather than a count of deleted steps.",
@@ -3498,10 +3859,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain the current order; investigate a concrete late-failure or ordering defect before proposing a trial.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/24",
+        "current_applicable_owner": {
+          "contract_key": "A",
+          "name": "Existing action-selection and engineering-value owner",
+          "role": "The existing governor selects proportionate work within the actual grant; domain actors retain their own powers.",
+          "source_actor_authority": "Operational owners coordinate changes across the functions whose inputs or commitments move.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "INAPPLICABLE",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "No operational task-order change is proposed by this receiving task. Source presence does not justify resequencing."
+        },
+        "first_missing_discriminator": "Actual information, resource, commitment and protective dependencies plus reversibility of a named ordering change.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "A genuine option, not an unconditional requirement; selection depends on the stated trigger, prerequisites and cheaper alternatives. A redesign pattern becomes a guarded option, not a preferred universal ordering.",
@@ -3633,10 +4009,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Return this bounded result through the existing governor; make no new dispatch, parallelism or JOIN claim.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/25",
+        "current_applicable_owner": {
+          "contract_key": "L",
+          "name": "Existing plan-lifecycle executor and independent-review owner",
+          "role": "The governor commissions bounded cognition; receiver/executor output remains candidate evidence for the real acceptance owner.",
+          "source_actor_authority": "The owner arranges cross-team commitments; each performer retains authority over its own result.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "INAPPLICABLE",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "This report does not establish a parallelisation benefit or a completed native JOIN. Independent receiver work remains evidence input for the governor, and no unseen topology is inferred."
+        },
+        "first_missing_discriminator": "For a real overlap decision: independence, capacity, conflict handling and the actual reconciliation/completion rule.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "A genuine option, not an unconditional requirement; selection depends on the stated trigger, prerequisites and cheaper alternatives. Parallel work is retained with explicit coordination and resource costs.",
@@ -3769,10 +4160,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Keep context, unresolved members and next actions in the existing continuation; appoint no new owner.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/26",
+        "current_applicable_owner": {
+          "contract_key": "R",
+          "name": "Existing receiving and durable-continuation owner",
+          "role": "The authorised /implementaudit governor receives this result; R003F/#225 remains the substantive EBPM work-order reference. No lifetime steward is appointed.", "__published_identity_role": "Published work-order reference; unallocated in the selected main canonical registry. No allocation is made.",
+          "source_actor_authority": "A coordinator may organise contributions without acquiring every professional or financial approval power.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "SIMPLER_MECHANISM_SUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "The existing governor and R003F carrier preserve continuity for this source review. A separate coordinator with broader powers would add no necessary function.", "__published_identity_reason": "Published work-order reference; unallocated in the selected main canonical registry. No allocation is made."
+        },
+        "first_missing_discriminator": "For operational case coordination: actual lost-context cases, coordinator capacity and retained specialist/control authority.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "A genuine option, not an unconditional requirement; selection depends on the stated trigger, prerequisites and cheaper alternatives. The strong case-worker formulation is narrowed to warranted continuity and conditional task integration.",
@@ -3902,10 +4308,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain the guarded option without altering governance or resource allocation.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/27",
+        "current_applicable_owner": {
+          "contract_key": "A",
+          "name": "Existing action-selection and engineering-value owner",
+          "role": "The existing governor selects proportionate work within the actual grant; domain actors retain their own powers.",
+          "source_actor_authority": "Shared-service governance must have authority to allocate capacity and a route for local concerns.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "INAPPLICABLE",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "There is no evidence of a pooling or shared-service decision in the supplied task. A common corpus is not evidence that operational authority should centralise."
+        },
+        "first_missing_discriminator": "Actual demand, allocation, access, local knowledge and concentration-risk comparisons.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "A genuine option, not an unconditional requirement; selection depends on the stated trigger, prerequisites and cheaper alternatives. Centralisation is one configuration among alternatives rather than a maturity destination.",
@@ -4037,10 +4458,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Keep both strata and their denominators in the comparison; do not collapse them into an aggregate success judgement.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/28",
+        "current_applicable_owner": {
+          "contract_key": "E",
+          "name": "Existing phase-design acceptance and evaluator owner",
+          "role": "The entitled acceptance owner assesses claim-specific evidence; this receiver supplies candidate interpretation only.",
+          "source_actor_authority": "Classification and resource-allocation decisions require accountable authority; analysts do not define acceptable exclusion alone.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "EVIDENCE_INSUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "D29 changes easy/hard allocation sharply, so class-specific results must remain visible. The descriptive improvements do not establish fair allocation, benefit for every group or causal effect."
+        },
+        "first_missing_discriminator": "Complete class definitions, misclassification and allocation reasons, capacity and group outcomes under a justified comparison.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "A genuine option, not an unconditional requirement; selection depends on the stated trigger, prerequisites and cheaper alternatives. Triage is refined into revisable, contestable classification with service consequences examined.",
@@ -4171,10 +4607,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Continue source qualification and narrowly repair demonstrated carrier defects under the existing owner.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/29",
+        "current_applicable_owner": {
+          "contract_key": "A",
+          "name": "Existing action-selection and engineering-value owner",
+          "role": "The existing governor selects proportionate work within the actual grant; domain actors retain their own powers.",
+          "source_actor_authority": "Sponsors authorise strategic disruption; performers and affected recipients contribute transition and continuity evidence.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "SIMPLER_MECHANISM_SUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "A bounded existing-owner receiving exercise meets the current task. Neither a radical redesign nor a new runtime is warranted by the source corpus or supplied stimuli."
+        },
+        "first_missing_discriminator": "A concrete structural failure and credible transition evidence if replacement is later proposed.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "A genuine option, not an unconditional requirement; selection depends on the stated trigger, prerequisites and cheaper alternatives. Radical and incremental approaches coexist as guarded alternatives, not successive universal historical stages.",
@@ -4311,10 +4762,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Use the current grant only for this receiving output; send broader decisions to their existing authorised actors.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/30",
+        "current_applicable_owner": {
+          "contract_key": "G",
+          "name": "Existing sole-governor and authorisation owner",
+          "role": "The actual user/entitled organisational actor supplies effect authority; /implementaudit retains its lifecycle decisions. A delegated receiver, model, diagram or crosswalk owns none.",
+          "source_actor_authority": "The process owner acts within delegated powers; functional and professional authorities retain powers not transferred. Conflicts require negotiation or escalation, not fictitious unilateral control.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "EVIDENCE_INSUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "The receiver has a specific delegated interpretation role. That role, a repository title or technical write capability cannot establish exercised organisational authority or lifetime stewardship."
+        },
+        "first_missing_discriminator": "An actual mandate, relevant resources and a demonstrated decision/escalation route for the proposed organisational scope.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained as a robust criterion/mechanism distinction within the declared trigger; this is not a claim of universally quantified economic benefit. Nominal ownership is replaced by demonstrable ability to coordinate and obtain authorised action.",
@@ -4444,10 +4910,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain the criterion for a future strategy-linked proposal; perform no strategy cascade now.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/31",
+        "current_applicable_owner": {
+          "contract_key": "A",
+          "name": "Existing action-selection and engineering-value owner",
+          "role": "The existing governor selects proportionate work within the actual grant; domain actors retain their own powers.",
+          "source_actor_authority": "Strategy sponsors decide commitments; owners and performers test feasibility; affected parties inform consequences.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "INAPPLICABLE",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "No organisational strategy or investment decision is provided. Source alignment guidance cannot supply the missing objectives or legitimise a redesign."
+        },
+        "first_missing_discriminator": "The sponsor's actual commitment, protected affected interests and operational feasibility evidence.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained only in the stated criticism-tested form, with authority, evidence and consequence limits preserved. Alignment is retained as explicit translation and conflict exposure, not a score or automatically legitimate objective.",
@@ -4579,10 +5060,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Reuse the existing governor and source owners; reconsider governance only on evidence of an actual unresolved decision.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/32",
+        "current_applicable_owner": {
+          "contract_key": "A",
+          "name": "Existing action-selection and engineering-value owner",
+          "role": "The existing governor selects proportionate work within the actual grant; domain actors retain their own powers.",
+          "source_actor_authority": "A BPM office may advise, enable or govern only within its mandate; process and functional managers retain explicitly allocated decisions.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "SIMPLER_MECHANISM_SUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "The verified native action-selection and receiving contracts already govern this bounded task. A new BPM office, controller or mode is unnecessary and would not create authority."
+        },
+        "first_missing_discriminator": "A concrete coordination or acceptance loss that persists under an adequate existing-owner extension.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "A genuine option, not an unconditional requirement; selection depends on the stated trigger, prerequisites and cheaper alternatives. Institutionalisation becomes context-fit governance with review and retirement conditions.",
@@ -4714,10 +5210,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Keep the source as a fallible conditional diagnostic option and create no maturity score.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/33",
+        "current_applicable_owner": {
+          "contract_key": "A",
+          "name": "Existing action-selection and engineering-value owner",
+          "role": "The existing governor selects proportionate work within the actual grant; domain actors retain their own powers.",
+          "source_actor_authority": "Assessors describe evidence and limits; sponsors decide whether an identified capability warrants investment.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "INAPPLICABLE",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "No capability or maturity instrument is being introduced. The number of rows, passed hashes or completed model responses is not a maturity or outcome score."
+        },
+        "first_missing_discriminator": "Observable exercised capability and independent outcome evidence for any proposed diagnostic rating.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Useful as fallible evidence with a real consumer, but not as an outcome proxy or target that rewards its own production. Maturity is narrowed from universal progression to evidence-limited, context-specific diagnosis.",
@@ -4851,10 +5362,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Preserve the training hypothesis as unproven and seek focused performer evidence only for a real adoption decision.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/34",
+        "current_applicable_owner": {
+          "contract_key": "E",
+          "name": "Existing phase-design acceptance and evaluator owner",
+          "role": "The entitled acceptance owner assesses claim-specific evidence; this receiver supplies candidate interpretation only.",
+          "source_actor_authority": "Sponsors resource participation; performers contribute operational knowledge; consultation does not erase formal accountability.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "EVIDENCE_INSUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "D29 supplies training-labelled outcomes, not evidence of participant readiness, incentives, adoption or a causal training benefit. This receiver is not a substitute for affected performers."
+        },
+        "first_missing_discriminator": "Representative ability-to-perform evidence, support/time constraints, incentives and safe participant disagreement.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained only in the stated criticism-tested form, with authority, evidence and consequence limits preserved. People/culture factors become observable participation, learning and incentive conditions rather than slogans.",
@@ -4990,10 +5516,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Return the scoped refusal or recommendation through the existing owner; retain consequential exception authority with the relevant actor.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/35",
+        "current_applicable_owner": {
+          "contract_key": "G",
+          "name": "Existing sole-governor and authorisation owner",
+          "role": "The actual user/entitled organisational actor supplies effect authority; /implementaudit retains its lifecycle decisions. A delegated receiver, model, diagram or crosswalk owns none.",
+          "source_actor_authority": "A case worker’s discretion is bounded by professional and organisational authority; a model’s optional task does not confer legal or ethical permission.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "SIMPLER_MECHANISM_SUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "The receiver can refuse unsupported promotions and identify a lawful cheap path without claiming new discretion over business operations. D22 illustrates a bounded authorised action rather than blanket autonomy."
+        },
+        "first_missing_discriminator": "For a real exception: competent actor, binding constraints, stop/proceed entitlement and consequence communication.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained only in the stated criticism-tested form, with authority, evidence and consequence limits preserved. Flexibility is retained as bounded, accountable human judgement rather than either blanket compliance or blanket autonomy.",
@@ -5129,10 +5670,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Keep the diagnostic criterion available without inventing a workaround incident or institutionalising a bypass.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/36",
+        "current_applicable_owner": {
+          "contract_key": "A",
+          "name": "Existing action-selection and engineering-value owner",
+          "role": "The existing governor selects proportionate work within the actual grant; domain actors retain their own powers.",
+          "source_actor_authority": "Performers can explain the workaround; authorised owners and relevant control holders decide its acceptance or replacement.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "INAPPLICABLE",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "No observed operational workaround is supplied. A deliberately defective synthetic carrier is a test stimulus, not evidence of misconduct, adaptive expertise or an actual bypass."
+        },
+        "first_missing_discriminator": "A real workaround's cause, protected function, consequence and responsible control owner.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "A genuine option, not an unconditional requirement; selection depends on the stated trigger, prerequisites and cheaper alternatives. Deviation is treated as a diagnostic signal rather than automatic noncompliance or automatic innovation.",
@@ -5270,10 +5826,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Keep this output within its requested source scope and require a separate justified boundary before any new data use.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/37",
+        "current_applicable_owner": {
+          "contract_key": "G",
+          "name": "Existing sole-governor and authorisation owner",
+          "role": "The actual user/entitled organisational actor supplies effect authority; /implementaudit retains its lifecycle decisions. A delegated receiver, model, diagram or crosswalk owns none.",
+          "source_actor_authority": "Managers do not acquire unlimited surveillance authority through technical availability; applicable professional, organisational and legal constraints require separate determination.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "SIMPLER_MECHANISM_SUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "The authorised read is limited to the named source corpus and case stimuli. Nothing here creates monitoring or disclosure authority, and no jurisdiction-specific legal conclusion is drawn."
+        },
+        "first_missing_discriminator": "For a monitoring proposal: legitimate purpose, proportionate access, affected-party challenge and applicable domain authority.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained only in the stated criticism-tested form, with authority, evidence and consequence limits preserved. Transparency is refined into accountable, proportionate visibility rather than maximum observability.",
@@ -5406,10 +5977,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain the anomaly and require an evidence correction; make no appraisal or sanction inference.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/38",
+        "current_applicable_owner": {
+          "contract_key": "E",
+          "name": "Existing phase-design acceptance and evaluator owner",
+          "role": "The entitled acceptance owner assesses claim-specific evidence; this receiver supplies candidate interpretation only.",
+          "source_actor_authority": "Appraisal decision-makers are accountable for the use of measures; analysts must expose limitations rather than authorising sanctions.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "EVIDENCE_INSUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "D08's omitted failures and unresolved cases are evidence-selection defects. They do not establish motive or misconduct, and the reported target score cannot substitute for the received outcome."
+        },
+        "first_missing_discriminator": "Full inclusion rules, incentive context, case difficulty and independent evidence of the omitted work.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Useful as fallible evidence with a real consumer, but not as an outcome proxy or target that rewards its own production. Target alignment is narrowed to fallible, incentive-aware evidence use.",
@@ -5543,10 +6129,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Preserve the source-only status and require real-case use before any enactment or fallback-retirement claim.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/39",
+        "current_applicable_owner": {
+          "contract_key": "L",
+          "name": "Existing plan-lifecycle executor and independent-review owner",
+          "role": "The governor commissions bounded cognition; receiver/executor output remains candidate evidence for the real acceptance owner.",
+          "source_actor_authority": "Sponsors resource change; owners coordinate adoption; technical teams control only technical deployment within their mandate.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "EVIDENCE_INSUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "The episode supplies source interpretations and one reported repository operation, not organisational enactment or adoption evidence. Delivery, actual use and improved outcome remain separate."
+        },
+        "first_missing_discriminator": "Real cases under the new arrangement, actor readiness, surrounding work and independently observed consequences.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained only in the stated criticism-tested form, with authority, evidence and consequence limits preserved. Implementation success is separated from design quality, installation and subsequent outcome improvement.",
@@ -5680,10 +6281,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Permit only operations already expressly delegated to the real executor, with matching readback; retain non-automation and manual review for unproved scope.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/40",
+        "current_applicable_owner": {
+          "contract_key": "G",
+          "name": "Existing sole-governor and authorisation owner",
+          "role": "The actual user/entitled organisational actor supplies effect authority; /implementaudit retains its lifecycle decisions. A delegated receiver, model, diagram or crosswalk owns none.",
+          "source_actor_authority": "Automation executes delegated operations; it does not establish the legitimacy of the underlying business decision.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "CONDITIONAL_IMPROVEMENT_OPPORTUNITY",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "D17 can support a specific delegated repository operation within its supplied grant and readback. That does not evaluate automation alternatives or legitimise autonomous organisational decisions; CONDITIONAL preparation stays intact."
+        },
+        "first_missing_discriminator": "For automation adoption: actual interface/input stability, exceptions, support capacity and total outcome comparison.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "A genuine option, not an unconditional requirement; selection depends on the stated trigger, prerequisites and cheaper alternatives. Automation is retained as a conditional means among alternatives, not a measure of BPM maturity.",
@@ -5819,10 +6435,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Report the branch observation only at ref/commit scope; retain pending acceptance and all separate obligations.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/41",
+        "current_applicable_owner": {
+          "contract_key": "R",
+          "name": "Existing receiving and durable-continuation owner",
+          "role": "The authorised /implementaudit governor receives this result; R003F/#225 remains the substantive EBPM work-order reference. No lifetime steward is appointed.", "__published_identity_role": "Published work-order reference; unallocated in the selected main canonical registry. No allocation is made.",
+          "source_actor_authority": "Each actor controls its own commitments; a local owner cannot declare another party’s obligations fulfilled by fiat.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "EVIDENCE_INSUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "D17 reports confirmation of an exact branch reference and commit. That narrow effect cannot close an organisational obligation, a PR, this receiving acceptance or another actor's commitments."
+        },
+        "first_missing_discriminator": "The actual entitled recipient's completion meaning and direct effect/acceptance evidence for any broader claim.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained only in the stated criticism-tested form, with authority, evidence and consequence limits preserved. End-to-end purpose and enactment are coupled into an analytical completion-evidence condition, not a newly invented BPM transaction theorem.",
@@ -5959,10 +6590,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Stop at the granted read/write evidence boundary and route any future ambiguous effect through the existing recovery owner.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/42",
+        "current_applicable_owner": {
+          "contract_key": "C",
+          "name": "Existing continuity/currentness and lifecycle owner",
+          "role": "The existing continuity/governor owner handles changed state and recovery; this receiver creates no controller, currentness receipt or continuation authority.",
+          "source_actor_authority": "Operators may stop within delegated authority; reversal or compensation of another actor’s commitment requires the relevant authority.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "INAPPLICABLE",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "No consequential interrupted process is operated by this receiver. Source recovery criteria remain live if such an interruption occurs; no rollback or retry permission is inferred."
+        },
+        "first_missing_discriminator": "For a real interruption: observed partial effects, current state, reachable owner and authorised feasible recovery.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "A genuine option, not an unconditional requirement; selection depends on the stated trigger, prerequisites and cheaper alternatives. Recovery is retained as an explicit organisational obligation with technical mechanisms delegated to their proper scope.",
@@ -6098,10 +6744,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Return the bounded decisions to the governor and retire no obligation merely because a report exists.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/43",
+        "current_applicable_owner": {
+          "contract_key": "A",
+          "name": "Existing action-selection and engineering-value owner",
+          "role": "The existing governor selects proportionate work within the actual grant; domain actors retain their own powers.",
+          "source_actor_authority": "Monitoring analysts provide evidence; authorised owners or professionals decide interventions.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "SIMPLER_MECHANISM_SUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "This output has a named decision consumer and identifies refusal, correction or non-action per case. Producing the report alone is not improvement or an automatic intervention."
+        },
+        "first_missing_discriminator": "Actual response and outcome evidence if a monitoring arrangement later claims effectiveness.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained as a robust criterion/mechanism distinction within the declared trigger; this is not a claim of universally quantified economic benefit. Monitoring is refined from visibility to decision-linked evidence and feedback.",
@@ -6234,10 +6895,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Bind this episode to the initial hashes and supplied frozen routes; recheck only affected conclusions when content or authority changes.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/44",
+        "current_applicable_owner": {
+          "contract_key": "C",
+          "name": "Existing continuity/currentness and lifecycle owner",
+          "role": "The existing continuity/governor owner handles changed state and recovery; this receiver creates no controller, currentness receipt or continuation authority.",
+          "source_actor_authority": "Analysts identify changed evidence; owners and affected actors decide whether models, operations or objectives need revision.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "SIMPLER_MECHANISM_SUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "Inputs were frozen and hash-checked; later publication-presentation changes are a separate version. Reuse applies only to the unchanged semantic records and does not certify current native execution."
+        },
+        "first_missing_discriminator": "A changed premise, affected semantic mapping and appropriate readback before transferring these conclusions to a changed carrier.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained only in the stated criticism-tested form, with authority, evidence and consequence limits preserved. Lifecycle feedback is retained as selective assumption review, not perpetual automatic redesign.",
@@ -6372,10 +7048,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain the predecessor for unresolved scope; allow future retain/revise/withdraw decisions only on the relevant evidence.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/45",
+        "current_applicable_owner": {
+          "contract_key": "R",
+          "name": "Existing receiving and durable-continuation owner",
+          "role": "The authorised /implementaudit governor receives this result; R003F/#225 remains the substantive EBPM work-order reference. No lifetime steward is appointed.", "__published_identity_role": "Published work-order reference; unallocated in the selected main canonical registry. No allocation is made.",
+          "source_actor_authority": "Owners and sponsors decide continuation within their powers; affected actors provide evidence of benefits and burdens.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "EVIDENCE_INSUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "D11 and D05 do not earn retirement, and D29/D08 do not establish causal benefit. The current source review cannot substitute for adoption, outcome comparison or accepted transfer."
+        },
+        "first_missing_discriminator": "Actual use, comparable outcomes, complete transferred obligations and an entitled receiver's acceptance.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained only in the stated criticism-tested form, with authority, evidence and consequence limits preserved. Continuous improvement includes learning, non-action and retirement rather than monotonically increasing machinery.",
@@ -6509,10 +7200,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Preserve the contradiction and require carrier correction rather than redefining the denominator to make the proposal pass.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/46",
+        "current_applicable_owner": {
+          "contract_key": "O",
+          "name": "Existing operational-evidence and observation owner",
+          "role": "The evidence consumer preserves recorded observations and omissions; native authentication remains with the real source owner.",
+          "source_actor_authority": "Evidence contributors may challenge a model; revision remains an authorised decision rather than automatic acceptance of every complaint.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "CONDITIONAL_IMPROVEMENT_OPPORTUNITY",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "Comparison with the original corpus exposes the omitted EBPM-053 and falsified states that the mutant carriers alone could conceal. This is a bounded adversarial receiving observation, not a field frequency estimate."
+        },
+        "first_missing_discriminator": "For a deployed system: an accessible independent channel able to reveal material unlogged or excluded work.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained only in the stated criticism-tested form, with authority, evidence and consequence limits preserved. Lifecycle learning is refined to include evidence that can change the observation boundary itself.",
@@ -6644,10 +7350,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain existing boundaries; negotiate any future cross-party change with the actual entitled actors.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/47",
+        "current_applicable_owner": {
+          "contract_key": "G",
+          "name": "Existing sole-governor and authorisation owner",
+          "role": "The actual user/entitled organisational actor supplies effect authority; /implementaudit retains its lifecycle decisions. A delegated receiver, model, diagram or crosswalk owns none.",
+          "source_actor_authority": "Each organisation can commit only within its mandate; joint decisions require agreed governance rather than assumed central control.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "INAPPLICABLE",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "No autonomous partner organisation is participating in this exercise. A shared graph or another executor's branch does not confer authority over that actor."
+        },
+        "first_missing_discriminator": "A real counterpart's mandate, commitments, completion meanings and agreed dispute route.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "A genuine option, not an unconditional requirement; selection depends on the stated trigger, prerequisites and cheaper alternatives. Interorganisational redesign is refined into negotiated governance under partial autonomy.",
@@ -6786,10 +7507,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Carry the full source routes and exact state distinctions into this report; preserve UNRECOVERED where meaning is not available.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/48",
+        "current_applicable_owner": {
+          "contract_key": "R",
+          "name": "Existing receiving and durable-continuation owner",
+          "role": "The authorised /implementaudit governor receives this result; R003F/#225 remains the substantive EBPM work-order reference. No lifetime steward is appointed.", "__published_identity_role": "Published work-order reference; unallocated in the selected main canonical registry. No allocation is made.",
+          "source_actor_authority": "Data custodians control authorised disclosure; process parties jointly resolve business meaning within their commitments.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "SIMPLER_MECHANISM_SUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "The receiver distinguishes original status, historical target, preparation and current action, and makes missing private semantics explicit. Format compatibility or matching hashes alone would not provide those meanings."
+        },
+        "first_missing_discriminator": "For a new consumer: accessible definitions, provenance and a demonstrated interpretation of consequential distinctions.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "A genuine option, not an unconditional requirement; selection depends on the stated trigger, prerequisites and cheaper alternatives. Interoperability is retained as meaning-and-authority alignment, not merely format conformance.",
@@ -6923,10 +7659,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Keep the criterion conditional and make no environmental or social benefit claim.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/49",
+        "current_applicable_owner": {
+          "contract_key": "A",
+          "name": "Existing action-selection and engineering-value owner",
+          "role": "The existing governor selects proportionate work within the actual grant; domain actors retain their own powers.",
+          "source_actor_authority": "Sponsors and owners decide within legitimate constraints; affected parties and domain experts contribute consequences that internal metrics may omit.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "INAPPLICABLE",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "No sustainability or societal improvement claim is supported by this source-receiving episode. Neither an automation demonstration nor a maturity label supplies environmental outcomes."
+        },
+        "first_missing_discriminator": "A material impact boundary, actual consumption/consequences and an entitled adjudicator of conflicting interests.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained only in the stated criticism-tested form, with authority, evidence and consequence limits preserved. Efficiency-centred BPM is broadened with explicit consequences, but the effectiveness of particular mechanisms remains context-specific.",
@@ -7062,10 +7813,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Use the calculation to reject the false inference and route any actual intervention choice to the existing owner.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/50",
+        "current_applicable_owner": {
+          "contract_key": "E",
+          "name": "Existing phase-design acceptance and evaluator owner",
+          "role": "The entitled acceptance owner assesses claim-specific evidence; this receiver supplies candidate interpretation only.",
+          "source_actor_authority": "Analysts and tools generate evidence or recommendations; process actors retain responsibility for actions and consequences.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "EVIDENCE_INSUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "The calculations in D29 establish descriptive rates, while permission, feasible action and realised benefit remain separate. The analytic output earns no execution authority."
+        },
+        "first_missing_discriminator": "A warranted intervention mechanism, authorised feasible action and independently observed relevant outcome.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Useful only while the material data, model or transfer assumptions remain defensible; a violated assumption can reverse the decision. Intelligence is retained as a set of conditional analytical capabilities coupled to governance, not automatic improvement.",
@@ -7198,10 +7964,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Return this full report, its input hashes and limits to the governor for review; do not execute its recommendations as self-authorising instructions.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/51",
+        "current_applicable_owner": {
+          "contract_key": "L",
+          "name": "Existing plan-lifecycle executor and independent-review owner",
+          "role": "The governor commissions bounded cognition; receiver/executor output remains candidate evidence for the real acceptance owner.",
+          "source_actor_authority": "The model has no independent business authority; authorised people remain responsible for accepting representations and interventions.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "CONDITIONAL_IMPROVEMENT_OPPORTUNITY",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "This report is an actual fresh model-generated interpretation requiring owner review. Its output is candidate evidence, not independent business authority or automatically accepted organisational truth."
+        },
+        "first_missing_discriminator": "Independent review against the frozen sources and actual task evidence before an authoritative acceptance decision.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Useful only while the material data, model or transfer assumptions remain defensible; a violated assumption can reverse the decision. Assistance is retained conditionally; autonomous correctness and universal productivity claims are not retained.",
@@ -7337,10 +8118,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Preserve the unresolved research frontier; allow bounded assistance within an actual grant and refuse autonomous consequential redesign or FULLY_ABSORBED promotion.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/52",
+        "current_applicable_owner": {
+          "contract_key": "G",
+          "name": "Existing sole-governor and authorisation owner",
+          "role": "The actual user/entitled organisational actor supplies effect authority; /implementaudit retains its lifecycle decisions. A delegated receiver, model, diagram or crosswalk owns none.",
+          "source_actor_authority": "A goal prompt does not grant unlimited organisational authority. Any permissible autonomy must be separately delegated and justified.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "UNRESOLVED_RESEARCH_QUESTION",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "The original is UNRESOLVED, historical target UNRESOLVED_DISCRIMINATOR and available preparation RESEARCH_ONLY. D17 establishes at most one explicitly delegated branch operation; D03 and D26 cannot promote that into safe general process self-revision."
+        },
+        "first_missing_discriminator": "A separately authorised bounded process-revision system with observed constraint adherence, independent outcome/benefit evaluation, continuity, security, recovery and affected-party accountability under the claimed scope.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "The question was researched and a contemporary proposal inspected, but the evidence does not settle the asserted operational capability. The proposed extension remains unresolved rather than being promoted from agenda to established capability.",
@@ -7469,10 +8265,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Refuse universal standardisation; consider EBPM-036's bounded discretion only when its trigger and authority conditions hold.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/53",
+        "current_applicable_owner": {
+          "contract_key": "A",
+          "name": "Existing action-selection and engineering-value owner",
+          "role": "The existing governor selects proportionate work within the actual grant; domain actors retain their own powers.",
+          "source_actor_authority": "A case worker’s discretion is bounded by professional and organisational authority; a model’s optional task does not confer legal or ethical permission.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "NO_UNCONDITIONAL_OBLIGATION",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "Universal prescriptive standardisation remains rejected. A fixed route can harm knowledge-intensive or exceptional work; retaining the row preserves that guard without reviving its blanket mechanism."
+        },
+        "first_missing_discriminator": "A specific case class with evidence that mandatory sequence preserves its actual outcome and legitimate discretion.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "The unconditional formulation fails under source-supported or explicit analytical counterconditions; no blanket obligation is exported. The blanket proposition is rejected, narrowed or separated from its useful underlying function; the qualified mechanism remains in EBPM-036.",
@@ -7601,10 +8412,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain the anti-pattern; use EBPM-030 only for an evidenced choice of change scale.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/54",
+        "current_applicable_owner": {
+          "contract_key": "A",
+          "name": "Existing action-selection and engineering-value owner",
+          "role": "The existing governor selects proportionate work within the actual grant; domain actors retain their own powers.",
+          "source_actor_authority": "Sponsors authorise strategic disruption; performers and affected recipients contribute transition and continuity evidence.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "NO_UNCONDITIONAL_OBLIGATION",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "Radical redesign as default remains rejected. Transition cost and continuity can make incremental repair or no change the supported choice."
+        },
+        "first_missing_discriminator": "A structural problem, comparison with repair and credible transition/continuity evidence.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "The unconditional formulation fails under source-supported or explicit analytical counterconditions; no blanket obligation is exported. The blanket proposition is rejected, narrowed or separated from its useful underlying function; the qualified mechanism remains in EBPM-030.",
@@ -7733,10 +8559,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Reject score/document-only success and preserve EBPM-034's fallible diagnostic use.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/55",
+        "current_applicable_owner": {
+          "contract_key": "E",
+          "name": "Existing phase-design acceptance and evaluator owner",
+          "role": "The entitled acceptance owner assesses claim-specific evidence; this receiver supplies candidate interpretation only.",
+          "source_actor_authority": "Assessors describe evidence and limits; sponsors decide whether an identified capability warrants investment.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "NO_UNCONDITIONAL_OBLIGATION",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "Documentation or a maturity score cannot establish exercised capability or received outcomes. This receiver's files and census are evidence of bounded work, not organisational success."
+        },
+        "first_missing_discriminator": "Direct evidence that the diagnosed capability is exercised and relevant outcomes follow.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "The named artefact or observance can support a function, but its presence does not establish that function or its outcome. The blanket proposition is rejected, narrowed or separated from its useful underlying function; the qualified mechanism remains in EBPM-034.",
@@ -7865,10 +8706,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain formal validity only within its checked purpose and use EBPM-014 for any model-to-execution transfer.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/56",
+        "current_applicable_owner": {
+          "contract_key": "E",
+          "name": "Existing phase-design acceptance and evaluator owner",
+          "role": "The entitled acceptance owner assesses claim-specific evidence; this receiver supplies candidate interpretation only.",
+          "source_actor_authority": "Implementers control deployed semantics within their authority; process owners and recipients establish real obligations and completion criteria.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "NO_UNCONDITIONAL_OBLIGATION",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "Notation or JSON conformance does not establish domain truth, authority, enactment or external completion. The separate quality dimensions cannot be merged."
+        },
+        "first_missing_discriminator": "The specific correspondence, domain, authority and effect evidence required by the intended claim.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "This sufficiency/equivalence claim does not hold generally; the distinct useful mechanism is preserved in its linked qualified record. The blanket proposition is rejected, narrowed or separated from its useful underlying function; the qualified mechanism remains in EBPM-014.",
@@ -7997,10 +8853,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Refuse automation-count acceptance; preserve EBPM-041's selective automation option under its own prerequisites.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/57",
+        "current_applicable_owner": {
+          "contract_key": "A",
+          "name": "Existing action-selection and engineering-value owner",
+          "role": "The existing governor selects proportionate work within the actual grant; domain actors retain their own powers.",
+          "source_actor_authority": "Automation executes delegated operations; it does not establish the legitimacy of the underlying business decision.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "NO_UNCONDITIONAL_OBLIGATION",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "Automation is not sufficient improvement. A completed branch operation or neighbouring workflow example does not measure net business benefit, adoption or manual repair burden."
+        },
+        "first_missing_discriminator": "An appropriate outcome and total-cost comparison against viable manual/organisational alternatives.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "The unconditional formulation fails under source-supported or explicit analytical counterconditions; no blanket obligation is exported. The blanket proposition is rejected, narrowed or separated from its useful underlying function; the qualified mechanism remains in EBPM-041.",
@@ -8128,10 +8999,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Reject utilisation as a standalone goal; use EBPM-019 for a bounded capacity decision.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/58",
+        "current_applicable_owner": {
+          "contract_key": "A",
+          "name": "Existing action-selection and engineering-value owner",
+          "role": "The existing governor selects proportionate work within the actual grant; domain actors retain their own powers.",
+          "source_actor_authority": "Resource managers can change capacity and assignment; analysts supply conditional predictions, not authority to alter staffing or worker obligations.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "NO_UNCONDITIONAL_OBLIGATION",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "Maximum utilisation is not a universal end-to-end objective. Variability, queues and recovery needs can reverse the desired action."
+        },
+        "first_missing_discriminator": "Actual demand/service variation, relevant queue model assumptions and resilience consequences.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "This sufficiency/equivalence claim does not hold generally; the distinct useful mechanism is preserved in its linked qualified record. The blanket proposition is rejected, narrowed or separated from its useful underlying function; the qualified mechanism remains in EBPM-019.",
@@ -8259,10 +9145,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain the existing bounded owner route and use EBPM-031 to test any future ownership proposal.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/59",
+        "current_applicable_owner": {
+          "contract_key": "G",
+          "name": "Existing sole-governor and authorisation owner",
+          "role": "The actual user/entitled organisational actor supplies effect authority; /implementaudit retains its lifecycle decisions. A delegated receiver, model, diagram or crosswalk owns none.",
+          "source_actor_authority": "The process owner acts within delegated powers; functional and professional authorities retain powers not transferred. Conflicts require negotiation or escalation, not fictitious unilateral control.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "NO_UNCONDITIONAL_OBLIGATION",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "A nominal owner title or new work-order identifier does not establish resources, competence or effective authority. This receiving role cannot appoint a lifetime steward."
+        },
+        "first_missing_discriminator": "Exercised decision rights, resources and a usable escalation path for the actual scope.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "The named artefact or observance can support a function, but its presence does not establish that function or its outcome. The blanket proposition is rejected, narrowed or separated from its useful underlying function; the qualified mechanism remains in EBPM-031.",
@@ -8392,10 +9293,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Keep EBPM-044's decision link and reject publication alone as a success criterion.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/60",
+        "current_applicable_owner": {
+          "contract_key": "A",
+          "name": "Existing action-selection and engineering-value owner",
+          "role": "The existing governor selects proportionate work within the actual grant; domain actors retain their own powers.",
+          "source_actor_authority": "Monitoring analysts provide evidence; authorised owners or professionals decide interventions.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "NO_UNCONDITIONAL_OBLIGATION",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "Publishing a dashboard or this report is not demonstrated improvement. Evidence needs a real consumer and a resulting decision, inquiry or justified non-action."
+        },
+        "first_missing_discriminator": "A capable consumer's actual use and, if claimed, subsequent outcome evidence.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "The named artefact or observance can support a function, but its presence does not establish that function or its outcome. The blanket proposition is rejected, narrowed or separated from its useful underlying function; the qualified mechanism remains in EBPM-044.",
@@ -8524,10 +9440,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Refuse ground-truth promotion and apply EBPM-009's provenance and observability limits.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/61",
+        "current_applicable_owner": {
+          "contract_key": "O",
+          "name": "Existing operational-evidence and observation owner",
+          "role": "The evidence consumer preserves recorded observations and omissions; native authentication remains with the real source owner.",
+          "source_actor_authority": "Data custodians explain instrumentation; analysts own inference limits; process owners decide whether evidence is adequate for action.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "NO_UNCONDITIONAL_OBLIGATION",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "A mined model or extracted data is not unqualified ground truth. D08 provides a direct constructed counterexample through selection omissions and changed semantics."
+        },
+        "first_missing_discriminator": "A justified data-generation boundary, independent missing-work checks and source/transform meanings.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "The unconditional formulation fails under source-supported or explicit analytical counterconditions; no blanket obligation is exported. The blanket proposition is rejected, narrowed or separated from its useful underlying function; the qualified mechanism remains in EBPM-009.",
@@ -8654,10 +9585,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain the original identity and supersession link; use EBPM-012's purpose-fit complexity treatment rather than a numeric gate.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/62",
+        "current_applicable_owner": {
+          "contract_key": "A",
+          "name": "Existing action-selection and engineering-value owner",
+          "role": "The existing governor selects proportionate work within the actual grant; domain actors retain their own powers.",
+          "source_actor_authority": "Modellers propose changes; users and domain experts check that useful meaning has not been lost.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "NO_UNCONDITIONAL_OBLIGATION",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "The universal fifty-element threshold stays SUPERSEDED_BY_STRONGER_FORM. A size threshold does not establish a discontinuity in comprehension or preserve cross-boundary meaning."
+        },
+        "first_missing_discriminator": "Task-, user- and semantics-specific evidence of a complexity problem and a function-preserving alternative.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "The universal threshold formulation is replaced by purpose-, user- and semantics-sensitive complexity management. The blanket proposition is rejected, narrowed or separated from its useful underlying function; the qualified mechanism remains in EBPM-012.",
@@ -8784,10 +9730,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain relevant variants and compare a common route with EBPM-029's guarded segmentation.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/63",
+        "current_applicable_owner": {
+          "contract_key": "E",
+          "name": "Existing phase-design acceptance and evaluator owner",
+          "role": "The entitled acceptance owner assesses claim-specific evidence; this receiver supplies candidate interpretation only.",
+          "source_actor_authority": "Classification and resource-allocation decisions require accountable authority; analysts do not define acceptable exclusion alone.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "NO_UNCONDITIONAL_OBLIGATION",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "One standard variant for every case remains rejected. D29 illustrates why distinct case classes cannot be erased by a common aggregate."
+        },
+        "first_missing_discriminator": "Actual needs, risks, capacity and misclassification/group-outcome evidence for the route choice.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "The unconditional formulation fails under source-supported or explicit analytical counterconditions; no blanket obligation is exported. The blanket proposition is rejected, narrowed or separated from its useful underlying function; the qualified mechanism remains in EBPM-029.",
@@ -8914,10 +9875,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Keep necessary protections and use EBPM-024/046 for a specific evidenced retirement decision.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/64",
+        "current_applicable_owner": {
+          "contract_key": "R",
+          "name": "Existing receiving and durable-continuation owner",
+          "role": "The authorised /implementaudit governor receives this result; R003F/#225 remains the substantive EBPM work-order reference. No lifetime steward is appointed.", "__published_identity_role": "Published work-order reference; unallocated in the selected main canonical registry. No allocation is made.",
+          "source_actor_authority": "The owner can propose deletion; the party accountable for the controlled consequence must be involved in accepting the changed exposure.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "NO_UNCONDITIONAL_OBLIGATION",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "Blanket removal of controls or human involvement remains rejected. Predecessor content can protect unresolved obligations even when its visible use is infrequent."
+        },
+        "first_missing_discriminator": "The controlled consequence, accountable exposure holder and demonstrated equivalent coverage or justified retirement.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "The unconditional formulation fails under source-supported or explicit analytical counterconditions; no blanket obligation is exported. The blanket proposition is rejected, narrowed or separated from its useful underlying function; the qualified mechanism remains in EBPM-024.",
@@ -9048,10 +10024,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Report the metric's narrow scope and use EBPM-017 to preserve competing outcomes and uncertainty.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/65",
+        "current_applicable_owner": {
+          "contract_key": "E",
+          "name": "Existing phase-design acceptance and evaluator owner",
+          "role": "The entitled acceptance owner assesses claim-specific evidence; this receiver supplies candidate interpretation only.",
+          "source_actor_authority": "Accountable decision makers choose priorities with affected-party input; analysts expose measurement limitations rather than choosing values by convenience.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "NO_UNCONDITIONAL_OBLIGATION",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "A single success rate or local throughput is not end-to-end value. D29 reverses aggregate and stratified directions, while D08's denominator and meaning are compromised."
+        },
+        "first_missing_discriminator": "Comparable measures, protected consequences and affected-group evidence beyond the selected score.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "This sufficiency/equivalence claim does not hold generally; the distinct useful mechanism is preserved in its linked qualified record. The blanket proposition is rejected, narrowed or separated from its useful underlying function; the qualified mechanism remains in EBPM-017.",
@@ -9178,10 +10169,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain the chart as contextual evidence only; use EBPM-005 for a purpose-fit dependency account.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/66",
+        "current_applicable_owner": {
+          "contract_key": "R",
+          "name": "Existing receiving and durable-continuation owner",
+          "role": "The authorised /implementaudit governor receives this result; R003F/#225 remains the substantive EBPM work-order reference. No lifetime steward is appointed.", "__published_identity_role": "Published work-order reference; unallocated in the selected main canonical registry. No allocation is made.",
+          "source_actor_authority": "Enterprise/process coordinators maintain the map with local expertise; the architecture does not override functional or contractual authority.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "NO_UNCONDITIONAL_OBLIGATION",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "An organisation chart or collection of owner labels cannot establish performed process dependencies. A grouping likewise does not merge the original members."
+        },
+        "first_missing_discriminator": "Evidence of actual end-to-end work, shared objects and cross-boundary handoffs.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "This sufficiency/equivalence claim does not hold generally; the distinct useful mechanism is preserved in its linked qualified record. The blanket proposition is rejected, narrowed or separated from its useful underlying function; the qualified mechanism remains in EBPM-005.",
@@ -9323,10 +10329,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Keep the three links explicit and reject any promotion with an unproved link; use the existing acceptance and authority owners.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/67",
+        "current_applicable_owner": {
+          "contract_key": "G",
+          "name": "Existing sole-governor and authorisation owner",
+          "role": "The actual user/entitled organisational actor supplies effect authority; /implementaudit retains its lifecycle decisions. A delegated receiver, model, diagram or crosswalk owns none.",
+          "source_actor_authority": "Evidence producers do not acquire execution powers by analysis; authorised actors do not acquire factual correctness by holding office.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "EVIDENCE_INSUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "D17 distinguishes a supplied grant and observed branch operation from any organisational benefit. D03 lacks authority, and D29 lacks causal identification. No single green evidence leg promotes the other legs."
+        },
+        "first_missing_discriminator": "The missing warrant, lawful feasible action or independent consequence evidence for each particular improvement claim.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained only in the stated criticism-tested form, with authority, evidence and consequence limits preserved. New composition-induced discipline: the interfaces between evidence, action and consequence become explicit failure sites instead of being assumed by a lifecycle diagram.",
@@ -9462,10 +10483,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Bound the claim to what was actually observed and preserve contrary or unknown external effects.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/68",
+        "current_applicable_owner": {
+          "contract_key": "E",
+          "name": "Existing phase-design acceptance and evaluator owner",
+          "role": "The entitled acceptance owner assesses claim-specific evidence; this receiver supplies candidate interpretation only.",
+          "source_actor_authority": "The party claiming benefit cannot unilaterally accept another party’s material burden as harmless.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "EVIDENCE_INSUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "No supplied evidence establishes total received benefit or accepts another party's burden. Correct local arithmetic remains bounded by case mix, selection, outcome meaning and unknown external consequences."
+        },
+        "first_missing_discriminator": "Comparable outcomes and receiving-side burdens across the declared legitimate boundary.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained only in the stated criticism-tested form, with authority, evidence and consequence limits preserved. Composition creates a boundary-sensitive judgement not supplied by local efficiency measurement alone.",
@@ -9600,10 +10636,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Complete the bounded review, reuse existing owners, and add no BPM-branded runtime, worksheet or all-relations gate.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/69",
+        "current_applicable_owner": {
+          "contract_key": "A",
+          "name": "Existing action-selection and engineering-value owner",
+          "role": "The existing governor selects proportionate work within the actual grant; domain actors retain their own powers.",
+          "source_actor_authority": "The accountable consumer and affected actors judge adequacy; method specialists do not mandate tools merely because they are standard practice.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "SIMPLER_MECHANISM_SUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "Existing native receiving, action-selection and acceptance owners suffice for this episode. D22 needs a local correction and direct check; a ledger does not require one mechanism, role or study per property."
+        },
+        "first_missing_discriminator": "A concrete uncovered function or consumer need that changes the current minimal configuration.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained only in the stated criticism-tested form, with authority, evidence and consequence limits preserved. Composition-induced selection prevents treating the property ledger as one mandatory artefact or owner per property.",
@@ -9740,10 +10791,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Classify the changed surface and invalidate only affected claims while retaining outstanding obligations and historical meanings.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/70",
+        "current_applicable_owner": {
+          "contract_key": "E",
+          "name": "Existing phase-design acceptance and evaluator owner",
+          "role": "The entitled acceptance owner assesses claim-specific evidence; this receiver supplies candidate interpretation only.",
+          "source_actor_authority": "Modellers may revise descriptions within their remit; changing operational commitments or evaluation criteria requires the responsible authority.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "SIMPLER_MECHANISM_SUFFICIENT",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "A spelling correction, source-presentation change, process alteration and evaluator change have different consequences and authority. D22 stays local; D08's changed success definition invalidates comparison rather than laundering an improvement."
+        },
+        "first_missing_discriminator": "An explicit meaning-preservation map if a representation/version change is used to transfer evidence; separate authority for changed work or acceptance criteria.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained only in the stated criticism-tested form, with authority, evidence and consequence limits preserved. Composition turns a broad lifecycle loop into differentiated revision paths with separate authority and evidence burdens.",
@@ -9877,10 +10943,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Retain the domain-specific criterion and require its own evidence only if low-code delivery becomes the real task.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/71",
+        "current_applicable_owner": {
+          "contract_key": "L",
+          "name": "Existing plan-lifecycle executor and independent-review owner",
+          "role": "The governor commissions bounded cognition; receiver/executor output remains candidate evidence for the real acceptance owner.",
+          "source_actor_authority": "A citizen developer may create within delegated scope; platform access does not confer authority over another function’s commitments or protected data.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "INAPPLICABLE",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "No low-code application or citizen-developer delivery is supplied. CONDITIONAL preparation and bounded developer-task research cannot establish general competence or release authority."
+        },
+        "first_missing_discriminator": "Actual users, task fit, support, access boundaries and accountable consequential-delivery review.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained for the specified technical/organisational domain; its bounded result must not be promoted into a general BPM obligation. Ease of construction is refined into governed participation, not an assumption that low code removes engineering or organisational obligations.",
@@ -10015,10 +11096,25 @@
       },
       "current_qualification": {
         "original_and_historical_content": "RECONSTRUCTED",
-        "runtime_source_delta": "NO_CHANGE_PROPOSED_NO_EXACT_CURRENT_FALSE_PASS",
-        "semantic_receiving": "PENDING",
+        "runtime_source_delta": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+        "semantic_receiving": "ACTUAL_RETURN_QUALIFIED_BY_ROOT_WITH_RESIDUALS",
         "operative_property_acceptance": "NOT_INFERRED",
-        "next_action": "Receive this exact original criterion, historical target, source guard and available preparation state; choose the applicable bounded action or retain the named missing evidence. Do not complete an inaccessible preparation row from its aggregate census."
+        "next_action": "Preserve the mechanism split from EBPM-016; use manual checking for transparent cases or a scoped formal check when actually triggered.",
+        "actual_receiving_route": "r003f-actual-receiving.json#/members/72",
+        "current_applicable_owner": {
+          "contract_key": "E",
+          "name": "Existing phase-design acceptance and evaluator owner",
+          "role": "The entitled acceptance owner assesses claim-specific evidence; this receiver supplies candidate interpretation only.",
+          "source_actor_authority": "Analysts check encoded behaviour; accountable domain actors decide which constraints should apply and whether a departure is authorised.",
+          "new_owner_appointed": false
+        },
+        "actual_bounded_disposition": {
+          "outcome": "INAPPLICABLE",
+          "scope": "This frozen original73 source-receiving episode and the named supplied cases; no organisational implementation, native-host, product-acceptance or issue-closure verdict.",
+          "reason": "No formal constraint model, trace semantics, instance history or checker result is supplied. CONDITIONAL preparation does not establish satisfiability or legitimate real-world constraints."
+        },
+        "first_missing_discriminator": "Exact model and history bytes, event mapping, formal semantics, checker evidence and authorised domain constraints.",
+        "root_decision": "r003f-r0041-engineering-evidence.json#/lineage_receiving_decisions/0"
       },
       "residual": {
         "source_boundary": "Retained for the specified technical/organisational domain; its bounded result must not be promoted into a general BPM obligation. Constraint-based flexibility is retained with explicit composition and change-consistency obligations, separated from the representation-selection property EBPM-016.",
@@ -10029,5 +11125,29 @@
         "horizon": "UNKNOWN; no implementation deadline or general capability promised."
       }
     }
-  ]
+  ],
+  "current_receiving": {
+    "observed_raw_return": {
+      "logical_name": "ebpm-receiver.json",
+      "bytes": 561353,
+      "sha256": "f784115c78c63e9a11d2585ba66055afea11052b7d403f42d6690aea7edb34fa"
+    },
+    "publication": "r003f-actual-receiving.json",
+    "original_observation_carrier": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/98be791ae0e2165095d6accc8c1c4435c52123b1/docs/research/implementaudit/r003f-member-qualification.json",
+    "root_decision": {
+      "lineage": "EBPM",
+      "original_population": 73,
+      "all_members_received": true,
+      "original_and_available_preparation_states_match": true,
+      "specific_actions_and_missing_discriminators_present": true,
+      "cases_examined": 9,
+      "actual_raw_receiver_file": "ebpm-receiver.json",
+      "actual_raw_receiver_sha256": "f784115c78c63e9a11d2585ba66055afea11052b7d403f42d6690aea7edb34fa",
+      "root_disposition": "ACCEPT_BOUNDED_SOURCE_RECEIVING_AND_CASE_INTERPRETATION_WITH_RESIDUALS",
+      "original_RLGWO_acceptance": "INCOMPLETE_NOT_CLOSED",
+      "runtime_change": "NO_CHANGE_JUSTIFIED_FOR_THIS_CONSUMER_SCOPE",
+      "limit": "No property-wide product PASS, native/installed execution, empirical intervention benefit, or general autonomy/migration safety inferred."
+    },
+    "claim_limit": "Original RLGWO acceptance remains INCOMPLETE_NOT_CLOSED. Source receiving, model interpretation, actual branch/PR effects and product/native acceptance are different evidence classes."
+  }
 }
