@@ -1,6 +1,8 @@
 """Combined portable interfaces only; no authentic admission or native effects."""
 import hashlib
+import gzip
 import ast
+import contextlib
 import io
 import importlib.util
 import json
@@ -13,6 +15,7 @@ import sys
 import tempfile
 import tokenize
 import unittest
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 CORE = ROOT / "skills/implementaudit/scripts"
@@ -27,6 +30,150 @@ def load(name, path):
 
 
 class CompositeSourceCases(unittest.TestCase):
+    @unittest.skipUnless(os.name == "posix", "fixed C5 no-follow source acquisition")
+    def test_original_c5_profile_cannot_admit_the_current_composite(self):
+        owner = load("strict_original_c5", ROOT / "scripts/load-work-graph-c5-executor.py")
+        with tempfile.TemporaryDirectory(prefix="c5-profile-refusal-") as temp:
+            output = Path(temp) / "unallocated"
+            with mock.patch.object(owner._Engine, "load") as execute:
+                with self.assertRaisesRegex(ValueError, "Unsupported fixed C5 execution member: scripts/qualify-work-graph-prefix.py"):
+                    owner.create_genuine_c5_session(ROOT, output, expected_source={})
+            execute.assert_not_called()
+            self.assertFalse(output.exists())
+
+    def test_retained_native_dependency_and_new_core_profiles_are_distinct(self):
+        manifest = json.loads((ROOT / "source-peers/native-runtime/SOURCE_MANIFEST.json").read_bytes())
+        retained = next(row for row in manifest["files"]
+                        if row["path"].endswith("/claim-run-rotation.py"))
+        raw = (ROOT / retained["path"]).read_bytes()
+        self.assertEqual((len(raw), hashlib.sha256(raw).hexdigest()),
+                         (246657, "4dbbd07b5a792289c13c1225a8099900682b3657396f60f4b74867502cbadf97"))
+        self.assertEqual(retained["materialized_path"], "skills/implementaudit/scripts/claim-run-rotation.py")
+        self.assertNotIn(retained["materialized_path"], [row["path"] for row in manifest["frozen_core_dependencies"]])
+        transport = load("retained_core_transport", ROOT / "scripts/work-graph-continuity-transport.py")
+        profile = transport.SOURCE_PROFILES_V1["composite-20261025-core-retained-history-v1"]
+        observed = tuple((name, len((CORE / name).read_bytes()),
+                          hashlib.sha256((CORE / name).read_bytes()).hexdigest(), mode)
+                         for name, _, _, mode in profile)
+        self.assertEqual(observed, profile)
+        self.assertNotEqual(profile, transport.SOURCE_PROFILES_V1["composite-20261025-core-posix-reads"])
+
+    def test_retained_native_profile_refuses_new_history_api_before_dispatch(self):
+        peer = ROOT / "source-peers/route-graph/skills/implementaudit/scripts"
+        with tempfile.TemporaryDirectory(prefix="history-source-profile-") as temp:
+            repo = Path(temp).resolve()
+            owner = repo / "owner"
+            run = repo / "run"
+            owner.mkdir()
+            run.mkdir()
+            for name in ("route-transaction.py", "route_request_policy.py"):
+                shutil.copyfile(peer / name, owner / name)
+            for name in ("claim-run.sh", "claim-run-rotation.py"):
+                shutil.copyfile(PEER / name, owner / name)
+            route = load("retained_history_receiver", owner / "route-transaction.py")
+            prefix = "refs/implementaudit/continuity-receipts/fixture/"
+            token, current = prefix + "G0002@" + "1" * 40, prefix + "G0003@" + "2" * 40
+            fields = ["implementaudit.continuity-receipt.v3", "fixture", "fixture-claim", "run",
+                      "G0002", "1" * 40, "refs/implementaudit/current-generations/fixture", "2" * 40,
+                      *(["0" * 64] * 4), "retained-marker", prefix + "G0001@" + "3" * 40]
+            captured = io.StringIO()
+            with contextlib.redirect_stdout(captured), mock.patch.object(
+                    subprocess, "run", side_effect=AssertionError("unsupported profile dispatched")) as called:
+                with self.assertRaises(SystemExit) as refused:
+                    route.original14_retained_predecessor_v1(
+                        repo, token, fields, controller="fixture", claim="fixture-claim",
+                        run_identity="run", generation="G0002", current_receipt=current,
+                        explicit_run_root=str(run))
+                self.assertEqual(refused.exception.code, 2)
+                called.assert_not_called()
+            self.assertIn("exceeds its exact source bound", captured.getvalue())
+
+    @unittest.skipUnless(os.name == "posix", "actual POSIX FIFO replacement")
+    def test_route_source_replaced_by_fifo_refuses_before_read(self):
+        worker = r'''
+import importlib.util, os, pathlib, sys
+root = pathlib.Path(sys.argv[1])
+spec = importlib.util.spec_from_file_location("fifo_route_loader", root / "compile-work-graph.py")
+graph = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(graph)
+target = root / "route-transaction.py"
+original_open = os.open
+def replaced_open(path, flags, *args, **kwargs):
+    if pathlib.Path(path) == target:
+        target.unlink()
+        os.mkfifo(target)
+        print("FIFO_REPLACEMENT_REACHED", flush=True)
+    return original_open(path, flags, *args, **kwargs)
+os.open = replaced_open
+try:
+    graph._native_route_scope_module_v1()
+except graph.WorkGraphError as error:
+    print(str(error), flush=True)
+else:
+    raise AssertionError("nonregular route source was accepted")
+'''
+        peer = ROOT / "source-peers/route-graph/skills/implementaudit/scripts"
+        for source in (CORE, peer):
+            with self.subTest(source=source), tempfile.TemporaryDirectory(prefix="route-loader-fifo-") as temp:
+                target = Path(temp)
+                shutil.copyfile(source / "compile-work-graph.py", target / "compile-work-graph.py")
+                for name in ("route-transaction.py", "route_request_policy.py"):
+                    shutil.copyfile(peer / name, target / name)
+                try:
+                    result = subprocess.run([sys.executable, "-B", "-c", worker, str(target)],
+                                            capture_output=True, timeout=5)
+                except subprocess.TimeoutExpired as error:
+                    self.fail("route source read blocked; actual stdout=" + repr(error.stdout)
+                              + "; actual stderr=" + repr(error.stderr))
+                self.assertEqual(result.returncode, 0, result.stderr.decode())
+                self.assertIn(b"FIFO_REPLACEMENT_REACHED", result.stdout)
+                self.assertIn(b"native route producer source identity changed", result.stdout)
+
+    def test_lossless_research_observation_retains_complete_original(self):
+        """Fixed research snapshot coherence, not native or transitive read credit."""
+        stem = "docs/research/implementaudit/r003f-r0041-pending-source-"
+        original_name = stem + "qualification.json"
+        carrier_name = original_name + ".gz"
+        manifest_name = stem + "transport.json"
+        manifest = json.loads((ROOT / manifest_name).read_bytes())
+        self.assertEqual(manifest["schema"], "implementaudit.research-evidence-transport.v1")
+        expected = {
+            "original": (original_name, 30022077,
+                         "0a35a0e973d5627493928801a3ea82df8e5a82d37fa72d6e3cf795059cb63c57",
+                         "707953224788ffe951b50a265fb7c456fda76e36"),
+            "carrier": (carrier_name, 5037688,
+                        "ed46a9a90918a794beeaa42ceeba0b85bb14f46e72d66101443b857a30cb7941",
+                        "f0663d5fbe1e9f429b062001ab6fa025742d1a31"),
+        }
+        captured = {}
+        for role, (name, size, sha256, blob) in expected.items():
+            with self.subTest(role=role):
+                self.assertEqual({key: manifest[role][key] for key in
+                                  ("path", "bytes", "sha256", "git_blob")},
+                                 dict(path=name, bytes=size, sha256=sha256, git_blob=blob))
+                path = ROOT / name
+                self.assertFalse(path.is_symlink())
+                self.assertTrue(path.is_file())
+                self.assertEqual(path.stat().st_size, size)
+                raw = path.read_bytes()
+                self.assertEqual(len(raw), size)
+                self.assertEqual(hashlib.sha256(raw).hexdigest(), sha256)
+                self.assertEqual(hashlib.sha1(b"blob " + str(size).encode() + b"\0" + raw).hexdigest(), blob)
+                captured[role] = raw
+        self.assertEqual(manifest["carrier"]["format"], "gzip")
+        self.assertEqual(manifest["original"]["immutable_commit"],
+                         "0049ea15d4e406aa6970ef6c30ea57f58154d757")
+        self.assertEqual(manifest["original"]["immutable_tree"],
+                         "20d88dc9fe0d27ab364d33e58fd2b80878b38b06")
+        with gzip.GzipFile(fileobj=io.BytesIO(captured["carrier"])) as stream:
+            decoded = stream.read(expected["original"][1] + 1)
+        self.assertEqual(decoded, captured["original"])
+        site = json.loads((ROOT / "docs/portal/site.json").read_bytes())
+        for names in (site["semantic_sources"], site["pages"]["research-lineage-overview"]["sources"]):
+            self.assertEqual(names.count(carrier_name), 1)
+            self.assertEqual(names.count(manifest_name), 1)
+            self.assertNotIn(original_name, names)
+
     @unittest.skipUnless(os.name == "posix", "POSIX descriptor admission controls")
     def test_status_read_guard_admits_only_the_recorded_readonly_descriptor(self):
         fixture = load("status_descriptor_fixture", ROOT / "tests/cognition-pending-durability.py")

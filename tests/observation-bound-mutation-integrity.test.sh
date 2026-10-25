@@ -2301,6 +2301,682 @@ PY_CAPTURE_ASSERT
   helper="$saved_helper"
 }
 
+replacement_batch_preflight_heldouts() {
+  "$python_bin" - "$repo_root" "$helper" "$tmp/replacement-batch" "${1:-}" "${2:-all}" <<'PY_REPLACEMENT_BATCH'
+import hashlib, json, os, re, shlex, shutil, stat, subprocess, sys, time
+from pathlib import Path
+
+root, helper, base = map(Path, sys.argv[1:4])
+evidence = Path(sys.argv[4]) if len(sys.argv) > 4 and sys.argv[4] else base / 'evidence'
+evidence.mkdir(parents=True, exist_ok=False)
+if len(sys.argv) > 4 and sys.argv[4]:
+    base = evidence / 'fixture'
+base.mkdir(parents=True, exist_ok=True)
+records = []
+cases = []
+selected = sys.argv[5] if len(sys.argv) > 5 else 'all'
+preflight_flag = sys.argv[6] if len(sys.argv) > 6 else '--batch-preflight'
+
+def require(value, message):
+    if not value:
+        raise AssertionError(message)
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+def command(argv, cwd, env, expected=0):
+    start = time.monotonic()
+    result = subprocess.run(argv, cwd=cwd, env=env, text=True, capture_output=True, timeout=30)
+    record = {'argv': list(map(str, argv)), 'cwd': str(cwd), 'elapsed_seconds': time.monotonic() - start,
+              'returncode': result.returncode, 'stdout': result.stdout, 'stderr': result.stderr}
+    records.append(record)
+    (evidence / 'commands.json').write_text(json.dumps(records, indent=2) + '\n')
+    if expected is not None:
+        require(result.returncode == expected, 'setup command failed: ' + json.dumps(record))
+    return result
+
+def snapshot(repo):
+    rows = {}
+    for path in sorted(repo.rglob('*')):
+        st = path.lstat()
+        name = path.relative_to(repo).as_posix()
+        if stat.S_ISREG(st.st_mode):
+            data = path.read_bytes()
+            rows[name] = {'kind': 'file', 'mode': stat.S_IMODE(st.st_mode), 'bytes': len(data), 'sha256': sha(data)}
+        elif stat.S_ISDIR(st.st_mode):
+            rows[name] = {'kind': 'directory', 'mode': stat.S_IMODE(st.st_mode)}
+        elif stat.S_ISLNK(st.st_mode):
+            rows[name] = {'kind': 'symlink', 'target': os.readlink(path)}
+        else:
+            rows[name] = {'kind': 'other', 'mode': stat.S_IMODE(st.st_mode)}
+    return rows
+
+def fixture(name, controller=False):
+    repo = base / name
+    repo.mkdir()
+    env = {k: v for k, v in os.environ.items() if not k.startswith(('GIT_', 'IMPLEMENTAUDIT_'))}
+    env['IMPLEMENTAUDIT_BASE'] = '.IMPLEMENTAUDIT/runs'
+    env['PYTHONDONTWRITEBYTECODE'] = '1'
+    for args in [['git', 'init', '-q'], ['git', 'config', 'user.email', 'batch-fixture@example.invalid'],
+                 ['git', 'config', 'user.name', 'batch-fixture']]:
+        command(args, repo, env)
+    (repo / 'seed').write_text('Replacement-only observation fixture\n')
+    command(['git', 'add', 'seed'], repo, env)
+    command(['git', 'commit', '-q', '-m', 'fixture'], repo, env)
+    claim = root / 'skills/implementaudit/scripts/claim-run.sh'
+    args = ['bash', str(claim)] + (['--controller', 'batch-preflight'] if controller else []) + ['batch-preflight']
+    run_rel = command(args, repo, env).stdout.strip()
+    run = repo / run_rel
+    for name in ['STATE.md', 'PROTOCOL.md', 'ROADMAP.md', 'THINKING.md', 'sidecars.md', 'tools.md', 'context.md']:
+        shutil.copyfile(root / 'skills/implementaudit/templates' / name, run / name)
+    roadmap = run / 'ROADMAP.md'
+    roadmap.write_text(roadmap.read_text().replace('| 1 |  |  | - |  |  |  | open |\n', '') + '| 1 | Replacement preflight |\n')
+    phase = (root / 'fixtures/phase-validation/valid-full-spec.md').read_text()
+    phase = phase.replace('Phase: 1 of 3', 'Phase: 1 of 1').replace('Run root: .IMPLEMENTAUDIT/runs/add-settings-Xy9Zq1', 'Run root: ' + run_rel)
+    phase = phase.replace('Baseline ref: abc123def456', 'Baseline ref: HEAD').replace('Owner/source: src/routes/settings.ts', 'Owner/source: issue:#200 replacement preflight')
+    phase = phase.replace('In scope: src/routes/settings.ts, tests/settings.test.ts, src/app.ts', 'In scope: a, b\nMutation scope: {"in":["a","b"],"out":["README.md"]}')
+    for step, source in [(1, 'a'), (2, 'b')]:
+        pattern = rf'(?m)^- Step {step}:.*$'
+        matches = re.findall(pattern, phase)
+        require(len(matches) == 1, 'fixture step anchor not unique')
+        phase = phase.replace(matches[0], matches[0] + '\n  mutation-authority: ' + json.dumps({'operation': 'replace', 'source': source, 'destination': None}, separators=(',', ':')))
+    (run / 'phases').mkdir()
+    phase_path = run / 'phases/phase-1.md'
+    phase_path.write_text(phase)
+    (repo / 'a').write_bytes(b'ALPHA\n')
+    (repo / 'b').write_bytes(b'BETA\n')
+    (repo / 'artifacts').mkdir()
+    for name, data in [('pre-a', b'ALPHA\n'), ('pre-b', b'BETA\n'), ('candidate-a', b'NEW ALPHA\n'), ('candidate-b', b'NEW BETA\n')]:
+        (repo / 'artifacts' / name).write_bytes(data)
+    batch = {'schema': 'implementaudit.replacement-batch-preflight-input.v1', 'rows': [
+        {'step': step, 'source': source, 'preimage': 'artifacts/pre-' + source, 'candidate': 'artifacts/candidate-' + source}
+        for step, source in [(1, 'a'), (2, 'b')]]}
+    if controller:
+        head = command(['git', 'rev-parse', 'HEAD'], repo, env).stdout.strip()
+        tree = command(['git', 'rev-parse', 'HEAD^{tree}'], repo, env).stdout.strip()
+        state = (run / 'STATE.md').read_text().replace('| Run root |  |', f'| Run root | `{run_rel}` |').replace('| Next action |  |', '| Next action | inspect ordinary replacements |')
+        state = re.sub(r'^Current epoch: .+$', 'Current epoch: G0001', state, flags=re.M)
+        anchor = '| Epoch | Boundary provenance | Established at | Repo identity | Reconciled | Notes |\n|---|---|---|---|---|---|'
+        state = state.replace(anchor, anchor + f'\n| G0001 | new-session | 2026-10-25T00:00:00Z | repo at `{head}` / `{tree}` | yes | fixture reconciliation complete |')
+        (run / 'STATE.md').write_text(state)
+        receipt = command(['bash', str(claim), '--resume-controller', 'batch-preflight', '--boundary', 'new-session', '--epoch', 'G0001'], repo, env).stdout.strip()
+        command(['bash', str(claim), '--verify-resume-receipt', receipt], repo, env)
+    return repo, run, env, phase, batch
+
+def exercise(name, values, expected, reason='NONE', rows=None, raw=None, instrument=None, changed=(), batch_path=None, script_dir=None):
+    repo, run, env, phase, default = values
+    document = {'schema': default['schema'], 'rows': rows if rows is not None else default['rows']}
+    batch = batch_path if batch_path is not None else repo / 'artifacts/batch.json'
+    batch.write_bytes(raw if raw is not None else (json.dumps(document, separators=(',', ':')) + '\n').encode())
+    invoked = helper
+    if instrument:
+        source = helper.read_text()
+        locator = 'script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"'
+        replacement = 'script_dir=' + shlex.quote(str(script_dir if script_dir is not None else helper.parent))
+        marker = '    # R36_INSTRUMENT_INSERT\n'
+        insertion = "    if phase == 'replacement-batch-recheck':\n" + ''.join('        ' + line + '\n' for line in instrument.splitlines())
+        require(source.count(locator) == source.count(marker) == 1, 'instrumentation anchor drift')
+        derived = source.replace(locator, replacement).replace(marker, marker + insertion)
+        require(derived.replace(insertion, '').replace(replacement, locator) == source, 'derived helper not byte-reversible')
+        invoked = evidence / (name + '-instrumented.sh')
+        invoked.write_text(derived)
+    before = snapshot(repo)
+    batch_sha = sha(batch.read_bytes())
+    result = command(['bash', str(invoked), '--repo-root', str(repo), '--run-root', str(run), '--phase', '1', preflight_flag, str(batch)], repo, env, expected=None)
+    after = snapshot(repo)
+    changed_actual = sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))
+    record = {'case': name, 'expected_returncode': expected, 'expected_reason': reason, 'changed_paths': changed_actual,
+              'before': before, 'after': after, 'command_index': len(records) - 1}
+    (evidence / (name + '-state.json')).write_text(json.dumps(record, indent=2) + '\n')
+    require(result.returncode == expected, f'{name}: expected {expected}, actual {result.returncode}: {result.stderr}')
+    payload = json.loads(result.stdout)
+    require(payload['schema'] == 'implementaudit.replacement-batch-preflight.v1', name + ': wrong schema')
+    require(payload['reason_code'] == reason, name + ': wrong reason ' + json.dumps(payload))
+    require(payload['authority'] == 'NONE' and payload['effect_authority'] is False and payload['atomic_snapshot'] is False
+            and payload['later_effect_requires_revalidation'] is True and payload['governed_effects'] == [], name + ': authority overclaim')
+    require(changed_actual == sorted(changed), name + ': unexpected target/custody changes: ' + repr(changed_actual))
+    if expected == 0:
+        require(payload['status'] == 'OBSERVATION_ONLY' and payload['requested_rows'] == payload['checked_rows'] == 2, name + ': incomplete population')
+        require(payload['batch_input_sha256'] == batch_sha and payload['phase'] == 1, name + ': input identity mismatch')
+        require([(r['step'], r['source']) for r in payload['rows']] == [(1, 'a'), (2, 'b')], name + ': row order changed')
+        for row, old, new in zip(payload['rows'], [b'ALPHA\n', b'BETA\n'], [b'NEW ALPHA\n', b'NEW BETA\n']):
+            require(row['preimage'] == {'sha256': sha(old), 'byte_length': len(old)} and row['candidate'] == {'sha256': sha(new), 'byte_length': len(new)}, name + ': captured evidence mismatch')
+            require(row['authority']['operation'] == 'replace' and row['authority']['source'] == row['source'], name + ': missing existing authority')
+    else:
+        require(payload['status'] == 'REFUSED', name + ': false success')
+    cases.append({'case': name, 'returncode': result.returncode, 'reason': reason})
+    (evidence / 'cases.json').write_text(json.dumps(cases, indent=2) + '\n')
+
+def original_controls():
+    ordinary = fixture('ordinary')
+    repo, run, env, phase, batch = ordinary
+    exercise('current-two-rows', ordinary, 0)
+    (repo / 'artifacts/pre-b').write_bytes(b'STALE\n')
+    exercise('stale-second-row', ordinary, 65, 'PREIMAGE_DRIFT')
+    (repo / 'artifacts/pre-b').write_bytes(b'BETA\n')
+    rows = [dict(x) for x in batch['rows']]
+    rows[1]['step'] = 1
+    exercise('duplicate-step', ordinary, 64, 'DUPLICATE_STEP', rows=rows)
+    rows = [dict(x) for x in batch['rows']]
+    rows[1]['source'] = 'a'
+    exercise('source-mismatch', ordinary, 64, 'SOURCE_AUTHORITY_MISMATCH', rows=rows)
+    phase_path = run / 'phases/phase-1.md'
+    phase_path.write_text(phase.replace('"operation":"replace","source":"b"', '"operation":"delete","source":"b"'))
+    exercise('unsupported-operation', ordinary, 64, 'REPLACE_ONLY')
+    phase_path.write_text(phase)
+    (repo / 'b').unlink()
+    os.link(repo / 'a', repo / 'b')
+    (repo / 'artifacts/pre-b').write_bytes(b'ALPHA\n')
+    exercise('aliased-target', ordinary, 64, 'ALIASED_TARGET')
+    (repo / 'b').unlink(); (repo / 'b').write_bytes(b'BETA\n')
+    (repo / 'artifacts/pre-b').write_bytes(b'BETA\n')
+    exercise('boolean-step', ordinary, 64, 'BATCH_SCHEMA_INVALID', rows=[{**batch['rows'][0], 'step': True}, batch['rows'][1]])
+    exercise('duplicate-json-key', ordinary, 64, 'BATCH_SCHEMA_INVALID', raw=b'{"schema":"x","schema":"y","rows":[]}')
+    claim_id = dict(x.split('=', 1) for x in (run / '.claimed').read_text().splitlines())['claim_id']
+    transaction = run / 'mutation-transactions' / (claim_id + '-p1-s2')
+    transaction.mkdir(parents=True)
+    (transaction / 'retained').write_text('Constructed unresolved custody; no performed effect.\n')
+    exercise('retained-transaction', ordinary, 65, 'PHASE_AUTHORITY_IN_PROGRESS_OR_REPLAY')
+    (transaction / 'retained').unlink(); transaction.rmdir(); transaction.parent.rmdir()
+    fence = run / 'mutation-fences/phase-1-step-2.json'
+    fence.parent.mkdir(); fence.write_text('Constructed protected carrier; no native authority.\n')
+    exercise('protected-row', ordinary, 64, 'PROTECTED_PREFLIGHT_UNSUPPORTED')
+    fence.unlink(); fence.parent.rmdir()
+    exercise('candidate-drift', ordinary, 65, 'OBSERVED_INPUT_DRIFT', instrument="(REPO / 'artifacts/candidate-b').write_bytes(b'CHANGED\\n')", changed=('artifacts/candidate-b',))
+    (repo / 'artifacts/candidate-b').write_bytes(b'NEW BETA\n')
+    exercise('target-drift', ordinary, 65, 'OBSERVED_INPUT_DRIFT', instrument="(REPO / 'b').write_bytes(b'CHANGED\\n')", changed=('b',))
+    (repo / 'b').write_bytes(b'BETA\n')
+    exercise('phase-drift', ordinary, 65, 'OBSERVED_INPUT_DRIFT', instrument="PHASE_FILE.write_bytes(PHASE_FILE.read_bytes() + b'\\nChanged phase observation.\\n')", changed=(phase_path.relative_to(repo).as_posix(),))
+    phase_path.write_text(phase)
+    controlled = fixture('ordinary-controller', controller=True)
+    exercise('current-ordinary-controller', controlled, 0)
+    controlled_repo, controlled_run, _, _, _ = controlled
+    (controlled_run / '.controller').unlink()
+    exercise('orphaned-controller-reference', controlled, 65, 'STALE_CONTROLLER_CUSTODY')
+
+def correction_controls(selected):
+    values = fixture('revision-two-corrections')
+    repo, run, env, phase, batch = values
+    run_case = lambda name: selected in ('all', 'delta', name)
+    if run_case('revision-positive'):
+        exercise('revision-positive', values, 0)
+    if run_case('manifest-cache-limit'):
+        state = run / 'STATE.md'
+        original = state.read_bytes()
+        payload = json.dumps(batch, separators=(',', ':')).encode()
+        oversized = payload + b' ' * (1048577 - len(payload))
+        require(len(oversized) == 1048577, 'cache witness size differs')
+        exercise('manifest-cache-limit', values, 64, 'BATCH_INPUT_TOO_LARGE', raw=oversized, batch_path=state)
+        state.write_bytes(original)
+    if run_case('manifest-final-limit'):
+        trace = evidence / 'manifest-final-read.jsonl'
+        trace_path = str(trace)
+        insertion = f'''manifest_path = Path(args.preflight_replacements)
+manifest_path.write_bytes(b' ' * 1048577)
+manifest_stat = os.stat(manifest_path)
+read_trace = Path({trace_path!r})
+original_fdopen = os.fdopen
+class ReadWitness:
+    def __init__(self, stream, descriptor):
+        self.stream = stream
+        opened = os.fstat(descriptor)
+        self.is_manifest = (opened.st_dev, opened.st_ino) == (manifest_stat.st_dev, manifest_stat.st_ino)
+    def __enter__(self):
+        self.stream.__enter__()
+        return self
+    def __exit__(self, *values):
+        return self.stream.__exit__(*values)
+    def read(self, size=-1):
+        data = self.stream.read(size)
+        if self.is_manifest:
+            with read_trace.open('a', encoding='utf-8') as record:
+                record.write(json.dumps({{'requested_size': size, 'bytes_read': len(data)}}) + '\\n')
+        return data
+def witnessed_fdopen(descriptor, *values, **options):
+    return ReadWitness(original_fdopen(descriptor, *values, **options), descriptor)
+os.fdopen = witnessed_fdopen'''
+        exercise('manifest-final-limit', values, 64, 'BATCH_INPUT_TOO_LARGE', instrument=insertion,
+                 changed=('artifacts/batch.json',))
+        observations = [json.loads(line) for line in trace.read_text().splitlines()]
+        require(observations == [{'requested_size': 1048577, 'bytes_read': 1048577}],
+                'manifest final reread did not retain its exact bounded oversize probe: ' + repr(observations))
+    if run_case('phase-projection-drift'):
+        selection = evidence / 'constructed-selection'
+        selection.mkdir()
+        carrier = selection / 'ROADMAP-carrier.md'
+        carrier.write_bytes((run / 'ROADMAP.md').read_bytes())
+        (selection / 'carrier-before.bin').write_bytes(carrier.read_bytes())
+        scripts = selection / 'scripts'
+        shutil.copytree(root / 'skills/implementaudit/scripts', scripts)
+        reader = selection / 'constructed-read-canonical-pair.py'
+        reader_source = '''import argparse, hashlib, json
+from pathlib import Path
+parser = argparse.ArgumentParser()
+parser.add_argument('--run-root', required=True)
+parser.add_argument('--output', required=True)
+parser.add_argument('--native-guards', action='store_true')
+parser.add_argument('--verify-current', action='store_true')
+args = parser.parse_args()
+carrier = Path(CARRIER)
+out = Path(args.output)
+raw = carrier.read_bytes()
+if args.verify_current:
+    if (out / 'native-ROADMAP.md').read_bytes() != raw:
+        raise SystemExit(1)
+else:
+    out.mkdir(parents=True, exist_ok=True)
+    (out / 'native-ROADMAP.md').write_bytes(raw)
+with Path(TRACE).open('a', encoding='utf-8') as stream:
+    stream.write(json.dumps({'verify_current': args.verify_current, 'carrier_sha256': hashlib.sha256(raw).hexdigest(), 'scope': 'CONSTRUCTED_SELECTION_INPUT_NOT_NATIVE_AUTHORITY'}) + '\\n')
+'''
+        reader_source = reader_source.replace('Path(CARRIER)', 'Path(' + repr(str(carrier)) + ')').replace('Path(TRACE)', 'Path(' + repr(str(selection / 'reader-commands.jsonl')) + ')')
+        reader.write_text(reader_source)
+        validator = scripts / 'validate-phase.sh'
+        original = validator.read_text()
+        anchor = '  reader="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/read-canonical-pair.py"'
+        replacement = '  reader=' + shlex.quote(str(reader))
+        require(original.count(anchor) == 1, 'reader selector anchor is not unique')
+        derivative = original.replace(anchor, replacement)
+        require(derivative.replace(replacement, anchor) == original, 'selection seam altered phase authority body')
+        validator.write_text(derivative)
+        (selection / 'DERIVATION.json').write_text(json.dumps({
+            'scope': 'CONSTRUCTED_SELECTION_INPUT_NOT_NATIVE_AUTHORITY',
+            'source_validator_sha256': sha(original.encode()), 'derived_validator_sha256': sha(derivative.encode()),
+            'reader_sha256': sha(reader.read_bytes()), 'strip_byte_equal': True,
+        }, indent=2) + '\n')
+        exercise('phase-projection-drift', values, 64, 'PHASE_AUTHORITY_REFUSED',
+                 instrument='Path(' + repr(str(carrier)) + ').write_bytes(b"No selected phase row remains.\\n")',
+                 script_dir=scripts)
+        require(carrier.read_bytes() == b'No selected phase row remains.\n', 'selected carrier did not change')
+        require((run / 'ROADMAP.md').read_bytes() == (selection / 'carrier-before.bin').read_bytes(),
+                'root ROADMAP changed instead of selected carrier')
+        observations = [json.loads(line) for line in (selection / 'reader-commands.jsonl').read_text().splitlines()]
+        require(len(observations) == 5 and observations[-1]['verify_current'] is False,
+                'final phase owner did not select the changed carrier once')
+
+if selected in ('all', 'original'):
+    original_controls()
+if selected != 'original':
+    require(selected in ('all', 'delta', 'revision-positive', 'manifest-cache-limit', 'manifest-final-limit', 'phase-projection-drift'),
+            'unknown correction selector')
+    correction_controls(selected)
+print('R30_REPLACEMENT_BATCH_PREFLIGHT=PASS ' + str(len(cases)) + ' observations; no batch application or native authority')
+PY_REPLACEMENT_BATCH
+}
+
+replacement_batch_apply_heldouts() {
+  "$python_bin" - "$repo_root" "$helper" "$tmp/ordered-replacement" "${1:-}" "${2:-all}" <<'PY_ORDERED_REPLACEMENT'
+import ast, base64, difflib, hashlib, json, os, re, shlex, shutil, stat, subprocess, sys, time
+from pathlib import Path
+
+root, helper, temporary = map(Path, sys.argv[1:4])
+evidence = Path(sys.argv[4]) if len(sys.argv) > 4 and sys.argv[4] else temporary
+evidence.mkdir(parents=True, exist_ok=False)
+selected = sys.argv[5] if len(sys.argv) > 5 else 'all'
+case_names = ('CURRENT_THREE', 'STOP_MIDDLE_TARGET_DRIFT', 'ALL_TARGET_PREFLIGHT_REFUSAL',
+              'SELECTED_EVIDENCE_DRIFT', 'PHASE_IDENTITY_DRIFT', 'MISSING_LIVE_RETURN',
+              'PARSER_ONLY_REJECTIONS', 'CAPTURED_SOURCE', 'DISPATCH_EXCEPTION_AFTER_RETURN')
+assert selected in ('all', *case_names), 'unknown ordered consumer selector'
+records, outcomes = [], []
+source = helper.read_text(encoding='utf-8')
+(evidence / 'helper-before.sh').write_bytes(helper.read_bytes())
+
+def require(value, message):
+    if not value:
+        raise AssertionError(message)
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+def write_json(path, value):
+    path.write_text(json.dumps(value, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
+
+def body_bytes(text):
+    opening, closing = "<<'PY'\n", '\nPY\n'
+    require(text.count(opening) == text.count(closing) == 1, 'source body is not unique')
+    return text.split(opening, 1)[1].split(closing, 1)[0].encode() + b'\n'
+
+def command(argv, cwd, env, expected=0):
+    ordinal = len(records)
+    prefix = evidence / ('command-%03d' % ordinal)
+    before = time.time_ns()
+    result = subprocess.run(list(map(str, argv)), cwd=cwd, env=env, capture_output=True, timeout=60)
+    prefix.with_suffix('.stdout.bin').write_bytes(result.stdout)
+    prefix.with_suffix('.stderr.bin').write_bytes(result.stderr)
+    record = {'ordinal': ordinal, 'argv': list(map(str, argv)), 'cwd': str(cwd),
+              'started_ns': before, 'finished_ns': time.time_ns(), 'returncode': result.returncode,
+              'stdout': {'path': prefix.with_suffix('.stdout.bin').name, 'sha256': sha(result.stdout), 'byte_length': len(result.stdout)},
+              'stderr': {'path': prefix.with_suffix('.stderr.bin').name, 'sha256': sha(result.stderr), 'byte_length': len(result.stderr)}}
+    records.append(record)
+    write_json(evidence / 'commands.json', records)
+    if expected is not None:
+        require(result.returncode == expected, 'command failed: ' + json.dumps(record))
+    return result
+
+def snapshot(repo):
+    rows = {}
+    for path in sorted(repo.rglob('*')):
+        current = path.lstat()
+        name = path.relative_to(repo).as_posix()
+        if stat.S_ISREG(current.st_mode):
+            data = path.read_bytes()
+            rows[name] = {'kind': 'file', 'mode': stat.S_IMODE(current.st_mode), 'sha256': sha(data), 'byte_length': len(data)}
+        elif stat.S_ISDIR(current.st_mode):
+            rows[name] = {'kind': 'directory', 'mode': stat.S_IMODE(current.st_mode)}
+        else:
+            rows[name] = {'kind': 'other', 'mode': stat.S_IMODE(current.st_mode)}
+    return rows
+
+def fixture(name):
+    case_dir = evidence / name
+    case_dir.mkdir()
+    repo = case_dir / 'repository'
+    repo.mkdir()
+    env = {key: value for key, value in os.environ.items() if not key.startswith(('GIT_', 'IMPLEMENTAUDIT_'))}
+    env['IMPLEMENTAUDIT_BASE'] = '.IMPLEMENTAUDIT/runs'
+    env['PYTHONDONTWRITEBYTECODE'] = '1'
+    for argv in (['git', 'init', '-q'], ['git', 'config', 'user.email', 'ordered-fixture@example.invalid'],
+                 ['git', 'config', 'user.name', 'ordered-fixture']):
+        command(argv, repo, env)
+    (repo / 'seed').write_bytes(b'R0030 new three-row ordered ordinary consumer fixture\n')
+    command(['git', 'add', 'seed'], repo, env)
+    command(['git', 'commit', '-q', '-m', 'ordered-consumer-fixture'], repo, env)
+    claimed = command(['bash', root / 'skills/implementaudit/scripts/claim-run.sh', 'r30-ordered-consumer'], repo, env)
+    run_rel = claimed.stdout.decode().strip()
+    run = repo / run_rel
+    for promised in ('STATE.md', 'PROTOCOL.md', 'ROADMAP.md', 'THINKING.md', 'sidecars.md', 'tools.md', 'context.md'):
+        shutil.copyfile(root / 'skills/implementaudit/templates' / promised, run / promised)
+    roadmap = run / 'ROADMAP.md'
+    roadmap.write_text(roadmap.read_text().replace('| 1 |  |  | - |  |  |  | open |\n', '') + '| 1 | R0030 ordered consumer fixture |\n')
+    phase = (root / 'fixtures/phase-validation/valid-full-spec.md').read_text()
+    phase = phase.replace('Phase: 1 of 3', 'Phase: 1 of 1').replace('Run root: .IMPLEMENTAUDIT/runs/add-settings-Xy9Zq1', 'Run root: ' + run_rel)
+    phase = phase.replace('Baseline ref: abc123def456', 'Baseline ref: HEAD').replace('Owner/source: src/routes/settings.ts', 'Owner/source: issue:#200 ordinary ordered consumer')
+    phase = phase.replace('In scope: src/routes/settings.ts, tests/settings.test.ts, src/app.ts',
+                          'In scope: row-a, row-b, row-c\nMutation scope: {"in":["row-a","row-b","row-c"],"out":["README.md"]}')
+    for step, target in enumerate(('row-a', 'row-b', 'row-c'), 1):
+        matches = re.findall(rf'(?m)^- Step {step}:.*$', phase)
+        require(len(matches) == 1, 'fixture step anchor is not unique')
+        phase = phase.replace(matches[0], matches[0] + '\n  mutation-authority: ' + json.dumps(
+            {'operation': 'replace', 'source': target, 'destination': None}, separators=(',', ':')))
+    (run / 'phases').mkdir()
+    (run / 'phases/phase-1.md').write_text(phase)
+    (repo / 'artifacts').mkdir()
+    rows = []
+    for step, target in enumerate(('row-a', 'row-b', 'row-c'), 1):
+        before = ('%s ORIGINAL\n' % target).encode()
+        after = before if step == 2 and name not in ('MISSING_LIVE_RETURN', 'DISPATCH_EXCEPTION_AFTER_RETURN') else ('%s REPLACED\n' % target).encode()
+        (repo / target).write_bytes(before)
+        (repo / 'artifacts' / ('pre-' + target)).write_bytes(before)
+        (repo / 'artifacts' / ('candidate-' + target)).write_bytes(after)
+        rows.append({'step': step, 'source': target, 'preimage': 'artifacts/pre-' + target,
+                     'candidate': 'artifacts/candidate-' + target})
+    manifest = {'schema': 'implementaudit.replacement-batch-preflight-input.v1', 'rows': rows}
+    batch = repo / 'artifacts/batch.json'
+    batch.write_text(json.dumps(manifest, separators=(',', ':')) + '\n')
+    claim = dict(line.split('=', 1) for line in (run / '.claimed').read_text().splitlines())
+    write_json(case_dir / 'FIXTURE-INPUTS.json', {'case': name, 'claim_id': claim['claim_id'], 'run_root': str(run),
+               'manifest': manifest, 'snapshot': snapshot(repo), 'scope': 'DISPOSABLE_ORDINARY_FIXTURE_NO_NATIVE_AUTHORITY'})
+    return case_dir, repo, run, env, batch, claim['claim_id']
+
+def derived_helper(case_dir, name):
+    trace = case_dir / 'dispatch.jsonl'
+    invoked = case_dir / 'derived-helper.sh'
+    action = ''
+    if name == 'STOP_MIDDLE_TARGET_DRIFT':
+        action = "(REPO / 'row-b').write_bytes(b'INTERVENING TARGET ROW B\\n')"
+    elif name == 'SELECTED_EVIDENCE_DRIFT':
+        action = "(REPO / 'artifacts/candidate-row-b').write_bytes(b'INTERVENING CANDIDATE ROW B\\n')"
+    elif name == 'PHASE_IDENTITY_DRIFT':
+        action = "PHASE_FILE.write_bytes(PHASE_FILE.read_bytes() + b'\\n<!-- explicit harness phase-byte drift -->\\n')"
+    parent = f'''if phase == "replacement-batch-recheck":
+    real_run = subprocess.run
+    def observed_run(command, *values, **options):
+        returned = real_run(command, *values, **options)
+        if command[0] == sys.executable and "--step" in command:
+            selected_step = int(command[command.index("--step") + 1])
+            packet = json.loads(options["input"])
+            captured = base64.b64decode(packet["source"], validate=True)
+            record = {{"step": selected_step, "returncode": returned.returncode,
+                      "stdout": base64.b64encode(returned.stdout).decode("ascii"),
+                      "stderr": base64.b64encode(returned.stderr).decode("ascii"),
+                      "source_sha256": digest(captured), "source_byte_length": len(captured)}}
+            with Path({str(trace)!r}).open("a", encoding="utf-8") as stream:
+                stream.write(json.dumps(record) + "\\n")
+            if selected_step == 1:
+                {action or 'pass'}
+        return returned
+    subprocess.run = observed_run'''
+    if name == 'DISPATCH_EXCEPTION_AFTER_RETURN':
+        # Retain the actual child return before any prefix observation. It is
+        # observer evidence, not a live return available to the batch parent.
+        prefix_capture = '''    prefix_roots = []
+    def prefix_snapshot():
+        import stat as prefix_stat
+        captured = {}
+        for root in prefix_roots:
+            paths = [root, *sorted(root.rglob("*"))] if root.is_dir() else [root]
+            for path in paths:
+                before = path.lstat()
+                fields = ("st_dev", "st_ino", "st_mode", "st_nlink", "st_size", "st_mtime_ns", "st_ctime_ns")
+                row = {key: getattr(before, key) for key in fields}
+                if prefix_stat.S_ISREG(before.st_mode):
+                    data = path.read_bytes()
+                    row.update(kind="file", sha256=digest(data), byte_length=len(data))
+                elif prefix_stat.S_ISDIR(before.st_mode):
+                    row["kind"] = "directory"
+                else:
+                    raise RuntimeError("unexpected prefix member type")
+                after = path.lstat()
+                if any(getattr(after, key) != getattr(before, key) for key in fields):
+                    raise RuntimeError("prefix changed during observation")
+                captured[str(path)] = row
+        return captured
+'''
+        anchor = '    def observed_run(command, *values, **options):\n'
+        require(parent.count(anchor) == 1, 'exception observer insertion is not unique')
+        parent = parent.replace(anchor, prefix_capture + anchor)
+        witness = f'''            if selected_step == 1:
+                first = json.loads(returned.stdout)
+                prefix_roots.extend([REPO / "row-a", RUN / "mutation-transactions" / first["transaction_id"]])
+                Path({str(case_dir / 'PREFIX-BEFORE-SECOND.json')!r}).write_text(json.dumps(prefix_snapshot()) + "\\n")
+            if selected_step == 2:
+                Path({str(case_dir / 'PREFIX-AFTER-SECOND.json')!r}).write_text(json.dumps(prefix_snapshot()) + "\\n")
+                raise OSError(5, "declared post-return dispatch exception")
+'''
+        anchor = '        return returned\n'
+        require(parent.count(anchor) == 1, 'exception return boundary is not unique')
+        parent = parent.replace(anchor, witness + anchor)
+    if name == 'CAPTURED_SOURCE':
+        parent += '\n    Path(' + repr(str(invoked)) + ').write_bytes(b"#!/usr/bin/env bash\\nexit 79\\n")'
+    if name == 'MISSING_LIVE_RETURN':
+        parent += '\nif phase == "terminal-result-durable" and args.step == 2:\n    os._exit(0)'
+    marker = '    # R36_INSTRUMENT_INSERT\n'
+    insertion = ''.join('    ' + line + '\n' for line in parent.splitlines())
+    locator = 'script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"'
+    replacement = 'script_dir=' + shlex.quote(str(helper.parent))
+    require(source.count(marker) == source.count(locator) == 1, 'test-owned seam is not unique')
+    derived = source.replace(locator, replacement).replace(marker, marker + insertion)
+    require(derived.replace(insertion, '').replace(replacement, locator) == source, 'source intervention is not reversible')
+    invoked.write_text(derived)
+    (case_dir / 'derived-helper-before.sh').write_text(derived)
+    (case_dir / 'DERIVATION.patch').write_text(''.join(difflib.unified_diff(source.splitlines(True), derived.splitlines(True),
+                                                    fromfile='canonical-helper', tofile='test-derived-helper')))
+    write_json(case_dir / 'DERIVATION.json', {'source_sha256': sha(source.encode()), 'derived_sha256': sha(derived.encode()),
+               'captured_body': {'sha256': sha(body_bytes(derived)), 'byte_length': len(body_bytes(derived))},
+               'strip_byte_equal': True, 'intervention': name, 'product_test_hook_added': False})
+    return invoked, trace, body_bytes(derived)
+
+def byte_record(value):
+    require(set(value) == {'encoding', 'data', 'byte_length', 'sha256'} and value['encoding'] == 'base64', 'raw stream shape')
+    data = base64.b64decode(value['data'], validate=True)
+    require(value['byte_length'] == len(data) and value['sha256'] == sha(data), 'raw stream identity')
+    return data
+
+def run_case(name):
+    case_dir, repo, run, env, batch, claim = fixture(name)
+    prefix = ['--repo-root', str(repo), '--run-root', str(run), '--phase', '1']
+    if name == 'CURRENT_THREE':
+        legacy = command(['bash', helper, *prefix, '--step', '2', '--preimage', repo / 'artifacts/pre-row-b',
+                          '--candidate', repo / 'artifacts/candidate-row-b'], repo, env)
+        decoded = json.loads(legacy.stdout)
+        require(decoded['status'] == 'NO_CHANGE' and decoded['transaction_id'] is None and decoded['actual_effect_set'] == [], 'legacy NO_CHANGE changed')
+        legacy_preflight = command(['bash', helper, *prefix, '--batch-preflight', batch], repo, env)
+        decoded = json.loads(legacy_preflight.stdout)
+        require(decoded['schema'] == 'implementaudit.replacement-batch-preflight.v1' and decoded['status'] == 'OBSERVATION_ONLY'
+                and decoded['checked_rows'] == 3 and decoded['governed_effects'] == [], 'legacy preflight changed')
+        require(not (run / 'mutation-transactions').exists(), 'legacy controls created a transaction')
+    if name == 'ALL_TARGET_PREFLIGHT_REFUSAL':
+        (repo / 'row-b').write_bytes(b'INITIAL STALE ROW B\n')
+    invoked, trace, captured = derived_helper(case_dir, name)
+    before = snapshot(repo)
+    write_json(case_dir / 'BEFORE.json', before)
+    actual = command(['bash', invoked, *prefix, '--batch-apply', batch], repo, env, expected=None)
+    after = snapshot(repo)
+    write_json(case_dir / 'AFTER.json', after)
+    (case_dir / 'derived-helper-after.sh').write_bytes(invoked.read_bytes())
+    report = json.loads(actual.stdout)
+    write_json(case_dir / 'REPORT.json', report)
+    require(report['schema'] == 'implementaudit.replacement-batch-apply.v1', name + ': batch schema')
+    require(report['phase'] == 1 and report['claim_id'] == claim and report['batch_input_sha256'] == sha(batch.read_bytes()), name + ': batch identity')
+    require(report['requested_rows'] == 3 and len(report['rows']) == 3, name + ': population')
+    for key in ('aggregate_effect_authority', 'aggregate_atomicity', 'aggregate_durable_receipt', 'automatic_retry', 'automatic_compensation'):
+        require(report[key] is False, name + ': authority boundary ' + key)
+    require(report['aggregate_authority'] == 'NONE', name + ': aggregate authority')
+    require(report['source_execution'] == {'scope': 'CAPTURED_PYTHON_BODY', 'sha256': sha(captured), 'byte_length': len(captured)}, name + ': captured source identity')
+    trace_rows = [json.loads(line) for line in trace.read_text().splitlines()] if trace.exists() else []
+    attempted = report['attempted_rows']
+    require([item['step'] for item in trace_rows] == list(range(1, attempted + 1)), name + ': dispatch trace/order')
+    expected_exit, expected_status, expected_completed = (0, 'COMPLETED', 3)
+    if name in ('STOP_MIDDLE_TARGET_DRIFT', 'SELECTED_EVIDENCE_DRIFT', 'PHASE_IDENTITY_DRIFT'):
+        expected_exit, expected_status, expected_completed = 65, 'STOPPED', 1
+    elif name == 'ALL_TARGET_PREFLIGHT_REFUSAL':
+        expected_exit, expected_status, expected_completed = 65, 'REFUSED', 0
+    elif name in ('MISSING_LIVE_RETURN', 'DISPATCH_EXCEPTION_AFTER_RETURN'):
+        expected_exit, expected_status, expected_completed = 78, 'UNKNOWN', 1
+    require((actual.returncode, report['status'], report['completed_rows']) == (expected_exit, expected_status, expected_completed),
+            name + ': unexpected status/count/exit ' + repr((actual.returncode, report['status'], report['completed_rows'])))
+    expected_attempted = 3 if expected_status == 'COMPLETED' else (0 if expected_status == 'REFUSED' else 2)
+    require(attempted == expected_attempted, name + ': attempted rows')
+    for ordinal, row in enumerate(report['rows']):
+        require((row['ordinal'], row['step'], row['source']) == (ordinal, ordinal + 1, ('row-a', 'row-b', 'row-c')[ordinal]), name + ': row identity')
+        if ordinal >= attempted:
+            require(row['disposition'] == 'NEVER_STARTED' and row['dispatch_started'] is False
+                    and row['returncode'] is row['stdout'] is row['stderr'] is row['decoded_result'] is None, name + ': invented tail evidence')
+        elif name == 'DISPATCH_EXCEPTION_AFTER_RETURN' and ordinal == 1:
+            observed = trace_rows[ordinal]
+            require(row['disposition'] == 'UNKNOWN' and row['dispatch_started'] is None
+                    and row['classification_reason'] == 'DISPATCH_UNAVAILABLE', name + ': false start/outcome certainty')
+            require(row['returncode'] is row['stdout'] is row['stderr'] is row['decoded_result'] is None,
+                    name + ': observer return promoted to parent live evidence')
+            require(row['dispatch_exception'] == {'type': 'OSError', 'errno': 5,
+                    'message': '[Errno 5] declared post-return dispatch exception'}, name + ': actual exception lost')
+            require(observed['returncode'] == 0 and json.loads(base64.b64decode(observed['stdout']))['status'] == 'COMMITTED',
+                    name + ': selected second child did not actually commit')
+            require(observed['source_sha256'] == sha(captured) and observed['source_byte_length'] == len(captured),
+                    name + ': exceptional child source changed')
+        else:
+            observed = trace_rows[ordinal]
+            require(row['dispatch_started'] is True and row['returncode'] == observed['returncode'], name + ': actual exit lost')
+            require(byte_record(row['stdout']) == base64.b64decode(observed['stdout'])
+                    and byte_record(row['stderr']) == base64.b64decode(observed['stderr']), name + ': raw return changed')
+            require(observed['source_sha256'] == sha(captured) and observed['source_byte_length'] == len(captured), name + ': child reopened source')
+    expected_tx = [1, 3] if expected_status == 'COMPLETED' else ([1, 2] if name in ('MISSING_LIVE_RETURN', 'DISPATCH_EXCEPTION_AFTER_RETURN') else ([1] if attempted else []))
+    tx_parent = run / 'mutation-transactions'
+    transactions = sorted(path.name for path in tx_parent.iterdir()) if tx_parent.exists() else []
+    require(transactions == [f'{claim}-p1-s{step}' for step in expected_tx], name + ': transaction population')
+    for step in expected_tx:
+        saved = json.loads((tx_parent / f'{claim}-p1-s{step}/result.json').read_bytes())
+        require(saved['status'] == 'COMMITTED', name + ': durable prefix changed')
+    if expected_status == 'COMPLETED':
+        require([row['decoded_result']['status'] for row in report['rows']] == ['COMMITTED', 'NO_CHANGE', 'COMMITTED'], name + ': completion statuses')
+        no_change = report['rows'][1]['decoded_result']
+        require(no_change['transaction_id'] is None and no_change['actual_effect_set'] == no_change['planned_effect_set'] == [], name + ': invented NO_CHANGE transaction')
+    if name == 'STOP_MIDDLE_TARGET_DRIFT':
+        row = report['rows'][1]['decoded_result']
+        require(row['status'] == 'CONFLICT_REBASE' and row['reason_code'] == 'PREIMAGE_DRIFT' and row['actual_effect_set'] == [], name + ': original drift refusal')
+    if name in ('SELECTED_EVIDENCE_DRIFT', 'PHASE_IDENTITY_DRIFT'):
+        row = report['rows'][1]['decoded_result']
+        require(row['status'] == 'CONFLICT_REBASE' and row['reason_code'] == 'BATCH_INPUT_DRIFT' and row['actual_effect_set'] == [], name + ': restriction not before effects')
+        require((repo / 'row-b').read_bytes() == b'row-b ORIGINAL\n', name + ': row two changed')
+    if name == 'MISSING_LIVE_RETURN':
+        row = report['rows'][1]
+        require(row['disposition'] == 'UNKNOWN' and row['returncode'] == 0 and byte_record(row['stdout']) == b''
+                and row['decoded_result'] is None, name + ': saved result promoted to live return')
+        require((repo / 'row-b').read_bytes() == b'row-b REPLACED\n', name + ': missing actual second effect')
+    if name == 'DISPATCH_EXCEPTION_AFTER_RETURN':
+        require(report['reason_code'] == 'DISPATCH_UNAVAILABLE' and report['stopped_ordinal'] == 1,
+                name + ': exception aggregate boundary changed')
+        require((repo / 'row-b').read_bytes() == b'row-b REPLACED\n', name + ': missing actual second effect')
+        require(json.loads((case_dir / 'PREFIX-BEFORE-SECOND.json').read_bytes()) ==
+                json.loads((case_dir / 'PREFIX-AFTER-SECOND.json').read_bytes()),
+                name + ': earlier target or complete transaction custody changed')
+    if attempted < 3:
+        require((repo / 'row-c').read_bytes() == b'row-c ORIGINAL\n', name + ': tail target changed')
+    if attempted == 0:
+        require(before == after, name + ': preflight refusal changed repository')
+    if name == 'CAPTURED_SOURCE':
+        require(invoked.read_bytes() == b'#!/usr/bin/env bash\nexit 79\n', 'captured-source intervention absent')
+    changed = sorted(path for path in set(before) | set(after) if before.get(path) != after.get(path))
+    result = {'case': name, 'outcome': 'PASS', 'actual_exit': actual.returncode, 'status': report['status'],
+              'attempted': attempted, 'completed': report['completed_rows'], 'transactions': transactions, 'changed_paths': changed}
+    outcomes.append(result)
+    write_json(evidence / 'outcomes.json', outcomes)
+    return report
+
+def parser_controls():
+    current = json.loads((evidence / 'CURRENT_THREE/REPORT.json').read_bytes())
+    raw = byte_record(current['rows'][0]['stdout'])
+    functions = {'canonical', 'digest', 'simple_identity', 'strict_json', 'classify_replacement_return'}
+    constants = {'EXITS', 'COORDINATION_SCOPE'}
+    parsed = ast.parse(body_bytes(source))
+    nodes = [node for node in parsed.body if isinstance(node, (ast.Import, ast.ImportFrom))
+             or (isinstance(node, ast.FunctionDef) and node.name in functions)
+             or (isinstance(node, ast.Assign) and any(isinstance(target, ast.Name) and target.id in constants for target in node.targets))]
+    require({node.name for node in nodes if isinstance(node, ast.FunctionDef)} == functions, 'parser source owner missing')
+    scope = {}
+    exec(compile(ast.Module(body=nodes, type_ignores=[]), '<exact-maintained-return-parser>', 'exec'), scope)
+    selected_row = current['preflight']['rows'][0]
+    expected = {'claim_id': current['claim_id'], 'phase': current['phase'], **selected_row}
+    require(scope['classify_replacement_return'](raw, 0, expected)['disposition'] == 'COMPLETED', 'parser positive control')
+    payload = json.loads(raw)
+    foreign = dict(payload, step=2)
+    mutations = [('duplicate-member', raw.replace(b'{', b'{"status":"COMMITTED",', 1), 0),
+                 ('nonfinite-number', raw.replace(b'{', b'{"nonfinite":NaN,', 1), 0),
+                 ('foreign-step', json.dumps(foreign).encode(), 0),
+                 ('exit-status-contradiction', raw, 64)]
+    folder = evidence / 'PARSER_ONLY_REJECTIONS'
+    folder.mkdir()
+    parser_rows = []
+    for name, value, returncode in mutations:
+        (folder / (name + '.stdout.bin')).write_bytes(value)
+        classified = scope['classify_replacement_return'](value, returncode, expected)
+        parser_rows.append({'case': name, 'supplied_returncode': returncode, 'stdout_sha256': sha(value),
+                            'stdout_byte_length': len(value), 'classification': classified})
+        write_json(folder / 'RESULTS.json', parser_rows)
+        require(classified['disposition'] == 'UNKNOWN' and classified['exit_code'] == 78, 'parser accepted ' + name)
+    outcomes.append({'case': 'PARSER_ONLY_REJECTIONS', 'outcome': 'PASS', 'controls': 4, 'additional_effect_episodes': 0})
+    write_json(evidence / 'outcomes.json', outcomes)
+
+try:
+    for name in case_names:
+        if selected not in ('all', name):
+            continue
+        if name == 'PARSER_ONLY_REJECTIONS':
+            parser_controls()
+        else:
+            run_case(name)
+    require(helper.read_text() == source, 'maintained candidate source changed during tests')
+    write_json(evidence / 'FINAL.json', {'status': 'PASS', 'population': outcomes,
+               'helper_sha256': sha(source.encode()), 'helper_python_body_sha256': sha(body_bytes(source)),
+               'scope': 'ORDINARY_ORDERED_REPLACE_ONLY_NO_NATIVE_OR_AGGREGATE_RECEIPT'})
+except BaseException as error:
+    write_json(evidence / 'FIRST-FAILURE.json', {'type': type(error).__name__, 'message': str(error),
+               'completed_cases': outcomes, 'command_count': len(records)})
+    raise
+print('R30_ORDERED_REPLACEMENT_CONSUMER=PASS ' + str(len(outcomes)) + ' focused entries; ordinary per-step authority only')
+PY_ORDERED_REPLACEMENT
+}
+
 state_family() {
   local pre cand region repl
   setup; pre="$(artifact c1-pre 414243)"; cand="$(artifact c1-candidate 5a)"; invoke R36-C1 REJECTED_NO_MUTATION replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"
@@ -2347,6 +3023,8 @@ PY
   opposing_moves
   canonical_observation_races
   patch_input_capture_heldouts
+  replacement_batch_preflight_heldouts
+  replacement_batch_apply_heldouts
   external_drift_and_recovery
   guard_loss_effect_recording_heldouts
   terminal_journal_custody_heldouts
@@ -2357,6 +3035,8 @@ PY
 }
 
 case "${1:-}" in
+  --replacement-batch-apply-heldouts) replacement_batch_apply_heldouts "${2:-}" "${3:-all}"; exit 0;;
+  --replacement-batch-preflight-heldouts) replacement_batch_preflight_heldouts "${2:-}" "${3:-all}"; exit 0;;
   --guard-loss-effect-recording-heldouts) guard_loss_effect_recording_heldouts "${2:-all}"; printf 'R36_GUARD_LOSS_EFFECT_RECORDING_HELDOUTS=PASS\n'; exit 0;;
   --terminal-journal-custody-heldouts) terminal_journal_custody_heldouts "${2:-all}"; printf 'R36_TERMINAL_JOURNAL_CUSTODY_HELDOUTS=PASS\n'; exit 0;;
   --patch-input-capture-heldouts) fixture_self_check; patch_input_capture_heldouts "${2:-all}"; printf 'R36_PATCH_INPUT_CAPTURE_HELDOUTS=PASS\n'; exit 0;;

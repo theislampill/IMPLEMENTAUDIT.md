@@ -116,7 +116,7 @@ class SourceCases(B.ProfileFixture, unittest.TestCase):
         self.assertEqual(list(session.output.rglob("result.json")), [])
 
     def test_c01_fixed_catalog_and_historical_contracts(self):
-        """C01: exact original90 mapping, public wiring and unchanged34 contracts."""
+        """C01: original90 wiring and historical34 after fixed runner-pin advances."""
         contract = self.A.contract_for(PROFILE)
         self.assertEqual((contract["label"], contract["index"], contract["program"]), (MODE, 90, PROGRAM))
         self.assertEqual(contract["programs"], PROGRAMS)
@@ -142,7 +142,13 @@ class SourceCases(B.ProfileFixture, unittest.TestCase):
                          "a66331a3bac577619f223ab4dcf28447327668977677f1b9fdc7aaa2f6b18e1b")
         self.assertEqual(scope["nodes"], ["COMMAND:" + PROGRAM + ":0"])
         self.assertEqual(len(scope["omitted_nodes"]), 116)
-        contracts = next(node.value for node in ast.parse(self.helper).body if isinstance(node, ast.Assign)
+        # Original105 advances six shared runner identities. Reverse only that
+        # exact byte pin before comparing the complete historical34 contracts.
+        runner_pin = "6f6d2bdbcf8350d6b370d37a5e15f4ddb73d336b5bc42d941540f3269613150f"
+        self.assertEqual(hashlib.sha256((ROOT / self.A.RUNNER).read_bytes()).hexdigest(), runner_pin)
+        normalized = self.helper.replace(runner_pin.encode("ascii"),
+            b"532b06dbe91298bf71d44c88ecf20186adc93b4e3fb16ee2c4d12bc2edee45ff")
+        contracts = next(node.value for node in ast.parse(normalized).body if isinstance(node, ast.Assign)
             and any(isinstance(t, ast.Name) and t.id == "_CONTRACTS" for t in node.targets))
         retained = [(key, value) for key, value in zip(contracts.keys, contracts.values)
             if isinstance(key, ast.Name) and key.id in INCOMING_CONTRACT_NAMES]

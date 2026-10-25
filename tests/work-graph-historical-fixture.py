@@ -16,6 +16,14 @@ COLLECTION = ROOT / "test-support/work-graph-registry"
 MANIFEST = json.loads((COLLECTION / "original117-manifest.json").read_bytes())
 assert MANIFEST["source_commit"] == "cbb616cc7e0f9abafebe9bbdeee202ede7feb94e"
 assert MANIFEST["scope"] == "HISTORICAL_INPUTS_ONLY_NOT_CURRENT_ACCEPTANCE"
+# Previously unchanged and therefore absent from the original fixture manifest.
+# Retain its exact bytes from the same cbb616cc source, without editing that manifest.
+SUPPLEMENTAL = {
+    "scripts/run-work-graph-verifier.sh": {
+        "specimen": "original117-runner/run-work-graph-verifier.sh", "bytes": 14452,
+        "sha256": "532b06dbe91298bf71d44c88ecf20186adc93b4e3fb16ee2c4d12bc2edee45ff", "mode": 0o644,
+    },
+}
 ENGINE_NAMES = ("scripts/qualify-work-graph-verifier.py",
                 "scripts/run-work-graph-verifier.sh",
                 "skills/implementaudit/scripts/compile-work-graph.py",
@@ -24,7 +32,7 @@ ENGINE_NAMES = ("scripts/qualify-work-graph-verifier.py",
 
 
 def original(name):
-    record = MANIFEST["files"][name]
+    record = MANIFEST["files"][name] if name in MANIFEST["files"] else SUPPLEMENTAL[name]
     relative = Path(record["specimen"])
     if relative.is_absolute() or ".." in relative.parts:
         raise ValueError("invalid historical specimen path")
@@ -36,11 +44,13 @@ def original(name):
 
 def input_bytes(name):
     """Pinned historical specimens; all other inputs are current variable data."""
-    return original(name) if name in MANIFEST["files"] else (ROOT / name).read_bytes()
+    return original(name) if name in MANIFEST["files"] or name in SUPPLEMENTAL else (ROOT / name).read_bytes()
 
 
 def input_mode(name):
-    return MANIFEST["files"][name]["mode"] if name in MANIFEST["files"] else (ROOT / name).stat().st_mode & 0o777
+    if name in MANIFEST["files"] or name in SUPPLEMENTAL:
+        return (MANIFEST["files"].get(name) or SUPPLEMENTAL[name])["mode"]
+    return (ROOT / name).stat().st_mode & 0o777
 
 
 def copy_input(name, destination):
@@ -50,14 +60,28 @@ def copy_input(name, destination):
     destination.chmod(input_mode(name))
 
 
+def selected_input_bytes(name, expected):
+    """An explicit successor runner selection never changes historical defaults."""
+    if (name == "scripts/run-work-graph-verifier.sh" and expected ==
+            "6f6d2bdbcf8350d6b370d37a5e15f4ddb73d336b5bc42d941540f3269613150f"):
+        raw = (ROOT / name).read_bytes()
+    else:
+        raw = input_bytes(name)
+    if hashlib.sha256(raw).hexdigest() != expected:
+        raise ValueError("fixture does not supply selected source pin: " + name)
+    return raw
+
+
 def populate_pins(destination, contract):
     """Call only at construction, after copies; never during snapshot or run."""
     pins = dict(contract["programs"], **contract.get("pinned_data", {}),
                 **{"scripts/verify-package.sh": MANIFEST["files"]["scripts/verify-package.sh"]["sha256"]})
     for name, expected in pins.items():
-        if hashlib.sha256(input_bytes(name)).hexdigest() != expected:
-            raise ValueError("fixture does not supply selected historical pin: " + name)
-        copy_input(name, Path(destination) / name)
+        raw = selected_input_bytes(name, expected)
+        target = Path(destination) / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(raw)
+        target.chmod(input_mode(name))
 
 
 def load(name, path):

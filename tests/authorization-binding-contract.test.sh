@@ -159,4 +159,41 @@ for unbound_object in 'report-alpha|report-beta' report-gamma; do
     || fail "value outside enum alternatives did not classify authority drift"
 done
 
-printf 'authorization-binding-contract: ok (intake 6 + match/drift + no-binds + 3 Fable adversarial + 3 R002E receiving + enum membership)\n'
+# R002E P06/P17 range receiving: a range must contain exactly its two
+# endpoints. Discarding an interior segment cannot create a broader grant.
+while IFS='|' read -r range_spec range_value; do
+  printf 'action: inert-parameter-check\nbinds: timeout_s\ntimeout_s: %s\n' "$range_spec" > "$tmp/auth-range.txt"
+  printf 'param.timeout_s: %s\n' "$range_value" > "$tmp/inv-range.txt"
+  bash "$scorer" --auth "$tmp/auth-range.txt" --invocation "$tmp/inv-range.txt" \
+    >/dev/null 2>&1 || fail "valid range member was rejected: $range_value in $range_spec"
+done <<'RANGE_POSITIVES'
+1..10|1
+1..10|7
+1..10|10
+-10..-1|-10
+-10..-1|-7
+-10..-1|-1
+0..0|0
+RANGE_POSITIVES
+
+printf 'param.timeout_s: 7\n' > "$tmp/inv-range.txt"
+for malformed_range in '1..not-a-bound..10' '1..5..10' '1....10'; do
+  printf 'action: inert-parameter-check\nbinds: timeout_s\ntimeout_s: %s\n' "$malformed_range" > "$tmp/auth-range.txt"
+  if out="$(bash "$scorer" --auth "$tmp/auth-range.txt" --invocation "$tmp/inv-range.txt" 2>&1)"; then
+    fail "malformed range silently discarded an interior segment: $malformed_range"
+  fi
+  printf '%s' "$out" | grep -q 'AUTHORITY DRIFT' \
+    || fail "malformed range did not classify authority drift"
+done
+
+printf 'action: inert-parameter-check\nbinds: timeout_s\ntimeout_s: 1..10\n' > "$tmp/auth-range.txt"
+for outside_value in 0 11; do
+  printf 'param.timeout_s: %s\n' "$outside_value" > "$tmp/inv-range.txt"
+  if out="$(bash "$scorer" --auth "$tmp/auth-range.txt" --invocation "$tmp/inv-range.txt" 2>&1)"; then
+    fail "value outside the range endpoints was accepted: $outside_value"
+  fi
+  printf '%s' "$out" | grep -q 'AUTHORITY DRIFT' \
+    || fail "value outside the range did not classify authority drift"
+done
+
+printf 'authorization-binding-contract: ok (intake 6 + match/drift + no-binds + 3 Fable adversarial + 3 R002E receiving + enum membership + exact numeric-range syntax)\n'

@@ -39,7 +39,7 @@ def load_helper():
 def bootstrap_functions():
     """Load only actual bootstrap imports/functions, never its launch body."""
     runner = (ROOT / "scripts/run-work-graph-verifier.sh").read_text()
-    source = runner.split("  exec python -I -B -c '\n", 1)[1].split(
+    source = runner.split("  exec \"${r0035_census_python[@]}\" -c '\n", 1)[1].split(
         "\n' \"$2\" \"$3\" \"$4\" \"$5\" \"$6\"", 1)[0]
     tree = ast.parse(source)
     selected = ast.Module(body=[node for node in tree.body if isinstance(node, (ast.Import, ast.FunctionDef))], type_ignores=[])
@@ -83,6 +83,7 @@ class SourceFixture(unittest.TestCase):
             target = self.source / name
             target.parent.mkdir(parents=True, exist_ok=True)
             H.copy_input(name, target)
+        H.populate_pins(self.source, self.h.contract_for(PROFILE))
 
     def snapshot(self):
         objects = {}

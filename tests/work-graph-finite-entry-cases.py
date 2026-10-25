@@ -54,6 +54,7 @@ PROFILES = {
     "package-shape-claims": "CONTROLLED_TASK_PACKAGE_SHAPE_CLAIMS_V1",
     "mini-audit-loop": "CONTROLLED_TASK_MINI_AUDIT_LOOP_V1",
     "action-selection-contract": "CONTROLLED_TASK_ACTION_SELECTION_CONTRACT_V1",
+    "custody-append": "CONTROLLED_TASK_CUSTODY_APPEND_V1",
 }
 
 

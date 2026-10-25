@@ -165,19 +165,24 @@
       "modified": true,
       "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
       "additional_delta": "Exact current raw/native final_answer terminal phase from bounded actual public-item observation; no phase normalization; R0039 distinct owned-stdio0.153.4 source profile; existing owners and default refusals retained; no private selection or native admission; R0039 actual owned-stdio LF and source grammar; bounded held-directory child discovery and exact native relation readback"
-    }
-  ],
-  "composition_domain": "R0039_ORIGINAL14_OWNER_WITH_R0033_VERIFIED_READ_VIEW",
-  "frozen_core_dependencies": [
+    },
     {
-      "path": "skills/implementaudit/scripts/claim-run-rotation.py",
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/claim-run-rotation.py",
       "bytes": 246657,
       "sha256": "4dbbd07b5a792289c13c1225a8099900682b3657396f60f4b74867502cbadf97",
       "source_commit": "d2397406d51aa080209caa16897283b2e9cb5b61",
       "composition_preimage_sha256": "69bea85f96c3cca62858bf3ecb6fd9fd19775203064e54b912577ea2a3c69123",
       "modified": true,
-      "additional_delta": "; composed R0039 native-v3/C02 source candidate; no native admission; R0039 exact-source projection binding receiving candidate; captured buffer and physical-path cache retained"
-    },
+      "additional_delta": "; composed R0039 native-v3/C02 source candidate; no native admission; R0039 exact-source projection binding receiving candidate; captured buffer and physical-path cache retained; exact old companion moved to explicit native-peer source override; materialize with existing complete sibling closure; historical traversal API remains unsupported by this native profile",
+      "materialized_path": "skills/implementaudit/scripts/claim-run-rotation.py",
+      "mode": "100644",
+      "semantic_owner": "R0039",
+      "state": "SOURCE_PROPOSAL_NOT_NATIVE_ADMISSION",
+      "retained_from_commit": "c301bf5a4b6b9b089113b11e6f1bfd6e9c0549b7"
+    }
+  ],
+  "composition_domain": "R0039_ORIGINAL14_OWNER_WITH_R0033_VERIFIED_READ_VIEW",
+  "frozen_core_dependencies": [
     {
       "path": "skills/implementaudit/scripts/read-canonical-pair.py",
       "bytes": 27208,

@@ -33,7 +33,7 @@ PROGRAMS = {
     "skills/implementaudit/scripts/validate-phase.sh": "07b2e04ba9aefffc572ac9cf60ecddf88654a26590aaa045dadf464da7bc7dab",
     "skills/implementaudit/scripts/repo-state.sh": "b2220d0627c5e66d106bb3ce8a9daafb5310b87643b9281d63db5a5aa886df3b",
 }
-INCOMING_CONTRACTS_AST_SHA256 = "117ae99baa7584e7d94552dc6ea4eff5bc170a517131d28ba979708634e32f93"
+INCOMING_CONTRACTS_AST_SHA256 = "f4b5e8efb87764dcc927336fb9f61fc7d9db1f975868cd96d2c0cca1485b1269"
 
 
 def load(name, path):
@@ -137,12 +137,12 @@ class CatalogCases(MiniFixture, unittest.TestCase):
                         and any(isinstance(target, ast.Name) and target.id == "_CONTRACTS" for target in node.targets))
         retained = [(key, value) for key, value in zip(incoming.keys, incoming.values)
                     if not isinstance(key, ast.Name) or key.id not in ("MINI_AUDIT_PROFILE", "ACTION_SELECTION_PROFILE")]
-        self.assertEqual(len(retained), 33)
+        self.assertEqual(len(retained), 34)
         payload = "\n".join(ast.dump(ast.Tuple(elts=[key, value], ctx=ast.Load()), include_attributes=False)
                             for key, value in retained)
         self.assertEqual(hashlib.sha256(payload.encode()).hexdigest(), INCOMING_CONTRACTS_AST_SHA256)
         self.assertEqual(hashlib.sha256((ROOT / self.A.RUNNER).read_bytes()).hexdigest(),
-                         "532b06dbe91298bf71d44c88ecf20186adc93b4e3fb16ee2c4d12bc2edee45ff")
+                         "6f6d2bdbcf8350d6b370d37a5e15f4ddb73d336b5bc42d941540f3269613150f")
         session = self.session()
         self.assertEqual(session.ENVIRONMENT, dict(B.P.ENVIRONMENT, HOME="/nonexistent", GIT_ATTR_NOSYSTEM="1"))
         self.assertEqual(session.SCOPE, PROFILE)

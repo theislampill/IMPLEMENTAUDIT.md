@@ -297,6 +297,81 @@ effects, the governed-writer window/lock boundary, transactional evidence and
 truthful terminal status; direct filesystem replacement is not an equivalent
 consumer route.
 
+For a planned ordered population of ordinary replacements, run the optional
+`apply-observed-mutation.sh --batch-preflight <batch.json> --repo-root <r> --run-root <rr> --phase <n>`.
+This observation-only mode omits `--step` and single-operation evidence flags.
+The unique-key input has exactly `schema` and `rows`; schema is
+`implementaudit.replacement-batch-preflight-input.v1`. The nonempty ordered
+rows each have exactly `step`, `source`, `preimage`, and `candidate`: a positive
+integer step, the expected source path, and canonical repository-relative
+regular evidence paths. The input file is limited to 1 MiB, including reused
+captures and final rereads. Every selected step resolves through the existing
+phase authority owner in the same claim and
+phase; only `replace` with no destination is supported. Duplicate steps,
+aliased targets, unsafe files, mismatched source/preimage, retained same-step
+transactions and selected protected fences refuse the aggregate.
+
+Preflight captures input bytes and physical identities, then re-requests each
+selected projection from the existing phase authority owner and requires exact
+equality. The owner re-evaluates its selected canonical pair, even when its
+ROADMAP differs from the root file. It also checks observed input drift,
+current controller custody through its existing owner, Git HEAD and
+absence of selected transaction/fence paths before returning. The separate
+`implementaudit.replacement-batch-preflight.v1` result is `OBSERVATION_ONLY`
+or `REFUSED`, always with authority `NONE` and no effect grant. Its ordered
+row digest evidence describes the captured population, not a simultaneous or
+durable snapshot, unchanged ordinary receipt token, future application or
+transaction-qualified batch. It creates no governed target, lock, journal or
+receipt state. Existing authority validators may create and remove temporary
+support snapshots; this is not a global zero-effect claim. Ordinary controllers
+remain portable inputs, not native authentication. Actual later mutation must
+use the original route and revalidate authority, preimage and applicable
+fences. ADD, RETAIN, protected merge and executor bootstrap/self-row law are
+outside this restricted prefix; historical EH-3 population fidelity and full
+batch application remain unqualified by preflight alone.
+
+To consume that same ordered manifest through ordinary per-step authority, run
+`apply-observed-mutation.sh --batch-apply <batch.json> --repo-root <r> --run-root <rr> --phase <n>`.
+This mode excludes `--batch-preflight`, `--step`, individual evidence flags and
+`--require-generation-fence`. It completes the existing all-target preflight
+before dispatch, then calls the existing ordinary REPLACE transaction machinery
+once per row in array order. Each child compares the frozen claim, exact phase,
+authority projection, selected evidence, shared inputs, controller and HEAD
+before early `NO_CHANGE` or transaction effects. Its checked evidence buffers
+are the buffers consumed. The private restriction transport only narrows the
+existing grant; it cannot authorize a protected/native effect.
+
+The helper captures its Python body once and executes those same bytes in
+isolated child interpreters without reopening its own path. This binds only
+that self-execution edge; validator source loads retain their existing boundary.
+Physical capture/recheck is an observed regular-file boundary, not an atomic
+snapshot or exclusion of arbitrary same-principal writers.
+
+The single stdout `implementaudit.replacement-batch-apply.v1` report retains
+the actual preflight, initiated dispatch-attempt count, and each returned row's
+actual exit, lossless base64 stdout/stderr, decoded result and classification.
+`COMPLETED` requires exit zero
+and an identity-matching ordinary v2 `COMMITTED` or `NO_CHANGE` result. The latter
+has no transaction and empty effect sets. A valid non-success stops the batch
+with its ordinary exit; missing, malformed, duplicate/nonfinite or inconsistent
+results yield `UNKNOWN` / 78. Later rows are explicitly `NEVER_STARTED`, without
+invented exits, streams or transactions. An `OSError` from the complete dispatch
+call does not prove whether its child started: the selected attempt is counted,
+its disposition is `UNKNOWN`, and `dispatch_started` is null. The actual
+exception is retained; absent live exit, streams and decoded result remain null.
+This nullable v1 exception field is distinct from the false field on genuinely
+uncalled later rows. Preflight refusal starts no child.
+
+The completed prefix remains intact. There is no automatic retry, compensation,
+aggregate atomicity, authority or durable batch receipt. Interruption after
+dispatch can prevent the final stdout report and leave the attempted row
+unknown; existing per-step journals/results require manual reconciliation.
+Saved results never replace missing live returns. Existing per-step auxiliary
+effects and their persisted-prefix/live-suffix evidence remain authoritative.
+This consumer covers ordinary ordered REPLACE only; ADD, RETAIN, protected
+merge, executor bootstrap/self-row law, historical EH-3 population fidelity
+and full EH-3 acceptance remain separate obligations.
+
 When a protected effect depends on a distributed authority generation, pass
 `--require-generation-fence` on that same route and supply the phase/step's
 `<run-root>/mutation-fences/phase-<n>-step-<n>.json`. The existing conditional
@@ -353,6 +428,8 @@ helper-mode: validate-run-root.sh|--nonterminal-yield|<run-root>|record-only-no-
 helper-mode: validate-run-root.sh|--turn-disposition|<disposition> <run-root>|composed-record-only-no-host-authority
 helper-mode: check-authorization-binding.sh|--phase --rehearsal --launch|<phase> <receipt> <launch>|failed-rehearsal-blocks-launch|scripts/validate-phase.sh
 helper-mode: check-evidence-anchor.sh|--window-transition|<transition> <launch-intent> --entry <n> --repo-root <repo>|governed-window-publication|-
+helper-mode: apply-observed-mutation.sh|--batch-preflight|<batch.json> --repo-root <r> --run-root <rr> --phase <n>|observation-only
+helper-mode: apply-observed-mutation.sh|--batch-apply|<batch.json> --repo-root <r> --run-root <rr> --phase <n>|ordinary-ordered-replace
 
 helper-route: scripts/check-authorization-binding.sh|R|auth|P|-|--auth <a> --invocation <i> --state <s>|no-param
 helper-route: scripts/apply-observed-mutation.sh|R|destructive-mutation|R|-|--repo-root <r> --run-root <rr> --phase <n> --step <n> <evidence>|governed-writer
@@ -635,3 +712,15 @@ helper-mode: claim-run.sh|--recover-canonical-state|<controller>|rotation-recove
 helper-mode: claim-run.sh|--prepare-c02-correction|<controller> --expected-invalidation <invalidation-token> --decision <decision-file>|correction-proposal
 helper-mode: claim-run.sh|--append-c02-correction|<controller> --expected-invalidation <invalidation-token> --decision <decision-file>|correction-append
 helper-mode: claim-run.sh|--apply-c02-correction|<controller> --correction-record <correction-oid>|correction-fresh-transition
+
+### Retained historical link read
+
+`claim-run.sh --resolve-retained-continuity-predecessor <controller> --receipt <receipt-token> --expected-current <current-receipt-token>`
+has a historical-link-only boundary. It verifies the actual current JOIN and
+retained genealogy before returning one original14 predecessor link. The
+observation grants no currentness, effect or native authority; it cannot replay,
+reconcile or compensate an UNKNOWN. The receiver requires the exact supporting
+shell/companion pair before dispatch. The separately retained native source
+profile does not implement this API and remains refused at that source gate.
+
+helper-mode: claim-run.sh|--resolve-retained-continuity-predecessor|<controller> --receipt <receipt-token> --expected-current <current-receipt-token>|historical-link-only

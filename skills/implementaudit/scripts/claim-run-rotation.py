@@ -4049,6 +4049,171 @@ def resolve_generation(context):
 
 
 @_scoped_git
+def resolve_retained_predecessor_v1(context, receipt_token, expected_current):
+    """Observe one reachable original14 link; grant no historical currentness.
+
+    The actual current JOIN selects the genealogy. Supplied tokens are only
+    exact selectors. Historical allocation/source HEAD bindings are verified
+    through their retained generation manifest, not relabelled as live HEAD.
+    """
+    _verify_claim_load_identity_v1()
+    requested_ref, _ = split_receipt_token(context, receipt_token)
+    split_receipt_token(context, expected_current)
+    requested_epoch = epoch_number(requested_ref.rsplit('/', 1)[-1])
+    paths = retained_owner_paths(context) + [Path(__file__).absolute().with_name(name) for name in
+            ('validate-run-root.sh', 'canonical_rotation_inputs.py', 'read-canonical-pair.py')]
+    with RetainedInputs(paths) as sources, contextlib.ExitStack() as generation_custody:
+        _verify_claim_load_identity_v1()
+        opening = require_current_generation_join_v1(context)
+        if opening['receipt_token'] != expected_current:
+            raise RotationError('HISTORY_CURRENT_TIP_MISMATCH: expected current receipt changed')
+        observed = managed(context)
+        if (observed['pointer'] != opening['pointer_oid'] or observed['marker'] != opening['marker_oid']
+                or observed['invalidation'] != opening['pointer']['invalidation_oid']):
+            raise RotationError('HISTORY_CURRENT_TIP_MISMATCH: current authorities changed')
+        if requested_epoch > epoch_number(opening['pointer']['continuity_epoch']):
+            raise RotationError('HISTORY_UNREACHABLE: requested receipt is beyond the actual current tip')
+        guards = owner_guards(context, observed)
+        guards['HEAD'] = git(context['repo'], 'rev-parse', 'HEAD').decode().strip()
+        head_tree = git(context['repo'], 'rev-parse', 'HEAD^{tree}').decode().strip()
+        held_generations = set()
+
+        def guard(ref, oid):
+            if ref in guards and guards[ref] != oid:
+                raise RotationError('HISTORY_REF_CHANGED: one retained ref acquired two identities')
+            guards[ref] = oid
+
+        def anchor(oid):
+            if oid is not None:
+                require_anchor(context, oid)
+                guard(anchor_ref(context, oid), oid)
+
+        def receipt_read(token):
+            record = read_receipt(context, token)
+            ref, oid = split_receipt_token(context, token)
+            guard(ref, oid)
+            anchor(oid)
+            return record
+
+        def hold_generation(generation):
+            if generation not in held_generations:
+                directory = context['run_root'] / 'state-generations' / generation
+                generation_custody.enter_context(RetainedInputs([directory / name for name in
+                    ('STATE.md', 'ROADMAP.md', 'protected-state.json', 'archive-manifest.json',
+                     'generation-manifest.json')]))
+                held_generations.add(generation)
+
+        # A failed first-migration receipt may predate the permanent marker.
+        # Verify that marker against the real current tip, never assert that an
+        # earlier retained receipt completed a historical terminal JOIN.
+        marker = verify_marker(context, opening['marker_oid'], opening['pointer'])
+        marker_epoch = epoch_number(marker[4])
+        genesis_receipt = receipt_read(marker[7] + '@' + marker[8])
+        genesis, genesis_oid = read_epoch(context, marker[4])
+        guard(epoch_ref(context, marker[4]), genesis_oid)
+        for oid in (opening['marker_oid'], genesis_oid, genesis_receipt['pointer_oid'],
+                    genesis_receipt['invalidation_oid'], genesis['failed_epoch_oid'], genesis['failed_pointer_oid']):
+            anchor(oid)
+        if genesis['failed_epoch_oid'] is not None:
+            guard(epoch_ref(context, genesis['transition']['failed_transition_epoch']), genesis['failed_epoch_oid'])
+        if genesis['transition']['failed_transition_receipt_ref_oid'] is not None:
+            receipt_read(genesis['transition']['failed_transition_receipt_ref_oid'])
+
+        candidate_token = opening['receipt_token']
+        selected = None
+        # Current tip plus at most 64 actual predecessor edges. Recovery may
+        # skip an unreceipted failed allocation; do not synthesize that receipt.
+        for _ in range(65):
+            receipt = receipt_read(candidate_token)
+            if receipt['schema'] != RECEIPT_SCHEMA:
+                raise RotationError('HISTORY_UNREACHABLE: original14 genealogy ended before the requested receipt')
+            candidate_epoch = epoch_number(receipt['continuity_epoch'])
+            if candidate_epoch < requested_epoch:
+                raise RotationError('HISTORY_UNREACHABLE: requested receipt is not an actual predecessor')
+            pointer_oid = receipt['pointer_oid']
+            pointer = validate_pointer(context, decode_json(read_blob(context['repo'], pointer_oid)))
+            receipt_matches_pointer(context, receipt, pointer, pointer_oid)
+            record, epoch_oid = read_epoch(context, receipt['continuity_epoch'])
+            intent, intent_oid = read_publication(context, record, epoch_oid)
+            if intent['pointer_oid'] != pointer_oid:
+                raise RotationError('HISTORY_PUBLICATION_MISMATCH: retained receipt has another publication')
+            transition, prepared = record['transition'], record['prepared']
+            for key in ('controller', 'claim_id', 'run_root_identity', 'projection_generation_id',
+                        'continuity_epoch', 'invalidation_oid', 'predecessor_receipt_ref_oid',
+                        'expected_receipt_ref_schema'):
+                if pointer[key] != transition[key]:
+                    raise RotationError('HISTORY_ALLOCATION_MISMATCH: retained pointer differs from its allocation')
+            if record['expected_marker_oid'] is not None:
+                if record['expected_marker_oid'] != opening['marker_oid']:
+                    raise RotationError('HISTORY_MARKER_MISMATCH: permanent marker was replaced')
+            elif candidate_epoch > marker_epoch:
+                raise RotationError('HISTORY_MARKER_MISMATCH: later allocation omitted the permanent marker')
+            if (pointer['archive_manifest_sha256'] != prepared['archive_manifest_sha256']
+                    or pointer['exact_next_action'] != prepared['exact_next_action']
+                    or read_ref(context['repo'], prepared['archive_ref']) != prepared['archive_manifest_oid']):
+                raise RotationError('HISTORY_ARCHIVE_MISMATCH: retained pointer changed its source archive')
+            for ref, oid in archive_retention_guards(context, prepared).items():
+                guard(ref, oid)
+            hold_generation(pointer['projection_generation_id'])
+            if transition['failed_transition_receipt_ref_oid'] is not None:
+                hold_generation(transition['failed_transition_generation'])
+            verify_generation(context, pointer)
+            directory = context['run_root'] / 'state-generations' / pointer['projection_generation_id']
+            manifest_raw = read_regular(directory / 'generation-manifest.json')
+            if not manifest_raw.endswith(b'\n'):
+                raise RotationError('HISTORY_SOURCE_MISMATCH: generation manifest framing differs')
+            manifest = decode_json(manifest_raw[:-1])
+            if manifest['prepared'] != prepared or manifest['transition'] != transition:
+                raise RotationError('HISTORY_SOURCE_MISMATCH: archive/source transition differs from owner allocation')
+            predecessor_token = pointer['predecessor_receipt_ref_oid']
+            predecessor = receipt_read(predecessor_token)
+            expected_epoch = (transition['failed_transition_epoch'] if transition['failed_transition_receipt_ref_oid']
+                              else prepared['predecessor']['continuity_epoch'])
+            if (predecessor['continuity_epoch'] != expected_epoch
+                    or epoch_number(expected_epoch) >= candidate_epoch):
+                raise RotationError('HISTORY_PREDECESSOR_MISMATCH: predecessor is not the actual earlier source receipt')
+            receipt_read(prepared['predecessor']['receipt_ref'] + '@' + prepared['predecessor']['receipt_oid'])
+            guard(epoch_ref(context, receipt['continuity_epoch']), epoch_oid)
+            guard(publication_ref(context, receipt['continuity_epoch']), intent_oid)
+            for oid in (pointer_oid, receipt['invalidation_oid'], epoch_oid, intent_oid,
+                        record['expected_pointer_oid'], record['expected_marker_oid'],
+                        record['failed_epoch_oid'], record['failed_pointer_oid']):
+                anchor(oid)
+            if record['failed_epoch_oid'] is not None:
+                guard(epoch_ref(context, transition['failed_transition_epoch']), record['failed_epoch_oid'])
+            if record['schema'] == 'implementaudit.c02-correction-epoch.v1':
+                # Retained admission bytes only. Do not require or confer a
+                # fresh grant through the effect-owning transition_guards.
+                for key in ('source_oid', 'grant_oid', 'correction_record_oid', 'corrected_invalidation_oid'):
+                    anchor(record['c02_admission'][key])
+            if candidate_token == receipt_token:
+                selected = {'schema': 'implementaudit.retained-continuity-predecessor-observation.v1',
+                    'receipt_domain': 'ORIGINAL14', 'controller': context['controller'],
+                    'claim_id': context['claim_id'], 'run_root_identity': context['run_root_identity'],
+                    'current_receipt_token': opening['receipt_token'],
+                    'current_pointer_token': context['pointer_ref'] + '@' + opening['pointer_oid'],
+                    'receipt_token': candidate_token, 'continuity_epoch': receipt['continuity_epoch'],
+                    'pointer_token': context['pointer_ref'] + '@' + pointer_oid,
+                    'predecessor_receipt_token': predecessor_token,
+                    'authority_ceiling': 'HISTORICAL_LINK_ONLY',
+                    'grants': {'currentness': False, 'effect': False, 'native': False}}
+                break
+            candidate_token = predecessor_token
+        if selected is None:
+            raise RotationError('HISTORY_UNREACHABLE: requested receipt exceeds the bounded actual genealogy')
+        closing = require_current_generation_join_v1(context)
+        if (closing['receipt_token'] != opening['receipt_token'] or closing['pointer'] != opening['pointer']
+                or closing['pointer_oid'] != opening['pointer_oid'] or closing['marker_oid'] != opening['marker_oid']
+                or authorities(context) != observed or read_refs(context['repo'], guards) != guards
+                or git(context['repo'], 'rev-parse', 'HEAD^{tree}').decode().strip() != head_tree):
+            raise RotationError('HISTORY_READ_CHANGED: current tip or historical custody changed during observation')
+        verify_custody(context)
+        _verify_claim_load_identity_v1()
+        sources.verify()
+        return selected
+
+
+@_scoped_git
 def resolve_resume_generation(context):
     source = native_resume_source(context)
     joined, observed = source["joined"], source["observed"]
@@ -4077,13 +4242,21 @@ def read_resume_component(context, component, pointer_token, invalidation_token)
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=("require", "verify", "resume", "invalidate", "read", "read-role", "resolve",
+    parser.add_argument("command", choices=("require", "verify", "resume", "invalidate", "read", "read-role", "resolve", "resolve-retained-predecessor",
                                            "resolve-resume", "read-resume", "rotate", "recover",
                                            "c02-prepare", "c02-append", "c02-apply"))
     parser.add_argument("controller")
     parser.add_argument("arguments", nargs=argparse.REMAINDER)
     args = parser.parse_args(argv)
     context = discover(args.controller)
+    if args.command == "resolve-retained-predecessor":
+        reader = argparse.ArgumentParser(prog="claim-run.sh --resolve-retained-continuity-predecessor")
+        reader.add_argument("--receipt", required=True)
+        reader.add_argument("--expected-current", required=True)
+        options = reader.parse_args(args.arguments)
+        result = resolve_retained_predecessor_v1(context, options.receipt, options.expected_current)
+        sys.stdout.buffer.write(canonical(result) + b"\n")
+        return 0
     if args.command in {"c02-prepare", "c02-append", "c02-apply"}:
         correction = argparse.ArgumentParser(prog="claim-run.sh " + {
             "c02-prepare": "--prepare-c02-correction", "c02-append": "--append-c02-correction",

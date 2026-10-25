@@ -5639,6 +5639,97 @@ def split_continuity_token(
     return ref, oid
 
 
+# Only this exact read-only owner version understands the new CLI. An older
+# claim shell treats an unknown option as a task title; never probe it by call.
+_R0039_RETAINED_PREDECESSOR_OWNER_V1 = {
+    "claim-run.sh": (22199, "34054952e3bbf13ae6ca381d4cf0d9d72bccaed10c8dd879de9351f5c0e2594b"),
+    "claim-run-rotation.py": (258400, "27ae194fc92a37bd12e0fe378ffc07f788a3bffec28ebd1c0a5e3c8e1c73695e"),
+}
+
+
+def original14_retained_predecessor_v1(
+    repo, token, fields, *, controller, claim, run_identity, generation,
+    current_receipt, explicit_run_root,
+):
+    """Receive one historical owner observation; preserve the contiguous law."""
+    if not isinstance(explicit_run_root, str) or not isinstance(current_receipt, str):
+        fail("original14 history requires its enclosing current receipt and full run root", decision="REQUIRED")
+    try:
+        root = Path(explicit_run_root)
+        if root.absolute() != root.resolve(strict=True) or root.name != run_identity:
+            raise ValueError("foreign or aliased run root")
+        relative_root = root.relative_to(repo.resolve(strict=True)).as_posix()
+    except (OSError, RuntimeError, ValueError):
+        fail("original14 history full run root is foreign or unreadable", decision="REQUIRED")
+    pointer_ref = "refs/implementaudit/current-generations/" + controller
+    receipt_prefix = "refs/implementaudit/continuity-receipts/" + controller + "/"
+    if (len(fields) != 14 or fields[:5] != ["implementaudit.continuity-receipt.v3",
+            controller, claim, relative_root, generation] or fields[6] != pointer_ref
+            or not all(OID_RE.fullmatch(item) for item in (fields[5], fields[7]))
+            or not all(re.fullmatch(r"[0-9a-f]{64}", item) for item in fields[8:12])
+            or not re.fullmatch(re.escape(receipt_prefix) + r"G[0-9A-F]{4}@[0-9a-f]{40}", current_receipt)):
+        fail("original14 history receipt or enclosing identity is malformed or foreign", decision="REQUIRED")
+    predecessor_generation = f"G{int(generation[1:], 16) - 1:04X}"
+    split_continuity_token(fields[13], controller, predecessor_generation, "continuity predecessor")
+
+    captured = {}
+    for name, (length, expected_sha256) in _R0039_RETAINED_PREDECESSOR_OWNER_V1.items():
+        path = Path(__file__).with_name(name)
+        snapshot = child_delivery_snapshot(path, "original14 history owner " + name, max_bytes=length)
+        if len(snapshot[0]) != length or hashlib.sha256(snapshot[0]).hexdigest() != expected_sha256:
+            fail("original14 history owner source profile is unsupported", decision="REQUIRED")
+        captured[name] = (path, snapshot)
+    claim_path, shell_snapshot = captured["claim-run.sh"]
+    # Execute the same shell bytes just checked. Preserve physical $0 for the
+    # fixed sibling launcher, which verifies and executes captured companion bytes.
+    command = [str(trusted_host_executable(repo, "bash")), "-c",
+        shell_snapshot[0].decode("utf-8", "strict"), bash_script_path(claim_path),
+        "--resolve-retained-continuity-predecessor", controller,
+        "--receipt", token, "--expected-current", current_receipt]
+    try:
+        completed = subprocess.run(command, cwd=repo, env=sanitized_action_environment(),
+                                   capture_output=True, check=False)
+    except OSError as exc:
+        fail(f"original14 historical owner is unavailable: {exc}", decision="REQUIRED")
+    for name, (path, snapshot) in captured.items():
+        if child_delivery_snapshot(path, "original14 history owner " + name,
+                max_bytes=_R0039_RETAINED_PREDECESSOR_OWNER_V1[name][0]) != snapshot:
+            fail("original14 history owner source changed during observation", decision="REQUIRED")
+    if completed.returncode:
+        detail = completed.stderr.decode("utf-8", "replace").strip()
+        fail("original14 historical owner refused: " + (detail or str(completed.returncode)), decision="REQUIRED")
+    try:
+        observed = json.loads(completed.stdout.decode("utf-8", "strict"), object_pairs_hook=unique_object)
+    except (ValueError, UnicodeError):
+        fail("original14 historical owner returned malformed JSON", decision="REQUIRED")
+    keys = {"schema", "receipt_domain", "controller", "claim_id", "run_root_identity",
+        "current_receipt_token", "current_pointer_token", "receipt_token", "continuity_epoch",
+        "pointer_token", "predecessor_receipt_token", "authority_ceiling", "grants"}
+    if (type(observed) is not dict or set(observed) != keys
+            or any(type(observed[key]) is not str for key in keys - {"grants"})
+            or type(observed["grants"]) is not dict
+            or set(observed["grants"]) != {"currentness", "effect", "native"}
+            or any(value is not False for value in observed["grants"].values())):
+        fail("original14 historical observation has a foreign shape or authority grant", decision="REQUIRED")
+    canonical = json.dumps(observed, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8") + b"\n"
+    if completed.stdout != canonical:
+        fail("original14 historical observation framing is noncanonical", decision="REQUIRED")
+    expected = {
+        "schema": "implementaudit.retained-continuity-predecessor-observation.v1",
+        "receipt_domain": "ORIGINAL14", "controller": controller, "claim_id": claim,
+        "run_root_identity": relative_root, "current_receipt_token": current_receipt,
+        "current_pointer_token": pointer_ref + "@" + canonical_ref_oid(repo, pointer_ref, "current generation pointer"),
+        "receipt_token": token, "continuity_epoch": generation,
+        "pointer_token": pointer_ref + "@" + fields[7], "predecessor_receipt_token": fields[13],
+        "authority_ceiling": "HISTORICAL_LINK_ONLY",
+        "grants": {"currentness": False, "effect": False, "native": False},
+    }
+    receipt_ref, receipt_oid = split_continuity_token(token, controller, generation, "continuity receipt")
+    if observed != expected or canonical_ref_oid(repo, receipt_ref, "continuity receipt") != receipt_oid:
+        fail("original14 historical observation differs from the exact retained/current owner view", decision="REQUIRED")
+    return fields[13]
+
+
 def validated_v3_predecessor(
     repo: Path,
     token: str,
@@ -5647,6 +5738,8 @@ def validated_v3_predecessor(
     claim: str,
     run_identity: str,
     generation: str,
+    current_receipt: str | None = None,
+    explicit_run_root: str | None = None,
 ) -> str:
     """Validate one canonical immutable v3 receipt and return its exact predecessor token."""
     ref, oid = split_continuity_token(token, controller, generation, "continuity receipt")
@@ -5661,12 +5754,16 @@ def validated_v3_predecessor(
     ):
         fail("continuity receipt bytes are not canonical", decision="REQUIRED")
     fields_raw = raw[:-1].split(b"\t")
-    if len(fields_raw) != 18 or any(field == b"" for field in fields_raw):
+    if len(fields_raw) not in {14, 18} or any(field == b"" for field in fields_raw):
         fail("continuity receipt has a malformed field layout", decision="REQUIRED")
     try:
         fields = [field.decode("utf-8", "strict") for field in fields_raw]
     except UnicodeDecodeError:
         fail("continuity receipt is not strict UTF-8", decision="REQUIRED")
+    if len(fields) == 14:
+        return original14_retained_predecessor_v1(repo, token, fields,
+            controller=controller, claim=claim, run_identity=run_identity, generation=generation,
+            current_receipt=current_receipt, explicit_run_root=explicit_run_root)
     (
         schema,
         receipt_controller,
@@ -5731,6 +5828,8 @@ def validate_terminal_continuity_chain(
     current_generation: Any,
     current_receipt: Any,
     require_current_v3: bool = False,
+    explicit_run_root: str | None = None,
+    owner_tip_receipt: str | None = None,
 ) -> list[tuple[str, str]]:
     """Require a bounded contiguous canonical v3 chain back to the terminal receipt."""
     if (
@@ -5772,6 +5871,8 @@ def validate_terminal_continuity_chain(
                 claim=claim,
                 run_identity=run_identity,
                 generation=candidate_generation,
+                current_receipt=current_receipt if owner_tip_receipt is None else owner_tip_receipt,
+                explicit_run_root=explicit_run_root,
             )
             candidate_generation = f"G{int(candidate_generation[1:], 16) - 1:04X}"
             reverse_links.append((candidate_generation, candidate_receipt))
@@ -5833,6 +5934,8 @@ def validate_stale_unsatisfied_custody(
     record_oid: str,
     record: dict[str, Any],
     retained_request: dict[str, Any],
+    *,
+    owner_tip_receipt: str | None = None,
 ) -> None:
     """Authenticate one lifecycle-free required record from retained exact semantics."""
     preserved_unopenable = is_exact_preserved_unopenable_required_record(record_oid, record)
@@ -5903,10 +6006,12 @@ def validate_stale_unsatisfied_custody(
                 controller=record["controller_id"],
                 claim=record["claim_id"],
                 run_identity=Path(record["explicit_run_root"]).name,
+                explicit_run_root=record["explicit_run_root"],
                 terminal_generation=predecessor.get("continuity_generation"),
                 terminal_receipt=predecessor.get("continuity_receipt"),
                 current_generation=record.get("continuity_generation"),
                 current_receipt=record.get("continuity_receipt"),
+                owner_tip_receipt=owner_tip_receipt,
                 require_current_v3=predecessor_state in {"UNSATISFIED", "OPEN", "RETURNED"},
             )
             predecessor_binding = predecessor.get("host_binding_generation")
@@ -6189,6 +6294,7 @@ def require_terminal_route_reentry(
         controller=args.controller,
         claim=current["claim_id"],
         run_identity=Path(current["explicit_run_root"]).name,
+        explicit_run_root=current["explicit_run_root"],
         terminal_generation=old.get("continuity_generation"),
         terminal_receipt=old.get("continuity_receipt"),
         current_generation=current["continuity_generation"],
@@ -6249,12 +6355,15 @@ def require_active_route_recovery(
     if any(old.get(key) != value for key, value in unchanged_owner.items()):
         fail("active route recovery changed controller, claim, run, host, or session identity", decision="REQUIRED")
     if unsatisfied:
-        validate_stale_unsatisfied_custody(repo, common, old_oid, old, retained_request)
+        # A retained segment can end before the actual live owner tip.
+        validate_stale_unsatisfied_custody(repo, common, old_oid, old, retained_request,
+                                           owner_tip_receipt=current["continuity_receipt"])
     continuity_links = validate_terminal_continuity_chain(
         repo,
         controller=args.controller,
         claim=current["claim_id"],
         run_identity=Path(current["explicit_run_root"]).name,
+        explicit_run_root=current["explicit_run_root"],
         terminal_generation=old.get("continuity_generation"),
         terminal_receipt=old.get("continuity_receipt"),
         current_generation=current["continuity_generation"],
@@ -6663,6 +6772,7 @@ def command_decide(args: argparse.Namespace) -> None:
                     controller=args.controller,
                     claim=current["claim_id"],
                     run_identity=Path(current["explicit_run_root"]).name,
+                    explicit_run_root=current["explicit_run_root"],
                     terminal_generation=old.get("continuity_generation"),
                     terminal_receipt=old.get("continuity_receipt"),
                     current_generation=current["continuity_generation"],

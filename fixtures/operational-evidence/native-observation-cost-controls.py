@@ -530,7 +530,7 @@ class CombinedContinuitySourceControls(unittest.TestCase):
                 members = []
                 for name, _, _, _ in adapter.ORIGINAL14_SOURCE_PROFILE_V1:
                     origin = (SOURCE/'source-peers/native-runtime/skills/implementaudit/scripts'
-                              if name in {'claim-run.sh', 'validate-run-root.sh'}
+                              if name in {'claim-run.sh', 'validate-run-root.sh', 'claim-run-rotation.py'}
                               else SOURCE/'skills/implementaudit/scripts') / name
                     raw = origin.read_bytes()
                     members.append((str(owner_root/name), raw))

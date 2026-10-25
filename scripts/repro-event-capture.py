@@ -316,6 +316,106 @@ def git(repo, *args):
     return result.stdout
 
 
+
+# This optional transport carries live observations to one already-owned outer
+# process. It does not turn the v2 on-disk capture into a result credential.
+LIVE_GATE_ENV = "R0035_C5_LIVE_GATE_FD"
+LIVE_FRAME_SCHEMA = "implementaudit.c5-live-capture-frame.v1"
+LIVE_REPLY_SCHEMA = "implementaudit.c5-live-capture-reply.v1"
+# The existing finite capture may hold 19 raw process receipts, 19 events,
+# session/close/record and at most one failed post-acquisition handoff. The blob,
+# raw-stream, per-file and total blob limits above remain unchanged.
+MAX_LIVE_FRAME_BYTES = MAX_TOTAL + 19 * MAX_PROCESS_JSON + 23 * MAX_JSON
+MAX_LIVE_FILES = MAX_MEMBERS + 19 + 20 + 3
+
+
+def _live_write(fd, data):
+    view = memoryview(data)
+    while view:
+        size = os.write(fd, view)
+        demand(size > 0, "live C5 gate write made no progress")
+        view = view[size:]
+
+
+def _live_read(fd, count):
+    data = bytearray()
+    while len(data) < count:
+        chunk = os.read(fd, min(65536, count - len(data)))
+        demand(bool(chunk), "live C5 gate closed before release")
+        data.extend(chunk)
+    return bytes(data)
+
+
+def _live_snapshot(directory):
+    """Describe the complete current finite capture without changing it."""
+    names = set(os.listdir(no_alias(directory)))
+    demand(names <= {"blobs", "events", "processes", "session.json", "close.json", "record.json", "lock"}
+           and {"blobs", "events", "processes", "session.json"} <= names,
+           "live C5 gate capture namespace differs")
+    paths = ["session.json"]
+    paths += [name for name in ("close.json", "record.json") if name in names]
+    for group, bound in (("events", 19), ("processes", 20), ("blobs", MAX_MEMBERS)):
+        members = sorted(os.listdir(no_alias(directory / group)))
+        demand(len(members) <= bound, "live C5 gate member bound exceeded")
+        for name in members:
+            valid = (bool(HEX.fullmatch(name)) if group == "blobs" else
+                     bool(re.fullmatch(r"[0-9]{2}\.json", name)) if group == "events" else
+                     bool(re.fullmatch(r"[0-9]{2}(?:\.handoff)?\.json", name)))
+            demand(valid, "live C5 gate foreign capture member")
+            paths.append(group + "/" + name)
+    demand(len(paths) <= MAX_LIVE_FILES, "live C5 gate file bound exceeded")
+    files, observations, total, blob_total = [], {}, 0, 0
+    for name in sorted(paths):
+        limit = MAX_FILE if name.startswith("blobs/") else MAX_PROCESS_JSON if name.startswith("processes/") else MAX_JSON
+        raw, observed = read_regular(directory / name, limit)
+        total += len(raw)
+        if name.startswith("blobs/"):
+            blob_total += len(raw)
+            demand(digest(raw) == name[6:], "live C5 gate blob identity differs")
+        demand(total <= MAX_LIVE_FRAME_BYTES and blob_total <= MAX_TOTAL,
+               "live C5 gate complete capture bound exceeded")
+        files.append(dict(path=name, bytes=len(raw), sha256=digest(raw), mode=observed["mode"]))
+        observations[name] = observed
+    return files, observations
+
+
+def _live_exchange(directory, phase, payload):
+    """Wait for the owned live receiver; a closed/foreign endpoint never releases."""
+    selected = os.environ.get(LIVE_GATE_ENV)
+    if selected is None:
+        return None
+    try:
+        demand(re.fullmatch(r"[0-9]{1,4}", selected) is not None,
+               "live C5 gate descriptor is malformed")
+        fd = int(selected)
+        demand(3 <= fd < 4096 and stat.S_ISSOCK(os.fstat(fd).st_mode),
+               "live C5 gate requires its inherited local channel")
+        demand(phase in {"INIT", "BEFORE", "AFTER", "FINISH"}, "live C5 gate phase differs")
+        files, observations = _live_snapshot(directory)
+        header = canonical(dict(schema=LIVE_FRAME_SCHEMA, phase=phase, payload=payload, files=files))
+        demand(len(header) <= MAX_JSON, "live C5 gate frame header exceeds bound")
+        _live_write(fd, len(header).to_bytes(8, "big"))
+        _live_write(fd, header)
+        for entry in files:
+            name = entry["path"]
+            limit = MAX_FILE if name.startswith("blobs/") else MAX_PROCESS_JSON if name.startswith("processes/") else MAX_JSON
+            raw, observed = read_regular(directory / name, limit)
+            demand(len(raw) == entry["bytes"] and digest(raw) == entry["sha256"]
+                   and observed == observations[name] and observed["mode"] == entry["mode"],
+                   "live C5 gate capture changed while handing off")
+            _live_write(fd, raw)
+        count = int.from_bytes(_live_read(fd, 8), "big")
+        demand(0 < count <= MAX_JSON, "live C5 gate reply bound exceeded")
+        reply = json.loads(_live_read(fd, count).decode("utf-8", "strict"))
+        fields(reply, "schema phase accepted token", "live C5 gate reply")
+        demand(reply["schema"] == LIVE_REPLY_SCHEMA and reply["phase"] == phase
+               and reply["accepted"] is True and type(reply["token"]) is str and HEX.fullmatch(reply["token"]),
+               "live C5 gate refused this observation or dispatch")
+        return reply["token"]
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        raise ReproCaptureError("live C5 gate transport unavailable: " + type(exc).__name__) from exc
+
+
 def init(directory, repository, work_root, source_commit, python_command):
     directory = no_alias(Path(directory), missing=True)
     repo, work = no_alias(Path(repository)), no_alias(Path(work_root))
@@ -350,6 +450,7 @@ def init(directory, repository, work_root, source_commit, python_command):
         session["source_scripts"][role] = dict(path=path, mode=int(mode, 8) & 0o777,
                                                 blob=put_blob(directory, data))
     write_new(directory / "session.json", canonical(session))
+    _live_exchange(directory, "INIT", dict(run_id=session["run_id"]))
     return session
 
 
@@ -598,6 +699,9 @@ def event(directory, role, argv):
                       stdin=dict(mode="INLINE_BYTES", blob=put_blob(directory, inline)) if inline is not None
                       else dict(mode="INHERITED_UNQUALIFIED"))
         demand(len(canonical(common)) <= MAX_JSON - 1024, "process metadata exceeds capture bound")
+        live_token = _live_exchange(directory, "BEFORE", dict(common=common,
+            inputs=before_inputs, outputs=before_outputs, source=before_source,
+            clone=before_clone, executable=before_executable))
         start = time.monotonic_ns()
         unsupported = unsupported_inputs(spec, before_inputs)
         if unsupported:
@@ -634,6 +738,7 @@ def event(directory, role, argv):
                            errno=exc.errno if isinstance(exc, OSError) else None)
             write_new(directory / "processes" / f"{len(paths):02d}.handoff.json", canonical(failure), sync_parent=True)
             return 125
+        _live_exchange(directory, "AFTER", dict(event_id=event_id, token=live_token))
         if code is None or errors:
             return 125
         # Preserve the actual child exit in the event. Shell signal convention is
@@ -985,6 +1090,8 @@ def finish(directory, cleanup_exit):
                   cleanup=cleanup, assessment=verdict)
     write_new(directory / "record.json", canonical(record))
     verify_record(directory, require_complete=False)
+    _live_exchange(directory, "FINISH", dict(run_id=session["run_id"],
+        complete=verdict["complete"], script_exit=closing["script_exit"]))
     return 0 if verdict["complete"] or closing["script_exit"] != 0 else 125
 
 

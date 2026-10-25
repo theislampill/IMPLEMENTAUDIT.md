@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Finite source controls for exact original86; live controls require root allocation."""
 import ast
+import hashlib
 import importlib.util
 import json
 import os
@@ -42,7 +43,7 @@ class CatalogCases(unittest.TestCase):
         self.assertEqual(contract["programs"], {
             "tests/skill-layout-contract.test.sh": "1139d5406839aec5ebdfd82eb0ad63ec9f3c5404cabf3a6c377af0db4a546a7e",
             "scripts/check-skill-layout-contract.sh": "b73e014aa4727d064108515fd959f1d9efb799b2afa1d02f0e7677bd51d02988",
-            "scripts/run-work-graph-verifier.sh": "532b06dbe91298bf71d44c88ecf20186adc93b4e3fb16ee2c4d12bc2edee45ff"})
+            "scripts/run-work-graph-verifier.sh": "6f6d2bdbcf8350d6b370d37a5e15f4ddb73d336b5bc42d941540f3269613150f"})
         checker = (ROOT / "scripts/check-skill-layout-contract.sh").read_text()
         body = checker.split("<<'PY'\n", 1)[1].split("\nPY\n", 1)[0]
         syntax = ast.parse(body)
@@ -59,15 +60,39 @@ class LayoutFixture(shared.ProfileFixture):
 
     def setUp(self):
         super().setUp()
-        # This is a complete physical no-Git source population. Do not relabel
-        # a Git checkout or import a Git answer into this eligible branch.
-        for name in ("skills", ".claude-plugin", ".github", "scripts", "tests", "docs/portal"):
-            if (ROOT / name).exists():
-                shutil.copytree(ROOT / name, self.source / name, dirs_exist_ok=True)
-        if (ROOT / "CONTRIBUTING.md").exists():
-            shutil.copyfile(ROOT / "CONTRIBUTING.md", self.source / "CONTRIBUTING.md")
+        if self.SOURCE_ADMISSION_ONLY:
+            # Use the original test owner's minimal-layout factory, not a
+            # reduced checkout. Every byte of this constructed subject is
+            # captured; it grants no historical/current whole-source result.
+            wrapper = (self.source / self.A.contract_for(PROFILE)["program"]).read_text()
+            start, end = "make_minimal_repo() {\n", '\n}\n\npositive="$tmp/positive"'
+            self.assertEqual((wrapper.count(start), wrapper.count(end)), (1, 1))
+            factory = start + wrapper.split(start, 1)[1].split(end, 1)[0] + "\n}\n"
+            built = subprocess.run(["bash", "-c", factory + '\nmake_minimal_repo "$1"\n',
+                                    "constructed-original86", str(self.source)],
+                                   capture_output=True, timeout=20)
+            self.assertEqual(built.returncode, 0, built.stderr)
+            for name in (".github/workflows/fixture.yml", "docs/portal/fixture.txt"):
+                self.member(name, b"Constructed original86 source data.\n")
+        else:
+            # The explicitly allocated live path retains its complete actual
+            # subject and all unchanged size/physical-source gates.
+            for name in ("skills", ".claude-plugin", ".github", "scripts", "tests", "docs/portal"):
+                if (ROOT / name).exists():
+                    shutil.copytree(ROOT / name, self.source / name, dirs_exist_ok=True)
+            if (ROOT / "CONTRIBUTING.md").exists():
+                shutil.copyfile(ROOT / "CONTRIBUTING.md", self.source / "CONTRIBUTING.md")
         self.assertFalse((self.source / ".git").exists())
         self.restore_historical_inputs()
+        if self.SOURCE_ADMISSION_ONLY:
+            self.fixture_subject = {
+                "scope": "CONSTRUCTED_ORIGINAL86_SOURCE",
+                "files": {str(path.relative_to(self.source)): dict(
+                    bytes=path.stat().st_size, mode=path.stat().st_mode & 0o777,
+                    sha256=hashlib.sha256(path.read_bytes()).hexdigest())
+                    for path in sorted(self.source.rglob("*")) if path.is_file()},
+            }
+            (self.base / "fixture-subject.json").write_text(json.dumps(self.fixture_subject, indent=2) + "\n")
 
     def session(self, name="evidence", **options):
         return self.source_admission_session(Q.create_finite_leaf_session(
@@ -88,6 +113,8 @@ class LayoutFixture(shared.ProfileFixture):
 class AdmissionCases(LayoutFixture, unittest.TestCase):
     def test_complete_actual_bytes_modes_population_and_image_subject(self):
         state, _, objects = self.snapshot()
+        self.assertEqual(self.fixture_subject["scope"], "CONSTRUCTED_ORIGINAL86_SOURCE")
+        self.assertEqual(set(state["files"]), set(self.fixture_subject["files"]))
         self.assertEqual(set(state["files"]), {str(p.relative_to(self.source)) for p in self.source.rglob("*") if p.is_file()})
         for name, row in state["files"].items():
             self.assertEqual(objects[row["sha256"]], (self.source / name).read_bytes())
@@ -224,6 +251,27 @@ class AdmissionCases(LayoutFixture, unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "bound"): session.run()
         self.assertEqual(session.dispatch_count, 0)
         with self.assertRaises(TypeError): session.run(receipt={"exit": 0}, command="git ls-files")
+
+
+@unittest.skipUnless(os.name == "posix", "complete current POSIX source acquisition")
+class CurrentSourceCases(unittest.TestCase):
+    def test_actual_current_recursive_population_keeps_the_original_bound(self):
+        helper, _ = shared.load("current_layout_bounds", ROOT / "scripts/qualify-work-graph-finite-leaf.py")
+        contract = helper.contract_for(PROFILE)["recursive"]
+        paths = [path for name in contract["roots"] for path in (ROOT / name).rglob("*") if path.is_file()]
+        size = sum(path.stat().st_size for path in paths)
+        limit = contract["bounds"]["total_bytes"]
+        self.assertEqual(limit, 8 * 1024**2)
+        with mock.patch.object(subprocess, "Popen", side_effect=AssertionError("unexpected current-source launch")):
+            if size > limit:
+                with self.assertRaisesRegex(ValueError, "combined recursive source entry/byte bound"):
+                    helper.snapshot_recursive_inputs(P, ROOT, {}, contract)
+                outcome = "REFUSED_OVER_BOUND"
+            else:
+                helper.snapshot_recursive_inputs(P, ROOT, {}, contract)
+                outcome = "SOURCE_ACQUIRED_ONLY"
+        print(json.dumps(dict(scope="CURRENT_RECURSIVE_SOURCE_ONLY", bytes=size, limit=limit,
+                              result=outcome, runtime=False, native_authority=False), sort_keys=True))
 
 
 class LiveCases(LayoutFixture, shared.RetainedFixture, unittest.TestCase):

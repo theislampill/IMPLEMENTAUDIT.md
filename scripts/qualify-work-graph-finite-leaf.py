@@ -43,6 +43,61 @@ CLAIM_BOUNDARY_PROBE = "docs/claim-probe-proof-levels.md"
 CLAIM_BOUNDARY_OVERLAY_BYTES = 1024**2
 CLAIM_BOUNDARY_CENSUS_BYTES = 4 * 1024**2
 CLAIM_BOUNDARY_CONFIG = "/profile/original96-overlay.json"
+CUSTODY_APPEND_PROFILE = "CONTROLLED_TASK_CUSTODY_APPEND_V1"
+CUSTODY_APPEND_POLICY = "ORIGINAL105_PRIVATE_WORK_V1"
+CUSTODY_APPEND_CONFIG = "/profile/original105-overlay.json"
+CUSTODY_APPEND_WORK_BYTES = 2 * 1024**2
+CUSTODY_APPEND_TMP_BYTES = 30 * 1024**2
+# Complete saved712 bytes/modes before the fixed105 extension/projection.
+# This binds every potentially imported standard-library/native member, not
+# only site.py: changed import machinery must not manufacture an absence.
+_CUSTODY_BASE_RUNTIME_FILES_SHA256 = "f7997674e7c7c05189d83f1cb453426814078bdecb2dbe935c2ac250a2ebf294"
+_CUSTODY_UNAME_PINS = {
+    "/usr/bin/uname": "bb14ae3642557de05471bdd2402f64d5047f8c98378de49563471f3a059c8912",
+    "/lib/x86_64-linux-gnu/libc.so.6": "511f825ee075610ac9c0f7f91e2c13de2000d0f7b859f6461137e809a0a009d0",
+    "/lib64/ld-linux-x86-64.so.2": "6222a16be7f2d458d6870efe6e715fc0c8d45766fb79cf7dcc3125538d703e28",
+}
+_CUSTODY_PYTHON_PINS = {
+    "/usr/bin/python3.12": "a92f0f95e883390c7256b2e441484aac06b1002dbe1d924141a77c8d82f96223",
+    "/usr/lib/python3.12/site.py": "619436355cbe91c3b29681ab486ee63f5f2e0a7d6274dfae747bdb94e60bca55",
+    "/usr/lib/python3.12/sysconfig.py": "e21755a918f488db1bd21d23120ee36ad09382c553b79735a121ee1fbdbcc08d",
+    "/usr/lib/python3.12/_sysconfigdata__linux_x86_64-linux-gnu.py": "0ff9cca346181ea377005e068b90390017b34191307c3d9c51e42a6fd2b66240",
+    "/usr/lib/python3.12/posixpath.py": "c443d7b8afad1717e7060ce49b3e04423058de56cd4246ee6bcc1ac962eb5c2b",
+}
+_CUSTODY_PYTHON_ALIASES = tuple(parent + "/" + name for parent in ("/usr/bin", "/bin")
+                                for name in ("python", "python3"))
+_CUSTODY_ABSENT_PATHS = tuple(parent + "/" + name for parent in ("/usr/bin", "/bin")
+    for name in ("py", "python.exe", "activegraph", "activegraph.exe", "Scripts/activegraph.exe")) + (
+    "/usr/lib/python312.zip", "/usr/pyvenv.cfg", "/usr/bin/pyvenv.cfg", "/bin/pyvenv.cfg", "/pyvenv.cfg",
+    "/usr/bin/python3.12._pth", "/usr/bin/python3._pth", "/usr/bin/python._pth",
+    "/bin/python3.12._pth", "/bin/python3._pth", "/bin/python._pth")
+# These are the paths derived by the pinned Debian site.py for prefix /usr,
+# normal site startup, PYTHONSAFEPATH=1 and PYTHONNOUSERSITE=1. No -S is passed
+# to an interpreter selected by the original. Venv/zip/path/startup extensions
+# and present ActiveGraph/CLI branches refuse until their own closure exists.
+_CUSTODY_SITE_ROOTS = ("/usr/local/lib/python3.12/dist-packages",
+    "/usr/lib/python3/dist-packages", "/usr/lib/python3.12/dist-packages")
+_CUSTODY_SEARCH_ROOTS = ("/usr/lib/python3.12", "/usr/lib/python3.12/lib-dynload", *_CUSTODY_SITE_ROOTS)
+_CUSTODY_ENVIRONMENT = dict(PATH="/usr/bin:/bin", LANG="C", LC_ALL="C", TZ="UTC",
+    PYTHONHASHSEED="0", PYTHONDONTWRITEBYTECODE="1", PYTHONSAFEPATH="1", PYTHONNOUSERSITE="1",
+    GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL="/dev/null", GIT_OPTIONAL_LOCKS="0",
+    GIT_NO_REPLACE_OBJECTS="1", GIT_NO_LAZY_FETCH="1", GIT_TERMINAL_PROMPT="0", GIT_EXEC_PATH="/nonexistent")
+_CUSTODY_SITE_CUSTOMIZER = "/usr/lib/python3.12/sitecustomize.py"
+_CUSTODY_SITE_TARGET = "/etc/python3.12/sitecustomize.py"
+_CUSTODY_SITE_SHA256 = "43d81125d92376b1a69d53a71126a041cc9a18d8080e92dea0a2ae23be138b1e"
+_CUSTODY_PTH_PATH = "/usr/lib/python3/dist-packages/coloredlogs.pth"
+_CUSTODY_PTH_SHA256 = "dda83a855986efa5cd87f0248b0199c0086eb0e8e7fece7d6741959c5ce39536"
+_CUSTODY_NSS_FILES = ("/etc/nsswitch.conf", "/etc/passwd")
+_CUSTODY_NSCD_ABSENT = ("/var/run/nscd/socket", "/run/nscd/socket",
+    "/var/db/nscd/passwd", "/run/nscd/passwd", "/etc/nscd.conf")
+_CUSTODY_NSS_NATIVE_PINS = {
+    "/usr/bin/python3.12": "a92f0f95e883390c7256b2e441484aac06b1002dbe1d924141a77c8d82f96223",
+    "/lib/x86_64-linux-gnu/libc.so.6": "511f825ee075610ac9c0f7f91e2c13de2000d0f7b859f6461137e809a0a009d0",
+    "/lib64/ld-linux-x86-64.so.2": "6222a16be7f2d458d6870efe6e715fc0c8d45766fb79cf7dcc3125538d703e28",
+}
+
+_CUSTODY_IMAGE_TOOLS = ('/usr/bin/bash', '/usr/bin/dirname', '/usr/bin/grep', '/usr/bin/mktemp', '/usr/bin/python3.12', '/usr/bin/rm')
+_CUSTODY_UNUSED_BASE_TOOLS = ('/bin/bash', '/bin/sh', '/usr/bin/awk', '/usr/bin/basename', '/usr/bin/cat', '/usr/bin/chmod', '/usr/bin/cmp', '/usr/bin/cp', '/usr/bin/cut', '/usr/bin/date', '/usr/bin/env', '/usr/bin/false', '/usr/bin/find', '/usr/bin/git', '/usr/bin/head', '/usr/bin/mkdir', '/usr/bin/mv', '/usr/bin/printf', '/usr/bin/readlink', '/usr/bin/realpath', '/usr/bin/rmdir', '/usr/bin/sed', '/usr/bin/sh', '/usr/bin/sort', '/usr/bin/stat', '/usr/bin/tail', '/usr/bin/test', '/usr/bin/touch', '/usr/bin/tr', '/usr/bin/true', '/usr/bin/uniq', '/usr/bin/wc', '/usr/bin/xargs')
 # Necessary anchors only: these deliberately overcount original diagnostics,
 # including exempt examples. They bound allocation; the original decides truth.
 _NATIVE_FORBIDDEN_BOUND_ANCHORS = (b"Foreign", b"foreign", b"Category", b"STATUS", b"non-native")
@@ -431,6 +486,16 @@ _CONTRACTS = {
         projection="TWO_PINNED_PROGRAMS_NINE_LITERAL_DATA_COMPLETE_RECURSIVE_FIXTURES_SERIAL_PRIVATE_COPY_AND_REWRITE_SET",
         recursive=dict(roots=(ACTION_SELECTION_ROOT,), optional=False, bounds=_RECURSIVE_BOUNDS,
             required_members=ACTION_SELECTION_FIXTURES)),
+    CUSTODY_APPEND_PROFILE: dict(label="custody-append", index=105, program="tests/custody-append.test.sh",
+        programs={
+            "tests/custody-append.test.sh": "a39ca3aa25302f03cb673ec36663f6619826f3b6d9d990d265d3c8888e3bd7d2",
+            "skills/implementaudit/scripts/custody-append.sh": "8cddcbd9891e29b368c928615915bf70a308be7ffb2515673419c30f163cc762"},
+        data=(RUNNER,), bounds=dict(file_bytes=128 * 1024, total_bytes=512 * 1024, files=4),
+        complete_root=dict(file_bytes=16 * 1024**2, total_bytes=192 * 1024**2,
+            entries=4096, depth=40, path_bytes=2048),
+        source_modes="PRESERVE_READ_ONLY_MOUNT",
+        projection="COMPLETE_ACTUAL_ROOT_BYTES_MODES_GIT_AND_EMPTY_DIRECTORIES_FIXED_PRIVATE_WORK_EXISTING_MEMBERS_READ_ONLY",
+        runtime_branch="NORMAL_SITE_STARTUP_GENUINE_ACTIVEGRAPH_AND_CLI_ABSENCE_ONLY"),
     RESPEC_PROFILE: dict(label="respec-impact-set", index=44, program="tests/respec-impact-set-contract.test.sh",
         programs={
             "tests/respec-impact-set-contract.test.sh": "8d2948d511bc9cb3f57539205295f451a50d8593d653f0cb509bee9e52e043d5",
@@ -492,7 +557,7 @@ _CONTRACTS = {
         pinned_data={
             LEAN_DISCIPLINE_CASES: "8bb25e8a6bf78dba9568f4e8186727d4dfcc85665ce9dbfd53af63e7f980b623",
             LEAN_DISCIPLINE_BUILDER: "f3fa90f6c1e7b75527eddd988a6977f27db669bec337f65ff9c2b1ceae50621f",
-            RUNNER: "532b06dbe91298bf71d44c88ecf20186adc93b4e3fb16ee2c4d12bc2edee45ff"},
+            RUNNER: "6f6d2bdbcf8350d6b370d37a5e15f4ddb73d336b5bc42d941540f3269613150f"},
         bounds=dict(file_bytes=128 * 1024, total_bytes=192 * 1024**2, files=32),
         whole_copy=dict(file_bytes=16 * 1024**2, total_bytes=192 * 1024**2,
                         entries=4096, depth=40, path_bytes=2048),
@@ -516,7 +581,7 @@ _CONTRACTS = {
             entries=4096, depth=40, path_bytes=2048),
         source_modes="NORMALIZED_0600_READ_ONLY_MOUNT",
         projection="COMPLETE_ACTUAL_ROOT_MEMBERSHIP_PUBLIC_READ_BYTES_EXCLUDED_CONTENT_TYPED_PLACEHOLDERS_FIXED_PRIVATE_DOCS_OVERLAY",
-        pinned_data={RUNNER: "532b06dbe91298bf71d44c88ecf20186adc93b4e3fb16ee2c4d12bc2edee45ff"}),
+        pinned_data={RUNNER: "6f6d2bdbcf8350d6b370d37a5e15f4ddb73d336b5bc42d941540f3269613150f"}),
     AUDIT_OBJECT_CONTRACT_PROFILE: dict(label="audit-object-contract", index=73,
         program="tests/audit-object-routing-contract.test.sh",
         programs={
@@ -537,7 +602,7 @@ _CONTRACTS = {
         scratch_bytes=64 * 1024**2,
         source_modes="COPY_0666_UMASK_022_READ_ONLY_ROOT",
         projection="SEVEN_PINNED_PROGRAMS_COMPLETE_STANDALONE_SOURCE_GIT_LEGACY_BRANCH_DATA_REAL_EMPTY_CONTROLLER_OBSERVATION_PRIVATE_WRITES_ONLY",
-        pinned_data={RUNNER: "532b06dbe91298bf71d44c88ecf20186adc93b4e3fb16ee2c4d12bc2edee45ff",
+        pinned_data={RUNNER: "6f6d2bdbcf8350d6b370d37a5e15f4ddb73d336b5bc42d941540f3269613150f",
             AUDIT_OBJECT_CONTRACT_PROCESS + "/mission.json": "691ad2e347ff8f3b0ccd5abf740697ee8c1320509369e2b62b145161c5ff994a",
             AUDIT_OBJECT_CONTRACT_PROCESS + "/result.json": "ec2da2058181bf72de89bb9bd64ad892918ad586333e1ded35c0f67ae0b41489"},
         # These inputs select native/controller, publication, citation and other
@@ -560,7 +625,7 @@ _CONTRACTS = {
             "fixtures/terminology-integration/full-stack-integration.md",
             "fixtures/terminology-integration/negative-glossary-orphan.md",
             "fixtures/terminology-integration/negative-generic-advice.md", "docs/portal/pages/terminology.html"),
-        pinned_data={RUNNER: "532b06dbe91298bf71d44c88ecf20186adc93b4e3fb16ee2c4d12bc2edee45ff"},
+        pinned_data={RUNNER: "6f6d2bdbcf8350d6b370d37a5e15f4ddb73d336b5bc42d941540f3269613150f"},
         bounds=dict(file_bytes=128 * 1024, total_bytes=192 * 1024**2, files=17),
         source_modes="COPY_0666_UMASK_022_READ_ONLY_ROOT",
         projection="COMPLETE_WHOLE_ROOT_BYTES_NAMES_EMPTY_DIRECTORIES_AND_FILE_MODES_ORIGINAL_NINE_SEQUENTIAL_COPIES",
@@ -622,7 +687,7 @@ _CONTRACTS = {
             "scripts/check-skill-layout-contract.sh": "b73e014aa4727d064108515fd959f1d9efb799b2afa1d02f0e7677bd51d02988",
             # The original scans scripts as data. Pin the engine runner too:
             # its captured source must survive the existing launcher insertion.
-            RUNNER: "532b06dbe91298bf71d44c88ecf20186adc93b4e3fb16ee2c4d12bc2edee45ff"},
+            RUNNER: "6f6d2bdbcf8350d6b370d37a5e15f4ddb73d336b5bc42d941540f3269613150f"},
         data=("README.md", "AGENTS.md", ".codex-plugin/plugin.json"),
         bounds=dict(file_bytes=128 * 1024, total_bytes=8 * 1024**2, files=7),
         source_modes="NORMALIZED_0444_READ_ONLY",
@@ -641,7 +706,7 @@ _CONTRACTS = {
         data=("docs/audits/INDEX.md", "docs/audits/RETENTION.md",
               "fixtures/audit-retention/negative-missing-artifact-boundary.md",
               "fixtures/audit-retention/negative-stale-root-reference.md"),
-        pinned_data={RUNNER: "532b06dbe91298bf71d44c88ecf20186adc93b4e3fb16ee2c4d12bc2edee45ff"},
+        pinned_data={RUNNER: "6f6d2bdbcf8350d6b370d37a5e15f4ddb73d336b5bc42d941540f3269613150f"},
         bounds=dict(file_bytes=128 * 1024, total_bytes=192 * 1024**2, files=7),
         source_modes="NORMALIZED_0600_READ_ONLY_MOUNT",
         projection="COMPLETE_ACTUAL_SOURCE_AND_STANDALONE_GIT_BYTES_C2_OWNED_STARTUP_ORIGINAL_GIT_AND_FALLBACK_BOTH_RETAINED",
@@ -898,7 +963,7 @@ def contract_for(profile):
                                                      COMMIT_PROFILE, AGENTS_PROFILE, ESCALATION_PROFILE, TOPOLOGY_PROFILE,
                                                      CAPABILITY_PROFILE, ISSUES_PROFILE, TERMINAL_PROFILE,
                                                      BACKGROUND_PROFILE, LIFECYCLE_PROFILE, PLAN_QUALITY_PROFILE,
-                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE, LEAN_DISCIPLINE_PROFILE, INTERNAL_ROUTING_PROFILE, BOOTSTRAP_BUDGET_PROFILE, RESPEC_PROFILE, PACKAGE_SHAPE_PROFILE, MINI_AUDIT_PROFILE, ACTION_SELECTION_PROFILE):
+                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE, LEAN_DISCIPLINE_PROFILE, INTERNAL_ROUTING_PROFILE, BOOTSTRAP_BUDGET_PROFILE, RESPEC_PROFILE, PACKAGE_SHAPE_PROFILE, MINI_AUDIT_PROFILE, ACTION_SELECTION_PROFILE, CUSTODY_APPEND_PROFILE):
         raise ValueError("unsupported finite-leaf profile")
     return copy.deepcopy(_CONTRACTS[profile])
 
@@ -912,7 +977,7 @@ def image_subject(state, *, profile=PROFILE):
     """Retain the registry bytes whenever the original actually reads them."""
     contract_for(profile)
     return {name: value for name, value in state["files"].items()
-            if name != REGISTRY or profile in (REGISTRY_PROFILE, SKILL_LAYOUT_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE, LEAN_DISCIPLINE_PROFILE)}
+            if name != REGISTRY or profile in (REGISTRY_PROFILE, SKILL_LAYOUT_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE, LEAN_DISCIPLINE_PROFILE, CUSTODY_APPEND_PROFILE)}
 
 
 def select_node(compiler, registry, environment, *, profile=PROFILE):
@@ -1578,6 +1643,237 @@ def claim_boundary_output_bounds(state, objects, roles):
         basis="COMPLETE_PUBLIC_READ_POPULATIONS_NECESSARY_ANCHORS_NO_EXEMPTION_OR_ACCEPTANCE_COPY")
 
 
+def custody_append_output_bounds(state):
+    """Only the genuinely absent branch: no package/SQLite code is admitted."""
+    granule = 65536
+    names = set(state["files"]) | set(state["directories"])
+    immediate = sum(name != "." and "/" not in name for name in names)
+    # One fixed private root, all existing immediate mountpoint inodes, the
+    # original-selected directory and a separate directory-allocation margin.
+    work = (immediate + 3) * granule
+    if work > CUSTODY_APPEND_WORK_BYTES:
+        raise ValueError("original105 immediate root exceeds its fixed work quota")
+    helper = state["files"]["skills/implementaudit/scripts/custody-append.sh"]["bytes"]
+    wrapper = state["files"]["tests/custody-append.test.sh"]["bytes"]
+    # Four valid-arity helper calls each have one heredoc. Reserve all four
+    # plus the original and four helper PATH herestrings simultaneously,
+    # although they are synchronous and Bash may use pipes rather than files.
+    spools = (helper,) * 4 + (max(helper, wrapper),) * 5
+    tmp = sum(((n + granule - 1) // granule) * granule for n in spools) + (len(spools) + 1) * granule
+    if tmp > CUSTODY_APPEND_TMP_BYTES:
+        raise ValueError("original105 shell spools exceed its fixed tmp quota")
+    path_bytes = sum(len(name.encode("utf-8")) for name in names)
+    memory = 128 * 1024**2 + 4 * CLAIM_BOUNDARY_CENSUS_BYTES + 96 * path_bytes + 1024 * len(names)
+    return dict(immediate_root_members=immediate, work_required_bytes=work,
+        work_capacity_bytes=CUSTODY_APPEND_WORK_BYTES, tmp_required_bytes=tmp,
+        tmp_capacity_bytes=CUSTODY_APPEND_TMP_BYTES, spool_sizes=list(spools),
+        helper_calls=4, heredoc_spools=4, herestring_spools=5, generated_directories=1,
+        database_files=0, trace_files=0, original_data_memory_reservation=memory,
+        max_stdout_bytes=65536, max_stderr_bytes=65536,
+        basis="COMPLETE_ROOT_MOUNTPOINTS_GENUINE_ABSENT_BRANCH_FIXED_SHELL_SPOOLS_NO_DATABASE_ASSUMPTION")
+
+
+def custody_append_inputs(prefix, root, objects, contract):
+    state, record = snapshot_whole_copy_inputs(prefix, root, objects, contract["complete_root"])
+    record["projection"]["observation"] = "ALL_ACTUAL_ROOT_BYTES_MODES_AND_EMPTY_DIRECTORIES_NO_PLACEHOLDERS_OR_OMISSIONS"
+    record["projection"]["git"] = "PRESENT_GIT_BYTES_PRESERVED_AS_DATA_NO_GIT_COMMAND_OR_POINTER_DEREFERENCE"
+    record["resources"] = custody_append_output_bounds(state)
+    record["effect"] = "PRIVATE_WORK_NEW_NAMES_EXISTING_MEMBERS_READ_ONLY_FINAL_RESTORATION_ONLY"
+    return state, record
+
+
+def custody_append_source_plan(files, directories, overlay):
+    """Complete fixed105 input population; never a caller-selected host tree."""
+    bounds = _CONTRACTS[CUSTODY_APPEND_PROFILE]["complete_root"]
+    source = {name: value for name, value in files.items() if name.startswith("/work/")}
+    dirs = {name for name in directories if name == "/work" or name.startswith("/work/")}
+    if "/work" not in dirs or set(source) & dirs or len(source) + len(dirs) > bounds["entries"]:
+        raise ValueError("original105 complete staged population differs")
+    for name in set(source) | dirs:
+        if (str(Path(name)) != name or ".." in Path(name).parts or "\x00" in name
+                or len(name.removeprefix("/work/").encode()) > bounds["path_bytes"]
+                or len(Path(name).parts) - 2 > bounds["depth"]):
+            raise ValueError("original105 staged path is outside the fixed source bounds")
+        if name != "/work" and str(Path(name).parent) not in dirs:
+            raise ValueError("original105 staged source omits an ancestor")
+    if any(type(raw) is not bytes or mode not in (0o444, 0o644, 0o755)
+           or len(raw) > bounds["file_bytes"] for raw, mode in source.values()):
+        raise ValueError("original105 staged source bytes or modes are unsupported")
+    if sum(len(raw) for raw, _ in source.values()) > bounds["total_bytes"]:
+        raise ValueError("original105 staged source exceeds the complete input bound")
+    immediate_dirs = sorted(name for name in dirs if name.count("/") == 2)
+    if overlay["readonly_subtrees"] != immediate_dirs:
+        raise ValueError("original105 read-only stage mounts differ from the complete source")
+    targets = sorted(set(immediate_dirs) | {name for name in source if name.count("/") == 2})
+    return source, dirs, targets
+
+
+class CustodyAppendSourceStage:
+    """Private ordinary inputs from captured bytes, held through actual dispatch.
+
+    Bubblewrap realpaths bind sources, so these are private pathname bindings,
+    not claimed FD-only mounts. Retained file/directory handles, complete name
+    sets and ancestor identities are rechecked before and after the child.
+    """
+    ANCESTOR_LIMIT = 32
+
+    @staticmethod
+    def _stamp(info):
+        return (info.st_dev, info.st_ino, info.st_mode, info.st_nlink, info.st_size,
+                info.st_mtime_ns, info.st_ctime_ns, info.st_uid, info.st_gid)
+
+    @staticmethod
+    def _anchor(info):
+        return (info.st_dev, info.st_ino, info.st_mode, info.st_uid, info.st_gid)
+
+    def _hold(self, fd):
+        self._fds.append(fd)
+        if fd >= self._descriptor_limit:
+            raise ValueError("original105 staged descriptor capacity exceeded")
+        return fd
+
+    def __init__(self, parent, files, directories, overlay, descriptor_limit):
+        self._fds, self._nodes, self._ancestors = [], {}, []
+        self._closed, self._descriptor_limit = False, descriptor_limit
+        self._source, self._directories, targets = custody_append_source_plan(files, directories, overlay)
+        parent = Path(parent).absolute()
+        if ".." in parent.parts or len(parent.parts) > self.ANCESTOR_LIMIT:
+            raise ValueError("original105 staging ancestor bound exceeded")
+        directory_flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC
+        try:
+            current = self._hold(os.open("/", directory_flags))
+            self._ancestors.append((None, "/", current, self._anchor(os.fstat(current))))
+            for name in parent.parts[1:]:
+                previous = current
+                current = self._hold(os.open(name, directory_flags, dir_fd=previous))
+                self._ancestors.append((previous, name, current, self._anchor(os.fstat(current))))
+            os.mkdir("source-inputs", 0o700, dir_fd=current)
+            private_fd = self._hold(os.open("source-inputs", directory_flags, dir_fd=current))
+            os.fchmod(private_fd, 0o700)
+            self._ancestors.append((current, "source-inputs", private_fd, self._anchor(os.fstat(private_fd))))
+            os.mkdir("root", 0o755, dir_fd=private_fd)
+            root_fd = self._hold(os.open("root", directory_flags, dir_fd=private_fd))
+            os.fchmod(root_fd, 0o755)
+            self._nodes["/work"] = (root_fd, private_fd, "root", "directory")
+            for name in sorted(self._directories - {"/work"}, key=lambda n: (n.count("/"), n)):
+                parent_fd = self._nodes[str(Path(name).parent)][0]
+                leaf = Path(name).name
+                os.mkdir(leaf, 0o755, dir_fd=parent_fd)
+                fd = self._hold(os.open(leaf, directory_flags, dir_fd=parent_fd))
+                os.fchmod(fd, 0o755)
+                self._nodes[name] = (fd, parent_fd, leaf, "directory")
+            for name, (raw, mode) in sorted(self._source.items()):
+                parent_fd = self._nodes[str(Path(name).parent)][0]
+                leaf = Path(name).name
+                fd = os.open(leaf, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.O_CLOEXEC,
+                             mode, dir_fd=parent_fd)
+                try:
+                    remaining = memoryview(raw)
+                    while remaining:
+                        count = os.write(fd, remaining)
+                        if count <= 0:
+                            raise OSError("incomplete staged input write")
+                        remaining = remaining[count:]
+                    os.fchmod(fd, mode)
+                    os.fsync(fd)
+                finally:
+                    os.close(fd)
+                fd = self._hold(os.open(leaf, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK | os.O_CLOEXEC,
+                                        dir_fd=parent_fd))
+                self._nodes[name] = (fd, parent_fd, leaf, "file")
+            self._stamps = {name: self._stamp(os.fstat(row[0])) for name, row in self._nodes.items()}
+            self._private = (private_fd, self._stamp(os.fstat(private_fd)))
+            self._children = {name: sorted(Path(child).name for child in self._nodes
+                if child != name and str(Path(child).parent) == name) for name in self._directories}
+            root = parent / "source-inputs" / "root"
+            self.bindings = tuple((str(root / name[len("/work/"):]), name) for name in targets)
+            self.check()
+        except BaseException:
+            self.close()
+            raise
+
+    def check(self):
+        if self._closed:
+            raise ValueError("original105 staged input custody is closed")
+        if self._stamp(os.fstat(self._private[0])) != self._private[1]:
+            raise ValueError("original105 private staging directory changed")
+        for parent_fd, name, fd, expected in self._ancestors:
+            current = os.stat(name, dir_fd=parent_fd, follow_symlinks=False)
+            if self._anchor(current) != expected or self._anchor(os.fstat(fd)) != expected:
+                raise ValueError("original105 staged input ancestor changed")
+        for name, (fd, parent_fd, leaf, kind) in self._nodes.items():
+            expected = self._stamps[name]
+            if (self._stamp(os.fstat(fd)) != expected
+                    or self._stamp(os.stat(leaf, dir_fd=parent_fd, follow_symlinks=False)) != expected
+                    or os.listxattr(fd)):
+                raise ValueError("original105 staged member currentness changed: " + name)
+            if kind == "directory":
+                if stat.S_IMODE(expected[2]) != 0o755 or sorted(os.listdir(fd)) != self._children[name]:
+                    raise ValueError("original105 staged directory population changed: " + name)
+            else:
+                raw, mode = self._source[name]
+                if (not stat.S_ISREG(expected[2]) or expected[3] != 1 or stat.S_IMODE(expected[2]) != mode
+                        or os.pread(fd, len(raw) + 1, 0) != raw):
+                    raise ValueError("original105 staged file bytes, mode or links changed: " + name)
+            if self._stamp(os.fstat(fd)) != expected:
+                raise ValueError("original105 staged member changed during observation: " + name)
+        return dict(schema="implementaudit.original105-source-stage.v1",
+            representation="CAPTURED_BYTES_PRIVATE_STAGE_READ_ONLY_IMMEDIATE_BINDS",
+            files={name: dict(bytes=len(raw), sha256=digest(raw), mode=mode,
+                             identity=list(self._stamps[name])) for name, (raw, mode) in self._source.items()},
+            directories={name: list(self._stamps[name]) for name in sorted(self._directories)},
+            bind_targets=[destination for _, destination in self.bindings], held_descriptors=len(self._fds),
+            input_bytes=sum(len(raw) for raw, _ in self._source.values()), authority="NONE")
+
+    def close(self):
+        for fd in reversed(self._fds):
+            os.close(fd)
+        self._fds.clear()
+        self._closed = True
+
+
+def custody_append_image_reservation(files, directories, limits, overlay, environment):
+    """Exact argv construction of the existing launcher for the fixed policy."""
+    if (overlay["policy"] != CUSTODY_APPEND_POLICY or overlay["root"] != "/work"
+            or overlay["overlay_bytes"] != CUSTODY_APPEND_WORK_BYTES
+            or overlay["tmp_bytes"] != CUSTODY_APPEND_TMP_BYTES
+            or limits["scratch_bytes"] != 32 * 1024**2):
+        raise ValueError("original105 fixed resource policy differs")
+    reserved = retention_image_reservation(files, limits)
+    source, source_directories, targets = custody_append_source_plan(files, directories, overlay)
+    runtime = {name: value for name, value in files.items() if name not in source}
+    # Hold every staged file/directory and bounded ancestor chain in the owner;
+    # only runtime sealed inputs, seccomp, args and census enter the child.
+    descriptors = len(files) + len(source_directories) + CustodyAppendSourceStage.ANCESTOR_LIMIT + 1 + 3 + 64
+    # Seven initial flags, three arguments per fixed environment member;
+    # final13 args, --args/fd, and ten fixed bootstrap arguments.
+    arguments = 7 + 3 * len(environment) + 13 + 2 + 10
+    for name in (set(directories) - (source_directories - {"/work"})) | {"/dev", "/tmp"}:
+        arguments += 6 if name == "/work" else 2
+    for _, mode in runtime.values():
+        arguments += 3 if mode == 0o600 else 5
+    arguments += 3 * len(targets)
+    if descriptors > limits["descriptors"] or arguments > 8500:
+        raise ValueError("original105 full image exceeds fixed descriptor/argument capacity")
+    image_entries = len(files) + len(set(directories) | {"/dev", "/tmp", "/"})
+    # Conservative host-side backing reservation for the sealed inputs and
+    # their namespace copies, all image inode metadata, the fixed private
+    # quotas and census buffer. It is separate from child RLIMIT_AS and from
+    # the existing retained-object/evidence ceilings; actual host capacity is
+    # still a receiving prerequisite, never inferred from this arithmetic.
+    backing = 2 * reserved["mounted_bytes"] + image_entries * 65536 + 32 * 1024**2 + CLAIM_BOUNDARY_CENSUS_BYTES
+    reserved.update(descriptors=descriptors, launcher_argument_count=arguments,
+        source_input_representation="CAPTURED_BYTES_PRIVATE_STAGE_READ_ONLY_IMMEDIATE_BINDS",
+        staged_source_files=len(source), staged_source_directories=len(source_directories),
+        staged_source_bytes=sum(len(raw) for raw, _ in source.values()), source_bind_targets=len(targets),
+        launcher_argument_limit=8500, census_buffer_bytes=CLAIM_BOUNDARY_CENSUS_BYTES,
+        private_work_bytes=CUSTODY_APPEND_WORK_BYTES, private_tmp_bytes=CUSTODY_APPEND_TMP_BYTES,
+        sealed_inputs_and_namespace_copies_bytes=2 * reserved["mounted_bytes"],
+        image_metadata_reservation_bytes=image_entries * 65536,
+        host_backing_reservation_bytes=backing, host_capacity="REQUIRES_ACTUAL_RECEIVING_OBSERVATION")
+    return reserved
+
+
 def claim_boundary_inputs(prefix, root, objects, contract):
     state, stamps = prefix.snapshot_tree(root, objects, contract["complete_public"])
     if "docs" not in state["directories"]:
@@ -2185,6 +2481,14 @@ def snapshot_source(prefix, root, objects, *, profile=PROFILE, registry_snapshot
         state["directories"].update(complete["directories"])
         state["public_inputs"] = observation
         stamps["public_inputs"] = observation["currentness"]
+    if profile == CUSTODY_APPEND_PROFILE:
+        complete, observation = custody_append_inputs(prefix, root, objects, contract)
+        if any(complete["files"].get(name) != entry for name, entry in state["files"].items()):
+            raise ValueError("original105 literal inputs changed during complete acquisition")
+        state["files"].update(complete["files"])
+        state["directories"].update(complete["directories"])
+        state["custody_inputs"] = observation
+        stamps["custody_inputs"] = observation["currentness"]
     if profile == LEAN_DISCIPLINE_PROFILE:
         complete, currentness = lean_discipline_snapshot(prefix, root, objects, contract)
         if any(complete["files"].get(name) != value for name, value in state["files"].items()):
@@ -2260,6 +2564,17 @@ def temporary_requirements(state, *, profile=PROFILE):
     sizes = [state["files"][name]["bytes"] for name in contract["data"]]
     rounded = lambda size: ((size + granule - 1) // granule) * granule
     extra = {}
+    if profile == CUSTODY_APPEND_PROFILE:
+        bound = state["custody_inputs"]["resources"]
+        return dict(copies=0, files=9, directories=2,
+            content_bytes=sum(bound["spool_sizes"]), allocation_granule=granule, observed_page_bytes=page,
+            overhead_bytes=10 * granule, required_bytes=CUSTODY_APPEND_WORK_BYTES + bound["tmp_required_bytes"],
+            work_required_bytes=bound["work_required_bytes"], work_capacity_bytes=CUSTODY_APPEND_WORK_BYTES,
+            tmp_required_bytes=bound["tmp_required_bytes"], tmp_capacity_bytes=CUSTODY_APPEND_TMP_BYTES,
+            largest_file_bytes=max(CLAIM_BOUNDARY_CENSUS_BYTES, *bound["spool_sizes"]),
+            max_stdout_bytes=bound["max_stdout_bytes"], max_stderr_bytes=bound["max_stderr_bytes"],
+            original_data_memory_reservation=bound["original_data_memory_reservation"],
+            runtime_branch=contract["runtime_branch"], basis=bound["basis"])
     if profile == ACTION_SELECTION_PROFILE:
         bound = state["recursive_inputs"]["resources"]
         copied = [state["files"][name]["bytes"] for name in bound["copied_paths"]]
@@ -3025,6 +3340,358 @@ def _mini_audit_template_image(manifest, templates):
     manifest["mini_audit_git_templates"] = copy.deepcopy(templates)
 
 
+def _capture_custody_uname(prefix, runtime, objects):
+    """One inspected uname ELF; its only NEEDED member is retained libc."""
+    for name in ("/lib/x86_64-linux-gnu/libc.so.6", "/lib64/ld-linux-x86-64.so.2"):
+        pin = _CUSTODY_UNAME_PINS[name]
+        observed, entry = runtime["observations"].get(name), runtime["files"].get(name)
+        if observed is None or entry is None or entry["sha256"] != pin or digest(objects.get(pin, b"")) != pin:
+            raise ValueError("unsupported uname loader/libc closure")
+        original = Path(name)
+        resolved = original.resolve(strict=True)
+        if str(resolved) != observed["resolved"]:
+            raise ValueError("uname runtime closure alias changed")
+        current, captured = prefix.read_regular(resolved, prefix.RUNTIME_BOUNDS["file_bytes"], single_link=False)
+        if current["identity"] != observed["identity"] or digest(captured) != pin or original.resolve(strict=True) != resolved:
+            raise ValueError("uname runtime closure changed during acquisition")
+    path = Path("/usr/bin/uname")
+    metadata, raw = prefix.read_regular(path, prefix.RUNTIME_BOUNDS["file_bytes"])
+    if digest(raw) != _CUSTODY_UNAME_PINS[str(path)] or metadata["mode"] != 0o755:
+        raise ValueError("unsupported captured uname executable")
+    again, current = prefix.read_regular(path, prefix.RUNTIME_BOUNDS["file_bytes"])
+    if metadata != again or raw != current:
+        raise ValueError("uname executable changed during acquisition")
+    key = digest(raw)
+    objects.setdefault(key, raw)
+    runtime["files"][str(path)] = dict(mode=0o555, bytes=len(raw), sha256=key)
+    runtime["observations"][str(path)] = dict(resolved=str(path), mode=metadata["mode"],
+        bytes=len(raw), sha256=key, identity=metadata["identity"])
+    runtime["custody_uname_closure"] = dict(_CUSTODY_UNAME_PINS)
+
+
+def _custody_path_state(prefix, name):
+    """Typed physical presence; an absent descendant binds its real ancestor."""
+    path = Path(name)
+    missing, nearest = [], path
+    while True:
+        try:
+            info = nearest.lstat()
+            break
+        except FileNotFoundError:
+            if nearest == nearest.parent:
+                raise ValueError("original105 runtime root cannot be absent")
+            missing.insert(0, nearest.name)
+            nearest = nearest.parent
+    resolved = nearest.resolve(strict=True)
+    if missing:
+        fd = prefix.open_directory(resolved)
+        try:
+            return dict(kind="MISSING", nearest=str(resolved), missing=missing,
+                nearest_identity=prefix.identity(os.fstat(fd)), alias_identity=prefix.identity(info))
+        finally:
+            os.close(fd)
+    parent = path.parent.resolve(strict=True)
+    fd = prefix.open_directory(parent)
+    try:
+        before = os.stat(path.name, dir_fd=fd, follow_symlinks=False)
+        if prefix.identity(before) != prefix.identity(info) or path.resolve(strict=True) != resolved:
+            raise ValueError("original105 runtime alias changed")
+        target = resolved.lstat()
+        kind = ("DIRECTORY" if stat.S_ISDIR(target.st_mode) else
+                "FILE" if stat.S_ISREG(target.st_mode) else "UNSUPPORTED")
+        return dict(kind=kind, resolved=str(resolved), identity=prefix.identity(target),
+            alias_identity=prefix.identity(before), parent=str(parent), parent_identity=prefix.identity(os.fstat(fd)))
+    finally:
+        os.close(fd)
+
+
+def _custody_namespace(prefix, name, objects):
+    observation = _custody_path_state(prefix, name)
+    result = dict(observation=observation, names={}, pth={})
+    if observation["kind"] == "MISSING":
+        return result
+    if observation["kind"] != "DIRECTORY":
+        raise ValueError("original105 import-search root is not a directory")
+    fd = prefix.open_directory(observation["resolved"])
+    try:
+        before, name_bytes, startup_bytes = prefix.identity(os.fstat(fd)), 0, 0
+        with os.scandir(fd) as entries:
+            for entry in entries:
+                prefix.safe_name(entry.name)
+                name_bytes += len(entry.name.encode("utf-8"))
+                if len(result["names"]) >= 4096 or name_bytes > 128 * 1024:
+                    raise ValueError("original105 import-search population exceeds fixed bound")
+                info = os.stat(entry.name, dir_fd=fd, follow_symlinks=False)
+                result["names"][entry.name] = prefix.identity(info)
+                if name in _CUSTODY_SITE_ROOTS and entry.name.endswith(".pth") and not entry.name.startswith("."):
+                    metadata, raw = prefix.read_regular(Path(observation["resolved"]) / entry.name,
+                        65536, single_link=False)
+                    startup_bytes += len(raw)
+                    if len(result["pth"]) >= 128 or startup_bytes > 1024**2:
+                        raise ValueError("original105 startup file population exceeds fixed bound")
+                    objects.setdefault(digest(raw), raw)
+                    result["pth"][entry.name] = dict(metadata, bytes=len(raw))
+        if before != prefix.identity(os.fstat(fd)) or observation != _custody_path_state(prefix, name):
+            raise ValueError("original105 import-search namespace changed")
+    finally:
+        os.close(fd)
+    return result
+
+
+def _custody_data_file(prefix, name, objects, *, resolved, limit, pin=None, alias=None):
+    """Capture a selected ordinary startup/NSS input through its actual alias."""
+    observed = _custody_path_state(prefix, name)
+    if observed["kind"] != "FILE" or observed["resolved"] != resolved:
+        raise ValueError("original105 selected startup/NSS input type or target differs")
+    mode = observed["alias_identity"][2]
+    if ((alias is None and not stat.S_ISREG(mode)) or
+            (alias is not None and (not stat.S_ISLNK(mode) or os.readlink(name) != alias))):
+        raise ValueError("original105 selected startup/NSS alias differs")
+    metadata, raw = prefix.read_regular(Path(resolved), limit, single_link=False)
+    owner = Path(resolved).lstat()
+    if (metadata["mode"] != 0o644 or metadata["identity"] != observed["identity"]
+            or prefix.identity(owner) != metadata["identity"]
+            or (pin is not None and digest(raw) != pin)):
+        raise ValueError("original105 selected startup/NSS bytes or metadata differ")
+    current = Path(resolved).lstat()
+    if (observed != _custody_path_state(prefix, name)
+            or (owner.st_uid, owner.st_gid) != (current.st_uid, current.st_gid)
+            or (alias is not None and os.readlink(name) != alias)):
+        raise ValueError("original105 selected startup/NSS input changed")
+    objects.setdefault(digest(raw), raw)
+    return dict(observed, mode=metadata["mode"], bytes=len(raw), sha256=digest(raw),
+        uid=owner.st_uid, gid=owner.st_gid, link=alias)
+
+
+def _custody_startup_binding(prefix, runtime, objects):
+    """Only data reads: no target interpreter, libc lookup or import probe."""
+    environment = dict(prefix.ENVIRONMENT)
+    identity = dict(uid=os.getuid(), euid=os.geteuid(), gid=os.getgid(), egid=os.getegid())
+    if environment != _CUSTODY_ENVIRONMENT or identity != dict(uid=0, euid=0, gid=0, egid=0):
+        raise ValueError("original105 fixed startup environment or UID mapping differs")
+    customizer = _custody_path_state(prefix, _CUSTODY_SITE_CUSTOMIZER)
+    if customizer["kind"] != "MISSING":
+        customizer = _custody_data_file(prefix, _CUSTODY_SITE_CUSTOMIZER, objects,
+            resolved=_CUSTODY_SITE_TARGET, limit=155, pin=_CUSTODY_SITE_SHA256, alias=_CUSTODY_SITE_TARGET)
+    files = {name: _custody_data_file(prefix, name, objects, resolved=name, limit=65536)
+             for name in _CUSTODY_NSS_FILES}
+    absent = {name: _custody_path_state(prefix, name) for name in _CUSTODY_NSCD_ABSENT}
+    native = {}
+    for name, pin in _CUSTODY_NSS_NATIVE_PINS.items():
+        entry = runtime["files"].get(name)
+        if entry is None or entry["sha256"] != pin or digest(objects.get(pin, b"")) != pin:
+            raise ValueError("original105 passwd native producer differs from inspected closure")
+        native[name] = pin
+    return dict(environment=environment, identity=identity, customizer=customizer,
+        nss=dict(files=files, absent=absent, native=native))
+
+
+def _custody_nss_branch(binding, objects):
+    """The selected UID0 files database; database absence is never synthesized."""
+    if (binding.get("environment") != _CUSTODY_ENVIRONMENT
+            or binding.get("identity") != dict(uid=0, euid=0, gid=0, egid=0)):
+        raise ValueError("original105 fixed startup environment or UID mapping differs")
+    nss = binding.get("nss", {})
+    if (set(nss.get("files", {})) != set(_CUSTODY_NSS_FILES)
+            or set(nss.get("absent", {})) != set(_CUSTODY_NSCD_ABSENT)
+            or any(row.get("kind") != "MISSING" for row in nss["absent"].values())
+            or nss.get("native") != _CUSTODY_NSS_NATIVE_PINS):
+        raise ValueError("original105 passwd/NSCD/native input population is unqualified")
+    data = {}
+    for name, entry in nss["files"].items():
+        raw = objects.get(entry.get("sha256"), b"")
+        if (entry.get("kind") != "FILE" or entry.get("resolved") != name or entry.get("mode") != 0o644
+                or len(raw) != entry.get("bytes") or not 0 < len(raw) <= 65536
+                or digest(raw) != entry.get("sha256") or b"\0" in raw):
+            raise ValueError("original105 passwd/NSS data bytes or metadata are unavailable")
+        data[name] = raw.decode("ascii", "strict")
+    configuration = [line.split("#", 1)[0].strip() for line in data["/etc/nsswitch.conf"].splitlines()]
+    passwd = [line for line in configuration if line.partition(":")[0].strip() == "passwd"]
+    if len(passwd) != 1 or passwd[0].partition(":")[2].split() != ["files"]:
+        raise ValueError("original105 requires the exact passwd files service selection")
+    matches = []
+    for line in data["/etc/passwd"].splitlines():
+        if not line or line.startswith("#"):
+            continue
+        fields = line.split(":")
+        if len(fields) != 7 or not fields[2].isdigit() or not fields[3].isdigit():
+            raise ValueError("original105 passwd record syntax is unqualified")
+        if int(fields[2]) == 0:
+            matches.append(line)
+            if not fields[5].startswith("/"):
+                raise ValueError("original105 selected passwd home is unqualified")
+    if len(matches) != 1:
+        raise ValueError("original105 selected UID must have one actual passwd entry")
+    return dict(service="files", uid=0, passwd_record_sha256=digest(matches[0].encode("ascii")),
+        input_sha256={name: entry["sha256"] for name, entry in nss["files"].items()},
+        native=dict(nss["native"]), child_uid_mapping="EXISTING_UNSHARE_USER_UID0_REQUIRES_ACTUAL_RECEIVING_CONFIRMATION")
+
+
+def custody_runtime_branch(selection, objects):
+    """Validate physical selectors, never an import exception or output string."""
+    if (set(selection.get("aliases", {})) != set(_CUSTODY_PYTHON_ALIASES)
+            or set(selection.get("absent", {})) != set(_CUSTODY_ABSENT_PATHS)
+            or set(selection.get("namespaces", {})) != set(_CUSTODY_SEARCH_ROOTS)):
+        raise ValueError("original105 runtime selector population is incomplete")
+    if any(entry.get("kind") != "MISSING" for entry in selection["absent"].values()):
+        raise ValueError("original105 present CLI/interpreter/zip/venv/startup branch is unqualified")
+    binding = selection.get("startup_binding", {})
+    nss = _custody_nss_branch(binding, objects)
+    customizer = binding.get("customizer", {})
+    if customizer.get("kind") == "FILE":
+        raw = objects.get(customizer.get("sha256"), b"")
+        if (customizer.get("resolved") != _CUSTODY_SITE_TARGET or customizer.get("link") != _CUSTODY_SITE_TARGET
+                or customizer.get("mode") != 0o644 or customizer.get("bytes") != 155
+                or len(raw) != 155 or digest(raw) != _CUSTODY_SITE_SHA256
+                or customizer.get("sha256") != _CUSTODY_SITE_SHA256):
+            raise ValueError("original105 selected sitecustomize source differs")
+    elif customizer.get("kind") != "MISSING":
+        raise ValueError("original105 selected sitecustomize physical state is unqualified")
+    present = []
+    for name, entry in selection["aliases"].items():
+        if entry.get("kind") == "MISSING":
+            continue
+        if (entry.get("kind") != "FILE" or entry.get("resolved") != "/usr/bin/python3.12"
+                or entry.get("sha256") != _CUSTODY_PYTHON_PINS["/usr/bin/python3.12"]
+                or entry.get("mode") != 0o755):
+            raise ValueError("original105 selected interpreter is outside the closed system runtime")
+        present.append(name)
+    if not present:
+        raise ValueError("original105 genuine Python absence is not this admitted runtime branch")
+    startup_files, startup_bytes = 0, 0
+    for root, namespace in selection["namespaces"].items():
+        if namespace["observation"].get("kind") == "MISSING":
+            if root not in _CUSTODY_SITE_ROOTS or namespace["names"] or namespace["pth"]:
+                raise ValueError("original105 required standard-library namespace is absent")
+            continue
+        if namespace["observation"].get("kind") != "DIRECTORY":
+            raise ValueError("original105 import-search namespace has an unsupported type")
+        for name in namespace["names"]:
+            # Refuse every physical spelling that could supply the selected
+            # package or a startup customizer, including directories, aliases,
+            # bytecode and extension modules. A broken package is not absence.
+            if name.casefold().startswith("activegraph") or name == "apport_python_hook" or name.startswith("apport_python_hook."):
+                raise ValueError("original105 present ActiveGraph/apport branch is unqualified")
+            if any(name == stem or name.startswith(stem + ".") for stem in ("sitecustomize", "usercustomize")) and not (
+                    root + "/" + name == _CUSTODY_SITE_CUSTOMIZER and customizer["kind"] == "FILE"
+                    and namespace["names"][name] == customizer.get("alias_identity")):
+                raise ValueError("original105 present ActiveGraph/customization branch is unqualified")
+        expected_pth = {name for name in namespace["names"] if root in _CUSTODY_SITE_ROOTS
+                        and name.endswith(".pth") and not name.startswith(".")}
+        if set(namespace["pth"]) != expected_pth:
+            raise ValueError("original105 startup file coverage is incomplete")
+        for name, entry in namespace["pth"].items():
+            raw = objects.get(entry["sha256"], b"")
+            startup_files += 1
+            startup_bytes += len(raw)
+            if startup_files > 128 or startup_bytes > 1024**2:
+                raise ValueError("original105 combined startup file population exceeds fixed bound")
+            if digest(raw) != entry["sha256"] or len(raw) != entry["bytes"]:
+                raise ValueError("original105 startup file bytes are unavailable")
+            # This exact conditional program does not import coloredlogs when
+            # COLOREDLOGS_AUTO_INSTALL is absent from the fixed environment.
+            if (root + "/" + name == _CUSTODY_PTH_PATH and len(raw) == 147
+                    and digest(raw) == _CUSTODY_PTH_SHA256 and entry.get("mode") == 0o644):
+                continue
+            # Every other path extension or executed import still refuses.
+            if any(line.strip() and not line.startswith("#") for line in raw.decode("ascii", "strict").splitlines()):
+                raise ValueError("original105 nontrivial .pth startup branch is unqualified")
+    present_customizer = "sitecustomize.py" in selection["namespaces"]["/usr/lib/python3.12"]["names"]
+    if present_customizer != (customizer["kind"] == "FILE"):
+        raise ValueError("original105 selected customizer namespace coverage is incomplete")
+    return dict(branch="GENUINELY_ABSENT_ACTIVEGRAPH_AND_CLI", selected_python_paths=present,
+        search_roots=list(_CUSTODY_SEARCH_ROOTS), startup="NORMAL_SITE_NO_S_FLAG_NO_USER_SITE_SAFE_PATH",
+        package_import_failure_is_absence=False, installed_positive_qualified=False,
+        customizer_sha256=customizer.get("sha256"), nss=nss)
+
+
+def custody_runtime_projection(runtime):
+    """Fixed executable selection; retain the captured evidence and objects."""
+    removed = {}
+    for name in _CUSTODY_UNUSED_BASE_TOOLS:
+        entry, observed = runtime["files"].get(name), runtime["observations"].get(name)
+        if entry is None or observed is None or entry["sha256"] != observed["sha256"]:
+            raise ValueError("original105 generic runtime projection lacks its captured basis")
+        removed[name] = dict(image_entry=entry, physical_observation=observed,
+            reason="OUTSIDE_FIXED_ORIGINAL_HELPER_AND_C3_OBSERVER_TRANSITIVE_EXECUTE_SET_NOT_AN_OPTIONAL_SELECTOR")
+    for name in removed:
+        del runtime["files"][name]
+    selected = set(_CUSTODY_IMAGE_TOOLS) | {"/usr/bin/uname"} | {
+        name for name in _CUSTODY_PYTHON_ALIASES if name in runtime["files"]}
+    actual = {name for name in runtime["files"] if name.startswith(("/usr/bin/", "/bin/"))}
+    if actual != selected:
+        raise ValueError("original105 runtime executable projection differs from its fixed closure")
+    return dict(policy="ORIGINAL105_FIXED_TRANSITIVE_TOOLS_V1", selected_tools=sorted(selected),
+        removed_image_entries=removed, capture_evidence="ALL_CAPTURED_OBJECTS_AND_OBSERVATIONS_RETAINED",
+        source_members="COMPLETE_UNCHANGED_NO_SOURCE_OR_GIT_OMISSIONS",
+        remaining_runtime="ALL_CAPTURED_STANDARD_LIBRARY_AND_NATIVE_CLOSURE_ENTRIES_RETAINED")
+
+
+def _capture_custody_runtime(prefix, runtime, objects):
+    if digest(prefix.encode(runtime["files"])[:-1]) != _CUSTODY_BASE_RUNTIME_FILES_SHA256:
+        raise ValueError("original105 base runtime differs from the complete inspected closure")
+    for name, pin in _CUSTODY_PYTHON_PINS.items():
+        entry = runtime["files"].get(name)
+        if entry is None or entry["sha256"] != pin or digest(objects.get(pin, b"")) != pin:
+            raise ValueError("original105 normal startup differs from its inspected system Python")
+    # The uname extension is the same fixed-file/loader closure as the other
+    # finite tools, with separately inspected pins; no host program is run.
+    _capture_custody_uname(prefix, runtime, objects)
+    selection = dict(aliases={}, absent={}, namespaces={})
+    for name in _CUSTODY_PYTHON_ALIASES:
+        observed = _custody_path_state(prefix, name)
+        runtime["files"].pop(name, None)  # remove the shared synthetic -S alias
+        if observed["kind"] != "MISSING":
+            if observed["kind"] != "FILE":
+                raise ValueError("original105 interpreter selector has unsupported physical type")
+            metadata, raw = prefix.read_regular(observed["resolved"], prefix.RUNTIME_BOUNDS["file_bytes"], single_link=False)
+            observed.update(mode=metadata["mode"], bytes=len(raw), sha256=digest(raw))
+            if metadata["identity"] != observed["identity"]:
+                raise ValueError("original105 interpreter alias changed during capture")
+            objects.setdefault(digest(raw), raw)
+        selection["aliases"][name] = observed
+    selection["absent"] = {name: _custody_path_state(prefix, name) for name in _CUSTODY_ABSENT_PATHS}
+    selection["namespaces"] = {name: _custody_namespace(prefix, name, objects) for name in _CUSTODY_SEARCH_ROOTS}
+    selection["startup_binding"] = _custody_startup_binding(prefix, runtime, objects)
+    branch = custody_runtime_branch(selection, objects)
+    for name, observed in selection["aliases"].items():
+        current = _custody_path_state(prefix, name)
+        if current != {key: value for key, value in observed.items() if key not in ("mode", "bytes", "sha256")}:
+            raise ValueError("original105 interpreter selection changed")
+        if observed["kind"] != "MISSING":
+            runtime["files"][name] = dict(mode=0o555, bytes=observed["bytes"], sha256=observed["sha256"])
+            runtime["observations"][name] = observed
+    if selection["absent"] != {name: _custody_path_state(prefix, name) for name in _CUSTODY_ABSENT_PATHS}:
+        raise ValueError("original105 optional runtime presence changed")
+    current_namespaces = {name: _custody_namespace(prefix, name, {}) for name in _CUSTODY_SEARCH_ROOTS}
+    if selection["namespaces"] != current_namespaces:
+        raise ValueError("original105 import-search namespace changed after capture")
+    # Re-read selected bytes as well as aliases, names, UID and absence states.
+    # Keep the already captured native objects available for the pin checks.
+    current_objects = {pin: objects[pin] for pin in _CUSTODY_NSS_NATIVE_PINS.values()}
+    if selection["startup_binding"] != _custody_startup_binding(prefix, runtime, current_objects):
+        raise ValueError("original105 selected startup/NSS inputs changed after capture")
+    directories = set(runtime["directories"])
+    for root, namespace in selection["namespaces"].items():
+        if namespace["observation"]["kind"] == "DIRECTORY":
+            directories.add(root)
+            directories.update(str(path) for path in Path(root).parents if str(path) != "/")
+        for name, entry in namespace["pth"].items():
+            runtime["files"][root + "/" + name] = dict(mode=0o444, bytes=entry["bytes"], sha256=entry["sha256"])
+    data_files = dict(selection["startup_binding"]["nss"]["files"])
+    customizer = selection["startup_binding"]["customizer"]
+    if customizer["kind"] == "FILE":
+        data_files[_CUSTODY_SITE_CUSTOMIZER] = customizer
+    for name, entry in data_files.items():
+        runtime["files"][name] = dict(mode=0o444, bytes=entry["bytes"], sha256=entry["sha256"])
+        runtime["observations"][name] = entry
+        directories.update(str(path) for path in Path(name).parents if str(path) != "/")
+    runtime.update(custody_runtime_selection=selection, custody_runtime_branch=branch,
+        directories=sorted(directories), startup=branch["startup"],
+        absent="HOST_ROOT_PROC_OTHER_RUNTIME_NOT_EXPOSED_OPTIONAL_PRESENCE_PHYSICALLY_CLOSED")
+    runtime["custody_runtime_projection"] = custody_runtime_projection(runtime)
+
+
 def finite_runtime(prefix, objects, *, profile=PROFILE):
     contract_for(profile)
     runtime = prefix.acquire_runtime(objects)
@@ -3047,6 +3714,9 @@ def finite_runtime(prefix, objects, *, profile=PROFILE):
     runtime["totals"] = prefix.runtime_budget(runtime["files"], prefix.RUNTIME_BOUNDS)
     runtime["startup"] += "_UMASK_022_BEFORE_ISOLATED_LEAF_BOOTSTRAP"
     runtime["umask"] = 0o022
+    if profile == CUSTODY_APPEND_PROFILE:
+        _capture_custody_runtime(prefix, runtime, objects)
+        runtime["totals"] = prefix.runtime_budget(runtime["files"], prefix.RUNTIME_BOUNDS)
     return runtime
 
 
@@ -3122,6 +3792,11 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
             result[HELPER] = digest(current)
             return result
 
+        def _custody_source_stage_v1(self, files, directories, overlay, output):
+            if self.SCOPE != CUSTODY_APPEND_PROFILE:
+                raise compiler.WorkGraphError("private source staging requires original105")
+            return CustodyAppendSourceStage(output, files, directories, overlay, self.LIMITS["descriptors"])
+
         def _acquire(self):
             self._custody()
             objects = {}
@@ -3177,9 +3852,13 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                 raise compiler.WorkGraphError("original-readable runner differs from captured engine bytes")
             if profile == CLAIM_BOUNDARY_PROFILE and files["/work/" + RUNNER][0] != objects[self._engine[RUNNER]]:
                 raise compiler.WorkGraphError("observed original96 runner differs from fixed engine runner")
+            if profile == CUSTODY_APPEND_PROFILE and source["files"][RUNNER]["sha256"] != self._engine[RUNNER]:
+                raise compiler.WorkGraphError("original105 source runner differs from captured engine bytes")
             if profile == TERMINOLOGY_PROFILE and source["files"][RUNNER]["sha256"] != self._engine[RUNNER]:
                 raise compiler.WorkGraphError("whole-copy runner differs from captured engine bytes")
             files["/work/" + RUNNER] = (objects[self._engine[RUNNER]], 0o555)
+            if profile == CUSTODY_APPEND_PROFILE:
+                files["/work/" + RUNNER] = (objects[self._engine[RUNNER]], source["files"][RUNNER]["mode"])
             if profile == LEAN_DISCIPLINE_PROFILE:
                 if source["files"][RUNNER]["sha256"] != self._engine[RUNNER]:
                     raise compiler.WorkGraphError("original24 copied runner differs from captured engine bytes")
@@ -3193,6 +3872,12 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                 # Bash reads the runner directly; its source mode stays exact.
                 files["/work/" + RUNNER] = (objects[self._engine[RUNNER]], source["files"][RUNNER]["mode"])
             files, image_permissions = finite_image_permissions(files, source, profile=profile)
+            if profile == CUSTODY_APPEND_PROFILE:
+                # Source bytes/modes stay exact. Only runtime data uses the
+                # existing compact read-only data-mount spelling.
+                files = {name: (raw, 0o600 if not name.startswith("/work/") and mode == 0o444 else mode)
+                         for name, (raw, mode) in files.items()}
+                image_permissions["data_permissions"] = "OWNER_0600_READ_ONLY_MOUNT"
             if profile in (AUDIT_OBJECT_CONTRACT_PROFILE, TERMINOLOGY_PROFILE):
                 files = copy_readonly_image(files)
             if "complete_git_inputs" in source or profile == TERMINOLOGY_PROFILE:
@@ -3220,6 +3905,12 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                 source_directories = {"/work"} | {"/work/" + name for name in source["directories"] if name != "."}
                 _, configuration, overlay = self._claim_overlay_configuration_v1(files, source_directories)
                 files[CLAIM_BOUNDARY_CONFIG] = (configuration, 0o600)
+                objects.setdefault(digest(configuration), configuration)
+            if profile == CUSTODY_APPEND_PROFILE:
+                membership = source["custody_inputs"]["projection"]
+                source_directories = {"/work"} | {"/work/" + name for name in source["directories"] if name != "."}
+                _, configuration, overlay = self._claim_overlay_configuration_v1(files, source_directories)
+                files[CUSTODY_APPEND_CONFIG] = (configuration, 0o600)
                 objects.setdefault(digest(configuration), configuration)
             manifest, image_key = self._image(files, subject,
                 membership if profile == REGISTRY_PROFILE else None)
@@ -3302,6 +3993,22 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                     "/dev/null", "stdout", "stderr"]
                 manifest["startup"] = "EXISTING_ISOLATED_LEAF_FIXED_ORIGINAL96_CENSUS_PYTHON_I_B_ORIGINAL_ENVIRONMENT_UNCHANGED"
                 image_key = self._object(self._encode(manifest))
+            if profile == CUSTODY_APPEND_PROFILE:
+                manifest["directories"] = sorted(set(manifest["directories"]) | source_directories | set(runtime["directories"]))
+                reservation = custody_append_image_reservation(files, manifest["directories"], self.LIMITS, overlay, self.environment)
+                temporary["image_reservation"] = reservation
+                manifest.update(directory_membership=membership, source_projection=contract["projection"],
+                    private_source_overlay=overlay, image_reservation=reservation,
+                    source_materialization="SINGLE_LINK_FILES_READ_ONLY_ROOT",
+                    source_permissions="PRESERVE_MODES_PRIVATE_ROOT_READ_ONLY_EXISTING_MEMBERS",
+                    data_permissions="OWNER_0600_READ_ONLY_MOUNT", copy_umask=0o022,
+                    semantic_artifacts=["source-effects.json"],
+                    writable_resources=["fixed 2 MiB private /work parent including new descendants",
+                        "fixed 30 MiB private /tmp", "fixed 4 MiB bootstrap census buffer not inherited by original",
+                        "/dev/null", "stdout", "stderr"],
+                    startup="EXISTING_ISOLATED_LEAF_FIXED_ORIGINAL105_CENSUS_OBSERVER_ORIGINAL_NORMAL_SITE_STARTUP",
+                    runtime_branch=runtime["custody_runtime_branch"])
+                image_key = self._object(self._encode(manifest))
             if profile in (SAFEGUARD_PROFILE, INSTALLED_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, TERMINOLOGY_PROFILE):
                 # The original physical helper validator requires st_nlink=1.
                 # Select this fixed policy in the acquired image, never from a
@@ -3339,6 +4046,11 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                 acquired.update(source_bounds=contract["complete_public"], private_source_overlay=overlay,
                     directory_modes="NORMALIZED_0755_EXISTING_MEMBERS_READ_ONLY_FIXED_DOCS_PARENT_WRITABLE",
                     mutable_resources=manifest["writable_resources"],
+                    effects="ACTUAL_BEFORE_AFTER_PRIVATE_NAMESPACE_CENSUS_NOT_A_TEMPORAL_WRITE_TRACE")
+            if profile == CUSTODY_APPEND_PROFILE:
+                acquired.update(source_bounds=contract["complete_root"], private_source_overlay=overlay,
+                    directory_modes="ACTUAL_0755_EXISTING_MEMBERS_READ_ONLY_PRIVATE_WORK_PARENT_WRITABLE",
+                    mutable_resources=manifest["writable_resources"], runtime_branch=runtime["custody_runtime_branch"],
                     effects="ACTUAL_BEFORE_AFTER_PRIVATE_NAMESPACE_CENSUS_NOT_A_TEMPORAL_WRITE_TRACE")
             key = self._object(prefix.encode(acquired))
             required = set(objects) | {source_key, graph_key, runtime_key, runtime_observation_key,

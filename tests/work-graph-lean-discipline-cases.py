@@ -76,6 +76,7 @@ class SourceFixture:
         self.source = self.base / "source"
         for name in self.A.source_paths(PROFILE):
             self.write(name, H.input_bytes(name), H.input_mode(name))
+        H.populate_pins(self.source, self.A.contract_for(PROFILE))
 
     def write(self, name, raw, mode=0o644):
         path = self.source / name

@@ -85,15 +85,72 @@ Path(path).write_text("\n".join(kept) + "\n", encoding="utf-8")
 PY
 }
 
+ordered_replacement_modes() {
+  local evidence="${1:-$tmp/ordered-modes}" saved_tmp="$tmp"
+  mkdir -p "$evidence"
+  tmp="$evidence/fixtures"
+  mkdir -p "$tmp"
+  local name candidate
+  for name in current missing-route missing-parser missing-dispatch; do
+    candidate="$(make_candidate "ordered-$name")"
+    python - "$candidate" "$name" <<'PY_ORDERED_MODE_EDIT'
+import sys
+from pathlib import Path
+root, name = Path(sys.argv[1]), sys.argv[2]
+path = root / 'skills/implementaudit/references/repo-state-comparison.md'
+if name == 'missing-route':
+    text = path.read_text()
+    prefix = 'helper-mode: apply-observed-mutation.sh|--batch-apply|'
+    kept = [line for line in text.splitlines(True) if not line.startswith(prefix)]
+    assert len(kept) == len(text.splitlines(True)) - 1
+    path.write_text(''.join(kept))
+elif name in ('missing-parser', 'missing-dispatch'):
+    path = root / 'skills/implementaudit/scripts/apply-observed-mutation.sh'
+    text = path.read_text()
+    anchor = ('parser.add_argument("--batch-apply", dest="apply_replacements")\n' if name == 'missing-parser'
+              else 'if args.apply_replacements is not None:\n    replacement_batch_apply()\n')
+    assert text.count(anchor) == 1
+    path.write_text(text.replace(anchor, ''))
+PY_ORDERED_MODE_EDIT
+    git -C "$candidate" add -A
+    python - "$checker" "$candidate" "$evidence" "$name" <<'PY_ORDERED_MODE_CHECK'
+import hashlib, json, subprocess, sys
+from pathlib import Path
+checker, candidate, directory, name = sys.argv[1:]
+out = Path(directory)
+argv = ['bash', checker, '--census-only', '--repo-root', candidate]
+result = subprocess.run(argv, capture_output=True)
+(out / (name + '.stdout.bin')).write_bytes(result.stdout)
+(out / (name + '.stderr.bin')).write_bytes(result.stderr)
+record = {'argv': argv, 'returncode': result.returncode,
+          'stdout_sha256': hashlib.sha256(result.stdout).hexdigest(), 'stderr_sha256': hashlib.sha256(result.stderr).hexdigest()}
+(out / (name + '.json')).write_text(json.dumps(record, indent=2) + '\n')
+if name == 'current':
+    assert result.returncode == 0 and b'HELPER_REACHABILITY_CENSUS=PASS' in result.stdout and b'modes=25/25' in result.stdout, record
+else:
+    pattern = ('missing mode applicability rows: apply-observed-mutation.sh --batch-apply' if name == 'missing-route'
+               else 'mode applicability not implemented: apply-observed-mutation.sh --batch-apply')
+    assert result.returncode != 0 and pattern.encode() in result.stdout + result.stderr, record
+PY_ORDERED_MODE_CHECK
+  done
+  tmp="$saved_tmp"
+  printf 'R30_ORDERED_REPLACEMENT_MODES=PASS current/route/parser/dispatch (census-only)\n'
+}
+
+if [ "${1:-}" = --ordered-replacement-modes ]; then
+  ordered_replacement_modes "${2:-}"
+  exit 0
+fi
+
 positive_output="$(bash "$checker" --repo-root "$repo_root")"
-grep -Eq 'HELPER_REACHABILITY=PASS population=([0-9]+) examined=\1 modes=22/22 enumeration=package-contract.artifact_payload_entries full_path_sets=equal projections=2' \
+grep -Eq 'HELPER_REACHABILITY=PASS population=([0-9]+) examined=\1 modes=25/25 enumeration=package-contract.artifact_payload_entries full_path_sets=equal projections=2' \
   <<<"$positive_output" || {
     printf 'helper-reachability.test: live positive census did not prove complete full-path equality\n%s\n' "$positive_output" >&2
     exit 1
 }
 
 census_output="$(bash "$checker" --census-only --repo-root "$repo_root")"
-grep -Eq 'HELPER_REACHABILITY_CENSUS=PASS population=([0-9]+) examined=\1 modes=22/22 enumeration=package-contract.artifact_payload_entries full_path_sets=equal projections=2' \
+grep -Eq 'HELPER_REACHABILITY_CENSUS=PASS population=([0-9]+) examined=\1 modes=25/25 enumeration=package-contract.artifact_payload_entries full_path_sets=equal projections=2' \
   <<<"$census_output" || {
     printf 'helper-reachability.test: census-only result was not distinctly nonterminal\n%s\n' "$census_output" >&2
     exit 1
@@ -109,7 +166,9 @@ text = path.read_text()
 old, new = {
     "wrong-buffer": ('exec(compile(raw, str(path), "exec",', 'exec(compile(b"", str(path), "exec",'),
     "missing-digest": ('hashlib.sha256(raw).hexdigest() != expected_sha256', 'False'),
-    "wrong-owner": ('expected_bytes = 246657', 'expected_bytes = 246658'),
+    "wrong-owner": (
+        'expected_bytes = ' + str(len(path.with_name('claim-run-rotation.py').read_bytes())),
+        'expected_bytes = ' + str(len(path.with_name('claim-run-rotation.py').read_bytes()) + 1)),
     "broken-statement": ('exec(compile(raw, str(path), "exec",', 'exec\n(compile(raw, str(path), "exec",'),
 }[mutation]
 assert text.count(old) == 1
@@ -117,6 +176,8 @@ path.write_text(text.replace(old, new))
 PYSHELL
   expect_fail "shell-capture-$mutation" 'caller does not invoke claim-run-rotation.py: scripts/claim-run.sh' "$shell_capture"
 done
+
+ordered_replacement_modes
 
 # A progressive stage owner does not replace the declared governor helper edge.
 missing_run_root_edge="$(make_candidate missing-run-root-governor-edge)"
@@ -444,7 +505,30 @@ PYMODE
 expect_fail R37-YIELD-FALSE 'mode applicability not implemented: validate-run-root.sh --nonterminal-yield' "$false_yield_mode"
 
 
-printf 'helper-reachability.test: retained controls passed (dynamic full-path census + modes 22/22 + native-input and nonterminal-yield controls)\n'
+# A new historical read mode adds one actual mode; original24 receipts remain
+# historical. Neither an absent declaration nor a false dispatch may pass.
+missing_history_mode="$(make_candidate missing-history-mode)"
+python - "$missing_history_mode" <<'PYMODE'
+from pathlib import Path
+import sys
+p=Path(sys.argv[1])/"skills/implementaudit/references/repo-state-comparison.md"
+text=p.read_text(); prefix="helper-mode: claim-run.sh|--resolve-retained-continuity-predecessor|"
+assert sum(line.startswith(prefix) for line in text.splitlines()) == 1
+p.write_text("\n".join(line for line in text.splitlines() if not line.startswith(prefix))+"\n")
+PYMODE
+expect_fail R39-HISTORY-MISSING 'missing mode applicability rows: claim-run.sh --resolve-retained-continuity-predecessor' "$missing_history_mode"
+
+false_history_mode="$(make_candidate false-history-mode)"
+python - "$false_history_mode" <<'PYMODE'
+from pathlib import Path
+import sys
+p=Path(sys.argv[1])/"skills/implementaudit/scripts/claim-run.sh"
+text=p.read_text(); assert "--resolve-retained-continuity-predecessor" in text
+p.write_text(text.replace("--resolve-retained-continuity-predecessor", "--not-retained-history"))
+PYMODE
+expect_fail R39-HISTORY-FALSE 'mode applicability not implemented: claim-run.sh --resolve-retained-continuity-predecessor' "$false_history_mode"
+
+printf 'helper-reachability.test: retained controls passed (dynamic full-path census + modes 25/25 + native-input, nonterminal-yield, ordered-replacement and historical-link controls)\n'
 
 python -I -B "$repo_root/tests/helper-reachability-successor.py" "$repo_root" "$BASH"
 python -I -B "$repo_root/tests/helper-reachability-custody.py" "$repo_root" "$BASH"

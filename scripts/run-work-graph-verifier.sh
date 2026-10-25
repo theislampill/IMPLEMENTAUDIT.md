@@ -15,10 +15,20 @@ os.closerange(3, 4096)
 os.execv("/usr/bin/bash", ["bash", "--noprofile", "--norc", "-c", source])
 ' "$3" "$4"
   fi
-  [ "$#" -eq 6 ] && [ "$5" = "ORIGINAL96_PRIVATE_DOCS_V1" ] || exit 2
-  # Only the fixed original96 image owns a writable docs parent. Its existing
-  # bootstrap retains one bounded census fd; the actual original receives none.
-  exec python -I -B -c '
+  [ "$#" -eq 6 ] || exit 2
+  case "$5" in
+    ORIGINAL96_PRIVATE_DOCS_V1) r0035_census_python=(python -I -B) ;;
+    ORIGINAL105_PRIVATE_WORK_V1)
+      # The census observer uses the closed standard library. The original
+      # retains its actual interpreter aliases and normal site startup.
+      r0035_census_python=(/usr/bin/python3.12 -I -S -B)
+      umask 022
+      ;;
+    *) exit 2 ;;
+  esac
+  # The existing owner retains one bounded census fd. No actual original
+  # inherits it; the fixed policy selects only its private parent and schema.
+  exec "${r0035_census_python[@]}" -c '
 import fcntl, hashlib, json, os, signal, stat, struct, subprocess, sys
 
 def identity(info):
@@ -100,8 +110,8 @@ def observe(config):
             mounts[path] = bool(os.fstatvfs(descriptor).f_flag & os.ST_RDONLY)
         finally:
             os.close(descriptor)
-    return dict(docs=census(config["root"], config), tmp=census(config["tmp_root"], config),
-                immutable_mounts=mounts)
+    return {config.get("census_key", "docs"): census(config["root"], config),
+            "tmp": census(config["tmp_root"], config), "immutable_mounts": mounts}
 
 def baseline_matches(observed, baseline):
     return (set(observed["files"]) == set(baseline["files"])
@@ -110,13 +120,15 @@ def baseline_matches(observed, baseline):
                 for name, expected in baseline["files"].items()))
 
 def require_before(observed, config):
-    if (not baseline_matches(observed["docs"], config["baseline"])
+    source_key = config.get("census_key", "docs")
+    if (not baseline_matches(observed[source_key], config["baseline"])
             or observed["tmp"]["files"] or set(observed["tmp"]["directories"]) != {"."}
-            or observed["docs"]["directories"]["."]["read_only"] is not False
+            or observed[source_key]["directories"]["."]["read_only"] is not False
             or observed["tmp"]["directories"]["."]["read_only"] is not False
             or set(observed["immutable_mounts"]) != set(config["immutable_paths"])
             or not all(value is True for value in observed["immutable_mounts"].values())):
-        raise ValueError("original96 before census differs from its protected image")
+        label = "original105" if config.get("policy") == "ORIGINAL105_PRIVATE_WORK_V1" else "original96"
+        raise ValueError(label + " before census differs from its protected image")
 
 def store_record(descriptor, record, capacity):
     data = json.dumps(record, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("ascii")
@@ -133,10 +145,15 @@ def store_record(descriptor, record, capacity):
     write_all(struct.pack("!Q", len(data)), 0)
 
 node, source, digest, policy, fd_text = sys.argv[1:]
-if (node != "COMMAND:tests/claim-boundary-proof-levels.test.sh:0"
-        or source != "bash tests/claim-boundary-proof-levels.test.sh\n"
-        or hashlib.sha256(source.encode()).hexdigest() != digest
-        or policy != "ORIGINAL96_PRIVATE_DOCS_V1"):
+policies = {
+    "ORIGINAL96_PRIVATE_DOCS_V1": ("tests/claim-boundary-proof-levels.test.sh", "/work/docs", "original96", "docs"),
+    "ORIGINAL105_PRIVATE_WORK_V1": ("tests/custody-append.test.sh", "/work", "original105", "source"),
+}
+if policy not in policies:
+    raise SystemExit(2)
+program, private_root, label, source_key = policies[policy]
+if (node != "COMMAND:" + program + ":0" or source != "bash " + program + "\n"
+        or hashlib.sha256(source.encode()).hexdigest() != digest):
     raise SystemExit(2)
 descriptor = int(fd_text)
 capacity = 4 * 1024**2
@@ -148,7 +165,7 @@ if seals != fcntl.F_SEAL_GROW | fcntl.F_SEAL_SHRINK:
 os.closerange(3, descriptor)
 os.closerange(descriptor + 1, 4096)
 os.set_inheritable(descriptor, False)
-config_fd = os.open("/profile/original96-overlay.json", os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+config_fd = os.open("/profile/" + label + "-overlay.json", os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
 try:
     if not stat.S_ISREG(os.fstat(config_fd).st_mode):
         raise ValueError("nonordinary fixed census configuration")
@@ -158,10 +175,10 @@ try:
     config = json.loads(raw)
 finally:
     os.close(config_fd)
-if (config["policy"] != policy or config["root"] != "/work/docs" or config["tmp_root"] != "/tmp"
-        or config["buffer_bytes"] != capacity):
+if (config["policy"] != policy or config["root"] != private_root or config["tmp_root"] != "/tmp"
+        or config["buffer_bytes"] != capacity or config.get("census_key", "docs") != source_key):
     raise SystemExit(2)
-record = dict(schema="implementaudit.original96-private-observation.v1", policy=policy,
+record = dict(schema="implementaudit." + label + "-private-observation.v1", policy=policy,
               phase="INITIAL", original_started=False)
 child, original_exit = None, None
 try:
@@ -185,7 +202,7 @@ except BaseException as error:
         store_record(descriptor, record, capacity)
     except (OSError, ValueError):
         pass
-    print("original96 private census refused: " + type(error).__name__, file=sys.stderr)
+    print(label + " private census refused: " + type(error).__name__, file=sys.stderr)
 finally:
     os.close(descriptor)
 if original_exit is None:

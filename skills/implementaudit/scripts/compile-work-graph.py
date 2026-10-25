@@ -1550,10 +1550,10 @@ def _native_document(data, path, schema):
         raise WorkGraphError(f'{path}: unknown native metadata schema')
     return obj
 
-_NATIVE_STATIC_OWNER_SHA256 = 'e6528b726d4b78536eea07ec2d2622c300495de05b788260243c421d7e976c54'
+_NATIVE_STATIC_OWNER_SHA256 = 'ef2ff3bade193b55c3c4acee045eec036e3cea5bc3b50c4aaa6d1a18b6dcb3b8'
 
 
-_NATIVE_STATIC_OWNER_BYTES = 390476
+_NATIVE_STATIC_OWNER_BYTES = 394587
 
 
 NATIVE_SOURCE_MAX_ENTRIES = 1024
@@ -2043,8 +2043,8 @@ _NATIVE_COMBINED_CURRENT_PAIR_V1 = (
 _NATIVE_SIX_SOURCE_PAIR_V1 = (
     '50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383',
     'd8b046b5417dce13ed66a5ac5fffaf3d18fae40c97d42aef8b38470500d575a6')
-_NATIVE_CONTINUITY_TRANSPORT_SHA256 = 'b481e9bbad4564a3cf4cc12a67b3deafa76aaedaa01ef2407fa0b3d4b54c2720'
-_NATIVE_CONTINUITY_TRANSPORT_BYTES = 42323
+_NATIVE_CONTINUITY_TRANSPORT_SHA256 = '447d6eec38c60215b0e2b9a1f6f69044fb448325258de80f48fc643f78acec6a'
+_NATIVE_CONTINUITY_TRANSPORT_BYTES = 46368
 
 
 def _native_six_source_transport_v1(owner, claim_raw, validate_raw):
@@ -2338,6 +2338,8 @@ _NATIVE_ROUTE_PRODUCER_PROFILES_V1 = {
     '1bf45fa3104dcde045fcd528d57b601323e9476dcb735afdd88b1c27dde8e9ca': 375946,
     # Exact nonblocking delivery capture received from R0033 donor899d32f8.
     'd060782e690d163e2b0db014be429c64cf976e7b1e8d554113ee8f4843a3b1bb': 376700,
+    # Exact recovered historical receiver; native admission remains separate.
+    '8ca0ed9e1313ff2e60a89b88e56f7bf1a52bf6f179f70df1b0b18f1dde0346f8': 384034,
 }
 
 
@@ -2544,7 +2546,8 @@ def _native_route_scope_module_v1():
     import stat
     import types
     path = pathlib.Path(__file__).resolve().with_name('route-transaction.py')
-    flags = os.O_RDONLY | getattr(os, 'O_BINARY', 0) | getattr(os, 'O_NOFOLLOW', 0)
+    flags = os.O_RDONLY | getattr(os, 'O_BINARY', 0) | getattr(os, 'O_NOFOLLOW', 0) | getattr(os, 'O_NONBLOCK', 0)
+    identity = lambda s: (s.st_dev, s.st_ino, s.st_mode, s.st_size, s.st_mtime_ns, s.st_ctime_ns)
     try:
         before = path.lstat()
         if (not stat.S_ISREG(before.st_mode) or stat.S_ISLNK(before.st_mode)
@@ -2552,12 +2555,13 @@ def _native_route_scope_module_v1():
             raise WorkGraphError('native route producer is not a non-aliased regular file')
         with os.fdopen(os.open(path, flags), 'rb') as stream:
             opened = os.fstat(stream.fileno())
+            if not stat.S_ISREG(opened.st_mode) or identity(opened) != identity(before):
+                raise WorkGraphError('native route producer source identity changed')
             raw = stream.read(max(_NATIVE_ROUTE_PRODUCER_PROFILES_V1.values()) + 1)
             after = os.fstat(stream.fileno())
         named = path.lstat()
     except OSError as exc:
         raise WorkGraphError('native route producer is unavailable') from exc
-    identity = lambda s: (s.st_dev, s.st_ino, s.st_mode, s.st_size, s.st_mtime_ns, s.st_ctime_ns)
     if (identity(before) != identity(opened) or identity(opened) != identity(after)
             or identity(after) != identity(named)
             or _NATIVE_ROUTE_PRODUCER_PROFILES_V1.get(hashlib.sha256(raw).hexdigest()) != len(raw)):

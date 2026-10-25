@@ -37,7 +37,8 @@
     "docs/research/implementaudit/r003f-r0041-preparation-receiving.json",
     "docs/research/implementaudit/r003f-r0041-owner-interface-qualification.json",
     "docs/research/implementaudit/r003f-r0041-continuation-qualification.json",
-    "docs/research/implementaudit/r003f-r0041-pending-source-qualification.json"
+    "docs/research/implementaudit/r003f-r0041-pending-source-qualification.json.gz",
+    "docs/research/implementaudit/r003f-r0041-pending-source-transport.json"
   ],
   "nav": [
     {
@@ -542,7 +543,8 @@
         "docs/research/implementaudit/r003f-r0041-preparation-receiving.json",
         "docs/research/implementaudit/r003f-r0041-owner-interface-qualification.json",
         "docs/research/implementaudit/r003f-r0041-continuation-qualification.json",
-        "docs/research/implementaudit/r003f-r0041-pending-source-qualification.json"
+        "docs/research/implementaudit/r003f-r0041-pending-source-qualification.json.gz",
+        "docs/research/implementaudit/r003f-r0041-pending-source-transport.json"
       ]
     },
     "research-lineage-lean": {

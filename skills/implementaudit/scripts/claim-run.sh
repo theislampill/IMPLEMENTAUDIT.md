@@ -196,8 +196,8 @@ import types
 
 argument_path = sys.argv[1]
 path = Path(os.path.abspath(argument_path))
-expected_bytes = 246657
-expected_sha256 = "4dbbd07b5a792289c13c1225a8099900682b3657396f60f4b74867502cbadf97"
+expected_bytes = 258400
+expected_sha256 = "27ae194fc92a37bd12e0fe378ffc07f788a3bffec28ebd1c0a5e3c8e1c73695e"
 nodes = []
 descriptor = None
 def identity(info):
@@ -277,7 +277,7 @@ exec(compile(raw, str(path), "exec", dont_inherit=True, optimize=sys.flags.optim
 
 controller='' supersede='' deferred='' boundary='' event=''
 case "${1:-}" in
-  --rotate-canonical-state|--recover-canonical-state|--read-current-state|--read-canonical-state|--resolve-canonical-generation|--resolve-resume-generation|--read-resume-state|--prepare-c02-correction|--append-c02-correction|--apply-c02-correction)
+  --rotate-canonical-state|--recover-canonical-state|--read-current-state|--read-canonical-state|--resolve-canonical-generation|--resolve-retained-continuity-predecessor|--resolve-resume-generation|--read-resume-state|--prepare-c02-correction|--append-c02-correction|--apply-c02-correction)
     rotation_operation="$1"; controller="${2:-}"; shift 2
     case "$rotation_operation" in
       --rotate-canonical-state) rotation_operation=rotate ;;
@@ -285,6 +285,7 @@ case "${1:-}" in
       --read-current-state) rotation_operation=read ;;
       --read-canonical-state) rotation_operation=read-role ;;
       --resolve-canonical-generation) rotation_operation=resolve ;;
+      --resolve-retained-continuity-predecessor) rotation_operation=resolve-retained-predecessor ;;
       --resolve-resume-generation) rotation_operation=resolve-resume ;;
       --read-resume-state) rotation_operation=read-resume ;;
       --prepare-c02-correction) rotation_operation=c02-prepare ;;

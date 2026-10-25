@@ -28,7 +28,7 @@ A = load("current_finite_owner", ROOT / "scripts/qualify-work-graph-finite-leaf.
 
 class HistoricalInputCases(unittest.TestCase):
     def test_exact_specimens_and_original_registry_are_retained(self):
-        for name, row in H.MANIFEST["files"].items():
+        for name, row in {**H.MANIFEST["files"], **H.SUPPLEMENTAL}.items():
             with self.subTest(path=name):
                 raw = H.original(name)
                 self.assertEqual((len(raw), hashlib.sha256(raw).hexdigest()),
@@ -40,10 +40,28 @@ class HistoricalInputCases(unittest.TestCase):
             contract = A.contract_for(profile)
             for name, expected in {**contract["programs"], **contract.get("pinned_data", {})}.items():
                 with self.subTest(profile=profile, pin=name):
-                    self.assertEqual(hashlib.sha256(H.input_bytes(name)).hexdigest(), expected,
-                                     "historical input must be retained before its current source changes")
+                    self.assertEqual(hashlib.sha256(H.selected_input_bytes(name, expected)).hexdigest(), expected,
+                                     "each fixture must use its exact selected source profile")
         # Reference specimens do not recursively enter the acquired tests/fixtures subjects.
         self.assertEqual(H.COLLECTION, ROOT / "test-support/work-graph-registry")
+
+    def test_runner_successor_selection_preserves_historical_default(self):
+        name = "scripts/run-work-graph-verifier.sh"
+        old = H.original(name)
+        current_pin = "6f6d2bdbcf8350d6b370d37a5e15f4ddb73d336b5bc42d941540f3269613150f"
+        self.assertEqual(H.input_bytes(name), old)
+        self.assertEqual(H.selected_input_bytes(name, current_pin), (ROOT / name).read_bytes())
+        with self.assertRaisesRegex(ValueError, "selected source pin"):
+            H.selected_input_bytes(name, "0" * 64)
+        with tempfile.TemporaryDirectory() as temporary:
+            changed_root = Path(temporary)
+            path = changed_root / name
+            path.parent.mkdir(parents=True)
+            path.write_bytes((ROOT / name).read_bytes() + b"\n")
+            with mock.patch.object(H, "ROOT", changed_root):
+                with self.assertRaisesRegex(ValueError, "selected source pin"):
+                    H.selected_input_bytes(name, current_pin)
+                self.assertEqual(H.input_bytes(name), old)
 
     def test_changed_specimen_refuses_without_repairing_it(self):
         name = A.REGISTRY

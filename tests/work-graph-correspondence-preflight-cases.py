@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Read-only paired-plan controls; never execute a qualified verifier route."""
+"""Paired-plan controls and opt-in retention controls on a tiny fixture route.
+
+No control invokes the repository's original verifier registry or full pair.
+"""
 import argparse
 import copy
 import hashlib
@@ -527,6 +530,257 @@ class PairPreflightTests(unittest.TestCase):
         self.assertFalse(value["currentness"]["matches"])
         self.assertIn("CURRENTNESS_CHANGED_DURING_PREFLIGHT", value["blocking_reasons"])
         self.assertFalse(self.marker.exists())
+
+
+@unittest.skipUnless(sys.platform == "linux", "capture retention requires Linux child custody")
+class CaptureRetentionTests(unittest.TestCase):
+    """Four conceptual controls; real tiny children, paths and retained bytes."""
+
+    def fixture(self, variant, extra=""):
+        fixture = PairPreflightTests("test_no_detected_conflict_is_only_necessary_preconditions")
+        fixture._testMethodName = self._testMethodName + "-" + variant
+        fixture.setUp()
+        self.addCleanup(fixture.doCleanups)
+        shutil.copyfile(ROOT / "scripts/run-work-graph-verifier.sh",
+                        fixture.repo / "scripts/run-work-graph-verifier.sh")
+        (fixture.repo / "tests").mkdir()
+        (fixture.repo / "scripts/generate-readme-diagrams.sh").write_text(
+            "#!/bin/bash\nprintf 'first\\n'\n")
+        prelude = ('#!/usr/bin/env bash\nset -euo pipefail\n'
+                   'repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"\n'
+                   'cd "$repo_root"\nshared_state="kept in one shell"\n'
+                   "trap 'printf \"cleanup\\n\" >&2' EXIT\n\n")
+        (fixture.repo / "scripts/verify-package.sh").write_text(
+            prelude + 'bash scripts/generate-readme-diagrams.sh --check\n'
+            'bash tests/sample.test.sh "$shared_state"\ngit diff --check\n\n'
+            "printf 'verify-package: ok\\n'\n")
+        sample = ('#!/bin/bash\nset -euo pipefail\n'
+                  'test -f "$CAPTURE_RETENTION_EXPECTED_W/mapping.json"\n'
+                  'test -f "$CAPTURE_RETENTION_EXPECTED_W/commands.bin"\n'
+                  'printf "launched\\n" >> "$CAPTURE_RETENTION_SUBJECT_MARKER"\n'
+                  'printf "capture-stream:%s\\n" "$(readlink "/proc/$$/fd/1")"\n'
+                  'printf "sample:%s\\n" "$1"\nprintf "sample stderr\\n" >&2\n')
+        (fixture.repo / "tests/sample.test.sh").write_text(sample + extra)
+        for arguments in (("add", "."), ("commit", "-qm", "actual tiny retention fixture")):
+            subprocess.run(["git", *arguments], cwd=fixture.repo, env=fixture.env,
+                           check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        fixture.parent = fixture.directory / "private-captures"
+        fixture.parent.mkdir(mode=0o700)
+        fixture.workspace = fixture.parent / "workspace"
+        fixture.sinks = {mode: fixture.parent / (mode + "-retained") for mode in ("legacy", "dag")}
+        fixture.env.update(CAPTURE_RETENTION_EXPECTED_W=str(fixture.workspace),
+                           CAPTURE_RETENTION_SUBJECT_MARKER=str(fixture.marker), GIT_OPTIONAL_LOCKS="0")
+        binding = fixture.currentness()
+        capture = dict(retain_repro_assets=False, stdin_file=None, empty_stdin=True,
+                       capture_dist=True, capture_portal_events=False, retain_repro_events=False)
+        fixture.retention_plan = dict(schema="implementaudit.verifier-pair-plan.v2",
+            expected_currentness=binding, runs=[dict(mode=mode, output=str(fixture.workspace),
+                retention=str(fixture.sinks[mode]), base_environment_sha256=binding["base_environment_sha256"],
+                capture=copy.deepcopy(capture)) for mode in ("legacy", "dag")])
+        fixture.plan_path = fixture.directory / "retention-plan.json"
+        fixture.plan_path.write_bytes(json.dumps(fixture.retention_plan, sort_keys=True).encode() + b"\n")
+        return fixture
+
+    def call(self, fixture, mode, *, env=None, comparison=None):
+        fixture.calls += 1
+        retained = fixture.directory / ("retention-call-%02d" % fixture.calls)
+        retained.mkdir()
+        argv = [sys.executable, "-B", str(fixture.repo / "scripts/qualify-work-graph-verifier.py"), mode]
+        if mode == "preflight":
+            argv += [str(fixture.plan_path)]
+        elif mode == "compare":
+            argv += [str(fixture.sinks["legacy"]), str(fixture.sinks["dag"]), str(comparison),
+                     "--retention-plan", str(fixture.plan_path)]
+        else:
+            argv += [str(fixture.workspace), "--empty-stdin", "--capture-dist",
+                     "--retention-plan", str(fixture.plan_path)]
+        result = subprocess.run(argv, cwd=fixture.repo, env=fixture.env if env is None else env,
+                                capture_output=True, timeout=30)
+        (retained / "command.json").write_text(json.dumps(dict(argv=argv, cwd=str(fixture.repo)), sort_keys=True) + "\n")
+        (retained / "stdout.log").write_bytes(result.stdout)
+        (retained / "stderr.log").write_bytes(result.stderr)
+        (retained / "exit-code.txt").write_text(str(result.returncode) + "\n")
+        return result
+
+    def successful_capture(self, fixture, mode):
+        result = self.call(fixture, mode)
+        self.assertEqual(result.returncode, 0, result.stderr.decode(errors="replace"))
+        self.assertFalse(fixture.workspace.exists())
+        retained = fixture.sinks[mode]
+        custody = json.loads((retained / "custody.json").read_bytes())
+        self.assertEqual(custody["status"], "SEALED")
+        self.assertEqual(custody["authority"], "NONE")
+        self.assertEqual(custody["normalization"], "NONE_RAW_BYTES")
+        self.assertEqual(custody["process_custody"]["quiescence"], "ECHILD_ALL_CHILDREN")
+        raw = json.loads((retained / "capture/result.json").read_bytes())
+        self.assertEqual(raw["execution_context"]["output"], str(fixture.workspace))
+        self.assertEqual(raw["child_environment"]["base_environment_sha256"],
+                         fixture.retention_plan["expected_currentness"]["base_environment_sha256"])
+        self.assertIn(os.fsencode(str(fixture.workspace / "stdout.log")),
+                      (retained / "capture/stdout.log").read_bytes())
+        return retained
+
+    def test_same_actual_workspace_and_distinct_sealed_destinations(self):
+        # Break caught: changing labels after execution, or reopening the first
+        # route's bytes while the second route actually uses a different path.
+        fixture = self.fixture("positive")
+        preflight = self.call(fixture, "preflight")
+        self.assertEqual(preflight.returncode, 0, preflight.stderr.decode(errors="replace"))
+        planned = json.loads(preflight.stdout)
+        self.assertEqual(planned["guaranteed_false_predicates"], [])
+        self.assertIsNone(planned["raw_observables_equal"])
+        first = self.successful_capture(fixture, "legacy")
+        first_bytes = {p.relative_to(first).as_posix(): (p.read_bytes(), p.stat().st_mode)
+                       for p in first.rglob("*") if p.is_file()}
+        self.successful_capture(fixture, "dag")
+        self.assertEqual(first_bytes, {p.relative_to(first).as_posix(): (p.read_bytes(), p.stat().st_mode)
+                                      for p in first.rglob("*") if p.is_file()})
+        comparison = fixture.directory / "comparison.json"
+        result = self.call(fixture, "compare", comparison=comparison)
+        self.assertEqual(result.returncode, 0, result.stderr.decode(errors="replace"))
+        self.assertTrue(json.loads(comparison.read_bytes())["raw_observables_equal"])
+
+    def test_actual_complete_base_environment_drift_refuses_dispatch(self):
+        # Break caught: binding selected values or planned path text without
+        # reacquiring the actual complete inherited environment at dispatch.
+        fixture = self.fixture("environment")
+        changed = dict(fixture.env, CAPTURE_RETENTION_UNSELECTED_INPUT="changed actual value")
+        result = self.call(fixture, "legacy", env=changed)
+        self.assertEqual(result.returncode, 2)
+        self.assertIn(b"currentness", result.stderr)
+        self.assertFalse(fixture.marker.exists())
+        self.assertFalse(fixture.workspace.exists())
+        self.assertFalse(fixture.sinks["legacy"].exists())
+
+    def test_namespace_census_and_surviving_writer_refuse_sealing(self):
+        # Each variant discriminates a different physical precondition of the
+        # same refusal contract; none fabricates a wait status or process ID.
+        occupied = self.fixture("occupied")
+        occupied.sinks["legacy"].mkdir()
+        foreign = occupied.sinks["legacy"] / "foreign"
+        foreign.write_bytes(b"foreign destination stays intact\n")
+        result = self.call(occupied, "legacy")
+        self.assertEqual(result.returncode, 2)
+        self.assertEqual(foreign.read_bytes(), b"foreign destination stays intact\n")
+        self.assertFalse(occupied.marker.exists())
+
+        aliased = self.fixture("alias")
+        aliased.sinks["legacy"].symlink_to(aliased.sinks["dag"], target_is_directory=True)
+        result = self.call(aliased, "legacy")
+        self.assertEqual(result.returncode, 2)
+        self.assertFalse(aliased.marker.exists())
+        self.assertTrue(aliased.sinks["legacy"].is_symlink())
+
+        unexpected = self.fixture("unexpected", 'printf "unexpected\\n" > "$CAPTURE_RETENTION_EXPECTED_W/foreign.bin"\n')
+        result = self.call(unexpected, "legacy")
+        self.assertEqual(result.returncode, 2)
+        self.assertEqual((unexpected.workspace / "exit-code.txt").read_bytes(), b"0\n")
+        self.assertFalse((unexpected.sinks["legacy"] / "custody.json").exists())
+        self.assertIn(b"unexpected capture", result.stderr)
+
+        # The proc children file is optional. Force only that discovery read
+        # absent; enumerate the real proc population, with actual time/PIDs.
+        # The real kernel rejects a self pidfd as a child. A guard prevents a
+        # regressed ownership check from delivering any signal to this test.
+        owner = occupied.owner._CaptureChildren()
+        discovery_path = Path("/proc/self/task/%d/children" % os.getpid())
+        original_open = Path.open
+        missing_reads, child_waits = [], []
+        def missing_children(path, *args, **kwargs):
+            if path == discovery_path:
+                missing_reads.append(str(path))
+                raise FileNotFoundError(2, "controlled absent proc children capability", str(path))
+            return original_open(path, *args, **kwargs)
+        kernel_wait = os.waitid
+        def observe_child_wait(*args):
+            try:
+                return kernel_wait(*args)
+            except ChildProcessError:
+                child_waits.append("ECHILD")
+                raise
+        try:
+            with mock.patch.object(Path, "open", missing_children), \
+                    mock.patch.object(os, "scandir", wraps=os.scandir) as population:
+                candidates = owner._cleanup_candidates(occupied.owner.time.monotonic() + 3.0)
+                population.assert_called_once_with("/proc")
+            self.assertEqual(missing_reads, [str(discovery_path)])
+            self.assertLessEqual(len(candidates), 4096)
+            self.assertLessEqual(sum(len(item) + 1 for item in candidates), 65536)
+            self.assertTrue(all(item.isdigit() and int(item) > 0 for item in candidates))
+            self.assertNotIn(str(os.getpid()).encode("ascii"), candidates)
+            fd = os.pidfd_open(os.getpid(), 0)
+            try:
+                with mock.patch.object(os, "waitid", side_effect=observe_child_wait) as waited, \
+                        mock.patch.object(occupied.owner.signal, "pidfd_send_signal",
+                            side_effect=AssertionError("nonchild pidfd must never be signalled")) as sent:
+                    owner._signal_owned_child(fd)
+                    waited.assert_called_once_with(os.P_PIDFD, fd,
+                        os.WEXITED | os.WNOHANG | os.WNOWAIT | owner.WALL)
+                    sent.assert_not_called()
+                self.assertEqual(child_waits, ["ECHILD"])
+                self.assertEqual(owner.status["owned_pidfd_signals"], 0)
+            finally:
+                os.close(fd)
+        finally:
+            owner.close()
+        self.assertEqual(owner.status["quiescence"], "ECHILD_ALL_CHILDREN")
+        self.assertTrue(owner.status["flag_restored"])
+        (occupied.directory / "cleanup-discovery-control.json").write_text(json.dumps(dict(
+            missing_children_file="CONTROLLED_ENOENT", numeric_population="ACTUAL_PROC_DISCOVERY_ONLY",
+            candidate_count=len(candidates), self_pid=os.getpid(), child_waits=child_waits,
+            nonchild_signal_attempts=sent.call_count, quiescence=owner.status["quiescence"],
+            flag_restored=owner.status["flag_restored"]), sort_keys=True) + "\n")
+
+        writer_source = '''import os, time
+r, w = os.pipe()
+child = os.fork()
+if child == 0:
+    os.close(r)
+    os.setsid()
+    grandchild = os.fork()
+    if grandchild:
+        os._exit(0)
+    os.write(1, b"surviving writer ready\\n")
+    os.write(w, b"R")
+    os.close(w)
+    deadline = time.monotonic() + 8
+    while time.monotonic() < deadline:
+        os.write(1, b"actual writer heartbeat\\n")
+        time.sleep(0.05)
+    os._exit(0)
+os.close(w)
+assert os.read(r, 1) == b"R"
+os.close(r)
+os.waitpid(child, 0)
+'''
+        writer = self.fixture("live-writer", "python3 -I -S -B - <<'PY'\n" + writer_source + "PY\n")
+        result = self.call(writer, "legacy")
+        self.assertEqual(result.returncode, 2, result.stderr.decode(errors="replace"))
+        self.assertEqual((writer.workspace / "exit-code.txt").read_bytes(), b"0\n")
+        self.assertIn(b"surviving writer ready", (writer.workspace / "stdout.log").read_bytes())
+        self.assertFalse((writer.sinks["legacy"] / "custody.json").exists())
+        refusal = json.loads((writer.sinks["legacy"] / "refusal.json").read_bytes())
+        self.assertEqual(refusal["primary_exit"], 0)
+        self.assertTrue(refusal["process_custody"]["live_children_refused"])
+        self.assertEqual(refusal["process_custody"]["quiescence"], "ECHILD_ALL_CHILDREN")
+        self.assertTrue(refusal["process_custody"]["flag_restored"])
+        self.assertGreater(refusal["process_custody"]["owned_pidfd_signals"], 0)
+
+    def test_retained_byte_tamper_refuses_before_raw_comparison_credit(self):
+        # Break caught: treating a custody sidecar as a label while reading
+        # changed retained bytes or weakening the original raw hash checks.
+        fixture = self.fixture("tamper")
+        self.successful_capture(fixture, "legacy")
+        retained = self.successful_capture(fixture, "dag")
+        good = self.call(fixture, "compare", comparison=fixture.directory / "before-tamper.json")
+        self.assertEqual(good.returncode, 0, good.stderr.decode(errors="replace"))
+        stream = retained / "capture/stdout.log"
+        stream.write_bytes(stream.read_bytes() + b"tampered retained byte\n")
+        comparison = fixture.directory / "after-tamper.json"
+        result = self.call(fixture, "compare", comparison=comparison)
+        self.assertEqual(result.returncode, 2)
+        self.assertFalse(comparison.exists())
+        self.assertIn(b"retained capture", result.stderr)
 
 
 if __name__ == "__main__":
