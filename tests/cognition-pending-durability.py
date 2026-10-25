@@ -517,7 +517,7 @@ def exercise_path_custody(h):
 
 
 
-def exercise_stored_json_custody(h):
+def exercise_stored_json_custody(h, parser_refusal=None):
     """Ambiguous stored keys cannot discard a genuine unconsumed obligation.
 
     Restoring CORE.read_json's ordinary parser must fail these actual-CLI
@@ -541,8 +541,8 @@ def exercise_stored_json_custody(h):
              for action in ("status", "resume")]
     cases += [("duplicate-consumed-version", nested, action, "DUPLICATE_JSON_KEY")
               for action in ("status", "resume")]
-    cases += [("utf16", original.decode("utf-8").encode("utf-16"), "status", None),
-              ("utf8-bom", b"\xef\xbb\xbf" + original, "status", None)]
+    cases += [("utf16", original.decode("utf-8").encode("utf-16"), "status", parser_refusal),
+              ("utf8-bom", b"\xef\xbb\xbf" + original, "status", parser_refusal)]
     failures = []
     for name, wire, action, reason in cases:
         case = "stored-json-" + name + "-refuses-" + action
@@ -718,6 +718,11 @@ def reservation_refusal_profile(pins):
     # differs. Bind the same four source owners recorded by source_pins; do not
     # accept either reason interchangeably or infer it from the response.
     profiles = {
+        ("b12a6e385bb911e54c641c8a3c56ba0d0a40819083f4444f2659c6eecd55af8c",
+         "9ea603b9d923df5c155c7a5406ee2dac21cbc8fc87ec205f978e3130fbe43345",
+         "2fcb390a3e4105adc1178000e736b1a09b3b5a59db03fdd744cda895a1352d04",
+         "62558bb209129c66b55d2a97325d16db4aecfd2ecbeb71323dd44070a50f0890"):
+            ("f74a7c6675073af8c78f8a83ef5f3eb1476d2bfb", "NONPROTECTED_PROJECTION_PROFILE_REQUIRED", "PENDING_STATE_JSON"),
         ("9b5faf290e08d3df77b15d5e5301a3760c4e599d16719cf8f72e1768522ea691",
          "9ea603b9d923df5c155c7a5406ee2dac21cbc8fc87ec205f978e3130fbe43345",
          "2fcb390a3e4105adc1178000e736b1a09b3b5a59db03fdd744cda895a1352d04",
@@ -758,8 +763,12 @@ def reservation_refusal_profile(pins):
              "compaction-source-owner-codex-app.py", "host-session-binding.py")
     identity = tuple(pins.get(str(PEER / name)) for name in names)
     require(identity in profiles, "unqualified portable reservation-refusal source profile")
-    checkpoint, reason = profiles[identity]
-    return {"qualified_checkpoint": checkpoint, "expected_reason": reason}
+    selected = profiles[identity]
+    checkpoint, reason = selected[:2]
+    profile = {"qualified_checkpoint": checkpoint, "expected_reason": reason}
+    if len(selected) == 3:
+        profile["stored_json_refusal"] = selected[2]
+    return profile
 
 
 def main():
@@ -792,7 +801,7 @@ def main():
         require(selections == [None], "portable test requires the original absent native selection")
         exercise(h, profile["expected_reason"])
         exercise_path_custody(h)
-        exercise_stored_json_custody(h)
+        exercise_stored_json_custody(h, profile.get("stored_json_refusal"))
         exercise_stored_counter_positives(h)
         exercise_stored_counter_refusals(h)
         require(source_pins(repo) == pins, "actual source owners changed during qualification")

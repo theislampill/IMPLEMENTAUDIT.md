@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import math
 import os
 from pathlib import Path
 import stat
@@ -166,44 +167,58 @@ def state_path(store, session):
 def blank(session):
     return {'schema': SCHEMA, 'session_id': session, 'revision': 0, 'source': None, 'source_problem': None, 'signals': 0, 'unresolved_signal_version': 0, 'observations': {}, 'assignments': {}, 'active_child': None, 'native_producer_runtime_equivalence': 'UNVERIFIED'}
 
-def load(store, session):
-    path = state_path(store, session)
-    if not os.path.lexists(path):
-        # A missing leaf under an alias is unavailable custody, not empty state.
-        ancestor = path.parent
-        while not os.path.lexists(ancestor):
-            ancestor = ancestor.parent
-        CORE.safe_existing_directory(str(ancestor), 'compaction audit pending state ancestor')
-        return blank(session)
-    info = path.lstat()
-    if CORE.unsafe_file(info):
-        CORE.fail('compaction audit pending state is not a safe regular file')
-    require(info.st_size <= MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
-    CORE.safe_existing_directory(str(path.parent), 'compaction audit pending state')
-    flags = os.O_RDONLY | getattr(os, 'O_NOFOLLOW', 0) | getattr(os, 'O_NONBLOCK', 0) | getattr(os, 'O_BINARY', 0)
-    descriptor = os.open(path, flags)
+def _pending_state_bytes(path):
+    """Capture one safe bounded state file; only genuine absence returns None."""
     try:
-        opened = os.fstat(descriptor)
-        if CORE.unsafe_file(opened):
-            CORE.fail('compaction audit pending state is not a safe regular file')
-        require((opened.st_dev, opened.st_ino) == (info.st_dev, info.st_ino), 'PENDING_STATE_CHANGED_DURING_READ')
-        require(opened.st_size <= MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
-        # One admitted descriptor supplies the bounded UTF-8 buffer to decode.
-        raw = bytearray()
-        while len(raw) <= MAX_STATE:
-            chunk = os.read(descriptor, min(65536, MAX_STATE + 1 - len(raw)))
-            if not chunk:
+        existing = path
+        while True:
+            try:
+                before = existing.lstat()
                 break
-            raw.extend(chunk)
-        require(len(raw) <= MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
-    finally:
-        os.close(descriptor)
+            except FileNotFoundError:
+                parent = existing.parent
+                require(parent != existing, 'PENDING_STATE_PATH')
+                existing = parent
+        if existing != path:
+            CORE.safe_existing_directory(str(existing), 'compaction audit pending ancestor')
+            return None
+        CORE.safe_existing_directory(str(path.parent), 'compaction audit pending parent')
+        require(not CORE.unsafe_file(before), 'PENDING_STATE_FILE_KIND')
+        require(0 <= before.st_size <= MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
+        stamp = lambda info: (info.st_dev, info.st_ino, info.st_mode, info.st_nlink,
+                              info.st_size, info.st_mtime_ns, info.st_ctime_ns)
+        flags = os.O_RDONLY | getattr(os, 'O_BINARY', 0) | getattr(os, 'O_NOFOLLOW', 0) | getattr(os, 'O_NONBLOCK', 0)
+        with os.fdopen(os.open(path, flags), 'rb') as stream:
+            opened = os.fstat(stream.fileno())
+            require(stamp(before) == stamp(opened), 'PENDING_STATE_CHANGED_DURING_READ')
+            raw = stream.read(MAX_STATE + 1)
+            after = os.fstat(stream.fileno())
+        require(stamp(before) == stamp(after) == stamp(path.lstat())
+                and len(raw) == before.st_size and len(raw) <= MAX_STATE,
+                'PENDING_STATE_CHANGED_DURING_READ')
+        CORE.safe_existing_directory(str(path.parent), 'compaction audit pending parent')
+        return raw
+    except OSError as exc:
+        raise Refusal('PENDING_STATE_UNREADABLE') from exc
+
+
+def load(store, session):
+    raw = _pending_state_bytes(state_path(store, session))
+    if raw is None:
+        return blank(session)
+    def finite_number(token):
+        value = float(token)
+        require(math.isfinite(value), 'PENDING_STATE_JSON_NUMBER')
+        return value
     try:
-        value = decode(raw.decode('utf-8'))
-    except (UnicodeError, json.JSONDecodeError) as exc:
-        CORE.fail('compaction audit pending state is unreadable or malformed: ' + str(exc))
-    if not isinstance(value, dict):
-        CORE.fail('compaction audit pending state is not an object')
+        value = json.loads(raw.decode('utf-8'), object_pairs_hook=unique,
+                           parse_float=finite_number,
+                           parse_constant=lambda _: require(False, 'PENDING_STATE_JSON_CONSTANT'))
+    except Refusal:
+        raise
+    except (ValueError, RecursionError) as exc:
+        raise Refusal('PENDING_STATE_JSON') from exc
+    require(isinstance(value, dict), 'PENDING_STATE_SHAPE')
     require(set(blank(session)) <= set(value) <= set(blank(session)) | {'current_assignment', 'successor_stage', 'successor_assignment'} and value['schema'] == SCHEMA and (value['session_id'] == session) and (type(value['revision']) is int) and isinstance(value['observations'], dict) and isinstance(value['assignments'], dict), 'PENDING_STATE_SHAPE')
     for item in value['observations'].values():
         require(isinstance(item, dict) and type(item.get('version')) is int and item['version'] > 0

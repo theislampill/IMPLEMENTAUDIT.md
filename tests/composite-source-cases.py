@@ -47,7 +47,13 @@ class CompositeSourceCases(unittest.TestCase):
         fixture = load("composite_pending_fixture", ROOT / "tests/cognition-pending-durability.py")
         pins = fixture.source_pins(ROOT)
         selected = fixture.reservation_refusal_profile(pins)
-        self.assertEqual(selected["qualified_checkpoint"], "5d90c706518cd08f13dfbb2024e806702cae85e9")
+        self.assertEqual(selected["qualified_checkpoint"], "f74a7c6675073af8c78f8a83ef5f3eb1476d2bfb")
+        self.assertEqual(selected["stored_json_refusal"], "PENDING_STATE_JSON")
+        historical = dict(pins)
+        historical[str(fixture.PEER / "compaction-audit-pending.py")] = "9b5faf290e08d3df77b15d5e5301a3760c4e599d16719cf8f72e1768522ea691"
+        self.assertEqual(fixture.reservation_refusal_profile(historical), {
+            "qualified_checkpoint": "5d90c706518cd08f13dfbb2024e806702cae85e9",
+            "expected_reason": "NONPROTECTED_PROJECTION_PROFILE_REQUIRED"})
         self.assertEqual(selected["expected_reason"], "NONPROTECTED_PROJECTION_PROFILE_REQUIRED")
         for name in pins:
             for missing in (False, True):
