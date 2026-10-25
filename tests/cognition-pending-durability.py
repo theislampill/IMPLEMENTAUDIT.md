@@ -67,6 +67,59 @@ def ceiling(value, *, decision=False):
         require(value["native_producer_runtime_equivalence"] == "UNVERIFIED", "native equivalence promoted")
 
 
+class StatusReadAudit:
+    """Fixture-only read census: pathname opens plus one identity-bound FD wrapper."""
+    def __init__(self, allowed):
+        self.allowed = set(allowed)
+        self.opened = []
+        self.descriptors = {}
+        self.wrapped = set()
+
+    @staticmethod
+    def stamp(info):
+        return (info.st_dev, info.st_ino, info.st_mode, info.st_nlink,
+                info.st_size, info.st_mtime_ns, info.st_ctime_ns)
+
+    @staticmethod
+    def readonly(flags):
+        require(not flags & (os.O_WRONLY | os.O_RDWR | os.O_CREAT | os.O_TRUNC | os.O_APPEND),
+                "status attempted a writable open")
+
+    def record_open(self, descriptor, path, flags):
+        self.readonly(flags)
+        path = Path(os.fsdecode(path))
+        require(type(descriptor) is int and path in self.allowed and str(path) in self.opened,
+                "descriptor has no admitted pathname open")
+        observed = os.fstat(descriptor)
+        require(stat.S_ISREG(observed.st_mode) and observed.st_nlink == 1
+                and self.stamp(observed) == self.stamp(path.lstat()),
+                "admitted descriptor differs from exact path")
+        self.descriptors[descriptor] = (path, self.stamp(observed))
+        self.wrapped.discard(descriptor)
+
+    def __call__(self, event, args):
+        if event == "open":
+            path, mode_text, flags = args
+            self.readonly(flags)
+            if type(path) is int:
+                require(path in self.descriptors and path not in self.wrapped,
+                        "status used an unknown or repeated descriptor wrapper")
+                name, expected = self.descriptors[path]
+                try:
+                    observed = self.stamp(os.fstat(path))
+                    current = self.stamp(name.lstat())
+                except OSError as error:
+                    raise AssertionError("status descriptor is no longer current") from error
+                require(observed == expected == current, "status descriptor identity changed")
+                self.wrapped.add(path)
+                return
+            require(isinstance(path, (str, bytes, os.PathLike)) and Path(os.fsdecode(path)) in self.allowed,
+                    "status read outside exact owner/binding/index/pending files: " + str(path))
+            self.opened.append(os.fsdecode(path))
+        elif event in ("os.listdir", "os.scandir", "os.rename", "os.remove", "os.rmdir",
+                       "os.mkdir", "subprocess.Popen", "os.system", "socket.connect"):
+            raise AssertionError("status attempted forbidden event: " + event)
+
 def worker(mode, source_text, store_text, session, owner, action):
     """Fault/guard scheduling only; all pending semantics remain in source."""
     source, store = Path(source_text), Path(store_text)
@@ -140,27 +193,30 @@ def worker(mode, source_text, store_text, session, owner, action):
     }
     if target.exists():
         allowed.add(target)
-    opened = []
+    audit = StatusReadAudit(allowed)
+    actual_open = os.open
 
-    def audit(event, args):
-        if event == "open":
-            path, mode_text, flags = args
-            require(not flags & (os.O_WRONLY | os.O_RDWR | os.O_CREAT | os.O_TRUNC | os.O_APPEND),
-                    "status attempted a writable open")
-            require(isinstance(path, (str, bytes, os.PathLike)) and Path(os.fsdecode(path)) in allowed,
-                    "status read outside exact owner/binding/index/pending files: " + str(path))
-            opened.append(str(path))
-        elif event in ("os.listdir", "os.scandir", "os.rename", "os.remove", "os.rmdir",
-                       "os.mkdir", "subprocess.Popen", "os.system", "socket.connect"):
-            raise AssertionError("status attempted forbidden event: " + event)
+    def admitted_open(path, flags, *args, **kwargs):
+        descriptor = actual_open(path, flags, *args, **kwargs)
+        try:
+            audit.record_open(descriptor, path, flags)
+        except BaseException:
+            os.close(descriptor)
+            raise
+        return descriptor
 
     sys.addaudithook(audit)
-    result = pending.main()
+    os.open = admitted_open
+    try:
+        result = pending.main()
+    finally:
+        os.open = actual_open
+    opened = audit.opened
     require(result == 0, "guarded status refused")
     require(len(opened) == len(allowed) and set(opened) == {str(p) for p in allowed},
             "status did not use one bounded read per expected custody file")
     sys.stderr.write(json.dumps({"status_guard": "PASS", "read_count": len(opened),
-                                 "observations": 0, "writes": 0}, sort_keys=True) + "\n")
+                                 "observations": 0, "writes": 0, "descriptor_wrappers": len(audit.wrapped)}, sort_keys=True) + "\n")
     return result
 
 

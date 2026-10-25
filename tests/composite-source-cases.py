@@ -27,6 +27,46 @@ def load(name, path):
 
 
 class CompositeSourceCases(unittest.TestCase):
+    @unittest.skipUnless(os.name == "posix", "POSIX descriptor admission controls")
+    def test_status_read_guard_admits_only_the_recorded_readonly_descriptor(self):
+        fixture = load("status_descriptor_fixture", ROOT / "tests/cognition-pending-durability.py")
+        with tempfile.TemporaryDirectory(prefix="status-descriptor-") as temporary:
+            path, foreign = Path(temporary) / "allowed", Path(temporary) / "foreign"
+            path.write_bytes(b"original")
+            foreign.write_bytes(b"unrelated")
+            guard = fixture.StatusReadAudit({path})
+            descriptor = os.open(path, os.O_RDONLY)
+            other = os.open(foreign, os.O_RDONLY)
+            try:
+                with self.assertRaisesRegex(AssertionError, "no admitted pathname"):
+                    guard.record_open(descriptor, path, os.O_RDONLY)
+                guard("open", (str(path), "r", os.O_RDONLY))
+                guard.record_open(descriptor, path, os.O_RDONLY)
+                for candidate in (other, True, str(descriptor), str(foreign)):
+                    with self.subTest(candidate=candidate), self.assertRaises(AssertionError):
+                        guard("open", (candidate, "r", os.O_RDONLY))
+                for candidate in (str(path), descriptor):
+                    with self.subTest(writable=candidate), self.assertRaisesRegex(AssertionError, "writable"):
+                        guard("open", (candidate, "r+", os.O_RDWR))
+                guard("open", (descriptor, "r", os.O_RDONLY))
+                self.assertEqual(guard.opened, [str(path)])
+                self.assertEqual(guard.wrapped, {descriptor})
+                with self.assertRaisesRegex(AssertionError, "repeated"):
+                    guard("open", (descriptor, "r", os.O_RDONLY))
+                for event in ("os.listdir", "os.scandir", "os.rename", "os.remove", "os.rmdir",
+                              "os.mkdir", "subprocess.Popen", "os.system", "socket.connect"):
+                    with self.subTest(event=event), self.assertRaisesRegex(AssertionError, "forbidden"):
+                        guard(event, ())
+                changed = fixture.StatusReadAudit({path})
+                changed("open", (str(path), "r", os.O_RDONLY))
+                changed.record_open(descriptor, path, os.O_RDONLY)
+                path.write_bytes(b"changed size")
+                with self.assertRaisesRegex(AssertionError, "identity changed"):
+                    changed("open", (descriptor, "r", os.O_RDONLY))
+            finally:
+                os.close(descriptor)
+                os.close(other)
+
     def test_shell_scanner_retains_logical_statement_boundaries(self):
         checker = (ROOT / "scripts/check-helper-reachability.sh").read_text(encoding="utf-8")
         python = checker.split("<<'PY'\n", 1)[1].rsplit("\nPY", 1)[0]
