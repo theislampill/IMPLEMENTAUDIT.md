@@ -328,3 +328,21 @@ exactly-once receiving gates remain open. No R0035 graph/READY/JOIN owner is cha
 After publication, bind any warranted final-candidate offline ActiveGraph execution
 to its actual new source/package. Reuse the completed version-bound library controls
 and retain the original native self-dogfood obligation and all historical failures.
+
+
+## R0030 protected result prefix continuation
+
+Protected v3 result files now preserve only the exact completed effect prefix
+at serialization; actual live output retains the later completed publication
+suffix. The original future-effect RED, unchanged discriminator GREEN, four
+guard-loss and eight terminal-custody cases are preserved at helper
+`1a0d798496b6e138c4668171ebd1c316b45a791b7f3e8685fd36cdf5339a9867`.
+Reuse those affected checks and their source bindings. Saved COMMITTED describes
+the target operation, never this file's own durability. Final-directory-fsync
+failure still produces F75 with retained uncertainty; the fixture durable hook
+is not a production receipt. Ordinary v2 equality and the journal's prospective
+self-publication convention remain explicit compatibility/remaining-source
+limits. The next independent source question is whether protected journal
+observations can truthfully use the completed-prefix convention without losing
+crash reconstruction. No native or P53 authority is inferred; other issues and
+read-only R0035/R0039 owners remain separate.

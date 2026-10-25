@@ -713,3 +713,60 @@ principal/effect receiving, non-cooperating writers, crash/power-loss durability
 external exactly-once execution and whole R0030 acceptance are not established.
 The other three RLGWOs receive no closure credit, and prior ActiveGraph observations
 retain their actual candidate identities pending any final-source binding.
+
+
+## R0030 protected result records contain completed observations
+
+The actual C03 discriminator at parent `81c4e142` exposed unsupported future
+observations in protected v3 result files. Immediately before the pending and
+final result buffers were written, the helper had completed 86 and 92 effects;
+the serialized `actual_effect_set` contained 90 and 98 rows. Its last four or
+six rows described the publication operations that had not yet executed.
+The first unchanged-source invocation failed with the named future-effect
+criterion. This is an independently executable representation defect even
+without a shipped result-file-only completion reader.
+
+The eleven-line runtime correction is confined to `persist_result_record()`.
+Protected v3 files now contain the exact completed prefix at serialization.
+The live result adds later publication effects only as their syscalls complete.
+All operations remain in `planned_effect_set`. Schema keys, target-operation
+status/reason, protected authorization, generation/fence binding, guard lifetime,
+retry prohibition and recovery behavior remain unchanged. Ordinary v2 retains
+its existing saved/live equality convention; this is an explicit compatibility
+limit, not a claim that its prospective rows became observations.
+
+Exact helper SHA-256 changes from
+`db223c9db51c6c158aeda4919ead941b831e8ae9452e32cc3866070e2096e053`
+to `1a0d798496b6e138c4668171ebd1c316b45a791b7f3e8685fd36cdf5339a9867`.
+The unchanged new discriminator has SHA-256
+`3521058ea7216df44460b820d3f3432e06e809a00b6b6493eba950c21596f25d`.
+Its GREEN requires exact 86/86 and 92/92 captured prefixes, completed target
+publication/readback and the complete six-row live suffix; the success result
+still records all 98 observed effects. This does not merely permit fewer rows.
+
+The four affected completed-effect/guard-loss cases and eight terminal-custody
+cases passed without corrective retries. Their drivers are byte-equal
+extractions of the existing registered functions, with complete fixtures and raw
+receipts retained. The ordinary v2 success still requires exact saved/live
+equality. The author did not run the whole shell wrapper or distributed bank;
+unchanged evidence is reused at its original identity. Author packet manifest:
+`139f53d319ad2a0d78c481e489192c5412c43c2d1ba3403543c79b7175d67754`.
+Exact final source/test/ledger, independent review, package/installed result and
+public CI are recorded in the publication receipt.
+
+The historical final-directory-fsync failure is preserved. Its original saved
+98-row COMMITTED/RELEASED record accompanied an actual 97-row F75 result. On this
+corrected source the same necessary fault comparison retains a saved 92-row
+completed prefix and an actual 97-row F75/RESULT_PERSISTENCE_FAILURE result.
+The five additional live rows are exactly the completed publication operations;
+neither record claims the failed final directory fsync. No later success is
+inferred from a saved COMMITTED label. That label describes the observed target
+operation, and is not evidence of this record's own successful persistence.
+Production `phase_hook()` remains a no-op: the test's durable marker is fixture
+instrumentation, not a production completion or authentication receipt.
+
+The remaining prospective journal self-publication convention is unchanged in
+both versions and remains a separate source question. This increment supplies
+no automatic recovery, external exactly-once execution, power-loss guarantee,
+noncooperating-writer fence, native host grant, P53 decision, or complete C01–C09
+acceptance. R002C, R002D, R002E and R0030 remain separate original decisions.

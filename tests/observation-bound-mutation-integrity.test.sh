@@ -1162,7 +1162,7 @@ os.fsync=observed_fsync'''
     backup_rel=backup.relative_to(fixture.repo).as_posix(); stage_rel=stage.relative_to(fixture.repo).as_posix()
     paths={'target',backup_rel,stage_rel}
     rows=protected_rows(payload,paths)
-    require(read_record(tx/'result.json')==payload,'durable result differs from stdout')
+    fence.assert_observed_result_prefix(fixture,payload,promoted=name=='protected-success')
     require(fixture.run_command(['git','show-ref']).stdout==refs_before,'verify-only guard changed authority refs')
     assert_effects(payload)
     fence.assert_stored_schemas(fixture,payload,True)
@@ -1282,6 +1282,7 @@ for name in cases if selected=='all' else (selected,):
     fault_seen=fixture.base/'fault-seen.json'
     checkpoint_before_cleanup=fixture.base/'checkpoint-before-cleanup.json'
     durable_hook=fixture.base/'terminal-durable'
+    serialization_captures=fixture.base/'result-serialization-captures.json'
     helper=fence.HELPER
     if not name.endswith('-success'):
         injection=f'''import signal
@@ -1289,6 +1290,14 @@ mode={name!r}
 fault_seen=Path({str(fault_seen)!r})
 checkpoint_capture=Path({str(checkpoint_before_cleanup)!r})
 durable_marker=Path({str(durable_hook)!r})
+serialization_path=Path({str(serialization_captures)!r})
+original_write_new=write_new
+serializations=[]
+def observed_result_write(path,data,*pos,**kw):
+    if path in {{RESULT,RESULT_TMP}}:
+        serializations.append({{"path":repo_relative(path),"completed":list(actual),"serialized":json.loads(data)}})
+        serialization_path.write_text(json.dumps(serializations,sort_keys=True))
+    return original_write_new(path,data,*pos,**kw)
 original_unlink=unlink; original_terminal=persist_terminal_or_fallback
 original_fsync=os.fsync; original_sync=sync_directory_raw; original_hook=phase_hook
 injected={{"done":False,"journal_cleanup":False,"final_publication":False}}
@@ -1330,6 +1339,7 @@ def failing_sync(path):
 def observed_hook(phase):
     if phase=="terminal-result-durable": durable_marker.touch()
     return original_hook(phase)
+globals()["write_new"]=observed_result_write
 globals()["unlink"]=observed_unlink
 globals()["persist_terminal_or_fallback"]=observed_terminal
 globals()["sync_directory_raw"]=failing_sync
@@ -1356,7 +1366,10 @@ os.fsync=failing_fsync'''
         payload=json.loads(result.stdout)
         fence.assert_result(fixture,result,payload,'COMMITTED','NONE',fence.CANDIDATE,protected=protected)
         fence.assert_stored_schemas(fixture,payload,protected)
-        require(read_record(saved)==payload,'durable final result differs from stdout')
+        if protected:
+            fence.assert_observed_result_prefix(fixture,payload)
+        else:
+            require(read_record(saved)==payload,'ordinary v2 final result differs from stdout')
         require(not journal.exists() and not staged.exists() and not payload['residue'],'clean result retained cleanup residue')
         actual=assert_effects(payload)
         roles={role:row['path'] for row in payload['planned_effect_set'] for role in row['roles']}
@@ -1372,6 +1385,10 @@ os.fsync=failing_fsync'''
         if protected: fence.assert_guard_effects(fixture,payload)
     else:
         require(fault_seen.exists(),f'{name}: named fault was not reached')
+        if serialization_captures.exists():
+            for capture in read_record(serialization_captures):
+                require(capture['serialized']['actual_effect_set']==capture['completed'],
+                        'protected fault record did not preserve the exact completed serialization prefix')
         if name in {'before-result','after-journal-unlink'}:
             require(result.returncode in {-getattr(signal,'SIGKILL',9),137} and not result.stdout,
                     'crash emitted a terminal result or did not terminate abruptly')
@@ -1407,19 +1424,30 @@ os.fsync=failing_fsync'''
                 execution_checkpoint(read_record(saved),authority['transaction_id'])
                 require(not durable_hook.exists(),'failed final publication claimed durability')
             elif name=='final-directory-fsync':
-                # The inherited future-effect convention serializes publication
-                # effects before they execute. This edge must return F75; saved
-                # status alone is not proof of the final directory fsync.
+                # The v3 file retains the completed prefix from serialization;
+                # only live output includes the five later observed publication
+                # effects. Neither record asserts the failed directory fsync.
                 require(not journal.exists() and not staged.exists(),'final rename did not consume the journal/temp')
                 final=read_record(saved); pending=read_record(checkpoint_before_cleanup)
                 require(pending['status']=='RECOVERY_REQUIRED' and final['status']=='COMMITTED',
                         'fault did not follow replacement of the pending result')
                 execution_checkpoint(final,authority['transaction_id'])
-                require(final['actual_effect_set'][:-1]==payload['actual_effect_set'],
-                        'F75 did not preserve exactly the observed publication prefix')
-                last=final['actual_effect_set'][-1]
-                require(last['effect']=='fsync' and last['path']==str(tx.relative_to(fixture.repo)).replace('\\','/')
-                        and last['outcome']=='applied','saved result lost inherited future-fsync representation')
+                captures=read_record(serialization_captures)
+                require(len(captures)==2 and final==captures[-1]['serialized']
+                        and final['actual_effect_set']==captures[-1]['completed'],
+                        'retained fault result differs from the exact serialization snapshot')
+                require(final['actual_effect_set']==payload['actual_effect_set'][:-5],
+                        'F75 did not retain the saved prefix plus observed publication suffix')
+                relative=tx.relative_to(fixture.repo).as_posix()
+                suffix=payload['actual_effect_set'][-5:]
+                require([(row['scope'],row['path'],row['effect']) for row in suffix]==[
+                    ('repo',relative+'/result.tmp','create'),
+                    ('repo',relative+'/result.tmp','write'),
+                    ('repo',relative+'/result.tmp','fsync'),
+                    ('repo',relative+'/result.tmp','replace'),
+                    ('repo',relative+'/result.json','replace')]
+                    and all(row['outcome']=='applied' for row in suffix),
+                    'F75 omitted a completed publication effect or invented final directory fsync')
                 require(str(saved.relative_to(fixture.repo)).replace('\\','/') in residues,
                         'F75 omitted the uncertain final result')
                 require(not durable_hook.exists(),'failed final directory fsync claimed durability')
@@ -1436,7 +1464,7 @@ os.fsync=failing_fsync'''
             else:
                 require(checkpoint_before_cleanup.is_file(),'D48-C05 RED: journal cleanup ran without durable checkpoint')
                 execution_checkpoint(read_record(checkpoint_before_cleanup),authority['transaction_id'])
-                require(read_record(saved)==payload,'durable cleanup-failure result differs from stdout')
+                fence.assert_observed_result_prefix(fixture,payload)
                 actual=assert_effects(payload)
                 released=max(row['sequence'] for row in actual if row['scope']=='git-common' and row['effect']=='unlink')
                 require(not any(row['scope']=='repo' and (row['path']=='target' or row['path'].endswith(('/backup.bin','/stage.bin')))

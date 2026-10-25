@@ -1597,6 +1597,9 @@ def result_record(status, reason_code, residue_paths, effect_rows):
 
 
 def persist_result_record(status, reason_code, residue_paths, replace_existing=False):
+    # Protected v3 files snapshot completed observations. Their publication
+    # effects enter the live result only after the syscalls return. The fixed
+    # v2 contract retains its historical saved/stdout equality.
     result_before = path_identity(RESULT)
     transaction_identity = path_identity(TX)
     if replace_existing:
@@ -1613,7 +1616,9 @@ def persist_result_record(status, reason_code, residue_paths, replace_existing=F
                 (TX, "fsync", transaction_identity, transaction_identity),
             ]
         )
-        payload = result_record(status, reason_code, residue_paths, actual + future)
+        payload = result_record(status, reason_code, residue_paths, actual)
+        if payload["schema"] == "implementaudit.observation_bound_mutation.v2":
+            payload["actual_effect_set"].extend(future)
         write_new(RESULT_TMP, canonical(payload), effect_rows=future[:3], sync_parent=False)
         replace(RESULT_TMP, RESULT, effect_rows=future[3:5], sync_parents=False)
         fsync_dir(TX, future[5])
@@ -1626,7 +1631,9 @@ def persist_result_record(status, reason_code, residue_paths, replace_existing=F
                 (TX, "fsync", transaction_identity, transaction_identity),
             ]
         )
-        payload = result_record(status, reason_code, residue_paths, actual + future)
+        payload = result_record(status, reason_code, residue_paths, actual)
+        if payload["schema"] == "implementaudit.observation_bound_mutation.v2":
+            payload["actual_effect_set"].extend(future)
         write_new(RESULT, canonical(payload), effect_rows=future[:3], sync_parent=False)
         fsync_dir(TX, future[3])
     return result_record(status, reason_code, residue_paths, actual)

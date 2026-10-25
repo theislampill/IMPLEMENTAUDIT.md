@@ -267,6 +267,27 @@ def assert_stored_schemas(fixture, payload, protected):
             "persisted result and stdout disagree on their versioned contract")
 
 
+def assert_observed_result_prefix(fixture, payload, promoted=True):
+    transaction = fixture.run / "mutation-transactions" / payload["transaction_id"]
+    saved = json.loads((transaction / "result.json").read_bytes())
+    relative = transaction.relative_to(fixture.repo).as_posix()
+    path = relative + ("/result.tmp" if promoted else "/result.json")
+    expected = [("repo", path, effect) for effect in ("create", "write", "fsync")]
+    if promoted:
+        expected += [("repo", path, "replace"), ("repo", relative + "/result.json", "replace")]
+    expected.append(("repo", relative, "fsync"))
+    actual = payload["actual_effect_set"]
+    suffix = actual[-len(expected):]
+    require([(row["scope"], row["path"], row["effect"]) for row in suffix] == expected
+            and all(row["outcome"] == "applied" for row in suffix),
+            "live result lost its completed publication suffix")
+    require(saved["actual_effect_set"] == actual[:-len(expected)],
+            "persisted result is not the exact completed prefix before publication")
+    require({key: value for key, value in saved.items() if key != "actual_effect_set"} ==
+            {key: value for key, value in payload.items() if key != "actual_effect_set"},
+            "persisted result changed non-effect semantics")
+
+
 def assert_result(fixture, result, payload, status, reason, target=PREIMAGE, protected=True):
     require(payload.get("status") == status and payload.get("reason_code") == reason,
             f"expected {status}/{reason}, got {payload.get('status')}/{payload.get('reason_code')}; {result.stderr}")
@@ -290,6 +311,79 @@ def assert_result(fixture, result, payload, status, reason, target=PREIMAGE, pro
         require(not any(row.get("scope") == "repo" and row.get("path") == "target"
                         for row in payload["actual_effect_set"]),
                 "refusal performed a protected target effect")
+
+
+def persisted_result_prefix(fixture):
+    # The saved evidence must contain exactly the completed observations at
+    # serialization, not its own not-yet-executed publication effects.
+    captured_path = fixture.base / "result-prefix-capture.json"
+    refs_before = fixture.run_command(["git", "show-ref"]).stdout
+    helper = fixture.instrument("init", f"""capture_path = Path({str(captured_path)!r})
+original_write_new = write_new
+captures = []
+def capture_result_write(path, data, *pos, **kw):
+    if path in {{RESULT, RESULT_TMP}}:
+        captures.append({{"path": repo_relative(path), "completed": list(actual),
+                         "serialized": json.loads(data)}})
+        capture_path.write_text(json.dumps(captures, sort_keys=True))
+    return original_write_new(path, data, *pos, **kw)
+globals()["write_new"] = capture_result_write""")
+    result, payload = fixture.invoke(helper, required=True)
+    assert_result(fixture, result, payload, "COMMITTED", "NONE", CANDIDATE)
+    assert_guard_effects(fixture, payload)
+    assert_stored_schemas(fixture, payload, protected=True)
+    require(fixture.run_command(["git", "show-ref"]).stdout == refs_before,
+            "result capture changed authority refs")
+    captures = json.loads(captured_path.read_bytes())
+    transaction = fixture.run / "mutation-transactions" / payload["transaction_id"]
+    relative = transaction.relative_to(fixture.repo).as_posix()
+    require([row["path"] for row in captures] ==
+            [relative + "/result.json", relative + "/result.tmp"],
+            "capture missed checkpoint or final result publication")
+    require([row["serialized"]["status"] for row in captures] ==
+            ["RECOVERY_REQUIRED", "COMMITTED"],
+            "captured results changed target-operation dispositions")
+    saved = json.loads((transaction / "result.json").read_bytes())
+    require(saved == captures[-1]["serialized"],
+            "actual saved result differs from the captured serialization")
+    print("D48_RESULT_PREFIX_CAPTURE=" + json.dumps([
+        {"path": row["path"], "completed_count": len(row["completed"]),
+         "serialized_count": len(row["serialized"]["actual_effect_set"])}
+        for row in captures], sort_keys=True), flush=True)
+    for row in captures:
+        snapshot = row["serialized"]
+        require(snapshot["actual_effect_set"] == row["completed"],
+                "D48-C03 RED: protected persisted result claimed a future effect or lost the completed prefix")
+        require(any(effect["scope"] == "repo" and effect["path"] == "target"
+                    and effect["effect"] == "link" and effect["outcome"] == "applied"
+                    for effect in snapshot["actual_effect_set"]),
+                "persisted prefix omitted completed protected target publication")
+        require(any(identity["path"] == "target" and
+                    identity["identity"].get("sha256") == hashlib.sha256(CANDIDATE).hexdigest()
+                    for identity in snapshot["post_identities"]),
+                "persisted prefix lost authoritative target readback")
+        require(snapshot["authority_publication_guard"]["state"] == "RELEASED"
+                and snapshot["retry_permitted"] is False,
+                "persisted prefix changed guard or retry disposition")
+    completed = captures[-1]["completed"]
+    require(payload["actual_effect_set"][:len(completed)] == completed,
+            "live result rewrote the completed serialized prefix")
+    suffix = payload["actual_effect_set"][len(completed):]
+    require([(row["scope"], row["path"], row["effect"]) for row in suffix] == [
+        ("repo", relative + "/result.tmp", "create"),
+        ("repo", relative + "/result.tmp", "write"),
+        ("repo", relative + "/result.tmp", "fsync"),
+        ("repo", relative + "/result.tmp", "replace"),
+        ("repo", relative + "/result.json", "replace"),
+        ("repo", relative, "fsync"),
+    ] and all(row["outcome"] == "applied" for row in suffix),
+            "live result omitted or invented a completed publication effect")
+    require(all(row["sequence"] == index for index, row in
+                enumerate(payload["actual_effect_set"], 1)),
+            "live result effect sequence is not contiguous")
+    require({key: value for key, value in saved.items() if key != "actual_effect_set"} ==
+            {key: value for key, value in payload.items() if key != "actual_effect_set"},
+            "persisted prefix changed non-effect result semantics")
 
 
 def current_generation(fixture, timeout=15):
@@ -632,6 +726,7 @@ globals()['release_authority_guard'] = fail_abort""")
 CASES = {
     "concurrent-controller": concurrent_controller,
     "current-generation": current_generation,
+    "persisted-result-prefix": persisted_result_prefix,
     "native-current-generation": native_current_generation,
     "disabled-reference-hooks": disabled_reference_hooks,
     "cheap-local": cheap_local,
