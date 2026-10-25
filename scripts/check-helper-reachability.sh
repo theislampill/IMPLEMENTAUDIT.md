@@ -409,8 +409,34 @@ def claim_public_modes(content):
     return sorted({mode for label in labels for mode in label.split("|")} - {"--controller"})
 
 
+def replacement_preflight_modes(content):
+    # The Bash helper's new observation mode is a top-level Python parser and
+    # dispatch pair. A prose mention, nested dead branch or missing half is not
+    # an implemented public mode. Runtime behavior has separate focused tests.
+    opening, closing = "<<'PY'\n", "\nPY\n"
+    if content.count(opening) != 1 or content.count(closing) != 1:
+        return []
+    try:
+        body = ast.parse(content.split(opening, 1)[1].split(closing, 1)[0]).body
+    except SyntaxError:
+        return []
+    required = [
+        'parser.add_argument("--batch-preflight", dest="preflight_replacements")',
+        'if args.preflight_replacements is not None:\n    replacement_batch_preflight()',
+    ]
+    actual = [ast.dump(node, include_attributes=False) for node in body]
+    if (all(actual.count(ast.dump(ast.parse(source).body[0], include_attributes=False)) == 1
+            for source in required)
+            and sum(isinstance(node, ast.FunctionDef) and node.name == "replacement_batch_preflight"
+                    for node in body) == 1):
+        return ["--batch-preflight"]
+    return []
+
+
 implemented_mode_sets = {}
 implemented_mode_sets["claim-run.sh"] = claim_public_modes((skill_root / "scripts/claim-run.sh").read_text(encoding="utf-8"))
+implemented_mode_sets["apply-observed-mutation.sh"] = replacement_preflight_modes(
+    (skill_root / "scripts/apply-observed-mutation.sh").read_text(encoding="utf-8"))
 graph_helper = "validate-run-root.sh"
 graph_text = (skill_root / "scripts" / graph_helper).read_text(encoding="utf-8")
 implemented_mode_sets[graph_helper] = sorted(set(re.findall(r"--graph-[a-z0-9-]+", graph_text)))

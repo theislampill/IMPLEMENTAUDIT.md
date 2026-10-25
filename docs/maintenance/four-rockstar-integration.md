@@ -1339,3 +1339,135 @@ does not contain protected v3 guard fields. Original C05, C01-C09, P53/D48-O01
 and each of the four original work-order decisions remain separately **OPEN**.
 The combined package capacity failure is unaffected by this evidence-only
 addition.
+
+## R0030 EH-3: ordered ordinary-replacement preflight
+
+The existing mutation owner now exposes `--batch-preflight <batch.json>` for
+an ordered population of ordinary replacements in one claimed run and phase.
+It consumes each selected step through the existing phase-authority producer,
+captures complete preimages and candidates, rejects duplicate steps and aliased
+targets, and refuses selected protected fences or retained same-step
+transactions. It re-requests every phase projection and rechecks captured
+inputs, controller custody, selected transaction/fence absence and Git HEAD
+before returning. This is an optional observation prefix; the original
+single-operation mutation route remains the actual effect consumer.
+
+The strict unique-key input is
+`implementaudit.replacement-batch-preflight-input.v1`. Its nonempty rows have
+exactly `step`, `source`, `preimage` and `candidate`; only ordinary `replace`
+with no destination is admitted. The manifest limit is 1 MiB, including a
+previously captured file reused as the manifest and the final reread. The
+separate result is `implementaudit.replacement-batch-preflight.v1`, with
+`OBSERVATION_ONLY` or `REFUSED`, authority `NONE`, no effect authority, no
+atomic-snapshot claim and required later revalidation. No governed target,
+lock, journal or receipt state is created by this prefix. Existing validators'
+temporary snapshots and cleanup remain declared support effects.
+
+The first proposal and its independent GAP remain retained. Its finite bank
+recorded fifteen observations: two portable positive controls and thirteen
+refusals. Those results retain their first-source identity and were not replayed
+or relabelled as final-source coverage. Three subsequent focused controls
+demonstrated actual defects in that proposal: a cached 1 MiB+1 manifest was
+admitted; an enlarged manifest was read without a bound before eventual drift
+refusal; and changed selected ROADMAP membership could be missed while root
+files stayed unchanged. The last control uses a byte-reversible reader-selection
+seam and the real phase-authority body. It is constructed receiving evidence,
+not native selection or authentication.
+
+The correction retains the strictest capture-role limit and applies it to
+cache hits and final reads. It asks the unchanged phase producer for every
+selected projection again, requiring exact equality. The owner re-evaluates
+its selected canonical pair; equality of projections does not seal that pair's
+identity. A single affected four-observation run completed with outcomes
+0/64/64/64: complete ordinary aggregate, oversized cached manifest, bounded
+oversized final reread and changed selected membership. Its ten captured
+top-level commands include six setup commands and four preflight invocations.
+The final read witness requested exactly 1,048,577 bytes to detect an oversized
+manifest. All earlier source, failed assertions and raw observations remain
+unchanged.
+
+The unpublished option was renamed from `--preflight-replacements` to
+`--batch-preflight`, preserving the legacy `--pr` and `--pre` abbreviations.
+Independent structural review found all ninety original functions/classes
+unchanged in AST and all 165 original normalized top-level statements in the
+same order. Three relocated definitions retain their exact bytes. Removing
+the additive test function and its two call sites restores the old test bytes.
+These are compatibility checks, not an original acceptance-case population.
+
+One independent ordinary-v2 invocation using the final helper returned
+0/`COMMITTED`, with the exact target changed and the second target and evidence
+preserved. Its first harness failed an over-strong assertion that saved and
+returned results must be identical. That harness failure is retained. Read-only
+adjudication under the unchanged persistence contract found the saved 69-row
+effect set is the exact prefix of the returned 75-row set; the six later rows
+are the result's own completed publication tail. The subject was not rerun and
+no persistence code was changed to satisfy the harness.
+
+Final helper SHA-256:
+`206d8af24e839b6a9080fd0367d2b4be5253b3e26cad6572b623046ec25986f7`;
+registered test:
+`140ab876740262c917abe1683d732695c7e04c6681841dc13759fc92f1d618d0`;
+reference:
+`a4f60b6daab9096aff3d4ef18846cfcbba4a60c789cec185b63974f00db73b2b`.
+The sealed revision-two source/raw packet is 1,239,948 bytes, SHA-256
+`3984a9112f18aa6dfac1acc21c24126464dc4633fabc9c5f1295bc354a52a259`.
+Its subsequent single-phrase reference correction is separately frozen in
+the final postimage manifest, SHA-256
+`80633ac8883ffd38f8de08f13943668aee0d44d00892ccb1eea2695301ad5b3a`.
+
+Independent source/evidence review is `PASS_BOUNDED` at those three final
+postimages. Report SHA-256:
+`0777d5f8499c1d73aa02c8ec5d6dc9a48d141a2bf52e9dbcf1f51a8a4e81f051`;
+receipt SHA-256:
+`9f1d143cfb5f4d8339ce47a52be1a488647c503ae466ac4433894f488cc06fb0`.
+Package, installed-layout and changed combined-source qualifications are
+separately bound; none is inferred from this source review.
+
+This advances executable all-target observation and authority-consumption
+predicates within the original EH-3 obligation. It does not complete the
+transaction-qualified batch sink. Ordered application and partial outcome
+custody, ADD/RETAIN/protected-merge semantics, lawful executor bootstrap and
+self-row policy, exact historical proposal correspondence, the original
+1,248-row population, authenticated native adapters and P53 remain separate.
+Absence of the historical proposal does not prevent further justified ordinary
+source engineering. No atomic or durable preflight, unchanged receipt-token
+guarantee, external exactly-once execution, UNKNOWN settlement or original
+C01-C09 closure follows. All four original work-order decisions remain OPEN.
+
+### Affected package admission and combined currentness receiving
+
+The first package qualification stopped at its static helper census with exit
+1, before any build or installer ran: the newly documented mode had not been
+registered in the census's implemented-mode population. Source inspection also
+found that its prose lacked the census's required complete invocation anchor.
+The original failure remains retained. The smallest integration correction
+adds source-derived registration of the actual top-level Python parser and
+dispatch pair, and spells out the full invocation in the existing reference.
+It does not remove the declared mode, weaken the census or change the helper.
+The corrected census passed for 28 helpers and 18 modes. Two static negative
+controls separately remove the parser registration and top-level dispatch;
+both remain unregistered. These are static recognizer controls, not new
+mutation-helper or original acceptance cases.
+
+The initial independently reviewed reference `a4f60b6d...` remains the source
+for the earlier review. The final invocation-anchor reference is SHA-256
+`7d708b389869c9d97a568eb250dd618e4d4dacd1145acf1df3f149ec9258e921`.
+The repository-only census checker is SHA-256
+`fde28103f1ad601d5d5203994ad814c457c183ea274688fadc7d93975bfbbf61`.
+Helper `206d8af2...` and test `140ab876...` are unchanged. Package and installed
+execution continue separately after this finite correction; no skipped step
+is promoted to a successful result.
+
+An actual receiving check used canonical runtime/templates and the phase
+fixture from PR255 `00341e8059f04791141e59c208f488a28dda0302`, tree
+`ca3d81f352fe404ceef8f872eaa8b803ceace4d3`, plus the reviewed EH-3 helper/test
+and insertion-only shared reference. Its 47-file projection was explicit;
+no repository-only native peer was silently installed. All 47 declared source
+inputs stayed unchanged. Twelve captured top-level commands include ten setup
+commands and two preflight invocations. A real ordinary controller/receipt
+produced 0/`OBSERVATION_ONLY` for both rows. Deleting its marker while retaining
+its bound controller reference then produced 65/`STALE_CONTROLLER_CUSTODY`.
+The actual combined claim, phase and currentness owners were consumed; no
+native authentication, atomic snapshot, whole-composite package acceptance
+or full EH-3 application follows. The completed pair is retained at its exact
+source identity and is not replayed for the reference/census correction.

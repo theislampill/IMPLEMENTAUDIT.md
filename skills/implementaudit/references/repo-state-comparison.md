@@ -287,6 +287,39 @@ effects, the governed-writer window/lock boundary, transactional evidence and
 truthful terminal status; direct filesystem replacement is not an equivalent
 consumer route.
 
+For a planned ordered population of ordinary replacements, run the optional
+`apply-observed-mutation.sh --batch-preflight <batch.json> --repo-root <r> --run-root <rr> --phase <n>`.
+This observation-only mode omits `--step` and single-operation evidence flags.
+The unique-key input has exactly `schema` and `rows`; schema is
+`implementaudit.replacement-batch-preflight-input.v1`. The nonempty ordered
+rows each have exactly `step`, `source`, `preimage`, and `candidate`: a positive
+integer step, the expected source path, and canonical repository-relative
+regular evidence paths. The input file is limited to 1 MiB, including reused
+captures and final rereads. Every selected step resolves through the existing
+phase authority owner in the same claim and
+phase; only `replace` with no destination is supported. Duplicate steps,
+aliased targets, unsafe files, mismatched source/preimage, retained same-step
+transactions and selected protected fences refuse the aggregate.
+
+Preflight captures input bytes and physical identities, then re-requests each
+selected projection from the existing phase authority owner and requires exact
+equality. The owner re-evaluates its selected canonical pair, even when its
+ROADMAP differs from the root file. It also checks observed input drift,
+current controller custody through its existing owner, Git HEAD and
+absence of selected transaction/fence paths before returning. The separate
+`implementaudit.replacement-batch-preflight.v1` result is `OBSERVATION_ONLY`
+or `REFUSED`, always with authority `NONE` and no effect grant. Its ordered
+row digest evidence describes the captured population, not a simultaneous or
+durable snapshot, unchanged ordinary receipt token, future application or
+transaction-qualified batch. It creates no governed target, lock, journal or
+receipt state. Existing authority validators may create and remove temporary
+support snapshots; this is not a global zero-effect claim. Ordinary controllers
+remain portable inputs, not native authentication. Actual later mutation must
+use the original route and revalidate authority, preimage and applicable
+fences. ADD, RETAIN, protected merge and executor bootstrap/self-row law are
+outside this restricted prefix; historical EH-3 population fidelity and full
+batch application remain unqualified.
+
 When a protected effect depends on a distributed authority generation, pass
 `--require-generation-fence` on that same route and supply the phase/step's
 `<run-root>/mutation-fences/phase-<n>-step-<n>.json`. The existing conditional
@@ -341,6 +374,7 @@ helper-mode: validate-run-root.sh|--graph-scope|<catalog> <repo> <path> [path...
 helper-mode: validate-run-root.sh|--graph-parent|<catalog> <repo> <scope> <reason>|fallback
 helper-mode: check-authorization-binding.sh|--phase --rehearsal --launch|<phase> <receipt> <launch>|failed-rehearsal-blocks-launch|scripts/validate-phase.sh
 helper-mode: check-evidence-anchor.sh|--window-transition|<transition> <launch-intent> --entry <n> --repo-root <repo>|governed-window-publication|-
+helper-mode: apply-observed-mutation.sh|--batch-preflight|<batch.json> --repo-root <r> --run-root <rr> --phase <n>|observation-only
 
 helper-route: scripts/check-authorization-binding.sh|R|auth|P|-|--auth <a> --invocation <i> --state <s>|no-param
 helper-route: scripts/apply-observed-mutation.sh|R|destructive-mutation|R|-|--repo-root <r> --run-root <rr> --phase <n> --step <n> <evidence>|governed-writer

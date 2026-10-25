@@ -252,11 +252,95 @@ def wait(name, release="release"):
     raise RuntimeError("timeout")
 
 
+def git_read(args, binary=False):
+    completed = subprocess.run(
+        ["git", *args], cwd=os.fspath(REPO), text=not binary,
+        capture_output=True, check=False,
+    )
+    return completed.returncode, completed.stdout
+
+
+def load_generation_identity(controller, token, control):
+    # claim-run is the sole semantic owner for legacy and native receipts.
+    # Consume its verified opaque identity; do not clone either receipt parser.
+    pattern = rf"(refs/implementaudit/continuity-receipts/{re.escape(controller)}/(G[0-9A-F]{{4}}))@([0-9a-f]{{40}}|[0-9a-f]{{64}})"
+    match = re.fullmatch(pattern, token)
+    if match is None or match.group(2) == "G0000":
+        return None
+    return {
+        "generation_id": match.group(2),
+        "receipt_ref": match.group(1),
+        "receipt_oid": match.group(3),
+    }
+
+
+def current_controller_binding():
+    marker = RUN / ".controller"
+    identity = path_identity(marker)
+    same = lambda l, r: os.path.normcase(os.path.abspath(native_input(l))) == os.path.normcase(os.path.abspath(r))
+    def record(controller):
+        completed = subprocess.run(
+            [BASH_EXE, bash_path(SCRIPT_DIR / "claim-run.sh"), "--current-controller", controller],
+            cwd=os.fspath(REPO), text=True, capture_output=True,
+        )
+        return completed.returncode, completed.stdout.rstrip("\n").split("\t")
+    if identity.get("kind") == "absent":
+        refs = subprocess.run(
+            ["git", "for-each-ref", "--format=%(refname:strip=3)", "refs/implementaudit/controllers/"],
+            cwd=os.fspath(REPO), text=True, capture_output=True,
+        )
+        if refs.returncode != 0:
+            return "STALE_CONTROLLER_CUSTODY", None, None
+        for controller in refs.stdout.splitlines():
+            rc, fields = record(controller)
+            if rc == 0 and len(fields) == 4 and same(fields[1], REPO) and same(fields[2], RUN) and fields[3] == claim_id:
+                return "STALE_CONTROLLER_CUSTODY", None, None
+        return None, None, None
+    if identity.get("kind") != "regular" or identity.get("link_count") != 1 or not contained_regular(marker, RUN):
+        return "STALE_CONTROLLER_CUSTODY", None, None
+    match = re.fullmatch(rb"controller_id=([a-z0-9](?:[a-z0-9-]{0,47}))\n", marker.read_bytes())
+    if match is None:
+        return "STALE_CONTROLLER_CUSTODY", None, None
+    controller = match.group(1).decode("ascii")
+    rc, fields = record(controller)
+    if rc != 0 or len(fields) != 4:
+        return "STALE_CONTROLLER_CUSTODY", None, None
+    if not (fields[0] == controller and same(fields[1], REPO) and same(fields[2], RUN) and fields[3] == claim_id):
+        return "STALE_CONTROLLER_CUSTODY", None, None
+    controller_ref = f"refs/implementaudit/controllers/{controller}"
+    rc, controller_oid = git_read(["rev-parse", "--verify", controller_ref])
+    controller_oid = controller_oid.strip()
+    if rc != 0 or re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", controller_oid) is None:
+        return "STALE_CONTROLLER_CUSTODY", None, None
+    control = {
+        "controller_id": controller,
+        "controller_ref": controller_ref,
+        "controller_oid": controller_oid,
+        "claim_id": claim_id,
+    }
+    current = subprocess.run(
+        [BASH_EXE, bash_path(SCRIPT_DIR / "claim-run.sh"), "--require-current-continuity", controller],
+        cwd=os.fspath(REPO), text=True, capture_output=True,
+    )
+    if current.returncode != 0:
+        return "STALE_CONTINUITY_RECEIPT", control, None
+    # Ordinary work retains every historical receipt accepted by its owner.
+    # Only the selected protected route requires a canonical generation token.
+    if not protected_route_requested:
+        return None, control, None
+    token = current.stdout.rstrip("\r\n")
+    generation = load_generation_identity(controller, token, control)
+    if generation is None:
+        return "STALE_CONTINUITY_RECEIPT", control, None
+    return None, control, generation
+
+
 parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument("--repo-root", required=True)
 parser.add_argument("--run-root", required=True)
 parser.add_argument("--phase", required=True, type=int)
-parser.add_argument("--step", required=True, type=int)
+parser.add_argument("--step", type=int)
+parser.add_argument("--batch-preflight", dest="preflight_replacements")
 parser.add_argument("--preimage")
 parser.add_argument("--candidate")
 parser.add_argument("--require-generation-fence", action="store_true")
@@ -267,7 +351,11 @@ try:
     args, unknown = parser.parse_known_args(ARGV)
 except SystemExit:
     raise SystemExit(64)
-if unknown or args.phase <= 0 or args.step <= 0:
+if (unknown or args.phase <= 0
+        or (args.preflight_replacements is None and (args.step is None or args.step <= 0))
+        or (args.preflight_replacements is not None and any(value is not None for value in
+            (args.step, args.preimage, args.candidate, args.offset, args.region, args.replacement)))
+        or (args.preflight_replacements is not None and args.require_generation_fence)):
     if unknown:
         sys.stderr.write(f"apply-observed-mutation: unknown arguments: {unknown!r}\n")
     raise SystemExit(64)
@@ -313,6 +401,213 @@ def validator(command):
             sys.stderr.write(completed.stderr)
         raise SystemExit(64)
     return completed.stdout.strip()
+
+
+def replacement_batch_preflight():
+    """Inspect a finite ordinary replacement population; never grant effects."""
+    global claim_id, protected_route_requested
+    result = {
+        "schema": "implementaudit.replacement-batch-preflight.v1",
+        "status": "REFUSED", "reason_code": "NONE", "authority": "NONE",
+        "effect_authority": False, "atomic_snapshot": False,
+        "later_effect_requires_revalidation": True, "governed_effects": [],
+        "support_effect_boundary": "EXISTING_VALIDATOR_TEMPORARY_SNAPSHOTS_AND_CLEANUP",
+        "phase": args.phase, "requested_rows": None, "checked_rows": 0,
+        "batch_input_sha256": None, "rows": [],
+    }
+    captures = {}
+    capture_limits = {}
+    absent = []
+
+    class Refusal(Exception):
+        def __init__(self, reason, code=64):
+            self.reason, self.code = reason, code
+
+    def request(command, reason):
+        try:
+            return validator(command)
+        except SystemExit:
+            raise Refusal(reason)
+
+    def witness(st):
+        return (st.st_dev, st.st_ino, st.st_mode, st.st_size,
+                st.st_mtime_ns, st.st_ctime_ns, st.st_nlink)
+
+    def read_capture(path, limit=None):
+        path = Path(path)
+        if not contained_regular(path):
+            raise Refusal("INPUT_CUSTODY_UNSAFE")
+        before = os.lstat(path)
+        fd = os.open(path, os.O_RDONLY | getattr(os, "O_BINARY", 0)
+                     | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_NONBLOCK", 0))
+        try:
+            opened = os.fstat(fd)
+            if not stat.S_ISREG(opened.st_mode) or witness(before) != witness(opened):
+                raise Refusal("INPUT_CUSTODY_UNSAFE")
+            with os.fdopen(fd, "rb", closefd=False) as stream:
+                data = stream.read() if limit is None else stream.read(limit + 1)
+            after = os.fstat(fd)
+            current = os.lstat(path)
+            if (witness(opened) != witness(after) or witness(after) != witness(current)
+                    or not contained_regular(path)):
+                raise Refusal("OBSERVED_INPUT_DRIFT", 65)
+            if limit is not None and len(data) > limit:
+                raise Refusal("BATCH_INPUT_TOO_LARGE")
+            return data, witness(after)
+        finally:
+            os.close(fd)
+
+    def capture(path, limit=None):
+        path = Path(path)
+        if path not in captures:
+            captures[path] = read_capture(path, limit)
+        if limit is not None:
+            if len(captures[path][0]) > limit:
+                raise Refusal("BATCH_INPUT_TOO_LARGE")
+            capture_limits[path] = min(capture_limits.get(path, limit), limit)
+        return captures[path]
+
+    def relative_file(raw):
+        path = repo_path(raw)
+        if path is None:
+            raise Refusal("INPUT_CUSTODY_UNSAFE")
+        return path
+
+    def unique_members(pairs):
+        value = {}
+        for key, item in pairs:
+            if key in value:
+                raise ValueError("duplicate JSON key")
+            value[key] = item
+        return value
+
+    def require_absent(path, reason, code):
+        if not safe_directory_chain(path.parent, RUN, True):
+            raise Refusal("INTERNAL_CUSTODY_UNSAFE")
+        try:
+            os.lstat(path)
+        except FileNotFoundError:
+            return
+        raise Refusal(reason, code)
+
+    claim_command = [BASH_EXE, bash_path(SCRIPT_DIR / "validate-run-root.sh"),
+                     "--claim-only", bash_path(native_input(RAW_RUN)),
+                     "--repo-root", bash_path(native_input(RAW_REPO))]
+    try:
+        request(claim_command, "CLAIM_CUSTODY_REFUSED")
+        claim_data = capture(RUN / ".claimed")[0]
+        claim_id = dict(row.split("=", 1) for row in claim_data.decode("utf-8").splitlines())["claim_id"]
+        result["claim_id"] = claim_id
+        for path in (PHASE_FILE, RUN / "STATE.md", RUN / "ROADMAP.md"):
+            capture(path)
+        protected_route_requested = False
+        failure, controller, generation = current_controller_binding()
+        if failure:
+            raise Refusal(failure, 65)
+        result["controller_identity"] = controller
+        if controller is not None:
+            capture(RUN / ".controller")
+        rc, head = git_read(["rev-parse", "--verify", "HEAD"])
+        if rc != 0:
+            raise Refusal("REPOSITORY_IDENTITY_UNAVAILABLE")
+        result["repository_head"] = head.strip()
+        raw, _ = capture(Path(os.path.abspath(native_input(args.preflight_replacements))), 1048576)
+        result["batch_input_sha256"] = digest(raw)
+        try:
+            batch = json.loads(raw.decode("utf-8"), object_pairs_hook=unique_members)
+        except (ValueError, UnicodeDecodeError):
+            raise Refusal("BATCH_SCHEMA_INVALID")
+        if (not isinstance(batch, dict) or set(batch) != {"schema", "rows"}
+                or batch["schema"] != "implementaudit.replacement-batch-preflight-input.v1"
+                or not isinstance(batch["rows"], list) or not batch["rows"]):
+            raise Refusal("BATCH_SCHEMA_INVALID")
+        result["requested_rows"] = len(batch["rows"])
+        steps, targets, objects = set(), set(), set()
+        for ordinal, row in enumerate(batch["rows"]):
+            result["refused_row"] = ordinal
+            if (not isinstance(row, dict) or set(row) != {"step", "source", "preimage", "candidate"}
+                    or type(row["step"]) is not int or row["step"] <= 0
+                    or any(not isinstance(row[k], str) or not row[k]
+                           or any(ord(c) < 32 for c in row[k])
+                           for k in ("source", "preimage", "candidate"))):
+                raise Refusal("BATCH_SCHEMA_INVALID")
+            step = row["step"]
+            if step in steps:
+                raise Refusal("DUPLICATE_STEP")
+            steps.add(step)
+            projection = json.loads(request([
+                BASH_EXE, bash_path(SCRIPT_DIR / "validate-phase.sh"),
+                "--mutation-authority", bash_path(PHASE_FILE), "--phase", str(args.phase),
+                "--step", str(step), "--repo-root", bash_path(REPO), "--run-root", bash_path(RUN),
+            ], "PHASE_AUTHORITY_REFUSED"))
+            if projection.get("operation") != "replace" or projection.get("destination") is not None:
+                raise Refusal("REPLACE_ONLY")
+            if projection.get("source") != row["source"]:
+                raise Refusal("SOURCE_AUTHORITY_MISMATCH")
+            source = relative_file(row["source"])
+            target_key = os.path.normcase(str(source))
+            if target_key in targets:
+                raise Refusal("ALIASED_TARGET")
+            targets.add(target_key)
+            current, physical = capture(source)
+            object_key = physical[:2]
+            if object_key in objects:
+                raise Refusal("ALIASED_TARGET")
+            objects.add(object_key)
+            preimage = capture(relative_file(row["preimage"]))[0]
+            candidate = capture(relative_file(row["candidate"]))[0]
+            if current != preimage:
+                raise Refusal("PREIMAGE_DRIFT", 65)
+            transaction = RUN / "mutation-transactions" / f"{claim_id}-p{args.phase}-s{step}"
+            fence = RUN / "mutation-fences" / f"phase-{args.phase}-step-{step}.json"
+            for path, reason, code in ((transaction, "PHASE_AUTHORITY_IN_PROGRESS_OR_REPLAY", 65),
+                                       (fence, "PROTECTED_PREFLIGHT_UNSUPPORTED", 64)):
+                require_absent(path, reason, code)
+                absent.append((path, reason, code))
+            result["rows"].append({"step": step, "source": row["source"],
+                                   "authority": projection, "preimage": simple_identity(preimage),
+                                   "candidate": simple_identity(candidate)})
+            result["checked_rows"] += 1
+        result.pop("refused_row", None)
+        phase_hook("replacement-batch-recheck")
+        request(claim_command, "CLAIM_CUSTODY_REFUSED")
+        for row in result["rows"]:
+            projection = json.loads(request([
+                BASH_EXE, bash_path(SCRIPT_DIR / "validate-phase.sh"),
+                "--mutation-authority", bash_path(PHASE_FILE), "--phase", str(args.phase),
+                "--step", str(row["step"]), "--repo-root", bash_path(REPO), "--run-root", bash_path(RUN),
+            ], "PHASE_AUTHORITY_REFUSED"))
+            if projection != row["authority"]:
+                raise Refusal("PHASE_AUTHORITY_DRIFT", 65)
+        failure, current_controller, current_generation = current_controller_binding()
+        if failure:
+            raise Refusal(failure, 65)
+        if current_controller != controller or current_generation != generation:
+            raise Refusal("CONTROLLER_IDENTITY_DRIFT", 65)
+        for path, observation in captures.items():
+            if read_capture(path, capture_limits.get(path)) != observation:
+                raise Refusal("OBSERVED_INPUT_DRIFT", 65)
+        for path, reason, code in absent:
+            require_absent(path, reason, code)
+        current_rc, current_head = git_read(["rev-parse", "--verify", "HEAD"])
+        if current_rc != 0 or current_head != head:
+            raise Refusal("REPOSITORY_IDENTITY_DRIFT", 65)
+        result["input_observations"] = [
+            {"path": os.fspath(path), **simple_identity(data)}
+            for path, (data, physical) in captures.items()
+        ]
+        result["status"] = "OBSERVATION_ONLY"
+        code = 0
+    except Refusal as error:
+        result["reason_code"], code = error.reason, error.code
+    except (OSError, ValueError, KeyError, TypeError):
+        result["reason_code"], code = "INPUT_CUSTODY_UNAVAILABLE", 64
+    print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
+    raise SystemExit(code)
+
+
+if args.preflight_replacements is not None:
+    replacement_batch_preflight()
 
 
 validator(
@@ -751,89 +1046,6 @@ def release_window_gate():
     except BaseException as error:
         errors.append(error)
     return errors
-
-
-def git_read(args, binary=False):
-    completed = subprocess.run(
-        ["git", *args], cwd=os.fspath(REPO), text=not binary,
-        capture_output=True, check=False,
-    )
-    return completed.returncode, completed.stdout
-
-
-def load_generation_identity(controller, token, control):
-    # claim-run is the sole semantic owner for legacy and native receipts.
-    # Consume its verified opaque identity; do not clone either receipt parser.
-    pattern = rf"(refs/implementaudit/continuity-receipts/{re.escape(controller)}/(G[0-9A-F]{{4}}))@([0-9a-f]{{40}}|[0-9a-f]{{64}})"
-    match = re.fullmatch(pattern, token)
-    if match is None or match.group(2) == "G0000":
-        return None
-    return {
-        "generation_id": match.group(2),
-        "receipt_ref": match.group(1),
-        "receipt_oid": match.group(3),
-    }
-
-
-def current_controller_binding():
-    marker = RUN / ".controller"
-    identity = path_identity(marker)
-    same = lambda l, r: os.path.normcase(os.path.abspath(native_input(l))) == os.path.normcase(os.path.abspath(r))
-    def record(controller):
-        completed = subprocess.run(
-            [BASH_EXE, bash_path(SCRIPT_DIR / "claim-run.sh"), "--current-controller", controller],
-            cwd=os.fspath(REPO), text=True, capture_output=True,
-        )
-        return completed.returncode, completed.stdout.rstrip("\n").split("\t")
-    if identity.get("kind") == "absent":
-        refs = subprocess.run(
-            ["git", "for-each-ref", "--format=%(refname:strip=3)", "refs/implementaudit/controllers/"],
-            cwd=os.fspath(REPO), text=True, capture_output=True,
-        )
-        if refs.returncode != 0:
-            return "STALE_CONTROLLER_CUSTODY", None, None
-        for controller in refs.stdout.splitlines():
-            rc, fields = record(controller)
-            if rc == 0 and len(fields) == 4 and same(fields[1], REPO) and same(fields[2], RUN) and fields[3] == claim_id:
-                return "STALE_CONTROLLER_CUSTODY", None, None
-        return None, None, None
-    if identity.get("kind") != "regular" or identity.get("link_count") != 1 or not contained_regular(marker, RUN):
-        return "STALE_CONTROLLER_CUSTODY", None, None
-    match = re.fullmatch(rb"controller_id=([a-z0-9](?:[a-z0-9-]{0,47}))\n", marker.read_bytes())
-    if match is None:
-        return "STALE_CONTROLLER_CUSTODY", None, None
-    controller = match.group(1).decode("ascii")
-    rc, fields = record(controller)
-    if rc != 0 or len(fields) != 4:
-        return "STALE_CONTROLLER_CUSTODY", None, None
-    if not (fields[0] == controller and same(fields[1], REPO) and same(fields[2], RUN) and fields[3] == claim_id):
-        return "STALE_CONTROLLER_CUSTODY", None, None
-    controller_ref = f"refs/implementaudit/controllers/{controller}"
-    rc, controller_oid = git_read(["rev-parse", "--verify", controller_ref])
-    controller_oid = controller_oid.strip()
-    if rc != 0 or re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", controller_oid) is None:
-        return "STALE_CONTROLLER_CUSTODY", None, None
-    control = {
-        "controller_id": controller,
-        "controller_ref": controller_ref,
-        "controller_oid": controller_oid,
-        "claim_id": claim_id,
-    }
-    current = subprocess.run(
-        [BASH_EXE, bash_path(SCRIPT_DIR / "claim-run.sh"), "--require-current-continuity", controller],
-        cwd=os.fspath(REPO), text=True, capture_output=True,
-    )
-    if current.returncode != 0:
-        return "STALE_CONTINUITY_RECEIPT", control, None
-    # Ordinary work retains every historical receipt accepted by its owner.
-    # Only the selected protected route requires a canonical generation token.
-    if not protected_route_requested:
-        return None, control, None
-    token = current.stdout.rstrip("\r\n")
-    generation = load_generation_identity(controller, token, control)
-    if generation is None:
-        return "STALE_CONTINUITY_RECEIPT", control, None
-    return None, control, generation
 
 
 def read_fence_buffer():
