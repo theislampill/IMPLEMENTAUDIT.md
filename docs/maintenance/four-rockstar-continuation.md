@@ -423,3 +423,68 @@ final-public offline ActiveGraph artifact mission on that exact public package,
 reusing version-bound library controls. Original native self-dogfood, P53,
 C01-C09 recovery/effect authority, R002C caseB, both task NONVERDICTs, R002E's
 policy/receiving boundaries and other-owner graph dispatch remain unchanged.
+
+
+## Current owner continuation: finite receiving results and package remainder
+
+The latest owner-authorised continuation receives the additive checkpoint in
+[four-rockstar-integration.md](four-rockstar-integration.md#four-workstream-receiving-checkpoint-bounded-results-and-remaining-gates).
+Its exact report/receipt digests bind the results below. This increment creates
+no new Codex launch or foreign-branch adoption; the coordinator retains evidence
+preservation, independent claim review and the authorised publication decision.
+Existing source and historical failed/partial outcomes remain retained.
+
+Reuse the new cablebench **PASS_LOCAL_EPISODE at cooperative local task scope**
+on public `f1332a580faf1289005616fb8ee57969f6e3b745` /
+`8f45057fc62ffb9572faf5f74210c172fc3a7570`. The allowed lower-route repair was
+actually observed; the unchanged 55 C envelope still rejects the measured 68 C
+lower temperature. Nora owns investigation and current independent measurements
+before any later authorised trial. Do not credit the extractor's quoted-map
+occurrence in HANDOFF as a separate acquisition, or its exit 0 as semantic PASS.
+Launch `recorded_utc` is not launch time; serving revision, authenticated
+principal and token usage remain unknown. Preserve case B's original
+GAP-REVISE and the older readiness NONVERDICT; do not replay either to improve
+this new episode's evidence.
+
+Reuse the two actual integrated R0030 fault cases only at their reviewed local
+C02/C03/C05/C06 scope on `dd3c90b198726d7c60f3b6df3dd1c13fe01f2573` /
+`9c614f9663eabac1b2daa4ac1fdd5bbc1f9257bb`. Journal sync remains UNKNOWN with
+manual reconciliation and closure prohibited; final-result sync remains
+RESULT_PERSISTENCE_FAILURE with closure NOT_ASSERTED. Saved COMMITTED describes
+target disposition, not that record's later persistence. Recovery was refused
+by argument parsing, not executed as an algorithm; stale-preimage replay made
+no effect. Preserve the final case's pre/post-fault ref captures and later
+retained-ref comparison as distinct observations, without inventing an
+intermediate post-receiver capture or continuous monitoring.
+
+R002E receives only the exact reviewed shell proposal in
+[PR252 comment 6393556153](https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/252#issuecomment-6393556153);
+its owner decides foreign adoption. The recovered original security archive is
+420,747 bytes, SHA-256
+`8344c8083e2812163166869feaacbaf072447c12301082bcb4594786bbf3f5f3`, with six
+members. Authentic approved-policy custody and the revised private crosswalk
+remain unlocated in the recorded bounded search, not universally absent.
+Continue only warranted recovery/receiving work for those actual inputs; the
+original packet or a synthetic policy cannot replace them.
+
+Reuse the exact-public ActiveGraph 1.12 result already recorded in
+[PR251 comment 6393131772](https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/251#issuecomment-6393131772)
+and its independent actual review. Do not replay unchanged receiving or mission
+banks. Its three Graph/SQLite controls and finite offline mission do not settle
+native 71a acceptance or current-tree supersession; the separate warehouse
+formal NONVERDICT remains unchanged, as does the strict type-stream replay
+payload limitation and need for the separate full-content discriminator.
+
+The corrected combined candidate's actual build exits 1: plugin 552,283 bytes,
+standalone 547,677. At the unchanged 458,752-byte cap plus 2,000-byte reserve,
+the remaining reductions are 95,531 and 90,925 bytes. Keep that exact failed
+build and final measurement; do not inherit f133's smaller package result or
+claim final-source standalone installation. The capacity defect remains
+source-accessible. This evidence does not establish engineering exhaustion or
+that all source integration is finished. Continue the smallest warranted
+source/package work under the fixed contract, with affected receiving evidence
+and owner decisions kept distinct from the outstanding native gates.
+
+Original 68/116, 72, 60/117 and 54/102 whole-work-order acceptance, C01-C09 and
+P53 remain separate OPEN decisions. None of these new bounded results closes
+another workstream, erases a first outcome or authorises a cap/reserve change.

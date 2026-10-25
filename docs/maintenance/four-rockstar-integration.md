@@ -999,3 +999,165 @@ noncooperating external-writer behavior, external exactly-once execution, whole
 C01-C09 acceptance or a P53 owner decision. R002C's original caseB GAP and later
 NONVERDICT, R002D's distinct actual-task NONVERDICT/native self-dogfood gate,
 R002E's60-property census, and all separate issue decisions remain unchanged.
+
+
+## Four-workstream receiving checkpoint: bounded results and remaining gates
+
+This additive checkpoint receives the current owner-authorised work against
+public PR251 commit `f1332a580faf1289005616fb8ee57969f6e3b745`, tree
+`8f45057fc62ffb9572faf5f74210c172fc3a7570`. The new combined-source results below
+have their own exact identity. Neither identity supersedes historical failed
+attempts, missing evidence, accepted source work or separate issue decisions.
+
+### R002C: new cablebench first attempt
+
+The independently reviewed first cablebench attempt is **PASS_LOCAL_EPISODE at
+cooperative local task scope** for all six frozen essentials. Twelve original
+wrapped commands retain the full first installed SKILL read, actual diagnostic
+acquisition, allowed map repair, post-effect observations, exact final HANDOFF
+readback and terminal seal. The existing plugin is
+`29574dc1c9b4b07dfb430baddd8e89bb76c6120182d7616d4c6ba47ba76dcffc`; the acquired
+SKILL is 20,388 bytes, SHA-256
+`38f8bbd7dda1a7b92abe55d50454d237af8582016a7652d5e62a8bcb65a5e7ec`.
+
+The loaded profile already matches. Both original positions selected TC-17;
+current wiring assigns lower to TC-29. The actual separate instrument/contact
+path supplies CLB-42/frame-0042, TC-17=42 C, TC-29=68 C, OPEN contact and 0 mA.
+Changing only the lower route produces an actual console observation of 42/68
+and `panel_ready: false`. The unchanged limit is 55 C. HANDOFF preserves the
+thermal no-go and unknown cause, and leaves Nora investigation plus genuinely
+current measurements before an authorised future readiness decision. The
+independence is local dataflow independence from the map, not physical sensor
+independence, authenticated delivery, skill causality or production safety.
+
+Two review caveats remain operative. The first extractor's command-012 map-read
+attribution is only map bytes quoted inside HANDOFF; direct commands 004, 007
+and 010 supply the actual map evidence. Its exit 0 is capture extraction, not a
+semantic verdict. The launch metadata's `recorded_utc` is later than command 001
+and is not an actual launch timestamp; serving revision, authenticated principal
+and token usage remain unknown. Original case B remains **GAP-REVISE at its
+original diagnostic scope** and the older readiness task remains **NONVERDICT
+for its original required source-read capture gap**. Neither is repaired by this
+new, prospectively frozen task.
+
+Retained review: `integration36-safety-actual-review/REPORT.md`, SHA-256
+`ba3ff0b02b09cf1b5bcafc76982cde39b4e01d87c4fb75a8042e7315cdc24c6a`;
+`receipt.json`, SHA-256
+`00441e8bf97ed09bf6ae4f1520e9c0645d849d88da248a0a609bf7e398d8fd97`.
+
+### R0030: actual integrated two-fault receiving
+
+The separate disposable combined source is commit
+`dd3c90b198726d7c60f3b6df3dd1c13fe01f2573`, tree
+`9c614f9663eabac1b2daa4ac1fdd5bbc1f9257bb`. Independent review gives **PASS for
+two prospectively selected cooperating local receiving cases**, with actual
+migration to G0004 and 14-field continuity receipts before the protected sink.
+Both first faulted operations and their original refusal receivers are retained.
+
+| Actual injected boundary | Actual helper outcome | Retained completed observations |
+| --- | --- | --- |
+| Journal directory sync | Exit 78; `UNKNOWN / MANUAL_RECONCILIATION`; retry false; closure `PROHIBITED` | Journal 62, saved fallback result 74, live output 78; failed directory sync is absent |
+| Final result directory sync | Exit 75; `ROLLBACK_FAILED_WITH_RESIDUE / RESULT_PERSISTENCE_FAILURE`; retry false; closure `NOT_ASSERTED` | Pending result 83, saved result 89, live output 94; exactly five later completed publication rows, no failed-sync row or durable marker |
+
+The final saved `COMMITTED` value describes target disposition, not successful
+persistence of that record itself. The later live failure controls. Each
+unsupported recovery invocation exits 64 at argument parsing, before recovery
+or mutation setup; this is not a recovery algorithm. Each original-preimage
+replay exits 65 with `CONFLICT_REBASE / PREIMAGE_DRIFT`, no effects and no retry.
+
+Ref-preservation timing is bounded: journal-sync has pre-operation, post-fault
+and post-refusal observations; final-sync has pre-operation/post-fault captures
+and a later independent comparison of sealed retained final refs, not a captured
+post-receiver intermediate `show-ref`. Its unchanged custody predicate passed,
+but the two final-sync snapshot dictionaries were not serialized. Source
+currentness is likewise observed before/after and at review, not continuously.
+These cases support local C02/C03/C05/C06 composition only: no successful
+recovery, power-loss durability, native authentication, external exactly-once,
+R0035 execution, package acceptance or whole C01-C09/P53 decision follows.
+
+Retained review: `integration36-r30-partial-review/REPORT.md`, SHA-256
+`cc64b00037dd9cb08b50ed974ee5cafe11194f79ddfb7449575a304046a37f5e`;
+`RECEIPT.json`, SHA-256
+`d3fb2cab2ad9471c6e7001889bb0d54b3c491e60c29e4d3a1ae0d12fcea127ff`.
+
+### R002E: reviewed source-custody proposal and recovered packet
+
+The exact shell-to-companion correction has **PASS at bounded local POSIX
+proposal scope** and is published for its owner in
+[PR252 comment 6393556153](https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/252#issuecomment-6393556153).
+The three-file proposal SHA-256 is
+`e3e2c08631a84346a54e61c74197de4bd556a08444b4a7371a89b74562783d57`.
+It pins the selected companion in the shell, verifies a bounded captured source
+buffer before compilation, and preserves non-3 custody failures so they cannot
+select the legacy fallback. Receive only the reviewed companion/pin pair.
+The interpreter, startup environment and selected shell remain trusted
+prerequisites; native identity, arbitrary same-principal resistance and Windows
+native acquisition are not established. The proposal and disposable composition
+do not adopt or publish a change to the foreign PR252 branch.
+
+The original frozen security packet has now been recovered: 420,747 bytes,
+SHA-256 `8344c8083e2812163166869feaacbaf072447c12301082bcb4594786bbf3f5f3`,
+with six members recorded in `integration36-security-original-packet-census.json`
+(SHA-256 `7a2f9aa98682134ff3f322f344cfbe88f50f936e34ad9c5d4d71876e9fd1f6e8`).
+The authentic approved-policy artifact and revised private security crosswalk
+were still not located in the bounded authorised recovery/search recorded in
+`integration36-policy-search-retained.json` (SHA-256
+`96625b179d26bd5bf45e563e8e8b3fed51c565e9326a584f49bfde8eee261fbe`).
+This is not universal absence. Recovering the original six-member packet does
+not substitute for those distinct receiving inputs or close the 60/117 decision.
+
+Retained proposal review: `integration36-shell-review/REPORT.md`, SHA-256
+`e4ca5ba5721db7a5ff2cd54532e50f9b68cd7bbbe2b189f78e15b2a2014bb63a`;
+`receipt.json`, SHA-256
+`972df5e061ba1cbb2c68b70b6b158cc59940405bc3d9c9e07c5649ff77d1b2b9`.
+
+### R002D: reuse exact-public ActiveGraph 1.12 evidence
+
+Reuse the existing **PASS at bounded Graph/SQLite and offline-mission scope**
+on the exact public f133 source/package recorded in
+[PR251 comment 6393131772](https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/251#issuecomment-6393131772).
+Three actual receiving controls cover detached event/listener custody, a real
+stale SQLite writer and a real duplicate append. The first six-stage ActiveGraph
+1.12.0 mission preserves full artifact/state observations, lineage pins,
+compaction, snapshot/suffix refusals and retirement. Same-type-stream strict
+replay still accepts the exercised payload drift; the separate full-content
+comparison rejects it. Current-release identity is bounded to the retained
+pre-execution readback, not a fresh currentness assertion by this ledger.
+
+Retained review: `review-activegraph-v112-actual/REPORT.md`, SHA-256
+`dc923bd83c1e4bec751af9b5c5ca0d2aefc121b7cf1d59c068e9d004cebbf5a2`;
+`review-receipt.json`, SHA-256
+`547cd2797f9eb5283e925b6c0956adeadec9a7fa13529d9f201a6c69ef3eb626`.
+The warehouse task's formal **NONVERDICT at its original capture scope** stays
+unchanged. Original native 71a self-dogfood or separately reviewed current-tree
+supersession, host corroboration and independently held journal remain open.
+
+### Exact final combined package failure
+
+The corrected dd3c90b/9c614f9 candidate's actual canonical build exited 1 at the
+unchanged plugin cap. The cap is 458,752 bytes and the separate reserve is 2,000;
+a qualifying artifact must therefore be at most 456,752 bytes.
+
+| Final projection | Bytes | SHA-256 | Reduction still required for cap plus reserve |
+| --- | ---: | --- | ---: |
+| Canonical plugin | 552,283 | `474906e82a70c4f9b1d0489f3cd342bf95f21bde09eac179d63483ea1ee43c46` | 95,531 |
+| Standalone compatibility | 547,677 | `65762da153f8d62c2077f11d17230f67fc38d0eb43c819df2cf96e3af9bd1ae3` | 90,925 |
+
+Both archives were written before plugin verification refused; the standalone
+failure here is measured against the fixed budget, not a newly executed final
+standalone verifier or installer. Source/member parity and a stdout
+`package-contract: ok` line do not override exit 1. This is a source-accessible
+capacity failure, not a package pass or a native-only blocker. The measurement
+makes no engineering-exhaustion claim and does not establish that all source
+integration or larger warranted reduction work is exhausted.
+
+Retained final measurement: `integration36-package-review/FINAL-CANDIDATE.md`,
+SHA-256 `c195dc05a0a766452b131021a2c31116c7e4fde65cc950a4fbe5fd8e1db098de`;
+`FINAL-CANDIDATE.json`, SHA-256
+`9befbc2e0dd72bba6dd3eee36382b4a90f61d1a99e015421e7b0e54e415f13dc`.
+
+These are evidence-ledger additions only. Original 68/116, 72, 60/117 and 54/102
+whole-work-order acceptance, C01-C09 and P53 owner decisions remain separate
+and **OPEN**; accepted constituent work and every retained GAP/NONVERDICT keep
+their own scope. No combined package acceptance, foreign adoption, native
+qualification, original-population expansion or issue closure is inferred.
