@@ -705,7 +705,7 @@ def exercise_stored_counter_positives(h):
     require(h.pending.read_bytes() == original, "positive controls did not restore original bytes")
 
 
-def exercise_stored_counter_refusals(h, selected=None):
+def exercise_stored_counter_refusals(h, selected=None, *, nonfinite_reason="PENDING_OBSERVATION_COUNTERS"):
     """Malformed counters cannot hide work or be rewritten by a later resume.
 
     Removing the load-time domain check must fail these actual status/resume
@@ -747,7 +747,8 @@ def exercise_stored_counter_refusals(h, selected=None):
             value = h.call(action, {"currentness": "UNRESOLVED", "measured_epoch": None}
                            if action == "resume" else None, expected_exit=2)
             require(value["status"] == "PENDING_OPERATION_REFUSED" and "decision" not in value
-                    and value["reason"] == "PENDING_OBSERVATION_COUNTERS",
+                    and value["reason"] == (nonfinite_reason if name in ("version-nan", "consumed-nan")
+                                            else "PENDING_OBSERVATION_COUNTERS"),
                     case + ": malformed counters yielded the wrong result")
             require(before == h.snapshot(), case + ": refusal changed the actual store")
             h.mark(case)
@@ -778,7 +779,8 @@ def reservation_refusal_profile(pins):
          "9ea603b9d923df5c155c7a5406ee2dac21cbc8fc87ec205f978e3130fbe43345",
          "2fcb390a3e4105adc1178000e736b1a09b3b5a59db03fdd744cda895a1352d04",
          "62558bb209129c66b55d2a97325d16db4aecfd2ecbeb71323dd44070a50f0890"):
-            ("f74a7c6675073af8c78f8a83ef5f3eb1476d2bfb", "NONPROTECTED_PROJECTION_PROFILE_REQUIRED", "PENDING_STATE_JSON"),
+            ("f74a7c6675073af8c78f8a83ef5f3eb1476d2bfb", "NONPROTECTED_PROJECTION_PROFILE_REQUIRED",
+             "PENDING_STATE_JSON", "PENDING_STATE_JSON_CONSTANT"),
         ("9b5faf290e08d3df77b15d5e5301a3760c4e599d16719cf8f72e1768522ea691",
          "9ea603b9d923df5c155c7a5406ee2dac21cbc8fc87ec205f978e3130fbe43345",
          "2fcb390a3e4105adc1178000e736b1a09b3b5a59db03fdd744cda895a1352d04",
@@ -822,8 +824,10 @@ def reservation_refusal_profile(pins):
     selected = profiles[identity]
     checkpoint, reason = selected[:2]
     profile = {"qualified_checkpoint": checkpoint, "expected_reason": reason}
-    if len(selected) == 3:
+    if len(selected) >= 3:
         profile["stored_json_refusal"] = selected[2]
+    if len(selected) == 4:
+        profile["nonfinite_counter_refusal"] = selected[3]
     return profile
 
 
@@ -859,7 +863,8 @@ def main():
         exercise_path_custody(h)
         exercise_stored_json_custody(h, profile.get("stored_json_refusal"))
         exercise_stored_counter_positives(h)
-        exercise_stored_counter_refusals(h)
+        exercise_stored_counter_refusals(h, nonfinite_reason=profile.get(
+            "nonfinite_counter_refusal", "PENDING_OBSERVATION_COUNTERS"))
         require(source_pins(repo) == pins, "actual source owners changed during qualification")
         report["result"] = "PASS"
     except Exception as error:

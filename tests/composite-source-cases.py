@@ -89,6 +89,7 @@ class CompositeSourceCases(unittest.TestCase):
         selected = fixture.reservation_refusal_profile(pins)
         self.assertEqual(selected["qualified_checkpoint"], "f74a7c6675073af8c78f8a83ef5f3eb1476d2bfb")
         self.assertEqual(selected["stored_json_refusal"], "PENDING_STATE_JSON")
+        self.assertEqual(selected["nonfinite_counter_refusal"], "PENDING_STATE_JSON_CONSTANT")
         historical = dict(pins)
         historical[str(fixture.PEER / "compaction-audit-pending.py")] = "9b5faf290e08d3df77b15d5e5301a3760c4e599d16719cf8f72e1768522ea691"
         self.assertEqual(fixture.reservation_refusal_profile(historical), {
