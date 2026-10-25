@@ -188,7 +188,7 @@ class AdmissionCases(Fixture, unittest.TestCase):
         self.assertGreaterEqual(reservation["content_bytes"], bound["copied_source_bytes"] +
             4 * sum(state["files"][name]["bytes"] for name in bound["standalone_paths"]))
         session = self.session()
-        parent = P.bind_session(Q.VerifierTaskSession, Q.WG, Q.ROOT, (ROOT / "scripts/qualify-work-graph-prefix.py").read_bytes())
+        parent = P.bind_session(Q.VerifierTaskSession, Q.WG, Q.ROOT, (Q.ROOT / "scripts/qualify-work-graph-prefix.py").read_bytes())
         self.assertEqual(session.LIMITS, parent.LIMITS)
         self.assertEqual(session.LIMITS["scratch_bytes"], 32 * 1024**2)
         self.A.require_resource_capacity(reservation, session.LIMITS)

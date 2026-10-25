@@ -43,7 +43,7 @@ class CatalogCases(unittest.TestCase):
     def test_fixed_profile_scratch_limits_preserve_defaults_and_planner_image_key(self):
         A, raw = shared.load("planner_copy_limits", ROOT / "scripts/qualify-work-graph-finite-leaf.py")
         parent = P.bind_session(Q.VerifierTaskSession, Q.WG, Q.ROOT,
-            (ROOT / "scripts/qualify-work-graph-prefix.py").read_bytes())
+            (Q.ROOT / "scripts/qualify-work-graph-prefix.py").read_bytes())
         classes = {}
         for profile in Q._FINITE_MODES.values():
             cls = A.bind_session(Q.VerifierTaskSession, Q.WG, Q.ROOT, raw, profile=profile)
