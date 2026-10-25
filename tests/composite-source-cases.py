@@ -63,7 +63,7 @@ class CompositeSourceCases(unittest.TestCase):
         prefix = load("composite_prefix", ROOT / "scripts/qualify-work-graph-prefix.py")
         compiler = load("composite_prefix_compiler", CORE / "compile-work-graph.py")
         registry = (ROOT / "scripts/verify-package.sh").read_bytes()
-        historical = (ROOT / "fixtures/work-graph-registry/original117.verify-package.sh").read_bytes()
+        historical = (ROOT / "fixtures/work-graph-registry/original117/verify-package.sh").read_bytes()
         self.assertEqual(hashlib.sha256(historical).hexdigest(), prefix.REGISTRY_SHA256)
         old_graph, old_scope, old_data = prefix.select_prefix(compiler, historical, prefix.ENVIRONMENT)
         self.assertEqual(len(old_graph["nodes"]), 117)

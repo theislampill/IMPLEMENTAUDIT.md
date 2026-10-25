@@ -133,3 +133,39 @@ separately approved exact-tree squash/patch adoption if active donor PR lifecycl
 must remain independent, with preserved refs/history and owner-led re-anchoring.
 No source adoption closes any of the ten original issues. C5/OR/C02 grants,
 authentic producers/receiving and original acceptance contracts remain unchanged.
+
+## Subsequent bounded qualification on07d498cc
+
+The ordinary verifier bank passed its core, stream, prefix, registry,
+reproduction-event and correspondence-preflight sections, then failed the
+historical audit-spec section with seven errors in11 cases (one live skip).
+Those guards still bind the original registry and prefix helper. This is a
+retained current-bank failure, not a passing historical or current qualification.
+Independent census found35 finite contracts:27 have unchanged declared programs
+and pinned data; eight differ. Besides the six executable-owner profiles above,
+bootstrap-load-budget and lean-discipline pin changed package/semantic data.
+Every contract still separately binds the historical registry/helper. Current
+receiving must be explicit; none of these old receipts is current.
+
+Independent follow-up review accepted268's logical-NEWLINE repair at source
+scope after reproducing the valid versus no-exec distinction. It supports
+bounded draft publication, not whole-bank or mainline readiness.
+
+A separately reviewed outer runtime view hides only CPython's optional
+`/usr/lib/python3.12/test` files. It preserves all941 other acquired runtime
+members byte-for-byte;1542 self-test members are absent. Same-view imports and
+before/after runtime identity checks pass. The unchanged inner qualifier uses
+947 sealed descriptors (maximum descriptor950), its original limits, seccomp
+and no-proc prefix23 image. The original full-host image-bound refusal remains.
+The outer observer needs its own private proc mount and writable `/dev/null`
+interface for nested namespace creation; earlier setup refusals are retained.
+No host security policy, source test population or verifier bound changed.
+
+Actual07 execution reached PRELUDE and failed the global root-behavior claim
+scan: the newly retained historical registry carried its own negative-pattern
+strings under a different basename. The exact historical bytes are now placed
+at `fixtures/work-graph-registry/original117/verify-package.sh`, preserving the
+existing basename exclusion and SHA25677f26397b276fa1b6e494558d1796cb4c43d14b1e1a6755e68f542cdc4c37698.
+No scan or exclusion was broadened. The failed result is not reusable; the live
+consumer correctly refused reuse. Successor execution and artifact identities
+are reported separately in the PR body and continuation evidence.
