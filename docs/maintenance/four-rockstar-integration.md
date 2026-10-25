@@ -1540,3 +1540,37 @@ native/installed-host activation, full C01-C09 and P53/D48-O01 remain separate.
 The maintained source was adequate for this finite episode; no runtime,
 package or installation source changed, so their accepted evidence is reused
 at its original identity. All four original work-order decisions remain OPEN.
+
+## R002E P06/P17: enumeration grants bind one actual value
+
+A new finite discriminator at the existing authorization consumer found one
+additional parameter-binding false acceptance. A grant with alternatives
+`report-alpha|report-beta` accepted the single supplied value
+`report-alpha|report-beta`, although it equals neither permitted alternative.
+The original direct call returned 0 and the ordinary success marker. Both
+individual-member positives and the unrelated-value refusal behaved correctly.
+The first extended registered test failed on the same composite-value acceptance;
+that original failure and its complete output remain retained.
+
+The correction changes only the enumeration arm of the existing
+`check-authorization-binding.sh`: it now compares the supplied scalar with each
+whole declared alternative. The literal and numeric-range arms, #137 intake,
+#84 rehearsal branch and earlier missing/empty/mixed-case P06/P17 repair remain
+byte-identical. No new normalization, empty-alternative grammar, checker,
+permission issuer or effect executor is introduced.
+
+The four unchanged frozen direct predicates pass on the corrected helper. The
+unchanged extended `authorization-binding-contract.test.sh` also passes with
+empty stderr, including all existing cases and the new enum regression. No
+ordinary-model, policy, sidecar or prior campaign was replayed. Corrected helper:
+17,790 bytes, SHA-256
+`5d134281da0f57e75afcab802a27dd704a68dae9e968bc9972cb84d555d70990`.
+The exact two-file patch is
+`0b56bfb9dba8f092b1c6366cf016db8aa09ad204b6a7e8697586c47326f90865`.
+
+This advances the same portable P06/P17 consumer obligation; it does not
+supply authentic approved-policy or original-crosswalk custody, native grant
+or effect authentication, whole-property acceptance, or any original work-order
+closure. Exact package/install, independent review and publication results belong
+to their subsequent receiving records. Earlier accepted evidence, failed first
+attempts and the separate R002C/R002D decisions remain unchanged.

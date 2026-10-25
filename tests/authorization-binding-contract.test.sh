@@ -142,4 +142,21 @@ if bash "$scorer" --auth "$tmp/auth-one-object.txt" --invocation "$tmp/inv-case-
   fail "mixed-case parameter prefix bypassed value validation"
 fi
 
-printf 'authorization-binding-contract: ok (intake 6 + match/drift + no-binds + 3 Fable adversarial + 3 R002E receiving)\n'
+# R002E P06/P17 enum receiving: a runtime scalar must equal one declared
+# alternative. Joining adjacent allowed alternatives does not grant that value.
+printf 'action: inert-read\nbinds: object\nobject: report-alpha|report-beta\n' > "$tmp/auth-enum.txt"
+for allowed_object in report-alpha report-beta; do
+  printf 'param.object: %s\n' "$allowed_object" > "$tmp/inv-enum.txt"
+  bash "$scorer" --auth "$tmp/auth-enum.txt" --invocation "$tmp/inv-enum.txt" \
+    >/dev/null 2>&1 || fail "declared enum member was rejected: $allowed_object"
+done
+for unbound_object in 'report-alpha|report-beta' report-gamma; do
+  printf 'param.object: %s\n' "$unbound_object" > "$tmp/inv-enum.txt"
+  if out="$(bash "$scorer" --auth "$tmp/auth-enum.txt" --invocation "$tmp/inv-enum.txt" 2>&1)"; then
+    fail "value outside individual enum alternatives was accepted: $unbound_object"
+  fi
+  printf '%s' "$out" | grep -q 'AUTHORITY DRIFT' \
+    || fail "value outside enum alternatives did not classify authority drift"
+done
+
+printf 'authorization-binding-contract: ok (intake 6 + match/drift + no-binds + 3 Fable adversarial + 3 R002E receiving + enum membership)\n'
