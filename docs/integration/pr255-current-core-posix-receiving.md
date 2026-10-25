@@ -41,3 +41,28 @@ Rollback is a reviewed revert of this additive profile, pins, receiving and test
 no live state migration or compensation is involved. The finite integration is
 complete only after affected controls, independent review, both artifact builds,
 installed-copy checks and the exact submitted-head hosted verdict.
+
+## Original14 document receiving qualification
+
+A separate five-case POSIX bank now produces a real disposable original14 joined
+pair with the existing canonical owner, preserves the unchanged nine-node R0035
+native-document fixture in its protected payload/artifact population, and consumes
+the existing canonical reader's derivative native-records. The unchanged graph
+parser accepts all nine nodes, selects PREP/SIB and retains the admission and
+JOIN dependency blocks. It deliberately returns CONSTRUCTED_FILESYSTEM and
+NONE authority. The protected WORK_GRAPH artifact is neither replaced by this
+new projection nor claimed as the canonical graph consumer's accepted result.
+
+The test consumer returns only after the existing reader's verify-current closes
+consumption. A protected source document change, derivative snapshot change or
+actual later invalidation prevents return. A valid original14 generation with a
+missing required graph document passes its owner read and still fails the R0035
+parser; one owner's validity cannot supply the other's missing evidence.
+
+This establishes executable owner-to-document-parser compatibility and closing
+refusal in an unprotected fixture. The source-owned full native-current collector
+still has a separate native18 output/receipt domain. Integrating an original14
+native-current/route/canonical-WORK_GRAPH consumer requires an explicit additive
+receiving shape and the complete owning read context, retaining all native18
+facts and guards. No receipt reinterpretation or authority amendment is made by
+this qualification bank, and no original correspondence campaign is replayed.
