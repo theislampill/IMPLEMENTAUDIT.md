@@ -1,10 +1,92 @@
-# Published, unallocated R003F / R0041 — original BWP qualification and continuation
+# Published, unallocated R003F / R0041 — complete preparation and separate receiving
+
+Related to [#225](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/225) and [#230](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/230). This continues the existing owner-authorised [draft PR #254](https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/254). The published work orders remain unallocated in the selected main registry. The embedded `R003F::BWP-LANE-CONTINUATION` remains a separately assessed component within #225.
+
+## Complete recovered preparation
+
+Both exact private primary ledgers and the corroborating historical projection were recovered and accepted by the owner. **All 133 previously missing individual preparation classifications and all 40 missing group classifications are resolved.** Current preparation coverage is EBPM 73/73, EWM 77/77, accepted EPM 84/84 and BWP 234 distinct members, 41 groups and 608 memberships. The old availability claims in the preserved a08 record below describe their earlier observation cutoff.
+
+| Preparation state | EBPM73 | EWM77 | Accepted EPM84 |
+| --- | ---: | ---: | ---: |
+| PARTIALLY_ABSORBED | 34 | 34 | 39 |
+| CONDITIONAL | 24 | 31 | 30 |
+| RESEARCH_ONLY | 1 | 1 | 2 |
+| REJECTED_WITH_REASON | 14 | 9 | 12 |
+| NON_TRIGGERED | 0 | 2 | 0 |
+| DEFERRED | 0 | 0 | 1 |
+
+All 41 groups remain PARTIALLY_ABSORBED at group-preparation scope. K031 retains 2 partial, 22 conditional, 2 non-triggered, 2 rejected and 1 deferred member. Original research judgment, corrected historical target, private preparation, current qualification and remaining obligation stay separate. No preparation label is an implementation PASS.
+
+The [complete preparation projection](r003f-r0041-preparation-recovery.json) is 4,713,015 bytes, SHA-256 `c748438a378aea18c28a17c4ae5f584993498355c81d00f1e6327c41ac8d4f42`. The interrupted pre-outage candidate was lost; this file is **reconstructed from the verified primary inputs and immutable public a08 source**, not physically recovered and not asserted equal to the old 5,024,200-byte candidate. Its full decision-bearing fields, all 31 qualification contexts and 353 ordered occurrence links remain accessible. Duplicate original/source/target records resolve through complete immutable public content, with exact pointers and hashes. Only the declared private-root normalization, identity presentation and reversible repeated-record encoding change representation.
+
+| Exact recovered primary | Bytes | SHA-256 |
+| --- | ---: | --- |
+| PROPERTY_CONTINUATION_LEDGER.json | 10,182,872 | `298b99c9276a348679a36ea5d563cb411e16b0a3629e7db477851193a1cbf8f9` |
+| GROUP_CONTINUATION_LEDGER.json | 6,167,161 | `1c1da6a2fbdc145c089ef14e9e36940e60678ec9804af59cb1e286707d2ad61b` |
+
+The original historical projection and receipt are separately bound in the projection. The receipt remains PREPARED_SEMANTIC_BINDING_NOT_ACCEPTANCE. The missing historical CANDIDATE_INVENTORY and 54 wider metadata pins limit replay of their historical chain; they are not missing member/group classifications. Raw private ledgers and unrelated workspace material remain outside Git.
+
+## Affected current receiving
+
+The [eleven-case input bundle](r003f-r0041-preparation-inputs.json), SHA-256 `1711dc1ca08f41ee1560b0c5162f14d6dabdff668cae91b7e704fa251b7146bd`, binds the actual frozen projection, immutable originals, prior observations and current source. Its complete-delivery and adverse cases distinguish missing preparation, wrong individual state despite unchanged totals, wrong membership despite consistent inverse/counts, changed guards, group-to-member promotion, historical/current route confusion, hash-only contexts, causal/authority inflation, retroactive receipt/retirement and borrowed owner acceptance.
+
+The [actual new receiving and parent decisions](r003f-r0041-preparation-receiving.json) now bind the complete delivered carrier. The parent actually consumed the returned judgments and accepts three separate scopes with explicit residual continuation:
+
+| Original acceptance scope | Actual new receiving | Entitled parent decision |
+| --- | --- | --- |
+| Published, unallocated R003F / EBPM | 73 individual judgments; 29 full contexts and 107 occurrence links; all 11 affected cases, at their declared applicability | Accept the complete original-population documentary, decision and receiving qualification with explicit residual continuation. EBPM-053 remains unresolved research; no causal benefit or general autonomous-revision capability is accepted. |
+| Published, unallocated R0041 / EWM | 77 individual judgments; 25 full contexts and 127 links; all 11 affected cases, including two joint-only EBPM mutations | Accept the complete original-population documentary and state-sensitive decision qualification with explicit residual continuation. Retain the supported old plan; no actual migration or native workflow guarantee is claimed. EWM-059/060 remain non-triggered and EWM-074 unresolved. |
+| Embedded component within published, unallocated R003F | 234 member judgments; 31 full contexts and 353 links; 41 separate group judgments, nine selected complete guards and all 11 affected cases | Separately accept the complete guarded documentary composition and retained individual residuals. Accepted EPM 84 scope is reused once. Constituent qualification does not supply operative whole-product acceptance or vice versa. |
+
+These are finite original-population acceptance assessments under the present owner commission. They are not full operative absorption or a claim that every conditional research capability is implemented. The issues remain open. Final assembled-candidate review, public publication/readback and hosted CI are separately recorded at their actual observation times in PR #254.
+
+The embedded receiver completed its member/context judgments before an accidental exposure to a sibling summary during continuity recovery. Those exact observations were frozen. A fresh unexposed receiver completed only the remaining group/case work; the public receipt preserves both phases, their raw hashes and their limits. EWM separately discloses a post-judgment continuity-summary exposure and preserves all 77 pre-boundary judgments unchanged. Neither record claims statistical independence, separate model families or two independent full-component samples.
+
+The eleven affected cases preserve the concrete failures: missing decision-bearing content; a count-preserving status swap; a count-preserving wrong-group swap; both stale-hash and rehashed changed guards; uniform implementation inferred from group labels; historical source paths promoted to current behavior; hash-only qualification contexts; causal or authority inflation; retroactive receiving and premature retirement; and borrowed native/effect credit. Positive complete delivery and the current bounded owner grant remain accepted at their proper scope. In the migration proposal, missing prior consent, the absent future-input producer, orphaned UNKNOWN reply and missing changed-obligation authority each prevent acceptance. Retaining the old version, declining migration or a separately supported close/restart remain available.
+
+Actual current root acceptance resolves the receivers' parent-decision gates for these exact returned inputs. It does not retroactively change their literal pending observations. The root retains each identified residual, trigger/non-trigger, discriminator, lawful next action and known/unknown horizon in this existing work-order carrier. It does not appoint a lifetime steward, promise another owner's repair or retire any predecessor.
+
+The previous 9 EBPM, 11 EWM and 10 embedded cases remain at their exact earlier input scopes. The frozen recovery projection's pending field records its construction epoch; a later actual receipt must be a separate, explicitly bound observation. The accepted EPM 84 carrier remains unchanged and is reused only at its certified scope.
+
+## Current existing-owner integration evidence
+
+The [owner-interface qualification and executable witness material](r003f-r0041-owner-interface-qualification.json) records actual portable executions on exact read-only owner sources: three R0035 dependency/currentness/restart tests, three R0039 occurrence/history tests, one real Git archive/GC test and a fresh-process cold read. Those selected controls passed. Archive results remained ARCHIVED_ONLY_HISTORY and preserved pending, failed, reserved and uncovered obligations; they supplied no currentness or accepted consumption.
+
+A separate 12-process CLI differential reproduced two PR252 retention failures at `7a89c484b6c0884c0fb7be46423600cf1fe53d0d`. With a genuine private unconsumed obligation, duplicate top-level observations and a dangling pending-file leaf each returned exit 0 / NO_PENDING_AUDIT. At PR253 `46c094f51b368818d500e36e3b5704115b69b6ef`, both inputs were refused with exit 2 and no decision/write. Restoring the original bytes restored the original held state on both variants. The differential's success records the observed difference; the PR252 outcomes remain failures.
+
+The exact narrow composition proposal remains **NOT_RECEIVED_BY_SEMANTIC_OWNER**. Its existing owner must preserve R0039 additions while composing the pending loader safeguards and qualifying affected controls. PR254 retains the evidence and obligation; it does not import the competing runtime or grant another writer's acceptance. Current PR251 `f1332a580faf1289005616fb8ee57969f6e3b745` includes the ordinary-v2 completed-prefix correction. The earlier source-only observation is preserved at its older cutoff. All four neighbouring branches remain read-only for this executor.
+
+The post-qualification source refresh binds PR #246 at `cbb616cc7e0f9abafebe9bbdeee202ede7feb94e`, PR #251 at `f1332a580faf1289005616fb8ee57969f6e3b745`, PR #252 at `124e4b5eed90ca031a18b6be72104c802ea6ca91` (tree `1e7d4d063a9d18e67dc8db2fda18673b994786a2`) and PR #253 at `8210a63ec4d852d87dd6f8a5293b2335705ba274` (tree `ae0f37baedb44cd202cf8aeb199c719a23bb8b3a`). All six pending-loader dependency blobs are unchanged at those later heads, so the exact pending-state differential remains applicable without rerunning it. The earlier archive/cold-read tests remain at their earlier source scope; this is not a whole-latest-head runtime pass.
+
+This preserves a concrete, independently executable next increment for the existing R0035/R0039 owner: compose the strict pending-loader checks while retaining the R0039 source-custody and history additions, then run the two malformed-state witnesses and affected positive pending/restore checks. The full driver, exact source pins, raw process outcomes and preserving proposal are in the linked interface record. The proposal is publicly available for owner receiving through this PR; it has not been accepted by that owner and is not an instruction to another branch from this executor.
+
+## Source, package and acceptance boundaries
+
+Independent conservation review returned PASS for the exact four reconstructed source files, with 234 properties, 41 groups, 608 memberships, 31 contexts, 353 occurrences, 743 complete public record bindings and 38,265 ordered relation occurrences. Seven deliberate corruptions were detected. The actual report SHA-256 is `aa0bbe388d60f87bd2e071cae197d01cd03d919177fad9d55bef0c62afe6958d`; that source review supplies no fresh receiving or final composed review.
+
+No runtime or package-owner source change is made. The canonical local package build and artifact/checksum verification passed with the repository's pinned compressor. The plugin measured 399,851 bytes and the standalone skill 395,434 bytes; both preserve the 458,752-byte cap and 2,000-byte mandatory reserve. Neither ships this repository-only research evidence or private primary content. These are local package observations with the working source binding, not a release, host activation or current-head hosted CI. Final candidate checks, review and guarded public head/CI readback are recorded separately as they occur.
+
+The actual prior retain-old-plan decision remains valid at its recorded scope. Fresh workspace reconstruction is new local custody after loss; it is not physical restoration of old native receipts or an enacted running-instance migration. EBPM-053 and EWM-074 retain unresolved research limits. An actual consequential intervention benefit, native transition, external effect or stronger product claim still needs its own applicable evidence. Bounded authorised documentary receiving and justified non-use remain available.
+
+## Remaining work and host-authority boundary
+
+For this selected undertaking, the remaining local gates at source freeze are final exact-candidate review and affected verification, guarded publication, complete remote receiving and current-head CI. Their actual results belong to the publication record; this file does not anticipate success. No mandatory Codex assignment is demonstrated merely to finish the documentary/receiving scope.
+
+The conditional native obligations remain exact and usable: an actually selected running-instance migration requires current state/history, producers, pending interactions, obligation-specific authority and an accepted successor; an external effect or retry requires actual effect/currentness/receiving evidence; a claimed causal process benefit requires applicable intervention, configuration, case-mix, observation and comparison evidence. General autonomous optimization/revision remains research-only. The 31 full original context bodies and their precise first missing stimuli remain available alongside the new scoped decisions. A future selected native claim must use the actual host and semantic owner; portable or neighbouring evidence cannot substitute for it.
+
+The missing historical inventory and wider metadata pins do not currently prevent these independently verified meanings and receiving decisions. They remain bounded provenance limitations. No further archival campaign, mandatory simulation or speculative runtime is selected.
+
+## Preserved a08 original-input record
+
+The following narrative preserves the two earlier implementation increments, their actual30receiving cases, failures and evidence limits. Its preparation gaps, pending gates and INCOMPLETE_NOT_CLOSED verdicts are historical observations. Current recovery is described above; new acceptance must be recorded from actual new evidence. Exact prior narrative bytes remain available at [a08eed19](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/a08eed19ffd6b40addce1276ab827c03b24ad8d1/docs/research/implementaudit/r003f-r0041-qualification.md). Heading depth below is presentation only.
+
+## Published, unallocated R003F / R0041 — original BWP qualification and continuation
 
 This combined engineering record addresses existing [R003F / #225](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/225) and [R0041 / #230](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/230). Both are published work orders, unallocated in the selected main canonical registry; no new identity is allocated. The separately assessable `R003F::BWP-LANE-CONTINUATION` remains embedded in #225.
 
 The first published increment restored a current, inspectable source/target carrier for the original populations. It preserves complete original identities, original judgements, corrected historical targets, available later preparation states, full-source routes, guarded connections and missing evidence. This second candidate adds three actual, separately qualified source/model receiving verdicts and the observed decision to retain the supported running plan. Neither the original reconstruction nor these bounded observations establishes an intervention benefit, a safe running-instance migration or whole-issue acceptance.
 
-## Three independent decisions
+### Three independent decisions
 
 | Scope | Original population | Actual bounded receiving | Remaining continuation |
 | --- | ---: | --- | --- |
@@ -16,7 +98,7 @@ The [receiving-input bundle](r003f-r0041-receiving-inputs.json) preserves the su
 
 The frozen EBPM preparation census remains 34 partial, 24 conditional, one research-only and 14 rejected. EWM remains 34 partial, 31 conditional, two non-triggered, nine rejected and one research-only. These totals are historical preparation, not current product verdicts or a way to reconstruct missing individual labels. The public historical EBPM `QUALIFICATION_ONLY` label maps to prepared `CONDITIONAL` for EBPM-016, -041, -072 and -073; a mechanical relabelling would corrupt the record despite plausible aggregate totals.
 
-## Original and historical-source custody
+### Original and historical-source custody
 
 All original-source locators bind immutable commit `cacfe97da7656b472bf4f11e50c9d106a6c3f92a`. It supplies research custody, not current runtime adoption. Each JSON ledger states its canonical record hashing rule and retains exact whole-file identities separately.
 
@@ -35,7 +117,7 @@ The later private `PROPERTY_CONTINUATION_LEDGER.json` (10,182,872 bytes; SHA-256
 
 The six public K031 comment bodies have exact byte/hash bindings in the component ledger. Their original qualification-wrapper digests and transformed readable public-record bytes are different hash subjects. This work does not equate them or infer inaccessible private receipt content.
 
-## Current consumers and source sufficiency
+### Current consumers and source sufficiency
 
 Selected main is `e78f7cb21af4197d490f10bc95917a4c75f748aa`, tree `e0263d4455549a47243d82f45cf31101c6b94df2`. The lineage ledgers bind the actual current governor, work-order, planning, phase, lifecycle, continuity and operational-evidence source bytes. The entitled consumer for this increment is the owner-commissioned executor qualifying the returned evidence for this combined branch. Cold receiver interpretation, the root executor's scoped acceptance and the human owner's later integration/closure decision remain separate.
 
@@ -49,7 +131,7 @@ Source sufficiency here rests on accessible decision-bearing content. Each linea
 
 The publication projections disclose their transformations and bind the raw receiver outputs as different hash subjects. The checked inverse mapping restores all three frozen first-increment receiver inputs byte for byte, so earlier observations keep their original identities. A presentation change supplies no additional independent observation. The receiving episodes used separately delegated contexts and returned actual model interpretations; the disclosures do not establish independent model-family replication, native host isolation, provider deployment/build/seed identity, proof of every tool read, or independent re-research of every external publication.
 
-## Actual EBPM receiving and retained decisions
+### Actual EBPM receiving and retained decisions
 
 **EBPM-053:** original `UNRESOLVED`, historical `UNRESOLVED_DISCRIMINATOR`, publicly evidenced prepared `RESEARCH_ONLY`. Bounded recommendations and expressly delegated reversible work remain available. Neither a goal, a tool capability nor success in a neighbouring workflow supplies organisational authority or general safe self-revision. This commission's explicit one-branch/one-PR authority is a concrete bounded grant; it cannot be expanded to another executor's branch, production effects, merge, release or issue closure.
 
@@ -73,7 +155,7 @@ All nine [actual EBPM case decisions](r003f-actual-receiving.json) preserve a di
 
 The root examined all nine returned decisions and qualified all 73 member outcomes as source receiving with residuals. Complete records and applicable obligations must remain readable after continuation; neither that qualified scope, a preparation total nor a neighbouring control accepts the whole original lineage.
 
-## Actual EWM receiving and retained decisions
+### Actual EWM receiving and retained decisions
 
 **EWM-048:** a sound proposed definition does not settle the state of a running case. The old and proposed definitions, actual completed work/current state, required future inputs and producers, pending or unknown interactions, supported consumers, changed obligations and authority require one coherent mapping. A newly required step behind the case, a missing producer or an orphaned interaction prevents unsupported migration acceptance. Retaining the old version, declining migration or a separately supported close/restart remains legitimate.
 
@@ -99,7 +181,7 @@ The [actual operation and post-state record](r003f-r0041-engineering-evidence.js
 
 TC01 joint configuration, TC03 logical delivery/unknown outcomes, TC05 rollback/compensation/forward repair/residual loss, TC06 supported-consumer retirement, TC07 distinct progress claims and TC04/TC11 historical event/version applicability retain their existing owners. These literal TC records are separate from the original `BWP-CE` analytical counterexamples; numbering does not make them interchangeable. TC07's `UNRESOLVED_DISCRIMINATOR` does not become a universal progress theorem. EWM-059/060 stay non-triggered without their scientific-domain prerequisites. EWM-074's unresolved original remains unresolved; an unrecovered preparation label does not erase that source boundary.
 
-## Embedded composition and accepted EPM
+### Embedded composition and accepted EPM
 
 The published, unallocated [R0040 certificate](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/229#issuecomment-6207291229) and [constituent receiving receipt](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/225#issuecomment-6207300434) supply accepted documentary/receiving scope for all 84 EPM dispositions, with runtime `NO_CHANGE`. Its original four units and seven control families are reused at their certified scope. It supplies no EBPM/EWM or whole-BWP acceptance, general improvement, safe migration or lifetime steward appointment.
 
@@ -128,7 +210,7 @@ The [actual component return](r003f-r0041-bwp-receiving.json) supplies its own r
 
 The full 7,068-direction relation ledger remains accessible, but only nine selected full guard records receive relation-level semantic judgement here. Neither group membership nor historical mechanical classification creates a runtime dependency or replication credit. Original negative, unresolved and source-access/evidence limits remain usable through their exact routes. The receiver's frozen reference to initial publication is now satisfied by the first public commit; the root decision reconciles the next action to review and publication of this receiving increment on the same PR, without repeating that operation.
 
-## Concurrent owners, verification and publication limits
+### Concurrent owners, verification and publication limits
 
 | Existing PR | Source head inspected | Owned interface |
 | --- | --- | --- |
@@ -151,6 +233,6 @@ Preliminary independent review of the three receiving/input projections at immut
 
 This candidate changes repository research/documentation only. It introduces no runtime, checker, mandatory simulation campaign, new test registry, package policy or installed/native capability claim. The 458,752-byte compressed-package cap and 2,000-byte reserve remain unchanged. Package/installed qualification becomes applicable if a later source or claim change actually reaches those surfaces. Final expanded review, affected assembled-candidate verification, the second exact public commit/tree and hosted validation are separately recorded in draft PR #254; this source record does not certify its own future publication or CI result. A draft PR is not a release or manual issue closure.
 
-## Outstanding continuation
+### Outstanding continuation
 
 Actual receiver inputs/outputs and three scoped root decisions are now carried in this candidate, with the first publication and retained-plan successor readback preserved separately. At this source record’s authoring cutoff, final review and second publication were pending; their subsequent exact-tree observations belong to draft PR #254. Missing exact private preparation remains visible until recovered or explicitly reconciled under a separately justified current decision. Actual authority/effect beyond the observed bounded grant, empirical-benefit and native migration claims require their own applicable evidence. Existing originals, historical targets, adverse findings and accepted EPM residuals remain retained throughout. All original work-order and component acceptance remains `INCOMPLETE_NOT_CLOSED`; no automatic closure keyword or whole-issue acceptance follows from this carrier.
