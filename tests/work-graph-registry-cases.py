@@ -57,7 +57,9 @@ class AdmissionCases(unittest.TestCase):
         self.inputs[REGISTRY_NODE]["image_digest"] = "c" * 64
         changed = WG.compile_verifier_reuse_v1(self.graph, self.registry, acquired, issued)
         self.assertEqual([n["decision"] for n in changed["nodes"]], ["CONSUME_PRIOR_SUCCESS", "CONSUME_PRIOR_SUCCESS", "EXECUTE"])
-        self.assertEqual(first["omitted_canonical_nodes"], 114)
+        # Original117 is a retained acceptance subject, not the size of every
+        # future combined registry. Account for this source's whole population.
+        self.assertEqual(first["omitted_canonical_nodes"] + 3, len(self.graph["nodes"]))
         self.assertGreater([n["id"] for n in self.graph["nodes"]].index(REGISTRY_NODE), 22)
 
     def test_foreign_checker_and_incomplete_population_refuse(self):

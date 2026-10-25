@@ -6,28 +6,30 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/claim-run.sh",
       "materialized_path": "skills/implementaudit/scripts/claim-run.sh",
-      "bytes": 99730,
-      "sha256": "405ab3853dfb88c007ea2f8f8dd98fb8e9c6e77552b172f2f71a8751364ea20f",
+      "bytes": 104155,
+      "sha256": "bd0c6d2ab1ec8f695fe34e459b25d9344e11c5930d3f62d0919b29d9bc4a44ee",
       "source_commit": "fa14948894f583cc0b4e3be80e9283839c9992b5",
       "source_path": "skills/implementaudit/scripts/claim-run.sh",
       "modified": true,
       "mode": "100644",
       "semantic_owner": "R0011",
       "source_preimage_sha256": "9665ba20e02c02882f3172549e90d78e790c6c0133cd31749a30e1d29c3cc0ce",
-      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted"
+      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; wave1 composite source reconciliation, see docs/integration/active-rlgwo-composite-20261025.md; no native admission",
+      "integration_preimage_sha256": "405ab3853dfb88c007ea2f8f8dd98fb8e9c6e77552b172f2f71a8751364ea20f"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/validate-run-root.sh",
       "materialized_path": "skills/implementaudit/scripts/validate-run-root.sh",
-      "bytes": 61188,
-      "sha256": "73bce773c2fa43aa1f42584121824b8179356ca6bf6348c6e10492e2f128313d",
+      "bytes": 113863,
+      "sha256": "66c0f6d3df8c0f1702864055f3fcc4ee3cf5403982de81fba71389cdc5860283",
       "source_commit": "d2397406d51aa080209caa16897283b2e9cb5b61",
       "source_path": "skills/implementaudit/scripts/validate-run-root.sh",
       "modified": true,
       "mode": "100644",
       "source_preimage_sha256": "fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5",
-      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted",
-      "semantic_owner": "R0039 original14/TC06"
+      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; wave1 composite source reconciliation, see docs/integration/active-rlgwo-composite-20261025.md; no native admission",
+      "semantic_owner": "R0039 original14/TC06",
+      "integration_preimage_sha256": "73bce773c2fa43aa1f42584121824b8179356ca6bf6348c6e10492e2f128313d"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/references/route-obligations.md",
@@ -66,15 +68,16 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/canonical_hot_projection.py",
       "materialized_path": "skills/implementaudit/scripts/canonical_hot_projection.py",
-      "bytes": 58417,
-      "sha256": "b3fd58cef5bf79cbd8f109b352a9b80c230127bf35db0dbac2ef41a7490d967f",
+      "bytes": 93893,
+      "sha256": "10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f",
       "source_commit": "d2397406d51aa080209caa16897283b2e9cb5b61",
       "source_path": "skills/implementaudit/scripts/canonical_hot_projection.py",
       "modified": true,
       "mode": "100755",
       "source_preimage_sha256": "0c5fb125e59b3493c2f3c9baf6a7704ccb2b5fc486f9363a028055f3d6cfad7c",
-      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted",
-      "semantic_owner": "R0039 original14/TC06"
+      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; wave1 composite source reconciliation, see docs/integration/active-rlgwo-composite-20261025.md; no native admission",
+      "semantic_owner": "R0039 original14/TC06",
+      "integration_preimage_sha256": "b3fd58cef5bf79cbd8f109b352a9b80c230127bf35db0dbac2ef41a7490d967f"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/codex-recovery-native-reader.py",

@@ -86,18 +86,36 @@ PY
 }
 
 positive_output="$(bash "$checker" --repo-root "$repo_root")"
-grep -Eq 'HELPER_REACHABILITY=PASS population=([0-9]+) examined=\1 modes=21/21 enumeration=package-contract.artifact_payload_entries full_path_sets=equal projections=2' \
+grep -Eq 'HELPER_REACHABILITY=PASS population=([0-9]+) examined=\1 modes=22/22 enumeration=package-contract.artifact_payload_entries full_path_sets=equal projections=2' \
   <<<"$positive_output" || {
     printf 'helper-reachability.test: live positive census did not prove complete full-path equality\n%s\n' "$positive_output" >&2
     exit 1
 }
 
 census_output="$(bash "$checker" --census-only --repo-root "$repo_root")"
-grep -Eq 'HELPER_REACHABILITY_CENSUS=PASS population=([0-9]+) examined=\1 modes=21/21 enumeration=package-contract.artifact_payload_entries full_path_sets=equal projections=2' \
+grep -Eq 'HELPER_REACHABILITY_CENSUS=PASS population=([0-9]+) examined=\1 modes=22/22 enumeration=package-contract.artifact_payload_entries full_path_sets=equal projections=2' \
   <<<"$census_output" || {
     printf 'helper-reachability.test: census-only result was not distinctly nonterminal\n%s\n' "$census_output" >&2
     exit 1
   }
+
+for mutation in wrong-buffer missing-digest wrong-owner; do
+  shell_capture="$(make_candidate "shell-capture-$mutation")"
+  python - "$shell_capture/skills/implementaudit/scripts/claim-run.sh" "$mutation" <<'PYSHELL'
+from pathlib import Path
+import sys
+path, mutation = Path(sys.argv[1]), sys.argv[2]
+text = path.read_text()
+old, new = {
+    "wrong-buffer": ('exec(compile(raw, str(path), "exec",', 'exec(compile(b"", str(path), "exec",'),
+    "missing-digest": ('hashlib.sha256(raw).hexdigest() != expected_sha256', 'False'),
+    "wrong-owner": ('expected_bytes = 246657', 'expected_bytes = 246658'),
+}[mutation]
+assert text.count(old) == 1
+path.write_text(text.replace(old, new))
+PYSHELL
+  expect_fail "shell-capture-$mutation" 'caller does not invoke claim-run-rotation.py: scripts/claim-run.sh' "$shell_capture"
+done
 
 # A progressive stage owner does not replace the declared governor helper edge.
 missing_run_root_edge="$(make_candidate missing-run-root-governor-edge)"
@@ -425,7 +443,7 @@ PYMODE
 expect_fail R37-YIELD-FALSE 'mode applicability not implemented: validate-run-root.sh --nonterminal-yield' "$false_yield_mode"
 
 
-printf 'helper-reachability.test: retained controls passed (dynamic full-path census + modes 21/21 + native-input and nonterminal-yield controls)\n'
+printf 'helper-reachability.test: retained controls passed (dynamic full-path census + modes 22/22 + native-input and nonterminal-yield controls)\n'
 
 python -I -B "$repo_root/tests/helper-reachability-successor.py" "$repo_root" "$BASH"
 python -I -B "$repo_root/tests/helper-reachability-custody.py" "$repo_root" "$BASH"

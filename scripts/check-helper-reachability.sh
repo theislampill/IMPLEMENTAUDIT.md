@@ -377,7 +377,36 @@ def captured_python_library(helper, content):
         return True
     return False
 
+def captured_shell_companion(helper, content):
+    # Recognize the reviewed buffer launcher as an actual shell command. Do not
+    # admit arbitrary -c text or a filename mention. The AST pin excludes only
+    # the two separately checked companion identity literals; it is source
+    # reachability evidence, not runtime custody or native admission.
+    if helper != "claim-run-rotation.py":
+        return False
+    match = re.search(r'(?ms)^  "\$\{rotation_py\[@\]\}" -B -c \'\n(.*?)^\' "\$\(dirname "\$0"\)/claim-run-rotation.py" "\$@"$', content)
+    if match is None or not re.search(r'rotation_py=\((?:python3?|py -3)\)', content):
+        return False
+    try:
+        tree = ast.parse(match.group(1))
+    except SyntaxError:
+        return False
+    constants = {}
+    for node in tree.body:
+        if isinstance(node, ast.Assign) and isinstance(node.value, ast.Constant):
+            for target in node.targets:
+                if isinstance(target, ast.Name) and target.id in {"expected_bytes", "expected_sha256"}:
+                    constants[target.id] = node.value.value
+                    node.value = ast.Constant(value="SELECTED_COMPANION_IDENTITY")
+    raw = projection_payloads["standalone_compatibility"]["scripts/" + helper]
+    return (constants == {"expected_bytes": len(raw), "expected_sha256": hashlib.sha256(raw).hexdigest()}
+            and hashlib.sha256(ast.dump(tree, include_attributes=False).encode()).hexdigest()
+            == "7b71f355820276b53a41020fb82d09453bb9c930b3201ae264e08902020f76c1")
+
+
 def caller_invokes(helper, content):
+    if captured_shell_companion(helper, content):
+        return True
     content = shell_code(content)
     if python_array_invokes(helper, content):
         return True

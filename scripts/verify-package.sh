@@ -345,6 +345,8 @@ require_file tests/claim-run.test.sh
 require_file tests/continuity.test.sh
 require_file scripts/check-canonical-state-rotation.sh
 require_file tests/canonical-state-rotation.test.sh
+require_file tests/composite-source.test.sh
+require_file tests/composite-source-cases.py
 require_file skills/implementaudit/scripts/rotate-canonical-state.py
 require_file skills/implementaudit/scripts/canonical_hot_projection.py
 require_file skills/implementaudit/scripts/canonical_rotation_inputs.py
@@ -721,6 +723,7 @@ bash tests/added-lines-clean.test.sh
 bash tests/claim-run.test.sh
 bash tests/continuity.test.sh
 bash tests/canonical-state-rotation.test.sh
+bash tests/composite-source.test.sh
 bash tests/phase-validation.test.sh
 bash tests/acceptance-instrument-discipline.test.sh
 bash tests/lossless-evidence-capture.test.sh

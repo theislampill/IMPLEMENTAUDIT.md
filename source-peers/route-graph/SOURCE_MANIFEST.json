@@ -26,16 +26,17 @@
     },
     {
       "path": "source-peers/route-graph/skills/implementaudit/scripts/compile-work-graph.py",
-      "bytes": 250660,
-      "sha256": "764bc5c701b1e67f1bb50bb8253955a772f1de5506d68de6f899788bf05eb6f1",
+      "bytes": 250808,
+      "sha256": "70f79a4368046eb3af821ef5ff6d86467fc489735b0c66ba4f8001d137b9690f",
       "semantic_owner": "R0035",
       "state": "SOURCE_PROPOSAL_NOT_NATIVE_ADMISSION",
       "materialized_path": "skills/implementaudit/scripts/compile-work-graph.py",
       "mode": "100644",
       "modified": true,
       "source_preimage_sha256": "ef000d06a60cec080c0c2fa1838b67729009b04373946634c73d32f7c08229e9",
-      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; composed R0039 native-v3/C02 source candidate; no native admission; R0039 exact-source projection binding receiving candidate; captured buffer and physical-path cache retained",
-      "composition_preimage_sha256": "ed1a0361533be2a4e6dd46a2525ab290c6a6bbfc4740dcd353657cb61048e5e1"
+      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; composed R0039 native-v3/C02 source candidate; no native admission; R0039 exact-source projection binding receiving candidate; captured buffer and physical-path cache retained; wave1 composite source reconciliation, see docs/integration/active-rlgwo-composite-20261025.md; no native admission",
+      "composition_preimage_sha256": "ed1a0361533be2a4e6dd46a2525ab290c6a6bbfc4740dcd353657cb61048e5e1",
+      "integration_preimage_sha256": "764bc5c701b1e67f1bb50bb8253955a772f1de5506d68de6f899788bf05eb6f1"
     }
   ],
   "composition_domain": "R0039_ORIGINAL14_OWNER_WITH_R0033_VERIFIED_READ_VIEW"

@@ -139,7 +139,7 @@
     "governor_heading": "## 2b. Planner stages for goal synthesis and phased audit closure",
     "governor_route": "For goal synthesis or a warranted phased plan, read\n`references/plan-lifecycle.md#2b-planner-stages-for-goal-synthesis-and-phased-audit-closure`\nbefore intake, phase design, preflight, dispatch, or handoff. Use its complete\nstage sequence; a load-map mention alone is not a completed read.\nKeep the supplied audit object and authorization ceiling; embedded work does\nnot print a second `/goal`. Require independent cold review before preflight,\ndispatch, or handoff. Missing, unshipped, wrong-version or mixed-owner stage\ncontent refuses those actions. Verify selected-source/package/inventory identity\nbefore using the progressive owner. Ordinary direct work stays on the Execution\nSpine without a new reference read, model call, graph, or worksheet.\n\nWhen a run root is needed, claim it with `scripts/claim-run.sh <task>`,\ninitialize from canonical runtime templates, then run\n`scripts/validate-run-root.sh <root>` after authoring; an invalid root is Andon,\nnot dispatchable.",
     "owner_path": "skills/implementaudit/references/plan-lifecycle.md",
-    "owner_sha256": "482418733316fcffc478a86f925f421a7f0ccf9a82b43ab94808d0fa51c8e9c1",
+    "owner_sha256": "1e283fec5f5b78b8a5ea5bbbfedfa452df516f8a5f5bbcfbb816f54603d5a6fa",
     "moved_heading": "## 2b. Planner stages for goal synthesis and phased audit closure",
     "moved_sha256": "bf2bd74475413e334d17da26af6233e67bb773fc961e26daccd6ce1245d2d4d5",
     "moved_bytes": 4076,
