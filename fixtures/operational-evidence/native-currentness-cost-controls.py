@@ -19,6 +19,8 @@ def load(path,name):
     exec(compile(path.read_bytes(),str(path),'exec'),m.__dict__)
     return m
 
+HISTORICAL = load(ROOT/"tests/work-graph-historical-fixture.py", "currentness_historical_inputs")
+
 class CurrentnessCostControls(unittest.TestCase):
     def setUp(self):
         f=load(ROOT/'fixtures/operational-evidence/native-route-cost-controls.py','currentness_harness')
@@ -141,16 +143,21 @@ class CurrentnessCostControls(unittest.TestCase):
                         self.fail('foreign context yielded a view')
 
     def continuity(self, changed_helper=False, wrong_verify=False, receipt_raw=None, blob_error=False,
-                   source_changes=False, combined=False, combined_output=None, qualified_helpers=False):
+                   source_changes=False, combined=False, combined_output=None, qualified_helpers=False, current_helpers=False):
         h=self.h
-        owner=ROOT/'source-peers/native-runtime/skills/implementaudit/scripts'
-        # Keep the original helper/receipt-domain controls bound to their exact
-        # immutable donor. Exercise the new source-owner mode separately.
-        claim=((owner/'claim-run.sh') if combined else
-               ROOT/'fixtures/operational-evidence/native-source/skills/implementaudit/scripts/claim-run.sh.fixture').read_bytes()
-        validate=(owner/'validate-run-root.sh').read_bytes()
+        # Receipt-cost controls keep their original exact helper identities.
+        # Current helpers have a separate refusal control, never borrowed credit.
+        retained=ROOT/'fixtures/operational-evidence/native-source/skills/implementaudit/scripts'
+        claim=(retained/('claim-run-combined.sh.fixture' if combined else 'claim-run.sh.fixture')).read_bytes()
+        validate=(retained/'validate-run-root.sh.fixture').read_bytes()
+        expected=h.wg._NATIVE_COMBINED_CURRENT_PAIR_V1 if combined else h.wg._NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE
         qualified=SOURCE/'skills/implementaudit/scripts'
         if qualified_helpers:
+            claim=HISTORICAL.original('skills/implementaudit/scripts/claim-run.sh')
+            validate=HISTORICAL.original('skills/implementaudit/scripts/validate-run-root.sh')
+            expected=h.wg._NATIVE_SIX_SOURCE_PAIR_V1
+        self.assertEqual(tuple(hashlib.sha256(raw).hexdigest() for raw in (claim,validate)),expected)
+        if current_helpers:
             claim=(qualified/'claim-run.sh').read_bytes()
             validate=(qualified/'validate-run-root.sh').read_bytes()
         if changed_helper:claim+=b'\n# different source must retain separate verification\n'
@@ -169,6 +176,9 @@ class CurrentnessCostControls(unittest.TestCase):
             path=Path(path)
             if path.name=='claim-run.sh':return claim,0o644
             if path.name=='validate-run-root.sh':return validate,0o644
+            if qualified_helpers and path.name!='work-graph-continuity-transport.py':
+                name='skills/implementaudit/scripts/'+path.name
+                return HISTORICAL.original(name),HISTORICAL.input_mode(name)
             source=(SOURCE/'scripts'/path.name if path.name=='work-graph-continuity-transport.py'
                     else qualified/path.name)
             return source.read_bytes(),source.stat().st_mode & 0o7777
@@ -265,6 +275,16 @@ class CurrentnessCostControls(unittest.TestCase):
         self.assertEqual(self.receipt_reads,[])
         with self.assertRaisesRegex(self.h.wg.WorkGraphError,'receipt readback mismatch'):
             self.continuity(qualified_helpers=True,wrong_verify=True)
+
+    def test_current_helpers_do_not_acquire_historical_receipt_optimization(self):
+        with self.assertRaisesRegex(self.h.wg.WorkGraphError,'helpers are not an explicitly selected source domain'):
+            self.continuity(current_helpers=True)
+        self.assertEqual(self.continuity_calls,[])
+        self.assertEqual(self.receipt_reads,[])
+        self.assertEqual(self.current_owner_reads,[])
+        self.assertEqual(self.source_reads,[])
+        self.assertEqual(self.closure_reads,[])
+        self.child_process.assert_not_called()
 
     def test_unknown_helper_source_refuses_before_effects_or_currentness_output(self):
         for qualified in (False,True):
