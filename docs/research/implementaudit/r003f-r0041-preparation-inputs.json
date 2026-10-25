@@ -1,0 +1,2390 @@
+{
+  "format": "implementaudit.bwp-new-preparation-receiving-inputs.v1",
+  "reconstruction_status": "NEW_RECONSTRUCTION_OF_LOST_INPUT_CARRIER; same eleven intended discriminators, new exact bytes, no historical hash equality asserted",
+  "input_epoch": "Frozen before any new affected receiver return or parent decision",
+  "source_base": "a08eed19ffd6b40addce1276ab827c03b24ad8d1",
+  "scope": "Published, unallocated R003F and R0041 plus existing embedded R003F::BWP-LANE-CONTINUATION; no new allocation or work order.",
+  "actual_episode_contract": {
+    "independence": "Three fresh context receiving readers; scope-specific decisions are evidence to the actual entitled parent. This is not model-family replication or OS isolation.",
+    "root_acceptance": "Must be an actual later inspection/decision; no automatic acceptance from a child or count.",
+    "scope_ceiling": "Documentary full-content receiving and model interpretation of these supplied proposals; native, installed, external-effect and empirical claims require their own witnesses.",
+    "evidence_access": "Full public projection plus immutable original/source/target records; raw private primary excluded from delegated receiving. BWP original ZIP is exact publicly available content; a hash-verified local cache is supplied.",
+    "carrier_semantics": "Strip only __published_identity_* annotations, clone the complete projection, apply this case JSON-pointer overlay in order. No code or external effect is requested by an overlay. The standalone derived canonical hash is an integrity check, not the acceptance oracle.",
+    "negative_access_rule": "C04/C31 describe a distinct proposed successor with the stated restricted content. The evaluating model having seen C17 does not supply that successor with missing content. A later actual reacquisition would be a new received carrier, not retroactive acceptance.",
+    "old_evidence_rule": "Old30cases are read/reused at their actual earlier inputs; never relabel them as this new episode."
+  },
+  "complete_preparation_projection": {
+    "path": "docs/research/implementaudit/r003f-r0041-preparation-recovery.json",
+    "bytes": 4713015,
+    "sha256": "c748438a378aea18c28a17c4ae5f584993498355c81d00f1e6327c41ac8d4f42",
+    "canonical_sha256_without_identity_annotations": "cc537a262dad7c3589bad83c5be89bccdd7cda2b0d4dab612a29b870479648ac",
+    "population": {
+      "EBPM": 73,
+      "EWM": 77,
+      "EPM": 84,
+      "distinct_members": 234,
+      "groups": 41,
+      "memberships": 608,
+      "qualification_contexts": 31,
+      "qualification_occurrences": 353,
+      "material_relation_reference_occurrences": 38265
+    }
+  },
+  "immutable_original_and_prior_receiving": {
+    "r003f-member-qualification.json": {
+      "commit": "a08eed19ffd6b40addce1276ab827c03b24ad8d1",
+      "path": "docs/research/implementaudit/r003f-member-qualification.json",
+      "bytes": 875842,
+      "sha256": "cfaf4e30f0bc55a236d160173b4cb5ca8ce9112bd99ab150abb357b825c77f23",
+      "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/a08eed19ffd6b40addce1276ab827c03b24ad8d1/docs/research/implementaudit/r003f-member-qualification.json"
+    },
+    "r0041-member-qualification.json": {
+      "commit": "a08eed19ffd6b40addce1276ab827c03b24ad8d1",
+      "path": "docs/research/implementaudit/r0041-member-qualification.json",
+      "bytes": 874899,
+      "sha256": "3e646e3e354a89de175869055a4dd64e3354c1da02f4104deee3ca88c9f03b76",
+      "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/a08eed19ffd6b40addce1276ab827c03b24ad8d1/docs/research/implementaudit/r0041-member-qualification.json"
+    },
+    "r003f-r0041-bwp-ledger.json": {
+      "commit": "a08eed19ffd6b40addce1276ab827c03b24ad8d1",
+      "path": "docs/research/implementaudit/r003f-r0041-bwp-ledger.json",
+      "bytes": 1413166,
+      "sha256": "5c9d1def3469a682be82febd80c0cb738041b66e83b4382ea17d26c739163c50",
+      "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/a08eed19ffd6b40addce1276ab827c03b24ad8d1/docs/research/implementaudit/r003f-r0041-bwp-ledger.json"
+    },
+    "r0040-member-dispositions.json": {
+      "commit": "a08eed19ffd6b40addce1276ab827c03b24ad8d1",
+      "path": "docs/research/implementaudit/r0040-member-dispositions.json",
+      "bytes": 1572271,
+      "sha256": "2a9263d576a0131d73992e7c3442a5c18995803eed42f85d9ccc28bd5e9352ef",
+      "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/a08eed19ffd6b40addce1276ab827c03b24ad8d1/docs/research/implementaudit/r0040-member-dispositions.json"
+    },
+    "r003f-actual-receiving.json": {
+      "commit": "a08eed19ffd6b40addce1276ab827c03b24ad8d1",
+      "path": "docs/research/implementaudit/r003f-actual-receiving.json",
+      "bytes": 350945,
+      "sha256": "2c23aeb43677f93d807932ef88531b2f5d55aa95b05be191b885297f7c9471ed",
+      "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/a08eed19ffd6b40addce1276ab827c03b24ad8d1/docs/research/implementaudit/r003f-actual-receiving.json"
+    },
+    "r0041-actual-receiving.json": {
+      "commit": "a08eed19ffd6b40addce1276ab827c03b24ad8d1",
+      "path": "docs/research/implementaudit/r0041-actual-receiving.json",
+      "bytes": 357727,
+      "sha256": "6469d0ecd254d98a48a29a8910082903a736b6ae46aef0318c8299aa3a87a411",
+      "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/a08eed19ffd6b40addce1276ab827c03b24ad8d1/docs/research/implementaudit/r0041-actual-receiving.json"
+    },
+    "r003f-r0041-bwp-receiving.json": {
+      "commit": "a08eed19ffd6b40addce1276ab827c03b24ad8d1",
+      "path": "docs/research/implementaudit/r003f-r0041-bwp-receiving.json",
+      "bytes": 2288686,
+      "sha256": "89ff080d952eb9ff7a08d4d3ded2af0e3a0d643ec1f18dc82ac3d2395ca0decf",
+      "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/a08eed19ffd6b40addce1276ab827c03b24ad8d1/docs/research/implementaudit/r003f-r0041-bwp-receiving.json"
+    },
+    "r003f-r0041-receiving-inputs.json": {
+      "commit": "a08eed19ffd6b40addce1276ab827c03b24ad8d1",
+      "path": "docs/research/implementaudit/r003f-r0041-receiving-inputs.json",
+      "bytes": 236416,
+      "sha256": "35ed40efcb256afd111406633a9c3cb7b2605249057562b84fd6aecbca7a2ea9",
+      "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/a08eed19ffd6b40addce1276ab827c03b24ad8d1/docs/research/implementaudit/r003f-r0041-receiving-inputs.json"
+    },
+    "r003f-r0041-engineering-evidence.json": {
+      "commit": "a08eed19ffd6b40addce1276ab827c03b24ad8d1",
+      "path": "docs/research/implementaudit/r003f-r0041-engineering-evidence.json",
+      "bytes": 92633,
+      "sha256": "35ab9e9871ff11d369994930a1338b31ae95603d6a752b1f464be8bc89f2dfe3",
+      "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/a08eed19ffd6b40addce1276ab827c03b24ad8d1/docs/research/implementaudit/r003f-r0041-engineering-evidence.json"
+    }
+  },
+  "public_frozen_packet": {
+    "commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "path": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+    "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+    "bytes": 5322062,
+    "sha256": "6e3c95f7c81e5bbac67880f6ff58d360112e706d3469edbd8da425cb61233214",
+    "git_blob": "f224af8b13f1e2b78096c892c8f63e0c6fe0e139"
+  },
+  "current_native_source_pins": [
+    {
+      "commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "path": "skills/implementaudit/SKILL.md",
+      "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/e78f7cb21af4197d490f10bc95917a4c75f748aa/skills/implementaudit/SKILL.md",
+      "bytes": 20388,
+      "sha256": "38f8bbd7dda1a7b92abe55d50454d237af8582016a7652d5e62a8bcb65a5e7ec",
+      "same_bytes_at_selected_a08": true
+    },
+    {
+      "commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "path": "skills/implementaudit/references/issue-ready-work-orders.md",
+      "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/e78f7cb21af4197d490f10bc95917a4c75f748aa/skills/implementaudit/references/issue-ready-work-orders.md",
+      "bytes": 18210,
+      "sha256": "fc9bf75e9a4274af94b6df4ffc863eeae54dc096ea1422db5740b96030493b04",
+      "same_bytes_at_selected_a08": true
+    },
+    {
+      "commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "path": "skills/implementaudit/references/planning-depth.md",
+      "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/e78f7cb21af4197d490f10bc95917a4c75f748aa/skills/implementaudit/references/planning-depth.md",
+      "bytes": 18762,
+      "sha256": "dd72b40052defebad79a6d041051641e5c5568dab6cf1093cbad37c04924a98b",
+      "same_bytes_at_selected_a08": true
+    },
+    {
+      "commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "path": "skills/implementaudit/references/phase-design.md",
+      "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/e78f7cb21af4197d490f10bc95917a4c75f748aa/skills/implementaudit/references/phase-design.md",
+      "bytes": 20396,
+      "sha256": "65756c5b90280795d20c5235f5c74359d2179befa408e72e26d12182344105a0",
+      "same_bytes_at_selected_a08": true
+    },
+    {
+      "commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "path": "skills/implementaudit/references/plan-lifecycle.md",
+      "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/e78f7cb21af4197d490f10bc95917a4c75f748aa/skills/implementaudit/references/plan-lifecycle.md",
+      "bytes": 30905,
+      "sha256": "482418733316fcffc478a86f925f421a7f0ccf9a82b43ab94808d0fa51c8e9c1",
+      "same_bytes_at_selected_a08": true
+    },
+    {
+      "commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "path": "skills/implementaudit/references/continuity.md",
+      "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/e78f7cb21af4197d490f10bc95917a4c75f748aa/skills/implementaudit/references/continuity.md",
+      "bytes": 17726,
+      "sha256": "35ebaacaa7f5a390795dcfd9153e7511129f1d89b5aade019d57c07e2058cde8",
+      "same_bytes_at_selected_a08": true
+    },
+    {
+      "commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "path": "docs/operational-evidence.md",
+      "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/operational-evidence.md",
+      "bytes": 70871,
+      "sha256": "e18b8a9e727d5bc35aa99635cfcd21302715f92bef99649a824e26ee4a8962d9",
+      "same_bytes_at_selected_a08": true
+    },
+    {
+      "commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "path": "scripts/operational-evidence.py",
+      "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/e78f7cb21af4197d490f10bc95917a4c75f748aa/scripts/operational-evidence.py",
+      "bytes": 371425,
+      "sha256": "cb5dbaff70adf8a19e798f0823b6d5f23abc5d5d1ac12ef9a2e932ba177aebee",
+      "same_bytes_at_selected_a08": true
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "C17",
+      "title": "Complete preparation delivery and accountable continuation",
+      "applicable_scopes": ["EBPM","EWM","embedded_BWP"],
+      "carrier_base": "complete_preparation_projection",
+      "carrier_patches": [],
+      "supplied_facts": {
+        "actual_consumer": "Fresh delegated receiving readers and then the root governor of this owner-authorised existing PR254 commission.",
+        "subject": "The newly reconstructed public projection, not the lost pre-interruption bytes.",
+        "population": {
+          "EBPM": 73,
+          "EWM": 77,
+          "EPM": 84,
+          "distinct_members": 234,
+          "groups": 41,
+          "memberships": 608,
+          "qualification_contexts": 31,
+          "qualification_occurrences": 353,
+          "material_relation_reference_occurrences": 38265
+        },
+        "private_access": "The receiving readers are supplied public projection and exact public originals; access to raw primary private ledgers is excluded from this episode.",
+        "current_owner_grant": "Owner expressly continues reconstruction, necessary source/testing/independent review, actual receiving and guarded publication to existing PR254; no new branch/PR, release, merge, issue closure or other-owner writes.",
+        "old_receiving": {
+          "EBPM": 9,
+          "EWM": 11,
+          "embedded_BWP": 10,
+          "input_epoch": "a08eed19ffd6b40addce1276ab827c03b24ad8d1",
+          "new_preparation_credit": false
+        },
+        "current_preparation_receiving_field": "A literal frozen preparation-time PENDING observation in the intake. Actual returns and the parent decision are recorded separately after execution.",
+        "actual_selected_workflow_decision": {
+          "proposal": {
+            "case": "Actual ongoing owner-authorised combined EBPM/EWM engineering commission",
+            "scope": "Proposed local running-plan amendment under existing plan-lifecycle owner; no native workflow or general migration claim",
+            "old_definition": {
+              "path": ".IMPLEMENTAUDIT/runs/r003f-r0041-bwp-7zde7x/migration/old-ROADMAP.md",
+              "sha256": "fd1974073501f745ac9d18c7e7d3dfc54f007ac1f97b6fccc1f366f59b90608b"
+            },
+            "proposed_definition": {
+              "path": ".IMPLEMENTAUDIT/runs/r003f-r0041-bwp-7zde7x/migration/proposed-ROADMAP.md",
+              "sha256": "1aa89527a238dd97795fddf6b083c2906d6f07eb8ef6e836d64391b1457df6ed"
+            },
+            "old_state": {
+              "path": ".IMPLEMENTAUDIT/runs/r003f-r0041-bwp-7zde7x/migration/old-STATE.md",
+              "sha256": "ab653670f59ebb41a0d95638fd17665c70677c2c475f958a01cf3b3edc114d54",
+              "meaning": "Durable recorded state preserved; current facts below reconcile stale Next-action wording without erasing original failures."
+            },
+            "actual_current_state": {
+              "source_head": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+              "candidate_tree": "ccd14ea6f0416b2c0292bae6c88ad59957f41357",
+              "controller": "bwp-r003f-r0041",
+              "epoch": "G0002",
+              "public_branch": "pro/r003f-r0041-bwp-20261024",
+              "public_head_last_read": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+              "draft_pr_created": false,
+              "completed": ["All original73EBPM and77EWM sources and historical targets recovered","Full BWP234/41/608 census; EPM84 retained at accepted documentary scope","Baseline3 focusedcommands passed","Initial candidate failed native identity presentation; actual correction passed identity, portal and claim checks","Exact initial cold-receiver input bytes preserved; publication correction fully invertible"],
+              "active_producers": {
+                "ebpm_receiver": "Fresh actual receiver; all73 read; own output pending final return",
+                "ewm_receiver": "Fresh actual receiver; all77 and full literalTCcontexts read; own output pending final return",
+                "initial_review": "Initial exacttree NEEDS_REVISION; corrected-tree delta underway",
+                "root": "Only authorised integration/publication writer"
+              },
+              "pending_external_interactions": "No GitHub mutation outstanding; branch creation already observed at exact baseline. Future expected-parent ref update and one draft PR have not been executed. No message to other people, production interaction or native workflow is pending.",
+              "completed_work_relabelled": false
+            },
+            "mapping": [
+              {
+                "old_obligation": "Recover full original population and guards",
+                "new_location": "Phase1 retained completed outputs; exact hashes below",
+                "disposition": "Completed evidence retained, adverse checks retained"
+              },
+              {
+                "old_obligation": "Actual bounded EBPM/EWM receiving",
+                "new_location": "Phase3 existing active producers with original frozen inputs",
+                "disposition": "Continue, do not repeat or mark accepted early"
+              },
+              {
+                "old_obligation": "Separate embedded BWP acceptance/residual continuation",
+                "new_location": "Phase3 after actual constituent reconciliation",
+                "disposition": "Unchanged; no lineage result closes component"
+              },
+              {
+                "old_obligation": "Independent review before publication",
+                "new_location": "Phase1 and Phase2 exact candidate gate",
+                "disposition": "Unchanged, first failedtree refused and correctedtree still needs review"
+              },
+              {
+                "old_obligation": "Guarded publication and actual CI",
+                "new_location": "Phase2 initial carrier; Phase3 later qualifiedincrements",
+                "disposition": "Order changed to expose CI early while semanticreceiving continues; no acceptance lowered"
+              }
+            ],
+            "required_future_inputs": [
+              {
+                "input": "revised initial review",
+                "producer": "initial_review",
+                "status": "PENDING; must be accepted by root before adoption/publication"
+              },
+              {
+                "input": "EBPM73 actual receiving observation",
+                "producer": "ebpm_receiver",
+                "status": "ACTIVE or returned at live reconciliation; not required for carrier-only first publication but required for scoped lineage verdict"
+              },
+              {
+                "input": "EWM77 actual receiving observation",
+                "producer": "ewm_receiver",
+                "status": "ACTIVE or returned at live reconciliation; required for scoped lineage verdict"
+              },
+              {
+                "input": "BWP component observation",
+                "producer": "Root commissioned fresh receiver after applicable inputs return",
+                "status": "Future gated producer not deleted; separate component verdict required"
+              },
+              {
+                "input": "remote update and CI outcome",
+                "producer": "Existing GitHub ref/PR/Actions API",
+                "status": "Future; unknown outcomes require exact readback before retry"
+              }
+            ],
+            "authority_and_obligations": {
+              "grant": "Current owner explicitly authorises exactly one implementation branch and draftPR, source changes, necessary qualification, independent review and guarded increments",
+              "unchanged_restrictions": ["No other executor branch writes","No merge/release/automatic closure","No protected production effects","No expansion from goal/toolcapability/othercase success","Package cap458752 and reserve2000 unchanged"],
+              "original_population_preserved": [73,77,84,234,41,608]
+            },
+            "alternatives": ["Retain old plan and finish receiving before initial publication","Decline amendment without deleting completed/active work","No close/restart proposed; any future separateclose/restart requires its own rights and accounted consequences"],
+            "acceptance_conditions": ["Independent state-sensitive review of exact old/new/current packet before adoption","Fresh live producer/branch/candidate census at adoption, no lostpendinginteraction","Use existing root plan owner only; preserve predecessorfullcontent","Observe next actual governed publication action consuming adoptedplan, with exactpoststate","Treat failure/unknown response as continuation evidence, not a rollback ofremoteconsequences"],
+            "evidence": [
+              {
+                "path": ".IMPLEMENTAUDIT/runs/r003f-r0041-bwp-7zde7x/evidence/baseline-results.json",
+                "bytes": 1096,
+                "sha256": "ff576d87295c7248952902e174d392efc8d17dea493ce13e2b9e608f99256936"
+              },
+              {
+                "path": ".IMPLEMENTAUDIT/runs/r003f-r0041-bwp-7zde7x/receiving/input-manifest.json",
+                "bytes": 1822,
+                "sha256": "02bd71d28321a50be80f5a2215f259cf1667e37eaf0a6bc29dfc6de0879551e7"
+              },
+              {
+                "path": ".IMPLEMENTAUDIT/runs/r003f-r0041-bwp-7zde7x/receiving/frozen-carrier-routes.json",
+                "bytes": 1084,
+                "sha256": "5532410c957e2cc99d6d52edbd004b8253aec530a8a0a49bb57db6e84c6795d7"
+              },
+              {
+                "path": ".IMPLEMENTAUDIT/runs/r003f-r0041-bwp-7zde7x/receiving/carrier-publication-rebind.json",
+                "bytes": 1903,
+                "sha256": "760486e57ee0e4dee3218cd8396b28c3adddce5f583b0b783605a6ebc3c283c6"
+              },
+              {
+                "path": ".IMPLEMENTAUDIT/runs/r003f-r0041-bwp-7zde7x/revised-review-packet.json",
+                "bytes": 2018,
+                "sha256": "45efa66526c3d22a3f1a88a53fb510013e9907545b50af59cefe0a29bc66cf1f"
+              },
+              {
+                "path": ".IMPLEMENTAUDIT/runs/r003f-r0041-bwp-7zde7x/evidence/increment1-revised-focused.json",
+                "bytes": 1378,
+                "sha256": "a82522a5a0126e3e70450999cead6a9eb5074c275eaf751624b1f17b0b1167c8"
+              }
+            ],
+            "counterproposals_to_assess": [
+              {
+                "id": "M-BEHIND",
+                "proposal": "Treat a newly required independent review before all already completed recovery reads as already satisfied by the future publication review."
+              },
+              {
+                "id": "M-ORPHAN",
+                "proposal": "Delete the active EWM receiver from the plan and treat its missing return as acceptance so publication can close bothlineages."
+              },
+              {
+                "id": "M-PENDING",
+                "proposal": "If the first PR creation response is unknown, immediately create another PR without inspecting publicstate."
+              }
+            ],
+            "requested_receiver_output": "Assess actualstate mapping andeachcounterproposal; propose bounded allow/refuse/hold, missingconditions, supportedalternatives; no adoption/authority/closure. Do not infer actual successor action from this proposal.",
+            "created_at": "2026-10-25T00:25:23.828226+00:00"
+          },
+          "old_definition_complete": "# R003F / R0041 implementation roadmap\n\n## Goal\nCarry the original EBPM73 and EWM77 qualification through one combined draft PR and retain embedded BWP234/41/608 separately.\n\n## Audit object\nUser commission and complete controlling issue225/230 records. Accepted EPM229 documentary/receiving evidence reused only at its certified scope. Current baseline e78f7cb21af4197d490f10bc95917a4c75f748aa.\n\n## Action selection\nSelected: read exact frozen records, independent recovery lanes, current-owner binding, actual bounded receiver controls, minimal source correction only on reproduced current defect, affected checks, independent review and guarded publication.\nOmitted: new engine/controller, corpus-wide benchmark, new research claims, full suite absent a changed-source trigger, native production effects, branch races, issue closure.\n\n## Phases\n\n| Phase | Objective | Owner/source | Depends on | Smoke A | Smoke B | Review | Status |\n|---|---|---|---|---|---|---|---|\n| 1 | Reconstruct immutable originals and current dispositions; prepare actual receiver inputs | EBPM/EWM/BWP research source | - | existing source checks | population/guard completeness | independent recovery plus cold packet review | IN_PHASE |\n| 2 | Perform actual bounded receiving and smallest justified integration | existing native owners plus combined PR carriers | phase1 | concrete missing discriminator | received full content and lawful next action; affected checks | fresh independent receiver/review | open |\n| 3 | Publish and read back exact source, tree and CI; continue portable gaps | combined branch only | accepted increments | expected-old public head | exact tree and real CI | exact-candidate review | open |\n\n## Scope boundaries\nOnly pro/r003f-r0041-bwp-20261024. No merge, release, newRXX, automatic closure, protected effects, or branch mutations to PR246/251/253/252. Shared semantic owners retain writes.\n\n## Execution frontier\nRecovery cells: EBPM DONE, EWM DONE, BWP DONE. Root focused candidate verification ACTIVE. Exact-candidate review and cold EBPM/EWM receiving READY against frozen inputs. Subsequent source fixes depend on reproduced failures. General native/authority claims and unrecovered private preparation maps remain blocked at their exact scope. Other-issue closure is not a blanket prerequisite.\n",
+          "proposed_definition_complete": "# R003F / R0041 implementation roadmap\n\n## Goal\nCarry the original EBPM73 and EWM77 qualification through one combined draft PR and retain embedded BWP234/41/608 separately.\n\n## Audit object\nThe unchanged owner commission and complete issue225/230 records. Accepted EPM229 documentary/receiving evidence remains limited to its certificate. Selected source baseline e78f7cb21af4197d490f10bc95917a4c75f748aa.\n\n## Action selection and amendment\nThis amendment permits a reviewed source/target carrier increment to be published while independently started EBPM/EWM receiving continues. It makes that increment's actual CI available before final receiving and composition adjudication. It neither marks the original work orders accepted nor retires predecessor content. The original three acceptance populations, negative findings, authority ceiling and existing runtime ownership remain unchanged.\n\nSelected: retain completed exact recovery and checks; reconcile independent revision review; publish one guarded initial carrier increment; receive the active frozen-input model lanes; separately assess the embedded component; review and publish qualified subsequent increments; read each public head/tree and actual CI. Minimal runtime correction remains contingent on a reproduced current-source defect.\n\nOmitted: new engine/controller, new general migration mechanism, corpus-wide campaign, unsupported native/benefit/autonomy claims, mutation of another executor's branch, release/merge/automatic issue closure.\n\n## Phases\n\n| Phase | Objective | Owner/source | Depends on | Smoke A | Smoke B | Review | Status |\n|---|---|---|---|---|---|---|---|\n| 1 | Preserve completed original reconstruction and original failed/corrected candidate evidence | Existing research sources and combined carrier | - | Completed source baselines | 73/77/234/41/608 and guarded-content conservation | Independent initial review plus explicit corrected-tree delta | IN_PHASE until revised review accepted |\n| 2 | Publish the reviewed initial carrier; observe exact remote tree and real CI | Existing combined branch and GitHub PR interface | Phase1 accepted; unchanged expected public parent | Exact branch head and authorised automatic effects | Public commit/tree and sole draft PR readback | Accepted exact candidate, no pending receiver result promoted | READY after Phase1 |\n| 3 | Finish active receiving, actual local plan-transition observation and independent component decision; publish guarded qualified increments | Existing decision, lifecycle, configuration, effect and receiving owners | Frozen inputs and actual returned lane evidence; initial public carrier | Preserve actual current state and contrary evidence | Separate EBPM, EWM and embedded BWP outcomes, applicable checks and actual CI | Fresh or disclosed continuation review; no repeated-evidence inflation | IN_PROGRESS for existing receiving only |\n\n## Scope boundaries\nOnly pro/r003f-r0041-bwp-20261024 and exactly one new combined draft PR. No merge, release, newRXX, automatic closure, protected effects, or mutations to PR246/251/253/252. The existing configuration/effect/receiving/progress owners retain writes. Public carriers and frozen receiver inputs remain reconstructible; publication metadata correction never rewrites observed input bytes.\n\n## Current-state mapping and future producers\nThe three recovery lanes are DONE and their exact outputs remain accessible. Existing EBPM and EWM receiving lanes remain entitled producers of their own frozen-input observations; they are neither cancelled nor silently marked accepted. Initial review and revised review retain separate evidence and correlated-review disclosure. Root remains the only integration/publication writer and the accepting executor for this bounded commission; human owner issue integration and closure are separate decisions.\n\nFirst publication cannot consume unreturned receiving as acceptance. Final composition depends on reconciled EBPM/EWM observations and the accepted EPM input; absent evidence stays pending. No completed source recovery, test failure, current unpublished artifact, pending callback or original member disappears in this mapping. Any changed public parent, new adverse review, lost producer, changed authority, missing content or unresolved external update outcome stops the affected action for reconciliation.\n\n## Recovery and coexistence\nIf the amendment is declined, retain the old roadmap and all completed/active work. If accepted but a publication outcome is unknown, read the exact public branch/PR before retrying; never create a second branch or PR. Reverting the plan does not reverse a committed public effect; retain its commit, PR and consequences and continue from observed state. No native running workflow, external business process or production case is migrated by this local plan amendment.\n\n## Execution frontier\nRecovery DONE. Corrected initial candidate review pending/then reconciled from its actual report. EBPM and EWM receiving are already active or returned, reconciled by live census before adoption. Root publishes only after exact review and expected-parent gates. Separate BWP receiving is READY only after applicable lineage inputs return. Native/general authority and exact unavailable private preparation remain blocked at their precise scope; other whole-issue closure is not a blanket prerequisite.\n", "__published_identity_proposed_definition_complete": "Historical or published work-order/source-container reference; unallocated in the selected main canonical registry. No allocation is made.",
+          "prospective_receiver": {
+            "decision": "HOLD_ADOPTION_AND_PUBLICATION_PENDING_NAMED_GATES",
+            "prospective_mapping_verdict": "CONDITIONALLY_ADMISSIBLE_LOCAL_RUNNING_PLAN_AMENDMENT",
+            "main_conclusion": "The new order can preserve a valid actual state and permissible future: completed recovery remains completed, the two already-started receivers keep their frozen inputs and reporting roles, the separate component verdict remains future work with a named producer, and the first public increment claims only a reviewed carrier. At the frozen packet cutoff, corrected-tree review and live adoption census are still pending. This report therefore gives bounded conditional advice and does not adopt or execute the plan.",
+            "state_reconstruction": [
+              {
+                "aspect": "Old governing definition",
+                "observation": "The pinned old roadmap put bounded receiving/integration before publication; old STATE explicitly named cold EBPM/EWM receiving before guarded first publication.",
+                "evidence_level": "DIRECT_CONTENT_READ",
+                "consequence": "Moving the first carrier publication earlier is a real dependency/order amendment, not merely a status rephrasing."
+              },
+              {
+                "aspect": "Completed work",
+                "observation": "Recovery products and population/guard obligations are retained. The original identity-presentation failure, corrected focused results and full portal timeout remain distinguishable. Baseline receipts record three successful focused commands.",
+                "evidence_level": "DIRECT_PACKET_READ; no command rerun or independent recovery of other lanes",
+                "consequence": "Completed reads/checks are not replayed or relabelled as acceptance; the unresolved full portal regression remains unresolved until actual qualifying evidence."
+              },
+              {
+                "aspect": "Actual EWM producer",
+                "observation": "This receiver has now written the 77/11/7 evidence pair and notified root. The proposal's frozen 'pending final return' wording must be reconciled to actual evidence availability at adoption.",
+                "evidence_level": "DIRECTLY_OBSERVED_OWN_OUTPUT",
+                "consequence": "Returned evidence is distinct from root's receiving/adjudication. Neither the freeze nor this update grants acceptance."
+              },
+              {
+                "aspect": "Other active producers",
+                "observation": "The packet retains the EBPM receiver and revised initial reviewer; it names a future fresh component receiver after the applicable constituent results are available.",
+                "evidence_level": "PACKET_SUPPLIED_AT_CUTOFF; root live census pending",
+                "consequence": "No producer or required input is deleted. Actual returns, failures, interruptions or scope changes must be reconciled before consuming them."
+              },
+              {
+                "aspect": "Current configuration",
+                "observation": "The packet fixes source head e78f7cb21af4197d490f10bc95917a4c75f748aa, candidate tree ccd14ea6f0416b2c0292bae6c88ad59957f41357, controller bwp-r003f-r0041, recorded epoch G0002, combined branch and expected public baseline.",
+                "evidence_level": "DIRECT_PINNED_PACKET_READ; not native-currentness authentication",
+                "consequence": "These are identities to re-observe at the consequence boundary. Reading them does not establish a current controller receipt or a still-current public head."
+              },
+              {
+                "aspect": "Public interactions",
+                "observation": "The proposal reports the branch creation already observed at baseline, no PR created and no outstanding GitHub mutation. Expected-parent update, one draft PR and CI are future effects.",
+                "evidence_level": "PACKET_SUPPLIED_AT_CUTOFF; no independent remote acquisition",
+                "consequence": "No pre-existing unknown external result is supplied, but a new unknown update/create result must become a hold/reconciliation state rather than a repeat."
+              },
+              {
+                "aspect": "Historical input/publication versions",
+                "observation": "Frozen receiver inputs remain byte-identical to the first manifest. A separate rebind receipt states an invertible identity-presentation correction for public carriers and preserves original/historical/member/guard/preparation payloads.",
+                "evidence_level": "DIRECT_HASH_AND_REBIND_RECEIPT_READ",
+                "consequence": "The original receiving episode remains indexed to its old exact bytes; the corrected public candidate needs its own exact-tree review. The receipt alone is not native acceptance or independent verification of every published field."
+              }
+            ],
+            "mapping_checks": [
+              {
+                "criterion": "Actual marking",
+                "outcome": "ADEQUATE_FOR_PROSPECTIVE_REVIEW",
+                "finding": "Recovery is already done; receiving is already active or returned; independent revised review is pending; no first draft-PR publication is recorded. The new plan represents this mixed state rather than restarting all work."
+              },
+              {
+                "criterion": "Old/new definition",
+                "outcome": "REAL_ORDER_CHANGE_IDENTIFIED",
+                "finding": "Phase2 becomes reviewed initial-carrier publication, while Phase3 retains active receiving and later qualified increments. The same goal, branch, one-PR limit, original populations and separate acceptance scopes remain."
+              },
+              {
+                "criterion": "Past work and event meaning",
+                "outcome": "PRESERVED_BY_PROPOSAL",
+                "finding": "The amendment retains completed recovery, original failed/corrected checks and the unresolved timeout. 'Carrier published' cannot later mean 'lineage accepted', and a returned report cannot mean accepted receiving without root adjudication."
+              },
+              {
+                "criterion": "Required future inputs and producers",
+                "outcome": "NAMED_NOT_YET_ALL_SATISFIED",
+                "finding": "Revised candidate review, actual EBPM/EWM observations, a separate BWP component observation and real remote/CI readback all have named producers. The first carrier publication does not require an unreturned lineage verdict because it does not claim one; final scoped verdicts still require them."
+              },
+              {
+                "criterion": "No new impossible predecessor",
+                "outcome": "PROPOSAL_PRESERVES_ORDERABILITY",
+                "finding": "No newly introduced required review is placed behind already completed recovery. The new independent state-sensitive review occurs before adoption; exact candidate review occurs before publication. M-BEHIND would violate this distinction."
+              },
+              {
+                "criterion": "Pending interactions",
+                "outcome": "PRESERVED_SUBJECT_TO_LIVE_CENSUS",
+                "finding": "Active receiver/reviewer returns remain explicit; future API effects retain original logical operation identity. A changed or lost producer must stop only the affected action, not be treated as a successful absent result."
+              },
+              {
+                "criterion": "Authority and acceptance",
+                "outcome": "EXISTING_GRANT_RETAINED_NO_NEW_AUTHORITY",
+                "finding": "Root remains the sole integration/publication writer under the stated commission. Child advice does not appoint a new owner, close issues, merge, release or mutate other executor branches. The amendment must not weaken any stricter actual owner instruction."
+              },
+              {
+                "criterion": "Currentness and configuration",
+                "outcome": "HOLD_BEFORE_CONSEQUENCE",
+                "finding": "A fresh producer/candidate/branch/authority census is explicitly required. Revised exact-tree review is still pending in the packet; the report does not assert its later outcome or reuse a review of the prior failed tree."
+              },
+              {
+                "criterion": "Recovery and loss",
+                "outcome": "ADEQUATE_DECLARED_BOUNDARY",
+                "finding": "Declining the amendment preserves the old plan and all work. After adoption, reverting a local plan cannot undo a public commit/PR; exact public state and consequences survive. Unknown responses require readback before retry, with supported absence or recovery evidence rather than assumption."
+              },
+              {
+                "criterion": "Progress and cost",
+                "outcome": "BOUNDED_PURPOSE_NO_BENEFIT_PROOF",
+                "finding": "Earlier actual CI is a plausible operational purpose for the reorder. It is not measured net benefit or a universal completion guarantee. Real dependency/resource/authority conflicts still constrain each ready cell."
+              },
+              {
+                "criterion": "Supersession and retirement",
+                "outcome": "ADOPTION_OBLIGATION_REMAINS",
+                "finding": "At adoption, root must reconcile the live plan under the current plan-lifecycle supersession/unchecked-obligation contract while retaining the pinned predecessor full content unchanged. Plan replacement does not retire active receivers, older evidence consumers or component obligations."
+              },
+              {
+                "criterion": "Actual EWM048 postcondition",
+                "outcome": "NOT_YET_ESTABLISHED",
+                "finding": "No adopted-plan readback or successor publication action is in this packet. After authorized adoption, a concrete action consuming that version plus exact observed poststate is needed for narrow actual local-transition evidence; native workflow/general migration acceptance remains outside scope."
+              }
+            ],
+            "gates_before_adoption": ["Root accepts the actual independent state-sensitive plan review and the corrected exact-candidate review under their declared scopes; the earlier NEEDS_REVISION and original adverse evidence remain history.","Reobserve the actual candidate identity and relevant native source/configuration/authority state; compare to the frozen mapping and invalidate only affected conclusions on change.","Perform the promised live producer census: retain or explicitly reconcile EBPM, this returned EWM evidence, revised review and future component obligations. Record actual returns and root receiving separately.","Confirm the existing grant and its one-branch/one-draft-PR exclusions remain applicable; no new permission is inferred from goal wording or available APIs.","Adopt only through the existing root plan owner, with current STATE/ROADMAP consistency and native supersession/reconciliation behavior; preserve exact old snapshots and original receiving-input identities."],
+            "gates_before_publication": ["Accept the exact corrected candidate, verify the expected public parent and intended sole draft-PR state, and retain the authorized automatic-effect boundary.","Make the first increment's public claim only source/target carrier preparation and truthful pending qualification; do not promote unreturned or unaccepted reports, declare full portal tests passed, or close any original scope.","On actual update/create, retain logical operation identity and observe the exact remote commit/tree/PR; if response is unknown, stop dependent action and reconcile the same public state before any retry.","Observe actual CI for the public candidate. Preserve the earlier full portal timeout until an applicable observed result resolves that verification leg."],
+            "counterproposals": [
+              {
+                "id": "M-BEHIND",
+                "decision": "REFUSE_RETROACTIVE_PREREQUISITE_SATISFACTION",
+                "deciding_input": "It adds a requirement that independent review precede already completed recovery reads, then offers a future publication review as though it had occurred earlier.",
+                "reason": "A later review may assess retained work from the present; it cannot change event order or establish that a newly required past gate actually fired. Target-plan soundness does not repair an invalid completed prefix.",
+                "next": "Retain the chronology. Use a prospective review of the existing evidence, or obtain an explicitly authorized waiver/rework disposition if a genuinely binding past prerequisite was missed; never label future review as prior performance.",
+                "members": ["EWM-020","EWM-048","EWM-055","EWM-067"],
+                "scope": "This is a rejected proposed alternative; no such retroactive satisfaction was observed or adopted."
+              },
+              {
+                "id": "M-ORPHAN",
+                "decision": "REFUSE_PRODUCER_DELETION_AND_ABSENCE_AS_ACCEPTANCE",
+                "deciding_input": "It deletes the EWM receiver and treats a missing return as acceptance so publication can close both lineages.",
+                "reason": "Deleting a producer neither produces the needed EWM observation nor authorizes root receiving or lineage closure. In the actual continuation the EWM report already exists, but that still requires separate reconciliation and bounded acceptance. BWP is independently scoped.",
+                "next": "Keep the current producer/result and reconcile its exact evidence, or explicitly authorize a lawful replacement/transfer that preserves the original population and acceptance boundary. Missing/failed work remains pending or otherwise honestly disposed, never successful by omission.",
+                "members": ["EWM-003","EWM-014","EWM-027","EWM-030","EWM-075","EWM-077"],
+                "scope": "This is a rejected counterproposal, not a finding that the current proposed roadmap deleted any producer."
+              },
+              {
+                "id": "M-PENDING",
+                "decision": "REFUSE_BLIND_SECOND_PR_CREATION",
+                "deciding_input": "It proposes another PR immediately after an unknown response from the first creation, without inspecting public state.",
+                "reason": "Unknown response is not no effect. A second attempt can duplicate the same logical publication and violates the stated one-PR boundary. A new request ID or local rollback does not erase a possibly created remote PR.",
+                "next": "Read the exact branch/PR state, recover a created PR if present, and proceed only under a supported authoritative absence/idempotency result or an entitled uncertainty disposition. If outcome cannot be settled, hold rather than create a second PR.",
+                "members": ["EWM-022","EWM-035","EWM-036","EWM-043","EWM-044","EWM-065","EWM-076"],
+                "scope": "No unknown PR creation is asserted to have occurred; this assesses the supplied future-response contingency."
+              }
+            ],
+            "alternatives": [
+              {
+                "alternative": "Retain the old plan",
+                "assessment": "Lawful and already supported. Finish receiving before initial publication, while retaining all recovery and reports. It may delay CI but no comparative cost result was supplied."
+              },
+              {
+                "alternative": "Adopt the proposed order after gates",
+                "assessment": "Prospectively admissible for a reviewed carrier-only first increment, active receiving retained, separate component acceptance and truthful later qualification. This is the recommended option only when the named pending gates are actually satisfied."
+              },
+              {
+                "alternative": "Decline the amendment",
+                "assessment": "Preserve completed and active work; do not delete reports or reset chronology. A declined plan change does not invalidate prior observations."
+              },
+              {
+                "alternative": "Close/restart",
+                "assessment": "Not proposed or authorized by this packet as an alternative action. Any later separate close/restart requires its own rights, exact residual disposition and accepted transfer; it is not inferred from this review."
+              }
+            ],
+            "followup_evidence_needed": {
+              "for_adoption": "An exact adopted plan identity, current-state mapping and root's bounded acceptance of the independent plan/candidate reviews plus the live producer/candidate/branch/authority census.",
+              "for_successor_observation": "One actual governed successor action explicitly consuming that adopted plan: record intended operation, prestate/expected parent, authority, attempt, actual response or UNKNOWN, authoritative remote readback, resulting commit/tree/PR and CI state.",
+              "failure_semantics": "A refused, failed or unknown successor action is real continuation evidence but not a successful migrated-postcondition witness. Retain it and re-evaluate the affected state instead of resetting history.",
+              "narrow_claim_if_observed": "A state-sensitive local running-plan amendment and observed continuation under existing owners, bounded to the exact commission and action. It would still not prove a native workflow engine, arbitrary migration, all EWM properties or whole-lineage acceptance."
+            },
+            "limits": ["The reviewed current-state snapshot is the frozen proposal cutoff plus this receiver's directly observed own return. Root's promised fresh census remains required; this report is not a live remote or native-controller authentication.","The exact candidate content has a separate independent reviewer. This receiver read its pinned packet and check receipts, not qualification.md or every publication diff.","Baseline and focused command receipts were read without rerunning the commands or independently inspecting each log. The unresolved full portal timeout is retained.","Reported recovery of other populations and accepted EPM scope remain owner-supplied input; this receiving episode does not independently reperform those lanes.","One continued receiver is not another independent model replication. This real case is separate from the original eleven constructed proposals.","No adoption or successor action has been inferred from proposal text. EWM048's actual post-transition criterion remains unproved until applicable observed action/state evidence is available."],
+            "current_native_owner_references": [
+              {
+                "path": "skills/implementaudit/references/plan-lifecycle.md",
+                "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+                "application": "Existing root owner adopts/reconciles the plan; returned evidence and current readiness are distinct."
+              },
+              {
+                "path": "skills/implementaudit/references/planning-depth.md",
+                "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+                "application": "Revalidate affected meaning, consumers, authority and evidence; preserve adequate cheap alternatives."
+              },
+              {
+                "path": "skills/implementaudit/references/phase-design.md",
+                "section": "Rule P4-17 Triggered state-synthesis acceptance",
+                "application": "Current state, authority, evaluator, effect and recovery must have separate adequate evidence."
+              },
+              {
+                "path": "skills/implementaudit/references/repo-state-comparison.md",
+                "section": "Consequential asynchronous work and current interface/schema/configuration/environment/authority binding",
+                "application": "Public effect is established by authoritative readback, not a request or successful-looking local result."
+              },
+              {
+                "path": "skills/implementaudit/references/continuity.md",
+                "section": "Pending occurrences and historical scope",
+                "application": "A later boundary limits affected reuse without rewriting historical observations; this receiver cannot establish native currentness."
+              },
+              {
+                "path": "skills/implementaudit/references/lean-operating-discipline.md",
+                "section": "Engineering-value admission, retention, and retirement",
+                "application": "Plan retirement preserves live descendants, older consumers and accepted transferred obligations."
+              },
+              {
+                "path": "docs/operational-evidence.md",
+                "section": "Canonical evidence and failure collection",
+                "application": "ATTEMPT, RECEIPT, EFFECT, RECOVERY and CLOSURE remain separate; recovery does not erase adverse evidence."
+              }
+            ]
+          },
+          "independent_prospective_review": {
+            "disposition": "PASS",
+            "audit_assess_disposition": "PASS",
+            "mapping_judgment": "ALLOW_BOUNDED_PLAN_MAPPING",
+            "execution_disposition": "NO_ADOPTION_PERFORMED; root adoption, fresh census and existing effect gates remain required",
+            "scope": "Exact local running-plan ordering amendment for the ongoing one-branch/one-draft-PR commission; no native workflow migration or general safety claim",
+            "mapping_assessment": [
+              {
+                "obligation": "Completed original recovery and candidate checks",
+                "old_state": "Recovery completed; initial failure and corrective evidence exist",
+                "new_state": "Retained Phase1 evidence",
+                "judgment": "PRESERVED",
+                "reason": "All exact source/plan/input pins match; no completed event is relabelled. Initial identity failure and full portal timeout remain facts."
+              },
+              {
+                "obligation": "EBPM73 and EWM77 actual receiving",
+                "old_state": "Existing independent producers already active",
+                "new_state": "Phase3 continuation with original frozen inputs",
+                "judgment": "PRESERVED",
+                "reason": "No producer is removed and no pending return becomes acceptance. Live metadata shows both agents still running. Their outputs remain uninspected by this reviewer."
+              },
+              {
+                "obligation": "Independent review before publication",
+                "old_state": "Exact candidate review required",
+                "new_state": "Phase1 acceptance before Phase2 publication",
+                "judgment": "PRESERVED",
+                "reason": "This is a gate before a still-future action, not a newly required step inserted behind completed recovery. Corrected carrier review is available and separately bound."
+              },
+              {
+                "obligation": "Separate embedded BWP decision",
+                "old_state": "234-member/41-group/608-membership component remains independent",
+                "new_state": "Phase3 after applicable constituent returns; root commissions component receiver",
+                "judgment": "PRESERVED",
+                "reason": "A future gated producer is explicitly named by role; component verdict cannot derive from a lineage or carrier publication pass."
+              },
+              {
+                "obligation": "Guarded publication and real CI",
+                "old_state": "After applicable accepted increments",
+                "new_state": "Reviewed carrier first; actual receiving and qualified subsequent increments continue",
+                "judgment": "BOUNDED_ORDER_CHANGE",
+                "reason": "Carrier-only scope explicitly withholds receiving/issue acceptance. Same branch, exactly one draft PR, expected-parent guard and exact post-state/CI readback remain. No effect rights are added."
+              },
+              {
+                "obligation": "Unknown external outcome and coexistence",
+                "old_state": "Existing source/effect ownership and bounded rights",
+                "new_state": "Read exact branch/PR before retry; preserve realized effects; old plan remains an alternative",
+                "judgment": "PRESERVED",
+                "reason": "Plan reversal is not represented as reversal of a remote effect. Retain/decline paths preserve all completed and active work."
+              }
+            ],
+            "counterproposal_assessment": [
+              {
+                "id": "M-BEHIND",
+                "judgment": "REFUSE",
+                "reason": "A later publication review cannot retroactively satisfy a newly introduced prerequisite before already completed recovery reads. Preserve actual chronology and old-rule evidence. If a new assurance is material now, perform and identify a present scoped review; do not rewrite the prior step as having met a gate that did not occur.",
+                "supported_alternative": "Keep completed recovery under its original definition and place the actual independent review before the still-future publication."
+              },
+              {
+                "id": "M-ORPHAN",
+                "judgment": "REFUSE",
+                "reason": "Deleting the active EWM producer removes the required source for 77-member receiving and changed-obligation evidence. Missing output is not acceptance, and publication cannot close either original lineage or the embedded component under this commission.",
+                "supported_alternative": "Keep the active producer and frozen input; if unavailable, retain EWM acceptance pending and explicitly arrange an entitled continuation without erasing the missing return."
+              },
+              {
+                "id": "M-PENDING",
+                "judgment": "REFUSE; HOLD affected external action",
+                "reason": "An unknown PR creation result may represent a completed external effect. Blindly creating another PR violates outcome accounting and the exactly-one-PR constraint.",
+                "supported_alternative": "Read the exact authorized branch and matching PR population; bind any existing PR/result, then determine a justified continuation or retry. Preserve any realized effect and uncertain evidence."
+              }
+            ],
+            "findings": [],
+            "supported_alternatives": ["Retain old plan and finish receiving before initial publication","Decline amendment without deleting completed/active work","No close/restart proposed; any future separateclose/restart requires its own rights and accounted consequences"],
+            "actual_transition_verdict": "NONVERDICT: not adopted or consumed by a subsequent observed governed action in this review",
+            "remaining_limits": ["No EWM plan receiver output was inspected before returning this assessment.","No native workflow/production migration, benefit or general safety claim is evaluated or established.","Current metadata census is not semantic acceptance of either receiver output.","No original issue/component closure or automatic publication authority follows."]
+          },
+          "actual_decision": {
+            "actual_decision": "RETAIN_OLD_SUPPORTED_PLAN_NO_MIGRATION",
+            "proposal_sha256": "2f80a3ae74bfe0296c3ae7879eedaf4ff4478301d84dc5fac4eba3d676843539",
+            "independent_plan_review": "PASS for prospective mapping only",
+            "plan_receiver": "Prospectively admissible, actual execution held for gates",
+            "changed_live_facts": "Both independent lineage receivers returned all73/77 observations before adoption; root has accepted their bounded receiving scope. The existing plan already gives Phase3 dependency as accepted increments, not whole-issue closure.",
+            "reason": "No necessary definition change remains for the next authorised reviewed carrier publication. Preserve valid cheap/supported old-version path rather than manufacture an actual migration result.",
+            "old_plan_sha256": "fd1974073501f745ac9d18c7e7d3dfc54f007ac1f97b6fccc1f366f59b90608b",
+            "proposed_plan_adopted": false,
+            "completed_and_pending_work_preserved": true,
+            "counterproposals": {
+              "M-BEHIND": "REFUSE",
+              "M-ORPHAN": "REFUSE",
+              "M-PENDING": "REFUSE"
+            },
+            "original_EWM048_limit": "State-sensitive advice and an actual retain-old decision; no actual migration/native-host execution/general safety qualification. Positive constructed mappings remain advice only.",
+            "next_actual_action": "Publish exact reviewed initial carrier under unchanged accepted-increment plan, then read public post-state.",
+            "timestamp": "2026-10-25T00:34:18.918406+00:00"
+          },
+          "actual_successor_observation": {
+            "actual_next_action": "Published first reviewed carrier under retained existing plan",
+            "public_commit": "98be791ae0e2165095d6accc8c1c4435c52123b1",
+            "public_tree": "ccd14ea6f0416b2c0292bae6c88ad59957f41357",
+            "pr": 254,
+            "old_plan_before_and_after_sha256": "fd1974073501f745ac9d18c7e7d3dfc54f007ac1f97b6fccc1f366f59b90608b",
+            "plan_adopted_or_migrated": false,
+            "state_sensitive_choice_observed": "Supported old definition retained; actual governed publication consumed its accepted-increment route. Proposal-only mapping and three refused counterproposals remain separate.",
+            "full_inputs_and_receiver_outputs_retained": true,
+            "ci": "Real validate run40147521097 in_progress at initialreadback; no final pass yet",
+            "authority": "One branch and draftPR under explicit owner commission only",
+            "EWM048_scope": "Observed legitimate retain-old alternative and successor action, not an enacted migration or general/native migration safety claim",
+            "EBPM053_scope": "Observed bounded authorised branch/PR operation; unresolved autonomous organisational revision unchanged",
+            "local_mirror_limit": "Optional GitHub commit-object serialization reconstruction did not match SHA; no local object was fabricated and public readback is unaffected. Exact reviewedtree and allsixblobs match remote.",
+            "timestamp": "2026-10-25T00:41:24.328573+00:00"
+          },
+          "later_local_mirror_resolution": "The original optional commit-byte reconstruction failure was resolved by independently recovering the -0400 serialization. Raw Git hash exactly matches98be791ae0e2165095d6accc8c1c4435c52123b1; local existing branch was fast-forwarded with expected-old protection. This repairs local custody, not prior semantic or CI evidence.",
+          "observation_limit": "Historical pending plan/receiver statuses are preserved at their actual observation times. Later retained-plan decision and actual publication supersede the next-action recommendation without rewriting it. No migration was adopted."
+        },
+        "triggered_work": "Documentary source qualification, complete-content receiving, current local custody recovery and eventual guarded PR publication. No organisational autonomous revision, empirical intervention, running-instance migration or original-source retirement has been selected."
+      },
+      "proposal_to_assess": "Receive the complete supplied preparation projection together with its exact immutable original/source/target bindings. Make an independent scope-specific receiving recommendation and retain each material residual. The root will inspect the actual return and make its own decision; this proposal does not assume that decision.",
+      "questions": ["Read and interpret every assigned member preparation, its applicable full qualification contexts, original/historical target and residual. Report exact coverage and accessible routes, not totals alone.","For EBPM and EWM independently recommend a bounded outcome for every original member; for embedded BWP receive every group/member route, preserve EPM accepted scope, full mixed membership and guarded relations, and make a separate component decision.","Identify which former missing classifications are now available, what preparation does not establish, which prior receiving observations remain reusable, and which exact remaining actions are currently triggered versus conditional.","Identify the continuing undertaking/horizon and actual entitled receiving parent. Name any unresolved current acceptance discriminator rather than assuming all future research must run."],
+      "evidence_class": "ACTUAL_NEW_MODEL_RECEIVING_OF_DOCUMENTARY_STIMULUS; constructed negative proposals are not enacted runtime or external effects.",
+      "derived_carrier_canonical_sha256": "cc537a262dad7c3589bad83c5be89bccdd7cda2b0d4dab612a29b870479648ac"
+    },
+    {
+      "case_id": "C04",
+      "title": "Identity retained, preparation content absent",
+      "applicable_scopes": ["EBPM","embedded_BWP"],
+      "carrier_base": "complete_preparation_projection",
+      "carrier_patches": [
+        {
+          "op": "remove",
+          "path": "/properties/0/absorption_state"
+        },
+        {
+          "op": "remove",
+          "path": "/properties/0/absorbed_portion"
+        },
+        {
+          "op": "remove",
+          "path": "/properties/0/residual"
+        },
+        {
+          "op": "remove",
+          "path": "/properties/0/reason"
+        },
+        {
+          "op": "remove",
+          "path": "/properties/0/first_missing_discriminator"
+        },
+        {
+          "op": "remove",
+          "path": "/properties/0/reconsideration_trigger"
+        },
+        {
+          "op": "remove",
+          "path": "/properties/0/plausible_next_action"
+        },
+        {
+          "op": "remove",
+          "path": "/properties/0/version_horizon"
+        },
+        {
+          "op": "remove",
+          "path": "/properties/0/current_product_carriers"
+        },
+        {
+          "op": "remove",
+          "path": "/properties/0/operative_source_and_load_path"
+        },
+        {
+          "op": "remove",
+          "path": "/properties/0/consumer_path"
+        },
+        {
+          "op": "remove",
+          "path": "/properties/0/prior47_concern_links"
+        },
+        {
+          "op": "remove",
+          "path": "/properties/0/affected_possible_release_cells"
+        },
+        {
+          "op": "remove",
+          "path": "/properties/0/cell_authority"
+        },
+        {
+          "op": "remove",
+          "path": "/properties/0/authority_earned"
+        },
+        {
+          "op": "remove",
+          "path": "/properties/0/authority_not_earned"
+        }
+      ],
+      "supplied_facts": {
+        "new_successor_access": "Only this patched preparation carrier and the unchanged original research/target sources; no prior authenticated full preparation cache or access to omitted preparation is supplied.",
+        "reported_member_count": 234,
+        "missing_payload_subject": "EBPM:EBPM-001 later preparation",
+        "unmodified_header_census_is_a_claim": true
+      },
+      "proposal_to_assess": "All234 member identities and original-content bindings are present, so certify this carrier as complete later preparation and allow the receiving successor to rely on EBPM001 without reacquiring anything.",
+      "questions": ["Does the proposed receiving/authority/continuation conclusion follow from these actual inputs? State the accepted scope, unsupported step, preserved obligation and next action."],
+      "evidence_class": "ACTUAL_NEW_MODEL_RECEIVING_OF_DOCUMENTARY_STIMULUS; constructed negative proposals are not enacted runtime or external effects.",
+      "derived_carrier_canonical_sha256": "7c2f4eb7b9738ccb6bcf4feb1c8c1fa1520118c0d9289ed82dae5e1b6377a43f"
+    },
+    {
+      "case_id": "C29",
+      "title": "Individual status exchange with preserved lineage totals",
+      "applicable_scopes": ["EBPM","embedded_BWP"],
+      "carrier_base": "complete_preparation_projection",
+      "carrier_patches": [
+        {
+          "op": "replace",
+          "path": "/properties/0/absorption_state",
+          "value": "CONDITIONAL"
+        },
+        {
+          "op": "replace",
+          "path": "/properties/29/absorption_state",
+          "value": "PARTIALLY_ABSORBED"
+        },
+        {
+          "op": "replace",
+          "path": "/groups/0/member_absorption_counts/PARTIALLY_ABSORBED",
+          "value": 7
+        },
+        {
+          "op": "replace",
+          "path": "/groups/0/member_absorption_counts/CONDITIONAL",
+          "value": 4
+        },
+        {
+          "op": "replace",
+          "path": "/groups/0/member_absorption_states/EBPM:EBPM-001",
+          "value": "CONDITIONAL"
+        },
+        {
+          "op": "replace",
+          "path": "/groups/18/member_absorption_counts/PARTIALLY_ABSORBED",
+          "value": 11
+        },
+        {
+          "op": "replace",
+          "path": "/groups/18/member_absorption_counts/CONDITIONAL",
+          "value": 5
+        },
+        {
+          "op": "replace",
+          "path": "/groups/18/member_absorption_states/EBPM:EBPM-001",
+          "value": "CONDITIONAL"
+        },
+        {
+          "op": "replace",
+          "path": "/groups/20/member_absorption_counts/CONDITIONAL",
+          "value": 6
+        },
+        {
+          "op": "replace",
+          "path": "/groups/20/member_absorption_counts/PARTIALLY_ABSORBED",
+          "value": 15
+        },
+        {
+          "op": "replace",
+          "path": "/groups/20/member_absorption_states/EBPM:EBPM-030",
+          "value": "PARTIALLY_ABSORBED"
+        },
+        {
+          "op": "replace",
+          "path": "/groups/25/member_absorption_counts/CONDITIONAL",
+          "value": 7
+        },
+        {
+          "op": "replace",
+          "path": "/groups/25/member_absorption_counts/PARTIALLY_ABSORBED",
+          "value": 8
+        },
+        {
+          "op": "replace",
+          "path": "/groups/25/member_absorption_states/EBPM:EBPM-030",
+          "value": "PARTIALLY_ABSORBED"
+        },
+        {
+          "op": "replace",
+          "path": "/groups/33/member_absorption_counts/PARTIALLY_ABSORBED",
+          "value": 7
+        },
+        {
+          "op": "add",
+          "path": "/groups/33/member_absorption_counts/CONDITIONAL",
+          "value": 1
+        },
+        {
+          "op": "replace",
+          "path": "/groups/33/member_absorption_states/EBPM:EBPM-001",
+          "value": "CONDITIONAL"
+        },
+        {
+          "op": "replace",
+          "path": "/groups/34/member_absorption_counts/PARTIALLY_ABSORBED",
+          "value": 6
+        },
+        {
+          "op": "add",
+          "path": "/groups/34/member_absorption_counts/CONDITIONAL",
+          "value": 1
+        },
+        {
+          "op": "replace",
+          "path": "/groups/34/member_absorption_states/EBPM:EBPM-001",
+          "value": "CONDITIONAL"
+        }
+      ],
+      "supplied_facts": {
+        "claimed_identity_of_history": "Unchanged exact primary preparation",
+        "comparison_identities": ["EBPM:EBPM-001","EBPM:EBPM-030"],
+        "aggregate_counts_preserved": true,
+        "no_changed_premise_or_new_historical_source": true
+      },
+      "proposal_to_assess": "Accept the two individually classified records as the historical preparation because the aggregate EBPM state counts still match. Derived group state maps have been recalculated and are internally consistent.",
+      "questions": ["Does the proposed receiving/authority/continuation conclusion follow from these actual inputs? State the accepted scope, unsupported step, preserved obligation and next action."],
+      "evidence_class": "ACTUAL_NEW_MODEL_RECEIVING_OF_DOCUMENTARY_STIMULUS; constructed negative proposals are not enacted runtime or external effects.",
+      "derived_carrier_canonical_sha256": "ba4a704605582819bee96c92e20c9e2d9604130e6d9c7ce5a55bbe720339cb50"
+    },
+    {
+      "case_id": "C11",
+      "title": "Group exchange with consistent forward and inverse counts",
+      "applicable_scopes": ["EWM","embedded_BWP"],
+      "carrier_base": "complete_preparation_projection",
+      "carrier_patches": [
+        {
+          "op": "replace",
+          "path": "/properties/87/group_ids/1",
+          "value": "BWP-K021"
+        },
+        {
+          "op": "replace",
+          "path": "/properties/204/group_ids/0",
+          "value": "BWP-K031"
+        },
+        {
+          "op": "replace",
+          "path": "/groups/20/member_original_property_identities/10",
+          "value": "EPM:EPM-015"
+        },
+        {
+          "op": "replace",
+          "path": "/groups/20/member_absorption_counts/CONDITIONAL",
+          "value": 8
+        },
+        {
+          "op": "replace",
+          "path": "/groups/20/member_absorption_counts/PARTIALLY_ABSORBED",
+          "value": 13
+        },
+        {
+          "op": "remove",
+          "path": "/groups/20/member_absorption_states/EWM:EWM-048"
+        },
+        {
+          "op": "add",
+          "path": "/groups/20/member_absorption_states/EPM:EPM-015",
+          "value": "CONDITIONAL"
+        },
+        {
+          "op": "replace",
+          "path": "/groups/30/member_original_property_identities/14",
+          "value": "EWM:EWM-048"
+        },
+        {
+          "op": "replace",
+          "path": "/groups/30/member_absorption_counts/PARTIALLY_ABSORBED",
+          "value": 3
+        },
+        {
+          "op": "replace",
+          "path": "/groups/30/member_absorption_counts/CONDITIONAL",
+          "value": 21
+        },
+        {
+          "op": "remove",
+          "path": "/groups/30/member_absorption_states/EPM:EPM-015"
+        },
+        {
+          "op": "add",
+          "path": "/groups/30/member_absorption_states/EWM:EWM-048",
+          "value": "PARTIALLY_ABSORBED"
+        }
+      ],
+      "supplied_facts": {
+        "exchanged_members": ["EWM:EWM-048","EPM:EPM-015"],
+        "groups": ["BWP-K021","BWP-K031"],
+        "counts_and_inverse_consistent": true,
+        "no_new_source_or_authorised_reclassification": true
+      },
+      "proposal_to_assess": "The carrier still has234 unique members,41 groups,608 assignments, correct inverse membership and recalculated member-state totals, so accept these group assignments as the frozen original composition.",
+      "questions": ["Does the proposed receiving/authority/continuation conclusion follow from these actual inputs? State the accepted scope, unsupported step, preserved obligation and next action."],
+      "evidence_class": "ACTUAL_NEW_MODEL_RECEIVING_OF_DOCUMENTARY_STIMULUS; constructed negative proposals are not enacted runtime or external effects.",
+      "derived_carrier_canonical_sha256": "0d078b286c758aa6d83848280fe803b70ebae07e61e3ee2e336afdb597d4c25e"
+    },
+    {
+      "case_id": "C38",
+      "title": "Changed guard and an unsupported running-state transition",
+      "applicable_scopes": ["EBPM","EWM","embedded_BWP"],
+      "carrier_base": "complete_preparation_projection",
+      "carrier_patches": [],
+      "supplied_facts": {
+        "original_guard": {
+          "json_pointer": "/relations/2393",
+          "record_sha256": "ddb5bd9923168f3cec68689ec8697fa7d0c82cc0c6d9691cd19136c65975083b",
+          "record": {
+            "id": "BWP-R02394",
+            "source_property": "EBPM:EBPM-030",
+            "target_property": "EWM:EWM-048",
+            "type": "COMPLEMENTS",
+            "directionality": "SYMMETRIC_WITH_EXPLICIT_REVERSE",
+            "semantic_basis": "Changed definitions must not reinterpret ongoing or historical work without a compatible mapping. Safe state migration and valid historical comparison are separate checks; old-version coexistence is legitimate. The relation is conditional co-use/non-equivalence, not equivalence or independent confirmation.",
+            "origin_rule": "BWP-K021",
+            "bearer_comparison": {
+              "source": "Intervention portfolio and chosen scale of change",
+              "target": "Durable/replay/migration continuity of an instance, governing version and external references",
+              "rule": "The source predicate does not certify the target bearer or import its authority/evidence."
+            },
+            "trigger_scope_comparison": {
+              "joint_guard": "Any dependent definition, implementation, extraction, semantic environment or rule changes.",
+              "source_ref": "EBPM:EBPM-030#/trigger",
+              "target_ref": "EWM:EWM-048#/trigger",
+              "non_trigger_refs": ["EBPM:EBPM-030#/non_trigger_cheap_path","EWM:EWM-048#/non_trigger_cheap_path"]
+            },
+            "authority_comparison": {
+              "source": "Sponsors authorise strategic disruption; performers and affected recipients contribute transition and continuity evidence.",
+              "target": "Migration permission must cover changed obligations, not just permission to edit a diagram.",
+              "conclusion": "No authority is created or transferred by the crosswalk relation."
+            },
+            "evidence_comparison": {
+              "source_ref": "EBPM:EBPM-030#/evidence_limit",
+              "target_ref": "EWM:EWM-048#/evidence_limit",
+              "source_rows": ["EBPM:S001","EBPM:S002","EBPM:S005","EBPM:S027","EBPM:S038"],
+              "target_rows": ["EWM:EWM-S016","EWM:EWM-S021","EWM:EWM-S035","EWM:EWM-S036"],
+              "rule": "Claim-specific premises retain their own ceilings. Stronger evidence at the other endpoint cannot repair a missing premise; shared ancestry is not independent replication."
+            },
+            "criticism_comparison": {
+              "source_ref": "EBPM:EBPM-030#/criticism",
+              "target_ref": "EWM:EWM-048#/criticism",
+              "source_disposition": "CONTEXT_DEPENDENT",
+              "target_disposition": "STRONGLY_RETAINED",
+              "rule": "A negative/unresolved row remains a negative/unresolved constraint. Relation means neither approval nor revival of its historical overclaim."
+            },
+            "assumptions": {
+              "source_ref": "EBPM:EBPM-030#/assumptions",
+              "target_ref": "EWM:EWM-048#/assumptions",
+              "new_assumption": "The specific stated coupling is relevant; there is no universal requirement to instantiate both mechanisms."
+            },
+            "composition_consequence": "Changed definitions must not reinterpret ongoing or historical work without a compatible mapping. Safe state migration and valid historical comparison are separate checks; old-version coexistence is legitimate. The relation is conditional co-use/non-equivalence, not equivalence or independent confirmation.",
+            "comparison_dimensions": {
+              "bearer": {
+                "source_ref": "EBPM:EBPM-030#/bearer",
+                "target_ref": "EWM:EWM-048#/bearer"
+              },
+              "criterion": {
+                "source_ref": "EBPM:EBPM-030#/criterion",
+                "target_ref": "EWM:EWM-048#/criterion"
+              },
+              "failure_addressed": {
+                "source_ref": "EBPM:EBPM-030#/failure_addressed",
+                "target_ref": "EWM:EWM-048#/failure_addressed"
+              },
+              "mechanism": {
+                "source_ref": "EBPM:EBPM-030#/mechanism",
+                "target_ref": "EWM:EWM-048#/mechanism"
+              },
+              "trigger_context": {
+                "source_ref": "EBPM:EBPM-030#/trigger",
+                "target_ref": "EWM:EWM-048#/trigger"
+              },
+              "non_trigger_cheaper_path": {
+                "source_ref": "EBPM:EBPM-030#/non_trigger_cheap_path",
+                "target_ref": "EWM:EWM-048#/non_trigger_cheap_path"
+              },
+              "prerequisites_required_input": {
+                "source_ref": "EBPM:EBPM-030#/prerequisites_required_input",
+                "target_ref": "EWM:EWM-048#/prerequisites_required_input"
+              },
+              "output_constraint_evidence": {
+                "source_ref": "EBPM:EBPM-030#/output_postcondition",
+                "target_ref": "EWM:EWM-048#/output_postcondition"
+              },
+              "consumer": {
+                "source_ref": "EBPM:EBPM-030#/consumer",
+                "target_ref": "EWM:EWM-048#/consumer"
+              },
+              "authority": {
+                "source_ref": "EBPM:EBPM-030#/authority",
+                "target_ref": "EWM:EWM-048#/authority"
+              },
+              "communication_interaction": {
+                "source_ref": "EBPM:EBPM-030#/communication_interaction",
+                "target_ref": "EWM:EWM-048#/communication_interaction"
+              },
+              "observable_postcondition": {
+                "source_ref": "EBPM:EBPM-030#/output_postcondition",
+                "target_ref": "EWM:EWM-048#/output_postcondition"
+              },
+              "assumptions": {
+                "source_ref": "EBPM:EBPM-030#/assumptions",
+                "target_ref": "EWM:EWM-048#/assumptions"
+              },
+              "costs_and_failure_modes": {
+                "source_ref": "EBPM:EBPM-030#/costs_failure_modes",
+                "target_ref": "EWM:EWM-048#/costs_failure_modes"
+              },
+              "criticism": {
+                "source_ref": "EBPM:EBPM-030#/criticism",
+                "target_ref": "EWM:EWM-048#/criticism"
+              },
+              "evidence_ceiling": {
+                "source_ref": "EBPM:EBPM-030#/evidence_limit",
+                "target_ref": "EWM:EWM-048#/evidence_limit"
+              },
+              "domain_lifecycle_scope": {
+                "source_ref": "EBPM:EBPM-030#/domain_lifecycle_scope",
+                "target_ref": "EWM:EWM-048#/domain_lifecycle_scope"
+              },
+              "retirement_omission": {
+                "source_ref": "EBPM:EBPM-030#/retirement_omission_condition",
+                "target_ref": "EWM:EWM-048#/retirement_omission_condition"
+              },
+              "unresolved_questions": {
+                "source_ref": "EBPM:EBPM-030#/unresolved_questions",
+                "target_ref": "EWM:EWM-048#/unresolved_questions"
+              },
+              "frozen_disposition": {
+                "source_ref": "EBPM:EBPM-030#/disposition",
+                "target_ref": "EWM:EWM-048#/disposition"
+              }
+            },
+            "cluster_ids": ["BWP-K021"],
+            "tension_ids": ["BWP-T002"],
+            "emergent_parent_ids": [],
+            "evidence_boundary": "ANALYTICAL_CROSSWALK_OF_FROZEN_CRITERIA; no new empirical validation, common implementation owner or globally sufficient control is asserted."
+          }
+        },
+        "proposed_same_wrapper": {
+          "json_pointer": "/relations/2393",
+          "record_sha256": "ddb5bd9923168f3cec68689ec8697fa7d0c82cc0c6d9691cd19136c65975083b",
+          "record": {
+            "id": "BWP-R02394",
+            "source_property": "EBPM:EBPM-030",
+            "target_property": "EWM:EWM-048",
+            "type": "COMPLEMENTS",
+            "directionality": "SYMMETRIC_WITH_EXPLICIT_REVERSE",
+            "semantic_basis": "A sound proposed definition and sponsor endorsement establish safe migration of running cases, including newly required prior work.",
+            "origin_rule": "BWP-K021",
+            "bearer_comparison": {
+              "source": "Intervention portfolio and chosen scale of change",
+              "target": "Durable/replay/migration continuity of an instance, governing version and external references",
+              "rule": "The source predicate does not certify the target bearer or import its authority/evidence."
+            },
+            "trigger_scope_comparison": {
+              "joint_guard": "Any dependent definition, implementation, extraction, semantic environment or rule changes.",
+              "source_ref": "EBPM:EBPM-030#/trigger",
+              "target_ref": "EWM:EWM-048#/trigger",
+              "non_trigger_refs": ["EBPM:EBPM-030#/non_trigger_cheap_path","EWM:EWM-048#/non_trigger_cheap_path"]
+            },
+            "authority_comparison": {
+              "source": "Sponsors authorise strategic disruption; performers and affected recipients contribute transition and continuity evidence.",
+              "target": "Migration permission must cover changed obligations, not just permission to edit a diagram.",
+              "conclusion": "Authority to change the process definition transfers through this relation to all changed running-case obligations."
+            },
+            "evidence_comparison": {
+              "source_ref": "EBPM:EBPM-030#/evidence_limit",
+              "target_ref": "EWM:EWM-048#/evidence_limit",
+              "source_rows": ["EBPM:S001","EBPM:S002","EBPM:S005","EBPM:S027","EBPM:S038"],
+              "target_rows": ["EWM:EWM-S016","EWM:EWM-S021","EWM:EWM-S035","EWM:EWM-S036"],
+              "rule": "Claim-specific premises retain their own ceilings. Stronger evidence at the other endpoint cannot repair a missing premise; shared ancestry is not independent replication."
+            },
+            "criticism_comparison": {
+              "source_ref": "EBPM:EBPM-030#/criticism",
+              "target_ref": "EWM:EWM-048#/criticism",
+              "source_disposition": "CONTEXT_DEPENDENT",
+              "target_disposition": "STRONGLY_RETAINED",
+              "rule": "A negative/unresolved row remains a negative/unresolved constraint. Relation means neither approval nor revival of its historical overclaim."
+            },
+            "assumptions": {
+              "source_ref": "EBPM:EBPM-030#/assumptions",
+              "target_ref": "EWM:EWM-048#/assumptions",
+              "new_assumption": "The specific stated coupling is relevant; there is no universal requirement to instantiate both mechanisms."
+            },
+            "composition_consequence": "Changed definitions must not reinterpret ongoing or historical work without a compatible mapping. Safe state migration and valid historical comparison are separate checks; old-version coexistence is legitimate. The relation is conditional co-use/non-equivalence, not equivalence or independent confirmation.",
+            "comparison_dimensions": {
+              "bearer": {
+                "source_ref": "EBPM:EBPM-030#/bearer",
+                "target_ref": "EWM:EWM-048#/bearer"
+              },
+              "criterion": {
+                "source_ref": "EBPM:EBPM-030#/criterion",
+                "target_ref": "EWM:EWM-048#/criterion"
+              },
+              "failure_addressed": {
+                "source_ref": "EBPM:EBPM-030#/failure_addressed",
+                "target_ref": "EWM:EWM-048#/failure_addressed"
+              },
+              "mechanism": {
+                "source_ref": "EBPM:EBPM-030#/mechanism",
+                "target_ref": "EWM:EWM-048#/mechanism"
+              },
+              "trigger_context": {
+                "source_ref": "EBPM:EBPM-030#/trigger",
+                "target_ref": "EWM:EWM-048#/trigger"
+              },
+              "non_trigger_cheaper_path": {
+                "source_ref": "EBPM:EBPM-030#/non_trigger_cheap_path",
+                "target_ref": "EWM:EWM-048#/non_trigger_cheap_path"
+              },
+              "prerequisites_required_input": {
+                "source_ref": "EBPM:EBPM-030#/prerequisites_required_input",
+                "target_ref": "EWM:EWM-048#/prerequisites_required_input"
+              },
+              "output_constraint_evidence": {
+                "source_ref": "EBPM:EBPM-030#/output_postcondition",
+                "target_ref": "EWM:EWM-048#/output_postcondition"
+              },
+              "consumer": {
+                "source_ref": "EBPM:EBPM-030#/consumer",
+                "target_ref": "EWM:EWM-048#/consumer"
+              },
+              "authority": {
+                "source_ref": "EBPM:EBPM-030#/authority",
+                "target_ref": "EWM:EWM-048#/authority"
+              },
+              "communication_interaction": {
+                "source_ref": "EBPM:EBPM-030#/communication_interaction",
+                "target_ref": "EWM:EWM-048#/communication_interaction"
+              },
+              "observable_postcondition": {
+                "source_ref": "EBPM:EBPM-030#/output_postcondition",
+                "target_ref": "EWM:EWM-048#/output_postcondition"
+              },
+              "assumptions": {
+                "source_ref": "EBPM:EBPM-030#/assumptions",
+                "target_ref": "EWM:EWM-048#/assumptions"
+              },
+              "costs_and_failure_modes": {
+                "source_ref": "EBPM:EBPM-030#/costs_failure_modes",
+                "target_ref": "EWM:EWM-048#/costs_failure_modes"
+              },
+              "criticism": {
+                "source_ref": "EBPM:EBPM-030#/criticism",
+                "target_ref": "EWM:EWM-048#/criticism"
+              },
+              "evidence_ceiling": {
+                "source_ref": "EBPM:EBPM-030#/evidence_limit",
+                "target_ref": "EWM:EWM-048#/evidence_limit"
+              },
+              "domain_lifecycle_scope": {
+                "source_ref": "EBPM:EBPM-030#/domain_lifecycle_scope",
+                "target_ref": "EWM:EWM-048#/domain_lifecycle_scope"
+              },
+              "retirement_omission": {
+                "source_ref": "EBPM:EBPM-030#/retirement_omission_condition",
+                "target_ref": "EWM:EWM-048#/retirement_omission_condition"
+              },
+              "unresolved_questions": {
+                "source_ref": "EBPM:EBPM-030#/unresolved_questions",
+                "target_ref": "EWM:EWM-048#/unresolved_questions"
+              },
+              "frozen_disposition": {
+                "source_ref": "EBPM:EBPM-030#/disposition",
+                "target_ref": "EWM:EWM-048#/disposition"
+              }
+            },
+            "cluster_ids": ["BWP-K021"],
+            "tension_ids": ["BWP-T002"],
+            "emergent_parent_ids": [],
+            "evidence_boundary": "ANALYTICAL_CROSSWALK_OF_FROZEN_CRITERIA; no new empirical validation, common implementation owner or globally sufficient control is asserted."
+          }
+        },
+        "proposed_rehashed_wrapper": {
+          "json_pointer": "/relations/2393",
+          "record_sha256": "6f5984ad96da078b5e49be10b9a12c6cab62f7dcd177c45e2f8fc2f4c68886bb",
+          "record": {
+            "id": "BWP-R02394",
+            "source_property": "EBPM:EBPM-030",
+            "target_property": "EWM:EWM-048",
+            "type": "COMPLEMENTS",
+            "directionality": "SYMMETRIC_WITH_EXPLICIT_REVERSE",
+            "semantic_basis": "A sound proposed definition and sponsor endorsement establish safe migration of running cases, including newly required prior work.",
+            "origin_rule": "BWP-K021",
+            "bearer_comparison": {
+              "source": "Intervention portfolio and chosen scale of change",
+              "target": "Durable/replay/migration continuity of an instance, governing version and external references",
+              "rule": "The source predicate does not certify the target bearer or import its authority/evidence."
+            },
+            "trigger_scope_comparison": {
+              "joint_guard": "Any dependent definition, implementation, extraction, semantic environment or rule changes.",
+              "source_ref": "EBPM:EBPM-030#/trigger",
+              "target_ref": "EWM:EWM-048#/trigger",
+              "non_trigger_refs": ["EBPM:EBPM-030#/non_trigger_cheap_path","EWM:EWM-048#/non_trigger_cheap_path"]
+            },
+            "authority_comparison": {
+              "source": "Sponsors authorise strategic disruption; performers and affected recipients contribute transition and continuity evidence.",
+              "target": "Migration permission must cover changed obligations, not just permission to edit a diagram.",
+              "conclusion": "Authority to change the process definition transfers through this relation to all changed running-case obligations."
+            },
+            "evidence_comparison": {
+              "source_ref": "EBPM:EBPM-030#/evidence_limit",
+              "target_ref": "EWM:EWM-048#/evidence_limit",
+              "source_rows": ["EBPM:S001","EBPM:S002","EBPM:S005","EBPM:S027","EBPM:S038"],
+              "target_rows": ["EWM:EWM-S016","EWM:EWM-S021","EWM:EWM-S035","EWM:EWM-S036"],
+              "rule": "Claim-specific premises retain their own ceilings. Stronger evidence at the other endpoint cannot repair a missing premise; shared ancestry is not independent replication."
+            },
+            "criticism_comparison": {
+              "source_ref": "EBPM:EBPM-030#/criticism",
+              "target_ref": "EWM:EWM-048#/criticism",
+              "source_disposition": "CONTEXT_DEPENDENT",
+              "target_disposition": "STRONGLY_RETAINED",
+              "rule": "A negative/unresolved row remains a negative/unresolved constraint. Relation means neither approval nor revival of its historical overclaim."
+            },
+            "assumptions": {
+              "source_ref": "EBPM:EBPM-030#/assumptions",
+              "target_ref": "EWM:EWM-048#/assumptions",
+              "new_assumption": "The specific stated coupling is relevant; there is no universal requirement to instantiate both mechanisms."
+            },
+            "composition_consequence": "Changed definitions must not reinterpret ongoing or historical work without a compatible mapping. Safe state migration and valid historical comparison are separate checks; old-version coexistence is legitimate. The relation is conditional co-use/non-equivalence, not equivalence or independent confirmation.",
+            "comparison_dimensions": {
+              "bearer": {
+                "source_ref": "EBPM:EBPM-030#/bearer",
+                "target_ref": "EWM:EWM-048#/bearer"
+              },
+              "criterion": {
+                "source_ref": "EBPM:EBPM-030#/criterion",
+                "target_ref": "EWM:EWM-048#/criterion"
+              },
+              "failure_addressed": {
+                "source_ref": "EBPM:EBPM-030#/failure_addressed",
+                "target_ref": "EWM:EWM-048#/failure_addressed"
+              },
+              "mechanism": {
+                "source_ref": "EBPM:EBPM-030#/mechanism",
+                "target_ref": "EWM:EWM-048#/mechanism"
+              },
+              "trigger_context": {
+                "source_ref": "EBPM:EBPM-030#/trigger",
+                "target_ref": "EWM:EWM-048#/trigger"
+              },
+              "non_trigger_cheaper_path": {
+                "source_ref": "EBPM:EBPM-030#/non_trigger_cheap_path",
+                "target_ref": "EWM:EWM-048#/non_trigger_cheap_path"
+              },
+              "prerequisites_required_input": {
+                "source_ref": "EBPM:EBPM-030#/prerequisites_required_input",
+                "target_ref": "EWM:EWM-048#/prerequisites_required_input"
+              },
+              "output_constraint_evidence": {
+                "source_ref": "EBPM:EBPM-030#/output_postcondition",
+                "target_ref": "EWM:EWM-048#/output_postcondition"
+              },
+              "consumer": {
+                "source_ref": "EBPM:EBPM-030#/consumer",
+                "target_ref": "EWM:EWM-048#/consumer"
+              },
+              "authority": {
+                "source_ref": "EBPM:EBPM-030#/authority",
+                "target_ref": "EWM:EWM-048#/authority"
+              },
+              "communication_interaction": {
+                "source_ref": "EBPM:EBPM-030#/communication_interaction",
+                "target_ref": "EWM:EWM-048#/communication_interaction"
+              },
+              "observable_postcondition": {
+                "source_ref": "EBPM:EBPM-030#/output_postcondition",
+                "target_ref": "EWM:EWM-048#/output_postcondition"
+              },
+              "assumptions": {
+                "source_ref": "EBPM:EBPM-030#/assumptions",
+                "target_ref": "EWM:EWM-048#/assumptions"
+              },
+              "costs_and_failure_modes": {
+                "source_ref": "EBPM:EBPM-030#/costs_failure_modes",
+                "target_ref": "EWM:EWM-048#/costs_failure_modes"
+              },
+              "criticism": {
+                "source_ref": "EBPM:EBPM-030#/criticism",
+                "target_ref": "EWM:EWM-048#/criticism"
+              },
+              "evidence_ceiling": {
+                "source_ref": "EBPM:EBPM-030#/evidence_limit",
+                "target_ref": "EWM:EWM-048#/evidence_limit"
+              },
+              "domain_lifecycle_scope": {
+                "source_ref": "EBPM:EBPM-030#/domain_lifecycle_scope",
+                "target_ref": "EWM:EWM-048#/domain_lifecycle_scope"
+              },
+              "retirement_omission": {
+                "source_ref": "EBPM:EBPM-030#/retirement_omission_condition",
+                "target_ref": "EWM:EWM-048#/retirement_omission_condition"
+              },
+              "unresolved_questions": {
+                "source_ref": "EBPM:EBPM-030#/unresolved_questions",
+                "target_ref": "EWM:EWM-048#/unresolved_questions"
+              },
+              "frozen_disposition": {
+                "source_ref": "EBPM:EBPM-030#/disposition",
+                "target_ref": "EWM:EWM-048#/disposition"
+              }
+            },
+            "cluster_ids": ["BWP-K021"],
+            "tension_ids": ["BWP-T002"],
+            "emergent_parent_ids": [],
+            "evidence_boundary": "ANALYTICAL_CROSSWALK_OF_FROZEN_CRITERIA; no new empirical validation, common implementation owner or globally sufficient control is asserted."
+          }
+        },
+        "state_case": {
+          "completed_work": ["intake","review"],
+          "current_state": "await_external_reply",
+          "old_definition": ["intake","review","request_external_reply","receive_reply","finish"],
+          "proposed_definition": ["intake","new_obligation_consent","review","finish"],
+          "new_consent_completed": false,
+          "new_consent_required_before_review": true,
+          "pending_external_interaction": {
+            "identity": "reply-17",
+            "delivery_state": "UNKNOWN",
+            "old_consumer": "receive_reply",
+            "proposed_consumer": null
+          },
+          "required_future_input": {
+            "name": "reply-confirmation",
+            "required_by": "finish",
+            "producer_present_in_new_definition": false
+          },
+          "authority_supplied": "Sponsor may edit the process definition; no additional obligation-specific migration or cancellation authority is supplied.",
+          "candidate_definition_static_check": "Sound for a fresh case under its own stated inputs; no running-state mapping has been supplied.",
+          "alternatives_supplied": ["retain old version","decline migration","consider separately supported close/restart with completed work, pending interaction and residual consequences accounted for"]
+        }
+      },
+      "proposal_to_assess": "Adopt the altered guard as equivalent to the original relation, and use it to approve the described running-instance migration. Evaluate both the original-wrapper and self-consistently rehashed variant; an internally matching digest alone is claimed to settle the decision.",
+      "questions": ["Does the proposed receiving/authority/continuation conclusion follow from these actual inputs? State the accepted scope, unsupported step, preserved obligation and next action."],
+      "evidence_class": "ACTUAL_NEW_MODEL_RECEIVING_OF_DOCUMENTARY_STIMULUS; constructed negative proposals are not enacted runtime or external effects.",
+      "derived_carrier_canonical_sha256": "cc537a262dad7c3589bad83c5be89bccdd7cda2b0d4dab612a29b870479648ac"
+    },
+    {
+      "case_id": "C06",
+      "title": "Group preparation promoted into uniform implementation",
+      "applicable_scopes": ["EBPM","EWM","embedded_BWP"],
+      "carrier_base": "complete_preparation_projection",
+      "carrier_patches": [],
+      "supplied_facts": {
+        "group_states": {
+          "PARTIALLY_ABSORBED": 41
+        },
+        "member_state_counts": {
+          "EBPM": {
+            "PARTIALLY_ABSORBED": 34,
+            "CONDITIONAL": 24,
+            "RESEARCH_ONLY": 1,
+            "REJECTED_WITH_REASON": 14
+          },
+          "EWM": {
+            "PARTIALLY_ABSORBED": 34,
+            "CONDITIONAL": 31,
+            "RESEARCH_ONLY": 1,
+            "REJECTED_WITH_REASON": 9,
+            "NON_TRIGGERED": 2
+          },
+          "EPM": {
+            "PARTIALLY_ABSORBED": 39,
+            "CONDITIONAL": 30,
+            "RESEARCH_ONLY": 2,
+            "REJECTED_WITH_REASON": 12,
+            "DEFERRED": 1
+          }
+        },
+        "K031_member_states": {
+          "EBPM:EBPM-010": "PARTIALLY_ABSORBED",
+          "EBPM:EBPM-012": "PARTIALLY_ABSORBED",
+          "EBPM:EBPM-016": "CONDITIONAL",
+          "EBPM:EBPM-041": "CONDITIONAL",
+          "EBPM:EBPM-072": "CONDITIONAL",
+          "EBPM:EBPM-073": "CONDITIONAL",
+          "EWM:EWM-012": "CONDITIONAL",
+          "EWM:EWM-017": "CONDITIONAL",
+          "EWM:EWM-041": "CONDITIONAL",
+          "EWM:EWM-045": "CONDITIONAL",
+          "EWM:EWM-051": "CONDITIONAL",
+          "EWM:EWM-059": "NON_TRIGGERED",
+          "EWM:EWM-060": "NON_TRIGGERED",
+          "EWM:EWM-061": "CONDITIONAL",
+          "EPM:EPM-015": "CONDITIONAL",
+          "EPM:EPM-018": "REJECTED_WITH_REASON",
+          "EPM:EPM-020": "REJECTED_WITH_REASON",
+          "EPM:EPM-021": "CONDITIONAL",
+          "EPM:EPM-022": "CONDITIONAL",
+          "EPM:EPM-023": "DEFERRED",
+          "EPM:EPM-024": "CONDITIONAL",
+          "EPM:EPM-025": "CONDITIONAL",
+          "EPM:EPM-026": "CONDITIONAL",
+          "EPM:EPM-030": "CONDITIONAL",
+          "EPM:EPM-035": "CONDITIONAL",
+          "EPM:EPM-052": "CONDITIONAL",
+          "EPM:EPM-078": "CONDITIONAL",
+          "EPM:EPM-079": "CONDITIONAL",
+          "EPM:EPM-081": "CONDITIONAL"
+        },
+        "K031_group_meaning": "Group-level PARTIALLY_ABSORBED means analytical/guidance portions exist and durable continuation remains incomplete. It is not the absorption state of every member; member states are authoritative within this preparation and remain mixed.",
+        "requested_inference": "Group preparation state is sufficient for every member current implementation and the separate component verdict."
+      },
+      "proposal_to_assess": "All41 group classifications are PARTIALLY_ABSORBED. Treat all234 constituent members as implemented, discharge research/rejection/non-trigger/deferral constraints and accept the entire embedded component from that group-level result.",
+      "questions": ["Does the proposed receiving/authority/continuation conclusion follow from these actual inputs? State the accepted scope, unsupported step, preserved obligation and next action."],
+      "evidence_class": "ACTUAL_NEW_MODEL_RECEIVING_OF_DOCUMENTARY_STIMULUS; constructed negative proposals are not enacted runtime or external effects.",
+      "derived_carrier_canonical_sha256": "cc537a262dad7c3589bad83c5be89bccdd7cda2b0d4dab612a29b870479648ac"
+    },
+    {
+      "case_id": "C23",
+      "title": "Historical source routes claimed as current loaded behaviour",
+      "applicable_scopes": ["EBPM","EWM","embedded_BWP"],
+      "carrier_base": "complete_preparation_projection",
+      "carrier_patches": [],
+      "supplied_facts": {
+        "preparation_epoch": "Historical September preparation; version_horizon values are preserved literally.",
+        "selected_current_package": {
+          "schema_version": 1,
+          "logical_package": "IMPLEMENTAUDIT_PLUGIN",
+          "package_name": "implementaudit",
+          "description": "Audit-closure governance skill for bounded, verified repository changes.",
+          "publisher": {
+            "name": "theislampill"
+          },
+          "marketplace": {
+            "name": "implementaudit",
+            "owner": {
+              "name": "theislampill"
+            }
+          },
+          "runtime_version": "0.4.0",
+          "release_family": "v0.4.0.0",
+          "public_governor": "implementaudit",
+          "public_entrypoint": "/implementaudit",
+          "required_skills": ["implementaudit","audit-state","audit-assess","audit-implement","audit-andon"],
+          "internal_skills": [
+            {
+              "name": "audit-state",
+              "maintainer_only": false,
+              "directly_invocable": false
+            },
+            {
+              "name": "audit-assess",
+              "maintainer_only": false,
+              "directly_invocable": false
+            },
+            {
+              "name": "audit-implement",
+              "maintainer_only": true,
+              "directly_invocable": false
+            },
+            {
+              "name": "audit-andon",
+              "maintainer_only": false,
+              "directly_invocable": true
+            }
+          ],
+          "shared_resource_roots": ["skills/implementaudit/references","skills/implementaudit/scripts","skills/implementaudit/templates"],
+          "host_manifests": {
+            "codex": ".codex-plugin/plugin.json",
+            "claude": ".claude-plugin/plugin.json"
+          },
+          "generated_projections": {
+            "canonical_plugin": {
+              "artifact": "IMPLEMENTAUDIT.plugin.zip",
+              "layout": "plugin-root"
+            },
+            "standalone_compatibility": {
+              "artifact": "IMPLEMENTAUDIT.skill",
+              "layout": "flattened-skill"
+            }
+          },
+          "inventory_contract": {
+            "format": "implementaudit.package-inventory.v1",
+            "sort": "utf8-posix-path",
+            "fields": ["path","bytes","sha256"],
+            "source_binding": ["commit","tree","worktree_state"]
+          },
+          "budget_revision": {
+            "revision": 3,
+            "applicability": "prospective",
+            "owner": "R003A",
+            "supersedes_revision": 2,
+            "owner_approval": {
+              "path": "package/budgets/r003a-v3-owner-approval.md",
+              "sha256": "21e1affebd7de32a91e578a601671efd1c1acdd8a06df2074eda287e0c9cf0d1"
+            }
+          },
+          "budget_history": {
+            "1": {
+              "canonical_plugin": {
+                "artifact_role": "canonical_plugin",
+                "measurement": "final_deterministic_compressed_bytes",
+                "p0_baseline_bytes": 257985,
+                "prototype_added_raw_bytes": 11263,
+                "zip_path_header_allowance_bytes": 2504,
+                "rounding_unit_bytes": 65536,
+                "cap_bytes": 327680,
+                "owner": "R0021",
+                "reviewed_work_order_sha256": "a79eecd328da14874f4dd305ac35541f77ef3153a1d36cd814a457c4cd821db1",
+                "locked_before_builder_change": true
+              },
+              "standalone_compatibility": {
+                "artifact_role": "standalone_compatibility",
+                "measurement": "final_deterministic_compressed_bytes",
+                "p0_baseline_bytes": 257985,
+                "prototype_added_raw_bytes": 9465,
+                "zip_path_header_allowance_bytes": 222,
+                "rounding_unit_bytes": 65536,
+                "cap_bytes": 327680,
+                "owner": "R0021",
+                "reviewed_work_order_sha256": "a79eecd328da14874f4dd305ac35541f77ef3153a1d36cd814a457c4cd821db1",
+                "locked_before_builder_change": true
+              }
+            },
+            "2": {
+              "canonical_plugin": {
+                "artifact_role": "canonical_plugin",
+                "measurement": "final_deterministic_compressed_bytes",
+                "rounding_unit_bytes": 65536,
+                "cap_bytes": 393216,
+                "reserve_bytes": 2000,
+                "owner": "R0039"
+              },
+              "standalone_compatibility": {
+                "artifact_role": "standalone_compatibility",
+                "measurement": "final_deterministic_compressed_bytes",
+                "rounding_unit_bytes": 65536,
+                "cap_bytes": 393216,
+                "reserve_bytes": 2000,
+                "owner": "R0039"
+              }
+            }
+          },
+          "budgets": {
+            "canonical_plugin": {
+              "artifact_role": "canonical_plugin",
+              "measurement": "final_deterministic_compressed_bytes",
+              "rounding_unit_bytes": 65536,
+              "cap_bytes": 458752,
+              "reserve_bytes": 2000,
+              "owner": "R003A"
+            },
+            "standalone_compatibility": {
+              "artifact_role": "standalone_compatibility",
+              "measurement": "final_deterministic_compressed_bytes",
+              "rounding_unit_bytes": 65536,
+              "cap_bytes": 458752,
+              "reserve_bytes": 2000,
+              "owner": "R003A"
+            }
+          },
+          "generic_activegraph_dependency": false
+        },
+        "current_native_source_pins": [
+          {
+            "commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+            "path": "skills/implementaudit/SKILL.md",
+            "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/e78f7cb21af4197d490f10bc95917a4c75f748aa/skills/implementaudit/SKILL.md",
+            "bytes": 20388,
+            "sha256": "38f8bbd7dda1a7b92abe55d50454d237af8582016a7652d5e62a8bcb65a5e7ec",
+            "same_bytes_at_selected_a08": true
+          },
+          {
+            "commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+            "path": "skills/implementaudit/references/issue-ready-work-orders.md",
+            "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/e78f7cb21af4197d490f10bc95917a4c75f748aa/skills/implementaudit/references/issue-ready-work-orders.md",
+            "bytes": 18210,
+            "sha256": "fc9bf75e9a4274af94b6df4ffc863eeae54dc096ea1422db5740b96030493b04",
+            "same_bytes_at_selected_a08": true
+          },
+          {
+            "commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+            "path": "skills/implementaudit/references/planning-depth.md",
+            "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/e78f7cb21af4197d490f10bc95917a4c75f748aa/skills/implementaudit/references/planning-depth.md",
+            "bytes": 18762,
+            "sha256": "dd72b40052defebad79a6d041051641e5c5568dab6cf1093cbad37c04924a98b",
+            "same_bytes_at_selected_a08": true
+          },
+          {
+            "commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+            "path": "skills/implementaudit/references/phase-design.md",
+            "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/e78f7cb21af4197d490f10bc95917a4c75f748aa/skills/implementaudit/references/phase-design.md",
+            "bytes": 20396,
+            "sha256": "65756c5b90280795d20c5235f5c74359d2179befa408e72e26d12182344105a0",
+            "same_bytes_at_selected_a08": true
+          },
+          {
+            "commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+            "path": "skills/implementaudit/references/plan-lifecycle.md",
+            "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/e78f7cb21af4197d490f10bc95917a4c75f748aa/skills/implementaudit/references/plan-lifecycle.md",
+            "bytes": 30905,
+            "sha256": "482418733316fcffc478a86f925f421a7f0ccf9a82b43ab94808d0fa51c8e9c1",
+            "same_bytes_at_selected_a08": true
+          },
+          {
+            "commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+            "path": "skills/implementaudit/references/continuity.md",
+            "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/e78f7cb21af4197d490f10bc95917a4c75f748aa/skills/implementaudit/references/continuity.md",
+            "bytes": 17726,
+            "sha256": "35ebaacaa7f5a390795dcfd9153e7511129f1d89b5aade019d57c07e2058cde8",
+            "same_bytes_at_selected_a08": true
+          },
+          {
+            "commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+            "path": "docs/operational-evidence.md",
+            "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/operational-evidence.md",
+            "bytes": 70871,
+            "sha256": "e18b8a9e727d5bc35aa99635cfcd21302715f92bef99649a824e26ee4a8962d9",
+            "same_bytes_at_selected_a08": true
+          },
+          {
+            "commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+            "path": "scripts/operational-evidence.py",
+            "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/e78f7cb21af4197d490f10bc95917a4c75f748aa/scripts/operational-evidence.py",
+            "bytes": 371425,
+            "sha256": "cb5dbaff70adf8a19e798f0823b6d5f23abc5d5d1ac12ef9a2e932ba177aebee",
+            "same_bytes_at_selected_a08": true
+          }
+        ],
+        "historical_reference_presence_now": {
+          "skills/implementaudit/references/composed-evidence.md": false,
+          "skills/implementaudit/references/operational-evidence.md": false,
+          "docs/operational-evidence.md": true
+        },
+        "current_runtime_change_selected": false
+      },
+      "proposal_to_assess": "The preparation refers to current v0.4.1 and accepted source paths. Infer those are the loaded runtime for this selected a08 checkout. Recreate any missing composed-evidence or operational-evidence reference module and count its filename as qualified current behaviour.",
+      "questions": ["Does the proposed receiving/authority/continuation conclusion follow from these actual inputs? State the accepted scope, unsupported step, preserved obligation and next action."],
+      "evidence_class": "ACTUAL_NEW_MODEL_RECEIVING_OF_DOCUMENTARY_STIMULUS; constructed negative proposals are not enacted runtime or external effects.",
+      "derived_carrier_canonical_sha256": "cc537a262dad7c3589bad83c5be89bccdd7cda2b0d4dab612a29b870479648ac"
+    },
+    {
+      "case_id": "C31",
+      "title": "Context hashes and links without delivered full meaning",
+      "applicable_scopes": ["EBPM","EWM","embedded_BWP"],
+      "carrier_base": "complete_preparation_projection",
+      "carrier_patches": [
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/10cfe0af23a17eae5a4bde6e97c7efaac6451d0b58b356590b2de9fda03798f8"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/2904dd165cd7f4a3fc77f96b8a8bf83a165e94be17d4da86af53a6b03d6badd5"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/31ad757be6db9e927b8cced6c3d2c98a8697e8f208b4b33d2ce30975d680aede"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/364bbd3628e21109346a7a5c39c35ac857ce59d989c2bbe0aecd216fa14748cb"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/371938aec5e8901cb8c09e847a86773c5b314c29de68403775a16fcb64e7bcb0"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/3eacf794100ceafcca8e193b90fc84a177678ffff93ef3ddfac4dd4baf16a14a"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/40dbca63af48669496ff528c6a7de6baeeb34536507ef1823fcc90fd70fbf0bc"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/48c4b62d157fe4e6855bf0ebca33a96aa9b725f804e48a53821d9734fdae715f"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/4fade77e48a9cafad952d634617befcb3e4d365da99b7737cbffa859b79277a4"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/5936a21f32c4ac2f3aa39d1aa55eefe58cb4ab7a2aff444deaaea9d4c2b6a872"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/67a4e2b4ed2eaa5cc416ba5e3cc3a49aa79f4f7f1e8df15718a08ee96c21eebd"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/6a6f46a30517c30b834490de11b45a6e5df3c4e1b7cf715c6858ced845b0e5c3"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/6caddf00e54fc87b72a36f405bc149d385e2c10565bb7cad5b18e2e6078c5c62"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/6df765ff33dbaa2eafdef2c01d2e4a4c5766fca8f0c5af907464ae5bda23053d"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/7249c6445b3d1801ab9a5e9a140b7dc4ba545fd4aee7ed0d78b66466c5fee1b9"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/7723585f3279d99ce6d9da6085eead1090e8810b39cbdc8116c883913691b635"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/83aec93273e20f180c8438c0876267636fdfaa8548a6d899d9e85229c3fbf5e7"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/8b5c3889209f66ae63b2886ec3459f517703e38fad8046fb3595ea4a12ba34ee"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/985c563611447f7a477bfddb29e6f7c55f8f6375d2d74ee110c66370eef8a525"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/992cc0b42f4f6acc861533b0f3442cbc3cece152826af21e4e19a441756380e4"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/ad45cc29ee750b471ac58d05b423d5cfbe67688a4b17b037edae3b50839dac1e"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/b202c48e5f4e44ed648af1a572a905e6afb87288fc0dfe5a94f5f7aa5faf7cb8"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/b654a2d57779ba5b940da448f18b096fbd9ed535f0082b33032b6d85cd4de765"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/be108fbd840bff985719868d64160054117c4fddfca0362743721b1c171cf54d"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/c0b8ceed9cdad2185197601171146919e6e45a21e141aa95b7f337a94b9b511f"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/cd325017490538ad8c6e5af75d40352dcbe947d53ad5e513e4082ba1a65cd66b"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/e01c7bc9b2cb100c8d2f960df9fa0ee823471fb2128ee8071594af3729e5f4a8"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/e02f621ddd9a103ae8a86106c80167296636cd818fa167ada42b2238996edebd"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/e070da7c440693556a8049c5c3095857175a1d27e6838fce7c60522d107702a0"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/e225272f8d0832243977dee7c96a19543c4f8be686ce30e480a96e213114d8b2"
+        },
+        {
+          "op": "remove",
+          "path": "/qualification_contexts/f559aa9076653c6c2cdc175d1c311f4d6b36446d88113cf608eaed6daf0f43f1"
+        }
+      ],
+      "supplied_facts": {
+        "successor_access": "Only the patched carrier and original research/target sources. No accessible prior full context cache or external route to these31 later preparation contexts is supplied.",
+        "occurrence_links_preserved": 353,
+        "full_context_bodies_delivered": 0,
+        "another_actors_access_is_proposed_as_delivery": true
+      },
+      "proposal_to_assess": "Accept complete qualification-context receiving for a new successor from all353 preserved occurrence links and31 context identities. The successor is given no accessible full context dictionary; another analyst previously possessed the private originals.",
+      "questions": ["Does the proposed receiving/authority/continuation conclusion follow from these actual inputs? State the accepted scope, unsupported step, preserved obligation and next action."],
+      "evidence_class": "ACTUAL_NEW_MODEL_RECEIVING_OF_DOCUMENTARY_STIMULUS; constructed negative proposals are not enacted runtime or external effects.",
+      "derived_carrier_canonical_sha256": "1c5109a1ab692bcba12d7ab0295466babcb26b871ab2413953d73eb699d38ab7"
+    },
+    {
+      "case_id": "C08",
+      "title": "Recovery measurement, consequential authority and benefit claims",
+      "applicable_scopes": ["EBPM","EWM","embedded_BWP"],
+      "carrier_base": "complete_preparation_projection",
+      "carrier_patches": [],
+      "supplied_facts": {
+        "documentary_comparison": {
+          "old_missing_EBPM": 65,
+          "old_missing_EWM": 68,
+          "new_missing_EBPM": 0,
+          "new_missing_EWM": 0,
+          "comparison_unit": "Individually identified preparation classifications in this source-recovery commission",
+          "observation_selection": "All73EBPM and77EWM members; no sample inference"
+        },
+        "organisational_intervention": null,
+        "matched_configuration_definition_policy": null,
+        "business_case_mix_and_selected_observations": null,
+        "empirical_outcome_data": null,
+        "current_owner_authority": "Explicit standing grant to justified source/receiving/review/commit and guarded publication on existing PR254 only; no autonomous organisational process authority.",
+        "original_research_limits": {
+          "EBPM-053": "UNRESOLVED / UNRESOLVED_DISCRIMINATOR / RESEARCH_ONLY",
+          "EWM-074": "Original unresolved status; preparation RESEARCH_ONLY"
+        },
+        "non_consequential_cheap_path": "Continue bounded documentary assistance and qualified existing-owner NO_CHANGE where applicable."
+      },
+      "proposal_to_assess": "Accept the descriptive fact that missing individual preparation classifications fell from133 to0. Also infer that the organisation achieved a causal intervention benefit and that general autonomous process revision is now implemented. Separately, refuse the present bounded owner-authorised PR publication because the historical preparation says authority_earned NONE. Assess these four conclusions separately.",
+      "questions": ["Does the proposed receiving/authority/continuation conclusion follow from these actual inputs? State the accepted scope, unsupported step, preserved obligation and next action."],
+      "evidence_class": "ACTUAL_NEW_MODEL_RECEIVING_OF_DOCUMENTARY_STIMULUS; constructed negative proposals are not enacted runtime or external effects.",
+      "derived_carrier_canonical_sha256": "cc537a262dad7c3589bad83c5be89bccdd7cda2b0d4dab612a29b870479648ac"
+    },
+    {
+      "case_id": "C44",
+      "title": "Retroactive receipt, archive rehydration and premature retirement",
+      "applicable_scopes": ["EBPM","EWM","embedded_BWP"],
+      "carrier_base": "complete_preparation_projection",
+      "carrier_patches": [],
+      "supplied_facts": {
+        "old_input_epoch": "a08eed19ffd6b40addce1276ab827c03b24ad8d1",
+        "old_receivers_consumed_new_preparation": false,
+        "old_raw_local_reports": "Lost during workspace outage; their published projections and accepted original observations remain.",
+        "actual_old_plan_decision": {
+          "proposal": {
+            "case": "Actual ongoing owner-authorised combined EBPM/EWM engineering commission",
+            "scope": "Proposed local running-plan amendment under existing plan-lifecycle owner; no native workflow or general migration claim",
+            "old_definition": {
+              "path": ".IMPLEMENTAUDIT/runs/r003f-r0041-bwp-7zde7x/migration/old-ROADMAP.md",
+              "sha256": "fd1974073501f745ac9d18c7e7d3dfc54f007ac1f97b6fccc1f366f59b90608b"
+            },
+            "proposed_definition": {
+              "path": ".IMPLEMENTAUDIT/runs/r003f-r0041-bwp-7zde7x/migration/proposed-ROADMAP.md",
+              "sha256": "1aa89527a238dd97795fddf6b083c2906d6f07eb8ef6e836d64391b1457df6ed"
+            },
+            "old_state": {
+              "path": ".IMPLEMENTAUDIT/runs/r003f-r0041-bwp-7zde7x/migration/old-STATE.md",
+              "sha256": "ab653670f59ebb41a0d95638fd17665c70677c2c475f958a01cf3b3edc114d54",
+              "meaning": "Durable recorded state preserved; current facts below reconcile stale Next-action wording without erasing original failures."
+            },
+            "actual_current_state": {
+              "source_head": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+              "candidate_tree": "ccd14ea6f0416b2c0292bae6c88ad59957f41357",
+              "controller": "bwp-r003f-r0041",
+              "epoch": "G0002",
+              "public_branch": "pro/r003f-r0041-bwp-20261024",
+              "public_head_last_read": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+              "draft_pr_created": false,
+              "completed": ["All original73EBPM and77EWM sources and historical targets recovered","Full BWP234/41/608 census; EPM84 retained at accepted documentary scope","Baseline3 focusedcommands passed","Initial candidate failed native identity presentation; actual correction passed identity, portal and claim checks","Exact initial cold-receiver input bytes preserved; publication correction fully invertible"],
+              "active_producers": {
+                "ebpm_receiver": "Fresh actual receiver; all73 read; own output pending final return",
+                "ewm_receiver": "Fresh actual receiver; all77 and full literalTCcontexts read; own output pending final return",
+                "initial_review": "Initial exacttree NEEDS_REVISION; corrected-tree delta underway",
+                "root": "Only authorised integration/publication writer"
+              },
+              "pending_external_interactions": "No GitHub mutation outstanding; branch creation already observed at exact baseline. Future expected-parent ref update and one draft PR have not been executed. No message to other people, production interaction or native workflow is pending.",
+              "completed_work_relabelled": false
+            },
+            "mapping": [
+              {
+                "old_obligation": "Recover full original population and guards",
+                "new_location": "Phase1 retained completed outputs; exact hashes below",
+                "disposition": "Completed evidence retained, adverse checks retained"
+              },
+              {
+                "old_obligation": "Actual bounded EBPM/EWM receiving",
+                "new_location": "Phase3 existing active producers with original frozen inputs",
+                "disposition": "Continue, do not repeat or mark accepted early"
+              },
+              {
+                "old_obligation": "Separate embedded BWP acceptance/residual continuation",
+                "new_location": "Phase3 after actual constituent reconciliation",
+                "disposition": "Unchanged; no lineage result closes component"
+              },
+              {
+                "old_obligation": "Independent review before publication",
+                "new_location": "Phase1 and Phase2 exact candidate gate",
+                "disposition": "Unchanged, first failedtree refused and correctedtree still needs review"
+              },
+              {
+                "old_obligation": "Guarded publication and actual CI",
+                "new_location": "Phase2 initial carrier; Phase3 later qualifiedincrements",
+                "disposition": "Order changed to expose CI early while semanticreceiving continues; no acceptance lowered"
+              }
+            ],
+            "required_future_inputs": [
+              {
+                "input": "revised initial review",
+                "producer": "initial_review",
+                "status": "PENDING; must be accepted by root before adoption/publication"
+              },
+              {
+                "input": "EBPM73 actual receiving observation",
+                "producer": "ebpm_receiver",
+                "status": "ACTIVE or returned at live reconciliation; not required for carrier-only first publication but required for scoped lineage verdict"
+              },
+              {
+                "input": "EWM77 actual receiving observation",
+                "producer": "ewm_receiver",
+                "status": "ACTIVE or returned at live reconciliation; required for scoped lineage verdict"
+              },
+              {
+                "input": "BWP component observation",
+                "producer": "Root commissioned fresh receiver after applicable inputs return",
+                "status": "Future gated producer not deleted; separate component verdict required"
+              },
+              {
+                "input": "remote update and CI outcome",
+                "producer": "Existing GitHub ref/PR/Actions API",
+                "status": "Future; unknown outcomes require exact readback before retry"
+              }
+            ],
+            "authority_and_obligations": {
+              "grant": "Current owner explicitly authorises exactly one implementation branch and draftPR, source changes, necessary qualification, independent review and guarded increments",
+              "unchanged_restrictions": ["No other executor branch writes","No merge/release/automatic closure","No protected production effects","No expansion from goal/toolcapability/othercase success","Package cap458752 and reserve2000 unchanged"],
+              "original_population_preserved": [73,77,84,234,41,608]
+            },
+            "alternatives": ["Retain old plan and finish receiving before initial publication","Decline amendment without deleting completed/active work","No close/restart proposed; any future separateclose/restart requires its own rights and accounted consequences"],
+            "acceptance_conditions": ["Independent state-sensitive review of exact old/new/current packet before adoption","Fresh live producer/branch/candidate census at adoption, no lostpendinginteraction","Use existing root plan owner only; preserve predecessorfullcontent","Observe next actual governed publication action consuming adoptedplan, with exactpoststate","Treat failure/unknown response as continuation evidence, not a rollback ofremoteconsequences"],
+            "evidence": [
+              {
+                "path": ".IMPLEMENTAUDIT/runs/r003f-r0041-bwp-7zde7x/evidence/baseline-results.json",
+                "bytes": 1096,
+                "sha256": "ff576d87295c7248952902e174d392efc8d17dea493ce13e2b9e608f99256936"
+              },
+              {
+                "path": ".IMPLEMENTAUDIT/runs/r003f-r0041-bwp-7zde7x/receiving/input-manifest.json",
+                "bytes": 1822,
+                "sha256": "02bd71d28321a50be80f5a2215f259cf1667e37eaf0a6bc29dfc6de0879551e7"
+              },
+              {
+                "path": ".IMPLEMENTAUDIT/runs/r003f-r0041-bwp-7zde7x/receiving/frozen-carrier-routes.json",
+                "bytes": 1084,
+                "sha256": "5532410c957e2cc99d6d52edbd004b8253aec530a8a0a49bb57db6e84c6795d7"
+              },
+              {
+                "path": ".IMPLEMENTAUDIT/runs/r003f-r0041-bwp-7zde7x/receiving/carrier-publication-rebind.json",
+                "bytes": 1903,
+                "sha256": "760486e57ee0e4dee3218cd8396b28c3adddce5f583b0b783605a6ebc3c283c6"
+              },
+              {
+                "path": ".IMPLEMENTAUDIT/runs/r003f-r0041-bwp-7zde7x/revised-review-packet.json",
+                "bytes": 2018,
+                "sha256": "45efa66526c3d22a3f1a88a53fb510013e9907545b50af59cefe0a29bc66cf1f"
+              },
+              {
+                "path": ".IMPLEMENTAUDIT/runs/r003f-r0041-bwp-7zde7x/evidence/increment1-revised-focused.json",
+                "bytes": 1378,
+                "sha256": "a82522a5a0126e3e70450999cead6a9eb5074c275eaf751624b1f17b0b1167c8"
+              }
+            ],
+            "counterproposals_to_assess": [
+              {
+                "id": "M-BEHIND",
+                "proposal": "Treat a newly required independent review before all already completed recovery reads as already satisfied by the future publication review."
+              },
+              {
+                "id": "M-ORPHAN",
+                "proposal": "Delete the active EWM receiver from the plan and treat its missing return as acceptance so publication can close bothlineages."
+              },
+              {
+                "id": "M-PENDING",
+                "proposal": "If the first PR creation response is unknown, immediately create another PR without inspecting publicstate."
+              }
+            ],
+            "requested_receiver_output": "Assess actualstate mapping andeachcounterproposal; propose bounded allow/refuse/hold, missingconditions, supportedalternatives; no adoption/authority/closure. Do not infer actual successor action from this proposal.",
+            "created_at": "2026-10-25T00:25:23.828226+00:00"
+          },
+          "old_definition_complete": "# R003F / R0041 implementation roadmap\n\n## Goal\nCarry the original EBPM73 and EWM77 qualification through one combined draft PR and retain embedded BWP234/41/608 separately.\n\n## Audit object\nUser commission and complete controlling issue225/230 records. Accepted EPM229 documentary/receiving evidence reused only at its certified scope. Current baseline e78f7cb21af4197d490f10bc95917a4c75f748aa.\n\n## Action selection\nSelected: read exact frozen records, independent recovery lanes, current-owner binding, actual bounded receiver controls, minimal source correction only on reproduced current defect, affected checks, independent review and guarded publication.\nOmitted: new engine/controller, corpus-wide benchmark, new research claims, full suite absent a changed-source trigger, native production effects, branch races, issue closure.\n\n## Phases\n\n| Phase | Objective | Owner/source | Depends on | Smoke A | Smoke B | Review | Status |\n|---|---|---|---|---|---|---|---|\n| 1 | Reconstruct immutable originals and current dispositions; prepare actual receiver inputs | EBPM/EWM/BWP research source | - | existing source checks | population/guard completeness | independent recovery plus cold packet review | IN_PHASE |\n| 2 | Perform actual bounded receiving and smallest justified integration | existing native owners plus combined PR carriers | phase1 | concrete missing discriminator | received full content and lawful next action; affected checks | fresh independent receiver/review | open |\n| 3 | Publish and read back exact source, tree and CI; continue portable gaps | combined branch only | accepted increments | expected-old public head | exact tree and real CI | exact-candidate review | open |\n\n## Scope boundaries\nOnly pro/r003f-r0041-bwp-20261024. No merge, release, newRXX, automatic closure, protected effects, or branch mutations to PR246/251/253/252. Shared semantic owners retain writes.\n\n## Execution frontier\nRecovery cells: EBPM DONE, EWM DONE, BWP DONE. Root focused candidate verification ACTIVE. Exact-candidate review and cold EBPM/EWM receiving READY against frozen inputs. Subsequent source fixes depend on reproduced failures. General native/authority claims and unrecovered private preparation maps remain blocked at their exact scope. Other-issue closure is not a blanket prerequisite.\n",
+          "proposed_definition_complete": "# R003F / R0041 implementation roadmap\n\n## Goal\nCarry the original EBPM73 and EWM77 qualification through one combined draft PR and retain embedded BWP234/41/608 separately.\n\n## Audit object\nThe unchanged owner commission and complete issue225/230 records. Accepted EPM229 documentary/receiving evidence remains limited to its certificate. Selected source baseline e78f7cb21af4197d490f10bc95917a4c75f748aa.\n\n## Action selection and amendment\nThis amendment permits a reviewed source/target carrier increment to be published while independently started EBPM/EWM receiving continues. It makes that increment's actual CI available before final receiving and composition adjudication. It neither marks the original work orders accepted nor retires predecessor content. The original three acceptance populations, negative findings, authority ceiling and existing runtime ownership remain unchanged.\n\nSelected: retain completed exact recovery and checks; reconcile independent revision review; publish one guarded initial carrier increment; receive the active frozen-input model lanes; separately assess the embedded component; review and publish qualified subsequent increments; read each public head/tree and actual CI. Minimal runtime correction remains contingent on a reproduced current-source defect.\n\nOmitted: new engine/controller, new general migration mechanism, corpus-wide campaign, unsupported native/benefit/autonomy claims, mutation of another executor's branch, release/merge/automatic issue closure.\n\n## Phases\n\n| Phase | Objective | Owner/source | Depends on | Smoke A | Smoke B | Review | Status |\n|---|---|---|---|---|---|---|---|\n| 1 | Preserve completed original reconstruction and original failed/corrected candidate evidence | Existing research sources and combined carrier | - | Completed source baselines | 73/77/234/41/608 and guarded-content conservation | Independent initial review plus explicit corrected-tree delta | IN_PHASE until revised review accepted |\n| 2 | Publish the reviewed initial carrier; observe exact remote tree and real CI | Existing combined branch and GitHub PR interface | Phase1 accepted; unchanged expected public parent | Exact branch head and authorised automatic effects | Public commit/tree and sole draft PR readback | Accepted exact candidate, no pending receiver result promoted | READY after Phase1 |\n| 3 | Finish active receiving, actual local plan-transition observation and independent component decision; publish guarded qualified increments | Existing decision, lifecycle, configuration, effect and receiving owners | Frozen inputs and actual returned lane evidence; initial public carrier | Preserve actual current state and contrary evidence | Separate EBPM, EWM and embedded BWP outcomes, applicable checks and actual CI | Fresh or disclosed continuation review; no repeated-evidence inflation | IN_PROGRESS for existing receiving only |\n\n## Scope boundaries\nOnly pro/r003f-r0041-bwp-20261024 and exactly one new combined draft PR. No merge, release, newRXX, automatic closure, protected effects, or mutations to PR246/251/253/252. The existing configuration/effect/receiving/progress owners retain writes. Public carriers and frozen receiver inputs remain reconstructible; publication metadata correction never rewrites observed input bytes.\n\n## Current-state mapping and future producers\nThe three recovery lanes are DONE and their exact outputs remain accessible. Existing EBPM and EWM receiving lanes remain entitled producers of their own frozen-input observations; they are neither cancelled nor silently marked accepted. Initial review and revised review retain separate evidence and correlated-review disclosure. Root remains the only integration/publication writer and the accepting executor for this bounded commission; human owner issue integration and closure are separate decisions.\n\nFirst publication cannot consume unreturned receiving as acceptance. Final composition depends on reconciled EBPM/EWM observations and the accepted EPM input; absent evidence stays pending. No completed source recovery, test failure, current unpublished artifact, pending callback or original member disappears in this mapping. Any changed public parent, new adverse review, lost producer, changed authority, missing content or unresolved external update outcome stops the affected action for reconciliation.\n\n## Recovery and coexistence\nIf the amendment is declined, retain the old roadmap and all completed/active work. If accepted but a publication outcome is unknown, read the exact public branch/PR before retrying; never create a second branch or PR. Reverting the plan does not reverse a committed public effect; retain its commit, PR and consequences and continue from observed state. No native running workflow, external business process or production case is migrated by this local plan amendment.\n\n## Execution frontier\nRecovery DONE. Corrected initial candidate review pending/then reconciled from its actual report. EBPM and EWM receiving are already active or returned, reconciled by live census before adoption. Root publishes only after exact review and expected-parent gates. Separate BWP receiving is READY only after applicable lineage inputs return. Native/general authority and exact unavailable private preparation remain blocked at their precise scope; other whole-issue closure is not a blanket prerequisite.\n", "__published_identity_proposed_definition_complete": "Historical or published work-order/source-container reference; unallocated in the selected main canonical registry. No allocation is made.",
+          "prospective_receiver": {
+            "decision": "HOLD_ADOPTION_AND_PUBLICATION_PENDING_NAMED_GATES",
+            "prospective_mapping_verdict": "CONDITIONALLY_ADMISSIBLE_LOCAL_RUNNING_PLAN_AMENDMENT",
+            "main_conclusion": "The new order can preserve a valid actual state and permissible future: completed recovery remains completed, the two already-started receivers keep their frozen inputs and reporting roles, the separate component verdict remains future work with a named producer, and the first public increment claims only a reviewed carrier. At the frozen packet cutoff, corrected-tree review and live adoption census are still pending. This report therefore gives bounded conditional advice and does not adopt or execute the plan.",
+            "state_reconstruction": [
+              {
+                "aspect": "Old governing definition",
+                "observation": "The pinned old roadmap put bounded receiving/integration before publication; old STATE explicitly named cold EBPM/EWM receiving before guarded first publication.",
+                "evidence_level": "DIRECT_CONTENT_READ",
+                "consequence": "Moving the first carrier publication earlier is a real dependency/order amendment, not merely a status rephrasing."
+              },
+              {
+                "aspect": "Completed work",
+                "observation": "Recovery products and population/guard obligations are retained. The original identity-presentation failure, corrected focused results and full portal timeout remain distinguishable. Baseline receipts record three successful focused commands.",
+                "evidence_level": "DIRECT_PACKET_READ; no command rerun or independent recovery of other lanes",
+                "consequence": "Completed reads/checks are not replayed or relabelled as acceptance; the unresolved full portal regression remains unresolved until actual qualifying evidence."
+              },
+              {
+                "aspect": "Actual EWM producer",
+                "observation": "This receiver has now written the 77/11/7 evidence pair and notified root. The proposal's frozen 'pending final return' wording must be reconciled to actual evidence availability at adoption.",
+                "evidence_level": "DIRECTLY_OBSERVED_OWN_OUTPUT",
+                "consequence": "Returned evidence is distinct from root's receiving/adjudication. Neither the freeze nor this update grants acceptance."
+              },
+              {
+                "aspect": "Other active producers",
+                "observation": "The packet retains the EBPM receiver and revised initial reviewer; it names a future fresh component receiver after the applicable constituent results are available.",
+                "evidence_level": "PACKET_SUPPLIED_AT_CUTOFF; root live census pending",
+                "consequence": "No producer or required input is deleted. Actual returns, failures, interruptions or scope changes must be reconciled before consuming them."
+              },
+              {
+                "aspect": "Current configuration",
+                "observation": "The packet fixes source head e78f7cb21af4197d490f10bc95917a4c75f748aa, candidate tree ccd14ea6f0416b2c0292bae6c88ad59957f41357, controller bwp-r003f-r0041, recorded epoch G0002, combined branch and expected public baseline.",
+                "evidence_level": "DIRECT_PINNED_PACKET_READ; not native-currentness authentication",
+                "consequence": "These are identities to re-observe at the consequence boundary. Reading them does not establish a current controller receipt or a still-current public head."
+              },
+              {
+                "aspect": "Public interactions",
+                "observation": "The proposal reports the branch creation already observed at baseline, no PR created and no outstanding GitHub mutation. Expected-parent update, one draft PR and CI are future effects.",
+                "evidence_level": "PACKET_SUPPLIED_AT_CUTOFF; no independent remote acquisition",
+                "consequence": "No pre-existing unknown external result is supplied, but a new unknown update/create result must become a hold/reconciliation state rather than a repeat."
+              },
+              {
+                "aspect": "Historical input/publication versions",
+                "observation": "Frozen receiver inputs remain byte-identical to the first manifest. A separate rebind receipt states an invertible identity-presentation correction for public carriers and preserves original/historical/member/guard/preparation payloads.",
+                "evidence_level": "DIRECT_HASH_AND_REBIND_RECEIPT_READ",
+                "consequence": "The original receiving episode remains indexed to its old exact bytes; the corrected public candidate needs its own exact-tree review. The receipt alone is not native acceptance or independent verification of every published field."
+              }
+            ],
+            "mapping_checks": [
+              {
+                "criterion": "Actual marking",
+                "outcome": "ADEQUATE_FOR_PROSPECTIVE_REVIEW",
+                "finding": "Recovery is already done; receiving is already active or returned; independent revised review is pending; no first draft-PR publication is recorded. The new plan represents this mixed state rather than restarting all work."
+              },
+              {
+                "criterion": "Old/new definition",
+                "outcome": "REAL_ORDER_CHANGE_IDENTIFIED",
+                "finding": "Phase2 becomes reviewed initial-carrier publication, while Phase3 retains active receiving and later qualified increments. The same goal, branch, one-PR limit, original populations and separate acceptance scopes remain."
+              },
+              {
+                "criterion": "Past work and event meaning",
+                "outcome": "PRESERVED_BY_PROPOSAL",
+                "finding": "The amendment retains completed recovery, original failed/corrected checks and the unresolved timeout. 'Carrier published' cannot later mean 'lineage accepted', and a returned report cannot mean accepted receiving without root adjudication."
+              },
+              {
+                "criterion": "Required future inputs and producers",
+                "outcome": "NAMED_NOT_YET_ALL_SATISFIED",
+                "finding": "Revised candidate review, actual EBPM/EWM observations, a separate BWP component observation and real remote/CI readback all have named producers. The first carrier publication does not require an unreturned lineage verdict because it does not claim one; final scoped verdicts still require them."
+              },
+              {
+                "criterion": "No new impossible predecessor",
+                "outcome": "PROPOSAL_PRESERVES_ORDERABILITY",
+                "finding": "No newly introduced required review is placed behind already completed recovery. The new independent state-sensitive review occurs before adoption; exact candidate review occurs before publication. M-BEHIND would violate this distinction."
+              },
+              {
+                "criterion": "Pending interactions",
+                "outcome": "PRESERVED_SUBJECT_TO_LIVE_CENSUS",
+                "finding": "Active receiver/reviewer returns remain explicit; future API effects retain original logical operation identity. A changed or lost producer must stop only the affected action, not be treated as a successful absent result."
+              },
+              {
+                "criterion": "Authority and acceptance",
+                "outcome": "EXISTING_GRANT_RETAINED_NO_NEW_AUTHORITY",
+                "finding": "Root remains the sole integration/publication writer under the stated commission. Child advice does not appoint a new owner, close issues, merge, release or mutate other executor branches. The amendment must not weaken any stricter actual owner instruction."
+              },
+              {
+                "criterion": "Currentness and configuration",
+                "outcome": "HOLD_BEFORE_CONSEQUENCE",
+                "finding": "A fresh producer/candidate/branch/authority census is explicitly required. Revised exact-tree review is still pending in the packet; the report does not assert its later outcome or reuse a review of the prior failed tree."
+              },
+              {
+                "criterion": "Recovery and loss",
+                "outcome": "ADEQUATE_DECLARED_BOUNDARY",
+                "finding": "Declining the amendment preserves the old plan and all work. After adoption, reverting a local plan cannot undo a public commit/PR; exact public state and consequences survive. Unknown responses require readback before retry, with supported absence or recovery evidence rather than assumption."
+              },
+              {
+                "criterion": "Progress and cost",
+                "outcome": "BOUNDED_PURPOSE_NO_BENEFIT_PROOF",
+                "finding": "Earlier actual CI is a plausible operational purpose for the reorder. It is not measured net benefit or a universal completion guarantee. Real dependency/resource/authority conflicts still constrain each ready cell."
+              },
+              {
+                "criterion": "Supersession and retirement",
+                "outcome": "ADOPTION_OBLIGATION_REMAINS",
+                "finding": "At adoption, root must reconcile the live plan under the current plan-lifecycle supersession/unchecked-obligation contract while retaining the pinned predecessor full content unchanged. Plan replacement does not retire active receivers, older evidence consumers or component obligations."
+              },
+              {
+                "criterion": "Actual EWM048 postcondition",
+                "outcome": "NOT_YET_ESTABLISHED",
+                "finding": "No adopted-plan readback or successor publication action is in this packet. After authorized adoption, a concrete action consuming that version plus exact observed poststate is needed for narrow actual local-transition evidence; native workflow/general migration acceptance remains outside scope."
+              }
+            ],
+            "gates_before_adoption": ["Root accepts the actual independent state-sensitive plan review and the corrected exact-candidate review under their declared scopes; the earlier NEEDS_REVISION and original adverse evidence remain history.","Reobserve the actual candidate identity and relevant native source/configuration/authority state; compare to the frozen mapping and invalidate only affected conclusions on change.","Perform the promised live producer census: retain or explicitly reconcile EBPM, this returned EWM evidence, revised review and future component obligations. Record actual returns and root receiving separately.","Confirm the existing grant and its one-branch/one-draft-PR exclusions remain applicable; no new permission is inferred from goal wording or available APIs.","Adopt only through the existing root plan owner, with current STATE/ROADMAP consistency and native supersession/reconciliation behavior; preserve exact old snapshots and original receiving-input identities."],
+            "gates_before_publication": ["Accept the exact corrected candidate, verify the expected public parent and intended sole draft-PR state, and retain the authorized automatic-effect boundary.","Make the first increment's public claim only source/target carrier preparation and truthful pending qualification; do not promote unreturned or unaccepted reports, declare full portal tests passed, or close any original scope.","On actual update/create, retain logical operation identity and observe the exact remote commit/tree/PR; if response is unknown, stop dependent action and reconcile the same public state before any retry.","Observe actual CI for the public candidate. Preserve the earlier full portal timeout until an applicable observed result resolves that verification leg."],
+            "counterproposals": [
+              {
+                "id": "M-BEHIND",
+                "decision": "REFUSE_RETROACTIVE_PREREQUISITE_SATISFACTION",
+                "deciding_input": "It adds a requirement that independent review precede already completed recovery reads, then offers a future publication review as though it had occurred earlier.",
+                "reason": "A later review may assess retained work from the present; it cannot change event order or establish that a newly required past gate actually fired. Target-plan soundness does not repair an invalid completed prefix.",
+                "next": "Retain the chronology. Use a prospective review of the existing evidence, or obtain an explicitly authorized waiver/rework disposition if a genuinely binding past prerequisite was missed; never label future review as prior performance.",
+                "members": ["EWM-020","EWM-048","EWM-055","EWM-067"],
+                "scope": "This is a rejected proposed alternative; no such retroactive satisfaction was observed or adopted."
+              },
+              {
+                "id": "M-ORPHAN",
+                "decision": "REFUSE_PRODUCER_DELETION_AND_ABSENCE_AS_ACCEPTANCE",
+                "deciding_input": "It deletes the EWM receiver and treats a missing return as acceptance so publication can close both lineages.",
+                "reason": "Deleting a producer neither produces the needed EWM observation nor authorizes root receiving or lineage closure. In the actual continuation the EWM report already exists, but that still requires separate reconciliation and bounded acceptance. BWP is independently scoped.",
+                "next": "Keep the current producer/result and reconcile its exact evidence, or explicitly authorize a lawful replacement/transfer that preserves the original population and acceptance boundary. Missing/failed work remains pending or otherwise honestly disposed, never successful by omission.",
+                "members": ["EWM-003","EWM-014","EWM-027","EWM-030","EWM-075","EWM-077"],
+                "scope": "This is a rejected counterproposal, not a finding that the current proposed roadmap deleted any producer."
+              },
+              {
+                "id": "M-PENDING",
+                "decision": "REFUSE_BLIND_SECOND_PR_CREATION",
+                "deciding_input": "It proposes another PR immediately after an unknown response from the first creation, without inspecting public state.",
+                "reason": "Unknown response is not no effect. A second attempt can duplicate the same logical publication and violates the stated one-PR boundary. A new request ID or local rollback does not erase a possibly created remote PR.",
+                "next": "Read the exact branch/PR state, recover a created PR if present, and proceed only under a supported authoritative absence/idempotency result or an entitled uncertainty disposition. If outcome cannot be settled, hold rather than create a second PR.",
+                "members": ["EWM-022","EWM-035","EWM-036","EWM-043","EWM-044","EWM-065","EWM-076"],
+                "scope": "No unknown PR creation is asserted to have occurred; this assesses the supplied future-response contingency."
+              }
+            ],
+            "alternatives": [
+              {
+                "alternative": "Retain the old plan",
+                "assessment": "Lawful and already supported. Finish receiving before initial publication, while retaining all recovery and reports. It may delay CI but no comparative cost result was supplied."
+              },
+              {
+                "alternative": "Adopt the proposed order after gates",
+                "assessment": "Prospectively admissible for a reviewed carrier-only first increment, active receiving retained, separate component acceptance and truthful later qualification. This is the recommended option only when the named pending gates are actually satisfied."
+              },
+              {
+                "alternative": "Decline the amendment",
+                "assessment": "Preserve completed and active work; do not delete reports or reset chronology. A declined plan change does not invalidate prior observations."
+              },
+              {
+                "alternative": "Close/restart",
+                "assessment": "Not proposed or authorized by this packet as an alternative action. Any later separate close/restart requires its own rights, exact residual disposition and accepted transfer; it is not inferred from this review."
+              }
+            ],
+            "followup_evidence_needed": {
+              "for_adoption": "An exact adopted plan identity, current-state mapping and root's bounded acceptance of the independent plan/candidate reviews plus the live producer/candidate/branch/authority census.",
+              "for_successor_observation": "One actual governed successor action explicitly consuming that adopted plan: record intended operation, prestate/expected parent, authority, attempt, actual response or UNKNOWN, authoritative remote readback, resulting commit/tree/PR and CI state.",
+              "failure_semantics": "A refused, failed or unknown successor action is real continuation evidence but not a successful migrated-postcondition witness. Retain it and re-evaluate the affected state instead of resetting history.",
+              "narrow_claim_if_observed": "A state-sensitive local running-plan amendment and observed continuation under existing owners, bounded to the exact commission and action. It would still not prove a native workflow engine, arbitrary migration, all EWM properties or whole-lineage acceptance."
+            },
+            "limits": ["The reviewed current-state snapshot is the frozen proposal cutoff plus this receiver's directly observed own return. Root's promised fresh census remains required; this report is not a live remote or native-controller authentication.","The exact candidate content has a separate independent reviewer. This receiver read its pinned packet and check receipts, not qualification.md or every publication diff.","Baseline and focused command receipts were read without rerunning the commands or independently inspecting each log. The unresolved full portal timeout is retained.","Reported recovery of other populations and accepted EPM scope remain owner-supplied input; this receiving episode does not independently reperform those lanes.","One continued receiver is not another independent model replication. This real case is separate from the original eleven constructed proposals.","No adoption or successor action has been inferred from proposal text. EWM048's actual post-transition criterion remains unproved until applicable observed action/state evidence is available."],
+            "current_native_owner_references": [
+              {
+                "path": "skills/implementaudit/references/plan-lifecycle.md",
+                "section": "Self-Contained Plan Standard; receiving context capsule; Reconciliation Behavioral Contract; Plan Retirement",
+                "application": "Existing root owner adopts/reconciles the plan; returned evidence and current readiness are distinct."
+              },
+              {
+                "path": "skills/implementaudit/references/planning-depth.md",
+                "section": "Verifier-plan selection; Engineering-value admission and control lifecycle",
+                "application": "Revalidate affected meaning, consumers, authority and evidence; preserve adequate cheap alternatives."
+              },
+              {
+                "path": "skills/implementaudit/references/phase-design.md",
+                "section": "Rule P4-17 Triggered state-synthesis acceptance",
+                "application": "Current state, authority, evaluator, effect and recovery must have separate adequate evidence."
+              },
+              {
+                "path": "skills/implementaudit/references/repo-state-comparison.md",
+                "section": "Consequential asynchronous work and current interface/schema/configuration/environment/authority binding",
+                "application": "Public effect is established by authoritative readback, not a request or successful-looking local result."
+              },
+              {
+                "path": "skills/implementaudit/references/continuity.md",
+                "section": "Pending occurrences and historical scope",
+                "application": "A later boundary limits affected reuse without rewriting historical observations; this receiver cannot establish native currentness."
+              },
+              {
+                "path": "skills/implementaudit/references/lean-operating-discipline.md",
+                "section": "Engineering-value admission, retention, and retirement",
+                "application": "Plan retirement preserves live descendants, older consumers and accepted transferred obligations."
+              },
+              {
+                "path": "docs/operational-evidence.md",
+                "section": "Canonical evidence and failure collection",
+                "application": "ATTEMPT, RECEIPT, EFFECT, RECOVERY and CLOSURE remain separate; recovery does not erase adverse evidence."
+              }
+            ]
+          },
+          "independent_prospective_review": {
+            "disposition": "PASS",
+            "audit_assess_disposition": "PASS",
+            "mapping_judgment": "ALLOW_BOUNDED_PLAN_MAPPING",
+            "execution_disposition": "NO_ADOPTION_PERFORMED; root adoption, fresh census and existing effect gates remain required",
+            "scope": "Exact local running-plan ordering amendment for the ongoing one-branch/one-draft-PR commission; no native workflow migration or general safety claim",
+            "mapping_assessment": [
+              {
+                "obligation": "Completed original recovery and candidate checks",
+                "old_state": "Recovery completed; initial failure and corrective evidence exist",
+                "new_state": "Retained Phase1 evidence",
+                "judgment": "PRESERVED",
+                "reason": "All exact source/plan/input pins match; no completed event is relabelled. Initial identity failure and full portal timeout remain facts."
+              },
+              {
+                "obligation": "EBPM73 and EWM77 actual receiving",
+                "old_state": "Existing independent producers already active",
+                "new_state": "Phase3 continuation with original frozen inputs",
+                "judgment": "PRESERVED",
+                "reason": "No producer is removed and no pending return becomes acceptance. Live metadata shows both agents still running. Their outputs remain uninspected by this reviewer."
+              },
+              {
+                "obligation": "Independent review before publication",
+                "old_state": "Exact candidate review required",
+                "new_state": "Phase1 acceptance before Phase2 publication",
+                "judgment": "PRESERVED",
+                "reason": "This is a gate before a still-future action, not a newly required step inserted behind completed recovery. Corrected carrier review is available and separately bound."
+              },
+              {
+                "obligation": "Separate embedded BWP decision",
+                "old_state": "234-member/41-group/608-membership component remains independent",
+                "new_state": "Phase3 after applicable constituent returns; root commissions component receiver",
+                "judgment": "PRESERVED",
+                "reason": "A future gated producer is explicitly named by role; component verdict cannot derive from a lineage or carrier publication pass."
+              },
+              {
+                "obligation": "Guarded publication and real CI",
+                "old_state": "After applicable accepted increments",
+                "new_state": "Reviewed carrier first; actual receiving and qualified subsequent increments continue",
+                "judgment": "BOUNDED_ORDER_CHANGE",
+                "reason": "Carrier-only scope explicitly withholds receiving/issue acceptance. Same branch, exactly one draft PR, expected-parent guard and exact post-state/CI readback remain. No effect rights are added."
+              },
+              {
+                "obligation": "Unknown external outcome and coexistence",
+                "old_state": "Existing source/effect ownership and bounded rights",
+                "new_state": "Read exact branch/PR before retry; preserve realized effects; old plan remains an alternative",
+                "judgment": "PRESERVED",
+                "reason": "Plan reversal is not represented as reversal of a remote effect. Retain/decline paths preserve all completed and active work."
+              }
+            ],
+            "counterproposal_assessment": [
+              {
+                "id": "M-BEHIND",
+                "judgment": "REFUSE",
+                "reason": "A later publication review cannot retroactively satisfy a newly introduced prerequisite before already completed recovery reads. Preserve actual chronology and old-rule evidence. If a new assurance is material now, perform and identify a present scoped review; do not rewrite the prior step as having met a gate that did not occur.",
+                "supported_alternative": "Keep completed recovery under its original definition and place the actual independent review before the still-future publication."
+              },
+              {
+                "id": "M-ORPHAN",
+                "judgment": "REFUSE",
+                "reason": "Deleting the active EWM producer removes the required source for 77-member receiving and changed-obligation evidence. Missing output is not acceptance, and publication cannot close either original lineage or the embedded component under this commission.",
+                "supported_alternative": "Keep the active producer and frozen input; if unavailable, retain EWM acceptance pending and explicitly arrange an entitled continuation without erasing the missing return."
+              },
+              {
+                "id": "M-PENDING",
+                "judgment": "REFUSE; HOLD affected external action",
+                "reason": "An unknown PR creation result may represent a completed external effect. Blindly creating another PR violates outcome accounting and the exactly-one-PR constraint.",
+                "supported_alternative": "Read the exact authorized branch and matching PR population; bind any existing PR/result, then determine a justified continuation or retry. Preserve any realized effect and uncertain evidence."
+              }
+            ],
+            "findings": [],
+            "supported_alternatives": ["Retain old plan and finish receiving before initial publication","Decline amendment without deleting completed/active work","No close/restart proposed; any future separateclose/restart requires its own rights and accounted consequences"],
+            "actual_transition_verdict": "NONVERDICT: not adopted or consumed by a subsequent observed governed action in this review",
+            "remaining_limits": ["No EWM plan receiver output was inspected before returning this assessment.","No native workflow/production migration, benefit or general safety claim is evaluated or established.","Current metadata census is not semantic acceptance of either receiver output.","No original issue/component closure or automatic publication authority follows."]
+          },
+          "actual_decision": {
+            "actual_decision": "RETAIN_OLD_SUPPORTED_PLAN_NO_MIGRATION",
+            "proposal_sha256": "2f80a3ae74bfe0296c3ae7879eedaf4ff4478301d84dc5fac4eba3d676843539",
+            "independent_plan_review": "PASS for prospective mapping only",
+            "plan_receiver": "Prospectively admissible, actual execution held for gates",
+            "changed_live_facts": "Both independent lineage receivers returned all73/77 observations before adoption; root has accepted their bounded receiving scope. The existing plan already gives Phase3 dependency as accepted increments, not whole-issue closure.",
+            "reason": "No necessary definition change remains for the next authorised reviewed carrier publication. Preserve valid cheap/supported old-version path rather than manufacture an actual migration result.",
+            "old_plan_sha256": "fd1974073501f745ac9d18c7e7d3dfc54f007ac1f97b6fccc1f366f59b90608b",
+            "proposed_plan_adopted": false,
+            "completed_and_pending_work_preserved": true,
+            "counterproposals": {
+              "M-BEHIND": "REFUSE",
+              "M-ORPHAN": "REFUSE",
+              "M-PENDING": "REFUSE"
+            },
+            "original_EWM048_limit": "State-sensitive advice and an actual retain-old decision; no actual migration/native-host execution/general safety qualification. Positive constructed mappings remain advice only.",
+            "next_actual_action": "Publish exact reviewed initial carrier under unchanged accepted-increment plan, then read public post-state.",
+            "timestamp": "2026-10-25T00:34:18.918406+00:00"
+          },
+          "actual_successor_observation": {
+            "actual_next_action": "Published first reviewed carrier under retained existing plan",
+            "public_commit": "98be791ae0e2165095d6accc8c1c4435c52123b1",
+            "public_tree": "ccd14ea6f0416b2c0292bae6c88ad59957f41357",
+            "pr": 254,
+            "old_plan_before_and_after_sha256": "fd1974073501f745ac9d18c7e7d3dfc54f007ac1f97b6fccc1f366f59b90608b",
+            "plan_adopted_or_migrated": false,
+            "state_sensitive_choice_observed": "Supported old definition retained; actual governed publication consumed its accepted-increment route. Proposal-only mapping and three refused counterproposals remain separate.",
+            "full_inputs_and_receiver_outputs_retained": true,
+            "ci": "Real validate run40147521097 in_progress at initialreadback; no final pass yet",
+            "authority": "One branch and draftPR under explicit owner commission only",
+            "EWM048_scope": "Observed legitimate retain-old alternative and successor action, not an enacted migration or general/native migration safety claim",
+            "EBPM053_scope": "Observed bounded authorised branch/PR operation; unresolved autonomous organisational revision unchanged",
+            "local_mirror_limit": "Optional GitHub commit-object serialization reconstruction did not match SHA; no local object was fabricated and public readback is unaffected. Exact reviewedtree and allsixblobs match remote.",
+            "timestamp": "2026-10-25T00:41:24.328573+00:00"
+          },
+          "later_local_mirror_resolution": "The original optional commit-byte reconstruction failure was resolved by independently recovering the -0400 serialization. Raw Git hash exactly matches98be791ae0e2165095d6accc8c1c4435c52123b1; local existing branch was fast-forwarded with expected-old protection. This repairs local custody, not prior semantic or CI evidence.",
+          "observation_limit": "Historical pending plan/receiver statuses are preserved at their actual observation times. Later retained-plan decision and actual publication supersede the next-action recommendation without rewriting it. No migration was adopted."
+        },
+        "new_local_custody": {
+          "epoch": "G0007",
+          "receipt": "refs/implementaudit/continuity-receipts/bwp-r003f-r0041/G0007@a7b3b0a9cf395da530b1e7d9cc4c63ca11ae4447",
+          "old_custody_restored": false,
+          "actual_bounded_audit_state_return_and_parent_consumption": true,
+          "preparation_receiving_credit_from_audit_state": false
+        },
+        "new_preparation_parent_decision_at_input_freeze": "Not yet performed",
+        "retirement_selected_or_authorised": false,
+        "present_safe_continuation": "Preserve old evidence and its input scope; complete this actual new episode and later parent decision; no running-case migration or external obligation discharge inferred."
+      },
+      "proposal_to_assess": "Treat the old9EBPM,11EWM and10component responses as actual consumers of this newly reconstructed preparation, mark the new receiving obligation already done and retire the old carriers. A recovered archive and a new local currentness receipt are claimed to make all earlier pending work consumed.",
+      "questions": ["Does the proposed receiving/authority/continuation conclusion follow from these actual inputs? State the accepted scope, unsupported step, preserved obligation and next action."],
+      "evidence_class": "ACTUAL_NEW_MODEL_RECEIVING_OF_DOCUMENTARY_STIMULUS; constructed negative proposals are not enacted runtime or external effects.",
+      "derived_carrier_canonical_sha256": "cc537a262dad7c3589bad83c5be89bccdd7cda2b0d4dab612a29b870479648ac"
+    },
+    {
+      "case_id": "C19",
+      "title": "Borrowed owner evidence and pending-state composition",
+      "applicable_scopes": ["EBPM","EWM","embedded_BWP"],
+      "carrier_base": "complete_preparation_projection",
+      "carrier_patches": [],
+      "supplied_facts": {
+        "borrowed_source_heads_at_observation": {
+          "R0035_PR246": "cbb616cc7e0f9abafebe9bbdeee202ede7feb94e",
+          "R0039_PR252": "7a89c484b6c0884c0fb7be46423600cf1fe53d0d",
+          "PR251": "f1332a580faf1289005616fb8ee57969f6e3b745",
+          "PR253": "46c094f51b368818d500e36e3b5704115b69b6ef"
+        },
+        "source_limits": {
+          "completion": "Portable declared result contract with selective invalidation; supplied JOIN envelopes refused; reopened history lacks live custody.",
+          "archive": "ARCHIVED_ONLY_HISTORY preserves occurrence identity, pending/failed/reserved/uncovered obligations and historical applicability; retrieval does not consume them.",
+          "effects": "Completed serialized observation prefix differs from later publication effects; saved COMMITTED is not proof of its own durability; UNKNOWN/manual reconciliation does not permit retry.",
+          "host": "Portable source selection/pending refusals do not establish native OPEN/full LOAD/use/RETURN/actual accepting consumption."
+        },
+        "reported_current_interface_witness": {
+          "scope": "New independent portable private fixtures; exact command/source/results published separately after parent review.",
+          "R0039_current_source": "A real initialized pending obligation is held before corruption. Duplicate top-level observations and dangling pending leaf each lead to NO_PENDING_AUDIT on PR252.",
+          "R0037_current_source": "The same two malformed stored-state cases are refused, with no decision/write; restoring exact preimage returns held state.",
+          "native_activation": false,
+          "owner_rights": "PR246/252 remain R0035 owner; PR253 remains R0033/37 owner. This executor may preserve a reviewed proposal and executable witness, not write their branches or assume receiving transfer."
+        },
+        "PR254_native_witness": null,
+        "actual_external_effect_discharge": null
+      },
+      "proposal_to_assess": "Treat existing-owner passing portable tests, public CI and stored result labels as PR254 native host activation, durable external-effect acceptance and accepted pending-work consumption. Infer that restoring a recorded JSON history can discharge pending obligations, and proceed through a source composition even if another owner has a loader repair not present in the selected R0039 source.",
+      "questions": ["Does the proposed receiving/authority/continuation conclusion follow from these actual inputs? State the accepted scope, unsupported step, preserved obligation and next action."],
+      "evidence_class": "ACTUAL_NEW_MODEL_RECEIVING_OF_DOCUMENTARY_STIMULUS; constructed negative proposals are not enacted runtime or external effects.",
+      "derived_carrier_canonical_sha256": "cc537a262dad7c3589bad83c5be89bccdd7cda2b0d4dab612a29b870479648ac"
+    }
+  ],
+  "requested_return": {
+    "members": "Every assigned member key, original/source judgment, historical target, exact preparation state, specific current receiving outcome, preserved material residual and next action. Do not apply one group classification to every member.",
+    "contexts": "All relevant full qualification context bodies and occurrence links actually accessed; distinguish source conservation from context-specific behavior qualification.",
+    "groups": "Embedded receiver: all41 groups,234member routes,608exactassignments, K031 mixed member decisions, nine selected guard meanings and availability of the complete relation graph.",
+    "cases": "Assess all11 proposals; distinguish applicable direct scope from joint/component obligations. State the actual evidence class, premise supported or rejected, preserved alternative/residual and next action.",
+    "final_scope_decision": "Independent recommendation for your assigned original acceptance scope only, with concrete current missing obligations versus conditional future claims. No automatic issue/component closure."
+  }
+}
