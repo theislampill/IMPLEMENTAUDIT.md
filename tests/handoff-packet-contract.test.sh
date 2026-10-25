@@ -595,13 +595,19 @@ done
 
 # P. A sender denial cannot suppress any populated Class-1 claim. Removing
 # any recognized field from the no-claims guard must fail its actual comparison.
+# Receiver-reference fixtures above change the worktree after match.pkt was
+# issued. Bind these new packets to a fresh observation, preserving that earlier
+# packet and its already-tested source state.
+denial_status="$(git -C "$repo_root" status --porcelain)" \
+  || fail 'claim-flag fixture could not observe current cleanliness'
+if [ -z "$denial_status" ]; then denial_clean=yes; else denial_clean=no; fi
 for claim in subject_repo claimed_branch claimed_tree claimed_clean; do
   case "$claim" in
     subject_repo) false_value=R37-DEFINITELY-NOT-THIS-REPO ;;
     claimed_branch) false_value="$live_branch-r37-other" ;;
     claimed_tree) false_value=0000000000000000000000000000000000000000 ;;
     claimed_clean)
-      if [ "$live_clean" = yes ]; then false_value=no; else false_value=yes; fi
+      if [ "$denial_clean" = yes ]; then false_value=no; else false_value=yes; fi
       ;;
   esac
   cat > "$tmp/denied-$claim.pkt" <<EOF
@@ -626,7 +632,8 @@ done
 
 # A denial also cannot manufacture a contradiction: true populated claims
 # still take the existing comparison path and pass. D/I/L retain no-claims use.
-sed 's/^has_state_claims: yes$/has_state_claims: no/' "$tmp/match.pkt" \
+sed -e 's/^has_state_claims: yes$/has_state_claims: no/' \
+  -e "s/^claimed_clean:.*/claimed_clean: $denial_clean/" "$tmp/match.pkt" \
   > "$tmp/denied-matching.pkt"
 seal_packet "$tmp/denied-matching.pkt"
 out="$(bash "$scorer" "$tmp/denied-matching.pkt" --repo-root "$repo_root" 2>&1)" \

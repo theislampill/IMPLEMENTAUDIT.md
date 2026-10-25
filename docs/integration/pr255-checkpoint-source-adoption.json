@@ -1223,10 +1223,10 @@
             "mode": "100644",
             "blob": "cf1292a23d1f9c4c2af7d9ece733ebd4f0821d53"
           },
-          "integration_blob": "38d2bcf2dec7a0175f0df325bec436333cd41726",
-          "integration_sha256": "26706a44c18c03bdaf5ca6bc2577985aa7ae54d5d55d1929000ab30157252184",
+          "integration_blob": "c458dc069e28c93041aab2a2c8d30045be9a72b8",
+          "integration_sha256": "a48625c6e2bd5910cbcb6d6aca9046ec75b9ba044d3c3525c2e79d618d857cfe",
           "disposition": "SEMANTIC_COMPOSITION",
-          "reason": "Retain combined fixture/profile/guard behavior and receive only applicable donor delta; exact obligations and tests are described in pr255-checkpoint-receiving-20261025.md.",
+          "reason": "Retain combined fixture/profile/guard behavior and receive only applicable donor delta; exact obligations and tests are described in pr255-checkpoint-receiving-20261025.md. Hosted40232342623 exposed stale cleanliness in the combined test after receiver fixtures changed the worktree; newly issued claim-flag packets now use a fresh actual Git observation while original packets, every assertion and production guards remain unchanged.",
           "integration_mode": "100644"
         },
         {
