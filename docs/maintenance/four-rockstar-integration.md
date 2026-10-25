@@ -1584,3 +1584,65 @@ PL4/PL5 source-qualified disposable-fixture evidence: the first eight-entry focu
 Patch SHA-256 `adf3a276831b388f94f2c52e8d4b8dd40e7e221a4c30103bcf99feaf984520d9`; helper postimage `1b765ede204e846e6a0ef378655ca226d6f4bcafc24860404739c65a00663780`. Exact pre/postimages, original raw results, source derivations, first setup/census failures and fixture identities are retained in the sealed `r30-ordered-consumer` packet. Independent actual/source review is FINAL/PASS_BOUNDED: report `12460111703d20853e0e2b29a7e3e883de9a6bcecb2516c6f4bff30676de482f`, receipt `a13b4fb1368ecce6cee1512a065001157689084fa655b6c1ad5e4e913d606d10`. It verified all 5,357 packet files and the retained effect prefixes. Package and direct installed-consumer qualification are separate root gates, recorded with their actual candidate identity. This candidate does not accept historical population fidelity, ADD/RETAIN/protected merge, executor bootstrap/self-row law, native authority, full EH-3 or the six commissions as exhausted. Prior integration43 and other accepted/failed evidence remain unchanged.
 
 The batch qualification uses the declared instrumented source copies for observation and scheduled input/return/source interventions; each derived body identity is retained. The maintained candidate itself supplied the preceding single-step NO_CHANGE and observation-only preflight controls. The independent review confirms eight live COMMITTED returns and one additional retained transaction whose missing live return remains UNKNOWN. No saved result is promoted to a live return. Original C01–C09 and separate P53 obligations remain distinct.
+
+## R002D: one acquisition for ordinary content identity and read/search output
+
+The portable self-dogfood evidence broker had a concrete content-acquisition
+gap. `read_target` first hashed a file through `read_bytes`, then opened it
+again through `read_text` to deliver the read or search view. A file change
+between those acquisitions could record the identity of A while delivering B.
+The original first baseline is retained: stable and interleaved owner exits
+were both 0, but the interleaved call recorded digest(A) and emitted B after
+one real byte read, one real text read and one completed A-to-B rewrite. Its
+parent exit 1 remains the original failing result; it was not replayed or
+replaced.
+
+The correction is in the existing `scripts/dogfood-evidence-broker.py` owner.
+It captures one byte buffer, derives the digest from that buffer, and derives
+the read/search view from its strict UTF-8 decoding and universal-newline
+conversion. Existing search, line-number, final-newline, empty-output and
+malformed-input behavior is preserved. No authority or journal-validation
+rule changes.
+
+The corrected first episode reused the exact independently reviewed paired
+harness and input bytes. Each corrected owner returned 0, made one real byte
+read and no text-file read, recorded digest(A), and emitted A. In the
+interleaved arm the same real-read wrapper still rewrote the target to B once;
+the target's final bytes were B. Both unchanged coherence predicates passed.
+The harness's retained original two-read implementation-prediction fields
+became false; those fields were not rewritten as the correction oracle.
+
+The affected maintained `tests/dogfood-bootstrap-contract.test.sh` ran once
+and passed. Eight added function controls cover stable/interleaved read,
+interleaved literal search, UTF-8/BOM and mixed newlines, search line numbering,
+case-sensitive no-match, empty read, and strict malformed-UTF-8 refusal without
+a completed sink record. All original cases and assertions remain; their
+existing diagnostic outputs are scoped to the test's temporary directory, with
+an explicit create-once retention option for first-outcome custody. Raw output,
+returns/exceptions, actual read/stimulus observations and source identities
+were retained before assertions. There were no qualification retries.
+
+The original baseline actually used local commit
+`c26fba72222588810138e3e75ef5b6c309716c12`. The isolated correction was prepared
+against public/local `bf0e4831dea9c16d87ce11688e747c8db6173456`, the same tree
+`d5fbef7a34bb2cc611dcd71f01c12b0b91338a79` and unchanged original selected
+sources. The executed corrected owner is bound by SHA-256
+`b5c3c9ffeda4c0903834eaaaff03db08bc7cd5001e45e3c74c3c669d92ba8168`, and the
+maintained test by
+`7a4d6457766132e9f058f2274e2bc351b5dee8ed8729f3602665b7227339e1bd`.
+These are isolated source qualification identities, not an installed package
+or a relabelled execution of the receiving Git tree. The actual packet is
+`r2d-read-correction/ACTUAL-PACKET.json`, SHA-256
+`4e7d38aebe24cc759a8003fe2a50a2440683cf91a850bf4bfdc1cc00930352ab`;
+the original baseline seal remains
+`aee40583e48f2e418a5a2d69c0bf5cc53db567b5e99debc9b8952e758d2d6d06`.
+
+This is bounded ordinary acquisition/record-coherence evidence. The paired
+calls and focused controls use declared precondition and plain argument-sink
+stubs. Existing maintained keys and journals are artificial test authority.
+No native issuer, authenticated host event, Stop/JOIN, complete output-delivery
+receipt or native self-dogfood acceptance is established. All 72 R002D
+properties, existing P007/P012/P032 interpretations, exact-version ActiveGraph
+receipts, warehouse NONVERDICT, original native 71a gate and separate R002C
+case-B GAP/common-source NONVERDICT remain at their recorded scopes. Package,
+receiving integration and publication decisions remain separate.

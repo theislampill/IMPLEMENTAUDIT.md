@@ -442,8 +442,10 @@ def read_target(args: argparse.Namespace, action: str) -> None:
             target_path=str(resolved),
         )
         fail("target is outside the bounded source/temp-runtime roots")
-    digest = sha256_file(resolved)
-    text = resolved.read_text(encoding="utf-8")
+    content = resolved.read_bytes()
+    digest = hashlib.sha256(content).hexdigest()
+    # Preserve read_text's strict UTF-8 and universal-newline view of this buffer.
+    text = content.decode("utf-8").replace("\r\n", "\n").replace("\r", "\n")
     if action == "search":
         matches = [
             f"{index}:{line}"
