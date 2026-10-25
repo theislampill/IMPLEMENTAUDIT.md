@@ -1866,6 +1866,7 @@ def fixture_capture_environment_cases(directory):
         "tests/work-graph-verifier-cases.py", "tests/work-graph-stream-cases.py",
         "tests/work-graph-prefix-cases.py", "tests/work-graph-registry-cases.py",
         "tests/work-graph-repro-events-cases.py", "tests/work-graph-correspondence-preflight-cases.py",
+        "tests/work-graph-historical-fixture-cases.py",
         "tests/work-graph-audit-spec-cases.py", "tests/work-graph-andon-cases.py",
         "tests/work-graph-finite-batch-cases.py", "tests/work-graph-finite-entry-cases.py",
         "tests/work-graph-finite-next-cases.py", "tests/work-graph-topology-cases.py",
