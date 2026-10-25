@@ -111,7 +111,7 @@ def original14_controls(producer_root, fixture, report):
         source_records.append(dict(name=name, path=str(path), bytes=len(raw), sha256=digest(raw), mode=mode))
     report["producer_sources"] = source_records
 
-    # This is an explicitly constructed receiving fixture, not production R35
+    # This is an explicitly constructed receiving fixture, not production R0035
     # materialization or a native install. Producer buffers are never imported.
     fixture.mkdir(parents=True, exist_ok=False)
     target = fixture / "receiver"
@@ -163,7 +163,7 @@ def original14_controls(producer_root, fixture, report):
     check(pair not in (receiver._NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE,
                        receiver._NATIVE_COMBINED_CURRENT_PAIR_V1),
           "original14 entered an 18-field equivalence shortcut")
-    report["controls"].append(dict(id="R01", status="PASS_SOURCE_ONLY",
+    report["controls"].append(dict(id="original14-receiving-01", status="PASS_SOURCE_ONLY",
         observation="Real compiler acquisition and independent receiver agree with all eight actual producer buffers",
         acquired_bytes=sum(len(raw) for _, raw in sources)))
 
@@ -181,7 +181,7 @@ def original14_controls(producer_root, fixture, report):
         finally:
             path.write_bytes(raw)
     check(acquire_closure()[1] == sources, "fixture source bytes were not restored")
-    report["controls"].append(dict(id="R02", status="PASS_SOURCE_ONLY", variants=physical,
+    report["controls"].append(dict(id="original14-receiving-02", status="PASS_SOURCE_ONLY", variants=physical,
         observation="Every same-size physical dependency mutation refuses through the real compiler reader"))
 
     populations = []
@@ -197,7 +197,7 @@ def original14_controls(producer_root, fixture, report):
         reason = expect_refusal(adapter.ContinuityTransportError,
             lambda value=value: adapter._source_profile(value), "CONTINUITY_TRANSPORT_SOURCE_REFUSED")
         populations.append(dict(variant=label, refusal=reason))
-    report["controls"].append(dict(id="R03", status="PASS_SOURCE_ONLY", variants=populations,
+    report["controls"].append(dict(id="original14-receiving-03", status="PASS_SOURCE_ONLY", variants=populations,
         observation="Incomplete, reordered, mutable and changed source populations cannot select the profile"))
 
     pins = []
@@ -217,7 +217,7 @@ def original14_controls(producer_root, fixture, report):
             pins.append(dict(name=path.name, refusal=reason))
         finally:
             path.write_bytes(raw)
-    report["controls"].append(dict(id="R04", status="PASS_SOURCE_ONLY", variants=pins,
+    report["controls"].append(dict(id="original14-receiving-04", status="PASS_SOURCE_ONLY", variants=pins,
         observation="Physical transport, receiving-owner and query-policy drift refuse before their altered bytes execute"))
 
     transport_refusal = expect_refusal(adapter.ContinuityTransportError,
@@ -230,7 +230,7 @@ def original14_controls(producer_root, fixture, report):
             scripts / "compile-work-graph.py",
             dict(claim_sha256=pair[0], validate_sha256=pair[1])),
         "original14 requires qualified Windows custody")
-    report["controls"].append(dict(id="R05", status="PASS_EXPECTED_HOST_REFUSAL_ONLY",
+    report["controls"].append(dict(id="original14-receiving-05", status="PASS_EXPECTED_HOST_REFUSAL_ONLY",
         transport_refusal=transport_refusal, receiver_refusal=receiver_refusal,
         observation="Actual POSIX host cannot promote original14 source recognition into Windows custody"))
     check(acquire_closure()[1] == sources, "source closure changed after the controls")
