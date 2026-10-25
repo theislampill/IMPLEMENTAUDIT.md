@@ -22,8 +22,13 @@ tmp="$(mktemp -d)"
 host_claim_fixture=".host-claim-fixture.md"
 
 cleanup() {
+  local code=$?
   rm -rf "$tmp"
   rm -f "$host_claim_fixture"
+  if [[ -n "${portal_capture_started:-}" ]]; then
+    "${py_cmd[@]}" scripts/portal-event-capture.py finish-node "$code" || return 2
+  fi
+  return "$code"
 }
 trap cleanup EXIT
 out="$tmp/portal-out"
@@ -61,6 +66,11 @@ elif command -v py >/dev/null 2>&1; then
 else
   printf 'docs-portal.test: FAIL: python, python3, or py -3 is required\n' >&2
   exit 1
+fi
+
+if [[ "${IMPLEMENTAUDIT_PORTAL_CAPTURE+x}" ]]; then
+  "${py_cmd[@]}" scripts/portal-event-capture.py begin-node "$tmp"
+  portal_capture_started=1
 fi
 
 if "${py_cmd[@]}" scripts/build-docs-portal.py --out "$out" >/dev/null; then
@@ -334,6 +344,7 @@ fi
 
 if "${py_cmd[@]}" - "$tmp/portal-release-identity" <<'PY'
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -345,6 +356,10 @@ shutil.copytree(source_root / "docs" / "portal", fixture_root / "docs" / "portal
 (fixture_root / "scripts").mkdir(parents=True)
 shutil.copy2(source_root / "scripts" / "build-docs-portal.py", fixture_root / "scripts" / "build-docs-portal.py")
 shutil.copy2(source_root / "scripts" / "check-docs-portal.py", fixture_root / "scripts" / "check-docs-portal.py")
+shutil.copy2(source_root / "scripts" / "portal-event-capture.py", fixture_root / "scripts" / "portal-event-capture.py")
+if "IMPLEMENTAUDIT_PORTAL_CAPTURE" in os.environ:
+    subprocess.run([sys.executable, str(source_root / "scripts/portal-event-capture.py"),
+                    "register-fixture", str(fixture_root)], check=True)
 
 site_path = fixture_root / "docs" / "portal" / "site.json"
 site = json.loads(site_path.read_text(encoding="utf-8"))
@@ -1216,6 +1231,50 @@ else
   ok "check-public-claim-boundaries.sh rejects an absolute forward-only release policy"
 fi
 rm -f "$host_claim_fixture"
+
+if "${py_cmd[@]}" - "$tmp/portal-custody" <<'PY'
+import hashlib
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+out = Path(sys.argv[1])
+build = [sys.executable, "scripts/build-docs-portal.py", "--out", str(out)]
+check = [sys.executable, "scripts/check-docs-portal.py", str(out)]
+def invoke(argv, expected):
+    result = subprocess.run(argv, capture_output=True)
+    assert result.returncode == expected, (argv, result.stderr)
+    return result
+def inventory():
+    return {p.relative_to(out).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+            for p in out.rglob("*") if p.is_file()}
+
+first = invoke(build, 0)
+original = inventory()
+invoke(check, 0)
+metadata = (out / "docs-metadata.json").read_bytes()
+(out / "docs-metadata.json").unlink()
+invoke(check, 1)
+(out / "docs-metadata.json").write_bytes(metadata)
+page = out / "index.html"
+html = page.read_bytes()
+assert b"proof-strip" in html
+page.write_bytes(html.replace(b"proof-strip", b"changed-proof-strip"))
+invoke(check, 1)
+page.write_bytes(html + b"\n<!-- inert portal custody control -->\n")
+invoke(check, 0)
+assert inventory() != original
+second = invoke(build, 0)
+assert inventory() != original  # Preserve the actual generated_at bytes.
+invoke(check, 0)
+shutil.rmtree(out)
+PY
+then
+  ok "actual portal checker distinguishes required bytes while raw generations survive only explicit retention"
+else
+  fail_check "portal generation and actual consumer lifecycle control failed"
+fi
 
 if bash scripts/verify-docs-portal.sh >/dev/null; then
   ok "verify-docs-portal.sh passes generated output"

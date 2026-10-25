@@ -315,6 +315,7 @@ helper-route: scripts/validate-run-root.sh|R|run-root|S|-|<root>|invalid
 
 helper-route: scripts/resolve-internal-skill.py|I|child-resolution|S#governor-routed-internal-cognition|S#governor-routed-internal-cognition|--governor SKILL.md --child <child>|no-load-credit
 helper-route: scripts/resolve-durable-identity.py|S|identity-diagnosis|R#durable-identity-diagnostic|-|--canonical <identity>|no-allocation
+helper-route: scripts/compile-work-graph.py|S|native-graph-diagnosis|R#native-work-graph-diagnostic|-|--inspect-native <run-root>|no-native-authority
 helper-route: scripts/host-session-binding.py|R|selected-attribution|references/host-session-binding.md|-|--store <store> lookup --host-id <host> --host-session-id <session>|no-host-activation
 helper-route: scripts/host-stop-interlock.py|R|selected-stop-attribution|references/host-session-binding.md|-|none|unsupported-host-effects
 
@@ -329,6 +330,15 @@ allocated range, use
 The existing --legacy, --ordinal, --format and --validate modes keep the same
 read-only diagnostic boundary. Formatting a name never allocates it; allocation
 remains with the existing issue-ready-work-orders and identity-namespaces owners.
+
+## Native work graph diagnostic
+
+For explicit native-graph-diagnosis, use the standalone-diagnostic
+`python -B <skill-dir>/scripts/compile-work-graph.py --inspect-native <run-root>`.
+The no-native-authority boundary retains constructed filesystem evidence only;
+it does not establish currentness, routing, actual capacity, accepted JOIN or
+lifecycle credit. The optional `references/work-graph-contract.md` describes
+its supported source format and separately qualified native interfaces.
 
 ## Pin-chain map (#76)
 

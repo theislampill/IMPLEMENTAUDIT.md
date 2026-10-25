@@ -7,6 +7,7 @@ if command -v python3 >/dev/null 2>&1; then py=(python3 -B)
 elif command -v python >/dev/null 2>&1; then py=(python -B)
 else printf 'canonical-state-rotation.test: Python is required\n' >&2; exit 1; fi
 bash scripts/check-canonical-state-rotation.sh
+"${py[@]}" tests/shell_companion_source_custody.py
 "${py[@]}" fixtures/canonical-state-rotation/protected_projection_v2_test.py
 "${py[@]}" fixtures/canonical-state-rotation/archive_v2_test.py
 "${py[@]}" fixtures/canonical-state-rotation/native_resume_v2_test.py

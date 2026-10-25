@@ -202,6 +202,8 @@ Load references only when the current gate needs them:
 - `references/canonical-state-rotation.md`: zero-model pair/archive projection
   and claim-owned publication; load only for rotation or typed retrieval.
 - `references/repo-state-comparison.md`: baseline/final and helper dispatch.
+- `references/work-graph-contract.md`: optional graph source/JOIN diagnostics;
+  native producer and executor admission remain separately qualified.
 - `references/host-session-binding.md`: selected portable host/session
   attribution, owner-store custody, and explicit host-activation limits.
 - `references/sidecars.md`: optional Graphify/ActiveGraph and tooling bounds.
