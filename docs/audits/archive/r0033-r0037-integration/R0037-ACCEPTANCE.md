@@ -796,3 +796,74 @@ or native/controller action for this correction. Removing the annotation restore
 the known path-contract failure; the two saved preimages provide exact rollback.
 All earlier R0037 failures, finite populations, ordinary-review results and the
 interrupted follow-up non-verdict remain source-bound history.
+
+
+### Hosted private-copy test environment correction — 2026-10-25
+
+Hosted CI run **40141455191**, job **121013885196**, failed at
+`private-finding-substitution-direct: actual semantic checker did not accept its consumed snapshot`
+on 2026-10-24 at 23:43:53 UTC. Its PR head was
+`2c167c9cb9c3eefc66448212d602196b737d663e`; the runner checked out merge
+`f1dd9b0ae310b7ce869507021754cae98d4b50e0`, tree
+`37856af8793d998d00d4e6a19bf2fb01c5fa4d8f`, whose parents were
+`e78f7cb21af4197d490f10bc95917a4c75f748aa` and that PR head. The full retained
+job log is **344,493 UTF-8 bytes**, SHA-256
+`d14db804cb83d4600f07b33d8e652421cb8de0180ce5aab5959f0a8b4efea687`.
+The hosted assertion did not expose the captured child stderr. Its failure is
+preserved; the local observations below are separately bound to the current PR253
+preimage, commit `1c24933da5914ed35f6b8b7de81914c7b206091e`, tree
+`a253c71ef7f52c04fc67cd0f68e5eda8829e77c5`.
+
+The unchanged test SHA-256
+`27d1dd05f5dbbce6a4852005622af6d3fbb10d168a08ffcf0ffd30bffc7cb4f3`
+reproduced the identical assertion with ambient `TMPDIR` absent. Captured stderr
+was `TMPDIR: unbound variable` in the private-copy Bash schedule, and the
+semantic-owner return trigger was absent. The same unmodified control with an
+explicit temporary root passed: the actual semantic checker returned **0**, then
+the real validator returned **1** with
+`successor snapshot bytes differ from source capture`. This isolates a test
+environment dependency; it does not justify weakening the semantic assertion or
+changing the runtime refusal. Because the overlay was full, these two diagnostic
+calls redirected only native temporary allocation into owned RAM storage; the
+unset case still left `TMPDIR` absent in the validator and its schedule.
+
+The minimal correction makes `successor_review_controls.run()` supply its owned
+fixture parent as `TMPDIR` to each subprocess. The validator and injected
+schedules now share that root even when the calling environment does not export
+it. No mutation, semantic-owner-return, expected-refusal or original-input
+inventory assertion changed. Corrected test SHA-256:
+`1ae4aad8e4281235fe4232844ee9ef68d76e2173dabdf1e3acccfb74b8aad9a4`.
+The runtime validator remains byte-identical at
+`b996927d7b2659a14549909ecb0707a3e035362c5054f7ba7b748a29199da81b`;
+the semantic checker remains
+`9f762b1e602154bd37d561b3564ad58720934467f26a760a8cffec29727e55d1`.
+
+Exactly **eleven post-correction top-level calls** were made with ambient
+`TMPDIR` absent and without the diagnostic allocation wrapper:
+
+| Finite control | Calls | Observed outcome |
+|---|---:|---|
+| Existing private finding substitutions, direct/composed | 2 | Actual owner **0/0**; final validator **1/1**, source-capture byte mismatch. |
+| Existing private reference redirection | 1 | Actual owner **0**; final validator **1**, original selected dependency still required. |
+| Existing private unread-log positive | 1 | Actual owner **0**; final validator **0**. |
+| Existing substitution before first private-file binding | 1 | Tamper trigger present; semantic owner not reached; validator **1**, source-capture byte mismatch. |
+| Ordinary valid yield, direct/composed | 2 | Validator **0/0**; composed route emitted NONTERMINAL_YIELD. |
+| Valid successor review, direct/composed | 2 | Actual owner **0/0**; final validator **0/0**. |
+| Private packet substitution with matching private row digest, direct/composed | 2 | Actual owner **0/0**; final validator **1/1**, source-capture byte mismatch; no composed disposition. |
+
+All eleven calls satisfied their intended assertions and retained unchanged
+original inputs. The six added evidence calls use the corrected test's actual
+fixture/run helpers; they do not extend the tracked control population or mock
+checker results. The two pre-correction diagnostic calls are separate: one
+retained assertion failure and one successful explicit-root comparison.
+
+Evidence is retained under `evidence/r37-ci-snapshot-fix`: source preimages,
+complete hosted log and merge receipt, actual RED/comparison/final outputs,
+private schedules and return triggers, packet mutation receipts, and the frozen
+two-file diff. No full successor, terminal, semantic, nested or ActiveGraph bank,
+package build or native host campaign was repeated. Earlier runtime/package and
+review evidence remains bound to its original identities. Fresh independent
+review and root-owned guarded publication remain pending; this local repair does
+not establish a later hosted CI result, native Stop, child acceptance, READY/JOIN,
+closure or release. Exact two-file preimages provide rollback and restore the
+known test-environment failure. All earlier failures and non-verdicts remain.

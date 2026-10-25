@@ -183,8 +183,10 @@ def successor_review_controls(parent, *, selected=None):
                      'direct': ['bash', str(HELPER), '--nonterminal-yield'],
                      'composed': ['bash', str(HELPER), '--turn-disposition', 'NONTERMINAL_YIELD']}[mode]
         command = arguments + [str(root)]
+        # Private-copy schedules and the validator need the same owned temp root,
+        # including in CI environments that do not export TMPDIR.
         process = subprocess.Popen(command, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-            start_new_session=True, env=os.environ | {'PYTHONDONTWRITEBYTECODE': '1'} | (environment or {}))
+            start_new_session=True, env=os.environ | {'PYTHONDONTWRITEBYTECODE': '1', 'TMPDIR': str(parent)} | (environment or {}))
         try: stdout, stderr = process.communicate(timeout=5)
         except subprocess.TimeoutExpired:
             os.killpg(process.pid, signal.SIGKILL); process.communicate()
