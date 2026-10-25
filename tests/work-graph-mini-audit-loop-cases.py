@@ -132,7 +132,7 @@ class CatalogCases(MiniFixture, unittest.TestCase):
         incoming = next(node.value for node in ast.parse(self.helper).body if isinstance(node, ast.Assign)
                         and any(isinstance(target, ast.Name) and target.id == "_CONTRACTS" for target in node.targets))
         retained = [(key, value) for key, value in zip(incoming.keys, incoming.values)
-                    if not isinstance(key, ast.Name) or key.id != "MINI_AUDIT_PROFILE"]
+                    if not isinstance(key, ast.Name) or key.id not in ("MINI_AUDIT_PROFILE", "ACTION_SELECTION_PROFILE")]
         self.assertEqual(len(retained), 33)
         payload = "\n".join(ast.dump(ast.Tuple(elts=[key, value], ctx=ast.Load()), include_attributes=False)
                             for key, value in retained)

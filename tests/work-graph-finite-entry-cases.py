@@ -49,6 +49,7 @@ PROFILES = {
     "respec-impact-set": "CONTROLLED_TASK_RESPEC_IMPACT_SET_V1",
     "package-shape-claims": "CONTROLLED_TASK_PACKAGE_SHAPE_CLAIMS_V1",
     "mini-audit-loop": "CONTROLLED_TASK_MINI_AUDIT_LOOP_V1",
+    "action-selection-contract": "CONTROLLED_TASK_ACTION_SELECTION_CONTRACT_V1",
 }
 
 

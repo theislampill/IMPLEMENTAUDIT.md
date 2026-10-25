@@ -53,6 +53,7 @@ LEAN_DISCIPLINE_PROFILE = "CONTROLLED_TASK_LEAN_DISCIPLINE_V1"
 AUDIT_OBJECT_CONTRACT_PROFILE = "CONTROLLED_TASK_AUDIT_OBJECT_CONTRACT_V1"
 PACKAGE_SHAPE_PROFILE = "CONTROLLED_TASK_PACKAGE_SHAPE_CLAIMS_V1"
 MINI_AUDIT_PROFILE = "CONTROLLED_TASK_MINI_AUDIT_LOOP_V1"
+ACTION_SELECTION_PROFILE = "CONTROLLED_TASK_ACTION_SELECTION_CONTRACT_V1"
 # Fixed original87 branch: actual default Git templates, including every sample
 # and empty directory. No hook/config filter or alternate template root exists.
 _MINI_AUDIT_TEMPLATE_ROOT = "/usr/share/git-core/templates"
@@ -401,7 +402,35 @@ BOOTSTRAP_COPY_INPUTS = (
     "package/implementaudit-package.json", "fixtures/semantic-preservation/cases.json",
     "fixtures/semantic-preservation/evaluate.py", "fixtures/semantic-preservation/test-cases.sh",
 )
+ACTION_SELECTION_ROOT = "fixtures/audit-action-selection"
+ACTION_SELECTION_DATA = (
+    "skills/implementaudit/SKILL.md",
+    "skills/implementaudit/references/planning-depth.md",
+    "skills/implementaudit/references/lean-operating-discipline.md",
+    "skills/implementaudit/references/child-agents.md",
+    "skills/implementaudit/references/plan-lifecycle.md",
+    "skills/implementaudit/templates/THINKING.md",
+    "skills/implementaudit/templates/ROADMAP.md",
+    "fixtures/native-integration/single-plan-native-route.md",
+    "fixtures/audit-object-routing/deep-pressure-disclosure.md",
+)
+ACTION_SELECTION_FIXTURES = tuple(ACTION_SELECTION_ROOT + "/" + name for name in (
+    "dominance-dogfood-receipt.json", "engineering-value-cases.json",
+    "narrow-direct-stays-shallow.md", "negative-keyword-gated-depth.md",
+    "negative-missing-selection-record.md", "negative-size-only-deepening.md",
+    "ordinary-task-deepens.md", "verifier-plan-cases.json"))
 _CONTRACTS = {
+    ACTION_SELECTION_PROFILE: dict(label="action-selection-contract", index=90,
+        program="tests/action-selection-contract.test.sh",
+        programs={
+            "tests/action-selection-contract.test.sh": "f49fdde27d2e23558bd1e8cc74c66fb30520953426e4b5166ebcb93dffaec0b0",
+            "scripts/check-action-selection-contract.sh": "38e7b277b8429b0d13fb7710f47e4f144dde693504c8640463c2ab074f8cc6bb"},
+        data=ACTION_SELECTION_DATA,
+        bounds=dict(file_bytes=128 * 1024, total_bytes=8 * 1024**2, files=12),
+        source_modes="PRESERVE_READ_ONLY_MOUNT",
+        projection="TWO_PINNED_PROGRAMS_NINE_LITERAL_DATA_COMPLETE_RECURSIVE_FIXTURES_SERIAL_PRIVATE_COPY_AND_REWRITE_SET",
+        recursive=dict(roots=(ACTION_SELECTION_ROOT,), optional=False, bounds=_RECURSIVE_BOUNDS,
+            required_members=ACTION_SELECTION_FIXTURES)),
     RESPEC_PROFILE: dict(label="respec-impact-set", index=44, program="tests/respec-impact-set-contract.test.sh",
         programs={
             "tests/respec-impact-set-contract.test.sh": "8d2948d511bc9cb3f57539205295f451a50d8593d653f0cb509bee9e52e043d5",
@@ -869,7 +898,7 @@ def contract_for(profile):
                                                      COMMIT_PROFILE, AGENTS_PROFILE, ESCALATION_PROFILE, TOPOLOGY_PROFILE,
                                                      CAPABILITY_PROFILE, ISSUES_PROFILE, TERMINAL_PROFILE,
                                                      BACKGROUND_PROFILE, LIFECYCLE_PROFILE, PLAN_QUALITY_PROFILE,
-                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE, LEAN_DISCIPLINE_PROFILE, INTERNAL_ROUTING_PROFILE, BOOTSTRAP_BUDGET_PROFILE, RESPEC_PROFILE, PACKAGE_SHAPE_PROFILE, MINI_AUDIT_PROFILE):
+                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE, LEAN_DISCIPLINE_PROFILE, INTERNAL_ROUTING_PROFILE, BOOTSTRAP_BUDGET_PROFILE, RESPEC_PROFILE, PACKAGE_SHAPE_PROFILE, MINI_AUDIT_PROFILE, ACTION_SELECTION_PROFILE):
         raise ValueError("unsupported finite-leaf profile")
     return copy.deepcopy(_CONTRACTS[profile])
 
@@ -1226,12 +1255,72 @@ def internal_routing_output_bounds(state):
         basis="COMPLETE_COPIED_POPULATION_AND_FIXED_PRIVATE_EFFECTS_PATH_OUTPUT_MEMORY_BOUNDS_NOT_RESOLVER_ACCEPTANCE")
 
 
+def action_selection_output_bounds(state, objects, contract):
+    """Bound original90 bytes and serial effects without deciding its semantics."""
+    files = state["files"]
+    copied = [*ACTION_SELECTION_DATA, *sorted(name for name in files
+        if str(Path(name).parent) == ACTION_SELECTION_ROOT
+        and not Path(name).name.startswith(".") and name.endswith((".md", ".json")))]
+    # cp's immediate globs differ from grep -R's complete namespace. Retain all
+    # hidden/opaque/nested bytes and empty directories in acquisition. A glob-
+    # selected directory stays visible and the unchanged original may reject it.
+    scanned = sorted(name for name in files if name.startswith(ACTION_SELECTION_ROOT + "/"))
+    scanned.append("skills/implementaudit/references/planning-depth.md")
+    reports, binary = {}, 0
+    for name in scanned:
+        raw = objects[files[name]["sha256"]]
+        lines = raw.count(b"\n") + int(bool(raw) and not raw.endswith(b"\n"))
+        width = len(name.encode("utf-8")) + 2  # also covers a leading ./
+        # Count every LF record as a match, with quoted path/line-number margin.
+        # No regex, exemption, JSON acceptance rule or checker verdict is run.
+        reports[name] = len(raw) + lines * (4 * width + len(str(max(lines, 1))) + 4)
+        binary += 4 * width + 128
+    json_names = tuple(ACTION_SELECTION_ROOT + "/" + name for name in (
+        "dominance-dogfood-receipt.json", "engineering-value-cases.json", "verifier-plan-cases.json"))
+    rewrites = {name: 6 * files[name]["bytes"] + 1024 for name in json_names}
+    # Each reset rewrites at most one JSON member. ensure_ascii expansion is
+    # bounded by6x acquired bytes;1024 exceeds all fixed generated structures.
+    report_growth = {name: max(0, size + 4 * (len(name.encode("utf-8")) + 2) + 5 - reports[name])
+                     for name, size in rewrites.items()}
+    appended = ACTION_SELECTION_ROOT + "/ordinary-task-deepens.md"
+    append_bytes = 39
+    report_growth["fixed_append"] = append_bytes + 2 * (
+        4 * (len(appended.encode("utf-8")) + 2) + len(str(max(files[appended]["bytes"] + append_bytes, 1))) + 4)
+    initial = sum(reports.values())
+    report = initial + max(report_growth.values())
+    json_growth = max(size - files[name]["bytes"] for name, size in rewrites.items())
+    copy_rewrites = dict(rewrites, **{appended: files[appended]["bytes"] + append_bytes})
+    transforms = (ACTION_SELECTION_DATA[1], ACTION_SELECTION_DATA[5], ACTION_SELECTION_DATA[3],
+                  ACTION_SELECTION_DATA[0], ACTION_SELECTION_DATA[4])
+    transform = max(files[name]["bytes"] for name in transforms)
+    spools = {name: files[name]["bytes"] for name in contract["programs"]}
+    names = set(files) | set(state["directories"])
+    name_bytes = sum(len(name.encode("utf-8")) + 1 for name in names)
+    data_sizes = [row["bytes"] for name, row in files.items() if name not in {REGISTRY, *contract["programs"]}]
+    copied_bytes = sum(files[name]["bytes"] for name in copied)
+    diagnostic = (65536 + 8 * max(data_sizes)
+        + sum(16 * len(name.encode("utf-8")) + 4096 for name in names) + report + binary + 4096)
+    memory = 65536 + 64 * (copied_bytes + json_growth + name_bytes + sum(spools.values()))
+    return dict(copied_paths=copied, copied_source_files=len(copied), copied_source_bytes=copied_bytes,
+        scanned_files=len(scanned), complete_name_bytes=name_bytes, json_rewrite_bounds=rewrites,
+        copy_rewrite_bounds=copy_rewrites, max_JSON_growth_bytes=json_growth,
+        max_single_copy_growth_bytes=max(json_growth, append_bytes),
+        report_initial_bound=initial, report_single_mutation_growth_options=report_growth,
+        report_file_bound=report, report_binary_diagnostic_bound=binary,
+        transform_bound_bytes=transform, spool_bounds=spools,
+        max_stdout_bytes=4096, max_stderr_bytes=diagnostic, original_data_memory_reservation=memory,
+        original_checker_calls=69, private_tree_incarnations=68, live_copy_trees=1,
+        original_git_commands=[], basis="COMPLETE_ACQUIRED_BYTES_SERIAL_COPY_REWRITE_REPORT_BOUNDS_NOT_ACCEPTANCE")
+
+
 def recursive_output_bounds(state, objects, contract, *, profile):
     """Conservative output sizes from complete actual acquired input bytes."""
     if profile == NATIVE_INTEGRATION_PROFILE:
         return native_integration_output_bounds(state, objects, contract)
     if profile == INTERNAL_ROUTING_PROFILE:
         return internal_routing_output_bounds(state)
+    if profile == ACTION_SELECTION_PROFILE:
+        return action_selection_output_bounds(state, objects, contract)
     names = sorted(set(state["files"]) - {REGISTRY, *contract["programs"]})
     grep_bytes = diagnostics = terminal_bytes = terminal_messages = audit_checker_bytes = 0
     safeguard_bytes = safeguard_messages = 0
@@ -2171,7 +2260,24 @@ def temporary_requirements(state, *, profile=PROFILE):
     sizes = [state["files"][name]["bytes"] for name in contract["data"]]
     rounded = lambda size: ((size + granule - 1) // granule) * granule
     extra = {}
-    if profile == MINI_AUDIT_PROFILE:
+    if profile == ACTION_SELECTION_PROFILE:
+        bound = state["recursive_inputs"]["resources"]
+        copied = [state["files"][name]["bytes"] for name in bound["copied_paths"]]
+        rewrites = bound["copy_rewrite_bounds"]
+        growth = max(rounded(size) - rounded(state["files"][name]["bytes"])
+                     for name, size in rewrites.items())
+        # One copy tree survives each reset; never multiply by68 incarnations.
+        # A text transform, grep report and both full-script heredoc spools are
+        # charged concurrently. The one JSON/append rewrite replaces its file.
+        sizes = (*copied, bound["transform_bound_bytes"], bound["report_file_bound"],
+                 *bound["spool_bounds"].values())
+        copies, files, directories = 1, len(sizes), 10
+        content = sum(sizes) + bound["max_single_copy_growth_bytes"]
+        allocated = sum(map(rounded, sizes)) + growth
+        extra = dict(bound, largest_file_bytes=max(*sizes, *rewrites.values()),
+            max_single_copy_rounded_growth_bytes=growth,
+            capacity_disposition="UNCHANGED_32MIB_PRIVATE_TMP_SERIAL_SINGLE_COPY_TREE")
+    elif profile == MINI_AUDIT_PROFILE:
         # One unchanged original creates a private /tmp repository. Charge the
         # three copied sources, two literal files, every real template copy,
         # 32 fixed Git metadata/object/lock/probe slots and all seven heredoc

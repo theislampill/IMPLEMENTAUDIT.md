@@ -46,4 +46,5 @@ else py_cmd=(py -3); fi
 "${py_cmd[@]}" tests/work-graph-respec-impact-set-cases.py
 "${py_cmd[@]}" tests/work-graph-package-shape-claims-cases.py
 "${py_cmd[@]}" tests/work-graph-mini-audit-loop-cases.py
+"${py_cmd[@]}" tests/work-graph-action-selection-cases.py
 "${py_cmd[@]}" tests/work-graph-readme-effect-cases.py
