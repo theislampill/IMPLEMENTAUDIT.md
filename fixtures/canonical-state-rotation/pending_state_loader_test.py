@@ -39,6 +39,15 @@ COUNTER_MUTATIONS = (
     ("counter_consumed_null", "consumed_version", None),
     ("counter_consumed_missing", "consumed_version", ...),
 )
+STATE_COUNTER_MUTATIONS = (
+    ("state_revision_negative", "revision", -1),
+    ("state_signals_negative", "signals", -1),
+    ("state_signals_boolean", "signals", True),
+    ("state_signals_string", "signals", "0"),
+    ("state_unresolved_signal_negative", "unresolved_signal_version", -1),
+    ("state_unresolved_signal_boolean", "unresolved_signal_version", True),
+    ("state_unresolved_signal_string", "unresolved_signal_version", "0"),
+)
 POSITIVE_CASES = {"absent_store", "absent_leaf", "valid_pending", "valid_empty",
                   "valid_consumed", "valid_unconsumed", "finite_proof_number"}
 NUMBER_CASES = {"finite_proof_number": b"1.25", "overflow_proof_number": b"1e400",
@@ -119,6 +128,10 @@ def prepare_case(owner, fixture, case):
     path = owner.state_path(store, SESSION)
     require(path.is_relative_to(case_root), "pending fixture escaped its private case")
     state = base_state()
+    state_mutations = {name: (field, value) for name, field, value in STATE_COUNTER_MUTATIONS}
+    if case in state_mutations:
+        field, value = state_mutations[case]
+        state[field] = value
     if case == "absent_store":
         return case_root, store, None
     path.parent.mkdir(mode=0o700, parents=True)
@@ -215,7 +228,8 @@ def run(root, fixture, cases=None):
                  "dangling_leaf", "dangling_ancestor", "aliased_absent_leaf",
                  "nondirectory_ancestor", "directory_leaf", "hardlinked_leaf", "fifo_leaf",
                  "valid_empty", "valid_consumed", "valid_unconsumed",
-                 *(name for name, _, _ in COUNTER_MUTATIONS), *NUMBER_CASES)
+                 *(name for name, _, _ in COUNTER_MUTATIONS), *NUMBER_CASES,
+                 *(name for name, _, _ in STATE_COUNTER_MUTATIONS))
         physical_cases = {"dangling_leaf", "dangling_ancestor", "aliased_absent_leaf",
                           "nondirectory_ancestor", "directory_leaf", "hardlinked_leaf", "fifo_leaf"}
         for case in cases:

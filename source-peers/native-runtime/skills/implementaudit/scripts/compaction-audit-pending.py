@@ -220,6 +220,9 @@ def load(store, session):
         raise Refusal('PENDING_STATE_JSON') from exc
     require(isinstance(value, dict), 'PENDING_STATE_SHAPE')
     require(set(blank(session)) <= set(value) <= set(blank(session)) | {'current_assignment', 'successor_stage', 'successor_assignment'} and value['schema'] == SCHEMA and (value['session_id'] == session) and (type(value['revision']) is int) and isinstance(value['observations'], dict) and isinstance(value['assignments'], dict), 'PENDING_STATE_SHAPE')
+    require(all(type(value[key]) is int and value[key] >= 0
+                for key in ('revision', 'signals', 'unresolved_signal_version')),
+            'PENDING_STATE_COUNTERS')
     for item in value['observations'].values():
         require(isinstance(item, dict) and type(item.get('version')) is int and item['version'] > 0
                 and type(item.get('consumed_version')) is int
