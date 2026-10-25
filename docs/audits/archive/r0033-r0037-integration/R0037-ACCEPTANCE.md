@@ -1115,3 +1115,66 @@ families, 17 terminal criteria and 15 host-turn conditions** retain their
 separate dispositions. The platform-refused task remains excluded. Existing
 ordinary-task, selective-invalidation and package evidence is reused at its
 original identities. R0037 remains OPEN.
+
+## M05 consequential-residual discriminator: first actual three-call episode
+
+One finite M05 carrier has now executed for the first time and received an
+independent `PASS_BOUNDED` assessment. The actual subject remains public
+composite source `8dd311c2890068b83a8fbf5ccc7b5104be9deb95` and the retained
+runtime checkout `6d4eaa38e0a0772190b242f6774c6899d3a02c6c`, tree
+`23cae2e467bb885d3f2f692bbd69d4a62ebff90c`. The executing
+`validate-run-root.sh` is 113,863 bytes, SHA-256
+`66c0f6d3df8c0f1702864055f3fcc4ee3cf5403982de81fba71389cdc5860283`.
+
+| Original product call | Actual outcome | Bounded interpretation |
+| --- | --- | --- |
+| Constructed resolved record through current helper | Exit 0; exact bounded acceptance output; empty stderr | The selected completed-record control is accepted. |
+| Same record after its one declared residual disposition cell becomes unresolved | Exit 1; empty stdout; exact consequential-residual refusal | The current predicate refuses the intended unresolved input. |
+| Same unresolved physical input through the private single-predicate-removal mutant | Exit 0; the positive's acceptance output; empty stderr | The mutant incorrectly accepts and fails the unchanged designated refusal oracle. |
+
+The designated mutant failure is retained as a failed refusal oracle, not
+classified as a production defect or repaired into a passing mutant. There is
+no product patch in this M05 episode. Only the declared STATE disposition cell
+changes between the positive and negative. The negative's ending snapshot and
+the mutant's starting snapshot are identical, including physical identities.
+All 47 authored files retain byte and physical custody; all 18 selected Git
+snapshots are identical. The recorded population is three product calls and six
+Git checks, with no recorded product retry, timeout or unexpected capture failure.
+
+The unexecuted predecessor had an independent `GAP-REVISE`: its recorder lacked
+an enforced comparison between consecutive calls. A separate recorder-only
+same-byte replacement control reproduced that weakness. The successor requires
+physical and selected Git continuity before process launch, explicitly binds
+the one permitted cell transition, and passed the same recorder-only control.
+Its manifest/Git test seams are disclosed and supply no product or native
+evidence. The predecessor packet and review remain unchanged. The corrected
+prospective packet and independent review were preserved before first product
+execution; no favourable replay replaced an earlier M05 execution.
+
+Actual packet: `7b6302af1817ff043231358210164fe8bb37f8b8aeabfc74ce0bfe7c201976eb`
+(225 files, 3,079,809 bytes). Independent actual report:
+`76be30ad10371f6d0e29560c9b58b177d11c94f5c8b78ce24d71de7d28ff9556`;
+receipt: `cc69f489bd1ccc4ac98c0d7fd798f1c87d7dce137144005c5ad5c638dfdd59f5`.
+The independent assessment read the original records without invoking the
+product, fixture, original oracle, recorder control or test bank again.
+
+Receiving applicability is separate from execution identity. The recorded
+8dd-to-abb comparison and subsequent abb-to-`717b9831ce9b466205344bf087bea8be019ff984`
+comparison do not change any of the 26 selected inputs. The latter changes two
+other fixture paths. Owned donor `48780eba` has a byte-different helper
+(`b996927d7b2659a14549909ecb0707a3e035362c5054f7ba7b748a29199da81b`):
+its sole difference removes an epoch-correction allowance inside a heading
+guard absent from all three captured STATE inputs. The entire composed
+disposition body and residual-refusal predicate are byte-identical. The
+independent applicability note supports that static path inference; it is not
+an owned-donor runtime verdict or a relabelling of this episode as execution on
+the newer composite. Applicability receipt:
+`6cb402b9710ee552b87b8588464f14a66b9e83f037f0354857db17fdebc35a35`.
+
+This establishes the finite consequential-residual discriminator within the
+original M05 family. It does not establish full M05 acceptance, actual semantic
+resolution of a residual, native authenticated child events, Stop, accepted
+JOIN, protected UNKNOWN reconciliation, or complete L1–L5 lifecycle acceptance.
+The original 36 nested cases, 14 mutation families, 17 terminal criteria and 15
+host-turn conditions retain their separate obligations and judgments. Earlier
+actor, host and evidence failures remain preserved; neither work order closes.

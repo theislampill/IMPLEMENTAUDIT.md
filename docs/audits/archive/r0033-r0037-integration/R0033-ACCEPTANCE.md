@@ -1064,3 +1064,15 @@ READY/JOIN and successor-frontier ownership are untouched. R0033 remains OPEN
 with its seven criteria and 45 routing cases: native selection, OPEN, verified
 LOAD/use, RETURN, actual result acceptance and covered-scope pending
 consumption each still require their own receiving evidence.
+
+## Historical receiver continuation and descriptor-capture correction
+
+The interrupted H42-1 source correction and its original evidence were recovered intact. The former receiver supplied an older segment endpoint as the historical owner's live-tip anchor. The preserved actual v1 refused with `HISTORY_CURRENT_TIP_MISMATCH`; its corrected inner segment returns exact G0001 → G0002 under live G0003; an expressly stale live anchor still refuses. The original14 receiver uses an exact proposed R0039 owner-source profile, keeps history-only authority, and preserves native18 validation, contiguous-chain law and the 64-edge bound. R0035 changes only receiving route/compiler pins and paired manifest identities. The foreign producer remains a separately qualified proposal.
+
+That historical episode's constructed, unissued predecessor has a disclosed structural-validation seam and stops after the real inner segment returns, before downstream child/host admission. Its successful bounded path is retained without replay. The initial five controls and new registered forwarding guard retain their original execution identities.
+
+Independent review then found H44-1: the newly used capture path could block when a regular owner source was replaced by a FIFO between `lstat` and blocking open. A separate actual-function discriminator reproduced that hang under an explicit post-lstat schedule; a two-second watchdog terminated only the owned probe. Its stable regular control returned the exact original bytes. This new source failure does not replace the historical episode.
+
+The existing R0033 `child_delivery_snapshot` now opens with available nonblocking/no-follow flags, validates the descriptor's regular single-link physical identity before reading, preserves its exact source bound and closing comparisons, and closes a descriptor even on refusal. Under the same discriminator the FIFO replacement now promptly returns the existing `UNAVAILABLE` / `PENDING` result with no authority; stable regular input still returns its exact bytes. A focused maintained two-control regression passes and is registered in the existing internal-skill test owner.
+
+The donor route is 380,233 bytes, SHA-256 `211286694a21be4040a609eed7854d324812c4b1f99cc8ab09ba2306c2ddcd1b`; its receiving compiler is `d3a958548fbeaacdf7f64243e3af3e5daa912471dd8a6e10141b4246ffec4cb1`. The separately derived composite proposal has its own identities and is not silently substituted into a current composite. No original episode is rerun to erase a failure. These results prove bounded ordinary receiving/capture behavior, not native authenticated selection, OPEN, full LOAD, original RETURN, acceptance, JOIN, covered-version consumption, full recovery or original-work-order closure.

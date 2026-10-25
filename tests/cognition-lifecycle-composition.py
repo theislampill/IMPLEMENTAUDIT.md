@@ -62,17 +62,159 @@ def retained_source_map_controls(source):
     return len(cases)
 
 
+def original14_history_no_invocation_controls(source):
+    """Constructed receiving inputs must refuse before calling an unknown CLI."""
+    with tempfile.TemporaryDirectory(prefix='r33-history-profile-') as raw:
+        repo = Path(raw)
+        scripts = repo / 'scripts'
+        scripts.mkdir()
+        captured = scripts / 'route-transaction.py'
+        captured.write_bytes(source.read_bytes())
+        (scripts / 'route_request_policy.py').write_bytes(source.with_name('route_request_policy.py').read_bytes())
+        (scripts / 'claim-run.sh').write_text('# deliberately unsupported owner source\n')
+        route = load('original14_history_no_invocation_owner', captured)
+        run = repo / '.IMPLEMENTAUDIT/runs/history'
+        run.mkdir(parents=True)
+        foreign = repo / 'foreign/history'
+        foreign.mkdir(parents=True)
+        controller, claim = 'constructed-history', 'a' * 32
+        prefix = 'refs/implementaudit/continuity-receipts/' + controller + '/'
+        token = prefix + 'G0002@' + 'b' * 40
+        current = prefix + 'G0003@' + 'c' * 40
+        fields = ['implementaudit.continuity-receipt.v3', controller, claim,
+            '.IMPLEMENTAUDIT/runs/history', 'G0002', 'd' * 40,
+            'refs/implementaudit/current-generations/' + controller, 'e' * 40,
+            *(['f' * 64] * 4), 'constructed action', prefix + 'G0001@' + 'a' * 40]
+        original = route.subprocess.run
+        calls = []
+
+        def forbid(*args, **kwargs):
+            calls.append(args)
+            raise AssertionError('unsupported historical owner must not be invoked')
+
+        route.subprocess.run = forbid
+        try:
+            cases = (
+                ('missing-enclosing-tip', None, str(run), 'requires its enclosing current receipt'),
+                ('foreign-full-root', current, str(foreign), 'identity is malformed or foreign'),
+                ('unsupported-owner-profile', current, str(run), 'owner source profile is unsupported'),
+            )
+            for name, tip, explicit_root, error in cases:
+                output, code = io.StringIO(), 0
+                with contextlib.redirect_stdout(output):
+                    try:
+                        route.original14_retained_predecessor_v1(repo, token, fields,
+                            controller=controller, claim=claim, run_identity=run.name,
+                            generation='G0002', current_receipt=tip, explicit_run_root=explicit_root)
+                    except SystemExit as exc:
+                        code = exc.code
+                result = json.loads(output.getvalue())
+                assert code == 2 and result['decision'] == 'REQUIRED'
+                assert result['advance_allowed'] is False and error in result['error']
+                assert calls == [], (name, calls)
+                assert sorted(path.name for path in run.parent.iterdir()) == ['history']
+                print('PASS original14-history-' + name + '-without-owner-call')
+        finally:
+            route.subprocess.run = original
+    return len(cases)
+
+
+def retained_history_tip_forwarding_control(source):
+    """Constructed structural seams; exercise real outer/inner tip forwarding."""
+    route = load('retained_history_tip_forwarding_owner', source)
+    controller, claim = 'constructed-tip', 'a' * 32
+    repo = Path('/constructed-history-tip')
+    run = str(repo / '.IMPLEMENTAUDIT/runs/example')
+    prefix = 'refs/implementaudit/continuity-receipts/' + controller + '/'
+    receipts = {number: prefix + f'G{number:04X}@' + str(number) * 40 for number in (1, 2, 3)}
+    predecessor = {'controller_id': controller, 'claim_id': claim, 'explicit_run_root': run,
+        'host_id': 'constructed-host', 'host_session_id': 'constructed-session',
+        'decision': 'REQUIRED', 'route_state': 'UNSATISFIED', 'child_lifecycle_owned': False,
+        'continuity_generation': 'G0001', 'continuity_receipt': receipts[1],
+        'host_binding_generation': 'G0001', 'obligation_id': 'constructed-old-obligation',
+        'route_transaction_id': 'constructed-old-transaction',
+        'boundary': {'event_id': 'constructed-old-event', 'digest': 'sha256:' + '1' * 64}}
+    retained = {**predecessor, 'continuity_generation': 'G0002', 'continuity_receipt': receipts[2],
+        'host_binding_generation': 'G0002', 'obligation_id': 'constructed-retained-obligation',
+        'route_transaction_id': 'constructed-retained-transaction', 'predecessor_record_oid': 'a' * 40,
+        'boundary': {'event_id': 'constructed-retained-event', 'digest': 'sha256:' + '2' * 64}}
+    current = {'claim_id': claim, 'explicit_run_root': run,
+               'continuity_generation': 'G0003', 'continuity_receipt': receipts[3]}
+    args = argparse.Namespace(controller=controller, host_id='constructed-host',
+                              host_session_id='constructed-session', binding_generation='G0003')
+    observed = []
+    route.validate_canonical_route_record_bytes = lambda *a, **k: None
+    route.candidate_request_from_record = lambda *a, **k: {}
+    route.validate_route_record_semantics = lambda *a, **k: None
+    route.git_blob_bytes = lambda repo, oid, *a, **k: (
+        json.dumps(predecessor).encode() if oid == 'a' * 40 else b'constructed terminal receipt')
+    route.canonical_ref_oid = lambda repo, ref, *a, **k: '1' * 40
+
+    def owner_link(repo, token, **context):
+        assert token == receipts[2] and context['generation'] == 'G0002'
+        assert context['current_receipt'] == receipts[3], 'historical endpoint replaced live owner tip'
+        assert context['explicit_run_root'] == run
+        observed.append(context)
+        return receipts[1]
+
+    route.validated_v3_predecessor = owner_link
+    actual_chain = route.validate_terminal_continuity_chain
+
+    class SegmentObserved(Exception):
+        pass
+
+    def stop_after_segment(*a, **context):
+        assert context['current_generation'] == 'G0002' and context['current_receipt'] == receipts[2]
+        assert actual_chain(*a, **context) == [('G0001', receipts[1]), ('G0002', receipts[2])]
+        raise SegmentObserved()
+
+    route.validate_terminal_continuity_chain = stop_after_segment
+    original_run = route.subprocess.run
+
+    def forbid(*a, **k):
+        raise AssertionError('constructed forwarding guard must not execute a process')
+
+    route.subprocess.run = forbid
+    try:
+        try:
+            route.require_active_route_recovery(repo, str(repo / '.git'), args, current, {},
+                'b' * 40, retained, 'REQUIRED', 'MECHANICALLY_REQUIRED', 'new-obligation', 'new-transaction')
+        except SegmentObserved:
+            pass
+        else:
+            raise AssertionError('historical segment was not observed')
+    finally:
+        route.subprocess.run = original_run
+    assert len(observed) == 1
+    print('PASS retained-history-segment-preserves-live-owner-tip-forwarding')
+    return 1
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--governor', type=Path, default=ROOT / 'skills/implementaudit')
     parser.add_argument('--retained-source-map-only', action='store_true')
+    parser.add_argument('--original14-history-only', action='store_true')
+    parser.add_argument('--history-tip-forwarding-only', action='store_true')
     args = parser.parse_args()
     route_source = ROOT / 'source-peers/route-graph/skills/implementaudit/scripts/route-transaction.py'
+    if args.history_tip_forwarding_only:
+        count = retained_history_tip_forwarding_control(route_source)
+        print(json.dumps({'controls': count, 'scope': 'CONSTRUCTED_RETAINED_SEGMENT_FORWARDING',
+                          'native_authority': False}, sort_keys=True))
+        return
+    if args.original14_history_only:
+        count = original14_history_no_invocation_controls(route_source)
+        print(json.dumps({'controls': count, 'scope': 'CONSTRUCTED_ORIGINAL14_NO_INVOCATION',
+                          'native_authority': False}, sort_keys=True))
+        return
     count = retained_source_map_controls(route_source)
     if args.retained_source_map_only:
         print(json.dumps({'controls': count, 'scope': 'RETAINED_SOURCE_MAP_VALUES_ONLY',
                           'native_authority': False}, sort_keys=True))
         return
+    count += original14_history_no_invocation_controls(route_source)
+    count += retained_history_tip_forwarding_control(route_source)
     scripts = args.governor.resolve() / 'scripts'
     support = load('support_fixtures', ROOT / 'tests/evidential-support-cases.py')
     yields = load('yield_fixtures', ROOT / 'tests/nonterminal-yield-cases.py')
