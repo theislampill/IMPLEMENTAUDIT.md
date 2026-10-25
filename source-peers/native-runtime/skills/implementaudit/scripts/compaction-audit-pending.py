@@ -193,6 +193,11 @@ def load(store, session):
     if not isinstance(value, dict):
         CORE.fail('compaction audit pending state is not an object')
     require(set(blank(session)) <= set(value) <= set(blank(session)) | {'current_assignment', 'successor_stage', 'successor_assignment'} and value['schema'] == SCHEMA and (value['session_id'] == session) and (type(value['revision']) is int) and isinstance(value['observations'], dict) and isinstance(value['assignments'], dict), 'PENDING_STATE_SHAPE')
+    for item in value['observations'].values():
+        require(isinstance(item, dict) and type(item.get('version')) is int and item['version'] > 0
+                and type(item.get('consumed_version')) is int
+                and 0 <= item['consumed_version'] <= item['version'],
+                'PENDING_OBSERVATION_COUNTERS')
     return value
 
 def save(store, state):

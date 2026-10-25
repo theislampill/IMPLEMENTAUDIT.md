@@ -719,3 +719,64 @@ post-return currentness/decision binding and covered-scope consumption remain at
 their existing receiving gates. R0035 alone owns graph/READY/JOIN/frontier; no
 other-owner source was imported and no native result or pending consumption is
 claimed by these checks.
+
+
+## Stored observation counters must not erase pending work
+
+Original #207 amendment5349224694/case28 requires mechanically malformed durable
+state to block affected advancement. The public a7fb4fe4 reader admitted untyped
+stored counters before comparing version with consumed_version. In the retained
+new predecessor discriminator, consumed NaN and boolean true each made status
+return NO_PENDING_AUDIT with decisions unheld; both resume calls accepted and
+rewrote malformed state. Four expected refusal failures across eight actual
+processes remain RED, with exact restorations and a final genuinely held read.
+RED report SHA-256:
+`d5c5f77317783d2221773d784b8097b32f042f427ec90b07406f6507f592b266`.
+
+Only a five-line loop in pending load() changes runtime behavior. Every stored
+observation must be an object with an exact integer version greater than zero
+and an exact integer consumed_version in the inclusive interval zero..version.
+This agrees with existing producers and the episode-export consumer. Invalid
+counters return PENDING_OBSERVATION_COUNTERS through the existing refusal.
+Runtime SHA-256:
+`2361a0026d108b551158eb865075912386eddb4878b71316560e46cc3597024d`.
+The source manifest retains original semantic-owner/projection provenance and
+changes only this entry's current bytes, digest and additive delta description.
+
+The frozen, unchanged test passed25 focused controls across30 actual processes:
+five positives and20 malformed status/resume cases. All20 refuse with exit2,
+PENDING_OPERATION_REFUSED, the exact counter reason, no decision and unchanged
+complete-store snapshots. Retained before/after bytes corroborate each refusal.
+Guarded held/absent reads retain four/three custody reads, zero observations and
+zero writes. A real resume preserves an integer successor. Constructed2/1 and2/2
+counter intervals prove value handling only, not accepted native consumption.
+GREEN report SHA-256:
+`fcc508841cbc4eddc44cd7e1ce8ebf5c05fce7d079dade85565bca309289c265`.
+Tested author test SHA-256:
+`ad0e10d63e810eb79ebb09d70e3fdacf687300a2c85e25e05b7e08494816552f`.
+Author report SHA-256:
+`c9367910651cd09c6d3bb986d3af3104eebff56af5def1ae2ca00a84e183bac0`.
+
+One further five-process receiving check on source-only checkpoint
+`2dccd7cbc7fb7866caff46ced84b4338c51a5b85` preserves held/unassigned state
+and refuses reservation at NONPROTECTED_FIXED_SELECTION_UNBOUND. Host activation
+is explicitly false. The integrated test adds exactly its four-owner tuple to
+all five unchanged historical profiles; unknown profiles still refuse. Its test
+identity therefore differs from the author-tested file by that tuple alone.
+The exact final source, independent review, package/copy and hosted-CI identities
+belong to the publication receipt; this paragraph is not an advance claim of them.
+
+The pre-publication environment change left earlier unpublished candidate
+286c30ee and its104 raw process receipts unavailable. Earlier reported review and
+hashes are historical attestations, not recovered bytes or this increment's
+qualification. The present proposal was rebuilt from the public preimage, frozen
+and durably saved in checkpoint28 before its38 new author processes. No lost
+receipt was reconstructed. The prior duplicate/path/crash/routing qualifications
+remain source-bound and were not replayed; original failed evidence is unchanged.
+
+R0033 remains OPEN. This is portable malformed-state consumption qualification,
+not state authentication, comprehensive schema validation, valid rewrite/deletion
+detection, hostile-writer atomicity, power-loss durability, physical occurrence,
+OPEN/full LOAD/use, original RETURN, result acceptance or covered-scope consumption.
+R0035 retains graph/READY/JOIN/frontier ownership. All original populations and
+authority/receiving boundaries remain intact.

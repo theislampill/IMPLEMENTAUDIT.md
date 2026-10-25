@@ -586,6 +586,125 @@ def exercise_stored_json_custody(h):
     require(not failures, "stored JSON refusals failed: " + json.dumps(failures, sort_keys=True))
 
 
+
+def exercise_stored_counter_positives(h):
+    """Real integer producers and nonobserving readers retain their contract.
+
+    The 2/1 and 2/2 rows are value fixtures only. They do not establish an
+    accepted native return, JOIN or consumed-scope event.
+    """
+    original = h.pending.read_bytes()
+    before = h.snapshot()
+    regular = h.call("status", mode="status-guard")
+    state = h.held(regular)
+    require(before == h.snapshot(), "integer counter status wrote state")
+    require(len(state["observations"]) == 1, "counter fixture needs one real observation")
+    identifier, observation = next(iter(state["observations"].items()))
+    require(type(observation["version"]) is int and observation["version"] > 0
+            and type(observation["consumed_version"]) is int
+            and observation["consumed_version"] == 0, "fixture producer emitted invalid counters")
+    h.mark("stored-counter-genuine-integers-held-four-reads-zero-observations-zero-writes")
+
+    retained = h.pending.with_name("retained-counter-positive.pending.json")
+    h.pending.rename(retained)
+    try:
+        before = h.snapshot()
+        absent = h.call("status", mode="status-guard")
+        require(absent["decision"] == "NO_PENDING_AUDIT"
+                and not absent["state_dependent_decisions_held"]
+                and before == h.snapshot(), "absent counter status created state")
+        h.mark("stored-counter-absence-three-reads-zero-observations-zero-writes")
+    finally:
+        retained.rename(h.pending)
+
+    for consumed, expected, held in [(1, "AUDIT_STATE_REQUIRED", True),
+                                      (2, "NO_PENDING_AUDIT", False)]:
+        changed = json.loads(original)
+        changed["observations"][identifier].update(version=2, consumed_version=consumed)
+        wire = (json.dumps(changed, indent=2, sort_keys=True) + "\n").encode()
+        h.pending.write_bytes(wire)
+        try:
+            before = h.snapshot()
+            value = h.call("status")
+            require(value["decision"] == expected
+                    and value["state_dependent_decisions_held"] is held
+                    and value["audit_state_required"] is held
+                    and value["pending"] == ([{"id": identifier, "version": 2,
+                                             "kind": observation["kind"]}] if held else [])
+                    and value["assigned_scope"] == [] and before == h.snapshot(),
+                    "valid value-only counter interval was misread")
+            h.mark("stored-counter-value-only-two-" + str(consumed))
+        finally:
+            h.pending.write_bytes(original)
+    try:
+        resumed = h.call("resume", observation["proof"]["observed_limits"])
+        after = h.held(resumed)
+        successor(state, after)
+        updated = after["observations"][identifier]
+        require(type(updated["version"]) is int and type(updated["consumed_version"]) is int
+                and h.call("status") == resumed, "real successor lost its integer pending state")
+        h.mark("stored-counter-genuine-resume-preserves-integer-successor")
+    finally:
+        h.pending.write_bytes(original)
+    require(h.pending.read_bytes() == original, "positive controls did not restore original bytes")
+
+
+def exercise_stored_counter_refusals(h, selected=None):
+    """Malformed counters cannot hide work or be rewritten by a later resume.
+
+    Removing the load-time domain check must fail these actual status/resume
+    controls. Every mutation changes one counter in a genuinely produced row;
+    all other original bytes/values are restored before the next case.
+    """
+    original = h.pending.read_bytes()
+    state = json.loads(original)
+    require(len(state["observations"]) == 1, "counter fixture needs one real observation")
+    identifier, observation = next(iter(state["observations"].items()))
+    mutations = [
+        ("version-nan", "version", float("nan")),
+        ("version-boolean", "version", True),
+        ("version-float", "version", 1.0),
+        ("version-zero", "version", 0),
+        ("version-negative", "version", -1),
+        ("consumed-nan", "consumed_version", float("nan")),
+        ("consumed-boolean", "consumed_version", True),
+        ("consumed-float", "consumed_version", 0.0),
+        ("consumed-negative", "consumed_version", -1),
+        ("consumed-future", "consumed_version", observation["version"] + 1),
+    ]
+    cases = [(name, key, value, action) for name, key, value in mutations
+             for action in ("status", "resume")]
+    if selected is not None:
+        require(set(selected) <= {name for name, _, _ in mutations}, "unknown counter test selection")
+        cases = [row for row in cases if row[0] in selected]
+    require(cases, "empty counter refusal selection")
+    failures = []
+    for name, key, bad_value, action in cases:
+        case = "stored-counter-" + name + "-refuses-" + action
+        changed = json.loads(original)
+        changed["observations"][identifier][key] = bad_value
+        wire = (json.dumps(changed, indent=2, sort_keys=True) + "\n").encode()
+        h.pending.write_bytes(wire)
+        (h.evidence / (case + ".input")).write_bytes(wire)
+        before = h.snapshot()
+        try:
+            value = h.call(action, {"currentness": "UNRESOLVED", "measured_epoch": None}
+                           if action == "resume" else None, expected_exit=2)
+            require(value["status"] == "PENDING_OPERATION_REFUSED" and "decision" not in value
+                    and value["reason"] == "PENDING_OBSERVATION_COUNTERS",
+                    case + ": malformed counters yielded the wrong result")
+            require(before == h.snapshot(), case + ": refusal changed the actual store")
+            h.mark(case)
+        except AssertionError as error:
+            failures.append({"case": case, "error": str(error)})
+        finally:
+            h.pending.write_bytes(original)
+            require(h.pending.read_bytes() == original, case + ": exact restoration failed")
+    h.held(h.call("status", mode="status-guard"))
+    require(h.pending.read_bytes() == original, "restored counter read changed pending bytes")
+    require(not failures, "stored counter refusals failed: " + json.dumps(failures, sort_keys=True))
+
+
 def source_pins(repo):
     # These are the owners executed/imported by this bounded CLI qualification.
     names = ("compaction-audit-pending.py", "host-session-binding.py", "compaction-result-observation.py",
@@ -599,6 +718,11 @@ def reservation_refusal_profile(pins):
     # differs. Bind the same four source owners recorded by source_pins; do not
     # accept either reason interchangeably or infer it from the response.
     profiles = {
+        ("2361a0026d108b551158eb865075912386eddb4878b71316560e46cc3597024d",
+         "5848edf46581f885521fb677377f4742b630ac8ff0ab0b906ec0e00520fcf896",
+         "1d7b7acaa9d1a481608ebf62ca5be8f30f25af0f5dc56d2bf4e795dce9c67c91",
+         "62558bb209129c66b55d2a97325d16db4aecfd2ecbeb71323dd44070a50f0890"):
+            ("2dccd7cbc7fb7866caff46ced84b4338c51a5b85", "NONPROTECTED_FIXED_SELECTION_UNBOUND"),
         ("50a67ea76a0c261627ff1a488f3916d33567404ed2d6b4fd068c909730d173f1",
          "5848edf46581f885521fb677377f4742b630ac8ff0ab0b906ec0e00520fcf896",
          "1d7b7acaa9d1a481608ebf62ca5be8f30f25af0f5dc56d2bf4e795dce9c67c91",
@@ -664,6 +788,8 @@ def main():
         exercise(h, profile["expected_reason"])
         exercise_path_custody(h)
         exercise_stored_json_custody(h)
+        exercise_stored_counter_positives(h)
+        exercise_stored_counter_refusals(h)
         require(source_pins(repo) == pins, "actual source owners changed during qualification")
         report["result"] = "PASS"
     except Exception as error:
