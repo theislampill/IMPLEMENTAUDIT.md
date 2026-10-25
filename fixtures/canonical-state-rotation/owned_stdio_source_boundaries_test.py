@@ -12,6 +12,7 @@ import copy
 import hashlib
 import importlib.util
 import json
+import os
 from pathlib import Path
 import sys
 import tempfile
@@ -346,10 +347,59 @@ class PublicTurnControls(unittest.TestCase):
             def changed(value):
                 calls.append(value)
                 if len(calls) == 2:
-                    path.write_bytes(path.read_bytes().replace(b'public 1', b'public X'))
+                    # This callback runs after the content reread. Make this
+                    # final-metadata control independent of timestamp ticks.
+                    before = path.stat()
+                    raw = path.read_bytes()
+                    changed_raw = raw.replace(b'public 1', b'public X')
+                    self.assertNotEqual(changed_raw, raw)
+                    path.write_bytes(changed_raw)
+                    os.utime(path, ns=(before.st_atime_ns, before.st_mtime_ns + 1_000_000_000))
+                    self.assertNotEqual(path.stat().st_mtime_ns, before.st_mtime_ns)
                 return original(value)
-            with patch.object(OBS, 'physical', changed), self.assertRaises(ValueError):
+            with patch.object(OBS, 'physical', changed), self.assertRaisesRegex(ValueError, 'OWNED_STDIO_PUBLIC_PREFIX_CHANGED'):
                 read(context, 'parent', selected)
+            self.assertEqual(len(calls), 2)
+
+    def test_prefix_reread_refuses_changed_bytes_with_unchanged_size_and_mtime(self):
+        with tempfile.TemporaryDirectory(dir=HERE) as directory:
+            path, context, selected = fixture(Path(directory), rows())
+            original_open = Path.open
+            seeks = []
+            case = self
+
+            class MutatingReader:
+                def __init__(self, stream):
+                    self.stream = stream
+                def __getattr__(self, name):
+                    return getattr(self.stream, name)
+                def __enter__(self):
+                    return self
+                def __exit__(self, *args):
+                    return self.stream.__exit__(*args)
+                def seek(self, *args):
+                    seeks.append(args)
+                    if len(seeks) == 2:
+                        before = path.stat()
+                        with original_open(path, 'r+b', buffering=0) as output:
+                            raw = output.read()
+                            changed_raw = raw.replace(b'public 1', b'public X')
+                            case.assertNotEqual(changed_raw, raw)
+                            output.seek(0)
+                            output.write(changed_raw)
+                        os.utime(path, ns=(before.st_atime_ns, before.st_mtime_ns))
+                        after = path.stat()
+                        case.assertEqual((after.st_size, after.st_mtime_ns),
+                                         (before.st_size, before.st_mtime_ns))
+                    return self.stream.seek(*args)
+
+            def changed_open(target, *args, **kwargs):
+                stream = original_open(target, *args, **kwargs)
+                return MutatingReader(stream) if target == path and args == ('rb',) else stream
+
+            with patch.object(Path, 'open', changed_open), self.assertRaisesRegex(ValueError, 'OWNED_STDIO_PUBLIC_PREFIX_CHANGED'):
+                read(context, 'parent', selected)
+            self.assertEqual(len(seeks), 2)
 
 
     def test_original_native_public_confirmation_stays_mandatory(self):
