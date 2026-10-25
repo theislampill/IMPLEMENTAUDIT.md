@@ -30,6 +30,7 @@ fi
 "${py_cmd[@]}" - "$repo_root" "$authority_root" "$BASH" "$census_only" <<'PY'
 import os
 import ast
+import io
 import json
 import hashlib
 import re
@@ -41,6 +42,7 @@ import tempfile
 import threading
 import time
 import types
+import tokenize
 from pathlib import Path
 from pathlib import PurePosixPath
 
@@ -379,7 +381,7 @@ def captured_python_library(helper, content):
 
 def captured_shell_companion(helper, content):
     # Recognize the reviewed buffer launcher as an actual shell command. Do not
-    # admit arbitrary -c text or a filename mention. The AST pin excludes only
+    # admit arbitrary -c text or a filename mention. The token pin excludes only
     # the two separately checked companion identity literals; it is source
     # reachability evidence, not runtime custody or native admission.
     if helper != "claim-run-rotation.py":
@@ -388,20 +390,34 @@ def captured_shell_companion(helper, content):
     if match is None or not re.search(r'rotation_py=\((?:python3?|py -3)\)', content):
         return False
     try:
-        tree = ast.parse(match.group(1))
+        code = match.group(1)
+        tree = ast.parse(code)
     except SyntaxError:
         return False
-    constants = {}
+    constants, spans = {}, []
+    offsets = [0]
+    for line in code.splitlines(keepends=True):
+        offsets.append(offsets[-1] + len(line))
     for node in tree.body:
-        if isinstance(node, ast.Assign) and isinstance(node.value, ast.Constant):
+        if isinstance(node, ast.Assign) and len(node.targets) == 1 and isinstance(node.value, ast.Constant):
             for target in node.targets:
                 if isinstance(target, ast.Name) and target.id in {"expected_bytes", "expected_sha256"}:
                     constants[target.id] = node.value.value
-                    node.value = ast.Constant(value="SELECTED_COMPANION_IDENTITY")
+                    value = node.value
+                    spans.append((offsets[value.lineno - 1] + value.col_offset,
+                                  offsets[value.end_lineno - 1] + value.end_col_offset))
+    for start, end in sorted(spans, reverse=True):
+        code = code[:start] + '"SELECTED_COMPANION_IDENTITY"' + code[end:]
+    # Tokenize the actual code, retaining indentation structure. Unlike
+    # ast.dump this does not change when Python adds empty AST fields.
+    ignored = {tokenize.COMMENT, tokenize.NL, tokenize.NEWLINE, tokenize.ENDMARKER}
+    tokens = [(token.type, "" if token.type in (tokenize.INDENT, tokenize.DEDENT) else token.string)
+              for token in tokenize.generate_tokens(io.StringIO(code).readline)
+              if token.type not in ignored]
     raw = projection_payloads["standalone_compatibility"]["scripts/" + helper]
     return (constants == {"expected_bytes": len(raw), "expected_sha256": hashlib.sha256(raw).hexdigest()}
-            and hashlib.sha256(ast.dump(tree, include_attributes=False).encode()).hexdigest()
-            == "7b71f355820276b53a41020fb82d09453bb9c930b3201ae264e08902020f76c1")
+            and hashlib.sha256(json.dumps(tokens, separators=(",", ":")).encode()).hexdigest()
+            == "a3bfd853e73911a8d6b32ade37dc9cd8df2573ee55e36f95e0c4469dd6491b60")
 
 
 def caller_invokes(helper, content):
