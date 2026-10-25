@@ -556,6 +556,8 @@ its internal `scripts/rotate-canonical-state.py` library owns deterministic
 projection/archive work and captures the physical sibling source before load.
 That library captures and verifies the exact byte count/SHA-256 of
 `scripts/canonical_hot_projection.py` before executing its pure functions.
+It also captures and verifies `scripts/canonical_rotation_inputs.py` for the
+optional native input route; source and issuer admission remain separate gates.
 `scripts/read-canonical-pair.py` is automatically called by the run-root and
 phase validators for pointer-aware derivative snapshots. It calls the native
 claim owner, grants no authority, and never falls back on a refused JOIN.
@@ -568,6 +570,7 @@ Detailed triggers and consequences live in `continuity.md`.
 helper-route: scripts/claim-run-rotation.py|A|canonical-currentness|references/continuity.md#canonical-generations-and-readers|scripts/claim-run.sh|<owner-command> <controller>|claim-owned
 helper-route: scripts/rotate-canonical-state.py|I|canonical-projection|references/continuity.md#canonical-generations-and-readers|scripts/claim-run-rotation.py|none|no-currentness
 helper-route: scripts/canonical_hot_projection.py|I|canonical-projection|references/continuity.md#canonical-generations-and-readers|scripts/rotate-canonical-state.py|none|no-currentness
+helper-route: scripts/canonical_rotation_inputs.py|I|canonical-projection|references/continuity.md#canonical-generations-and-readers|scripts/rotate-canonical-state.py|none|no-currentness
 helper-route: scripts/canonical_custody.py|I|canonical-windows-custody|references/continuity.md#canonical-generations-and-readers|scripts/claim-run-rotation.py|none|no-currentness
 helper-route: scripts/read-canonical-pair.py|A|canonical-validation|references/continuity.md#canonical-generations-and-readers|scripts/validate-run-root.sh|--run-root <run-root> --output <empty-private-directory> --native-guards|derivative-only
 
@@ -592,6 +595,13 @@ resume uses its original boundary/epoch form without migrated tokens.
 | `claim-run.sh --read-resume-state <controller> --role <role> --expected-pointer <pointer-token> --expected-invalidation <invalidation-token>` | pre-resume-evidence |
 | `claim-run.sh --rotate-canonical-state <controller> --owner-map <owner-map>` | rotation-publication |
 | `claim-run.sh --recover-canonical-state <controller>` | rotation-recovery |
+| `claim-run.sh --prepare-c02-correction <controller> --expected-invalidation <invalidation-token> --decision <decision-file>` | correction-proposal |
+| `claim-run.sh --append-c02-correction <controller> --expected-invalidation <invalidation-token> --decision <decision-file>` | correction-append |
+| `claim-run.sh --apply-c02-correction <controller> --correction-record <correction-oid>` | correction-fresh-transition |
+
+Rotation may additionally select `--tokenizer-encoding <encoding-file>` and
+`--native-input` under its exact input contracts. The C02 modes require their
+separate entitled source and issuer; a decision file supplies neither authority.
 
 helper-mode: claim-run.sh|--current-controller|<controller>|controller-custody
 helper-mode: claim-run.sh|--invalidate-continuity|<controller> --boundary <boundary> --event <event>|fresh-invalidation
@@ -605,3 +615,6 @@ helper-mode: claim-run.sh|--resolve-resume-generation|<controller>|pre-resume-ev
 helper-mode: claim-run.sh|--read-resume-state|<controller> --role <role> --expected-pointer <pointer-token> --expected-invalidation <invalidation-token>|pre-resume-evidence
 helper-mode: claim-run.sh|--rotate-canonical-state|<controller> --owner-map <owner-map>|rotation-publication
 helper-mode: claim-run.sh|--recover-canonical-state|<controller>|rotation-recovery
+helper-mode: claim-run.sh|--prepare-c02-correction|<controller> --expected-invalidation <invalidation-token> --decision <decision-file>|correction-proposal
+helper-mode: claim-run.sh|--append-c02-correction|<controller> --expected-invalidation <invalidation-token> --decision <decision-file>|correction-append
+helper-mode: claim-run.sh|--apply-c02-correction|<controller> --correction-record <correction-oid>|correction-fresh-transition

@@ -331,6 +331,13 @@ def captured_python_library(helper, content):
             if ((isinstance(call.func, ast.Name) and call.func.id == "read_regular")
                     or (isinstance(call.func, ast.Attribute) and call.func.attr == "read")):
                 captured.update(target.id for target in node.targets if isinstance(target, ast.Name))
+                # read_regular returns captured bytes followed by file metadata.
+                # Only its first tuple target can supply the executed buffer.
+                if isinstance(call.func, ast.Name) and call.func.id == "read_regular":
+                    captured.update(target.elts[0].id for target in node.targets
+                                    if isinstance(target, ast.Tuple) and len(target.elts) == 2
+                                    and all(isinstance(value, ast.Name) for value in target.elts)
+                                    and target.elts[0].id != target.elts[1].id)
         executed = any(isinstance(call.func, ast.Name) and call.func.id == "exec" and call.args
                        and isinstance(call.args[0], ast.Call) and isinstance(call.args[0].func, ast.Name)
                        and call.args[0].func.id == "compile" and len(call.args[0].args) == 3
@@ -354,6 +361,17 @@ def captured_python_library(helper, content):
                       and any(isinstance(child, ast.Raise) for child in node.body)]
             if not any(all(token in ast.unparse(guard.test) for token in
                            ("len(_source)", "_HOT_PROJECTION_MODULE_BYTES", "sha256(_source)", "_HOT_PROJECTION_MODULE_SHA256"))
+                       for guard in guards):
+                return False
+        if helper == "canonical_rotation_inputs.py":
+            raw = projection_payloads["standalone_compatibility"]["scripts/" + helper]
+            if (constants.get("NATIVE_INPUT_MODULE_BYTES") != len(raw)
+                    or constants.get("NATIVE_INPUT_MODULE_SHA256") != hashlib.sha256(raw).hexdigest()):
+                return False
+            guards = [node for node in nodes if isinstance(node, ast.If)
+                      and any(isinstance(child, ast.Raise) for child in node.body)]
+            if not any(all(token in ast.unparse(guard.test) for token in
+                           ("len(raw)", "NATIVE_INPUT_MODULE_BYTES", "sha256(raw)", "NATIVE_INPUT_MODULE_SHA256"))
                        for guard in guards):
                 return False
         return True
