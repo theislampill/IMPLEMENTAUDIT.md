@@ -6,15 +6,15 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/claim-run.sh",
       "materialized_path": "skills/implementaudit/scripts/claim-run.sh",
-      "bytes": 99730,
-      "sha256": "405ab3853dfb88c007ea2f8f8dd98fb8e9c6e77552b172f2f71a8751364ea20f",
+      "bytes": 104155,
+      "sha256": "bd0c6d2ab1ec8f695fe34e459b25d9344e11c5930d3f62d0919b29d9bc4a44ee",
       "source_commit": "fa14948894f583cc0b4e3be80e9283839c9992b5",
       "source_path": "skills/implementaudit/scripts/claim-run.sh",
       "modified": true,
       "mode": "100644",
       "semantic_owner": "R0011",
       "source_preimage_sha256": "9665ba20e02c02882f3172549e90d78e790c6c0133cd31749a30e1d29c3cc0ce",
-      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted"
+      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; R0039 shell captures and verifies selected companion bytes before execution"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/validate-run-root.sh",

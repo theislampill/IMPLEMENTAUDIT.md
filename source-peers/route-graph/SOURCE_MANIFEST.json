@@ -26,15 +26,15 @@
     },
     {
       "path": "source-peers/route-graph/skills/implementaudit/scripts/compile-work-graph.py",
-      "bytes": 244555,
-      "sha256": "9440433e98c6270dd6b1151ed84023df116d5dadc3f85235dec8185abffce43f",
+      "bytes": 244556,
+      "sha256": "78e519e7839b72d7402e948671dd311904e18d701925ceae04364b1e6081622c",
       "semantic_owner": "R0035",
       "state": "SOURCE_PROPOSAL_NOT_NATIVE_ADMISSION",
       "materialized_path": "skills/implementaudit/scripts/compile-work-graph.py",
       "mode": "100644",
       "modified": true,
       "source_preimage_sha256": "ef000d06a60cec080c0c2fa1838b67729009b04373946634c73d32f7c08229e9",
-      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; composed R0039 native-v3/C02 source candidate; no native admission; R0039 exact-source projection binding receiving candidate; captured buffer and physical-path cache retained",
+      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; composed R0039 native-v3/C02 source candidate; no native admission; R0039 exact-source projection binding receiving candidate; captured buffer and physical-path cache retained; R0039 selected captured-companion shell source identity",
       "composition_preimage_sha256": "ed1a0361533be2a4e6dd46a2525ab290c6a6bbfc4740dcd353657cb61048e5e1"
     }
   ],

@@ -99,6 +99,25 @@ grep -Eq 'HELPER_REACHABILITY_CENSUS=PASS population=([0-9]+) examined=\1 modes=
     exit 1
   }
 
+for mutation in wrong-buffer missing-digest wrong-owner broken-statement; do
+  shell_capture="$(make_candidate "shell-capture-$mutation")"
+  python - "$shell_capture/skills/implementaudit/scripts/claim-run.sh" "$mutation" <<'PYSHELL'
+from pathlib import Path
+import sys
+path, mutation = Path(sys.argv[1]), sys.argv[2]
+text = path.read_text()
+old, new = {
+    "wrong-buffer": ('exec(compile(raw, str(path), "exec",', 'exec(compile(b"", str(path), "exec",'),
+    "missing-digest": ('hashlib.sha256(raw).hexdigest() != expected_sha256', 'False'),
+    "wrong-owner": ('expected_bytes = 246657', 'expected_bytes = 246658'),
+    "broken-statement": ('exec(compile(raw, str(path), "exec",', 'exec\n(compile(raw, str(path), "exec",'),
+}[mutation]
+assert text.count(old) == 1
+path.write_text(text.replace(old, new))
+PYSHELL
+  expect_fail "shell-capture-$mutation" 'caller does not invoke claim-run-rotation.py: scripts/claim-run.sh' "$shell_capture"
+done
+
 # A progressive stage owner does not replace the declared governor helper edge.
 missing_run_root_edge="$(make_candidate missing-run-root-governor-edge)"
 python - "$missing_run_root_edge" <<'PY'
