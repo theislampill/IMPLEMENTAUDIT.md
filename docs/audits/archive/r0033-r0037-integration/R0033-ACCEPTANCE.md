@@ -885,3 +885,92 @@ selection, physical OPEN/full LOAD/use/RETURN, authenticated result acceptance,
 JOIN, actual physical occurrence, protected durability and covered consumption
 remain separate receiving gates. No full schema, hostile-writer atomicity,
 Windows, power-loss or final combined package claim follows.
+
+## Current retained-route source-map receiving correction
+
+The current composite route producer emits twelve named source digests, while
+its retained unsatisfied-route consumer still admitted only the historical
+four/five-key domains. A new actual producer/value-consumer discriminator on
+PR255 `00341e8059f04791141e59c208f488a28dda0302` retained the refusal:
+`stale unsatisfied route package source digests has the wrong shape`.
+The actual request validator, package/child delivery, route semantic basis and
+semantic reconstruction produced the same constructed record later used for
+the corrected consumer. No route object/ref or native correlation was issued.
+PR255 `8dd311c2890068b83a8fbf5ccc7b5104be9deb95` changes only a release-asset
+budget assertion; the observed runtime inputs remain byte-identical.
+
+The minimum R0033 correction admits the exact complete twelve-key domain.
+The existing five-key domain remains valid; the four-key domain retains its
+unchanged immutable legacy-object allowlist restriction. Partial, foreign-added
+and improperly privileged domains refuse. One private pure value helper owns
+the existing shape/digest check. The enclosing authentication, historical
+object, predicate reconstruction, currentness and correlation gates are
+unchanged. No new source read, original14 bridge, receipt schema, governor,
+dispatcher or effect permission is introduced into this donor.
+
+The existing registered cognition/lifecycle test adds six focused value
+controls and an explicit focused selector. Its one actual selected invocation
+passes legacy-four, legacy-five, current-twelve and the three negative domains.
+One corrected full retained-custody consumer invocation then accepts the exact
+previously refused constructed record; the entire disposable repository's
+content/mode inventory remains unchanged. The prior full test bank is reused,
+not replayed. Record SHA-256:
+`631abcb03c3e6d5b341ed2e1615067298f940312dee2f76e43d3739c3c7084af`;
+request SHA-256:
+`3dda42d809fa66de53d0343810b1330ee62dced3411467a62686f5aa26bfd447`.
+These observations qualify the portable value receiver; they do not establish
+acceptance by its enclosing native route gate.
+
+The selected donor route postimage is 372145 bytes, SHA-256
+`fa8705b9e39f3c5b0f819a9ba146ff2b4b7cfb440da454263f15e9e0f955805d`.
+An explicit receiving composition updates only the R0035 peer compiler's
+two exact route size/digest literals and the two corresponding source-manifest
+rows. Compiler postimage:
+`f07d6396d89f2dc95262d1b532b1da0dfa14ff15794793a040bd3c0982057375`;
+paired manifest:
+`f28e4237d4531d8f06514bbc4fb298300df481f09f1a369bb4f3fc98d8123714`.
+All compiler control flow and every other existing route function are unchanged.
+R0035 retains dispatch, READY, accepted JOIN and successor-frontier ownership.
+This is necessary receiving identity maintenance in this donor, not a write to
+PR246 or adoption of unreviewed R0035 behavior.
+
+The exact composite forward proposal remains separate: route375946 bytes /
+`1bf45fa3104dcde045fcd528d57b601323e9476dcb735afdd88b1c27dde8e9ca`,
+compiler `6602e0962606ea017ec5ad70605ee25c528263b37a983fd519847d491a0eec28`
+and paired manifest
+`50e6f8f3062776dc7b58fe3b1d508560c12d2968d27965d6ed477474cd423919`.
+One independent fixed-sibling source acquisition per distinct pair loaded the
+exact proposed route buffer and left all four bound inputs unchanged. Neither
+call read a current route, controller, host event, dispatch, READY or JOIN.
+The composite's old peer compiler unexpectedly still pinned the donor route;
+the first contrary preparation assertion and its corrected preimage reading
+remain preserved. Neither foreign branch is modified.
+
+Separately, six actual receiving observations use the composite's existing
+original14 currentness bridge and real portable factory/native=false outputs.
+The old donor reader refused the fourteen-field receipt; the exact composite
+reader accepted matching owner-derived fields. Source drift, malformed receipt,
+foreign action and retained-read invalidation controls remain captured. This
+does not add original14 currentness support to this donor or authenticate native
+events. The initial missing-package-material failure and read-only corruption
+injection NONVERDICT remain intact. The sealed six-observation archive is
+1330187 bytes, SHA-256
+`3d243532db0a89b64ee66d438500e330a3eaba2e2af1315ab1d594496ebd3c2c`.
+The separate source-map proposal archive is 707824 bytes, SHA-256
+`45cd8bba5601e0c94576c7fa6544ed2b1f7bbf849a86af8515812aa966015333`.
+
+This source/test/manifest increment changes repository-only route peers and
+ledgers. Shipped runtime, package membership and builder/installer bytes remain
+unchanged; prior package evidence retains its actual input identity and is
+reused. Independent review and exact final publication bindings are recorded
+in the same-PR publication receipt. No new whole-suite or hosted-CI result is
+asserted prospectively.
+
+R0033 remains OPEN with all seven original criteria and 45 routing cases.
+Physical selection, OPEN, full LOAD/use, original RETURN, result acceptance,
+native JOIN and covered-scope pending consumption are not supplied by a source
+map. The original14 historical predecessor function still rejects that receipt
+shape; it is unchanged here. A separate source-owner history producer/receiver
+implementation is in progress, preserving the existing native18 and contiguous
+generation laws. That is portable work, not a native-only blocker or an accepted
+result of this increment.

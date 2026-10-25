@@ -1046,3 +1046,36 @@ L4 recovery or consumer-enforced independent re-audit. Actual helper execution
 does not authenticate assessment, native Stop or performed L1–L5 events. Whole
 H02/M04 and the original **36 nested cases, 14 mutation families, 17 terminal
 criteria and 15 host-turn conditions** remain separate open decisions.
+
+## Retained-continuation source-map compatibility
+
+The current composite route producer's twelve-key source map was refused by
+the existing retained unsatisfied-route consumer's four/five-key shape gate.
+The R0033-owned amendment in this increment admits only the exact current
+domain, preserving both historical domains and the privileged legacy-object
+restriction. It leaves lifecycle predicates, interruption handling, terminal
+disposition, authentication and the sole governor unchanged.
+
+Actual qualification consists of six focused value controls, one full
+constructed retained-custody RED/GREEN comparison, and one independent fixed-
+sibling source acquisition for each distinct donor/composite pair. The exact
+source identities and prior first failures are recorded in the adjacent R0033
+ledger. The R0035 compiler changes only two receiving identity literals; its
+control flow, dispatch, READY/JOIN and frontier semantics remain unchanged.
+Separate composite pins preserve its different route source. No foreign branch
+was written and no composite code was wholesale imported into this donor.
+
+This advances portable retained-continuation source compatibility. It proves
+neither an original nested event nor native result acceptance, authenticated
+Stop, final audit or closure. The fourteen-field predecessor-history mismatch
+is a separate implementable owner/consumer interface and remains uncorrected
+by this source-map amendment. The six composite original14 currentness
+observations retain their actual source scope; they are not donor bridge or
+native lifecycle evidence.
+
+All original **36 nested cases, 14 mutation families, 17 terminal criteria and
+15 host-turn conditions** remain distinct and open. Prior ordinary-task and
+selective-invalidation evidence is reused without replay. The platform-refused
+task remains excluded. Shipped package source is unchanged by these repository-
+only peer/test/ledger changes, so existing package evidence is retained at its
+original identity. R0037 remains OPEN.
