@@ -2,7 +2,7 @@
   "schema_version": 2,
   "package_evidence": {
     "builder_path": "scripts/package-contract.py",
-    "builder_sha256": "f3fa90f6c1e7b75527eddd988a6977f27db669bec337f65ff9c2b1ceae50621f",
+    "builder_sha256": "a516b2e43068b08af96415c9dd1ab4e659fe6a4c2e9b5f696b3359365ab5e203",
     "repo_only_instrumentation": [
       "fixtures/semantic-preservation/cases.json",
       "fixtures/semantic-preservation/evaluate.py",

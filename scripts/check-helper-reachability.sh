@@ -409,15 +409,16 @@ def captured_shell_companion(helper, content):
     for start, end in sorted(spans, reverse=True):
         code = code[:start] + '"SELECTED_COMPANION_IDENTITY"' + code[end:]
     # Tokenize the actual code, retaining indentation structure. Unlike
-    # ast.dump this does not change when Python adds empty AST fields.
+    # ast.dump this does not change when Python adds empty AST fields. Token
+    # numbers also shift between Python versions; retain their symbolic names.
     ignored = {tokenize.COMMENT, tokenize.NL, tokenize.NEWLINE, tokenize.ENDMARKER}
-    tokens = [(token.type, "" if token.type in (tokenize.INDENT, tokenize.DEDENT) else token.string)
+    tokens = [(tokenize.tok_name[token.type], "" if token.type in (tokenize.INDENT, tokenize.DEDENT) else token.string)
               for token in tokenize.generate_tokens(io.StringIO(code).readline)
               if token.type not in ignored]
     raw = projection_payloads["standalone_compatibility"]["scripts/" + helper]
     return (constants == {"expected_bytes": len(raw), "expected_sha256": hashlib.sha256(raw).hexdigest()}
             and hashlib.sha256(json.dumps(tokens, separators=(",", ":")).encode()).hexdigest()
-            == "a3bfd853e73911a8d6b32ade37dc9cd8df2573ee55e36f95e0c4469dd6491b60")
+            == "f6734c9e595d291a34bb7da91e431a6e29e1af6d28caaaa71734f43d3fd3926d")
 
 
 def caller_invokes(helper, content):

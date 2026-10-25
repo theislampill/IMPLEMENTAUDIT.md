@@ -2536,7 +2536,7 @@ def preflight_verifier_pair_file_v1(path):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("mode", choices=["legacy", "dag", "compare", "preflight", "scoped", "registry", "prefix", "prefix24", *_FINITE_MODES])
+    parser.add_argument("mode", choices=["legacy", "dag", "compare", "preflight", "scoped", "registry", "prefix", "prefix24", "composite-prefix", *_FINITE_MODES])
     parser.add_argument("paths", nargs="+", type=Path)
     parser.add_argument("--retain-repro-assets", action="store_true")
     parser.add_argument("--capture-dist", action="store_true")
@@ -2551,14 +2551,15 @@ def main():
             raise WG.WorkGraphError("explicit acquisition options require a legacy or dag capture")
         if args.mode == "preflight" and len(args.paths) == 1:
             return preflight_verifier_pair_file_v1(args.paths[0])
-        if args.mode in {"scoped", "registry", "prefix", "prefix24", *_FINITE_MODES} and len(args.paths) == 2:
-            prefix_mode = args.mode in {"prefix", "prefix24"}
+        if args.mode in {"scoped", "registry", "prefix", "prefix24", "composite-prefix", *_FINITE_MODES} and len(args.paths) == 2:
+            prefix_mode = args.mode in {"prefix", "prefix24", "composite-prefix"}
             finite_mode = args.mode in _FINITE_MODES
             bounded_mode = prefix_mode or finite_mode
             if finite_mode:
                 session = create_finite_leaf_session(*args.paths, profile=_FINITE_MODES[args.mode])
             elif prefix_mode:
-                profile = "COMPOSED_SOURCE_PREFIX_24_V1" if args.mode == "prefix24" else "COMPOSED_SOURCE_PREFIX_23_V1"
+                profile = {"prefix": "COMPOSED_SOURCE_PREFIX_23_V1", "prefix24": "COMPOSED_SOURCE_PREFIX_24_V1",
+                           "composite-prefix": "COMPOSED_COMPOSITE_PREFIX_23_V1"}[args.mode]
                 session = create_composed_prefix_session(*args.paths, profile=profile)
             else:
                 session = {"scoped": VerifierTaskSession, "registry": RegistryVerifierTaskSession}[args.mode](*args.paths)

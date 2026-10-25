@@ -23,6 +23,59 @@ def load(name, path):
 
 
 class CompositeSourceCases(unittest.TestCase):
+    def test_current_pending_fixture_profile_is_exact_and_still_refuses_native_reservation(self):
+        fixture = load("composite_pending_fixture", ROOT / "tests/cognition-pending-durability.py")
+        pins = fixture.source_pins(ROOT)
+        selected = fixture.reservation_refusal_profile(pins)
+        self.assertEqual(selected["qualified_checkpoint"], "5d90c706518cd08f13dfbb2024e806702cae85e9")
+        self.assertEqual(selected["expected_reason"], "NONPROTECTED_PROJECTION_PROFILE_REQUIRED")
+        for name in pins:
+            for missing in (False, True):
+                changed = dict(pins)
+                if missing:
+                    del changed[name]
+                else:
+                    changed[name] = "0" * 64
+                with self.subTest(name=name, missing=missing), self.assertRaises(AssertionError):
+                    fixture.reservation_refusal_profile(changed)
+
+    def test_explicit_current_prefix_preserves_historical_gate(self):
+        prefix = load("composite_prefix", ROOT / "scripts/qualify-work-graph-prefix.py")
+        compiler = load("composite_prefix_compiler", CORE / "compile-work-graph.py")
+        registry = (ROOT / "scripts/verify-package.sh").read_bytes()
+        historical = (ROOT / "fixtures/work-graph-registry/original117.verify-package.sh").read_bytes()
+        self.assertEqual(hashlib.sha256(historical).hexdigest(), prefix.REGISTRY_SHA256)
+        old_graph, old_scope, old_data = prefix.select_prefix(compiler, historical, prefix.ENVIRONMENT)
+        self.assertEqual(len(old_graph["nodes"]), 117)
+        with self.assertRaisesRegex(ValueError, "registry"):
+            prefix.select_prefix(compiler, registry, prefix.ENVIRONMENT)
+        graph, scope, data = prefix.select_prefix(
+            compiler, registry, prefix.ENVIRONMENT, profile="COMPOSED_COMPOSITE_PREFIX_23_V1")
+        self.assertEqual(scope["nodes"], [node["id"] for node in graph["nodes"][:23]])
+        self.assertEqual(data, b"".join(node["source"].encode() for node in graph["nodes"][:23]))
+        self.assertEqual(scope["stop_before"], "COMMAND:scripts/check-added-lines-clean.sh:0")
+        self.assertEqual(scope["registry_sha256"], hashlib.sha256(registry).hexdigest())
+        self.assertEqual(scope["canonical_node_count"], len(graph["nodes"]))
+        self.assertEqual(scope["composition"], "ONE_COMPOSITE_SHELL_GROUP_NO_HISTORICAL_RECEIPT_REUSE")
+        self.assertNotEqual(scope["graph_digest"], old_scope["graph_digest"])
+        self.assertNotEqual(data, old_data)
+        self.assertEqual(scope["historical_receipt_reuse"], "FORBIDDEN")
+        programs = {name: {"sha256": hashlib.sha256((ROOT / name).read_bytes()).hexdigest()}
+                    for name in prefix.PROGRAM_PINS}
+        prefix.validate_programs({"files": programs}, profile="COMPOSED_COMPOSITE_PREFIX_23_V1")
+        with self.assertRaisesRegex(ValueError, "executable"):
+            prefix.validate_programs({"files": programs})
+        programs["scripts/package-contract.py"]["sha256"] = "0" * 64
+        with self.assertRaisesRegex(ValueError, "executable"):
+            prefix.validate_programs({"files": programs}, profile="COMPOSED_COMPOSITE_PREFIX_23_V1")
+        with self.assertRaisesRegex(ValueError, "registry"):
+            prefix.select_prefix(compiler, historical, prefix.ENVIRONMENT,
+                                 profile="COMPOSED_COMPOSITE_PREFIX_23_V1")
+        for changed in (registry + b"\n", registry.replace(b"tests/composite-source.test.sh", b"tests/omitted-source.test.sh")):
+            with self.assertRaisesRegex(ValueError, "registry"):
+                prefix.select_prefix(compiler, changed, prefix.ENVIRONMENT,
+                                     profile="COMPOSED_COMPOSITE_PREFIX_23_V1")
+
     def test_pending_corruption_cannot_erase_obligations(self):
         owner = load("composite_pending", PEER / "compaction-audit-pending.py")
         with tempfile.TemporaryDirectory(prefix="composite-pending-") as temp:

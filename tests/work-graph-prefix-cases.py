@@ -42,6 +42,13 @@ def stat_record(info, **changes):
     return SimpleNamespace(**fields)
 
 
+def historical_program(path):
+    # Historical admission must still consume its original executable bytes.
+    if path == "scripts/package-contract.py":
+        return (ROOT / "fixtures/work-graph-registry/original-package-contract.py").read_bytes()
+    return (ROOT / path).read_bytes()
+
+
 class AdmissionCases(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -91,7 +98,7 @@ class AdmissionCases(unittest.TestCase):
                     self.P.identity(stat_record(original, **{field: invalid}))
 
     def test_original_group_is_exact_source_prefix_without_successor(self):
-        registry = (ROOT / "scripts/verify-package.sh").read_bytes()
+        registry = (ROOT / "fixtures/work-graph-registry/original117.verify-package.sh").read_bytes()
         graph, scope, data = self.P.select_prefix(Q.WG, registry, self.P.ENVIRONMENT)
         self.assertEqual(len(scope["nodes"]), 23)
         self.assertEqual(len(graph["nodes"]), 117)
@@ -223,14 +230,14 @@ class AdmissionCases(unittest.TestCase):
 
     def test_changed_executable_requires_a_reviewed_prefix_contract(self):
         self.assertTrue(callable(getattr(self.P, "validate_programs", None)), "finite executable admission is absent")
-        state = dict(files={n: dict(sha256=Q.sha((ROOT / n).read_bytes())) for n in self.P.PROGRAM_PINS})
+        state = dict(files={n: dict(sha256=Q.sha(historical_program(n))) for n in self.P.PROGRAM_PINS})
         self.P.validate_programs(state)
         state["files"]["scripts/check-readme-toc.sh"]["sha256"] = "0" * 64
         with self.assertRaisesRegex(ValueError, "executable"):
             self.P.validate_programs(state)
 
     def test_prefix24_selects_only_the_next_original_command(self):
-        registry = (ROOT / "scripts/verify-package.sh").read_bytes()
+        registry = (ROOT / "fixtures/work-graph-registry/original117.verify-package.sh").read_bytes()
         try:
             graph, scope, data = self.P.select_prefix(Q.WG, registry, self.P.ENVIRONMENT,
                 profile="COMPOSED_SOURCE_PREFIX_24_V1")
@@ -250,7 +257,7 @@ class AdmissionCases(unittest.TestCase):
     def test_prefix24_pins_both_new_transitive_programs(self):
         paths = set(self.P.PROGRAM_PINS) | {"scripts/check-added-lines-clean.sh",
             "skills/implementaudit/scripts/repo-state.sh"}
-        state = dict(files={n: dict(sha256=Q.sha((ROOT / n).read_bytes())) for n in paths})
+        state = dict(files={n: dict(sha256=Q.sha(historical_program(n))) for n in paths})
         self.P.validate_programs(state, profile="COMPOSED_SOURCE_PREFIX_24_V1")
         for path in ("scripts/check-added-lines-clean.sh", "skills/implementaudit/scripts/repo-state.sh"):
             original = state["files"].pop(path)
