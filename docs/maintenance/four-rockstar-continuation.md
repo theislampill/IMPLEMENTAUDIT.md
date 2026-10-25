@@ -397,3 +397,29 @@ causal qualification, final current-package evidence, authentic receiving and
 original 68/116 acceptance remain separate obligations. All six original
 acceptance decisions across PR251/PR253 remain separate. This record adds no
 runtime change, product-test execution, ActiveGraph run, package build or CI result.
+
+
+## Ordinary-v2 prefix continuation
+
+The previously recorded ordinary-v2 prospective/equality limitation now has a
+bounded source correction at helper
+`f7127b047a04dddc6f9e2ca9ba45a17379f2127e855152370bb35bca47c85c58`.
+Result and journal records preserve completed observations at serialization;
+live output records each later successful publication operation. Exact v2
+shapes and ordinary local admission remain unchanged. A saved target/checkpoint
+status is never proof of that record's own durability.
+
+Reuse the restored predecessor journal REDs and the seven new frozen-candidate
+success/fault/receiving controls, retaining their original failed-operation
+outcomes. The four affected equality consumers require exact prefix and literal
+suffix relations. Protected-v3 semantics are preserved by the bounded whole-AST
+comparison; its completed banks were not replayed. The earlier unpublished
+candidate/raw evidence lost at the environment change is recorded separately,
+with no reconstructed receipts or borrowed PASS.
+
+The exact current source, fresh independent review, package/copy and hosted-CI
+bindings must be taken from the publication receipt. Then perform the warranted
+final-public offline ActiveGraph artifact mission on that exact public package,
+reusing version-bound library controls. Original native self-dogfood, P53,
+C01-C09 recovery/effect authority, R002C caseB, both task NONVERDICTs, R002E's
+policy/receiving boundaries and other-owner graph dispatch remain unchanged.

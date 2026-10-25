@@ -300,6 +300,12 @@ unknown capability, or ambiguous authority yields `UNKNOWN` and
 local work without this dependency omits the flag and carrier entirely.
 
 Ordinary result, authority and journal records retain their exact v2 shapes.
+In both versions, persisted result and journal `actual_effect_set` rows contain
+only observations completed before serialization. Their own later publication
+is absent from that saved prefix; live output adds each publication effect only
+after its syscall succeeds. Successful publication therefore has an exact saved
+prefix plus its completed live suffix. A readable saved target disposition does
+not prove its file or directory sync succeeded; the returned failure governs.
 Protected records use v3 of those same schemas, with separate identity bindings,
 fence disposition and authority-guard evidence; protected results also deny
 automatic retry and terminal closure for `UNKNOWN`. Early protected refusals

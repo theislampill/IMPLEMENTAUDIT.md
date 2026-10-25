@@ -1597,9 +1597,8 @@ def result_record(status, reason_code, residue_paths, effect_rows):
 
 
 def persist_result_record(status, reason_code, residue_paths, replace_existing=False):
-    # Protected v3 files snapshot completed observations. Their publication
-    # effects enter the live result only after the syscalls return. The fixed
-    # v2 contract retains its historical saved/stdout equality.
+    # Persisted files snapshot completed observations. Their publication
+    # effects enter the live result only after the syscalls return.
     result_before = path_identity(RESULT)
     transaction_identity = path_identity(TX)
     if replace_existing:
@@ -1617,8 +1616,6 @@ def persist_result_record(status, reason_code, residue_paths, replace_existing=F
             ]
         )
         payload = result_record(status, reason_code, residue_paths, actual)
-        if payload["schema"] == "implementaudit.observation_bound_mutation.v2":
-            payload["actual_effect_set"].extend(future)
         write_new(RESULT_TMP, canonical(payload), effect_rows=future[:3], sync_parent=False)
         replace(RESULT_TMP, RESULT, effect_rows=future[3:5], sync_parents=False)
         fsync_dir(TX, future[5])
@@ -1632,8 +1629,6 @@ def persist_result_record(status, reason_code, residue_paths, replace_existing=F
             ]
         )
         payload = result_record(status, reason_code, residue_paths, actual)
-        if payload["schema"] == "implementaudit.observation_bound_mutation.v2":
-            payload["actual_effect_set"].extend(future)
         write_new(RESULT, canonical(payload), effect_rows=future[:3], sync_parent=False)
         fsync_dir(TX, future[3])
     return result_record(status, reason_code, residue_paths, actual)
@@ -1774,11 +1769,9 @@ def persist_journal(status, residue_paths=()):
             (TX, "fsync", directory_identity, directory_identity),
         ]
     )
-    # Protected journals snapshot completed observations; publication enters
-    # live actual only after each syscall. Preserve the ordinary v2 convention.
+    # Journals snapshot completed observations; publication enters live
+    # actual only after each syscall returns.
     payload = journal_record(status, residue_paths, actual)
-    if payload["schema"] == "implementaudit.observation-bound-mutation.journal.v2":
-        payload["actual_effect_set"].extend(future)
     data = canonical(payload)
     write_new(JOURNAL_TMP, data, effect_rows=future[:3], sync_parent=False)
     replace(JOURNAL_TMP, JOURNAL, effect_rows=future[3:5], sync_parents=False)

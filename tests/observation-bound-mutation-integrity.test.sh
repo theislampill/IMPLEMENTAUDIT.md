@@ -489,7 +489,19 @@ if r['transaction_id'] is not None and planned:
  result_paths=[key[1] for key,value in roles.items() if 'result' in value]
  if len(result_paths)!=1: raise SystemExit(f'{label}: missing unique result owner')
  result_file=Path(fixture_root)/PurePosixPath(result_paths[0])
- if not result_file.is_file() or json.loads(result_file.read_text(encoding='utf-8'))!=r: raise SystemExit(f'{label}: durable result.json missing or differs from stdout')
+ if not result_file.is_file(): raise SystemExit(f'{label}: durable result.json missing')
+ saved=json.loads(result_file.read_text(encoding='utf-8'))
+ result_path=result_paths[0]; transaction=str(PurePosixPath(result_path).parent)
+ temporary=transaction+'/result.tmp'
+ promoted=any(row['scope']=='repo' and row['path']==temporary and row['effect']=='replace' and row['outcome']=='applied' for row in r['actual_effect_set'])
+ published=temporary if promoted else result_path
+ expected=[('repo',published,effect) for effect in ('create','write','fsync')]
+ if promoted: expected += [('repo',temporary,'replace'),('repo',result_path,'replace')]
+ expected.append(('repo',transaction,'fsync'))
+ suffix=r['actual_effect_set'][-len(expected):]
+ if [(row['scope'],row['path'],row['effect']) for row in suffix]!=expected or any(row['outcome']!='applied' for row in suffix): raise SystemExit(f'{label}: live result lost completed publication effects')
+ if saved['actual_effect_set']!=r['actual_effect_set'][:-len(expected)]: raise SystemExit(f'{label}: durable result is not the exact completed prefix')
+ if {k:v for k,v in saved.items() if k!='actual_effect_set'}!={k:v for k,v in r.items() if k!='actual_effect_set'}: raise SystemExit(f'{label}: durable result changed non-effect semantics')
  for key,rows in actual_rows.items():
   for row in rows:
    if row['outcome']!='applied' or row['effect'] not in {'create','mkdir','link','replace','unlink','rmdir'}: continue
@@ -1366,10 +1378,7 @@ os.fsync=failing_fsync'''
         payload=json.loads(result.stdout)
         fence.assert_result(fixture,result,payload,'COMMITTED','NONE',fence.CANDIDATE,protected=protected)
         fence.assert_stored_schemas(fixture,payload,protected)
-        if protected:
-            fence.assert_observed_result_prefix(fixture,payload)
-        else:
-            require(read_record(saved)==payload,'ordinary v2 final result differs from stdout')
+        fence.assert_observed_result_prefix(fixture,payload)
         require(not journal.exists() and not staged.exists() and not payload['residue'],'clean result retained cleanup residue')
         actual=assert_effects(payload)
         roles={role:row['path'] for row in payload['planned_effect_set'] for role in row['roles']}
@@ -1774,9 +1783,17 @@ print(r['transaction_id'])
 PY
   )" || fail 'R36-AUTHORITY-RESIDUE lacked exact F75 residue JSON'
   [ -f "$run_root/mutation-transactions/$tx/result.json" ] || fail 'R36-AUTHORITY-RESIDUE lacked durable result.json'
-  "$python_bin" - "$stdout" "$run_root/mutation-transactions/$tx/result.json" <<'PY' || fail 'R36-AUTHORITY-RESIDUE durable result differs from stdout'
+  "$python_bin" - "$stdout" "$run_root/mutation-transactions/$tx/result.json" <<'PY' || fail 'R36-AUTHORITY-RESIDUE lost exact completed prefix/publication suffix'
 import json,sys
-if json.load(open(sys.argv[1],encoding='utf-8')) != json.load(open(sys.argv[2],encoding='utf-8')): raise SystemExit(1)
+from pathlib import PurePosixPath
+live=json.load(open(sys.argv[1],encoding='utf-8')); saved=json.load(open(sys.argv[2],encoding='utf-8'))
+result=next(row['path'] for row in live['planned_effect_set'] if 'result' in row['roles'])
+parent=str(PurePosixPath(result).parent)
+expected=[('repo',result,effect) for effect in ('create','write','fsync')]+[('repo',parent,'fsync')]
+suffix=live['actual_effect_set'][-4:]
+if [(row['scope'],row['path'],row['effect']) for row in suffix]!=expected or any(row['outcome']!='applied' for row in suffix): raise SystemExit('live direct publication suffix differs')
+if saved['actual_effect_set']!=live['actual_effect_set'][:-4]: raise SystemExit('saved result is not exact completed prefix')
+if {k:v for k,v in saved.items() if k!='actual_effect_set'}!={k:v for k,v in live.items() if k!='actual_effect_set'}: raise SystemExit('non-effect result fields differ')
 PY
 
   # Result persistence can itself fail after creating result.json. Stdout must
@@ -1855,7 +1872,15 @@ r=json.loads(lines[0]); paths={x['path'] for x in r['residue']}
 if r['status']!='ROLLBACK_FAILED_WITH_RESIDUE' or r['reason_code']!='GATE_RELEASE_FAILURE': raise SystemExit(r)
 if not any(x.endswith('/.r36-locks/namespace.gate') for x in paths): raise SystemExit(paths)
 durable=Path(sys.argv[2])/'mutation-transactions'/r['transaction_id']/'result.json'
-if not durable.is_file() or json.loads(durable.read_text(encoding='utf-8'))!=r: raise SystemExit('durable gate-release adjudication differs from stdout')
+if not durable.is_file(): raise SystemExit('durable gate-release adjudication missing')
+saved=json.loads(durable.read_text(encoding='utf-8'))
+result=next(row['path'] for row in r['planned_effect_set'] if 'result' in row['roles'])
+parent=str(Path(result).parent).replace('\\','/')
+expected=[('repo',result,effect) for effect in ('create','write','fsync')]+[('repo',parent,'fsync')]
+suffix=r['actual_effect_set'][-4:]
+if [(row['scope'],row['path'],row['effect']) for row in suffix]!=expected or any(row['outcome']!='applied' for row in suffix): raise SystemExit('gate-release live publication suffix differs')
+if saved['actual_effect_set']!=r['actual_effect_set'][:-4]: raise SystemExit('gate-release saved result is not exact completed prefix')
+if {k:v for k,v in saved.items() if k!='actual_effect_set'}!={k:v for k,v in r.items() if k!='actual_effect_set'}: raise SystemExit('gate-release non-effect adjudication differs')
 PY
 
   gate_domain_self_check

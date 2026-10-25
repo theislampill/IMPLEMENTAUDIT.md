@@ -928,3 +928,74 @@ final current-package qualification, production safety or original
 68-property/116-source closure follows. All six original acceptance decisions
 across PR251/PR253 remain separate. This append-only record adds no runtime
 change, product-test execution, ActiveGraph run, package build or CI result.
+
+
+## R0030 ordinary-v2 completed observation prefix
+
+The original C03 contract preserves v2 record shapes. The finite source/consumer
+review found no contract requiring a saved file to predict its own publication
+or equal later stdout. Its corrected interpretation preserves the existing
+actual/applied meaning: serialize only completed observations, then record later
+successful publication operations in live output. Unknown external readers are
+not qualified by the checked-in consumer census. Contract review SHA-256:
+`2ccb699ba34260109547e0e4f7ebe7c234b4dbde62f641d4a13a402f54c1f213`.
+
+The current correction removes exactly three ordinary-v2 future-row extensions
+from result and journal serialization. Physical operations, post-syscall rows,
+v2 schemas, outcome/status vocabulary, authority, guards, recovery and protected
+v3 behavior remain unchanged. The whole runtime AST, after deleting those three
+old branches, matches the new runtime. Helper SHA-256:
+`f7127b047a04dddc6f9e2ca9ba45a17379f2127e855152370bb35bca47c85c58`.
+The shared owner reference adds only the six-line persisted-prefix/live-suffix
+explanation to its R0030 paragraph; graph/READY/JOIN owners are unchanged.
+
+Four existing shell receiving consumers replace saved/stdout equality with exact
+completed prefix and literal full publication-suffix checks. The generic and
+ordinary terminal-success consumers require six promoted-publication rows;
+initialization authority residue and gate-release failure require four direct
+publication rows. Shape, plan, identity, ordering, cleanup and custody checks are
+retained. The ordinary journal test now requires completed snapshots, and three
+registered syscall-fault cases cover real local failure handling.
+
+Retained predecessor captures already show completed/serialized journal counts
+23/29,33/39,47/53. No predecessor helper was replayed. Its original driver's wrong
+fourth-checkpoint expectation failure and later offline readback remain intact.
+On the frozen new source, seven selected candidate calls passed their original
+expected-outcome assertions on first execution:
+
+| Selected case | Actual helper outcome | Saved/live rows and discriminator |
+| --- | --- | --- |
+| Ordinary success | 0, COMMITTED/NONE | Journals23/23,33/33,47/47; final69/75 with exact six-row suffix |
+| Direct result-file fsync fault | 75, RESULT_PERSISTENCE_FAILURE |63/65; create/write only, no failed-fsync row, journal/result custody retained |
+| Final result-directory sync fault | 75, RESULT_PERSISTENCE_FAILURE |69/74; five completed rows, no failed directory-sync row |
+| Publication-journal directory sync fault | 71, MUTATION_FAILED_ROLLED_BACK/IO_FAILURE | Journal47/47 plus five completed rows; actual target rollback; final72/78 |
+| Existing ordinary terminal consumer | 0, COMMITTED/NONE |69/75; cleanup/order and complete suffix retained |
+| Initialization authority residue | 75, INITIALISATION_IO_FAILURE |6/10; exact four-row suffix and retained residue |
+| Gate-release failure | 75, GATE_RELEASE_FAILURE |63/67; exact four-row suffix and namespace-gate custody |
+
+Both result-persistence faults retain ROLLBACK_FAILED_WITH_RESIDUE. The final
+saved COMMITTED disposition describes target operations; it does not certify its
+own later file/directory sync. The live failure remains controlling. The generic
+v2 consumer was also applied offline to the same success capture, with no extra
+helper call. All sink diagnostics are empty; seven setup-only gitignore notes
+are retained. No broad protected/helper/model bank was replayed.
+
+Author report SHA-256:
+`d94d8e86a4261b260830db4f7711df9cf8c0d49a5f2ea639a5c1db3e841bc2c1`.
+Raw-evidence manifest SHA-256:
+`da954c6f0aae4dd3cddda9ca1f8ccf7f122666c1dffeb4897e445092e8d71c56`.
+The previous unpublished0dfc88 candidate and its then-new raw receipts were
+unavailable after the environment change. Their historical reported review is
+not reused as preservation or qualification. This new source/test/driver packet
+was durably saved in checkpoint29 before its seven new actual calls; no old raw
+receipt was reconstructed. Earlier published source/evidence remains reusable
+at its exact dependencies. Independent review, exact package/copy and public-head
+CI bindings belong to this increment's publication receipt.
+
+This advances ordinary partial-failure observation and effect custody while
+preserving original C03 compatibility and the cheap local path. It does not
+prove power-loss durability, authenticated native authority, automatic recovery,
+noncooperating external-writer behavior, external exactly-once execution, whole
+C01-C09 acceptance or a P53 owner decision. R002C's original caseB GAP and later
+NONVERDICT, R002D's distinct actual-task NONVERDICT/native self-dogfood gate,
+R002E's60-property census, and all separate issue decisions remain unchanged.
