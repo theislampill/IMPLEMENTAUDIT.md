@@ -1254,3 +1254,88 @@ another cooperating helper writer. The old unsupported
 Original C01–C09, P53/D48-O01 and all four original issue decisions remain
 separate. Final-source package and installed qualification remain separately
 bound, and individual PR success does not qualify the combined package.
+
+## R0030 C05: actual application function after a maintained local rollback
+
+A new deterministic, disposable integration episode qualifies one part of the
+original recovery-postcondition obligation. It uses the already qualified
+PR251 helper at public `3f627c37c9a71404ed876f3d460e5f27f03ed6e2`, tree
+`2ebf96a41c1336eef5aaaa23ac03ece095a51aa3`; the reused installed inventory
+retains its actual local `b3ad1c787dbdb34fec61f79ea1236c134aadb1b3` identity
+with the same tree. Installed helper SHA-256:
+`7a13078b9225c8f773695666ddf493c872328cfa890316bb07dae5934d627b63`.
+No package rebuild, reinstall or native host activation was needed.
+
+The first actual attempt remains a **NONVERDICT**. Ordinary phase validation
+refused before publication, the declared fault or rollback: its sole helper
+call exited 64 without structured result JSON. Baseline and after-refusal
+application reads are not restoration evidence. Independent review preserved
+that GAP and the incomplete capture. A separate read-only diagnosis identified
+two phase-template defects: the concrete STOP anchor and the Maintenance list
+item. A new isolated revision corrected only those two entries and necessary source/evidence
+path relocations. This was attempt two of the same intended deterministic discriminator,
+not another acceptance case or a replay of a failed ordinary-task actor. The
+first source, observations, oracle, NONVERDICT and review remain unchanged.
+
+The corrected attempt completed with seventeen outer subprocess records and
+one nested application read. An explicitly instrumented, byte-reversible
+derivative called the maintained journal writer, captured the actual
+`PUBLICATION_DURABLE` boundary and then raised the prospectively fixed
+`OSError(EIO)`. Fault injection did not depend on the application result.
+The locator and test hook reverse exactly to the installed helper; the
+maintained mutation and rollback bodies were not changed. Instrumentation's
+separately declared evidence writes are not silently included in the helper's
+own effect ledger.
+
+The independent read-only application consumes a configuration and CSV data.
+At the publication boundary, it actually failed with exit 2 because the new
+configuration selected a missing column. The captured target held the
+candidate, the original preimage was retained, and the CSV was unchanged.
+The declared I/O fault then entered the existing rollback path. The helper
+returned exit **71**, `MUTATION_FAILED_ROLLED_BACK` / `IO_FAILURE`, using the
+ordinary `implementaudit.observation_bound_mutation.v2` schema. The operation
+remains a failure. After return, the restored configuration and unchanged data
+produced the original two-participant summary: scores 17 and 23, total 40.
+A separate mismatched data-header control still failed with exit 2.
+
+The live returned effect set has 79 completed rows. The separately captured
+publication journal is its 47-row prefix; the saved terminal result is its
+73-row prefix. Their later persistence tails are present only in the live
+record. No full body of the overwritten intermediate pending checkpoint was
+captured, so its status is source-based inference, not an observed receipt.
+The helper reports empty retained residue on this recovered route; physical
+readback retains the actual transaction/result and ordinary namespace custody.
+Neither the empty residue field nor restored bytes establish universal cleanup.
+
+The ordinary fixture receipt was mechanically current before and after the
+attempt with the same token. Its 440-byte Git blob is
+`c6746d15e7ca568276c6bce54dc27b50bc8b8f77`, SHA-256
+`3f7072e88d35a81684f98ea86d92283a7749c58cdbe76c0ebe122370fb39822e`.
+The retained blob copy is evidence of that read; it is not new authority.
+The claim, phase and plan were not adjudicated or promoted to terminal closure.
+
+Revision-three prospective manifest:
+`f2c0c84dcdb28262d21560105d587a60752605f13908c7851fc083fc5be45525`.
+Its frozen source packet is 70,139 bytes, SHA-256
+`3bf2df1b3aef6a2c64b5c990496142978d93ab56a55fcca3f450e0ee4a5bbdbd`.
+The complete first failed episode and the reviewed correction were preserved
+before the second attempt; actual raw observations and independent outcome
+review are retained separately.
+
+Independent actual-outcome review is `PASS_BOUNDED` for the declared ordinary
+local predicate. Report SHA-256:
+`ea32361ee5e0874c0739bc93c4e0427208533b287781f8f51588a41d107eaf1e`;
+review receipt SHA-256:
+`6aee6c3ad80adb0416b18c61f3eee01a6e98aedaac074132217a8674e87ed9e5`.
+The review checked source bindings, raw commands, actual physical custody and
+completed-effect prefixes without executing the subject again.
+
+This advances actual required-function and declared local downstream-state
+observations for C05. It does not implement a new automatic recovery-acceptance
+consumer, settle `UNKNOWN`, perform external compensation, establish protected
+or native authentication, complete the intended configuration migration, or
+prove power-loss durability or exactly-once execution. The ordinary v2 result
+does not contain protected v3 guard fields. Original C05, C01-C09, P53/D48-O01
+and each of the four original work-order decisions remain separately **OPEN**.
+The combined package capacity failure is unaffected by this evidence-only
+addition.
