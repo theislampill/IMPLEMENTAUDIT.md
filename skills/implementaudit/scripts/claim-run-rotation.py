@@ -104,6 +104,8 @@ POINTER_KEYS = {"schema", "controller", "claim_id", "run_root_identity",
                 "projection_schema", "state_sha256", "roadmap_sha256",
                 "protected_manifest_sha256", "archive_manifest_sha256", "exact_next_action"}
 MAX_BYTES = 64 * 1024 * 1024
+_PROJECTION_MODULE_BYTES = 125155
+_PROJECTION_MODULE_SHA256 = "2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc"
 
 
 class RotationError(RuntimeError):
@@ -634,9 +636,16 @@ def managed(context):
 
 
 def projection_helper():
-    """Load the physical sibling's pure I/O boundaries, never a caller module."""
+    """Verify and execute one captured buffer from the selected physical sibling."""
+    expected_bytes = globals().get("_PROJECTION_MODULE_BYTES")
+    expected_digest = globals().get("_PROJECTION_MODULE_SHA256")
+    if (type(expected_bytes) is not int or not 0 < expected_bytes <= MAX_BYTES
+            or type(expected_digest) is not str or not SHA256.fullmatch(expected_digest)):
+        raise RotationError("projection helper source binding is invalid")
     path = Path(__file__).with_name("rotate-canonical-state.py").absolute()
-    raw = read_regular(path)
+    raw = read_regular(path, max_bytes=expected_bytes)
+    if len(raw) != expected_bytes or hashlib.sha256(raw).hexdigest() != expected_digest:
+        raise RotationError("projection helper source differs from selected owner")
     # Equal code in another installation must not reuse that installation's
     # __file__ or its independently selected native input owner.
     name = "_claim_owned_rotation_projection_" + hashlib.sha256(os.fsencode(path) + b'\0' + raw).hexdigest()

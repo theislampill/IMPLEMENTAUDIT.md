@@ -168,12 +168,12 @@
   "frozen_core_dependencies": [
     {
       "path": "skills/implementaudit/scripts/claim-run-rotation.py",
-      "bytes": 245953,
-      "sha256": "36da48d5e81218ff020c5fdb85fe0797e19a61459b4c167f137109e279e7f7aa",
+      "bytes": 246657,
+      "sha256": "4dbbd07b5a792289c13c1225a8099900682b3657396f60f4b74867502cbadf97",
       "source_commit": "d2397406d51aa080209caa16897283b2e9cb5b61",
       "composition_preimage_sha256": "69bea85f96c3cca62858bf3ecb6fd9fd19775203064e54b912577ea2a3c69123",
       "modified": true,
-      "additional_delta": "; composed R0039 native-v3/C02 source candidate; no native admission"
+      "additional_delta": "; composed R0039 native-v3/C02 source candidate; no native admission; R0039 exact-source projection binding receiving candidate; captured buffer and physical-path cache retained"
     },
     {
       "path": "skills/implementaudit/scripts/read-canonical-pair.py",
