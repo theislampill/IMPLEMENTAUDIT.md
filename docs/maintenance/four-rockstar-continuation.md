@@ -346,3 +346,25 @@ limits. The next independent source question is whether protected journal
 observations can truthfully use the completed-prefix convention without losing
 crash reconstruction. No native or P53 authority is inferred; other issues and
 read-only R0035/R0039 owners remain separate.
+
+
+## Journal and actual-integration receiving continuation
+
+Protected journal self-publication observations are corrected at helper
+`5bde9c96dc5889618fac08c21c634b6fac929577133ac752cca4ba5f9377e656`.
+Reuse the preserved predecessor REDs, corrected protected captures, exact-final
+offline assertion readback and selected existing guard-loss/crash consumers.
+Keep the ordinary test's initial expectation failure and the v2 prospective
+compatibility boundary. The full original recovery/effect custody and P53 gates
+remain as specified; a saved target/checkpoint status is not self-durability.
+No R0035 graph/READY/JOIN owner changes.
+
+The owner-authorised R002D stock-report continuation actually executed and
+corrected the producer/consumer boundary, with eight recorded tests and exact
+six-row output. Independent raw assessment supports those observations, but the
+unchanged frozen oracle remains NONVERDICT because automatic approval review
+blocked final response reconstruction/sealing. Preserve both that receiving
+block and the prior zero-command refusal. Do not replay the actor, reconstruct
+the response, substitute HANDOFF for missing evidence or relax the oracle.
+Continue other independently executable work; this is not a product failure.
+R002C caseB remains GAP-REVISE, and R002E's 60-property census is unchanged.

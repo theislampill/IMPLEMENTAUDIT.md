@@ -770,3 +770,97 @@ both versions and remains a separate source question. This increment supplies
 no automatic recovery, external exactly-once execution, power-loss guarantee,
 noncooperating-writer fence, native host grant, P53 decision, or complete C01–C09
 acceptance. R002C, R002D, R002E and R0030 remain separate original decisions.
+
+
+## R0030 protected journal observations and retained reconstruction
+
+The separate journal question left by the result-prefix increment at
+`5d03a654b8648ac7c98d95bb9c1e604c7e177b27` now has an actual C03
+representation discriminator. On unchanged helper `1a0d7984`, protected journal
+buffers held 29, 49, 63 and 71 applied rows when only 23, 43, 57 and 65
+observations had completed at serialization. At the terminal journal directory
+sync fault, five later publication operations had completed, but the retained
+COMMITTED journal still claimed the failed 71st fsync as applied. The actual
+helper correctly returned UNKNOWN / MANUAL_RECONCILIATION, retry false and
+closure prohibited. This is an observation defect, not evidence of an unsafe
+retry or a false successful terminal return. Both the first diagnostic and
+registered predecessor RED remain preserved.
+
+Only `persist_journal()` changes in the runtime. It serializes the completed
+prefix for computed protected-v3 schema; ordinary v2 retains its existing
+prospective convention. Physical write/fsync/rename order, effect plans,
+identity/currentness/fence/guard owners, schemas, target status/reason, retry,
+recovery and cleanup remain unchanged. Corrected helper SHA-256:
+`5bde9c96dc5889618fac08c21c634b6fac929577133ac752cca4ba5f9377e656`.
+
+The corrected protected success and selected journal-sync failure retain exact
+23/23, 43/43, 57/57 and 65/65 completed/serialized prefixes. The failure preserves
+65 saved observations and 81 actual live observations, including later completed
+publication/release/result effects but not the failed sync. Target history,
+authority/plan/guard identity, current target readback and residue remain in the
+journal for bounded reconstruction. The existing after-stage-write guard-loss
+consumer and before-result crash/custody consumer each passed once. The latter's
+existing recovery/replay refusal controls do not execute a recovery feature.
+
+The first ordinary-v2 helper call succeeded, but the added test initially
+expected a fourth COMMITTED journal that the unchanged ordinary route does not
+produce. That original driver exit1 and all data remain preserved. Only the new
+test's route-specific checkpoint expectation was corrected. Exact final
+post-capture assertions passed offline against that same ordinary call and both
+protected calls; the retained predecessor still fails the named criterion.
+No ordinary helper rerun occurred. Ordinary v2 retains three prospective journal
+snapshots and saved/live result equality, an explicit compatibility limitation.
+
+The existing Python test owner adds the shared regression function and three
+registrations; removing them reconstructs its predecessor bytes. The shell
+wrapper and existing assertions are unchanged. Final Python test SHA-256:
+`761f61c37237e9d8f3ad94fe0ca43013350cda4f35c54ef4e460e5fbc761023e`.
+Original diagnosis manifest:
+`459ee1cbf8bbf3a489a937395d325a0423eaa080021712553d014c28e118461b`.
+Implementation manifest:
+`bf092e4cb39711fef8946d386f4416145b1ea973836d7df575e1cecd318ccc8c`.
+Exact final assertion readback:
+`a63ed9cc94c62808ea8753bad6736c767b8cd7ef7cfbfeeb43d52910cd9e60bf`.
+Independent review and package/installed/public CI belong to the publication
+receipt. Unchanged campaigns are reused at their original identities.
+
+Saved COMMITTED is a target/checkpoint disposition, not proof of its file's
+later publication or power-loss durability. Production phase hooks remain no-op;
+fixture observations are not native receipts. No automatic recovery, external
+exactly-once execution, noncooperating-writer exclusion, native principal/effect
+grant, P53 decision, whole C01-C09 or 54-property acceptance follows. The 98/133
+outbound populations and all four original RLGWOs remain separate decisions.
+
+## R002D authorised actual integration — raw observations, formal NONVERDICT
+
+The owner expressly authorised the same disposable warehouse stock-report task
+after its original zero-command automatic-review refusal. That original sealed
+NONVERDICT is unchanged. The new authorised execution used the recorded installed
+SKILL, unchanged local producer and original README, and permitted consumer,
+top-level test and HANDOFF edits only. It recorded eleven commands. The two
+original stub tests passed; the first actual consumer/producer call then failed
+on the opaque continuation token `page:beta`. The permitted consumer correction
+passes the token through unchanged. Eight recorded tests subsequently passed,
+including five actual CLI integration cases, and the final report returned the
+exact six ordered inventory rows, including zero quantity and the correct CSV
+header. The producer and README hashes remained unchanged.
+
+These are actual bounded integration observations, not just recommendations.
+However, the unchanged frozen evaluator requires the original first-response
+file, final-state capture and episode seal. Automatic approval review rejected
+root's attempt to reconstruct the visible response and seal it before dispatch;
+those required files remain absent. No workaround, actor replay, oracle
+relaxation or replacement capture occurred. Command011's final source snapshot
+and the recorded HANDOFF are not substituted for the missing evidence.
+
+Independent raw-outcome assessment remains **NONVERDICT** and supports the
+observed E1-E5 behavior separately without assigning formal PASS grades. Review
+SHA-256 `847deb3ec31d4817677425c7892e833f150f4e8035ed11cf715555cac1ae7b90`;
+review manifest `aedd8490826fcb74fc2aaed4f5766f56c486ba6647a70b14d7dcc814d67f2ab7`.
+The raw task evidence and review were preserved in checkpoint23 before receiving
+publication. This is an evidence/receiving block, not product failure or an
+unexecuted integration. It supplies no native identity/delivery/effect or
+skill-only causation proof, original P039 self-dogfood, P007/P012, full P032 or
+whole R002D acceptance. Existing version-bound ActiveGraph evidence remains
+reusable at its actual source; final-source qualification and the original
+native self-dogfood observations remain separate.

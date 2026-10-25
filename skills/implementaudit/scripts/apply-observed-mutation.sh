@@ -1774,7 +1774,12 @@ def persist_journal(status, residue_paths=()):
             (TX, "fsync", directory_identity, directory_identity),
         ]
     )
-    data = canonical(journal_record(status, residue_paths, actual + future))
+    # Protected journals snapshot completed observations; publication enters
+    # live actual only after each syscall. Preserve the ordinary v2 convention.
+    payload = journal_record(status, residue_paths, actual)
+    if payload["schema"] == "implementaudit.observation-bound-mutation.journal.v2":
+        payload["actual_effect_set"].extend(future)
+    data = canonical(payload)
     write_new(JOURNAL_TMP, data, effect_rows=future[:3], sync_parent=False)
     replace(JOURNAL_TMP, JOURNAL, effect_rows=future[3:5], sync_parents=False)
     fsync_dir(TX, future[5])

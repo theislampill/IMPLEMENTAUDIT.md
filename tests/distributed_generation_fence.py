@@ -386,6 +386,141 @@ globals()["write_new"] = capture_result_write""")
             "persisted prefix changed non-effect result semantics")
 
 
+def persisted_journal_prefix(fixture, ordinary=False, fail_sync=False):
+    # A completed checkpoint cannot observe its own later publication. Keep the
+    # ordinary v2 convention while rejecting prospective v3 applied rows.
+    if ordinary:
+        fixture.fence_path.unlink()
+        fixture.fence_path.parent.rmdir()
+    captured_path = fixture.base / "journal-prefix-capture.json"
+    fault_path = fixture.base / "journal-prefix-fault.json"
+    refs_before = fixture.run_command(["git", "show-ref"]).stdout
+    helper = fixture.instrument("init", f"""capture_path = Path({str(captured_path)!r})
+fault_path = Path({str(fault_path)!r})
+original_write_new = write_new
+original_persist_journal = persist_journal
+original_sync = sync_directory_raw
+captures = []
+journal_probe = {{"status": None, "failed": False}}
+def observed_journal(status, *pos, **kw):
+    previous = journal_probe["status"]
+    journal_probe["status"] = status
+    try:
+        return original_persist_journal(status, *pos, **kw)
+    finally:
+        journal_probe["status"] = previous
+def observed_write(path, data, *pos, **kw):
+    if path == JOURNAL_TMP:
+        captures.append({{"completed": list(actual), "serialized": json.loads(data)}})
+        capture_path.write_text(json.dumps(captures, sort_keys=True))
+    return original_write_new(path, data, *pos, **kw)
+def observed_sync(path):
+    if {fail_sync!r} and path == TX and journal_probe["status"] == "COMMITTED" and not journal_probe["failed"]:
+        journal_probe["failed"] = True
+        fault_path.write_text(json.dumps({{"completed": list(actual),
+            "journal": json.loads(JOURNAL.read_bytes())}}, sort_keys=True))
+        raise OSError(5, "injected terminal journal directory fsync failure")
+    return original_sync(path)
+globals()["persist_journal"] = observed_journal
+globals()["write_new"] = observed_write
+globals()["sync_directory_raw"] = observed_sync""")
+    result, payload = fixture.invoke(helper, required=not ordinary)
+    require(not result.stderr, "journal probe emitted unexpected diagnostics")
+    require((fixture.repo / "target").read_bytes() == CANDIDATE,
+            "journal probe lost the completed target operation")
+    require(fixture.run_command(["git", "show-ref"]).stdout == refs_before,
+            "journal probe changed authority refs")
+    assert_stored_schemas(fixture, payload, protected=not ordinary)
+    if ordinary:
+        assert_result(fixture, result, payload, "COMMITTED", "NONE", CANDIDATE, protected=False)
+    else:
+        assert_guard_effects(fixture, payload)
+        assert_observed_result_prefix(fixture, payload, promoted=not fail_sync)
+        require(payload["retry_permitted"] is False, "journal probe granted retry authority")
+        if fail_sync:
+            require(result.returncode == 78 and payload["status"] == "UNKNOWN"
+                    and payload["reason_code"] == "MANUAL_RECONCILIATION"
+                    and payload["terminal_closure_claim"] == "PROHIBITED",
+                    "journal persistence uncertainty permitted completion")
+        else:
+            assert_result(fixture, result, payload, "COMMITTED", "NONE", CANDIDATE)
+    transaction = fixture.run / "mutation-transactions" / payload["transaction_id"]
+    relative = transaction.relative_to(fixture.repo).as_posix()
+    authority = transaction / "authority.json"
+    saved = json.loads((transaction / "result.json").read_bytes())
+    if ordinary:
+        require(saved == payload, "ordinary v2 saved/live result compatibility changed")
+    captures = json.loads(captured_path.read_bytes())
+    statuses = ["PLANNED", "DISPLACEMENT_DURABLE", "PUBLICATION_DURABLE"]
+    if not ordinary:
+        statuses.append("COMMITTED")
+    require([row["serialized"]["status"] for row in captures] == statuses,
+            "journal probe missed an execution checkpoint")
+    print("D48_JOURNAL_PREFIX_CAPTURE=" + json.dumps([
+        {"status": row["serialized"]["status"], "completed_count": len(row["completed"]),
+         "serialized_count": len(row["serialized"]["actual_effect_set"])}
+        for row in captures], sort_keys=True), flush=True)
+    actual = payload["actual_effect_set"]
+    planned = {(row["scope"], row["path"]): row["allowed_effects"]
+               for row in payload["planned_effect_set"]}
+    require(payload["planned_effect_set_sha256"] == hashlib.sha256(json.dumps(
+        payload["planned_effect_set"], sort_keys=True, separators=(",", ":"),
+        ensure_ascii=False).encode()).hexdigest(), "journal probe lost the effect-plan digest")
+    for index, row in enumerate(actual, 1):
+        require(row["sequence"] == index and
+                row["effect"] in planned[(row["scope"], row["path"])],
+                "journal probe lost sequence or planned-effect membership")
+    expected_suffix = [("repo", relative + "/journal.tmp", effect)
+                       for effect in ("create", "write", "fsync", "replace")]
+    expected_suffix += [("repo", relative + "/journal.json", "replace"),
+                        ("repo", relative, "fsync")]
+    if fail_sync:
+        require(fault_path.is_file(), "journal sync fault was not reached")
+        fault = json.loads(fault_path.read_bytes())
+        journal = json.loads((transaction / "journal.json").read_bytes())
+        require(journal == fault["journal"] == captures[-1]["serialized"],
+                "retained journal differs from its captured serialization")
+        require(fault["completed"] == actual[:len(fault["completed"])]
+                and len(fault["completed"]) == len(captures[-1]["completed"]) + 5,
+                "journal fault lost the five completed publication operations")
+        residues = {row["path"] for row in payload["residue"]}
+        require(relative in residues and relative + "/journal.json" in residues,
+                "journal persistence uncertainty lost transaction/journal custody")
+    else:
+        require(not fault_path.exists() and not (transaction / "journal.json").exists()
+                and not payload["residue"], "successful journal publication retained uncertainty")
+    for index, captured in enumerate(captures):
+        snapshot = captured["serialized"]
+        completed = captured["completed"]
+        count = 5 if fail_sync and index == len(captures) - 1 else 6
+        suffix = actual[len(completed):len(completed) + count]
+        require(actual[:len(completed)] == completed and
+                [(row["scope"], row["path"], row["effect"]) for row in suffix] == expected_suffix[:count]
+                and all(row["outcome"] == "applied" for row in suffix),
+                "live result lost a completed journal publication suffix")
+        require(snapshot["transaction_id"] == payload["transaction_id"]
+                and snapshot["authority_sha256"] == hashlib.sha256(authority.read_bytes()).hexdigest()
+                and snapshot["planned_effect_set_sha256"] == payload["planned_effect_set_sha256"],
+                "journal checkpoint lost its transaction/authority/plan identity")
+        target = next(row["identity"] for row in snapshot["current_identities"] if row["path"] == "target")
+        if snapshot["status"] == "DISPLACEMENT_DURABLE":
+            require(target["kind"] == "absent", "journal lost observed displacement")
+        else:
+            expected = PREIMAGE if snapshot["status"] == "PLANNED" else CANDIDATE
+            require(target.get("sha256") == hashlib.sha256(expected).hexdigest(),
+                    "journal lost authoritative target readback")
+        if ordinary:
+            require(snapshot["schema"] == "implementaudit.observation-bound-mutation.journal.v2"
+                    and snapshot["actual_effect_set"] == completed + suffix,
+                    "ordinary v2 journal prospective compatibility changed")
+        else:
+            require(snapshot["schema"] == "implementaudit.observation-bound-mutation.journal.v3"
+                    and snapshot["identity_bindings"]["effect"] == payload["identity_bindings"]["effect"],
+                    "protected journal lost its versioned effect identity")
+            require(snapshot["actual_effect_set"] == completed,
+                    "D48-C03 RED: protected journal claimed a future effect or lost the completed serialization prefix")
+
+
 def current_generation(fixture, timeout=15):
     result, payload = fixture.invoke(required=True, timeout=timeout)
     assert_result(fixture, result, payload, "COMMITTED", "NONE", CANDIDATE)
@@ -727,6 +862,9 @@ CASES = {
     "concurrent-controller": concurrent_controller,
     "current-generation": current_generation,
     "persisted-result-prefix": persisted_result_prefix,
+    "persisted-journal-prefix": persisted_journal_prefix,
+    "journal-sync-failure-prefix": lambda fixture: persisted_journal_prefix(fixture, fail_sync=True),
+    "ordinary-journal-compatibility": lambda fixture: persisted_journal_prefix(fixture, ordinary=True),
     "native-current-generation": native_current_generation,
     "disabled-reference-hooks": disabled_reference_hooks,
     "cheap-local": cheap_local,
