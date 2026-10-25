@@ -4632,7 +4632,7 @@ def skill_frontmatter_identity(raw: bytes, label: str) -> tuple[str, str]:
     return name.group(1), version.group(1)
 
 
-def child_delivery_snapshot(path: Path, label: str) -> tuple[bytes, tuple[int, ...]]:
+def child_delivery_snapshot(path: Path, label: str, *, max_bytes: int | None = None) -> tuple[bytes, tuple[int, ...]]:
     """Read one exact delivery input and retain its physical identity for reread."""
     def identity(info: os.stat_result) -> tuple[int, ...]:
         if (not stat.S_ISREG(info.st_mode) or stat.S_ISLNK(info.st_mode)
@@ -4643,11 +4643,24 @@ def child_delivery_snapshot(path: Path, label: str) -> tuple[bytes, tuple[int, .
         if path.absolute() != path.resolve(strict=True):
             fail(f"{label} traverses a delivery input alias")
         before = identity(os.lstat(path))
-        with path.open("rb") as stream:
-            opened = identity(os.fstat(stream.fileno()))
-            raw = stream.read()
-            finished = identity(os.fstat(stream.fileno()))
-        if before != opened or opened != finished or finished != identity(os.lstat(path)) or len(raw) != before[2]:
+        if max_bytes is not None and before[2] > max_bytes:
+            fail(f"{label} exceeds its exact source bound")
+        flags = (os.O_RDONLY | getattr(os, "O_BINARY", 0) | getattr(os, "O_NONBLOCK", 0)
+                 | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_CLOEXEC", 0))
+        descriptor = os.open(path, flags)
+        try:
+            opened = identity(os.fstat(descriptor))
+            if before != opened:
+                fail(f"{label} changed while its delivery bytes were read")
+            with os.fdopen(descriptor, "rb") as stream:
+                descriptor = None
+                raw = stream.read() if max_bytes is None else stream.read(max_bytes + 1)
+                finished = identity(os.fstat(stream.fileno()))
+        finally:
+            if descriptor is not None:
+                os.close(descriptor)
+        if (before != opened or opened != finished or finished != identity(os.lstat(path))
+                or len(raw) != before[2] or (max_bytes is not None and len(raw) > max_bytes)):
             fail(f"{label} changed while its delivery bytes were read")
         return raw, before
     except OSError as exc:

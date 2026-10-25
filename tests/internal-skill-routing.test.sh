@@ -4,6 +4,8 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
+python -B tests/cognition-delivery-capture.py
+
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
