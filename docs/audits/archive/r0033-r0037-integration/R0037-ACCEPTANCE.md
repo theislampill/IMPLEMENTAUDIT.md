@@ -867,3 +867,98 @@ review and root-owned guarded publication remain pending; this local repair does
 not establish a later hosted CI result, native Stop, child acceptance, READY/JOIN,
 closure or release. Exact two-file preimages provide rollback and restore the
 known test-environment failure. All earlier failures and non-verdicts remain.
+
+
+### Actual ordinary-task qualification — 2026-10-25
+
+Two previously unexecuted ordinary tasks now have their first actual executions
+and independent semantic assessment. Both receive
+`QUALIFIED_BOUNDED_ORDINARY_TASK` against their own frozen criteria. This is
+supplemental installed-guidance task evidence, not completion of an original
+case row, the original 36 nested cases, 14 mutation families, 17 terminal
+criteria, 15 host-turn conditions, native lifecycle, or either issue.
+
+The recovered task/oracle packet was frozen before either actor. Its behavioral
+criteria remain byte-identical at SHA-256
+`ad3235eab324feb72efc16b351d8a53decea4e17a8d708e37f74770ac8fee20f`.
+The original v1 preflight GAP-REVISE remains preserved: permitted shell-wrapped
+checks did not match the extractor's direct-argv recognition. The prospective
+v2 command contract requires each deciding program directly after the recorder,
+in its own call. It changes neither task behavior nor expected answers. A fresh
+independent static preflight accepted the recovered packet; report SHA-256
+`d4a5bfc7b42daec1ede5f085638b859b43f723d16c9e355f76c3a5281900f976`.
+The missing four historical preparation executions remain unavailable and were
+not substituted for either actor's new baseline.
+
+The actual installed plugin identifies local candidate
+`bd37d29d8d931551cde31a2a6fe63d72ade9e9c1`, tree
+`72b7edfeeb5eab62119c32ebaeb4e9f113954d88`. Its archive SHA-256 is
+`ddec73e0a9671fa66f00547c379a75531ff1b702222b924b201ab266e0929028`.
+The separate public source `46c094f51b368818d500e36e3b5704115b69b6ef`
+has that same tree; it does not relabel the archive or installation. All 72
+installed file bytes/modes and all 63 allowlisted governor files remain exact.
+The complete pre-dispatch packet and preflight were saved in checkpoint31,
+ZIP SHA-256 `98a77913671082239532539619bb6c6bf251f308175f2924f95a6ca7331631f0`.
+
+Each fresh actor's first completed command directly ran the wrapped installed
+source reader. The raw capture contains its exact argv, all 21,099 installed
+source bytes, SOURCE_READ_END, successful process completion and matching
+hashes. Exactly one source read occurred per episode. Target inspections,
+edits, deciding checks and final artifact readbacks are recorded separately.
+The independent assessment used these files and snapshots, not final actor
+chat. No response reconstruction or retrospective seal was supplied.
+
+| First ordinary task | Actual behavior and preserved failure | Bounded assessment |
+|---|---|---|
+| Shipping tariff change | All three existing baseline groups pass before the real local feed replaces the tariff. The original freight owner then fails against the new tariff. A one-line repair in `app/freight.py` adds the required per-item charge; the current freight check passes. Catalog/label inputs, owners and prior successful records remain exact. The unchanged renderer produces the independently checked delivery CSV with freight totals 525, 375 and 0 cents. The factual handoff separates retained evidence from affected freight evidence. | Frozen U1-U4/A1-A5 satisfied. Supports portions of selective invalidation, resumption after changed input and proportionate revalidation; no original-row or native interruption acceptance. |
+| Reading-list zero limit | The actor reads the actual source and unchanged tests. The first five-test end-to-end run fails only the zero-limit case. One conditional in `reading_list.py` is repaired; the same unchanged suite passes on final bytes for zero, one, omitted, oversized positive and negative limits. Method-name titles remain data. Other supplied source/tests/README remain unchanged. | Frozen U1-U4/B1-B4 satisfied. Supports bounded ordinary repair and cheap-path behavior; no original-row, methodology or native host-turn acceptance. |
+
+The shipping command-007 and reading-list command-005 nonzero results remain
+failures with their raw output and before/after snapshots. Later success is
+bound to changed final product bytes. The actors did not rerun checks on
+unchanged relevant inputs, create optional work artifacts, or change the
+verifiers. The task prescribed baseline/feed ordering; this is not evidence of
+spontaneous detection, a native interrupt, voluntary delegation or scheduler
+behavior. Delegation and native operations were out of scope, so their absence
+receives no voluntary-routing credit.
+
+Shipping records 14 commands over a 62.086-second command bracket; reading-list
+records 10 over 48.609 seconds. Summed subprocess durations are approximately
+0.260 and 0.550 seconds respectively. These measurements establish no fixed
+threshold, model-compute cost, counterfactual speedup or outside-bracket time.
+Exact serving revision, token counts and principal authentication are unknown.
+The reading-list handoff contains literal audit completion markers, explicitly
+scoped to its zero-limit task. The assessor found no extra methodology workflow,
+permanent control surface or broader closure assertion in the recorded files;
+the marker text supplies no native lifecycle evidence. Conversational ceremony
+outside the recorded commands and task artifacts was not measured.
+
+Independent semantic assessment report SHA-256:
+`93dd12d481de0d0c74ba78cb5f2c6cfe12b72ccf1e818963e18dbe1719ce22a8`.
+Its checksum-custody seal is
+`d2e82060da097c273215e7d84a264dc705b4bfebeb7155edf6be2716d647712a`.
+It assessed each frozen criterion separately and verified 310 unchanged inputs,
+including the 235-file/691,954-byte supplied outcome population. Fact-extractor
+success alone was not semantic acceptance. The reviewer reran no task program,
+source reader, test suite, recorder or actor.
+
+Evidence resides under `evidence/local-task-bridge-05`,
+`evidence/r37-ordinary-outcomes`, and `evidence/review-r37-actual-outcomes` in the
+owner's checkpoint lineage. These task outcomes justify this two-document
+acceptance-ledger increment without a runtime or package-source change. Prior
+package, installed and portable validation evidence remains bound to its actual
+source; no archive or installed-copy identity is promoted to this later ledger
+commit. The original unknown semantic-history population, platform-refused
+receiver work, native Stop authentication, genuine child acceptance and all
+six separate issue decisions retain their existing dispositions.
+
+The preceding public head's hosted run40156935601/job121060193280 remains
+FAILED: the existing scarce-resource F6 rehearsal reported a seven-second
+wrapper timeout where its oracle requires a producer timeout. That checker and
+its receiving contract are unchanged by the R0033/R0037 increment. Its #84/P4-11
+owner has R001E applicability (legacy decimal R30), distinct from canonical
+R0030. A local discriminator stopped at sandbox-denied socket creation before
+wrapper or producer launch; it supplies no measured timeout reproduction.
+Any corrective source remains a separately reviewed receiving proposal for its
+owner. No timing budget, F6 oracle or owner source is changed here. A later
+hosted result must retain this failed run independently.

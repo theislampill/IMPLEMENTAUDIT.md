@@ -214,3 +214,40 @@ not mislabeled native-only work. Preserve their complete outcome distribution
 and the original partial separately. Only actually unfinished native/receiving
 or separately authorized original work may be left to the next executor;
 any demonstrated portable defect still belongs to this same integrated PR.
+
+
+## First actual ordinary-task outcomes and current receiving boundary
+
+The two original unexecuted R0037 ordinary tasks have now run once each against
+the actual bd37/tree72b7 isolated plugin. Independent assessment
+`93dd12d481de0d0c74ba78cb5f2c6cfe12b72ccf1e818963e18dbe1719ce22a8`
+accepts both only as `QUALIFIED_BOUNDED_ORDINARY_TASK`. Shipping retains real
+baseline checks, the feed event, the failed changed-tariff check, a one-line
+freight repair, current affected verification and unchanged catalog/label
+receipts. Reading-list retains the initial zero-limit failure, a one-line owner
+repair and the unchanged five-test suite on final bytes. Both first captured
+commands contain actual full installed source, SOURCE_READ_END and successful
+completion. Final artifact bytes, not actor chat, are the assessed result.
+
+Read the exact additive R0037 ledger entry and checkpoint lineage before further
+work. These outcomes do not warrant repeating the two actors, adding tasks to
+inflate a population, claiming complete original case rows, or promoting their
+handoff markers to native lifecycle events. The original v1 preflight gap,
+missing historical mechanics, actual failed task checks and earlier UNKNOWN /
+NONVERDICT / platform-refused outcomes remain distinct. No product-runtime or
+package payload changed for this outcome increment; reuse applicable evidence
+at its original identities. The original36/14/17/15 populations and native
+receiving requirements above remain open at their correct scopes.
+
+Public46c094f51b368818d500e36e3b5704115b69b6ef was read back at tree72b7;
+its new hosted run40156935601 failed the unchanged scarce-resource F6 diagnostic.
+Preserve that actual failure separately from the independently qualified R0033
+counter correction and these ordinary tasks. The exact hosted schedule is not
+measured. The local first discriminator was sandbox-blocked before producer or
+wrapper launch; no retry or workaround is supplied. A #84/R001E owner correction
+requires its own receiving review and applicable runtime qualification; neither
+R0035 graph ownership nor canonicalR0030 ownership follows from the legacy R30
+label. This branch changes no checker budget, strict diagnostic oracle or
+cross-owner runtime source. Continue independent commissioned work and retain
+any proposal without silently importing it. Source heads and hosted CI after
+this ledger increment require their own guarded publication receipt.
