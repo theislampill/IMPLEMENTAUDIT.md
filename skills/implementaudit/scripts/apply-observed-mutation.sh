@@ -560,7 +560,22 @@ if operation in {"replace", "delete", "move"} and current_data != preimage_data:
         else "CONFLICT_REBASE"
     )
     emit_no_effect(status, "PREIMAGE_DRIFT")
+transaction_id = f"{claim_id}-p{args.phase}-s{args.step}"
+TX_PARENT = RUN / "mutation-transactions"
+TX = TX_PARENT / transaction_id
 if operation == "replace" and candidate_data == current_data:
+    # Matching target bytes cannot settle an existing phase/step transaction.
+    # Check custody without treating saved journal contents as recovery authority.
+    if not safe_directory_chain(TX_PARENT, RUN, True):
+        emit_no_effect("REJECTED_NO_MUTATION", "INTERNAL_CUSTODY_UNSAFE", transaction_id)
+    try:
+        os.lstat(TX)
+    except FileNotFoundError:
+        pass
+    except OSError:
+        emit_no_effect("REJECTED_NO_MUTATION", "INTERNAL_CUSTODY_UNSAFE", transaction_id)
+    else:
+        emit_no_effect("CONFLICT_REBASE", "PHASE_AUTHORITY_IN_PROGRESS_OR_REPLAY", transaction_id)
     emit_no_effect("NO_CHANGE", "NONE")
 if operation == "move" and path_identity(DESTINATION).get("kind") != "absent":
     emit_no_effect("REJECTED_NO_MUTATION", "DESTINATION_EXISTS")
@@ -569,9 +584,6 @@ if operation == "move" and path_identity(DESTINATION).get("kind") != "absent":
 def source_observation_unchanged():
     return path_identity(SOURCE) == source_initial
 
-transaction_id = f"{claim_id}-p{args.phase}-s{args.step}"
-TX_PARENT = RUN / "mutation-transactions"
-TX = TX_PARENT / transaction_id
 AUTHORITY = TX / "authority.json"
 JOURNAL = TX / "journal.json"
 JOURNAL_TMP = TX / "journal.tmp"

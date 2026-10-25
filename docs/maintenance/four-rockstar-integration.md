@@ -1205,3 +1205,52 @@ native enforcement, qualify private held-outs, or accept P06/P17 or all sixty
 properties. Package/install observations, independent review and the guarded
 public commit/tree are recorded separately at their actual identities. All four
 original work-order acceptance decisions remain separate and open.
+
+## R0030: retained transaction refusal on a refreshed no-op
+
+A new source-accessible C03/C05 receiving discriminator found an early-return
+defect. When refreshed preimage, candidate and current target bytes matched,
+the replacement helper returned `NO_CHANGE` before constructing and checking
+the deterministic transaction for the same claim, phase and step. The return
+had a null transaction identity despite that exact retained transaction being
+present. This was a success-shaped receiving error; the failed call performed
+no new effect, removed no custody and established no native closure.
+
+The prospective four-predicate probe retained both cheap controls: no
+transaction, and a transaction belonging only to another step. Both same-step
+controls failed on the original helper, including the required-generation
+route. The retained journal is explicitly constructed receiving input, not a
+receipt reconstructed from either earlier persistence fault. The first probe
+captured fourteen setup/subject commands. The newly registered regression then
+failed against the old helper at the expected occupied-transaction assertion;
+its fourth predicate was not reached. The unchanged regression passed against
+corrected source. Those executions retain thirteen and fourteen commands,
+respectively; forty-one subprocess records are not forty-one acceptance cases.
+
+The correction moves the existing transaction-path calculation before the
+no-op and checks safe parent custody and exact `lstat` occupancy. Safely absent
+same-step custody retains the cheap result. Occupancy returns the existing
+`CONFLICT_REBASE` / `PHASE_AUTHORITY_IN_PROGRESS_OR_REPLAY` refusal with the
+exact transaction identity; unsafe custody refuses. Other-step transactions
+remain independent. The check does not parse saved journal status, create a
+transaction or recovery grant, or perform an effect. Existing non-no-op
+authority, currentness and transaction checks remain in place.
+
+The three-file source proposal binds PR251 `326d091e06b7bbef1647b1d97f3bc84c0dae90ee`.
+The helper and test preimages equal the combined e4fc preimages. The shared
+reference receives only the four explanatory lines on PR251's own preimage;
+no combined R0039/R0037 reference text is imported. Corrected helper SHA-256:
+`7a13078b9225c8f773695666ddf493c872328cfa890316bb07dae5934d627b63`.
+The original source/raw packet is `9fb043b46cd522da6033c2b74c2817c776cff6bbaad7640840706ed5990be256`;
+its additive physical baseline supplement is
+`9da01e07d9c8095854c5446340a31f0398dba07a6fea8a865d371f9b22c91d3b`.
+
+This is a portable occupied-transaction receiving correction, not performed
+reconciliation, external-postcondition verification, interrupted-effect
+recovery, power-loss durability or exactly-once execution. The no-op check is lock-free and proves only observed pre-existing occupancy;
+no atomic exclusion is claimed against later transaction creation, including
+another cooperating helper writer. The old unsupported
+`--recover` parser result is preserved and does not justify a new generic CLI.
+Original C01–C09, P53/D48-O01 and all four original issue decisions remain
+separate. Final-source package and installed qualification remain separately
+bound, and individual PR success does not qualify the combined package.
