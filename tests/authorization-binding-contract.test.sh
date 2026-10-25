@@ -123,4 +123,23 @@ if bash "$scorer" --auth "$tmp/auth-full.txt" --invocation "$tmp/inv-nonl.txt" >
   fail "unterminated final drift line was silently dropped"
 fi
 
-printf 'authorization-binding-contract: ok (intake 6 + match/drift + no-binds + 3 Fable adversarial)\n'
+# R002E P06/P17 receiving: a declared parameter without an actual owner
+# value/range is not an unrestricted grant. Keep absent and empty distinct.
+printf 'action: inert-read\nbinds: object\n' > "$tmp/auth-missing-spec.txt"
+printf 'action: inert-read\nbinds: object\nobject:   \n' > "$tmp/auth-empty-spec.txt"
+printf 'param.object: report-beta\n' > "$tmp/inv-other-object.txt"
+for missing_spec in "$tmp/auth-missing-spec.txt" "$tmp/auth-empty-spec.txt"; do
+  if bash "$scorer" --auth "$missing_spec" --invocation "$tmp/inv-other-object.txt" >/dev/null 2>&1; then
+    fail "declared parameter without a value/range was accepted as unrestricted"
+  fi
+done
+
+# The supply check must not recognize a differently cased parameter prefix
+# that the value-validation loop skips. Reject ambiguous invocation grammar.
+printf 'action: inert-read\nbinds: object\nobject: report-alpha\n' > "$tmp/auth-one-object.txt"
+printf 'Param.object: report-beta\n' > "$tmp/inv-case-prefix.txt"
+if bash "$scorer" --auth "$tmp/auth-one-object.txt" --invocation "$tmp/inv-case-prefix.txt" >/dev/null 2>&1; then
+  fail "mixed-case parameter prefix bypassed value validation"
+fi
+
+printf 'authorization-binding-contract: ok (intake 6 + match/drift + no-binds + 3 Fable adversarial + 3 R002E receiving)\n'
