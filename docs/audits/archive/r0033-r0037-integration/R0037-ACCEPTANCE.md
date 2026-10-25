@@ -1005,3 +1005,44 @@ wrapper or producer launch; it supplies no measured timeout reproduction.
 Any corrective source remains a separately reviewed receiving proposal for its
 owner. No timing budget, F6 oracle or owner source is changed here. A later
 hosted result must retain this failed run independently.
+
+## Original H02/M04-related late repository-identity discriminator
+
+One new finite portable receiving episode exercises the final target-identity
+fence on combined source `095eb55a97015356939e1988b139eb116fe9b21b`, tree
+`db1bec89c09c2093f643e621943363c8d23146e3`. The selected validator is
+113,863 bytes, SHA-256
+`66c0f6d3df8c0f1702864055f3fcc4ee3cf5403982de81fba71389cdc5860283`.
+No maintained product source needed a repair.
+
+| Supplied situation | Actual observation |
+| --- | --- |
+| Constructed completed-phase and closure record at A | The unmodified portable consumer accepts, exit 0. |
+| A changes to B after the real closure helper body succeeds, inside its declared EXIT trap and before process exit/parent resumption | The unmodified final fence refuses, exit 1, with `repository identity changed during disposition validation` and no disposition. |
+| The same schedule with only that final repository-identity comparison removed | The private mutant accepts, exit 0. This is the designated oracle failure that detects the unsafe mutation. |
+| Actual B source check followed by a harness-authored per-finding re-anchor to B | The unmodified existing owners accept the newly constructed B record, exit 0. |
+
+The first episode retains twenty top-level command records and fourteen
+additional Git commands from the two scheduling hooks. Original A records
+remain intact. A is `85b88db696bd185140f989ba75ec5008e8d48808`; B is
+`638637daa42743cc675960943525e9647eb0538f`. The mutant differs by one
+comparison and remains outside maintained source. No original bank, ordinary
+actor, native Stop route or previously blocked task was replayed.
+
+The sealed actual packet is 1,267,529 bytes, SHA-256
+`d3aceb95c94e845c7c6f36ca93357ab6a6c9edfc1b89ff3bf003be8ebfb144bf`;
+its manifest is
+`00b8fd3c936bdeeee7c482851cfc14e761fc28219a5e63f2917fc9e21c6c10c1`.
+Its original author report overstates the timing as a successful process
+return before the change. That wording remains preserved and is superseded
+by the precise EXIT-trap sequence above. The trap records body status 0;
+subordinate helper stdout is not separately retained. No source or raw
+observation was rewritten to correct the claim.
+
+This advances one source-level identity predicate and its mutation sensitivity
+associated with original H02/M04. The phase, assessment and closure records
+are constructed. The B re-anchor is harness-driven, not demonstrated automatic
+L4 recovery or consumer-enforced independent re-audit. Actual helper execution
+does not authenticate assessment, native Stop or performed L1–L5 events. Whole
+H02/M04 and the original **36 nested cases, 14 mutation families, 17 terminal
+criteria and 15 host-turn conditions** remain separate open decisions.
