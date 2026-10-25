@@ -229,5 +229,84 @@ class ReceivingClosureControls(unittest.TestCase):
             self.owner._native_check_continuity_closure_v1(self.value, self.root, self.compiler, legacy)
 
 
+class Original14ReceivingControls(unittest.TestCase):
+    """Constructed receiver values and real files, never a native execution receipt."""
+    def setUp(self):
+        self.transport = load(ROOT / "scripts/work-graph-continuity-transport.py", "current_original14_transport")
+        self.profile = self.transport.SOURCE_PROFILES_V1["composite-20261025-original14"]
+        self.pair = dict(claim_sha256=self.profile[0][2], validate_sha256=self.profile[1][2])
+
+    def test_exact_profile_and_unknown_pair_boundaries(self):
+        self.assertIn(self.profile, OE._NATIVE_CONTINUITY_SOURCE_PROFILES_V1)
+        self.assertEqual(len(self.profile), 8)
+        self.assertTrue(all(row[3] is None for row in self.profile))
+        current_core = dict(zip(("claim_sha256", "validate_sha256"),
+            (hashlib.sha256((ROOT / "skills/implementaudit/scripts" / name).read_bytes()).hexdigest()
+             for name in ("claim-run.sh", "validate-run-root.sh"))))
+        for label, pair in (("unknown", dict(claim_sha256="0" * 64, validate_sha256=self.pair["validate_sha256"])),
+                            ("current-core-is-not-the-mixed-peer-profile", current_core)):
+            with self.subTest(pair=label), self.assertRaisesRegex(OE.OperationalEvidenceError, "unknown or incomplete source closure"):
+                OE._native_check_continuity_closure_v1(None, ROOT,
+                    ROOT / "skills/implementaudit/scripts/compile-work-graph.py", pair)
+
+    @unittest.skipUnless(os.name == "posix", "actual POSIX guard control")
+    def test_windows_profile_does_not_acquire_posix_authority(self):
+        with self.assertRaisesRegex(OE.OperationalEvidenceError, "requires qualified Windows custody"):
+            OE._native_check_continuity_closure_v1(None, ROOT,
+                ROOT / "skills/implementaudit/scripts/compile-work-graph.py", self.pair)
+
+    @unittest.skipUnless(os.name == "nt", "actual Windows file receiving control")
+    def test_actual_windows_files_and_constructed_value_boundaries(self):
+        with tempfile.TemporaryDirectory(prefix="original14-receiver-") as temporary:
+            root = Path(temporary).resolve()
+            scripts = root / "skills/implementaudit/scripts"
+            scripts.mkdir(parents=True)
+            receiver = root / "scripts/operational-evidence.py"
+            receiver.parent.mkdir()
+            for name in ("operational-evidence.py", "operational_query_policy.py", "work-graph-continuity-transport.py"):
+                shutil.copyfile(ROOT / "scripts" / name, receiver.with_name(name))
+            rows = []
+            for name, size, digest, mode in self.profile:
+                peer = ROOT / "source-peers/native-runtime/skills/implementaudit/scripts" / name
+                source = peer if peer.is_file() else ROOT / "skills/implementaudit/scripts" / name
+                raw = source.read_bytes()
+                self.assertEqual((len(raw), hashlib.sha256(raw).hexdigest()), (size, digest))
+                target = scripts / name
+                target.write_bytes(raw)
+                rows.append(dict(name=name, path=str(target), bytes=size, sha256=digest,
+                                 mode=target.stat().st_mode & 4095, links=1, held=True))
+            adapter = receiver.with_name("work-graph-continuity-transport.py")
+            raw = adapter.read_bytes()
+            value = dict(schema="implementaudit.native-continuity-closure.v1",
+                execution=dict(schema="implementaudit.continuity-windows-source-closure.v1",
+                    repository=str(root), members=rows, custody="WINDOWS_HELD_FILES_V1"),
+                transport=dict(path=str(adapter), bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest(),
+                               mode=adapter.stat().st_mode & 4095))
+            owner = load(receiver, "physical_windows_original14_receiver")
+            def check(selected):
+                owner._native_check_continuity_closure_v1(selected, root, scripts / "compile-work-graph.py", self.pair)
+            check(value)
+            for mutate in (lambda v: v["execution"]["members"].pop(),
+                           lambda v: v["execution"]["members"].reverse(),
+                           lambda v: v["execution"]["members"][0].update(path=str(root / "foreign")),
+                           lambda v: v["execution"]["members"][0].update(held=False),
+                           lambda v: v["transport"].update(sha256="0" * 64)):
+                changed = copy.deepcopy(value)
+                mutate(changed)
+                with self.assertRaises(owner.OperationalEvidenceError):
+                    check(changed)
+            for name, *_ in self.profile:
+                target = scripts / name
+                original = target.read_bytes()
+                try:
+                    target.write_bytes(original + b"\n")
+                    with self.subTest(member=name), self.assertRaises(owner.OperationalEvidenceError):
+                        check(value)
+                    self.assertEqual(target.read_bytes(), original + b"\n")
+                finally:
+                    target.write_bytes(original)
+            check(value)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
