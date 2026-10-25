@@ -1007,7 +1007,53 @@ globals()['release_authority_guard'] = fail_abort""")
     assert_guard_effects(fixture, payload, clean=False)
 
 
+def retained_transaction_noop(fixture):
+    """A refreshed no-op cannot clear same-step retained transaction custody."""
+    fixture.fence_path.unlink()
+    fixture.candidate.write_bytes(PREIMAGE)
+    claim = dict(row.split("=", 1) for row in
+                 (fixture.run / ".claimed").read_text().splitlines())
+    transaction = f"{claim['claim_id']}-p1-s1"
+    parent = fixture.run / "mutation-transactions"
+    current = parent / transaction
+    other = parent / f"{claim['claim_id']}-p1-s2"
+
+    result, payload = fixture.invoke()
+    assert_result(fixture, result, payload, "NO_CHANGE", "NONE", protected=False)
+    require(not parent.exists() and payload["actual_effect_set"] == [],
+            "fresh cheap no-op created transaction ceremony")
+
+    other.mkdir(parents=True)
+    marker = b"Constructed retained other-step custody; no performed effect claimed.\n"
+    (other / "retained.txt").write_bytes(marker)
+    result, payload = fixture.invoke()
+    assert_result(fixture, result, payload, "NO_CHANGE", "NONE", protected=False)
+    require(not current.exists() and (other / "retained.txt").read_bytes() == marker
+            and payload["actual_effect_set"] == [],
+            "unrelated transaction held or changed the cheap no-op")
+
+    current.mkdir()
+    journal = json.dumps({
+        "schema": "implementaudit.observation-bound-mutation.journal.v2",
+        "transaction_id": transaction, "status": "UNKNOWN",
+        "scope": "CONSTRUCTED_RECEIVING_INPUT_NOT_PERFORMED_EFFECT",
+        "actual_effect_set": [], "residue": ["retained.txt"],
+    }, sort_keys=True).encode()
+    (current / "journal.json").write_bytes(journal)
+    (current / "retained.txt").write_bytes(marker)
+    for protected in (False, True):
+        result, payload = fixture.invoke(required=protected)
+        assert_result(fixture, result, payload, "CONFLICT_REBASE",
+                      "PHASE_AUTHORITY_IN_PROGRESS_OR_REPLAY", protected=protected)
+        require(payload["transaction_id"] == transaction and payload["actual_effect_set"] == []
+                and (current / "journal.json").read_bytes() == journal
+                and (current / "retained.txt").read_bytes() == marker
+                and (other / "retained.txt").read_bytes() == marker,
+                "retained no-op refusal lost transaction binding or changed custody")
+
+
 CASES = {
+    "retained-transaction-noop": retained_transaction_noop,
     "concurrent-controller": concurrent_controller,
     "current-generation": current_generation,
     "persisted-result-prefix": persisted_result_prefix,

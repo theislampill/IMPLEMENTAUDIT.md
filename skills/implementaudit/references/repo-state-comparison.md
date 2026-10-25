@@ -316,6 +316,10 @@ is absent from that saved prefix; live output adds each publication effect only
 after its syscall succeeds. Successful publication therefore has an exact saved
 prefix plus its completed live suffix. A readable saved target disposition does
 not prove its file or directory sync succeeded; the returned failure governs.
+Refreshed matching target bytes do not settle an existing transaction for the
+same claim/phase/step: the no-op route retains the replay/in-progress refusal
+without treating journal contents as recovery authority. A different step's
+transaction alone does not block an ordinary local no-op.
 Protected records use v3 of those same schemas, with separate identity bindings,
 fence disposition and authority-guard evidence; protected results also deny
 automatic retry and terminal closure for `UNKNOWN`. Early protected refusals
