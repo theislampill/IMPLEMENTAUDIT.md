@@ -5,6 +5,7 @@ import base64
 import copy
 import hashlib
 import json
+import os
 from pathlib import Path
 import tempfile
 import types
@@ -146,7 +147,7 @@ class CurrentnessCostControls(unittest.TestCase):
                    source_changes=False, combined=False, combined_output=None, qualified_helpers=False, current_helpers=False):
         h=self.h
         # Receipt-cost controls keep their original exact helper identities.
-        # Current helpers have a separate refusal control, never borrowed credit.
+        # Current helpers retain three reads and no historical optimization credit.
         retained=ROOT/'fixtures/operational-evidence/native-source/skills/implementaudit/scripts'
         claim=(retained/('claim-run-combined.sh.fixture' if combined else 'claim-run.sh.fixture')).read_bytes()
         validate=(retained/'validate-run-root.sh.fixture').read_bytes()
@@ -276,9 +277,18 @@ class CurrentnessCostControls(unittest.TestCase):
         with self.assertRaisesRegex(self.h.wg.WorkGraphError,'receipt readback mismatch'):
             self.continuity(qualified_helpers=True,wrong_verify=True)
 
+    @unittest.skipUnless(os.name == 'posix', 'current-core POSIX source-mode cost control')
     def test_current_helpers_do_not_acquire_historical_receipt_optimization(self):
+        calls=self.continuity(current_helpers=True)
+        self.assertEqual([c[0] for c in calls],['--current-controller','--require-current-continuity','--verify-resume-receipt'])
+        self.assertEqual(self.receipt_reads,[])
+        with self.assertRaisesRegex(self.h.wg.WorkGraphError,'receipt readback mismatch'):
+            self.continuity(current_helpers=True,wrong_verify=True)
+        self.assertEqual(self.receipt_reads,[])
+
+    def test_altered_current_helpers_refuse_before_effects(self):
         with self.assertRaisesRegex(self.h.wg.WorkGraphError,'helpers are not an explicitly selected source domain'):
-            self.continuity(current_helpers=True)
+            self.continuity(current_helpers=True,changed_helper=True)
         self.assertEqual(self.continuity_calls,[])
         self.assertEqual(self.receipt_reads,[])
         self.assertEqual(self.current_owner_reads,[])

@@ -1830,6 +1830,17 @@ _NATIVE_CONTINUITY_SOURCE_PROFILES_V1 = (
 # Exact current peer-shell/core-module closure; Windows gate and admission remain separate.
 _NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += (
     (('claim-run.sh', 104155, 'bd0c6d2ab1ec8f695fe34e459b25d9344e11c5930d3f62d0919b29d9bc4a44ee', None), ('validate-run-root.sh', 113863, '66c0f6d3df8c0f1702864055f3fcc4ee3cf5403982de81fba71389cdc5860283', None), ('claim-run-rotation.py', 246657, '4dbbd07b5a792289c13c1225a8099900682b3657396f60f4b74867502cbadf97', None), ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', None), ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None), ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None), ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None)),
+    # Current-core POSIX closure; no receipt-schema or native-currentness substitution.
+    (
+        ('claim-run.sh', 22057, '7402bc1b77db0009746b10e8a97b19e680d2ad24b5eb91c5c9b4918409d4f7f6', 420),
+        ('validate-run-root.sh', 113863, '66c0f6d3df8c0f1702864055f3fcc4ee3cf5403982de81fba71389cdc5860283', 420),
+        ('claim-run-rotation.py', 246657, '4dbbd07b5a792289c13c1225a8099900682b3657396f60f4b74867502cbadf97', 420),
+        ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', 493),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 420),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+    ),
 )
 _NATIVE_LEGACY_CONTINUITY_PAIRS_V1 = (
     ('07e09843b2831149dc43e5f0dc458e82ae5cf9614b116393ac774ddea19390c7',
@@ -1844,6 +1855,8 @@ _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1 = {
     _NATIVE_CONTINUITY_TRANSPORT_SHA256: _NATIVE_CONTINUITY_TRANSPORT_BYTES,
     # Same six-source runtime plus the exact combined original14 source selector.
     'ba79f1ba7d7f8908f869141ca3bfd950430e63932bbffdb5994892c54a052b01': 41212,
+    # Exact current-core POSIX profile with unchanged command/execution guards.
+    'b481e9bbad4564a3cf4cc12a67b3deafa76aaedaa01ef2407fa0b3d4b54c2720': 42323,
 }
 
 

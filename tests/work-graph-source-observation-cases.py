@@ -243,11 +243,17 @@ class Original14ReceivingControls(unittest.TestCase):
         current_core = dict(zip(("claim_sha256", "validate_sha256"),
             (hashlib.sha256((ROOT / "skills/implementaudit/scripts" / name).read_bytes()).hexdigest()
              for name in ("claim-run.sh", "validate-run-root.sh"))))
-        for label, pair in (("unknown", dict(claim_sha256="0" * 64, validate_sha256=self.pair["validate_sha256"])),
-                            ("current-core-is-not-the-mixed-peer-profile", current_core)):
-            with self.subTest(pair=label), self.assertRaisesRegex(OE.OperationalEvidenceError, "unknown or incomplete source closure"):
-                OE._native_check_continuity_closure_v1(None, ROOT,
-                    ROOT / "skills/implementaudit/scripts/compile-work-graph.py", pair)
+        unknown = dict(claim_sha256="0" * 64, validate_sha256=self.pair["validate_sha256"])
+        with self.assertRaisesRegex(OE.OperationalEvidenceError, "unknown or incomplete source closure"):
+            OE._native_check_continuity_closure_v1(None, ROOT,
+                ROOT / "skills/implementaudit/scripts/compile-work-graph.py", unknown)
+        core = self.transport.SOURCE_PROFILES_V1["composite-20261025-core-posix-reads"]
+        self.assertNotIn(core, self.transport.ORIGINAL14_SOURCE_PROFILES_V1)
+        self.assertIn(core, OE._NATIVE_CONTINUITY_SOURCE_PROFILES_V1)
+        self.assertNotEqual(current_core, self.pair)
+        with self.assertRaises(OE.OperationalEvidenceError):
+            OE._native_check_continuity_closure_v1(None, ROOT,
+                ROOT / "skills/implementaudit/scripts/compile-work-graph.py", current_core)
 
     @unittest.skipUnless(os.name == "posix", "actual POSIX guard control")
     def test_windows_profile_does_not_acquire_posix_authority(self):

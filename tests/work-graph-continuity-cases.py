@@ -593,5 +593,132 @@ finally:
         exercise_python_startup(self, "migrated", self.receipt)
 
 
+
+class CurrentCoreControls(unittest.TestCase):
+    """Actual current-core ordinary reads; no native18 or original14 admission."""
+    call = TransportControls.call
+
+    @classmethod
+    def setUpClass(cls):
+        require_host()
+        cls.temp = tempfile.TemporaryDirectory(prefix="current-core-read-controls-", dir="/tmp")
+        cls.addClassCleanup(cls.temp.cleanup)
+        cls.base = Path(cls.temp.name)
+        cls.fixture = FIXTURES.Fixture(seed_receipt=False, persistent_repo=cls.base / "repo")
+        cls.addClassCleanup(cls.fixture.close)
+        cls.source_dir = cls.fixture.scripts
+        cls.names = NAMES + ("canonical_rotation_inputs.py", "read-canonical-pair.py")
+        for name in cls.names:
+            shutil.copy2(ROOT / "skills/implementaudit/scripts" / name, cls.source_dir / name)
+        cls.fixture.write_state("G0001", "new-session")
+        made = cls.fixture.claim("--resume-controller", FIXTURES.CONTROLLER,
+                                 "--boundary", "new-session", "--epoch", "G0001")
+        if made.returncode:
+            raise AssertionError(made.stderr.decode())
+        cls.fixture.receipt = made.stdout.decode().strip()
+        scripts = cls.fixture.repo / "scripts"
+        scripts.mkdir()
+        for name in ("work-graph-continuity-transport.py", "operational-evidence.py",
+                     "operational_query_policy.py"):
+            shutil.copy2(ROOT / "scripts" / name, scripts / name)
+        shutil.copy2(ROOT / "skills/implementaudit/scripts/compile-work-graph.py",
+                     cls.source_dir / "compile-work-graph.py")
+        cls.adapter_path = scripts / "work-graph-continuity-transport.py"
+        cls.transport = load("current_core_transport_under_test", cls.adapter_path)
+        cls.owner = load("current_core_receiving_owner", scripts / "operational-evidence.py")
+        cls.sources = tuple((str(cls.source_dir / name), (cls.source_dir / name).read_bytes())
+                            for name in cls.names)
+
+    def test_actual_three_read_commands_match_direct_current_owner(self):
+        before = snapshot(self.fixture.repo)
+        for arguments in (("--current-controller",),
+                          ("--require-current-continuity", FIXTURES.CONTROLLER),
+                          ("--verify-resume-receipt", self.fixture.receipt)):
+            with self.subTest(command=arguments[0]):
+                direct = self.fixture.claim(*arguments)
+                observed = self.call(*arguments)
+                self.assertEqual((observed["returncode"], observed["stdout"], observed["stderr"]),
+                                 (direct.returncode, direct.stdout, direct.stderr))
+                self.assertEqual(observed["returncode"], 0)
+                self.assertEqual(tuple(row["name"] for row in observed["closure"]["members"]), self.names)
+                self.assertTrue(all(row["readonly"] and row["links"] == 1 and row["seals"] == 15
+                                    for row in observed["closure"]["members"]))
+                save_result("current-core-" + arguments[0][2:], observed)
+        self.assertEqual(snapshot(self.fixture.repo), before)
+
+    def test_unsupported_observe_and_writers_refuse_before_launch(self):
+        before = snapshot(self.fixture.repo)
+        for arguments in (("--observe-current-continuity",), ("--rotate-canonical-state",),
+                          ("--resume-controller", FIXTURES.CONTROLLER), ("--controller", "new"),
+                          ("--current-controller", "extra")):
+            with self.subTest(arguments=arguments), mock.patch.object(subprocess, "Popen") as child:
+                with self.assertRaises(self.transport.ContinuityTransportError) as caught:
+                    self.call(*arguments)
+                self.assertEqual(caught.exception.code, "CONTINUITY_TRANSPORT_COMMAND_REFUSED")
+                child.assert_not_called()
+        self.assertEqual(snapshot(self.fixture.repo), before)
+
+    def test_exact_current_source_closure_has_no_windows_or_historical_credit(self):
+        profiles = self.transport.source_profiles_for_helpers_v1(self.sources[0][1], self.sources[1][1])
+        self.assertEqual(len(profiles), 1)
+        self.assertTrue(all(row[3] is not None for row in profiles[0]))
+        self.assertNotIn(profiles[0], self.transport.ORIGINAL14_SOURCE_PROFILES_V1)
+        self.assertNotEqual(profiles[0], self.transport.SOURCE_PROFILE_V1)
+        bad = [self.sources[:-1], self.sources + self.sources[:1], tuple(reversed(self.sources))]
+        bad += [self.sources[:i] + ((path, raw + b"\n"),) + self.sources[i + 1:]
+                for i, (path, raw) in enumerate(self.sources)]
+        for sources in bad:
+            with self.subTest(population=len(sources)), mock.patch.object(subprocess, "Popen") as child:
+                with self.assertRaises(self.transport.ContinuityTransportError):
+                    self.call("--current-controller", sources=sources)
+                child.assert_not_called()
+
+    def test_each_source_changed_after_sealing_is_not_executed_or_accepted(self):
+        original = subprocess.Popen
+        for name, (spelling, raw) in zip(self.names, self.sources):
+            with self.subTest(source=name):
+                path = Path(spelling); mode = path.stat().st_mode & 0o7777; fired = []
+                def changed(command, **kwargs):
+                    if Path(command[0]).name == "bwrap":
+                        marker = (b"echo CORE_SOURCE_CHANGED_EXECUTED >&2; exit 93\n" if name.endswith(".sh")
+                                  else b"raise RuntimeError('CORE_SOURCE_CHANGED_EXECUTED')\n")
+                        path.write_bytes(marker + b" " * (len(raw) - len(marker)))
+                        fired.append(True)
+                    return original(command, **kwargs)
+                try:
+                    with mock.patch.object(subprocess, "Popen", side_effect=changed):
+                        with self.assertRaises(self.transport.ContinuityTransportError) as caught:
+                            self.call("--require-current-continuity", FIXTURES.CONTROLLER)
+                    self.assertEqual(fired, [True])
+                    self.assertEqual(caught.exception.code, "CONTINUITY_TRANSPORT_SOURCE_CHANGED")
+                    self.assertEqual(caught.exception.returncode, 0, caught.exception.stderr)
+                    self.assertEqual(caught.exception.stdout.decode().strip(), self.fixture.receipt)
+                    self.assertNotIn(b"CORE_SOURCE_CHANGED_EXECUTED", caught.exception.stderr)
+                finally:
+                    path.write_bytes(raw); path.chmod(mode)
+
+    def test_current_owner_ignores_cwd_python_source(self):
+        exercise_python_startup(self, "current-core", self.fixture.receipt)
+
+    def test_actual_posix_closure_is_received_at_fixed_current_paths(self):
+        observed = self.call("--current-controller")
+        raw = self.adapter_path.read_bytes()
+        value = dict(schema="implementaudit.native-continuity-closure.v1", execution=observed["closure"],
+                     transport=dict(path=str(self.adapter_path), bytes=len(raw),
+                                    sha256=hashlib.sha256(raw).hexdigest(),
+                                    mode=self.adapter_path.stat().st_mode & 0o7777))
+        pair = dict(zip(("claim_sha256", "validate_sha256"),
+                        (hashlib.sha256(raw).hexdigest() for _, raw in self.sources[:2])))
+        compiler = self.source_dir / "compile-work-graph.py"
+        self.owner._native_check_continuity_closure_v1(value, self.fixture.repo, compiler, pair)
+        for edit in (lambda v: v["execution"]["members"].pop(),
+                     lambda v: v["execution"]["members"][0].update(path="/foreign/claim-run.sh"),
+                     lambda v: v["execution"]["members"][0].update(seals=0),
+                     lambda v: v["execution"].update(custody="WINDOWS_HELD_FILES_V1")):
+            mutant = json.loads(json.dumps(value)); edit(mutant)
+            with self.assertRaises(self.owner.OperationalEvidenceError):
+                self.owner._native_check_continuity_closure_v1(mutant, self.fixture.repo, compiler, pair)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

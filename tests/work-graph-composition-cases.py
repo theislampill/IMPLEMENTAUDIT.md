@@ -2,7 +2,8 @@
 """Exact source-profile composition controls; no authentic host admission.
 
 The default exercises current engine code with pinned historical six-source inputs
-and verifies that current helpers cannot use that historical contract.
+and separately selects the current-core POSIX profile without borrowing that
+historical execution contract.
 --source-root selects an independently
 materialized, immutable published-source composition for the same controls.
 It never supplies source pins or replaces a production acceptance predicate.
@@ -50,12 +51,12 @@ def main():
         current_owner, _, _ = current._native_static_owner_module_v1()
         claim, validate = [(ROOT / 'skills/implementaudit/scripts' / name).read_bytes()
                            for name in ('claim-run.sh', 'validate-run-root.sh')]
-        try:
-            current._native_six_source_transport_v1(current_owner, claim, validate)
-        except current.WorkGraphError as error:
-            assert str(error) == 'native continuity helpers are not an explicitly selected source domain'
-        else:
-            raise AssertionError('current source silently acquired the historical six-source domain')
+        current_adapter, current_sources, _ = current._native_six_source_transport_v1(current_owner, claim, validate)
+        current_profile = current_adapter._source_profile(current_sources)
+        assert current_profile != current_adapter.SOURCE_PROFILE_V1
+        assert current_profile not in current_adapter.ORIGINAL14_SOURCE_PROFILES_V1
+        assert len(current_profile) == 8 and all(row[3] is not None for row in current_profile)
+        assert current_adapter._sources(current_owner, current_sources, ROOT / 'skills/implementaudit/scripts')[1]
         inputs = load(ROOT / 'tests/work-graph-historical-fixture.py', 'composition_historical_inputs')
         historical = tempfile.TemporaryDirectory(prefix='historical-continuity-engine-')
         source = inputs.copy_continuity_engine(Path(historical.name))
@@ -133,7 +134,7 @@ def main():
         finally:
             fixture.close()
     report = dict(scope='CURRENT_ENGINE_HISTORICAL_SIX_SOURCE_INPUTS' if historical else 'EXPLICIT_SOURCE_COMPOSITION',
-                  current_source_gate='UNQUALIFIED_HELPER_PAIR_REFUSED' if historical else 'EXPLICIT_SOURCE_SUBJECT',
+                  current_source_gate='EXACT_CURRENT_CORE_POSIX_SOURCE_SELECTED' if historical else 'EXPLICIT_SOURCE_SUBJECT',
                   native_admission='NOT_ESTABLISHED', sources=profile,
                   transport_sha256=hashlib.sha256(adapter_source[1]).hexdigest(),
                   source_controls=checked, commands=results)

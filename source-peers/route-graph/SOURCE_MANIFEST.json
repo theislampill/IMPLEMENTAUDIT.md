@@ -27,14 +27,14 @@
     {
       "path": "source-peers/route-graph/skills/implementaudit/scripts/compile-work-graph.py",
       "bytes": 250962,
-      "sha256": "03039b9f3eb18c8d43a42212974960771521330463bef4d973981319ce4758da",
+      "sha256": "3717c728aad5c8462b95d1b6613a5fc739f5b08716dcb5bcd7d68a80b56eb45c",
       "semantic_owner": "R0035",
       "state": "SOURCE_PROPOSAL_NOT_NATIVE_ADMISSION",
       "materialized_path": "skills/implementaudit/scripts/compile-work-graph.py",
       "mode": "100644",
       "modified": true,
       "source_preimage_sha256": "ef000d06a60cec080c0c2fa1838b67729009b04373946634c73d32f7c08229e9",
-      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; composed R0039 native-v3/C02 source candidate; no native admission; R0039 exact-source projection binding receiving candidate; captured buffer and physical-path cache retained; wave1 composite source reconciliation, see docs/integration/active-rlgwo-composite-20261025.md; no native admission; retained exact current source-map receiving from79316011; historical domains preserved; exact current transport receiving owner pin; old transport profile retained; exact current original14 Windows receiver tuple, no native authority",
+      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; composed R0039 native-v3/C02 source candidate; no native admission; R0039 exact-source projection binding receiving candidate; captured buffer and physical-path cache retained; wave1 composite source reconciliation, see docs/integration/active-rlgwo-composite-20261025.md; no native admission; retained exact current source-map receiving from79316011; historical domains preserved; exact current transport receiving owner pin; old transport profile retained; exact current original14 Windows receiver tuple, no native authority; exact current-core POSIX three-read source contract; no native18/original14 receipt substitution",
       "composition_preimage_sha256": "ed1a0361533be2a4e6dd46a2525ab290c6a6bbfc4740dcd353657cb61048e5e1",
       "integration_preimage_sha256": "764bc5c701b1e67f1bb50bb8253955a772f1de5506d68de6f899788bf05eb6f1"
     }
