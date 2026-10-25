@@ -225,6 +225,9 @@ def load(store, session):
                 and type(item.get('consumed_version')) is int
                 and 0 <= item['consumed_version'] <= item['version'],
                 'PENDING_OBSERVATION_COUNTERS')
+    require(all(type(value[key]) is int and value[key] >= 0
+                for key in ('revision', 'signals', 'unresolved_signal_version')),
+            'PENDING_STATE_COUNTERS')
     return value
 
 def save(store, state):

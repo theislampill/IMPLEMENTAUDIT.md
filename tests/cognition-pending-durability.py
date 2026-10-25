@@ -775,6 +775,13 @@ def reservation_refusal_profile(pins):
     # differs. Bind the same four source owners recorded by source_pins; do not
     # accept either reason interchangeably or infer it from the response.
     profiles = {
+        # Combined top-level counter guard; original parser and reservation guards retained.
+        ("8c16f7f142b67eb4504ae275bf53e8ea104bb75378748402e8a4c0a31efdbc43",
+         "9ea603b9d923df5c155c7a5406ee2dac21cbc8fc87ec205f978e3130fbe43345",
+         "2fcb390a3e4105adc1178000e736b1a09b3b5a59db03fdd744cda895a1352d04",
+         "62558bb209129c66b55d2a97325d16db4aecfd2ecbeb71323dd44070a50f0890"):
+            ("source-sha256:8c16f7f142b67eb4504ae275bf53e8ea104bb75378748402e8a4c0a31efdbc43",
+             "NONPROTECTED_PROJECTION_PROFILE_REQUIRED", "PENDING_STATE_JSON", "PENDING_STATE_JSON_CONSTANT"),
         ("b12a6e385bb911e54c641c8a3c56ba0d0a40819083f4444f2659c6eecd55af8c",
          "9ea603b9d923df5c155c7a5406ee2dac21cbc8fc87ec205f978e3130fbe43345",
          "2fcb390a3e4105adc1178000e736b1a09b3b5a59db03fdd744cda895a1352d04",

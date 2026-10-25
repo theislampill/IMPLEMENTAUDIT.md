@@ -23,11 +23,16 @@ set -euo pipefail
 #   (yes|no; prior/rejected may be not-applicable)
 #
 # Exit 0 = accept/proceed (with a one-line verification note or a
-# "nothing mechanical to verify" note). Exit 1 = contradicted Class-1
+# "nothing mechanical to verify" note). Exit 1 = contradicted or unverifiable Class-1
 # claim: a named abnormality is emitted and dependent execution BLOCKS.
 # Class-3 owner authorization is always echoed verbatim, never recomputed.
 
 fail() { printf 'check-handoff-packet: %s\n' "$*" >&2; exit 1; }
+
+unverifiable() {
+  printf 'check-handoff-packet: UNVERIFIABLE Class-1 claim: %s (Git observation failed)\n' "$1" >&2
+  fail "abnormality class evidence-mismatch — receiver re-derivation unavailable; dependent execution BLOCKS until acknowledged (audit NOT restarted)"
+}
 
 pkt="${1:-}"
 [ -f "$pkt" ] || fail "packet file not found: ${pkt:-<none>}"
@@ -286,7 +291,10 @@ PY
 }
 
 has_claims="$(get has_state_claims)"
-if [ "${has_claims,,}" = "no" ]; then
+# A sender's denial cannot erase a populated Class-1 claim. Only a genuinely
+# empty claim population may skip the existing live comparisons below.
+if [ "${has_claims,,}" = "no" ] &&
+   [ -z "$(get subject_repo)$(get claimed_branch)$(get claimed_tree)$(get claimed_clean)" ]; then
   verify_receiver_reference
   printf 'check-handoff-packet: nothing mechanical to verify (no Class-1 state claims)\n'
   exit 0
@@ -297,8 +305,9 @@ contradicted=0
 note=""
 
 claimed_repo="$(get subject_repo)"
-if [ -n "$claimed_repo" ] && git -C "$repo_root" rev-parse --show-toplevel >/dev/null 2>&1; then
-  live_repo="$(basename "$(git -C "$repo_root" rev-parse --show-toplevel)")"
+if [ -n "$claimed_repo" ]; then
+  live_repo="$(git -C "$repo_root" rev-parse --show-toplevel 2>/dev/null)" || unverifiable subject_repo
+  live_repo="$(basename "$live_repo")"
   case "$claimed_repo" in
     */"$live_repo"|"$live_repo") : ;;
     *) contradicted=1; note="$note subject_repo(claimed=$claimed_repo live=$live_repo)";;
@@ -307,7 +316,7 @@ fi
 
 claimed_branch="$(get claimed_branch)"
 if [ -n "$claimed_branch" ]; then
-  live_branch="$(git -C "$repo_root" rev-parse --abbrev-ref HEAD 2>/dev/null || echo unknown)"
+  live_branch="$(git -C "$repo_root" rev-parse --abbrev-ref HEAD 2>/dev/null)" || unverifiable claimed_branch
   [ "$claimed_branch" = "$live_branch" ] || { contradicted=1; note="$note branch(claimed=$claimed_branch live=$live_branch)"; }
 fi
 
@@ -319,7 +328,7 @@ if [ -n "$claimed_tree" ]; then
   if ! printf '%s' "$claimed_tree" | grep -qiE '^[0-9a-f]{40}$'; then
     contradicted=1; note="$note tree(claimed=$claimed_tree — not a full 40-hex SHA; short identity is never confirmed)"
   else
-    live_tree="$(git -C "$repo_root" rev-parse HEAD 2>/dev/null || echo none)"
+    live_tree="$(git -C "$repo_root" rev-parse HEAD 2>/dev/null)" || unverifiable claimed_tree
     if [ "${claimed_tree,,}" != "$live_tree" ]; then
       contradicted=1; note="$note tree(claimed=$claimed_tree live=$live_tree)"
     fi
@@ -328,7 +337,8 @@ fi
 
 claimed_clean="$(get claimed_clean)"
 if [ -n "$claimed_clean" ]; then
-  if [ -z "$(git -C "$repo_root" status --porcelain 2>/dev/null)" ]; then live_clean=yes; else live_clean=no; fi
+  live_status="$(git -C "$repo_root" status --porcelain 2>/dev/null)" || unverifiable claimed_clean
+  if [ -z "$live_status" ]; then live_clean=yes; else live_clean=no; fi
   [ "${claimed_clean,,}" = "$live_clean" ] || { contradicted=1; note="$note clean(claimed=$claimed_clean live=$live_clean)"; }
 fi
 

@@ -87,9 +87,16 @@ class CompositeSourceCases(unittest.TestCase):
         fixture = load("composite_pending_fixture", ROOT / "tests/cognition-pending-durability.py")
         pins = fixture.source_pins(ROOT)
         selected = fixture.reservation_refusal_profile(pins)
-        self.assertEqual(selected["qualified_checkpoint"], "f74a7c6675073af8c78f8a83ef5f3eb1476d2bfb")
+        self.assertEqual(selected["qualified_checkpoint"], "source-sha256:8c16f7f142b67eb4504ae275bf53e8ea104bb75378748402e8a4c0a31efdbc43")
         self.assertEqual(selected["stored_json_refusal"], "PENDING_STATE_JSON")
         self.assertEqual(selected["nonfinite_counter_refusal"], "PENDING_STATE_JSON_CONSTANT")
+        prior_combined = dict(pins)
+        prior_combined[str(fixture.PEER / "compaction-audit-pending.py")] = "b12a6e385bb911e54c641c8a3c56ba0d0a40819083f4444f2659c6eecd55af8c"
+        self.assertEqual(fixture.reservation_refusal_profile(prior_combined), {
+            "qualified_checkpoint": "f74a7c6675073af8c78f8a83ef5f3eb1476d2bfb",
+            "expected_reason": "NONPROTECTED_PROJECTION_PROFILE_REQUIRED",
+            "stored_json_refusal": "PENDING_STATE_JSON",
+            "nonfinite_counter_refusal": "PENDING_STATE_JSON_CONSTANT"})
         historical = dict(pins)
         historical[str(fixture.PEER / "compaction-audit-pending.py")] = "9b5faf290e08d3df77b15d5e5301a3760c4e599d16719cf8f72e1768522ea691"
         self.assertEqual(fixture.reservation_refusal_profile(historical), {
