@@ -36,6 +36,12 @@ class HistoricalInputCases(unittest.TestCase):
                 self.assertIn(row["mode"], (0o644, 0o755))
         self.assertEqual(hashlib.sha256(H.original(A.REGISTRY)).hexdigest(), A.REGISTRY_SHA256)
         self.assertEqual(hashlib.sha256(H.original(A.PREFIX_HELPER)).hexdigest(), A.PREFIX_HELPER_SHA256)
+        for profile in A._CONTRACTS:
+            contract = A.contract_for(profile)
+            for name, expected in {**contract["programs"], **contract.get("pinned_data", {})}.items():
+                with self.subTest(profile=profile, pin=name):
+                    self.assertEqual(hashlib.sha256(H.input_bytes(name)).hexdigest(), expected,
+                                     "historical input must be retained before its current source changes")
         # Reference specimens do not recursively enter the acquired tests/fixtures subjects.
         self.assertEqual(H.COLLECTION, ROOT / "test-support/work-graph-registry")
 

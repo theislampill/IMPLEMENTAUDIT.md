@@ -248,6 +248,12 @@
       "sha256": "de6025b8c5e48d924643387e85c1554d60b4208c751e0b5f64376cb53368f2ce",
       "bytes": 40203,
       "mode": 420
+    },
+    "tests/skill-bootstrap-budget.test.sh": {
+      "specimen": "original117/tests/skill-bootstrap-budget.test.sh",
+      "sha256": "604cafce4181e2cd2c99f9f6f9e5971f8f372f6ad842c112ef1356cb7cfcd7e0",
+      "bytes": 4926,
+      "mode": 420
     }
   }
 }
