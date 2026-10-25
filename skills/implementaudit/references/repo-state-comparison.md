@@ -318,7 +318,44 @@ remain portable inputs, not native authentication. Actual later mutation must
 use the original route and revalidate authority, preimage and applicable
 fences. ADD, RETAIN, protected merge and executor bootstrap/self-row law are
 outside this restricted prefix; historical EH-3 population fidelity and full
-batch application remain unqualified.
+batch application remain unqualified by preflight alone.
+
+To consume that same ordered manifest through ordinary per-step authority, run
+`apply-observed-mutation.sh --batch-apply <batch.json> --repo-root <r> --run-root <rr> --phase <n>`.
+This mode excludes `--batch-preflight`, `--step`, individual evidence flags and
+`--require-generation-fence`. It completes the existing all-target preflight
+before dispatch, then calls the existing ordinary REPLACE transaction machinery
+once per row in array order. Each child compares the frozen claim, exact phase,
+authority projection, selected evidence, shared inputs, controller and HEAD
+before early `NO_CHANGE` or transaction effects. Its checked evidence buffers
+are the buffers consumed. The private restriction transport only narrows the
+existing grant; it cannot authorize a protected/native effect.
+
+The helper captures its Python body once and executes those same bytes in
+isolated child interpreters without reopening its own path. This binds only
+that self-execution edge; validator source loads retain their existing boundary.
+Physical capture/recheck is an observed regular-file boundary, not an atomic
+snapshot or exclusion of arbitrary same-principal writers.
+
+The single stdout `implementaudit.replacement-batch-apply.v1` report retains
+the actual preflight and each attempted row's actual exit, lossless base64
+stdout/stderr, decoded result and classification. `COMPLETED` requires exit zero
+and an identity-matching ordinary v2 `COMMITTED` or `NO_CHANGE` result. The latter
+has no transaction and empty effect sets. A valid non-success stops the batch
+with its ordinary exit; missing, malformed, duplicate/nonfinite or inconsistent
+results yield `UNKNOWN` / 78. Later rows are explicitly `NEVER_STARTED`, without
+invented exits, streams or transactions. A launch failure remains unstarted
+and records its actual exception. Preflight refusal starts no child.
+
+The completed prefix remains intact. There is no automatic retry, compensation,
+aggregate atomicity, authority or durable batch receipt. Interruption after
+dispatch can prevent the final stdout report and leave the attempted row
+unknown; existing per-step journals/results require manual reconciliation.
+Saved results never replace missing live returns. Existing per-step auxiliary
+effects and their persisted-prefix/live-suffix evidence remain authoritative.
+This consumer covers ordinary ordered REPLACE only; ADD, RETAIN, protected
+merge, executor bootstrap/self-row law, historical EH-3 population fidelity
+and full EH-3 acceptance remain separate obligations.
 
 When a protected effect depends on a distributed authority generation, pass
 `--require-generation-fence` on that same route and supply the phase/step's
@@ -375,6 +412,7 @@ helper-mode: validate-run-root.sh|--graph-parent|<catalog> <repo> <scope> <reaso
 helper-mode: check-authorization-binding.sh|--phase --rehearsal --launch|<phase> <receipt> <launch>|failed-rehearsal-blocks-launch|scripts/validate-phase.sh
 helper-mode: check-evidence-anchor.sh|--window-transition|<transition> <launch-intent> --entry <n> --repo-root <repo>|governed-window-publication|-
 helper-mode: apply-observed-mutation.sh|--batch-preflight|<batch.json> --repo-root <r> --run-root <rr> --phase <n>|observation-only
+helper-mode: apply-observed-mutation.sh|--batch-apply|<batch.json> --repo-root <r> --run-root <rr> --phase <n>|ordinary-ordered-replace
 
 helper-route: scripts/check-authorization-binding.sh|R|auth|P|-|--auth <a> --invocation <i> --state <s>|no-param
 helper-route: scripts/apply-observed-mutation.sh|R|destructive-mutation|R|-|--repo-root <r> --run-root <rr> --phase <n> --step <n> <evidence>|governed-writer

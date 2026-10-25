@@ -410,9 +410,8 @@ def claim_public_modes(content):
 
 
 def replacement_preflight_modes(content):
-    # The Bash helper's new observation mode is a top-level Python parser and
-    # dispatch pair. A prose mention, nested dead branch or missing half is not
-    # an implemented public mode. Runtime behavior has separate focused tests.
+    # Each public replacement mode needs its top-level parser, dispatch and
+    # function. Prose or a nested dead branch does not implement a mode.
     opening, closing = "<<'PY'\n", "\nPY\n"
     if content.count(opening) != 1 or content.count(closing) != 1:
         return []
@@ -420,17 +419,18 @@ def replacement_preflight_modes(content):
         body = ast.parse(content.split(opening, 1)[1].split(closing, 1)[0]).body
     except SyntaxError:
         return []
-    required = [
-        'parser.add_argument("--batch-preflight", dest="preflight_replacements")',
-        'if args.preflight_replacements is not None:\n    replacement_batch_preflight()',
-    ]
     actual = [ast.dump(node, include_attributes=False) for node in body]
-    if (all(actual.count(ast.dump(ast.parse(source).body[0], include_attributes=False)) == 1
-            for source in required)
-            and sum(isinstance(node, ast.FunctionDef) and node.name == "replacement_batch_preflight"
-                    for node in body) == 1):
-        return ["--batch-preflight"]
-    return []
+    modes = []
+    for mode, destination, function in (
+            ("--batch-preflight", "preflight_replacements", "replacement_batch_preflight"),
+            ("--batch-apply", "apply_replacements", "replacement_batch_apply")):
+        required = [f'parser.add_argument("{mode}", dest="{destination}")',
+                    f'if args.{destination} is not None:\n    {function}()']
+        if (all(actual.count(ast.dump(ast.parse(source).body[0], include_attributes=False)) == 1
+                for source in required)
+                and sum(isinstance(node, ast.FunctionDef) and node.name == function for node in body) == 1):
+            modes.append(mode)
+    return modes
 
 
 implemented_mode_sets = {}
