@@ -338,6 +338,7 @@ in_range() {  # value, spec
   local v="$1" spec="$2"
   case "$spec" in
     *..*) local lo="${spec%%..*}" hi="${spec##*..}"
+          [ "$spec" = "$lo..$hi" ] || return 1
           [ "$v" -ge "$lo" ] 2>/dev/null && [ "$v" -le "$hi" ] 2>/dev/null ;;
     *"|"*) while :; do
             [ "$v" = "${spec%%|*}" ] && return 0
