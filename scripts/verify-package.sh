@@ -390,6 +390,10 @@ require_file tests/action-selection-contract.test.sh
 require_file tests/work-graph-compiler.test.sh
 require_file tests/native-work-graph.test.sh
 require_file tests/work-graph-verifier.test.sh
+require_file tests/distributed-runtime-contract.test.sh
+require_file tests/distributed_generation_fence.py
+require_file fixtures/distributed-runtime/r48-admission-cases.json
+require_file fixtures/distributed-runtime/r48-fencing-cases.json
 require_file tests/fanout-coverage-contract.test.sh
 require_file tests/cold-review-contract.test.sh
 require_file tests/claim-boundary-proof-levels.test.sh
@@ -743,6 +747,7 @@ bash tests/e2e-mini-audit-loop.test.sh
 bash tests/skill-bootstrap-budget.test.sh
 bash tests/source-evidence-pack.test.sh
 bash tests/action-selection-contract.test.sh
+bash tests/distributed-runtime-contract.test.sh
 bash tests/fanout-coverage-contract.test.sh
 bash tests/work-graph-compiler.test.sh
 bash tests/native-work-graph.test.sh
