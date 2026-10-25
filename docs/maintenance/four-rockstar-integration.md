@@ -1471,3 +1471,72 @@ The actual combined claim, phase and currentness owners were consumed; no
 native authentication, atomic snapshot, whole-composite package acceptance
 or full EH-3 application follows. The completed pair is retained at its exact
 source identity and is not replayed for the reference/census correction.
+
+## R0030: original ordered application and unfinished-step recovery
+
+The first prospectively admitted ordered-application episode is now independently
+assessed as `PASS_BOUNDED`. It executed once on public PR251
+`7e7bae8de911325d6c64fb5a6e51886cf963d894`, tree
+`1b92423aa7e3ea6c48491c0e9543258fbb1b9c92`, using unchanged mutation helper
+`206d8af24e839b6a9080fd0367d2b4be5253b3e26cad6572b623046ec25986f7`.
+The conversation-cap interruption occurred after execution and before independent
+assessment. Recovery found the original source and raw records intact. The stale
+checkpoint59 prospective roadmap was reconciled against those actual records;
+the episode was not executed again.
+
+| Original helper call | Actual result | Preserved consequence |
+| --- | --- | --- |
+| Initial two-row preflight | `0 / OBSERVATION_ONLY` | Both original rows observed; no transaction or governed target change. |
+| Ordinary step 1 | `0 / COMMITTED` | First target changed to its declared candidate; transaction custody retained. |
+| Step 2 after the declared input drift | `65 / CONFLICT_REBASE / PREIMAGE_DRIFT` | No step-2 transaction, planned or actual effects, or residue; first target and transaction unchanged. |
+| Original whole-batch preflight | `65 / REFUSED / PREIMAGE_DRIFT` | Refused at row zero because step 1's old preimage was stale; step 1 was not repeated. |
+| Original unfinished row 2 after input restoration | `0 / OBSERVATION_ONLY` | Fresh observation of the original row and phase binding; no effect grant. |
+| Ordinary step 2 | `0 / COMMITTED` | Second target changed to its declared candidate; first target and transaction still unchanged. |
+
+The two declared harness interventions alter only the second target: one writes
+the frozen drift bytes, and one restores its original declared preimage. The
+restoration is an explicit input repair in the same original claim and phase,
+not automatic recovery, compensation or rollback performed by the product.
+Step 1 has one actual application invocation. Step 2 has one pre-effect refusal
+and one later successful application. This demonstrates ordered partial progress
+and continuation of unfinished work under the existing per-step mechanism.
+
+The actual population is six original setup commands, six helper invocations
+and three unchanged read-only result-oracle calls: fifteen top-level subprocess
+records, not a trace of all internal child processes. Independent read-only
+assessment verified all 303 packet files, their 3,019,882 bytes, hashes and modes;
+all nineteen captured source files match the exact executing commit. Across
+thirty-eight captured snapshots, forty original input/Git/template entries stay
+unchanged. After the first commit, its target and all eight transaction-subtree
+entries remain physically identical through every later captured boundary.
+
+The saved result is the completed-effect prefix of the returned live result:
+step 1 records 69 saved effects and six later completed result-publication
+effects, giving 75 live effects; step 2 records 67 plus six, giving 73. Their
+non-effect semantics agree. No identical-length requirement was substituted for
+that original persistence oracle. Full transient journal contents between
+syscalls were not captured; endpoint custody and emitted effect records bound
+the finding. The whole-batch refusal occurs before the retained-transaction
+guard and adds no execution coverage of that later branch. Validator support
+effects remain distinct from governed target effects.
+
+The actual packet SHA-256 is
+`380cffbc747d89335f58de352a4ad999ba9eacd64375a24542db73d2ce4cb93a`.
+The fresh-context independent report is
+`78e1694fe285918621aa78afeed654bc3daa8d2a491455139f4d9750176a3c87`;
+its receipt is
+`05183cdef9ffc7ce7c20ed72872c132d914bb3726b9d8c0e83c3a92c407ed2e6`.
+This review consumed the original records without any product, fixture, oracle
+or episode replay. The original prospective GAP, revision-two admission,
+first actual outcomes and prior C05 failure/rollback evidence remain preserved.
+
+The evidence advances bounded ordinary C03/C05/C06-related effect, recovery and
+currentness predicates. It supplies neither an automatic batch executor nor
+atomic multi-step execution, durable snapshots, natural power-loss recovery,
+arbitrary protected-effect compensation or external exactly-once guarantees.
+ADD/RETAIN/protected-merge semantics, executor bootstrap/self-row law, fidelity
+to the unrecovered historical EH-3 proposal and its 1,248-row population,
+native/installed-host activation, full C01-C09 and P53/D48-O01 remain separate.
+The maintained source was adequate for this finite episode; no runtime,
+package or installation source changed, so their accepted evidence is reused
+at its original identity. All four original work-order decisions remain OPEN.
