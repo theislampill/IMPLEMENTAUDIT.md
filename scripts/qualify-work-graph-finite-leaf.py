@@ -1682,6 +1682,156 @@ def custody_append_inputs(prefix, root, objects, contract):
     return state, record
 
 
+def custody_append_source_plan(files, directories, overlay):
+    """Complete fixed105 input population; never a caller-selected host tree."""
+    bounds = _CONTRACTS[CUSTODY_APPEND_PROFILE]["complete_root"]
+    source = {name: value for name, value in files.items() if name.startswith("/work/")}
+    dirs = {name for name in directories if name == "/work" or name.startswith("/work/")}
+    if "/work" not in dirs or set(source) & dirs or len(source) + len(dirs) > bounds["entries"]:
+        raise ValueError("original105 complete staged population differs")
+    for name in set(source) | dirs:
+        if (str(Path(name)) != name or ".." in Path(name).parts or "\x00" in name
+                or len(name.removeprefix("/work/").encode()) > bounds["path_bytes"]
+                or len(Path(name).parts) - 2 > bounds["depth"]):
+            raise ValueError("original105 staged path is outside the fixed source bounds")
+        if name != "/work" and str(Path(name).parent) not in dirs:
+            raise ValueError("original105 staged source omits an ancestor")
+    if any(type(raw) is not bytes or mode not in (0o444, 0o644, 0o755)
+           or len(raw) > bounds["file_bytes"] for raw, mode in source.values()):
+        raise ValueError("original105 staged source bytes or modes are unsupported")
+    if sum(len(raw) for raw, _ in source.values()) > bounds["total_bytes"]:
+        raise ValueError("original105 staged source exceeds the complete input bound")
+    immediate_dirs = sorted(name for name in dirs if name.count("/") == 2)
+    if overlay["readonly_subtrees"] != immediate_dirs:
+        raise ValueError("original105 read-only stage mounts differ from the complete source")
+    targets = sorted(set(immediate_dirs) | {name for name in source if name.count("/") == 2})
+    return source, dirs, targets
+
+
+class CustodyAppendSourceStage:
+    """Private ordinary inputs from captured bytes, held through actual dispatch.
+
+    Bubblewrap realpaths bind sources, so these are private pathname bindings,
+    not claimed FD-only mounts. Retained file/directory handles, complete name
+    sets and ancestor identities are rechecked before and after the child.
+    """
+    ANCESTOR_LIMIT = 32
+
+    @staticmethod
+    def _stamp(info):
+        return (info.st_dev, info.st_ino, info.st_mode, info.st_nlink, info.st_size,
+                info.st_mtime_ns, info.st_ctime_ns, info.st_uid, info.st_gid)
+
+    @staticmethod
+    def _anchor(info):
+        return (info.st_dev, info.st_ino, info.st_mode, info.st_uid, info.st_gid)
+
+    def _hold(self, fd):
+        self._fds.append(fd)
+        if fd >= self._descriptor_limit:
+            raise ValueError("original105 staged descriptor capacity exceeded")
+        return fd
+
+    def __init__(self, parent, files, directories, overlay, descriptor_limit):
+        self._fds, self._nodes, self._ancestors = [], {}, []
+        self._closed, self._descriptor_limit = False, descriptor_limit
+        self._source, self._directories, targets = custody_append_source_plan(files, directories, overlay)
+        parent = Path(parent).absolute()
+        if ".." in parent.parts or len(parent.parts) > self.ANCESTOR_LIMIT:
+            raise ValueError("original105 staging ancestor bound exceeded")
+        directory_flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC
+        try:
+            current = self._hold(os.open("/", directory_flags))
+            self._ancestors.append((None, "/", current, self._anchor(os.fstat(current))))
+            for name in parent.parts[1:]:
+                previous = current
+                current = self._hold(os.open(name, directory_flags, dir_fd=previous))
+                self._ancestors.append((previous, name, current, self._anchor(os.fstat(current))))
+            os.mkdir("source-inputs", 0o700, dir_fd=current)
+            private_fd = self._hold(os.open("source-inputs", directory_flags, dir_fd=current))
+            os.fchmod(private_fd, 0o700)
+            self._ancestors.append((current, "source-inputs", private_fd, self._anchor(os.fstat(private_fd))))
+            os.mkdir("root", 0o755, dir_fd=private_fd)
+            root_fd = self._hold(os.open("root", directory_flags, dir_fd=private_fd))
+            os.fchmod(root_fd, 0o755)
+            self._nodes["/work"] = (root_fd, private_fd, "root", "directory")
+            for name in sorted(self._directories - {"/work"}, key=lambda n: (n.count("/"), n)):
+                parent_fd = self._nodes[str(Path(name).parent)][0]
+                leaf = Path(name).name
+                os.mkdir(leaf, 0o755, dir_fd=parent_fd)
+                fd = self._hold(os.open(leaf, directory_flags, dir_fd=parent_fd))
+                os.fchmod(fd, 0o755)
+                self._nodes[name] = (fd, parent_fd, leaf, "directory")
+            for name, (raw, mode) in sorted(self._source.items()):
+                parent_fd = self._nodes[str(Path(name).parent)][0]
+                leaf = Path(name).name
+                fd = os.open(leaf, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.O_CLOEXEC,
+                             mode, dir_fd=parent_fd)
+                try:
+                    remaining = memoryview(raw)
+                    while remaining:
+                        count = os.write(fd, remaining)
+                        if count <= 0:
+                            raise OSError("incomplete staged input write")
+                        remaining = remaining[count:]
+                    os.fchmod(fd, mode)
+                    os.fsync(fd)
+                finally:
+                    os.close(fd)
+                fd = self._hold(os.open(leaf, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK | os.O_CLOEXEC,
+                                        dir_fd=parent_fd))
+                self._nodes[name] = (fd, parent_fd, leaf, "file")
+            self._stamps = {name: self._stamp(os.fstat(row[0])) for name, row in self._nodes.items()}
+            self._private = (private_fd, self._stamp(os.fstat(private_fd)))
+            self._children = {name: sorted(Path(child).name for child in self._nodes
+                if child != name and str(Path(child).parent) == name) for name in self._directories}
+            root = parent / "source-inputs" / "root"
+            self.bindings = tuple((str(root / name[len("/work/"):]), name) for name in targets)
+            self.check()
+        except BaseException:
+            self.close()
+            raise
+
+    def check(self):
+        if self._closed:
+            raise ValueError("original105 staged input custody is closed")
+        if self._stamp(os.fstat(self._private[0])) != self._private[1]:
+            raise ValueError("original105 private staging directory changed")
+        for parent_fd, name, fd, expected in self._ancestors:
+            current = os.stat(name, dir_fd=parent_fd, follow_symlinks=False)
+            if self._anchor(current) != expected or self._anchor(os.fstat(fd)) != expected:
+                raise ValueError("original105 staged input ancestor changed")
+        for name, (fd, parent_fd, leaf, kind) in self._nodes.items():
+            expected = self._stamps[name]
+            if (self._stamp(os.fstat(fd)) != expected
+                    or self._stamp(os.stat(leaf, dir_fd=parent_fd, follow_symlinks=False)) != expected
+                    or os.listxattr(fd)):
+                raise ValueError("original105 staged member currentness changed: " + name)
+            if kind == "directory":
+                if stat.S_IMODE(expected[2]) != 0o755 or sorted(os.listdir(fd)) != self._children[name]:
+                    raise ValueError("original105 staged directory population changed: " + name)
+            else:
+                raw, mode = self._source[name]
+                if (not stat.S_ISREG(expected[2]) or expected[3] != 1 or stat.S_IMODE(expected[2]) != mode
+                        or os.pread(fd, len(raw) + 1, 0) != raw):
+                    raise ValueError("original105 staged file bytes, mode or links changed: " + name)
+            if self._stamp(os.fstat(fd)) != expected:
+                raise ValueError("original105 staged member changed during observation: " + name)
+        return dict(schema="implementaudit.original105-source-stage.v1",
+            representation="CAPTURED_BYTES_PRIVATE_STAGE_READ_ONLY_IMMEDIATE_BINDS",
+            files={name: dict(bytes=len(raw), sha256=digest(raw), mode=mode,
+                             identity=list(self._stamps[name])) for name, (raw, mode) in self._source.items()},
+            directories={name: list(self._stamps[name]) for name in sorted(self._directories)},
+            bind_targets=[destination for _, destination in self.bindings], held_descriptors=len(self._fds),
+            input_bytes=sum(len(raw) for raw, _ in self._source.values()), authority="NONE")
+
+    def close(self):
+        for fd in reversed(self._fds):
+            os.close(fd)
+        self._fds.clear()
+        self._closed = True
+
+
 def custody_append_image_reservation(files, directories, limits, overlay, environment):
     """Exact argv construction of the existing launcher for the fixed policy."""
     if (overlay["policy"] != CUSTODY_APPEND_POLICY or overlay["root"] != "/work"
@@ -1690,17 +1840,19 @@ def custody_append_image_reservation(files, directories, limits, overlay, enviro
             or limits["scratch_bytes"] != 32 * 1024**2):
         raise ValueError("original105 fixed resource policy differs")
     reserved = retention_image_reservation(files, limits)
-    descriptors = len(files) + 3 + 64
+    source, source_directories, targets = custody_append_source_plan(files, directories, overlay)
+    runtime = {name: value for name, value in files.items() if name not in source}
+    # Hold every staged file/directory and bounded ancestor chain in the owner;
+    # only runtime sealed inputs, seccomp, args and census enter the child.
+    descriptors = len(files) + len(source_directories) + CustodyAppendSourceStage.ANCESTOR_LIMIT + 1 + 3 + 64
     # Seven initial flags, three arguments per fixed environment member;
     # final13 args, --args/fd, and ten fixed bootstrap arguments.
     arguments = 7 + 3 * len(environment) + 13 + 2 + 10
-    for name in set(directories) | {"/dev", "/tmp"}:
-        arguments += 6 if name == "/work" else 4 if name in overlay["readonly_subtrees"] else 2
-    for name, (_, mode) in files.items():
-        linked_source = name.startswith("/work/") and name.count("/") > 2
-        default = mode == 0o644 if linked_source else mode == 0o600
-        arguments += 3 if default else 5
-    arguments += 2 * len(overlay["readonly_subtrees"])
+    for name in (set(directories) - (source_directories - {"/work"})) | {"/dev", "/tmp"}:
+        arguments += 6 if name == "/work" else 2
+    for _, mode in runtime.values():
+        arguments += 3 if mode == 0o600 else 5
+    arguments += 3 * len(targets)
     if descriptors > limits["descriptors"] or arguments > 8500:
         raise ValueError("original105 full image exceeds fixed descriptor/argument capacity")
     image_entries = len(files) + len(set(directories) | {"/dev", "/tmp", "/"})
@@ -1711,6 +1863,9 @@ def custody_append_image_reservation(files, directories, limits, overlay, enviro
     # still a receiving prerequisite, never inferred from this arithmetic.
     backing = 2 * reserved["mounted_bytes"] + image_entries * 65536 + 32 * 1024**2 + CLAIM_BOUNDARY_CENSUS_BYTES
     reserved.update(descriptors=descriptors, launcher_argument_count=arguments,
+        source_input_representation="CAPTURED_BYTES_PRIVATE_STAGE_READ_ONLY_IMMEDIATE_BINDS",
+        staged_source_files=len(source), staged_source_directories=len(source_directories),
+        staged_source_bytes=sum(len(raw) for raw, _ in source.values()), source_bind_targets=len(targets),
         launcher_argument_limit=8500, census_buffer_bytes=CLAIM_BOUNDARY_CENSUS_BYTES,
         private_work_bytes=CUSTODY_APPEND_WORK_BYTES, private_tmp_bytes=CUSTODY_APPEND_TMP_BYTES,
         sealed_inputs_and_namespace_copies_bytes=2 * reserved["mounted_bytes"],
@@ -3636,6 +3791,11 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                 raise compiler.WorkGraphError("loaded finite-leaf helper differs from current source")
             result[HELPER] = digest(current)
             return result
+
+        def _custody_source_stage_v1(self, files, directories, overlay, output):
+            if self.SCOPE != CUSTODY_APPEND_PROFILE:
+                raise compiler.WorkGraphError("private source staging requires original105")
+            return CustodyAppendSourceStage(output, files, directories, overlay, self.LIMITS["descriptors"])
 
         def _acquire(self):
             self._custody()

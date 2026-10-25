@@ -158,6 +158,37 @@ SOURCE_PROFILES_V1 = {
         ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None),
         ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None),
     ),
+    # Reviewed R0039 projection-bound original14 source only; no host admission.
+    'r0039-original14-windows-projection-bound-v1': (
+        ('claim-run.sh', 99730, '405ab3853dfb88c007ea2f8f8dd98fb8e9c6e77552b172f2f71a8751364ea20f', None),
+        ('validate-run-root.sh', 61188, '73bce773c2fa43aa1f42584121824b8179356ca6bf6348c6e10492e2f128313d', None),
+        ('claim-run-rotation.py', 246657, '4dbbd07b5a792289c13c1225a8099900682b3657396f60f4b74867502cbadf97', None),
+        ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', None),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None),
+    ),
+    # Exact R0039 captured-companion source; original14 host custody remains required.
+    'r0039-original14-windows-captured-companion-v1': (
+        ('claim-run.sh', 104155, 'bd0c6d2ab1ec8f695fe34e459b25d9344e11c5930d3f62d0919b29d9bc4a44ee', None),
+        ('validate-run-root.sh', 61188, '73bce773c2fa43aa1f42584121824b8179356ca6bf6348c6e10492e2f128313d', None),
+        ('claim-run-rotation.py', 246657, '4dbbd07b5a792289c13c1225a8099900682b3657396f60f4b74867502cbadf97', None),
+        ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', None),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None),
+    ),
+    # Exact R0035 captured-companion core; old source domains remain distinct.
+    'r0035-core-captured-companion-v1': (
+        ('claim-run.sh', 21636, '35232762fdd76d000bcca774a0f6f53f3d26dfb9229d9795d397b81d7ef8483e', 0o644),
+        ('validate-run-root.sh', 61001, 'd8b046b5417dce13ed66a5ac5fffaf3d18fae40c97d42aef8b38470500d575a6', 0o644),
+        ('claim-run-rotation.py', 103754, '6f62f57d3a5873570161022e2ccc04cdb061655fa338bcb2c5ea1624b80454ca', 0o644),
+        ('rotate-canonical-state.py', 92941, '7989a08128fedabe531fc92114baff755e77e08aebea547253793b625496bb26', 0o755),
+        ('canonical_hot_projection.py', 57891, 'fe733b91dff4f031ed3ab80761d669de59c0270cd7f85325a14a2d47f9ba5276', 0o755),
+        ('canonical_custody.py', 33629, 'bfa07f0088f2df7b8c1196ccd149ebf8c6874337b35ac9a9c91ac51367a7fb1f', 0o755),
+    ),
 }
 ORIGINAL14_SOURCE_PROFILES_V1 = tuple(rows for rows in SOURCE_PROFILES_V1.values() if rows[0][3] is None)
 ORIGINAL14_SOURCE_PROFILE_V1 = SOURCE_PROFILES_V1["r0039-original14-windows"]

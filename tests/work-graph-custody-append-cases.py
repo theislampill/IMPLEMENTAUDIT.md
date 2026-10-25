@@ -8,6 +8,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import stat
 import struct
 import tempfile
 import unittest
@@ -161,7 +162,9 @@ class ResourceCases(SourceFixture):
         owner, files, manifest, _, _ = policy_fixture()
         overlay = manifest["private_source_overlay"]
         reserved = self.h.custody_append_image_reservation(files, manifest["directories"], LIMITS, overlay, self.p.ENVIRONMENT)
-        self.assertEqual(reserved["descriptors"], len(files) + 3 + 64)
+        self.assertLess(reserved["descriptors"], LIMITS["descriptors"])
+        self.assertEqual((reserved["staged_source_files"], reserved["staged_source_directories"],
+                          reserved["source_bind_targets"]), (3, 5, 4))
         self.assertLess(reserved["launcher_argument_count"], 8500)
         # Unicode source names remain actual inputs. The fixed census buffer
         # must charge the bootstrap's ASCII escaping, not shorter UTF-8 text.
@@ -174,8 +177,9 @@ class ResourceCases(SourceFixture):
             self.h.custody_append_image_reservation({"/work/large": (b"x" * (LIMITS["file_bytes"] + 1), 0o644)},
                 ["/work"], LIMITS, overlay, self.p.ENVIRONMENT)
         with self.assertRaisesRegex(ValueError, "descriptor|argument"):
-            self.h.custody_append_image_reservation({"/work/a%04d" % i: (b"x", 0o644) for i in range(1800)},
-                ["/work"], LIMITS, overlay, self.p.ENVIRONMENT)
+            self.h.custody_append_image_reservation(dict(files, **{
+                "/usr/a%04d" % i: (b"x", 0o555) for i in range(1800)}),
+                manifest["directories"], LIMITS, overlay, self.p.ENVIRONMENT)
         with self.assertRaisesRegex(ValueError, "descriptor"):
             self.h.custody_append_image_reservation({"/work/d/a%04d" % i: (b"x", 0o644) for i in range(4096)},
                 ["/work", "/work/d"], LIMITS, overlay, self.p.ENVIRONMENT)
@@ -183,6 +187,68 @@ class ResourceCases(SourceFixture):
             self.h.custody_append_image_reservation(files, manifest["directories"], dict(LIMITS, address_bytes=4), overlay, self.p.ENVIRONMENT)
         with self.assertRaisesRegex(ValueError, "fixed resource"):
             self.h.custody_append_image_reservation(files, manifest["directories"], dict(LIMITS, scratch_bytes=64 * 1024**2), overlay, self.p.ENVIRONMENT)
+
+
+class StageCases(unittest.TestCase):
+    def test_complete_captured_bytes_modes_links_and_empty_directories(self):
+        helper = load("custody_stage_owner", "scripts/qualify-work-graph-finite-leaf.py")
+        _, files, manifest, _, _ = policy_fixture()
+        original = copy.deepcopy((files, manifest))
+        with tempfile.TemporaryDirectory(prefix="r0035-stage-positive-") as temporary:
+            stage = helper.CustodyAppendSourceStage(Path(temporary), files, manifest["directories"],
+                                                    manifest["private_source_overlay"], 4096)
+            descriptors = tuple(stage._fds)
+            try:
+                observed = stage.check()
+                self.assertEqual(observed["bind_targets"], ["/work/.git", "/work/dir", "/work/empty", "/work/root.txt"])
+                root = Path(temporary) / "source-inputs/root"
+                self.assertEqual({p.relative_to(root).as_posix() for p in root.rglob("*") if p.is_file()},
+                                 {"root.txt", ".git/object", "dir/child"})
+                self.assertEqual({p.relative_to(root).as_posix() for p in root.rglob("*") if p.is_dir()},
+                                 {".git", ".git/empty", "dir", "empty"})
+                for name, (raw, mode) in files.items():
+                    if name.startswith("/work/"):
+                        p = root / name[len("/work/"):]
+                        self.assertEqual((p.read_bytes(), stat.S_IMODE(p.stat().st_mode), p.stat().st_nlink),
+                                         (raw, mode, 1))
+                self.assertEqual((files, manifest), original)
+            finally:
+                stage.close()
+            for fd in descriptors:
+                with self.assertRaises(OSError):
+                    os.fstat(fd)
+
+    def test_staged_currentness_and_unsupported_inputs_refuse(self):
+        helper = load("custody_stage_refusal_owner", "scripts/qualify-work-graph-finite-leaf.py")
+        _, files, manifest, _, _ = policy_fixture()
+        for variant in ("bytes", "mode", "replacement", "extra", "private-ancestor"):
+            with self.subTest(variant=variant), tempfile.TemporaryDirectory(prefix="r0035-stage-refusal-") as temporary:
+                stage = helper.CustodyAppendSourceStage(Path(temporary), files, manifest["directories"],
+                                                        manifest["private_source_overlay"], 4096)
+                private = Path(temporary) / "source-inputs"
+                path = private / "root/dir/child"
+                try:
+                    if variant == "bytes":
+                        path.write_bytes(b"changed input")
+                    elif variant == "mode":
+                        path.chmod(0o600)
+                    elif variant == "replacement":
+                        raw = path.read_bytes(); path.unlink(); path.write_bytes(raw); path.chmod(0o755)
+                    elif variant == "extra":
+                        (private / "root/dir/extra").write_bytes(b"added")
+                    else:
+                        aside = Path(temporary) / "aside"
+                        private.rename(aside)
+                        private.mkdir()
+                    with self.assertRaises((ValueError, OSError)):
+                        stage.check()
+                finally:
+                    stage.close()
+        for altered, dirs in ((dict(files, **{"/work/private": (b"private", 0o600)}), manifest["directories"]),
+                              (files, [n for n in manifest["directories"] if n != "/work/.git"]),
+                              (dict(files, **{"/work/../escape": (b"escape", 0o644)}), manifest["directories"])):
+            with self.assertRaises(ValueError):
+                helper.custody_append_source_plan(altered, dirs, manifest["private_source_overlay"])
 
 
 class PolicyCases(unittest.TestCase):

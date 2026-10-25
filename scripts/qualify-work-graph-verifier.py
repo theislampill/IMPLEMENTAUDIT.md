@@ -75,6 +75,11 @@ _PORTAL_ENGINE = None
 REPRO_EVENT_ENV = "R0035_REPRO_EVENT_CAPTURE_DIR"
 REPRO_EVENT_OWNER = "scripts/repro-event-capture.py"
 _REPRO_EVENT_ENGINE = None
+# Aggregate retention bounds include the existing 64-event portal and two
+# dist snapshots. These are additional opt-in custody bounds, not raw-oracle
+# normalization or a claim that every possible capture fits them.
+CAPTURE_RETENTION_LIMITS = dict(file_bytes=128 * 1024 * 1024, total_bytes=2 * 1024**3,
+    entries=68 * 4096, depth=64, manifest_bytes=128 * 1024 * 1024)
 
 
 def sha(data):
@@ -917,20 +922,966 @@ def compare(left, right, out):
     return 0 if all(checks.values()) else 1
 
 
+class _CaptureChildren:
+    """Linux child custody within this dedicated run owner, never a governor.
+
+    Proc listings are cleanup discovery only. Only kernel all-child
+    ECHILD establishes quiescence. No process-group or numeric-PID signal is
+    used, including on the refusal path.
+    """
+    WALL = 0x40000000
+    PR_SET_CHILD_SUBREAPER = 36
+    PR_GET_CHILD_SUBREAPER = 37
+    SCOPE = "DEDICATED_SINGLE_THREAD_LINUX_SUBREAPER; NO_FOREIGN_SAME_UID_WRITER_AUTHORITY"
+
+    def __init__(self):
+        # Keep the optional Linux owner out of ordinary and finite acquired
+        # loader startup. Its libraries are needed only for this explicit path.
+        try:
+            import ctypes
+            import threading
+        except ImportError as exc:
+            raise WG.WorkGraphError("capture retention's optional Linux owner libraries are unavailable") from exc
+        self.ctypes, self.threading = ctypes, threading
+        needed = ("waitid", "waitpid", "P_ALL", "P_PIDFD", "WNOWAIT", "WEXITED",
+                  "WNOHANG", "pidfd_open", "waitstatus_to_exitcode", "fork", "pipe2",
+                  "O_CLOEXEC", "CLD_EXITED", "CLD_KILLED", "CLD_DUMPED")
+        if (sys.platform != "linux" or any(not hasattr(os, name) for name in needed) or
+                not hasattr(signal, "pidfd_send_signal") or threading.current_thread() is not threading.main_thread()):
+            raise WG.WorkGraphError("capture retention requires a Linux main-thread child/pidfd owner")
+        self.pid = os.getpid()
+        self.status = dict(owner_pid=self.pid, primary_pid=None, primary_exit=None,
+            other_child_exits=[], owned_pidfd_signals=0, live_children_refused=False,
+            quiescence="UNPROVED", flag_restored=False,
+            scope=self.SCOPE)
+        self.previous_handlers = {}
+        self.active = False
+        self.primary_fd = None
+        self.primary_wait_missing = False
+        self.exec_error = None
+        self._scope()
+        if signal.getsignal(signal.SIGCHLD) != signal.SIG_DFL:
+            raise WG.WorkGraphError("capture retention requires default SIGCHLD and no competing reaper")
+        # WNOWAIT does not consume a preexisting child's status. Any returned
+        # result (including None for a live child) refuses this dedicated owner.
+        try:
+            os.waitid(os.P_ALL, 0, os.WEXITED | os.WNOHANG | os.WNOWAIT | self.WALL)
+        except ChildProcessError:
+            pass
+        else:
+            raise WG.WorkGraphError("capture retention refuses preexisting children")
+        # Establish the required pidfd interfaces before a subject dispatch.
+        # The descriptor refers to this owner; signal 0 has no signal effect.
+        fd = os.pidfd_open(self.pid, 0)
+        try:
+            signal.pidfd_send_signal(fd, 0, None, 0)
+            try:
+                os.waitid(os.P_PIDFD, fd, os.WEXITED | os.WNOHANG | os.WNOWAIT | self.WALL)
+            except ChildProcessError:
+                pass  # This owner is not its own child.
+            else:
+                raise WG.WorkGraphError("capture pidfd child-wait semantics unavailable")
+        finally:
+            os.close(fd)
+        self.libc = ctypes.CDLL(None, use_errno=True)
+        self.prctl = getattr(self.libc, "prctl", None)
+        if self.prctl is None:
+            raise WG.WorkGraphError("capture child-subreaper interface unavailable")
+        self.prctl.argtypes = [ctypes.c_int]  # prctl's remaining arguments are variadic.
+        self.prctl.restype = ctypes.c_int
+        self.previous_flag = self._get_flag()
+        self.status["previous_subreaper"] = self.previous_flag
+        try:
+            self._set_flag(1)
+        except BaseException:
+            # No child has been created during entry. Restore even if SET
+            # succeeded but its immediate GET observation failed.
+            self._set_flag(self.previous_flag)
+            raise
+        self.active = True
+        try:
+            self._assert_owner()
+            for name in (signal.SIGINT, signal.SIGTERM):
+                self.previous_handlers[name] = signal.getsignal(name)
+                signal.signal(name, self._interrupted)
+        except BaseException:
+            self.close()
+            raise
+
+    def _scope(self):
+        # Fail closed rather than interpret a proc mount from a different PID
+        # namespace as candidate task IDs in pidfd_open's calling namespace.
+        if os.getpid() != self.pid or self.threading.current_thread() is not self.threading.main_thread():
+            raise WG.WorkGraphError("capture child owner process/thread changed")
+        status = Path("/proc/self/status").read_text()
+        fields = {line.split(":", 1)[0]: line.split(":", 1)[1].split()
+                  for line in status.splitlines() if ":" in line}
+        if (Path("/proc/self/stat").read_text().split(" ", 1)[0] != str(self.pid) or
+                fields.get("NSpid") != [str(self.pid)] or fields.get("NStgid") != [str(self.pid)] or
+                fields.get("Threads") != ["1"] or os.listdir("/proc/self/task") != [str(self.pid)]):
+            raise WG.WorkGraphError("capture retention requires one thread and a consistent single proc PID view")
+
+    def _get_flag(self):
+        ctypes = self.ctypes
+        value = ctypes.c_int(-1)
+        if self.prctl(ctypes.c_int(self.PR_GET_CHILD_SUBREAPER), ctypes.byref(value),
+                      ctypes.c_ulong(0), ctypes.c_ulong(0), ctypes.c_ulong(0)) != 0 or value.value not in (0, 1):
+            raise WG.WorkGraphError("capture child-subreaper readback unavailable")
+        return value.value
+
+    def _set_flag(self, value):
+        ctypes = self.ctypes
+        if (self.prctl(ctypes.c_int(self.PR_SET_CHILD_SUBREAPER), ctypes.c_ulong(value),
+                       ctypes.c_ulong(0), ctypes.c_ulong(0), ctypes.c_ulong(0)) != 0 or self._get_flag() != value):
+            raise WG.WorkGraphError("capture child-subreaper capability unavailable")
+
+    def _assert_owner(self):
+        self._scope()
+        if self._get_flag() != 1 or signal.getsignal(signal.SIGCHLD) != signal.SIG_DFL:
+            raise WG.WorkGraphError("capture child-wait ownership changed")
+
+    def _interrupted(self, signum, frame):
+        raise WG.WorkGraphError("capture run interrupted before sealing")
+
+    def quiescent(self):
+        self._assert_owner()
+        if self.primary_fd is not None and self.status["primary_exit"] is None and not self.primary_wait_missing:
+            try:
+                primary = os.waitid(os.P_PIDFD, self.primary_fd, os.WEXITED | os.WNOHANG | self.WALL)
+            except ChildProcessError:
+                self.primary_wait_missing = True
+            else:
+                if primary is None:
+                    self.status["quiescence"] = "LIVE_CHILDREN"
+                    return False
+                self._primary_terminal(primary)
+        while True:
+            try:
+                pid, status = os.waitpid(-1, os.WNOHANG | self.WALL)
+            except ChildProcessError:
+                self.status["quiescence"] = "ECHILD_ALL_CHILDREN"
+                return True
+            if pid == 0:
+                self.status["quiescence"] = "LIVE_CHILDREN"
+                return False
+            if not (os.WIFEXITED(status) or os.WIFSIGNALED(status)):
+                raise WG.WorkGraphError("capture child wait returned a nonterminal status")
+            if len(self.status["other_child_exits"]) >= 4096:
+                raise WG.WorkGraphError("capture adopted-child status bound exceeded")
+            self.status["other_child_exits"].append(dict(pid=pid, exit=os.waitstatus_to_exitcode(status)))
+
+    def require_quiescent(self):
+        if not self.quiescent():
+            self.status["live_children_refused"] = True
+            raise WG.WorkGraphError("capture sealing refused: live owned descendants remain")
+
+    def _primary_terminal(self, state):
+        if state.si_pid != self.status["primary_pid"]:
+            raise WG.WorkGraphError("capture primary pidfd wait identity changed")
+        if state.si_code == os.CLD_EXITED:
+            code = state.si_status
+        elif state.si_code in (os.CLD_KILLED, os.CLD_DUMPED):
+            code = -state.si_status
+        else:
+            raise WG.WorkGraphError("capture primary terminal wait status unavailable")
+        self.status["primary_exit"] = code
+        return code
+
+    def launch(self, command, *, stdout, stderr, environment, base_environment, stdin_bytes):
+        self.require_quiescent()
+        if dict(os.environ) != base_environment:
+            raise WG.WorkGraphError("capture currentness: actual base environment changed at dispatch")
+        descriptors = []
+        def pipe():
+            pair = os.pipe2(os.O_CLOEXEC)
+            descriptors.extend(pair)
+            return pair
+
+        def close(fd):
+            if fd is not None and fd in descriptors:
+                os.close(fd)
+                descriptors.remove(fd)
+
+        try:
+            gate_read, gate_write = pipe()
+            error_read, error_write = pipe()
+            input_read, input_write = (None, None) if stdin_bytes is None else pipe()
+            pid = os.fork()
+            if pid == 0:
+                try:
+                    close(gate_write)
+                    close(error_read)
+                    close(input_write)
+                    for name in ("SIGINT", "SIGTERM", "SIGPIPE", "SIGXFZ", "SIGXFSZ"):
+                        if hasattr(signal, name):
+                            signal.signal(getattr(signal, name), signal.SIG_DFL)
+                    if os.read(gate_read, 1) != b"R":
+                        os._exit(125)
+                    close(gate_read)
+                    os.chdir(ROOT)
+                    if input_read is not None:
+                        os.dup2(input_read, 0)
+                        os.set_inheritable(0, True)
+                    os.dup2(stdout.fileno(), 1)
+                    os.dup2(stderr.fileno(), 2)
+                    os.set_inheritable(1, True)
+                    os.set_inheritable(2, True)
+                    # The single-threaded child performs no Python teardown.
+                    # Close inherited descriptors as the ordinary Popen route
+                    # does, retaining only the close-on-exec error pipe.
+                    fds = []
+                    with os.scandir("/proc/self/fd") as entries:
+                        for entry in entries:
+                            if len(fds) >= 4096 or not entry.name.isdigit():
+                                raise WG.WorkGraphError("capture child descriptor population is unsupported")
+                            fds.append(int(entry.name))
+                    for fd in fds:
+                        if fd > 2 and fd != error_write:
+                            try:
+                                os.close(fd)
+                            except OSError as exc:
+                                if exc.errno != errno.EBADF:
+                                    raise
+                    os.execvpe(command[0], command, environment)
+                except BaseException as exc:
+                    number = exc.errno if isinstance(exc, OSError) and exc.errno is not None else errno.EINVAL
+                    try:
+                        os.write(error_write, (str(number) + "\n").encode("ascii"))
+                    finally:
+                        os._exit(126)
+            self.status["primary_pid"] = pid
+            self.status["quiescence"] = "UNPROVED"
+            close(gate_read)
+            close(error_write)
+            close(input_read)
+            # The real child is blocked before exec and cannot fork. Confirm
+            # its stable descriptor and kernel child ownership before release;
+            # no signal-disposition/PID-reuse assumption stands in for identity.
+            self.primary_fd = os.pidfd_open(pid, 0)
+            initial = os.waitid(os.P_PIDFD, self.primary_fd,
+                os.WEXITED | os.WNOHANG | os.WNOWAIT | self.WALL)
+            if initial is not None:
+                raise WG.WorkGraphError("capture primary terminated before dispatch acquisition")
+            if dict(os.environ) != base_environment:
+                raise WG.WorkGraphError("capture currentness: actual base environment changed before child release")
+            if os.write(gate_write, b"R") != 1:
+                raise WG.WorkGraphError("capture primary dispatch gate failed")
+            close(gate_write)
+            error = os.read(error_read, 64)
+            close(error_read)
+            if error:
+                if re.fullmatch(rb"[0-9]{1,5}\n", error) is None:
+                    raise WG.WorkGraphError("capture primary exec observation is invalid")
+                self.exec_error = int(error)
+            if stdin_bytes is not None and not error:
+                try:
+                    remaining = memoryview(stdin_bytes)
+                    while remaining:
+                        written = os.write(input_write, remaining[:65536])
+                        if written <= 0:
+                            raise WG.WorkGraphError("capture stdin pipe stopped accepting acquired bytes")
+                        remaining = remaining[written:]
+                except BrokenPipeError:
+                    pass
+            close(input_write)
+            # This actual kernel terminal status belongs to the acquired task
+            # descriptor. ECHILD never becomes a synthetic exit 0.
+            return self._primary_terminal(os.waitid(os.P_PIDFD, self.primary_fd, os.WEXITED | self.WALL))
+        except ChildProcessError as exc:
+            self.primary_wait_missing = True
+            raise WG.WorkGraphError("capture primary terminal wait status unavailable") from exc
+        finally:
+            for fd in tuple(descriptors):
+                close(fd)
+
+    def _signal_owned_child(self, fd):
+        try:
+            state = os.waitid(os.P_PIDFD, fd, os.WEXITED | os.WNOHANG | os.WNOWAIT | self.WALL)
+        except ChildProcessError:
+            return  # Reused/nonchild discovery candidate: never signal it.
+        if state is None:
+            try:
+                signal.pidfd_send_signal(fd, signal.SIGKILL, None, 0)
+                self.status["owned_pidfd_signals"] += 1
+            except ProcessLookupError:
+                pass
+
+    def _cleanup_candidates(self, deadline):
+        """Bound discovery only; neither a proc entry nor its absence is proof."""
+        self._scope()
+        try:
+            with Path("/proc/self/task/%d/children" % self.pid).open("rb") as discovery:
+                raw = discovery.read(65537)
+        except FileNotFoundError:
+            # CONFIG_PROC_CHILDREN is optional. The coherent proc population
+            # can supply candidate numbers, never ownership or quiescence.
+            # Every returned candidate still requires a stable pidfd and the
+            # kernel child-wait proof immediately before any signal.
+            candidates = []
+            count = size = 0
+            with os.scandir("/proc") as entries:
+                for entry in entries:
+                    if time.monotonic() >= deadline:
+                        break
+                    item = os.fsencode(entry.name)
+                    if not item.isdigit():
+                        continue
+                    count += 1
+                    size += len(item) + 1
+                    if count > 4096 or size > 65536:
+                        raise WG.WorkGraphError("capture proc cleanup discovery exceeds bound")
+                    pid = int(item)
+                    if pid > 0 and pid != self.pid:
+                        candidates.append(item)
+        else:
+            if len(raw) > 65536:
+                raise WG.WorkGraphError("capture child cleanup discovery exceeds bound")
+            candidates = raw.split()
+            if len(candidates) > 4096 or any(not item.isdigit() for item in candidates):
+                raise WG.WorkGraphError("capture child cleanup discovery is unsupported")
+        self._scope()
+        return candidates
+
+    def close(self):
+        if not self.active:
+            return
+        # Interrupts during a finite refusal cleanup do not create a second
+        # cleanup owner. Uncatchable termination leaves an unsealed intent.
+        for name in self.previous_handlers:
+            signal.signal(name, signal.SIG_IGN)
+        try:
+            deadline = time.monotonic() + 3.0
+            while not self.quiescent():
+                self.status["live_children_refused"] = True
+                if time.monotonic() >= deadline:
+                    raise WG.WorkGraphError("capture cleanup incomplete; children remain, subreaper retained")
+                self._scope()
+                if self.primary_fd is not None and self.status["primary_exit"] is None:
+                    self._signal_owned_child(self.primary_fd)
+                candidates = self._cleanup_candidates(deadline)
+                for item in candidates:
+                    if time.monotonic() >= deadline:
+                        break
+                    pid = int(item)
+                    if pid <= 0 or pid == self.pid:
+                        raise WG.WorkGraphError("capture child cleanup candidate is invalid")
+                    try:
+                        fd = os.pidfd_open(pid, 0)
+                    except ProcessLookupError:
+                        continue
+                    try:
+                        self._signal_owned_child(fd)
+                    finally:
+                        os.close(fd)
+                time.sleep(0.01)
+            self._set_flag(self.previous_flag)
+            self.status["flag_restored"] = True
+            self.active = False
+        finally:
+            # Preserve the subreaper flag if ECHILD was not obtained. Signal
+            # handlers can be restored without claiming successful cleanup.
+            for name, handler in self.previous_handlers.items():
+                signal.signal(name, handler)
+            if self.primary_fd is not None:
+                os.close(self.primary_fd)
+                self.primary_fd = None
+
+
+def _capture_stamp(value):
+    return dict(device=value.st_dev, inode=value.st_ino, mode=value.st_mode, bytes=value.st_size,
+        mtime_ns=value.st_mtime_ns, ctime_ns=value.st_ctime_ns, uid=value.st_uid,
+        gid=value.st_gid, links=value.st_nlink)
+
+
+def _capture_directory(path):
+    """Acquire every absolute ancestor without resolving a symlink away."""
+    path = _preflight_path(str(path), "capture directory")
+    fd = os.open("/", os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+    try:
+        for name in path.parts[1:]:
+            child = os.open(name, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=fd)
+            os.close(fd)
+            fd = child
+        if (os.fstat(fd).st_dev, os.fstat(fd).st_ino) != (path.lstat().st_dev, path.lstat().st_ino):
+            raise WG.WorkGraphError("capture directory changed during acquisition")
+        return fd
+    except BaseException:
+        os.close(fd)
+        raise
+
+
+def _capture_private(fd):
+    value = os.fstat(fd)
+    if not stat.S_ISDIR(value.st_mode) or value.st_uid != os.geteuid() or stat.S_IMODE(value.st_mode) != 0o700:
+        raise WG.WorkGraphError("capture retention requires an owned private 0700 directory")
+    return value
+
+
+def _capture_parent_population(fd, workspace, sinks):
+    if set(_capture_names(fd, 3)) - {path.name for path in [workspace, *sinks]}:
+        raise WG.WorkGraphError("unexpected capture retention parent members")
+
+
+def _capture_names(fd, limit):
+    names = []
+    with os.scandir(fd) as entries:
+        for entry in entries:
+            if len(names) >= limit:
+                raise WG.WorkGraphError("retained capture membership exceeds bound")
+            names.append(entry.name)
+    return sorted(names)
+
+
+def _capture_census(path, *, durable=False):
+    """Complete bounded no-follow typed byte/mode/identity census."""
+    root = _capture_directory(path)
+    entries, total = {}, 0
+    limits = CAPTURE_RETENTION_LIMITS
+
+    def visit(fd, relative, depth):
+        nonlocal total
+        if depth > limits["depth"] or len(entries) >= limits["entries"]:
+            raise WG.WorkGraphError("retained capture census exceeds namespace bound")
+        before = os.fstat(fd)
+        if before.st_uid != os.geteuid():
+            raise WG.WorkGraphError("retained capture census has foreign ownership")
+        names = _capture_names(fd, limits["entries"] - len(entries))
+        entries[relative] = dict(kind="DIRECTORY", stamp=_capture_stamp(before), members=names)
+        for name in names:
+            child_name = name if relative == "." else relative + "/" + name
+            if len(os.fsencode(child_name)) > 4096 or len(entries) >= limits["entries"]:
+                raise WG.WorkGraphError("retained capture census exceeds namespace bound")
+            before_child = os.stat(name, dir_fd=fd, follow_symlinks=False)
+            if stat.S_ISDIR(before_child.st_mode):
+                child = os.open(name, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=fd)
+                try:
+                    if _capture_stamp(before_child) != _capture_stamp(os.fstat(child)):
+                        raise WG.WorkGraphError("retained capture directory changed during census")
+                    visit(child, child_name, depth + 1)
+                finally:
+                    os.close(child)
+            elif stat.S_ISREG(before_child.st_mode) and before_child.st_nlink == 1 and before_child.st_uid == os.geteuid():
+                total += before_child.st_size
+                if before_child.st_size > limits["file_bytes"] or total > limits["total_bytes"]:
+                    raise WG.WorkGraphError("retained capture census exceeds byte bound")
+                child = os.open(name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=fd)
+                try:
+                    opened = os.fstat(child)
+                    if _capture_stamp(before_child) != _capture_stamp(opened):
+                        raise WG.WorkGraphError("retained capture file changed during census")
+                    digest, acquired = hashlib.sha256(), 0
+                    with os.fdopen(child, "rb", closefd=False) as stream:
+                        while acquired <= opened.st_size:
+                            chunk = stream.read(min(1024 * 1024, opened.st_size + 1 - acquired))
+                            if not chunk:
+                                break
+                            digest.update(chunk)
+                            acquired += len(chunk)
+                    if acquired != opened.st_size:
+                        raise WG.WorkGraphError("retained capture file size changed during census")
+                    if durable:
+                        os.fsync(child)
+                    if _capture_stamp(opened) != _capture_stamp(os.fstat(child)):
+                        raise WG.WorkGraphError("retained capture file changed during census")
+                    entries[child_name] = dict(kind="FILE", stamp=_capture_stamp(opened), sha256=digest.hexdigest())
+                finally:
+                    os.close(child)
+            else:
+                raise WG.WorkGraphError("retained capture refuses symlinks, hardlinks, special files or foreign ownership")
+            if _capture_stamp(before_child) != _capture_stamp(os.stat(name, dir_fd=fd, follow_symlinks=False)):
+                raise WG.WorkGraphError("retained capture member changed during census")
+        if durable:
+            os.fsync(fd)
+        if names != _capture_names(fd, limits["entries"]) or _capture_stamp(before) != _capture_stamp(os.fstat(fd)):
+            raise WG.WorkGraphError("retained capture directory changed during census")
+    try:
+        _capture_private(root)
+        visit(root, ".", 0)
+        if _capture_stamp(os.fstat(root)) != _capture_stamp(path.lstat()):
+            raise WG.WorkGraphError("retained capture root changed during census")
+        result = dict(entries=entries, total_bytes=total, limits=limits)
+        if len(WG.canonical_json_v1(result)) > limits["manifest_bytes"]:
+            raise WG.WorkGraphError("retained capture census exceeds manifest bound")
+        return result
+    finally:
+        os.close(root)
+
+
+def _capture_population(path, record):
+    expected = {"result.json", "mapping.json", "commands.bin", "stdout.log", "stderr.log", "exit-code.txt"}
+    if record["mode"] == "dag":
+        expected.add("nodes.tsv")
+    if "child_environment" in record:
+        expected.add("child-environment.json")
+    for key, names in (("stdin", {"stdin.bin", "stdin.json"}),
+                       ("dist_namespace", {"dist-before", "dist-after", "dist-namespace.json"}),
+                       ("repro_artifacts", {"repro-assets", "repro-artifacts.json"}),
+                       ("portal_events", {"portal-events"}), ("repro_events", {"repro-events"})):
+        if record.get(key) is not None:
+            expected |= names
+    if set(os.listdir(path)) != expected:
+        raise WG.WorkGraphError("unexpected capture namespace members")
+
+
+def _capture_sidecar(fd, name, value):
+    data = WG.canonical_json_v1(value) + b"\n"
+    if len(data) > CAPTURE_RETENTION_LIMITS["manifest_bytes"]:
+        raise WG.WorkGraphError("capture custody sidecar exceeds byte bound")
+    member = os.open(name, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600, dir_fd=fd)
+    with os.fdopen(member, "wb") as stream:
+        metadata = os.fstat(stream.fileno())
+        if metadata.st_uid != os.geteuid() or stat.S_IMODE(metadata.st_mode) != 0o600 or metadata.st_nlink != 1:
+            raise WG.WorkGraphError("capture custody sidecar requires owned mode 0600")
+        stream.write(data)
+        stream.flush()
+        os.fsync(stream.fileno())
+    os.fsync(fd)
+
+
+def _capture_read_sidecar(path, name):
+    value = source_member(name, root=path, with_bytes=True,
+                          byte_limit=CAPTURE_RETENTION_LIMITS["manifest_bytes"])
+    if value.get("kind") != "FILE" or value.get("mode") != 0o600:
+        raise WG.WorkGraphError("retained capture sidecar is missing or unsupported")
+    st = (path / name).lstat()
+    if st.st_uid != os.geteuid() or st.st_nlink != 1:
+        raise WG.WorkGraphError("retained capture sidecar has foreign ownership or aliases")
+    decoded = WG.decode_strict_json_bytes(value["_acquired_bytes"], "capture custody sidecar")
+    if value["_acquired_bytes"] != WG.canonical_json_v1(decoded) + b"\n":
+        raise WG.WorkGraphError("retained capture sidecar bytes differ from their canonical binding")
+    return decoded
+
+
+def _capture_record_contract(path, route, expected):
+    record = verified_record(path)
+    identity = _preflight_capture_identity_v1(route, expected["base_environment_sha256"])
+    if (record["mode"] != route["mode"] or record["schema"] != identity["schema"] or
+            record["execution_context"] != dict(cwd=str(ROOT), output=route["output"]) or
+            record["engine_binding"] != expected["engine_binding"] or
+            any(sha(WG.canonical_json_v1(record[phase])) != expected["source_sha256"] for phase in ("before", "after")) or
+            record["environment"] != record["environment_after"] or
+            record["environment"]["inherited_environment_sha256"] != identity["environment_sha256"]):
+        raise WG.WorkGraphError("retained capture differs from actual bound source, environment or original workspace")
+    capture = route["capture"]
+    for key, enabled in (("stdin", capture["empty_stdin"] or capture["stdin_file"] is not None),
+                         ("dist_namespace", capture["capture_dist"]),
+                         ("repro_artifacts", capture["retain_repro_assets"]),
+                         ("portal_events", capture["capture_portal_events"]),
+                         ("repro_events", capture["retain_repro_events"])):
+        if (record.get(key) is not None) != enabled:
+            raise WG.WorkGraphError("retained capture acquisition differs from the bound plan")
+    if identity["extended"]:
+        child = dict(record["child_environment"])
+        if child.pop("schema") != "implementaudit.verifier-child-environment.v1" or child != identity["child_environment"]:
+            raise WG.WorkGraphError("retained capture child environment differs from actual acquired base")
+    _capture_population(path, record)
+    return record
+
+
+def _read_sealed_capture(sink, plan, file_digest, plan_digest):
+    route = next((route for route in plan["runs"] if route["retention"] == str(sink)), None)
+    if route is None:
+        raise WG.WorkGraphError("retained capture destination is not declared by the plan")
+    directory = _capture_directory(sink)
+    try:
+        _capture_private(directory)
+        if set(os.listdir(directory)) != {"intent.json", "capture", "custody.json"}:
+            raise WG.WorkGraphError("retained capture is unsealed or has unexpected envelope members")
+        intent = _capture_read_sidecar(sink, "intent.json")
+        custody = _capture_read_sidecar(sink, "custody.json")
+        expected_intent = dict(schema="implementaudit.capture-retention-intent.v1",
+            plan_file_sha256=file_digest, plan_canonical_sha256=plan_digest, route=route,
+            expected_currentness=plan["expected_currentness"], authority="NONE")
+        fields = {"schema", "status", "intent_sha256", "original_workspace", "retention",
+            "dispatch_currentness", "sealing_currentness", "acquired_base_environment_sha256",
+            "primary_exit", "process_custody", "before_rename_root", "capture", "prior_retention",
+            "normalization", "authority"}
+        if (intent != expected_intent or type(custody) is not dict or set(custody) != fields or
+                custody["schema"] != "implementaudit.capture-retention-custody.v1" or custody["status"] != "SEALED" or
+                custody["intent_sha256"] != sha(WG.canonical_json_v1(intent) + b"\n") or
+                custody["original_workspace"] != route["output"] or custody["retention"] != str(sink) or
+                custody["dispatch_currentness"] != plan["expected_currentness"] or
+                custody["sealing_currentness"] != plan["expected_currentness"] or
+                custody["acquired_base_environment_sha256"] != plan["expected_currentness"]["base_environment_sha256"] or
+                custody["normalization"] != "NONE_RAW_BYTES" or custody["authority"] != "NONE"):
+            raise WG.WorkGraphError("retained capture custody/plan binding is inconsistent")
+        process = custody["process_custody"]
+        process_fields = {"owner_pid", "primary_pid", "primary_exit", "other_child_exits", "owned_pidfd_signals",
+            "live_children_refused", "quiescence", "flag_restored", "scope", "previous_subreaper"}
+        if (type(process) is not dict or set(process) != process_fields or
+                process.get("quiescence") != "ECHILD_ALL_CHILDREN" or process.get("scope") != _CaptureChildren.SCOPE or
+                process.get("flag_restored") is not True or process.get("live_children_refused") is not False or
+                type(process.get("primary_exit")) is not int or process["primary_exit"] != custody["primary_exit"] or
+                any(type(process.get(key)) is not int or process[key] <= 0 for key in ("primary_pid", "owner_pid")) or
+                process["primary_pid"] == process["owner_pid"] or
+                type(process["previous_subreaper"]) is not int or process["previous_subreaper"] not in (0, 1) or
+                type(process["owned_pidfd_signals"]) is not int or process["owned_pidfd_signals"] != 0 or
+                type(process["other_child_exits"]) is not list or len(process["other_child_exits"]) > 4096 or
+                any(type(item) is not dict or set(item) != {"pid", "exit"} or
+                    type(item["pid"]) is not int or item["pid"] <= 0 or type(item["exit"]) is not int
+                    for item in process["other_child_exits"])):
+            raise WG.WorkGraphError("retained capture lacks declared completed owned-child custody")
+        prior = custody["prior_retention"]
+        allowed_prior = {other["retention"] for other in plan["runs"] if other != route}
+        if (type(prior) is not dict or set(prior) - allowed_prior or
+                any(type(value) is not str or re.fullmatch(r"[0-9a-f]{64}", value) is None for value in prior.values())):
+            raise WG.WorkGraphError("retained capture prior-destination binding is invalid")
+        capture = sink / "capture"
+        before = _capture_census(capture)
+        if before != custody["capture"]:
+            raise WG.WorkGraphError("retained capture bytes, membership, modes or identities changed after sealing")
+        previous_root, moved_root = custody["before_rename_root"], before["entries"]["."]
+        if (type(previous_root) is not dict or set(previous_root) != set(moved_root) or
+                previous_root["kind"] != moved_root["kind"] or previous_root["members"] != moved_root["members"] or
+                type(previous_root["stamp"]) is not dict or set(previous_root["stamp"]) != set(moved_root["stamp"]) or
+                any(type(value) is not int for value in previous_root["stamp"].values()) or
+                any(previous_root["stamp"][key] != moved_root["stamp"][key]
+                    for key in moved_root["stamp"] if key != "ctime_ns")):
+            raise WG.WorkGraphError("retained capture moved-root observations are inconsistent")
+        record = _capture_record_contract(capture, route, plan["expected_currentness"])
+        if record["exit"] != custody["primary_exit"] or _capture_census(capture) != before:
+            raise WG.WorkGraphError("retained capture changed during original-record validation")
+        if (set(os.listdir(directory)) != {"intent.json", "capture", "custody.json"} or
+                _capture_read_sidecar(sink, "intent.json") != intent or
+                _capture_read_sidecar(sink, "custody.json") != custody):
+            raise WG.WorkGraphError("retained capture envelope changed during readback")
+        return capture, before
+    finally:
+        os.close(directory)
+
+
+class _CaptureRetention:
+    """One actual run's owned workspace and sealed destination, within run()."""
+    def __init__(self, plan_path, mode, output, capture):
+        self.parent_fd = self.sink_fd = self.workspace_fd = None
+        self.children = None
+        self.cleanup_attempted = False
+        self.workspace_identity = None
+        self.renamed = False
+        self.rename_attempted = False
+        self.prior_sinks = {}
+        try:
+            if fcntl is None:
+                raise WG.WorkGraphError("capture retention requires an owned directory lock")
+            self.plan, self.file_digest, self.plan_digest = _read_verifier_pair_plan_file(plan_path)
+            self.workspace, self.sinks = _capture_plan_paths(self.plan)
+            self.route = next(route for route in self.plan["runs"] if route["mode"] == mode)
+            self.sink = Path(self.route["retention"])
+            self.expected = self.plan["expected_currentness"]
+            if (str(output) != str(self.workspace) or self.route["capture"] != capture or
+                    any(route["base_environment_sha256"] != self.expected["base_environment_sha256"] or
+                        route["capture"] != capture for route in self.plan["runs"])):
+                raise WG.WorkGraphError("capture retention actual route/options differ from the bound paired plan")
+            self.parent_fd = _capture_directory(self.workspace.parent)
+            self.parent_identity = _capture_stamp(_capture_private(self.parent_fd))
+            fcntl.flock(self.parent_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            self._namespace()
+            if os.path.lexists(self.workspace) or os.path.lexists(self.sink):
+                raise WG.WorkGraphError("capture workspace or retention destination already exists")
+            self.base_environment = dict(os.environ)
+            self.children = _CaptureChildren()
+            self.renameat2 = getattr(self.children.libc, "renameat2", None)
+            if self.renameat2 is None:
+                raise WG.WorkGraphError("capture retention requires renameat2 with no-replace support")
+            types = self.children.ctypes
+            self.renameat2.argtypes = [types.c_int, types.c_char_p, types.c_int, types.c_char_p, types.c_uint]
+            self.renameat2.restype = types.c_int
+            self._currentness()
+            for sink in self.sinks:
+                if sink != self.sink and os.path.lexists(sink):
+                    _read_sealed_capture(sink, self.plan, self.file_digest, self.plan_digest)
+                    if _capture_read_sidecar(sink, "custody.json")["prior_retention"]:
+                        raise WG.WorkGraphError("capture retention refuses an incomplete previously sealed pair")
+                    self.prior_sinks[sink] = _capture_census(sink)
+            self.children.require_quiescent()
+            self._namespace()
+            os.mkdir(self.sink.name, 0o700, dir_fd=self.parent_fd)
+            self.sink_fd = os.open(self.sink.name, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=self.parent_fd)
+            self.sink_identity = _capture_stamp(_capture_private(self.sink_fd))
+            if self.sink_identity["device"] != self.parent_identity["device"]:
+                raise WG.WorkGraphError("capture retention refuses cross-filesystem destinations")
+            self.intent = dict(schema="implementaudit.capture-retention-intent.v1",
+                plan_file_sha256=self.file_digest, plan_canonical_sha256=self.plan_digest,
+                route=self.route, expected_currentness=self.expected, authority="NONE")
+            _capture_sidecar(self.sink_fd, "intent.json", self.intent)
+            os.fsync(self.parent_fd)
+        except BaseException:
+            self.close()
+            raise
+
+    def _namespace(self):
+        current = _capture_stamp(_capture_private(self.parent_fd))
+        path_fd = _capture_directory(self.workspace.parent)
+        try:
+            actual = _capture_stamp(_capture_private(path_fd))
+        finally:
+            os.close(path_fd)
+        stable = ("device", "inode", "mode", "uid", "gid")
+        if any(current[key] != self.parent_identity[key] or actual[key] != current[key] for key in stable):
+            raise WG.WorkGraphError("capture parent identity changed")
+        _capture_parent_population(self.parent_fd, self.workspace, self.sinks)
+        if self.sink_fd is not None:
+            current = _capture_stamp(_capture_private(self.sink_fd))
+            actual = _capture_stamp(os.stat(self.sink.name, dir_fd=self.parent_fd, follow_symlinks=False))
+            if any(current[key] != self.sink_identity[key] or actual[key] != current[key] for key in stable):
+                raise WG.WorkGraphError("capture retention destination identity changed")
+
+    def _currentness(self):
+        if dict(os.environ) != self.base_environment or environment_digest(self.base_environment) != self.expected["base_environment_sha256"]:
+            raise WG.WorkGraphError("capture currentness: complete actual base environment changed")
+        current = verifier_preflight_currentness_v1()
+        if current != self.expected or dict(os.environ) != self.base_environment:
+            raise WG.WorkGraphError("capture currentness differs from the bound paired plan")
+        self.children.require_quiescent()
+        return current
+
+    def create_workspace(self):
+        self._namespace()
+        if os.path.lexists(self.workspace):
+            raise WG.WorkGraphError("capture actual workspace is occupied")
+        os.mkdir(self.workspace.name, 0o700, dir_fd=self.parent_fd)
+        self.workspace_fd = os.open(self.workspace.name, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW,
+                                    dir_fd=self.parent_fd)
+        self.workspace_identity = _capture_stamp(_capture_private(self.workspace_fd))
+        if self.workspace_identity["device"] != self.sink_identity["device"]:
+            raise WG.WorkGraphError("capture retention refuses cross-filesystem rename")
+
+    def open_stream(self, name, *, mode=0o666, terminal=False):
+        if not terminal:
+            self.check_workspace()
+        fd = os.open(name, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+                     mode, dir_fd=self.workspace_fd)
+        return os.fdopen(fd, "wb")
+
+    def write_workspace(self, name, data, *, mode=0o666, terminal=False):
+        with self.open_stream(name, mode=mode, terminal=terminal) as stream:
+            stream.write(data)
+            stream.flush()
+            os.fsync(stream.fileno())
+
+    def check_workspace(self):
+        self._namespace()
+        current = _capture_stamp(self.workspace.lstat())
+        held = _capture_stamp(_capture_private(self.workspace_fd))
+        if any(current[key] != self.workspace_identity[key] or held[key] != current[key]
+               for key in ("device", "inode", "mode", "uid", "gid")):
+            raise WG.WorkGraphError("capture actual workspace identity changed")
+
+    def dispatch_currentness(self, child_environment, overrides):
+        self.check_workspace()
+        if child_environment != dict(self.base_environment, **overrides):
+            raise WG.WorkGraphError("capture actual child environment differs from acquired base and declared overrides")
+        self.dispatch = self._currentness()
+
+    def _prior_unchanged(self):
+        for sink, original in self.prior_sinks.items():
+            if _capture_census(sink) != original:
+                raise WG.WorkGraphError("previously retained capture changed during the next actual run")
+
+    def seal(self):
+        self.children.require_quiescent()
+        self._namespace()
+        sealing = self._currentness()
+        self._prior_unchanged()
+        before = _capture_census(self.workspace, durable=True)
+        if any(before["entries"]["."]["stamp"][key] != self.workspace_identity[key]
+               for key in ("device", "inode", "mode", "uid", "gid")):
+            raise WG.WorkGraphError("capture actual workspace changed before sealing")
+        record = _capture_record_contract(self.workspace, self.route, self.expected)
+        if _capture_census(self.workspace) != before:
+            raise WG.WorkGraphError("capture census changed before sealing")
+        self.children.require_quiescent()
+        self._namespace()
+        if set(os.listdir(self.sink_fd)) != {"intent.json"} or _capture_read_sidecar(self.sink, "intent.json") != self.intent:
+            raise WG.WorkGraphError("capture retention destination changed before rename")
+        # The fresh private envelope has no capture member. No copy, chmod,
+        # record rewriting, destination replacement or cross-device fallback.
+        self.rename_attempted = True
+        ctypes = self.children.ctypes
+        # Linux RENAME_NOREPLACE = 1. Unsupported kernels/filesystems and EXDEV
+        # refuse; there is no replacing rename or copy fallback.
+        if self.renameat2(ctypes.c_int(self.parent_fd), ctypes.c_char_p(os.fsencode(self.workspace.name)),
+                ctypes.c_int(self.sink_fd), ctypes.c_char_p(b"capture"), ctypes.c_uint(1)) != 0:
+            raise OSError(ctypes.get_errno(), "capture owned no-replace rename refused")
+        self.renamed = True
+        os.fsync(self.parent_fd)
+        os.fsync(self.sink_fd)
+        capture = self.sink / "capture"
+        after = _capture_census(capture)
+        previous_root = before["entries"]["."]
+        moved_root = after["entries"]["."]
+        previous = dict(before["entries"])
+        moved = dict(after["entries"])
+        previous.pop(".")
+        moved.pop(".")
+        # Rename legitimately changes the moved directory's ctime. Both actual
+        # stamps are retained; all inner members must be exactly unchanged.
+        if (previous != moved or before["total_bytes"] != after["total_bytes"] or
+                previous_root["members"] != moved_root["members"] or
+                any(previous_root["stamp"][key] != moved_root["stamp"][key]
+                    for key in previous_root["stamp"] if key != "ctime_ns")):
+            raise WG.WorkGraphError("retained capture changed across the owned rename")
+        _capture_record_contract(capture, self.route, self.expected)
+        if _capture_census(capture) != after or self._currentness() != sealing:
+            raise WG.WorkGraphError("retained capture or currentness changed before custody sealing")
+        self._prior_unchanged()
+        self.children.require_quiescent()
+        self.cleanup_attempted = True
+        self.children.close()
+        self._namespace()
+        if os.path.lexists(self.workspace) or set(os.listdir(self.sink_fd)) != {"intent.json", "capture"}:
+            raise WG.WorkGraphError("capture namespace changed before custody sealing")
+        custody = dict(schema="implementaudit.capture-retention-custody.v1", status="SEALED",
+            intent_sha256=sha(WG.canonical_json_v1(self.intent) + b"\n"),
+            original_workspace=str(self.workspace), retention=str(self.sink),
+            dispatch_currentness=self.dispatch, sealing_currentness=sealing,
+            acquired_base_environment_sha256=environment_digest(self.base_environment),
+            primary_exit=record["exit"], process_custody=self.children.status,
+            before_rename_root=previous_root, capture=after,
+            prior_retention={str(path): sha(WG.canonical_json_v1(value)) for path, value in self.prior_sinks.items()},
+            normalization="NONE_RAW_BYTES", authority="NONE")
+        _capture_sidecar(self.sink_fd, "custody.json", custody)
+        print(json.dumps(dict(mode=record["mode"], exit=record["exit"], retention=str(self.sink),
+            status="SEALED", authority="NONE", normalization="NONE_RAW_BYTES"), sort_keys=True))
+
+    def refuse(self, error):
+        cleanup_error = None
+        if self.children is not None and not self.cleanup_attempted:
+            self.cleanup_attempted = True
+            try:
+                self.children.close()
+            except BaseException as exc:
+                cleanup_error = type(exc).__name__ + ": " + str(exc)
+        if self.sink_fd is not None:
+            self._namespace()
+            # A launch interrupted before its ordinary terminal write can
+            # still yield an actual primary wait status during owned cleanup.
+            # Preserve that status without replacing any earlier observation.
+            if (not self.renamed and self.workspace_identity is not None and self.children is not None and
+                    self.children.status["primary_exit"] is not None and os.path.lexists(self.workspace)):
+                root = _capture_directory(self.workspace)
+                try:
+                    current = _capture_stamp(_capture_private(root))
+                    if any(current[key] != self.workspace_identity[key] for key in ("device", "inode", "mode", "uid", "gid")):
+                        raise WG.WorkGraphError("capture workspace changed before refusal exit retention")
+                    if "exit-code.txt" not in os.listdir(root):
+                        fd = os.open("exit-code.txt", os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+                                     0o600, dir_fd=root)
+                        with os.fdopen(fd, "wb") as terminal:
+                            terminal.write((str(self.children.status["primary_exit"]) + "\n").encode())
+                            terminal.flush()
+                            os.fsync(terminal.fileno())
+                        os.fsync(root)
+                finally:
+                    os.close(root)
+            _capture_sidecar(self.sink_fd, "refusal.json", dict(
+                schema="implementaudit.capture-retention-refusal.v1", status="UNSEALED",
+                reason=type(error).__name__ + ": " + str(error), cleanup_error=cleanup_error,
+                primary_exit=None if self.children is None else self.children.status["primary_exit"],
+                process_custody=None if self.children is None else self.children.status,
+                original_workspace=str(self.workspace), retention=str(self.sink),
+                renamed=True if self.renamed else None if self.rename_attempted else False,
+                authority="NONE", normalization="NONE_RAW_BYTES"))
+
+    def close(self):
+        try:
+            if self.children is not None and not self.cleanup_attempted:
+                self.cleanup_attempted = True
+                self.children.close()
+        finally:
+            if self.workspace_fd is not None:
+                os.close(self.workspace_fd)
+                self.workspace_fd = None
+            if self.sink_fd is not None:
+                os.close(self.sink_fd)
+                self.sink_fd = None
+            if self.parent_fd is not None:
+                os.close(self.parent_fd)
+                self.parent_fd = None
+
+
+def _compare_sealed_captures(left, right, out, plan_path):
+    plan, file_digest, plan_digest = _read_verifier_pair_plan_file(plan_path)
+    workspace, sinks = _capture_plan_paths(plan)
+    if {str(left), str(right)} != {str(path) for path in sinks}:
+        raise WG.WorkGraphError("retained comparison requires the exact two declared envelopes")
+    _preflight_path(str(out), "comparison output")
+    if (out == workspace.parent or workspace.parent in out.parents or out == ROOT or ROOT in out.parents):
+        raise WG.WorkGraphError("retained comparison output must be outside source and capture namespaces")
+    if fcntl is None:
+        raise WG.WorkGraphError("retained comparison requires an owned directory lock")
+    parent = _capture_directory(workspace.parent)
+    try:
+        _capture_private(parent)
+        fcntl.flock(parent, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        _capture_parent_population(parent, workspace, sinks)
+        if os.path.lexists(workspace) or verifier_preflight_currentness_v1() != plan["expected_currentness"]:
+            raise WG.WorkGraphError("retained capture currentness changed or actual workspace is occupied")
+        a, a_census = _read_sealed_capture(left, plan, file_digest, plan_digest)
+        b, b_census = _read_sealed_capture(right, plan, file_digest, plan_digest)
+        for sink in (left, right):
+            prior = _capture_read_sidecar(sink, "custody.json")["prior_retention"]
+            for path, digest in prior.items():
+                if sha(WG.canonical_json_v1(_capture_census(Path(path)))) != digest:
+                    raise WG.WorkGraphError("retained capture changed since the next run's prior-destination binding")
+        # Finish all mandatory custody checks before asking the unchanged raw
+        # comparator to write its ordinary correspondence result.
+        if (_capture_census(a) != a_census or _capture_census(b) != b_census or
+                verifier_preflight_currentness_v1() != plan["expected_currentness"]):
+            raise WG.WorkGraphError("retained capture changed before raw comparison")
+        if os.path.lexists(out):
+            raise WG.WorkGraphError("retained comparison requires a fresh result path")
+        return compare(a, b, out)
+    finally:
+        os.close(parent)
+
+
 def run(mode, output, *, retain_repro_assets=False, stdin_file=None, empty_stdin=False, capture_dist=False,
-        capture_portal_events=False, retain_repro_events=False):
+        capture_portal_events=False, retain_repro_events=False, retention_plan=None):
+    capture = dict(retain_repro_assets=retain_repro_assets, stdin_file=stdin_file, empty_stdin=empty_stdin,
+        capture_dist=capture_dist, capture_portal_events=capture_portal_events, retain_repro_events=retain_repro_events)
+    if retention_plan is None:
+        return _run_capture(mode, output, **capture)
+    retention = _CaptureRetention(retention_plan, mode, output, capture)
+    try:
+        code = _run_capture(mode, output, **capture, retention=retention)
+        retention.seal()
+        return code
+    except BaseException as exc:
+        retention.refuse(exc)
+        raise
+    finally:
+        retention.close()
+
+
+def _run_capture(mode, output, *, retain_repro_assets=False, stdin_file=None, empty_stdin=False, capture_dist=False,
+        capture_portal_events=False, retain_repro_events=False, retention=None):
+    def write_capture(name, data, *, durable=False):
+        if retention is not None:
+            retention.write_workspace(name, data, mode=0o600 if durable else 0o666)
+        elif durable:
+            durable_bytes(output / name, data)
+        else:
+            (output / name).write_bytes(data)
+
+    def open_capture_stream(name):
+        return (output / name).open("wb") if retention is None else retention.open_stream(name)
+
     if stdin_file is not None and empty_stdin:
         raise WG.WorkGraphError("stdin-file and empty-stdin are mutually exclusive")
     events = capture_portal_events or retain_repro_events
     extended = retain_repro_assets or stdin_file is not None or empty_stdin or capture_dist or events
     if extended and (output == ROOT or ROOT in output.parents):
         raise WG.WorkGraphError("extended capture evidence must be outside the candidate")
-    output.mkdir(parents=True, exist_ok=False)
+    if retention is None:
+        output.mkdir(parents=True, exist_ok=False)
+    else:
+        retention.create_workspace()
     engine = full_engine_binding()
     before = source_identity()
     if REPRO_EVENT_ENV in os.environ:
         raise WG.WorkGraphError("ambiguous inherited repro event capture directory")
-    child_environment = dict(os.environ) if extended else None
+    child_environment = dict(retention.base_environment) if retention is not None else dict(os.environ) if extended else None
     overrides = {}
     if retain_repro_assets:
         if any(k == "REPRO_SOURCE_REF" or k.startswith("REPRO_RETAINED_") for k in os.environ):
@@ -966,62 +1917,83 @@ def run(mode, output, *, retain_repro_assets=False, stdin_file=None, empty_stdin
     child_binding = stdin_binding = stdin_bytes = None
     if extended:
         child_binding = dict(schema="implementaudit.verifier-child-environment.v1",
-                             base_environment_sha256=environment_digest(os.environ),
+                             base_environment_sha256=environment_digest(os.environ if retention is None else retention.base_environment),
                              actual_environment_sha256=environment_digest(child_environment), overrides=overrides)
-        durable_bytes(output / "child-environment.json", WG.canonical_json_v1(child_binding) + b"\n")
+        write_capture("child-environment.json", WG.canonical_json_v1(child_binding) + b"\n", durable=True)
     if stdin_file is not None or empty_stdin:
         stdin_binding, stdin_bytes = acquire_stdin(output, stdin_file, empty_stdin)
     dist_before = dist_inventory(ROOT, snapshot=output / "dist-before") if capture_dist else None
     actual_tests = sorted(p.relative_to(ROOT).as_posix() for p in (ROOT / "tests").glob("*.test.sh"))
     registration_complete = actual_tests == tests
-    (output / "mapping.json").write_bytes(WG.canonical_json_v1(graph) + b"\n")
+    write_capture("mapping.json", WG.canonical_json_v1(graph) + b"\n")
     stream = output / "commands.bin"
     compiled_stream = WG.verifier_command_stream_v1(graph, registry)
-    stream.write_bytes(compiled_stream)
+    write_capture("commands.bin", compiled_stream)
     if mode == "legacy":
         command = ["bash", "scripts/verify-package.sh"]
     else:
         command = ["bash", "scripts/run-work-graph-verifier.sh", str(stream), str(output / "nodes.tsv"), str(len(graph["nodes"])), sha(compiled_stream)]
         # Empty means no node start was observed, including a prestart
         # failure before the runner opens its trace descriptor.
-        (output / "nodes.tsv").write_bytes(b"")
+        write_capture("nodes.tsv", b"")
     full_engine_binding()
     started = time.monotonic()
     launch = {} if not extended else dict(env=child_environment)
     if stdin_binding is not None:
         launch["input"] = stdin_bytes
-    with (output / "stdout.log").open("wb") as stdout, (output / "stderr.log").open("wb") as stderr:
-        process = subprocess.run(command, cwd=ROOT, stdout=stdout, stderr=stderr, **launch)
+    with open_capture_stream("stdout.log") as stdout, open_capture_stream("stderr.log") as stderr:
+        if retention is None:
+            process = subprocess.run(command, cwd=ROOT, stdout=stdout, stderr=stderr, **launch)
+            code = process.returncode
+        else:
+            retention.dispatch_currentness(child_environment, overrides)
+            code = retention.children.launch(command, stdout=stdout, stderr=stderr,
+                environment=child_environment, base_environment=retention.base_environment, stdin_bytes=stdin_bytes)
         # Retain the actual nested exit before any source/trace/JSON work.
         # A later wrapper error cannot silently erase a completed verdict.
-        with (output / "exit-code.txt").open("w") as terminal:
-            terminal.write(str(process.returncode) + "\n")
-            terminal.flush()
-            os.fsync(terminal.fileno())
+        if retention is None:
+            with (output / "exit-code.txt").open("w") as terminal:
+                terminal.write(str(code) + "\n")
+                terminal.flush()
+                os.fsync(terminal.fileno())
+        else:
+            retention.write_workspace("exit-code.txt", (str(code) + "\n").encode(), terminal=True)
+        if retention is not None:
+            stdout.flush()
+            stderr.flush()
+            os.fsync(stdout.fileno())
+            os.fsync(stderr.fileno())
+            if retention.children.exec_error is not None:
+                raise WG.WorkGraphError("capture primary exec failed with errno " + str(retention.children.exec_error))
+            retention.children.require_quiescent()
+            retention.check_workspace()
+            # Fence types, aliases and bounds before the original post-run
+            # readers open raw streams or artifact paths by name.
+            _capture_census(output)
     full_engine_binding()
     if stream.read_bytes() != compiled_stream:
         raise WG.WorkGraphError("retained verifier command stream differs from launched input")
     after = source_identity()
     environment_after = environment_identity(dict(os.environ, **overrides) if extended else None, child_resolution=extended)
     trace = (output / "nodes.tsv").read_bytes() if mode == "dag" else None
-    node_results = trace_nodes(graph, mode, process.returncode, trace)
+    node_results = trace_nodes(graph, mode, code, trace)
     namespace = None
     if capture_dist:
         namespace = dist_binding(output, dist_before, dist_inventory(ROOT, snapshot=output / "dist-after"))
-        durable_bytes(output / "dist-namespace.json", WG.canonical_json_v1(namespace) + b"\n")
+        write_capture("dist-namespace.json", WG.canonical_json_v1(namespace) + b"\n", durable=True)
     artifacts = None
     if retain_repro_assets:
-        artifacts = observe_repro_artifacts(output, str(output), graph, before, after, process.returncode)
-        durable_bytes(output / "repro-artifacts.json", WG.canonical_json_v1(artifacts) + b"\n")
-        if process.returncode == 0 and (not artifacts["complete"] or not artifacts["source_current"]):
+        artifacts = observe_repro_artifacts(output, str(output), graph, before, after, code)
+        write_capture("repro-artifacts.json", WG.canonical_json_v1(artifacts) + b"\n", durable=True)
+        if code == 0 and (not artifacts["complete"] or not artifacts["source_current"]):
             raise WG.WorkGraphError("successful repro capture has missing artifacts or changed source")
     portal = None
     if portal_request is not None:
         try:
-            portal = portal_engine().verify(output / "portal-events", portal_request, require_complete=process.returncode == 0)
+            portal = portal_engine().verify(output / "portal-events", portal_request, require_complete=code == 0)
         except (OSError, ValueError, KeyError, TypeError) as exc:
             raise WG.WorkGraphError("portal handoff refusal: " + str(exc)) from exc
-    repro_events = observe_repro_events(output, str(output), graph, before, after, process.returncode,
+    repro_events = observe_repro_events(output, str(output), graph, before, after, code,
                                        original_cwd=str(ROOT)) if retain_repro_events else None
     result = dict(schema="implementaudit.verifier-run.v4" if events else "implementaudit.verifier-run.v3" if extended else "implementaudit.verifier-run.v2", mode=mode, command=command[:2],
                   actual_argv=command, execution_context=dict(cwd=str(ROOT), output=str(output)),
@@ -1031,7 +2003,7 @@ def run(mode, output, *, retain_repro_assets=False, stdin_file=None, empty_stdin
                   registry_sha256=sha(registry), graph_digest=graph["digest"],
                   mapped_nodes=len(graph["nodes"]), registered_tests=len(tests),
                   registration_complete=registration_complete,
-                  exit=process.returncode, elapsed_ms=int((time.monotonic() - started) * 1000),
+                  exit=code, elapsed_ms=int((time.monotonic() - started) * 1000),
                   stdout_sha256=sha((output / "stdout.log").read_bytes()), stderr_sha256=sha((output / "stderr.log").read_bytes()),
                   nodes=node_results, node_trace=None if trace is None else dict(sha256=sha(trace), bytes=len(trace)),
                   authority="NONE")
@@ -1043,9 +2015,10 @@ def run(mode, output, *, retain_repro_assets=False, stdin_file=None, empty_stdin
         if events:
             verify_portal_record(output, result, graph)
             verify_repro_event_record(output, result, graph)
-    (output / "result.json").write_bytes(WG.canonical_json_v1(result) + b"\n")
-    print(json.dumps({k: result[k] for k in ("mode", "exit", "elapsed_ms", "mapped_nodes", "registered_tests", "registration_complete", "stdout_sha256", "stderr_sha256")}, sort_keys=True))
-    return process.returncode if process.returncode >= 0 else 128 - process.returncode
+    write_capture("result.json", WG.canonical_json_v1(result) + b"\n")
+    if retention is None:
+        print(json.dumps({k: result[k] for k in ("mode", "exit", "elapsed_ms", "mapped_nodes", "registered_tests", "registration_complete", "stdout_sha256", "stderr_sha256")}, sort_keys=True))
+    return code if code >= 0 else 128 - code
 
 
 def _registry_membership_snapshot_v1(root):
@@ -1748,11 +2721,17 @@ class VerifierTaskSession:
         self._write(directory / "image.json", manifest)
         fds = []
         census_fd, private_effects = None, None
+        source_stage = None
         try:
             args = ["--unshare-all", "--unshare-user", "--die-with-parent", "--new-session", "--clearenv", "--cap-drop", "ALL"]
             for key, value in sorted(self.environment.items()):
                 args += ["--setenv", key, value]
-            for name in sorted(set(manifest["directories"]) | {"/dev", "/tmp"}, key=lambda s: (s.count("/"), s)):
+            if private_work_permissions:
+                source_stage = self._custody_source_stage_v1(files, manifest["directories"], overlay, directory)
+                self._write(directory / "source-stage.before.json", source_stage.check())
+            launch_directories = [name for name in manifest["directories"]
+                if not (private_work_permissions and name.startswith("/work/"))]
+            for name in sorted(set(launch_directories) | {"/dev", "/tmp"}, key=lambda s: (s.count("/"), s)):
                 if overlay is not None and name == overlay["root"]:
                     args += ["--perms", "0755", "--size", str(overlay["overlay_bytes"]), "--tmpfs", name]
                 elif overlay is not None and name in overlay["readonly_subtrees"]:
@@ -1762,6 +2741,8 @@ class VerifierTaskSession:
                     # The fixed copy policy can use that spelling for every directory.
                     args += (["--dir", name] if copy_permissions or private_work_permissions else ["--perms", "0755", "--dir", name])
             for name, (data, mode) in sorted(files.items()):
+                if private_work_permissions and name.startswith("/work/"):
+                    continue  # Exact linked bytes/modes are in the private input stage.
                 fd = self._sealed(data)
                 fds.append(fd)
                 # --ro-bind-data unlinks its backing inode (st_nlink == 0).
@@ -1769,25 +2750,22 @@ class VerifierTaskSession:
                 # Both routes copy the same sealed bytes; the existing final
                 # root remount makes --file source members read-only as well.
                 kind = "--file" if materialization is not None and name.startswith("/work/") else "--ro-bind-data"
-                if private_work_permissions and name.startswith("/work/") and name.count("/") == 2:
-                    # A file directly below the writable parent needs its own
-                    # read-only mount. Descendant files are protected by their
-                    # separately read-only immediate directory mount.
-                    kind = "--ro-bind-data"
-                # Only fixed acquired policies select these defaults. Both
-                # representations remain read-only before the checker starts;
-                # copied0666 data becomes0644 under the captured umask022.
+                # Preserve the existing other-profile defaults. Fixed105 source
+                # modes are physical staged modes, independent of bwrap's umask.
                 default_mode = (kind == "--ro-bind-data" and mode == 0o600) or (
-                    kind == "--file" and mode == 0o666 and copy_permissions) or (
-                    kind == "--file" and mode == 0o644 and private_work_permissions)
+                    kind == "--file" and mode == 0o666 and copy_permissions)
                 if not default_mode:
                     args += ["--perms", oct(mode)[2:]]
                 args += [kind, str(fd), name]
+            if source_stage is not None:
+                for path, destination in source_stage.bindings:
+                    args += ["--ro-bind", path, destination]
             seccomp_fd = self._sealed(self.SECCOMP)
             fds.append(seccomp_fd)
             if overlay is not None:
-                for name in overlay["readonly_subtrees"]:
-                    args += ["--remount-ro", name]
+                if not private_work_permissions:
+                    for name in overlay["readonly_subtrees"]:
+                        args += ["--remount-ro", name]
                 census_fd = self._claim_census_buffer_v1()
                 fds.append(census_fd)
             if entropy is not None:
@@ -1830,6 +2808,8 @@ class VerifierTaskSession:
                     try:
                         if entropy is not None and entropy != self._mini_audit_entropy_device_v1():
                             raise WG.WorkGraphError("original87 kernel entropy device changed before launch")
+                        if source_stage is not None:
+                            source_stage.check()
                         process = subprocess.Popen(["/usr/bin/bwrap", "--args", str(args_fd), *command], stdin=subprocess.DEVNULL,
                                 stdout=stdout, stderr=stderr, env=self.environment, close_fds=True, pass_fds=tuple(fds),
                                 preexec_fn=limits, start_new_session=True)
@@ -1875,9 +2855,21 @@ class VerifierTaskSession:
                     private_effects = self._claim_effects_decode_v1(census_raw, overlay_config)
                     self._write(directory / "source-effects.json", private_effects)
             finally:
-                for fd in fds:
-                    os.close(fd)
+                try:
+                    if source_stage is not None:
+                        try:
+                            self._write(directory / "source-stage.after.json", source_stage.check())
+                        except BaseException as exc:
+                            self._write(directory / "source-stage.failure.json", dict(error=type(exc).__name__, detail=str(exc)))
+                            raise
+                        finally:
+                            source_stage.close()
+                finally:
+                    for fd in fds:
+                        os.close(fd)
         raw = {name: self._regular(directory / name)[1] for name in ("stdout.log", "stderr.log", "exit-code.txt", "image.json", "dispatch.json")}
+        if private_work_permissions:
+            raw.update({name: self._regular(directory / name)[1] for name in ("source-stage.before.json", "source-stage.after.json")})
         if overlay is not None:
             raw.update({name: self._regular(directory / name)[1] for name in ("source-effects.buffer", "source-effects.json")})
             if code == 0 and complete and (private_effects["observation"] != "COMPLETE"
@@ -2503,14 +3495,15 @@ def _preflight_capture_identity_v1(route, actual_base):
                 portal_requested=capture["capture_portal_events"], repro_requested=capture["retain_repro_events"])
 
 
-def preflight_verifier_pair_v1(plan):
-    """Diagnose a bound paired plan; never execute, authorize, or claim equality."""
+def _verifier_pair_plan_v1_or_v2(plan):
+    """One strict parser for diagnostic plans and actual retention dispatch."""
     encoded = WG.canonical_json_v1(plan)
     if len(encoded) > 65536:
         raise WG.WorkGraphError("preflight plan exceeds byte limit")
     plan = WG.decode_strict_json_bytes(encoded, "preflight plan")
     _preflight_fields(plan, {"schema", "expected_currentness", "runs"}, "plan")
-    if plan["schema"] != "implementaudit.verifier-pair-plan.v1":
+    if type(plan["schema"]) is not str or plan["schema"] not in {
+            "implementaudit.verifier-pair-plan.v1", "implementaudit.verifier-pair-plan.v2"}:
         raise WG.WorkGraphError("preflight plan schema is unsupported")
     expected = plan["expected_currentness"]
     _preflight_fields(expected, {"source_sha256", "engine_binding", "base_environment_sha256",
@@ -2524,10 +3517,15 @@ def preflight_verifier_pair_v1(plan):
     options = {"retain_repro_assets", "stdin_file", "empty_stdin", "capture_dist",
                "capture_portal_events", "retain_repro_events"}
     for route in routes:
-        _preflight_fields(route, {"mode", "output", "base_environment_sha256", "capture"}, "route")
+        fields = {"mode", "output", "base_environment_sha256", "capture"}
+        if plan["schema"].endswith(".v2"):
+            fields.add("retention")
+        _preflight_fields(route, fields, "route")
         if type(route["mode"]) is not str or route["mode"] not in {"legacy", "dag"}:
             raise WG.WorkGraphError("preflight route pair requires exactly legacy and dag")
         _preflight_path(route["output"], "output")
+        if "retention" in route:
+            _preflight_path(route["retention"], "retention")
         digests.append(route["base_environment_sha256"])
         capture = route["capture"]
         _preflight_fields(capture, options, "capture")
@@ -2541,12 +3539,43 @@ def preflight_verifier_pair_v1(plan):
         raise WG.WorkGraphError("preflight route pair requires exactly legacy and dag")
     if any(type(value) is not str or re.fullmatch(r"[0-9a-f]{64}", value) is None for value in digests):
         raise WG.WorkGraphError("preflight currentness requires complete SHA-256 bindings")
+    return plan, encoded
+
+
+def _capture_plan_paths(plan):
+    if plan["schema"] != "implementaudit.verifier-pair-plan.v2":
+        raise WG.WorkGraphError("capture retention requires a v2 paired plan")
+    routes = plan["runs"]
+    workspace = Path(routes[0]["output"])
+    sinks = [Path(route["retention"]) for route in routes]
+    if (routes[1]["output"] != str(workspace) or len(set(sinks + [workspace])) != 3 or
+            any(path.parent != workspace.parent for path in sinks) or
+            workspace.parent == ROOT or ROOT in workspace.parent.parents):
+        raise WG.WorkGraphError("capture retention requires one actual workspace and distinct sibling sinks outside source")
+    return workspace, sinks
+
+
+def preflight_verifier_pair_v1(plan):
+    """Diagnose a bound paired plan; never execute, authorize, or claim equality."""
+    plan, encoded = _verifier_pair_plan_v1_or_v2(plan)
+    expected, routes = plan["expected_currentness"], plan["runs"]
+    retained = plan["schema"].endswith(".v2")
     before = verifier_preflight_currentness_v1()
     reasons, false = set(), set()
     identities = {r["mode"]: _preflight_capture_identity_v1(r, before["base_environment_sha256"]) for r in routes}
     outputs = [Path(r["output"]) for r in routes]
-    if outputs[0] == outputs[1] or outputs[0] in outputs[1].parents or outputs[1] in outputs[0].parents:
+    if not retained and (outputs[0] == outputs[1] or outputs[0] in outputs[1].parents or outputs[1] in outputs[0].parents):
         reasons.add("OUTPUT_NAMESPACE_COLLISION")
+    if retained:
+        workspace, sinks = _capture_plan_paths(plan)
+        parent = _capture_directory(workspace.parent)
+        try:
+            _capture_private(parent)
+            _capture_parent_population(parent, workspace, sinks)
+        finally:
+            os.close(parent)
+        if any(os.path.lexists(path) for path in sinks):
+            reasons.add("RETENTION_ALREADY_EXISTS")
     for route, output in zip(routes, outputs):
         capture, identity = route["capture"], identities[route["mode"]]
         if route["base_environment_sha256"] != before["base_environment_sha256"]:
@@ -2588,7 +3617,7 @@ def preflight_verifier_pair_v1(plan):
         "same_stdout", "same_stderr", "route_pair", "same_engine", "same_execution_cwd", "same_compiled_stream",
         "same_child_environment", "same_declared_repro_artifacts", "same_stdin", "same_dist_namespace",
         "same_portal_events", "same_repro_events"}
-    return dict(schema="implementaudit.verifier-pair-preflight.v1",
+    return dict(schema="implementaudit.verifier-pair-preflight.v2" if retained else "implementaudit.verifier-pair-preflight.v1",
         status="BLOCKED" if reasons else "NECESSARY_PRECONDITIONS_ONLY", subject_launches=0,
         plan_canonical_sha256=sha(encoded), currentness=dict(expected=expected, observed_before=before,
             observed_after=after, matches=expected == before == after, mismatches=mismatches,
@@ -2601,7 +3630,7 @@ def preflight_verifier_pair_v1(plan):
         remaining_identity_observations="DISTINCT_RUN_IDS_PROCESS_CLOCK_FILESYSTEM_AND_RAW_OUTPUTS_UNQUALIFIED")
 
 
-def preflight_verifier_pair_file_v1(path):
+def _read_verifier_pair_plan_file(path):
     path = path.absolute()
     try:
         observed = source_member(path.relative_to("/").as_posix(), root=Path("/"), with_bytes=True, byte_limit=65536)
@@ -2612,8 +3641,14 @@ def preflight_verifier_pair_file_v1(path):
     if observed.get("kind") != "FILE":
         raise WG.WorkGraphError("preflight plan requires a no-follow regular file")
     data = observed["_acquired_bytes"]
-    result = preflight_verifier_pair_v1(WG.decode_strict_json_bytes(data, "preflight plan"))
-    result["plan_file_sha256"] = sha(data)
+    plan, encoded = _verifier_pair_plan_v1_or_v2(WG.decode_strict_json_bytes(data, "preflight plan"))
+    return plan, sha(data), sha(encoded)
+
+
+def preflight_verifier_pair_file_v1(path):
+    plan, file_digest, _ = _read_verifier_pair_plan_file(path)
+    result = preflight_verifier_pair_v1(plan)
+    result["plan_file_sha256"] = file_digest
     print(json.dumps(result, sort_keys=True))
     return 1 if result["status"] == "BLOCKED" else 0
 
@@ -2626,11 +3661,15 @@ def main():
     parser.add_argument("--capture-dist", action="store_true")
     parser.add_argument("--retain-portal-events", "--capture-portal-events", dest="capture_portal_events", action="store_true")
     parser.add_argument("--retain-repro-events", action="store_true")
+    parser.add_argument("--retention-plan", type=Path,
+                        help="v2 paired plan: use one actual capture workspace and distinct sealed destinations")
     stdin = parser.add_mutually_exclusive_group()
     stdin.add_argument("--stdin-file")
     stdin.add_argument("--empty-stdin", action="store_true")
     args = parser.parse_args()
     try:
+        if args.retention_plan is not None and args.mode not in {"legacy", "dag", "compare"}:
+            raise WG.WorkGraphError("retention-plan requires a legacy, dag or sealed compare operation")
         if args.mode not in {"legacy", "dag"} and (args.retain_repro_assets or args.stdin_file is not None or args.empty_stdin or args.capture_dist or args.capture_portal_events or args.retain_repro_events):
             raise WG.WorkGraphError("explicit acquisition options require a legacy or dag capture")
         if args.mode == "preflight" and len(args.paths) == 1:
@@ -2663,11 +3702,14 @@ def main():
                 print(json.dumps(result, sort_keys=True), flush=True)
             return status
         if args.mode == "compare" and len(args.paths) == 3:
+            if args.retention_plan is not None:
+                return _compare_sealed_captures(*(path.absolute() for path in args.paths), args.retention_plan)
             return compare(*args.paths)
         if args.mode in {"legacy", "dag"} and len(args.paths) == 1:
-            return run(args.mode, args.paths[0].resolve(), retain_repro_assets=args.retain_repro_assets,
+            return run(args.mode, args.paths[0].absolute() if args.retention_plan is not None else args.paths[0].resolve(), retain_repro_assets=args.retain_repro_assets,
                        stdin_file=args.stdin_file, empty_stdin=args.empty_stdin, capture_dist=args.capture_dist,
-                       capture_portal_events=args.capture_portal_events, retain_repro_events=args.retain_repro_events)
+                       capture_portal_events=args.capture_portal_events, retain_repro_events=args.retain_repro_events,
+                       retention_plan=args.retention_plan)
         parser.error("run takes one fresh output directory; compare takes two run directories and a fresh result path; preflight takes one plan file")
     except (OSError, ValueError, KeyError, TypeError, WG.WorkGraphError, subprocess.SubprocessError) as exc:
         print("work-graph-verifier: " + str(exc), file=sys.stderr)

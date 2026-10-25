@@ -1466,9 +1466,9 @@ def compile_native_a_g_v1(request_bytes: bytes) -> dict[str, JSONValue]:
     return {'schema': 'implementaudit.native-a-g.projection.v1', 'dependency': dependency_projection, 'conflicts': conflict_projection, 'schedule': schedule_projection, 'invalidation': invalidation_projection, 'execution_owner': owner_projection}
 
 
-# The v1 projection and native-a-g interfaces above retain their historical
-# caller-fact boundary. The explicit native source and transition interfaces
-# below do not silently upgrade those interfaces into native authentication.
+
+
+
 
 NATIVE_FENCE = re.compile('(?m)^```implementaudit-work-graph\\r?\\n(.*?)\\r?\\n```[ \\t]*$', re.S)
 NATIVE_NODE_FIELDS = {'id', 'parent', 'kind', 'state', 'requires', 'optional', 'reads', 'writes', 'acceptance', 'resources', 'authority', 'effect', 'authorization', 'independence', 'resource_demand', 'rank', 'route_scopes', 'logical_delivery', 'future_consumer', 'invalidators', 'independent_results', 'context', 'done_evidence'}
@@ -1509,7 +1509,7 @@ def _check_graph_seal(value, schema):
             raise WorkGraphError('native graph differs from source-derived projection')
 
 def _replay_native_graph_v1(graph, completion=None):
-    # This is captured-data replay only. It cannot issue a native acquisition witness.
+
     replay = None if 'route_scope' not in graph else _RouteScopeObservation(graph['route_scope'], _CAPTURED_ROUTE_REPLAY_KEY, receiver_binding=graph.get('receiver_binding'))
     return _compile_native_documents_v1({k: v.encode('utf-8') for k, v in graph['source_documents'].items()}, {k: v for k, v in graph['binding'].items() if k != 'source_digest'}, _route_observation=replay, _completion=completion)
 
@@ -1550,10 +1550,10 @@ def _native_document(data, path, schema):
         raise WorkGraphError(f'{path}: unknown native metadata schema')
     return obj
 
-_NATIVE_STATIC_OWNER_SHA256 = '74c5b59c12d5c7f55798ffbfae4402df2eb7924147dc8d08045e40317376c94a'
+_NATIVE_STATIC_OWNER_SHA256 = '030c540bfa56b9f7afa2bc8b10d0df73d5a7e3fb2e777eaa6ed603bbfb541b49'
 
 
-_NATIVE_STATIC_OWNER_BYTES = 388026
+_NATIVE_STATIC_OWNER_BYTES = 390799
 
 
 NATIVE_SOURCE_MAX_ENTRIES = 1024
@@ -1586,8 +1586,8 @@ def _native_static_owner_module_v1():
     import types
     path = pathlib.Path(__file__).absolute().parents[3] / 'scripts' / 'operational-evidence.py'
     try:
-        # This bootstrap admits code only by its fixed physical path AND bytes.
-        # All subsequent native content reads use that owner's handle reader.
+
+
         for parent in (path.parent, *path.parents):
             info = parent.lstat()
             if (not stat.S_ISDIR(info.st_mode) or stat.S_ISLNK(info.st_mode)
@@ -1632,8 +1632,8 @@ def _native_static_file_v1(owner, path, maximum, budget):
                 or getattr(before, 'st_file_attributes', 0) & 0x400
                 or before.st_size > maximum or before.st_size > budget['remaining']):
             raise OSError('native file type, alias or byte bound refused')
-        # Root omitted intentionally: the owner traverses from the filesystem
-        # anchor and opens every parent/leaf without following aliases.
+
+
         raw, kind = owner._read_repository_path(path, maximum=min(maximum, budget['remaining']))
         after = path.lstat()
         identity = lambda s: (s.st_dev, s.st_ino, s.st_mode, s.st_nlink, s.st_size, s.st_mtime_ns, s.st_ctime_ns)
@@ -1666,7 +1666,7 @@ def _native_windows_directory_rows_v1(owner, kernel, handle, requested, budget):
     storage = ctypes.create_string_buffer(capacity + 7)
     address = (ctypes.addressof(storage) + 7) & ~7
     rows, names = [], set()
-    query_class = 0xB  # FileIdBothDirectoryRestartInfo, then continuation 0xA.
+    query_class = 0xB
     pages = 0
     while True:
         pages += 1
@@ -1675,7 +1675,7 @@ def _native_windows_directory_rows_v1(owner, kernel, handle, requested, budget):
         ctypes.memset(address, 0, capacity)
         if not kernel.GetFileInformationByHandleEx(handle, query_class, address, capacity):
             error = ctypes.get_last_error()
-            if error == 18:  # ERROR_NO_MORE_FILES
+            if error == 18:
                 break
             raise ctypes.WinError(error)
         query_class = 0xA
@@ -1939,9 +1939,9 @@ def _native_claim_call_v1(owner, route, repo, arguments, claim_raw, validate_raw
     import io
     import tempfile
     environment = owner._native_child_environment(route)
-    # R0011 needs actual Git/common-directory identity, not a disposable view.
-    # Its fixed current/require/verify commands do not scan worktree filters.
-    # Deny inherited shell/Python startup hooks and object/network side effects.
+
+
+
     environment.update(GIT_NO_REPLACE_OBJECTS='1', GIT_NO_LAZY_FETCH='1',
                        GIT_TERMINAL_PROMPT='0', GIT_CONFIG_SYSTEM=os.devnull)
     config = {'core.fsmonitor': 'false', 'core.hooksPath': os.devnull,
@@ -1959,8 +1959,8 @@ def _native_claim_call_v1(owner, route, repo, arguments, claim_raw, validate_raw
         with contextlib.redirect_stdout(io.StringIO()):
             bash = route.trusted_host_executable(repo, 'bash')
         # source repo: the fixed primary owns this exact loaded-byte transport.
-        # argv0 and all original readonly owner calls remain unchanged. No
-        # temporary path can replace bytes between their hash and evaluation.
+
+
         result = subprocess.run([str(bash), '-c', 'eval "$(cat)"',
             'implementaudit-r0035-current', hashlib.sha256(claim_raw).hexdigest(),
             hashlib.sha256(validate_raw).hexdigest(), *arguments], input=script,
@@ -2000,7 +2000,7 @@ def _native_source_snapshot(run_root):
     owner, owner_path, owner_raw = _native_static_owner_module_v1()
     root = pathlib.Path(run_root).absolute()
     budget = dict(entries=0, maximum_entries=NATIVE_SOURCE_MAX_ENTRIES, remaining=NATIVE_SOURCE_MAX_TOTAL_BYTES)
-    # Inspect the declared root through held handles even when it has no specs.
+
     root_rows, _ = _native_static_directory_v1(owner, root, budget)
     root_types = {name: directory for name, directory, mode in root_rows}
     result = {}
@@ -2025,26 +2025,26 @@ def _native_source_snapshot(run_root):
         raise WorkGraphError('native static source owner changed during acquisition')
     return dict(sorted(result.items()))
 
-# This exact R0011 pair shares load_final_v3_receipt only for the LF-exact
-# 18-field domain. Its legacy TSV-pointer branch is not equivalent. Unknown
-# helper or receipt bytes retain separate verification; no saved authority token.
+
+
+
 _NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE = (
     '07e09843b2831149dc43e5f0dc458e82ae5cf9614b116393ac774ddea19390c7',
     'fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5')
 
-# The same owner emits its controller tuple only after the full require branch.
-# No supplied tuple replaces owner acquisition; other source pairs keep both calls.
+
+
 _NATIVE_COMBINED_CURRENT_PAIR_V1 = (
     '9665ba20e02c02882f3172549e90d78e790c6c0133cd31749a30e1d29c3cc0ce',
     'fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5')
 
 
-# A separate exact-source transport profile, never a new optimisation pair.
+
 _NATIVE_SIX_SOURCE_PAIR_V1 = (
     '50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383',
     'd8b046b5417dce13ed66a5ac5fffaf3d18fae40c97d42aef8b38470500d575a6')
-_NATIVE_CONTINUITY_TRANSPORT_SHA256 = 'de6025b8c5e48d924643387e85c1554d60b4208c751e0b5f64376cb53368f2ce'
-_NATIVE_CONTINUITY_TRANSPORT_BYTES = 40203
+_NATIVE_CONTINUITY_TRANSPORT_SHA256 = '84e2230251a98802b1f2500bce6e6ad58763c0931fda1ae6693a69579b519f36'
+_NATIVE_CONTINUITY_TRANSPORT_BYTES = 43200
 
 
 def _native_six_source_transport_v1(owner, claim_raw, validate_raw):
@@ -2091,7 +2091,7 @@ def _native_equivalent_receipt_domain_v1(owner, repo, receipt):
         raw.decode('utf-8', 'strict')
         return True
     except (Exception, SystemExit):
-        # An unavailable discriminator cannot authorize the shortcut.
+
         return False
 
 
@@ -2217,8 +2217,8 @@ def _native_continuity(repo_root, run_root, *, _source_reads=None, _current_read
     if final_path != owner_path or final_raw != owner_raw:
         raise WorkGraphError('native static owner source changed during continuity')
     if _source_reads is not None:
-        # Output only, recorded after actual loaded-byte execution and fences.
-        # No supplied value is consulted as currentness or source authority.
+
+
         _source_reads.append(dict(claim_sha256=helper_pair[0], validate_sha256=helper_pair[1]))
     if _closure_reads is not None:
         _closure_reads.append(closure)
@@ -2580,9 +2580,9 @@ def _native_route_relation_v1(nodes, context, binding, route_scope, source_diges
         if expanded == affected:
             break
         affected = expanded
-    # Match the existing diff owner's ordering: dependency closure first,
-    # then ancestry. An invalidated ancestor alone does not change a sibling's
-    # input digest or invent an extra dependency edge.
+
+
+
     for name in tuple(affected):
         cursor = nodes[name]['parent']
         while cursor is not None:
@@ -2663,9 +2663,9 @@ def _native_route_block(fact, acquisition, *, scope=None, route_observation=None
         route_scope = _route_observation_value(route_observation)
         if scope != route_scope['scope']['identity']:
             return 'ROUTE_SCOPE_UNCOVERED'
-        # Source metadata names scopes only. Dynamic transaction/obligation
-        # identities come from the owner AFTER currentness; putting those
-        # receipt-derived IDs into STATE would create a digest cycle.
+
+
+
         _native_validate_route_scope_v1(route_scope, binding)
         route = route_scope['route']
         satisfied = route['decision'] == 'NOT_REQUIRED' or route['route_state'] == 'SATISFIED'
@@ -2854,8 +2854,8 @@ def _native_input_policy_v1(owner, root, relative, git_policy):
     if reason is not None:
         raise WorkGraphError('native declared input policy refused: ' + reason)
     if git_policy:
-        # One literal path, quiet bounded output, isolated Git configuration.
-        # --no-index also covers ignored files that happen to be tracked.
+
+
         result = owner._run_git(root, 'check-ignore', '--no-index', '--quiet', '--',
             relative, text=False, allowed_returncodes=(0, 1))
         if result.returncode == 0:
@@ -2880,7 +2880,7 @@ def _acquire_native_read_set(nodes, input_root):
         try:
             info = path.lstat()
         except FileNotFoundError:
-            # A missing leaf is allowed only behind a physically acquired parent.
+
             parent = path.parent
             while True:
                 try:
@@ -2923,9 +2923,9 @@ def _acquire_native_read_set(nodes, input_root):
         raise WorkGraphError('native static source owner changed during input acquisition')
     return result
 
-# Explicitly constructed intake preserves the self-contained R0035 diagnostic.
-# These original portable readers acquire no repository/native currentness. They
-# are selected only when repo_root is absent, never after a native-owner refusal.
+
+
+
 def _constructed_source_snapshot_v1(run_root):
     root = pathlib.Path(run_root)
     if root.is_symlink() or not root.is_dir():
@@ -3017,8 +3017,8 @@ def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected
     bound = dict(before, read_set=read_set, input_root_identity=hashlib.sha256(os.fsencode(str(input_root.resolve()))).hexdigest())
     route_observation = None
     producer = None
-    # Route absence retains the existing v1 unavailable result. A present
-    # producer must satisfy the fixed source pin; caller facts cannot enable it.
+
+
     route_source = pathlib.Path(__file__).resolve().with_name('route-transaction.py')
     route_available = False
     if repo_root is not None and any(node['route_scopes'] for node in preliminary['nodes']):
@@ -3054,8 +3054,8 @@ def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected
             if transaction is not None:
                 if not callable(transaction):
                     raise WorkGraphError('native route transaction interface is malformed')
-                # This callable comes only from the fixed, byte-verified sibling
-                # owner. No caller callback/module or serialized witness enters.
+
+
                 corroboration = {} if expected_current is None else {'expected_current': expected_current}
                 observed = owner_read.enter_context(transaction(pathlib.Path(repo_root), before['controller'], **corroboration))
                 acquired_bytes = observed.scope_bytes()
@@ -3086,8 +3086,8 @@ def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected
         with contextlib.ExitStack() as episode_read:
             episode = None
             if _episode_outputs is not None and receiver_binding is not None and combined_route_read:
-                # Source pins were derived by the live R0033 owner from the
-                # accepted mission. No caller source, module or fact enables it.
+
+
                 source_owner = episode_read.enter_context(producer._ordinary_fixed_source_owner_v2(
                     pathlib.Path(repo_root), receiver_binding['source_pins']))
                 policy = source_owner.ordinary_policy_v1()
@@ -3107,8 +3107,8 @@ def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected
             if episode is not None:
                 if source_owner.ordinary_policy_v1() != policy:
                     raise WorkGraphError('native episode policy changed during observation')
-                # Unavailable branches retain their complete original fresh
-                # acquisition; only a real AVAILABLE episode shares the live read.
+
+
                 if episode['status'] != 'AVAILABLE' and source_owner.acquire_selected_ordinary_episode_v1() != episode:
                     raise WorkGraphError('native episode availability changed during observation')
         if route_observation is not None and _route_observation_value(route_observation) != acquired_route:
@@ -3124,8 +3124,8 @@ def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected
         if producer is not None and not combined_route_read:
             if producer.read_current_route_scope_v1(pathlib.Path(repo_root), before['controller']) != acquired_route:
                 raise WorkGraphError('native route changed during intake')
-        # Every projection remains provisional until the owner context exits;
-        # it freshly checks semantic inputs/receipts/refs and rejects mutation.
+
+
     if producer is not None:
         _, final_path, final_raw = _native_route_scope_module_v1()
         if final_path != producer_path or final_raw != producer_raw:

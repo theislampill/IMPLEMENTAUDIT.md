@@ -235,11 +235,16 @@ class TransportControls(unittest.TestCase):
                   sources=self.sources if sources is None else sources, arguments=tuple(arguments))
 
     def test_01_old_transport_reopens_the_wrong_companion_path(self):
-        # Catch accidental claims that the old two-source transport was already
-        # compatible: its real current-source invocation must retain this failure.
+        # Preserve the exact historical two-source failure at its original bytes.
+        # The captured current launcher has a separately bound refusal below.
         with tempfile.TemporaryDirectory(dir=self.base) as temporary:
             root = Path(temporary)
-            claim, validate = ((SCRIPTS / name).read_bytes() for name in NAMES[:2])
+            claim = (ROOT / "fixtures/work-graph-continuity/claim-run-pre-captured-v1.sh").read_bytes()
+            validate = (SCRIPTS / NAMES[1]).read_bytes()
+            self.assertEqual((len(claim), hashlib.sha256(claim).hexdigest()),
+                             (17368, "50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383"))
+            self.assertEqual((len(validate), hashlib.sha256(validate).hexdigest()),
+                             (61001, "d8b046b5417dce13ed66a5ac5fffaf3d18fae40c97d42aef8b38470500d575a6"))
             (root / NAMES[0]).write_bytes(claim)
             (root / NAMES[1]).write_bytes(validate)
             command = ["/usr/bin/bash", "-c", OWNER._NATIVE_R0011_CHILD_BOOTSTRAP,
@@ -252,6 +257,30 @@ class TransportControls(unittest.TestCase):
             self.assertEqual(run.returncode, 2)
             self.assertIn(b"./claim-run-rotation.py", run.stderr)
             save_result("old-transport-preimage", dict(argv=command, returncode=run.returncode,
+                                                       stdout=run.stdout, stderr=run.stderr))
+
+    def test_01b_current_captured_shell_refuses_missing_companion(self):
+        # The current captured launcher must refuse before companion execution.
+        # This is separate from the historical Python missing-file exit above.
+        with tempfile.TemporaryDirectory(dir=self.base) as temporary:
+            root = Path(temporary)
+            claim, validate = ((SCRIPTS / name).read_bytes() for name in NAMES[:2])
+            self.assertEqual((len(claim), hashlib.sha256(claim).hexdigest()),
+                             (21636, "35232762fdd76d000bcca774a0f6f53f3d26dfb9229d9795d397b81d7ef8483e"))
+            (root / NAMES[0]).write_bytes(claim)
+            (root / NAMES[1]).write_bytes(validate)
+            command = ["/usr/bin/bash", "-c", OWNER._NATIVE_R0011_CHILD_BOOTSTRAP,
+                       "implementaudit-r0035-current", str(root / NAMES[0]), str(root / NAMES[1]),
+                       hashlib.sha256(claim).hexdigest(), hashlib.sha256(validate).hexdigest(),
+                       "--require-current-continuity", FIXTURES.CONTROLLER]
+            run = subprocess.run(command, cwd=self.fixture.repo, env={"PATH": "/usr/bin:/bin",
+                                  "PYTHONDONTWRITEBYTECODE": "1"}, stdout=subprocess.PIPE,
+                                 stderr=subprocess.PIPE, timeout=30, check=False)
+            self.assertEqual(run.returncode, 1)
+            self.assertEqual(run.stdout, b"")
+            self.assertIn(b"claim-run.sh: companion source ", run.stderr)
+            self.assertIn(b"No such file or directory: 'claim-run-rotation.py'", run.stderr)
+            save_result("current-transport-missing-companion", dict(argv=command, returncode=run.returncode,
                                                        stdout=run.stdout, stderr=run.stderr))
 
     def test_02_legacy_owner_outputs_and_repository_bytes_are_preserved(self):
