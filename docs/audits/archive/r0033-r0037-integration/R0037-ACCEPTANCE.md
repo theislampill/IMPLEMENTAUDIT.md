@@ -1192,3 +1192,88 @@ The first corrected source episode used the same four frozen packets once each a
 Source packet `e00220b4571c1495846c6eec3624f1f90496b2a62d6905fe6734945a7d8e3a94` binds 50 frozen inputs. Their recorded physical/source identities and the selected owned Git scope stayed equal across all command boundaries; the three admitted Git setup writes were confined to the disposable fixture. During that isolated qualification, no owned PR worktree/Git write, baseline replay, qualification retry, native call or composed-disposition call occurred. Actual packet **`0b136ab06375e11f813b5ae996857fa1e453df2ba6feb7b24cc708f992448e3b`** seals **177 files / 1,834,317 bytes** in `continuation-20261025/r37-handoff-correction`.
 
 Author qualification is **PASS_BOUNDED_SOURCE_CORRECTION**. Independent source/actual review is **FINAL/PASS_BOUNDED**, report `226b4c1d464b46e3091b5031d0626f64122ba3fec4bf9388af862d189d3da24e`, receipt `d6c76ef89764e1c0fbaad2b775d0e78a7e8724f2a4e65eceb83643127996efc2`. It independently verified all 177 actual files, the 31-file baseline, 22 frozen snapshots and all 29 corrected owner invocations. Root retains package/install and publication gates. This adds no complete M05/36-case/14-family/17-terminal/15-host acceptance, native Stop/JOIN evidence, composed runtime verdict, package/native equivalence or issue closure; all earlier acceptance boundaries remain in force.
+
+### R0037 — populated claims require a successful Git observation
+
+Author-qualified source correction; independent source/actual review and later package, installed-consumer and publication gates remain separate.
+
+The first admitted observation-failure episode used PR253 source commit
+907626c3f3185337c07e7bcd39722b7edb0c713b, tree
+a0c0f1bd16d4ee6d3e641aeaf9b8938d9761170a. An ordinary disposable repository
+first returned Git status 0 with empty stdout. Replacing only its index with
+the declared truncated bytes made actual status return 128 with empty stdout
+and a fatal index diagnostic. The same populated clean claim nevertheless
+returned helper exit 0 and its verified terminal message. The genuine
+empty-claim control also returned 0. Baseline seal
+b8afcd492f2f4022c5366fe2c7f41c40d017a341ac64578301bc375008d75b1f retains
+all 100 files / 480,323 bytes, including the original index, failed fixture
+and parent failure. That episode was not replayed.
+
+The owner now checks each requested Git acquisition before using its stdout.
+Failed acquisition emits an explicit UNVERIFIABLE Class-1 refusal through
+the existing exit-1 evidence-mismatch boundary. The genuine no-claims shortcut
+still precedes Git acquisition; Class-3 text is still preserved. Successful
+observations use the existing equality and contradiction checks. The adjacent
+repository-skip and branch-sentinel findings were static before this repair;
+no prior dynamic failures are claimed for them. Failed full-SHA tree acquisition
+was already a refusal and now has the explicit unavailability disposition.
+
+The exact two-path patch has SHA-256
+a76a7460b0db5803fba1efcf389c28b22ebe0e9f27e457090d21fd14a7f7268a.
+The corrected helper is 9,535 bytes, SHA-256
+949d32ff3f2810e225f37dad4504deb0f638e8c9e357a24c779dde2dbbc409ed;
+the maintained test is 18,933 bytes, SHA-256
+d11036082e126ce4a8392b7f6eea29885425ea5ec1ca5c64a2ef1dc138e43709.
+The original 25 helper controls are preserved except the independently reviewed
+paired opaque-label spelling change to canonical R0037. Six new real-Git
+observation controls are appended. No fake Git wrapper or assertion weakening
+is introduced.
+
+First corrected execution used a complete 1,404-file disposable receiving
+source with only those two postimages changed. Its fixture commit is
+1d28d6b15f65dd32db4187465b1c01ea49537007, tree
+91e034ae9809bfc1e6743e317ad31f53e7f699a0, distinct from the owned base.
+Six direct helper calls returned **0/0/1/1/1/1** with exact expected raw
+stdout/stderr: valid clean and genuine empty claims proceed; failed clean,
+repository, branch and tree acquisitions refuse. Actual Git witnesses returned
+0 for the valid fixture and 128 for the declared failures. The fresh original
+index and failed fixture remain retained.
+
+The maintained bank ran once and exited 0. Its retained caller trace contains
+25 original and six new helper invocations. Its internal redirections remain
+unchanged; only the six direct calls have separate complete helper streams.
+Two Bash syntax checks passed. The first qualification recorder then exited 1:
+its trace counter expected a custom PS4 prefix, while Bash emitted the default
+prefix. The original recorder, zero-count result and parent failure remain
+unchanged. Read-only reconciliation found the exact 31 actual invocations,
+independently verified by root. A separately admitted suffix ran only the
+previously unstarted identity scan and final Git guards, each once; all three
+exited 0. No completed helper, bank or baseline command was replayed.
+
+Hosted run 40193840070 had separately failed on the two new opaque Class-3
+labels' spelling. Its actual checkout was synthetic merge
+cac3453bad37d8c7d1d6e9cf8efaae5e009b0971, rather than literal execution
+at the owned base. Independent diagnosis report SHA-256:
+27db1406a5730b791f8bec76c20594bcc717d7a63246ff1431c0e65331879036.
+Both paired labels now use R0037. The unchanged durable-identity owner scanner
+passed once against the complete corrected receiving source; its registry and
+assertions were not weakened. The historical hosted failure is retained. This
+local owner scan does not establish a new hosted full-workflow result.
+
+Actual seal
+a03b39208712fecfaaae4bb2e6a8bff0496ce668d10997342116981977404c6e binds
+172 files / 7,311,201 bytes in
+continuation-20261025/r37-observation-correction. The 26 declared commands
+executed once each across the stopped 23-command prefix and admitted three-command
+suffix. There were 37 helper calls in total, no timeouts, no product replay,
+no source changes after first product execution, and no owned-worktree or foreign
+source mutation. Full receiving-source identities and the original evidence
+remained unchanged; final guards read back the clean owned base.
+
+Author disposition is **PASS_BOUNDED_SOURCE_CORRECTION**, pending independent
+review of this exact packet and ledger proposal. This correction changes a
+canonical payload helper, so earlier package/installed results retain their
+original identities. New package and installed-consumer qualification is a
+separate root step. No combined PR255 receiving claim, native event, Stop,
+accepted JOIN, complete M05/36-case/14-family/17-terminal/15-host acceptance,
+issue closure or final audit is inferred. R0037 remains OPEN.
