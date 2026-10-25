@@ -254,6 +254,31 @@ input and final file/ref checks remain. Historical or separate owners keep
 C03's original direct check. These source observations do not authenticate
 native actor records, create caller credentials or replace receiving/JOIN.
 
+The current main continuity owners have a distinct six-source execution profile.
+`scripts/work-graph-continuity-transport.py` admits only their exact bytes, modes
+and three read-only commands. Sealed memory files populate a linked, read-only
+namespace with the original sibling paths and actual repository cwd. Nested
+imports and launches therefore consume captured code. A private read-only
+CPython alias and sealed `python`/`python3` wrappers enforce `-I -S -B`, including
+after an unchanged owner rebuilds PATH from `sys.executable.parent`. The child
+checks the wrappers, alias and actual startup flags. The execution closure is
+`implementaudit.continuity-source-closure.v2` with the exact
+`ISOLATED_CPYTHON_V1` startup record. Host Python, its standard library and other
+system runtimes remain trusted assumptions, not an acquired runtime image.
+Source, parent and cwd
+replacement still fail the closing fences; the adapter does not change any
+currentness predicate or the older two-source optimization eligibility.
+
+`observe_native_run_sources_v2` and its episode variant retain the original two
+helper hashes and add the complete executed closure plus the exact loaded
+transport identity. C03 independently checks the six fixed same-checkout paths
+and transport bytes before and after consuming that live observation. Captured
+paths never select reads. The historical v1 envelope remains two-source only;
+it refuses the six-source profile. Missing Linux namespace facilities are typed
+refusals, with no mutable-path fallback, host policy change or Windows claim.
+Constructed legacy and migrated fixture controls qualify this portable source
+composition, not a genuine controller, host admission or campaign acceptance.
+
 The repository composition retains the complete R0035 compiler adopted at
 `87a7ea09`, including its product-authority refusals, with the existing R0038
 hardened input readers. Continuity uses host-only primitives without loading
@@ -264,6 +289,14 @@ query policy and continuity-helper closure. General installed R0035 support is
 not established by this repository-only composition. A native observation must
 come from identical compiler bytes at the canonical and frozen-peer paths;
 captures from another compiler version remain subject to exact source refusal.
+
+The R0035 integration preserves a self-contained constructed-input route in the
+same compiler. Omitting `repo_root` selects the original constructed readers
+before acquisition and uses them again at the closing checks. Supplying a
+repository selects the hardened readers; a failure cannot trigger a constructed
+fallback. The canonical and repository-peer compiler files have identical bytes.
+This source composition does not relabel earlier captures or establish native
+admission for a new source identity.
 
 Declared and recursively selected graph inputs pass the repository owner's
 secret/administrative-name policy before content reads. A Git-backed input root

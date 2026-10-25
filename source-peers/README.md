@@ -5,10 +5,11 @@ evidence tool. They are outside the normal plugin and standalone skill payloads.
 Their manifests bind exact source bytes; source transport is not native admission.
 
 `route-graph` contains the R0033 route producer and its request validator plus
-the selected R0035 graph implementation. The latter excludes the unrelated
-verifier, conversion and CLI implementation. Its fixed producer and secure-reader
-pins must match the composed source. R0038 consumes the relation read-only and
-does not acquire the owners' routing, currentness or readiness authority.
+the complete selected R0035 compiler, including its verifier, conversion and CLI
+interfaces. Its native reader paths require the selected repository-only reader
+closure. Its fixed producer and secure-reader pins must match the composed
+source. R0038 consumes the relation read-only and does not acquire the owners'
+routing, currentness or readiness authority.
 
 `native-runtime` contains the exact additional currentness and host-binding owner
 dependencies. Unmodified members retain their upstream commit and file identity.
