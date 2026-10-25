@@ -251,3 +251,53 @@ label. This branch changes no checker budget, strict diagnostic oracle or
 cross-owner runtime source. Continue independent commissioned work and retain
 any proposal without silently importing it. Source heads and hosted CI after
 this ledger increment require their own guarded publication receipt.
+
+## Expanded cross-PR integration receiving checkpoint
+
+The owner has authorized actual disposable composition of exact published
+PR246/251/252/253/254 source, with publication still restricted to each semantic
+owner. The prior stopping point is superseded. Current unchanged input heads
+are R0035 `cbb616cc7e0f9abafebe9bbdeee202ede7feb94e`, four-Rockstar PR251
+`f1332a580faf1289005616fb8ee57969f6e3b745`, R0039
+`124e4b5eed90ca031a18b6be72104c802ea6ca91`, R0033/R0037
+`8210a63ec4d852d87dd6f8a5293b2335705ba274`, and R003F/R0041/BWP PR254
+`a08eed19ffd6b40addce1276ab827c03b24ad8d1`. PR253 hosted CI40158397393 and
+PR251 CI40156947120 completed SUCCESS; their qualification is reused rather
+than repeated. The earlier F6 failure remains historical failed evidence.
+
+The separate R0033 and R0037 ledger addenda now record an actual independently
+reviewed portable producer/consumer chain on54 unchanged published files.
+Accepted declared-result JOIN, surviving version-2 pending, selective A/JOIN
+invalidation with independent B/PREP, actual ordinary-v2 continuity, truthful
+yield and a real open-state closure refusal are supported at their stated
+scopes. `FOREIGN_CHILD`, durable consumed_version0 and the null native graph
+binding remain receiving limits. Do not relabel these as native child events.
+No unchanged bank, actor or qualified pending-storage mechanism was replayed.
+
+The initial combined shipped-source candidate is local commit
+`74890fa724494498fff0810f880e36de0866b5a9`, tree
+`4bf813994724cd427f98266d41d696f6e465e61b`. It selects21 changed files over
+PR251; the one actual companion conflict resolves to exact PR252 bytes and its
+own projection pin. PR254's published changes are documentary and add no
+shipped runtime. The canonical build actually FAILED: plugin550873 bytes and
+standalone546270 under cap458752 plus reserve2000. This is a final-source
+integration defect at that candidate, not a native-only gate or an individual
+PR failure. The exact75/72 member census and raw build are preserved. No cap,
+reserve, package identity, source population or integrity check was weakened.
+Later source changes require their own final combined receiving result.
+
+A separately reviewed shell-to-companion source-custody repair is proposed to
+the R0039 owner in [PR252 comment6393556153](https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/252#issuecomment-6393556153).
+It is not adopted on this branch. The proposal retains two actual original
+source failures, focused real-process controls and actual fourteen-field R0039
+plus protected-R0030 receiving. Native authentication, Windows handles,
+external effects and the package deficit remain outside that bounded result.
+Root's local broader candidate may receive the exact reviewed shell; a foreign
+branch update remains that owner's decision.
+
+Checkpoint37 preserves the route packet/review, shell source/proposal/review,
+initial combined artifacts/failure, and new prospective safety preparation;
+ZIP SHA256 `eab2f01b970c3f8201bfc7cac5eb250c9cb7ae1a050839245157f1dea64b2e45`.
+Continue meaningful integrated qualification and owner-scoped corrections.
+All six original RLGWO acceptance decisions remain separate and OPEN; this
+checkpoint asserts no Pro exhaustion, release or closure.

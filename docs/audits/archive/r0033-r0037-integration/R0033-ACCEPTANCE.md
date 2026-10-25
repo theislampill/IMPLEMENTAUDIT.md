@@ -1,5 +1,52 @@
 # R0033 acceptance ledger — four-child routing and evidential support
 
+## Current-owner portable receiving integration — 2026-10-25
+
+The expanded owner commission authorizes disposable cross-PR composition. One
+actual receiving chain now combines 54 unchanged published source files from
+R0035 PR246 `cbb616cc7e0f9abafebe9bbdeee202ede7feb94e`, R0033/R0037 PR253
+`8210a63ec4d852d87dd6f8a5293b2335705ba274`, and R0039 PR252
+`124e4b5eed90ca031a18b6be72104c802ea6ca91`. All source preimages, modes and Git
+blob identities are bound in the retained packet. No product-source correction
+was needed for this discriminator.
+
+A real gated read-only child captured the actual version-1 pending state. R0035
+accepted its PENDING result and subsequently its exact first terminal output
+through the original issued frontier. B's separately captured result joined at
+the declared result contract. Duplicate terminal replay refused without adding
+history. This is an actual portable producer/consumer result; it is not native
+child acceptance. R0035's graph binding is `CONSTRUCTED_FILESYSTEM`, with null
+controller, claim, receipt and epoch fields. Real R0039 continuity operations
+were exercised separately by the driver, not admitted inside that graph.
+
+| Receiving boundary | Observed result and evidence ceiling |
+|---|---|
+| R0033 pending after portable JOIN | The native pending JOIN interface returns `FOREIGN_CHILD`; no assignment or pending consumption is created. Portable graph JOIN does not discharge a governed child obligation. |
+| New pending input | The real pending CLI advances to version 2. Fresh R0035 reconsideration invalidates A and JOIN, holds NEXT on its dependency, preserves B as DONE, and admits independent PREP. The old NEXT result remains inadmissible. |
+| Covered scope | Applying version-1 coverage to an unsaved copy leaves version 2 outstanding. This is a projection check only; durable `consumed_version` remains zero. |
+| Currentness boundary | A real isolated ordinary-v2 R0039 controller is invalidated. Its old receipt/currentness fails; G0002 resume/verify/require succeeds. The stale NEXT result still refuses. |
+
+The principal run records 22 assertions, 34 top-level commands, one separately
+captured gated process and 14 R0035 API calls. Commands include Git fixture
+setup and readback; these counts do not expand the original seven criteria or
+45 routing cases. Run-001's missing graph metadata remains a correctly refused
+fixture-construction error. Native selection, physical OPEN, verified full
+LOAD/use, RETURN, authentic result acceptance, accepted native JOIN and durable
+covered consumption remain separate gates. The sole governor, four children,
+progressive disclosure and existing qualified pending-storage controls are
+unchanged and were not rebuilt or replayed.
+
+Independent engineering review is PASS only at this portable composition scope:
+report SHA-256 `b889b2887ae8a76e7616e1e91ead5f00dce39a2fe1068d322a9e667cb27c8719`,
+receipt `d991bc645638c915731efed1fc4e09e13f14080299d9f0f8b17150834dc36fe3`.
+It verified all 365 sealed files, 54 source preimages and 29 executed target skill
+copies without replay. Review archive SHA-256
+`7f8835df33d60d7d2c554a15f0dd73b6bd10191be9a4b37d01857d92a154cf6b`.
+The full packet and review were preserved in owner checkpoint37, ZIP SHA-256
+`eab2f01b970c3f8201bfc7cac5eb250c9cb7ae1a050839245157f1dea64b2e45`.
+This ledger increment changes no shipped bytes or source-selection pins. R0033
+acceptance remains OPEN, independently of the separate combined-package failure.
+
 This is a derived acceptance matrix for the authorized R0033/#207 and R0037/#211 integration. It records contract inheritance, observed source evidence, preserved failures and remaining acceptance. It is not an issue-closure decision, native admission, formal audit-assess return or release receipt. The sole final integration fields are in [CONTINUATION.md](CONTINUATION.md#root-integration-fields); root must bind them to the actual final candidate.
 
 The inspected accepted base is commit `e78f7cb21af4197d490f10bc95917a4c75f748aa`, tree `e0263d4455549a47243d82f45cf31101c6b94df2`. Task reports and review packets below identify later working-file bytes; the base commit does not identify those edits. Whole immutable exact-tree integration review, final package qualification, four official isolated installs and hosted CI remain root-owned gates. A green check does not discharge this issue.

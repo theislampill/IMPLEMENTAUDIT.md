@@ -1,5 +1,48 @@
 # R0037 acceptance ledger — nested control and truthful turn yield
 
+## Current-owner interruption and disposition receiving — 2026-10-25
+
+The current-source portable chain recorded in the R0033 ledger reaches the
+existing R0037 consumers after a genuine pending-state change and separately
+executed ordinary-v2 R0039 invalidation/resume. It uses unchanged R0037 source
+from public `8210a63ec4d852d87dd6f8a5293b2335705ba274`; no second governor,
+dispatch owner or lifecycle protocol is introduced.
+
+The same BLOCKED/open record permits `NONTERMINAL_YIELD` while preserving the
+held obligation. Two initial terminal calls stop at the missing required
+`--closure-record` argument. Those calls are retained as invocation refusals
+only. A single narrow supplemental call supplies the complete closure-record
+input and reaches the actual state predicate:
+`closure requires DONE and terminal verified closure`. Restoring the original
+records permits truthful yield again. No source or oracle was changed for that
+supplement; it resolves the concrete missing discriminator.
+
+R0035 invalidates affected A and JOIN, preserves independent B, holds NEXT and
+accepts independent PREP. R0037 consumes portable records describing that held
+obligation. It does not authenticate or consume R0033 native pending state.
+The driver's actual R0039 continuity checks do not turn R0035's constructed
+filesystem graph into a native controller-bound graph. Selective invalidation,
+ordinary resumption and truthful disposition are supported at these precise
+consumer boundaries; genuine host Stop/session binding remains unproved.
+
+The original 36 nested cases, 14 mutation families, 17 terminal criteria and 15
+host-turn conditions retain their separate populations and dispositions. The
+22 principal assertions and two supplemental validator calls are not new
+members of those populations. Run-001's fixture metadata error and the two
+argument-only terminal refusals remain available alongside the actual final
+predicate refusal. Earlier ordinary-task successes, failed checks, missing
+captures and the excluded platform-refused request are unchanged.
+
+The independent report
+`b889b2887ae8a76e7616e1e91ead5f00dce39a2fe1068d322a9e667cb27c8719` and receipt
+`d991bc645638c915731efed1fc4e09e13f14080299d9f0f8b17150834dc36fe3` accept only
+this portable chain. They also check narrow R0041 Q4/Q6/Q8/Q11 receiving
+annotations: pending preservation, selective applicability, supported old-profile
+continuation without a forced migration, and performed-versus-accepted authority.
+This is not full R0041 qualification; Q5 was not newly tested. The reviewed
+packet is preserved in checkpoint37 at the identities in the R0033 ledger.
+This documentation increment changes no shipped source; R0037 remains OPEN.
+
 This derived ledger preserves the original R0037 acceptance populations independently: **36 nested-control cases, 14 mutation families, 17 terminal criteria and 15 host-turn-disposition pass conditions**. The six TY cases and seven binding fixtures are also retained by identity. Focused new tests do not replace these populations or make them all complete. Final candidate identity and root decisions are recorded once in [CONTINUATION.md](CONTINUATION.md#root-integration-fields).
 
 The accepted base is `e78f7cb21af4197d490f10bc95917a4c75f748aa`, tree `e0263d4455549a47243d82f45cf31101c6b94df2`. Later task, review and composition packets identify working-file bytes separately. This document grants no currentness, lifecycle, host-enforcement, issue-closure or release authority. It retains qualification judgments and hashes under `docs/audits/RETENTION.md`, not raw local execution transcripts.
