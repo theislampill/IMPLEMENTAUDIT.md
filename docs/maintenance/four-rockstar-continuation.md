@@ -368,3 +368,32 @@ block and the prior zero-command refusal. Do not replay the actor, reconstruct
 the response, substitute HANDOFF for missing evidence or relax the oracle.
 Continue other independently executable work; this is not a product failure.
 R002C caseB remains GAP-REVISE, and R002E's 60-property census is unchanged.
+
+
+## R002C common-source readiness continuation
+
+The separate ordinary handoff task has an independent **NONVERDICT at cooperative
+local artifact/command scope**. Its retained handoff and seven recorded task
+commands support E1–E5: identify the two reports' common old export-011 input,
+acquire informative current export-012 evidence, establish the listed local
+readiness prerequisites, preserve the operational scope and continue
+proportionately. The integration record binds the exact local installed candidate
+`153df92c`, tree `59388dae`, plugin `b826ab69`; public/current heads do not
+replace that installation identity. Assessment output manifest:
+`426e5f09c2a801b647706564b23518447b43cba07bee062ce7868cb33b214485`.
+
+Preserve the required source-read recording gap: no command receipt invokes
+`read-source.py`, and no retained command stdout contains `SOURCE_READ_END`.
+The separate matching source blob and receipt cannot establish the missing argv,
+process outcome, raw output or sequence position. Do not repair the first attempt
+with chat, reconstruction, replay or a relaxed oracle. The retained source
+inspection justifies no runtime patch, and the capture defect is not a semantic
+product finding or a native-only blocker.
+
+Reuse the supported local observations at their actual scope. Original A/C/D
+results and B's diagnostic gap remain unchanged; the R002D refusal/NONVERDICT
+keeps its separate missing-response/final-state/seal basis. Source delivery,
+causal qualification, final current-package evidence, authentic receiving and
+original 68/116 acceptance remain separate obligations. All six original
+acceptance decisions across PR251/PR253 remain separate. This record adds no
+runtime change, product-test execution, ActiveGraph run, package build or CI result.

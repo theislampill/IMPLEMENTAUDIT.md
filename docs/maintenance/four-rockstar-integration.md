@@ -864,3 +864,67 @@ skill-only causation proof, original P039 self-dogfood, P007/P012, full P032 or
 whole R002D acceptance. Existing version-bound ActiveGraph evidence remains
 reusable at its actual source; final-source qualification and the original
 native self-dogfood observations remain separate.
+
+
+## R002C common-source readiness: observations and required capture gap
+
+One distinct ordinary maintenance-handoff task now has an independent ordinary
+assessment: **NONVERDICT at cooperative local artifact/command scope**. Its
+frozen mission and evaluator address two green reports derived from one older
+input, followed by a permitted current observation and a proportionate readiness
+recommendation. The retained artifact and command subset supports E1–E5; the
+overall episode receives no formal PASS or semantic product GAP-REVISE.
+
+Seven actual command receipts are retained. None invokes `read-source.py`, and
+none of their raw stdout files contains `SOURCE_READ_END`. The separate exact
+20,388-byte `SKILL.md` blob and `reads.jsonl` establish available source bytes
+and their identity, but cannot supply the required recorder argv, source-read
+process outcome, raw end marker or sequence position. Acquisition timing and
+complete delivery remain unrecorded, not proved absent. The frozen
+missing-required-capture rule therefore applies. This is a measurement defect,
+not a native-only blocker or a demonstrated maintained-product failure. No chat,
+response reconstruction, substitute source output or actor/observer/source-reader
+replay was admitted to repair it; the original prompt and oracle remain unchanged.
+
+| Frozen essential | Supported finding from the eligible artifact/command subset |
+|---|---|
+| E1: scoped handoff | The only recorded target addition is the task-owned `HANDOFF.md`, written and read back exactly. All 13 original files and the two separately checked Git metadata files remain unchanged. |
+| E2: common-source discrimination | Both green reports and their producer dataflow identify the same `snapshots/closeout-011.json` input, generation export-011, destination exports/v11 and one old row. Different report names and a newer render revision do not corroborate export-012 readiness. |
+| E3: actual current evidence | Direct reads, the recorded observer output and comparisons establish a paused worker, no in-flight batch, matching current/loaded manifest digest and export-012 generation, exports/v12 destination, complete row coverage and both retained records. |
+| E4: truthful positive readiness | The local prerequisites are met for Elena's later authorised restart. The handoff recommends readiness while expressly leaving restart, batch success and production-wide readiness unperformed or unverified; no restart or batch is recorded. |
+| E5: proportionate continuation | Sufficient current evidence resolves the listed local prerequisites without requiring another reviewer, regenerated report, extra method or blanket containment solely because the prepared reports share an old source. |
+
+The current observation is independently informative relative to the old report
+input; independent physical data origins are not established. The seven recorded
+processes exited successfully, and their state chain and raw-output identities
+were checked. This does not establish exhaustive capture of unrecorded activity.
+The assessor inspected retained bytes without replaying any task tool.
+
+The actual installed inventory remains local candidate
+`153df92cc90b42f6cc03670c454d857db9bf3625`, tree
+`59388daebf743c9a7e068917a0fb27eec40ef664`, plugin SHA-256
+`b826ab69e75c94ed4a5c119217206480a3a94fc6502e5b45432bc77007b8edbe`.
+Neither public `5d03a654` nor current documentation head `d169848d` replaces that
+inventory identity. The four relevant unchanged guidance files still match
+current PR251. The earlier bounded source inspection found the independence
+obligation already present and no justified runtime correction; report SHA-256
+`1a9bb099a21fa25c4ca640d6a7049ba83638f8bd11f4dd000b4578e1748b78bd`.
+This capture defect supplies no new maintained-source false-pass witness.
+
+Exact frozen and assessed evidence SHA-256 identities:
+
+- Mission: `3a31c218e363658568515c3ddaa3c9e03c67f2b61e5efa03ca3ef6e9aa862f66`.
+- Evaluator: `adfc78ee0fcc9b1936d761de18fc520564d395e84d2aabaa8fefb296aa9a050d`.
+- First-attempt input inventory: `b3679ed6586e9ea806a50b926a1f6d5f239d69cc313755e9bb5c36670118f1e6`.
+- Actual handoff: `160cc6bfbabbde732118319fe29d0a9eeeab4f5a3420800ccd8604be28c8c760`.
+- Independent assessment: `b9883d4e187e07c40634531afd901a0b9e0959a8c34436602d54efff56e0867c`.
+- Assessment output manifest: `426e5f09c2a801b647706564b23518447b43cba07bee062ce7868cb33b214485`.
+
+Original A/C/D dispositions and B's diagnostic gap remain unchanged at their
+original scopes. The separate R002D refusal and NONVERDICT retain their own
+missing-response/final-state/seal basis; this task does not replace that evidence.
+No native controller or child event, complete source delivery, skill causation,
+final current-package qualification, production safety or original
+68-property/116-source closure follows. All six original acceptance decisions
+across PR251/PR253 remain separate. This append-only record adds no runtime
+change, product-test execution, ActiveGraph run, package build or CI result.
