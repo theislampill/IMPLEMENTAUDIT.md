@@ -1170,15 +1170,20 @@ with zipfile.ZipFile(asset) as zf:
     # 327680 bytes, with MIN_HEADROOM_BYTES=0 in this legacy guard. Its prior
     # measurements and failures retain that historical declaration.
     # R0039 revision 2 retained 393216 bytes and the 2000-byte reserve.
-    # R003A revision 3 prospectively selects 458752 with that reserve unchanged.
-    # Final bytes cannot select or raise their own cap; both histories remain.
+    # R003A revision 3 selected 458752 with that reserve unchanged.
+    # Approved PR255 revision 4 selects 589824 prospectively; history stays bound.
+    # Final bytes cannot select or raise their own cap.
     package_budget = json.loads(zf.read("IMPLEMENTAUDIT_PACKAGE.json"))
     declared_budget = package_budget["budgets"]["standalone_compatibility"]
-    if package_budget["budget_revision"]["revision"] != 3:
-        raise SystemExit("standalone budget is not prospective R003A revision 3")
-    if (declared_budget["cap_bytes"], declared_budget["reserve_bytes"]) != (458752, 2000):
-        raise SystemExit("standalone declaration differs from the approved R003A budget")
-    OWNER_OUTER_BOUND_BYTES = 458_752
+    if package_budget["budget_revision"]["revision"] != 4:
+        raise SystemExit("standalone budget is not prospective PR255 revision 4")
+    if (declared_budget["cap_bytes"], declared_budget["reserve_bytes"]) != (589824, 2000):
+        raise SystemExit("standalone declaration differs from the approved PR255 budget")
+    historical_budget = package_budget["budget_history"]["3"]["standalone_compatibility"]
+    if (historical_budget["cap_bytes"], historical_budget["reserve_bytes"]) != (458752, 2000):
+        raise SystemExit("historical R003A revision 3 budget changed")
+    HISTORICAL_R003A_OUTER_BOUND_BYTES = historical_budget["cap_bytes"]
+    OWNER_OUTER_BOUND_BYTES = 589_824
     MIN_HEADROOM_BYTES = 2_000
     CALIBRATION_QUANTUM_BYTES = 65_536
     CURRENT_CALIBRATION_AUTHORITY = "owner"
@@ -1190,7 +1195,7 @@ with zipfile.ZipFile(asset) as zf:
             "current calibration authority must name the owner-authorised fold-in"
         )
 
-    MAX_ASSET_BYTES = 458_752
+    MAX_ASSET_BYTES = 589_824
     CURRENT_CALIBRATION_ASSET_BYTES = asset_bytes
     N06_BASELINE_ASSET_BYTES = 206_584
     N06_FINAL_P7_ASSET_BYTES = 215_126
@@ -1203,11 +1208,12 @@ with zipfile.ZipFile(asset) as zf:
     MAX_ACCEPTED_BYTES = MAX_ASSET_BYTES - MIN_HEADROOM_BYTES
     FIRST_REJECTED_BYTES = MAX_ACCEPTED_BYTES + 1
 
-    def enforce_asset_budget_policy(max_bytes, measured_bytes, authority):
-        if max_bytes > OWNER_OUTER_BOUND_BYTES:
+    def enforce_asset_budget_policy(max_bytes, measured_bytes, authority, *,
+                                    owner_outer_bound_bytes=OWNER_OUTER_BOUND_BYTES):
+        if max_bytes > owner_outer_bound_bytes:
             raise SystemExit(
                 f"hard ceiling {max_bytes:,} bytes exceeds owner outer bound "
-                f"{OWNER_OUTER_BOUND_BYTES:,} bytes"
+                f"{owner_outer_bound_bytes:,} bytes"
             )
         if max_bytes % CALIBRATION_QUANTUM_BYTES:
             raise SystemExit(
@@ -1232,23 +1238,29 @@ with zipfile.ZipFile(asset) as zf:
                 f"configured {configured_measured_bytes:,}, "
                 f"actual {actual_bytes:,}"
             )
-        if max_bytes != 458_752:
+        if max_bytes != MAX_ASSET_BYTES:
             raise SystemExit(
-                "hard ceiling differs from the approved prospective R003A cap: "
+                "hard ceiling differs from the approved prospective PR255 cap: "
                 f"got {max_bytes:,}"
             )
         enforce_asset_budget_policy(max_bytes, actual_bytes, authority)
 
-    def expect_policy_rejection(fragment, values):
+    def expect_policy_rejection(fragment, values, **policy):
         try:
-            enforce_asset_budget_policy(*values)
+            enforce_asset_budget_policy(*values, **policy)
         except SystemExit as exc:
             assert fragment in str(exc), exc
         else:
             raise SystemExit(f"budget policy accepted {fragment}")
 
+    # Preserve the original revision3 outer-bound negative at its own bound.
+    expect_policy_rejection(
+        "outer bound", (524_288, N06_BASELINE_ASSET_BYTES, "owner"),
+        owner_outer_bound_bytes=HISTORICAL_R003A_OUTER_BOUND_BYTES,
+    )
     for fragment, values in (
-        ("outer bound", (524_288, N06_BASELINE_ASSET_BYTES, "owner")),
+        ("outer bound", (MAX_ASSET_BYTES + CALIBRATION_QUANTUM_BYTES,
+                         N06_BASELINE_ASSET_BYTES, "owner")),
         ("minimum headroom", (196_608, N06_BASELINE_ASSET_BYTES, "owner")),
         ("calibration authority", (
             MAX_ASSET_BYTES, N06_BASELINE_ASSET_BYTES, "implementation-lane")),
@@ -1271,7 +1283,7 @@ with zipfile.ZipFile(asset) as zf:
             MAX_ASSET_BYTES, 224_000, asset_bytes, "owner")),
         ("configured measurement", (
             230_000, 227_500, asset_bytes, "owner")),
-        ("approved prospective R003A cap", (
+        ("approved prospective PR255 cap", (
             MAX_ASSET_BYTES - CALIBRATION_QUANTUM_BYTES,
             asset_bytes, asset_bytes, "owner")),
     ):
