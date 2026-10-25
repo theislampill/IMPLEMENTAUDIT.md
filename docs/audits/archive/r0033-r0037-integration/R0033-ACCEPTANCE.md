@@ -662,3 +662,60 @@ independent authoritative history; this bounded correction does not claim
 atomic protection against a hostile concurrent writer or power-loss durability.
 The original R0033 populations, failed evidence and separate acceptance decision
 remain unchanged and OPEN.
+
+
+## Stored pending JSON must not hide retained work
+
+Original #207 amendment5349224694 requires machine-detectable malformed durable
+state to block affected advancement, including case28. At public parent
+`16fa0ffc3dbcf01411e2663eb35c6cd9f06bd054`, the pending module used its strict
+duplicate-key decoder for requests but delegated stored state to H0's ordinary
+last-key-wins parser. A real isolated six-process discriminator showed that a
+second top-level observations object could hide genuine pending work and return
+NO_PENDING_AUDIT with state-dependent decisions unheld. Restoring the original
+bytes restored the exact held response. No native child events were attempted.
+
+Only pending `load()` changes: preserve lexical absence and path/regular-file
+custody, open one bounded descriptor, verify its admitted identity, read one
+buffer, decode explicit UTF-8, and apply the existing unique-key decoder.
+Shared H0 parsing and all other runtime nodes remain unchanged. Runtime SHA-256
+`50a67ea76a0c261627ff1a488f3916d33567404ed2d6b4fd068c909730d173f1`.
+The SOURCE_MANIFEST entry retains its original projection/semantic-owner
+provenance, extends the prior delta description, and binds these exact bytes.
+
+The registered predecessor family preserved four duplicate-key failures across
+18 actual owner processes: top-level observations and nested consumed_version,
+each for status and resume. Status falsely emptied the pending decision; resume
+accepted and rewrote ambiguous bytes. The identical focused driver then passed
+all eight controls across18 processes on corrected source. Both ambiguity kinds
+now return exit2/DUPLICATE_JSON_KEY without writing state; valid/restored unique
+state remains held. UTF-16 and UTF-8 BOM remain refused, and a real scheduled
+FIFO replacement at the open boundary is refused without blocking. The status
+positive preserves four expected reads, zero observations and zero writes.
+
+Original discriminator report SHA-256:
+`c7846fb2c84724e041409eecba6e5ced5562f80e2da93f5a5526018120c5eb9d`.
+Registered RED/GREEN reports respectively:
+`275356e2a57ad0dfc0e11dc4c5da1060bae7976d5226b455ecac8634a682e7a0` and
+`95515ba262c7a0cd3e04002a4f8ebc3aa8d3cc9d268324d5415bfdeff07b0270`.
+Author identity packet:
+`321ee89ab7eabb2d4e2a1f9a0f3c5f13b84ac64f1e8a3b170b91b094a586305e`.
+The original durability/path/resolver populations were not replayed or replaced.
+
+Root qualified one additional receiving guard on source-only checkpoint
+`c013467cee36425630fbb6209a111c7642772ce2`: five actual processes retain held
+state and refuse reservation at NONPROTECTED_FIXED_SELECTION_UNBOUND before
+assignment. The exact four-owner tuple is added while all four previous tuples,
+checkpoint identities and distinct reason tokens remain unchanged. This is
+portable source-composition/early-refusal evidence; host activation is false.
+Exact final source/test/ledger, independent review, package and public CI bindings
+belong to the publication receipt.
+
+R0033 remains OPEN. Unique-key parsing does not authenticate the state file or
+detect a validly encoded malicious rewrite/deletion, establish hostile-writer
+atomicity, power-loss durability or Windows reparse behavior. Actual selected
+source, physical OPEN/full LOAD/use, original RETURN, native acceptance,
+post-return currentness/decision binding and covered-scope consumption remain at
+their existing receiving gates. R0035 alone owns graph/READY/JOIN/frontier; no
+other-owner source was imported and no native result or pending consumption is
+claimed by these checks.

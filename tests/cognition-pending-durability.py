@@ -92,6 +92,37 @@ def worker(mode, source_text, store_text, session, owner, action):
 
         pending.CORE.os.replace = scheduled_replace
         return pending.main()
+    if mode == "pending-open-nonregular":
+        require(action == "status", "open-boundary worker requires status")
+        actual_lstat, actual_open = Path.lstat, os.open
+        retained = target.with_name("retained-stored-json-open.pending.json")
+        reached, opened_flags = [], []
+
+        def scheduled_lstat(path, *args, **kwargs):
+            info = actual_lstat(path, *args, **kwargs)
+            if path == target and not reached:
+                target.rename(retained)
+                if hasattr(os, "mkfifo"):
+                    os.mkfifo(target)
+                else:
+                    target.mkdir()
+                reached.append(True)
+            return info
+
+        def observed_open(path, flags, *args, **kwargs):
+            if Path(path) == target:
+                opened_flags.append(flags)
+            return actual_open(path, flags, *args, **kwargs)
+
+        Path.lstat, os.open = scheduled_lstat, observed_open
+        result = pending.main()
+        require(reached and result == 2, "scheduled unsafe open did not refuse")
+        require(all(flags & getattr(os, "O_NONBLOCK", 0) for flags in opened_flags)
+                if hasattr(os, "O_NONBLOCK") else True, "unsafe open could block")
+        sys.stderr.write(json.dumps({"pending_open_boundary": "REFUSED",
+                                     "scheduled_kind": "fifo" if hasattr(os, "mkfifo") else "directory",
+                                     "opened_flags": opened_flags}, sort_keys=True) + "\n")
+        return result
     require(mode == "status-guard" and action == "status", "unknown worker mode")
 
     def forbidden(*args, **kwargs):
@@ -485,6 +516,76 @@ def exercise_path_custody(h):
     h.mark("path-custody-original-pending-restored-exactly")
 
 
+
+def exercise_stored_json_custody(h):
+    """Ambiguous stored keys cannot discard a genuine unconsumed obligation.
+
+    Restoring CORE.read_json's ordinary parser must fail these actual-CLI
+    controls. The exact old bytes are restored after each isolated mutation;
+    no source registration, selected child or native event is constructed.
+    """
+    original = h.pending.read_bytes()
+    before = h.snapshot()
+    regular = h.call("status", mode="status-guard")
+    state = h.held(regular)
+    require(before == h.snapshot(), "unique-key pending status wrote state")
+    h.mark("stored-json-unique-keys-remain-held-and-nonobserving")
+    require(len(state["observations"]) == 1 and original.count(b'"consumed_version": 0') == 1,
+            "stored-key fixture requires one real unconsumed observation")
+    observation = next(iter(state["observations"].values()))
+    top = original.rstrip()[:-1] + b',\n  "observations": {}\n}\n'
+    nested = original.replace(b'"consumed_version": 0',
+                              b'"consumed_version": 0, "consumed_version": '
+                              + str(observation["version"]).encode("ascii"), 1)
+    cases = [("duplicate-observations", top, action, "DUPLICATE_JSON_KEY")
+             for action in ("status", "resume")]
+    cases += [("duplicate-consumed-version", nested, action, "DUPLICATE_JSON_KEY")
+              for action in ("status", "resume")]
+    cases += [("utf16", original.decode("utf-8").encode("utf-16"), "status", None),
+              ("utf8-bom", b"\xef\xbb\xbf" + original, "status", None)]
+    failures = []
+    for name, wire, action, reason in cases:
+        case = "stored-json-" + name + "-refuses-" + action
+        h.pending.write_bytes(wire)
+        (h.evidence / (case + ".input")).write_bytes(wire)
+        before = h.snapshot()
+        try:
+            value = h.call(action, {"currentness": "UNRESOLVED", "measured_epoch": None}
+                           if action == "resume" else None, expected_exit=2)
+            require(value["status"] == "PENDING_OPERATION_REFUSED" and "decision" not in value,
+                    case + ": ambiguous stored bytes yielded a decision")
+            require(value["reason"] == reason if reason is not None else
+                    value["reason"].startswith("HOST_CUSTODY_UNAVAILABLE: compaction audit pending state is unreadable or malformed:"),
+                    case + ": unexpected parser refusal")
+            require(before == h.snapshot(), case + ": refusal wrote pending state")
+            h.mark(case)
+        except AssertionError as error:
+            failures.append({"case": case, "error": str(error)})
+        finally:
+            h.pending.write_bytes(original)
+            require(h.call("status") == regular and h.pending.read_bytes() == original,
+                    case + ": restored pending obligation differs")
+
+    retained = h.pending.with_name("retained-stored-json-open.pending.json")
+    try:
+        value = h.call("status", mode="pending-open-nonregular", expected_exit=2)
+        require(value["status"] == "PENDING_OPERATION_REFUSED" and "decision" not in value,
+                "scheduled nonregular open yielded a decision")
+        require(retained.read_bytes() == original,
+                "scheduled open changed retained pending bytes")
+        h.mark("stored-json-preopen-nonregular-replacement-refuses")
+    finally:
+        if retained.exists():
+            if h.pending.is_dir():
+                h.pending.rmdir()
+            else:
+                h.pending.unlink(missing_ok=True)
+            retained.rename(h.pending)
+        require(h.call("status") == regular and h.pending.read_bytes() == original,
+                "open-boundary restoration changed pending obligation")
+    require(not failures, "stored JSON refusals failed: " + json.dumps(failures, sort_keys=True))
+
+
 def source_pins(repo):
     # These are the owners executed/imported by this bounded CLI qualification.
     names = ("compaction-audit-pending.py", "host-session-binding.py", "compaction-result-observation.py",
@@ -498,6 +599,11 @@ def reservation_refusal_profile(pins):
     # differs. Bind the same four source owners recorded by source_pins; do not
     # accept either reason interchangeably or infer it from the response.
     profiles = {
+        ("50a67ea76a0c261627ff1a488f3916d33567404ed2d6b4fd068c909730d173f1",
+         "5848edf46581f885521fb677377f4742b630ac8ff0ab0b906ec0e00520fcf896",
+         "1d7b7acaa9d1a481608ebf62ca5be8f30f25af0f5dc56d2bf4e795dce9c67c91",
+         "62558bb209129c66b55d2a97325d16db4aecfd2ecbeb71323dd44070a50f0890"):
+            ("c013467cee36425630fbb6209a111c7642772ce2", "NONPROTECTED_FIXED_SELECTION_UNBOUND"),
         ("caca3f0a512b7c4e020fa8e6093e375e9ad849712e660612f82d680f90ebc0f9",
          "5848edf46581f885521fb677377f4742b630ac8ff0ab0b906ec0e00520fcf896",
          "1d7b7acaa9d1a481608ebf62ca5be8f30f25af0f5dc56d2bf4e795dce9c67c91",
@@ -557,6 +663,7 @@ def main():
         require(selections == [None], "portable test requires the original absent native selection")
         exercise(h, profile["expected_reason"])
         exercise_path_custody(h)
+        exercise_stored_json_custody(h)
         require(source_pins(repo) == pins, "actual source owners changed during qualification")
         report["result"] = "PASS"
     except Exception as error:

@@ -167,7 +167,31 @@ def load(store, session):
     if CORE.unsafe_file(info):
         CORE.fail('compaction audit pending state is not a safe regular file')
     require(info.st_size <= MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
-    value = CORE.read_json(path, 'compaction audit pending state')
+    CORE.safe_existing_directory(str(path.parent), 'compaction audit pending state')
+    flags = os.O_RDONLY | getattr(os, 'O_NOFOLLOW', 0) | getattr(os, 'O_NONBLOCK', 0) | getattr(os, 'O_BINARY', 0)
+    descriptor = os.open(path, flags)
+    try:
+        opened = os.fstat(descriptor)
+        if CORE.unsafe_file(opened):
+            CORE.fail('compaction audit pending state is not a safe regular file')
+        require((opened.st_dev, opened.st_ino) == (info.st_dev, info.st_ino), 'PENDING_STATE_CHANGED_DURING_READ')
+        require(opened.st_size <= MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
+        # One admitted descriptor supplies the bounded UTF-8 buffer to decode.
+        raw = bytearray()
+        while len(raw) <= MAX_STATE:
+            chunk = os.read(descriptor, min(65536, MAX_STATE + 1 - len(raw)))
+            if not chunk:
+                break
+            raw.extend(chunk)
+        require(len(raw) <= MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
+    finally:
+        os.close(descriptor)
+    try:
+        value = decode(raw.decode('utf-8'))
+    except (UnicodeError, json.JSONDecodeError) as exc:
+        CORE.fail('compaction audit pending state is unreadable or malformed: ' + str(exc))
+    if not isinstance(value, dict):
+        CORE.fail('compaction audit pending state is not an object')
     require(set(blank(session)) <= set(value) <= set(blank(session)) | {'current_assignment', 'successor_stage', 'successor_assignment'} and value['schema'] == SCHEMA and (value['session_id'] == session) and (type(value['revision']) is int) and isinstance(value['observations'], dict) and isinstance(value['assignments'], dict), 'PENDING_STATE_SHAPE')
     return value
 
