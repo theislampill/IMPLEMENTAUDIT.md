@@ -346,7 +346,11 @@ in_range() {  # value, spec
 
 drifted=""
 while IFS= read -r line || [ -n "$line" ]; do
-  case "$line" in param.*) : ;; *) continue;; esac
+  case "$line" in
+    param.*) : ;;
+    [pP][aA][rR][aA][mM].*) fail "malformed invocation: parameter prefix must be param.";;
+    *) continue;;
+  esac
   key="$(printf '%s' "$line" | sed -n 's/^\(param\.[a-zA-Z0-9_-]*\):.*/\1/p')"
   short="${key#param.}"
   v="$(printf '%s' "$line" | sed "s/^[^:]*: *//" | tr -d '\r' | sed 's/[[:space:]]*$//')"
@@ -355,7 +359,9 @@ while IFS= read -r line || [ -n "$line" ]; do
     *) drifted="$drifted $short(unbound)"; continue;;
   esac
   spec="$(val "$auth" "$short")"
-  if [ -n "$spec" ] && ! in_range "$v" "$spec"; then
+  if [ -z "$spec" ]; then
+    drifted="$drifted $short(bound-without-value-or-range)"
+  elif ! in_range "$v" "$spec"; then
     drifted="$drifted $short(=$v vs bound $spec)"
   fi
 done < "$inv"

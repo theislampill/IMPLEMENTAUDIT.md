@@ -1161,3 +1161,47 @@ whole-work-order acceptance, C01-C09 and P53 owner decisions remain separate
 and **OPEN**; accepted constituent work and every retained GAP/NONVERDICT keep
 their own scope. No combined package acceptance, foreign adoption, native
 qualification, original-population expansion or issue closure is inferred.
+
+## R002E P06/P17: actual authorization-parameter consumer correction
+
+The recovered aggregate now supplies all sixty original SSD_SECURITY row values
+as a separately qualified derivative, SHA-256
+`5ba5dc869184ce59aeef7f29b94eb8ab71c1fa88e64add4e3006a593ba139d0f`.
+This enables inspection of the original P06/P17 authorization and scope
+obligations. It does not recover the exact original crosswalk or approved-policy
+custody, and no historical grade or disposition has changed.
+
+One new finite read-only CLI episode reproduced three false acceptances in the
+existing `check-authorization-binding.sh` consumer. A declared parameter with
+an absent value/range and one with an empty value/range both returned exit 0.
+A differently cased `Param.object` also returned exit 0 for an out-of-scope
+value: the supplied-key check recognized it while the validation loop skipped
+it. The legitimate literal and numeric-range controls both succeeded.
+
+The correction retains the existing #12 parameter-binding and #137 durable
+intake owners. Missing or empty constraints now produce authority drift;
+differently cased parameter prefixes now refuse malformed invocation grammar.
+No checker, authority issuer or effect executor is added. The unrelated #84
+rehearsal branch remains byte-identical and was not invoked by this episode.
+
+The five unchanged predicates match on corrected source. The existing registered
+authorization test, extended by three targeted regressions, failed on the old
+helper and completed successfully on the corrected helper with empty stderr.
+The original false acceptances remain retained. The earlier security-profile
+and ordinary-task banks were not replayed.
+
+Exact helper preimage: 17,469 bytes, SHA-256
+`e2ff72034bac8317b881dcbf1180a47f6d7b64119398af2b664c47e10cdba728`.
+Corrected helper: 17,640 bytes, SHA-256
+`9a501a59d004068f80035cb1ea6041bb3fee655e5094b2f3eeb63d78ab108660`.
+The frozen two-file source/test patch is
+`fb768c144b8c52777e0e1c9d60f62e3dc9622f6a6a8b91c98b605ca32c8f261d`;
+the actual source/raw packet manifest is
+`2f56fd314f06b3e7f2e07e37ee415bb27a38c8c7f2154cfbec120d1a940b22a8`.
+
+These observations advance a portable authorization-consumer obligation. They
+do not authenticate the supplied grant, execute a consequential action, prove
+native enforcement, qualify private held-outs, or accept P06/P17 or all sixty
+properties. Package/install observations, independent review and the guarded
+public commit/tree are recorded separately at their actual identities. All four
+original work-order acceptance decisions remain separate and open.
