@@ -809,6 +809,30 @@ hung or substituted command, unclear owner/source, generated-artifact
 mismatch, stale sidecar, policy conflict, impossible acceptance criterion, or
 evidence mismatch.
 
+L4 may interrupt planning (L1), continuity/re-entry (L2), phase execution (L3),
+or final audit (L5). Preserve the interrupted owner/decision, last safe step,
+next unfinished gate and affected evidence in the existing Andon row's
+abnormality/countermeasure text. A phase number is inapplicable before dispatch;
+do not invent a phase to record a planning or re-entry interruption. Successful
+containment or a child return does not perform the interrupted transition.
+
+After the correction's deciding check passes, the governor returns to that
+owner and re-derives the continuation from current evidence:
+
+| Interrupted control | Required return |
+|---|---|
+| L1 planning | Recompute the affected owner, dependency, authority and acceptance decisions under planning-depth/plan-lifecycle before dispatch. |
+| L2 continuity | Re-establish the exact controller/claim/receipt/currentness through continuity before ordinary execution. |
+| L3 phase | Resume at the earliest unfinished or invalidated phase step; retain unaffected completed evidence. |
+| L5 final audit | Complete the bounded audit-fix obligations and return to AUDIT_START against the resulting exact candidate. |
+
+The same return rule applies after probe and escalation. Step 8 or Step 11 is
+eligible only when every preceding applicable phase obligation is satisfied.
+For example, correcting Smoke A cannot skip unperformed implementation or
+mandatory commands. Revalidate affected/dependent evidence after changed
+currentness or source; preserve disjoint valid evidence. A successful child,
+local check or phase never substitutes for final audit or closure.
+
 Steps:
 1. Print `ANDON_PROBE` with: phase number; the abnormality; the failing
    criterion, command, or artifact; observed output and smallest reproducible
@@ -856,8 +880,10 @@ Steps:
    targeting only the failing criterion. A fix may not be attempted merely
    because a symptom is visible; the fix must follow from the probe.
 5. Re-run the failing mandatory command and evaluate the criterion again.
-6. If the criterion now passes, resume the phase from Step 8 (evaluate
-   acceptance criteria) of the per-phase loop. Do not restart the full phase.
+6. If the criterion now passes, return through the interrupted control above.
+   Within a phase, resume at Step 8 (evaluate acceptance criteria) only if its
+   prerequisites are already satisfied; otherwise resume the earliest unfinished
+   or invalidated step. Do not restart unaffected completed work.
 7. If the countermeasure fails or the same-class abnormality recurs,
    escalate to ANDON_ESCALATE.
 
@@ -920,8 +946,11 @@ Steps:
    chat context).
 5. Re-run the original mandatory commands from phase-N.md.
 6. Re-evaluate all acceptance criteria (including the one that was failing).
-7. If all criteria now pass, resume from Step 11 (print IMPLEMENTAUDIT_PHASE_VERIFY)
-   of the per-phase loop. Update the `## Andon log` row outcome to `resolved`.
+7. If all criteria now pass, return through the interrupted control above.
+   Within a phase, Step 11 (print IMPLEMENTAUDIT_PHASE_VERIFY) requires every
+   earlier applicable step, including cleanliness and Smoke B, to be satisfied.
+   Update the `## Andon log` row outcome to `resolved` for this abnormality;
+   do not infer whole-object closure from that row.
 8. If closure is still blocked, escalate again only with new evidence or a
    materially different countermeasure. Repetition without new evidence or
    progress is itself an abnormality: evaluate the ANDON_HANDOFF conditions.
@@ -1177,6 +1206,72 @@ Print `AUDIT_HANDOFF` (instead of `AUDIT_COMPLETE`) when:
 - The owner requests handoff before completion
 
 `AUDIT_HANDOFF` must not appear with `IMPLEMENTAUDIT_RUN_COMPLETE`.
+
+### Supplemental portable turn-disposition record check
+
+A response ending is not an audit-object terminal event. Ordinary prephase
+clarification, user pause, owner-authority waits and external waits route to
+truthful `NONTERMINAL_YIELD` when its applicable record is complete; they do not
+automatically become an audited handoff. Read `references/host-session-binding.md`
+for the existing TY-1 through TY-6 record schema, including outside-phase pauses.
+The full final-audit calls and eligibility predicates above remain normative.
+For records covered by the bounded profile below, the sole governor may add this
+mechanical composition of the applicable existing branch:
+
+```text
+bash <skill-dir>/scripts/validate-run-root.sh --turn-disposition NONTERMINAL_YIELD <run-root>
+bash <skill-dir>/scripts/validate-run-root.sh --turn-disposition TERMINAL_CLOSURE <run-root> --closure-record <run-root>/final-report.md --superseded-plan <each-replaced-plan> --plan-cycle-record <each-cycle-accounted-plan>
+bash <skill-dir>/scripts/validate-run-root.sh --turn-disposition AUDITED_HANDOFF <run-root> --handoff-packet <run-root>/handoff.md
+```
+
+This supplemental profile is not a universal replacement for the full original
+owners. Its input limits are not new general artifact-location requirements or
+mandatory worksheets. An out-of-profile refusal supplies no disposition; it is
+not native-host unavailability. Broader captures, reviews, lesson-lift records
+and publication keep their actual original checks and acceptance requirements.
+An `OUT_OF_PROFILE` refusal (exit 3) selects no disposition; use the original
+full owners for those broader inputs. `RECORD_REFUSED` (exit 1) identifies an
+input failure or contradiction that remains unresolved. Neither authorizes
+closure, waives a required check or creates a fallback permission. Preserve
+the exact unavailable or unproved input boundary.
+
+Repeat applicable plan options exactly as inventoried in STATE; omit only the
+inapplicable options. An optional `--response-record <path>` checks a supplied
+response's markers too. This is a source record, not an authentic host response
+binding. A requested yield cannot downgrade actual terminal or handoff claims.
+The closure branch composes phase, lesson-lift and closure owners, passes the
+real `--steer-dir`, retains sibling `deferrals.jsonl`, and requires terminal
+eligibility, current final anchors, qualification and numeric coverage math.
+Its bounded portable read set contains regular non-aliased files inside the run
+root (and sibling roots when the existing claim check consumes them), packaged
+owners and templates, with closure at the run root top level. External captures,
+active scarce-resource rehearsals, repository-only reviews, external lesson-lift
+inputs and dynamic publication dependencies refuse explicitly. Each fixed helper
+has a ten-second read-validation bound; timeout terminates only its launched
+process group and returns no disposition. This is not an audit-round/retry cap. A declared `## Deliverables` list uses one literal backticked
+path per bullet. Under canonical selection, every consumed nested dependency must also appear
+in the existing selected owner map. Future outputs of an in-progress phase do
+not block a truthful yield. No command written in a target record is executed.
+
+Within this profile, handoff current STATE remains `BLOCKED` with audit object `open`, concrete
+Blocker, Owner/source, Next action and Re-entry condition. `Handoff basis` is
+`owner-request` or `andon`; `Handoff evidence` names the contained evidence file.
+The existing packet carries its bare SHA-256 content hash and one exclusive
+`AUDIT_HANDOFF` or `ANDON_HANDOFF`. Owner-requested handoff uses `AUDIT_HANDOFF`
+without fabricated Andon attempts. Andon handoff additionally records Phase,
+Failing criterion, Probe and escalation history, Handoff trigger, Remaining
+blocker and Next owner action, with its exact blocked phase/log evidence. The
+trigger is an existing condition: `owner-decision`, `unsafe-scope`,
+`missing-authorization`, `external-dependency`, `irreproducibility`,
+`missing-tool-or-access` or `no-bounded-countermeasure`, never an arbitrary count.
+Packet Class-3 text and `has_state_claims: no` cannot establish handoff alone.
+
+The result validates the supplied record disposition only: authority NONE,
+effect authority false, native enforcement false. It grants no Stop, lifecycle,
+closure, JOIN, publication or currentness authority. Natural-language evidence
+sufficiency and authentic host-session acceptance remain separate obligations.
+The existing native adapter retains its unsupported-host result; unbound
+ordinary Stop retains its own cheap path.
 
 ### Ordering rules
 

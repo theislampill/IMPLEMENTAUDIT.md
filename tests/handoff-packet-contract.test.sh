@@ -276,4 +276,136 @@ for variant in trailing-space trailing-spaces trailing-tab leading-tab space-bef
   fi
 done
 
+# P. A sender denial cannot suppress any populated Class-1 claim. Removing
+# any recognized field from the no-claims guard must fail its actual comparison.
+for claim in subject_repo claimed_branch claimed_tree claimed_clean; do
+  case "$claim" in
+    subject_repo) false_value=R37-DEFINITELY-NOT-THIS-REPO ;;
+    claimed_branch) false_value="$live_branch-r37-other" ;;
+    claimed_tree) false_value=0000000000000000000000000000000000000000 ;;
+    claimed_clean)
+      if [ "$live_clean" = yes ]; then false_value=no; else false_value=yes; fi
+      ;;
+  esac
+  cat > "$tmp/denied-$claim.pkt" <<EOF
+packet_id: r37-denied-$claim
+packet_version: 1
+packet_content_hash: r37-claim-flag-regression
+sender_run_id: r37-constructed-regression
+$claim: $false_value
+has_state_claims: no
+owner_acceptance: retained R0037 test judgment
+EOF
+  code=0
+  out="$(bash "$scorer" "$tmp/denied-$claim.pkt" --repo-root "$repo_root" 2>&1)" || code=$?
+  [ "$code" -eq 1 ] || fail "denied $claim escaped its actual comparison (exit $code)"
+  printf '%s' "$out" | grep -q 'CONTRADICTED' \
+    || fail "denied $claim did not retain the Class-1 contradiction"
+  printf '%s' "$out" | grep -q 'evidence-mismatch' \
+    || fail "denied $claim did not name the existing abnormality"
+  printf '%s' "$out" | grep -Fq 'Class-3 preserved verbatim: retained R0037 test judgment' \
+    || fail "denied $claim dropped the owner's verbatim judgment"
+done
+
+# A denial also cannot manufacture a contradiction: true populated claims
+# still take the existing comparison path and pass. D/I/L retain no-claims use.
+sed 's/^has_state_claims: yes$/has_state_claims: no/' "$tmp/match.pkt" \
+  > "$tmp/denied-matching.pkt"
+out="$(bash "$scorer" "$tmp/denied-matching.pkt" --repo-root "$repo_root" 2>&1)" \
+  || fail "matching populated claims were rejected because of the sender denial"
+printf '%s' "$out" | grep -q 'verified.*Class-1 claims confirmed' \
+  || fail "matching populated claims bypassed receiver verification"
+printf 'handoff-packet-contract: claim-flag controls ok (four contradictory fields + matching claims)\n'
+
+# Q. R0037: failed Git observation is unavailable evidence, never a value
+# confirming a populated claim. Real Git failures are used; no wrapper is mocked.
+observation_repo="$tmp/observation-repo"
+git -c init.defaultBranch=r0037-observation init -q --template= "$observation_repo"
+printf 'R0037 observation seed\n' > "$observation_repo/seed.txt"
+git -C "$observation_repo" add seed.txt
+git -C "$observation_repo" -c user.name=handoff-observation-test \
+  -c user.email=handoff-observation@example.invalid -c commit.gpgSign=false \
+  commit -qm 'R0037 observation fixture'
+
+observation_packet() {
+  local name="$1" field="$2" value="$3" flag="$4"
+  cat > "$tmp/observation-$name.pkt" <<EOF
+packet_id: r0037-observation-$name
+packet_version: 1
+packet_content_hash: r0037-observation-contract
+sender_run_id: r0037-observation-regression
+has_state_claims: $flag
+owner_acceptance: retained R0037 observation test judgment
+EOF
+  if [ -n "$field" ]; then printf '%s: %s\n' "$field" "$value" >> "$tmp/observation-$name.pkt"; fi
+}
+
+observation_case() {
+  local name="$1" kind="$2" root="$3" field="$4" code=0
+  bash "$scorer" "$tmp/observation-$name.pkt" --repo-root "$root" \
+    > "$tmp/observation-$name-$kind.stdout" 2> "$tmp/observation-$name-$kind.stderr" || code=$?
+  grep -Fq 'Class-3 preserved verbatim: retained R0037 observation test judgment' \
+    "$tmp/observation-$name-$kind.stdout" || fail "$name lost the Class-3 judgment"
+  case "$kind" in
+    verified)
+      [ "$code" -eq 0 ] || fail "$name rejected a successful real observation"
+      grep -q 'verified.*Class-1 claims confirmed' "$tmp/observation-$name-$kind.stdout" \
+        || fail "$name did not confirm its successful observation"
+      ;;
+    empty)
+      [ "$code" -eq 0 ] || fail "$name rejected the genuine empty-claim path"
+      grep -q 'nothing mechanical to verify' "$tmp/observation-$name-$kind.stdout" \
+        || fail "$name did not preserve the empty-claim path"
+      ;;
+    unverifiable)
+      [ "$code" -eq 1 ] || fail "$name accepted a failed observation (exit $code)"
+      grep -Fq "UNVERIFIABLE Class-1 claim: $field" "$tmp/observation-$name-$kind.stderr" \
+        || fail "$name did not identify the unavailable claim"
+      grep -q 'evidence-mismatch.*dependent execution BLOCKS' "$tmp/observation-$name-$kind.stderr" \
+        || fail "$name did not retain the named blocking boundary"
+      if grep -q 'verified.*Class-1 claims confirmed' "$tmp/observation-$name-$kind.stdout"; then
+        fail "$name falsely confirmed a failed observation"
+      fi
+      ;;
+    *) fail "unknown observation test kind: $kind" ;;
+  esac
+}
+
+# Establish a valid clean fixture before replacing only its index.
+git -C "$observation_repo" status --porcelain > "$tmp/observation-valid.status" \
+  2> "$tmp/observation-valid.stderr" || fail 'ordinary observation fixture status failed'
+[ ! -s "$tmp/observation-valid.status" ] || fail 'ordinary observation fixture is dirty'
+observation_packet clean claimed_clean yes yes
+observation_case clean verified "$observation_repo" claimed_clean
+cp "$observation_repo/.git/index" "$tmp/observation-original-index"
+printf 'R0037-BAD-INDEX\n' > "$observation_repo/.git/index"
+status_code=0
+git -C "$observation_repo" status --porcelain > "$tmp/observation-failed.status" \
+  2> "$tmp/observation-failed.stderr" || status_code=$?
+[ "$status_code" -ne 0 ] && [ ! -s "$tmp/observation-failed.status" ] \
+  && [ -s "$tmp/observation-failed.stderr" ] || fail 'real empty-output status failure was not established'
+observation_case clean unverifiable "$observation_repo" claimed_clean
+observation_packet empty '' '' no
+observation_case empty empty "$observation_repo" ''
+
+# A missing owned fixture path makes actual Git acquisition fail, without
+# depending on ancestor discovery, an artificial sentinel, or a fake Git tool.
+unavailable_repo="$tmp/unavailable-observation-repo"
+[ ! -e "$unavailable_repo" ] || fail 'unavailable fixture path unexpectedly exists'
+for field in subject_repo claimed_branch claimed_tree; do
+  case "$field" in
+    subject_repo) value=unavailable-observation-repo; git_args=(rev-parse --show-toplevel) ;;
+    claimed_branch) value=unknown; git_args=(rev-parse --abbrev-ref HEAD) ;;
+    claimed_tree) value=0000000000000000000000000000000000000000; git_args=(rev-parse HEAD) ;;
+  esac
+  observation_code=0
+  git -C "$unavailable_repo" "${git_args[@]}" > "$tmp/observation-$field.git-stdout" \
+    2> "$tmp/observation-$field.git-stderr" || observation_code=$?
+  [ "$observation_code" -ne 0 ] && [ ! -s "$tmp/observation-$field.git-stdout" ] \
+    && [ -s "$tmp/observation-$field.git-stderr" ] || fail "$field real acquisition failure was not established"
+  observation_packet "$field" "$field" "$value" yes
+  observation_case "$field" unverifiable "$unavailable_repo" "$field"
+done
+printf 'handoff-packet-contract: observation controls ok (valid clean + failed clean + empty + repository/branch/tree unavailable)\n'
+
 printf 'handoff-packet-contract: ok (contract + receiver-current/complete/incomplete/cheap-path + contradicted/matching/owner/no-claims + minimal-fields + 4 Fable adversarial)\n'

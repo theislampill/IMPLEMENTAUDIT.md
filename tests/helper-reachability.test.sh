@@ -86,14 +86,14 @@ PY
 }
 
 positive_output="$(bash "$checker" --repo-root "$repo_root")"
-grep -Eq 'HELPER_REACHABILITY=PASS population=([0-9]+) examined=\1 modes=17/17 enumeration=package-contract.artifact_payload_entries full_path_sets=equal projections=2' \
+grep -Eq 'HELPER_REACHABILITY=PASS population=([0-9]+) examined=\1 modes=19/19 enumeration=package-contract.artifact_payload_entries full_path_sets=equal projections=2' \
   <<<"$positive_output" || {
     printf 'helper-reachability.test: live positive census did not prove complete full-path equality\n%s\n' "$positive_output" >&2
     exit 1
 }
 
 census_output="$(bash "$checker" --census-only --repo-root "$repo_root")"
-grep -Eq 'HELPER_REACHABILITY_CENSUS=PASS population=([0-9]+) examined=\1 modes=17/17 enumeration=package-contract.artifact_payload_entries full_path_sets=equal projections=2' \
+grep -Eq 'HELPER_REACHABILITY_CENSUS=PASS population=([0-9]+) examined=\1 modes=19/19 enumeration=package-contract.artifact_payload_entries full_path_sets=equal projections=2' \
   <<<"$census_output" || {
     printf 'helper-reachability.test: census-only result was not distinctly nonterminal\n%s\n' "$census_output" >&2
     exit 1
@@ -371,7 +371,29 @@ printf '%s\n' \
   >>"$extra_row/skills/implementaudit/references/repo-state-comparison.md"
 expect_fail R30-F11 'applicability rows not in package: ghost-helper.sh' "$extra_row"
 
-printf 'helper-reachability.test: retained controls passed (dynamic full-path census + modes 17/17 + R30-F1-F5/F8/F11/F20/M1-M4 controls)\n'
+# The TY mode must have both its actual dispatch and exact applicability row.
+missing_yield_mode="$(make_candidate missing-yield-mode)"
+python - "$missing_yield_mode" <<'PYMODE'
+from pathlib import Path
+import sys
+p=Path(sys.argv[1])/"skills/implementaudit/references/repo-state-comparison.md"
+p.write_text("\n".join(line for line in p.read_text().splitlines()
+                        if not line.startswith("helper-mode: validate-run-root.sh|--nonterminal-yield|"))+"\n")
+PYMODE
+expect_fail R37-YIELD-MISSING 'missing mode applicability rows: validate-run-root.sh --nonterminal-yield' "$missing_yield_mode"
+
+false_yield_mode="$(make_candidate false-yield-mode)"
+python - "$false_yield_mode" <<'PYMODE'
+from pathlib import Path
+import sys
+p=Path(sys.argv[1])/"skills/implementaudit/scripts/validate-run-root.sh"
+s=p.read_text();needle='elif [ "${1:-}" = "--nonterminal-yield" ]; then'
+assert s.count(needle)==1
+p.write_text(s.replace(needle,'elif [ "${1:-}" = "--not-yield" ]; then'))
+PYMODE
+expect_fail R37-YIELD-FALSE 'mode applicability not implemented: validate-run-root.sh --nonterminal-yield' "$false_yield_mode"
+
+printf 'helper-reachability.test: retained controls passed (dynamic full-path census + modes 19/19 + R30-F1-F5/F8/F11/F20/M1-M4 controls)\n'
 
 python -I -B "$repo_root/tests/helper-reachability-successor.py" "$repo_root" "$BASH"
 python -I -B "$repo_root/tests/helper-reachability-custody.py" "$repo_root" "$BASH"
