@@ -265,7 +265,9 @@ class Controls(unittest.TestCase):
     def test_11_source_pinned_loader_and_drift_refusal(self):
         module, path, raw = WG._native_route_scope_module_v1()
         self.assertTrue(callable(module.read_current_route_scope_v1))
-        self.assertEqual(hashlib.sha256(raw).hexdigest(), WG._NATIVE_ROUTE_PRODUCER_SHA256)
+        self.assertEqual(WG._NATIVE_ROUTE_PRODUCER_PROFILES_V1[WG._NATIVE_ROUTE_PRODUCER_SHA256],
+                         WG._NATIVE_ROUTE_PRODUCER_BYTES)
+        self.assertEqual(WG._NATIVE_ROUTE_PRODUCER_PROFILES_V1.get(hashlib.sha256(raw).hexdigest()), len(raw))
         with tempfile.TemporaryDirectory(prefix='source-drift-', dir=WORK) as root:
             root = Path(root)
             (root / 'route-transaction.py').write_bytes(raw + b'\n')
