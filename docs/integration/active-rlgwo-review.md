@@ -58,3 +58,48 @@ Root alone applies F1 and the F2/F3 documentation corrections, validates only th
 F1: corrected in4b681652f4106f57b6e02bcf8b9b0e771370ea04; actual checker and five targeted token-scanner controls succeeded. This correction delta is root-validated, not retrospectively included in the independent55b46ac7 review. F2: exact original117/89-test finite/prefix source guards are now explicit in the report and continuation; no guard changed. F3: report corrected to11 tests,10 executed successfully,one skipped. Root accepts the bounded review findings as resolved for the already authorized draft publication only.
 
 All deliberately unjudged behaviors remain unqualified; no scope is silently dropped. Capacity and unknown/native effects remain explicit. No deferred minor finding remains. The next operation is the guarded integration-branch push and non-closing draft PR with exact post-publication readback.
+
+
+# Finite wave 2 independent review
+
+# Wave 2 independent review: authorization consumer correction
+
+**Disposition: suitable for the authorized draft update. No actionable findings in this three-file increment.** This ordinary source review has authority NONE. It does not establish merge readiness, grant authenticity, native enforcement, package/install qualification, or original-work-order acceptance. The first review and the composite's existing residuals remain separate and unchanged.
+
+## Exact reviewed subject
+
+- Previous published integration subject: `ede32d13bd5cbde17ebaf682505656e18441b9d6`.
+- New local merge: `aa9fd9fc40f3eceacc439d637e57a13d739edae5`; tree `041a6e66da93907c9b126611d28eedfccec6d971`.
+- Selected PR251 increment: `326d091e06b7bbef1647b1d97f3bc84c0dae90ee`; tree `7aae6dde798ffa365a62348917d16691bba693fb`, over previously frozen `45853f9403f5ffaad100df1686fe5320f72e19b7`.
+- Scope is exactly `docs/maintenance/four-rockstar-integration.md`, `skills/implementaudit/scripts/check-authorization-binding.sh`, and `tests/authorization-binding-contract.test.sh`. All three merged blobs exactly match the selected donor. Entry worktree/index were clean and HEAD/tree matched the commission.
+
+## Behavior and tests
+
+The change at checker lines 349–351 rejects noncanonical case variants of the `param.` prefix. Previously the case-insensitive supplied-parameter check recognized those lines while the value-validation loop skipped them. The change at lines 361–365 treats an absent or empty declared constraint as authority drift. It does not convert missing data to an unrestricted grant. Canonical literal and numeric-range behavior is preserved, including inclusive endpoints.
+
+The three added registered regressions independently cover absent constraint, empty constraint and mixed-case prefix. Existing match/drift, intake, duplicate-key, missing-parameter and unterminated-line controls remain. Their new assertions test nonzero refusal rather than only message wording. Existing positive coverage, plus the independent exact-message checks below, prevents interpreting a universally failing helper as a successful repair.
+
+I independently executed eight inert input cases on both exact old and merged helper buffers: missing constraint, empty constraint, `Param.object`, literal match, numeric lower endpoint, numeric upper endpoint, out-of-range numeric value, and `pArAm.object`. All **16 expected exit codes matched**. The old helper accepted all four new malformed/underbound negative examples; the merged helper returned the expected authority-drift or malformed-prefix refusal. Literal/range positives retained exit 0 with empty stderr; the out-of-range negative remained refused. No consequential command, native route, grant issuer, or `--phase` rehearsal branch was invoked.
+
+Evidence: `review-controls/wave2/authorization-review-controls.json`, including exact stdout/stderr. The root's retained `authorization-wave2-red.log` reports the expected premerge missing-constraint failure; `authorization-wave2-green.log` reports the extended registered suite succeeded. These are separate from my eight-case differential.
+
+Source identities independently match the new documentation:
+
+| Helper | Bytes | SHA256 |
+|---|---:|---|
+| Premerge | 17469 | e2ff72034bac8317b881dcbf1180a47f6d7b64119398af2b664c47e10cdba728 |
+| Merged | 17640 | 9a501a59d004068f80035cb1ea6041bb3fee655e5094b2f3eeb63d78ab108660 |
+
+## Claim boundary and remaining limits
+
+The appended maintenance record correctly calls this portable authorization-consumer evidence. It explicitly withholds authentication of the supplied grant, consequential execution, native enforcement, private held-out qualification, original P06/P17 or all-sixty acceptance, and whole-work-order closure. Its historical derivative/raw-packet identities were not independently requalified in this narrow review; the current helper identities and differential behavior were verified directly.
+
+No introduced false positive was demonstrated in the selected grammar. Refusing an empty constraint and a differently cased prefix is the explicit new behavior, not a grant expansion. This review does not assert that the entire older text grammar or every authorization pathway is complete or secure. The unchanged rehearsal branch and other donor banks were not replayed.
+
+The helper is a shipped source member, so old package sizes/hashes/install claims cannot be relabeled as current after this merge. Root must bind any later package observation to its actual new source, and preserve the existing capacity/native/owner gates. No build or heavy qualification was requested or performed here.
+
+## Next action and stop
+
+Root may document this exact finite wave, retain the red/green and independent control identities, and update the single authorized draft PR through its guarded ordinary publication path. This review supplies no main-merge, release, native-effect or closure authority. Reviewer stops after writing this report; no tracked repository, index, HEAD, donor, or protected-state mutation was performed.
+
+Root received this exact three-file review and independently verified all three selected blobs and the complete authorization suite. Accepted for the owner-authorized ordinary update to draft PR255 only. All package/native/issue boundaries remain.

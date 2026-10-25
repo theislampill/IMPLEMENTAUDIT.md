@@ -1,8 +1,16 @@
-# Active RLGWO composite: finite source wave 1
+# Active RLGWO composite: finite source waves 1 and 2
 
 This draft combines five frozen engineering donors and repairs their demonstrated source seams. It is **not merge-ready**: both package roles exceed the unchanged capacity contract, and native/receiving requirements remain. No original issue is closed or admitted by this record.
 
-## Exact selection and ancestry
+## Finite wave 2: published authorization correction
+
+After first draft publication at `ede32d13bd5cbde17ebaf682505656e18441b9d6`, one bounded readback found PR251's published successor `326d091e06b7bbef1647b1d97f3bc84c0dae90ee`, tree `7aae6dde798ffa365a62348917d16691bba693fb`, parent the original selected45853f9. Its CI40166868874 was in progress when admitted. The other four frozen selections stay unchanged.
+
+This increment changes an immediate security decision: declared parameters with absent or empty constraints, and a mixed-case `Param.object` prefix, previously bypassed scope validation. The exact donor regression failed against the old combined helper, then succeeded after ordinary merge `aa9fd9fc40f3eceacc439d637e57a13d739edae5`, tree `041a6e66da93907c9b126611d28eedfccec6d971`. No grant is authenticated and no consequential action is executed by these CLI controls. The prior source remains a retained negative witness.
+
+`active-rlgwo-wave2-adoption.json` binds the three exact donor/current/preimage blobs and the final composition rule. The registered test population and canonical119-node registry are unchanged. The independent review of this exact delta found no actionable findings: eight inert cases against old/new helpers produced all16 expected outcomes, preserving legitimate literal/range controls. It is retained in `active-rlgwo-review.md`; final package and hosted-CI identities are reported in the PR body because those generated artifacts bind the final clean publication head. The earlier capacity table below remains tied to its original measured subject.
+
+## Wave 1 selection and ancestry
 
 Main: `e78f7cb21af4197d490f10bc95917a4c75f748aa`, tree `e0263d4455549a47243d82f45cf31101c6b94df2`. The separate historical local main was not used as the base. Each donor was merged ordinarily, preserving its ancestry; donor branches remain owned by their existing executors.
 
@@ -77,13 +85,13 @@ Publication-time donor refresh found PR253 successful as well as246/252. Their a
 
 ## Minimum dependencies and original boundaries
 
-`active-rlgwo-dependencies.md` records sixteen Aâ€“F edges with source identities, accepting owners and discriminators. Shared names alone are F. An actual missing producer/authority is A/E; source transport is B; later consumption is C; changed final-source qualification is D.
+`active-rlgwo-dependencies.md` records sixteen AÃ¢â‚¬â€œF edges with source identities, accepting owners and discriminators. Shared names alone are F. An actual missing producer/authority is A/E; source transport is B; later consumption is C; changed final-source qualification is D.
 
 The minimum C5 slice is actual selected R0033 H0/physical occurrence and O/U exchange, full source LOAD, original RETURN, separate acceptance and DISPOSE, followed by covered-version consumption through the existing R0033/continuity owner. Where a graph node is the consequential consumer, qualify its exact R0035 accepted-result JOIN, authoritative completion/history and recomputed surviving frontier too. Graph completion is not a universal prerequisite for every C5 receiver.
 
 The R0039 boundary also needs independent cold receiving of the actually accepted restored pair. Authentic OR inputs/producer custody and unchanged30-second freshness are independent of the prospective60-second/192-MiB envelope. C02 needs an entitled append-only correction issuer/grant and complete later-boundary census. None of these protected effects was attempted. The pointer-plus-receipt-without-marker UNKNOWN episode remains UNKNOWN_NO_RETRY_OR_RECONCILIATION.
 
-Preserve R0035's48 requirements/20 cases/original117 nodes and all raw failures; R0037's36 nested cases/14 mutation families/17 terminal criteria/15 host-turn conditions; R0039's14 criteria and original14-field receipt, amended C5, TC06/TC11 and F0-F9. Preserve R002C/R002D/R002E/R0030 independently, including C01â€“C09/P53 and v2/v3 effect prefixes. R003A's unsupported-host acceptance supplies no native authority. Exactly four cognition children remain. EBPM73, EWM77, accepted EPM84 and embedded BWP234/41/608 are separate populations; BWP is not an eleventh issue or R0042.
+Preserve R0035's48 requirements/20 cases/original117 nodes and all raw failures; R0037's36 nested cases/14 mutation families/17 terminal criteria/15 host-turn conditions; R0039's14 criteria and original14-field receipt, amended C5, TC06/TC11 and F0-F9. Preserve R002C/R002D/R002E/R0030 independently, including C01Ã¢â‚¬â€œC09/P53 and v2/v3 effect prefixes. R003A's unsupported-host acceptance supplies no native authority. Exactly four cognition children remain. EBPM73, EWM77, accepted EPM84 and embedded BWP234/41/608 are separate populations; BWP is not an eleventh issue or R0042.
 
 Original87/90/105 are registry-node labels: e2e-mini-audit-loop, action-selection-contract and custody-append respectively. They are not GitHub issue numbers. Their retained finite profiles and unfinished native/property obligations remain.
 
