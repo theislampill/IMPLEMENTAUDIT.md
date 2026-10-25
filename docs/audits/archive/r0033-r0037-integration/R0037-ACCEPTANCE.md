@@ -1079,3 +1079,39 @@ selective-invalidation evidence is reused without replay. The platform-refused
 task remains excluded. Shipped package source is unchanged by these repository-
 only peer/test/ledger changes, so existing package evidence is retained at its
 original identity. R0037 remains OPEN.
+
+## Pending continuation: finite stored data and current physical witness
+
+The accompanying R0033 receiving amendment closes three demonstrated pending
+loader defects: nonfinite stored signal counts escaped into status responses,
+and a same-byte path replacement after the descriptor read was accepted from
+a stale physical witness. The corrected consumer refuses all three at the
+stored-state boundary. It preserves the original counter-error precedence,
+bounded one-descriptor read loop, three/four-file status read domains and
+genuine integer successor behavior. Exact source, raw outcomes and review
+identities are in the adjacent R0033 ledger.
+
+The change is confined to the repository-only pending peer and its source
+manifest, an exact existing test-profile tuple, a new focused script and its
+registration. Shared request parsing, mutation logic, native paths, lifecycle
+grammar, L1-L5 composition, terminal disposition and the sole governor remain
+unchanged. This is a source-current storage-integrity prerequisite for retained
+continuation; it supplies no physical child event or authenticated interruption.
+
+Independent review `9db50bd6c6ebf85967252b9d68ca2f5f93bbb4594996679a0d3182c63a56c609`
+is `PASS_BOUNDED` for the five-file increment and its actual portable records.
+The retained executions comprise 11 baseline, 18 first corrected and 18
+metadata-following corrected process records. Only three new discriminator
+cases are counted. The second corrected run is redundant and adds no unique
+coverage; there was no oracle change. No product command was repeated for
+independent review or package evidence.
+
+The controlled replacement tests the combined physical fence, not universal
+race exclusion or every stamp predicate separately. Ordinary unresolved work
+remains held, and the actual resume leaves consumed zero. Constructed H0 stays
+unproved; no native Stop/session binding, resumed child, accepted result,
+closure or final audit is inferred. The original **36 nested cases, 14 mutation
+families, 17 terminal criteria and 15 host-turn conditions** retain their
+separate dispositions. The platform-refused task remains excluded. Existing
+ordinary-task, selective-invalidation and package evidence is reused at its
+original identities. R0037 remains OPEN.

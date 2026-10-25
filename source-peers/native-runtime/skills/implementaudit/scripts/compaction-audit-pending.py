@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import math
 import os
 from pathlib import Path
 import stat
@@ -168,13 +169,15 @@ def load(store, session):
         CORE.fail('compaction audit pending state is not a safe regular file')
     require(info.st_size <= MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
     CORE.safe_existing_directory(str(path.parent), 'compaction audit pending state')
+    stamp = lambda item: (item.st_dev, item.st_ino, item.st_mode, item.st_nlink,
+                          item.st_size, item.st_mtime_ns, item.st_ctime_ns)
     flags = os.O_RDONLY | getattr(os, 'O_NOFOLLOW', 0) | getattr(os, 'O_NONBLOCK', 0) | getattr(os, 'O_BINARY', 0)
     descriptor = os.open(path, flags)
     try:
         opened = os.fstat(descriptor)
         if CORE.unsafe_file(opened):
             CORE.fail('compaction audit pending state is not a safe regular file')
-        require((opened.st_dev, opened.st_ino) == (info.st_dev, info.st_ino), 'PENDING_STATE_CHANGED_DURING_READ')
+        require(stamp(opened) == stamp(info), 'PENDING_STATE_CHANGED_DURING_READ')
         require(opened.st_size <= MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
         # One admitted descriptor supplies the bounded UTF-8 buffer to decode.
         raw = bytearray()
@@ -184,10 +187,28 @@ def load(store, session):
                 break
             raw.extend(chunk)
         require(len(raw) <= MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
+        require(stamp(os.fstat(descriptor)) == stamp(info) and len(raw) == info.st_size,
+                'PENDING_STATE_CHANGED_DURING_READ')
     finally:
         os.close(descriptor)
+    require(stamp(path.lstat()) == stamp(info), 'PENDING_STATE_CHANGED_DURING_READ')
+    CORE.safe_existing_directory(str(path.parent), 'compaction audit pending state')
+    nonfinite_reason = None
+
+    def reject_nonfinite(reason):
+        nonlocal nonfinite_reason
+        if nonfinite_reason is None:
+            nonfinite_reason = reason
+        return None
+
+    def finite_number(token):
+        number = float(token)
+        return number if math.isfinite(number) else reject_nonfinite('PENDING_STATE_JSON_NUMBER')
+
     try:
-        value = decode(raw.decode('utf-8'))
+        value = json.loads(raw.decode('utf-8'), object_pairs_hook=unique,
+                           parse_float=finite_number,
+                           parse_constant=lambda _: reject_nonfinite('PENDING_STATE_JSON_CONSTANT'))
     except (UnicodeError, json.JSONDecodeError) as exc:
         CORE.fail('compaction audit pending state is unreadable or malformed: ' + str(exc))
     if not isinstance(value, dict):
@@ -198,6 +219,10 @@ def load(store, session):
                 and type(item.get('consumed_version')) is int
                 and 0 <= item['consumed_version'] <= item['version'],
                 'PENDING_OBSERVATION_COUNTERS')
+    # Keep the existing counter-domain refusal, then deny every other nonfinite
+    # token before stored state can reach a decision or mutation.
+    if nonfinite_reason is not None:
+        raise Refusal(nonfinite_reason)
     return value
 
 def save(store, state):

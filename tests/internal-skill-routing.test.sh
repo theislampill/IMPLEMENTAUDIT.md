@@ -282,6 +282,7 @@ printf 'internal-skill-routing.test: resolver controls ok\n'
 
 python tests/cognition-obligation-cases.py
 PYTHONDONTWRITEBYTECODE=1 python3 tests/cognition-pending-durability.py
+PYTHONDONTWRITEBYTECODE=1 python3 tests/cognition-pending-loader.py
 
 python - <<'PY'
 from __future__ import annotations

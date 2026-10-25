@@ -974,3 +974,93 @@ shape; it is unchanged here. A separate source-owner history producer/receiver
 implementation is in progress, preserving the existing native18 and contiguous
 generation laws. That is portable work, not a native-only blocker or an accepted
 result of this increment.
+
+## Stored pending data: finite numbers and physical read custody
+
+A new bounded receiving increment corrects three actual defects in the owned
+pending-state peer at public `79316011752c6fd25efa00fec8fb3590819804e3`.
+The exact baseline loader is 64037 bytes, SHA-256
+`2361a0026d108b551158eb865075912386eddb4878b71316560e46cc3597024d`.
+Stored `signals: NaN` and `signals: 1e999` each reached an ordinary status
+response with a nonfinite signal count. A real same-byte replacement after the
+descriptor read also reached an ordinary decision from a stale physical file
+witness. These are stored-data and read-custody failures. The first two still
+held the unresolved obligation; neither is relabeled as lost or consumed work.
+
+The receiving input is the R0039 pending loader at PR252
+`f74a7c6675073af8c78f8a83ef5f3eb1476d2bfb`, 65750 bytes, SHA-256
+`b12a6e385bb911e54c641c8a3c56ba0d0a40819083f4444f2659c6eecd55af8c`.
+Root retained its exact public blob and the subsequent one-commit comparison to
+`9a340a80e14468c7249ee56995f43df04da2c80f`: the later shell-custody,
+recognizer and source-binding changes leave this pending file unchanged. The
+independent review verifies the supplied file bytes; it does not claim to have
+independently acquired or checked the complete upstream commit tree.
+
+The adaptation changes only the stored-state `load` definition and adds the
+standard-library `math` import. All other 43 top-level product definitions,
+including shared request decoding, decision logic, mutation and native paths,
+remain byte-identical. Local parse callbacks retain at most one fixed reason
+and replace nonfinite tokens internally with `None`. The existing state-shape
+and exact-integer counter checks run first, preserving the original counter
+diagnostic. A final finite-number guard prevents those placeholders from
+escaping as accepted stored state. Duplicate-key handling is unchanged.
+
+The original bounded `os.read` loop is preserved. Initial, opened and final
+descriptor stamps, captured length, the final live path and parent custody
+must agree. This closes the demonstrated replacement schedule without adding
+a data-file open or changing the three-file absent-state / four-file
+present-state status read domains. It is not an atomic snapshot against all
+possible writers, and the fault exercises the combined fence rather than
+isolating every individual metadata comparison.
+
+| New stored-state discriminator | Actual baseline | Corrected consumer |
+| --- | --- | --- |
+| Non-counter `signals: NaN` | Exit 0; response emits `NaN` | Exit 2, `PENDING_STATE_JSON_CONSTANT`; no decision. |
+| Non-counter `signals: 1e999` | Exit 0; response emits `Infinity` | Exit 2, `PENDING_STATE_JSON_NUMBER`; no decision. |
+| Same-byte replacement after descriptor read | Exit 0; stale-witness decision | Exit 2, `PENDING_STATE_CHANGED_DURING_READ`; no decision. |
+
+The baseline has 11 recorded processes. The first corrected run has 18 and
+the final test-source run has another 18: 47 recorded processes, three new
+discriminator cases, and the same eleven named successful controls in each
+corrected run. The second corrected run followed only registration/profile
+metadata changes. There was no test-path or oracle correction; this redundant
+run adds no unique behavioral coverage. All three runs remain separately
+preserved, and the independent reviewer performed no product rerun.
+
+The selected compatibility controls retain `PENDING_OBSERVATION_COUNTERS`
+for NaN observation/consumed counters under both status and resume. The
+three/four-file guards retain zero observations and zero writes. One genuine
+ordinary unresolved resume advances the observation and state revisions by
+one while consumed remains integer zero; its resulting state passes the
+existing four-file guard. Refusal boundaries retain their physical snapshots.
+The replacement and explicit restoration remain declared harness operations.
+Constructed H0 setup keeps `host_activation_proven=false` and host activation
+`UNVERIFIED`; it supplies no issuer or child-event authentication.
+
+The final loader is 65246 bytes, SHA-256
+`3ce71493fda766729335df9bfc6fedef66c03735334b6e881b353b0d4b76736a`.
+The new permanent test is
+`tests/cognition-pending-loader.py`, SHA-256
+`0470c74e9bfb6e6445f660256e5739a4c79fe95bc6f18623777d7b0ea03dee35`.
+It is registered immediately after the existing durability test. That older
+test gains only the new exact receiving-source tuple; its other fourteen
+top-level definitions and original expectations remain unchanged. The native
+peer manifest changes only the pending row's bytes, digest and additive delta.
+
+Independent review is `PASS_BOUNDED`: report SHA-256
+`9db50bd6c6ebf85967252b9d68ca2f5f93bbb4594996679a0d3182c63a56c609`,
+receipt `b4787288f94e4ff7a92793f0a7b77da28cf20cc5544d3354fe463f760ca3a0fb`.
+It checks all 327 frozen artifacts / 1439176 bytes and the five-file patch
+`bfb6243e6260bb8065d20e42ed6198a80d2fe5da5dae6466f194b59faf197972`.
+Complete source and raw observations reside in the integration42 pending
+receiving/review checkpoint lineage. All first failures are retained.
+
+This qualifies the portable pending-storage consumer only. The whole old
+durability bank, R0039's separate 37-control bank, whole registered shell,
+package and hosted CI are not claimed by these focused observations. Shipped
+runtime, package membership and build/install source are unchanged; previous
+package evidence keeps its actual identity and is reused. R0035 dispatch,
+READY/JOIN and successor-frontier ownership are untouched. R0033 remains OPEN
+with its seven criteria and 45 routing cases: native selection, OPEN, verified
+LOAD/use, RETURN, actual result acceptance and covered-scope pending
+consumption each still require their own receiving evidence.
