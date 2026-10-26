@@ -722,5 +722,11 @@ observation grants no currentness, effect or native authority; it cannot replay,
 reconcile or compensate an UNKNOWN. The receiver requires the exact supporting
 shell/companion pair before dispatch. The separately retained native source
 profile does not implement this API and remains refused at that source gate.
+For original14, the receiver follows the owner's proved actual predecessor;
+a failed allocation without a receipt is retained in owner history, not replaced
+with an invented receipt. The receiver retains its 64-generation span bound,
+exact endpoint/current-tip checks and separate native18 consecutive-link rule.
+This historical link read does not settle an active route, pending audit or H0
+binding obligation; their existing accepting consumers remain required.
 
 helper-mode: claim-run.sh|--resolve-retained-continuity-predecessor|<controller> --receipt <receipt-token> --expected-current <current-receipt-token>|historical-link-only

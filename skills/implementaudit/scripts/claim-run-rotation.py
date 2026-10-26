@@ -30,12 +30,17 @@ def _capture_claim_load_identity_v1(executing_code):
     if (not stat.S_ISREG(before.st_mode) or before.st_nlink != 1
             or getattr(before, 'st_file_attributes', 0) & 0x400):
         raise ImportError('executing claim code has no ordinary physical source')
-    with path.open('rb') as stream:
+    identity = lambda item: (item.st_dev, item.st_ino, item.st_mode, item.st_nlink,
+                             item.st_size, item.st_mtime_ns, item.st_ctime_ns)
+    flags = (os.O_RDONLY | getattr(os, 'O_BINARY', 0) | getattr(os, 'O_NOFOLLOW', 0)
+             | getattr(os, 'O_NONBLOCK', 0))
+    with os.fdopen(os.open(path, flags), 'rb') as stream:
         opened = os.fstat(stream.fileno())
+        if identity(opened) != identity(before):
+            raise ImportError('executing claim code source changed before load binding')
         raw = stream.read(512 * 1024 + 1)
         after = os.fstat(stream.fileno())
     current = os.lstat(path)
-    identity = lambda item: (item.st_dev, item.st_ino, item.st_size, item.st_mtime_ns)
     if (identity(before) != identity(opened) or identity(opened) != identity(after)
             or identity(after) != identity(current) or len(raw) != before.st_size
             or len(raw) > 512 * 1024):
@@ -47,7 +52,15 @@ def _capture_claim_load_identity_v1(executing_code):
     return (str(path), len(raw), hashlib.sha256(raw).hexdigest())
 
 
-_CLAIM_LOAD_IDENTITY_V1 = _capture_claim_load_identity_v1(sys._getframe().f_code)
+try:
+    _CLAIM_LOAD_IDENTITY_V1 = _capture_claim_load_identity_v1(sys._getframe().f_code)
+except (ImportError, OSError) as exc:
+    if __name__ != '__main__':
+        raise
+    # A traceback can reopen the replaced source path while rendering lines.
+    # The public shell must report refusal without that second, blocking read.
+    print('claim-run.sh: companion source ' + str(exc), file=sys.stderr)
+    raise SystemExit(1)
 
 
 # Private substrate is exact-source bound; it owns no transaction authority.
@@ -58,14 +71,19 @@ def _windows_custody():
     if (not stat.S_ISREG(before.st_mode) or before.st_nlink != 1
             or getattr(before, "st_file_attributes", 0) & 0x400):
         raise ImportError("canonical custody substrate is aliased or nonregular")
-    with open(path, "rb") as stream:
+    identity = lambda item: (item.st_dev, item.st_ino, item.st_mode, item.st_nlink,
+                             item.st_size, item.st_mtime_ns, item.st_ctime_ns)
+    flags = (os.O_RDONLY | getattr(os, 'O_BINARY', 0) | getattr(os, 'O_NOFOLLOW', 0)
+             | getattr(os, 'O_NONBLOCK', 0))
+    with os.fdopen(os.open(path, flags), "rb") as stream:
         opened = os.fstat(stream.fileno())
+        if identity(opened) != identity(before):
+            raise ImportError("canonical custody substrate source identity mismatch")
         raw = stream.read(36368)
         after = os.fstat(stream.fileno())
-    if ((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns)
-            != (opened.st_dev, opened.st_ino, opened.st_size, opened.st_mtime_ns)
-            or (opened.st_dev, opened.st_ino, opened.st_size, opened.st_mtime_ns)
-            != (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns)
+    current = os.lstat(path)
+    if (identity(before) != identity(opened) or identity(opened) != identity(after)
+            or identity(after) != identity(current)
             or len(raw) != 36367
             or hashlib.sha256(raw).hexdigest() != "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389"):
         raise ImportError("canonical custody substrate source identity mismatch")

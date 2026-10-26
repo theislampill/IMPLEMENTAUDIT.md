@@ -51,12 +51,13 @@ class CompositeSourceCases(unittest.TestCase):
         self.assertEqual(retained["materialized_path"], "skills/implementaudit/scripts/claim-run-rotation.py")
         self.assertNotIn(retained["materialized_path"], [row["path"] for row in manifest["frozen_core_dependencies"]])
         transport = load("retained_core_transport", ROOT / "scripts/work-graph-continuity-transport.py")
-        profile = transport.SOURCE_PROFILES_V1["composite-20261025-core-retained-history-v1"]
+        profile = transport.SOURCE_PROFILES_V1["composite-20261026-core-binder-v1"]
         observed = tuple((name, len((CORE / name).read_bytes()),
                           hashlib.sha256((CORE / name).read_bytes()).hexdigest(), mode)
                          for name, _, _, mode in profile)
         self.assertEqual(observed, profile)
         self.assertNotEqual(profile, transport.SOURCE_PROFILES_V1["composite-20261025-core-posix-reads"])
+        self.assertNotEqual(profile, transport.SOURCE_PROFILES_V1["composite-20261025-core-retained-history-v1"])
 
     def test_retained_native_profile_refuses_new_history_api_before_dispatch(self):
         peer = ROOT / "source-peers/route-graph/skills/implementaudit/scripts"
@@ -128,6 +129,48 @@ else:
                 self.assertEqual(result.returncode, 0, result.stderr.decode())
                 self.assertIn(b"FIFO_REPLACEMENT_REACHED", result.stdout)
                 self.assertIn(b"native route producer source identity changed", result.stdout)
+
+    @unittest.skipUnless(os.name == "posix", "actual POSIX static-owner source replacement")
+    def test_static_owner_source_replaced_by_fifo_refuses_before_read(self):
+        worker = r'''
+import importlib.util, os, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+spec = importlib.util.spec_from_file_location("static_owner_loader", path)
+graph = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(graph)
+target = path.parents[3] / "scripts/operational-evidence.py"
+original_open = os.open
+def substituted_open(name, flags, *args, **kwargs):
+    if pathlib.Path(name) == target:
+        target.rename(target.with_suffix(".retained"))
+        os.mkfifo(target)
+        print("STATIC_OWNER_FIFO_REPLACEMENT", flush=True)
+    return original_open(name, flags, *args, **kwargs)
+os.open = substituted_open
+try:
+    graph._native_static_owner_module_v1()
+except graph.WorkGraphError as error:
+    print(str(error), flush=True)
+else:
+    raise AssertionError("nonregular static owner was accepted")
+'''
+        with tempfile.TemporaryDirectory(prefix="static-owner-fifo-") as temporary:
+            target = Path(temporary)
+            compiler = target / "skills/implementaudit/scripts/compile-work-graph.py"
+            compiler.parent.mkdir(parents=True)
+            shutil.copyfile(CORE / compiler.name, compiler)
+            owner = target / "scripts/operational-evidence.py"
+            owner.parent.mkdir()
+            shutil.copyfile(ROOT / "scripts/operational-evidence.py", owner)
+            try:
+                result = subprocess.run([sys.executable, "-B", "-c", worker, str(compiler)],
+                                        capture_output=True, timeout=5)
+            except subprocess.TimeoutExpired as error:
+                self.fail("static owner source read blocked; owned worker killed/reaped; stdout="
+                          + repr(error.stdout))
+            self.assertEqual(result.returncode, 0, result.stderr.decode())
+            self.assertIn(b"STATIC_OWNER_FIFO_REPLACEMENT", result.stdout)
+            self.assertIn(b"native static source owner is unavailable or changed", result.stdout)
 
     def test_lossless_research_observation_retains_complete_original(self):
         """Fixed research snapshot coherence, not native or transitive read credit."""

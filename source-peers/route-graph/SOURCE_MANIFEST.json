@@ -5,15 +5,15 @@
   "files": [
     {
       "path": "source-peers/route-graph/skills/implementaudit/scripts/route-transaction.py",
-      "bytes": 384034,
-      "sha256": "8ca0ed9e1313ff2e60a89b88e56f7bf1a52bf6f179f70df1b0b18f1dde0346f8",
+      "bytes": 384881,
+      "sha256": "aa60038b82ec1333e55fb19603df42262665dd671360a224c252145d062f6921",
       "semantic_owner": "R0033",
       "state": "SOURCE_PROPOSAL_NOT_NATIVE_ADMISSION",
       "materialized_path": "skills/implementaudit/scripts/route-transaction.py",
       "mode": "100755",
       "modified": true,
       "source_preimage_sha256": "8ed51e393f4f8a3be631e48255e9aeca59dcf120a803f1601a034e5ab9e02389",
-      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; retained exact current source-map receiving from79316011; historical domains preserved; exact nonblocking delivery-capture fix from899d32f8, historical API excluded; exact recovered original14 historical receiver and paired core producer, with retained native companion override and separate unchanged native capability limit"
+      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; retained exact current source-map receiving from79316011; historical domains preserved; exact nonblocking delivery-capture fix from899d32f8, historical API excluded; exact recovered original14 historical receiver and paired core producer, with retained native companion override and separate unchanged native capability limit; DG07 nonblocking source acquisition and exact original14 recovery links, with prior profiles and native18 consecutive law retained; no native admission"
     },
     {
       "path": "source-peers/route-graph/skills/implementaudit/scripts/route_request_policy.py",
@@ -26,15 +26,15 @@
     },
     {
       "path": "source-peers/route-graph/skills/implementaudit/scripts/compile-work-graph.py",
-      "bytes": 251482,
-      "sha256": "24209c414f1e71a7267af7709e86509743a19a9d787d4abf1b7e2121d56125bf",
+      "bytes": 251807,
+      "sha256": "bd7df3c552081f5793298b51a8f3256b7396739b6a543866b4c2acf859861449",
       "semantic_owner": "R0035",
       "state": "SOURCE_PROPOSAL_NOT_NATIVE_ADMISSION",
       "materialized_path": "skills/implementaudit/scripts/compile-work-graph.py",
       "mode": "100644",
       "modified": true,
       "source_preimage_sha256": "ef000d06a60cec080c0c2fa1838b67729009b04373946634c73d32f7c08229e9",
-      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; composed R0039 native-v3/C02 source candidate; no native admission; R0039 exact-source projection binding receiving candidate; captured buffer and physical-path cache retained; wave1 composite source reconciliation, see docs/integration/active-rlgwo-composite-20261025.md; no native admission; retained exact current source-map receiving from79316011; historical domains preserved; exact current transport receiving owner pin; old transport profile retained; exact current original14 Windows receiver tuple, no native authority; exact current-core POSIX three-read source contract; no native18/original14 receipt substitution; exact nonblocking delivery-capture fix from899d32f8, historical API excluded; PR255 actual post-lstat FIFO source substitution: nonblocking open and pre-read descriptor identity/type refusal; exact PR246 composed continuity transport and receiving owner pins; retained historical source domains; exact recovered original14 historical receiver and paired core producer, with retained native companion override and separate unchanged native capability limit",
+      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; composed R0039 native-v3/C02 source candidate; no native admission; R0039 exact-source projection binding receiving candidate; captured buffer and physical-path cache retained; wave1 composite source reconciliation, see docs/integration/active-rlgwo-composite-20261025.md; no native admission; retained exact current source-map receiving from79316011; historical domains preserved; exact current transport receiving owner pin; old transport profile retained; exact current original14 Windows receiver tuple, no native authority; exact current-core POSIX three-read source contract; no native18/original14 receipt substitution; exact nonblocking delivery-capture fix from899d32f8, historical API excluded; PR255 actual post-lstat FIFO source substitution: nonblocking open and pre-read descriptor identity/type refusal; exact PR246 composed continuity transport and receiving owner pins; retained historical source domains; exact recovered original14 historical receiver and paired core producer, with retained native companion override and separate unchanged native capability limit; DG07 nonblocking source acquisition and exact original14 recovery links, with prior profiles and native18 consecutive law retained; no native admission",
       "composition_preimage_sha256": "ed1a0361533be2a4e6dd46a2525ab290c6a6bbfc4740dcd353657cb61048e5e1",
       "integration_preimage_sha256": "764bc5c701b1e67f1bb50bb8253955a772f1de5506d68de6f899788bf05eb6f1"
     }

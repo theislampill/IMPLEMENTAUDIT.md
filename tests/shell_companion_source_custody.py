@@ -11,6 +11,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import signal
 import subprocess
 import sys
 import tempfile
@@ -60,6 +61,38 @@ def audit(event, args):
 sys.addaudithook(audit)
 '''
 
+BINDER_OBSERVER = r'''
+import os, sys
+from pathlib import Path
+target = Path(os.environ["SHELL_OBSERVER_TARGET"])
+log = Path(os.environ["SHELL_OBSERVER_LOG"])
+kind = os.environ["SHELL_BINDER_REPLACEMENT"]
+function = os.environ["SHELL_CAPTURE_FUNCTION"]
+armed = True
+def audit(event, args):
+    global armed
+    if event != "open" or not armed or args[0] != str(target):
+        return
+    frame = sys._getframe()
+    while frame and frame.f_code.co_name != function:
+        frame = frame.f_back
+    if frame is None:
+        return
+    armed = False
+    retained = target.with_suffix(".retained")
+    target.rename(retained)
+    if kind == "fifo":
+        os.mkfifo(target, 0o600)
+    elif kind == "regular":
+        target.write_bytes(retained.read_bytes())
+    elif kind == "symlink":
+        target.symlink_to(retained)
+    else:
+        raise AssertionError(kind)
+    log.write_text("POST_LSTAT_BINDER_REPLACEMENT:" + kind)
+sys.addaudithook(audit)
+'''
+
 
 class ShellCompanionSourceCustody(unittest.TestCase):
     def setUp(self):
@@ -82,7 +115,7 @@ class ShellCompanionSourceCustody(unittest.TestCase):
                 shutil.copyfile(SOURCE / name, scripts / name)
         return scripts
 
-    def invoke(self, scripts=None, *, args=None, extra_env=None, input_bytes=b""):
+    def invoke(self, scripts=None, *, args=None, extra_env=None, input_bytes=b"", timeout=20):
         scripts = self.scripts if scripts is None else scripts
         args = ["--resolve-canonical-generation", "invalid?controller"] if args is None else args
         environment = {"PATH": os.environ["PATH"], "LC_ALL": "C.UTF-8",
@@ -99,9 +132,20 @@ class ShellCompanionSourceCustody(unittest.TestCase):
         if bash is None:
             self.fail("bash is required for shell custody controls")
         command = [bash, (scripts / "claim-run.sh").as_posix(), *args]
-        result = subprocess.run(command, cwd=self.cwd, env=environment,
-                                input=input_bytes, capture_output=True, timeout=20,
-                                check=False)
+        process = subprocess.Popen(command, cwd=self.cwd, env=environment,
+                                   stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                   start_new_session=os.name == "posix")
+        try:
+            stdout, stderr = process.communicate(input=input_bytes, timeout=timeout)
+        except subprocess.TimeoutExpired:
+            if os.name == "posix":
+                os.killpg(process.pid, signal.SIGKILL)
+            else:
+                process.kill()
+            stdout, stderr = process.communicate()
+            self.fail("shell companion blocked; owned process group killed/reaped; stdout=%r stderr=%r"
+                      % (stdout, stderr))
+        result = subprocess.CompletedProcess(command, process.returncode, stdout, stderr)
         self.calls += 1
         if EVIDENCE:
             dest = Path(EVIDENCE) / self._testMethodName / str(self.calls)
@@ -211,6 +255,55 @@ class ShellCompanionSourceCustody(unittest.TestCase):
         self.assertEqual(len([row for row in records if row["event"] == "module"]), 1)
         self.assertIn(b"executing claim code differs from the physical load snapshot", result.stderr)
         self.assertEqual(self.companion.read_bytes(), self.changed_source())
+
+    def binder_replacement(self, kind, *, substrate=False):
+        observer = self.root / "binder-observer"
+        observer.mkdir()
+        (observer / "sitecustomize.py").write_text(BINDER_OBSERVER)
+        log = self.root / "binder-boundary.log"
+        target = self.scripts / "canonical_custody.py" if substrate else self.companion
+        result = self.invoke(extra_env={"PYTHONPATH": str(observer),
+            "SHELL_OBSERVER_TARGET": str(target), "SHELL_OBSERVER_LOG": str(log),
+            "SHELL_CAPTURE_FUNCTION": "_windows_custody" if substrate else "_capture_claim_load_identity_v1",
+            "SHELL_BINDER_REPLACEMENT": kind}, timeout=5)
+        self.assertEqual(log.read_text(), "POST_LSTAT_BINDER_REPLACEMENT:" + kind)
+        self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+        self.assertEqual(result.stdout, b"")
+        self.assertNotIn(b"controller identity is invalid", result.stderr)
+        self.assertNotIn(MARKER.encode(), result.stdout + result.stderr)
+        return result
+
+    @unittest.skipUnless(os.name == "posix", "actual POSIX FIFO replacement")
+    def test_initial_binder_fifo_replacement_refuses_without_blocking(self):
+        self.assertIn(b"executing claim code source changed", self.binder_replacement("fifo").stderr)
+
+    def test_initial_binder_equal_byte_replacement_refuses(self):
+        self.assertIn(b"executing claim code source changed", self.binder_replacement("regular").stderr)
+
+    @unittest.skipUnless(os.name == "posix", "actual POSIX source alias")
+    def test_initial_binder_symlink_replacement_refuses(self):
+        self.binder_replacement("symlink")
+
+    @unittest.skipUnless(os.name == "posix", "actual POSIX substrate FIFO replacement")
+    def test_substrate_fifo_replacement_refuses_without_blocking(self):
+        self.assertIn(b"canonical custody substrate source identity mismatch",
+                      self.binder_replacement("fifo", substrate=True).stderr)
+
+    def test_substrate_equal_byte_replacement_refuses(self):
+        self.assertIn(b"canonical custody substrate source identity mismatch",
+                      self.binder_replacement("regular", substrate=True).stderr)
+
+    @unittest.skipUnless(os.name == "posix", "actual POSIX substrate alias")
+    def test_substrate_symlink_replacement_refuses(self):
+        self.binder_replacement("symlink", substrate=True)
+
+    def test_unselected_substrate_bytes_do_not_execute(self):
+        path = self.scripts / "canonical_custody.py"
+        path.write_bytes(path.read_bytes() + ('\nprint("' + MARKER + '")\n').encode())
+        result = self.invoke()
+        self.assertEqual(result.returncode, 1)
+        self.assertNotIn(MARKER.encode(), result.stdout + result.stderr)
+        self.assertIn(b"canonical custody substrate source identity mismatch", result.stderr)
 
 
 if __name__ == "__main__":

@@ -1550,10 +1550,10 @@ def _native_document(data, path, schema):
         raise WorkGraphError(f'{path}: unknown native metadata schema')
     return obj
 
-_NATIVE_STATIC_OWNER_SHA256 = 'ef2ff3bade193b55c3c4acee045eec036e3cea5bc3b50c4aaa6d1a18b6dcb3b8'
+_NATIVE_STATIC_OWNER_SHA256 = '403f002523254c41b3b1b288aa06459a7fe9515775a2c876393c89b6ac1f83f0'
 
 
-_NATIVE_STATIC_OWNER_BYTES = 394587
+_NATIVE_STATIC_OWNER_BYTES = 395754
 
 
 NATIVE_SOURCE_MAX_ENTRIES = 1024
@@ -1598,13 +1598,16 @@ def _native_static_owner_module_v1():
                 or stat.S_ISLNK(before.st_mode) or path.resolve(strict=True) != path
                 or getattr(before, 'st_file_attributes', 0) & 0x400):
             raise OSError('source owner aliases another object')
-        flags = os.O_RDONLY | getattr(os, 'O_BINARY', 0) | getattr(os, 'O_NOFOLLOW', 0)
+        identity = lambda s: (s.st_dev, s.st_ino, s.st_mode, s.st_nlink, s.st_size, s.st_mtime_ns, s.st_ctime_ns)
+        flags = (os.O_RDONLY | getattr(os, 'O_BINARY', 0) | getattr(os, 'O_NOFOLLOW', 0)
+                 | getattr(os, 'O_NONBLOCK', 0))
         with os.fdopen(os.open(path, flags), 'rb') as stream:
             opened = os.fstat(stream.fileno())
+            if identity(opened) != identity(before):
+                raise OSError('source owner changed before read')
             raw = stream.read(_NATIVE_STATIC_OWNER_BYTES + 1)
             after = os.fstat(stream.fileno())
         final = path.lstat()
-        identity = lambda s: (s.st_dev, s.st_ino, s.st_mode, s.st_nlink, s.st_size, s.st_mtime_ns, s.st_ctime_ns)
         if (identity(before) != identity(opened) or identity(opened) != identity(after)
                 or identity(after) != identity(final)
                 or len(raw) != _NATIVE_STATIC_OWNER_BYTES
@@ -2340,6 +2343,8 @@ _NATIVE_ROUTE_PRODUCER_PROFILES_V1 = {
     'd060782e690d163e2b0db014be429c64cf976e7b1e8d554113ee8f4843a3b1bb': 376700,
     # Exact recovered historical receiver; native admission remains separate.
     '8ca0ed9e1313ff2e60a89b88e56f7bf1a52bf6f179f70df1b0b18f1dde0346f8': 384034,
+    # DG07 exact original14 recovery receiving and safe binder source pair.
+    'aa60038b82ec1333e55fb19603df42262665dd671360a224c252145d062f6921': 384881,
 }
 
 

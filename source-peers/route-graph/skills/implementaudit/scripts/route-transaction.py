@@ -5645,13 +5645,20 @@ _R0039_RETAINED_PREDECESSOR_OWNER_V1 = {
     "claim-run.sh": (22199, "34054952e3bbf13ae6ca381d4cf0d9d72bccaed10c8dd879de9351f5c0e2594b"),
     "claim-run-rotation.py": (258400, "27ae194fc92a37bd12e0fe378ffc07f788a3bffec28ebd1c0a5e3c8e1c73695e"),
 }
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 = (
+    _R0039_RETAINED_PREDECESSOR_OWNER_V1,
+    {
+        "claim-run.sh": (22199, "7d257a9b3502a78d458f80bd0c20fe4594b049a93c819aa3bc91de577bfa34af"),
+        "claim-run-rotation.py": (259408, "551b1a798161fdd20cb9eebd56fb1d8a0245ec48a74f05b29f6253d8228c49cb"),
+    },
+)
 
 
 def original14_retained_predecessor_v1(
     repo, token, fields, *, controller, claim, run_identity, generation,
     current_receipt, explicit_run_root,
 ):
-    """Receive one historical owner observation; preserve the contiguous law."""
+    """Receive one actual original14 link; native18's contiguous law is separate."""
     if not isinstance(explicit_run_root, str) or not isinstance(current_receipt, str):
         fail("original14 history requires its enclosing current receipt and full run root", decision="REQUIRED")
     try:
@@ -5669,16 +5676,20 @@ def original14_retained_predecessor_v1(
             or not all(re.fullmatch(r"[0-9a-f]{64}", item) for item in fields[8:12])
             or not re.fullmatch(re.escape(receipt_prefix) + r"G[0-9A-F]{4}@[0-9a-f]{40}", current_receipt)):
         fail("original14 history receipt or enclosing identity is malformed or foreign", decision="REQUIRED")
-    predecessor_generation = f"G{int(generation[1:], 16) - 1:04X}"
-    split_continuity_token(fields[13], controller, predecessor_generation, "continuity predecessor")
+    predecessor = re.fullmatch(re.escape(receipt_prefix) + r"(G[0-9A-F]{4})@[0-9a-f]{40}", fields[13])
+    if predecessor is None or int(predecessor[1][1:], 16) >= int(generation[1:], 16):
+        fail("original14 history predecessor is not a strictly earlier canonical receipt", decision="REQUIRED")
 
     captured = {}
-    for name, (length, expected_sha256) in _R0039_RETAINED_PREDECESSOR_OWNER_V1.items():
+    for name in _R0039_RETAINED_PREDECESSOR_OWNER_V1:
+        length = max(profile[name][0] for profile in _R0039_RETAINED_PREDECESSOR_OWNERS_V1)
         path = Path(__file__).with_name(name)
         snapshot = child_delivery_snapshot(path, "original14 history owner " + name, max_bytes=length)
-        if len(snapshot[0]) != length or hashlib.sha256(snapshot[0]).hexdigest() != expected_sha256:
-            fail("original14 history owner source profile is unsupported", decision="REQUIRED")
         captured[name] = (path, snapshot)
+    if not any(all((len(snapshot[0]), hashlib.sha256(snapshot[0]).hexdigest()) == profile[name]
+                   for name, (_, snapshot) in captured.items())
+               for profile in _R0039_RETAINED_PREDECESSOR_OWNERS_V1):
+        fail("original14 history owner source profile is unsupported", decision="REQUIRED")
     claim_path, shell_snapshot = captured["claim-run.sh"]
     # Execute the same shell bytes just checked. Preserve physical $0 for the
     # fixed sibling launcher, which verifies and executes captured companion bytes.
@@ -5693,7 +5704,7 @@ def original14_retained_predecessor_v1(
         fail(f"original14 historical owner is unavailable: {exc}", decision="REQUIRED")
     for name, (path, snapshot) in captured.items():
         if child_delivery_snapshot(path, "original14 history owner " + name,
-                max_bytes=_R0039_RETAINED_PREDECESSOR_OWNER_V1[name][0]) != snapshot:
+                max_bytes=len(snapshot[0])) != snapshot:
             fail("original14 history owner source changed during observation", decision="REQUIRED")
     if completed.returncode:
         detail = completed.stderr.decode("utf-8", "replace").strip()
@@ -5831,7 +5842,11 @@ def validate_terminal_continuity_chain(
     explicit_run_root: str | None = None,
     owner_tip_receipt: str | None = None,
 ) -> list[tuple[str, str]]:
-    """Require a bounded contiguous canonical v3 chain back to the terminal receipt."""
+    """Require exact retained links within the bounded generation span.
+
+    Original14 recovery can skip an allocated epoch with no minted receipt;
+    its owner proves that edge. Native18 validation still requires every epoch.
+    """
     if (
         not isinstance(terminal_generation, str)
         or not isinstance(current_generation, str)
@@ -5874,8 +5889,10 @@ def validate_terminal_continuity_chain(
                 current_receipt=current_receipt if owner_tip_receipt is None else owner_tip_receipt,
                 explicit_run_root=explicit_run_root,
             )
-            candidate_generation = f"G{int(candidate_generation[1:], 16) - 1:04X}"
+            candidate_generation = candidate_receipt.split("@", 1)[0].rsplit("/", 1)[1]
             reverse_links.append((candidate_generation, candidate_receipt))
+            if int(candidate_generation[1:], 16) <= terminal_ordinal:
+                break
         if candidate_generation != terminal_generation or candidate_receipt != terminal_receipt:
             fail("continuity receipt chain does not reach the terminal route receipt", decision="REQUIRED")
     if canonical_ref_oid(repo, terminal_ref, "terminal continuity receipt") != terminal_oid:
