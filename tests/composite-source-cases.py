@@ -30,6 +30,70 @@ def load(name, path):
 
 
 class CompositeSourceCases(unittest.TestCase):
+    def test_nonprotected_fixed_policy_does_not_require_owned_stdio_capture(self):
+        owner = load("nonprotected_policy_owner", PEER / "compaction-source-owner-codex-app.py")
+        observation = load("nonprotected_policy_observation", PEER / "compaction-result-observation.py")
+        names = ("compaction-source-owner-codex-app.py", "codex-recovery-native-reader.py")
+        pins = {str(Path("implementaudit/scripts") / name): hashlib.sha256((PEER / name).read_bytes()).hexdigest()
+                for name in names}
+        fixture_pin = {"path": str(PEER / names[0]), "bytes": (PEER / names[0]).stat().st_size,
+                       "sha256": pins[str(Path("implementaudit/scripts") / names[0])]}
+        # Only policy construction is under test. No private selection, native
+        # process, canonical episode or accepting pending store is admitted.
+        selected = dict(profile_id=owner.NONPROTECTED_PROFILE,
+                        episode_owner={"module_pin": fixture_pin},
+                        native_version="unadmitted-fixture", cli_version="unadmitted-fixture",
+                        desktop_version="unadmitted-fixture", native_executable=fixture_pin,
+                        desktop_executable=fixture_pin, desktop_asar=fixture_pin, config_file=fixture_pin)
+        self.assertIsNone(owner.selected_source_pin_v1())
+        with mock.patch.object(owner, "_np_runtime", return_value=(selected, None, None, None, None)), \
+                mock.patch.object(owner, "NONPROTECTED_SELECTION_PIN", fixture_pin):
+            policy = owner.nonprotected_fixed_policy(observation, pins)
+            self.assertEqual(policy["descriptor"]["profile_id"], owner.NONPROTECTED_PROFILE)
+            self.assertNotIn("producer_dependencies", policy["descriptor"]["provider_selection"])
+            self.assertEqual(policy["policy_digest"], observation.digest(observation.canonical(
+                {key: value for key, value in policy.items() if key != "policy_digest"})))
+            with mock.patch.object(owner, "capture", {"schema": "implementaudit.owned-stdio-live-acquisition.v1"}, create=True):
+                self.assertEqual(owner.nonprotected_fixed_policy(observation, pins), policy)
+            changed = dict(pins)
+            changed[str(Path("implementaudit/scripts") / names[0])] = "0" * 64
+            with self.assertRaisesRegex(ValueError, "NONPROTECTED_PIN_CHANGED"):
+                owner.nonprotected_fixed_policy(observation, changed)
+        self.assertIsNone(owner.selected_source_pin_v1())
+
+    def test_documented_peer_materialization_supplies_exact_episode_owner_sibling(self):
+        with tempfile.TemporaryDirectory(prefix="nonprotected-source-overlay-") as temporary:
+            root = Path(temporary)
+            scripts = root / "skills/implementaudit/scripts"
+            shutil.copytree(CORE, scripts, ignore=shutil.ignore_patterns("__pycache__"))
+            for group in ("native-runtime", "route-graph"):
+                manifest = json.loads((ROOT / "source-peers" / group / "SOURCE_MANIFEST.json").read_bytes())
+                for entry in manifest["files"]:
+                    raw = (ROOT / entry["path"]).read_bytes()
+                    self.assertEqual((len(raw), hashlib.sha256(raw).hexdigest()), (entry["bytes"], entry["sha256"]))
+                    target = root / entry["materialized_path"]
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    target.write_bytes(raw)
+                    target.chmod(int(entry["mode"], 8) & 0o777)
+            owner = load("materialized_nonprotected_owner", scripts / "compaction-source-owner-codex-app.py")
+            route = scripts / "route-transaction.py"
+            raw = route.read_bytes()
+            pin = dict(path=str(route), bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest())
+            module = owner._np_module(pin, "route-transaction.py")
+            self.assertEqual(Path(module.__file__).parent, owner.HERE)
+            self.assertTrue(callable(module.read_current_episode_binding_v1))
+            self.assertIsNone(owner.selected_source_pin_v1())
+            foreign = dict(pin, path=str(ROOT / "source-peers/route-graph/skills/implementaudit/scripts/route-transaction.py"))
+            with self.assertRaisesRegex(ValueError, "NONPROTECTED_MODULE_OWNER_PATH"):
+                owner._np_module(foreign, "route-transaction.py")
+            changed = b"raise AssertionError('UNSELECTED_ROUTE_EXECUTED')\n"
+            route.write_bytes(changed + b"#" * (len(raw) - len(changed)))
+            with self.assertRaisesRegex(ValueError, "NONPROTECTED_PIN_CHANGED"):
+                owner._np_module(pin, "route-transaction.py")
+            route.unlink()
+            with self.assertRaises(FileNotFoundError):
+                owner._np_module(pin, "route-transaction.py")
+
     @unittest.skipUnless(os.name == "posix", "fixed C5 no-follow source acquisition")
     def test_original_c5_profile_cannot_admit_the_current_composite(self):
         owner = load("strict_original_c5", ROOT / "scripts/load-work-graph-c5-executor.py")

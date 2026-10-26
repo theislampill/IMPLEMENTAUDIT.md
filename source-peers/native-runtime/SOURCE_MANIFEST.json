@@ -93,14 +93,14 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
       "materialized_path": "skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
-      "bytes": 130444,
-      "sha256": "2fcb390a3e4105adc1178000e736b1a09b3b5a59db03fdd744cda895a1352d04",
+      "bytes": 130264,
+      "sha256": "799d468f8a98a6990c798488517ba27f273f4862d6066a9b228ab0d1c7c6a517",
       "semantic_owner": "R003A/continuity",
       "mode": "100644",
       "source_preimage_sha256": "1f35bd9f9841e05dfb419f85890b34f036e13af387fed5a9a80868787293d972",
       "modified": true,
       "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
-      "additional_delta": "R0039 distinct owned-stdio0.153.4 source profile; existing owners and default refusals retained; no private selection or native admission; R0039 actual owned-stdio LF and source grammar; bounded held-directory child discovery and exact native relation readback; composed R0039 native-v3/C02 source candidate; no native admission",
+      "additional_delta": "R0039 distinct owned-stdio0.153.4 source profile; existing owners and default refusals retained; no private selection or native admission; R0039 actual owned-stdio LF and source grammar; bounded held-directory child discovery and exact native relation readback; composed R0039 native-v3/C02 source candidate; no native admission; DG08 generic nonprotected policy excludes the distinct owned-stdio capture-only field; no native admission",
       "composition_preimage_sha256": "0bb3c8ae5c3e0464d236074db24d114baf8ea71e3852f4fccdf4c93e5c5713a7"
     },
     {
