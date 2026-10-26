@@ -386,5 +386,112 @@ class CompletionCases(unittest.TestCase):
         self.assertEqual(list(inspect.signature(self.owner.observe_fixed_native_completion).parameters),
                          ["run_root", "repo_root", "input_root"])
 
+
+class CompletionReadCustodyCases(unittest.TestCase):
+    """Disposable source reads; no native producer, journal or original campaign."""
+
+    def reader_case(self, kind):
+        # The worker substitutes the real named file at the lstat/open boundary.
+        # Supervision is necessary: the pre-fix FIFO open never reaches fstat.
+        worker = r"""
+import errno, importlib.util, json, os, sys
+from pathlib import Path
+owner_path, root, kind = map(str, sys.argv[1:])
+spec = importlib.util.spec_from_file_location("read_owner", owner_path)
+owner = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(owner)
+path = Path(root) / "input"
+raw = b"captured ordinary source\n"
+path.write_bytes(raw)
+real_open, real_read = os.open, os.read
+fds, reads = [], []
+def selected_open(name, flags, *args, **kwargs):
+    if Path(name) == path:
+        if kind != "unchanged":
+            path.rename(path.with_name("retained"))
+            if kind == "fifo":
+                os.mkfifo(path, 0o600)
+            elif kind == "regular":
+                path.write_bytes(raw)
+            elif kind == "symlink":
+                path.symlink_to(path.with_name("retained"))
+            else:
+                raise AssertionError(kind)
+        print("selected-open:" + kind, flush=True)
+    fd = real_open(name, flags, *args, **kwargs)
+    if Path(name) == path:
+        fds.append(fd)
+    return fd
+def observed_read(fd, size):
+    reads.append(fd)
+    return real_read(fd, size)
+os.open, os.read = selected_open, observed_read
+try:
+    captured, identity = owner._read(path, 4096)
+    result = dict(outcome="returned", same_bytes=captured == raw,
+                  identity_matches=identity == owner._identity(path.lstat()))
+except (owner.CompletionError, OSError) as exc:
+    result = dict(outcome="refused", error=type(exc).__name__, reason=str(exc))
+finally:
+    os.open, os.read = real_open, real_read
+closed = []
+for fd in fds:
+    try:
+        os.fstat(fd)
+    except OSError as exc:
+        closed.append(exc.errno == errno.EBADF)
+    else:
+        closed.append(False)
+result.update(opened=len(fds), read_calls=len(reads),
+              all_opened_descriptors_closed=all(closed))
+print(json.dumps(result, sort_keys=True), flush=True)
+"""
+        with tempfile.TemporaryDirectory(prefix="completion-read-custody-") as tmp:
+            try:
+                result = subprocess.run(
+                    [sys.executable, "-I", "-S", "-B", "-c", worker,
+                     str(REPO / "scripts/work-graph-completion.py"), tmp, kind],
+                    capture_output=True, text=True, timeout=5,
+                )
+            except subprocess.TimeoutExpired as exc:
+                self.fail("completion reader blocked at selected-open:%s; worker killed/reaped; output=%r"
+                          % (kind, exc.stdout))
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("selected-open:" + kind, result.stdout)
+        observed = json.loads(result.stdout.splitlines()[-1])
+        self.assertTrue(observed["all_opened_descriptors_closed"], observed)
+        return observed
+
+    def test_unchanged_read_returns_exact_buffer_and_closes_descriptor(self):
+        result = self.reader_case("unchanged")
+        self.assertEqual(result["outcome"], "returned")
+        self.assertTrue(result["same_bytes"])
+        self.assertTrue(result["identity_matches"])
+        self.assertEqual(result["opened"], 1)
+        self.assertGreater(result["read_calls"], 0)
+
+    def test_regular_replacement_refuses_before_read_and_closes_descriptor(self):
+        result = self.reader_case("regular")
+        self.assertEqual(result["outcome"], "refused")
+        self.assertEqual(result["error"], "CompletionError")
+        self.assertEqual(result["reason"], "physical file changed before read")
+        self.assertEqual(result["opened"], 1)
+        self.assertEqual(result["read_calls"], 0)
+
+    def test_fifo_replacement_refuses_without_blocking_or_read(self):
+        result = self.reader_case("fifo")
+        self.assertEqual(result["outcome"], "refused")
+        self.assertEqual(result["error"], "CompletionError")
+        self.assertEqual(result["reason"], "physical file changed before read")
+        self.assertEqual(result["opened"], 1)
+        self.assertEqual(result["read_calls"], 0)
+
+    def test_symlink_replacement_refuses_without_read(self):
+        result = self.reader_case("symlink")
+        self.assertEqual(result["outcome"], "refused")
+        self.assertEqual(result["error"], "OSError")
+        self.assertEqual(result["opened"], 0)
+        self.assertEqual(result["read_calls"], 0)
+
 if __name__ == "__main__":
     unittest.main()

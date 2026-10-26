@@ -16,12 +16,16 @@ COLLECTION = ROOT / "test-support/work-graph-registry"
 MANIFEST = json.loads((COLLECTION / "original117-manifest.json").read_bytes())
 assert MANIFEST["source_commit"] == "cbb616cc7e0f9abafebe9bbdeee202ede7feb94e"
 assert MANIFEST["scope"] == "HISTORICAL_INPUTS_ONLY_NOT_CURRENT_ACCEPTANCE"
-# Previously unchanged and therefore absent from the original fixture manifest.
-# Retain its exact bytes from the same cbb616cc source, without editing that manifest.
+# Previously unchanged files absent from the original fixture manifest.
+# Retain exact cbb616cc bytes without editing that manifest or its source pins.
 SUPPLEMENTAL = {
     "scripts/run-work-graph-verifier.sh": {
         "specimen": "original117-runner/run-work-graph-verifier.sh", "bytes": 14452,
         "sha256": "532b06dbe91298bf71d44c88ecf20186adc93b4e3fb16ee2c4d12bc2edee45ff", "mode": 0o644,
+    },
+    "scripts/work-graph-completion.py": {
+        "specimen": "original117-completion/work-graph-completion.py", "bytes": 27353,
+        "sha256": "1a73009c7085c66797d9310258b2b1d723f304a0034cbc6a7ce16e1c97283b92", "mode": 0o644,
     },
 }
 ENGINE_NAMES = ("scripts/qualify-work-graph-verifier.py",

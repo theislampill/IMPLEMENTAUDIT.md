@@ -58,7 +58,8 @@ def _read(path, maximum):
     before = path.lstat()
     _require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and before.st_size <= maximum,
              'unsafe or oversized physical file')
-    fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW)
+    # Reject a post-lstat FIFO replacement before attempting any read.
+    fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
     try:
         _require(_identity(os.fstat(fd)) == _identity(before), 'physical file changed before read')
         chunks, size = [], 0

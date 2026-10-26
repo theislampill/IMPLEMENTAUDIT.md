@@ -76,6 +76,36 @@ class HistoricalInputCases(unittest.TestCase):
                     H.original(name)
             self.assertEqual(path.read_bytes(), changed)
 
+    @unittest.skipUnless(sys.platform == "linux", "physical source descriptors require Linux")
+    def test_readme_fixture_preserves_completion_pin_and_refuses_current_substitution(self):
+        name = "scripts/work-graph-completion.py"
+        with tempfile.TemporaryDirectory() as temporary:
+            engine = H.copy_readme_engine(Path(temporary) / "engine")
+            selected = engine / name
+            self.assertEqual(hashlib.sha256(selected.read_bytes()).hexdigest(),
+                             "1a73009c7085c66797d9310258b2b1d723f304a0034cbc6a7ce16e1c97283b92")
+            loader = load("historical_completion_loader", engine / "scripts/load-work-graph-readme-effect.py")
+            loader._load_owner()  # The complete selected historical closure loads.
+            selected.write_bytes((ROOT / name).read_bytes())
+            with mock.patch.object(loader._Engine, "execute") as executed:
+                with self.assertRaisesRegex(ValueError, "unsupported fixed engine source"):
+                    loader._load_owner()
+            executed.assert_not_called()
+            self.assertEqual(selected.read_bytes(), (ROOT / name).read_bytes())
+
+    def test_changed_supplemental_completion_refuses_without_repair(self):
+        name = "scripts/work-graph-completion.py"
+        with tempfile.TemporaryDirectory() as temporary:
+            collection = Path(temporary)
+            path = collection / H.SUPPLEMENTAL[name]["specimen"]
+            path.parent.mkdir(parents=True)
+            changed = H.original(name) + b"\nchanged specimen\n"
+            path.write_bytes(changed)
+            with mock.patch.object(H, "COLLECTION", collection):
+                with self.assertRaisesRegex(ValueError, "historical specimen changed"):
+                    H.input_bytes(name)
+            self.assertEqual(path.read_bytes(), changed)
+
     def test_physical_finite_engine_uses_current_code_and_exact_old_dependency(self):
         self.assertEqual(H.Q.ROOT, H.ENGINE_ROOT)
         self.assertEqual(H.Q.LOADED_DRIVER_PATH, H.ENGINE_ROOT / H.ENGINE_NAMES[0])
