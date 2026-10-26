@@ -775,6 +775,13 @@ def reservation_refusal_profile(pins):
     # differs. Bind the same four source owners recorded by source_pins; do not
     # accept either reason interchangeably or infer it from the response.
     profiles = {
+        # Generic policy repair: new exact four-owner tuple, still no native selection.
+        ("8c16f7f142b67eb4504ae275bf53e8ea104bb75378748402e8a4c0a31efdbc43",
+         "9ea603b9d923df5c155c7a5406ee2dac21cbc8fc87ec205f978e3130fbe43345",
+         "799d468f8a98a6990c798488517ba27f273f4862d6066a9b228ab0d1c7c6a517",
+         "62558bb209129c66b55d2a97325d16db4aecfd2ecbeb71323dd44070a50f0890"):
+            ("source-sha256:799d468f8a98a6990c798488517ba27f273f4862d6066a9b228ab0d1c7c6a517",
+             "NONPROTECTED_PROJECTION_PROFILE_REQUIRED", "PENDING_STATE_JSON", "PENDING_STATE_JSON_CONSTANT"),
         # Combined top-level counter guard; original parser and reservation guards retained.
         ("8c16f7f142b67eb4504ae275bf53e8ea104bb75378748402e8a4c0a31efdbc43",
          "9ea603b9d923df5c155c7a5406ee2dac21cbc8fc87ec205f978e3130fbe43345",

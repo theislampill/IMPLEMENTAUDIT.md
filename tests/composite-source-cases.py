@@ -347,22 +347,33 @@ else:
         fixture = load("composite_pending_fixture", ROOT / "tests/cognition-pending-durability.py")
         pins = fixture.source_pins(ROOT)
         selected = fixture.reservation_refusal_profile(pins)
-        self.assertEqual(selected["qualified_checkpoint"], "source-sha256:8c16f7f142b67eb4504ae275bf53e8ea104bb75378748402e8a4c0a31efdbc43")
+        self.assertEqual(selected["qualified_checkpoint"], "source-sha256:799d468f8a98a6990c798488517ba27f273f4862d6066a9b228ab0d1c7c6a517")
         self.assertEqual(selected["stored_json_refusal"], "PENDING_STATE_JSON")
         self.assertEqual(selected["nonfinite_counter_refusal"], "PENDING_STATE_JSON_CONSTANT")
-        prior_combined = dict(pins)
+        prior_current = dict(pins)
+        prior_current[str(fixture.PEER / "compaction-source-owner-codex-app.py")] = "2fcb390a3e4105adc1178000e736b1a09b3b5a59db03fdd744cda895a1352d04"
+        self.assertEqual(fixture.reservation_refusal_profile(prior_current), {
+            **selected,
+            "qualified_checkpoint": "source-sha256:8c16f7f142b67eb4504ae275bf53e8ea104bb75378748402e8a4c0a31efdbc43"})
+        prior_combined = dict(prior_current)
         prior_combined[str(fixture.PEER / "compaction-audit-pending.py")] = "b12a6e385bb911e54c641c8a3c56ba0d0a40819083f4444f2659c6eecd55af8c"
         self.assertEqual(fixture.reservation_refusal_profile(prior_combined), {
             "qualified_checkpoint": "f74a7c6675073af8c78f8a83ef5f3eb1476d2bfb",
             "expected_reason": "NONPROTECTED_PROJECTION_PROFILE_REQUIRED",
             "stored_json_refusal": "PENDING_STATE_JSON",
             "nonfinite_counter_refusal": "PENDING_STATE_JSON_CONSTANT"})
-        historical = dict(pins)
+        historical = dict(prior_current)
         historical[str(fixture.PEER / "compaction-audit-pending.py")] = "9b5faf290e08d3df77b15d5e5301a3760c4e599d16719cf8f72e1768522ea691"
         self.assertEqual(fixture.reservation_refusal_profile(historical), {
             "qualified_checkpoint": "5d90c706518cd08f13dfbb2024e806702cae85e9",
             "expected_reason": "NONPROTECTED_PROJECTION_PROFILE_REQUIRED"})
         self.assertEqual(selected["expected_reason"], "NONPROTECTED_PROJECTION_PROFILE_REQUIRED")
+        for old_pending in ("b12a6e385bb911e54c641c8a3c56ba0d0a40819083f4444f2659c6eecd55af8c",
+                            "9b5faf290e08d3df77b15d5e5301a3760c4e599d16719cf8f72e1768522ea691"):
+            mixed = dict(pins)
+            mixed[str(fixture.PEER / "compaction-audit-pending.py")] = old_pending
+            with self.subTest(mixed_pending=old_pending), self.assertRaises(AssertionError):
+                fixture.reservation_refusal_profile(mixed)
         for name in pins:
             for missing in (False, True):
                 changed = dict(pins)
