@@ -240,6 +240,65 @@ finally:
         with self.assertRaises(stop.InterlockUnavailable):
             stop.load_binding_core(foreign)
 
+    def source_acquisition_refusal(self, fault):
+        if fault.startswith("fifo") and os.name != "posix":
+            self.skipTest("real POSIX FIFO control")
+        wrapper = self.root / "source-acquisition.py"
+        wrapper.write_text("""import importlib.util, os, sys
+from pathlib import Path
+path, fault = Path(sys.argv[1]), sys.argv[2]
+spec = importlib.util.spec_from_file_location('selected_stop_reader', path)
+stop = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(stop)
+core = path.parent / 'host-session-binding.py'
+original_open = os.open
+injected = []
+if fault == 'fifo-before-acquisition':
+    core.unlink()
+    os.mkfifo(core)
+    injected.append(fault)
+else:
+    def selected_open(candidate, flags, *args, **kwargs):
+        if Path(candidate) == core and not injected:
+            raw = core.read_bytes()
+            previous_identity = (core.stat().st_dev, core.stat().st_ino)
+            core.rename(core.with_name('held-original-binding.py'))
+            if fault == 'fifo-at-open':
+                os.mkfifo(core)
+            else:
+                core.write_bytes(raw)
+            assert (core.lstat().st_dev, core.lstat().st_ino) != previous_identity
+            injected.append(fault)
+        return original_open(candidate, flags, *args, **kwargs)
+    stop.os.open = selected_open
+try:
+    stop.load_binding_core(core)
+except stop.InterlockUnavailable:
+    assert injected == [fault]
+    print('SOURCE_REFUSED_WITHOUT_EXECUTION')
+else:
+    raise AssertionError('changed source identity was accepted')
+""", encoding="utf-8")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-I", "-S", "-B", str(wrapper),
+                 str(self.scripts / "host-stop-interlock.py"), fault],
+                capture_output=True, text=True, timeout=3)
+        except subprocess.TimeoutExpired:
+            self.fail("binding source acquisition blocked at " + fault)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(result.stdout.strip(), "SOURCE_REFUSED_WITHOUT_EXECUTION")
+        self.assertEqual(result.stderr, "")
+
+    def test_binding_source_fifo_refuses_without_waiting(self):
+        self.source_acquisition_refusal("fifo-before-acquisition")
+
+    def test_binding_source_fifo_replacement_at_open_refuses(self):
+        self.source_acquisition_refusal("fifo-at-open")
+
+    def test_binding_source_same_bytes_new_identity_at_open_refuses(self):
+        self.source_acquisition_refusal("same-bytes-at-open")
+
     def test_partial_pair_and_disabled_owner_preserve_state(self):
         if os.name != "posix":
             self.skipTest("positive attribution store requires POSIX custody")

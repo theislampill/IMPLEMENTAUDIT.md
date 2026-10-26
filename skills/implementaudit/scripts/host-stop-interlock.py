@@ -288,20 +288,37 @@ def load_binding_core(path: Path):
     expected_path = Path(__file__).absolute().parent / "host-session-binding.py"
     if path != expected_path:
         raise InterlockUnavailable("foreign binding source member")
+    nodes = []
     for node in (path, *path.parents):
         info = node.lstat()
         if stat.S_ISLNK(info.st_mode) or getattr(info, "st_file_attributes", 0) & 0x400:
             raise InterlockUnavailable("aliased binding source")
-    fd = os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_BINARY", 0))
+        nodes.append((node, info))
+    selected = nodes[0][1]
+    if not stat.S_ISREG(selected.st_mode) or selected.st_nlink != 1 or selected.st_size > MAX_CORE_BYTES:
+        raise InterlockUnavailable("unsafe binding source")
+
+    def identity(info):
+        return (info.st_dev, info.st_ino, info.st_mode, info.st_nlink,
+                info.st_size, info.st_mtime_ns, info.st_ctime_ns)
+
+    fd = os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0)
+                 | getattr(os, "O_BINARY", 0) | getattr(os, "O_NONBLOCK", 0))
     with os.fdopen(fd, "rb") as handle:
         before = os.fstat(handle.fileno())
-        if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or before.st_size > MAX_CORE_BYTES:
-            raise InterlockUnavailable("unsafe binding source")
+        if identity(before) != identity(selected):
+            raise InterlockUnavailable("binding source changed before capture")
         raw = handle.read(MAX_CORE_BYTES + 1)
         after = os.fstat(handle.fileno())
+        if identity(before) != identity(after) or identity(path.lstat()) != identity(before):
+            raise InterlockUnavailable("binding source changed during capture")
+        for node, observed in nodes[1:]:
+            current = node.lstat()
+            if ((current.st_dev, current.st_ino, current.st_mode) !=
+                    (observed.st_dev, observed.st_ino, observed.st_mode)
+                    or getattr(current, "st_file_attributes", 0) & 0x400):
+                raise InterlockUnavailable("binding source ancestor changed during capture")
     if (len(raw) > MAX_CORE_BYTES or before.st_size != len(raw)
-            or (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns) !=
-               (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns)
             or hashlib.sha256(raw).hexdigest() != BINDING_CORE_SHA256):
         raise InterlockUnavailable("binding source differs from selected owner")
     module = types.ModuleType("r003a_stop_binding_core")
