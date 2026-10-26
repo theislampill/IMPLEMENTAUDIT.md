@@ -5651,6 +5651,10 @@ _R0039_RETAINED_PREDECESSOR_OWNERS_V1 = (
         "claim-run.sh": (22199, "7d257a9b3502a78d458f80bd0c20fe4594b049a93c819aa3bc91de577bfa34af"),
         "claim-run-rotation.py": (259408, "551b1a798161fdd20cb9eebd56fb1d8a0245ec48a74f05b29f6253d8228c49cb"),
     },
+    {
+        "claim-run.sh": (30189, "23b828f298c3f21b86d9f7a2228d74ffb34d67d7b7bedc34ceca2ad754d2cbe7"),
+        "claim-run-rotation.py": (259408, "551b1a798161fdd20cb9eebd56fb1d8a0245ec48a74f05b29f6253d8228c49cb"),
+    },
 )
 
 

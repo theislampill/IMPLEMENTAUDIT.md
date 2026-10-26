@@ -1550,10 +1550,10 @@ def _native_document(data, path, schema):
         raise WorkGraphError(f'{path}: unknown native metadata schema')
     return obj
 
-_NATIVE_STATIC_OWNER_SHA256 = '403f002523254c41b3b1b288aa06459a7fe9515775a2c876393c89b6ac1f83f0'
+_NATIVE_STATIC_OWNER_SHA256 = '543e24cde217d712cc587398fe5ff189565ed0c117bc6ce3141ee648b767acac'
 
 
-_NATIVE_STATIC_OWNER_BYTES = 395754
+_NATIVE_STATIC_OWNER_BYTES = 396921
 
 
 NATIVE_SOURCE_MAX_ENTRIES = 1024
@@ -2046,8 +2046,8 @@ _NATIVE_COMBINED_CURRENT_PAIR_V1 = (
 _NATIVE_SIX_SOURCE_PAIR_V1 = (
     '50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383',
     'd8b046b5417dce13ed66a5ac5fffaf3d18fae40c97d42aef8b38470500d575a6')
-_NATIVE_CONTINUITY_TRANSPORT_SHA256 = '447d6eec38c60215b0e2b9a1f6f69044fb448325258de80f48fc643f78acec6a'
-_NATIVE_CONTINUITY_TRANSPORT_BYTES = 46368
+_NATIVE_CONTINUITY_TRANSPORT_SHA256 = '0c3e00bce07d0f5c58a00777aa40f52bbbf752e29ad8251cf023b4252e2e8c0f'
+_NATIVE_CONTINUITY_TRANSPORT_BYTES = 48446
 
 
 def _native_six_source_transport_v1(owner, claim_raw, validate_raw):
@@ -2343,6 +2343,8 @@ _NATIVE_ROUTE_PRODUCER_PROFILES_V1 = {
     'd060782e690d163e2b0db014be429c64cf976e7b1e8d554113ee8f4843a3b1bb': 376700,
     # Exact recovered historical receiver; native admission remains separate.
     '8ca0ed9e1313ff2e60a89b88e56f7bf1a52bf6f179f70df1b0b18f1dde0346f8': 384034,
+    # DG07 exact original14 recovery receiving and safe binder source pair.
+    '87bce990c85c7db9134c788eb14d9d5d5b38c55091fa47b256396ffc99316bbe': 385106,
     # DG07 exact original14 recovery receiving and safe binder source pair.
     'aa60038b82ec1333e55fb19603df42262665dd671360a224c252145d062f6921': 384881,
 }

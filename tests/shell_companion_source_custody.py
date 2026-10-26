@@ -10,6 +10,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import shlex
 import shutil
 import signal
 import subprocess
@@ -304,6 +305,179 @@ class ShellCompanionSourceCustody(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertNotIn(MARKER.encode(), result.stdout + result.stderr)
         self.assertIn(b"canonical custody substrate source identity mismatch", result.stderr)
+
+    def test_rotation_uses_available_python_before_later_python3_alias(self):
+        selected = self.root / "interpreter-bin"
+        selected.mkdir()
+        (selected / "python3").write_text("#!/usr/bin/env bash\nprintf 'UNSELECTED_PYTHON3_ALIAS\\n'\nexit 79\n")
+        for path in selected.iterdir():
+            path.chmod(0o755)
+        if os.name == "posix":
+            (selected / "python").symlink_to(sys.executable)
+            prefix = str(selected)
+        else:
+            prefix = str(Path(sys.executable).parent) + os.pathsep + str(selected)
+        result = self.invoke(extra_env={"PATH": prefix + os.pathsep + os.environ["PATH"]})
+        self.assertNotIn(b"UNSELECTED_PYTHON3_ALIAS", result.stdout + result.stderr)
+        self.assert_actual_companion(result)
+
+    def interpreter_traps(self):
+        selected = self.root / "installer-traps"
+        selected.mkdir()
+        marker = selected / "INVOKED_INSTALLER"
+        for name in ("python", "python3", "py"):
+            path = selected / name
+            path.write_text("#!/usr/bin/env bash\nprintf invoked > " + shlex.quote(marker.as_posix())
+                            + "\nprintf 'UNQUALIFIED_INSTALLER_INVOKED\\n'\nexit 79\n")
+            path.chmod(0o755)
+        return selected, marker
+
+    def assert_interpreter_refusal(self, result):
+        self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+        self.assertEqual(result.stdout, b"")
+        self.assertIn(b"supported physical Python 3 interpreter is required", result.stderr)
+
+    def test_installer_wrappers_and_launcher_are_refused_without_invocation(self):
+        selected, marker = self.interpreter_traps()
+        result = self.invoke(extra_env={"PATH": str(selected) + os.pathsep + os.environ["PATH"]})
+        self.assertFalse(marker.exists(), "an unqualified interpreter/launcher was invoked")
+        self.assert_interpreter_refusal(result)
+
+    def test_explicit_missing_relative_empty_and_script_interpreters_refuse(self):
+        selected, marker = self.interpreter_traps()
+        for value in ("", "python3", str(selected / "absent"), str(selected / "python")):
+            with self.subTest(value=value):
+                self.assert_interpreter_refusal(self.invoke(extra_env={"IMPLEMENTAUDIT_PYTHON": value}))
+                self.assertFalse(marker.exists())
+
+    def test_explicit_existing_physical_interpreter_executes_exact_companion(self):
+        self.assert_actual_companion(self.invoke(extra_env={"IMPLEMENTAUDIT_PYTHON": sys.executable}))
+
+    @unittest.skipUnless(os.name == "posix", "POSIX genuine python3 fallback")
+    def test_unqualified_python_does_not_mask_genuine_python3(self):
+        selected, marker = self.interpreter_traps()
+        (selected / "python3").unlink()
+        (selected / "python3").symlink_to(sys.executable)
+        self.assert_actual_companion(self.invoke(extra_env={"PATH": str(selected) + os.pathsep + os.environ["PATH"]}))
+        self.assertFalse(marker.exists())
+
+    @unittest.skipUnless(os.name == "nt", "WindowsApps physical-path boundary")
+    def test_windowsapps_candidate_is_refused_even_with_python_pe_metadata(self):
+        path = self.root / "Microsoft/WindowsApps/python.exe"
+        path.parent.mkdir(parents=True)
+        shutil.copyfile(sys.executable, path)
+        self.assert_interpreter_refusal(self.invoke(extra_env={"IMPLEMENTAUDIT_PYTHON": str(path)}))
+
+    @unittest.skipUnless(os.name == "nt", "Windows PE product metadata boundary")
+    def test_foreign_windows_executable_metadata_is_refused(self):
+        path = Path(os.environ["SystemRoot"]) / "System32/cmd.exe"
+        self.assert_interpreter_refusal(self.invoke(extra_env={"IMPLEMENTAUDIT_PYTHON": str(path)}))
+
+    def test_existing_interpreter_venv_remains_supported_without_pip_or_download(self):
+        target = self.root / "venv"
+        created = subprocess.run([sys.executable, "-I", "-S", "-m", "venv", "--without-pip", str(target)],
+                                 capture_output=True, timeout=30)
+        self.assertEqual(created.returncode, 0, created.stdout + created.stderr)
+        interpreter = target / ("Scripts/python.exe" if os.name == "nt" else "bin/python3")
+        self.assert_actual_companion(self.invoke(extra_env={"IMPLEMENTAUDIT_PYTHON": str(interpreter)}))
+
+    @unittest.skipUnless(sys.platform == "linux", "Linux foreign native executable boundary")
+    def test_renamed_foreign_elf_cannot_succeed_at_either_claim_entrypoint(self):
+        foreign = self.root / "foreign/python3.12"
+        foreign.parent.mkdir()
+        shutil.copyfile(shutil.which("true"), foreign)
+        foreign.chmod(0o755)
+        self.assert_interpreter_refusal(self.invoke(extra_env={"IMPLEMENTAUDIT_PYTHON": str(foreign)}))
+        for command in (["git", "init", "-q"], ["git", "-c", "user.name=selector fixture",
+                "-c", "user.email=selector@example.invalid", "-c", "commit.gpgsign=false",
+                "commit", "--allow-empty", "-qm", "disposable selector fixture"]):
+            result = subprocess.run(command, cwd=self.cwd, capture_output=True, timeout=20)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        result = self.invoke(args=["--controller", "foreign-selector", "new ordinary fixture"],
+                             extra_env={"IMPLEMENTAUDIT_PYTHON": str(foreign)})
+        self.assertNotEqual(result.returncode, 0, "unqualified executable reported a successful claim")
+        refs = subprocess.run(["git", "for-each-ref", "--format=%(refname)", "refs/implementaudit/"],
+                              cwd=self.cwd, capture_output=True, check=True)
+        self.assertEqual(refs.stdout, b"")
+
+    @unittest.skipUnless(os.name == "nt", "Windows registered installation boundary")
+    def test_unregistered_copy_of_python_exe_is_not_an_installation(self):
+        path = self.root / "unregistered/python.exe"
+        path.parent.mkdir()
+        shutil.copyfile(sys.executable, path)
+        self.assert_interpreter_refusal(self.invoke(extra_env={"IMPLEMENTAUDIT_PYTHON": str(path)}))
+
+    def test_successful_interpreter_without_controller_effect_is_not_a_successful_claim(self):
+        for command in (["git", "init", "-q"], ["git", "-c", "user.name=postcondition fixture",
+                "-c", "user.email=postcondition@example.invalid", "-c", "commit.gpgsign=false",
+                "commit", "--allow-empty", "-qm", "disposable postcondition fixture"]):
+            result = subprocess.run(command, cwd=self.cwd, capture_output=True, timeout=20)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        shell = self.scripts / "claim-run.sh"
+        original = shell.read_bytes()
+        anchor = b" raise SystemExit(subprocess.run(['git','update-ref',ref,new,old],check=False).returncode)"
+        self.assertEqual(original.count(anchor), 1)
+        marker = self.root / "interpreter-returned-without-effect"
+        replacement = (" open(" + repr(str(marker)) + ", 'w').write('observed no-effect return')\n"
+                       " raise SystemExit(0)").encode()
+        instrumented = original.replace(anchor, replacement)
+        self.assertEqual(instrumented.replace(replacement, anchor), original)
+        shell.write_bytes(instrumented)
+        result = self.invoke(args=["--controller", "postcondition", "new ordinary fixture"],
+                             extra_env={"IMPLEMENTAUDIT_PYTHON": sys.executable})
+        self.assertEqual(marker.read_text(), "observed no-effect return")
+        self.assertNotEqual(result.returncode, 0, "exit zero was mistaken for the absent controller effect")
+        self.assertIn(b"controller ref readback is unverified; retained claim", result.stderr)
+        retained = list((self.cwd / ".IMPLEMENTAUDIT/runs").glob("*/.claimed"))
+        self.assertEqual(len(retained), 1)
+        self.assertTrue(retained[0].with_name(".controller").is_file())
+        refs = subprocess.run(["git", "for-each-ref", "--format=%(refname)", "refs/implementaudit/"],
+                              cwd=self.cwd, capture_output=True, check=True)
+        self.assertEqual(refs.stdout, b"")
+
+    def test_controller_update_ignores_caller_python_modules(self):
+        for command in (["git", "init", "-q"], ["git", "-c", "user.name=import fixture",
+                "-c", "user.email=import@example.invalid", "-c", "commit.gpgsign=false",
+                "commit", "--allow-empty", "-qm", "disposable import fixture"]):
+            result = subprocess.run(command, cwd=self.cwd, capture_output=True, timeout=20)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        marker = self.root / "CALLER_MODULE_EXECUTED"
+        (self.cwd / "subprocess.py").write_text("from pathlib import Path\nPath(" + repr(str(marker))
+            + ").write_text('unselected caller module')\nraise ImportError('controlled caller module')\n")
+        result = self.invoke(args=["--controller", "isolated-import", "new ordinary fixture"],
+                             extra_env={"IMPLEMENTAUDIT_PYTHON": sys.executable})
+        self.assertFalse(marker.exists(), "controller update executed caller-directory code")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        observed = subprocess.run(["git", "rev-parse", "--verify", "refs/implementaudit/controllers/isolated-import"],
+                                  cwd=self.cwd, capture_output=True, check=True)
+        self.assertEqual(len(observed.stdout.strip()), 40)
+
+    def test_actual_controller_write_then_nonzero_retains_unverified_claim(self):
+        for command in (["git", "init", "-q"], ["git", "-c", "user.name=return fixture",
+                "-c", "user.email=return@example.invalid", "-c", "commit.gpgsign=false",
+                "commit", "--allow-empty", "-qm", "disposable return fixture"]):
+            result = subprocess.run(command, cwd=self.cwd, capture_output=True, timeout=20)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        shell = self.scripts / "claim-run.sh"
+        original = shell.read_bytes()
+        anchor = b" raise SystemExit(subprocess.run(['git','update-ref',ref,new,old],check=False).returncode)"
+        self.assertEqual(original.count(anchor), 1)
+        replacement = (b" result=subprocess.run(['git','update-ref',ref,new,old],check=False)\n"
+                       b" raise SystemExit(result.returncode if result.returncode else 17)")
+        instrumented = original.replace(anchor, replacement)
+        self.assertEqual(instrumented.replace(replacement, anchor), original)
+        shell.write_bytes(instrumented)
+        result = self.invoke(args=["--controller", "post-write-failure", "new ordinary fixture"],
+                             extra_env={"IMPLEMENTAUDIT_PYTHON": sys.executable})
+        self.assertNotEqual(result.returncode, 0)
+        observed = subprocess.run(["git", "show", "refs/implementaudit/controllers/post-write-failure"],
+                                  cwd=self.cwd, capture_output=True, check=True)
+        self.assertTrue(observed.stdout.startswith(b"implementaudit.controller-current.v1\tpost-write-failure\t"))
+        retained = list((self.cwd / ".IMPLEMENTAUDIT/runs").glob("*/.claimed"))
+        self.assertEqual(len(retained), 1, "completed controller effect lost its claim evidence")
+        self.assertTrue(retained[0].with_name(".controller").is_file())
+        self.assertIn(observed.stdout.decode().split("\t")[2], retained[0].read_text())
+        self.assertIn(b"retained claim", result.stderr)
 
 
 if __name__ == "__main__":

@@ -386,8 +386,11 @@ def captured_shell_companion(helper, content):
     # reachability evidence, not runtime custody or native admission.
     if helper != "claim-run-rotation.py":
         return False
-    match = re.search(r'(?ms)^  "\$\{rotation_py\[@\]\}" -B -c \'\n(.*?)^\' "\$\(dirname "\$0"\)/claim-run-rotation.py" "\$@"$', content)
-    if match is None or not re.search(r'rotation_py=\((?:python3?|py -3)\)', content):
+    match = re.search(r'(?ms)^  (?:"\$\{rotation_py\[@\]\}"|"\$rotation_py") -B -c \'\n(.*?)^\' "\$\(dirname "\$0"\)/claim-run-rotation.py" "\$@"$', content)
+    legacy_selector = re.search(r'rotation_py=\((?:python3?|py -3)\)', content)
+    physical_selector = (re.search(r'(?m)^select_claim_python\(\) \{$', content)
+                         and re.search(r'(?m)^  rotation_py="\$\(select_claim_python\)" \|\| \{$', content))
+    if match is None or not (legacy_selector or physical_selector):
         return False
     try:
         code = match.group(1)

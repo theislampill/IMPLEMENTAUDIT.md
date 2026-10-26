@@ -2,7 +2,11 @@
 import hashlib
 import importlib.util
 import json
+import os
 from pathlib import Path
+import subprocess
+import sys
+import tempfile
 import time
 import unittest
 
@@ -333,6 +337,149 @@ class ProcessDeliveryCases(unittest.TestCase):
         self.assert_logical_hold_only(held, graph, "PENDING")
         self.assertEqual(held["states"]["PREP"], "DONE")
         self.assertEqual(len(self.case.history()["events"]), 1)
+
+
+class ActualEffectReceivingCases(unittest.TestCase):
+    """Actual disposable R0030 effects into the existing portable graph owner.
+
+    The fixture governor publishes the existing logical-delivery hold. It is
+    not an operational adapter, retry mechanism or native acceptance issuer.
+    """
+    @classmethod
+    def setUpClass(cls):
+        support.CompletionCases.setUpClass()
+
+    def setUp(self):
+        retained = os.environ.get("R0035_ACTUAL_EFFECT_RECEIVING_EVIDENCE")
+        if retained:
+            parent = Path(retained)
+            parent.mkdir(parents=True, exist_ok=True)
+            self.base = Path(tempfile.mkdtemp(prefix=self._testMethodName + "-", dir=parent))
+        else:
+            temporary = tempfile.TemporaryDirectory(prefix="actual-effect-receiving-")
+            self.addCleanup(temporary.cleanup)
+            self.base = Path(temporary.name)
+
+    def producer(self, command):
+        result = subprocess.run(command, cwd=REPO, capture_output=True, timeout=90)
+        (self.base / "producer.stdout").write_bytes(result.stdout)
+        (self.base / "producer.stderr").write_bytes(result.stderr)
+        (self.base / "command.json").write_text(json.dumps(command) + "\n")
+        self.assertEqual(result.returncode, 0, result.stdout.decode() + result.stderr.decode())
+        return result
+
+    def receive(self, raw, subject):
+        before = {str(path.relative_to(subject)): hashlib.sha256(path.read_bytes()).hexdigest()
+                  for path in subject.rglob("*") if path.is_file()}
+        fixture = support.CompletionCases()
+        fixture.setUp()
+        self.addCleanup(fixture.doCleanups)
+        run, consumer = fixture.run, fixture.consumer
+        delivery = "one-disposable-operation-across-new-transaction-ids"
+        report_name = "inputs/actual-mutation-return.json"
+        (run / report_name).write_bytes(raw)
+        for name in ("A", "B"):
+            node = next(row for row in fixture.nodes if row["id"] == name)
+            node["logical_delivery"] = delivery
+            node["reads"].append("path:" + report_name)
+            # Distinct prospective transaction inputs do not erase the hold.
+            (run / "inputs" / name.lower()).write_text("new-transaction-" + name + "\n")
+        fixture.nodes.extend([
+            support.node("PREP", effect="PREPARATION", rank=2, reads=["path:inputs/prep"],
+                         future_consumer=dict(node="JOIN", condition="independent preparation")),
+            support.node("OTHER_ACTIVE", state="ACTIVE"),
+        ])
+        fixture.state["nodes"].extend(["PREP", "OTHER_ACTIVE"])
+        fixture.state["context"]["host_capacity"] = 4
+        next(row for row in fixture.nodes if row["id"] == "JOIN")["optional"] = ["PREP"]
+        (run / "inputs/prep").write_text("independent preparation\n")
+        fixture.write_source()
+        unprojected = consumer.transition()
+        self.assertEqual(unprojected["selected"], ["A", "B", "PREP"])
+        self.assertNotEqual(unprojected["inputs"]["A"], unprojected["inputs"]["B"])
+        # This is an explicit fixture-governor receiving action over the actual
+        # live return. A saved COMMITTED record cannot authorize a new delivery.
+        fixture.state["context"]["outstanding_deliveries"] = [dict(
+            id=delivery, state="UNKNOWN", source_digest=hashlib.sha256(raw).hexdigest())]
+        fixture.state["event"] = dict(id="actual-effect-return-received", kind="REDERIVE", subject="A")
+        fixture.write_source()
+        held = consumer.transition()
+        self.assertEqual(held["selected"], ["PREP"])
+        self.assertEqual(held["active_occupancy"], 1)
+        for name in ("A", "B"):
+            self.assertEqual(held["blocked"][name], ["LOGICAL_DELIVERY_HELD"])
+        self.assertNotIn("A", held["inputs"])
+        self.assertNotIn("B", held["inputs"])
+        self.assertFalse(held["native_dispatch_authorized"])
+        self.assertEqual(held["authority"], "NONE")
+        result = fixture.result(held, "PREP")
+        consumer.accept(held, [result], "JOIN", expected_old=consumer.history_digest)
+        joined = consumer.join("JOIN", expected_old=consumer.history_digest)
+        self.assertEqual(joined["status"], "PENDING")
+        self.assertEqual(joined["missing"], ["A", "B"])
+        successor = consumer.transition()
+        self.assertEqual(successor["states"]["PREP"], "DONE")
+        self.assertEqual(successor["active_occupancy"], 1)
+        self.assertNotEqual(successor["states"]["ROOT"], "DONE")
+        self.assertNotIn("NEXT", successor["selected"])
+        self.assertEqual({str(path.relative_to(subject)): hashlib.sha256(path.read_bytes()).hexdigest()
+                          for path in subject.rglob("*") if path.is_file()}, before)
+        receipt = dict(scope="ACTUAL_DISPOSABLE_EFFECT_TO_PORTABLE_GRAPH_RECEIVING",
+            actual_return_sha256=hashlib.sha256(raw).hexdigest(),
+            helper_sha256=hashlib.sha256((REPO / "skills/implementaudit/scripts/apply-observed-mutation.sh").read_bytes()).hexdigest(),
+            compiler_sha256=hashlib.sha256((REPO / "skills/implementaudit/scripts/compile-work-graph.py").read_bytes()).hexdigest(),
+            unprojected=unprojected, held=held, required_join=joined, successor=successor,
+            effect_subject_unchanged_by_graph=True, native_authority=False,
+            automatic_effect_to_hold_adapter=False, original_issue_acceptance=False)
+        (self.base / "RECEIVING.json").write_text(json.dumps(receipt, indent=2) + "\n")
+
+    def test_lost_batch_return_preserves_prefix_and_holds_both_new_deliveries(self):
+        evidence = self.base / "batch"
+        self.producer(["bash", str(REPO / "tests/observation-bound-mutation-integrity.test.sh"),
+            "--replacement-batch-apply-heldouts", str(evidence), "DISPATCH_EXCEPTION_AFTER_RETURN"])
+        commands = json.loads((evidence / "commands.json").read_bytes())
+        selected = [row for row in commands if "--batch-apply" in row["argv"]]
+        self.assertEqual(len(selected), 1)
+        self.assertEqual(selected[0]["returncode"], 78)
+        raw = (evidence / selected[0]["stdout"]["path"]).read_bytes()
+        self.assertEqual(hashlib.sha256(raw).hexdigest(), selected[0]["stdout"]["sha256"])
+        report = json.loads(raw)
+        self.assertEqual((report["status"], report["completed_rows"], report["attempted_rows"]),
+                         ("UNKNOWN", 1, 2))
+        self.assertEqual(report["rows"][1]["disposition"], "UNKNOWN")
+        self.assertIsNone(report["rows"][1]["dispatch_started"])
+        self.assertIsNone(report["rows"][1]["decoded_result"])
+        self.assertEqual(report["rows"][2]["disposition"], "NEVER_STARTED")
+        self.assertIs(report["rows"][2]["dispatch_started"], False)
+        self.assertFalse(report["aggregate_durable_receipt"])
+        case = evidence / "DISPATCH_EXCEPTION_AFTER_RETURN"
+        self.assertEqual(json.loads((case / "PREFIX-BEFORE-SECOND.json").read_bytes()),
+                         json.loads((case / "PREFIX-AFTER-SECOND.json").read_bytes()))
+        self.assertEqual((case / "repository/row-a").read_bytes(), b"row-a REPLACED\n")
+        self.assertEqual((case / "repository/row-b").read_bytes(), b"row-b REPLACED\n")
+        self.assertEqual((case / "repository/row-c").read_bytes(), b"row-c ORIGINAL\n")
+        self.receive(raw, case / "repository")
+
+    def test_later_result_fsync_failure_does_not_erase_effect_or_release_delivery(self):
+        evidence = self.base / "persistence"
+        self.producer([sys.executable, "-B", str(REPO / "tests/distributed_generation_fence.py"),
+            "--case", "ordinary-final-result-dir-sync", "--evidence-dir", str(evidence)])
+        cases = list(evidence.glob("d48-fence-*/ordinary-final-result-dir-sync"))
+        self.assertEqual(len(cases), 1)
+        case = cases[0]
+        raw = (case / "sink.out").read_bytes()
+        live = json.loads(raw)
+        self.assertEqual((live["status"], live["reason_code"]),
+                         ("ROLLBACK_FAILED_WITH_RESIDUE", "RESULT_PERSISTENCE_FAILURE"))
+        self.assertEqual((case / "repo/target").read_bytes(), b"CURRENT\n")
+        saved = list((case / "repo/.IMPLEMENTAUDIT/runs").glob("*/mutation-transactions/*/result.json"))
+        self.assertEqual(len(saved), 1)
+        retained = json.loads(saved[0].read_bytes())
+        self.assertEqual(retained["status"], "COMMITTED")
+        self.assertEqual(live["actual_effect_set"][:len(retained["actual_effect_set"])],
+                         retained["actual_effect_set"])
+        self.assertTrue(live["residue"])
+        self.receive(raw, case / "repo")
 
 
 if __name__ == "__main__":

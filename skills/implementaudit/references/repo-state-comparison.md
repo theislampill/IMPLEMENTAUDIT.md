@@ -730,3 +730,36 @@ This historical link read does not settle an active route, pending audit or H0
 binding obligation; their existing accepting consumers remain required.
 
 helper-mode: claim-run.sh|--resolve-retained-continuity-predecessor|<controller> --receipt <receipt-token> --expected-current <current-receipt-token>|historical-link-only
+
+Claim-owner Python selection is shared by ordinary controller updates and
+rotation. It checks physical `python`, then `python3`, before invocation;
+`IMPLEMENTAUDIT_PYTHON` selects one absolute path through the same checks.
+Script shims, WindowsApps/manager aliases and the `py` launcher are not runtime
+proof and are never invoked to discover or install an interpreter. The supported
+Linux path requires the same physical native Python 3 binary as an existing
+`/usr/bin`, `/usr/local/bin` or `/bin` installation reference with root-owned,
+non-group/world-writable physical custody; a renamed ELF
+elsewhere is refused. Windows uses the existing OS
+PowerShell executable to read Python 3 PE version metadata without loading the
+candidate and binds it to a PythonCore registered installation. Venv launchers
+must match that installation's exact launcher template and configured home.
+Unavailable metadata tooling or an ambiguous candidate fails closed.
+Each selected Python version still requires its own source qualification.
+Controller-ref updates independently read back the exact expected new ref value
+after a successful interpreter return; exit zero alone cannot publish a claim.
+Their Python startup is isolated from caller-directory and Python environment
+imports while retaining the selected installation's ordinary standard library.
+Once interpreter dispatch is attempted, a nonzero or lost return or unverified
+post-readback retains the new claim evidence and fails. Only verified success
+clears that uncertainty; pre-attempt refusals retain their existing handling.
+No run that may already have been published is deleted or automatically retried.
+The existing Linux continuity transport's exact readonly private wrapper is
+also accepted only with its fixed `-I -S -B` body and an underlying binary whose
+physical identity matches a qualified host Python 3 executable. This preserves
+the transport's isolation and never admits arbitrary script wrappers.
+Its existing user namespace can remap host ownership IDs; that route retains
+the transport's sealed readonly custody checks instead of inventing UID identity.
+The checks use the shell host's `readlink`, `od`, `tr`, `cmp`, Linux `stat` and Windows `cygpath`
+utilities. They install nothing and do not authenticate native host effects or
+defend against arbitrary same-principal replacement of trusted host executables
+or their installation registrations.

@@ -51,13 +51,14 @@ class CompositeSourceCases(unittest.TestCase):
         self.assertEqual(retained["materialized_path"], "skills/implementaudit/scripts/claim-run-rotation.py")
         self.assertNotIn(retained["materialized_path"], [row["path"] for row in manifest["frozen_core_dependencies"]])
         transport = load("retained_core_transport", ROOT / "scripts/work-graph-continuity-transport.py")
-        profile = transport.SOURCE_PROFILES_V1["composite-20261026-core-binder-v1"]
+        profile = transport.SOURCE_PROFILES_V1["composite-20261026-core-python-selection-v1"]
         observed = tuple((name, len((CORE / name).read_bytes()),
                           hashlib.sha256((CORE / name).read_bytes()).hexdigest(), mode)
                          for name, _, _, mode in profile)
         self.assertEqual(observed, profile)
         self.assertNotEqual(profile, transport.SOURCE_PROFILES_V1["composite-20261025-core-posix-reads"])
         self.assertNotEqual(profile, transport.SOURCE_PROFILES_V1["composite-20261025-core-retained-history-v1"])
+        self.assertNotEqual(profile, transport.SOURCE_PROFILES_V1["composite-20261026-core-binder-v1"])
 
     def test_retained_native_profile_refuses_new_history_api_before_dispatch(self):
         peer = ROOT / "source-peers/route-graph/skills/implementaudit/scripts"
@@ -272,6 +273,11 @@ else:
         changed = source.replace('exec(compile(raw, str(path), "exec",', 'exec\n(compile(raw, str(path), "exec",')
         self.assertNotEqual(changed, source)
         self.assertFalse(check("claim-run-rotation.py", changed))
+        for old, new in (("select_claim_python() {", "unbound_selector() {"),
+                         ('rotation_py="$(select_claim_python)" || {', 'rotation_py="$(foreign_selector)" || {')):
+            changed = source.replace(old, new)
+            self.assertNotEqual(changed, source)
+            self.assertFalse(check("claim-run-rotation.py", changed))
 
     def test_current_pending_fixture_profile_is_exact_and_still_refuses_native_reservation(self):
         fixture = load("composite_pending_fixture", ROOT / "tests/cognition-pending-durability.py")
@@ -423,6 +429,35 @@ else:
                 policy.write_bytes(policy.read_bytes() + b"\n")
                 with self.assertRaisesRegex(graph.WorkGraphError, "dependency is unavailable or mismatched"):
                     graph._native_route_scope_module_v1()
+
+    def test_both_current_compilers_load_exact_transport_and_refuse_substitution(self):
+        peer = ROOT / "source-peers/route-graph/skills/implementaudit/scripts"
+        transport = (ROOT / "scripts/work-graph-continuity-transport.py").read_bytes()
+        for source in (CORE, peer):
+            with self.subTest(source=source), tempfile.TemporaryDirectory(prefix="current-transport-loader-") as temporary:
+                target = Path(temporary)
+                scripts = target / "skills/implementaudit/scripts"
+                shutil.copytree(CORE, scripts, ignore=shutil.ignore_patterns("__pycache__"))
+                shutil.copy2(source / "compile-work-graph.py", scripts / "compile-work-graph.py")
+                (target / "scripts").mkdir()
+                for name in ("operational-evidence.py", "operational_query_policy.py", "work-graph-continuity-transport.py"):
+                    shutil.copy2(ROOT / "scripts" / name, target / "scripts" / name)
+                graph = load("current_transport_graph", scripts / "compile-work-graph.py")
+                owner, _, _ = graph._native_static_owner_module_v1()
+                claim, validate = [(scripts / name).read_bytes() for name in ("claim-run.sh", "validate-run-root.sh")]
+                adapter, sources, _ = graph._native_six_source_transport_v1(owner, claim, validate)
+                self.assertEqual(Path(adapter.__file__), target / "scripts/work-graph-continuity-transport.py")
+                self.assertEqual(sources[0][1], claim)
+                self.assertEqual(len(sources), 8)
+                self.assertEqual(graph._NATIVE_CONTINUITY_TRANSPORT_SHA256, hashlib.sha256(transport).hexdigest())
+                self.assertEqual(graph._NATIVE_CONTINUITY_TRANSPORT_BYTES, len(transport))
+                marker = target / "UNSELECTED_TRANSPORT_EXECUTED"
+                changed = transport + ("\nfrom pathlib import Path\nPath(" + repr(str(marker))
+                                       + ").write_text('unselected')\n").encode()
+                (target / "scripts/work-graph-continuity-transport.py").write_bytes(changed)
+                with self.assertRaisesRegex(graph.WorkGraphError, "native continuity transport source identity changed"):
+                    graph._native_six_source_transport_v1(owner, claim, validate)
+                self.assertFalse(marker.exists())
 
     def test_overlay_retains_lifecycle_record_interface(self):
         result = subprocess.run([shutil.which("bash"), (PEER / "validate-run-root.sh").as_posix(),

@@ -4,6 +4,145 @@
 set -u
 
 base="${IMPLEMENTAUDIT_BASE:-.IMPLEMENTAUDIT/runs}"
+controller_ref_readback_uncertain=0
+
+claim_posix_python_reference() {
+  local selected="$1" reference leaf="${1##*/}"
+  [[ "$leaf" =~ ^python3(\.[0-9]+)?[tdm]?$ ]] || return 1
+  # Identity must come from an existing host installation, not a caller's
+  # renamed ELF file. Venv symlinks retain the installed binary identity.
+  for reference in "/usr/bin/$leaf" "/usr/local/bin/$leaf" "/bin/$leaf" \
+                   /usr/bin/python3 /usr/local/bin/python3 /bin/python3; do
+    [ -f "$reference" ] && [ -x "$reference" ] && [ "$selected" -ef "$reference" ] && return 0
+  done
+  return 1
+}
+
+select_claim_python() {
+  # Inspect executable identity before invocation: launcher/version probes can
+  # themselves install a runtime. This is selection, not native authority.
+  local candidates=() name candidate resolved lower magic native system_root powershell host bash_image cursor owner mode
+  if [ "${IMPLEMENTAUDIT_PYTHON+x}" = x ]; then
+    [ -n "$IMPLEMENTAUDIT_PYTHON" ] || return 1
+    candidates=("$IMPLEMENTAUDIT_PYTHON")
+  else
+    for name in python python3; do
+      candidate="$(type -P "$name")" || continue
+      candidates+=("$candidate")
+    done
+  fi
+  for candidate in "${candidates[@]}"; do
+    case "$candidate" in /*|[A-Za-z]:[/\\]*) ;; *) continue ;; esac
+    case "${OSTYPE:-}" in
+      msys*|cygwin*) candidate="$(cygpath -u "$candidate")" || continue ;;
+    esac
+    resolved="$(readlink -f -- "$candidate" 2>/dev/null)" || continue
+    [ -f "$resolved" ] && [ -s "$resolved" ] && [ -x "$resolved" ] || continue
+    lower="$(printf '%s' "$resolved" | LC_ALL=C tr '[:upper:]' '[:lower:]')" || continue
+    case "$lower" in */windowsapps/*|*/py.exe|*/py-manager.exe|*/pymanager.exe) continue ;; esac
+    magic="$(LC_ALL=C od -An -tx1 -N4 -- "$resolved" 2>/dev/null)" || continue
+    magic="${magic//[[:space:]]/}"
+    case "${OSTYPE:-}" in
+      msys*|cygwin*)
+        case "$magic" in 4d5a*) ;; *) continue ;; esac
+        native="$(cygpath -aw "$resolved")" || continue
+        system_root="${SystemRoot:-${SYSTEMROOT:-}}"
+        [ -n "$system_root" ] || continue
+        powershell="$(cygpath -u "$system_root/System32/WindowsPowerShell/v1.0/powershell.exe")" || continue
+        [ -f "$powershell" ] && [ -x "$powershell" ] || continue
+        IMPLEMENTAUDIT_PYTHON_CANDIDATE="$native" MSYS2_ARG_CONV_EXCL='*' "$powershell" \
+          -NoLogo -NoProfile -NonInteractive -Command '
+$ErrorActionPreference = "Stop"
+try {
+  $item = [IO.FileInfo]::new($env:IMPLEMENTAUDIT_PYTHON_CANDIDATE)
+  if (-not $item.Exists -or ($item.Attributes -band [IO.FileAttributes]::ReparsePoint)) { exit 1 }
+  $v = [Diagnostics.FileVersionInfo]::GetVersionInfo($item.FullName)
+  if ($v.ProductName -cne "Python" -or $v.FileDescription -cne "Python" -or $v.ProductMajorPart -ne 3) { exit 1 }
+  $tag = "$($v.ProductMajorPart).$($v.ProductMinorPart)"
+  $registered = @()
+  foreach ($hive in @([Microsoft.Win32.Registry]::CurrentUser, [Microsoft.Win32.Registry]::LocalMachine)) {
+    foreach ($prefix in @("Software\Python\PythonCore", "Software\WOW6432Node\Python\PythonCore")) {
+      foreach ($version in @($tag, "$tag-32", "$tag-64")) {
+        $key = $hive.OpenSubKey("$prefix\$version\InstallPath", $false)
+        if ($null -eq $key) { continue }
+        try {
+          $pythonHome = $key.GetValue("")
+          if ($pythonHome -isnot [string] -or -not [IO.Path]::IsPathRooted($pythonHome)) { continue }
+          $exe = $key.GetValue("ExecutablePath", [IO.Path]::Combine($pythonHome, "python.exe"))
+          if ($exe -isnot [string] -or -not [IO.Path]::IsPathRooted($exe)) { continue }
+          if ($item.FullName -ieq [IO.Path]::GetFullPath($exe)) { exit 0 }
+          $registered += [IO.Path]::GetFullPath($pythonHome).TrimEnd([IO.Path]::DirectorySeparatorChar)
+        } finally { $key.Dispose() }
+      }
+    }
+  }
+  # A venv launcher is admitted only against an installed Python template and
+  # that installation home; arbitrary copied or metadata-forged PEs refuse.
+  if ($item.Name -ine "python.exe" -or $item.Directory.Name -ine "Scripts") { exit 1 }
+  $config = [IO.FileInfo]::new([IO.Path]::Combine($item.Directory.Parent.FullName, "pyvenv.cfg"))
+  if (-not $config.Exists -or $config.Length -gt 8192 -or ($config.Attributes -band [IO.FileAttributes]::ReparsePoint)) { exit 1 }
+  $stream = $config.OpenRead()
+  try { $buffer = New-Object byte[] 8193; $count = $stream.Read($buffer, 0, $buffer.Length) } finally { $stream.Dispose() }
+  if ($count -ne $config.Length -or $count -gt 8192) { exit 1 }
+  $homes = [regex]::Matches([Text.Encoding]::UTF8.GetString($buffer, 0, $count), "(?m)^home\s*=\s*([^\r\n]+)\r?$")
+  if ($homes.Count -ne 1) { exit 1 }
+  $pythonHome = [IO.Path]::GetFullPath($homes[0].Groups[1].Value.Trim()).TrimEnd([IO.Path]::DirectorySeparatorChar)
+  if ($registered -inotcontains $pythonHome) { exit 1 }
+  $template = [IO.FileInfo]::new([IO.Path]::Combine($pythonHome, "Lib\venv\scripts\nt\python.exe"))
+  if (-not $template.Exists -or $template.Length -ne $item.Length -or $item.Length -gt 1048576) { exit 1 }
+  $hash = [Security.Cryptography.SHA256]::Create()
+  try {
+    $a = $item.OpenRead(); try { $actual = [BitConverter]::ToString($hash.ComputeHash($a)) } finally { $a.Dispose() }
+    $b = $template.OpenRead(); try { $expected = [BitConverter]::ToString($hash.ComputeHash($b)) } finally { $b.Dispose() }
+  } finally { $hash.Dispose() }
+  if ($actual -cne $expected) { exit 1 }
+} catch { exit 1 }
+exit 0' >/dev/null 2>&1 || continue
+        ;;
+      *)
+        # Receive the existing continuity transport's exact readonly startup
+        # wrapper. Preserve -I/-S/-B rather than bypassing its private closure.
+        case "$resolved" in /implementaudit-python/python|/implementaudit-python/python3)
+          [ ! -w "$resolved" ] && [ ! -w /implementaudit-python ] || continue
+          [ -f /implementaudit-python/cpython ] && [ ! -L /implementaudit-python/cpython ] \
+            && [ ! -w /implementaudit-python/cpython ] || continue
+          bash_image="$(readlink -f -- "$BASH")" || continue
+          cmp -s -- "$resolved" <(printf '#!%s\nexec /implementaudit-python/cpython -I -S -B "$@"\n' "$bash_image") || continue
+          for name in python3 python; do
+            while IFS= read -r host; do
+              host="$(readlink -f -- "$host" 2>/dev/null)" || continue
+              claim_posix_python_reference "$host" || continue
+              [ /implementaudit-python/cpython -ef "$host" ] || continue
+              magic="$(LC_ALL=C od -An -tx1 -N4 -- "$host" 2>/dev/null)" || continue
+              magic="${magic//[[:space:]]/}"
+              case "$magic" in 7f454c46)
+                printf '%s\n' "$resolved"
+                return 0 ;;
+              esac
+            done < <(type -aP "$name")
+          done
+          continue ;;
+        esac
+        # Venv/system symlinks resolve to the actual versioned interpreter;
+        # script shims and unversioned/foreign executables remain unqualified.
+        claim_posix_python_reference "$resolved" || continue
+        cursor="$resolved"
+        while :; do
+          read -r owner mode < <(stat -c '%u %a' -- "$cursor" 2>/dev/null) || break
+          [ "$owner" = 0 ] && [[ "$mode" =~ ^[0-7]+$ ]] && (( (8#$mode & 0022) == 0 )) || break
+          [ "$cursor" != / ] || break
+          cursor="$(dirname "$cursor")" || break
+        done
+        [ "$cursor" = / ] && [ "$owner" = 0 ] && [[ "$mode" =~ ^[0-7]+$ ]] \
+          && (( (8#$mode & 0022) == 0 )) || continue
+        case "$magic" in 7f454c46) ;; *) continue ;; esac
+        ;;
+    esac
+    printf '%s\n' "$resolved"
+    return 0
+  done
+  return 1
+}
 
 reject_coordination_reparse() {
   local candidate="$1"
@@ -19,12 +158,11 @@ reject_coordination_reparse() {
 }
 
 update_controller_ref() {
-  local py=()
-  if command -v python >/dev/null 2>&1; then py=(python)
-  elif command -v python3 >/dev/null 2>&1; then py=(python3)
-  elif command -v py >/dev/null 2>&1; then py=(py -3)
-  else return 1; fi
-  "${py[@]}" - "$gate" "$1" "$2" "$3" <<'PY'
+  controller_ref_readback_uncertain=0
+  local py
+  py="$(select_claim_python)" || return 1
+  controller_ref_readback_uncertain=1
+  "$py" -I -B - "$gate" "$1" "$2" "$3" <<'PY'
 import errno,os,stat,subprocess,sys,time
 if os.name=='nt': import msvcrt
 else: import fcntl
@@ -51,6 +189,15 @@ finally:
   else: fcntl.flock(fd,fcntl.LOCK_UN)
  finally: os.close(fd)
 PY
+  local python_result=$? observed
+  [ "$python_result" -eq 0 ] || return "$python_result"
+  # A successful interpreter return is not evidence that the ref was written.
+  if observed="$(git rev-parse --verify "$1" 2>/dev/null)" && [ "$observed" = "$2" ]; then
+    controller_ref_readback_uncertain=0
+    return 0
+  fi
+  controller_ref_readback_uncertain=1
+  return 1
 }
 
 canonical_generation() {
@@ -175,14 +322,14 @@ controller_io() {
 # The companion is the existing claim owner implementation. Exit 3 means only
 # physical absence of both migration authorities; every other refusal is final.
 rotation_io() {
-  local rotation_py=()
-  if command -v python3 >/dev/null 2>&1; then rotation_py=(python3)
-  elif command -v python >/dev/null 2>&1; then rotation_py=(python)
-  elif command -v py >/dev/null 2>&1; then rotation_py=(py -3)
-  else printf 'claim-run.sh: Python 3 is required for generation currentness\n' >&2; return 1; fi
+  local rotation_py
+  rotation_py="$(select_claim_python)" || {
+    printf 'claim-run.sh: a supported physical Python 3 interpreter is required; set IMPLEMENTAUDIT_PYTHON to its absolute path\n' >&2
+    return 1
+  }
   # Select the companion before any of its code can run. These literals belong
   # to this shell source; a new companion requires a reviewed paired binding.
-  "${rotation_py[@]}" -B -c '
+  "$rotation_py" -B -c '
 import sys
 script_import_path = bool(sys.path and sys.path[0] == "")
 if script_import_path:
@@ -412,6 +559,10 @@ if [ -n "$controller" ]; then
     rm -f "$run_root/.claimed"; rmdir "$run_root" 2>/dev/null; exit 1
   }
   controller_io bind "$controller" "$supersede" "$run_root" || {
+    if [ "$controller_ref_readback_uncertain" = 1 ]; then
+      printf "claim-run.sh: controller ref readback is unverified; retained claim: '%s'\n" "$run_root" >&2
+      exit 1
+    fi
     rm -f "$run_root/.controller" "$run_root/.claimed"; rmdir "$run_root" 2>/dev/null; exit 1
   }
 fi
