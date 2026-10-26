@@ -51,7 +51,7 @@ class CompositeSourceCases(unittest.TestCase):
         self.assertEqual(retained["materialized_path"], "skills/implementaudit/scripts/claim-run-rotation.py")
         self.assertNotIn(retained["materialized_path"], [row["path"] for row in manifest["frozen_core_dependencies"]])
         transport = load("retained_core_transport", ROOT / "scripts/work-graph-continuity-transport.py")
-        profile = transport.SOURCE_PROFILES_V1["composite-20261026-core-python-selection-v1"]
+        profile = transport.SOURCE_PROFILES_V1["composite-20261026-core-cas-phases-v1"]
         observed = tuple((name, len((CORE / name).read_bytes()),
                           hashlib.sha256((CORE / name).read_bytes()).hexdigest(), mode)
                          for name, _, _, mode in profile)

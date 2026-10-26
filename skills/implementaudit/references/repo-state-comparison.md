@@ -749,9 +749,12 @@ Controller-ref updates independently read back the exact expected new ref value
 after a successful interpreter return; exit zero alone cannot publish a claim.
 Their Python startup is isolated from caller-directory and Python environment
 imports while retaining the selected installation's ordinary standard library.
-Once interpreter dispatch is attempted, a nonzero or lost return or unverified
-post-readback retains the new claim evidence and fails. Only verified success
-clears that uncertainty; pre-attempt refusals retain their existing handling.
+The existing ref owner uses Git's explicit start/prepare/commit transaction.
+When prepare fails, the owner closes and reaps that native process without
+ever sending commit. Only its exact ref/new/old-bound no-commit result permits
+cleanup of the unpublished losing claim. A generic nonzero or lost return,
+failure after commit submission, or unverified post-readback retains the new
+claim evidence and fails; pre-attempt refusals retain their existing handling.
 No run that may already have been published is deleted or automatically retried.
 The existing Linux continuity transport's exact readonly private wrapper is
 also accepted only with its fixed `-I -S -B` body and an underlying binary whose

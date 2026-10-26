@@ -1905,6 +1905,17 @@ _NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
     ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 420),
     ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
 ),)
+# CAS phase owner; prior source profiles remain unchanged.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 31259, 'a3ecb4d56f8b12fcfc7237906f6547bd2205b1c04cf1c843d2782c86c67ee798', 420),
+    ('validate-run-root.sh', 113863, '66c0f6d3df8c0f1702864055f3fcc4ee3cf5403982de81fba71389cdc5860283', 420),
+    ('claim-run-rotation.py', 259408, '551b1a798161fdd20cb9eebd56fb1d8a0245ec48a74f05b29f6253d8228c49cb', 420),
+    ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+),)
 _NATIVE_LEGACY_CONTINUITY_PAIRS_V1 = (
     ('07e09843b2831149dc43e5f0dc458e82ae5cf9614b116393ac774ddea19390c7',
      'fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5'),
@@ -1926,6 +1937,7 @@ _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1 = {
     '447d6eec38c60215b0e2b9a1f6f69044fb448325258de80f48fc643f78acec6a': 46368,
     # Exact DG07 profile addition; retained transports remain historical.
     '0c3e00bce07d0f5c58a00777aa40f52bbbf752e29ad8251cf023b4252e2e8c0f': 48446,
+    '174553905a3f18929dfa08ce35a557feceb9d381b2661ea18a9f50b6fc9de5c2': 49494,
     # Exact DG07 profile addition; retained transports remain historical.
     'd1ccf5b3507c63c2586828a74d3a33dd7513ef2c3dbe3618b9a54a329f61acaf': 47400,
 }

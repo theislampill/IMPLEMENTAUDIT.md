@@ -415,11 +415,11 @@ class ShellCompanionSourceCustody(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         shell = self.scripts / "claim-run.sh"
         original = shell.read_bytes()
-        anchor = b" raise SystemExit(subprocess.run(['git','update-ref',ref,new,old],check=False).returncode)"
+        anchor = b" with subprocess.Popen(['git','update-ref','--stdin'],stdin=subprocess.PIPE,stdout=subprocess.PIPE) as transaction:"
         self.assertEqual(original.count(anchor), 1)
         marker = self.root / "interpreter-returned-without-effect"
         replacement = (" open(" + repr(str(marker)) + ", 'w').write('observed no-effect return')\n"
-                       " raise SystemExit(0)").encode()
+                       " raise SystemExit(0)\n" + anchor.decode()).encode()
         instrumented = original.replace(anchor, replacement)
         self.assertEqual(instrumented.replace(replacement, anchor), original)
         shell.write_bytes(instrumented)
@@ -452,7 +452,47 @@ class ShellCompanionSourceCustody(unittest.TestCase):
                                   cwd=self.cwd, capture_output=True, check=True)
         self.assertEqual(len(observed.stdout.strip()), 40)
 
+    def test_controller_cas_loser_cleans_only_its_unpublished_claim(self):
+        for command in (["git", "init", "-q"], ["git", "-c", "user.name=CAS fixture",
+                "-c", "user.email=cas@example.invalid", "-c", "commit.gpgsign=false",
+                "commit", "--allow-empty", "-qm", "disposable CAS fixture"]):
+            result = subprocess.run(command, cwd=self.cwd, capture_output=True, timeout=20)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        initial = self.invoke(args=["--controller", "cas-loser", "initial fixture"],
+                              extra_env={"IMPLEMENTAUDIT_PYTHON": sys.executable})
+        self.assertEqual(initial.returncode, 0, initial.stdout + initial.stderr)
+        claim = next((self.cwd / ".IMPLEMENTAUDIT/runs").glob("*/.claimed"))
+        claim_id = next(line.removeprefix("claim_id=") for line in claim.read_text().splitlines()
+                        if line.startswith("claim_id="))
+        competing = subprocess.check_output(["git", "hash-object", "-w", "--stdin"],
+                                            input=b"concurrent CAS fixture\n", cwd=self.cwd).strip().decode()
+        shell = self.scripts / "claim-run.sh"
+        original = shell.read_bytes()
+        anchor = b" if unsafe(current) or (current.st_dev,current.st_ino)!=(opened.st_dev,opened.st_ino): raise SystemExit(1)\n"
+        self.assertEqual(original.count(anchor), 1)
+        # Move the real ref after the shell captured its expected old OID.
+        # This is a Git CAS control; the opaque competing blob claims no authority.
+        insertion = (" subprocess.run(['git','update-ref',ref," + repr(competing)
+                     + ",old],check=True)\n").encode()
+        shell.write_bytes(original.replace(anchor, anchor + insertion))
+        result = self.invoke(args=["--controller", "cas-loser", "--supersede-claim", claim_id,
+                                   "losing fixture"], extra_env={"IMPLEMENTAUDIT_PYTHON": sys.executable})
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn(b"cannot lock ref", result.stderr)
+        observed = subprocess.check_output(["git", "rev-parse", "refs/implementaudit/controllers/cas-loser"],
+                                            cwd=self.cwd).strip().decode()
+        self.assertEqual(observed, competing)
+        self.assertEqual(list((self.cwd / ".IMPLEMENTAUDIT/runs").iterdir()), [claim.parent],
+                         "proved losing CAS retained a plausible unpublished run root")
+        self.assertTrue(claim.is_file(), "losing contender changed the original claim")
+
     def test_actual_controller_write_then_nonzero_retains_unverified_claim(self):
+        self.assert_post_write_failure_retains_claim(lost_ack=False)
+
+    def test_actual_controller_write_then_lost_commit_ack_retains_unverified_claim(self):
+        self.assert_post_write_failure_retains_claim(lost_ack=True)
+
+    def assert_post_write_failure_retains_claim(self, *, lost_ack):
         for command in (["git", "init", "-q"], ["git", "-c", "user.name=return fixture",
                 "-c", "user.email=return@example.invalid", "-c", "commit.gpgsign=false",
                 "commit", "--allow-empty", "-qm", "disposable return fixture"]):
@@ -460,10 +500,10 @@ class ShellCompanionSourceCustody(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         shell = self.scripts / "claim-run.sh"
         original = shell.read_bytes()
-        anchor = b" raise SystemExit(subprocess.run(['git','update-ref',ref,new,old],check=False).returncode)"
+        anchor = b"  raise SystemExit(0 if committed==b'commit: ok\\n' and transaction.returncode==0 else 1)"
         self.assertEqual(original.count(anchor), 1)
-        replacement = (b" result=subprocess.run(['git','update-ref',ref,new,old],check=False)\n"
-                       b" raise SystemExit(result.returncode if result.returncode else 17)")
+        replacement = ((b"  committed=b''\n" + anchor) if lost_ack else
+                       b"  raise SystemExit(transaction.returncode if transaction.returncode else 17)")
         instrumented = original.replace(anchor, replacement)
         self.assertEqual(instrumented.replace(replacement, anchor), original)
         shell.write_bytes(instrumented)

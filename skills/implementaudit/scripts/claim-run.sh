@@ -159,10 +159,10 @@ reject_coordination_reparse() {
 
 update_controller_ref() {
   controller_ref_readback_uncertain=0
-  local py
+  local py update_result
   py="$(select_claim_python)" || return 1
   controller_ref_readback_uncertain=1
-  "$py" -I -B - "$gate" "$1" "$2" "$3" <<'PY'
+  update_result="$("$py" -I -B - "$gate" "$1" "$2" "$3" <<'PY'
 import errno,os,stat,subprocess,sys,time
 if os.name=='nt': import msvcrt
 else: import fcntl
@@ -182,15 +182,36 @@ try:
  else: fcntl.flock(fd,fcntl.LOCK_EX)
  current=os.lstat(gate)
  if unsafe(current) or (current.st_dev,current.st_ino)!=(opened.st_dev,opened.st_ino): raise SystemExit(1)
- raise SystemExit(subprocess.run(['git','update-ref',ref,new,old],check=False).returncode)
+ # The gate is worktree-local; Git's prepare phase arbitrates shared refs.
+ # An explicit transaction aborts on EOF unless this owner sends commit.
+ with subprocess.Popen(['git','update-ref','--stdin'],stdin=subprocess.PIPE,stdout=subprocess.PIPE) as transaction:
+  transaction.stdin.write(('start\nupdate '+ref+' '+new+' '+old+'\nprepare\n').encode('ascii'))
+  transaction.stdin.flush()
+  if transaction.stdout.readline(64)!=b'start: ok\n': raise SystemExit(1)
+  prepared=transaction.stdout.readline(64)
+  if prepared!=b'prepare: ok\n':
+   transaction.stdin.close()
+   result=transaction.wait()
+   if prepared==b'' and result!=0:
+    # Exact owner result: the native process ended and no commit was sent.
+    print('NO_COMMIT\t'+ref+'\t'+new+'\t'+old)
+    raise SystemExit(0)
+   raise SystemExit(1)
+  committed,_=transaction.communicate(b'commit\n')
+  raise SystemExit(0 if committed==b'commit: ok\n' and transaction.returncode==0 else 1)
 finally:
  try:
   if os.name=='nt': os.lseek(fd,0,os.SEEK_SET); msvcrt.locking(fd,msvcrt.LK_UNLCK,1)
   else: fcntl.flock(fd,fcntl.LOCK_UN)
  finally: os.close(fd)
 PY
+  )"
   local python_result=$? observed
-  [ "$python_result" -eq 0 ] || return "$python_result"
+  if [ "$python_result" -eq 0 ] && [ "$update_result" = "$(printf 'NO_COMMIT\t%s\t%s\t%s' "$1" "$2" "$3")" ]; then
+    controller_ref_readback_uncertain=0
+    return 1
+  fi
+  [ "$python_result" -eq 0 ] && [ -z "$update_result" ] || return 1
   # A successful interpreter return is not evidence that the ref was written.
   if observed="$(git rev-parse --verify "$1" 2>/dev/null)" && [ "$observed" = "$2" ]; then
     controller_ref_readback_uncertain=0
