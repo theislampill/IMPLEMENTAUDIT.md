@@ -155,7 +155,7 @@ registry executions never become reusable successes. All three selected leaves
 are consumed and their exits aggregated; this finite scope makes no canonical
 shared-shell fail-fast claim.
 
-The registry node is index 112 of the original 117-node mapping, outside the
+On the original 117-node fixture, the registry node is index 112, outside the
 first 23 nodes. This profile selects three nodes and omits 114. Its union with
 the separately qualified prefix23 covers 24 distinct original nodes, leaving
 93 outside that union; the two default leaves already overlap prefix23.
@@ -163,6 +163,21 @@ These counts do not extend the canonical ordered prefix or reinterpret older
 qualification denominators. The default two-leaf API remains unchanged, and
 this scope supplies no general post-JOIN successor, native currentness or
 canonical predecessor-substitution acceptance.
+
+The live qualification controls in `tests/work-graph-registry-cases.py` derive
+the selected registry's hash, node count and registered test paths through the
+existing compiler. They require the checker's actual reported test count and
+the acquired image's exact member names to agree with that selected source;
+equal-sized foreign populations and stale checker output refuse. Registry
+bytes and population are rechecked after the mutation controls are restored.
+
+The live summary records `actual_selected_registry_execution` and
+`selected_registry`, separately from `historical_original_contract`. The
+latter retains 117 nodes and 89 tests with qualification
+`NOT_ESTABLISHED_BY_SELECTED_CURRENT_RUN`. A current registry with additional
+nodes or tests does not extend the historical prefix union or erase original
+failures. Running the local population controls alone does not establish a
+successful isolated live execution or any native acceptance.
 
 ## Full-run observation and retained-record integrity
 

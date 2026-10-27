@@ -22,6 +22,26 @@ REGISTRY_SHA = "c7c6b0f26111c44c4caaf5e1ffc20979e48cc15ca83600f3fea16514e9d02fee
 SCOPE = "CONTROLLED_TASK_REGISTRY_V1"
 
 
+def registry_population(registry):
+    """Describe the selected source; historical denominators are not defaults."""
+    tests = WG.verifier_registered_tests_v1(registry)
+    graph = WG.compile_verifier_graph_v1(registry, tests, {})
+    return dict(registry_sha256=Q.sha(registry), nodes=len(graph["nodes"]),
+                registered_tests=len(tests), test_paths=tests)
+
+
+def require_registry_output(raw, population):
+    expected = ("check-validation-registry: ok (%d tests; one canonical CI route)\n" %
+                population["registered_tests"]).encode()
+    assert raw == expected, (raw, expected)
+
+
+def require_registry_members(members, population):
+    expected = sorted("/work/" + path for path in population["test_paths"])
+    assert sorted(member["path"] for member in members) == expected
+    assert all(member["bytes"] == 0 for member in members)
+
+
 class AdmissionCases(unittest.TestCase):
     def setUp(self):
         self.registry = (ROOT / "scripts/verify-package.sh").read_bytes()
@@ -73,6 +93,48 @@ class AdmissionCases(unittest.TestCase):
     def test_unhashable_scope_refuses_as_a_contract_error(self):
         with self.assertRaises(WG.WorkGraphError):
             WG.compile_verifier_reuse_v1(self.graph, self.registry, self.request({}, self.inputs), {})
+
+
+class PopulationCases(unittest.TestCase):
+    def test_current_population_accepts_actual_checker_and_exact_members(self):
+        population = registry_population((ROOT / "scripts/verify-package.sh").read_bytes())
+        result = subprocess.run(["bash", str(ROOT / "scripts/check-validation-registry.sh")],
+                                cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+        require_registry_output(result.stdout, population)
+        members = [{"path": "/work/tests/" + p.name, "bytes": 0}
+                   for p in (ROOT / "tests").glob("*.test.sh")]
+        require_registry_members(members, population)
+        self.assertEqual(population["registered_tests"], len(members))
+
+    def test_original117_population_retains_its_89_test_contract(self):
+        raw = (ROOT / "test-support/work-graph-registry/original117/verify-package.sh").read_bytes()
+        population = registry_population(raw)
+        self.assertEqual((population["nodes"], population["registered_tests"]), (117, 89))
+        require_registry_output(b"check-validation-registry: ok (89 tests; one canonical CI route)\n", population)
+
+    def test_changed_population_is_derived_instead_of_assuming_91(self):
+        raw = (ROOT / "scripts/verify-package.sh").read_bytes()
+        current = registry_population(raw)
+        changed = registry_population(raw.replace(b"\ngit diff --check\n",
+            b"\nbash tests/selected-extra.test.sh\ngit diff --check\n"))
+        self.assertEqual(changed["registered_tests"], current["registered_tests"] + 1)
+        self.assertEqual(changed["nodes"], current["nodes"] + 1)
+        self.assertNotEqual(changed["registry_sha256"], current["registry_sha256"])
+        with self.assertRaises(AssertionError):
+            require_registry_output(
+                ("check-validation-registry: ok (%d tests; one canonical CI route)\n" %
+                 current["registered_tests"]).encode(), changed)
+
+    def test_same_count_foreign_member_and_stale_output_refuse(self):
+        population = registry_population((ROOT / "scripts/verify-package.sh").read_bytes())
+        members = [{"path": "/work/" + p, "bytes": 0} for p in population["test_paths"]]
+        members[0]["path"] = "/work/tests/foreign.test.sh"
+        with self.assertRaises(AssertionError):
+            require_registry_members(members, population)
+        with self.assertRaises(AssertionError):
+            require_registry_output(
+                ("check-validation-registry: ok (%d tests; one canonical CI route)\n" %
+                 (population["registered_tests"] + 1)).encode(), population)
 
 
 class MembershipCases(unittest.TestCase):
@@ -358,8 +420,10 @@ def live_controls(destination):
         shutil.copy2(ROOT / name, target)
     initial_diff = command(["git", "diff", "--binary", "HEAD"], source)
     retain("candidate.patch", initial_diff)
+    population = registry_population((source / "scripts/verify-package.sh").read_bytes())
+    retain("selected-registry.json", population)
     retain("invocation.json", dict(argv=[sys.executable, "-B", str(Path(__file__).resolve()), "--live", str(destination)],
-        source=str(source), head=head, registry_sha256=Q.sha((source / "scripts/verify-package.sh").read_bytes()),
+        source=str(source), head=head, registry_sha256=population["registry_sha256"],
         engine=Q.sha(Q.LOADED_DRIVER), compiler=Q.sha(Q.LOADED_COMPILER), harness=Q.sha(Path(__file__).read_bytes()),
         scope=SCOPE, authority="NONE", original_node=REGISTRY_NODE, canonical_acceptance="UNQUALIFIED"))
     session = Q.RegistryVerifierTaskSession(source, destination / "consumer")
@@ -399,9 +463,9 @@ def live_controls(destination):
             raise AssertionError("expected refusal: " + label)
     def registry_stderr(result):
         return (Path(result["nodes"][-1]["evidence_directory"]) / "stderr.log").read_bytes()
-    baseline = run("original three leaves execute", ["EXECUTED"] * 3)
+    baseline = run("selected registry three leaves execute", ["EXECUTED"] * 3)
     raw = (Path(baseline["nodes"][-1]["evidence_directory"]) / "stdout.log").read_bytes()
-    assert raw == b"check-validation-registry: ok (89 tests; one canonical CI route)\n", raw
+    require_registry_output(raw, population)
     unchanged = run("unchanged live receipts reused", ["REUSED"] * 3)
     assert [n["receipt_digest"] for n in baseline["nodes"]] == [n["receipt_digest"] for n in unchanged["nodes"]]
     old_receipts = [n["receipt_digest"] for n in baseline["nodes"][:2]]
@@ -434,7 +498,7 @@ def live_controls(destination):
     assert manifest["directory_membership"]["observation"] == "IMMEDIATE_GLOB_NAMES_ONLY_NO_CONTENT_READS"
     assert "/work/tests" in manifest["directories"]
     test_members = [m for m in manifest["files"] if m["path"].startswith("/work/tests/")]
-    assert len(test_members) == 89 and all(m["bytes"] == 0 for m in test_members)
+    require_registry_members(test_members, population)
     assert image_key in session._issued[REGISTRY_NODE]["required_objects"]
     (session.output / "objects" / image_key).unlink()
     replay = run("missing membership image object rejects prior receipt", ["REUSED", "REUSED", "EXECUTED"])
@@ -463,11 +527,14 @@ def live_controls(destination):
     assert REGISTRY_NODE not in empty._issued
     assert command(["git", "diff", "--binary", "HEAD"], source) == initial_diff
     assert not mutation.exists()
+    assert registry_population((source / "scripts/verify-package.sh").read_bytes()) == population
     record("candidate restored after all mutations", source_patch_sha256=Q.sha(initial_diff))
     retain("summary.json", dict(scope=SCOPE, controls=len(rows), passed=True, source_head=head,
-        actual_original_registry_execution=True, canonical_acceptance="UNQUALIFIED", authority="NONE",
-        original_nodes=117, registered_tests=89, admitted_scope_nodes=3, union_with_prefix23=24,
-        remaining_original_nodes=93, actual_native_execution=False))
+        actual_selected_registry_execution=True, canonical_acceptance="UNQUALIFIED", authority="NONE",
+        selected_registry=population, admitted_scope_nodes=3,
+        historical_original_contract=dict(nodes=117, registered_tests=89,
+            qualification="NOT_ESTABLISHED_BY_SELECTED_CURRENT_RUN"),
+        actual_native_execution=False))
     return 0
 
 
