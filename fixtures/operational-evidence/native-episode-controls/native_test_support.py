@@ -99,7 +99,8 @@ def load(name):
 def source_api():
     """Synthetic fixture adapter replacing the former private investigation wrapper."""
     owner = load('bounded_source_owner.py'); reader = load('bounded_native_reader.py')
-    selection = {'root_thread_id': 'fixture-root', 'cli_version': '0.163.0-alpha.10.2', 'cwd': str(SCRATCH)}
+    selection = {'root_thread_id': 'fixture-root', 'cli_version': '0.163.0-alpha.10.2',
+        'native_version': 'codex-cli 0.163.0-alpha.10.2', 'cwd': str(SCRATCH)}
     return types.SimpleNamespace(owner=owner, reader=reader, ROOT_ID=selection['root_thread_id'],
         CLI_VERSION=selection['cli_version'], CWD=SCRATCH, ROOT_SOURCE=SCRATCH / 'fixture-root.jsonl',
         public_record=owner.public_record, physical=owner.physical, read_public=owner.read_public,

@@ -1,4 +1,4 @@
-"""Run the original 42 controls and seven profile/export regressions."""
+"""Run the original 42, seven profile/export, and 25 added source-only controls."""
 import argparse
 import importlib.util
 import json
@@ -11,6 +11,39 @@ HERE = Path(__file__).resolve().parent
 MODULES = ('test_native_probe', 'test_current_source_owner', 'test_review_repairs', 'test_owner_hooks',
     'test_existing_owner_additions', 'test_canonical_episode_binding', 'test_episode_export', 'test_pending_integration')
 
+
+# Additive source-only groups; the original 42 + 4 profile + 3 export remain exact.
+CURRENT_SOURCE_GROUPS = (
+    ('test_source_owner_bounds', 'SourceOwnerBoundsControls', (
+        'test_all_issuer_readers_accept_delivered_module_length',
+        'test_all_issuer_readers_accept_exact_code_ceiling',
+        'test_all_issuer_readers_refuse_above_ceiling_before_evaluation',
+        'test_all_issuer_readers_refuse_replacement_before_open',
+        'test_all_issuer_readers_refuse_wrong_digest',
+        'test_fifo_is_refused_before_any_content_read',
+        'test_supplied_declared_length_must_match_the_real_file',
+    )),
+    ('test_current_native_relation', 'CurrentNativeRelationControls', (
+        'test_authorization_admits_load_during_spawn_rpc',
+        'test_authorization_keeps_legacy_load_after_reply',
+        'test_authorization_keeps_strict_load_call_result_order',
+        'test_authorization_keeps_strict_order_for_other_header_or_profile',
+        'test_authorization_rejects_load_before_or_at_activation',
+        'test_authorization_rejects_route_before_reply_or_load_result',
+        'test_before_remains_strict_across_sources_and_physical_intervals',
+        'test_fresh_boundary_admits_activation_during_spawn_rpc',
+        'test_fresh_boundary_keeps_legacy_completed_rpc_order',
+        'test_fresh_boundary_preserves_spawn_identity_and_freshness',
+        'test_fresh_boundary_refuses_mutated_header_bytes_or_digest',
+        'test_fresh_boundary_rejects_reversed_or_equal_causal_edges',
+        'test_fresh_boundary_uses_actual_header_and_qualified_profile',
+        'test_relation_matches_each_entity_to_its_own_version',
+        'test_relation_rejects_foreign_identity_and_parent',
+        'test_relation_rejects_native_header_version_and_cwd_drift',
+        'test_relation_rejects_unbound_or_malformed_running_version',
+        'test_same_version_relation_stays_valid',
+    )),
+)
 
 def load_local(name):
     spec = importlib.util.spec_from_file_location(name, HERE / (name + '.py'))
@@ -58,8 +91,16 @@ def main():
             raise ValueError('export-semantic regression population changed')
         tests += export_tests
         actual = sorted(actual + export_ids)
+        for module_name, class_name, methods in CURRENT_SOURCE_GROUPS:
+            group = list(leaves(unittest.defaultTestLoader.loadTestsFromModule(load_local(module_name))))
+            group_ids = sorted(test.id() for test in group)
+            expected_group = [module_name + '.' + class_name + '.' + name for name in methods]
+            if group_ids != expected_group:
+                raise ValueError('current source-only regression population changed: ' + module_name)
+            tests += group
+            actual = sorted(actual + group_ids)
         if args.list:
-            print(json.dumps({'scope': 'SOURCE_ONLY_NO_NATIVE_CREDIT', 'registered': 49, 'tests': actual}, indent=2)); return 0
+            print(json.dumps({'scope': 'SOURCE_ONLY_NO_NATIVE_CREDIT', 'registered': len(actual), 'tests': actual}, indent=2)); return 0
         if args.case:
             unknown = set(args.case) - set(actual)
             if unknown: raise ValueError('unknown selected control: ' + ', '.join(sorted(unknown)))
@@ -67,7 +108,7 @@ def main():
         before = support.source_pins()
         result = unittest.TextTestRunner(verbosity=2).run(unittest.TestSuite(tests))
         if support.source_pins() != before: raise ValueError('public source changed during regression')
-        print(json.dumps({'scope': 'SOURCE_ONLY_NO_NATIVE_CREDIT', 'registered': 49, 'executed': result.testsRun,
+        print(json.dumps({'scope': 'SOURCE_ONLY_NO_NATIVE_CREDIT', 'registered': len(actual), 'executed': result.testsRun,
             'skipped': len(result.skipped), 'success': result.wasSuccessful(), 'source_sha256': before}, sort_keys=True))
         return 0 if result.wasSuccessful() else 1
 

@@ -16,6 +16,8 @@ BOUNDARY_PROFILES = (BOUNDARY_PROFILE, CURRENT_BOUNDARY_PROFILE)
 MAX_RECORD = 256 * 1024
 MAX_TOTAL = 2 * 1024 * 1024
 MAX_RECORDS = 64
+# Owner code is a separate pinned artifact, not a native evidence window.
+MAX_SOURCE_OWNER_BYTES = 256 * 1024
 
 def require(condition, reason):
     if not condition:
@@ -155,6 +157,32 @@ def current_history_metadata_shape(metadata):
     require(all(present) and all((metadata[key] is None for key in keys)), 'CURRENT_CHILD_HISTORY_METADATA_UNSUPPORTED')
     return 'PRESENT_NULL_PAIR'
 
+def qualified_async_spawn(context):
+    """Select the causal rule by the exact bound header, not a caller flag."""
+    if context.get('profile_id') != NONPROTECTED_PROFILE:
+        return False
+    source = context['child']
+    row = read_records(source['path'], [source['metadata']], source['allowed_ranges'], source['physical'])['records'][0]['row']
+    require(row['type'] == 'session_meta' and row['ordinal'] == 0 and
+            digest(canonical(row['payload'])) == source['metadata_payload_digest'], 'SOURCE_METADATA_CHANGED')
+    return row['payload'].get('cli_version') == '0.164.0-alpha.11.1'
+
+
+def spawn_event_order(context, call, response, activation):
+    """A child may activate before its spawn RPC returns."""
+    before(call, response)
+    before(call if qualified_async_spawn(context) else response, activation)
+
+
+def load_acknowledgement_order(context, load_identity, route_pin):
+    if qualified_async_spawn(context):
+        before(context['child_activation'], load_identity['call'])
+        before(context['spawn_output'], route_pin)
+    else:
+        before(context['spawn_output'], load_identity['call'])
+    before(load_identity['result'], route_pin)
+
+
 def fresh_child_boundary(context):
     require(context.get('profile_id') in (CURRENT_BOUNDARY_PROFILE, *SOURCE_PROFILES), 'CURRENT_FRESH_PROFILE_REQUIRED')
     source = context['child']
@@ -169,8 +197,7 @@ def fresh_child_boundary(context):
     require(fork == 'none', 'CURRENT_FRESH_SPAWN_REQUIRED')
     activation, pin = resolve_record(context, 'child', context['child_activation']['locator'])
     require(pin['locator']['offset'] == source['metadata']['bytes'] and activation['ordinal'] == 1 and (activation['type'] == 'event_msg') and (activation['payload'].get('type') == 'task_started') and isinstance(activation['payload'].get('turn_id'), str) and activation['payload']['turn_id'] and ('metadata' not in activation), 'CHILD_ACTIVATION_BOUNDARY')
-    before(call_pin, result_pin)
-    before(result_pin, pin)
+    spawn_event_order(context, call_pin, result_pin, pin)
     return {'schema': FRESH_CHILD_BOUNDARY_SCHEMA, 'metadata_shape': shape, 'metadata_field_presence': {key: key in metadata['payload'] for key in ('forked_from_id', 'subagent_history_start_ordinal')}, 'metadata': source['metadata'], 'actual_spawn_call': call_pin, 'actual_spawn_output': result_pin, 'observed_fork_turns': fork, 'actual_activation': pin, 'history_start_ordinal_from_activation': activation['ordinal'], 'authority_ceiling': 'NONE'}
 
 def shell_literal(text):
@@ -239,7 +266,6 @@ def authorization(context, prepared, evidence, skill_pin):
     closed(loaded, ('path', 'bytes', 'sha256', 'utf8'), 'FULL_LOAD_CONTENT_SHAPE')
     skill_raw, _ = artifact(skill_pin)
     require({key: loaded[key] for key in ('path', 'bytes', 'sha256')} == skill_pin and loaded['utf8'].encode('utf-8') == skill_raw, 'ACTUAL_FULL_SKILL_LOAD_DIFFERS')
-    before(context['spawn_output'], load_identity['call'])
     route_row, route_pin = resolve_record(context, 'parent', evidence['route'])
     task = context['actual_child_identity']['agent_path'].removeprefix('/root/')
     visible(route_row, {'CHILD_TASK': task, 'CHILD_SKILL_ROUTE': 'audit-state', 'LOAD': 'VERIFIED'}, context=context)
@@ -248,7 +274,7 @@ def authorization(context, prepared, evidence, skill_pin):
     obligation = prepared['obligation']
     expected = {'schema': 'implementaudit.compaction-use-authorization.v1', 'action': 'AUTHORIZE_BOUNDED_POST_COMPACTION_RECONCILIATION', 'parent_identity': obligation['parent_identity'], 'actual_child_identity': obligation['actual_child_identity'], 'obligation_digest': prepared['obligation_pin']['sha256'], 'observation_id': obligation['observation_id'], 'load_observation_identity': digest(canonical(load_identity)), 'selected_child': 'audit-state', 'skill_source_pin': skill_pin, 'authority_ceiling': 'NONE'}
     require(value == expected, 'AUTHORIZATION_EXACT_OBLIGATION_OR_LOAD_IDENTITY')
-    before(load_identity['result'], route_pin)
+    load_acknowledgement_order(context, load_identity, route_pin)
     before(route_pin, record_pin)
     return {'value': value, 'text': public_message(row, context=context), 'record': record_pin, 'load_identity': load_identity, 'route_record': route_pin, 'evidence': evidence}
 
@@ -886,7 +912,7 @@ def terminal_release_identity(context, prepared, candidate):
 def source_owner_attestation(owner, candidate, candidate_pin, context, prepared, result, accepted, policy, q_pin, custody_root, release_evidence):
     """Verify a source-owned issuer selected by fixed P, never by a caller."""
     pin = owner['module_pin']
-    raw, _ = artifact(pin, maximum=128 * 1024)
+    raw, _ = artifact(pin, maximum=MAX_SOURCE_OWNER_BYTES)
     path, _ = physical(pin['path'])
     require(path.parent == Path(__file__).resolve().parent and digest(raw) == pin['sha256'], 'SOURCE_OWNER_MODULE_PIN_CHANGED')
     if context['profile_id'] in SOURCE_PROFILES:
@@ -1019,7 +1045,7 @@ def _nonprotected_source_owner(code_pins):
     key = str(Path('implementaudit/scripts/compaction-source-owner-codex-app.py'))
     require(key in code_pins, 'NONPROTECTED_OWNER_CODE_PIN_ABSENT')
     pin = {'path': str(path), 'bytes': path.stat().st_size, 'sha256': code_pins[key]}
-    raw, _ = artifact(pin, maximum=128 * 1024)
+    raw, _ = artifact(pin, maximum=MAX_SOURCE_OWNER_BYTES)
     module = types.ModuleType('_nonprotected_source_owner')
     module.__file__ = str(path)
     exec(compile(raw, str(path), 'exec', dont_inherit=True), module.__dict__)

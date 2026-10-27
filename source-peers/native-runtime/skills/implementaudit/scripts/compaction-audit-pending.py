@@ -368,7 +368,7 @@ def boundary_release_subject(store, session, owner, request):
     profile = OBSERVATION.production_profile(policy, root)
     require(profile['qualification_record_bound'] is True, 'BOUNDARY_RELEASE_Q_ABSENT')
     issuer = policy['descriptor']['authenticating_source_owner']
-    raw, _ = OBSERVATION.artifact(issuer['module_pin'], maximum=128 * 1024)
+    raw, _ = OBSERVATION.artifact(issuer['module_pin'], maximum=OBSERVATION.MAX_SOURCE_OWNER_BYTES)
     if source['profile_id'] in OBSERVATION.SOURCE_PROFILES:
         import types
         module = types.ModuleType('_boundary_release_source_owner')

@@ -6,7 +6,7 @@ All host metadata, public messages, IDs, route records and pending facts used
 by the tests are synthetic fixtures. Native transport is mocked or refused
 before launch. There are no model calls, native RPCs or configuration reads.
 
-Keep the ten `test_*.py` modules, `native_test_support.py`,
+Keep the twelve `test_*.py` modules, `native_test_support.py`,
 `run_native_source_regressions.py`, and `guard-golden.json` together. The
 portable launcher takes an explicit repository root:
 
@@ -25,8 +25,8 @@ inside its owned temporary directory. A partial closure refuses; after the
 last actual RT dependency is supplied, the complete unbound producer reports
 FIXED_SELECTION_UNBOUND. Subprocess entry points are forbidden in that test.
 
-`--list` verifies the unchanged 42-control baseline and prints all 49 registered
-IDs, including four profile and three export controls, without running them.
+`--list` verifies the unchanged 42-control baseline and prints all 74 registered
+IDs: the original 42, four profile, three export, and 25 source-only controls, without running them.
 Repeat `--case FULL_TEST_ID` to run focused adaptation checks.
 `--scratch-parent DIRECTORY` optionally places all owned temporary fixtures
 under a selected directory; otherwise Python's temporary directory is used.
@@ -83,3 +83,21 @@ AST metadata handling portable across Python versions. It does not repeat the
 unchanged 42-control bank. The earlier
 sealed source return remains unchanged. CI can run the full registered bank
 through this launcher after ROOT integrates the fixture directory.
+
+The 25 additive source-only controls preserve those earlier populations. Seven
+exercise all three real pinned issuer-code readers with constructed modules: a
+source above the old 128 KiB limit and the exact 256 KiB ceiling pass; ceiling+1,
+wrong digest/length, replacement and FIFO refuse before evaluation. The finite
+code-artifact allowance does not enlarge any native transcript/window bound.
+
+Eighteen relation/causal controls distinguish the root creation version from a
+fresh child's pinned running-provider version, and qualify the exact-header
+causal rule for a child that activates/loads during its spawn RPC. Both spawn
+reply and full LOAD result must precede parent acknowledgement. Legacy and
+unqualified headers retain strict response-before-activation/LOAD ordering.
+The tiny native-record fixtures use real record, artifact, identity and ordering
+checks; only native provider authentication is substituted by an exact fixture
+reader. Source-reader fixtures separately substitute outer native acceptance
+gates. Neither set authenticates a host, real child, native occurrence or
+acceptance. Current 64-record / 2 MiB windows, 256 KiB frames and HOLD/prefix bounds
+remain unchanged; broader writer metadata/settings/equal-tick support is absent.

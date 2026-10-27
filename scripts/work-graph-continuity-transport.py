@@ -269,6 +269,27 @@ SOURCE_PROFILES_V1['composite-20261026-original14-preparation-template-v1'] = (
     ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None),
     ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None),
 )
+# Current DG08 source-only bindings; all historical domains remain exact.
+SOURCE_PROFILES_V1['composite-20261027-core-dg08-source-v1'] = (
+    ('claim-run.sh', 31259, 'e1b686be7aba7da12163810e1c99c0033bad2ec949bdc5436fb177ba2491a790', 420),
+    ('validate-run-root.sh', 113863, '66c0f6d3df8c0f1702864055f3fcc4ee3cf5403982de81fba71389cdc5860283', 420),
+    ('claim-run-rotation.py', 259408, '348c492cafdb3ed7d41f360ff8c219316257bdd18c4e4f22646aa7e66cb84d9e', 420),
+    ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+)
+SOURCE_PROFILES_V1['composite-20261027-original14-dg08-source-v1'] = (
+    ('claim-run.sh', 104155, 'd7db3595bfdd6b79e822375df5744597111148315cce6c980dc063792774dc36', None),
+    ('validate-run-root.sh', 113863, '66c0f6d3df8c0f1702864055f3fcc4ee3cf5403982de81fba71389cdc5860283', None),
+    ('claim-run-rotation.py', 246657, '4a4dc5a997f3d485c7c43be31cb45818907e1685c8506fbabcb8bcee0872aed6', None),
+    ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', None),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None),
+    ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None),
+)
 ORIGINAL14_SOURCE_PROFILES_V1 = tuple(rows for rows in SOURCE_PROFILES_V1.values() if rows[0][3] is None)
 ORIGINAL14_SOURCE_PROFILE_V1 = SOURCE_PROFILES_V1["r0039-original14-windows"]
 

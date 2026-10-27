@@ -5,16 +5,17 @@
   "files": [
     {
       "path": "source-peers/route-graph/skills/implementaudit/scripts/route-transaction.py",
-      "bytes": 385651,
-      "sha256": "82ac79404b0a4f3feb9ec2263ae2b86bfe274f13353ac6348ac30e91bf00310e",
+      "bytes": 385958,
+      "sha256": "f43f27cf176a16ea4b1f24b3639313ade487f9a1cab77ad4cd1b8543987feb9e",
       "semantic_owner": "R0033",
       "state": "SOURCE_PROPOSAL_NOT_NATIVE_ADMISSION",
       "materialized_path": "skills/implementaudit/scripts/route-transaction.py",
       "mode": "100755",
       "modified": true,
       "source_preimage_sha256": "8ed51e393f4f8a3be631e48255e9aeca59dcf120a803f1601a034e5ab9e02389",
-      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; retained exact current source-map receiving from79316011; historical domains preserved; exact nonblocking delivery-capture fix from899d32f8, historical API excluded; exact recovered original14 historical receiver and paired core producer, with retained native companion override and separate unchanged native capability limit; DG07 nonblocking source acquisition and exact original14 recovery links, with prior profiles and native18 consecutive law retained; no native admission; DG07 current ordinary-owner Python selection retained with exact source closure; prior source profiles and native18 law unchanged; no native admission; exact CAS phase owner/source closure; prior profiles retained; no native admission; exact current preparation-template dependency closure; prior profiles retained; no native admission",
-      "preparation_binding_preimage_sha256": "9d5190969b8667395f170cc18ceecd9576644bbdf5f87e14abd62b926680fc8f"
+      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; retained exact current source-map receiving from79316011; historical domains preserved; exact nonblocking delivery-capture fix from899d32f8, historical API excluded; exact recovered original14 historical receiver and paired core producer, with retained native companion override and separate unchanged native capability limit; DG07 nonblocking source acquisition and exact original14 recovery links, with prior profiles and native18 consecutive law retained; no native admission; DG07 current ordinary-owner Python selection retained with exact source closure; prior source profiles and native18 law unchanged; no native admission; exact CAS phase owner/source closure; prior profiles retained; no native admission; exact current preparation-template dependency closure; prior profiles retained; no native admission DG08 source-only correction and exact dependency binding; no native admission or evidence-window expansion.",
+      "preparation_binding_preimage_sha256": "9d5190969b8667395f170cc18ceecd9576644bbdf5f87e14abd62b926680fc8f",
+      "dg08_source_receiving_preimage_sha256": "82ac79404b0a4f3feb9ec2263ae2b86bfe274f13353ac6348ac30e91bf00310e"
     },
     {
       "path": "source-peers/route-graph/skills/implementaudit/scripts/route_request_policy.py",
@@ -27,18 +28,19 @@
     },
     {
       "path": "source-peers/route-graph/skills/implementaudit/scripts/compile-work-graph.py",
-      "bytes": 252123,
-      "sha256": "8d605ebbe23a869c4b2892f658cabd03a356c3e23367d120b3c2cce8ff64a3ac",
+      "bytes": 252271,
+      "sha256": "a1448b3c72278c9a2a1021e9eef2c5ade25afebd8e45278be8616549fa1ba2fc",
       "semantic_owner": "R0035",
       "state": "SOURCE_PROPOSAL_NOT_NATIVE_ADMISSION",
       "materialized_path": "skills/implementaudit/scripts/compile-work-graph.py",
       "mode": "100644",
       "modified": true,
       "source_preimage_sha256": "ef000d06a60cec080c0c2fa1838b67729009b04373946634c73d32f7c08229e9",
-      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; composed R0039 native-v3/C02 source candidate; no native admission; R0039 exact-source projection binding receiving candidate; captured buffer and physical-path cache retained; wave1 composite source reconciliation, see docs/integration/active-rlgwo-composite-20261025.md; no native admission; retained exact current source-map receiving from79316011; historical domains preserved; exact current transport receiving owner pin; old transport profile retained; exact current original14 Windows receiver tuple, no native authority; exact current-core POSIX three-read source contract; no native18/original14 receipt substitution; exact nonblocking delivery-capture fix from899d32f8, historical API excluded; PR255 actual post-lstat FIFO source substitution: nonblocking open and pre-read descriptor identity/type refusal; exact PR246 composed continuity transport and receiving owner pins; retained historical source domains; exact recovered original14 historical receiver and paired core producer, with retained native companion override and separate unchanged native capability limit; DG07 nonblocking source acquisition and exact original14 recovery links, with prior profiles and native18 consecutive law retained; no native admission; DG07 current ordinary-owner Python selection retained with exact source closure; prior source profiles and native18 law unchanged; no native admission; exact current direct continuity-transport bootstrap hash/length bound after actual hosted omission failure; historical profile maps unchanged; exact CAS phase owner/source closure; prior profiles retained; no native admission; exact current preparation-template dependency closure; prior profiles retained; no native admission",
+      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; composed R0039 native-v3/C02 source candidate; no native admission; R0039 exact-source projection binding receiving candidate; captured buffer and physical-path cache retained; wave1 composite source reconciliation, see docs/integration/active-rlgwo-composite-20261025.md; no native admission; retained exact current source-map receiving from79316011; historical domains preserved; exact current transport receiving owner pin; old transport profile retained; exact current original14 Windows receiver tuple, no native authority; exact current-core POSIX three-read source contract; no native18/original14 receipt substitution; exact nonblocking delivery-capture fix from899d32f8, historical API excluded; PR255 actual post-lstat FIFO source substitution: nonblocking open and pre-read descriptor identity/type refusal; exact PR246 composed continuity transport and receiving owner pins; retained historical source domains; exact recovered original14 historical receiver and paired core producer, with retained native companion override and separate unchanged native capability limit; DG07 nonblocking source acquisition and exact original14 recovery links, with prior profiles and native18 consecutive law retained; no native admission; DG07 current ordinary-owner Python selection retained with exact source closure; prior source profiles and native18 law unchanged; no native admission; exact current direct continuity-transport bootstrap hash/length bound after actual hosted omission failure; historical profile maps unchanged; exact CAS phase owner/source closure; prior profiles retained; no native admission; exact current preparation-template dependency closure; prior profiles retained; no native admission DG08 source-only correction and exact dependency binding; no native admission or evidence-window expansion.",
       "composition_preimage_sha256": "ed1a0361533be2a4e6dd46a2525ab290c6a6bbfc4740dcd353657cb61048e5e1",
       "integration_preimage_sha256": "764bc5c701b1e67f1bb50bb8253955a772f1de5506d68de6f899788bf05eb6f1",
-      "preparation_binding_preimage_sha256": "23d5fc3c06be0266027d9bb0e9da01190005253f9b70b31bd7386cd29f18b894"
+      "preparation_binding_preimage_sha256": "23d5fc3c06be0266027d9bb0e9da01190005253f9b70b31bd7386cd29f18b894",
+      "dg08_source_receiving_preimage_sha256": "8d605ebbe23a869c4b2892f658cabd03a356c3e23367d120b3c2cce8ff64a3ac"
     }
   ],
   "composition_domain": "R0039_ORIGINAL14_OWNER_WITH_R0033_VERIFIED_READ_VIEW"

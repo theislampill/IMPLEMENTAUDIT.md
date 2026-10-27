@@ -84,6 +84,7 @@ class CompositeSourceCases(unittest.TestCase):
     def test_nonprotected_fixed_policy_does_not_require_owned_stdio_capture(self):
         owner = load("nonprotected_policy_owner", PEER / "compaction-source-owner-codex-app.py")
         observation = load("nonprotected_policy_observation", PEER / "compaction-result-observation.py")
+        helpers = load("nonprotected_policy_helpers", PEER / "bounded_source_owner.py")
         names = ("compaction-source-owner-codex-app.py", "codex-recovery-native-reader.py")
         pins = {str(Path("implementaudit/scripts") / name): hashlib.sha256((PEER / name).read_bytes()).hexdigest()
                 for name in names}
@@ -93,13 +94,18 @@ class CompositeSourceCases(unittest.TestCase):
         # process, canonical episode or accepting pending store is admitted.
         selected = dict(profile_id=owner.NONPROTECTED_PROFILE,
                         episode_owner={"module_pin": fixture_pin},
-                        native_version="unadmitted-fixture", cli_version="unadmitted-fixture",
+                        native_version="codex-cli 0.164.0-alpha.11.1", cli_version="0.163.0-alpha.10.2",
                         desktop_version="unadmitted-fixture", native_executable=fixture_pin,
                         desktop_executable=fixture_pin, desktop_asar=fixture_pin, config_file=fixture_pin)
         self.assertIsNone(owner.selected_source_pin_v1())
-        with mock.patch.object(owner, "_np_runtime", return_value=(selected, None, None, None, None)), \
+        with mock.patch.object(owner, "_np_runtime", return_value=(selected, None, None, helpers, None)) as runtime, \
                 mock.patch.object(owner, "NONPROTECTED_SELECTION_PIN", fixture_pin):
             policy = owner.nonprotected_fixed_policy(observation, pins)
+            runtime.assert_called_once_with(observation, pins)
+            self.assertEqual(policy["descriptor"]["exact_host_tuple"]["source_header_cli_version"],
+                             "0.163.0-alpha.10.2")
+            self.assertEqual(policy["descriptor"]["exact_host_tuple"]["child_source_header_cli_version"],
+                             "0.164.0-alpha.11.1")
             self.assertEqual(policy["descriptor"]["profile_id"], owner.NONPROTECTED_PROFILE)
             self.assertNotIn("producer_dependencies", policy["descriptor"]["provider_selection"])
             self.assertEqual(policy["policy_digest"], observation.digest(observation.canonical(
@@ -162,11 +168,11 @@ class CompositeSourceCases(unittest.TestCase):
                         if row["path"].endswith("/claim-run-rotation.py"))
         raw = (ROOT / retained["path"]).read_bytes()
         self.assertEqual((len(raw), hashlib.sha256(raw).hexdigest()),
-                         (246657, '31e30b564e83db80c11c18b3bf83eab9d901bf089af7dd7ebd2e7d823f5105f8'))
+                         (246657, '4a4dc5a997f3d485c7c43be31cb45818907e1685c8506fbabcb8bcee0872aed6'))
         self.assertEqual(retained["materialized_path"], "skills/implementaudit/scripts/claim-run-rotation.py")
         self.assertNotIn(retained["materialized_path"], [row["path"] for row in manifest["frozen_core_dependencies"]])
         transport = load("retained_core_transport", ROOT / "scripts/work-graph-continuity-transport.py")
-        profile = transport.SOURCE_PROFILES_V1['composite-20261026-core-preparation-template-v1']
+        profile = transport.SOURCE_PROFILES_V1['composite-20261027-core-dg08-source-v1']
         self.assertEqual(transport.SOURCE_PROFILES_V1["composite-20261025-original14"][2],
                          ("claim-run-rotation.py", 246657, "4dbbd07b5a792289c13c1225a8099900682b3657396f60f4b74867502cbadf97", None))
         self.assertEqual(transport.SOURCE_PROFILES_V1['composite-20261026-original14-preparation-template-v1'][2][1:3], (246657, '31e30b564e83db80c11c18b3bf83eab9d901bf089af7dd7ebd2e7d823f5105f8'))
@@ -402,11 +408,16 @@ else:
         fixture = load("composite_pending_fixture", ROOT / "tests/cognition-pending-durability.py")
         pins = fixture.source_pins(ROOT)
         selected = fixture.reservation_refusal_profile(pins)
-        self.assertEqual(selected["qualified_checkpoint"], "source-sha256:f024cd50b4e5cdd3b93f16fe1d0489952a534a0a5f880c842c14afc897ac2bc7")
+        self.assertEqual(selected["qualified_checkpoint"], "source-sha256:dba5771d606e1669090703cf6094440344684fdafd2d67a40ae8eb95e3190985")
         self.assertEqual(selected["stored_json_refusal"], "PENDING_STATE_JSON")
         self.assertEqual(selected["nonfinite_counter_refusal"], "PENDING_STATE_JSON_CONSTANT")
-        prior_generic = dict(pins)
-        prior_generic[str(fixture.PEER / "host-session-binding.py")] = "62558bb209129c66b55d2a97325d16db4aecfd2ecbeb71323dd44070a50f0890"
+        # Historical tuples must not inherit the changed current source owners.
+        prior_generic = {
+            str(fixture.PEER / 'compaction-audit-pending.py'): '8c16f7f142b67eb4504ae275bf53e8ea104bb75378748402e8a4c0a31efdbc43',
+            str(fixture.PEER / 'compaction-result-observation.py'): '9ea603b9d923df5c155c7a5406ee2dac21cbc8fc87ec205f978e3130fbe43345',
+            str(fixture.PEER / 'compaction-source-owner-codex-app.py'): '799d468f8a98a6990c798488517ba27f273f4862d6066a9b228ab0d1c7c6a517',
+            str(fixture.PEER / 'host-session-binding.py'): '62558bb209129c66b55d2a97325d16db4aecfd2ecbeb71323dd44070a50f0890',
+        }
         self.assertEqual(fixture.reservation_refusal_profile(prior_generic), {
             **selected,
             "qualified_checkpoint": "source-sha256:799d468f8a98a6990c798488517ba27f273f4862d6066a9b228ab0d1c7c6a517"})

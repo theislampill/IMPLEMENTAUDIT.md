@@ -90,6 +90,14 @@ def header(thread):
             "metadata": {key: payload[key] for key in fields if key in payload},
             "cutoff_bytes": cutoff}
 
+def child_cli_version(selection):
+    """A new child uses the pinned running host, not the old root header."""
+    version = selection.get('native_version')
+    require(isinstance(version, str) and version.startswith('codex-cli ') and
+            len(version.split()) == 2, 'NATIVE_CHILD_VERSION_UNBOUND')
+    return version.removeprefix('codex-cli ')
+
+
 def validate_relation(selection, root, child, root_header, child_header):
     ROOT_ID = selection['root_thread_id']
     CLI_VERSION = selection['cli_version']
@@ -102,7 +110,7 @@ def validate_relation(selection, root, child, root_header, child_header):
             child.get("source_kind") == "subAgent" and child.get("threadSource") == "subagent",
             "WRONG_CHILD_NATIVE_RELATION")
     for native, meta, ident in ((root, root_header, ROOT_ID), (child, child_header, child_id)):
-        require(native.get("cliVersion") == meta.get("cli_version") == CLI_VERSION and
+        require(native.get("cliVersion") == meta.get("cli_version") == (CLI_VERSION if ident == ROOT_ID else child_cli_version(selection)) and
                 native.get("cwd") == meta.get("cwd") == str(CWD) and
                 native.get("ephemeral") is False and native.get("historyMode") == "paginated" and
                 meta.get("id") == ident and meta.get("session_id") == ROOT_ID,
@@ -663,7 +671,7 @@ def _held_owned_stdio_child_discovery_v1(selected, logical_task):
                             require(isinstance(ident,str) and path.name.endswith('-'+ident+'.jsonl'),
                                 'OWNED_STDIO_HEADER_FILENAME_IDENTITY')
                             if meta.get('parent_thread_id')==selected['root_thread_id'] and meta.get('agent_path')==expected_path:
-                                require(meta.get('cli_version')==selected['cli_version'] and meta.get('cwd')==selected['cwd'] and
+                                require(meta.get('cli_version')==child_cli_version(selected) and meta.get('cwd')==selected['cwd'] and
                                     meta.get('thread_source')=='subagent','OWNED_STDIO_CHILD_HEADER_SCOPE')
                                 candidates.append((ident,source))
                         else:
