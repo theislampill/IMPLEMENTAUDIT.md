@@ -15,6 +15,17 @@ jobs:
         with:
           fetch-depth: 2
 
+      - name: Observe the C5 setup prerequisite
+        if: always()
+        continue-on-error: true
+        timeout-minutes: 1
+        run: |
+          set +e
+          /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py
+          setup_status=$?
+          printf 'C5 setup observation instrument exit: %s\n' "$setup_status"
+          exit "$setup_status"
+
       - name: Install validation dependencies
         run: |
           sudo apt-get update
