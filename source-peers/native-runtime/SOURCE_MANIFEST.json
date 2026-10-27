@@ -45,12 +45,14 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/host-session-binding.py",
       "materialized_path": "skills/implementaudit/scripts/host-session-binding.py",
-      "bytes": 49020,
-      "sha256": "62558bb209129c66b55d2a97325d16db4aecfd2ecbeb71323dd44070a50f0890",
+      "bytes": 49273,
+      "sha256": "f024cd50b4e5cdd3b93f16fe1d0489952a534a0a5f880c842c14afc897ac2bc7",
       "source_commit": "fa14948894f583cc0b4e3be80e9283839c9992b5",
       "source_path": "skills/implementaudit/scripts/host-session-binding.py",
-      "modified": false,
-      "mode": "100755"
+      "modified": true,
+      "mode": "100755",
+      "composition_preimage_sha256": "62558bb209129c66b55d2a97325d16db4aecfd2ecbeb71323dd44070a50f0890",
+      "additional_delta": "Receive existing canonical host-binding duplicate JSON member refusal into selected native peer; registry attribution only, no native authentication"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/rotate-canonical-state.py",

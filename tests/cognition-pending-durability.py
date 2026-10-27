@@ -775,6 +775,13 @@ def reservation_refusal_profile(pins):
     # differs. Bind the same four source owners recorded by source_pins; do not
     # accept either reason interchangeably or infer it from the response.
     profiles = {
+        # Current native H0 JSON ambiguity guard; all older exact tuples remain.
+        ("8c16f7f142b67eb4504ae275bf53e8ea104bb75378748402e8a4c0a31efdbc43",
+         "9ea603b9d923df5c155c7a5406ee2dac21cbc8fc87ec205f978e3130fbe43345",
+         "799d468f8a98a6990c798488517ba27f273f4862d6066a9b228ab0d1c7c6a517",
+         "f024cd50b4e5cdd3b93f16fe1d0489952a534a0a5f880c842c14afc897ac2bc7"):
+            ("source-sha256:f024cd50b4e5cdd3b93f16fe1d0489952a534a0a5f880c842c14afc897ac2bc7",
+             "NONPROTECTED_PROJECTION_PROFILE_REQUIRED", "PENDING_STATE_JSON", "PENDING_STATE_JSON_CONSTANT"),
         # Generic policy repair: new exact four-owner tuple, still no native selection.
         ("8c16f7f142b67eb4504ae275bf53e8ea104bb75378748402e8a4c0a31efdbc43",
          "9ea603b9d923df5c155c7a5406ee2dac21cbc8fc87ec205f978e3130fbe43345",

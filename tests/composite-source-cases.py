@@ -15,6 +15,7 @@ import sys
 import tempfile
 import tokenize
 import unittest
+from argparse import Namespace
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -30,6 +31,56 @@ def load(name, path):
 
 
 class CompositeSourceCases(unittest.TestCase):
+    def test_native_binding_lookup_refuses_ambiguous_json(self):
+        owner = load("native_binding_json", PEER / "host-session-binding.py")
+        with tempfile.TemporaryDirectory(prefix="native-binding-json-") as temporary:
+            root = Path(temporary)
+            store, repo = root / "store", root / "repo"
+            run, common = repo / "runs" / "fixture", repo / ".git"
+            run.mkdir(parents=True)
+            common.mkdir()
+            key = dict(store=str(store), host_id="codex", host_session_id="fixture-session")
+
+            def invoke(function, **arguments):
+                output = io.StringIO()
+                with contextlib.redirect_stdout(output):
+                    function(Namespace(**arguments))
+                return json.loads(output.getvalue())
+
+            invoke(owner.command_init, store=str(store), owner_id="fixture-owner")
+            bound = invoke(owner.command_bind, **key, owner_id="fixture-owner",
+                           controller_id="fixture-controller", claim_id="1" * 32,
+                           explicit_run_root=str(run), repository_identity=str(repo),
+                           git_common_directory_identity=str(common), worktree_identity=str(repo),
+                           activation_event_id="fixture-event", activation_receipt="fixture-receipt",
+                           continuity_generation="G0002", continuity_receipt="fixture-continuity")
+            self.assertFalse(bound["host_activation_proven"])
+            cases = (
+                (owner.owner_path(store), '"trusted": true', '"trusted": false, "trusted": true'),
+                (owner.session_index_path(store, key["host_session_id"]),
+                 '"host_session_id": "fixture-session"',
+                 '"host_session_id": "foreign", "host_session_id": "fixture-session"'),
+                (owner.state_path(store, key["host_id"], key["host_session_id"]),
+                 '"controller_id": "fixture-controller"',
+                 '"controller_id": "foreign", "controller_id": "fixture-controller"'),
+            )
+            for target, needle, ambiguous in cases:
+                with self.subTest(target=target.name):
+                    original = target.read_bytes()
+                    self.assertEqual(original.count(needle.encode()), 1)
+                    target.write_bytes(original.replace(needle.encode(), ambiguous.encode()))
+                    output = io.StringIO()
+                    try:
+                        with contextlib.redirect_stdout(output), self.assertRaises(SystemExit) as refusal:
+                            owner.command_lookup(Namespace(**key))
+                        self.assertEqual(refusal.exception.code, 2)
+                        result = json.loads(output.getvalue())
+                        self.assertEqual(result["status"], "UNAVAILABLE")
+                        self.assertIn("duplicate JSON member", result["error"])
+                    finally:
+                        target.write_bytes(original)
+                    self.assertEqual(invoke(owner.command_lookup, **key), bound)
+
     def test_nonprotected_fixed_policy_does_not_require_owned_stdio_capture(self):
         owner = load("nonprotected_policy_owner", PEER / "compaction-source-owner-codex-app.py")
         observation = load("nonprotected_policy_observation", PEER / "compaction-result-observation.py")
@@ -351,10 +402,15 @@ else:
         fixture = load("composite_pending_fixture", ROOT / "tests/cognition-pending-durability.py")
         pins = fixture.source_pins(ROOT)
         selected = fixture.reservation_refusal_profile(pins)
-        self.assertEqual(selected["qualified_checkpoint"], "source-sha256:799d468f8a98a6990c798488517ba27f273f4862d6066a9b228ab0d1c7c6a517")
+        self.assertEqual(selected["qualified_checkpoint"], "source-sha256:f024cd50b4e5cdd3b93f16fe1d0489952a534a0a5f880c842c14afc897ac2bc7")
         self.assertEqual(selected["stored_json_refusal"], "PENDING_STATE_JSON")
         self.assertEqual(selected["nonfinite_counter_refusal"], "PENDING_STATE_JSON_CONSTANT")
-        prior_current = dict(pins)
+        prior_generic = dict(pins)
+        prior_generic[str(fixture.PEER / "host-session-binding.py")] = "62558bb209129c66b55d2a97325d16db4aecfd2ecbeb71323dd44070a50f0890"
+        self.assertEqual(fixture.reservation_refusal_profile(prior_generic), {
+            **selected,
+            "qualified_checkpoint": "source-sha256:799d468f8a98a6990c798488517ba27f273f4862d6066a9b228ab0d1c7c6a517"})
+        prior_current = dict(prior_generic)
         prior_current[str(fixture.PEER / "compaction-source-owner-codex-app.py")] = "2fcb390a3e4105adc1178000e736b1a09b3b5a59db03fdd744cda895a1352d04"
         self.assertEqual(fixture.reservation_refusal_profile(prior_current), {
             **selected,
