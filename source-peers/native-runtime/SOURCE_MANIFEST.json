@@ -7,15 +7,16 @@
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/claim-run.sh",
       "materialized_path": "skills/implementaudit/scripts/claim-run.sh",
       "bytes": 104155,
-      "sha256": "bd0c6d2ab1ec8f695fe34e459b25d9344e11c5930d3f62d0919b29d9bc4a44ee",
+      "sha256": "322f17d86170e34788833a619586e8cb9fcc066a70933342ad3f28f036446d0d",
       "source_commit": "fa14948894f583cc0b4e3be80e9283839c9992b5",
       "source_path": "skills/implementaudit/scripts/claim-run.sh",
       "modified": true,
       "mode": "100644",
       "semantic_owner": "R0011",
       "source_preimage_sha256": "9665ba20e02c02882f3172549e90d78e790c6c0133cd31749a30e1d29c3cc0ce",
-      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; wave1 composite source reconciliation, see docs/integration/active-rlgwo-composite-20261025.md; no native admission",
-      "integration_preimage_sha256": "405ab3853dfb88c007ea2f8f8dd98fb8e9c6e77552b172f2f71a8751364ea20f"
+      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; wave1 composite source reconciliation, see docs/integration/active-rlgwo-composite-20261025.md; no native admission; exact current preparation-template dependency closure; prior profiles retained; no native admission",
+      "integration_preimage_sha256": "405ab3853dfb88c007ea2f8f8dd98fb8e9c6e77552b172f2f71a8751364ea20f",
+      "preparation_binding_preimage_sha256": "bd0c6d2ab1ec8f695fe34e459b25d9344e11c5930d3f62d0919b29d9bc4a44ee"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/validate-run-root.sh",
@@ -169,16 +170,17 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/claim-run-rotation.py",
       "bytes": 246657,
-      "sha256": "4dbbd07b5a792289c13c1225a8099900682b3657396f60f4b74867502cbadf97",
+      "sha256": "31e30b564e83db80c11c18b3bf83eab9d901bf089af7dd7ebd2e7d823f5105f8",
       "source_commit": "d2397406d51aa080209caa16897283b2e9cb5b61",
       "composition_preimage_sha256": "69bea85f96c3cca62858bf3ecb6fd9fd19775203064e54b912577ea2a3c69123",
       "modified": true,
-      "additional_delta": "; composed R0039 native-v3/C02 source candidate; no native admission; R0039 exact-source projection binding receiving candidate; captured buffer and physical-path cache retained; exact old companion moved to explicit native-peer source override; materialize with existing complete sibling closure; historical traversal API remains unsupported by this native profile",
+      "additional_delta": "; composed R0039 native-v3/C02 source candidate; no native admission; R0039 exact-source projection binding receiving candidate; captured buffer and physical-path cache retained; exact old companion moved to explicit native-peer source override; materialize with existing complete sibling closure; historical traversal API remains unsupported by this native profile; exact current preparation-template dependency closure; prior profiles retained; no native admission",
       "materialized_path": "skills/implementaudit/scripts/claim-run-rotation.py",
       "mode": "100644",
       "semantic_owner": "R0039",
       "state": "SOURCE_PROPOSAL_NOT_NATIVE_ADMISSION",
-      "retained_from_commit": "c301bf5a4b6b9b089113b11e6f1bfd6e9c0549b7"
+      "retained_from_commit": "c301bf5a4b6b9b089113b11e6f1bfd6e9c0549b7",
+      "preparation_binding_preimage_sha256": "4dbbd07b5a792289c13c1225a8099900682b3657396f60f4b74867502cbadf97"
     }
   ],
   "composition_domain": "R0039_ORIGINAL14_OWNER_WITH_R0033_VERIFIED_READ_VIEW",

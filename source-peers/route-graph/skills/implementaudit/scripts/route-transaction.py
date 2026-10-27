@@ -5662,6 +5662,9 @@ _R0039_RETAINED_PREDECESSOR_OWNERS_V1 = (
 )
 
 
+# Current canonical read-only owner; prior exact owner pairs remain retained.
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (31259, 'cee4c3225be8df9c62fcc8adb4c1af18a38bd1237adac39b0ce5d5a1bce47765'), 'claim-run-rotation.py': (259408, '8edf14f8aea58573c1eb8a3a2bd6a42394aa8ea419217606994c81b1ba162ca9')},)
+
 def original14_retained_predecessor_v1(
     repo, token, fields, *, controller, claim, run_identity, generation,
     current_receipt, explicit_run_root,

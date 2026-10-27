@@ -128,6 +128,8 @@ def _preparation_fixture_support():
 
 class PortableFactoryLoaderControls(unittest.TestCase):
     """Actual loader and thin wrapper; constructed authority; no host/Event/Git."""
+    claim_scripts = SCRIPTS
+
     def setUp(self):
         self.stack=contextlib.ExitStack();self.addCleanup(self.stack.close)
         temporary=self.stack.enter_context(tempfile.TemporaryDirectory(prefix='r0039-preparation-loader-'))
@@ -135,7 +137,8 @@ class PortableFactoryLoaderControls(unittest.TestCase):
         scripts=self.root/'skills/implementaudit/scripts';scripts.mkdir(parents=True)
         self.claim_path=scripts/'claim-run-rotation.py'
         for name in ('claim-run-rotation.py','canonical_custody.py'):
-            (scripts/name).write_bytes((SCRIPTS/name).read_bytes())
+            origin = self.claim_scripts if name == 'claim-run-rotation.py' else SCRIPTS
+            (scripts/name).write_bytes((origin/name).read_bytes())
         self.source_path=scripts/'compaction-source-owner-codex-app.py'
         self.source_path.write_bytes(SOURCE_TEMPLATE.read_bytes())
         self.source=_preparation_fixture_load('_preparation_actual_selected_source',self.source_path)
@@ -207,6 +210,10 @@ class PortableFactoryLoaderControls(unittest.TestCase):
             self.helper.load_live_claim_v1(self.claim_pin,lambda pin,bound:old)
         self.producer.check.assert_not_called()
 
+
+class PortablePeerFactoryLoaderControls(PortableFactoryLoaderControls):
+    """The same real loader controls on the separately bound native peer."""
+    claim_scripts = SOURCE_TEMPLATE.parent
 
 
 @unittest.skipUnless(os.name == 'nt', 'requires actual Windows process and Event custody')
