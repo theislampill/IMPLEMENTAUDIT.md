@@ -782,6 +782,13 @@ def reservation_refusal_profile(pins):
          'f024cd50b4e5cdd3b93f16fe1d0489952a534a0a5f880c842c14afc897ac2bc7'):
             ('source-sha256:dba5771d606e1669090703cf6094440344684fdafd2d67a40ae8eb95e3190985',
              "NONPROTECTED_PROJECTION_PROFILE_REQUIRED", "PENDING_STATE_JSON", "PENDING_STATE_JSON_CONSTANT"),
+        # Current DG08 source-only tuple; native selection remains absent.
+        ('e9e8b5f9246f288ceade888c44ad4f1445033f4d944eabf3d8e4da391891a682',
+         '5d950aa04b916be102382fca93fec437d4dea00ebd2af8453468ef5c9bcef6e0',
+         'b8debad1fa005c702694987f1aa7848c33fb575f7ebd23a674de5f873fc189e5',
+         'f024cd50b4e5cdd3b93f16fe1d0489952a534a0a5f880c842c14afc897ac2bc7'):
+            ('source-sha256:b8debad1fa005c702694987f1aa7848c33fb575f7ebd23a674de5f873fc189e5',
+             "NONPROTECTED_PROJECTION_PROFILE_REQUIRED", "PENDING_STATE_JSON", "PENDING_STATE_JSON_CONSTANT"),
         # Current native H0 JSON ambiguity guard; all older exact tuples remain.
         ("8c16f7f142b67eb4504ae275bf53e8ea104bb75378748402e8a4c0a31efdbc43",
          "9ea603b9d923df5c155c7a5406ee2dac21cbc8fc87ec205f978e3130fbe43345",

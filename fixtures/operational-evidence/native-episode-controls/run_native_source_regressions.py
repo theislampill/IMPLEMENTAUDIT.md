@@ -1,4 +1,4 @@
-"""Run the original 42, seven profile/export, and 25 added source-only controls."""
+"""Run original 42, seven profile/export, and additive source-only control groups."""
 import argparse
 import importlib.util
 import json
@@ -42,6 +42,35 @@ CURRENT_SOURCE_GROUPS = (
         'test_relation_rejects_native_header_version_and_cwd_drift',
         'test_relation_rejects_unbound_or_malformed_running_version',
         'test_same_version_relation_stays_valid',
+    )),
+    ('test_acquisition_resource_domains', 'AcquisitionResourceDomainControls', (
+        'test_complete_readers_refuse_physical_replacement',
+        'test_complete_turn_has_separate_positive_boundaries',
+        'test_complete_turn_refuses_duplicate_keys_and_malformed_frames',
+        'test_complete_turn_rejects_overbounds_truncation_and_wrong_turn',
+        'test_fresh_nonprotected_hold_covers_all_rows_through_512',
+        'test_hold_history_still_detects_prohibited_use_after_row_64',
+        'test_hold_keeps_prefix_frame_and_complete_coverage_guards',
+        'test_other_hold_contexts_keep_64_rows',
+        'test_other_profiles_keep_legacy_turn_and_prefix_limits',
+        'test_selected_evidence_limits_stay_unchanged',
+        'test_source_prefix_hashes_exact_128_mib_with_bounded_reads',
+        'test_source_prefix_streams_above_selected_limit_and_keeps_128_mib_cap',
+    )),
+    ('test_native_startup_envelopes', 'NativeStartupEnvelopeControls', (
+        'test_checked_header_and_profile_gate_current_equal_ticks',
+        'test_combined_current_startup_preserves_complete_original_occurrences',
+        'test_declaration_does_not_authorize_calls_or_preuse_effects',
+        'test_declaration_scope_and_provenance_remain_closed',
+        'test_equal_tick_scope_keeps_backwards_gaps_and_cross_source_order_strict',
+        'test_equal_ticks_on_contiguous_current_physical_rows',
+        'test_inert_developer_declaration_on_real_current_hold',
+        'test_ordinary_history_without_selected_settings_remains_valid',
+        'test_selected_initial_settings_on_real_current_hold',
+        'test_selected_settings_are_closed_and_bound_into_fixed_policy',
+        'test_selected_settings_require_exact_unique_preload_child_payload',
+        'test_transport_metadata_keeps_strict_shape_and_existing_call_identity',
+        'test_transport_metadata_on_existing_paired_events',
     )),
 )
 

@@ -18,6 +18,14 @@ MAX_TOTAL = 2 * 1024 * 1024
 MAX_RECORDS = 64
 # Owner code is a separate pinned artifact, not a native evidence window.
 MAX_SOURCE_OWNER_BYTES = 256 * 1024
+# Fixed physical-acquisition policy, versioned by the existing code/P pins.
+# These are not selected-evidence limits or caller-configurable allowances.
+NATIVE_ACQUISITION_POLICY = 'codex-nonprotected-acquisition-v1'
+MAX_NATIVE_SOURCE_PREFIX_BYTES = 128 * 1024 * 1024
+MAX_NATIVE_TURN_BYTES = 16 * 1024 * 1024
+MAX_NATIVE_TURN_RECORDS = 4096
+MAX_NATIVE_TURN_FRAME = 2 * 1024 * 1024
+NONPROTECTED_HOLD_RECORDS = 512
 
 def require(condition, reason):
     if not condition:
@@ -74,7 +82,7 @@ def current_retained_locator(row, context):
     require(m['client_authored'] is False and r['complete'] is True and (identity['message_id'] == p.get('id')) and (identity['role'] == p.get('role') == 'assistant') and isinstance(identity['turn_id'], str) and (re.fullmatch(uuid, identity['turn_id']) is not None) and isinstance(r['revision'], str) and (re.fullmatch('retained_' + uuid, r['revision']) is not None), 'CURRENT_PUBLIC_RETAINED_ID_OR_COMPLETENESS')
     return r
 
-def current_record_metadata(row, context, active_turn=None):
+def current_record_metadata(row, context, active_turn=None, native_current_hold=False):
     if 'metadata' not in row:
         return row['payload'].get('type') != 'message' or row['payload'].get('role') != 'assistant'
     if context.get('profile_id') not in (CURRENT_BOUNDARY_PROFILE, NONPROTECTED_PROFILE):
@@ -86,6 +94,8 @@ def current_record_metadata(row, context, active_turn=None):
         r = current_retained_locator(row, context)
         return active_turn is None or r['id']['turn_id'] == active_turn
     if kind in ('custom_tool_call_output', 'function_call', 'function_call_output'):
+        if native_current_hold and isinstance(m, dict) and set(m) == {'client_authored', 'user_input_order'}:
+            return m['client_authored'] is False and type(m['user_input_order']) is int and m['user_input_order'] >= 0
         return m == {'client_authored': False, 'fallback_token_limit_override': 12000}
     if kind == 'message' and p.get('role') == 'user' and (m == {'client_authored': False, 'mcp_attribution': {'status': 'none'}}):
         return True
@@ -294,8 +304,19 @@ def completed_exchange(context, prepared, request, store, session, owner, skill_
     before(validated['record'], identity['call'])
     return {'identity': digest(canonical(identity)), 'records': identity, 'evidence': request}
 
-def allow_current_settings_event(context, record):
-    """Treat only the pinned first post-refusal host settings row as inert."""
+def allow_current_settings_event(context, record, native_current_hold=False, before_load=None):
+    """Admit only the exact selected settings event at its allowed boundary."""
+    if native_current_hold:
+        row = record['row']; payload = row.get('payload', {})
+        expected = context.get('_current_child_settings_sha256')
+        return (type(before_load) is int and record['locator']['offset'] < before_load and
+                row.get('type') == 'event_msg' and 'metadata' not in row and
+                set(payload) == {'type', 'thread_id', 'thread_settings'} and
+                payload['type'] == 'thread_settings_applied' and
+                payload['thread_id'] == context['actual_child_identity']['thread_id'] and
+                isinstance(payload['thread_settings'], dict) and isinstance(expected, str) and
+                re.fullmatch('[0-9a-f]{64}', expected) is not None and
+                digest(canonical(payload['thread_settings'])) == expected)
     if context.get('source_association') != 'PUBLIC_OPEN_SPAWN_ACTIVATION_STRUCTURAL_UNQUALIFIED':
         return False
     child = context['child']
@@ -354,6 +375,9 @@ def hold_records(context, cutoff=None, prior=None, until_call=None):
         position = history['bytes']
         previous_ordinal = history['last_embedded_ordinal']
         physical_count = history['physical_records']
+    # A fresh native child can contain more physical host rows than the selected
+    # evidence window. Keep inherited/other-profile histories at the old bound.
+    record_limit = NONPROTECTED_HOLD_RECORDS if context.get('profile_id') == NONPROTECTED_PROFILE and source['history_start_ordinal'] == 1 and 'historical_prefix' not in source else MAX_RECORDS
     wires = []
     activation_seen = False
     original_seen = False
@@ -369,7 +393,7 @@ def hold_records(context, cutoff=None, prior=None, until_call=None):
                 remaining -= len(chunk)
             require(digestor.hexdigest() == history['sha256'], 'HOLD_HISTORY_PREFIX_CHANGED')
         while position < end:
-            require(len(records) < MAX_RECORDS, 'HOLD_RECORD_COUNT_BOUND')
+            require(len(records) < record_limit, 'HOLD_RECORD_COUNT_BOUND')
             wire = stream.readline(min(MAX_RECORD, end - position))
             require(0 < len(wire) <= MAX_RECORD and wire.endswith(b'\n') and (wire.count(b'\n') == 1) and (b'\r' not in wire) and (b'\x00' not in wire), 'HOLD_PARTIAL_OR_OVERFLOW_FRAME')
             row = json.loads(wire.decode('utf-8'), object_pairs_hook=unique)
@@ -440,6 +464,39 @@ def original_bind_records(context, prepared, bind_request, store, session, owner
         completed = {key: resolve_record(context, 'child', locator)[1] for key, locator in (('call', original['locator']), ('result', last['locator']))}
     return (records, prefix, completed)
 
+def qualified_same_source_ticks(context, records):
+    admitted = (
+        context['profile_id'] == OWNED_STDIO_PROFILE and
+        context.get('source_association') == 'PUBLIC_BOUNDARY_CHILD_STRUCTURAL_UNQUALIFIED' and
+        context['child']['history_start_ordinal'] == 1 and
+        'historical_prefix' not in context['child'] and
+        records[0]['row']['payload'].get('cli_version') == '0.153.4' and
+        records[0]['row']['payload'].get('id') == context['actual_child_identity']['thread_id'] and
+        records[0]['row']['payload'].get('session_id') == context['parent_identity']['thread_id'])
+    # The selected 0.164 writer can emit consecutive physical
+    # events within one clock tick. This is same-source order only; cross-source
+    # before() remains strict, and gaps/reversal are still refused.
+    # Eligibility uses metadata already checked by hold_records; this
+    # helper itself supplies no native producer authentication.
+    admitted = admitted or (
+        context['profile_id'] == NONPROTECTED_PROFILE and
+        context.get('source_association') == 'PUBLIC_BOUNDARY_CHILD_STRUCTURAL_UNQUALIFIED' and
+        context['child']['history_start_ordinal'] == 1 and
+        'historical_prefix' not in context['child'] and
+        records[0]['row']['payload'].get('cli_version') == '0.164.0-alpha.11.1' and
+        records[0]['row']['payload'].get('id') == context['actual_child_identity']['thread_id'] and
+        records[0]['row']['payload'].get('session_id') == context['parent_identity']['thread_id'])
+    return admitted
+
+
+def physical_history_ordered(previous_record, record, previous_stamp, stamp, equal_ticks):
+    return previous_stamp is None or previous_stamp < stamp or (
+        equal_ticks and previous_stamp == stamp and
+        previous_record['row']['ordinal'] + 1 == record['row']['ordinal'] and
+        previous_record['locator']['physical_line'] + 1 == record['locator']['physical_line'] and
+        previous_record['locator']['offset'] + previous_record['locator']['bytes'] == record['locator']['offset'])
+
+
 def history_with_priors(context, prepared, exchange, bind_request, store, session, owner, prior_context, cache, occurrence_sink=None):
     """Refuse any actual exact-episode USE while the observation hold is open.
 
@@ -484,17 +541,13 @@ def history_with_priors(context, prepared, exchange, bind_request, store, sessio
     completed = set()
     previous = None
     previous_record = None
-    # This exact fresh owned-stdio writer records distinct physical events in
-    # the same clock tick. The whole prefix has already been read and checked
-    # by hold_records; equal ticks add no authority or cross-source ordering.
-    owned_physical_order = (
-        context['profile_id'] == OWNED_STDIO_PROFILE and
-        context.get('source_association') == 'PUBLIC_BOUNDARY_CHILD_STRUCTURAL_UNQUALIFIED' and
-        context['child']['history_start_ordinal'] == 1 and
-        'historical_prefix' not in context['child'] and
-        records[0]['row']['payload'].get('cli_version') == '0.153.4' and
-        records[0]['row']['payload'].get('id') == context['actual_child_identity']['thread_id'] and
-        records[0]['row']['payload'].get('session_id') == context['parent_identity']['thread_id'])
+    # Same-source chronology comes from the complete checked physical history.
+    # Cross-source before() and original call/result pairing remain unchanged.
+    owned_physical_order = qualified_same_source_ticks(context, records)
+    native_current_hold = context['profile_id'] == NONPROTECTED_PROFILE and owned_physical_order
+    load_offset = prepared['authorization']['load_identity']['call']['locator']['offset']
+    settings_required = native_current_hold and context.get('_current_child_settings_sha256') is not None
+    settings_seen = 0
     active_turn = None
     for record in records[1:]:
         row = record['row']
@@ -505,11 +558,7 @@ def history_with_priors(context, prepared, exchange, bind_request, store, sessio
         except ValueError:
             raise HoldObservationRefusal('HOLD_EVENT_TIMESTAMP', prefix, record) from None
         try:
-            ordered = previous is None or previous < stamp or (
-                owned_physical_order and previous == stamp and
-                previous_record['row']['ordinal'] + 1 == row['ordinal'] and
-                previous_record['locator']['physical_line'] + 1 == record['locator']['physical_line'] and
-                previous_record['locator']['offset'] + previous_record['locator']['bytes'] == record['locator']['offset'])
+            ordered = physical_history_ordered(previous_record, record, previous, stamp, owned_physical_order)
         except TypeError:
             ordered = False
         witnessed(ordered, 'HOLD_EVENT_ORDER', record)
@@ -520,13 +569,30 @@ def history_with_priors(context, prepared, exchange, bind_request, store, sessio
                 if row['payload'].get('type') == 'task_started':
                     active_turn = row['payload'].get('turn_id')
                 if row['payload'].get('type') == 'thread_settings_applied':
-                    witnessed(allow_current_settings_event(context, record), 'HOLD_UNCLASSIFIED_EVENT', record)
+                    witnessed(allow_current_settings_event(context, record, native_current_hold, load_offset), 'HOLD_UNCLASSIFIED_EVENT', record)
+                    if native_current_hold:
+                        settings_seen += 1
+                        witnessed(settings_seen == 1, 'HOLD_INITIAL_SETTINGS_COUNT', record)
                     continue
                 witnessed(row['payload'].get('type') in ('task_started', 'item_completed', 'token_count', 'task_complete'), 'HOLD_UNCLASSIFIED_EVENT', record)
                 continue
             if row['type'] in ('world_state', 'turn_context', 'token_usage_record', 'inter_agent_communication_metadata'):
                 continue
-        witnessed(row['type'] == 'response_item' and (current_record_metadata(row, context, active_turn) if context['profile_id'] in (CURRENT_BOUNDARY_PROFILE, NONPROTECTED_PROFILE) else 'metadata' not in row), 'HOLD_UNCLASSIFIED_EVENT', record)
+        if native_current_hold and row.get('type') == 'response_item' and row['payload'].get('type') == 'additional_tools':
+            declaration = row['payload']
+            metadata = row.get('metadata')
+            witnessed(record['locator']['offset'] < load_offset and
+                isinstance(metadata, dict) and set(metadata) == {'client_authored', 'mcp_attribution'} and
+                metadata['client_authored'] is False and metadata['mcp_attribution'] == {'status': 'none'} and
+                set(declaration) == {'type', 'id', 'role', 'tools'} and
+                declaration['role'] == 'developer' and isinstance(declaration['id'], str) and
+                0 < len(declaration['id']) <= 128 and isinstance(declaration['tools'], list) and
+                0 < len(declaration['tools']) <= 64 and all(isinstance(item, dict) for item in declaration['tools']),
+                'HOLD_UNQUALIFIED_TOOL_DECLARATION', record)
+            # The declaration is inert. Actual calls still pass the unchanged
+            # operation, provenance, pairing and early-USE guards below.
+            continue
+        witnessed(row['type'] == 'response_item' and (current_record_metadata(row, context, active_turn, native_current_hold) if context['profile_id'] in (CURRENT_BOUNDARY_PROFILE, NONPROTECTED_PROFILE) else 'metadata' not in row), 'HOLD_UNCLASSIFIED_EVENT', record)
         payload = row['payload']
         kind = payload.get('type')
         if kind == 'custom_tool_call':
@@ -564,6 +630,8 @@ def history_with_priors(context, prepared, exchange, bind_request, store, sessio
             completed.add(call_id)
         else:
             raise HoldObservationRefusal('HOLD_UNCLASSIFIED_EVENT', prefix, record)
+    if settings_required:
+        witnessed(settings_seen == 1, 'HOLD_INITIAL_SETTINGS_COUNT', records[-1])
     outstanding = [offset for call_id, offset in calls.items() if call_id not in completed]
     require(not outstanding or (completed_bind is None and outstanding == [current_offset]), 'HOLD_UNSETTLED_TOOL_CALL')
     if retry:

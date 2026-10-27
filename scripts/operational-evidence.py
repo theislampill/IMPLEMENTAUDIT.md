@@ -1959,6 +1959,29 @@ _NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += (
         ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None),
     ),
 )
+# Exact DG08 source-only tuples; historical receipt scopes remain unchanged.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += (
+    (
+        ('claim-run.sh', 31259, '0d1829770e3ce8da613cb48646391fc65641636ac4cd42a97149b3e8f57750b9', 420),
+        ('validate-run-root.sh', 113863, '66c0f6d3df8c0f1702864055f3fcc4ee3cf5403982de81fba71389cdc5860283', 420),
+        ('claim-run-rotation.py', 259408, 'c91e7c3aa243919c4cdb398f999f28734f1a630511a99f6b1aa9dc477b2fae3c', 420),
+        ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', 493),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 420),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+    ),
+    (
+        ('claim-run.sh', 104155, '5cca165879cb272a8cb494fcdc12ac461ec53c4d9c95fcb13882ea44397be529', None),
+        ('validate-run-root.sh', 113863, '66c0f6d3df8c0f1702864055f3fcc4ee3cf5403982de81fba71389cdc5860283', None),
+        ('claim-run-rotation.py', 246657, '908cce5054dc23a9e74b6af695204fc6d9889681611311c7136f087fe0be1663', None),
+        ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', None),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None),
+    ),
+)
 _NATIVE_LEGACY_CONTINUITY_PAIRS_V1 = (
     ('07e09843b2831149dc43e5f0dc458e82ae5cf9614b116393ac774ddea19390c7',
      'fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5'),
@@ -1986,6 +2009,8 @@ _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1 = {
     '0dfdd58d07784164581e265d0db8a52cc08270e791bf29e6d9e1f9814113a171': 51541,
     # Exact DG08 source-only profile addition; no native credit.
     '7dfa4f3ff1d09855472cd1f8764e53f3c9f1a08ac8f85f363d6364ce429e6cd0': 53560,
+    # Exact DG08 source-only profile addition; no native credit.
+    '797382b4d87a3c03a64e2dfb48b1dd90860b060e177685ebda837d797931be68': 55589,
 }
 
 

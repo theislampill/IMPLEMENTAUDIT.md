@@ -1567,7 +1567,7 @@ def _native_predecessor_scope_v1(read, retained):
 # pins its provider artifact; public accepting-core bytes contain no private
 # repo/issuer/episode literal. Only the governed private pin expression may vary
 # from this source-owner template. Actual episode/grant data comes AFTER OPEN.
-_NATIVE_SOURCE_OWNER_TEMPLATE_SHA256 = 'dba5771d606e1669090703cf6094440344684fdafd2d67a40ae8eb95e3190985'
+_NATIVE_SOURCE_OWNER_TEMPLATE_SHA256 = 'b8debad1fa005c702694987f1aa7848c33fb575f7ebd23a674de5f873fc189e5'
 _NATIVE_PRIVATE_PROFILE_V1 = None
 _NATIVE_INPUT_RESOLVED_V1 = None
 _NATIVE_INPUT_BINARY_PIN_V1 = None

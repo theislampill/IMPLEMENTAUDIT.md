@@ -24,7 +24,10 @@ def host_binding(obs, context, policy):
 def sealed_prefix(obs, context, role, end):
     source = context[role]
     path, first = obs.physical(source['path'])
-    require(obs.identity(first) == source['physical'] and type(end) is int and (source['metadata']['bytes'] <= end <= first.st_size) and (end <= obs.MAX_TOTAL), 'CURRENT_PUBLIC_PREFIX_BOUND')
+    # The complete registered-source prefix is distinct from selected evidence.
+    # Preserve the existing owned-stdio and historical-profile acquisition bound.
+    maximum = obs.MAX_NATIVE_SOURCE_PREFIX_BYTES if context.get('profile_id') == obs.NONPROTECTED_PROFILE else obs.MAX_TOTAL
+    require(obs.identity(first) == source['physical'] and type(end) is int and (source['metadata']['bytes'] <= end <= first.st_size) and (end <= maximum), 'CURRENT_PUBLIC_PREFIX_BOUND')
     h = hashlib.sha256()
     with path.open('rb') as stream:
         require(obs.identity(os.fstat(stream.fileno())) == source['physical'], 'CURRENT_PUBLIC_PREFIX_CHANGED')
@@ -39,28 +42,41 @@ def sealed_prefix(obs, context, role, end):
     return {'role': role, 'physical': source['physical'], 'prefix_bytes': end, 'prefix_sha256': h.hexdigest()}
 
 def active_public_turn(obs, context, role, pin, retained):
-    """Only the declared native-turn interval; private content supplies no proof."""
+    """Stream the whole declared physical turn under the pinned acquisition policy.
+
+    Selected records retain their separate 64-row / 2 MiB / 256 KiB limits.
+    Larger physical turns supply no host authentication or acceptance authority.
+    """
+    expanded = context.get('profile_id') == obs.NONPROTECTED_PROFILE
+    maximum = obs.MAX_NATIVE_TURN_BYTES if expanded else obs.MAX_TOTAL
+    frame_limit = obs.MAX_NATIVE_TURN_FRAME if expanded else obs.MAX_RECORD
+    record_limit = obs.MAX_NATIVE_TURN_RECORDS if expanded else obs.MAX_RECORDS
     anchor = context['parent_turn_start'] if role == 'parent' else context['child_activation']
     start = anchor['locator']['offset']
     end = pin['locator']['offset'] + pin['locator']['bytes']
-    require(0 <= start < end and end - start <= obs.MAX_TOTAL, 'CURRENT_PUBLIC_TURN_RANGE_BOUND')
+    require(0 <= start < end and end - start <= maximum, 'CURRENT_PUBLIC_TURN_RANGE_BOUND')
     path, info = obs.physical(context[role]['path'])
     require(obs.identity(info) == context[role]['physical'], 'CURRENT_PUBLIC_PREFIX_CHANGED')
     active = None
     count = 0
     with path.open('rb') as stream:
+        require(obs.identity(os.fstat(stream.fileno())) == context[role]['physical'], 'CURRENT_PUBLIC_PREFIX_CHANGED')
         stream.seek(start)
         position = start
         while position < end:
-            raw = stream.readline(min(obs.MAX_RECORD + 1, end - position))
-            require(raw and raw.endswith(b'\n') and (len(raw) <= obs.MAX_RECORD), 'CURRENT_PUBLIC_TURN_FRAME')
+            raw = stream.readline(min(frame_limit + 1, end - position))
+            require(raw and raw.endswith(b'\n') and (len(raw) <= frame_limit), 'CURRENT_PUBLIC_TURN_FRAME')
             row = obs.json.loads(raw, object_pairs_hook=obs.unique)
             count += 1
             require(isinstance(row, dict) and isinstance(row.get('payload'), dict) and isinstance(row.get('type'), str), 'CURRENT_PUBLIC_TURN_FRAME')
-            require(count <= obs.MAX_RECORDS, 'CURRENT_PUBLIC_TURN_RANGE_BOUND')
+            require(count <= record_limit, 'CURRENT_PUBLIC_TURN_RANGE_BOUND')
             if row.get('type') == 'event_msg' and row['payload'].get('type') == 'task_started' or row.get('type') == 'turn_context':
                 active = row['payload'].get('turn_id')
             position += len(raw)
+        final = os.fstat(stream.fileno())
+        require(obs.identity(final) == context[role]['physical'] and final.st_size >= end, 'CURRENT_PUBLIC_PREFIX_CHANGED')
+    _, last = obs.physical(path)
+    require(obs.identity(last) == context[role]['physical'] and last.st_size >= end, 'CURRENT_PUBLIC_PREFIX_CHANGED')
     require(active == retained['id']['turn_id'], 'CURRENT_PUBLIC_WRONG_ACTIVE_TURN')
 
 def native_public_binding(obs, context, policy, pins):
@@ -203,7 +219,12 @@ def _np_selection():
     if OWNED_STDIO_SELECTION_PIN is not None:
         return validate_owned_stdio_selection_shape_v1(selected)
     required = {'schema', 'profile_id', 'root_thread_id', 'root_agent_path', 'root_source', 'session_root', 'cwd', 'cli_version', 'native_version', 'desktop_version', 'host_process', 'desktop_process', 'native_executable', 'desktop_executable', 'desktop_asar', 'config_file', 'runtime_helpers', 'episode_owner', 'pending_owner'}
-    require(isinstance(selected, dict) and set(selected) == required and (selected['schema'] == 'implementaudit.codex-nonprotected-provider-selection.v1') and (selected['profile_id'] == NONPROTECTED_PROFILE) and (set(selected['runtime_helpers']) == {'bounded_native_reader.py', 'bounded_source_owner.py', 'bounded_file_custody.py'}), 'NONPROTECTED_FIXED_SELECTION_SHAPE')
+    require(isinstance(selected, dict) and required <= set(selected) <= required | {'child_initial_settings_sha256'} and (selected['schema'] == 'implementaudit.codex-nonprotected-provider-selection.v1') and (selected['profile_id'] == NONPROTECTED_PROFILE) and (set(selected['runtime_helpers']) == {'bounded_native_reader.py', 'bounded_source_owner.py', 'bounded_file_custody.py'}), 'NONPROTECTED_FIXED_SELECTION_SHAPE')
+    if 'child_initial_settings_sha256' in selected:
+        require(selected['native_version'] == 'codex-cli 0.164.0-alpha.11.1' and
+                isinstance(selected['child_initial_settings_sha256'], str) and
+                re.fullmatch('[0-9a-f]{64}', selected['child_initial_settings_sha256']) is not None,
+                'NONPROTECTED_CHILD_SETTINGS_BASELINE')
     pointer = selected['pending_owner']
     require(isinstance(pointer, dict) and set(pointer) == {'store', 'session_id', 'owner_id'} and isinstance(pointer['store'], str) and Path(pointer['store']).is_absolute() and (pointer['session_id'] == selected['root_thread_id']) and isinstance(pointer['owner_id'], str) and pointer['owner_id'], 'NONPROTECTED_FIXED_PENDING_OWNER_SHAPE')
     return selected
@@ -259,6 +280,8 @@ def nonprotected_bind_sources(obs, request, code_pins):
         subject = _np_subject(runtime)
         require(subject['episode']['selected_child_role'] == 'audit-state', 'NONPROTECTED_RECONCILIATION_ROLE_REQUIRED')
         context = {'profile_id': selected['profile_id'], 'parent_identity': subject['parent_identity'], 'actual_child_identity': subject['actual_child_identity'], 'logical_child_id': subject['actual_child_identity']['agent_path'], 'canonical_episode_binding': subject['episode'], '_source_profile_code_pins': code_pins, 'source_association': 'PUBLIC_BOUNDARY_CHILD_STRUCTURAL_UNQUALIFIED', 'host_producer_authenticated': False}
+        if 'child_initial_settings_sha256' in selected:
+            context['_current_child_settings_sha256'] = selected['child_initial_settings_sha256']
         for role in ('parent', 'child'):
             source = subject['sources'][role]
             prefix = source['header_prefix']
@@ -310,6 +333,8 @@ def nonprotected_fixed_policy(obs, code_pins):
         return pin
     provider = {'profile_id': NONPROTECTED_PROFILE, 'selection_pin': dict(NONPROTECTED_SELECTION_PIN), 'native_version': selected['native_version'], 'native_executable': selected['native_executable'], 'desktop_version': selected['desktop_version'], 'desktop': selected['desktop_executable'], 'desktop_asar': selected['desktop_asar'], 'config_identity_only': selected['config_file']}
     descriptor = {'schema': 'implementaudit.compaction-fixed-acquisition-policy.v1', 'profile_id': NONPROTECTED_PROFILE, 'custody_namespace': 'result-observations-v1', 'qualification_key': 'qualification/Q.json', 'provider_selection': provider, 'authenticating_source_owner': {'issuer_id': 'codex-app-canonical-episode-public-source-v1', 'module_pin': code_pin('compaction-source-owner-codex-app.py'), 'native_reader_pin': code_pin('codex-recovery-native-reader.py'), 'native_binary': selected['native_executable'], 'desktop_executable': selected['desktop_executable'], 'desktop_asar': selected['desktop_asar'], 'config_file': selected['config_file']}, 'exact_host_tuple': {'source_header_cli_version': selected['cli_version'], 'child_source_header_cli_version': helpers.child_cli_version(selected), 'provider_selection_sha256': NONPROTECTED_SELECTION_PIN['sha256'], 'native_version': selected['native_version'], 'native_executable_sha256': selected['native_executable']['sha256'], 'desktop_package_version': selected['desktop_version'], 'desktop_executable_sha256': selected['desktop_executable']['sha256'], 'desktop_asar_sha256': selected['desktop_asar']['sha256'], 'config_sha256': selected['config_file']['sha256']}}
+    if 'child_initial_settings_sha256' in selected:
+        descriptor['exact_host_tuple']['child_initial_settings_sha256'] = selected['child_initial_settings_sha256']
     value = {'descriptor': descriptor, 'code_and_skill_pins': code_pins}
     return {**value, 'policy_digest': obs.digest(obs.canonical(value))}
 

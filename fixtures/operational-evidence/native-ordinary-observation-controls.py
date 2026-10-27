@@ -175,7 +175,7 @@ class OrdinaryObservationControls(unittest.TestCase):
         value=self.value; helper=self.helper; obs=self.obs
         child=value['result']['actual_child_identity']; parent_id=child['parent_thread_id']; child_id=child['thread_id']
         selected=dict(root_thread_id=parent_id,root_agent_path='/root',session_root=str(self.root),
-                      cwd=str(self.root),cli_version='constructed')
+                      cwd=str(self.root),cli_version='constructed',native_version='codex-cli constructed')
         threads={}; headers={}
         for role,ident in (('parent',parent_id),('child',child_id)):
             path=self.root/('rollout-'+ident+'.jsonl');path.write_bytes(b'constructed physical source')
@@ -224,7 +224,8 @@ class OrdinaryObservationControls(unittest.TestCase):
             self.helper._recheck_ordinary_native_v1(args[0],self.obs,*args[1:])
 
     def test_native_exit_refuses_changed_catalog_relation_body_population_and_physical_source(self):
-        for field in ('catalog_duplicate','parent','body','turn','phase','population','physical','header','raw'):
+        for field in ('catalog_duplicate','parent','body','turn','phase','population','physical','header','raw',
+                      'runtime_unbound','runtime_changed'):
             with self.subTest(field=field),self.native_boundary() as args:
                 if field=='catalog_duplicate':self.responses[0]['threads']*=2
                 elif field=='parent':self.responses[2]['thread']['parentThreadId']='foreign'
@@ -233,8 +234,12 @@ class OrdinaryObservationControls(unittest.TestCase):
                 elif field=='population':self.responses.pop()
                 elif field=='physical':next(iter(self.headers.values()))['physical']['inode']=99
                 elif field=='header':next(iter(self.headers.values()))['header_prefix']['sha256']='9'*64
+                elif field=='runtime_unbound':args[0][0].pop('native_version')
+                elif field=='runtime_changed':args[0][0]['native_version']='codex-cli foreign-constructed'
                 else:self.raw_drift=True
-                with self.assertRaises(ValueError):self.helper._recheck_ordinary_native_v1(args[0],self.obs,*args[1:])
+                reason={'runtime_unbound':'NATIVE_CHILD_VERSION_UNBOUND',
+                        'runtime_changed':'VERSION_QUALIFIED_HEADER_RELATION_CHANGED'}.get(field,'.')
+                with self.assertRaisesRegex(ValueError,reason):self.helper._recheck_ordinary_native_v1(args[0],self.obs,*args[1:])
 
     def test_raw_record_changed_during_native_api_read_refuses(self):
         with self.native_boundary() as args:
