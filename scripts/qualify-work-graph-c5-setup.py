@@ -29,6 +29,176 @@ OWNED_CHILD = None
 OWNED_PIDFD = None
 
 
+HOSTED_PACKAGE_URL = 'https://snapshot.ubuntu.com/ubuntu/20260901T000000Z/pool/main/b/bubblewrap/bubblewrap_0.9.0-1ubuntu0.1_amd64.deb'
+HOSTED_PACKAGE_PIN = {'bytes': 50178, 'sha256': '1b506492bd9c7fd0cdb4f02ac822f1d3e336b0aead5113c1239baf8db5db562a'}
+
+
+def hosted_download():
+    import urllib.request
+
+    class NoRedirect(urllib.request.HTTPRedirectHandler):
+        def redirect_request(self, *_args, **_kwargs):
+            raise ValueError('hosted launcher package redirect refused')
+
+    request = urllib.request.Request(HOSTED_PACKAGE_URL, headers={'User-Agent': 'implementaudit-c5-setup/1'})
+    with urllib.request.build_opener(NoRedirect).open(request, timeout=10) as response:
+        if response.status != 200 or response.geturl() != HOSTED_PACKAGE_URL:
+            raise ValueError('hosted launcher package origin changed')
+        size = response.headers.get('Content-Length')
+        if size is not None and size != str(HOSTED_PACKAGE_PIN['bytes']):
+            raise ValueError('hosted launcher package length changed')
+        return response.read(HOSTED_PACKAGE_PIN['bytes'] + 1)
+
+
+def hosted_archive_data(raw):
+    if len(raw) > HOSTED_PACKAGE_PIN['bytes'] or raw[:8] != b'!<arch>\n':
+        raise ValueError('hosted launcher archive header differs')
+    offset, members = 8, []
+    while offset < len(raw):
+        header = raw[offset:offset + 60]
+        if len(header) != 60 or header[58:] != b'`\n' or len(members) >= 3:
+            raise ValueError('hosted launcher archive member differs')
+        try:
+            name = header[:16].decode('ascii').strip().rstrip('/')
+            size = int(header[48:58])
+        except (UnicodeError, ValueError) as error:
+            raise ValueError('hosted launcher archive metadata differs') from error
+        offset += 60
+        if size < 0 or size > len(raw) - offset:
+            raise ValueError('hosted launcher archive member is truncated')
+        members.append((name, raw[offset:offset + size]))
+        offset += size + size % 2
+    if (offset != len(raw) or [name for name, _ in members] !=
+            ['debian-binary', 'control.tar.zst', 'data.tar.zst'] or members[0][1] != b'2.0\n'):
+        raise ValueError('hosted launcher archive selection differs')
+    return members[2][1]
+
+
+def hosted_tar_launcher(raw):
+    import io
+    import tarfile
+    if len(raw) > 1048576:
+        raise ValueError('hosted launcher tar exceeds its bound')
+    try:
+        with tarfile.open(fileobj=io.BytesIO(raw), mode='r:') as archive:
+            members = archive.getmembers()
+            selected = [member for member in members if member.name == './usr/bin/bwrap']
+            if len(members) > 64 or len(selected) != 1:
+                raise ValueError('hosted launcher tar selection differs')
+            member = selected[0]
+            if (not member.isreg() or member.mode != 0o755 or member.uid != 0 or member.gid != 0
+                    or member.size != PIN['bytes'] or member.linkname):
+                raise ValueError('hosted launcher tar member metadata differs')
+            stream = archive.extractfile(member)
+            with stream:
+                launcher = stream.read(PIN['bytes'] + 1)
+    except (tarfile.TarError, OSError) as error:
+        raise ValueError('hosted launcher tar is invalid') from error
+    if len(launcher) != PIN['bytes'] or hashlib.sha256(launcher).hexdigest() != PIN['sha256']:
+        raise ValueError('hosted launcher pin differs')
+    return launcher
+
+
+def decode_hosted_launcher(raw):
+    # Linux provider preparation only; this supplies no native governance event.
+    if len(raw) != HOSTED_PACKAGE_PIN['bytes'] or hashlib.sha256(raw).hexdigest() != HOSTED_PACKAGE_PIN['sha256']:
+        raise ValueError('hosted launcher package pin differs')
+    compressed = hosted_archive_data(raw)
+    import ctypes
+    library = ctypes.CDLL('/lib/x86_64-linux-gnu/libzstd.so.1')
+    library.ZSTD_decompress.argtypes = [ctypes.c_void_p, ctypes.c_size_t, ctypes.c_void_p, ctypes.c_size_t]
+    library.ZSTD_decompress.restype = ctypes.c_size_t
+    library.ZSTD_isError.argtypes = [ctypes.c_size_t]
+    library.ZSTD_isError.restype = ctypes.c_uint
+    output = ctypes.create_string_buffer(1048576)
+    size = library.ZSTD_decompress(output, len(output), compressed, len(compressed))
+    if library.ZSTD_isError(size) or not 0 < size <= len(output):
+        raise ValueError('hosted launcher zstd data is invalid or exceeds its bound')
+    return hosted_tar_launcher(output.raw[:size])
+
+
+def hosted_parent():
+    opened = []
+    try:
+        for name, path in [('/', '/'), ('usr', '/usr'), ('bin', '/usr/bin')]:
+            fd = os.open(name, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC,
+                         dir_fd=opened[-1][0] if opened else None)
+            opened.append((fd, path))
+            observed = os.fstat(fd)
+            if (not stat.S_ISDIR(observed.st_mode) or observed.st_uid != 0 or observed.st_gid != 0
+                    or observed.st_mode & 0o022 or identity(observed) != identity(os.lstat(path))):
+                raise ValueError('hosted launcher parent metadata differs')
+        try:
+            os.stat('bwrap', dir_fd=opened[-1][0], follow_symlinks=False)
+        except FileNotFoundError:
+            return opened
+        raise FileExistsError('hosted launcher target already exists')
+    except BaseException:
+        for fd, _ in reversed(opened):
+            os.close(fd)
+        raise
+
+
+def write_hosted_launcher(parent, raw):
+    if len(raw) != PIN['bytes'] or hashlib.sha256(raw).hexdigest() != PIN['sha256']:
+        raise ValueError('hosted launcher pin differs')
+    directory = os.fstat(parent)
+    if (not stat.S_ISDIR(directory.st_mode) or directory.st_uid != os.geteuid()
+            or directory.st_gid != os.getegid() or directory.st_mode & 0o022):
+        raise ValueError('hosted launcher parent metadata differs')
+    fd = os.open('bwrap', os.O_RDWR | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.O_CLOEXEC,
+                 0o755, dir_fd=parent)
+    try:
+        os.fchmod(fd, 0o755)
+        offset = 0
+        while offset < len(raw):
+            count = os.write(fd, raw[offset:])
+            if count <= 0:
+                raise ValueError('hosted launcher write stalled; exclusive target retained')
+            offset += count
+        os.fsync(fd)
+        before = identity(os.fstat(fd))
+        received = os.pread(fd, PIN['bytes'] + 1, 0)
+        after = identity(os.fstat(fd))
+        if (before != after or after != identity(os.stat('bwrap', dir_fd=parent, follow_symlinks=False))
+                or not stat.S_ISREG(after[2]) or stat.S_IMODE(after[2]) != 0o755 or after[3] != 1
+                or after[4] != PIN['bytes'] or after[7:] != [os.geteuid(), os.getegid()] or received != raw):
+            raise ValueError('hosted launcher exclusive write/readback differs; target retained')
+        return dict(PIN, opening=before, closing=after, mode='0755', exclusive_creation=True)
+    finally:
+        os.close(fd)
+
+
+def provision_hosted_launcher():
+    if os.geteuid() != 0 or os.getegid() != 0:
+        raise ValueError('hosted launcher provision requires explicit root invocation')
+    for which, value in [(resource.RLIMIT_AS, 134217728), (resource.RLIMIT_CPU, 5),
+                         (resource.RLIMIT_FSIZE, 131072), (resource.RLIMIT_NOFILE, 32)]:
+        resource.setrlimit(which, (value, value))
+    opened = hosted_parent()
+    def deadline(_signal, _frame):
+        raise TimeoutError('hosted launcher provision exceeded20seconds; any exclusive target is retained')
+    previous = signal.signal(signal.SIGALRM, deadline)
+    signal.setitimer(signal.ITIMER_REAL, 20)
+    try:
+        launcher = decode_hosted_launcher(hosted_download())
+        result = write_hosted_launcher(opened[-1][0], launcher)
+        for fd, path in opened:
+            current = os.fstat(fd)
+            if (identity(current) != identity(os.lstat(path)) or current.st_uid != 0
+                    or current.st_gid != 0 or current.st_mode & 0o022):
+                raise ValueError('hosted launcher parent changed; exclusive target retained')
+        print(json.dumps({'scope': 'LINUX_LAUNCHER_PROVISION_ONLY_NO_C5_OR_NATIVE_ACCEPTANCE',
+                          'package': dict(HOSTED_PACKAGE_PIN, url=HOSTED_PACKAGE_URL),
+                          'target': '/usr/bin/bwrap', 'launcher': result}, sort_keys=True, separators=(',', ':')))
+        return 0
+    finally:
+        signal.setitimer(signal.ITIMER_REAL, 0)
+        signal.signal(signal.SIGALRM, previous)
+        for fd, _ in reversed(opened):
+            os.close(fd)
+
+
 def identity(s):
     return [s.st_dev, s.st_ino, s.st_mode, s.st_nlink, s.st_size,
             s.st_mtime_ns, s.st_ctime_ns, s.st_uid, s.st_gid]
@@ -214,7 +384,12 @@ def emergency_cleanup():
 
 
 if __name__ == '__main__':
+    import sys
     try:
+        if sys.argv[1:] == ['--provision-hosted-launcher']:
+            raise SystemExit(provision_hosted_launcher())
+        if sys.argv[1:]:
+            raise ValueError('unsupported setup observer arguments')
         raise SystemExit(main())
     finally:
         emergency_cleanup()

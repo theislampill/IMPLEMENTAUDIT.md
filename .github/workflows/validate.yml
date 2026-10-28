@@ -21,7 +21,13 @@ jobs:
         timeout-minutes: 1
         run: |
           set +e
-          /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py
+          sudo /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --provision-hosted-launcher
+          provision_status=$?
+          printf 'C5 launcher provision exit: %s\n' "$provision_status"
+          if [ "$provision_status" -ne 0 ]; then
+            exit "$provision_status"
+          fi
+          sudo /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py
           setup_status=$?
           printf 'C5 setup observation instrument exit: %s\n' "$setup_status"
           exit "$setup_status"

@@ -31,6 +31,167 @@ def load(name, path):
 
 
 class CompositeSourceCases(unittest.TestCase):
+    @unittest.skipUnless(sys.platform == "linux", "fixed Linux hosted launcher prerequisite")
+    def test_c5_hosted_package_pin_refuses_before_archive_parsing(self):
+        owner = load("c5_hosted_package_pin", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        decode = getattr(owner, "decode_hosted_launcher", None)
+        self.assertTrue(callable(decode), "bounded hosted launcher prerequisite is absent")
+        with mock.patch.object(owner, "hosted_archive_data", side_effect=AssertionError("unpinned package parsed")):
+            for raw in (b"", b"x" * 50178, b"x" * 50179):
+                with self.subTest(size=len(raw)), self.assertRaisesRegex(ValueError, "package pin"):
+                    decode(raw)
+
+    @unittest.skipUnless(sys.platform == "linux", "fixed Linux hosted launcher prerequisite")
+    def test_c5_hosted_archive_refuses_ambiguous_or_truncated_members(self):
+        owner = load("c5_hosted_archive", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+
+        def ar(rows):
+            out = bytearray(b"!<arch>\n")
+            for name, raw in rows:
+                out.extend((name.ljust(16) + "0".ljust(12) + "0".ljust(6)
+                            + "0".ljust(6) + "100644".ljust(8) + str(len(raw)).ljust(10) + "`\n").encode())
+                out.extend(raw + (b"\n" if len(raw) % 2 else b""))
+            return bytes(out)
+
+        rows = [("debian-binary", b"2.0\n"), ("control.tar.zst", b"control"), ("data.tar.zst", b"data")]
+        self.assertEqual(owner.hosted_archive_data(ar(rows)), b"data")
+        bad = [b"bad", ar(rows)[:-1], ar(rows + [rows[-1]]), ar(rows[::-1]),
+               ar([(rows[0][0], b"3.0\n")] + rows[1:]), ar(rows[:2] + [("elsewhere", b"data")])]
+        for raw in bad:
+            with self.subTest(size=len(raw)), self.assertRaises(ValueError):
+                owner.hosted_archive_data(raw)
+
+    @unittest.skipUnless(sys.platform == "linux", "fixed Linux hosted launcher prerequisite")
+    def test_c5_hosted_download_is_fixed_bounded_and_refuses_redirects(self):
+        owner = load("c5_hosted_download", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        response = mock.MagicMock()
+        response.__enter__.return_value = response
+        response.status = 200; response.geturl.return_value = owner.HOSTED_PACKAGE_URL
+        response.headers = {"Content-Length": "50178"}; response.read.return_value = b"bounded-response-control"
+        opener = mock.MagicMock(); opener.open.return_value = response
+        with mock.patch("urllib.request.build_opener", return_value=opener) as build:
+            self.assertEqual(owner.hosted_download(), b"bounded-response-control")
+            request = opener.open.call_args.args[0]
+            self.assertEqual(request.full_url, owner.HOSTED_PACKAGE_URL)
+            self.assertEqual(opener.open.call_args.kwargs, {"timeout": 10})
+            response.read.assert_called_once_with(50179)
+            with self.assertRaisesRegex(ValueError, "redirect"):
+                build.call_args.args[0]().redirect_request(None, None, 302, None, {}, "https://elsewhere.invalid/")
+            for status, url, size in [(201, owner.HOSTED_PACKAGE_URL, "50178"),
+                                      (200, "https://elsewhere.invalid/", "50178"),
+                                      (200, owner.HOSTED_PACKAGE_URL, "50179")]:
+                response.status = status; response.geturl.return_value = url
+                response.headers = {"Content-Length": size}; response.read.reset_mock()
+                with self.assertRaises(ValueError):
+                    owner.hosted_download()
+                response.read.assert_not_called()
+
+    @unittest.skipUnless(sys.platform == "linux", "fixed Linux hosted launcher prerequisite")
+    def test_c5_hosted_zstd_refuses_errors_and_output_overflow(self):
+        owner = load("c5_hosted_zstd", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        raw = b"constructed compressed-input control"
+        package_pin = {"bytes": len(raw), "sha256": hashlib.sha256(raw).hexdigest()}
+        library = mock.MagicMock()
+        with mock.patch.object(owner, "HOSTED_PACKAGE_PIN", package_pin), \
+                mock.patch.object(owner, "hosted_archive_data", return_value=b"compressed"), \
+                mock.patch.object(owner, "hosted_tar_launcher", side_effect=AssertionError("unbounded tar parsed")), \
+                mock.patch("ctypes.CDLL", return_value=library) as opened:
+            for size, error in [(0, 0), (1048577, 0), (18446744073709551615, 1)]:
+                library.ZSTD_decompress.return_value = size; library.ZSTD_isError.return_value = error
+                with self.subTest(size=size), self.assertRaisesRegex(ValueError, "zstd"):
+                    owner.decode_hosted_launcher(raw)
+                self.assertEqual(library.ZSTD_decompress.call_args.args[1], 1048576)
+            self.assertEqual(opened.call_args.args, ("/lib/x86_64-linux-gnu/libzstd.so.1",))
+            opened.side_effect = OSError("selected installed library unavailable")
+            with self.assertRaisesRegex(OSError, "unavailable"):
+                owner.decode_hosted_launcher(raw)
+
+    @unittest.skipUnless(sys.platform == "linux", "fixed Linux hosted launcher prerequisite")
+    def test_c5_hosted_tar_selects_only_one_exact_regular_launcher(self):
+        import tarfile
+        owner = load("c5_hosted_tar", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        payload = b"constructed parser control; no original-provider credit"
+        pin = {"bytes": len(payload), "sha256": hashlib.sha256(payload).hexdigest()}
+
+        def archive(name="./usr/bin/bwrap", mode=0o755, kind=tarfile.REGTYPE, duplicate=False, data=payload):
+            buf = io.BytesIO()
+            with tarfile.open(fileobj=buf, mode="w") as tar:
+                for _ in range(2 if duplicate else 1):
+                    member = tarfile.TarInfo(name); member.mode = mode; member.type = kind
+                    member.uid = member.gid = 0; member.size = len(data) if kind == tarfile.REGTYPE else 0
+                    member.linkname = "/elsewhere" if kind != tarfile.REGTYPE else ""
+                    tar.addfile(member, io.BytesIO(data) if kind == tarfile.REGTYPE else None)
+            return buf.getvalue()
+
+        with mock.patch.object(owner, "PIN", pin):
+            self.assertEqual(owner.hosted_tar_launcher(archive()), payload)
+            for raw in (archive(name="usr/bin/bwrap"), archive(mode=0o4755), archive(kind=tarfile.SYMTYPE),
+                        archive(duplicate=True), archive(data=payload + b"x"), archive(data=b"x" * len(payload)),
+                        b"x" * (1048576 + 1), b"invalid tar"):
+                with self.subTest(size=len(raw)), self.assertRaises(ValueError):
+                    owner.hosted_tar_launcher(raw)
+
+    @unittest.skipUnless(sys.platform == "linux", "fixed Linux hosted launcher prerequisite")
+    def test_c5_hosted_launcher_write_is_exclusive_and_read_back(self):
+        owner = load("c5_hosted_write", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        payload = b"constructed exclusive-write control; no original-provider credit"
+        pin = {"bytes": len(payload), "sha256": hashlib.sha256(payload).hexdigest()}
+        with tempfile.TemporaryDirectory(prefix="c5-launcher-write-") as tmp, mock.patch.object(owner, "PIN", pin):
+            parent = os.open(tmp, os.O_RDONLY | os.O_DIRECTORY)
+            try:
+                result = owner.write_hosted_launcher(parent, payload)
+                target = Path(tmp) / "bwrap"
+                self.assertEqual(target.read_bytes(), payload)
+                self.assertEqual(target.stat().st_mode & 0o7777, 0o755)
+                self.assertEqual(result["sha256"], pin["sha256"])
+                with self.assertRaises(FileExistsError):
+                    owner.write_hosted_launcher(parent, payload)
+                self.assertEqual(target.read_bytes(), payload)
+                target.unlink(); target.symlink_to(Path(tmp) / "unselected")
+                with self.assertRaises(FileExistsError):
+                    owner.write_hosted_launcher(parent, payload)
+                self.assertFalse((Path(tmp) / "unselected").exists())
+                target.unlink()
+                with self.assertRaisesRegex(ValueError, "launcher pin"):
+                    owner.write_hosted_launcher(parent, payload + b"x")
+                self.assertFalse(target.exists())
+                os.chmod(tmp, 0o777)
+                with self.assertRaisesRegex(ValueError, "parent metadata"):
+                    owner.write_hosted_launcher(parent, payload)
+                self.assertFalse(target.exists())
+                os.chmod(tmp, 0o700)
+            finally:
+                os.close(parent)
+
+    @unittest.skipUnless(sys.platform == "linux", "fixed Linux hosted launcher prerequisite")
+    def test_c5_hosted_launcher_handles_short_write_and_refuses_stalled_write(self):
+        owner = load("c5_hosted_short_write", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        payload = b"constructed short-write control"
+        pin = {"bytes": len(payload), "sha256": hashlib.sha256(payload).hexdigest()}
+        real_write = os.write
+        with tempfile.TemporaryDirectory(prefix="c5-launcher-short-") as tmp, mock.patch.object(owner, "PIN", pin):
+            parent = os.open(tmp, os.O_RDONLY | os.O_DIRECTORY)
+            try:
+                with mock.patch.object(owner.os, "write", side_effect=lambda fd, raw: real_write(fd, raw[:3])):
+                    owner.write_hosted_launcher(parent, payload)
+                self.assertEqual((Path(tmp) / "bwrap").read_bytes(), payload)
+                (Path(tmp) / "bwrap").unlink()
+                with mock.patch.object(owner.os, "write", return_value=0), self.assertRaisesRegex(ValueError, "stalled"):
+                    owner.write_hosted_launcher(parent, payload)
+                self.assertEqual((Path(tmp) / "bwrap").read_bytes(), b"")
+            finally:
+                os.close(parent)
+
+    @unittest.skipUnless(sys.platform == "linux", "fixed Linux hosted launcher prerequisite")
+    def test_c5_hosted_provision_requires_root_before_fetch_or_target_access(self):
+        owner = load("c5_hosted_authority", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        with mock.patch.object(owner.os, "geteuid", return_value=1001), \
+                mock.patch.object(owner.os, "getegid", return_value=1001), \
+                mock.patch.object(owner, "hosted_download", side_effect=AssertionError("unadmitted network")), \
+                mock.patch.object(owner, "hosted_parent", side_effect=AssertionError("unadmitted target")):
+            with self.assertRaisesRegex(ValueError, "root"):
+                owner.provision_hosted_launcher()
+
     def test_native_binding_lookup_refuses_ambiguous_json(self):
         owner = load("native_binding_json", PEER / "host-session-binding.py")
         with tempfile.TemporaryDirectory(prefix="native-binding-json-") as temporary:
