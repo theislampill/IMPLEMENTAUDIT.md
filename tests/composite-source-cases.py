@@ -31,6 +31,301 @@ def load(name, path):
 
 
 class CompositeSourceCases(unittest.TestCase):
+    @unittest.skipUnless(sys.platform == "linux", "fixed Linux hosted prerequisites")
+    def test_c5_hosted_current_reader_binds_before_owner_loading(self):
+        """Break caught: a changed loader or implicit original profile reads host inputs."""
+        observer = load("hosted_current_reader_control", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        receive = getattr(observer, "hosted_current_owner", None)
+        self.assertTrue(callable(receive), "bounded hosted current-owner receiving is absent")
+        with mock.patch("subprocess.Popen", side_effect=AssertionError("reader dispatched a child")):
+            current = receive(ROOT)
+            self.assertEqual(current.PROFILE, "FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1")
+            with tempfile.TemporaryDirectory(prefix="c5-hosted-loader-") as temporary:
+                root = Path(temporary)
+                (root / "scripts").mkdir()
+                (root / "scripts/load-work-graph-c5-executor.py").write_bytes(b"raise AssertionError('must not execute')\n")
+                with self.assertRaisesRegex(ValueError, "loader pin"):
+                    receive(root)
+
+    @unittest.skipUnless(sys.platform == "linux", "fixed Linux hosted prerequisites")
+    def test_c5_hosted_pin_receiving_retains_actual_mismatch(self):
+        """Break caught: different host bytes are silently accepted or reprofiled."""
+        observer = load("hosted_pin_receiving_control", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        receive = getattr(observer, "hosted_pin_receiving", None)
+        self.assertTrue(callable(receive), "literal hosted pin receiving is absent")
+        original = load("hosted_pin_owner", ROOT / "scripts/load-work-graph-c5-executor.py")
+        base = original._Engine(original.CURRENT_PROFILE).load().B
+        with tempfile.TemporaryDirectory(prefix="c5-hosted-pin-") as temporary:
+            path = Path(temporary) / "input"
+            path.write_bytes(b"abc")
+            path.chmod(0o600)
+            pin = dict(bytes=3, sha256="ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+                       mode=0o600, resolved=str(path), link=None)
+            objects = {}
+            first = receive(base, str(path), pin, objects)
+            self.assertTrue(first["match"])
+            self.assertEqual(objects[first["observed"]["sha256"]], b"abc")
+            path.write_bytes(b"abd")
+            second = receive(base, str(path), pin, objects)
+            self.assertFalse(second["match"])
+            self.assertEqual(second["expected"], pin)
+            self.assertNotEqual(second["observed"]["sha256"], pin["sha256"])
+
+    @unittest.skipUnless(sys.platform == "linux", "fixed Linux hosted prerequisites")
+    def test_c5_hosted_nss_receiving_uses_original_refusals(self):
+        """Break caught: nonzero identity or a broader NSS provider is called applicable."""
+        observer = load("hosted_nss_receiving_control", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        receive = getattr(observer, "hosted_nss_receiving", None)
+        self.assertTrue(callable(receive), "literal hosted NSS receiving is absent")
+        original = load("hosted_nss_owner", ROOT / "scripts/load-work-graph-c5-executor.py")
+        selected = original._Engine(original.CURRENT_PROFILE).load()
+        # Explicit source-control data for the unchanged NSS parser, not a host receipt.
+        objects = {}
+        observed = dict(files={}, nscd={name: {"kind": "MISSING"} for name in selected.B._NSCD})
+        for name, raw in [("/etc/passwd", b"root:x:0:0:root:/root:/bin/bash\n"),
+                          ("/etc/nsswitch.conf", b"passwd: files\n")]:
+            digest = hashlib.sha256(raw).hexdigest()
+            objects[digest] = raw
+            observed["files"][name] = dict(kind="FILE", resolved=name, mode=0o644, sha256=digest)
+        zero = dict(uid=0, euid=0, gid=0, egid=0)
+        self.assertTrue(receive(selected.D, observed, objects, zero)["match"])
+        self.assertFalse(receive(selected.D, observed, objects, dict(zero, uid=1001))["match"])
+        raw = b"passwd: files systemd\n"
+        digest = hashlib.sha256(raw).hexdigest()
+        objects[digest] = raw
+        observed["files"]["/etc/nsswitch.conf"]["sha256"] = digest
+        refusal = receive(selected.D, observed, objects, zero)
+        self.assertFalse(refusal["match"])
+        self.assertIn("files-only", refusal["reason"])
+
+    @unittest.skipUnless(sys.platform == "linux", "fixed Linux hosted prerequisites")
+    def test_c5_hosted_git_receiving_bounds_output_and_waits(self):
+        """Break caught: output overflow or timeout leaks the owned ordinary Git child."""
+        observer = load("hosted_git_receiving_control", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        run = getattr(observer, "hosted_git", None)
+        self.assertTrue(callable(run), "bounded hosted Git receiving is absent")
+        with tempfile.TemporaryDirectory(prefix="c5-hosted-command-") as temporary:
+            records = []
+            raw = run(["--version"], Path(temporary), records)
+            self.assertTrue(raw.startswith(b"git version "))
+            self.assertTrue(records[-1]["wait_reaped"])
+            self.assertTrue(records[-1]["owned_group_absent"])
+            self.assertTrue(records[-1]["descriptor_restoration"])
+            with self.assertRaisesRegex(ValueError, "output bound"):
+                run(["--version"], Path(temporary), records, stream_limit=3)
+            self.assertTrue(records[-1]["output_overflow"])
+            self.assertTrue(records[-1]["wait_reaped"])
+            with self.assertRaisesRegex(ValueError, "wall bound"):
+                run(["-c", "alias.c5wait=!sleep 2", "c5wait"], Path(temporary), records, wall_seconds=0.03)
+            self.assertTrue(records[-1]["timed_out"])
+            self.assertTrue(records[-1]["wait_reaped"])
+
+    @unittest.skipUnless(sys.platform == "linux", "fixed Linux hosted prerequisites")
+    def test_c5_hosted_deadline_stops_work_and_preserves_terminal_receiving(self):
+        """Break caught: the whole-operation deadline becomes an ordinary refusal and starts more work."""
+        observer = load("hosted_deadline_control", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        for point in ("host_inputs", "source_preparation", "current_owner"):
+            with self.subTest(point=point), contextlib.ExitStack() as stack:
+                handlers = {}
+                def install(signum, handler):
+                    if callable(handler):
+                        handlers["deadline"] = handler
+                    return "CONTROL_OLD_HANDLER"
+                def expire(*args, **kwargs):
+                    handlers["deadline"](None, None)
+                stack.enter_context(mock.patch.object(observer.resource, "setrlimit"))
+                signals = stack.enter_context(mock.patch.object(observer.signal, "signal", side_effect=install))
+                alarms = stack.enter_context(mock.patch.object(observer.signal, "alarm"))
+                for name in ("getuid", "geteuid", "getgid", "getegid"):
+                    stack.enter_context(mock.patch.object(observer.os, name, return_value=0))
+                stack.enter_context(mock.patch.object(observer, "fds", return_value={"CONTROL": "UNCHANGED"}))
+                owner = stack.enter_context(mock.patch.object(observer, "hosted_current_owner",
+                    return_value=Namespace(PROFILE="CONTROL_ONLY")))
+                inputs = stack.enter_context(mock.patch.object(observer, "receive_hosted_inputs", return_value={}))
+                temporary = stack.enter_context(mock.patch("tempfile.mkdtemp", return_value="/CONTROL_ONLY_NOT_CREATED"))
+                prepare = stack.enter_context(mock.patch.object(observer, "prepare_hosted_source",
+                    side_effect=ValueError("controlled stop before source effects")))
+                {"current_owner": owner, "host_inputs": inputs, "source_preparation": prepare}[point].side_effect = expire
+                output = stack.enter_context(contextlib.redirect_stdout(io.StringIO()))
+                code = observer.receive_hosted_prerequisites("a" * 40)
+                if point != "source_preparation":
+                    prepare.assert_not_called()
+                    temporary.assert_not_called()
+                else:
+                    prepare.assert_called_once()
+                if point == "current_owner":
+                    inputs.assert_not_called()
+                self.assertEqual(code, 2)
+                report = json.loads(output.getvalue())
+                self.assertTrue(report["deadline_exceeded"])
+                self.assertEqual(report["terminal"]["outcome"], "DEADLINE_EXCEEDED")
+                self.assertTrue(report["descriptor_restoration"])
+                self.assertEqual(report["overall_admission"], "UNQUALIFIED")
+                self.assertFalse(report["original19_started"])
+                if point == "source_preparation":
+                    self.assertEqual(report["source_preparation"]["commands"], [])
+                self.assertEqual(alarms.call_args_list, [mock.call(240), mock.call(0)])
+                self.assertEqual(signals.call_args, mock.call(observer.signal.SIGALRM, "CONTROL_OLD_HANDLER"))
+        deadline = observer.HostedPrerequisiteDeadline
+        self.assertFalse(issubclass(deadline, (OSError, ValueError)))
+        base = Namespace(capture_selector=mock.Mock(side_effect=deadline("CONTROL_ONLY")))
+        with self.assertRaises(deadline):
+            observer.hosted_pin_receiving(base, "/CONTROL_ONLY", {}, {})
+        provider = Namespace(_validate_nss=mock.Mock(side_effect=deadline("CONTROL_ONLY")))
+        with self.assertRaises(deadline):
+            observer.hosted_nss_receiving(provider, {}, {}, dict(uid=0, euid=0, gid=0, egid=0))
+        base = Namespace(capture_selector=mock.Mock(return_value={"kind": "MISSING"}),
+            SPEC={"python_target": "/CONTROL_ONLY", "runtime_pins": {"/CONTROL_ONLY": {"sha256": "0" * 64}}},
+            _PYTHON_ALIASES=(), _NSCD=())
+        provider = Namespace(SPEC={"startup_pins": {}, "native_pins": {}}, _ABSENT=(),
+            _validate_nss=mock.Mock(), _startup=mock.Mock(side_effect=deadline("CONTROL_ONLY")))
+        with self.assertRaises(deadline):
+            observer.receive_hosted_inputs(Namespace(B=base, D=provider, CHECK=mock.Mock()))
+
+    @unittest.skipUnless(sys.platform == "linux", "fixed Linux hosted prerequisites")
+    def test_c5_hosted_git_setup_failures_retain_attempt_and_close_owned_child(self):
+        """Break caught: selector setup fails after spawn with no retained attempt or child cleanup."""
+        observer = load("hosted_git_setup_control", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        for point in ("selector", "registration", "spawn", "deadline"):
+            with self.subTest(point=point), contextlib.ExitStack() as stack:
+                process = Namespace(pid=424242, returncode=None, stdout=mock.Mock(), stderr=mock.Mock())
+                def wait(timeout):
+                    process.returncode = -9
+                    return process.returncode
+                process.wait = mock.Mock(side_effect=wait)
+                def killpg(pid, signum):
+                    self.assertEqual(pid, process.pid)
+                    if signum == 0:
+                        raise ProcessLookupError("CONTROL_ONLY absent group")
+                kills = stack.enter_context(mock.patch.object(observer.os, "killpg", side_effect=killpg))
+                stack.enter_context(mock.patch.object(observer.os, "set_blocking"))
+                stack.enter_context(mock.patch.object(observer, "fds", return_value={"CONTROL": "UNCHANGED"}))
+                spawn = stack.enter_context(mock.patch.object(observer.subprocess, "Popen", return_value=process))
+                selector = mock.Mock()
+                selector.get_map.return_value = {}
+                select = stack.enter_context(mock.patch.object(observer.selectors, "DefaultSelector", return_value=selector))
+                error = observer.HostedPrerequisiteDeadline if point == "deadline" else OSError
+                failure = error("CONTROL_ONLY setup refusal")
+                if point == "registration":
+                    selector.register.side_effect = failure
+                elif point == "spawn":
+                    spawn.side_effect = failure
+                else:
+                    select.side_effect = failure
+                records = []
+                with self.assertRaisesRegex(error, "CONTROL_ONLY setup refusal"):
+                    observer.hosted_git(["--version"], Path("/CONTROL_ONLY"), records)
+                self.assertEqual(len(records), 1)
+                record = records[0]
+                self.assertEqual(record["exception"]["type"], error.__name__)
+                self.assertFalse(record["command_received"])
+                self.assertTrue(record["descriptor_restoration"])
+                if point == "spawn":
+                    self.assertFalse(record["process_handle_returned"])
+                    self.assertEqual(record["process_creation_outcome"], "UNOBSERVED_NO_HANDLE_RETURNED")
+                    self.assertIsNone(record["pid"])
+                    self.assertFalse(record["wait_reaped"])
+                    process.wait.assert_not_called()
+                    kills.assert_not_called()
+                    select.assert_not_called()
+                else:
+                    self.assertTrue(record["process_handle_returned"])
+                    self.assertTrue(record["wait_reaped"])
+                    self.assertTrue(record["owned_group_absent"])
+                    self.assertEqual(kills.call_args_list,
+                        [mock.call(process.pid, observer.signal.SIGKILL), mock.call(process.pid, 0)])
+                    process.wait.assert_called_once_with(timeout=5)
+                    process.stdout.close.assert_called_once()
+                    process.stderr.close.assert_called_once()
+                    if point == "registration":
+                        selector.close.assert_called_once()
+
+    @unittest.skipUnless(sys.platform == "linux", "fixed Linux hosted prerequisites")
+    def test_c5_hosted_source_preparation_uses_genuine_complete_clone(self):
+        """Break caught: shallow/shared source or wrong commit is promoted into current inputs."""
+        observer = load("hosted_source_preparation_control", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        prepare = getattr(observer, "prepare_hosted_source", None)
+        self.assertTrue(callable(prepare), "genuine hosted standalone source preparation is absent")
+        with tempfile.TemporaryDirectory(prefix="c5-hosted-clone-") as temporary:
+            fixture = Path(temporary) / "fixture"
+            output = Path(temporary) / "received"
+            fixture.mkdir(mode=0o700)
+            output.mkdir(mode=0o700)
+            environment = dict(observer.ENV, GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL="/dev/null")
+            def git(*arguments):
+                return subprocess.run(["/usr/bin/git", "-c", "core.hooksPath=/dev/null", "-c", "commit.gpgsign=false",
+                    "-c", "user.name=C5 source control", "-c", "user.email=c5-source-control@example.invalid",
+                    "-C", str(fixture), *arguments], env=environment, check=True,
+                    stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout
+            # A tiny genuine Git fixture; no product repository commit or native claim.
+            git("init")
+            (fixture / "input.txt").write_bytes(b"source-control\n")
+            git("add", "input.txt")
+            git("commit", "-m", "Disposable source-control fixture")
+            expected = git("rev-parse", "HEAD").decode().strip()
+            records = []
+            with mock.patch.object(observer, "HOSTED_SOURCE_URL", fixture.as_uri()):
+                try:
+                    result = prepare(fixture, output, expected, records=records)
+                except ValueError as exc:
+                    self.fail(str(exc) + "; actual command prefix: " + json.dumps(records[-1:]))
+            source = Path(result["path"])
+            self.assertEqual(result["source_commit"], expected)
+            self.assertFalse((source / ".git/shallow").exists())
+            self.assertFalse((source / ".git/objects/info/alternates").exists())
+            self.assertTrue(result["clean"])
+            self.assertTrue(result["complete_objects"])
+            self.assertTrue(all(item["wait_reaped"] and item["owned_group_absent"] for item in result["commands"]))
+            original = load("hosted_source_namespace_owner", ROOT / "scripts/load-work-graph-c5-executor.py")
+            owner = original._Engine(original.CURRENT_PROFILE).load()
+            objects = {}
+            captured = owner.B.complete_source(source, objects)
+            try:
+                owner.P.validate_git_namespace(captured["state"], objects)
+            except ValueError as exc:
+                import configparser
+                config = configparser.RawConfigParser()
+                config.read_string(objects[captured["state"]["files"][".git/config"]["sha256"]].decode())
+                self.fail(str(exc) + "; fresh config keys: " + json.dumps({s: list(config[s]) for s in config.sections()}))
+            self.assertIn(".git/config", captured["state"]["files"])
+            self.assertNotIn(b"extraheader", objects[captured["state"]["files"][".git/config"]["sha256"]])
+
+    @unittest.skipUnless(sys.platform == "linux", "fixed Linux hosted prerequisites")
+    def test_c5_hosted_source_refuses_alias_and_unbound_expected_identity(self):
+        """Break caught: preparation mutates the executing source or accepts an unbound ref."""
+        observer = load("hosted_source_guard_control", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        prepare = getattr(observer, "prepare_hosted_source", None)
+        self.assertTrue(callable(prepare), "genuine hosted standalone source preparation is absent")
+        with mock.patch("subprocess.Popen", side_effect=AssertionError("refusal dispatched Git")):
+            with self.assertRaisesRegex(ValueError, "source/output"):
+                prepare(ROOT, ROOT / "must-not-be-created", "a" * 40)
+            with tempfile.TemporaryDirectory(prefix="c5-hosted-invalid-ref-") as temporary:
+                with self.assertRaisesRegex(ValueError, "expected source commit"):
+                    prepare(ROOT, Path(temporary), "refs/heads/main")
+
+    @unittest.skipUnless(sys.platform == "linux", "fixed Linux hosted prerequisites")
+    def test_c5_hosted_input_report_cannot_promote_a_selected_pin_red(self):
+        """Break caught: aggregate receiving hides a literal startup mismatch or grants admission."""
+        observer = load("hosted_input_report_control", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        receive = getattr(observer, "receive_hosted_inputs", None)
+        self.assertTrue(callable(receive), "hosted selected-input receiving is absent")
+        current = observer.hosted_current_owner(ROOT)
+        original = current.B.capture_selector
+        def changed(name, objects, **kwargs):
+            observed = original(name, objects, **kwargs)
+            if str(name) == "/etc/ld.so.cache" and observed["kind"] == "FILE":
+                observed = dict(observed, sha256="0" * 64)
+            return observed
+        with mock.patch.object(current.B, "capture_selector", side_effect=changed), \
+                mock.patch("subprocess.Popen", side_effect=AssertionError("host input reader dispatched")):
+            result = receive(current)
+        cache = next(item for item in result["pins"] if item["path"] == "/etc/ld.so.cache")
+        self.assertFalse(cache["match"])
+        self.assertFalse(result["unchanged_owner_full_startup"]["match"])
+        self.assertEqual(result["overall_admission"], "UNQUALIFIED")
+        self.assertFalse(result["provider_acquired"])
+        self.assertFalse(result["native_admission"])
+
     @unittest.skipUnless(sys.platform == "linux", "fixed Linux hosted launcher prerequisite")
     def test_c5_hosted_package_pin_refuses_before_archive_parsing(self):
         owner = load("c5_hosted_package_pin", ROOT / "scripts/qualify-work-graph-c5-setup.py")

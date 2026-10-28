@@ -31,6 +31,333 @@ OWNED_PIDFD = None
 
 HOSTED_PACKAGE_URL = 'https://snapshot.ubuntu.com/ubuntu/20260901T000000Z/pool/main/b/bubblewrap/bubblewrap_0.9.0-1ubuntu0.1_amd64.deb'
 HOSTED_PACKAGE_PIN = {'bytes': 50178, 'sha256': '1b506492bd9c7fd0cdb4f02ac822f1d3e336b0aead5113c1239baf8db5db562a'}
+HOSTED_SOURCE_URL = 'https://github.com/theislampill/IMPLEMENTAUDIT.md.git'
+HOSTED_LOADER_PIN = {'bytes': 11983, 'sha256': '51830dc6fd7dc05ffd933a5493c3e06653108f5c50c80eb2c8812ac40232ba03'}
+
+
+class HostedPrerequisiteDeadline(BaseException):
+    """End the whole operation; ordinary input refusals must not consume this."""
+
+
+def hosted_current_owner(root):
+    """Load only the existing current C5 owner from its held, hash-bound buffer."""
+    from pathlib import Path
+    import types
+    path = Path(root) / 'scripts/load-work-graph-c5-executor.py'
+    fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK | os.O_CLOEXEC)
+    try:
+        opening = identity(os.fstat(fd))
+        if not stat.S_ISREG(opening[2]) or opening[3] != 1 or opening[4] != HOSTED_LOADER_PIN['bytes']:
+            raise ValueError('hosted current loader pin differs')
+        raw = os.pread(fd, HOSTED_LOADER_PIN['bytes'] + 1, 0)
+        if hashlib.sha256(raw).hexdigest() != HOSTED_LOADER_PIN['sha256']:
+            raise ValueError('hosted current loader pin differs')
+        module = types.ModuleType('c5_hosted_current_source_loader')
+        module.__file__ = str(path)
+        exec(compile(raw, str(path), 'exec'), module.__dict__)
+        current = module._Engine(module.CURRENT_PROFILE).load()
+        if (identity(os.fstat(fd)) != opening or identity(os.lstat(path)) != opening
+                or os.pread(fd, len(raw) + 1, 0) != raw):
+            raise ValueError('hosted current loader changed during loading')
+        return current
+    finally:
+        os.close(fd)
+
+
+def hosted_pin_receiving(base, name, pin, objects):
+    """Report an existing selection; this observer never changes its pin."""
+    try:
+        observed = base.capture_selector(name, objects)
+        match = observed['kind'] == 'FILE' and all(observed.get(key) == value for key, value in pin.items())
+        return dict(path=name, expected=dict(pin), observed=observed, match=match)
+    except (OSError, ValueError) as exc:
+        return dict(path=name, expected=dict(pin), observed=None, match=False, reason=str(exc)[:512])
+
+
+def hosted_nss_receiving(provider, observed, objects, process_identity):
+    try:
+        if process_identity != dict(uid=0, euid=0, gid=0, egid=0):
+            raise ValueError('C5 provider selected NSS profile requires actual observer UID/GID zero')
+        provider._validate_nss(observed, objects)
+        return dict(match=True, identity=process_identity)
+    except (OSError, ValueError, KeyError) as exc:
+        return dict(match=False, identity=process_identity, reason=str(exc)[:512])
+
+
+def hosted_git(arguments, cwd, records, *, wall_seconds=60, stream_limit=4194304):
+    """Bound ordinary Git command custody; never inherit Actions configuration."""
+    environment = dict(ENV, GIT_CONFIG_NOSYSTEM='1', GIT_CONFIG_GLOBAL='/dev/null',
+                       GIT_TERMINAL_PROMPT='0', GIT_ASKPASS='/bin/false')
+    command = ['/usr/bin/git', '-c', 'credential.helper=', '-c', 'core.askPass=/bin/false',
+               '-c', 'core.hooksPath=/dev/null', '-c', 'gc.auto=0', '-c', 'maintenance.auto=false'] + list(arguments)
+    baseline = fds()
+    began = time.monotonic()
+    streams = {'stdout': bytearray(), 'stderr': bytearray()}
+    sizes = dict(stdout=0, stderr=0)
+    eof = dict(stdout=False, stderr=False)
+    overflow = timed_out = waited = group_absent = False
+    process = selector = None
+    failure = None
+    cleanup_errors = []
+    record = dict(arguments=list(arguments), environment=environment, pid=None,
+        process_handle_returned=False, process_creation_outcome='UNOBSERVED_NO_HANDLE_RETURNED',
+        command_received=False, exception=None, wait_reaped=False, owned_group_absent=False,
+        descriptor_restoration=False)
+    records.append(record)
+    try:
+        process = subprocess.Popen(command, cwd=cwd, env=environment, stdin=subprocess.DEVNULL,
+                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True,
+                                   start_new_session=True)
+        record.update(pid=process.pid, process_handle_returned=True, process_creation_outcome='HANDLE_RETURNED')
+        selector = selectors.DefaultSelector()
+        for name in streams:
+            stream = getattr(process, name)
+            os.set_blocking(stream.fileno(), False)
+            selector.register(stream, selectors.EVENT_READ, name)
+        while selector.get_map():
+            timed_out = time.monotonic() - began > wall_seconds
+            if timed_out or overflow:
+                failure = 'hosted Git wall bound' if timed_out else 'hosted Git output bound'
+                break
+            for key, _ in selector.select(timeout=min(0.05, wall_seconds)):
+                raw = os.read(key.fileobj.fileno(), 16384)
+                if not raw:
+                    eof[key.data] = True
+                    selector.unregister(key.fileobj)
+                    key.fileobj.close()
+                    continue
+                sizes[key.data] += len(raw)
+                streams[key.data].extend(raw[:max(0, stream_limit - len(streams[key.data]))])
+                overflow |= sizes[key.data] > stream_limit
+        if failure is None:
+            try:
+                process.wait(timeout=max(0.001, wall_seconds - (time.monotonic() - began)))
+                waited = True
+            except subprocess.TimeoutExpired:
+                timed_out = True
+                failure = 'hosted Git wall bound'
+    except BaseException as exc:
+        record['exception'] = dict(type=type(exc).__name__, reason=str(exc)[:512])
+        raise
+    finally:
+        # No wait/poll occurs before the timeout kill: the unreaped direct child
+        # still owns this new session's numerical group identity.
+        if process is not None and process.returncode is None:
+            try:
+                os.killpg(process.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            except OSError as exc:
+                cleanup_errors.append(dict(operation='kill_owned_group', reason=str(exc)[:512]))
+            try:
+                process.wait(timeout=5)
+                waited = True
+            except subprocess.TimeoutExpired:
+                failure = 'hosted Git child not reaped within cleanup bound'
+            except OSError as exc:
+                cleanup_errors.append(dict(operation='wait_owned_child', reason=str(exc)[:512]))
+        if process is not None:
+            # Close both pipes even when selector creation/registration never completed.
+            for name in streams:
+                try:
+                    getattr(process, name).close()
+                except OSError as exc:
+                    cleanup_errors.append(dict(operation='close_' + name, reason=str(exc)[:512]))
+        if selector is not None:
+            try:
+                selector.close()
+            except OSError as exc:
+                cleanup_errors.append(dict(operation='close_selector', reason=str(exc)[:512]))
+        if process is not None:
+            try:
+                os.killpg(process.pid, 0)
+            except ProcessLookupError:
+                group_absent = True
+            except OSError as exc:
+                cleanup_errors.append(dict(operation='observe_group_absence', reason=str(exc)[:512]))
+        restored = fds() == baseline
+        record.update(returncode=process.returncode if process is not None else None,
+            elapsed_seconds=time.monotonic() - began, cleanup_errors=cleanup_errors,
+            wait_reaped=waited, owned_group_absent=group_absent, descriptor_restoration=restored,
+            eof=eof, output_overflow=overflow, timed_out=timed_out, stream_bytes=sizes,
+            stream_sha256={name: hashlib.sha256(raw).hexdigest() for name, raw in streams.items()},
+            stderr_excerpt=bytes(streams['stderr'][:1024]).decode('utf-8', 'replace'),
+            hashes_cover='captured prefix only' if overflow else 'captured bytes')
+        record['command_received'] = (not failure and not cleanup_errors and record['exception'] is None
+            and waited and group_absent and restored and process is not None and process.returncode == 0)
+    if not record['command_received']:
+        raise ValueError(failure or 'hosted Git refused or ordinary command custody incomplete')
+    return bytes(streams['stdout'])
+
+
+def prepare_hosted_source(executing_root, output, expected_commit, *, records=None):
+    """Prepare genuine standalone public Git storage, never copy Actions .git."""
+    from pathlib import Path
+    import re
+    executing_root, output = Path(executing_root).resolve(), Path(output).absolute()
+    actual_output = output.resolve()
+    if (actual_output == executing_root or executing_root in actual_output.parents
+            or actual_output in executing_root.parents or actual_output != output):
+        raise ValueError('hosted source/output alias or overlap')
+    if not re.fullmatch('[0-9a-f]{40}', expected_commit):
+        raise ValueError('hosted expected source commit must be an exact object identity')
+    before = os.lstat(output)
+    if (not stat.S_ISDIR(before.st_mode) or stat.S_IMODE(before.st_mode) != 0o700
+            or before.st_uid != os.geteuid() or before.st_gid != os.getegid() or any(output.iterdir())):
+        raise ValueError('hosted source output must be a fresh owned empty directory')
+    source = output / 'source'
+    if records is None:
+        records = []
+    hosted_git(['clone', '--no-local', '--no-hardlinks', '--no-checkout',
+                '--', HOSTED_SOURCE_URL, str(source)], output, records)
+    branch = hosted_git(['-C', str(source), 'symbolic-ref', '--short', 'HEAD'], output, records).decode('ascii', 'strict').strip()
+    if not re.fullmatch('[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', branch):
+        raise ValueError('hosted fresh clone tracking branch is unsupported')
+    tracking = hosted_git(['-C', str(source), 'config', '--local', '--get-regexp', '^branch\\.'],
+                          output, records).decode('utf-8', 'strict').splitlines()
+    expected_tracking = ['branch.' + branch + '.remote origin', 'branch.' + branch + '.merge refs/heads/' + branch]
+    if len(tracking) != 2 or set(tracking) != set(expected_tracking):
+        raise ValueError('hosted actual fresh clone tracking section differs; no removal')
+    # Established fresh-clone preparation: only the observed new tracking
+    # section is removed. Source objects and the original checkout are untouched.
+    hosted_git(['-C', str(source), 'config', '--local', '--remove-section', 'branch.' + branch], output, records)
+    hosted_git(['-C', str(source), 'fetch', '--no-tags', '--no-recurse-submodules',
+                'origin', expected_commit], output, records)
+    hosted_git(['-C', str(source), 'checkout', '--detach', expected_commit], output, records)
+    observed = hosted_git(['-C', str(source), 'show', '-s', '--format=%H%n%T%n%P', 'HEAD'],
+                          output, records).decode('ascii', 'strict').splitlines()
+    if (len(observed) != 3 or observed[0] != expected_commit or not re.fullmatch('[0-9a-f]{40}', observed[1])
+            or any(not re.fullmatch('[0-9a-f]{40}', value) for value in observed[2].split())):
+        raise ValueError('hosted fresh source identity differs')
+    shallow = hosted_git(['-C', str(source), 'rev-parse', '--is-shallow-repository'], output, records)
+    clean = hosted_git(['-C', str(source), 'status', '--porcelain=v1', '--untracked-files=all', '--ignored'], output, records)
+    if shallow != b'false\n' or clean:
+        raise ValueError('hosted fresh source is shallow or not clean')
+    hosted_git(['-C', str(source), 'fsck', '--strict', '--full'], output, records)
+    objects = hosted_git(['-C', str(source), 'rev-list', '--objects', '--all', '--missing=print'], output, records)
+    if any(line.startswith(b'?') for line in objects.splitlines()):
+        raise ValueError('hosted fresh source has missing objects')
+    return dict(path=str(source), expected_commit=expected_commit, source_commit=observed[0],
+                source_tree=observed[1], ordered_parents=observed[2].split(), clean=True,
+                complete_objects=True, object_rows=len(objects.splitlines()),
+                object_listing_sha256=hashlib.sha256(objects).hexdigest(), commands=records,
+                repository=HOSTED_SOURCE_URL, credential_source='NONE')
+
+
+def receive_hosted_inputs(current):
+    """Receive selected data; only the unchanged owner decides full startup."""
+    base, provider = current.B, current.D
+    objects = {}
+    current.CHECK()
+    process_identity = dict(uid=os.getuid(), euid=os.geteuid(), gid=os.getgid(), egid=os.getegid())
+    pins = [hosted_pin_receiving(base, name, pin, objects)
+            for selection in (provider.SPEC['startup_pins'], provider.SPEC['native_pins'])
+            for name, pin in selection.items()]
+    system_pin = base.SPEC['runtime_pins'][base.SPEC['python_target']]
+    aliases = []
+    for name in base._PYTHON_ALIASES:
+        pin = dict(resolved=base.SPEC['python_target'], sha256=system_pin['sha256'], mode=0o755)
+        received = hosted_pin_receiving(base, name, pin, objects)
+        if received['observed'] is not None and received['observed']['kind'] == 'MISSING':
+            received.update(match=True, disposition='MISSING_ALLOWED_BY_EXISTING_OWNER')
+        aliases.append(received)
+    nss = dict(files={name: base.capture_selector(name, objects, limit=65536)
+                      for name in ('/etc/passwd', '/etc/nsswitch.conf')},
+               nscd={name: base.capture_selector(name, objects) for name in base._NSCD})
+    nss_result = hosted_nss_receiving(provider, nss, objects, process_identity)
+    absent = {name: base.capture_selector(name, objects) for name in provider._ABSENT}
+    full_startup = dict(match=False)
+    try:
+        startup = provider._startup(objects)
+        full_startup = dict(match=True, identity=startup['identity'], provider_execution=False)
+    except (OSError, ValueError) as exc:
+        full_startup['reason'] = str(exc)[:512]
+    if len(objects) > current.P.RUNTIME_BOUNDS['entries'] or sum(map(len, objects.values())) > current.P.RUNTIME_BOUNDS['unique_bytes']:
+        raise ValueError('hosted selected input object bound exceeded')
+    bookends = True
+    for received in pins + aliases:
+        if received['observed'] is not None:
+            bookends &= base.capture_selector(received['path'], {}) == received['observed']
+    for name, opening in dict(nss['files'], **nss['nscd'], **absent).items():
+        bookends &= base.capture_selector(name, {}) == opening
+    current.CHECK()
+    return dict(profile=provider.PROFILE, pins=pins, system_aliases=aliases,
+                identity=process_identity, nss=dict(observation=nss, result=nss_result), absent=absent,
+                selected_bookends_equal=bookends, unchanged_owner_full_startup=full_startup,
+                provider_acquired=False, provider_imports=0, native_admission=False,
+                overall_admission='UNQUALIFIED', object_count=len(objects), object_bytes=sum(map(len, objects.values())))
+
+
+def receive_hosted_prerequisites(expected_commit):
+    from pathlib import Path
+    import re
+    import tempfile
+    if not re.fullmatch('[0-9a-f]{40}', expected_commit):
+        raise ValueError('hosted expected source commit must be an exact object identity')
+    if (os.getuid(), os.geteuid(), os.getgid(), os.getegid()) != (0, 0, 0, 0):
+        raise ValueError('hosted prerequisite receiving requires actual observer UID/GID zero')
+    for which, value in [(resource.RLIMIT_AS, 1610612736), (resource.RLIMIT_CPU, 120),
+                         (resource.RLIMIT_FSIZE, 268435456), (resource.RLIMIT_NOFILE, 256)]:
+        resource.setrlimit(which, (value, value))
+    def deadline(signum, frame):
+        raise HostedPrerequisiteDeadline('hosted prerequisite receiving wall bound')
+    root = Path(__file__).resolve().parents[1]
+    baseline = fds()
+    result = dict(schema='dg16.hosted-input-prerequisite.v1', authority='NONE', expected_commit=expected_commit,
+                  original19_started=False, provider_acquired=False, provider_imports=0,
+                  native_admission=False, overall_admission='UNQUALIFIED', deadline_exceeded=False)
+    phase = 'current_owner_receiving'
+    old_alarm = signal.signal(signal.SIGALRM, deadline)
+    try:
+        signal.alarm(240)
+        current = hosted_current_owner(root)
+        result['current_profile'] = current.PROFILE
+        result['loader'] = HOSTED_LOADER_PIN
+        phase = 'host_input_receiving'
+        try:
+            result['host_inputs'] = receive_hosted_inputs(current)
+        except (OSError, ValueError) as exc:
+            result['host_inputs'] = dict(outcome='REFUSED', reason=str(exc)[:512])
+        phase = 'source_preparation'
+        output = Path(tempfile.mkdtemp(prefix='implementaudit-c5-hosted-inputs-'))
+        result['disposable_source_root'] = str(output)
+        source_attempt = dict(commands=[], expected_commit=expected_commit)
+        result['source_preparation'] = source_attempt
+        try:
+            source = prepare_hosted_source(root, output, expected_commit, records=source_attempt['commands'])
+            result['source_preparation'] = source
+            phase = 'source_receiving'
+            actual_source = Path(source['path'])
+            executing = current.B.capture_selector(root / 'scripts/qualify-work-graph-c5-setup.py', {})
+            received = current.B.capture_selector(actual_source / 'scripts/qualify-work-graph-c5-setup.py', {})
+            if executing['sha256'] != received['sha256'] or executing['bytes'] != received['bytes']:
+                raise ValueError('hosted executing observer does not match the exact fresh source')
+            objects = {}
+            captured = current.B.complete_source(actual_source, objects)
+            current.P.validate_git_namespace(captured['state'], objects)
+            contract = current.B._producer_contract(captured['state'])
+            source_identity = current.captured_source_identity(captured, objects,
+                dict(source_commit=source['source_commit'], source_tree=source['source_tree']))
+            current.CHECK()
+            result['source_receiving'] = dict(outcome='SOURCE_INPUTS_RECEIVED', identity=source_identity,
+                files=len(captured['state']['files']), directories=len(captured['state']['directories']),
+                objects=len(objects), object_bytes=sum(map(len, objects.values())), contract=contract,
+                state_sha256=hashlib.sha256(json.dumps(captured['state'], sort_keys=True, separators=(',', ':')).encode()).hexdigest(),
+                observer_sha256=executing['sha256'], runtime_complete=False)
+        except (OSError, ValueError) as exc:
+            result['source_receiving'] = dict(outcome='REFUSED', reason=str(exc)[:512])
+    except HostedPrerequisiteDeadline as exc:
+        result['deadline_exceeded'] = True
+        result['terminal'] = dict(outcome='DEADLINE_EXCEEDED', phase=phase, reason=str(exc)[:512])
+    finally:
+        signal.alarm(0)
+        signal.signal(signal.SIGALRM, old_alarm)
+    result['descriptor_restoration'] = fds() == baseline
+    raw = json.dumps(result, sort_keys=True, separators=(',', ':'))
+    if len(raw.encode()) > 2097152:
+        raise ValueError('hosted prerequisite selected evidence bound exceeded')
+    print(raw)
+    return 2 if result['deadline_exceeded'] or not result['descriptor_restoration'] else 0
 
 
 def hosted_download():
@@ -388,6 +715,8 @@ if __name__ == '__main__':
     try:
         if sys.argv[1:] == ['--provision-hosted-launcher']:
             raise SystemExit(provision_hosted_launcher())
+        if len(sys.argv) == 3 and sys.argv[1] == '--receive-hosted-prerequisites':
+            raise SystemExit(receive_hosted_prerequisites(sys.argv[2]))
         if sys.argv[1:]:
             raise ValueError('unsupported setup observer arguments')
         raise SystemExit(main())

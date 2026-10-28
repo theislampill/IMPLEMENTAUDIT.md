@@ -32,6 +32,12 @@ jobs:
           printf 'C5 setup observation instrument exit: %s\n' "$setup_status"
           exit "$setup_status"
 
+      - name: Receive the C5 current input prerequisites
+        if: always()
+        continue-on-error: true
+        timeout-minutes: 5
+        run: sudo /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --receive-hosted-prerequisites "$GITHUB_SHA"
+
       - name: Install validation dependencies
         run: |
           sudo apt-get update
