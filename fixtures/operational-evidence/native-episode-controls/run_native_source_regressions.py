@@ -14,11 +14,6 @@ MODULES = ('test_native_probe', 'test_current_source_owner', 'test_review_repair
 
 # Additive source-only groups; the original 42 + 4 profile + 3 export remain exact.
 CURRENT_SOURCE_GROUPS = (
-    ('test_terminal_tool_inventory', 'TerminalToolInventoryControls', (
-        'test_declaration_never_hides_unsettled_or_duplicate_calls',
-        'test_same_admitted_declaration_reaches_terminal_inventory',
-        'test_terminal_declaration_retains_profile_and_closed_preload_shape',
-    )),
     ('test_source_owner_bounds', 'SourceOwnerBoundsControls', (
         'test_all_issuer_readers_accept_delivered_module_length',
         'test_all_issuer_readers_accept_exact_code_ceiling',
@@ -76,6 +71,13 @@ CURRENT_SOURCE_GROUPS = (
         'test_selected_settings_require_exact_unique_preload_child_payload',
         'test_transport_metadata_keeps_strict_shape_and_existing_call_identity',
         'test_transport_metadata_on_existing_paired_events',
+    )),
+    # This group consumes the two preceding fixtures through the owned loader;
+    # isolated Python deliberately does not search the script directory.
+    ('test_terminal_tool_inventory', 'TerminalToolInventoryControls', (
+        'test_declaration_never_hides_unsettled_or_duplicate_calls',
+        'test_same_admitted_declaration_reaches_terminal_inventory',
+        'test_terminal_declaration_retains_profile_and_closed_preload_shape',
     )),
 )
 
