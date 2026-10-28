@@ -162,6 +162,190 @@ class CompositeSourceCases(unittest.TestCase):
             execute.assert_not_called()
             self.assertFalse(output.exists())
 
+    @unittest.skipUnless(sys.platform == "linux" and hasattr(os, "pidfd_open"), "fixed C5 Linux pidfd constructor")
+    def test_current_c5_entry_binds_current_inputs_before_execution(self):
+        """Break caught: implicit historical fallback or stale compiler/provider binding."""
+        owner = load("explicit_current_c5", ROOT / "scripts/load-work-graph-c5-executor.py")
+        create = getattr(owner, "create_current_composite_c5_session_v1", None)
+        self.assertTrue(callable(create), "explicit current C5 entry is absent")
+        with tempfile.TemporaryDirectory(prefix="c5-current-inputs-") as temporary, \
+                mock.patch("subprocess.Popen", side_effect=AssertionError("input selection dispatched a producer")):
+            output = Path(temporary) / "evidence"
+            # Schema-valid comparison data only; this constructor test never runs
+            # source identity acquisition or treats this pair as a real commit.
+            session = create(ROOT, output, expected_source={"source_commit": "0" * 40, "source_tree": "1" * 40})
+            try:
+                selected = type(session).__init__.__globals__
+                base, provider = selected["B"], selected["D"]
+                self.assertEqual(selected["PROFILE"], "FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1")
+                self.assertEqual(base.PROFILE, "CURRENT_COMPOSITE_SYSTEM_PYTHON312_DATA_ONLY_20261027_V1")
+                self.assertEqual(provider.PROFILE, "CURRENT_COMPOSITE_FIXED_PACKAGE_VENV_PYTHON312_DATA_ONLY_20261027_V1")
+                self.assertEqual(str(provider.VENV), "/opt/implementaudit-c5-current-python312-v1")
+                self.assertEqual(provider.SITE, "/opt/implementaudit-c5-current-python312-v1/lib/python3.12/site-packages")
+                self.assertEqual(provider._ENVIRONMENT["PATH"], "/opt/implementaudit-c5-current-python312-v1/bin:/usr/bin:/bin")
+                self.assertEqual(provider._ALIASES[:3], tuple(
+                    "/opt/implementaudit-c5-current-python312-v1/bin/" + name for name in ("python", "python3", "python3.12")))
+                compiler_sha = hashlib.sha256((ROOT / "skills/implementaudit/scripts/compile-work-graph.py").read_bytes()).hexdigest()
+                self.assertEqual(hashlib.sha256(selected["Q"].LOADED_COMPILER).hexdigest(), compiler_sha)
+                self.assertEqual(selected["G"].COMPILER_SHA, compiler_sha)
+                state = {"files": {name: {"sha256": hashlib.sha256((ROOT / name).read_bytes()).hexdigest()}
+                                   for name in set(base.SPEC["programs"]) | set(base.SPEC["payload_sources"])}}
+                contract = base._producer_contract(state)
+                self.assertEqual(contract["expected_archive_members"], {"canonical_plugin": 75, "standalone_compatibility": 72})
+                self.assertEqual(len([name for name in state["files"] if name.startswith("skills/implementaudit/")]), 66)
+                self.assertTrue(output.is_dir())
+                self.assertEqual(list(output.iterdir()), [])
+                self.assertFalse(session.attempted)
+            finally:
+                session.close()
+
+    @contextlib.contextmanager
+    def current_c5_source_copy(self):
+        """Real bounded source inputs for refusals; no fabricated Git identity."""
+        owner = load("current_c5_copy_owner", ROOT / "scripts/load-work-graph-c5-executor.py")
+        self.assertTrue(callable(getattr(owner, "create_current_composite_c5_session_v1", None)),
+                        "explicit current C5 entry is absent")
+        selection = json.loads((ROOT / "fixtures/work-graph-c5-inputs/execution-current-composite-python312.json").read_bytes())
+        members = {owner.LOADER, *owner.CURRENT_PINS, *selection["programs"], *selection["payload_sources"]}
+        with tempfile.TemporaryDirectory(prefix="c5-current-source-") as temporary:
+            root = Path(temporary) / "source"
+            root.mkdir()
+            for name in sorted(members):
+                target = root / name
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(ROOT / name, target)
+            yield root, Path(temporary) / "evidence"
+
+    def test_current_c5_unknown_selection_refuses(self):
+        """Break caught: a caller can supply an unreviewed source policy."""
+        owner = load("unknown_current_c5", ROOT / "scripts/load-work-graph-c5-executor.py")
+        self.assertTrue(callable(getattr(owner, "create_current_composite_c5_session_v1", None)),
+                        "explicit current C5 entry is absent")
+        for value in ("unreviewed", {"pins": {}}, None):
+            with self.subTest(value=value), self.assertRaisesRegex(ValueError, "Unknown fixed C5 execution profile"):
+                owner._Engine(value)
+
+    @unittest.skipUnless(os.name == "posix", "fixed C5 source loading")
+    def test_current_c5_runtime_layout_refuses_private_mount_shadowing(self):
+        """Break caught: a later private mount hides selected runtime bytes/aliases."""
+        owner = load("current_c5_layout", ROOT / "scripts/load-work-graph-c5-executor.py")
+        selected = owner._Engine(owner.CURRENT_PROFILE).load()
+        def layout(logical, resolved=None, links=None):
+            resolved = resolved or logical
+            # Constructed layout inputs only, never physical custody evidence.
+            # Match the selected directory policy so it cannot mask the
+            # independent private-mount collision predicate under test.
+            modes = {"/": 0o755, **selected.SPEC["directory_mode_policy"]["exceptions"]}
+            topology = {"directories": {name: ["0", "0", 0o40000 | mode, 1, 0, 0, 0, 0, 0]
+                                        for name, mode in modes.items()},
+                        "links": {name: {"target": target} for name, target in (links or {}).items()},
+                        "selected": {logical: {"kind": "FILE", "resolved": resolved}}}
+            runtime = {"files": {logical: {"resolved": resolved, "bytes": 1,
+                                           "sha256": hashlib.sha256(b"x").hexdigest(), "mode": 0o644}}}
+            return selected.runtime_layout(runtime, topology)
+        for path in ("/opt/c5-provider/file", "/tmp-provider/file"):
+            self.assertIn(path, layout(path)["files"])
+        for mount in ("/work", "/c5-work", "/tmp"):
+            with self.subTest(mount=mount), self.assertRaises(ValueError):
+                layout(mount + "/c5-provider/file")
+        with self.assertRaises(ValueError):
+            layout("/usr/lib/c5-provider/file", "/tmp/c5-provider/file",
+                   {"/usr/lib/c5-provider": "/tmp/c5-provider"})
+        with self.assertRaises(ValueError):
+            layout("/tmp/c5-provider/file", "/opt/c5-provider/file",
+                   {"/tmp/c5-provider": "/opt/c5-provider"})
+
+    @unittest.skipUnless(os.name == "posix" and Path("/opt/implementaudit-c5-current-python312-v1").is_dir(),
+                         "fixed current provider data input absent; no provider-layout credit")
+    def test_current_c5_actual_provider_layout_preserves_bytes_and_ancestry(self):
+        """Break caught: the selected real provider is hidden or its alias/modes change."""
+        owner = load("current_c5_provider_layout", ROOT / "scripts/load-work-graph-c5-executor.py")
+        with mock.patch("subprocess.Popen", side_effect=AssertionError("provider layout dispatched a producer")):
+            selected = owner._Engine(owner.CURRENT_PROFILE).load()
+            self.assertEqual(selected.D.VENV, Path("/opt/implementaudit-c5-current-python312-v1"))
+            objects = {}
+            tree = selected.D._capture_tree(selected.D.VENV, objects)
+            runtime = {"files": {str(selected.D.VENV / name): row for name, row in tree["files"].items()},
+                       "directories": {}, "provider": {"installation": tree}}
+            topology = selected.runtime_topology(runtime)
+            layout = selected.runtime_layout(runtime, topology)
+            self.assertEqual(len(layout["files"]), 22)
+            self.assertEqual(layout["directories"]["/opt"], 0o755)
+            self.assertEqual(layout["links"]["/opt/implementaudit-c5-current-python312-v1/lib64"], "lib")
+            self.assertEqual(layout["files"]["/opt/implementaudit-c5-current-python312-v1/bin/python"]["sha256"],
+                             "a92f0f95e883390c7256b2e441484aac06b1002dbe1d924141a77c8d82f96223")
+            self.assertEqual(tree, selected.D._capture_tree(selected.D.VENV, {}))
+            # Only this actual provider subset is represented; no complete
+            # execution image, source stage, bootstrap or session run is made.
+
+    @unittest.skipUnless(os.name == "posix", "fixed C5 no-follow source acquisition")
+    def test_current_c5_changed_source_or_selection_refuses_before_output(self):
+        """Break caught: current branch omits a code/fixture pin or admits late."""
+        cases = ("scripts/qualify-work-graph-prefix.py",
+                 "fixtures/work-graph-c5-inputs/execution-current-composite-python312.json",
+                 "fixtures/work-graph-c5-inputs/package-current-venv-python312.json",
+                 "fixtures/work-graph-c5-inputs/genuine-current-execution-profile.json")
+        for member in cases:
+            with self.subTest(member=member), self.current_c5_source_copy() as (root, output):
+                path = root / member
+                path.write_bytes(path.read_bytes() + b"\n")
+                owner = load("tampered_current_c5", root / "scripts/load-work-graph-c5-executor.py")
+                with mock.patch("subprocess.Popen", side_effect=AssertionError("changed input dispatched a producer")):
+                    with self.assertRaisesRegex(ValueError, "Unsupported fixed C5 execution member"):
+                        owner.create_current_composite_c5_session_v1(root, output,
+                            expected_source={"source_commit": "0" * 40, "source_tree": "1" * 40})
+                self.assertFalse(output.exists())
+
+    @unittest.skipUnless(sys.platform == "linux" and hasattr(os, "pidfd_open"), "fixed C5 Linux pidfd constructor")
+    def test_current_c5_actual_program_and_payload_drift_refuse_acquisition(self):
+        """Break caught: selected producer/payload data bypasses pre-dispatch acquisition."""
+        for change, message in (("program", "C5 original producer source differs"),
+                                ("payload", "C5 actual package source selector population differs")):
+            with self.subTest(change=change), self.current_c5_source_copy() as (root, output):
+                if change == "program":
+                    path = root / "scripts/package-contract.py"
+                    path.write_bytes(path.read_bytes() + b"\n")
+                else:
+                    (root / "skills/implementaudit/scripts/validate-audit-implement-return.py").unlink()
+                owner = load("drifted_current_c5", root / "scripts/load-work-graph-c5-executor.py")
+                with mock.patch("subprocess.Popen", side_effect=AssertionError("drifted input dispatched a producer")):
+                    session = owner.create_current_composite_c5_session_v1(root, output,
+                        expected_source={"source_commit": "0" * 40, "source_tree": "1" * 40})
+                    try:
+                        with self.assertRaisesRegex(ValueError, message):
+                            session._acquire()
+                        self.assertTrue(output.is_dir())
+                        self.assertFalse(session.attempted)
+                    finally:
+                        session.close()
+
+    @unittest.skipUnless(sys.platform == "linux" and hasattr(os, "pidfd_open")
+                         and Path("/opt/implementaudit-c5-current-python312-v1").is_dir(),
+                         "fixed current provider data input absent; no provider-scope credit")
+    def test_current_c5_actual_provider_drift_refuses_acquisition(self):
+        """Break caught: provider byte substitution reaches producer dispatch."""
+        with self.current_c5_source_copy() as (root, output):
+            owner = load("provider_drift_current_c5", root / "scripts/load-work-graph-c5-executor.py")
+            with mock.patch("subprocess.Popen", side_effect=AssertionError("changed provider dispatched a producer")):
+                session = owner.create_current_composite_c5_session_v1(root, output,
+                    expected_source={"source_commit": "0" * 40, "source_tree": "1" * 40})
+                try:
+                    provider = type(session).__init__.__globals__["D"]
+                    copied = output.parent / "provider-copy"
+                    shutil.copytree(provider.VENV, copied, symlinks=True)
+                    changed = copied / "lib/python3.12/site-packages/zopfli/_version.py"
+                    changed.write_bytes(changed.read_bytes() + b"\n")
+                    capture_tree = provider._capture_tree
+                    # Redirect only the filesystem subject to a real disposable
+                    # copy; all provider byte/namespace/RECORD predicates stay real.
+                    with mock.patch.object(provider, "_capture_tree", side_effect=lambda _root, objects: capture_tree(copied, objects)):
+                        with self.assertRaisesRegex(ValueError, "C5 provider file differs from fixed installed bytes"):
+                            session._acquire()
+                    self.assertTrue(output.is_dir())
+                    self.assertFalse(session.attempted)
+                finally:
+                    session.close()
+
     def test_retained_native_dependency_and_new_core_profiles_are_distinct(self):
         manifest = json.loads((ROOT / "source-peers/native-runtime/SOURCE_MANIFEST.json").read_bytes())
         retained = next(row for row in manifest["files"]

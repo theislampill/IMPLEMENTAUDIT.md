@@ -18,8 +18,10 @@ if not isinstance(_CAPTURE, dict) or set(_CAPTURE) != {"prefix", "base", "source
     raise RuntimeError("C5 provider inputs require the separate fixed captured-source loader")
 P, B, _CHECK = _CAPTURE["prefix"], _CAPTURE["base"], _CAPTURE["check"]
 SPEC = json.loads(_CAPTURE["sources"][FIXTURE][0])
-if SPEC.get("schema") != "implementaudit.c5-provider-selection.v1" or SPEC.get("profile") != PROFILE:
+if (SPEC.get("schema") != "implementaudit.c5-provider-selection.v1"
+        or SPEC.get("profile") not in (PROFILE, "CURRENT_COMPOSITE_FIXED_PACKAGE_VENV_PYTHON312_DATA_ONLY_20261027_V1")):
     raise ValueError("unsupported fixed C5 provider selection")
+PROFILE = SPEC["profile"]
 VENV = Path(SPEC["provider_root"])
 if not VENV.is_absolute() or ".." in VENV.parts:
     raise ValueError("fixed provider root must be absolute without traversal")

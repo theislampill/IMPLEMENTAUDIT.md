@@ -21,8 +21,10 @@ if not isinstance(_CAPTURE, dict) or set(_CAPTURE) != {"prefix", "sources", "che
 P = _CAPTURE["prefix"]
 _CHECK = _CAPTURE["check"]
 SPEC = json.loads(_CAPTURE["sources"][FIXTURE][0])
-if SPEC.get("schema") != "implementaudit.c5-input-selection.v1" or SPEC.get("profile") != PROFILE:
+if (SPEC.get("schema") != "implementaudit.c5-input-selection.v1"
+        or SPEC.get("profile") not in (PROFILE, "CURRENT_COMPOSITE_SYSTEM_PYTHON312_DATA_ONLY_20261027_V1")):
     raise ValueError("unsupported fixed C5 selection")
+PROFILE = SPEC["profile"]
 _ENVIRONMENT = dict(P.ENVIRONMENT)
 _PYTHON_ALIASES = tuple(parent + "/" + name for parent in ("/usr/bin", "/bin")
                         for name in ("python", "python3"))

@@ -165,6 +165,9 @@ need(type(_CAPTURE) is dict and set(_CAPTURE) == {'prefix','base','provider','ga
      'C5 executor requires its complete separate fixed captured-source owner')
 P, B, D, G, Q = (_CAPTURE[name] for name in ('prefix','base','provider','gate','qualifier'))
 SOURCES, CHECK, ENGINE_ROOT, SPEC = (_CAPTURE[name] for name in ('sources','check','root','selection'))
+need(SPEC.get('profile') in (PROFILE, 'FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1'),
+     'Unsupported fixed C5 execution profile')
+PROFILE = SPEC['profile']
 # The current prefix owner remains the one source of these production limits.
 _LIMIT_OWNER = P.bind_session(Q.VerifierTaskSession, Q.WG, ENGINE_ROOT,
                              SOURCES['scripts/qualify-work-graph-prefix.py'][0])
@@ -408,6 +411,11 @@ def runtime_layout(runtime,topology):
         descriptor = {key:row[key] for key in ('bytes','sha256','mode')}
         need(resolved not in files or files[resolved] == descriptor, 'C5 resolved runtime bytes disagree')
         files[resolved] = descriptor
+    if PROFILE == 'FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1':
+        selected_paths = set(logical) | set(files) | set(links)
+        need(all(not PurePosixPath(name).is_relative_to(mount)
+                 for name in selected_paths for mount in (SOURCE_MOUNT, WORK_MOUNT, SCRATCH_MOUNT)),
+             'C5 selected runtime input overlaps a later private mount')
     directories = {name:stat.S_IMODE(observed[2]) for name,observed in topology['directories'].items()}
     for name in ('/','/work','/c5-work','/tmp','/dev','/proc','/profile'):
         directories.setdefault(name,0o755)
@@ -415,10 +423,13 @@ def runtime_layout(runtime,topology):
         for parent in PurePosixPath(name).parents:directories.setdefault(str(parent),0o755)
     need(not set(files)&set(links) and not (set(files)|set(links))&set(directories),
          'C5 runtime files, aliases and directories overlap')
-    # Keep the two selected provider ancestors at their actual captured modes.
-    # This fixed policy adds no paths and leaves0755 mandatory everywhere else.
+    # Each closed source profile preserves its actual provider ancestry. These
+    # fixed policies add no paths or caller-selected directory exceptions.
     policy = SPEC['directory_mode_policy']
-    need(policy == {'default':0o755,'exceptions':{'/workspace':0o777,'/workspace/scratch':0o700}},
+    expected_policy = ({'default':0o755,'exceptions':{}}
+        if PROFILE == 'FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1'
+        else {'default':0o755,'exceptions':{'/workspace':0o777,'/workspace/scratch':0o700}})
+    need(policy == expected_policy,
          'C5 selected directory mode policy differs from its fixed profile')
     need(set(policy['exceptions']) <= set(topology['directories']),
          'C5 fixed mode exception lacks its actual captured directory')
