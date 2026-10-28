@@ -32,7 +32,7 @@ OWNED_PIDFD = None
 HOSTED_PACKAGE_URL = 'https://snapshot.ubuntu.com/ubuntu/20260901T000000Z/pool/main/b/bubblewrap/bubblewrap_0.9.0-1ubuntu0.1_amd64.deb'
 HOSTED_PACKAGE_PIN = {'bytes': 50178, 'sha256': '1b506492bd9c7fd0cdb4f02ac822f1d3e336b0aead5113c1239baf8db5db562a'}
 HOSTED_SOURCE_URL = 'https://github.com/theislampill/IMPLEMENTAUDIT.md.git'
-HOSTED_LOADER_PIN = {'bytes': 11983, 'sha256': '51830dc6fd7dc05ffd933a5493c3e06653108f5c50c80eb2c8812ac40232ba03'}
+HOSTED_LOADER_PIN = {'bytes': 11983, 'sha256': '9f118113488968b9a8ce51429d7c0028fa22c99621d1b9a98302ac7f2bdf3bd4'}
 
 
 class HostedPrerequisiteDeadline(BaseException):

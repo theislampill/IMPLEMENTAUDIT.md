@@ -110,14 +110,18 @@ def needed(mapping,key):
     if not concrete(value): refuse('missing concrete '+key)
     return value
 
-def table_rows(text, *, unique_headers=False):
+def table_rows(text, *, unique_headers=False, decision_columns=()):
     header=None
     for line in text.splitlines():
         if not line.startswith('|'): header=None;continue
         cells=[c.strip(' \t`') for c in line.split('|')[1:-1]]
         if cells and all(re.fullmatch(r':?-+:?',c) for c in cells):continue
         if header is None:
-            if unique_headers and len(cells)!=len(set(cells)):refuse('duplicate record table header')
+            # Only decision tables require unique keys; explanatory tables keep
+            # their existing grammar. Never let dictionary projection hide a duty.
+            names=set(cells)
+            decision=any(set(columns)<=names for columns in decision_columns)
+            if (unique_headers or decision) and len(cells)!=len(names):refuse('duplicate record table header')
             header=cells;continue
         if len(cells)!=len(header):refuse('malformed record table')
         yield dict(zip(header,cells))
@@ -236,7 +240,7 @@ try:
                 declared=[] if raw=='none' else [contained(p.strip(' `')) for p in raw.split(',')]
                 if sorted(map(str,provided))!=sorted(map(str,declared)) or len(set(provided))!=len(provided):refuse('applicable plan inventory differs from supplied inputs')
             if inventory_fields.get('Steer directory') not in {str(root),'<run-root>'}:refuse('closure steer inventory does not select this run root')
-            phases=[row for row in table_rows(roadmap) if 'Status' in row and ('Phase' in row or '#' in row)]
+            phases=[row for row in table_rows(roadmap, decision_columns=(('Status','Phase'),('Status','#'))) if 'Status' in row and ('Phase' in row or '#' in row)]
             if not phases:refuse('no declared phase population')
             for row in phases:
                 review=row.get('Review')
@@ -275,7 +279,7 @@ try:
                 key=('occ',occurrence,row['Phase'],row['Class']) if occurrence is not None else ('legacy-row',number)
                 latest[key]=outcome
             if any(outcome!='resolved' for outcome in latest.values()):refuse('unresolved current Andon outcome prevents terminal closure')
-            for row in table_rows(state):
+            for row in table_rows(state, decision_columns=(('Finding','Status'),('Consequential',),('Disposition',))):
                 if 'Finding' in row and 'Status' in row and row['Status'].lower() not in {'closed','done','verified','resolved','not-applicable','deferred'}:refuse('nonterminal in-scope ledger item')
                 if row.get('Consequential','').lower()=='yes' and row.get('Disposition') in {'pending','unresolved',''}:refuse('unresolved consequential residual')
                 if row.get('Disposition') in {'deferred','transferred','owner-assigned','risk-accepted'} and not concrete(row.get('Owner / policy ref')):refuse('residual lacks owner/policy disposition')

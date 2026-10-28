@@ -23,16 +23,17 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/validate-run-root.sh",
       "materialized_path": "skills/implementaudit/scripts/validate-run-root.sh",
-      "bytes": 113863,
-      "sha256": "66c0f6d3df8c0f1702864055f3fcc4ee3cf5403982de81fba71389cdc5860283",
+      "bytes": 114294,
+      "sha256": "e7a20d7d5eab497338327814367fe8c7221a35cfe61bdfaadd91d84101f0d250",
       "source_commit": "d2397406d51aa080209caa16897283b2e9cb5b61",
       "source_path": "skills/implementaudit/scripts/validate-run-root.sh",
       "modified": true,
       "mode": "100644",
       "source_preimage_sha256": "fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5",
-      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; wave1 composite source reconciliation, see docs/integration/active-rlgwo-composite-20261025.md; no native admission",
+      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; wave1 composite source reconciliation, see docs/integration/active-rlgwo-composite-20261025.md; no native admission; DG17/R0037 closure-decision headers refuse ambiguous columns before projection; historical native admission remains separate",
       "semantic_owner": "R0039 original14/TC06",
-      "integration_preimage_sha256": "73bce773c2fa43aa1f42584121824b8179356ca6bf6348c6e10492e2f128313d"
+      "integration_preimage_sha256": "73bce773c2fa43aa1f42584121824b8179356ca6bf6348c6e10492e2f128313d",
+      "dg17_ledger_preimage_sha256": "66c0f6d3df8c0f1702864055f3fcc4ee3cf5403982de81fba71389cdc5860283"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/references/route-obligations.md",

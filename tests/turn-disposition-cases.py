@@ -148,6 +148,42 @@ def main():
             state = root / 'STATE.md'
             replace(state, '| Rerun evidence | Outcome |', '| Rerun evidence | Outcome | Outcome |')
             replace(state, '|---|---|---|---|---|---|---|---|', '|---|---|---|---|---|---|---|---|---|')
+        def decision_table(root, record, headers, values, *, roadmap=False):
+            table = '| ' + ' | '.join(headers) + ' |\n'
+            table += '|' + '---|' * len(headers) + '\n'
+            table += '| ' + ' | '.join(values) + ' |\n'
+            target = root / ('ROADMAP.md' if roadmap else 'STATE.md')
+            target.write_text(('# Roadmap\n' if roadmap else target.read_text() + '\n## Record decision probe\n\n') + table)
+        case('r37-closure-ledger-closed', 'TERMINAL_CLOSURE', True,
+            lambda r,p: decision_table(r,p,('Finding','Status'),('Required C2 observation','closed')))
+        case('r37-closure-ledger-open', 'TERMINAL_CLOSURE', False,
+            lambda r,p: decision_table(r,p,('Finding','Status'),('Required C2 observation','open')),
+            contains='nonterminal in-scope ledger item')
+        for suffix, headers, values in (
+            ('status', ('Finding','Status','Status'), ('Required C2 observation','open','closed')),
+            ('reversed-status', ('Finding','Status','Status'), ('Required C2 observation','closed','open')),
+            ('decorated-status', ('Finding','Status',' `Status` '), ('Required C2 observation','open','closed')),
+            ('disposition', ('Residual','Consequential','Disposition','Disposition','Owner / policy ref'),
+                ('residual-C2','yes','unresolved','transferred','receiving executor issue-211')),
+            ('consequential', ('Residual','Consequential','Consequential','Disposition'),
+                ('residual-C2','yes','no','unresolved')),
+            ('owner', ('Residual','Disposition','Owner / policy ref','Owner / policy ref'),
+                ('residual-C2','transferred','','receiving executor issue-211')),
+        ):
+            case('r37-closure-ledger-duplicate-' + suffix, 'TERMINAL_CLOSURE', False,
+                lambda r,p,h=headers,v=values: decision_table(r,p,h,v), contains='duplicate record table header')
+        for suffix, headers, values in (
+            ('status', ('Phase','Objective','Status','Status'), ('1','Greeting repair','pending','done')),
+            ('review', ('Phase','Objective','Review','Review','Status'), ('1','Greeting repair','BLOCKED','PASS','done')),
+        ):
+            case('r37-closure-phase-duplicate-' + suffix, 'TERMINAL_CLOSURE', False,
+                lambda r,p,h=headers,v=values: decision_table(r,p,h,v,roadmap=True), contains='duplicate record table header')
+        case('r37-closure-explanatory-duplicate-preserved', 'TERMINAL_CLOSURE', True,
+            lambda r,p: decision_table(r,p,('Example','Value','Value'),('comparison','before','after')))
+        case('r37-closure-header-case-preserved', 'TERMINAL_CLOSURE', True,
+            lambda r,p: decision_table(r,p,('Finding','Status','status'),('Required C2 observation','closed','example')))
+        case('r37-yield-ambiguous-ledger-is-not-closure', 'NONTERMINAL_YIELD', True,
+            lambda r,p: decision_table(r,p,('Finding','Status','Status'),('Required C2 observation','open','closed')))
         case('r37-closure-andon-duplicate-outcome', 'TERMINAL_CLOSURE', False,
             duplicate_andon_outcome, contains='duplicate record table header')
         for outcome in ('open (rerun pending)', 'escalated (cites #1)', 'blocked (handoff condition)', '', 'resolved-ish'):
