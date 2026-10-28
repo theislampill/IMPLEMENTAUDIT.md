@@ -64,6 +64,11 @@ def inventory(directory):
 
 def run(command,allowed=(0,)):
     # This bounds a read-only helper, never the governor's audit/retry lifecycle.
+    if os.name=='nt' and command[0]=='bash':
+        # Windows SearchPath can choose System32/bash.exe (WSL) before PATH.
+        # Use the same explicit Git Bash owner as read-canonical-pair.py.
+        command=[str(Path(r'C:\Program Files\Git')/'bin/bash.exe'),
+                 *(value.replace('\\','/') if re.match(r'^[A-Za-z]:\\',value) else value for value in command[1:])]
     options={'start_new_session':True} if os.name=='posix' else {'creationflags':subprocess.CREATE_NEW_PROCESS_GROUP}
     process=subprocess.Popen(command,text=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,**options)
     try:
