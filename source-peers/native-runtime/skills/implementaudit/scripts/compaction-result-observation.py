@@ -304,6 +304,22 @@ def completed_exchange(context, prepared, request, store, session, owner, skill_
     before(validated['record'], identity['call'])
     return {'identity': digest(canonical(identity)), 'records': identity, 'evidence': request}
 
+def inert_preload_tool_declaration(record, before_load):
+    """One closed startup declaration; never authorization for a tool call."""
+    row = record['row']
+    declaration = row.get('payload', {})
+    metadata = row.get('metadata')
+    return (type(before_load) is int and
+        record['locator']['offset'] < before_load and
+        row.get('type') == 'response_item' and declaration.get('type') == 'additional_tools' and
+        isinstance(metadata, dict) and set(metadata) == {'client_authored', 'mcp_attribution'} and
+        metadata['client_authored'] is False and metadata['mcp_attribution'] == {'status': 'none'} and
+        set(declaration) == {'type', 'id', 'role', 'tools'} and
+        declaration['role'] == 'developer' and isinstance(declaration['id'], str) and
+        0 < len(declaration['id']) <= 128 and isinstance(declaration['tools'], list) and
+        0 < len(declaration['tools']) <= 64 and all(isinstance(item, dict) for item in declaration['tools']))
+
+
 def allow_current_settings_event(context, record, native_current_hold=False, before_load=None):
     """Admit only the exact selected settings event at its allowed boundary."""
     if native_current_hold:
@@ -579,15 +595,7 @@ def history_with_priors(context, prepared, exchange, bind_request, store, sessio
             if row['type'] in ('world_state', 'turn_context', 'token_usage_record', 'inter_agent_communication_metadata'):
                 continue
         if native_current_hold and row.get('type') == 'response_item' and row['payload'].get('type') == 'additional_tools':
-            declaration = row['payload']
-            metadata = row.get('metadata')
-            witnessed(record['locator']['offset'] < load_offset and
-                isinstance(metadata, dict) and set(metadata) == {'client_authored', 'mcp_attribution'} and
-                metadata['client_authored'] is False and metadata['mcp_attribution'] == {'status': 'none'} and
-                set(declaration) == {'type', 'id', 'role', 'tools'} and
-                declaration['role'] == 'developer' and isinstance(declaration['id'], str) and
-                0 < len(declaration['id']) <= 128 and isinstance(declaration['tools'], list) and
-                0 < len(declaration['tools']) <= 64 and all(isinstance(item, dict) for item in declaration['tools']),
+            witnessed(inert_preload_tool_declaration(record, load_offset),
                 'HOLD_UNQUALIFIED_TOOL_DECLARATION', record)
             # The declaration is inert. Actual calls still pass the unchanged
             # operation, provenance, pairing and early-USE guards below.

@@ -14,6 +14,11 @@ MODULES = ('test_native_probe', 'test_current_source_owner', 'test_review_repair
 
 # Additive source-only groups; the original 42 + 4 profile + 3 export remain exact.
 CURRENT_SOURCE_GROUPS = (
+    ('test_terminal_tool_inventory', 'TerminalToolInventoryControls', (
+        'test_declaration_never_hides_unsettled_or_duplicate_calls',
+        'test_same_admitted_declaration_reaches_terminal_inventory',
+        'test_terminal_declaration_retains_profile_and_closed_preload_shape',
+    )),
     ('test_source_owner_bounds', 'SourceOwnerBoundsControls', (
         'test_all_issuer_readers_accept_delivered_module_length',
         'test_all_issuer_readers_accept_exact_code_ceiling',

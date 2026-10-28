@@ -2005,6 +2005,8 @@ _NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += (
         ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None),
     ),
 )
+# Current terminal-inventory owner binding; historical subjects remain unchanged.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((('claim-run.sh', 31259, '7cfd59d8569ad04221cd4779a803dfc451d5e47b2d4674ad657090564c6c174d', 420), ('validate-run-root.sh', 114294, 'e7a20d7d5eab497338327814367fe8c7221a35cfe61bdfaadd91d84101f0d250', 420), ('claim-run-rotation.py', 259408, '1c70c0612bad4b2311bb89ddad60484937b5d195bf98380c3ef3e0d30d6cd94b', 420), ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', 493), ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493), ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 420), ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493)), (('claim-run.sh', 104155, '10baf97b4c773d8ac386627a455bb480e8353ccfdb909fc5253d3ac4c65ecd0f', None), ('validate-run-root.sh', 114294, 'e7a20d7d5eab497338327814367fe8c7221a35cfe61bdfaadd91d84101f0d250', None), ('claim-run-rotation.py', 246657, 'bc862f87428e86c608ddc5fe31ad8a3e2c8324b52c09ba379163db160ad70e93', None), ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', None), ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None), ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None), ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None)))
 _NATIVE_LEGACY_CONTINUITY_PAIRS_V1 = (
     ('07e09843b2831149dc43e5f0dc458e82ae5cf9614b116393ac774ddea19390c7',
      'fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5'),
@@ -2037,6 +2039,8 @@ _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1 = {
     # Exact current closure-parser source selection; historical transports retained.
     'aeb7aaf05214c65707205f53d6cfa4ec95347e1358073003a0d96280435a5ee1': 57615,
 }
+# Current terminal-inventory owner binding; historical subjects remain unchanged.
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['46c043889d7bd6ec4c39992d98a5d9db15c710b06af59dad1c1b0ee817e2c912'] = 59668
 
 
 def _native_check_continuity_closure_v1(value, repository, compiler_path, pair):

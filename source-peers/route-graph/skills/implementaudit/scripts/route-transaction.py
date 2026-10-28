@@ -5668,6 +5668,8 @@ _R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (31259, 'cee4c3225be8
 _R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (31259, 'e1b686be7aba7da12163810e1c99c0033bad2ec949bdc5436fb177ba2491a790'), 'claim-run-rotation.py': (259408, '348c492cafdb3ed7d41f360ff8c219316257bdd18c4e4f22646aa7e66cb84d9e')},)
 # Current DG08 source-only predecessor pair; no native admission.
 _R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (31259, '0d1829770e3ce8da613cb48646391fc65641636ac4cd42a97149b3e8f57750b9'), 'claim-run-rotation.py': (259408, 'c91e7c3aa243919c4cdb398f999f28734f1a630511a99f6b1aa9dc477b2fae3c')},)
+# Current terminal-inventory owner binding; historical subjects remain unchanged.
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (31259, '7cfd59d8569ad04221cd4779a803dfc451d5e47b2d4674ad657090564c6c174d'), 'claim-run-rotation.py': (259408, '1c70c0612bad4b2311bb89ddad60484937b5d195bf98380c3ef3e0d30d6cd94b')},)
 
 def original14_retained_predecessor_v1(
     repo, token, fields, *, controller, claim, run_identity, generation,

@@ -1052,7 +1052,7 @@ else:
         fixture = load("composite_pending_fixture", ROOT / "tests/cognition-pending-durability.py")
         pins = fixture.source_pins(ROOT)
         selected = fixture.reservation_refusal_profile(pins)
-        self.assertEqual(selected["qualified_checkpoint"], "source-sha256:b8debad1fa005c702694987f1aa7848c33fb575f7ebd23a674de5f873fc189e5")
+        self.assertEqual(selected["qualified_checkpoint"], "source-sha256:681b22da6ee2fc5a84cfab7547a9f0551a76c97659e6b5c5b7158ff910117c23")
         self.assertEqual(selected["stored_json_refusal"], "PENDING_STATE_JSON")
         self.assertEqual(selected["nonfinite_counter_refusal"], "PENDING_STATE_JSON_CONSTANT")
         # Historical tuples must not inherit the changed current source owners.

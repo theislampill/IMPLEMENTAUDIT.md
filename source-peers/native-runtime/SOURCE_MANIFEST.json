@@ -7,18 +7,19 @@
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/claim-run.sh",
       "materialized_path": "skills/implementaudit/scripts/claim-run.sh",
       "bytes": 104155,
-      "sha256": "5cca165879cb272a8cb494fcdc12ac461ec53c4d9c95fcb13882ea44397be529",
+      "sha256": "10baf97b4c773d8ac386627a455bb480e8353ccfdb909fc5253d3ac4c65ecd0f",
       "source_commit": "fa14948894f583cc0b4e3be80e9283839c9992b5",
       "source_path": "skills/implementaudit/scripts/claim-run.sh",
       "modified": true,
       "mode": "100644",
       "semantic_owner": "R0011",
       "source_preimage_sha256": "9665ba20e02c02882f3172549e90d78e790c6c0133cd31749a30e1d29c3cc0ce",
-      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; wave1 composite source reconciliation, see docs/integration/active-rlgwo-composite-20261025.md; no native admission; exact current preparation-template dependency closure; prior profiles retained; no native admission DG08 source-only correction and exact dependency binding; no native admission or evidence-window expansion. DG08 acquisition-v1/startup compatibility and exact dependency binding; selected-evidence limits retained; no native acceptance.",
+      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; wave1 composite source reconciliation, see docs/integration/active-rlgwo-composite-20261025.md; no native admission; exact current preparation-template dependency closure; prior profiles retained; no native admission DG08 source-only correction and exact dependency binding; no native admission or evidence-window expansion. DG08 acquisition-v1/startup compatibility and exact dependency binding; selected-evidence limits retained; no native acceptance. Exact terminal-inventory startup classification and dependency bindings; no historical native admission.",
       "integration_preimage_sha256": "405ab3853dfb88c007ea2f8f8dd98fb8e9c6e77552b172f2f71a8751364ea20f",
       "preparation_binding_preimage_sha256": "bd0c6d2ab1ec8f695fe34e459b25d9344e11c5930d3f62d0919b29d9bc4a44ee",
       "dg08_source_receiving_preimage_sha256": "322f17d86170e34788833a619586e8cb9fcc066a70933342ad3f28f036446d0d",
-      "dg08_acquisition_preimage_sha256": "d7db3595bfdd6b79e822375df5744597111148315cce6c980dc063792774dc36"
+      "dg08_acquisition_preimage_sha256": "d7db3595bfdd6b79e822375df5744597111148315cce6c980dc063792774dc36",
+      "terminal_inventory_preimage_sha256": "5cca165879cb272a8cb494fcdc12ac461ec53c4d9c95fcb13882ea44397be529"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/validate-run-root.sh",
@@ -99,32 +100,34 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
       "materialized_path": "skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
-      "bytes": 132292,
-      "sha256": "b8debad1fa005c702694987f1aa7848c33fb575f7ebd23a674de5f873fc189e5",
+      "bytes": 132753,
+      "sha256": "681b22da6ee2fc5a84cfab7547a9f0551a76c97659e6b5c5b7158ff910117c23",
       "semantic_owner": "R003A/continuity",
       "mode": "100644",
       "source_preimage_sha256": "1f35bd9f9841e05dfb419f85890b34f036e13af387fed5a9a80868787293d972",
       "modified": true,
       "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
-      "additional_delta": "R0039 distinct owned-stdio0.153.4 source profile; existing owners and default refusals retained; no private selection or native admission; R0039 actual owned-stdio LF and source grammar; bounded held-directory child discovery and exact native relation readback; composed R0039 native-v3/C02 source candidate; no native admission; DG08 generic nonprotected policy excludes the distinct owned-stdio capture-only field; no native admission DG08 source-only correction and exact dependency binding; no native admission or evidence-window expansion. DG08 acquisition-v1/startup compatibility and exact dependency binding; selected-evidence limits retained; no native acceptance.",
+      "additional_delta": "R0039 distinct owned-stdio0.153.4 source profile; existing owners and default refusals retained; no private selection or native admission; R0039 actual owned-stdio LF and source grammar; bounded held-directory child discovery and exact native relation readback; composed R0039 native-v3/C02 source candidate; no native admission; DG08 generic nonprotected policy excludes the distinct owned-stdio capture-only field; no native admission DG08 source-only correction and exact dependency binding; no native admission or evidence-window expansion. DG08 acquisition-v1/startup compatibility and exact dependency binding; selected-evidence limits retained; no native acceptance. Exact terminal-inventory startup classification and dependency bindings; no historical native admission.",
       "composition_preimage_sha256": "0bb3c8ae5c3e0464d236074db24d114baf8ea71e3852f4fccdf4c93e5c5713a7",
       "dg08_source_receiving_preimage_sha256": "799d468f8a98a6990c798488517ba27f273f4862d6066a9b228ab0d1c7c6a517",
-      "dg08_acquisition_preimage_sha256": "dba5771d606e1669090703cf6094440344684fdafd2d67a40ae8eb95e3190985"
+      "dg08_acquisition_preimage_sha256": "dba5771d606e1669090703cf6094440344684fdafd2d67a40ae8eb95e3190985",
+      "terminal_inventory_preimage_sha256": "b8debad1fa005c702694987f1aa7848c33fb575f7ebd23a674de5f873fc189e5"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-result-observation.py",
       "materialized_path": "skills/implementaudit/scripts/compaction-result-observation.py",
-      "bytes": 153377,
-      "sha256": "5d950aa04b916be102382fca93fec437d4dea00ebd2af8453468ef5c9bcef6e0",
+      "bytes": 153682,
+      "sha256": "15de2cb86378960163be08876876ff2473dc034704f6dad014d90a9bb7dc7156",
       "semantic_owner": "R003A/continuity",
       "mode": "100644",
       "source_preimage_sha256": "c44d2351ba7e48fb324a761c818eb5ecb428f89b9ea64c6b99fe6a64ad0e1d72",
       "modified": true,
       "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
       "inherited_delta_sha256": "efa76b9360b07f751481a5240c6ef6ddc4a0073755b35881041e1d9864885a97",
-      "additional_delta": "Fixed issuer/code closure, current retained metadata, pending-kind census and scope/range ordering; original final_answer R/A predicates preserved; R0039 distinct owned-stdio0.153.4 source profile; existing owners and default refusals retained; no private selection or native admission; R0039 actual owned-stdio LF and source grammar; bounded held-directory child discovery and exact native relation readback DG08 source-only correction and exact dependency binding; no native admission or evidence-window expansion. DG08 acquisition-v1/startup compatibility and exact dependency binding; selected-evidence limits retained; no native acceptance.",
+      "additional_delta": "Fixed issuer/code closure, current retained metadata, pending-kind census and scope/range ordering; original final_answer R/A predicates preserved; R0039 distinct owned-stdio0.153.4 source profile; existing owners and default refusals retained; no private selection or native admission; R0039 actual owned-stdio LF and source grammar; bounded held-directory child discovery and exact native relation readback DG08 source-only correction and exact dependency binding; no native admission or evidence-window expansion. DG08 acquisition-v1/startup compatibility and exact dependency binding; selected-evidence limits retained; no native acceptance. Exact terminal-inventory startup classification and dependency bindings; no historical native admission.",
       "dg08_source_receiving_preimage_sha256": "9ea603b9d923df5c155c7a5406ee2dac21cbc8fc87ec205f978e3130fbe43345",
-      "dg08_acquisition_preimage_sha256": "75eb9d4fce108a89847a78d972800482751ad5994c340eb73b30d82932097728"
+      "dg08_acquisition_preimage_sha256": "75eb9d4fce108a89847a78d972800482751ad5994c340eb73b30d82932097728",
+      "terminal_inventory_preimage_sha256": "5d950aa04b916be102382fca93fec437d4dea00ebd2af8453468ef5c9bcef6e0"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-audit-pending.py",
@@ -181,11 +184,11 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/claim-run-rotation.py",
       "bytes": 246657,
-      "sha256": "908cce5054dc23a9e74b6af695204fc6d9889681611311c7136f087fe0be1663",
+      "sha256": "bc862f87428e86c608ddc5fe31ad8a3e2c8324b52c09ba379163db160ad70e93",
       "source_commit": "d2397406d51aa080209caa16897283b2e9cb5b61",
       "composition_preimage_sha256": "69bea85f96c3cca62858bf3ecb6fd9fd19775203064e54b912577ea2a3c69123",
       "modified": true,
-      "additional_delta": "; composed R0039 native-v3/C02 source candidate; no native admission; R0039 exact-source projection binding receiving candidate; captured buffer and physical-path cache retained; exact old companion moved to explicit native-peer source override; materialize with existing complete sibling closure; historical traversal API remains unsupported by this native profile; exact current preparation-template dependency closure; prior profiles retained; no native admission DG08 source-only correction and exact dependency binding; no native admission or evidence-window expansion. DG08 acquisition-v1/startup compatibility and exact dependency binding; selected-evidence limits retained; no native acceptance.",
+      "additional_delta": "; composed R0039 native-v3/C02 source candidate; no native admission; R0039 exact-source projection binding receiving candidate; captured buffer and physical-path cache retained; exact old companion moved to explicit native-peer source override; materialize with existing complete sibling closure; historical traversal API remains unsupported by this native profile; exact current preparation-template dependency closure; prior profiles retained; no native admission DG08 source-only correction and exact dependency binding; no native admission or evidence-window expansion. DG08 acquisition-v1/startup compatibility and exact dependency binding; selected-evidence limits retained; no native acceptance. Exact terminal-inventory startup classification and dependency bindings; no historical native admission.",
       "materialized_path": "skills/implementaudit/scripts/claim-run-rotation.py",
       "mode": "100644",
       "semantic_owner": "R0039",
@@ -193,7 +196,8 @@
       "retained_from_commit": "c301bf5a4b6b9b089113b11e6f1bfd6e9c0549b7",
       "preparation_binding_preimage_sha256": "4dbbd07b5a792289c13c1225a8099900682b3657396f60f4b74867502cbadf97",
       "dg08_source_receiving_preimage_sha256": "31e30b564e83db80c11c18b3bf83eab9d901bf089af7dd7ebd2e7d823f5105f8",
-      "dg08_acquisition_preimage_sha256": "4a4dc5a997f3d485c7c43be31cb45818907e1685c8506fbabcb8bcee0872aed6"
+      "dg08_acquisition_preimage_sha256": "4a4dc5a997f3d485c7c43be31cb45818907e1685c8506fbabcb8bcee0872aed6",
+      "terminal_inventory_preimage_sha256": "908cce5054dc23a9e74b6af695204fc6d9889681611311c7136f087fe0be1663"
     }
   ],
   "composition_domain": "R0039_ORIGINAL14_OWNER_WITH_R0033_VERIFIED_READ_VIEW",

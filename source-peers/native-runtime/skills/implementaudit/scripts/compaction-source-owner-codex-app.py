@@ -83,7 +83,7 @@ def native_public_binding(obs, context, policy, pins):
     require(context['profile_id'] in SOURCE_PROFILES, 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED')
     return nonprotected_public_binding(obs, context, policy, pins)
 
-def tool_calls(obs, records):
+def tool_calls(obs, records, context=None, before_load=None):
     calls = {}
     completed = set()
     inventory = []
@@ -106,6 +106,11 @@ def tool_calls(obs, records):
             completed.add(call_id)
             item = next((value for value in inventory if value['call_id'] == call_id))
             item['output'] = record['locator']
+        elif kind == 'additional_tools':
+            require(context is not None and context.get('profile_id') == obs.NONPROTECTED_PROFILE and
+                obs.qualified_same_source_ticks(context, records) and
+                obs.inert_preload_tool_declaration(record, before_load),
+                'SOURCE_OWNER_UNQUALIFIED_TOOL_DECLARATION')
         elif kind not in ('reasoning', 'message', 'agent_message'):
             raise ValueError('SOURCE_OWNER_UNCLASSIFIED_EFFECT_ROW')
     require(set(calls) == completed, 'SOURCE_OWNER_UNSETTLED_EFFECT_CALL')
@@ -148,7 +153,7 @@ def release_subject(obs, context, prepared, result, accepted, candidate_pin, q_p
     if context['profile_id'] in (obs.CURRENT_BOUNDARY_PROFILE, *SOURCE_PROFILES):
         require(policy is not None, 'CURRENT_PUBLIC_POLICY_REQUIRED')
         native_public_binding(obs, context, policy, [context['open'], prepared['authorization']['route_record'], prepared['authorization']['record'], result['identity']['child_final'], accepted['record']])
-    return {'schema': 'implementaudit.compaction-boundary-release.v1' if general else 'implementaudit.compaction-current-release.v1', **({'covered_boundary_versions': prepared['obligation']['covered_boundary_versions']} if general else {}), 'child_id': context['actual_child_identity']['agent_path'], 'observation_id': prepared['obligation']['observation_id'], 'candidate_sha256': candidate_pin['sha256'], 'Q_sha256': q_pin['sha256'], 'result_digest': result['return_digest'], 'acceptance_digest': obs.digest(obs.canonical(accepted)), 'child_terminal': child_terminal, 'child_prefix_sha256': prefix['prefix_sha256'], 'observed_tool_calls_sha256': tool_calls(obs, records), 'effect_reconciliation': 'NO_UNRECONCILED_EFFECTS', 'explicit_release': 'GRANTED', 'authority_ceiling': 'NONE'}
+    return {'schema': 'implementaudit.compaction-boundary-release.v1' if general else 'implementaudit.compaction-current-release.v1', **({'covered_boundary_versions': prepared['obligation']['covered_boundary_versions']} if general else {}), 'child_id': context['actual_child_identity']['agent_path'], 'observation_id': prepared['obligation']['observation_id'], 'candidate_sha256': candidate_pin['sha256'], 'Q_sha256': q_pin['sha256'], 'result_digest': result['return_digest'], 'acceptance_digest': obs.digest(obs.canonical(accepted)), 'child_terminal': child_terminal, 'child_prefix_sha256': prefix['prefix_sha256'], 'observed_tool_calls_sha256': tool_calls(obs, records, context, prepared['authorization']['load_identity']['call']['locator']['offset']), 'effect_reconciliation': 'NO_UNRECONCILED_EFFECTS', 'explicit_release': 'GRANTED', 'authority_ceiling': 'NONE'}
 
 def _validate_source_episode(candidate, candidate_pin, context, prepared, result, accepted, policy, q_pin, custody_root, release_evidence):
     obs = observation(policy)
