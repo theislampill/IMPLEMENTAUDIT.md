@@ -808,11 +808,15 @@ class CompositeSourceCases(unittest.TestCase):
                         if row["path"].endswith("/claim-run-rotation.py"))
         raw = (ROOT / retained["path"]).read_bytes()
         self.assertEqual((len(raw), hashlib.sha256(raw).hexdigest()),
-                         (246657, '908cce5054dc23a9e74b6af695204fc6d9889681611311c7136f087fe0be1663'))
+                         (246657, 'bc862f87428e86c608ddc5fe31ad8a3e2c8324b52c09ba379163db160ad70e93'))
         self.assertEqual(retained["materialized_path"], "skills/implementaudit/scripts/claim-run-rotation.py")
         self.assertNotIn(retained["materialized_path"], [row["path"] for row in manifest["frozen_core_dependencies"]])
         transport = load("retained_core_transport", ROOT / "scripts/work-graph-continuity-transport.py")
-        profile = transport.SOURCE_PROFILES_V1['composite-20261028-core-dg17-ledger-v1']
+        profile = transport.SOURCE_PROFILES_V1['composite-20261028-terminal-inventory-v1-core']
+        self.assertEqual(transport.SOURCE_PROFILES_V1['composite-20261028-original14-dg17-ledger-v1'][2][1:3],
+                         (246657, '908cce5054dc23a9e74b6af695204fc6d9889681611311c7136f087fe0be1663'))
+        self.assertEqual(transport.SOURCE_PROFILES_V1['composite-20261028-core-dg17-ledger-v1'][2][1:3],
+                         (259408, 'c91e7c3aa243919c4cdb398f999f28734f1a630511a99f6b1aa9dc477b2fae3c'))
         self.assertEqual(transport.SOURCE_PROFILES_V1['composite-20261027-core-dg08-acquisition-v1'][1][1:3],
                          (113863, '66c0f6d3df8c0f1702864055f3fcc4ee3cf5403982de81fba71389cdc5860283'))
         self.assertEqual(transport.SOURCE_PROFILES_V1['composite-20261027-original14-dg08-acquisition-v1'][1][1:3],
