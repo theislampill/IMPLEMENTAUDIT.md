@@ -34,29 +34,26 @@ CURRENT_PROFILE='FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1'
 CURRENT_BASE_SELECTION='fixtures/work-graph-c5-inputs/execution-current-composite-python312.json'
 CURRENT_PROVIDER_SELECTION='fixtures/work-graph-c5-inputs/package-current-venv-python312.json'
 CURRENT_EXECUTION_SELECTION='fixtures/work-graph-c5-inputs/genuine-current-execution-profile.json'
-CURRENT_PINS=types.MappingProxyType({
-    PREFIX: 'ff5dbdce5b4419268b0fc11c4659763ad68d40e32f18f721b6093a7dd269b7ab',
-    BASE: '3a03594eb9b33cb54f93605c4943ee6ffba1b5684743dcc21392270bb32af0ba',
-    PROVIDER: 'deacb319babab06f0346215972a17843d68cfff4c64234cbe3b4e119ff38524c',
-    EVENT: 'f8238acbb6aea7bb1c246774ee780149abad56c9221fe31640d522e53f8da443',
-    COMPLETION: '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb',
-    COMPILER: 'f39b0140d8966ed60c30e1a2752fcb6b30efa1cbf080642bb4295f64e2ace304',
-    QUALIFIER: 'f8f161b57bc6978bdb1da4a9334210629d268e5a2f403acd48441518038eacb1',
-    GATE: '5221b3039263ba42ededa080591cd9e23608e44ee601ad8b72b7eba590a7be60',
-    EXECUTOR: '540e3fd7dd059c8bf0e1ca98580e6c232da11e29ad14ee364569856999441837',
-    CURRENT_BASE_SELECTION: '88f4ca9e83145e25b335e6c6ebc413e57e27a80a4659276ba8b7a6cd58e1ca74',
-    CURRENT_PROVIDER_SELECTION: '7a2bf024717d56bf5316fe70227d14202509bde0bbd39a20214b39f97986d923',
-    CURRENT_EXECUTION_SELECTION: '40803e190ad9f4c017407d17b6a5560bfb5de1518d766277c97349b88907d033',
-})
+CURRENT_PINS=types.MappingProxyType({'scripts/qualify-work-graph-prefix.py': 'ff5dbdce5b4419268b0fc11c4659763ad68d40e32f18f721b6093a7dd269b7ab', 'scripts/work-graph-c5-inputs.py': '49a559777539285a7a31886686459134a1e135675f2e542c079a0b71360b5bd1', 'scripts/work-graph-c5-provider-inputs.py': '05bcb64db1ad0787ce8704846ea0ee4f3127f24d2dc471a9abcb14736937b81a', 'scripts/repro-event-capture.py': 'f8238acbb6aea7bb1c246774ee780149abad56c9221fe31640d522e53f8da443', 'scripts/work-graph-completion.py': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb', 'skills/implementaudit/scripts/compile-work-graph.py': 'f39b0140d8966ed60c30e1a2752fcb6b30efa1cbf080642bb4295f64e2ace304', 'scripts/qualify-work-graph-verifier.py': 'f8f161b57bc6978bdb1da4a9334210629d268e5a2f403acd48441518038eacb1', 'scripts/work-graph-c5-live-gate.py': '5221b3039263ba42ededa080591cd9e23608e44ee601ad8b72b7eba590a7be60', 'scripts/work-graph-c5-executor.py': '3d029fcd546f205da6e06e6e4d15bf5f3bdb51ca3e5a538b203108e04c8d7433', 'fixtures/work-graph-c5-inputs/execution-current-composite-python312.json': '88f4ca9e83145e25b335e6c6ebc413e57e27a80a4659276ba8b7a6cd58e1ca74', 'fixtures/work-graph-c5-inputs/package-current-venv-python312.json': '7a2bf024717d56bf5316fe70227d14202509bde0bbd39a20214b39f97986d923', 'fixtures/work-graph-c5-inputs/genuine-current-execution-profile.json': '40803e190ad9f4c017407d17b6a5560bfb5de1518d766277c97349b88907d033'})
 CURRENT_ORIGINS=types.MappingProxyType(dict(base_logical_key=ORIGINS['base_logical_key'],
     base_actual_member=CURRENT_BASE_SELECTION, provider_actual_member=CURRENT_PROVIDER_SELECTION))
 
+
+# Explicit new closed tuple; previous support/runtime bytes retained in test-support.
+TASK_PROFILE='FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1'
+TASK_BASE_SELECTION='fixtures/work-graph-c5-inputs/execution-sol-task-python312.json'
+TASK_PROVIDER_SELECTION='fixtures/work-graph-c5-inputs/package-sol-task-venv-python312.json'
+TASK_EXECUTION_SELECTION='fixtures/work-graph-c5-inputs/genuine-sol-task-execution-profile.json'
+TASK_PINS=types.MappingProxyType({'scripts/qualify-work-graph-prefix.py': 'ff5dbdce5b4419268b0fc11c4659763ad68d40e32f18f721b6093a7dd269b7ab', 'scripts/work-graph-c5-inputs.py': '49a559777539285a7a31886686459134a1e135675f2e542c079a0b71360b5bd1', 'scripts/work-graph-c5-provider-inputs.py': '05bcb64db1ad0787ce8704846ea0ee4f3127f24d2dc471a9abcb14736937b81a', 'scripts/repro-event-capture.py': 'f8238acbb6aea7bb1c246774ee780149abad56c9221fe31640d522e53f8da443', 'scripts/work-graph-completion.py': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb', 'skills/implementaudit/scripts/compile-work-graph.py': 'f39b0140d8966ed60c30e1a2752fcb6b30efa1cbf080642bb4295f64e2ace304', 'scripts/qualify-work-graph-verifier.py': 'f8f161b57bc6978bdb1da4a9334210629d268e5a2f403acd48441518038eacb1', 'scripts/work-graph-c5-live-gate.py': '5221b3039263ba42ededa080591cd9e23608e44ee601ad8b72b7eba590a7be60', 'scripts/work-graph-c5-executor.py': '3d029fcd546f205da6e06e6e4d15bf5f3bdb51ca3e5a538b203108e04c8d7433', 'fixtures/work-graph-c5-inputs/execution-sol-task-python312.json': 'e244d797a8808feee51b981c4182ffcfe567f5affb467428e9f93a37e72b745e', 'fixtures/work-graph-c5-inputs/package-sol-task-venv-python312.json': 'cf53875d2414184a48b153a139ebc7298483b33876c7379aa07d8450536ca446', 'fixtures/work-graph-c5-inputs/genuine-sol-task-execution-profile.json': '1dc47c1e4dc1d865283282465defa1bd35c1ea60236cca5d39422220f21472e2'})
+TASK_ORIGINS=types.MappingProxyType(dict(base_logical_key=ORIGINS["base_logical_key"], base_actual_member=TASK_BASE_SELECTION, provider_actual_member=TASK_PROVIDER_SELECTION))
 
 def _selection(profile):
     if type(profile) is str and profile == PROFILE:
         return PINS, BASE_SELECTION, PROVIDER_SELECTION, EXECUTION_SELECTION, ORIGINS
     if type(profile) is str and profile == CURRENT_PROFILE:
         return CURRENT_PINS, CURRENT_BASE_SELECTION, CURRENT_PROVIDER_SELECTION, CURRENT_EXECUTION_SELECTION, CURRENT_ORIGINS
+    if type(profile) is str and profile == TASK_PROFILE:
+        return TASK_PINS, TASK_BASE_SELECTION, TASK_PROVIDER_SELECTION, TASK_EXECUTION_SELECTION, TASK_ORIGINS
     raise ValueError('Unknown fixed C5 execution profile')
 
 
@@ -181,3 +178,8 @@ def create_current_composite_c5_session_v1(source_root,output,*,expected_source)
     path and exact bytes must exist; selection supplies no execution authority.
     """
     return _Engine(CURRENT_PROFILE).load().GenuineC5Session(source_root,output,expected_source=expected_source)
+
+
+def create_sol_task_c5_session_v1(source_root,output,*,expected_source):
+    """Explicit closed task tuple; no native/root authority or old-scope promotion."""
+    return _Engine(TASK_PROFILE).load().GenuineC5Session(source_root,output,expected_source=expected_source)

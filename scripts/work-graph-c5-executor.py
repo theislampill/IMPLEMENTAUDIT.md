@@ -165,7 +165,7 @@ need(type(_CAPTURE) is dict and set(_CAPTURE) == {'prefix','base','provider','ga
      'C5 executor requires its complete separate fixed captured-source owner')
 P, B, D, G, Q = (_CAPTURE[name] for name in ('prefix','base','provider','gate','qualifier'))
 SOURCES, CHECK, ENGINE_ROOT, SPEC = (_CAPTURE[name] for name in ('sources','check','root','selection'))
-need(SPEC.get('profile') in (PROFILE, 'FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1'),
+need(SPEC.get('profile') in (PROFILE, 'FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1', 'FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1'),
      'Unsupported fixed C5 execution profile')
 PROFILE = SPEC['profile']
 # The current prefix owner remains the one source of these production limits.
@@ -411,7 +411,7 @@ def runtime_layout(runtime,topology):
         descriptor = {key:row[key] for key in ('bytes','sha256','mode')}
         need(resolved not in files or files[resolved] == descriptor, 'C5 resolved runtime bytes disagree')
         files[resolved] = descriptor
-    if PROFILE == 'FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1':
+    if PROFILE in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1', 'FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1'):
         selected_paths = set(logical) | set(files) | set(links)
         need(all(not PurePosixPath(name).is_relative_to(mount)
                  for name in selected_paths for mount in (SOURCE_MOUNT, WORK_MOUNT, SCRATCH_MOUNT)),
@@ -426,7 +426,8 @@ def runtime_layout(runtime,topology):
     # Each closed source profile preserves its actual provider ancestry. These
     # fixed policies add no paths or caller-selected directory exceptions.
     policy = SPEC['directory_mode_policy']
-    expected_policy = ({'default':0o755,'exceptions':{}}
+    expected_policy = ({'default':0o755,'exceptions':{'/home/agent':0o750}}
+        if PROFILE == 'FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1' else {'default':0o755,'exceptions':{}}
         if PROFILE == 'FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1'
         else {'default':0o755,'exceptions':{'/workspace':0o777,'/workspace/scratch':0o700}})
     need(policy == expected_policy,

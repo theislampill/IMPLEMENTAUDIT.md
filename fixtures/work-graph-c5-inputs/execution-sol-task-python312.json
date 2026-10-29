@@ -1,0 +1,179 @@
+{
+  "authority": "NONE",
+  "compressor": {
+    "authoring_observation": "MISSING_IN_SUPPORTED_ROOTS",
+    "distribution": "zopfli",
+    "present_provider_policy": "UNSUPPORTED_UNTIL_EXACT_REVIEWED_CLOSURE",
+    "provider_pins": {},
+    "version": "0.2.3.post1"
+  },
+  "expected_archive_members": {
+    "canonical_plugin": 75,
+    "standalone_compatibility": 72
+  },
+  "historical_resource_observation": {
+    "scope": "HISTORICAL_SOURCE_DERIVED_LOWER_BOUND_NOT_ACTUAL_C5_EXECUTION_FAILURE",
+    "scratch_limit_bytes": 33554432,
+    "simultaneously_retained_worktrees": 2,
+    "source_files": 1487,
+    "two_worktrees_bytes": 195619120,
+    "worktree_bytes": 97809560
+  },
+  "original": {
+    "command": "bash tests/reproducible-release-asset.test.sh\n",
+    "index": 48
+  },
+  "payload_sources": [
+    ".claude-plugin/marketplace.json",
+    ".claude-plugin/plugin.json",
+    ".codex-plugin/plugin.json",
+    "package/implementaudit-package.json",
+    "skills/audit-andon/SKILL.md",
+    "skills/audit-assess/SKILL.md",
+    "skills/audit-implement/SKILL.md",
+    "skills/audit-state/SKILL.md",
+    "skills/implementaudit/SKILL.md",
+    "skills/implementaudit/references/audit-category-matrix.md",
+    "skills/implementaudit/references/audit-playbook.md",
+    "skills/implementaudit/references/canonical-state-ref-namespaces.json",
+    "skills/implementaudit/references/canonical-state-rotation.md",
+    "skills/implementaudit/references/child-agents.md",
+    "skills/implementaudit/references/continuity.md",
+    "skills/implementaudit/references/convergence-mode.md",
+    "skills/implementaudit/references/goal-format.md",
+    "skills/implementaudit/references/host-session-binding.md",
+    "skills/implementaudit/references/identity-namespaces.json",
+    "skills/implementaudit/references/issue-ready-work-orders.md",
+    "skills/implementaudit/references/lean-operating-discipline.md",
+    "skills/implementaudit/references/phase-design.md",
+    "skills/implementaudit/references/plan-lifecycle.md",
+    "skills/implementaudit/references/planning-depth.md",
+    "skills/implementaudit/references/repo-state-comparison.md",
+    "skills/implementaudit/references/routing.md",
+    "skills/implementaudit/references/sidecars.md",
+    "skills/implementaudit/references/terminology-integration.md",
+    "skills/implementaudit/references/transcript-contract.md",
+    "skills/implementaudit/references/work-graph-contract.md",
+    "skills/implementaudit/scripts/apply-observed-mutation.sh",
+    "skills/implementaudit/scripts/canonical_custody.py",
+    "skills/implementaudit/scripts/canonical_hot_projection.py",
+    "skills/implementaudit/scripts/canonical_rotation_inputs.py",
+    "skills/implementaudit/scripts/check-authorization-binding.sh",
+    "skills/implementaudit/scripts/check-closure-surface.sh",
+    "skills/implementaudit/scripts/check-duplication-parity.sh",
+    "skills/implementaudit/scripts/check-evidence-anchor.sh",
+    "skills/implementaudit/scripts/check-handoff-packet.sh",
+    "skills/implementaudit/scripts/check-lesson-lift.sh",
+    "skills/implementaudit/scripts/check-respec-impact-set.sh",
+    "skills/implementaudit/scripts/claim-run-rotation.py",
+    "skills/implementaudit/scripts/claim-run.sh",
+    "skills/implementaudit/scripts/compile-work-graph.py",
+    "skills/implementaudit/scripts/custody-append.sh",
+    "skills/implementaudit/scripts/detect-env.sh",
+    "skills/implementaudit/scripts/detect-stack.sh",
+    "skills/implementaudit/scripts/host-session-binding.py",
+    "skills/implementaudit/scripts/host-stop-interlock.py",
+    "skills/implementaudit/scripts/lane-survivor-inventory.sh",
+    "skills/implementaudit/scripts/map-pin-chain.sh",
+    "skills/implementaudit/scripts/read-canonical-pair.py",
+    "skills/implementaudit/scripts/repo-state.sh",
+    "skills/implementaudit/scripts/resolve-durable-identity.py",
+    "skills/implementaudit/scripts/resolve-internal-skill.py",
+    "skills/implementaudit/scripts/rotate-canonical-state.py",
+    "skills/implementaudit/scripts/summarize-repo.sh",
+    "skills/implementaudit/scripts/validate-audit-implement-return.py",
+    "skills/implementaudit/scripts/validate-audit-spec.sh",
+    "skills/implementaudit/scripts/validate-phase.sh",
+    "skills/implementaudit/scripts/validate-run-root.sh",
+    "skills/implementaudit/templates/PROTOCOL.md",
+    "skills/implementaudit/templates/ROADMAP.md",
+    "skills/implementaudit/templates/STATE.md",
+    "skills/implementaudit/templates/THINKING.md",
+    "skills/implementaudit/templates/child-agent-report.md",
+    "skills/implementaudit/templates/context.md",
+    "skills/implementaudit/templates/final-report.md",
+    "skills/implementaudit/templates/host-notes.md",
+    "skills/implementaudit/templates/phase-goal.txt",
+    "skills/implementaudit/templates/read-only-plan.md",
+    "skills/implementaudit/templates/respec-impact-set.md",
+    "skills/implementaudit/templates/sidecars.md",
+    "skills/implementaudit/templates/tools.md"
+  ],
+  "profile": "SOL_TASK_SYSTEM_PYTHON312_DATA_ONLY_20261029_V1",
+  "programs": {
+    "scripts/build-release-asset.sh": "ff22936cb014647e3ea6884e88de65c6cd97a1d9930171fdae205be300adf708",
+    "scripts/check-package-contract.sh": "3d9a6f36c609ae2731e790f82658fdbab6bbc15f1e8cd20b6fdaced1051d9dfc",
+    "scripts/package-contract.py": "a516b2e43068b08af96415c9dd1ab4e659fe6a4c2e9b5f696b3359365ab5e203",
+    "scripts/repro-event-capture.py": "f8238acbb6aea7bb1c246774ee780149abad56c9221fe31640d522e53f8da443",
+    "scripts/write-release-checksums.sh": "78bc8fa6dccb89626912f5b8dc5211622b8ffe97b24d8d09ea45bb8676c2110e",
+    "tests/reproducible-release-asset.test.sh": "a27521758cc71e312052d7eaa7c8b488dbbe2dcc5089d6054be0923455763310"
+  },
+  "python_target": "/usr/bin/python3.12",
+  "runtime_pins": {
+    "/lib/x86_64-linux-gnu/libc.so.6": {
+      "bytes": 2129424,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+      "sha256": "3a15d66867d83762c7f2f1e37359cb8f6c5743edb369c65285cb0b1c4f7498bf"
+    },
+    "/lib64/ld-linux-x86-64.so.2": {
+      "bytes": 236616,
+      "link": "../lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+      "mode": 493,
+      "resolved": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+      "sha256": "c20a2dc8917c755f02b94049356320fe1f62ac7d9f8994731f807d9df39302da"
+    },
+    "/usr/bin/python3.12": {
+      "bytes": 8020928,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/bin/python3.12",
+      "sha256": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f"
+    },
+    "/usr/lib/python3.12/_sysconfigdata__linux_x86_64-linux-gnu.py": {
+      "bytes": 49505,
+      "link": "_sysconfigdata__x86_64-linux-gnu.py",
+      "mode": 420,
+      "resolved": "/usr/lib/python3.12/_sysconfigdata__x86_64-linux-gnu.py",
+      "sha256": "ee5bb5493fa4575f7788e1b0e8a067b9c463f9705dcb36f5eb571d1c0812ea82"
+    },
+    "/usr/lib/python3.12/posixpath.py": {
+      "bytes": 17623,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/python3.12/posixpath.py",
+      "sha256": "c443d7b8afad1717e7060ce49b3e04423058de56cd4246ee6bcc1ac962eb5c2b"
+    },
+    "/usr/lib/python3.12/site.py": {
+      "bytes": 23903,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/python3.12/site.py",
+      "sha256": "619436355cbe91c3b29681ab486ee63f5f2e0a7d6274dfae747bdb94e60bca55"
+    },
+    "/usr/lib/python3.12/sitecustomize.py": {
+      "bytes": 155,
+      "link": "/etc/python3.12/sitecustomize.py",
+      "mode": 420,
+      "resolved": "/etc/python3.12/sitecustomize.py",
+      "sha256": "43d81125d92376b1a69d53a71126a041cc9a18d8080e92dea0a2ae23be138b1e"
+    },
+    "/usr/lib/python3.12/sysconfig.py": {
+      "bytes": 32768,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/python3.12/sysconfig.py",
+      "sha256": "e21755a918f488db1bd21d23120ee36ad09382c553b79735a121ee1fbdbcc08d"
+    }
+  },
+  "schema": "implementaudit.c5-input-selection.v1",
+  "site_roots": [
+    "/usr/local/lib/python3.12/dist-packages",
+    "/usr/lib/python3/dist-packages",
+    "/usr/lib/python3.12/dist-packages"
+  ],
+  "task_observed_missing_legacy_inputs": [
+    "/usr/lib/python3/dist-packages/coloredlogs.pth"
+  ]
+}
