@@ -87,13 +87,16 @@ def fixed_task_entropy_device_v1():
          and stat.S_IMODE(before.st_mode) == 0o666 and before.st_nlink == 1
          and (before.st_uid,before.st_gid,before.st_size) == (65534,65534,0),
          'C5 task kernel entropy device differs')
+    mount_flags = os.statvfs(path).f_flag
+    need(not mount_flags & os.ST_NODEV,'C5 task entropy source mount forbids device I/O')
     identity = stamp(before) + [before.st_rdev]
     after = path.lstat()
-    need(path.resolve(strict=True) == path and stamp(after) + [after.st_rdev] == identity,
+    need(path.resolve(strict=True) == path and stamp(after) + [after.st_rdev] == identity
+         and os.statvfs(path).f_flag == mount_flags,
          'C5 task kernel entropy device changed during observation')
     return dict(schema='implementaudit.c5-task-kernel-entropy.v1',
         policy='C5_TASK_FIXED_GIT_REAL_URANDOM_V1',path='/dev/urandom',
-        identity=identity,major=1,minor=9,mode=0o666,uid=65534,gid=65534,
+        identity=identity,mount_flags=mount_flags,major=1,minor=9,mode=0o666,uid=65534,gid=65534,
         state='LIVE_TRUSTED_KERNEL_NONDETERMINISM_NOT_SNAPSHOTTED',
         capability='EXACT_CHARACTER_DEVICE_IO_NOT_GENERIC_DEVICE_WRITE_CONFINEMENT',authority='NONE')
 

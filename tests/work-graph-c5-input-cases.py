@@ -214,7 +214,7 @@ class C5TaskEntropyCases(unittest.TestCase):
         exec(compile(ast.Module(body=functions,type_ignores=[]), "<actual-device-observer>", "exec"), n)
         valid = dict(st_dev=1,st_ino=7,st_mode=stat.S_IFCHR|0o666,st_nlink=1,st_size=0,
                      st_mtime_ns=11,st_ctime_ns=12,st_uid=65534,st_gid=65534,st_rdev=os.makedev(1,9))
-        for mutation in (None, "regular", "minor", "owner", "link", "identity"):
+        for mutation in (None, "regular", "minor", "owner", "link", "identity", "nodev"):
             first = dict(valid)
             if mutation == "regular": first["st_mode"] = stat.S_IFREG|0o666
             if mutation == "minor": first["st_rdev"] = os.makedev(1,8)
@@ -224,6 +224,8 @@ class C5TaskEntropyCases(unittest.TestCase):
             if mutation == "identity": second["st_ino"] += 1
             path.lstat.side_effect = [types.SimpleNamespace(**first), types.SimpleNamespace(**second)]
             n["Path"] = mock.Mock(return_value=path)
+            n["os"] = types.SimpleNamespace(major=os.major, minor=os.minor, ST_NODEV=os.ST_NODEV,
+                statvfs=mock.Mock(return_value=types.SimpleNamespace(f_flag=os.ST_NOSUID | (os.ST_NODEV if mutation=="nodev" else 0))))
             with self.subTest(mutation=mutation):
                 if mutation is None:
                     result = n["fixed_task_entropy_device_v1"]()
