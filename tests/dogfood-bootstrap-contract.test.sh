@@ -162,7 +162,15 @@ git -C "$source_root" config user.name 'Dogfood Contract Test'
 git -C "$source_root" config user.email 'dogfood-contract@example.invalid'
 git -C "$source_root" config core.autocrlf false
 git -C "$source_root" add .
-git -C "$source_root" commit -q -m baseline
+# This synthetic baseline is an input to raw serial/DAG correspondence.
+# Keep its real Git identity reproducible without replacing the observed HEAD.
+GIT_AUTHOR_NAME='Dogfood Contract Test' \
+GIT_AUTHOR_EMAIL='dogfood-contract@example.invalid' \
+GIT_COMMITTER_NAME='Dogfood Contract Test' \
+GIT_COMMITTER_EMAIL='dogfood-contract@example.invalid' \
+GIT_AUTHOR_DATE='2000-01-01T00:00:00+0000' \
+GIT_COMMITTER_DATE='2000-01-01T00:00:00+0000' \
+  git -C "$source_root" commit -q -m baseline
 
 candidate_commit="$(git -C "$source_root" rev-parse HEAD)"
 candidate_tree="$(git -C "$source_root" rev-parse 'HEAD^{tree}')"
