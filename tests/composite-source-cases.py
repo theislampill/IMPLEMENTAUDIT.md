@@ -1215,6 +1215,32 @@ else:
         with self.assertRaises(transport.ContinuityTransportError):
             transport._source_profile(changed)
 
+    def test_windows_full_snapshot_budget_is_separate_from_thin_reads(self):
+        from types import SimpleNamespace
+        transport = load("snapshot_budget_transport", ROOT / "scripts/work-graph-continuity-transport.py")
+        self.assertEqual(transport._TIMEOUT, 30)
+        owner = SimpleNamespace(_native_module_from_bytes=lambda *a: None,
+                                _native_child_environment=lambda route: {})
+        class ObservedCall(Exception):
+            pass
+        with tempfile.TemporaryDirectory(prefix="snapshot-budget-dispatch-") as temporary:
+            root = Path(temporary).resolve()
+            session = dict(root=root, view=root / "view", scratch=root / "scratch",
+                           expected=[], reads=0)
+            fake_os = SimpleNamespace(name="nt", pathsep=os.pathsep, devnull=os.devnull)
+            for closing in (False, True):
+                session["reads"] = int(closing)
+                with self.subTest(closing=closing), mock.patch.object(transport, "os", fake_os), \
+                        mock.patch.object(transport, "_windows_parent_python_v1", return_value="pinned-python"), \
+                        mock.patch.object(transport.subprocess, "run", side_effect=ObservedCall) as dispatch:
+                    with self.assertRaises(ObservedCall):
+                        transport._call_windows_canonical_snapshot_v1(owner, object(), root, root / "run",
+                            ((str(root / "canonical_custody.py"), b"constructed source selector"),), session=session)
+                    self.assertEqual(dispatch.call_args.kwargs["timeout"], 60)
+                    self.assertEqual(transport._TIMEOUT, 30)
+                    request = json.loads(dispatch.call_args.args[0][-1])
+                    self.assertEqual(request["verify_only"], closing)
+
     def test_combined_route_producer_is_source_selected(self):
         peer = ROOT / "source-peers/route-graph/skills/implementaudit/scripts"
         raw = (peer / "route-transaction.py").read_bytes()

@@ -354,6 +354,9 @@ _MARKER = b"implementaudit.continuity-mounted-source.v2\t"
 _MAX_STDOUT = 8192
 _MAX_STDERR = 32768
 _TIMEOUT = 30
+# Separately approved prospective Windows full-snapshot containment. This
+# composes five owner calls; thin reads, freshness and test limits are unchanged.
+_WINDOWS_CANONICAL_SNAPSHOT_TIMEOUT_V1 = 60
 
 # The kernel Linux UAPI numbers are used when a Python build omits the constants.
 _F_ADD_SEALS, _F_GET_SEALS, _ALL_SEALS = 1033, 1034, 15
@@ -1047,7 +1050,7 @@ def _call_windows_canonical_snapshot_v1(owner,route,repository,run_root,sources,
                      windows_snapshot_session=True,verify_only=session['reads']>0)
         result=subprocess.run([sys.executable,'-I','-S','-B','-c',_WINDOWS_CANONICAL_PREFIX+_CANONICAL_READER_BODY,
             json.dumps(request,separators=(',',':'))],cwd=repository,env=environment,stdin=subprocess.DEVNULL,
-            stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=_TIMEOUT,check=False)
+            stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=_WINDOWS_CANONICAL_SNAPSHOT_TIMEOUT_V1,check=False)
         if result.returncode or result.stderr or len(result.stdout)>_MAX_STDOUT:
             raise ContinuityTransportError('CONTINUITY_TRANSPORT_OWNER_REFUSED','canonical Windows reader refused',
                 returncode=result.returncode,stdout=result.stdout,stderr=result.stderr)

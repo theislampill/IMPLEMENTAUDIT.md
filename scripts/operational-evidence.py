@@ -2052,6 +2052,8 @@ _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['ed2305671968f08090e4be5eeb9e5a129ecb4e
 # Current canonical snapshot/NTFS CORE8 source; all qualified historical entries retained.
 _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['47898b1057aa02a3841d38a90d347cfaba311025914cf267421c01c95671fd07'] = 81384
 _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['9ac6eb3862a95df809449a53ef81753b34823a0cdbcce10fa6d5f959bbac9eab'] = 83563
+# Prospective Windows fullsnapshot containment; all old transport identities remain.
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['e74b75859e471a3ddad6e04c645e61ff7e3b9974a511b524114913d010cf5c5e'] = 83793
 
 
 def _native_check_continuity_closure_v1(value, repository, compiler_path, pair):
