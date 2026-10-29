@@ -33,6 +33,7 @@ import os
 from pathlib import Path
 import re
 import selectors
+import contextlib
 import signal
 import stat
 import subprocess
@@ -411,9 +412,23 @@ class _Directory:
             os.close(self.nodes.pop()[2])
 
 
+# POSIX executable bits are not Windows custody. This one current CORE8
+# code identity uses the existing NTFS held-file contract on Windows only.
+_WINDOWS_CORE8_PAIR_V1=('7cfd59d8569ad04221cd4779a803dfc451d5e47b2d4674ad657090564c6c174d',
+    'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978')
+
+def _windows_core_profile_v1(profile):
+    return len(profile)==8 and tuple(row[2] for row in profile[:2])==_WINDOWS_CORE8_PAIR_V1
+
+def _platform_source_profile_v1(profile):
+    if os.name=='nt' and _windows_core_profile_v1(profile):
+        return tuple((*row[:3],None) for row in profile)
+    return profile
+
+
 def source_profiles_for_helpers_v1(claim_raw, validate_raw):
     pair = tuple((len(raw), hashlib.sha256(raw).hexdigest()) for raw in (claim_raw, validate_raw))
-    return tuple(rows for rows in SOURCE_PROFILES_V1.values()
+    return tuple(_platform_source_profile_v1(rows) for rows in SOURCE_PROFILES_V1.values()
                  if tuple((row[1], row[2]) for row in rows[:2]) == pair)
 
 
@@ -428,7 +443,7 @@ def _source_profile(source_rows):
                if tuple(row[:3] for row in profile) == identity]
     if len(matches) != 1:
         _refuse("SOURCE_REFUSED", "source bytes are outside the qualified closure")
-    return matches[0]
+    return _platform_source_profile_v1(matches[0])
 
 
 def _sources(owner, source_rows, expected_dir, before=None):
@@ -504,7 +519,9 @@ def _environment():
     return result
 
 
-def _capture(command, *, repository, environment, descriptors=()):
+def _capture(command, *, repository, environment, descriptors=(), maximum_stdout=_MAX_STDOUT):
+    if type(maximum_stdout) is not int or not _MAX_STDOUT <= maximum_stdout <= 32 * 1024**2:
+        _refuse("OUTPUT_BOUND", "unknown capture output contract")
     streams = [bytearray(), bytearray()]
     process = subprocess.Popen(command, cwd=repository, env=environment, pass_fds=descriptors,
                 stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
@@ -524,7 +541,7 @@ def _capture(command, *, repository, environment, descriptors=()):
                         selector.unregister(key.fileobj)
                         continue
                     streams[key.data].extend(block)
-                    if len(streams[key.data]) > (_MAX_STDOUT, _MAX_STDERR)[key.data]:
+                    if len(streams[key.data]) > (maximum_stdout, _MAX_STDERR)[key.data]:
                         _refuse("OUTPUT_BOUND", "readonly owner exceeded its output bound")
         process.wait(timeout=max(0.01, deadline - time.monotonic()))
     except BaseException as exc:
@@ -591,13 +608,23 @@ os.execv(request["bash"],[request["bash"],request["members"][0]["path"],*request
 '''
 
 
+def _windows_parent_python_v1(repository):
+    # Bind the actual already-running interpreter, never a target PATH shim.
+    path=Path(sys.executable).resolve(strict=True)
+    info=path.lstat()
+    if (not stat.S_ISREG(info.st_mode) or getattr(info,'st_file_attributes',0)&0x400
+            or path.is_relative_to(Path(repository).resolve())):
+        _refuse('STARTUP_REFUSED','Windows parent interpreter is not outside target custody')
+    return str(path).replace('\\','/')
+
+
 def _original14_call(owner, route, repository, sources, arguments):
     """Preserve published R0039's held eight-member Windows read domain."""
     import contextlib
     import io
     import tempfile
     profile = _source_profile(sources)
-    if profile not in ORIGINAL14_SOURCE_PROFILES_V1:
+    if profile not in ORIGINAL14_SOURCE_PROFILES_V1 and not (os.name=="nt" and _windows_core_profile_v1(profile)):
         _refuse("SOURCE_REFUSED", "original14 source population differs")
     readonly = (arguments in (("--current-controller",), ("--observe-current-continuity",))
                 or (type(arguments) is tuple and len(arguments) == 2
@@ -611,6 +638,8 @@ def _original14_call(owner, route, repository, sources, arguments):
         _refuse("UNAVAILABLE", "fixed caller host route is required")
     repository = _path(repository)
     environment = owner._native_child_environment(route)
+    if _windows_core_profile_v1(profile):
+        environment["IMPLEMENTAUDIT_PYTHON"]=_windows_parent_python_v1(repository)
     environment.update(GIT_NO_REPLACE_OBJECTS='1', GIT_NO_LAZY_FETCH='1',
                        GIT_TERMINAL_PROMPT='0', GIT_CONFIG_SYSTEM=os.devnull)
     config = {'core.fsmonitor': 'false', 'core.hooksPath': os.devnull,
@@ -698,7 +727,13 @@ def call_readonly_v1(owner, *, repository, sources, arguments, route=None):
             and tuple(hashlib.sha256(row[1]).hexdigest() for row in sources[:2]) in
                 {tuple(row[2] for row in profile[:2]) for profile in ORIGINAL14_SOURCE_PROFILES_V1}):
         return _original14_call(owner, route, repository, sources, arguments)
+    if os.name=="nt" and _windows_core_profile_v1(_source_profile(sources)):
+        return _original14_call(owner,route,repository,sources,arguments)
     _arguments(arguments)
+    return _call_posix_v1(owner, repository=repository, sources=sources, arguments=arguments)
+
+
+def _call_posix_v1(owner, *, repository, sources, arguments=(), canonical_run=None):
     if (sys.platform != "linux" or os.name != "posix" or not hasattr(os, "memfd_create")
             or not hasattr(os, "O_NOFOLLOW") or not hasattr(os, "O_DIRECTORY")
             or os.open not in os.supports_dir_fd or os.stat not in os.supports_dir_fd):
@@ -707,6 +742,8 @@ def call_readonly_v1(owner, *, repository, sources, arguments, route=None):
     repository = _path(repository)
     source_dir = _path(str(Path(__file__).absolute().parents[1] / "skills/implementaudit/scripts"))
     environment = _environment()
+    if canonical_run is not None:
+        environment["TMPDIR"] = "/__implementaudit_native_snapshot/tmp"
     bwrap, bash, python, git = (_trusted(name) for name in ("bwrap", "bash", "python3", "git"))
     directories, descriptors = [], []
     result = None
@@ -782,17 +819,26 @@ def call_readonly_v1(owner, *, repository, sources, arguments, route=None):
             command += ["--perms", format(row["mode"], "04o"), "--file", str(fd), row["path"]]
         if overlay is not None:
             command += ["--remount-ro", str(overlay)]
+        if canonical_run is not None:
+            command += ["--perms", "0700", "--size", str(64*1024**2),
+                "--tmpfs", "/__implementaudit_native_snapshot",
+                "--dir", "/__implementaudit_native_snapshot/output",
+                "--dir", "/__implementaudit_native_snapshot/tmp"]
         command += ["--remount-ro", "/", "--chdir", str(repository)]
         for key, value in sorted(environment.items()):
             command += ["--setenv", key, value]
         request = dict(repository=str(repository), members=manifests, bash=bash, arguments=arguments,
                        startup=startup, startup_members=startup_members, python=_PYTHON_ALIAS, host_python=python)
-        command += [_PYTHON_ALIAS, "-I", "-S", "-B", "-c", _CHILD, json.dumps(request, separators=(",", ":"))]
+        if canonical_run is not None:
+            request["run_root"] = str(canonical_run)
+        child = _CHILD if canonical_run is None else _CANONICAL_SNAPSHOT_CHILD
+        command += [_PYTHON_ALIAS, "-I", "-S", "-B", "-c", child, json.dumps(request, separators=(",", ":"))]
         for directory in directories:
             directory.verify()
         _sources(owner, sources, source_dir, before)
         captured = _capture(command, repository=repository, environment=environment,
-                            descriptors=tuple(descriptors + list(bindings.values())))
+                            descriptors=tuple(descriptors + list(bindings.values())),
+                            maximum_stdout=_MAX_STDOUT if canonical_run is None else 32*1024**2)
         status, stdout, stderr = captured
         first, separator, owner_stderr = stderr.partition(b"\n")
         if not separator or not first.startswith(_MARKER) or _MARKER in owner_stderr:
@@ -813,6 +859,8 @@ def call_readonly_v1(owner, *, repository, sources, arguments, route=None):
                        startup=observation["startup"])
         result = dict(returncode=status, stdout=stdout, stderr=owner_stderr,
                       transport_stderr=first + b"\n", closure=closure)
+        if canonical_run is not None:
+            result["closure"]["operation"] = "CANONICAL_NATIVE_SNAPSHOT_V1"
     except ContinuityTransportError as exc:
         if captured[0] is not None:
             exc.returncode, exc.stdout, exc.stderr = captured
@@ -830,3 +878,183 @@ def call_readonly_v1(owner, *, repository, sources, arguments, route=None):
 
 if __name__ == "__main__":
     raise SystemExit("repository-internal API only; no public JSON/native-authority input")
+
+
+# Reuse the byte-identical existing mounted-source verification prefix. No
+# target-supplied program or command enters this separate fixed reader operation.
+_CANONICAL_READER_BODY = "\nimport base64,types\nreader_row=next(r for r in request['members'] if r['name']=='read-canonical-pair.py')\nreader_raw=pathlib.Path(reader_row['path']).read_bytes()\nreader=types.ModuleType('_captured_original14_reader')\nreader.__file__=reader_row['path']\nexec(compile(reader_raw,reader.__file__,'exec'),reader.__dict__)\n# Charge every unique acquired owner file to the existing64MiB read budget.\n# Repeated closing reads are not new retained buffers; changed values refuse.\nseen={}\noriginal_read=reader.read_path\noriginal_owner=reader.owner\n\ndef charge(key,raw):\n    if len(raw)>16*1024**2:raise RuntimeError('canonical read file bound exceeded')\n    value=(len(raw),hashlib.sha256(raw).hexdigest())\n    if key in seen and seen[key]!=value:raise RuntimeError('canonical source changed during snapshot')\n    seen[key]=value\n    if len(seen)>4096 or sum(v[0] for v in seen.values())>64*1024**2:\n        raise RuntimeError('canonical aggregate read bound exceeded')\n    return raw\n\ndef bounded_read(path):return charge(str(path),original_read(path))\ndef bounded_owner(repo,*args):\n    result=original_owner(repo,*args)\n    if len(result.stderr)>32768:raise RuntimeError('canonical owner stderr bound exceeded')\n    charge('owner:'+repr(args),result.stdout)\n    return result\nreader.read_path=bounded_read\nreader.owner=bounded_owner\nif os.name=='nt':\n    # The reader deliberately strips caller IMPLEMENTAUDIT_* values. This fixed\n    # transport instead binds its actual isolated interpreter for nested calls;\n    # no target PATH choice or caller-supplied executable is accepted.\n    import subprocess\n    def fixed_windows_reader_call(cwd,argv):\n        environment={k:v for k,v in os.environ.items() if not k.startswith(('GIT_','IMPLEMENTAUDIT_'))}\n        environment.update(PYTHONDONTWRITEBYTECODE='1',LC_ALL='C',IMPLEMENTAUDIT_PYTHON=sys.executable.replace('\\\\','/'))\n        if argv[0] in ('git','bash'):\n            root=pathlib.Path(r'C:\\Program Files\\Git')\n            direct=root/'mingw64/bin/git.exe'\n            executable=(direct if direct.is_file() and not direct.is_symlink() else root/'cmd/git.exe') if argv[0]=='git' else root/'bin/bash.exe'\n            argv=[str(executable),*(['-c','core.longpaths=true'] if argv[0]=='git' else []),*argv[1:]]\n        return subprocess.run(argv,cwd=cwd,stdout=subprocess.PIPE,stderr=subprocess.PIPE,env=environment)\n    reader.call=fixed_windows_reader_call\noriginal_write=reader.write_snapshot\ndef bounded_write(fd,files):\n    if len(files)>4096 or sum(len(raw) for raw in files.values())>64*1024**2 or any(len(raw)>16*1024**2 for raw in files.values()):\n        raise RuntimeError('canonical temporary snapshot byte/entry bound exceeded')\n    return original_write(fd,files)\nreader.write_snapshot=bounded_write\noutput=pathlib.Path(request.get('output','/__implementaudit_native_snapshot/output'))\nif request.get('windows_snapshot_session'):\n    # One actual opening snapshot is retained by the parent across consumer use.\n    # Closing verifies that SAME snapshot through the original reader, rather\n    # than needlessly re-materializing and verifying a fresh one each call.\n    status=reader.materialize_pair(request['run_root'],str(output),native_guards=True,\n                                  verify_current=bool(request['verify_only']))\n    if status!=0:raise RuntimeError('canonical current/closing source verification refused')\nelse:\n    status=reader.materialize_pair(request['run_root'],str(output),native_guards=True)\n    if status!=0:raise RuntimeError('canonical current source unavailable; retired-root fallback forbidden')\n    if reader.materialize_pair(request['run_root'],str(output),native_guards=True,verify_current=True)!=0:\n        raise RuntimeError('canonical closing source verification refused')\nfiles={}\nused=0\nroot=output/'native-records'\nfor path in sorted(root.rglob('*')):\n    if not path.is_file():continue\n    relative=path.relative_to(root).as_posix()\n    parts=pathlib.PurePosixPath(relative).parts\n    native=(relative in ('STATE.md','ROADMAP.md') or\n            parts[0] in ('plans','phases','tasks') and relative.endswith('.md'))\n    if not native and relative!='WORK_GRAPH.json':continue\n    raw=reader.read_path(path)\n    if native and len(raw)>256*1024:raise RuntimeError('native source file bound exceeded')\n    if relative=='WORK_GRAPH.json' and len(raw)>16*1024**2:\n        raise RuntimeError('canonical WORK_GRAPH file bound exceeded')\n    if native:\n        used+=len(raw)\n        if used>4*1024**2 or len([n for n in files if n!='WORK_GRAPH.json'])>=256:\n            raise RuntimeError('native source population/byte bound exceeded')\n    files[relative]=base64.b64encode(raw).decode('ascii')\nif not {'STATE.md','ROADMAP.md','WORK_GRAPH.json'}<=set(files):\n    raise RuntimeError('canonical native source population incomplete')\nresolution=reader.read_path(output/'resolution.json')\nif len(resolution)>8192:raise RuntimeError('canonical resolution bound exceeded')\nencoded=json.dumps(dict(schema='implementaudit.canonical-native-source-snapshot.v1',\n    files=files,resolution=base64.b64encode(resolution).decode('ascii')),\n    sort_keys=True,separators=(',',':')).encode('ascii')\nif len(encoded)>32*1024**2:raise RuntimeError('canonical response bound exceeded')\nif request.get('response'):\n    with open(request['response'],'xb') as response:response.write(encoded)\n    print(json.dumps(dict(schema='implementaudit.canonical-snapshot-return.v1',bytes=len(encoded),sha256=hashlib.sha256(encoded).hexdigest()),sort_keys=True,separators=(',',':')))\nelse:print(encoded.decode('ascii'))\n"
+_CANONICAL_SNAPSHOT_CHILD = _CHILD.rsplit("\nos.execv(",1)[0] + _CANONICAL_READER_BODY
+
+
+def call_canonical_native_snapshot_v1(owner, *, repository, run_root, sources, route=None):
+    """Read the existing reader's current original14 views, never mint authority.
+
+    All previous readonly calls retain their exact argv/startup/output contract.
+    This separate fixed operation permits no arbitrary reader flags or commands.
+    Returned data remains provisional until the enclosing compiler closes use.
+    """
+    profile=_source_profile(sources)
+    if (len(profile)!=8 or profile[-1][0]!='read-canonical-pair.py' or
+            tuple(row[0] for row in profile)!=('claim-run.sh','validate-run-root.sh',
+              'claim-run-rotation.py','rotate-canonical-state.py','canonical_hot_projection.py',
+              'canonical_custody.py','canonical_rotation_inputs.py','read-canonical-pair.py')):
+        _refuse('SOURCE_REFUSED','canonical native read requires its complete eight-source owner')
+    repository=_path(repository);run_root=_path(run_root)
+    if not run_root.is_relative_to(repository) or run_root==repository:
+        _refuse('REPOSITORY_REFUSED','canonical run root is outside the bound repository')
+    # Do not remove or reinterpret the separately qualified Windows custody gate.
+    # Unsupported canonical-source execution refuses instead of using retired data.
+    if os.name=='nt':
+        return _call_windows_canonical_snapshot_v1(owner,route,repository,run_root,sources)
+    return _call_posix_v1(owner,repository=str(repository),sources=sources,canonical_run=run_root)
+
+
+@contextlib.contextmanager
+def canonical_snapshot_source_context_v1(owner, *, repository, run_root, sources, route=None):
+    """Hold the already selected source identities across consumer use."""
+    if os.name=='nt':
+        session={}
+        try:
+            try:
+                with _windows_held_source_context_v1(owner,sources):
+                    yield lambda:_call_windows_canonical_snapshot_v1(owner,route,_path(repository),_path(run_root),sources,session=session)
+            finally:
+                if session:_close_windows_snapshot_session_v1(owner,session)
+        except (OSError,owner.OperationalEvidenceError,subprocess.SubprocessError) as exc:
+            raise ContinuityTransportError('CONTINUITY_TRANSPORT_CUSTODY_REFUSED',str(exc)) from exc
+        return
+    source_dir=_path(str(Path(__file__).absolute().parents[1]/'skills/implementaudit/scripts'))
+    held=_Directory(source_dir)
+    try:
+        before,_=_sources(owner,sources,source_dir)
+        def read():
+            held.verify();_sources(owner,sources,source_dir,before)
+            result=call_canonical_native_snapshot_v1(owner,repository=repository,
+                run_root=run_root,sources=sources,route=route)
+            _sources(owner,sources,source_dir,before);held.verify()
+            return result
+        yield read
+        _sources(owner,sources,source_dir,before);held.verify()
+    finally:held.close()
+
+
+_WINDOWS_CANONICAL_PREFIX = r"""
+import sys,os,json,pathlib,hashlib,stat
+request=json.loads(sys.argv[1])
+if not (sys.flags.isolated and sys.flags.no_site and sys.dont_write_bytecode):
+    raise RuntimeError('canonical Windows startup differs')
+if pathlib.Path.cwd()!=pathlib.Path(request['repository']):raise RuntimeError('canonical Windows cwd differs')
+for row in request['members']:
+    path=pathlib.Path(row['path']);before=path.lstat()
+    if not stat.S_ISREG(before.st_mode) or before.st_nlink!=1 or getattr(before,'st_file_attributes',0)&0x400:
+        raise RuntimeError('canonical Windows source type/alias differs')
+    raw=path.read_bytes();after=path.lstat()
+    stamp=lambda v:(v.st_dev,v.st_ino,v.st_mode,v.st_nlink,v.st_size,v.st_mtime_ns,v.st_ctime_ns)
+    if stamp(before)!=stamp(after) or len(raw)!=row['bytes'] or hashlib.sha256(raw).hexdigest()!=row['sha256']:
+        raise RuntimeError('canonical Windows held source differs')
+"""
+
+@contextlib.contextmanager
+def _windows_held_source_context_v1(owner,sources,*,closed=False):
+    profile=_source_profile(sources)
+    if os.name!='nt' or len(profile)!=8:
+        _refuse('UNSUPPORTED_HOST','NTFS canonical source hold requires eight selected Windows sources')
+    raw_by_name={Path(path).name:raw for path,raw in sources}
+    source_dir=_path(sources[0][0]).parent
+    custody=owner._native_module_from_bytes(raw_by_name['canonical_custody.py'],source_dir/'canonical_custody.py',
+        '_canonical_snapshot_windows_custody','$native.canonical.source_hold')
+    with contextlib.ExitStack() as stack:
+        directory=stack.enter_context(custody.Directory(source_dir));held=[]
+        names={row[0] for row in profile}
+        if closed and set(directory.names())!=names:_refuse('SOURCE_CHANGED','private Windows source population differs')
+        for (path,raw),row in zip(sources,profile):
+            if _path(path)!=source_dir/row[0] or len(raw)!=row[1] or hashlib.sha256(raw).hexdigest()!=row[2]:
+                _refuse('SOURCE_REFUSED','canonical Windows sibling source differs')
+            item=stack.enter_context(custody.File(directory,row[0],maximum=len(raw)))
+            if item.read()!=raw:_refuse('SOURCE_CHANGED','canonical Windows captured bytes differ')
+            held.append((item,raw))
+        yield
+        if closed and set(directory.names())!=names:_refuse('SOURCE_CHANGED','private Windows source population changed')
+        for item,raw in held:
+            item.verify()
+            if item.read()!=raw:_refuse('SOURCE_CHANGED','canonical Windows source changed before close')
+
+
+def _close_windows_snapshot_session_v1(owner,session):
+    import tempfile,shutil
+    root=session['root']
+    info=root.lstat()
+    if (root.parent.resolve()!=Path(tempfile.gettempdir()).resolve() or
+            not root.name.startswith('implementaudit-canonical-source-') or
+            (info.st_dev,info.st_ino)!=session['root_identity'] or
+            not stat.S_ISDIR(info.st_mode) or getattr(info,'st_file_attributes',0)&0x400):
+        _refuse('CLEANUP_REFUSED','canonical private output root changed; residue='+str(root))
+    if session.get('hold') is not None:session['hold'].__exit__(None,None,None)
+    if session['code'].exists():owner._native_cleanup_private_closure(session['code'],session['expected'])
+    shutil.rmtree(root)
+
+
+def _call_windows_canonical_snapshot_v1(owner,route,repository,run_root,sources,*,session=None):
+    import tempfile
+    if os.name!='nt' or route is None:
+        _refuse('UNSUPPORTED_HOST','canonical Windows read requires its existing held-source host route')
+    local=session is None
+    if local:session={}
+    raw_by_name={Path(path).name:raw for path,raw in sources}
+    custody=owner._native_module_from_bytes(raw_by_name['canonical_custody.py'],
+        _path(sources[0][0]).parent/'canonical_custody.py','_canonical_snapshot_private_custody','$native.canonical.private')
+    if not session:
+        root=Path(tempfile.mkdtemp(prefix='implementaudit-canonical-source-'))
+        info=root.lstat();code=root/'source';view=root/'view';scratch=root/'tmp';expected=[]
+        # Register ownership before any fallible setup. A partial or changed
+        # source refuses cleanup with its original residue rather than vanishing.
+        session.update(root=root,root_identity=(info.st_dev,info.st_ino),code=code,view=view,
+                       scratch=scratch,expected=expected,hold=None,reads=0)
+        try:
+            code.mkdir();view.mkdir();scratch.mkdir()
+            for name,raw in raw_by_name.items():
+                target=code/name
+                with target.open('xb') as out:out.write(raw)
+                expected.append((target,raw))
+            hold=_windows_held_source_context_v1(owner,tuple((str(path),raw) for path,raw in expected),closed=True)
+            hold.__enter__();session['hold']=hold
+        except BaseException:
+            if local:_close_windows_snapshot_session_v1(owner,session)
+            raise
+    root,view,scratch=session['root'],session['view'],session['scratch']
+    try:
+        environment=owner._native_child_environment(route)
+        environment['IMPLEMENTAUDIT_PYTHON']=_windows_parent_python_v1(repository)
+        environment['PATH']=str(Path(sys.executable).resolve().parent)+os.pathsep+environment.get('PATH','')
+        environment.update(GIT_NO_REPLACE_OBJECTS='1',GIT_NO_LAZY_FETCH='1',GIT_TERMINAL_PROMPT='0',
+            GIT_CONFIG_SYSTEM=os.devnull,TMP=str(scratch),TEMP=str(scratch),TMPDIR=str(scratch))
+        config={'core.fsmonitor':'false','core.hooksPath':os.devnull,'protocol.allow':'never',
+            'protocol.ext.allow':'never','credential.helper':'','core.sshCommand':'',
+            'submodule.recurse':'false','core.longpaths':'true'}
+        environment['GIT_CONFIG_COUNT']=str(len(config))
+        for i,(key,value) in enumerate(config.items()):
+            environment['GIT_CONFIG_KEY_'+str(i)]=key;environment['GIT_CONFIG_VALUE_'+str(i)]=value
+        if session['reads']>=2:_refuse('OUTPUT_BOUND','canonical snapshot consumption already closed')
+        response=root/('snapshot-'+str(session['reads'])+'.json')
+        members=[dict(name=path.name,path=str(path),bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest()) for path,raw in session['expected']]
+        request=dict(repository=str(repository),run_root=str(run_root),members=members,output=str(view),response=str(response),
+                     windows_snapshot_session=True,verify_only=session['reads']>0)
+        result=subprocess.run([sys.executable,'-I','-S','-B','-c',_WINDOWS_CANONICAL_PREFIX+_CANONICAL_READER_BODY,
+            json.dumps(request,separators=(',',':'))],cwd=repository,env=environment,stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=_TIMEOUT,check=False)
+        if result.returncode or result.stderr or len(result.stdout)>_MAX_STDOUT:
+            raise ContinuityTransportError('CONTINUITY_TRANSPORT_OWNER_REFUSED','canonical Windows reader refused',
+                returncode=result.returncode,stdout=result.stdout,stderr=result.stderr)
+        acknowledgement=json.loads(result.stdout)
+        with custody.Directory(root) as directory:
+            with custody.File(directory,response.name,maximum=32*1024**2) as held:raw=held.read()
+        if acknowledgement!=dict(schema='implementaudit.canonical-snapshot-return.v1',bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest()):
+            _refuse('OBSERVATION_REFUSED','canonical Windows response identity differs')
+        session['reads']+=1
+        rows=[dict(name=Path(path).name,path=str(path),bytes=len(data),sha256=hashlib.sha256(data).hexdigest(),
+                   mode=stat.S_IMODE(Path(path).lstat().st_mode),links=1,held=True) for path,data in sources]
+        return dict(returncode=0,stdout=raw,stderr=b'',closure=dict(
+            schema='implementaudit.continuity-windows-source-closure.v1',repository=str(repository),
+            members=rows,custody='WINDOWS_HELD_FILES_V1',operation='CANONICAL_NATIVE_SNAPSHOT_V1'))
+    finally:
+        if local and session:_close_windows_snapshot_session_v1(owner,session)

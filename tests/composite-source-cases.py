@@ -1253,8 +1253,12 @@ else:
                 self.assertEqual(graph._NATIVE_CONTINUITY_TRANSPORT_SHA256, hashlib.sha256(transport).hexdigest())
                 self.assertEqual(graph._NATIVE_CONTINUITY_TRANSPORT_BYTES, len(transport))
                 marker = target / "UNSELECTED_TRANSPORT_EXECUTED"
-                changed = transport + ("\nfrom pathlib import Path\nPath(" + repr(str(marker))
-                                       + ").write_text('unselected')\n").encode()
+                # Keep the selected byte length so this exercises the digest
+                # refusal rather than the earlier exact acquisition bound.
+                changed = ("from pathlib import Path\nPath(" + repr(str(marker))
+                           + ").write_text('unselected')\n").encode()
+                changed += b"#" + b" " * (len(transport) - len(changed) - 2) + b"\n"
+                self.assertEqual(len(changed), len(transport))
                 (target / "scripts/work-graph-continuity-transport.py").write_bytes(changed)
                 with self.assertRaisesRegex(graph.WorkGraphError, "native continuity transport source identity changed"):
                     graph._native_six_source_transport_v1(owner, claim, validate)

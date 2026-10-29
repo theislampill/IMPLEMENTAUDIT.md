@@ -145,7 +145,7 @@ class CanonicalReaderTests(unittest.TestCase):
         self.put_ref("current-generation-migrations")
         self.assertNotEqual(self.phase_authority().returncode, 0, "phase authority used a retired ROADMAP")
 
-    def make_real_generation(self, *, native=False, state_edit=None, roadmap_edit=None, extra_artifacts=None):
+    def make_real_generation(self, *, native=False, state_edit=None, roadmap_edit=None, extra_artifacts=None, artifact_overrides=None):
         factory_path = ROOT / "fixtures/canonical-state-rotation/protected_projection_v2_test.py"
         spec = importlib.util.spec_from_file_location("canonical_reader_factory", factory_path)
         factory = importlib.util.module_from_spec(spec)
@@ -165,6 +165,10 @@ class CanonicalReaderTests(unittest.TestCase):
                 if item["role"] == "CONTINUITY_RECEIPT":
                     item["locator"] = receipt_ref
         artifacts = {key: text.encode() for key, text in source["artifact_texts"].items()}
+        for key, raw in (artifact_overrides or {}).items():
+            self.assertIn(key, artifacts)
+            self.assertIsInstance(raw, bytes)
+            artifacts[key] = raw
         if native:
             self.write_phase()
             continuation = bodies["STATE"]["payload"]["continuation"]["value"]
