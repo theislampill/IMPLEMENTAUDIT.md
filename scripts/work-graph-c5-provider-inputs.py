@@ -19,7 +19,7 @@ if not isinstance(_CAPTURE, dict) or set(_CAPTURE) != {"prefix", "base", "source
 P, B, _CHECK = _CAPTURE["prefix"], _CAPTURE["base"], _CAPTURE["check"]
 SPEC = json.loads(_CAPTURE["sources"][FIXTURE][0])
 if (SPEC.get("schema") != "implementaudit.c5-provider-selection.v1"
-        or SPEC.get("profile") not in (PROFILE, "CURRENT_COMPOSITE_FIXED_PACKAGE_VENV_PYTHON312_DATA_ONLY_20261027_V1")):
+        or SPEC.get("profile") not in (PROFILE, "CURRENT_COMPOSITE_FIXED_PACKAGE_VENV_PYTHON312_DATA_ONLY_20261027_V1", "SOL_TASK_FIXED_PACKAGE_VENV_PYTHON312_DATA_ONLY_20261029_V1")):
     raise ValueError("unsupported fixed C5 provider selection")
 PROFILE = SPEC["profile"]
 VENV = Path(SPEC["provider_root"])
