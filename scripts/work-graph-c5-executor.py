@@ -838,14 +838,14 @@ class GenuineC5Session:
         for name,(raw,mode) in sorted(support.items()):
             fd = self._seal(raw)
             args += ['--perms',oct(mode)[2:],'--ro-bind-data',str(fd),name]
+        if 'kernel_entropy' in configuration:
+            args += ['--dev-bind','/dev/urandom','/dev/urandom']
         args += ['--ro-bind',str(self.stage.root),SOURCE_MOUNT,
             '--proc','/proc','--remount-ro','/proc','--symlink','/proc/self/fd','/dev/fd',
             '--dev-bind','/dev/null','/dev/null',
             '--perms','0755','--size',str(LIMITS['work_bytes']),'--tmpfs',WORK_MOUNT,
             '--perms','0755','--size',str(LIMITS['scratch_bytes']),'--tmpfs',SCRATCH_MOUNT,
             '--remount-ro','/','--chdir',SOURCE_MOUNT]
-        if 'kernel_entropy' in configuration:
-            args += ['--dev-bind','/dev/urandom','/dev/urandom']
         seccomp = self._seal(SECCOMP)
         args += ['--seccomp',str(seccomp)]
         need(len(args) < 8500, 'C5 image argument allocation exceeded')
