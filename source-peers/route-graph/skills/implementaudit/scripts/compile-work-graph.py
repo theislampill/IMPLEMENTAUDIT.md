@@ -1503,15 +1503,18 @@ def _check_graph_seal(value, schema):
             snapshot[path] = data.encode('utf-8')
         if not {'STATE.md', 'ROADMAP.md'}.issubset(snapshot):
             raise WorkGraphError('native graph: missing source documents')
+        if 'canonical_work_graph' in value:
+            if type(value['canonical_work_graph']) is not str or len(value['canonical_work_graph'].encode('utf-8'))>NATIVE_READ_MAX_FILE_BYTES:
+                raise WorkGraphError('native graph: invalid captured canonical WORK_GRAPH')
         binding = _require_object(value.get('binding'), 'native graph binding')
         _require_exact_members(binding, {'acquisition', 'controller', 'claim', 'receipt', 'epoch', 'candidate_head', 'candidate_tree', 'worktree_digest', 'continuity_helper_digest', 'source_digest', 'read_set', 'input_root_identity'}, 'native graph binding')
-        # This is captured-data replay only. It cannot issue a native acquisition witness.
-        replay = None
-        if schema == 'implementaudit.native-work-graph.v2':
-            replay = _RouteScopeObservation(value.get('route_scope'), _CAPTURED_ROUTE_REPLAY_KEY,
-                                            receiver_binding=value.get('receiver_binding'))
-        if _compile_native_documents_v1(snapshot, {k: v for k, v in binding.items() if k != 'source_digest'}, _route_observation=replay) != value:
+        if _replay_native_graph_v1(value) != value:
             raise WorkGraphError('native graph differs from source-derived projection')
+
+def _replay_native_graph_v1(graph, completion=None):
+    # This is captured-data replay only. It cannot issue a native acquisition witness.
+    replay = None if 'route_scope' not in graph else _RouteScopeObservation(graph['route_scope'], _CAPTURED_ROUTE_REPLAY_KEY, receiver_binding=graph.get('receiver_binding'))
+    return _compile_native_documents_v1({k: v.encode('utf-8') for k, v in graph['source_documents'].items()}, {k: v for k, v in graph['binding'].items() if k != 'source_digest'}, _route_observation=replay, _completion=completion, _canonical_work_graph=None if 'canonical_work_graph' not in graph else graph['canonical_work_graph'].encode('utf-8'))
 
 def _native_strings(value, label):
     result = _require_string_array(value, label)
@@ -1550,10 +1553,10 @@ def _native_document(data, path, schema):
         raise WorkGraphError(f'{path}: unknown native metadata schema')
     return obj
 
-_NATIVE_STATIC_OWNER_SHA256 = 'cb5dbaff70adf8a19e798f0823b6d5f23abc5d5d1ac12ef9a2e932ba177aebee'
+_NATIVE_STATIC_OWNER_SHA256 = 'e7872745c420ad665ab78151703929fd73bf7d30d6feabfd05714cef5d12b3d9'
 
 
-_NATIVE_STATIC_OWNER_BYTES = 371425
+_NATIVE_STATIC_OWNER_BYTES = 410912
 
 
 NATIVE_SOURCE_MAX_ENTRIES = 1024
@@ -1598,13 +1601,16 @@ def _native_static_owner_module_v1():
                 or stat.S_ISLNK(before.st_mode) or path.resolve(strict=True) != path
                 or getattr(before, 'st_file_attributes', 0) & 0x400):
             raise OSError('source owner aliases another object')
-        flags = os.O_RDONLY | getattr(os, 'O_BINARY', 0) | getattr(os, 'O_NOFOLLOW', 0)
+        identity = lambda s: (s.st_dev, s.st_ino, s.st_mode, s.st_nlink, s.st_size, s.st_mtime_ns, s.st_ctime_ns)
+        flags = (os.O_RDONLY | getattr(os, 'O_BINARY', 0) | getattr(os, 'O_NOFOLLOW', 0)
+                 | getattr(os, 'O_NONBLOCK', 0))
         with os.fdopen(os.open(path, flags), 'rb') as stream:
             opened = os.fstat(stream.fileno())
+            if identity(opened) != identity(before):
+                raise OSError('source owner changed before read')
             raw = stream.read(_NATIVE_STATIC_OWNER_BYTES + 1)
             after = os.fstat(stream.fileno())
         final = path.lstat()
-        identity = lambda s: (s.st_dev, s.st_ino, s.st_mode, s.st_nlink, s.st_size, s.st_mtime_ns, s.st_ctime_ns)
         if (identity(before) != identity(opened) or identity(opened) != identity(after)
                 or identity(after) != identity(final)
                 or len(raw) != _NATIVE_STATIC_OWNER_BYTES
@@ -1924,6 +1930,17 @@ def _native_continuity_host_v1():
 
 
 def _native_claim_call_v1(owner, route, repo, arguments, claim_raw, validate_raw):
+    pair = (hashlib.sha256(claim_raw).hexdigest(), hashlib.sha256(validate_raw).hexdigest())
+    if pair not in (_NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE, _NATIVE_COMBINED_CURRENT_PAIR_V1):
+        transport, sources, _ = _native_six_source_transport_v1(owner, claim_raw, validate_raw)
+        try:
+            observed = transport.call_readonly_v1(owner, repository=str(repo), sources=sources,
+                                                 arguments=tuple(arguments), route=route)
+        except transport.ContinuityTransportError as exc:
+            raise WorkGraphError(str(exc)) from exc
+        if observed['returncode'] or len(observed['stdout']) > 8192 or len(observed['stderr']) > 16384:
+            raise WorkGraphError('native continuity owner refused or changed')
+        return observed['stdout'].decode('utf-8', 'strict').strip()
     import contextlib
     import io
     import tempfile
@@ -1985,7 +2002,7 @@ def _native_claim_call_v1(owner, route, repo, arguments, claim_raw, validate_raw
         owner._native_cleanup_private_closure(closure, expected)
 
 
-def _native_source_snapshot(run_root):
+def _native_source_snapshot(run_root, *, nested_only=False):
     owner, owner_path, owner_raw = _native_static_owner_module_v1()
     root = pathlib.Path(run_root).absolute()
     budget = dict(entries=0, maximum_entries=NATIVE_SOURCE_MAX_ENTRIES, remaining=NATIVE_SOURCE_MAX_TOTAL_BYTES)
@@ -1993,8 +2010,9 @@ def _native_source_snapshot(run_root):
     root_rows, _ = _native_static_directory_v1(owner, root, budget)
     root_types = {name: directory for name, directory, mode in root_rows}
     result = {}
-    for name in ('STATE.md', 'ROADMAP.md'):
-        result[name] = _native_static_file_v1(owner, root / name, NATIVE_SOURCE_MAX_FILE_BYTES, budget)[0]
+    if not nested_only:
+        for name in ('STATE.md', 'ROADMAP.md'):
+            result[name] = _native_static_file_v1(owner, root / name, NATIVE_SOURCE_MAX_FILE_BYTES, budget)[0]
     stack = [(root / name, 1) for name in ('plans', 'phases', 'tasks') if name in root_types]
     while stack:
         directory, depth = stack.pop()
@@ -2014,6 +2032,100 @@ def _native_source_snapshot(run_root):
         raise WorkGraphError('native static source owner changed during acquisition')
     return dict(sorted(result.items()))
 
+def _native_current_source_reader_v1(run_root, repo_root, binding, closure, stack):
+    """Select current canonical14 documents; verified continuity is not source selection.
+
+    Other established receipt domains keep their original root intake. A v3
+    fourteen-field domain never falls back to retired root bytes on an error.
+    The captured existing reader owns projection/receipt/marker semantics.
+    """
+    owner,_,_=_native_static_owner_module_v1()
+    raw=owner._native_blob(pathlib.Path(repo_root),binding['receipt'].rsplit('@',1)[1],
+                           '$native.canonical_source_domain',maximum=512*1024)
+    if not (raw.startswith(b'implementaudit.continuity-receipt.v3\t') and raw.count(b'\t')==13):
+        return lambda root: (_native_source_snapshot(root),None)
+    helper=pathlib.Path(__file__).absolute().with_name('claim-run.sh')
+    claim=_native_static_file_v1(owner,helper,256*1024,dict(remaining=256*1024))[0]
+    validate=_native_static_file_v1(owner,helper.with_name('validate-run-root.sh'),256*1024,dict(remaining=256*1024))[0]
+    if hashlib.sha256(claim).hexdigest()!=binding['continuity_helper_digest']:
+        raise WorkGraphError('canonical source helper changed before acquisition')
+    adapter,sources,_=_native_six_source_transport_v1(owner,claim,validate)
+    if type(closure) is not dict or type(closure.get('execution')) is not dict:
+        raise WorkGraphError('canonical source lacks its observed continuity closure')
+    expected=closure['execution'].get('members')
+    if (type(expected) is not list or len(expected)!=len(sources) or
+            any(pathlib.Path(row['path'])!=pathlib.Path(path) or row['bytes']!=len(data)
+                or row['sha256']!=hashlib.sha256(data).hexdigest()
+                for row,(path,data) in zip(expected,sources))):
+        raise WorkGraphError('canonical source closure differs from continuity intake')
+    @contextlib.contextmanager
+    def hold_reader():
+        try:
+            with adapter.canonical_snapshot_source_context_v1(owner,
+                    repository=str(pathlib.Path(repo_root).absolute()),run_root=str(pathlib.Path(run_root).absolute()),
+                    sources=sources,route=_native_continuity_host_v1()) as read:
+                yield read
+        except adapter.ContinuityTransportError as exc:
+            raise WorkGraphError('canonical native source unavailable: '+exc.code) from exc
+    reader=stack.enter_context(hold_reader())
+    initial_resolution=[]
+    def acquire(root):
+        if pathlib.Path(root).absolute()!=pathlib.Path(run_root).absolute():
+            raise WorkGraphError('canonical native source run changed')
+        try:observed=reader()
+        except adapter.ContinuityTransportError as exc:
+            raise WorkGraphError('canonical native source refused: '+exc.code) from exc
+        if observed['returncode'] or observed['stderr'] or len(observed['stdout'])>32*1024**2:
+            raise WorkGraphError('canonical native reader refused; root fallback forbidden')
+        value=decode_strict_json_bytes(observed['stdout'],'canonical native snapshot')
+        if (type(value) is not dict or set(value)!={'schema','files','resolution'} or
+                value['schema']!='implementaudit.canonical-native-source-snapshot.v1' or
+                type(value['files']) is not dict):
+            raise WorkGraphError('canonical native source envelope malformed')
+        try:
+            files={name:base64.b64decode(data,validate=True) for name,data in value['files'].items()}
+            resolution_raw=base64.b64decode(value['resolution'],validate=True)
+            resolution=decode_strict_json_bytes(resolution_raw,'canonical resolution')
+        except (ValueError,TypeError) as exc:raise WorkGraphError('canonical source encoding malformed') from exc
+        if initial_resolution and initial_resolution[0]!=resolution_raw:
+            raise WorkGraphError('canonical resolution pointer/marker/archive changed during intake')
+        if not initial_resolution:initial_resolution.append(resolution_raw)
+        if (resolution.get('controller')!=binding['controller'] or resolution.get('claim_id')!=binding['claim'] or
+                resolution.get('receipt_token')!=binding['receipt'] or
+                resolution.get('run_root_identity')!=pathlib.Path(run_root).absolute().relative_to(pathlib.Path(repo_root).absolute()).as_posix() or
+                resolution.get('pointer',{}).get('continuity_epoch')!=binding['epoch']):
+            raise WorkGraphError('canonical source controller/claim/receipt/generation differs')
+        if 'WORK_GRAPH.json' not in files:
+            raise WorkGraphError('canonical WORK_GRAPH source is missing')
+        canonical=files.pop('WORK_GRAPH.json')
+        if (len(files)>NATIVE_SOURCE_MAX_FILES or sum(map(len,files.values()))>NATIVE_SOURCE_MAX_TOTAL_BYTES or
+                any(len(data)>NATIVE_SOURCE_MAX_FILE_BYTES for data in files.values()) or
+                len(canonical)>NATIVE_READ_MAX_FILE_BYTES):
+            raise WorkGraphError('canonical native source exceeds existing acquisition bounds')
+        nested=_native_source_snapshot(root,nested_only=True)
+        expected_nested={name:data for name,data in files.items() if name not in ('STATE.md','ROADMAP.md')}
+        if nested!=expected_nested:
+            raise WorkGraphError('canonical native source population differs: extra/missing/unowned nested record')
+        return files,canonical
+    return acquire
+
+
+def _native_check_canonical_declaration_v1(nodes, raw):
+    """Bind current declarations without manufacturing route authority."""
+    try:
+        canonical=_require_object(decode_strict_json_bytes(raw,'canonical WORK_GRAPH'),'canonical WORK_GRAPH')
+        cells=_validate_graph(canonical)
+        actual={cell['id']:cell for cell in cells}
+        if set(actual)!=set(nodes):raise WorkGraphError('population differs from native source')
+        for name,node in nodes.items():
+            cell=actual[name]
+            if (set(_native_strings(cell.get('route_scopes'),'canonical route_scopes'))!=set(node['route_scopes']) or
+                    set(cell['deps'])!=set(node['requires']) or
+                    set(_native_strings(cell.get('optional_deps',[]),'canonical optional_deps'))!=set(node['optional'])):
+                raise WorkGraphError('scope/dependency declaration differs from native source')
+    except WorkGraphError as exc:raise WorkGraphError('canonical WORK_GRAPH refused: '+str(exc)) from exc
+
+
 # This exact R0011 pair shares load_final_v3_receipt only for the LF-exact
 # 18-field domain. Its legacy TSV-pointer branch is not equivalent. Unknown
 # helper or receipt bytes retain separate verification; no saved authority token.
@@ -2026,6 +2138,47 @@ _NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE = (
 _NATIVE_COMBINED_CURRENT_PAIR_V1 = (
     '9665ba20e02c02882f3172549e90d78e790c6c0133cd31749a30e1d29c3cc0ce',
     'fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5')
+
+
+# A separate exact-source transport profile, never a new optimisation pair.
+_NATIVE_SIX_SOURCE_PAIR_V1 = (
+    '50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383',
+    'd8b046b5417dce13ed66a5ac5fffaf3d18fae40c97d42aef8b38470500d575a6')
+_NATIVE_CONTINUITY_TRANSPORT_SHA256 = '47898b1057aa02a3841d38a90d347cfaba311025914cf267421c01c95671fd07'
+_NATIVE_CONTINUITY_TRANSPORT_BYTES = 81384
+
+
+def _native_six_source_transport_v1(owner, claim_raw, validate_raw):
+    """Acquire one exact repository-only source composition before dispatch."""
+    import types
+    path = pathlib.Path(__file__).absolute().parents[3] / 'scripts/work-graph-continuity-transport.py'
+    if not 0 < _NATIVE_CONTINUITY_TRANSPORT_BYTES <= NATIVE_SOURCE_MAX_FILE_BYTES:
+        raise WorkGraphError('native transport source exceeds its existing source-file ceiling')
+    raw, transport_mode = _native_static_file_v1(owner, path,
+        _NATIVE_CONTINUITY_TRANSPORT_BYTES,dict(remaining=_NATIVE_CONTINUITY_TRANSPORT_BYTES))
+    if (len(raw) != _NATIVE_CONTINUITY_TRANSPORT_BYTES
+            or hashlib.sha256(raw).hexdigest() != _NATIVE_CONTINUITY_TRANSPORT_SHA256):
+        raise WorkGraphError('native continuity transport source identity changed')
+    module = types.ModuleType('_implementaudit_native_continuity_transport')
+    module.__file__ = str(path)
+    exec(compile(raw, str(path), 'exec'), module.__dict__)
+    root = pathlib.Path(__file__).absolute().parent
+    profiles = module.source_profiles_for_helpers_v1(claim_raw, validate_raw)
+    if not profiles:
+        raise WorkGraphError('native continuity helpers are not an explicitly selected source domain')
+    sources, identity = [], []
+    budget = dict(remaining=1024 * 1024)
+    for index, (name, _, _, _) in enumerate(profiles[0]):
+        source = root / name
+        data, mode = _native_static_file_v1(owner, source, max(p[index][1] for p in profiles), budget)
+        identity.append((name, len(data), hashlib.sha256(data).hexdigest(), mode))
+        sources.append((str(source), data))
+    if not any(len(identity) == len(profile) and all(actual[:3] == expected[:3] and (expected[3] is None or actual[3] == expected[3])
+                       for actual, expected in zip(identity, profile)) for profile in profiles):
+        raise WorkGraphError('native continuity closure source identity changed')
+    if (sources[0][1], sources[1][1]) != (claim_raw, validate_raw):
+        raise WorkGraphError('native continuity source set crossed its helper acquisition')
+    return module, tuple(sources), (path, raw, transport_mode)
 
 
 def _native_equivalent_receipt_domain_v1(owner, repo, receipt):
@@ -2046,12 +2199,14 @@ def _native_equivalent_receipt_domain_v1(owner, repo, receipt):
         return False
 
 
-def _native_continuity(repo_root, run_root, *, _source_reads=None, _current_reads=None):
+def _native_continuity(repo_root, run_root, *, _source_reads=None, _current_reads=None, _closure_reads=None):
     import base64
     if _source_reads is not None and type(_source_reads) is not list:
         raise WorkGraphError('native continuity source output must be a private list')
     if _current_reads is not None and type(_current_reads) is not list:
         raise WorkGraphError('native currentness output must be a private list')
+    if _closure_reads is not None and type(_closure_reads) is not list:
+        raise WorkGraphError('native closure output must be a private list')
     owner, owner_path, owner_raw = _native_static_owner_module_v1()
     host = _native_continuity_host_v1()
     repo = pathlib.Path(repo_root).absolute()
@@ -2061,23 +2216,42 @@ def _native_continuity(repo_root, run_root, *, _source_reads=None, _current_read
     claim_raw = _native_static_file_v1(owner, helper, 256 * 1024, budget)[0]
     validate_raw = _native_static_file_v1(owner, validate, 256 * 1024, budget)[0]
     helper_pair = (hashlib.sha256(claim_raw).hexdigest(), hashlib.sha256(validate_raw).hexdigest())
+    transport = None
+    closure = None
+    if helper_pair not in (_NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE, _NATIVE_COMBINED_CURRENT_PAIR_V1):
+        transport, transport_sources, transport_source = _native_six_source_transport_v1(owner, claim_raw, validate_raw)
+    def call(arguments):
+        nonlocal closure
+        if transport is None:
+            return _native_claim_call_v1(owner, host, repo, arguments, claim_raw, validate_raw)
+        try:
+            observed = transport.call_readonly_v1(owner, repository=str(repo),
+                sources=transport_sources, arguments=tuple(arguments), route=host)
+        except transport.ContinuityTransportError as exc:
+            raise WorkGraphError('native continuity transport refused: ' + exc.code) from exc
+        if observed['returncode'] or len(observed['stdout']) > 8192 or len(observed['stderr']) > 16384:
+            raise WorkGraphError('native continuity owner refused or changed')
+        if closure is not None and observed['closure'] != closure:
+            raise WorkGraphError('native continuity executed source closure changed')
+        closure = observed['closure']
+        return observed['stdout'].decode('utf-8', 'strict').strip()
     if helper_pair == _NATIVE_COMBINED_CURRENT_PAIR_V1:
-        observed = _native_claim_call_v1(owner, host, repo, ['--observe-current-continuity'], claim_raw, validate_raw).split('\t')
+        observed = call(['--observe-current-continuity']).split('\t')
         if len(observed) != 6 or observed[0] != 'implementaudit.current-continuity-observation.v1':
             raise WorkGraphError('native combined continuity observation is malformed')
         current, receipt = observed[1:5], observed[5]
     else:
-        current = _native_claim_call_v1(owner, host, repo, ['--current-controller'], claim_raw, validate_raw).split('\t')
+        current = call(['--current-controller']).split('\t')
         receipt = None
     if len(current) != 4 or pathlib.Path(current[1]).absolute() != repo or pathlib.Path(current[2]).absolute() != pathlib.Path(run_root).absolute():
         raise WorkGraphError('native continuity root mismatch')
     if receipt is None:
-        receipt = _native_claim_call_v1(owner, host, repo, ['--require-current-continuity', current[0]], claim_raw, validate_raw)
+        receipt = call(['--require-current-continuity', current[0]])
     if not RECEIPT_RE.fullmatch(receipt):
         raise WorkGraphError('native continuity receipt format mismatch')
     if (helper_pair not in (_NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE, _NATIVE_COMBINED_CURRENT_PAIR_V1) or
             not _native_equivalent_receipt_domain_v1(owner, repo, receipt)):
-        verified = _native_claim_call_v1(owner, host, repo, ['--verify-resume-receipt', receipt], claim_raw, validate_raw)
+        verified = call(['--verify-resume-receipt', receipt])
         if verified != receipt:
             raise WorkGraphError('native continuity receipt readback mismatch')
     request = dict(source=base64.b64encode(owner_raw).decode('ascii'), sha256=_NATIVE_STATIC_OWNER_SHA256,
@@ -2134,6 +2308,15 @@ def _native_continuity(repo_root, run_root, *, _source_reads=None, _current_read
     if (_native_static_file_v1(owner, helper, 256 * 1024, dict(remaining=256 * 1024))[0] != claim_raw
             or _native_static_file_v1(owner, validate, 256 * 1024, dict(remaining=256 * 1024))[0] != validate_raw):
         raise WorkGraphError('native continuity helper source changed')
+    if transport is not None:
+        for path, raw in transport_sources:
+            if _native_static_file_v1(owner, path, len(raw), dict(remaining=len(raw)))[0] != raw:
+                raise WorkGraphError('native continuity closure changed after execution')
+        path, raw, mode = transport_source
+        if _native_static_file_v1(owner, path, len(raw), dict(remaining=len(raw))) != (raw, mode):
+            raise WorkGraphError('native continuity transport changed after execution')
+        closure = dict(schema='implementaudit.native-continuity-closure.v1', execution=closure,
+            transport=dict(path=str(path), bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest(), mode=mode))
     _, final_path, final_raw = _native_static_owner_module_v1()
     if final_path != owner_path or final_raw != owner_raw:
         raise WorkGraphError('native static owner source changed during continuity')
@@ -2141,6 +2324,8 @@ def _native_continuity(repo_root, run_root, *, _source_reads=None, _current_read
         # Output only, recorded after actual loaded-byte execution and fences.
         # No supplied value is consulted as currentness or source authority.
         _source_reads.append(dict(claim_sha256=helper_pair[0], validate_sha256=helper_pair[1]))
+    if _closure_reads is not None:
+        _closure_reads.append(closure)
     if _current_reads is not None:
         _current_reads.append(dict(controller_result=list(current), receipt=receipt))
     return dict(acquisition='NATIVE_CONTINUITY_VERIFIED', controller=current[0], claim=current[3], receipt=receipt,
@@ -2244,10 +2429,34 @@ def _native_validate_context(context):
         if type(delivery['source_digest']) is not str or not DIGEST_RE.fullmatch(delivery['source_digest']):
             raise WorkGraphError('delivery hold: source digest required')
 
-_NATIVE_ROUTE_PRODUCER_SHA256 = '8ed51e393f4f8a3be631e48255e9aeca59dcf120a803f1601a034e5ab9e02389'
+_NATIVE_ROUTE_PRODUCER_SHA256 = 'cde0db3f9bbb7203572835dd8311c1f1cd3758baf6ec9aac117b98bb715e5525'
 
 
 _NATIVE_ROUTE_PRODUCER_BYTES = 371304
+_NATIVE_ROUTE_PRODUCER_PROFILES_V1 = {
+    _NATIVE_ROUTE_PRODUCER_SHA256: _NATIVE_ROUTE_PRODUCER_BYTES,
+    'ad0367c90db2a23580a2f37ecb6b87d2b774e04ce524a95bf159f038062fafa4': 375105,
+    # Combined source, still subject to separate actual acceptance.
+    'ba0e378b9f4744b5109317ad10ae98487d12d16060ec737aeb18f55e34fb2451': 375105,
+    # Exact retained-source-map receiving delta from R0033 donor79316011.
+    '1bf45fa3104dcde045fcd528d57b601323e9476dcb735afdd88b1c27dde8e9ca': 375946,
+    # Exact nonblocking delivery capture received from R0033 donor899d32f8.
+    'd060782e690d163e2b0db014be429c64cf976e7b1e8d554113ee8f4843a3b1bb': 376700,
+    # Exact recovered historical receiver; native admission remains separate.
+    '8ca0ed9e1313ff2e60a89b88e56f7bf1a52bf6f179f70df1b0b18f1dde0346f8': 384034,
+    # DG07 exact original14 recovery receiving and safe binder source pair.
+    '87bce990c85c7db9134c788eb14d9d5d5b38c55091fa47b256396ffc99316bbe': 385106,
+    '9d5190969b8667395f170cc18ceecd9576644bbdf5f87e14abd62b926680fc8f': 385331,
+    # DG07 exact original14 recovery receiving and safe binder source pair.
+    'aa60038b82ec1333e55fb19603df42262665dd671360a224c252145d062f6921': 384881,
+    '82ac79404b0a4f3feb9ec2263ae2b86bfe274f13353ac6348ac30e91bf00310e': 385651,
+    # Exact DG08 source-only predecessor binding; no native credit.
+    'f43f27cf176a16ea4b1f24b3639313ade487f9a1cab77ad4cd1b8543987feb9e': 385958,
+    # Exact DG08 source-only predecessor binding; no native credit.
+    '1af6389ad074954a25b3fd279674bfa51c0b6d1f2ed18befa94292b324709875': 386265,
+}
+# Current terminal-inventory owner binding; historical subjects remain unchanged.
+_NATIVE_ROUTE_PRODUCER_PROFILES_V1['d420a7b980c7c26408bcc668b6246ac5391988f65395aa842e9e3db57d33deb0'] = 386588
 
 
 _NATIVE_ROUTE_OBSERVATION_KEY = object()
@@ -2329,7 +2538,9 @@ def _native_receiver_binding_v1(observation):
             or mission['scope'] != scope['scope'] or mission['policy_digest'] != _graph_hash(policy)
             or policy['schema'] != 'implementaudit.ordinary-native-policy.v1' or packet.get('target_identity') != 'audit-assess'
             or packet.get('obligation_id') != scope['route']['obligation_id'] or packet.get('route_transaction_id') != scope['route']['route_transaction_id']
-            or policy['code_pins'].get('implementaudit/scripts/route-transaction.py') != _NATIVE_ROUTE_PRODUCER_SHA256):
+            or type(scope['source']['producer_sha256']) is not str
+            or scope['source']['producer_sha256'] not in _NATIVE_ROUTE_PRODUCER_PROFILES_V1
+            or policy['code_pins'].get('implementaudit/scripts/route-transaction.py') != scope['source']['producer_sha256']):
         raise WorkGraphError('receiver policy differs from the accepted route')
     names = {'implementaudit/scripts/bounded_file_custody.py', 'implementaudit/scripts/compaction-source-owner-codex-app.py'}
     _require_exact_members(value['source_pins'], names, 'receiver source pins')
@@ -2414,7 +2625,8 @@ def _native_validate_route_scope_v1(value, binding):
     _require_exact_members(source, {'predicate_version', 'record_schema', 'producer_sha256', 'record_sha256'}, 'current route source')
     if (source['predicate_version'] != 'R0033.route-predicate.v1'
             or source['record_schema'] != 'implementaudit.route-decision.v1'
-            or source['producer_sha256'] != _NATIVE_ROUTE_PRODUCER_SHA256
+            or type(source['producer_sha256']) is not str
+            or source['producer_sha256'] not in _NATIVE_ROUTE_PRODUCER_PROFILES_V1
             or type(source['record_sha256']) is not str
             or not DIGEST_RE.fullmatch(source['record_sha256'])):
         raise WorkGraphError('current route scope: source identity differs')
@@ -2450,7 +2662,8 @@ def _native_route_scope_module_v1():
     import stat
     import types
     path = pathlib.Path(__file__).resolve().with_name('route-transaction.py')
-    flags = os.O_RDONLY | getattr(os, 'O_BINARY', 0) | getattr(os, 'O_NOFOLLOW', 0)
+    flags = os.O_RDONLY | getattr(os, 'O_BINARY', 0) | getattr(os, 'O_NOFOLLOW', 0) | getattr(os, 'O_NONBLOCK', 0)
+    identity = lambda s: (s.st_dev, s.st_ino, s.st_mode, s.st_size, s.st_mtime_ns, s.st_ctime_ns)
     try:
         before = path.lstat()
         if (not stat.S_ISREG(before.st_mode) or stat.S_ISLNK(before.st_mode)
@@ -2458,16 +2671,16 @@ def _native_route_scope_module_v1():
             raise WorkGraphError('native route producer is not a non-aliased regular file')
         with os.fdopen(os.open(path, flags), 'rb') as stream:
             opened = os.fstat(stream.fileno())
-            raw = stream.read(_NATIVE_ROUTE_PRODUCER_BYTES + 1)
+            if not stat.S_ISREG(opened.st_mode) or identity(opened) != identity(before):
+                raise WorkGraphError('native route producer source identity changed')
+            raw = stream.read(max(_NATIVE_ROUTE_PRODUCER_PROFILES_V1.values()) + 1)
             after = os.fstat(stream.fileno())
         named = path.lstat()
     except OSError as exc:
         raise WorkGraphError('native route producer is unavailable') from exc
-    identity = lambda s: (s.st_dev, s.st_ino, s.st_mode, s.st_size, s.st_mtime_ns, s.st_ctime_ns)
     if (identity(before) != identity(opened) or identity(opened) != identity(after)
             or identity(after) != identity(named)
-            or len(raw) != _NATIVE_ROUTE_PRODUCER_BYTES
-            or hashlib.sha256(raw).hexdigest() != _NATIVE_ROUTE_PRODUCER_SHA256):
+            or _NATIVE_ROUTE_PRODUCER_PROFILES_V1.get(hashlib.sha256(raw).hexdigest()) != len(raw)):
         raise WorkGraphError('native route producer source identity changed')
     module = types.ModuleType('_implementaudit_r0035_route_scope_owner')
     module.__file__ = str(path)
@@ -2627,7 +2840,7 @@ def _native_validate_binding(binding, nodes):
         elif type(record['sha256']) is not str or not DIGEST_RE.fullmatch(record['sha256']):
             raise WorkGraphError('native binding: present input needs a content digest')
 
-def _compile_native_documents_v1(snapshot, binding, *, acquire_only=False, _route_observation=None):
+def _compile_native_documents_v1(snapshot, binding, *, acquire_only=False, _route_observation=None, _completion=None, _canonical_work_graph=None):
     before = copy.deepcopy(binding)
     route_scope = _route_observation_value(_route_observation) if _route_observation is not None else None
     if route_scope is not None:
@@ -2712,11 +2925,15 @@ def _compile_native_documents_v1(snapshot, binding, *, acquire_only=False, _rout
             visit(name)
     except RecursionError as exc:
         raise WorkGraphError('native graph traversal depth exceeded') from exc
+    if _canonical_work_graph is not None:
+        _native_check_canonical_declaration_v1(nodes,_canonical_work_graph)
     if acquire_only:
         return dict(nodes=[nodes[name] for name in sorted(nodes)])
     _native_validate_binding(before, nodes)
     routes = {f['scope']: f for f in state['context']['route_facts']}
     source_inventory = [dict(path=path, bytes=len(data), sha256=hashlib.sha256(data).hexdigest()) for path, data in sorted(snapshot.items())]
+    if _canonical_work_graph is not None:
+        source_inventory.append(dict(path='WORK_GRAPH.json',bytes=len(_canonical_work_graph),sha256=hashlib.sha256(_canonical_work_graph).hexdigest()))
     source_digest = _graph_hash(source_inventory)
     route_relation = None if route_scope is None else _native_route_relation_v1(nodes, state['context'], before, route_scope, source_digest)
     held = {d['id']: d for d in state['context']['outstanding_deliveries']}
@@ -2747,12 +2964,20 @@ def _compile_native_documents_v1(snapshot, binding, *, acquire_only=False, _rout
                 reasons.append(reason)
         fact_identity = {key: value for key, value in node.items()}
         node['input_digest'] = _graph_hash(dict(fact=fact_identity, campaign=state['campaign'], original_scope=state['original_scope'], required={d: nodes[d]['input_digest'] for d in node['requires']}, optional={d: nodes[d]['input_digest'] for d in node['optional']}, read_set=read_set, unresolved_semantic_worktree=before['worktree_digest'] if any((not p.startswith('path:') for p in node['reads'] + node['invalidators'])) else None, route_facts=[routes.get(scope) for scope in node['route_scopes']], **({'route_owner': route_scope} if route_scope is not None and route_scope['scope']['identity'] in node['route_scopes'] else {}), **({'receiver_binding': receiver_binding} if receiver_available else {}), delivery=held.get(node['logical_delivery'])))
+        completed = declared == 'DONE'
+        if _completion is not None:
+            result = _completion.get(name, {})
+            completed = result.get('status') == 'PASS'
+            if declared == 'DONE' and not completed:
+                reasons.append('UNBOUND_SOURCE_COMPLETION')
+            if result and not completed:
+                reasons.append('COMPLETION_' + result['status'])
+            node['input_digest'] = _graph_hash([node['input_digest'], {d: _completion.get(d) for d in node['requires'] + node['optional']}])
         node['declared_state'] = declared
-        node['state'] = 'ACTIVE' if declared == 'ACTIVE' else 'BLOCKED' if reasons else 'DONE' if declared == 'DONE' else 'READY'
+        node['state'] = 'ACTIVE' if declared == 'ACTIVE' else 'BLOCKED' if reasons else 'DONE' if completed else 'READY'
         node['blocked_reasons'] = sorted(set(reasons))
-    source_inventory = [dict(path=path, bytes=len(data), sha256=hashlib.sha256(data).hexdigest()) for path, data in sorted(snapshot.items())]
-    before['source_digest'] = _graph_hash(source_inventory)
-    return _seal_graph(dict(schema='implementaudit.native-work-graph.v2' if route_scope is not None else 'implementaudit.native-work-graph.v1', **({'route_scope': route_scope, 'route_relation': route_relation} if route_scope is not None else {}), **({'receiver_binding': receiver_binding} if receiver_binding is not None else {}), binding=before, campaign=state['campaign'], root=state['root'], original_scope=state['original_scope'], event=event, context=state['context'], source_inventory=source_inventory, source_documents={path: data.decode('utf-8') for path, data in snapshot.items()}, nodes=[nodes[name] for name in sorted(nodes)], population={s: sum((n['state'] == s for n in nodes.values())) for s in KNOWN_STATES}, authority='NONE'))
+    before['source_digest'] = source_digest
+    return _seal_graph(dict(schema='implementaudit.completion-projection.v1' if _completion is not None else 'implementaudit.native-work-graph.v2' if route_scope is not None else 'implementaudit.native-work-graph.v1', **({'route_scope': route_scope, 'route_relation': route_relation} if route_scope is not None else {}), **({'receiver_binding': receiver_binding} if receiver_binding is not None else {}), **({'canonical_work_graph':_canonical_work_graph.decode('utf-8')} if _canonical_work_graph is not None else {}), binding=before, campaign=state['campaign'], root=state['root'], original_scope=state['original_scope'], event=event, context=state['context'], source_inventory=source_inventory, source_documents={path: data.decode('utf-8') for path, data in snapshot.items()}, nodes=[nodes[name] for name in sorted(nodes)], population={s: sum((n['state'] == s for n in nodes.values())) for s in KNOWN_STATES}, authority='NONE'))
 
 def _native_input_policy_v1(owner, root, relative, git_policy):
     reason = owner._repository_path_policy(relative)
@@ -2828,9 +3053,86 @@ def _acquire_native_read_set(nodes, input_root):
         raise WorkGraphError('native static source owner changed during input acquisition')
     return result
 
+# Explicitly constructed intake preserves the self-contained R0035 diagnostic.
+# These original portable readers acquire no repository/native currentness. They
+# are selected only when repo_root is absent, never after a native-owner refusal.
+def _constructed_source_snapshot_v1(run_root):
+    root = pathlib.Path(run_root)
+    if root.is_symlink() or not root.is_dir():
+        raise WorkGraphError('native source root is missing or a symlink')
+    files = [root / 'STATE.md', root / 'ROADMAP.md']
+    for name in ('plans', 'phases', 'tasks'):
+        directory = root / name
+        if directory.is_symlink():
+            raise WorkGraphError('native source directory is a symlink')
+        if not directory.exists():
+            continue
+        for base, dirs, names in os.walk(directory, followlinks=False):
+            for item in dirs + names:
+                if (pathlib.Path(base) / item).is_symlink():
+                    raise WorkGraphError('native source contains a symlink')
+            files.extend((pathlib.Path(base) / n for n in names if n.endswith('.md')))
+    result = {}
+    for path in sorted(files):
+        if path.is_symlink() or not path.is_file():
+            raise WorkGraphError(f'native source missing or symlink: {path.name}')
+        try:
+            result[path.relative_to(root).as_posix()] = path.read_bytes()
+        except OSError as exc:
+            raise WorkGraphError(f'native source unreadable: {path.name}') from exc
+    return result
+
+
+def _acquire_constructed_read_set_v1(nodes, input_root):
+    root = pathlib.Path(input_root).resolve()
+    result = {}
+    paths = sorted({p for n in nodes for p in n['reads'] + n['invalidators'] if p.startswith('path:')})
+    _native_semantics(paths, 'native read set')
+    for identity in paths:
+        relative = pathlib.PurePosixPath(identity[5:])
+        path = root.joinpath(*relative.parts)
+        for count in range(1, len(relative.parts) + 1):
+            if root.joinpath(*relative.parts[:count]).is_symlink():
+                raise WorkGraphError('native input symlink is unsupported')
+        if not path.exists():
+            result[identity] = dict(status='MISSING', sha256=None)
+        elif path.is_file():
+            result[identity] = dict(status='PRESENT_FILE', sha256=_graph_hash([path.stat().st_mode & 4095, hashlib.sha256(path.read_bytes()).hexdigest()]))
+        elif path.is_dir():
+            members = []
+            for base, dirs, names in os.walk(path, followlinks=False):
+                for name in sorted(dirs + names):
+                    member = pathlib.Path(base) / name
+                    if member.is_symlink():
+                        raise WorkGraphError('native input directory contains symlink')
+                    if member.is_dir():
+                        members.append([member.relative_to(path).as_posix(), 'DIRECTORY', member.stat().st_mode & 4095])
+                    elif member.is_file():
+                        members.append([member.relative_to(path).as_posix(), member.stat().st_mode & 4095, hashlib.sha256(member.read_bytes()).hexdigest()])
+                    else:
+                        raise WorkGraphError('native input contains non-regular file')
+            result[identity] = dict(status='PRESENT_DIRECTORY', sha256=_graph_hash([path.stat().st_mode & 4095, sorted(members)]))
+        else:
+            raise WorkGraphError('native input is not a regular file or directory')
+    return result
+
+
+
 @contextlib.contextmanager
 def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected_current=None,
-                          _continuity_sources=None, _episode_outputs=None):
+                          _continuity_sources=None, _episode_outputs=None, _continuity_closures=None):
+    with contextlib.ExitStack() as canonical_sources:
+        with _observe_native_run_current_sources_v1(run_root,repo_root,input_root=input_root,
+                expected_current=expected_current,_continuity_sources=_continuity_sources,
+                _episode_outputs=_episode_outputs,_continuity_closures=_continuity_closures,
+                _canonical_sources=canonical_sources) as raw:
+            yield raw
+
+
+@contextlib.contextmanager
+def _observe_native_run_current_sources_v1(run_root, repo_root=None, *, input_root=None, expected_current=None,
+                          _continuity_sources=None, _episode_outputs=None, _continuity_closures=None,
+                          _canonical_sources=None):
     """Hold the existing native owner checks around a caller's read-only use.
 
     Omitting repo_root is explicitly constructed filesystem evidence. Supplying
@@ -2841,15 +3143,31 @@ def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected
     corroborating current tuple is a constraint rechecked by R0033, never facts
     supplied in place of acquisition. Retained PENDING requests may be stale.
     """
+    read_sources = _constructed_source_snapshot_v1 if repo_root is None else _native_source_snapshot
+    read_inputs = _acquire_constructed_read_set_v1 if repo_root is None else _acquire_native_read_set
     source_output = {} if _continuity_sources is None else {'_source_reads': _continuity_sources}
+    closure_reads=[] if _continuity_closures is None else _continuity_closures
+    source_output['_closure_reads']=closure_reads
     current_reads = []
     if _episode_outputs is not None:
         source_output['_current_reads'] = current_reads
     before = _native_continuity(repo_root, run_root, **source_output) if repo_root is not None else dict(acquisition='CONSTRUCTED_FILESYSTEM', controller=None, claim=None, receipt=None, epoch=None, candidate_head=None, candidate_tree=None, worktree_digest=None, continuity_helper_digest=None)
-    snapshot = _native_source_snapshot(run_root)
-    preliminary = _compile_native_documents_v1(snapshot, before, acquire_only=True)
+    canonical_source={}
+    if repo_root is not None:
+        canonical_reader=_native_current_source_reader_v1(run_root,repo_root,before,
+            closure_reads[-1] if closure_reads else None,_canonical_sources)
+        def read_sources(root):
+            documents,canonical=canonical_reader(root)
+            if canonical_source and canonical_source['raw']!=canonical:
+                raise WorkGraphError('canonical WORK_GRAPH changed during intake')
+            canonical_source['raw']=canonical
+            return documents
+    snapshot = read_sources(run_root)
+    canonical_work_graph=canonical_source.get('raw')
+    preliminary = _compile_native_documents_v1(snapshot, before, acquire_only=True,
+        _canonical_work_graph=canonical_work_graph)
     input_root = pathlib.Path(input_root if input_root is not None else repo_root if repo_root is not None else run_root)
-    read_set = _acquire_native_read_set(preliminary['nodes'], input_root)
+    read_set = read_inputs(preliminary['nodes'], input_root)
     bound = dict(before, read_set=read_set, input_root_identity=hashlib.sha256(os.fsencode(str(input_root.resolve()))).hexdigest())
     route_observation = None
     producer = None
@@ -2916,7 +3234,7 @@ def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected
             _native_validate_route_scope_v1(acquired_route, before)
             route_observation = _RouteScopeObservation(acquired_route, _NATIVE_ROUTE_OBSERVATION_KEY,
                                                        receiver_binding=receiver_binding)
-        projection = _compile_native_documents_v1(snapshot, bound, _route_observation=route_observation)
+        projection = _compile_native_documents_v1(snapshot, bound, _route_observation=route_observation, _canonical_work_graph=canonical_work_graph)
         projection_raw = json.dumps(projection, sort_keys=True, separators=(',', ':'),
                                     ensure_ascii=False, allow_nan=False).encode('utf-8')
         with contextlib.ExitStack() as episode_read:
@@ -2951,9 +3269,9 @@ def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected
             raise WorkGraphError('provisional native route observation was mutated')
         if route_observation is not None and route_observation.receiver_binding != receiver_binding:
             raise WorkGraphError('provisional native receiver binding was mutated')
-        if _native_source_snapshot(run_root) != snapshot:
+        if read_sources(run_root) != snapshot:
             raise WorkGraphError('native source changed during intake')
-        if _acquire_native_read_set(projection['nodes'], input_root) != read_set:
+        if read_inputs(projection['nodes'], input_root) != read_set:
             raise WorkGraphError('native inputs changed during intake')
         if repo_root is not None and not shared_currentness and _native_continuity(repo_root, run_root, **source_output) != before:
             raise WorkGraphError('native continuity changed during intake')
@@ -2969,55 +3287,69 @@ def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected
 
 
 @contextlib.contextmanager
-def observe_native_run_sources_v1(run_root, repo_root, *, input_root=None, expected_current=None):
-    """Expose exact executed R0011 sources inside the same live observation.
-
-    This owner creates the output sink. It is never a caller proof, saved
-    currentness token or substitute for either actual continuity acquisition.
-    """
+def _observe_native_sources_v2(run_root, repo_root, input_root, expected_current, *, version, episode):
+    """Private envelope composition; every sink is created by this owner."""
     if repo_root is None:
         raise WorkGraphError('native source observation requires actual repository continuity')
-    sources = []
+    sources, episodes, closures = [], [], []
     with observe_native_run_v1(run_root, repo_root, input_root=input_root,
-            expected_current=expected_current, _continuity_sources=sources) as raw:
-        if (len(sources) != 1 or set(sources[0]) != {'claim_sha256', 'validate_sha256'} or
-                any(type(value) is not str or not DIGEST_RE.fullmatch(value) for value in sources[0].values())):
+            expected_current=expected_current, _continuity_sources=sources,
+            _episode_outputs=episodes if episode else None,
+            _continuity_closures=closures if version == 2 else None) as raw:
+        if (len(sources) != 1 or (version == 2 and len(closures) != 1) or (episode and len(episodes) != 1) or
+                set(sources[0]) != {'claim_sha256', 'validate_sha256'} or
+                any(type(v) is not str or not DIGEST_RE.fullmatch(v) for v in sources[0].values())):
             raise WorkGraphError('native executed-source observation is absent or malformed')
+        if version == 1 and (sources[0]['claim_sha256'], sources[0]['validate_sha256']) not in (_NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE, _NATIVE_COMBINED_CURRENT_PAIR_V1):
+            raise WorkGraphError('complete continuity composition requires the v2 source observation')
         graph = decode_strict_json_bytes(raw, 'native source observation projection')
         if graph['binding']['continuity_helper_digest'] != sources[0]['claim_sha256']:
             raise WorkGraphError('native projection differs from executed continuity source')
-        yield json.dumps(dict(schema='implementaudit.native-run-source-observation.v1',
-            projection=graph, continuity_sources=dict(sources[0])), sort_keys=True,
-            separators=(',', ':'), ensure_ascii=False, allow_nan=False).encode('utf-8')
+        label = 'episode-source' if episode else 'source'
+        value = dict(schema=f'implementaudit.native-run-{label}-observation.v{version}',
+                     projection=graph, continuity_sources=dict(sources[0]))
+        if version == 2:
+            value['continuity_closure'] = closures[0]
+        if episode:
+            value['ordinary_episode'] = episodes[0]
+        yield json.dumps(value, sort_keys=True, separators=(',', ':'),
+                         ensure_ascii=False, allow_nan=False).encode('utf-8')
     if len(sources) != 2 or sources[1] != sources[0]:
         raise WorkGraphError('native executed continuity sources changed during observation')
+    if version == 2 and (len(closures) != 2 or closures[1] != closures[0]):
+        raise WorkGraphError('native executed continuity closure changed during observation')
+
+
+@contextlib.contextmanager
+def observe_native_run_sources_v1(run_root, repo_root, *, input_root=None, expected_current=None):
+    """Retain the exact historical two-source envelope; six sources require v2."""
+    with _observe_native_sources_v2(run_root, repo_root, input_root, expected_current,
+                                   version=1, episode=False) as raw:
+        yield raw
 
 
 @contextlib.contextmanager
 def observe_native_run_episode_sources_v1(run_root, repo_root, *, input_root=None, expected_current=None):
-    """Observe graph, current route and authentic ordinary episode together.
+    """Retain the historical episode envelope for its two-source composition."""
+    with _observe_native_sources_v2(run_root, repo_root, input_root, expected_current,
+                                   version=1, episode=True) as raw:
+        yield raw
 
-    This source owner creates every read and output sink. The public entry has
-    no episode, receipt, module, callback or prevalidated currentness operand.
-    Every projection stays provisional until all nested source owners close.
-    """
-    if repo_root is None:
-        raise WorkGraphError('native episode observation requires actual repository continuity')
-    sources, episodes = [], []
-    with observe_native_run_v1(run_root, repo_root, input_root=input_root,
-            expected_current=expected_current, _continuity_sources=sources, _episode_outputs=episodes) as raw:
-        if (len(sources) != 1 or len(episodes) != 1 or
-                set(sources[0]) != {'claim_sha256', 'validate_sha256'} or
-                any(type(v) is not str or not DIGEST_RE.fullmatch(v) for v in sources[0].values())):
-            raise WorkGraphError('native episode source observation is absent or malformed')
-        graph = decode_strict_json_bytes(raw, 'native episode observation projection')
-        if graph['binding']['continuity_helper_digest'] != sources[0]['claim_sha256']:
-            raise WorkGraphError('native episode projection differs from executed continuity source')
-        yield json.dumps(dict(schema='implementaudit.native-run-episode-source-observation.v1',
-            projection=graph, continuity_sources=dict(sources[0]), ordinary_episode=episodes[0]),
-            sort_keys=True, separators=(',', ':'), ensure_ascii=False, allow_nan=False).encode('utf-8')
-    if len(sources) != 2 or sources[1] != sources[0]:
-        raise WorkGraphError('native episode continuity sources changed during observation')
+
+@contextlib.contextmanager
+def observe_native_run_sources_v2(run_root, repo_root, *, input_root=None, expected_current=None):
+    """Observe the complete executed source closure, provisional until exit."""
+    with _observe_native_sources_v2(run_root, repo_root, input_root, expected_current,
+                                   version=2, episode=False) as raw:
+        yield raw
+
+
+@contextlib.contextmanager
+def observe_native_run_episode_sources_v2(run_root, repo_root, *, input_root=None, expected_current=None):
+    """Observe graph, complete continuity closure and ordinary episode together."""
+    with _observe_native_sources_v2(run_root, repo_root, input_root, expected_current,
+                                   version=2, episode=True) as raw:
+        yield raw
 
 
 def read_native_run_v1(run_root, repo_root=None, *, input_root=None):
@@ -3066,6 +3398,9 @@ def cheap_path_v1(total_cells, ready_cells, capacity):
 
 def select_native_frontier_v1(graph):
     _check_graph_seal(graph, 'implementaudit.native-work-graph.v1')
+    return _select_native_frontier_v1(graph)
+
+def _select_native_frontier_v1(graph):
     context = graph['context']
     capacity = max(0, context['host_capacity'] - context['reserve'])
     if context['operator_ceiling'] is not None:
@@ -3093,6 +3428,23 @@ def select_native_frontier_v1(graph):
     identity = _graph_hash([graph['digest'], graph['event'], selected])
     mode = cheap_path_v1(sum((n['kind'] in {'TASK', 'JOIN'} for n in nodes)), len(candidates), free)
     return dict(schema='implementaudit.native-dispatch.v1', graph_digest=graph['digest'], event=copy.deepcopy(graph['event']), dispatch_id=identity, selected=selected, inputs={n['id']: n['input_digest'] for n in nodes if n['id'] in selected}, capacity=capacity, active_occupancy=occupied, free_capacity=free, deferred=dict(sorted(deferred.items())), blocked={n['id']: n['blocked_reasons'] for n in nodes if n['state'] == 'BLOCKED'}, placements={name: placements[name] for name in selected}, mode=mode['mode'], graph_required=mode['graph_required'], authority='NONE')
+
+def derive_completion_frontier_v1(graph, outcomes):
+    """Pure contract overlay, never accepted-result custody or dispatch authority."""
+    _check_graph_seal(graph, 'implementaudit.native-work-graph.v1')
+    _require_object(outcomes, 'completion outcomes')
+    nodes = {n['id']: n for n in graph['nodes']}
+    for name, value in outcomes.items():
+        if name not in nodes or nodes[name]['kind'] not in {'TASK', 'JOIN'}:
+            raise WorkGraphError('completion cannot grant ancestor or foreign scope')
+        _require_object(value, 'completion outcome')
+        _require_exact_members(value, {'status', 'digest'}, 'completion outcome')
+        _native_enum(value['status'], {'PASS', 'FAIL', 'PARTIAL', 'NONVERDICT', 'UNKNOWN', 'PENDING', 'INTERRUPTED', 'TRANSPORT_FAILURE', 'RECOVERY_CUSTODY_UNVERIFIED'}, 'completion status')
+        _require_digest(value['digest'], 'completion digest')
+    projection = _replay_native_graph_v1(graph, outcomes)
+    dispatch = _select_native_frontier_v1(projection)
+    dispatch.update(schema='implementaudit.completion-frontier.v1', source_graph_digest=graph['digest'], states={n['id']: n['state'] for n in projection['nodes']}, native_dispatch_authorized=False)
+    return dispatch
 
 def diff_native_graphs_v1(previous, current):
     for graph in (previous, current):
@@ -3156,6 +3508,12 @@ def reconcile_native_results_v1(dispatched_graph, current_graph, dispatch, resul
     delta = diff_native_graphs_v1(dispatched_graph, current_graph)
     if delta['recompute_required']:
         return dict(status='RECOMPUTE_REQUIRED', **delta)
+    return _join_native_results_v1(current_graph, mapped, join_id)
+
+def _join_native_results_v1(graph, mapped, join_id):
+    nodes = {n['id']: n for n in graph['nodes']}
+    join = nodes[join_id]
+    required, optional = set(join['requires']), set(join['optional'])
     missing = sorted(required - mapped.keys())
     all_settled = not missing and all((mapped[name]['terminal'] for name in required))
     status = 'PENDING'
@@ -3185,24 +3543,29 @@ def reconcile_native_results_v1(dispatched_graph, current_graph, dispatch, resul
             common = any((bool(closures[a][0] & closures[b][0]) or _semantic_overlap(closures[a][1], closures[b][1]) or bool(closures[a][2] & closures[b][2]) for a in required for b in required if a < b))
             if len(set(keys)) != len(keys) or (None not in evidence and len(set(evidence)) != len(evidence)) or common:
                 status = 'NONVERDICT' if status != 'FAIL' else status
-    return dict(schema='implementaudit.native-join.v1', status=status, all_required_settled=all_settled, required=sorted(required), optional=sorted(optional), missing=missing, omitted_optional=sorted(optional - mapped.keys()), retained_scopes={name: result['scope'] for name, result in sorted(mapped.items())}, graph_digest=current_graph['digest'], consumer=join_id, authority='NONE', lifecycle_credit='NONE')
+    return dict(schema='implementaudit.native-join.v1', status=status, all_required_settled=all_settled, required=sorted(required), optional=sorted(optional), missing=missing, omitted_optional=sorted(optional - mapped.keys()), retained_scopes={name: result['scope'] for name, result in sorted(mapped.items())}, graph_digest=graph['digest'], consumer=join_id, authority='NONE', lifecycle_credit='NONE')
 
-def compile_recursive_transition_v1(graph, history):
-    _check_graph_seal(graph, 'implementaudit.native-work-graph.v1')
-    if type(history) is not list:
-        raise WorkGraphError('event history: array required')
+def _recursive_context_v1(graph, plan, subject):
     nodes = {n['id']: n for n in graph['nodes']}
-    ancestors, cursor = ([], graph['event']['subject'])
+    ancestors, cursor = ([], subject)
     while cursor is not None:
         ancestors.append(cursor)
         cursor = nodes[cursor]['parent']
     if ancestors[-1] != graph['root']:
         raise WorkGraphError('recursive ancestry root mismatch')
-    plan = select_native_frontier_v1(graph)
     consumers = {}
     for name in plan['selected']:
         node = nodes[name]
         consumers[name] = node['future_consumer'] or dict(node=node['parent'] or graph['root'], condition='scoped result reconsideration')
+    directions = {'INWARD': sorted((n['id'] for n in graph['nodes'] if n['parent'] == ancestors[0])), 'OUTWARD': sorted((n['id'] for n in graph['nodes'] if n['parent'] in ancestors[1:] and n['id'] not in ancestors)), 'FORWARD': sorted((n['id'] for n in graph['nodes'] if n['future_consumer'] is not None)), 'BACKWARD': sorted((n['id'] for n in graph['nodes'] if n['kind'] == 'JOIN'))}
+    return dict(plan, schema='implementaudit.recursive-transition.v1', campaign=graph['campaign'], root=graph['root'], original_scope=graph['original_scope'], ancestors=ancestors, directions=directions, consumers=consumers)
+
+def compile_recursive_transition_v1(graph, history):
+    _check_graph_seal(graph, 'implementaudit.native-work-graph.v1')
+    if type(history) is not list:
+        raise WorkGraphError('event history: array required')
+    plan = select_native_frontier_v1(graph)
+    result = _recursive_context_v1(graph, plan, graph['event']['subject'])
     seen = set()
     replay = False
     for receipt in history:
@@ -3230,8 +3593,6 @@ def compile_recursive_transition_v1(graph, history):
             if receipt['graph_digest'] != graph['digest'] or receipt['dispatch_id'] != plan['dispatch_id'] or receipt['consumed'] != plan['selected']:
                 raise WorkGraphError('event identity reused with changed graph or incomplete consumption')
             replay = True
-    directions = {'INWARD': sorted((n['id'] for n in graph['nodes'] if n['parent'] == ancestors[0])), 'OUTWARD': sorted((n['id'] for n in graph['nodes'] if n['parent'] in ancestors[1:] and n['id'] not in ancestors)), 'FORWARD': sorted((n['id'] for n in graph['nodes'] if n['future_consumer'] is not None)), 'BACKWARD': sorted((n['id'] for n in graph['nodes'] if n['kind'] == 'JOIN'))}
-    result = dict(schema='implementaudit.recursive-transition.v1', **{k: v for k, v in plan.items() if k != 'schema'}, campaign=graph['campaign'], root=graph['root'], original_scope=graph['original_scope'], ancestors=ancestors, directions=directions, consumers=consumers)
     if replay:
         result.update(selected=[], mode='NO_REDISPATCH')
     return _seal_graph(result)
@@ -3386,6 +3747,7 @@ def verifier_command_stream_v1(graph, current_registry_bytes):
         raise WorkGraphError('verifier graph differs from current owner derivation')
     return b''.join((node['id'].encode() + b'\x00' + node['source'].encode() + b'\x00' for node in graph['nodes']))
 VERIFIER_LEAF_CONTRACTS_V1 = {'scripts/check-readme-toc.sh': dict(sha256='9b8cc45e887b29ffb904b17643ef0e0564db8fb7eb475685e294dbcc2dea8638', reads=['README.md'], probes=[]), 'scripts/check-agents-bootstrap-budget.sh': dict(sha256='be6cb923382263f35b87a0b65f42fc57fd438fd091dc4fa2baf3533d0eb4e078', reads=['AGENTS.md'], probes=['docs/audits/RETENTION.md', 'tests/agents-bootstrap-budget.test.sh'])}  # source repo
+VERIFIER_REGISTRY_CONTRACTS_V1 = {**VERIFIER_LEAF_CONTRACTS_V1, 'scripts/check-validation-registry.sh': dict(sha256='c7c6b0f26111c44c4caaf5e1ffc20979e48cc15ca83600f3fea16514e9d02fee', reads=['scripts/verify-package.sh', '.github/workflows/validate.yml'], probes=[], membership='tests/*.test.sh')}  # source repo
 
 def compile_verifier_reuse_v1(graph, registry, acquired, issued):
     """Derive a bounded task plan. The real acquirer owns input facts; the
@@ -3394,11 +3756,13 @@ def compile_verifier_reuse_v1(graph, registry, acquired, issued):
     """
     verifier_command_stream_v1(graph, registry)
     _require_exact_members(acquired, {'schema', 'scope', 'binding', 'inputs'}, 'verifier acquisition')
-    if acquired['schema'] != 'implementaudit.verifier-acquisition.v1' or acquired['scope'] != 'CONTROLLED_TASK_LEAVES_V1':
+    _require_string(acquired['scope'], 'verifier acquisition scope')
+    contracts = {'CONTROLLED_TASK_LEAVES_V1': VERIFIER_LEAF_CONTRACTS_V1, 'CONTROLLED_TASK_REGISTRY_V1': VERIFIER_REGISTRY_CONTRACTS_V1}.get(acquired['scope'])
+    if acquired['schema'] != 'implementaudit.verifier-acquisition.v1' or contracts is None:
         raise WorkGraphError('unsupported verifier acquisition scope')
     _require_object(acquired['binding'], 'verifier binding')
     _require_object(issued, 'issued verifier keys')
-    names = {'COMMAND:' + path + ':0' for path in VERIFIER_LEAF_CONTRACTS_V1}
+    names = {'COMMAND:' + path + ':0' for path in contracts}
     _require_exact_members(acquired['inputs'], names, 'verifier input population')
     if not set(issued).issubset(names):
         raise WorkGraphError('foreign issued verifier population')
@@ -3406,7 +3770,7 @@ def compile_verifier_reuse_v1(graph, registry, acquired, issued):
     for node in graph['nodes']:
         if node['id'] not in names:
             continue
-        contract = VERIFIER_LEAF_CONTRACTS_V1[node['command']]
+        contract = contracts[node['command']]
         if node['source'].strip() != 'bash ' + node['command']:
             raise WorkGraphError('unsupported verifier invocation')
         inputs = acquired['inputs'][node['id']]
@@ -3421,23 +3785,32 @@ def compile_verifier_reuse_v1(graph, registry, acquired, issued):
         raise WorkGraphError('verifier mapped scope population mismatch')
     return _seal_graph(dict(schema='implementaudit.verifier-reuse-plan.v1', scope=acquired['scope'], graph_digest=graph['digest'], nodes=nodes, omitted_canonical_nodes=len(graph['nodes']) - len(nodes), authority='NONE'))
 
+def _native_operation_output_v1(operation, run_root, repo_root, operands):
+    """Accept operation bytes only after the enclosing source checks close."""
+    def load_json(path):
+        return decode_strict_json_bytes(pathlib.Path(path).read_bytes(), path)
+    with observe_native_run_v1(run_root, repo_root) as raw:
+        current = decode_strict_json_bytes(raw, 'native run observation')
+        if operation == '--select-native':
+            result = select_native_frontier_v1(current)
+        elif operation == '--recursive-native':
+            result = compile_recursive_transition_v1(current, load_json(operands[0]))
+        elif operation == '--reconcile-native':
+            result = reconcile_native_results_v1(load_json(operands[0]), current,
+                load_json(operands[1]), load_json(operands[2]), operands[3])
+        else:
+            raise WorkGraphError('unknown native operation')
+        output = canonical_json_v1(result)
+    return output
+
 def main(argv: list[str]) -> int:
     if len(argv) > 1 and argv[1] in {'--select-native', '--recursive-native', '--reconcile-native'}:
         try:
             expected = {'--select-native': 4, '--recursive-native': 5, '--reconcile-native': 8}[argv[1]]
             if len(argv) != expected:
                 raise WorkGraphError('native operation requires RUN_ROOT REPO_ROOT and its exact contract inputs')
-            current = read_native_run_v1(argv[2], argv[3])
-
-            def load_json(path):
-                return decode_strict_json_bytes(pathlib.Path(path).read_bytes(), path)
-            if argv[1] == '--select-native':
-                result = select_native_frontier_v1(current)
-            elif argv[1] == '--recursive-native':
-                result = compile_recursive_transition_v1(current, load_json(argv[4]))
-            else:
-                result = reconcile_native_results_v1(load_json(argv[4]), current, load_json(argv[5]), load_json(argv[6]), argv[7])
-            sys.stdout.buffer.write(canonical_json_v1(result))
+            output = _native_operation_output_v1(argv[1], argv[2], argv[3], argv[4:])
+            sys.stdout.buffer.write(output)
             return 0
         except (OSError, WorkGraphError) as exc:
             print(f'compile-work-graph: {exc}', file=sys.stderr)

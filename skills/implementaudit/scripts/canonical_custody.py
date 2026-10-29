@@ -606,13 +606,36 @@ class GitReadScope:
             return None
 
     def ref(self, ref):
-        if (not isinstance(ref, str) or not re.fullmatch(r'refs/implementaudit/[A-Za-z0-9._/-]+', ref)
-                or '..' in ref or any(not part or part.endswith('.lock') for part in ref.split('/'))):
+        return self.refs([ref])[ref]
+
+    def refs(self, refs):
+        """One fresh bounded population observation, without ref-value caching.
+
+        Every loose name and the packed population retain before/after physical
+        checks. Git independently verifies each present name/object in bounded
+        groups; exact absence still uses Git's distinct absence operation.
+        Nothing is retained across this observation or an authority CAS.
+        """
+        if (type(refs) not in (list, tuple) or any(not isinstance(ref, str)
+                or not re.fullmatch(r'refs/implementaudit/[A-Za-z0-9._/-]+', ref)
+                or '..' in ref or any(not part or part.endswith('.lock') for part in ref.split('/'))
+                for ref in refs) or len(refs) != len(set(refs))):
             raise OSError('ref escapes the exact authority namespace')
+        if not refs:
+            return {}
+        if len(refs) > 64:
+            # Bound the simultaneous loose-file population as well as argv.
+            # Each group is independently fresh; the caller's real CAS still
+            # verifies the complete expected-old population atomically.
+            result = {}
+            for offset in range(0, len(refs), 64):
+                result.update(self.refs(refs[offset:offset + 64]))
+            return result
         self._native_ref_custody()
-        loose = self.optional_file(self.common.joinpath(*ref.split('/')), 4096)
+        loose = {ref: self.optional_file(self.common.joinpath(*ref.split('/')), 4096) for ref in refs}
         packed = self.optional_file(self.common / 'packed-refs', 64 * 1024 * 1024)
-        packed_oid = None
+        packed_oids = dict.fromkeys(refs)
+        encoded = {ref.encode('ascii'): ref for ref in refs}
         if packed is not None:
             if packed and not packed.endswith(b'\n') or b'\r' in packed:
                 raise OSError('packed ref population is incomplete')
@@ -630,26 +653,51 @@ class GitReadScope:
                 if match is None:
                     raise OSError('packed ref population is malformed')
                 can_peel = True
-                if match[2] == ref.encode('ascii'):
-                    if packed_oid is not None:
+                if match[2] in encoded:
+                    ref = encoded[match[2]]
+                    if packed_oids[ref] is not None:
                         raise OSError('packed authority ref is duplicated')
-                    packed_oid = match[1].decode('ascii')
-        if loose is not None:
-            if re.fullmatch(rb'[0-9a-f]{40}\n', loose) is None:
-                raise OSError('loose authority ref is symbolic, broken or malformed')
-            result = loose[:-1].decode('ascii')
-        else:
-            result = packed_oid
+                    packed_oids[ref] = match[1].decode('ascii')
+        result = {}
+        for ref, raw in loose.items():
+            if raw is not None:
+                if re.fullmatch(rb'[0-9a-f]{40}\n', raw) is None:
+                    raise OSError('loose authority ref is symbolic, broken or malformed')
+                result[ref] = raw[:-1].decode('ascii')
+            else:
+                result[ref] = packed_oids[ref]
         # Git remains the semantic ref reader: physical grammar alone cannot
         # establish object existence or Git's packed-ref ordering/interpretation.
-        arguments = ('show-ref', '--exists', ref) if result is None else ('show-ref', '--verify', '--hash', ref)
-        checked = self.read_command(*arguments)
-        if result is None:
+        present = [ref for ref in refs if result[ref] is not None]
+        while present:
+            group, characters = [], 0
+            while present and len(group) < 64:
+                if group and characters + len(present[0]) > 12000:
+                    break
+                ref = present.pop(0)
+                group.append(ref)
+                characters += len(ref) + 1
+            checked = self.read_command('show-ref', '--verify', '--', *group)
+            found = {}
+            if checked.returncode or not checked.stdout.endswith(b'\n') or b'\r' in checked.stdout:
+                raise OSError('Git refused the physical authority ref or its current object')
+            for row in checked.stdout.split(b'\n')[:-1]:
+                match = re.fullmatch(rb'([0-9a-f]{40}) (refs/implementaudit/[A-Za-z0-9._/-]+)', row)
+                if match is None:
+                    raise OSError('Git returned a malformed authority-ref population')
+                ref = match[2].decode('ascii')
+                if ref not in group or ref in found:
+                    raise OSError('Git returned a foreign or duplicate authority ref')
+                found[ref] = match[1].decode('ascii')
+            if found != {ref: result[ref] for ref in group}:
+                raise OSError('Git refused the complete physical authority-ref population')
+        for ref in refs:
+            if result[ref] is not None:
+                continue
+            checked = self.read_command('show-ref', '--exists', ref)
             if checked.returncode != 2 or checked.stdout:
                 raise OSError('Git did not confirm exact authority-ref absence')
-        elif checked.returncode or checked.stdout != (result + '\n').encode('ascii'):
-            raise OSError('Git refused the physical authority ref or its current object')
-        if (self.optional_file(self.common.joinpath(*ref.split('/')), 4096) != loose
+        if (any(self.optional_file(self.common.joinpath(*ref.split('/')), 4096) != loose[ref] for ref in refs)
                 or self.optional_file(self.common / 'packed-refs', 64 * 1024 * 1024) != packed):
             raise OSError('authority ref population changed during Git readback')
         for held in self.native_handles:
@@ -731,3 +779,12 @@ def current_ref(repo, ref):
     if selected.repo != Path(repo).absolute():
         raise OSError('ref request changed its repository binding')
     return selected.ref(ref)
+
+
+def current_refs(repo, refs):
+    selected = _GIT_SCOPE.get()
+    if selected is None or os.name != 'nt':
+        return NotImplemented
+    if selected.repo != Path(repo).absolute():
+        raise OSError('ref request changed its repository binding')
+    return selected.refs(refs)

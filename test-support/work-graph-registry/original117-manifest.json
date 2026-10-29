@@ -1,0 +1,259 @@
+{
+  "schema": "historical-work-graph-fixtures.v1",
+  "source_commit": "cbb616cc7e0f9abafebe9bbdeee202ede7feb94e",
+  "scope": "HISTORICAL_INPUTS_ONLY_NOT_CURRENT_ACCEPTANCE",
+  "files": {
+    "fixtures/semantic-preservation/cases.json": {
+      "specimen": "original117/fixtures/semantic-preservation/cases.json",
+      "sha256": "8bb25e8a6bf78dba9568f4e8186727d4dfcc85665ce9dbfd53af63e7f980b623",
+      "bytes": 29574,
+      "mode": 420
+    },
+    "scripts/check-action-selection-contract.sh": {
+      "specimen": "original117/scripts/check-action-selection-contract.sh",
+      "sha256": "38e7b277b8429b0d13fb7710f47e4f144dde693504c8640463c2ab074f8cc6bb",
+      "bytes": 42909,
+      "mode": 420
+    },
+    "scripts/check-no-terminal-cap.sh": {
+      "specimen": "original117/scripts/check-no-terminal-cap.sh",
+      "sha256": "0868f60de64c71d3d1139931bbaaf6b0927574769c0415f5b9884a5fc03e65b9",
+      "bytes": 5476,
+      "mode": 420
+    },
+    "scripts/package-contract.py": {
+      "specimen": "original-package-contract.py",
+      "sha256": "f3fa90f6c1e7b75527eddd988a6977f27db669bec337f65ff9c2b1ceae50621f",
+      "bytes": 43448,
+      "mode": 493
+    },
+    "scripts/qualify-work-graph-prefix.py": {
+      "specimen": "original117/scripts/qualify-work-graph-prefix.py",
+      "sha256": "86f4e02dbf7b25ee3a4dab2fb90ef4dd3e21cfe350e8ce38470e36c4f4733016",
+      "bytes": 52230,
+      "mode": 420
+    },
+    "scripts/qualify-work-graph-verifier.py": {
+      "specimen": "original117/scripts/qualify-work-graph-verifier.py",
+      "sha256": "af0f0443bf1c8db2888b7618c213a8db2a8e2cf659f574b4339d9b2889199815",
+      "bytes": 161719,
+      "mode": 420
+    },
+    "scripts/verify-package.sh": {
+      "specimen": "original117/verify-package.sh",
+      "sha256": "77f26397b276fa1b6e494558d1796cb4c43d14b1e1a6755e68f542cdc4c37698",
+      "bytes": 43362,
+      "mode": 493
+    },
+    "skills/implementaudit/scripts/canonical_custody.py": {
+      "specimen": "original117/skills/implementaudit/scripts/canonical_custody.py",
+      "sha256": "bfa07f0088f2df7b8c1196ccd149ebf8c6874337b35ac9a9c91ac51367a7fb1f",
+      "bytes": 33629,
+      "mode": 493
+    },
+    "skills/implementaudit/scripts/check-authorization-binding.sh": {
+      "specimen": "original117/skills/implementaudit/scripts/check-authorization-binding.sh",
+      "sha256": "e2ff72034bac8317b881dcbf1180a47f6d7b64119398af2b664c47e10cdba728",
+      "bytes": 17469,
+      "mode": 420
+    },
+    "skills/implementaudit/scripts/compile-work-graph.py": {
+      "specimen": "original117/skills/implementaudit/scripts/compile-work-graph.py",
+      "sha256": "7e604e35766f42b425f6d3f25df576facdba409fc10000c35a5aee84e1644748",
+      "bytes": 250660,
+      "mode": 493
+    },
+    "skills/implementaudit/scripts/read-canonical-pair.py": {
+      "specimen": "original117/skills/implementaudit/scripts/read-canonical-pair.py",
+      "sha256": "4dafb199a0bfad23f461a74d5e39197d092ae2de5f7162f9a56ce6300aa38e6b",
+      "bytes": 26728,
+      "mode": 493
+    },
+    "skills/implementaudit/scripts/resolve-internal-skill.py": {
+      "specimen": "original117/skills/implementaudit/scripts/resolve-internal-skill.py",
+      "sha256": "be553c29e1092643a71e6b50260d760bab15bbc76cd3c2091d05c4b52b8f302e",
+      "bytes": 3945,
+      "mode": 420
+    },
+    "skills/implementaudit/scripts/validate-run-root.sh": {
+      "specimen": "original117/skills/implementaudit/scripts/validate-run-root.sh",
+      "sha256": "d8b046b5417dce13ed66a5ac5fffaf3d18fae40c97d42aef8b38470500d575a6",
+      "bytes": 61001,
+      "mode": 420
+    },
+    "tests/action-selection-contract.test.sh": {
+      "specimen": "original117/tests/action-selection-contract.test.sh",
+      "sha256": "f49fdde27d2e23558bd1e8cc74c66fb30520953426e4b5166ebcb93dffaec0b0",
+      "bytes": 36803,
+      "mode": 420
+    },
+    "tests/authorization-binding-contract.test.sh": {
+      "specimen": "original117/tests/authorization-binding-contract.test.sh",
+      "sha256": "30d328e94d72f758328b4378f6c51df281d1d34f3dc784e70fd115ea99edba28",
+      "bytes": 6793,
+      "mode": 420
+    },
+    "tests/internal-skill-routing.test.sh": {
+      "specimen": "original117/tests/internal-skill-routing.test.sh",
+      "sha256": "3b612782c02982d549f4e99726283e854a26ede25b2396a2fb090fcbe9057df5",
+      "bytes": 18531,
+      "mode": 420
+    },
+    "tests/marker-order.test.sh": {
+      "specimen": "original117/tests/marker-order.test.sh",
+      "sha256": "1736083571f60936b1fbddf3c038a75c4b866432f7fe242161e0939b13182691",
+      "bytes": 4045,
+      "mode": 493
+    },
+    "tests/no-terminal-cap.test.sh": {
+      "specimen": "original117/tests/no-terminal-cap.test.sh",
+      "sha256": "95628b0498d8868ec8988620a7022b0b979247cb760d89bd6e5bcbed339e3755",
+      "bytes": 4872,
+      "mode": 420
+    },
+    "fixtures/audit-action-selection/dominance-dogfood-receipt.json": {
+      "specimen": "original117/fixtures/audit-action-selection/dominance-dogfood-receipt.json",
+      "sha256": "8bc55d4ba68c0ed76669d6a26a8d2b3072935669f32c2064e96a4b21910c0d52",
+      "bytes": 3034,
+      "mode": 420
+    },
+    "fixtures/audit-action-selection/engineering-value-cases.json": {
+      "specimen": "original117/fixtures/audit-action-selection/engineering-value-cases.json",
+      "sha256": "8567bf4393fa70b091f282b7afe747657ff37182fa1c9b7db17e2c08d3803d9c",
+      "bytes": 66356,
+      "mode": 420
+    },
+    "fixtures/audit-action-selection/narrow-direct-stays-shallow.md": {
+      "specimen": "original117/fixtures/audit-action-selection/narrow-direct-stays-shallow.md",
+      "sha256": "4520361b9bedbbe8d40da93813c7c16634391de12e3da836ebf7cc573b795234",
+      "bytes": 1762,
+      "mode": 420
+    },
+    "fixtures/audit-action-selection/negative-keyword-gated-depth.md": {
+      "specimen": "original117/fixtures/audit-action-selection/negative-keyword-gated-depth.md",
+      "sha256": "3a7405efe4d80cbddf0b33f09179ed746b5c05e95a5311408bb942bb51a86def",
+      "bytes": 1147,
+      "mode": 420
+    },
+    "fixtures/audit-action-selection/negative-missing-selection-record.md": {
+      "specimen": "original117/fixtures/audit-action-selection/negative-missing-selection-record.md",
+      "sha256": "767ea000d4a808ead32a9ce98a7489e67c56894815bdede44ef0edbd521e0567",
+      "bytes": 1148,
+      "mode": 420
+    },
+    "fixtures/audit-action-selection/negative-size-only-deepening.md": {
+      "specimen": "original117/fixtures/audit-action-selection/negative-size-only-deepening.md",
+      "sha256": "b396aed9d3f999349567d1ebdd4e739b2b9c0c6268f19215392e6b97e1e3b562",
+      "bytes": 1126,
+      "mode": 420
+    },
+    "fixtures/audit-action-selection/ordinary-task-deepens.md": {
+      "specimen": "original117/fixtures/audit-action-selection/ordinary-task-deepens.md",
+      "sha256": "62eafd0cbddcce90a582520e8b62fcab06779efa6ac0dcc345d79a62a6101d05",
+      "bytes": 2103,
+      "mode": 420
+    },
+    "fixtures/audit-action-selection/verifier-plan-cases.json": {
+      "specimen": "original117/fixtures/audit-action-selection/verifier-plan-cases.json",
+      "sha256": "a7b6f3eb77fd38c6ba4e29bc029e3f4827872a45448afeb96fdda668d39c99dc",
+      "bytes": 8841,
+      "mode": 420
+    },
+    "fixtures/audit-object-routing/deep-pressure-disclosure.md": {
+      "specimen": "original117/fixtures/audit-object-routing/deep-pressure-disclosure.md",
+      "sha256": "a4c4a21e6e70fec018142b86b040c1611117eca8f1cde58b82963c8e1be66fc3",
+      "bytes": 1316,
+      "mode": 420
+    },
+    "fixtures/native-integration/single-plan-native-route.md": {
+      "specimen": "original117/fixtures/native-integration/single-plan-native-route.md",
+      "sha256": "8f8a852a20be0f92009f7553d013a575c8eacb6f06bbc8741fc5c703f2e34e69",
+      "bytes": 3096,
+      "mode": 420
+    },
+    "skills/implementaudit/SKILL.md": {
+      "specimen": "original117/skills/implementaudit/SKILL.md",
+      "sha256": "8237251ef565df4bb017df428e03372c96e1551234a20962d5c44325a61b23db",
+      "bytes": 20537,
+      "mode": 420
+    },
+    "skills/implementaudit/references/child-agents.md": {
+      "specimen": "original117/skills/implementaudit/references/child-agents.md",
+      "sha256": "02389ea2fd1a530d93f0561d226da7031294fb00f02184b489d4f802cb0a0fcf",
+      "bytes": 18419,
+      "mode": 420
+    },
+    "skills/implementaudit/references/lean-operating-discipline.md": {
+      "specimen": "original117/skills/implementaudit/references/lean-operating-discipline.md",
+      "sha256": "c077be1091dccd563461e98e1eaf0d865c1b7fb1095e3018470aec60d4245c10",
+      "bytes": 21792,
+      "mode": 420
+    },
+    "skills/implementaudit/references/plan-lifecycle.md": {
+      "specimen": "original117/skills/implementaudit/references/plan-lifecycle.md",
+      "sha256": "482418733316fcffc478a86f925f421a7f0ccf9a82b43ab94808d0fa51c8e9c1",
+      "bytes": 30905,
+      "mode": 420
+    },
+    "skills/implementaudit/references/planning-depth.md": {
+      "specimen": "original117/skills/implementaudit/references/planning-depth.md",
+      "sha256": "dd72b40052defebad79a6d041051641e5c5568dab6cf1093cbad37c04924a98b",
+      "bytes": 18762,
+      "mode": 420
+    },
+    "skills/implementaudit/references/repo-state-comparison.md": {
+      "specimen": "original117/skills/implementaudit/references/repo-state-comparison.md",
+      "sha256": "5a3e478eaed6d52134c90dfd9a7dbeb2e51b20e220651dcbfe2b8f9731c8ce12",
+      "bytes": 34519,
+      "mode": 420
+    },
+    "skills/implementaudit/templates/ROADMAP.md": {
+      "specimen": "original117/skills/implementaudit/templates/ROADMAP.md",
+      "sha256": "abdaec32627231b55b545849cbac3176f499f74359aeece9af0a2a866ad2543a",
+      "bytes": 3512,
+      "mode": 420
+    },
+    "skills/implementaudit/templates/THINKING.md": {
+      "specimen": "original117/skills/implementaudit/templates/THINKING.md",
+      "sha256": "a3b8ebfdbecacab5d0c24effa565fd799a4eaaeaf5376fe45676132c455326ba",
+      "bytes": 6380,
+      "mode": 420
+    },
+    "skills/implementaudit/scripts/claim-run.sh": {
+      "specimen": "original117/skills/implementaudit/scripts/claim-run.sh",
+      "sha256": "50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383",
+      "bytes": 17368,
+      "mode": 420
+    },
+    "skills/implementaudit/scripts/claim-run-rotation.py": {
+      "specimen": "original117/skills/implementaudit/scripts/claim-run-rotation.py",
+      "sha256": "6f62f57d3a5873570161022e2ccc04cdb061655fa338bcb2c5ea1624b80454ca",
+      "bytes": 103754,
+      "mode": 420
+    },
+    "skills/implementaudit/scripts/rotate-canonical-state.py": {
+      "specimen": "original117/skills/implementaudit/scripts/rotate-canonical-state.py",
+      "sha256": "7989a08128fedabe531fc92114baff755e77e08aebea547253793b625496bb26",
+      "bytes": 92941,
+      "mode": 493
+    },
+    "skills/implementaudit/scripts/canonical_hot_projection.py": {
+      "specimen": "original117/skills/implementaudit/scripts/canonical_hot_projection.py",
+      "sha256": "fe733b91dff4f031ed3ab80761d669de59c0270cd7f85325a14a2d47f9ba5276",
+      "bytes": 57891,
+      "mode": 493
+    },
+    "scripts/work-graph-continuity-transport.py": {
+      "specimen": "original117/scripts/work-graph-continuity-transport.py",
+      "sha256": "de6025b8c5e48d924643387e85c1554d60b4208c751e0b5f64376cb53368f2ce",
+      "bytes": 40203,
+      "mode": 420
+    },
+    "tests/skill-bootstrap-budget.test.sh": {
+      "specimen": "original117/tests/skill-bootstrap-budget.test.sh",
+      "sha256": "604cafce4181e2cd2c99f9f6f9e5971f8f372f6ad842c112ef1356cb7cfcd7e0",
+      "bytes": 4926,
+      "mode": 420
+    }
+  }
+}

@@ -265,7 +265,9 @@ class Controls(unittest.TestCase):
     def test_11_source_pinned_loader_and_drift_refusal(self):
         module, path, raw = WG._native_route_scope_module_v1()
         self.assertTrue(callable(module.read_current_route_scope_v1))
-        self.assertEqual(hashlib.sha256(raw).hexdigest(), WG._NATIVE_ROUTE_PRODUCER_SHA256)
+        self.assertEqual(WG._NATIVE_ROUTE_PRODUCER_PROFILES_V1[WG._NATIVE_ROUTE_PRODUCER_SHA256],
+                         WG._NATIVE_ROUTE_PRODUCER_BYTES)
+        self.assertEqual(WG._NATIVE_ROUTE_PRODUCER_PROFILES_V1.get(hashlib.sha256(raw).hexdigest()), len(raw))
         with tempfile.TemporaryDirectory(prefix='source-drift-', dir=WORK) as root:
             root = Path(root)
             (root / 'route-transaction.py').write_bytes(raw + b'\n')
@@ -399,15 +401,77 @@ def configure_filter(root, command):
 
 
 def current_answer(root, arguments):
-    if arguments[0] == '--current-controller':
+    if list(arguments) == ['--current-controller']:
         return 'injected-source-control\t' + str(root) + '\t' + str(root) + '\t' + '1' * 32
-    return RECEIPT
+    if list(arguments) in (['--require-current-continuity', 'injected-source-control'],
+                           ['--verify-resume-receipt', RECEIPT]):
+        return RECEIPT
+    raise AssertionError('unexpected injected currentness operation: ' + repr(arguments))
+
+
+@contextlib.contextmanager
+def injected_currentness(root):
+    """Inject only owner-call outcomes after the real fixed-source acquisition.
+
+    The six-source profile loads its adapter independently of the historical
+    two-source call helper. Keep the existing fixture's no-native-operation
+    boundary at that execution edge; do not bypass adapter/companion pins,
+    modes, held-source acquisition or the actual fixed-view Git reads.
+    """
+    acquire = WG._native_six_source_transport_v1
+    calls = []
+
+    def selected_transport(*args):
+        transport, acquired_sources, transport_source = acquire(*args)
+
+        def injected_call(owner, *, repository, sources, arguments):
+            if Path(repository) != root or sources != acquired_sources:
+                raise AssertionError('injected currentness crossed its source/repository binding')
+            answer = current_answer(root, arguments)
+            calls.append(list(arguments))
+            return dict(returncode=0, stdout=(answer + '\n').encode(), stderr=b'',
+                        closure=dict(scope='INJECTED_SOURCE_CONTROL_NO_NATIVE_CREDIT',
+                                     source_count=len(acquired_sources)))
+
+        transport.call_readonly_v1 = injected_call
+        return transport, acquired_sources, transport_source
+
+    with patch.object(WG, '_native_claim_call_v1',
+            side_effect=lambda owner, route, repo, args, a, b: current_answer(root, args)), \
+         patch.object(WG, '_native_six_source_transport_v1', side_effect=selected_transport):
+        yield calls
 
 
 def documents(root):
     (root / 'STATE.md').write_bytes(b'state-source\n')
     (root / 'ROADMAP.md').write_bytes(b'roadmap-source\n')
     (root / 'tasks').mkdir()
+
+
+def assert_old18_readonly_child_executed(test, owner, host, root):
+    """Real known-source child; an empty fixture must not acquire currentness."""
+    claim = Path(WG.__file__).with_name('claim-run.sh').read_bytes()
+    validate = Path(WG.__file__).with_name('validate-run-root.sh').read_bytes()
+    pair = (hashlib.sha256(claim).hexdigest(), hashlib.sha256(validate).hexdigest())
+    test.assertEqual(pair, WG._NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE)
+    executed = []
+    actual_run = subprocess.run
+    def observe(*args, **kwargs):
+        result = actual_run(*args, **kwargs)
+        executed.append(result)
+        return result
+    with patch.object(WG.subprocess, 'run', side_effect=observe), \
+         test.assertRaisesRegex(WG.WorkGraphError, 'native continuity owner refused or changed'):
+        WG._native_claim_call_v1(owner, host, root, ['--current-controller'], claim, validate)
+    test.assertEqual(len(executed), 1, 'known-source control must reach the real child')
+    result = executed[0]
+    test.assertNotEqual(result.returncode, 0)
+    test.assertEqual(result.stdout, b'')
+    test.assertIn(b'claim-run.sh: ambiguous controller population: 0', result.stderr)
+    marker = ('implementaudit-native-r0011-child-v1\t' + pair[0] + '\t' + pair[1]).encode()
+    test.assertEqual(result.stderr.splitlines().count(marker), 1)
+    test.assertFalse((root / '.git/refs/implementaudit').exists())
+
 
 
 class SecurityControls(unittest.TestCase):
@@ -424,7 +488,7 @@ class SecurityControls(unittest.TestCase):
             self.assertTrue(marker.is_file())
             BASELINE.append({'control': 'local-filter-execution', 'positive_control': 'DIRECT_GIT_EXECUTED_OWNED_MARKER'})
             marker.unlink()
-            with patch.object(WG, '_native_claim_call_v1', side_effect=lambda owner, route, repo, args, a, b: current_answer(root, args)):
+            with injected_currentness(root):
                 value = WG._native_continuity(root, root)
             self.assertFalse(marker.exists())
             self.assertEqual(value['receipt'], RECEIPT)
@@ -448,9 +512,9 @@ class SecurityControls(unittest.TestCase):
             BASELINE.append({'control': 'post-view-config-race', 'baseline': 'UNSAFE_DIRECT_GIT_EXECUTED_OWNED_MARKER', 'green': 'FIXED_VIEW_NO_MARKER'})
 
     def test_03_shell_environment_inert_helper_control(self):
-        if BASH is None:
-            self.skipTest('bash is unavailable on this platform')
+        self.assertIsNotNone(BASH, 'bash is required for the operative startup control')
         with disposable('shell-env-') as root:
+            git_fixture(root)
             owner, _, _ = WG._native_static_owner_module_v1()
             route, _, _ = WG._native_route_scope_module_v1()
             marker = root / 'bash_env_executed'
@@ -462,11 +526,16 @@ class SecurityControls(unittest.TestCase):
             marker.unlink()
             with patch.dict(os.environ, {'BASH_ENV': str(startup), 'ENV': str(startup), 'PYTHONPATH': str(root),
                                          'GIT_EXTERNAL_DIFF': 'must-not-execute', 'IMPLEMENTAUDIT_BASE': 'foreign'}):
-                value = WG._native_claim_call_v1(owner, route, root, ['--current-controller'],
-                    b"printf 'inert-private-helper-control\\n'\n", b'exit 0\n')
-            self.assertEqual(value, 'inert-private-helper-control')
+                with patch.object(WG.subprocess, 'run', side_effect=AssertionError('unknown helper launched')) as launch, \
+                     self.assertRaisesRegex(WG.WorkGraphError, 'not an explicitly selected source domain'):
+                    WG._native_claim_call_v1(owner, route, root, ['--current-controller'],
+                        b"printf 'inert-private-helper-control\\n'\n", b'exit 0\n')
+                launch.assert_not_called()
+                assert_old18_readonly_child_executed(self, owner, route, root)
             self.assertFalse(marker.exists())
-            BASELINE.append({'control': 'BASH_ENV', 'baseline': 'EXECUTED_OWNED_MARKER', 'green': 'STRICT_CHILD_ENV_NO_MARKER', 'native_helper_execution': False})
+            BASELINE.append({'control': 'BASH_ENV', 'baseline': 'EXECUTED_OWNED_MARKER',
+                'green': 'EXACT_OLD18_CHILD_EXECUTED_WITHOUT_STARTUP_MARKER',
+                'unknown_helper': 'REFUSED_BEFORE_LAUNCH', 'native_currentness': 'NOT_ESTABLISHED'})
 
     def test_04_source_file_and_cumulative_real_bounds(self):
         with disposable('source-bytes-') as root:
@@ -586,7 +655,7 @@ class SecurityControls(unittest.TestCase):
         with disposable('tracked-change-') as root:
             marker, command = git_fixture(root)
             configure_filter(root, command)
-            with patch.object(WG, '_native_claim_call_v1', side_effect=lambda owner, route, repo, args, a, b: current_answer(root, args)):
+            with injected_currentness(root):
                 first = WG._native_continuity(root, root)
                 (root / 'data.txt').write_bytes(b'different-content\n')
                 second = WG._native_continuity(root, root)
@@ -603,15 +672,26 @@ class ContinuityCompatibilityControls(unittest.TestCase):
         host = WG._native_continuity_host_v1()
         owner, _, _ = WG._native_static_owner_module_v1()
         with disposable('host-only-boundary-') as root:
+            git_fixture(root)
             marker = root / 'startup-executed'
             startup = root / 'startup.sh'
             startup.write_text('printf unsafe > "' + str(marker).replace('\\', '/') + '"\n', encoding='utf-8')
+            environment = dict(os.environ, BASH_ENV=str(startup).replace('\\', '/'))
+            subprocess.run([str(BASH), '-c', 'printf inert'], env=environment, capture_output=True, check=True)
+            self.assertTrue(marker.exists())
+            marker.unlink()
             with patch.dict(os.environ, {'BASH_ENV': str(startup), 'ENV': str(startup),
                                          'PYTHONPATH': str(root), 'GIT_EXTERNAL_DIFF': 'must-not-run'}):
-                result = WG._native_claim_call_v1(owner, host, root, ['--current-controller'],
-                    b"printf 'host-only-inert-control\\n'\n", b'exit 0\n')
-            self.assertEqual(result, 'host-only-inert-control')
+                with patch.object(WG.subprocess, 'run', side_effect=AssertionError('unknown helper launched')) as launch, \
+                     self.assertRaisesRegex(WG.WorkGraphError, 'not an explicitly selected source domain'):
+                    WG._native_claim_call_v1(owner, host, root, ['--current-controller'],
+                        b"printf 'host-only-inert-control\\n'\n", b'exit 0\n')
+                launch.assert_not_called()
+                assert_old18_readonly_child_executed(self, owner, host, root)
             self.assertFalse(marker.exists())
+            BASELINE.append({'control': 'host-only-BASH_ENV', 'baseline': 'EXECUTED_OWNED_MARKER',
+                'green': 'EXACT_OLD18_CHILD_EXECUTED_WITHOUT_STARTUP_MARKER',
+                'unknown_helper': 'REFUSED_BEFORE_LAUNCH', 'native_currentness': 'NOT_ESTABLISHED'})
             selected = host.trusted_host_executable(root, 'bash')
             self.assertEqual(selected, BASH)
             with self.assertRaisesRegex(WG.WorkGraphError, 'inside target-repository custody'):
@@ -624,7 +704,7 @@ class ContinuityCompatibilityControls(unittest.TestCase):
             marker, command = git_fixture(root)
             producer.unlink()  # Only the owned disposable source copy.
             try:
-                with patch.object(WG, '_native_claim_call_v1', side_effect=lambda owner, route, repo, args, a, b: current_answer(root, args)):
+                with injected_currentness(root):
                     actual = WG._native_continuity(root, root)
                 self.assertEqual(actual['receipt'], RECEIPT)
                 self.assertEqual(actual['acquisition'], 'NATIVE_CONTINUITY_VERIFIED')
@@ -649,7 +729,7 @@ class ContinuityCompatibilityControls(unittest.TestCase):
                 p.write_bytes(raw)
             producer.write_bytes(b'raise AssertionError("optional producer executed")\n')
             try:
-                with patch.object(WG, '_native_claim_call_v1', side_effect=lambda owner, route, repo, args, a, b: current_answer(root, args)):
+                with injected_currentness(root):
                     actual = WG.read_native_run_v1(root, root)
                 self.assertEqual(actual['schema'], 'implementaudit.native-work-graph.v1')
                 self.assertEqual(actual['authority'], 'NONE')
@@ -670,7 +750,7 @@ class ContinuityCompatibilityControls(unittest.TestCase):
                 p.write_bytes(raw)
             producer.write_bytes(b'raise AssertionError("wrong producer executed")\n')
             try:
-                with patch.object(WG, '_native_claim_call_v1', side_effect=lambda owner, route, repo, args, a, b: current_answer(root, args)), \
+                with injected_currentness(root), \
                      self.assertRaisesRegex(WG.WorkGraphError, 'source identity changed'):
                     WG.read_native_run_v1(root, root)
             finally:
@@ -784,15 +864,19 @@ class DirectoryRaceControl(unittest.TestCase):
 SOURCE_MEMBERS = {
     'scripts/operational-evidence.py': 'scripts/operational-evidence.py',
     'scripts/operational_query_policy.py': 'scripts/operational_query_policy.py',
+    'scripts/work-graph-continuity-transport.py': 'scripts/work-graph-continuity-transport.py',
     **{f'skills/implementaudit/scripts/{name}': f'source-peers/route-graph/skills/implementaudit/scripts/{name}'
        for name in ('route-transaction.py', 'route_request_policy.py', 'compile-work-graph.py')},
-    **{f'skills/implementaudit/scripts/{name}': f'skills/implementaudit/scripts/{name}'
+    **{f'skills/implementaudit/scripts/{name}': f'fixtures/operational-evidence/native-source/skills/implementaudit/scripts/{name}.fixture'
        for name in ('claim-run.sh', 'validate-run-root.sh')},
+    **{f'skills/implementaudit/scripts/{name}': f'skills/implementaudit/scripts/{name}'
+       for name in ('claim-run-rotation.py',
+                    'rotate-canonical-state.py', 'canonical_hot_projection.py', 'canonical_custody.py')},
 }
 
 
 def assemble_test_source(repo, canonical):
-    """Seven exact source members; helper operations remain injected/inert."""
+    """Exact source/adapter closure; helper operations remain injected/inert."""
     hashes = {}
     for target_relative, source_relative in SOURCE_MEMBERS.items():
         source = repo / source_relative
@@ -809,7 +893,8 @@ def assemble_test_source(repo, canonical):
         target = canonical / target_relative
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes(raw)
-        if target.read_bytes() != raw:
+        target.chmod(stat.S_IMODE(before.st_mode))
+        if target.read_bytes() != raw or stat.S_IMODE(target.stat().st_mode) != stat.S_IMODE(before.st_mode):
             raise ValueError('temporary source copy differs: ' + source_relative)
         hashes[source_relative] = hashlib.sha256(raw).hexdigest()
     return hashes
@@ -863,10 +948,11 @@ def main():
         route_sha = hashes['source-peers/route-graph/skills/implementaudit/scripts/route-transaction.py']
         needs_static = args.suite != 'route' or any(test._testMethodName == 'test_13_no_override_public_path_acquires_and_rechecks' for test in selected)
         preconditions = {
-            'route_source_pin_matches': WG._NATIVE_ROUTE_PRODUCER_SHA256 == route_sha,
+            'route_source_pin_matches': WG._NATIVE_ROUTE_PRODUCER_PROFILES_V1.get(route_sha) == len((canonical/'skills/implementaudit/scripts/route-transaction.py').read_bytes()),
             'static_source_pin_matches': WG._NATIVE_STATIC_OWNER_SHA256 == hashes['scripts/operational-evidence.py'],
+            'portable_old18_pair_matches': tuple(hashes['fixtures/operational-evidence/native-source/skills/implementaudit/scripts/'+name+'.fixture'] for name in ('claim-run.sh','validate-run-root.sh')) == WG._NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE,
         }
-        if not preconditions['route_source_pin_matches'] or needs_static and not preconditions['static_source_pin_matches']:
+        if not preconditions['route_source_pin_matches'] or not preconditions['portable_old18_pair_matches'] or needs_static and not preconditions['static_source_pin_matches']:
             print(json.dumps({'status': 'PRECONDITION_SOURCE_PIN_MISMATCH', 'scope': 'SOURCE_INTERFACE_ONLY',
                               'native_admission': 'NOT_ESTABLISHED', 'preconditions': preconditions, 'sources': hashes}))
             return 2
@@ -885,7 +971,9 @@ def main():
             'failures': len(result.failures), 'errors': len(result.errors), 'skipped': len(result.skipped),
             'skip_reasons': [reason for test, reason in result.skipped], 'passed': result.wasSuccessful(),
             'scope': 'SOURCE_INTERFACE_AND_OWNED_STATIC_SECURITY_FIXTURES_WITH_INJECTED_CURRENTNESS',
-            'native_admission': 'NOT_ESTABLISHED', 'canonical_claim_operations': 0,
+            'native_admission': 'NOT_ESTABLISHED', 'canonical_claim_mutations': 0,
+            'fixed_readonly_claim_calls': sum(item.get('green') ==
+                'EXACT_OLD18_CHILD_EXECUTED_WITHOUT_STARTUP_MARKER' for item in BASELINE),
             'preconditions': preconditions, 'sources': hashes, 'operative_controls': BASELINE}))
         return 0 if result.wasSuccessful() else 1
 

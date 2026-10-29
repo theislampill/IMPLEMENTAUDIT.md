@@ -1,0 +1,1379 @@
+{
+  "schema": "implementaudit.finite-checkpoint-source-adoption.v1",
+  "scope": "SOURCE_DISPOSITION_NOT_ORIGINAL_ACCEPTANCE_OR_TRANSFER",
+  "base_commit": "21321fee39363b9b95460516102878719dac6c87",
+  "main_base": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+  "initial_map": "docs/integration/active-rlgwo-source-adoption.json",
+  "donors": [
+    {
+      "pr": 246,
+      "initial_selected_commit": "cbb616cc7e0f9abafebe9bbdeee202ede7feb94e",
+      "final_donor_commit": "87b7ed0c560e70c278c73b6fd5d20670b9bc1f4c",
+      "final_donor_tree": "772cccc11c4b0ac980b60d30461f443032c6ce32",
+      "paths": [
+        {
+          "path": "docs/maintenance/R0035-C5-INPUT-CAPTURE.md",
+          "initial_donor": null,
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "321a3f2914692e594413913b89286bf2fcdc9661"
+          },
+          "integration_blob": "321a3f2914692e594413913b89286bf2fcdc9661",
+          "integration_sha256": "b559990dd45025ca815d3d4a05f4e62321a1fb2663bf730f069add383eaeb941",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "docs/maintenance/R0035-C5-PROVIDER-INPUT-CAPTURE.md",
+          "initial_donor": null,
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "df6548c1efa3800b4214e5c7295847bc563064cf"
+          },
+          "integration_blob": "df6548c1efa3800b4214e5c7295847bc563064cf",
+          "integration_sha256": "7b6dd5443d0e91058d9002fb3ac07193540b25329d1fba9b256168887622f3ad",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "docs/maintenance/R0035-FINITE-CUSTODY-APPEND-PROFILE.md",
+          "initial_donor": null,
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "62b22f6f78bd18f56c4302c1ea2475e8c6e6fa5f"
+          },
+          "integration_blob": "62b22f6f78bd18f56c4302c1ea2475e8c6e6fa5f",
+          "integration_sha256": "100a8a7b2896b3e56d4cd5a30842b475a0b991be62f031ceafe4e8b03318e9b3",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "docs/maintenance/r0035-correspondence-preflight.md",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "4e1b357adc10154bf7ac32ff3cc9d1da14482037"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "0dddacf4c553e2c8de0c0db9bafee9ff45d05a71"
+          },
+          "integration_blob": "0dddacf4c553e2c8de0c0db9bafee9ff45d05a71",
+          "integration_sha256": "ffb49d96c8d4235f607dddee3f0fc8a913b79a76c1133aa3805da803f9baa607",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "fixtures/canonical-state-rotation/canonical_reader_test.py",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "61cb55bc19fb2afdb84c0193580c74c029683c7b"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "cc9a8a283e9ab754c5199dfced6e4e8787bb546a"
+          },
+          "integration_blob": "a74461295039e532af8bff8ff84eb7cf67581461",
+          "integration_sha256": "573b5659ca616e56325dc1c8d0f7eae427aa608b883078ce3f849393e3b2f674",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Retain combined captured-source selection and source-profile controls; donor-only fixture replacement would lose that composition.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "fixtures/work-graph-c5-inputs/package-venv-python312.json",
+          "initial_donor": null,
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "115e380fa303ebb2241b2b5fb958091808b9049a"
+          },
+          "integration_blob": "115e380fa303ebb2241b2b5fb958091808b9049a",
+          "integration_sha256": "c6ba97cd3be936284eab790b3b35cec92c4f84252086c817eabbd372c2c68014",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "fixtures/work-graph-c5-inputs/system-python312.json",
+          "initial_donor": null,
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "41a4c2bce892edd0854a26ebe8a512a6f9818aa8"
+          },
+          "integration_blob": "41a4c2bce892edd0854a26ebe8a512a6f9818aa8",
+          "integration_sha256": "046993c2d63422f9ccd8bd4d149d256aa8e4f716dd76e175dbe9873508d62f8f",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "fixtures/work-graph-continuity/claim-run-pre-captured-v1.sh",
+          "initial_donor": null,
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "aae213fa358141aeeb6b289f2c806dbc65845696"
+          },
+          "integration_blob": "aae213fa358141aeeb6b289f2c806dbc65845696",
+          "integration_sha256": "50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "scripts/check-helper-reachability.sh",
+          "initial_donor": {
+            "mode": "100755",
+            "blob": "2dbabe314a29638a99085e647f3f182cfcc923be"
+          },
+          "selected_donor": {
+            "mode": "100755",
+            "blob": "2ce437ab0cbe5ad30206a8cdb3c814b1c1e7d836"
+          },
+          "integration_blob": "60d208846c86c39b31a8b8fe7329b9c5115e5e71",
+          "integration_sha256": "c445cb820e8ff461418a0613834d42b7589c455e0f18322240eeb401df21a8d9",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Qualified ordered-batch modes composed with captured shell/current-source and projection checks; actual new historical mode is derived by unchanged census.",
+          "integration_mode": "100755"
+        },
+        {
+          "path": "scripts/load-work-graph-readme-effect.py",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "3c1c1aa9a26f5a2bed073648da2c4c0fccea026e"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "18d7e65f092c991be435a4dc1afde63c18e22ea6"
+          },
+          "integration_blob": "fb9f4ebaf40f8b2b9af93533085258a311cc7dd5",
+          "integration_sha256": "069f02ad01eefab8aba7cb4da9455c8784fd55998a60da6e7de71f54a8247622",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Receive separate C5 data-only entrypoints; retain exact legacy README PINS and historical fixture identity.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "scripts/operational-evidence.py",
+          "initial_donor": {
+            "mode": "100755",
+            "blob": "afb94914a58619a3ccaaab8526f537e5f2991d63"
+          },
+          "selected_donor": {
+            "mode": "100755",
+            "blob": "ec2cfe0bdae6bb6b2b11f1ed4586fff8bbcaaa2d"
+          },
+          "integration_blob": "c6d1edbb284117b413aa3a513d706254dbdf6fa0",
+          "integration_sha256": "ef2ff3bade193b55c3c4acee045eec036e3cea5bc3b50c4aaa6d1a18b6dcb3b8",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Union exact donor/historical/combined transport profiles; retain strict full-closure checks and add exact current core successor.",
+          "integration_mode": "100755"
+        },
+        {
+          "path": "scripts/qualify-work-graph-finite-leaf.py",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "0d40925d5b60e7b1be5954d8e04ef3dd65ffc2dd"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "43b27ea4b2b03b3e8f1dc5a7dad7154bdadd2c47"
+          },
+          "integration_blob": "43b27ea4b2b03b3e8f1dc5a7dad7154bdadd2c47",
+          "integration_sha256": "1ba2999f4aa79eafa3c64f1d18053b80d887f917ee2bca592b089c90ea0463c6",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "scripts/qualify-work-graph-verifier.py",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "ae8ace675413f835ace0ac08f735453264d6f76c"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "ac218ba11e1715e1f99e9929f3db2a81f1601884"
+          },
+          "integration_blob": "6cf862fc8a546bc80e8685fe7bd9405cdc9def9c",
+          "integration_sha256": "f8f161b57bc6978bdb1da4a9334210629d268e5a2f403acd48441518038eacb1",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Receive paired capture/retention and original105 while retaining combined current-prefix/timeout and source controls.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "scripts/run-work-graph-verifier.sh",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "175ef2c027e587393f2fe91aa762500ae7568865"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "5eede7d4b84cd3368fe6f294aa0da5d02f6506ce"
+          },
+          "integration_blob": "5eede7d4b84cd3368fe6f294aa0da5d02f6506ce",
+          "integration_sha256": "6f6d2bdbcf8350d6b370d37a5e15f4ddb73d336b5bc42d941540f3269613150f",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "scripts/work-graph-c5-inputs.py",
+          "initial_donor": null,
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "45c2bebfa91c47e864a4d9c1d86ec7f527f9630d"
+          },
+          "integration_blob": "45c2bebfa91c47e864a4d9c1d86ec7f527f9630d",
+          "integration_sha256": "c9dc12fb3d9c12c8161426956944730ba543f66ffec0c36abd8a1193f3c5cd4f",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "scripts/work-graph-c5-provider-inputs.py",
+          "initial_donor": null,
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "02d9257b949d54e3fc9faf8e9bb5ee5d46b82984"
+          },
+          "integration_blob": "02d9257b949d54e3fc9faf8e9bb5ee5d46b82984",
+          "integration_sha256": "9b29c100a2b89fe6f53072f726f990ecd115cdb6f7bff574e2e62b48099baff4",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "scripts/work-graph-continuity-transport.py",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "326bac4247a8143135b4c4adebd40eb710530a8e"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "efeefe98ca0f28a64eee5b18243ff452200e8a3b"
+          },
+          "integration_blob": "1c8d10bea556d914d496652f16a3f6130a495d58",
+          "integration_sha256": "447d6eec38c60215b0e2b9a1f6f69044fb448325258de80f48fc643f78acec6a",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Receive three donor profiles plus separate new core tuple; preserve existing historical/native tuples and command restrictions.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "skills/implementaudit/scripts/claim-run.sh",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "aae213fa358141aeeb6b289f2c806dbc65845696"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "b824c7fe83bb0ddb2babda52b5ef33f2ac61aef2"
+          },
+          "integration_blob": "f78e75308fb3ffae60241ec0cdead326f9d45a07",
+          "integration_sha256": "34054952e3bbf13ae6ca381d4cf0d9d72bccaed10c8dd879de9351f5c0e2594b",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Existing captured companion integration plus exact recovered historical API producer; not donor wholesale replacement.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "skills/implementaudit/scripts/compile-work-graph.py",
+          "initial_donor": {
+            "mode": "100755",
+            "blob": "3edb7479eb0663be4a1c60fd382732d3a9b6190e"
+          },
+          "selected_donor": {
+            "mode": "100755",
+            "blob": "a179f6f28f1523e2449723d16d87b90995c4d0db"
+          },
+          "integration_blob": "fffa53df215f5818edb29d67ca23b38184f37217",
+          "integration_sha256": "bc9b67e41a80f92234bb664424615da4582170e34458abe474cae38c274cc83e",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Retain combined graph/source domains and prior producer profiles; add exact historical receiver, actual owner/transport pins and FIFO pre-read guard.",
+          "integration_mode": "100755"
+        },
+        {
+          "path": "source-peers/route-graph/SOURCE_MANIFEST.json",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "491146102eb888dab94dc7910d8a428a047f1da1"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "5522d1b38129cc4c0b67ce76362dbe78beefcb57"
+          },
+          "integration_blob": "3f0ff88f9bc3e4f33ae4269dd436827d3bda4003",
+          "integration_sha256": "3129f2b8cf5201679410ccf73154e2a398547e868551ffb3310436a01967cc85",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Bind actual resulting peer bytes and preserve prior provenance/composition annotations.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "source-peers/route-graph/skills/implementaudit/scripts/compile-work-graph.py",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "3edb7479eb0663be4a1c60fd382732d3a9b6190e"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "a179f6f28f1523e2449723d16d87b90995c4d0db"
+          },
+          "integration_blob": "eb4e17ab944db79e1c6ebb2f543f14763332d2b1",
+          "integration_sha256": "24209c414f1e71a7267af7709e86509743a19a9d787d4abf1b7e2121d56125bf",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Same owner-scoped receiving with distinct peer default profile preserved; no native admission.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/canonical-state-rotation.test.sh",
+          "initial_donor": {
+            "mode": "100755",
+            "blob": "641322d16b9b8d873378091d9f578be77c6b44f9"
+          },
+          "selected_donor": {
+            "mode": "100755",
+            "blob": "c3586de507732028661e26a2bf4212433c082ca0"
+          },
+          "integration_blob": "81cf43fbfb3048e2dfc7514685162b2598c1d607",
+          "integration_sha256": "1ae2af3e9339cf90f077f485a2a72ec1b4bcf9a39a2846d8f23d12909fcdaf0e",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Retain combined fixture/profile/guard behavior and receive only applicable donor delta; exact obligations and tests are described in pr255-checkpoint-receiving-20261025.md.",
+          "integration_mode": "100755"
+        },
+        {
+          "path": "tests/helper-reachability.test.sh",
+          "initial_donor": {
+            "mode": "100755",
+            "blob": "fc116ea784a02e04ee939c292e30915a100c623d"
+          },
+          "selected_donor": {
+            "mode": "100755",
+            "blob": "27dc7dfd4bea3989803a5a81ba5648e177579b59"
+          },
+          "integration_blob": "d09d42ed55f8c7a1654fefb914c40c4ecf4c4598",
+          "integration_sha256": "d8b321bb7852ae5db086ff34e32227b19ad33ce26d3061b87809d0e4761d3456",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Retain combined fixture/profile/guard behavior and receive only applicable donor delta; exact obligations and tests are described in pr255-checkpoint-receiving-20261025.md.",
+          "integration_mode": "100755"
+        },
+        {
+          "path": "tests/shell_companion_source_custody.py",
+          "initial_donor": null,
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "d8e54ade6edb8c5fec1ed921a452a5b7e48519cf"
+          },
+          "integration_blob": "fcf8da3cfb0055f12b4a802eaa4bee3aabdf1afd",
+          "integration_sha256": "3e894be8888df4fa0b1260c6b6d8d5db9c25cfab3ca69ab9e4b96792b78f28c6",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Retain combined R0039 physical-load-binder refusal after capture/compile drift, rather than the donor R0035 no-binder outcome.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/work-graph-action-selection-cases.py",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "6ee286d42134bf31225206bb9867d107f14fc6f2"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "5f6a6d973356138edf1494dd4e8bd053e9008e5d"
+          },
+          "integration_blob": "72d2da2ce56e6fd2dc82cbd19f11b7767e0bb411",
+          "integration_sha256": "2b80c353bfc65e504300839e7c2fdf8c2cf011ad642c094ac9292959a51e7b3b",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Retain combined fixture/profile/guard behavior and receive only applicable donor delta; exact obligations and tests are described in pr255-checkpoint-receiving-20261025.md.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/work-graph-c5-input-cases.py",
+          "initial_donor": null,
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "f09a7963eb94b7b64b1ea47bb62b2e3117bdbb96"
+          },
+          "integration_blob": "f09a7963eb94b7b64b1ea47bb62b2e3117bdbb96",
+          "integration_sha256": "b80b74bd2908ece071893d80bfd256432cf16c3131e7bd6ec0cf69b332eddf77",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/work-graph-c5-provider-input-cases.py",
+          "initial_donor": null,
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "6163bd419adc608f6cee971737ccab4672d97c52"
+          },
+          "integration_blob": "6163bd419adc608f6cee971737ccab4672d97c52",
+          "integration_sha256": "869013f34e5b418fdb03818c8818cfb28e11a59dcd8e3a71ef0cc05af1d95bf8",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/work-graph-claim-boundary-cases.py",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "93e557db459057f5262058e173ecbf05aeff91e0"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "0ebc65df7792d46f383df03b2aa21f6ea53484be"
+          },
+          "integration_blob": "af2a1dd1a818906276b79c63d531bf13cca89e46",
+          "integration_sha256": "a97f0a6376b03b590107fd8220413637e1e614a42dd443297f42e6394a8bfa22",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Retain combined fixture/profile/guard behavior and receive only applicable donor delta; exact obligations and tests are described in pr255-checkpoint-receiving-20261025.md.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/work-graph-continuity-cases.py",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "c8efde51dd0a005a881d80a3711b851685500b59"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "c3dd425a7ed4b1360aeea2611a4ea0cc2020b562"
+          },
+          "integration_blob": "330eb26a3f7b9bba09b4afae72363ce9ad725c0f",
+          "integration_sha256": "d39956e75c43e137b8befb6086ce83385e27b460d81f9f3ea0b3ec0f0b0bf471",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Retain combined fixture/profile/guard behavior and receive only applicable donor delta; exact obligations and tests are described in pr255-checkpoint-receiving-20261025.md.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/work-graph-correspondence-preflight-cases.py",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "fcf082c83618a1904f308a50d1c76c5b0b9296c2"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "3a3572f3f0fc28e0519ed76f4bb31f2e6987347a"
+          },
+          "integration_blob": "3a3572f3f0fc28e0519ed76f4bb31f2e6987347a",
+          "integration_sha256": "5d17951ff1a028954e19c57af9045d443d7c1d115d83ecf01557fbc993be43f2",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/work-graph-custody-append-cases.py",
+          "initial_donor": null,
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "10347631c2fe3208cf22ad6037a46c334584a083"
+          },
+          "integration_blob": "caf4ec22c98b3b5dee16325165098c6b3bf785a0",
+          "integration_sha256": "e0a1dd28cc00f418b4dd852e84ede49b08f06aef0d95d1b994dbbdb7b70156ef",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Retain combined fixture/profile/guard behavior and receive only applicable donor delta; exact obligations and tests are described in pr255-checkpoint-receiving-20261025.md.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/work-graph-finite-entry-cases.py",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "2dc6c64edc8e7912ad34e501b76a47353fa71dc7"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "7c3aa9d1113bcf4ccd8644d3d59187f03b53434e"
+          },
+          "integration_blob": "308e29ab2a176d50e996789cbd10d4a0ca4f0005",
+          "integration_sha256": "ebdf40d74928381848fbff780ea3ae38b6acae86d4411b4c54ceea2014fe58c2",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Retain combined fixture/profile/guard behavior and receive only applicable donor delta; exact obligations and tests are described in pr255-checkpoint-receiving-20261025.md.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/work-graph-mini-audit-loop-cases.py",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "a49b917a549a4621c6f085ef5044d11c6cefd719"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "9a7bd5c5a0d643e59632696361f8280422e45df2"
+          },
+          "integration_blob": "092649e0e83fe231bb3e4cbf9fe0fbaaea75d813",
+          "integration_sha256": "0d07985140f56164e3af5d4439fdf10c48798352926506ac180ae1caf2876076",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Retain combined fixture/profile/guard behavior and receive only applicable donor delta; exact obligations and tests are described in pr255-checkpoint-receiving-20261025.md.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/work-graph-original14-receiving-cases.py",
+          "initial_donor": null,
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "c88e4169d1c7e2f9162b1f381c33e0c458626add"
+          },
+          "integration_blob": "77b713db32dbce038bd3f6bae27fc0e33e407f28",
+          "integration_sha256": "6a23b0da706870fb4c8da75cbafc4b67105316ba7ae8ff2ee956be41fa72b597",
+          "disposition": "SEPARATE_CONTRACT_PRESERVED",
+          "reason": "Existing document-parser bank retained; exact donor producer-bound manual bank received as tests/work-graph-original14-source-receiving-cases.py.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/work-graph-skill-layout-cases.py",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "18aacb16abe0d9869e4ec0c6546b8092e769dbd9"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "df4c533c1ecc1df434ef4624a67197684b71cf03"
+          },
+          "integration_blob": "56202061b011a7f99c930e3c63441a8990fee78c",
+          "integration_sha256": "d5608f6ba3ca7319be77cad03143300e9f718ae8d0193dcb7c6a9fb6e73afada",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Retain combined fixture/profile/guard behavior and receive only applicable donor delta; exact obligations and tests are described in pr255-checkpoint-receiving-20261025.md.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/work-graph-source-observation-cases.py",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "503b08fa18a0331be1668d783e9f25661eb51794"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "a33636bcfc33f1aeb8629d11f6b3f1e154904697"
+          },
+          "integration_blob": "2e7d3d99967dc7cb255b554a329f44a9f4915935",
+          "integration_sha256": "462834d1e6a5d69574cc4a58ee491880ff496566765c5e547017a4b27dbb53ad",
+          "disposition": "ALREADY_SEMANTICALLY_RECONCILED",
+          "reason": "Retain historical six-source controls plus separate current combined eight-member controls; donor current-six selection omits required combined dependencies.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/work-graph-verifier-cases.py",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "bdf7501344ebbfe62c8eb69b06306bf2bb4f8c61"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "6e7b59b2e686f5a44a54295406c484c6aa79ce49"
+          },
+          "integration_blob": "d43306197ee09d94c4c10416e17102c160f37d88",
+          "integration_sha256": "0a0c4313068708d7a22ac262fb956f44d8f091c2dc5b34e0b2d199552f3a98bb",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Retain combined fixture/profile/guard behavior and receive only applicable donor delta; exact obligations and tests are described in pr255-checkpoint-receiving-20261025.md.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/work-graph-verifier.test.sh",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "064547c3abdcc76e5a4bfc95cf733ec6c5522a1d"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "ac86bb7c2333da669b2eed9f97222d5f71a6155f"
+          },
+          "integration_blob": "f9b12f19f041c36a1d8e725e2ca3261b1df1fdd2",
+          "integration_sha256": "ac9ed34de8ba57ccaefbc7a2376d17be67c0b51ff3399524cbccb3ac7eb3bba2",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Retain combined fixture/profile/guard behavior and receive only applicable donor delta; exact obligations and tests are described in pr255-checkpoint-receiving-20261025.md.",
+          "integration_mode": "100644"
+        }
+      ]
+    },
+    {
+      "pr": 251,
+      "initial_selected_commit": "45853f9403f5ffaad100df1686fe5320f72e19b7",
+      "final_donor_commit": "92f7f388654c159a99e0f3db9b7e369304e90310",
+      "final_donor_tree": "de72731f07aba016e698794cd6ad8878ce6b206c",
+      "paths": [
+        {
+          "path": "docs/maintenance/four-rockstar-integration.md",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "fd772cc4f9f605b1e97d869bf7cc726afc6c7367"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "a407b5d670cb984162af1ee7cc7c27c771b7dcd9"
+          },
+          "integration_blob": "d4f2b5632be138921130724cea6723fcde6c8550",
+          "integration_sha256": "759185691036448c57d48915dd0713333f810c44a884fc1782bc447a99f5fca8",
+          "disposition": "RETAINED_DONOR_HISTORY_NOT_OVERWRITTEN",
+          "reason": "Exact latest original acceptance record remains in the frozen donor and received checkpoint; preserve existing integration historical record without retroactive rewriting.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "scripts/check-helper-reachability.sh",
+          "initial_donor": {
+            "mode": "100755",
+            "blob": "2dbabe314a29638a99085e647f3f182cfcc923be"
+          },
+          "selected_donor": {
+            "mode": "100755",
+            "blob": "b542b6c78a6f87ff12af0cbf5c18b5c314f329cb"
+          },
+          "integration_blob": "60d208846c86c39b31a8b8fe7329b9c5115e5e71",
+          "integration_sha256": "c445cb820e8ff461418a0613834d42b7589c455e0f18322240eeb401df21a8d9",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Qualified ordered-batch modes composed with captured shell/current-source and projection checks; actual new historical mode is derived by unchanged census.",
+          "integration_mode": "100755"
+        },
+        {
+          "path": "scripts/dogfood-evidence-broker.py",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "72e5c7d25aad333f1ead3e8c04a621be367ab960"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "9a6a7ece040bdbd9c582f968149497f0550fefe0"
+          },
+          "integration_blob": "9a6a7ece040bdbd9c582f968149497f0550fefe0",
+          "integration_sha256": "b5c3c9ffeda4c0903834eaaaff03db08bc7cd5001e45e3c74c3c669d92ba8168",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "skills/implementaudit/references/repo-state-comparison.md",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "da64e55fafea7a418ab4bb53267dc1fb43524d99"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "045fadb2e05d2a6c2c2d67201a2672174fe08234"
+          },
+          "integration_blob": "96116f3930c40227120caca21f40395d54d333e6",
+          "integration_sha256": "7eb0ac9cd3988bafd335ec5f862705101f4a0f44765ccf92738260c7c2c68255",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Preserve nine combined reference insertions; receive batch/UNKNOWN semantics and declare the newly implemented historical-link-only mode.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "skills/implementaudit/scripts/apply-observed-mutation.sh",
+          "initial_donor": {
+            "mode": "100755",
+            "blob": "a8f8e6d5a59cde2812db754eef7662b59be5aaf6"
+          },
+          "selected_donor": {
+            "mode": "100755",
+            "blob": "5c100212a1e010bd08f9b3ea9debb6b63c4fc665"
+          },
+          "integration_blob": "5c100212a1e010bd08f9b3ea9debb6b63c4fc665",
+          "integration_sha256": "b04d843e11a041be26df8a5705cfeda91c796b2efcf723d712ef3580f1332f63",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100755"
+        },
+        {
+          "path": "skills/implementaudit/scripts/check-authorization-binding.sh",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "d2268842f6c457c37dd464f625635c9b89f42fda"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "898a7eaba74a9892f0749f98c99bf2947b6003a4"
+          },
+          "integration_blob": "898a7eaba74a9892f0749f98c99bf2947b6003a4",
+          "integration_sha256": "ce41e7306b7b11f5dde4844fd753ec77965ec04f15f0d8dfef4e9684a7c9d2e3",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/authorization-binding-contract.test.sh",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "e6129e2bcc39c9c51d49eecb2c0802813e6104d6"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "4426c313bcf1c0f0e8ca22039992d3c856f3c020"
+          },
+          "integration_blob": "4426c313bcf1c0f0e8ca22039992d3c856f3c020",
+          "integration_sha256": "807ecb005c1bd69eaa4ecf13608bb2caef1b9c96b1792a9c08f22b54f595011f",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/distributed_generation_fence.py",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "bdd2abf579534b8d4c9f2cce3060efc920cb528e"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "472ead10a44f55db7ca20a87e6952ec4daa2ebe1"
+          },
+          "integration_blob": "472ead10a44f55db7ca20a87e6952ec4daa2ebe1",
+          "integration_sha256": "0328967ca9332e682d6314597c633f56f8b380f12454d940d7a5bb4bc55f11ae",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/dogfood-bootstrap-contract.test.sh",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "33ae5f39900e5985f23c2ae4cfd2216a0ed6a9d2"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "c352167881bd6cc4c13cca50eada0ef67bf7e4fd"
+          },
+          "integration_blob": "c352167881bd6cc4c13cca50eada0ef67bf7e4fd",
+          "integration_sha256": "7a4d6457766132e9f058f2274e2bc351b5dee8ed8729f3602665b7227339e1bd",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/helper-reachability.test.sh",
+          "initial_donor": {
+            "mode": "100755",
+            "blob": "fc116ea784a02e04ee939c292e30915a100c623d"
+          },
+          "selected_donor": {
+            "mode": "100755",
+            "blob": "6ffdfae28d7587ce6bf0b785a5053015ccb7fcd9"
+          },
+          "integration_blob": "d09d42ed55f8c7a1654fefb914c40c4ecf4c4598",
+          "integration_sha256": "d8b321bb7852ae5db086ff34e32227b19ad33ce26d3061b87809d0e4761d3456",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Retain combined fixture/profile/guard behavior and receive only applicable donor delta; exact obligations and tests are described in pr255-checkpoint-receiving-20261025.md.",
+          "integration_mode": "100755"
+        },
+        {
+          "path": "tests/observation-bound-mutation-integrity.test.sh",
+          "initial_donor": {
+            "mode": "100755",
+            "blob": "eb6bd10b102e73a8c81fa29fe18d44b55252830f"
+          },
+          "selected_donor": {
+            "mode": "100755",
+            "blob": "136509b65f7b0d4a6bad17692632e88ae156e272"
+          },
+          "integration_blob": "136509b65f7b0d4a6bad17692632e88ae156e272",
+          "integration_sha256": "aad9efbc73d2c107deb9e29cb2375a216f93f5eade121fc26ae614437a44a961",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100755"
+        }
+      ]
+    },
+    {
+      "pr": 252,
+      "initial_selected_commit": "124e4b5eed90ca031a18b6be72104c802ea6ca91",
+      "final_donor_commit": "7a369223d68ebc84057cdde7fff33e9933893be7",
+      "final_donor_tree": "cb4a02ab3fdbeea936347ed8eb5d30d9990e5e26",
+      "paths": [
+        {
+          "path": "fixtures/canonical-state-rotation/canonical_reader_test.py",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "61cb55bc19fb2afdb84c0193580c74c029683c7b"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "cc9a8a283e9ab754c5199dfced6e4e8787bb546a"
+          },
+          "integration_blob": "a74461295039e532af8bff8ff84eb7cf67581461",
+          "integration_sha256": "573b5659ca616e56325dc1c8d0f7eae427aa608b883078ce3f849393e3b2f674",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Retain combined captured-source selection and source-profile controls; donor-only fixture replacement would lose that composition.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "fixtures/canonical-state-rotation/owned_stdio_source_boundaries_test.py",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "759a67f934cca8ae760e0d36ed267cd50f49220e"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "259dcc4c6275010385858f51c3efed837163e3fd"
+          },
+          "integration_blob": "259dcc4c6275010385858f51c3efed837163e3fd",
+          "integration_sha256": "e166953fae131a4aa0e35d4a0ca694ae9bcc918ef7e5e66e21d230ab3bbeb6cf",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "fixtures/canonical-state-rotation/pending_state_loader_test.py",
+          "initial_donor": null,
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "92f15155017148ba80a8975b15e1bba1e97b6968"
+          },
+          "integration_blob": "c57d6f44c830659c55674ef345f62194ebebc82b",
+          "integration_sha256": "e11c674e429fd431f69d7ab9e39f648fc7e82827a43e139e09ff9b8853b29ce3",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Seven donor state mutations added while retaining combined read-race controls and actual physical/no-launch checks.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "scripts/check-helper-reachability.sh",
+          "initial_donor": {
+            "mode": "100755",
+            "blob": "342bd9e9e1114b8c0ba3eae0ececf63312a68cda"
+          },
+          "selected_donor": {
+            "mode": "100755",
+            "blob": "53137cbf7d403680f43757a244f91d2f5810047d"
+          },
+          "integration_blob": "60d208846c86c39b31a8b8fe7329b9c5115e5e71",
+          "integration_sha256": "c445cb820e8ff461418a0613834d42b7589c455e0f18322240eeb401df21a8d9",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Qualified ordered-batch modes composed with captured shell/current-source and projection checks; actual new historical mode is derived by unchanged census.",
+          "integration_mode": "100755"
+        },
+        {
+          "path": "skills/implementaudit/scripts/claim-run.sh",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "df53f3114f0d6cb0cce62ef1aada63d407a79b99"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "7e83fb812706946679a367d4760a7a7113d193fe"
+          },
+          "integration_blob": "f78e75308fb3ffae60241ec0cdead326f9d45a07",
+          "integration_sha256": "34054952e3bbf13ae6ca381d4cf0d9d72bccaed10c8dd879de9351f5c0e2594b",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Existing captured companion integration plus exact recovered historical API producer; not donor wholesale replacement.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "source-peers/native-runtime/SOURCE_MANIFEST.json",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "5eec31b9c0c4695857dd085f90a6e4349d1aff97"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "0ea1b76dae3e4e97275f3920edacbfeb3d30cd00"
+          },
+          "integration_blob": "92affb4b61b54be053ea9de3df02fccfca01fce2",
+          "integration_sha256": "4a4478314a555b6f2058a7ef07e63017a7b7ade0eaaef861ea85d38d4ded5556",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Bind single combined pending guard and retain the exact old companion as explicit materialized override; remove obsolete core-dependency location.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "source-peers/native-runtime/skills/implementaudit/scripts/claim-run.sh",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "26b0d2994b5c8523e65097512e32be8c1d69fc07"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "ad90931a83a46565ca7e5ffe1298f9392bd70d73"
+          },
+          "integration_blob": "ad90931a83a46565ca7e5ffe1298f9392bd70d73",
+          "integration_sha256": "bd0c6d2ab1ec8f695fe34e459b25d9344e11c5930d3f62d0919b29d9bc4a44ee",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-audit-pending.py",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "e143da26cf3f79b71ce72fc56ef9cd642d219947"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "876cd1483c8b5e79d118092f10bb21b1fd5ef6b3"
+          },
+          "integration_blob": "d315a37c68aca2049315a0ce55e978e58d6c195c",
+          "integration_sha256": "8c16f7f142b67eb4504ae275bf53e8ea104bb75378748402e8a4c0a31efdbc43",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "One exact-int/nonnegative top-level guard, after preserved strict JSON and observation checks; no duplicate mechanism.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "source-peers/route-graph/SOURCE_MANIFEST.json",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "63d3f1374e7ce15b208df24646b47c728262929b"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "50e70b0e201e859a04efccd39a9249cacc564806"
+          },
+          "integration_blob": "3f0ff88f9bc3e4f33ae4269dd436827d3bda4003",
+          "integration_sha256": "3129f2b8cf5201679410ccf73154e2a398547e868551ffb3310436a01967cc85",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Bind actual resulting peer bytes and preserve prior provenance/composition annotations.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "source-peers/route-graph/skills/implementaudit/scripts/compile-work-graph.py",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "6c7ec3f3b3124ec7b3f39548beca88b4301bf5b8"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "04c31601c94c91b81fdb26ce19d267c34aa3635c"
+          },
+          "integration_blob": "eb4e17ab944db79e1c6ebb2f543f14763332d2b1",
+          "integration_sha256": "24209c414f1e71a7267af7709e86509743a19a9d787d4abf1b7e2121d56125bf",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Same owner-scoped receiving with distinct peer default profile preserved; no native admission.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "source-peers/route-graph/skills/implementaudit/scripts/route-transaction.py",
+          "initial_donor": {
+            "mode": "100755",
+            "blob": "0676920d4018cfd0e917be1eecf40af25c7d9dba"
+          },
+          "selected_donor": {
+            "mode": "100755",
+            "blob": "1afb855f22f557008a694241ad5c86f4b9dd2049"
+          },
+          "integration_blob": "9a1dfed576fef0e7fe3f0bddcc38e9972306c18d",
+          "integration_sha256": "8ca0ed9e1313ff2e60a89b88e56f7bf1a52bf6f179f70df1b0b18f1dde0346f8",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Exact reviewed 8ca historical receiver plus already received delivery/source-map behavior; native old pair safely refuses new API.",
+          "integration_mode": "100755"
+        },
+        {
+          "path": "tests/canonical-state-rotation.test.sh",
+          "initial_donor": {
+            "mode": "100755",
+            "blob": "deb114678998d891ed457bd12dd5872e2590ea3f"
+          },
+          "selected_donor": {
+            "mode": "100755",
+            "blob": "81cf43fbfb3048e2dfc7514685162b2598c1d607"
+          },
+          "integration_blob": "81cf43fbfb3048e2dfc7514685162b2598c1d607",
+          "integration_sha256": "1ae2af3e9339cf90f077f485a2a72ec1b4bcf9a39a2846d8f23d12909fcdaf0e",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100755"
+        },
+        {
+          "path": "tests/cognition-delivery-capture.py",
+          "initial_donor": null,
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "3898f3143436a86a4a9fb29b06f89672e9508464"
+          },
+          "integration_blob": "3898f3143436a86a4a9fb29b06f89672e9508464",
+          "integration_sha256": "9b0d49bad30027be1de5e7e1cca8a089121f7da46214af0c0979c6221ceb62d0",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/helper-reachability.test.sh",
+          "initial_donor": {
+            "mode": "100755",
+            "blob": "d84e5c9bf85ea8e02b967333da9e4adead2a61b6"
+          },
+          "selected_donor": {
+            "mode": "100755",
+            "blob": "c5203cda826fc7bd74279a520de393e6792d7a94"
+          },
+          "integration_blob": "d09d42ed55f8c7a1654fefb914c40c4ecf4c4598",
+          "integration_sha256": "d8b321bb7852ae5db086ff34e32227b19ad33ce26d3061b87809d0e4761d3456",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Retain combined fixture/profile/guard behavior and receive only applicable donor delta; exact obligations and tests are described in pr255-checkpoint-receiving-20261025.md.",
+          "integration_mode": "100755"
+        },
+        {
+          "path": "tests/internal-skill-routing.test.sh",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "d05732d3e2acdff30422dba9a4277b40b2d4255a"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "61727e1daacf3c3193671281fad022bb4fbdefd2"
+          },
+          "integration_blob": "bfa6014e1ba751ab7a90d551871d47670a369f10",
+          "integration_sha256": "9da7e74d307f3f6e0959ba29f91a112c4b58fd1f715a78299c5eaf08cbe818bb",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Retain combined fixture/profile/guard behavior and receive only applicable donor delta; exact obligations and tests are described in pr255-checkpoint-receiving-20261025.md.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/shell_companion_source_custody.py",
+          "initial_donor": null,
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "fcf8da3cfb0055f12b4a802eaa4bee3aabdf1afd"
+          },
+          "integration_blob": "fcf8da3cfb0055f12b4a802eaa4bee3aabdf1afd",
+          "integration_sha256": "3e894be8888df4fa0b1260c6b6d8d5db9c25cfab3ca69ab9e4b96792b78f28c6",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        }
+      ]
+    },
+    {
+      "pr": 253,
+      "initial_selected_commit": "1aee08958ccbe570dd2bccd400e4a631ca0ddd0a",
+      "final_donor_commit": "c42fc6f53c30b4ef22d935f656b9ca763c527042",
+      "final_donor_tree": "89e6b42e4df02b5a03e8df280d8f8494b13a6cfc",
+      "paths": [
+        {
+          "path": "docs/audits/archive/r0033-r0037-integration/R0033-ACCEPTANCE.md",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "fb2b05dc23e10c08bc04944b8f099f27c593ed9b"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "a00e444bc3b82a2dfb3a0e79a9b185051b5775e5"
+          },
+          "integration_blob": "fb2b05dc23e10c08bc04944b8f099f27c593ed9b",
+          "integration_sha256": "a91398ede15cb879abc8a505a371b802207d6a0c6a87cd65fd6596cb1effd376",
+          "disposition": "RETAINED_DONOR_HISTORY_NOT_OVERWRITTEN",
+          "reason": "Exact latest original acceptance record remains in the frozen donor and received checkpoint; preserve existing integration historical record without retroactive rewriting.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "docs/audits/archive/r0033-r0037-integration/R0037-ACCEPTANCE.md",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "1d0f8a1b3dcfef7b99ee1c82a2164797371c37e1"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "d1b08f7aabc0e2e570644335195766065ad431f4"
+          },
+          "integration_blob": "1d0f8a1b3dcfef7b99ee1c82a2164797371c37e1",
+          "integration_sha256": "eed53023153b5b505ad562ace0979dc3b8dab7aeb3660b0c1905c216c6d9b4a9",
+          "disposition": "RETAINED_DONOR_HISTORY_NOT_OVERWRITTEN",
+          "reason": "Exact latest original acceptance record remains in the frozen donor and received checkpoint; preserve existing integration historical record without retroactive rewriting.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "skills/implementaudit/scripts/check-handoff-packet.sh",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "73f022a3e5418af31df983975e343ad53962bd79"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "f04593a3c3fecaf214712c414ca48a2998df2ff4"
+          },
+          "integration_blob": "e6f48367a457933ef2e41180a7500b722013f7df",
+          "integration_sha256": "1115f6763c797e695b35c7c0179f0e7f7da5f006339d6c069bd334e3aa4dc397",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Populated-claim and failed-Git guards composed with captured packet/hash/current-reference guards.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "source-peers/native-runtime/SOURCE_MANIFEST.json",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "468168f1e2089c9fb581ff97b882bf1c2eede451"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "b21f8ee5687611599ba0915d40533ab0e9090777"
+          },
+          "integration_blob": "92affb4b61b54be053ea9de3df02fccfca01fce2",
+          "integration_sha256": "4a4478314a555b6f2058a7ef07e63017a7b7ade0eaaef861ea85d38d4ded5556",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Bind single combined pending guard and retain the exact old companion as explicit materialized override; remove obsolete core-dependency location.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-audit-pending.py",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "ff64a1e7ad31141412c750f6198d6566700ad556"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "4c5985374d78d9dba151c7c57462d94a9653ee70"
+          },
+          "integration_blob": "d315a37c68aca2049315a0ce55e978e58d6c195c",
+          "integration_sha256": "8c16f7f142b67eb4504ae275bf53e8ea104bb75378748402e8a4c0a31efdbc43",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "One exact-int/nonnegative top-level guard, after preserved strict JSON and observation checks; no duplicate mechanism.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "source-peers/route-graph/SOURCE_MANIFEST.json",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "0470bb18c976f7f2f1102e8b2586fe5104bc48e0"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "d4a09f3ae241a0a4f91f534abee985bbb4af11ef"
+          },
+          "integration_blob": "3f0ff88f9bc3e4f33ae4269dd436827d3bda4003",
+          "integration_sha256": "3129f2b8cf5201679410ccf73154e2a398547e868551ffb3310436a01967cc85",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Bind actual resulting peer bytes and preserve prior provenance/composition annotations.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "source-peers/route-graph/skills/implementaudit/scripts/compile-work-graph.py",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "2acea6b4fd26e45a1856a55bb1e0d27296a9011a"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "6c9f3cc4809712e7ced0c3960b913f12b51f450f"
+          },
+          "integration_blob": "eb4e17ab944db79e1c6ebb2f543f14763332d2b1",
+          "integration_sha256": "24209c414f1e71a7267af7709e86509743a19a9d787d4abf1b7e2121d56125bf",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Same owner-scoped receiving with distinct peer default profile preserved; no native admission.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "source-peers/route-graph/skills/implementaudit/scripts/route-transaction.py",
+          "initial_donor": {
+            "mode": "100755",
+            "blob": "310f258b4446d8ffc177524261604861537f789f"
+          },
+          "selected_donor": {
+            "mode": "100755",
+            "blob": "13232ef8ea75eb7ef97ccc3a427d216335ad7392"
+          },
+          "integration_blob": "9a1dfed576fef0e7fe3f0bddcc38e9972306c18d",
+          "integration_sha256": "8ca0ed9e1313ff2e60a89b88e56f7bf1a52bf6f179f70df1b0b18f1dde0346f8",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Exact reviewed 8ca historical receiver plus already received delivery/source-map behavior; native old pair safely refuses new API.",
+          "integration_mode": "100755"
+        },
+        {
+          "path": "tests/cognition-delivery-capture.py",
+          "initial_donor": null,
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "ebae3f75e605fe37c21e54b15f62e907e59d0753"
+          },
+          "integration_blob": "3898f3143436a86a4a9fb29b06f89672e9508464",
+          "integration_sha256": "9b0d49bad30027be1de5e7e1cca8a089121f7da46214af0c0979c6221ceb62d0",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Retain combined fixture/profile/guard behavior and receive only applicable donor delta; exact obligations and tests are described in pr255-checkpoint-receiving-20261025.md.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/cognition-lifecycle-composition.py",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "d45dda1aee21c72cb33db364d8ea982d9fe5a921"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "6ebd24d7b654a3a35ab6364d114b2a24e26622bf"
+          },
+          "integration_blob": "c81bf08d6551d3cd0db40fd6ed905e55d3ad7596",
+          "integration_sha256": "35259fd7c5f85f89a1a46df6246a0a99f0ace825c7cf0bd88368d1f7e36dd4fd",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Retain combined fixture/profile/guard behavior and receive only applicable donor delta; exact obligations and tests are described in pr255-checkpoint-receiving-20261025.md.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/cognition-pending-durability.py",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "41535ba08afbadb6353e85641dfe044a2973b04f"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "779336bcc81d1f5a1dc0db3fa3d9c5547e6701bc"
+          },
+          "integration_blob": "04934a3524bd84f436b0ee7b4026d53d5d8c1803",
+          "integration_sha256": "1ff2fa1be10c5e3352110bbdf030210f396bd5c6957f8c2eeb2200212d47dfa7",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Retain combined fixture/profile/guard behavior and receive only applicable donor delta; exact obligations and tests are described in pr255-checkpoint-receiving-20261025.md.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/cognition-pending-loader.py",
+          "initial_donor": null,
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "32ee8631cf5f35a5d97b8d7a6200342365318cf3"
+          },
+          "integration_blob": "cc7df8edb7ee661316ec74ebc448d8958792a1e7",
+          "integration_sha256": "dd31c4e98a7bb4bc6c373e2d34cc28670ae6708a9a68d602d5a401061e828561",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Retain combined fixture/profile/guard behavior and receive only applicable donor delta; exact obligations and tests are described in pr255-checkpoint-receiving-20261025.md.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/handoff-packet-contract.test.sh",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "50b5d91cfae97fcb5770ad113fa88413216d0667"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "cf1292a23d1f9c4c2af7d9ece733ebd4f0821d53"
+          },
+          "integration_blob": "c458dc069e28c93041aab2a2c8d30045be9a72b8",
+          "integration_sha256": "a48625c6e2bd5910cbcb6d6aca9046ec75b9ba044d3c3525c2e79d618d857cfe",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Retain combined fixture/profile/guard behavior and receive only applicable donor delta; exact obligations and tests are described in pr255-checkpoint-receiving-20261025.md. Hosted40232342623 exposed stale cleanliness in the combined test after receiver fixtures changed the worktree; newly issued claim-flag packets now use a fresh actual Git observation while original packets, every assertion and production guards remain unchanged.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "tests/internal-skill-routing.test.sh",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "c500eee43097234de0a57ab65dee855e5156ac4e"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "50a97e6bb8ea04b106551ef6a24812bfdd31b941"
+          },
+          "integration_blob": "bfa6014e1ba751ab7a90d551871d47670a369f10",
+          "integration_sha256": "9da7e74d307f3f6e0959ba29f91a112c4b58fd1f715a78299c5eaf08cbe818bb",
+          "disposition": "SEMANTIC_COMPOSITION",
+          "reason": "Retain combined fixture/profile/guard behavior and receive only applicable donor delta; exact obligations and tests are described in pr255-checkpoint-receiving-20261025.md.",
+          "integration_mode": "100644"
+        }
+      ]
+    },
+    {
+      "pr": 254,
+      "initial_selected_commit": "21befe99a7d48baa3089381595a7ccb29cb00cd8",
+      "final_donor_commit": "0358c6b2dc5d16df50713911ed5b58a390864065",
+      "final_donor_tree": "1fc12e33c9a46656322dbd2826bf8d039cae388d",
+      "paths": [
+        {
+          "path": "docs/portal/pages/research-lineage-overview.html",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "c378af09032e389b72020bfab5069e187fefd40b"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "9d848c6de1b0e3bf12a8e427584c04d9015da352"
+          },
+          "integration_blob": "9d848c6de1b0e3bf12a8e427584c04d9015da352",
+          "integration_sha256": "0b6f359df4894adda4d8a0b99e4f49985497e09612617809abf440f8c42fa092",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "docs/portal/site.json",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "37429f650bf6c31c46521d3379c3ee3349709426"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "95335498b108606807182e016586357c6391e61e"
+          },
+          "integration_blob": "95335498b108606807182e016586357c6391e61e",
+          "integration_sha256": "bbe81072627be8ef1c349dda3faa8a62b457362990758933b0fab561cae494a6",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "docs/research/implementaudit/r003f-r0041-continuation-qualification.json",
+          "initial_donor": null,
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "a610db6e17c76fb58a27832975095b20d3a65371"
+          },
+          "integration_blob": "a610db6e17c76fb58a27832975095b20d3a65371",
+          "integration_sha256": "7f3a30c2bb0c82b16746635e955c48ebd0960c816101ec7ad6faac877173c159",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "docs/research/implementaudit/r003f-r0041-pending-source-qualification.json",
+          "initial_donor": null,
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "707953224788ffe951b50a265fb7c456fda76e36"
+          },
+          "integration_blob": "707953224788ffe951b50a265fb7c456fda76e36",
+          "integration_sha256": "0a35a0e973d5627493928801a3ea82df8e5a82d37fa72d6e3cf795059cb63c57",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "docs/research/implementaudit/r003f-r0041-pending-source-qualification.json.gz",
+          "initial_donor": null,
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "f0663d5fbe1e9f429b062001ab6fa025742d1a31"
+          },
+          "integration_blob": "f0663d5fbe1e9f429b062001ab6fa025742d1a31",
+          "integration_sha256": "ed46a9a90918a794beeaa42ceeba0b85bb14f46e72d66101443b857a30cb7941",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "docs/research/implementaudit/r003f-r0041-pending-source-transport.json",
+          "initial_donor": null,
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "de2a7fbf65f79ca8c2ae3ccd9e7b97a84e246902"
+          },
+          "integration_blob": "de2a7fbf65f79ca8c2ae3ccd9e7b97a84e246902",
+          "integration_sha256": "21ccdf0f2ae38d3f0440f382382ce389b2ab9eb341d7cb39aae64ffe30dac56f",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        },
+        {
+          "path": "docs/research/implementaudit/r003f-r0041-qualification.md",
+          "initial_donor": {
+            "mode": "100644",
+            "blob": "29c1640b225d01e22b5c29c879c2b7c72215e901"
+          },
+          "selected_donor": {
+            "mode": "100644",
+            "blob": "8c9039cec89e2a06f458ebc3be175fad7766d600"
+          },
+          "integration_blob": "8c9039cec89e2a06f458ebc3be175fad7766d600",
+          "integration_sha256": "92694fb30b66ed39fe1fb873ebed4faee33a007ec350c688bc4e18f5f64a088b",
+          "disposition": "EXACT_DONOR_BYTES",
+          "reason": "Exact latest selected donor buffer; previously accepted unchanged evidence retains its original scope.",
+          "integration_mode": "100644"
+        }
+      ]
+    }
+  ],
+  "unpublished_received": {
+    "commit": "a3dc4ccfa4a76d3d2f7d24f68d1feabf93c29609",
+    "tree": "d84218eaec0218b6f9185d800f271d76dffb4ab9",
+    "disposition": "EXACT_REPOSITORY_ONLY_STRICT_PROFILE_SOURCE",
+    "original19": "UNEXECUTED",
+    "current_composite_profile": "REFUSED_BEFORE_SESSION"
+  },
+  "historical_producer": {
+    "source_comment": 6401350508,
+    "patch_sha256": "0a0f97ecb7b483f4d23c9452a0313ef7aed9118d86b0234630b0bdf84d4056e0",
+    "receiver_sha256": "8ca0ed9e1313ff2e60a89b88e56f7bf1a52bf6f179f70df1b0b18f1dde0346f8",
+    "native_profile_history_capability": false
+  },
+  "mode_census": {
+    "historical_batch_proposal": 24,
+    "historical_exact_assertions": 3,
+    "current": 25,
+    "reason": "one newly implemented retained-history mode; no universal replacement of historical receipts"
+  },
+  "qualification_note": "Exact final head/tree, remaining source identities, review, packages/installations and CI are bound by the external final checkpoint; this file does not self-attest its own final tree."
+}

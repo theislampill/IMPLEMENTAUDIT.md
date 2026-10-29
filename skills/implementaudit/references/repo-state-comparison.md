@@ -272,6 +272,16 @@ Graphify modes: `bash <skill-dir>/scripts/validate-run-root.sh --graph-freshness
 <skill-dir>/scripts/validate-run-root.sh --graph-parent <catalog> <repo> <scope>
 <reason>` revalidates then broadens/falls back.
 
+For a selected portable nonterminal-yield record check, run
+`bash <skill-dir>/scripts/validate-run-root.sh --nonterminal-yield <run-root>`.
+For the composed branch check, run
+`bash <skill-dir>/scripts/validate-run-root.sh --turn-disposition <disposition> <run-root>`
+with the explicit record and applicable plan inputs listed in PROTOCOL.
+This is record-only validation with no host authority. The existing governor
+selects it under `references/host-session-binding.md`; native Stop remains
+unsupported. The evidential-support values consumer is governor-procedural:
+its pre-load and post-return commands in SKILL.md grant no native authority.
+
 When the native audit object opens a scarce-resource phase, `validate-phase.sh` consumes its receipt, launch, stub, hash, environment-key names, and terminal then invokes `check-authorization-binding.sh --phase <phase> --rehearsal <receipt> --launch <launch>`. The wrapper crosses a checker-owned mediator to the bounded producer; its zero exit precedes checker terminal publication. A failed rehearsal blocks launch; repair/re-run stays manual.
 
 Before publishing a governed verification window, invoke
@@ -287,11 +297,139 @@ effects, the governed-writer window/lock boundary, transactional evidence and
 truthful terminal status; direct filesystem replacement is not an equivalent
 consumer route.
 
+For a planned ordered population of ordinary replacements, run the optional
+`apply-observed-mutation.sh --batch-preflight <batch.json> --repo-root <r> --run-root <rr> --phase <n>`.
+This observation-only mode omits `--step` and single-operation evidence flags.
+The unique-key input has exactly `schema` and `rows`; schema is
+`implementaudit.replacement-batch-preflight-input.v1`. The nonempty ordered
+rows each have exactly `step`, `source`, `preimage`, and `candidate`: a positive
+integer step, the expected source path, and canonical repository-relative
+regular evidence paths. The input file is limited to 1 MiB, including reused
+captures and final rereads. Every selected step resolves through the existing
+phase authority owner in the same claim and
+phase; only `replace` with no destination is supported. Duplicate steps,
+aliased targets, unsafe files, mismatched source/preimage, retained same-step
+transactions and selected protected fences refuse the aggregate.
+
+Preflight captures input bytes and physical identities, then re-requests each
+selected projection from the existing phase authority owner and requires exact
+equality. The owner re-evaluates its selected canonical pair, even when its
+ROADMAP differs from the root file. It also checks observed input drift,
+current controller custody through its existing owner, Git HEAD and
+absence of selected transaction/fence paths before returning. The separate
+`implementaudit.replacement-batch-preflight.v1` result is `OBSERVATION_ONLY`
+or `REFUSED`, always with authority `NONE` and no effect grant. Its ordered
+row digest evidence describes the captured population, not a simultaneous or
+durable snapshot, unchanged ordinary receipt token, future application or
+transaction-qualified batch. It creates no governed target, lock, journal or
+receipt state. Existing authority validators may create and remove temporary
+support snapshots; this is not a global zero-effect claim. Ordinary controllers
+remain portable inputs, not native authentication. Actual later mutation must
+use the original route and revalidate authority, preimage and applicable
+fences. ADD, RETAIN, protected merge and executor bootstrap/self-row law are
+outside this restricted prefix; historical EH-3 population fidelity and full
+batch application remain unqualified by preflight alone.
+
+To consume that same ordered manifest through ordinary per-step authority, run
+`apply-observed-mutation.sh --batch-apply <batch.json> --repo-root <r> --run-root <rr> --phase <n>`.
+This mode excludes `--batch-preflight`, `--step`, individual evidence flags and
+`--require-generation-fence`. It completes the existing all-target preflight
+before dispatch, then calls the existing ordinary REPLACE transaction machinery
+once per row in array order. Each child compares the frozen claim, exact phase,
+authority projection, selected evidence, shared inputs, controller and HEAD
+before early `NO_CHANGE` or transaction effects. Its checked evidence buffers
+are the buffers consumed. The private restriction transport only narrows the
+existing grant; it cannot authorize a protected/native effect.
+
+The helper captures its Python body once and executes those same bytes in
+isolated child interpreters without reopening its own path. This binds only
+that self-execution edge; validator source loads retain their existing boundary.
+Physical capture/recheck is an observed regular-file boundary, not an atomic
+snapshot or exclusion of arbitrary same-principal writers.
+
+The single stdout `implementaudit.replacement-batch-apply.v1` report retains
+the actual preflight, initiated dispatch-attempt count, and each returned row's
+actual exit, lossless base64 stdout/stderr, decoded result and classification.
+`COMPLETED` requires exit zero
+and an identity-matching ordinary v2 `COMMITTED` or `NO_CHANGE` result. The latter
+has no transaction and empty effect sets. A valid non-success stops the batch
+with its ordinary exit; missing, malformed, duplicate/nonfinite or inconsistent
+results yield `UNKNOWN` / 78. Later rows are explicitly `NEVER_STARTED`, without
+invented exits, streams or transactions. An `OSError` from the complete dispatch
+call does not prove whether its child started: the selected attempt is counted,
+its disposition is `UNKNOWN`, and `dispatch_started` is null. The actual
+exception is retained; absent live exit, streams and decoded result remain null.
+This nullable v1 exception field is distinct from the false field on genuinely
+uncalled later rows. Preflight refusal starts no child.
+
+The completed prefix remains intact. There is no automatic retry, compensation,
+aggregate atomicity, authority or durable batch receipt. Interruption after
+dispatch can prevent the final stdout report and leave the attempted row
+unknown; existing per-step journals/results require manual reconciliation.
+Saved results never replace missing live returns. Existing per-step auxiliary
+effects and their persisted-prefix/live-suffix evidence remain authoritative.
+This consumer covers ordinary ordered REPLACE only; ADD, RETAIN, protected
+merge, executor bootstrap/self-row law, historical EH-3 population fidelity
+and full EH-3 acceptance remain separate obligations.
+
+When a protected effect depends on a distributed authority generation, pass
+`--require-generation-fence` on that same route and supply the phase/step's
+`<run-root>/mutation-fences/phase-<n>-step-<n>.json`. The existing conditional
+carrier binds schema `implementaudit.protected-mutation-fence.v1`, integer
+`phase`/`step`, exact `source_path`, `protected_target` SHA-256 and byte length,
+`controller_generation`, `authority_generation`, `protected_generation`, and
+`verified_resume_receipt`. Optional `controller_id` must match; a selected sink
+must actually support `REJECT_AND_REPORT`. Missing or unsafe required input,
+unknown capability, or ambiguous authority yields `UNKNOWN` and
+`MANUAL_RECONCILIATION`, with no retry or terminal-closure permission. Ordinary
+local work without this dependency omits the flag and carrier entirely.
+
+Ordinary result, authority and journal records retain their exact v2 shapes.
+In both versions, persisted result and journal `actual_effect_set` rows contain
+only observations completed before serialization. Their own later publication
+is absent from that saved prefix; live output adds each publication effect only
+after its syscall succeeds. Successful publication therefore has an exact saved
+prefix plus its completed live suffix. A readable saved target disposition does
+not prove its file or directory sync succeeded; the returned failure governs.
+Refreshed matching target bytes do not settle an existing transaction for the
+same claim/phase/step: the no-op route retains the replay/in-progress refusal
+without treating journal contents as recovery authority. A different step's
+transaction alone does not block an ordinary local no-op.
+Protected records use v3 of those same schemas, with separate identity bindings,
+fence disposition and authority-guard evidence; protected results also deny
+automatic retry and terminal closure for `UNKNOWN`. Early protected refusals
+report an unevaluated fence and a null guard. A carrier appearing after ordinary
+route selection causes a v3 `UNKNOWN` result; any earlier v2 authority record
+remains the truthful record of the route originally selected.
+
+The sink consumes claim-run's verified receipt token without duplicating its
+legacy/native receipt parser. Immediately before its first protected effect,
+it prepares a verify-only Git reference transaction covering controller,
+receipt, invalidation, migration marker, generation pointer and current Git
+identity. Git's current-branch verification also locks HEAD; the sink requires
+both locks. It rechecks currentness and holds exclusion through target effects,
+rollback and a durable terminal target journal. It then aborts the verify-only
+transaction and records observed release before its final result. No authority
+reference is rewritten by the guard. Its declared/observed auxiliary effects
+use `git-common` scope; surviving lock paths remain explicit on uncertain
+release. Reference-transaction hooks are disabled for this guard only. An
+unsupported Git files backend or unestablished exclusion refuses the protected
+route; it never falls back to ordinary mutation.
+
+This is cooperation between the existing Git authority and mutation owners.
+It is not host-principal authentication, a general distributed runtime,
+external-API idempotency, consensus, or protection against non-cooperating
+same-principal writers. A current receipt does not supply an external grant.
+
 helper-mode: validate-run-root.sh|--graph-freshness|<graph.json> <repo-root>|stale
 helper-mode: validate-run-root.sh|--graph-scope|<catalog> <repo> <path> [path...]|smallest
 helper-mode: validate-run-root.sh|--graph-parent|<catalog> <repo> <scope> <reason>|fallback
+helper-mode: validate-run-root.sh|--nonterminal-yield|<run-root>|record-only-no-host-authority
+helper-mode: validate-run-root.sh|--turn-disposition|<disposition> <run-root>|composed-record-only-no-host-authority
 helper-mode: check-authorization-binding.sh|--phase --rehearsal --launch|<phase> <receipt> <launch>|failed-rehearsal-blocks-launch|scripts/validate-phase.sh
 helper-mode: check-evidence-anchor.sh|--window-transition|<transition> <launch-intent> --entry <n> --repo-root <repo>|governed-window-publication|-
+helper-mode: apply-observed-mutation.sh|--batch-preflight|<batch.json> --repo-root <r> --run-root <rr> --phase <n>|observation-only
+helper-mode: apply-observed-mutation.sh|--batch-apply|<batch.json> --repo-root <r> --run-root <rr> --phase <n>|ordinary-ordered-replace
 
 helper-route: scripts/check-authorization-binding.sh|R|auth|P|-|--auth <a> --invocation <i> --state <s>|no-param
 helper-route: scripts/apply-observed-mutation.sh|R|destructive-mutation|R|-|--repo-root <r> --run-root <rr> --phase <n> --step <n> <evidence>|governed-writer
@@ -314,7 +452,9 @@ helper-route: scripts/validate-phase.sh|R|phase|P|-|<phase>|exit-code
 helper-route: scripts/validate-run-root.sh|R|run-root|S|-|<root>|invalid
 
 helper-route: scripts/resolve-internal-skill.py|I|child-resolution|S#governor-routed-internal-cognition|S#governor-routed-internal-cognition|--governor SKILL.md --child <child>|no-load-credit
+helper-route: scripts/validate-audit-implement-return.py|R|before-load|S#governor-routed-internal-cognition|-|--envelope <envelope>|remaining-route-gates
 helper-route: scripts/resolve-durable-identity.py|S|identity-diagnosis|R#durable-identity-diagnostic|-|--canonical <identity>|no-allocation
+helper-route: scripts/compile-work-graph.py|S|native-graph-diagnosis|R#native-work-graph-diagnostic|-|--inspect-native <run-root>|no-native-authority
 helper-route: scripts/host-session-binding.py|R|selected-attribution|references/host-session-binding.md|-|--store <store> lookup --host-id <host> --host-session-id <session>|no-host-activation
 helper-route: scripts/host-stop-interlock.py|R|selected-stop-attribution|references/host-session-binding.md|-|none|unsupported-host-effects
 
@@ -329,6 +469,15 @@ allocated range, use
 The existing --legacy, --ordinal, --format and --validate modes keep the same
 read-only diagnostic boundary. Formatting a name never allocates it; allocation
 remains with the existing issue-ready-work-orders and identity-namespaces owners.
+
+## Native work graph diagnostic
+
+For explicit native-graph-diagnosis, use the standalone-diagnostic
+`python -B <skill-dir>/scripts/compile-work-graph.py --inspect-native <run-root>`.
+The no-native-authority boundary retains constructed filesystem evidence only;
+it does not establish currentness, routing, actual capacity, accepted JOIN or
+lifecycle credit. The optional `references/work-graph-contract.md` describes
+its supported source format and separately qualified native interfaces.
 
 ## Pin-chain map (#76)
 
@@ -501,6 +650,8 @@ its internal `scripts/rotate-canonical-state.py` library owns deterministic
 projection/archive work and captures the physical sibling source before load.
 That library captures and verifies the exact byte count/SHA-256 of
 `scripts/canonical_hot_projection.py` before executing its pure functions.
+It also captures and verifies `scripts/canonical_rotation_inputs.py` for the
+optional native input route; source and issuer admission remain separate gates.
 `scripts/read-canonical-pair.py` is automatically called by the run-root and
 phase validators for pointer-aware derivative snapshots. It calls the native
 claim owner, grants no authority, and never falls back on a refused JOIN.
@@ -513,6 +664,7 @@ Detailed triggers and consequences live in `continuity.md`.
 helper-route: scripts/claim-run-rotation.py|A|canonical-currentness|references/continuity.md#canonical-generations-and-readers|scripts/claim-run.sh|<owner-command> <controller>|claim-owned
 helper-route: scripts/rotate-canonical-state.py|I|canonical-projection|references/continuity.md#canonical-generations-and-readers|scripts/claim-run-rotation.py|none|no-currentness
 helper-route: scripts/canonical_hot_projection.py|I|canonical-projection|references/continuity.md#canonical-generations-and-readers|scripts/rotate-canonical-state.py|none|no-currentness
+helper-route: scripts/canonical_rotation_inputs.py|I|canonical-projection|references/continuity.md#canonical-generations-and-readers|scripts/rotate-canonical-state.py|none|no-currentness
 helper-route: scripts/canonical_custody.py|I|canonical-windows-custody|references/continuity.md#canonical-generations-and-readers|scripts/claim-run-rotation.py|none|no-currentness
 helper-route: scripts/read-canonical-pair.py|A|canonical-validation|references/continuity.md#canonical-generations-and-readers|scripts/validate-run-root.sh|--run-root <run-root> --output <empty-private-directory> --native-guards|derivative-only
 
@@ -537,6 +689,13 @@ resume uses its original boundary/epoch form without migrated tokens.
 | `claim-run.sh --read-resume-state <controller> --role <role> --expected-pointer <pointer-token> --expected-invalidation <invalidation-token>` | pre-resume-evidence |
 | `claim-run.sh --rotate-canonical-state <controller> --owner-map <owner-map>` | rotation-publication |
 | `claim-run.sh --recover-canonical-state <controller>` | rotation-recovery |
+| `claim-run.sh --prepare-c02-correction <controller> --expected-invalidation <invalidation-token> --decision <decision-file>` | correction-proposal |
+| `claim-run.sh --append-c02-correction <controller> --expected-invalidation <invalidation-token> --decision <decision-file>` | correction-append |
+| `claim-run.sh --apply-c02-correction <controller> --correction-record <correction-oid>` | correction-fresh-transition |
+
+Rotation may additionally select `--tokenizer-encoding <encoding-file>` and
+`--native-input` under its exact input contracts. The C02 modes require their
+separate entitled source and issuer; a decision file supplies neither authority.
 
 helper-mode: claim-run.sh|--current-controller|<controller>|controller-custody
 helper-mode: claim-run.sh|--invalidate-continuity|<controller> --boundary <boundary> --event <event>|fresh-invalidation
@@ -550,3 +709,60 @@ helper-mode: claim-run.sh|--resolve-resume-generation|<controller>|pre-resume-ev
 helper-mode: claim-run.sh|--read-resume-state|<controller> --role <role> --expected-pointer <pointer-token> --expected-invalidation <invalidation-token>|pre-resume-evidence
 helper-mode: claim-run.sh|--rotate-canonical-state|<controller> --owner-map <owner-map>|rotation-publication
 helper-mode: claim-run.sh|--recover-canonical-state|<controller>|rotation-recovery
+helper-mode: claim-run.sh|--prepare-c02-correction|<controller> --expected-invalidation <invalidation-token> --decision <decision-file>|correction-proposal
+helper-mode: claim-run.sh|--append-c02-correction|<controller> --expected-invalidation <invalidation-token> --decision <decision-file>|correction-append
+helper-mode: claim-run.sh|--apply-c02-correction|<controller> --correction-record <correction-oid>|correction-fresh-transition
+
+### Retained historical link read
+
+`claim-run.sh --resolve-retained-continuity-predecessor <controller> --receipt <receipt-token> --expected-current <current-receipt-token>`
+has a historical-link-only boundary. It verifies the actual current JOIN and
+retained genealogy before returning one original14 predecessor link. The
+observation grants no currentness, effect or native authority; it cannot replay,
+reconcile or compensate an UNKNOWN. The receiver requires the exact supporting
+shell/companion pair before dispatch. The separately retained native source
+profile does not implement this API and remains refused at that source gate.
+For original14, the receiver follows the owner's proved actual predecessor;
+a failed allocation without a receipt is retained in owner history, not replaced
+with an invented receipt. The receiver retains its 64-generation span bound,
+exact endpoint/current-tip checks and separate native18 consecutive-link rule.
+This historical link read does not settle an active route, pending audit or H0
+binding obligation; their existing accepting consumers remain required.
+
+helper-mode: claim-run.sh|--resolve-retained-continuity-predecessor|<controller> --receipt <receipt-token> --expected-current <current-receipt-token>|historical-link-only
+
+Claim-owner Python selection is shared by ordinary controller updates and
+rotation. It checks physical `python`, then `python3`, before invocation;
+`IMPLEMENTAUDIT_PYTHON` selects one absolute path through the same checks.
+Script shims, WindowsApps/manager aliases and the `py` launcher are not runtime
+proof and are never invoked to discover or install an interpreter. The supported
+Linux path requires the same physical native Python 3 binary as an existing
+`/usr/bin`, `/usr/local/bin` or `/bin` installation reference with root-owned,
+non-group/world-writable physical custody; a renamed ELF
+elsewhere is refused. Windows uses the existing OS
+PowerShell executable to read Python 3 PE version metadata without loading the
+candidate and binds it to a PythonCore registered installation. Venv launchers
+must match that installation's exact launcher template and configured home.
+Unavailable metadata tooling or an ambiguous candidate fails closed.
+Each selected Python version still requires its own source qualification.
+Controller-ref updates independently read back the exact expected new ref value
+after a successful interpreter return; exit zero alone cannot publish a claim.
+Their Python startup is isolated from caller-directory and Python environment
+imports while retaining the selected installation's ordinary standard library.
+The existing ref owner uses Git's explicit start/prepare/commit transaction.
+When prepare fails, the owner closes and reaps that native process without
+ever sending commit. Only its exact ref/new/old-bound no-commit result permits
+cleanup of the unpublished losing claim. A generic nonzero or lost return,
+failure after commit submission, or unverified post-readback retains the new
+claim evidence and fails; pre-attempt refusals retain their existing handling.
+No run that may already have been published is deleted or automatically retried.
+The existing Linux continuity transport's exact readonly private wrapper is
+also accepted only with its fixed `-I -S -B` body and an underlying binary whose
+physical identity matches a qualified host Python 3 executable. This preserves
+the transport's isolation and never admits arbitrary script wrappers.
+Its existing user namespace can remap host ownership IDs; that route retains
+the transport's sealed readonly custody checks instead of inventing UID identity.
+The checks use the shell host's `readlink`, `od`, `tr`, `cmp`, Linux `stat` and Windows `cygpath`
+utilities. They install nothing and do not authenticate native host effects or
+defend against arbitrary same-principal replacement of trusted host executables
+or their installation registrations.

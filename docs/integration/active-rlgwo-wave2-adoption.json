@@ -1,0 +1,45 @@
+{
+  "scope": "FINITE_WAVE2_AUTHORIZATION_CORRECTION_NOT_ACCEPTANCE",
+  "previous_published_head": "ede32d13bd5cbde17ebaf682505656e18441b9d6",
+  "engineering_head": "aa9fd9fc40f3eceacc439d637e57a13d739edae5",
+  "engineering_tree": "041a6e66da93907c9b126611d28eedfccec6d971",
+  "donor_pr": 251,
+  "prior_selected_commit": "45853f9403f5ffaad100df1686fe5320f72e19b7",
+  "selected_commit": "326d091e06b7bbef1647b1d97f3bc84c0dae90ee",
+  "selected_tree": "7aae6dde798ffa365a62348917d16691bba693fb",
+  "ci_observed_at_selection": {
+    "run": 40166868874,
+    "status": "in_progress",
+    "conclusion": null
+  },
+  "decision": "Published correction closes three portable authorization false acceptances; new regression fails on wave1 source and succeeds on exact merged source. No grant authenticity or native effect is supplied.",
+  "composition_rule": "Apply these three blob replacements to active-rlgwo-source-adoption.json; all other engineering paths retain that exact record. Reports/review records are derived repository-only evidence. Other four donor selections remain unchanged.",
+  "affected_paths": [
+    {
+      "path": "docs/maintenance/four-rockstar-integration.md",
+      "preimage_blob": "fd772cc4f9f605b1e97d869bf7cc726afc6c7367",
+      "selected_blob": "7ffbb1f4e1fd8903d19fa5297ae5facb513a8cf7",
+      "donor_blob": "7ffbb1f4e1fd8903d19fa5297ae5facb513a8cf7",
+      "classification": "UNCHANGED_PUBLISHED_DONOR_WAVE2_SOURCE"
+    },
+    {
+      "path": "skills/implementaudit/scripts/check-authorization-binding.sh",
+      "preimage_blob": "d2268842f6c457c37dd464f625635c9b89f42fda",
+      "selected_blob": "b4b63f5a0723e84a79767e271a31e4d1ce56c452",
+      "donor_blob": "b4b63f5a0723e84a79767e271a31e4d1ce56c452",
+      "classification": "UNCHANGED_PUBLISHED_DONOR_WAVE2_SOURCE"
+    },
+    {
+      "path": "tests/authorization-binding-contract.test.sh",
+      "preimage_blob": "e6129e2bcc39c9c51d49eecb2c0802813e6104d6",
+      "selected_blob": "ae02834a32a655b28539a51ee74757067559db94",
+      "donor_blob": "ae02834a32a655b28539a51ee74757067559db94",
+      "classification": "UNCHANGED_PUBLISHED_DONOR_WAVE2_SOURCE"
+    }
+  ],
+  "qualification": {
+    "red": "authorization-binding-contract rejects old helper as accepting missing constraint",
+    "green": "same complete registered authorization-binding-contract suite exits0 on exact merged helper",
+    "scope": "SOURCE_AND_DISPOSABLE_READ_ONLY_AUTHORIZATION_CLI_ONLY"
+  }
+}

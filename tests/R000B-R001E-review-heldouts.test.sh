@@ -236,11 +236,14 @@ PY
 }
 expect_no_pid() {
   local label="$1" pid_file="$2"
-  python - "$pid_file" <<'PY' || failures+=("$label-child-survived")
+  python - "$pid_file" <<'PY' || failures+=("$label-child-cleanup-unverified")
 import os, subprocess, sys
 from pathlib import Path
 
-pid = int(Path(sys.argv[1]).read_text(encoding="utf-8"))
+path = Path(sys.argv[1])
+if not path.is_file():
+    raise SystemExit("child PID was never recorded; child cleanup is UNVERIFIED")
+pid = int(path.read_text(encoding="utf-8"))
 if os.name == "nt":
     result = subprocess.run(["taskkill", "/PID", str(pid), "/T", "/F"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
     raise SystemExit(1 if result.returncode == 0 else 0)

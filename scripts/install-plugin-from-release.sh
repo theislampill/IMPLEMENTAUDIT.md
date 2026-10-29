@@ -16,6 +16,9 @@ Usage:
     --host-root ISOLATED_ROOT \
     [--version 0.4.0] [--allow-downgrade]
 
+Run this helper from a clean checkout at the archive inventory's exact
+source.commit; the embedded contract, commit/tree and payload must match.
+
 The host root must be a disposable directory containing the regular sentinel
 .implementaudit-isolated-host-root. This command proves staged package copy,
 inventory, update and rollback behavior only; it is not native host discovery or

@@ -89,7 +89,14 @@ check("complete-progressive-route", None)
 binding = json.loads((target / "fixtures/semantic-preservation/cases.json").read_text())["bootstrap_route"]
 route = binding["governor_route"]
 text = original_governor.decode()
-assert route in text
+assert text.count(route) == 1
+# Route wrappers need neutral fixture headroom so they reach their own gate.
+# Keep the exact route and every nonempty line; the real-source reserve and
+# one-byte boundary above remain unchanged and use original_governor.
+prefix, suffix = text.split(route)
+text = prefix.replace("\n\n", "\n") + route + suffix.replace("\n\n", "\n")
+governor.write_text(text, encoding="utf-8", newline="")
+check("route-fixture-neutral-spacing", None)
 for label, replacement in (
     ("missing-trigger-reference-still-present", ""),
     ("commented-trigger", "<!--\n" + route + "\n-->"),

@@ -67,8 +67,13 @@ class ObservationCostControls(unittest.TestCase):
         self.scope.__enter__()
         self.addCleanup(self.scope.__exit__, None, None, None)
         self.oe = load(SOURCE / 'scripts/operational-evidence.py', 'observation_primary')
-        self.continuity_sources = {'claim_sha256': hashlib.sha256(b'claim fixture').hexdigest(),
-                                   'validate_sha256': hashlib.sha256(b'validate fixture').hexdigest()}
+        # Cost controls inject observations in the exact historical two-file domain.
+        # Arbitrary fixture bytes must not acquire the legacy source envelope.
+        historical = ROOT/'fixtures/operational-evidence/native-source/skills/implementaudit/scripts'
+        self.claim_raw = (historical/'claim-run.sh.fixture').read_bytes()
+        self.validate_raw = (historical/'validate-run-root.sh.fixture').read_bytes()
+        self.continuity_sources = {'claim_sha256': hashlib.sha256(self.claim_raw).hexdigest(),
+                                   'validate_sha256': hashlib.sha256(self.validate_raw).hexdigest()}
 
     def test_combined_native_episode_observation_has_no_caller_episode_operand(self):
         import inspect
@@ -214,6 +219,8 @@ class ObservationCostControls(unittest.TestCase):
                     value = continuity(*a)
                     if kw.get('_source_reads') is not None:
                         kw['_source_reads'].append(copy.deepcopy(self.continuity_sources))
+                    if kw.get('_closure_reads') is not None:
+                        kw['_closure_reads'].append(None)  # Explicit historical two-source fixture.
                     return value
                 h.continuity.side_effect = capture_sources
             original = h.wg._compile_native_documents_v1.side_effect
@@ -233,7 +240,7 @@ class ObservationCostControls(unittest.TestCase):
                     patch.object(oe, '_native_module_from_bytes', return_value=compiler), \
                     patch.object(oe, '_native_file', return_value=b'compiler source'), \
                     patch.object(oe, '_native_require_current_receipt', return_value=(
-                        Path('claim-run.sh'), b'claim fixture', Path('validate-run-root.sh'), b'validate fixture')) as direct:
+                        Path('claim-run.sh'), self.claim_raw, Path('validate-run-root.sh'), self.validate_raw)) as direct:
                 self.direct_receipt = direct
                 c = h.current
                 args = (h.root, h.root, h.controller, c['controller_record_oid'], c['claim_id'], h.root,
@@ -431,6 +438,26 @@ class ResolverExecutionCostControls(unittest.TestCase):
             with self.assertRaises(SystemExit):
                 self.rt.resolved_child_delivery_path('audit-assess', self.governor, self.resolver)
 
+    def test_known_resolver_refuses_linked_child_directory_without_process_launch(self):
+        import io
+        child = self.root / 'skills/audit-assess'
+        redirected = self.root / 'redirected-child'
+        child.rename(redirected)
+        child.symlink_to(redirected, target_is_directory=True)
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output), patch.object(
+                self.rt.subprocess, 'run', side_effect=AssertionError('redundant resolver process')):
+            with self.assertRaises(SystemExit) as refused:
+                self.rt.resolved_child_delivery_path('audit-assess', self.governor, self.resolver)
+        self.assertEqual(refused.exception.code, 2)
+        self.assertEqual(json.loads(output.getvalue()), {
+            'schema': 'implementaudit.route-transaction-result.v1',
+            'status': 'UNAVAILABLE', 'decision': 'PENDING',
+            'advance_allowed': False, 'enforcement_available': False,
+            'error': 'internal-child resolver refused audit-assess: resolve-internal-skill: '
+                     'canonical child directory must not be a symlink: audit-assess',
+        })
+
     def test_unknown_resolver_bytes_retain_the_actual_subprocess_path(self):
         self.resolver.write_bytes(self.resolver.read_bytes() + b'\n# unknown source version\n')
         original = self.rt.subprocess.run
@@ -487,6 +514,36 @@ class CombinedContinuitySourceControls(unittest.TestCase):
         claim = (SOURCE/'source-peers/native-runtime/skills/implementaudit/scripts/claim-run.sh').read_bytes()
         validate = (SOURCE/'source-peers/native-runtime/skills/implementaudit/scripts/validate-run-root.sh').read_bytes()
         script = self.oe._native_r0011_stdin_script_v1(claim, validate, ['--observe-current-continuity'])
+        if script is None:
+            graph_source = SOURCE/'source-peers/route-graph/skills/implementaudit/scripts/compile-work-graph.py'
+            graph = load(graph_source, 'combined_original14_transport')
+            with tempfile.TemporaryDirectory(prefix='combined-owner-source-') as directory:
+                materialized = Path(directory).resolve()
+                owner_root = materialized/'skills/implementaudit/scripts'
+                owner_root.mkdir(parents=True)
+                (materialized/'scripts').mkdir()
+                adapter_source = SOURCE/'scripts/work-graph-continuity-transport.py'
+                adapter_raw = adapter_source.read_bytes()
+                self.assertEqual(hashlib.sha256(adapter_raw).hexdigest(), graph._NATIVE_CONTINUITY_TRANSPORT_SHA256)
+                (materialized/'scripts/work-graph-continuity-transport.py').write_bytes(adapter_raw)
+                adapter = load(adapter_source, 'combined_original14_adapter')
+                members = []
+                for name, _, _, _ in adapter.ORIGINAL14_SOURCE_PROFILE_V1:
+                    origin = (SOURCE/'source-peers/native-runtime/skills/implementaudit/scripts'
+                              if name in {'claim-run.sh', 'validate-run-root.sh', 'claim-run-rotation.py'}
+                              else SOURCE/'skills/implementaudit/scripts') / name
+                    raw = origin.read_bytes()
+                    members.append((str(owner_root/name), raw))
+                selected = adapter._source_profile(tuple(members))
+                self.assertIn(selected, adapter.ORIGINAL14_SOURCE_PROFILES_V1)
+                for path, raw in members:
+                    Path(path).write_bytes(raw)
+                (owner_root/'compile-work-graph.py').write_bytes(graph_source.read_bytes())
+                graph = load(owner_root/'compile-work-graph.py', 'combined_materialized_transport')
+                route = graph._native_continuity_host_v1()
+                self._check_actual_owner_refusals(owner_root, graph, route, claim, validate)
+
+            return
         self.assertIsInstance(script, bytes)
         environment = {k:v for k,v in os.environ.items()
                        if not k.startswith(('GIT_', 'BASH_FUNC_')) and k not in {'BASH_ENV','ENV','PYTHONPATH','PYTHONSTARTUP'}}
@@ -517,6 +574,55 @@ class CombinedContinuitySourceControls(unittest.TestCase):
             self.assertNotEqual(extra.returncode,0)
             self.assertEqual(extra.stdout,b'')
 
+
+    def _check_actual_owner_refusals(self, owner_root, graph, route, claim, validate):
+        import os
+        import subprocess
+        environment = {k:v for k,v in os.environ.items()
+                       if not k.startswith(('GIT_', 'BASH_FUNC_')) and k not in {'BASH_ENV','ENV','PYTHONPATH','PYTHONSTARTUP'}}
+        environment.update(GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_NOSYSTEM='1', PYTHONDONTWRITEBYTECODE='1')
+        with tempfile.TemporaryDirectory(prefix='combined-continuity-refusal-') as directory:
+            root = Path(directory).resolve()
+            subprocess.run(['git','-C',str(root),'init','-q'],env=environment,check=True,capture_output=True)
+            blob = subprocess.run(['git','-C',str(root),'hash-object','-w','--stdin'],input=b'invalid controller\n',
+                                  env=environment,check=True,capture_output=True).stdout.decode().strip()
+            for population in (0,1,2):
+                if population:
+                    subprocess.run(['git','-C',str(root),'update-ref',
+                                    'refs/implementaudit/controllers/control-'+str(population),blob],
+                                   env=environment,check=True,capture_output=True)
+                before = subprocess.check_output(['git','-C',str(root),'for-each-ref'],env=environment)
+                result = subprocess.run([self.bash, route.bash_script_path(owner_root/'claim-run.sh'),
+                    '--observe-current-continuity'],cwd=root,env=environment,
+                    stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=30)
+                self.assertNotEqual(result.returncode,0)
+                self.assertEqual(result.stdout,b'')
+                if os.name == 'nt':
+                    # Execute the current private transport, including its
+                    # complete held closure and canonical script identity.
+                    with self.assertRaisesRegex(graph.WorkGraphError, 'continuity owner refused'):
+                        graph._native_claim_call_v1(self.oe, route, root,
+                            ['--observe-current-continuity'], claim, validate)
+                else:
+                    # This native transport has Windows custody qualification
+                    # only. Its refusal must precede any process launch.
+                    with patch.object(graph.subprocess, 'run', side_effect=AssertionError('unsupported host launch')):
+                        with self.assertRaisesRegex(graph.WorkGraphError, 'requires qualified Windows custody'):
+                            graph._native_claim_call_v1(self.oe, route, root,
+                                ['--observe-current-continuity'], claim, validate)
+                self.assertEqual(subprocess.check_output(['git','-C',str(root),'for-each-ref'],env=environment),before)
+                self.assertFalse((root/'.IMPLEMENTAUDIT').exists())
+            extra = subprocess.run([self.bash, route.bash_script_path(owner_root/'claim-run.sh'),
+                '--observe-current-continuity','caller-controller'],cwd=root,env=environment,
+                stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=30)
+            self.assertNotEqual(extra.returncode,0)
+            self.assertEqual(extra.stdout,b'')
+            with patch.object(graph.subprocess, 'run', side_effect=AssertionError('invalid operand launch')):
+                with self.assertRaises(graph.WorkGraphError):
+                    graph._native_claim_call_v1(self.oe, route, root,
+                        ['--observe-current-continuity', 'caller-controller'], claim, validate)
+            self.assertEqual(subprocess.check_output(['git','-C',str(root),'for-each-ref'],env=environment),before)
+            self.assertFalse((root/'.IMPLEMENTAUDIT').exists())
 
 
 if __name__ == '__main__':

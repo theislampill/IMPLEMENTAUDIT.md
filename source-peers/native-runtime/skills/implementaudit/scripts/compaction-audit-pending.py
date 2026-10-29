@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import math
 import os
 from pathlib import Path
 import stat
@@ -62,7 +63,7 @@ def physical(path, *, directory=False):
     require(stat.S_ISDIR(info.st_mode) if directory else stat.S_ISREG(info.st_mode) and info.st_nlink == 1, 'SOURCE_FILE_KIND')
     return path
 
-def _scan_source_unheld(path, prefix=None, native_cli_version=None):
+def _scan_source_unheld(path, prefix=None, native_cli_version=None, *, require_c02_terminal=False):
     """Check a finite source using one bounded record, not an in-memory transcript.
 
     The total work ceiling is the existing observation source-window budget.
@@ -138,7 +139,19 @@ def _scan_source_unheld(path, prefix=None, native_cli_version=None):
     identity = {'device': before.st_dev, 'inode': before.st_ino}
     if prefix is not None:
         require(identity == prefix['physical'] and meta_sha == prefix['session_meta_sha256'] and (prefix_hash.hexdigest() == prefix['prefix_sha256']), 'SOURCE_PREFIX_OR_PHYSICAL_ID_CHANGED')
-    return {'bytes': offset, 'sha256': full_hash.hexdigest(), 'physical': identity, 'metadata': meta, 'metadata_sha256': meta_sha, 'summaries': summaries, 'unresumed_marker': bool(group)}
+    result = {'bytes': offset, 'sha256': full_hash.hexdigest(), 'physical': identity, 'metadata': meta, 'metadata_sha256': meta_sha, 'summaries': summaries, 'unresumed_marker': bool(group)}
+    if require_c02_terminal:
+        # Narrow positive: an actual last native task_complete record, not an
+        # empty selected list or inferred absence from endpoints. Full framing,
+        # physical, prefix and ordinal checks above still cover every byte.
+        require(version == '0.153.4' and not group and number > 1 and
+            row['type'] == 'event_msg' and row['payload'].get('type') == 'task_complete' and
+            'metadata' not in row and type(row['payload'].get('turn_id')) is str and row['payload']['turn_id'],
+            'C02_POSITIVE_CURRENT_TERMINAL_SOURCE_FENCE_REQUIRED')
+        result['c02_terminal_fence'] = {**descriptor, 'turn_id': row['payload']['turn_id'],
+            'session_id': meta.get('session_id'), 'source_bytes': offset,
+            'source_sha256': result['sha256'], 'physical': identity}
+    return result
 
 def source_identity(source):
     return {key: source[key] for key in ('path', 'task_id', 'session_id', 'session_meta_sha256', 'physical', 'sessions_root')}
@@ -154,20 +167,82 @@ def state_path(store, session):
 def blank(session):
     return {'schema': SCHEMA, 'session_id': session, 'revision': 0, 'source': None, 'source_problem': None, 'signals': 0, 'unresolved_signal_version': 0, 'observations': {}, 'assignments': {}, 'active_child': None, 'native_producer_runtime_equivalence': 'UNVERIFIED'}
 
+def _pending_state_bytes(path):
+    """Capture one safe bounded state file; only genuine absence returns None."""
+    try:
+        existing = path
+        while True:
+            try:
+                before = existing.lstat()
+                break
+            except FileNotFoundError:
+                parent = existing.parent
+                require(parent != existing, 'PENDING_STATE_PATH')
+                existing = parent
+        if existing != path:
+            CORE.safe_existing_directory(str(existing), 'compaction audit pending ancestor')
+            return None
+        CORE.safe_existing_directory(str(path.parent), 'compaction audit pending parent')
+        require(not CORE.unsafe_file(before), 'PENDING_STATE_FILE_KIND')
+        require(0 <= before.st_size <= MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
+        stamp = lambda info: (info.st_dev, info.st_ino, info.st_mode, info.st_nlink,
+                              info.st_size, info.st_mtime_ns, info.st_ctime_ns)
+        flags = os.O_RDONLY | getattr(os, 'O_BINARY', 0) | getattr(os, 'O_NOFOLLOW', 0) | getattr(os, 'O_NONBLOCK', 0)
+        with os.fdopen(os.open(path, flags), 'rb') as stream:
+            opened = os.fstat(stream.fileno())
+            require(stamp(before) == stamp(opened), 'PENDING_STATE_CHANGED_DURING_READ')
+            raw = stream.read(MAX_STATE + 1)
+            after = os.fstat(stream.fileno())
+        require(stamp(before) == stamp(after) == stamp(path.lstat())
+                and len(raw) == before.st_size and len(raw) <= MAX_STATE,
+                'PENDING_STATE_CHANGED_DURING_READ')
+        CORE.safe_existing_directory(str(path.parent), 'compaction audit pending parent')
+        return raw
+    except OSError as exc:
+        raise Refusal('PENDING_STATE_UNREADABLE') from exc
+
+
 def load(store, session):
-    path = state_path(store, session)
-    if not path.exists():
+    raw = _pending_state_bytes(state_path(store, session))
+    if raw is None:
         return blank(session)
-    require(path.stat().st_size <= MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
-    value = CORE.read_json(path, 'compaction audit pending state')
+    def finite_number(token):
+        value = float(token)
+        require(math.isfinite(value), 'PENDING_STATE_JSON_NUMBER')
+        return value
+    try:
+        value = json.loads(raw.decode('utf-8'), object_pairs_hook=unique,
+                           parse_float=finite_number,
+                           parse_constant=lambda _: require(False, 'PENDING_STATE_JSON_CONSTANT'))
+    except Refusal:
+        raise
+    except (ValueError, RecursionError) as exc:
+        raise Refusal('PENDING_STATE_JSON') from exc
+    require(isinstance(value, dict), 'PENDING_STATE_SHAPE')
     require(set(blank(session)) <= set(value) <= set(blank(session)) | {'current_assignment', 'successor_stage', 'successor_assignment'} and value['schema'] == SCHEMA and (value['session_id'] == session) and (type(value['revision']) is int) and isinstance(value['observations'], dict) and isinstance(value['assignments'], dict), 'PENDING_STATE_SHAPE')
+    for item in value['observations'].values():
+        require(isinstance(item, dict) and type(item.get('version')) is int and item['version'] > 0
+                and type(item.get('consumed_version')) is int
+                and 0 <= item['consumed_version'] <= item['version'],
+                'PENDING_OBSERVATION_COUNTERS')
+    require(all(type(value[key]) is int and value[key] >= 0
+                for key in ('revision', 'signals', 'unresolved_signal_version')),
+            'PENDING_STATE_COUNTERS')
     return value
 
 def save(store, state):
-    require(len(canonical(state)) < MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
-    state['revision'] += 1
+    successor = {**state, 'revision': state['revision'] + 1}
+    try:
+        # Bound the exact format emitted by the existing atomic JSON owner,
+        # after the revision change. Every successful write must be reloadable.
+        persisted = (json.dumps(successor, ensure_ascii=False, indent=2,
+                                sort_keys=True, allow_nan=False) + '\n').encode('utf-8')
+    except (ValueError, RecursionError) as exc:
+        raise Refusal('PENDING_STATE_JSON') from exc
+    require(len(persisted) < MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
     path = state_path(store, state['session_id'])
-    CORE.atomic_json(path, state)
+    CORE.atomic_json(path, successor)
+    state['revision'] = successor['revision']
     if os.name != 'nt':
         descriptor = os.open(path.parent, os.O_RDONLY)
         try:
@@ -301,8 +376,8 @@ def boundary_release_subject(store, session, owner, request):
     profile = OBSERVATION.production_profile(policy, root)
     require(profile['qualification_record_bound'] is True, 'BOUNDARY_RELEASE_Q_ABSENT')
     issuer = policy['descriptor']['authenticating_source_owner']
-    raw, _ = OBSERVATION.artifact(issuer['module_pin'], maximum=65536)
-    if source['profile_id'] == OBSERVATION.NONPROTECTED_PROFILE:
+    raw, _ = OBSERVATION.artifact(issuer['module_pin'], maximum=OBSERVATION.MAX_SOURCE_OWNER_BYTES)
+    if source['profile_id'] in OBSERVATION.SOURCE_PROFILES:
         import types
         module = types.ModuleType('_boundary_release_source_owner')
         module.__file__ = issuer['module_pin']['path']
@@ -433,7 +508,7 @@ def operate(store, session, owner, action, request):
                 scope = selected
             require(scope, 'NO_UNASSIGNED_INDEPENDENT_SCOPE; existing claims require reconciliation')
             assignment = {'child_id': child, 'scope': scope, 'code': nonprotected_code_identity() if _nonprotected_reservation(request) else code_identity(), 'observations': {}, 'return': None, 'join': None, 'native_lifecycle': 'NOT_CLAIMED', 'reservation_request': request}
-            assignment['policy'] = OBSERVATION.fixed_policy(assignment['code'], OBSERVATION.NONPROTECTED_PROFILE if _nonprotected_reservation(request) else OBSERVATION.PROFILE)
+            assignment['policy'] = OBSERVATION.fixed_policy(assignment['code'], OBSERVATION._nonprotected_source_owner(assignment['code']).selected_source_profile_v1() if _nonprotected_reservation(request) else OBSERVATION.PROFILE)
             state['assignments'][child] = assignment
             obligation = {}
             if 'observation_source' in request:
@@ -441,7 +516,7 @@ def operate(store, session, owner, action, request):
                 if _nonprotected_reservation(request):
                     require(assignment['observation_source']['actual_child_identity']['thread_id'] == child and assignment['observation_source']['parent_identity']['thread_id'] == session, 'NONPROTECTED_RESERVED_ACTUAL_CHILD_DIFFERS')
                 context = assignment['observation_source']
-                if context['profile_id'] in (OBSERVATION.CURRENT_BOUNDARY_PROFILE, OBSERVATION.NONPROTECTED_PROFILE):
+                if context['profile_id'] in (OBSERVATION.CURRENT_BOUNDARY_PROFILE, *OBSERVATION.SOURCE_PROFILES):
                     require(context['fresh_child_boundary'] == OBSERVATION.fresh_child_boundary(context), 'CURRENT_FRESH_SOURCE_BOUNDARY_CHANGED')
                 if context['profile_id'] in OBSERVATION.BOUNDARY_PROFILES:
                     require('scope' in request, 'EXACT_BOUNDARY_SCOPE_REQUIRED')
@@ -630,14 +705,14 @@ def _nonprotected_reservation(request):
     return isinstance(request.get('observation_source'), dict) and set(request['observation_source']) == {'open', 'spawn_call', 'spawn_output', 'child_activation', 'parent_turn_start'}
 
 def _assignment_code_identity(assignment):
-    if assignment.get('observation_source', {}).get('profile_id') == OBSERVATION.NONPROTECTED_PROFILE:
+    if assignment.get('observation_source', {}).get('profile_id') in OBSERVATION.SOURCE_PROFILES:
         return nonprotected_code_identity()
     return code_identity()
 
 def _rebind_selected_assignment(assignment, session, child):
     source_request = assignment['reservation_request']['observation_source']
     previous = assignment['observation_source']
-    if previous['profile_id'] != OBSERVATION.NONPROTECTED_PROFILE:
+    if previous['profile_id'] not in OBSERVATION.SOURCE_PROFILES:
         return OBSERVATION.bind_sources(source_request, session, child)
     source = OBSERVATION.bind_nonprotected_sources(source_request, assignment['code'])
     require(source['canonical_episode_binding']['opening_digest'] == previous['canonical_episode_binding']['opening_digest'], 'NONPROTECTED_RELEASE_CANONICAL_OPEN_CHANGED')
@@ -647,7 +722,7 @@ def _rebind_selected_assignment(assignment, session, child):
 def _nonprotected_registration_selection(request, session):
     require(isinstance(request, dict), 'SOURCE_REGISTRATION_SHAPE')
     owner = OBSERVATION._nonprotected_source_owner(nonprotected_code_identity())
-    if owner.NONPROTECTED_SELECTION_PIN is None:
+    if owner.selected_source_pin_v1() is None:
         return None
     selected = owner._np_selection()
     if request.get('transcript') != selected['root_source']:
@@ -662,16 +737,18 @@ def _nonprotected_source_registration(request, session, selected):
     require(observed['bytes'] == request['expected_bytes'] and observed['sha256'] == request['expected_sha256'] and (meta.get('id') == session) and (meta.get('session_id') == session) and (meta.get('cli_version') == selected['cli_version']), 'NONPROTECTED_SOURCE_REGISTRATION_PIN')
     return {'path': selected['root_source'], 'task_id': session, 'session_id': session, 'sessions_root': selected['session_root'], 'physical': observed['physical'], 'session_meta_sha256': observed['metadata_sha256'], 'prefix_bytes': observed['bytes'], 'prefix_sha256': observed['sha256'], 'provenance': 'HOST_STORE_OWNER_REGISTERED_PHYSICAL_NATIVE_SESSION_PREFIX', 'native_producer_runtime_equivalence': 'UNVERIFIED'}
 
-def scan_source(path, prefix=None):
+def scan_source(path, prefix=None, *, require_c02_terminal=False):
     owner = OBSERVATION._nonprotected_source_owner(nonprotected_code_identity())
-    if owner.NONPROTECTED_SELECTION_PIN is None:
+    if owner.selected_source_pin_v1() is None:
+        require(not require_c02_terminal, 'C02_EXISTING_SOURCE_OWNER_NOT_SELECTED')
         return _scan_source_unheld(path, prefix)
     selected = owner._np_selection()
     if str(path) != selected['root_source']:
+        require(not require_c02_terminal, 'C02_FOREIGN_SOURCE_INTERVAL')
         return _scan_source_unheld(path, prefix)
     custody = owner._np_module(selected['runtime_helpers']['bounded_file_custody.py'], 'bounded_file_custody.py')
     with custody.held_file(path):
-        return _scan_source_unheld(path, prefix, native_cli_version=selected['cli_version'])
+        return _scan_source_unheld(path, prefix, native_cli_version=selected['cli_version'], require_c02_terminal=require_c02_terminal)
 
 def _validate_registered_prefix(prefix):
     """Validate the immutable recorded prefix, never the current live EOF."""
@@ -705,7 +782,7 @@ def read_selected_accepted_episode_v1():
     """
     code = nonprotected_code_identity()
     owner = OBSERVATION._nonprotected_source_owner(code)
-    if owner.NONPROTECTED_SELECTION_PIN is None:
+    if owner.selected_source_pin_v1() is None:
         return _episode_export_unavailable('FIXED_SELECTION_UNBOUND')
     selected = owner._np_selection()
     custody = owner._np_module(selected['runtime_helpers']['bounded_file_custody.py'], 'bounded_file_custody.py')
@@ -728,7 +805,7 @@ def read_selected_accepted_episode_v1():
     if not state_path(store, session).exists():
         return _episode_export_unavailable('PENDING_STATE_ABSENT')
     state = load(store, session)
-    matches = [item for item in state['assignments'].values() if item.get('observation_source', {}).get('profile_id') == OBSERVATION.NONPROTECTED_PROFILE and item['observation_source'].get('canonical_episode_binding', {}).get('opening_digest') == episode_binding['opening_digest']]
+    matches = [item for item in state['assignments'].values() if item.get('observation_source', {}).get('profile_id') in OBSERVATION.SOURCE_PROFILES and item['observation_source'].get('canonical_episode_binding', {}).get('opening_digest') == episode_binding['opening_digest']]
     require(len(matches) <= 1, 'SELECTED_EPISODE_ASSIGNMENT_AMBIGUOUS')
     if not matches:
         return _episode_export_unavailable('SELECTED_ASSIGNMENT_ABSENT')
@@ -745,7 +822,7 @@ def read_selected_accepted_episode_v1():
     prepared = assignment['prepared'][result['observation_id']]
     require(prepared['observation'] == assignment['observations'][result['observation_id']] and digest(canonical(prepared['observation'])) == result['observation_id'] and (prepared['obligation']['covered_boundary_versions'] == joined['covered']) and (result['identity']['scope'] == joined['covered']), 'SELECTED_EPISODE_OBSERVATION_CHANGED')
     prior_history_context(assignment, result['observation_id'])
-    policy = OBSERVATION.fixed_policy(code, OBSERVATION.NONPROTECTED_PROFILE)
+    policy = OBSERVATION.fixed_policy(code, context['profile_id'])
     require(assignment['policy'] == acquisition['policy'] == policy, 'SELECTED_EPISODE_POLICY_CHANGED')
     root = state_path(store, session).parent / policy['descriptor']['custody_namespace'] / policy['policy_digest']
     profile = OBSERVATION.production_profile(policy, root)
@@ -788,7 +865,7 @@ def read_selected_accepted_episode_v1():
         h0 = {'status': 'RECORDED', 'stage_receipts': {row['stage']: row['receipt_identity'] for row in evidence['stages']}}
     identities = candidate['physical_source_and_cutoff_identities']
     occurrences = {'schema': 'implementaudit.compaction-selected-occurrences.v1', 'observation_id': result['observation_id'], 'actual_child_identity': candidate['actual_child_identity'], 'covered_boundary_versions': joined['covered'], 'source_cutoff': result['identity']['hold_history'], 'occurrences': result['identity']['selected_occurrences'], 'authority_ceiling': 'NONE'}
-    value = {'schema': 'implementaudit.native-episode-export.v1', 'status': 'AVAILABLE', 'reason_code': None, 'owner': {'profile_id': OBSERVATION.NONPROTECTED_PROFILE, 'issuer_id': attestation['issuer_id'], 'policy_digest': policy['policy_digest'], 'code_pins': code, 'canonical_opening_digest': episode_binding['opening_digest'], 'canonical_route': episode_binding['route_current'], 'host_and_scope': episode_binding['host_and_scope']}, 'episode': {key: candidate[key] for key in ('parent_identity', 'actual_child_identity', 'assignment_identity', 'obligation_digest', 'observation_id', 'covered_boundary_versions')} | {'result_digest': result['return_digest'], 'acceptance_digest': candidate['exact_acceptance_digest'], 'Q_digest': profile['Q']['sha256'], 'E_digest': acquisition['episode']['sha256']}, 'pending': {'revision': state['revision'], 'observations': rows, 'assignment_scope': assignment['scope'], 'covered_scope': joined['covered'], 'pending_scope': [{key: row[key] for key in ('id', 'version', 'kind')} for row in rows if row['version'] > row['consumed_version']]}, 'lifecycle': {'result': {'status': 'SUCCEEDED', 'return_digest': result['return_digest']}, 'acceptance': {'status': 'ACCEPTED_EXACT_RESULT', 'digest': candidate['exact_acceptance_digest']}, 'join': {'status': 'JOINED_EVIDENCE_ONLY', 'covered': joined['covered'], 'pending_consumed': True}, 'h0': h0, 'source_terminal_release': {'status': 'SOURCE_OWNER_VALIDATED', 'digest': digest(canonical(attestation['terminal_effect_release']))}}, 'occurrences': occurrences, 'custody': {'candidate': acquisition['candidate'], 'qualification': profile['Q'], 'episode': acquisition['episode'], 'attestation': acquisition['source_owner_attestation'], 'source_cutoffs': {key: identities[key] for key in ('parent', 'child')} | {'compaction_cutoff': {key: identities['compaction_cutoff'][key] for key in ('path', 'task_id', 'session_id', 'sessions_root', 'physical', 'session_meta_sha256', 'prefix_bytes', 'prefix_sha256', 'provenance', 'native_producer_runtime_equivalence')}} | {'hold_history': result['identity']['hold_history']}}, 'authority_ceiling': 'NONE'}
+    value = {'schema': 'implementaudit.native-episode-export.v1', 'status': 'AVAILABLE', 'reason_code': None, 'owner': {'profile_id': context['profile_id'], 'issuer_id': attestation['issuer_id'], 'policy_digest': policy['policy_digest'], 'code_pins': code, 'canonical_opening_digest': episode_binding['opening_digest'], 'canonical_route': episode_binding['route_current'], 'host_and_scope': episode_binding['host_and_scope']}, 'episode': {key: candidate[key] for key in ('parent_identity', 'actual_child_identity', 'assignment_identity', 'obligation_digest', 'observation_id', 'covered_boundary_versions')} | {'result_digest': result['return_digest'], 'acceptance_digest': candidate['exact_acceptance_digest'], 'Q_digest': profile['Q']['sha256'], 'E_digest': acquisition['episode']['sha256']}, 'pending': {'revision': state['revision'], 'observations': rows, 'assignment_scope': assignment['scope'], 'covered_scope': joined['covered'], 'pending_scope': [{key: row[key] for key in ('id', 'version', 'kind')} for row in rows if row['version'] > row['consumed_version']]}, 'lifecycle': {'result': {'status': 'SUCCEEDED', 'return_digest': result['return_digest']}, 'acceptance': {'status': 'ACCEPTED_EXACT_RESULT', 'digest': candidate['exact_acceptance_digest']}, 'join': {'status': 'JOINED_EVIDENCE_ONLY', 'covered': joined['covered'], 'pending_consumed': True}, 'h0': h0, 'source_terminal_release': {'status': 'SOURCE_OWNER_VALIDATED', 'digest': digest(canonical(attestation['terminal_effect_release']))}}, 'occurrences': occurrences, 'custody': {'candidate': acquisition['candidate'], 'qualification': profile['Q'], 'episode': acquisition['episode'], 'attestation': acquisition['source_owner_attestation'], 'source_cutoffs': {key: identities[key] for key in ('parent', 'child')} | {'compaction_cutoff': {key: identities['compaction_cutoff'][key] for key in ('path', 'task_id', 'session_id', 'sessions_root', 'physical', 'session_meta_sha256', 'prefix_bytes', 'prefix_sha256', 'provenance', 'native_producer_runtime_equivalence')}} | {'hold_history': result['identity']['hold_history']}}, 'authority_ceiling': 'NONE'}
     require(load(store, session) == state and attribution(store, session, pointer['owner_id']) == binding and (owner._np_episode((selected, custody, None, None, None)) == episode_binding) and (OBSERVATION.production_profile(policy, root) == profile) and (nonprotected_code_identity() == code), 'SELECTED_EPISODE_CHANGED_DURING_READ')
     return OBSERVATION.validate_frozen_episode_export_v1({**value, 'export_digest': digest(canonical(value))})
 

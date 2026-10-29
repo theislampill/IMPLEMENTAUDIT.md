@@ -1,4 +1,4 @@
-"""Run the original 42 controls and seven profile/export regressions."""
+"""Run original 42, seven profile/export, and additive source-only control groups."""
 import argparse
 import importlib.util
 import json
@@ -11,6 +11,75 @@ HERE = Path(__file__).resolve().parent
 MODULES = ('test_native_probe', 'test_current_source_owner', 'test_review_repairs', 'test_owner_hooks',
     'test_existing_owner_additions', 'test_canonical_episode_binding', 'test_episode_export', 'test_pending_integration')
 
+
+# Additive source-only groups; the original 42 + 4 profile + 3 export remain exact.
+CURRENT_SOURCE_GROUPS = (
+    ('test_source_owner_bounds', 'SourceOwnerBoundsControls', (
+        'test_all_issuer_readers_accept_delivered_module_length',
+        'test_all_issuer_readers_accept_exact_code_ceiling',
+        'test_all_issuer_readers_refuse_above_ceiling_before_evaluation',
+        'test_all_issuer_readers_refuse_replacement_before_open',
+        'test_all_issuer_readers_refuse_wrong_digest',
+        'test_fifo_is_refused_before_any_content_read',
+        'test_supplied_declared_length_must_match_the_real_file',
+    )),
+    ('test_current_native_relation', 'CurrentNativeRelationControls', (
+        'test_authorization_admits_load_during_spawn_rpc',
+        'test_authorization_keeps_legacy_load_after_reply',
+        'test_authorization_keeps_strict_load_call_result_order',
+        'test_authorization_keeps_strict_order_for_other_header_or_profile',
+        'test_authorization_rejects_load_before_or_at_activation',
+        'test_authorization_rejects_route_before_reply_or_load_result',
+        'test_before_remains_strict_across_sources_and_physical_intervals',
+        'test_fresh_boundary_admits_activation_during_spawn_rpc',
+        'test_fresh_boundary_keeps_legacy_completed_rpc_order',
+        'test_fresh_boundary_preserves_spawn_identity_and_freshness',
+        'test_fresh_boundary_refuses_mutated_header_bytes_or_digest',
+        'test_fresh_boundary_rejects_reversed_or_equal_causal_edges',
+        'test_fresh_boundary_uses_actual_header_and_qualified_profile',
+        'test_relation_matches_each_entity_to_its_own_version',
+        'test_relation_rejects_foreign_identity_and_parent',
+        'test_relation_rejects_native_header_version_and_cwd_drift',
+        'test_relation_rejects_unbound_or_malformed_running_version',
+        'test_same_version_relation_stays_valid',
+    )),
+    ('test_acquisition_resource_domains', 'AcquisitionResourceDomainControls', (
+        'test_complete_readers_refuse_physical_replacement',
+        'test_complete_turn_has_separate_positive_boundaries',
+        'test_complete_turn_refuses_duplicate_keys_and_malformed_frames',
+        'test_complete_turn_rejects_overbounds_truncation_and_wrong_turn',
+        'test_fresh_nonprotected_hold_covers_all_rows_through_512',
+        'test_hold_history_still_detects_prohibited_use_after_row_64',
+        'test_hold_keeps_prefix_frame_and_complete_coverage_guards',
+        'test_other_hold_contexts_keep_64_rows',
+        'test_other_profiles_keep_legacy_turn_and_prefix_limits',
+        'test_selected_evidence_limits_stay_unchanged',
+        'test_source_prefix_hashes_exact_128_mib_with_bounded_reads',
+        'test_source_prefix_streams_above_selected_limit_and_keeps_128_mib_cap',
+    )),
+    ('test_native_startup_envelopes', 'NativeStartupEnvelopeControls', (
+        'test_checked_header_and_profile_gate_current_equal_ticks',
+        'test_combined_current_startup_preserves_complete_original_occurrences',
+        'test_declaration_does_not_authorize_calls_or_preuse_effects',
+        'test_declaration_scope_and_provenance_remain_closed',
+        'test_equal_tick_scope_keeps_backwards_gaps_and_cross_source_order_strict',
+        'test_equal_ticks_on_contiguous_current_physical_rows',
+        'test_inert_developer_declaration_on_real_current_hold',
+        'test_ordinary_history_without_selected_settings_remains_valid',
+        'test_selected_initial_settings_on_real_current_hold',
+        'test_selected_settings_are_closed_and_bound_into_fixed_policy',
+        'test_selected_settings_require_exact_unique_preload_child_payload',
+        'test_transport_metadata_keeps_strict_shape_and_existing_call_identity',
+        'test_transport_metadata_on_existing_paired_events',
+    )),
+    # This group consumes the two preceding fixtures through the owned loader;
+    # isolated Python deliberately does not search the script directory.
+    ('test_terminal_tool_inventory', 'TerminalToolInventoryControls', (
+        'test_declaration_never_hides_unsettled_or_duplicate_calls',
+        'test_same_admitted_declaration_reaches_terminal_inventory',
+        'test_terminal_declaration_retains_profile_and_closed_preload_shape',
+    )),
+)
 
 def load_local(name):
     spec = importlib.util.spec_from_file_location(name, HERE / (name + '.py'))
@@ -58,8 +127,16 @@ def main():
             raise ValueError('export-semantic regression population changed')
         tests += export_tests
         actual = sorted(actual + export_ids)
+        for module_name, class_name, methods in CURRENT_SOURCE_GROUPS:
+            group = list(leaves(unittest.defaultTestLoader.loadTestsFromModule(load_local(module_name))))
+            group_ids = sorted(test.id() for test in group)
+            expected_group = [module_name + '.' + class_name + '.' + name for name in methods]
+            if group_ids != expected_group:
+                raise ValueError('current source-only regression population changed: ' + module_name)
+            tests += group
+            actual = sorted(actual + group_ids)
         if args.list:
-            print(json.dumps({'scope': 'SOURCE_ONLY_NO_NATIVE_CREDIT', 'registered': 49, 'tests': actual}, indent=2)); return 0
+            print(json.dumps({'scope': 'SOURCE_ONLY_NO_NATIVE_CREDIT', 'registered': len(actual), 'tests': actual}, indent=2)); return 0
         if args.case:
             unknown = set(args.case) - set(actual)
             if unknown: raise ValueError('unknown selected control: ' + ', '.join(sorted(unknown)))
@@ -67,7 +144,7 @@ def main():
         before = support.source_pins()
         result = unittest.TextTestRunner(verbosity=2).run(unittest.TestSuite(tests))
         if support.source_pins() != before: raise ValueError('public source changed during regression')
-        print(json.dumps({'scope': 'SOURCE_ONLY_NO_NATIVE_CREDIT', 'registered': 49, 'executed': result.testsRun,
+        print(json.dumps({'scope': 'SOURCE_ONLY_NO_NATIVE_CREDIT', 'registered': len(actual), 'executed': result.testsRun,
             'skipped': len(result.skipped), 'success': result.wasSuccessful(), 'source_sha256': before}, sort_keys=True))
         return 0 if result.wasSuccessful() else 1
 

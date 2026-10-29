@@ -15,6 +15,29 @@ jobs:
         with:
           fetch-depth: 2
 
+      - name: Observe the C5 setup prerequisite
+        if: always()
+        continue-on-error: true
+        timeout-minutes: 1
+        run: |
+          set +e
+          sudo /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --provision-hosted-launcher
+          provision_status=$?
+          printf 'C5 launcher provision exit: %s\n' "$provision_status"
+          if [ "$provision_status" -ne 0 ]; then
+            exit "$provision_status"
+          fi
+          sudo /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py
+          setup_status=$?
+          printf 'C5 setup observation instrument exit: %s\n' "$setup_status"
+          exit "$setup_status"
+
+      - name: Receive the C5 current input prerequisites
+        if: always()
+        continue-on-error: true
+        timeout-minutes: 5
+        run: sudo /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --receive-hosted-prerequisites "$GITHUB_SHA"
+
       - name: Install validation dependencies
         run: |
           sudo apt-get update

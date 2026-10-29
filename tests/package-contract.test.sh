@@ -217,7 +217,7 @@ PY
 expect_reject post-review-cap-edit "$changed_cap" "budgets"
 
 for mutation in missing-reserve reduced-reserve unapproved-revision \
-    missing-revision substituted-approval changed-history changed-second-history missing-history; do
+    missing-revision substituted-approval changed-history changed-second-history changed-third-history missing-history; do
   fixture="$tmp/$mutation"
   make_fixture "$fixture"
   python - "$fixture/package/implementaudit-package.json" "$mutation" <<'PY'
@@ -234,7 +234,7 @@ if mutation == "missing-reserve":
 elif mutation == "reduced-reserve":
     data["budgets"]["canonical_plugin"]["reserve_bytes"] = 1999
 elif mutation == "unapproved-revision":
-    data.setdefault("budget_revision", {})["revision"] = 4
+    data.setdefault("budget_revision", {})["revision"] = 5
 elif mutation == "missing-revision":
     data.pop("budget_revision", None)
 elif mutation == "substituted-approval":
@@ -245,6 +245,8 @@ elif mutation == "changed-history":
     data["budget_history"] = history
 elif mutation == "changed-second-history":
     data["budget_history"]["2"]["canonical_plugin"]["cap_bytes"] = 458752
+elif mutation == "changed-third-history":
+    data["budget_history"]["3"]["canonical_plugin"]["cap_bytes"] = 589824
 elif mutation == "missing-history":
     data.pop("budget_history", None)
 else:
@@ -276,11 +278,11 @@ expect_budget_reject canonical_plugin not-an-integer "artifact byte size is not 
 expect_budget_reject standalone_compatibility -1 "artifact byte size must be non-negative"
 
 for role in canonical_plugin standalone_compatibility; do
-  # R003A revision 3 preserves the reserve and historical revision 2 below.
-  bash "$checker" --check-budget-size "$role" 456752
-  expect_budget_reject "$role" 456753 "required reserve"
-  expect_budget_reject "$role" 458752 "required reserve"
-  expect_budget_reject "$role" 458753 "exceeds reviewed cap"
+  # Separately approved prospective revision4; historical failures stay below.
+  bash "$checker" --check-budget-size "$role" 587824
+  expect_budget_reject "$role" 587825 "required reserve"
+  expect_budget_reject "$role" 589824 "required reserve"
+  expect_budget_reject "$role" 589825 "exceeds reviewed cap"
 done
 
 python - <<'PY'
@@ -296,6 +298,8 @@ if observed != approval["sha256"]:
     raise SystemExit("source owner approval bytes differ from the reviewed declaration")
 if hashlib.sha256(Path("package/budgets/r0039-v2-owner-approval.md").read_bytes()).hexdigest() != "c5575774aae04aeb65de98390831e76c9971da570dc60f0b4eadad2aa2da1582":
     raise SystemExit("historical revision 2 approval changed")
+if hashlib.sha256(Path("package/budgets/r003a-v3-owner-approval.md").read_bytes()).hexdigest() != "21e1affebd7de32a91e578a601671efd1c1acdd8a06df2074eda287e0c9cf0d1":
+    raise SystemExit("historical revision 3 approval changed")
 spec = importlib.util.spec_from_file_location("historical_package_contract", "scripts/package-contract.py")
 owner = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(owner)
@@ -311,6 +315,18 @@ for role in ("canonical_plugin", "standalone_compatibility"):
                 raise SystemExit("historical budget refusal changed")
         else:
             raise SystemExit("historical revision 2 failure became a pass")
+historical = {"budgets": contract["budget_history"]["3"]}
+for role in ("canonical_plugin", "standalone_compatibility"):
+    owner.enforce_budget_size(historical, role, 456752)
+    for size, reason in ((456753, "required reserve"), (458752, "required reserve"),
+                         (458753, "exceeds reviewed cap"), (552490, "exceeds reviewed cap")):
+        try:
+            owner.enforce_budget_size(historical, role, size)
+        except owner.ContractError as error:
+            if reason not in str(error):
+                raise SystemExit("historical revision 3 refusal changed")
+        else:
+            raise SystemExit("historical revision 3 failure became a pass")
 PY
 
 python fixtures/package-contract/installed_modes_test.py

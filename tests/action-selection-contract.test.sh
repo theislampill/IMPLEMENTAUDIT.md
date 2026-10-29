@@ -37,10 +37,13 @@ reset_sandbox() {
     "$tmp_root/skills/implementaudit/references" \
     "$tmp_root/skills/implementaudit/templates" \
     "$tmp_root/fixtures/audit-action-selection" \
+    "$tmp_root/fixtures/distributed-runtime" \
     "$tmp_root/fixtures/native-integration" \
     "$tmp_root/fixtures/audit-object-routing"
   cp skills/implementaudit/SKILL.md "$tmp_root/skills/implementaudit/"
   cp skills/implementaudit/references/planning-depth.md \
+    "$tmp_root/skills/implementaudit/references/"
+  cp skills/implementaudit/references/audit-playbook.md \
     "$tmp_root/skills/implementaudit/references/"
   cp skills/implementaudit/references/lean-operating-discipline.md \
     "$tmp_root/skills/implementaudit/references/"
@@ -55,6 +58,8 @@ reset_sandbox() {
     "$tmp_root/fixtures/audit-action-selection/"
   cp fixtures/audit-action-selection/*.json \
     "$tmp_root/fixtures/audit-action-selection/"
+  cp fixtures/distributed-runtime/r48-admission-cases.json \
+    "$tmp_root/fixtures/distributed-runtime/"
   cp fixtures/native-integration/single-plan-native-route.md \
     "$tmp_root/fixtures/native-integration/"
   cp fixtures/audit-object-routing/deep-pressure-disclosure.md \
@@ -815,6 +820,35 @@ path.write_text(json.dumps(payload), encoding="utf-8")
 PY
 expect_fail "high-consequence control accepted without containment"
 
+# R002C-1. Hazardous stopping selects the existing containment/recovery envelope
+# even when a reversible action is not labelled high-consequence. Incomplete
+# envelopes defer; a complete bounded degraded route remains available.
+while IFS='|' read -r label observation_delta expected_outcome; do
+  reset_sandbox
+  "${py_cmd[@]}" - \
+    "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" \
+    "$observation_delta" "$expected_outcome" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R44-C143-low-consequence-cheap-path")
+case["observations"].update(json.loads(sys.argv[2]))
+case["expected"] = sys.argv[3]
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+  bash scripts/check-action-selection-contract.sh --repo-root "$tmp_root" \
+    >/dev/null 2>&1 || fail "hazardous stopping control failed: $label"
+done <<'EOF'
+hazard-only|{"stopping_hazardous":true}|DEFER
+hazard-live|{"stopping_hazardous":true,"live_pressure":true}|DEFER
+complete-unbounded|{"stopping_hazardous":true,"containment":true}|DEFER
+bounded-missing-containment|{"stopping_hazardous":true,"bounded_degraded_operation":true}|DEFER
+complete-bounded|{"stopping_hazardous":true,"bounded_degraded_operation":true,"containment":true}|BOUNDED_DEGRADED_OPERATION
+bounded-missing-target|{"stopping_hazardous":true,"bounded_degraded_operation":true,"containment":true,"target_state":false}|DEFER
+bounded-missing-feedback|{"stopping_hazardous":true,"bounded_degraded_operation":true,"containment":true,"feedback":false}|DEFER
+bounded-missing-recovery|{"stopping_hazardous":true,"bounded_degraded_operation":true,"containment":true,"recovery":false}|DEFER
+EOF
+
 # 55. Method labels never replace the consequence-control discriminator.
 reset_sandbox
 "${py_cmd[@]}" - \
@@ -934,5 +968,522 @@ case["expected"] = "VERIFY_PACKAGE_CONSUMER"
 path.write_text(json.dumps(payload), encoding="utf-8")
 PY
 expect_fail "multi-impact verifier plan lost composed outcome"
+
+# 63. The reviewed 31/18/4/6/1 proof-layer partition is exact and retains the
+# external/domain rows as unverified rather than silently closing them.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/security-profile-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+payload["proof_layer_partition"]["external_domain_unverified"] = 5
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "security profile accepted a changed proof-layer partition"
+
+# 64. Each bounded security-profile control has a distinct observable outcome;
+# relabelling one as its distractor must fail against the real checker.
+while IFS='|' read -r case_id wrong_expected; do
+  reset_sandbox
+  "${py_cmd[@]}" - \
+    "$tmp_root/fixtures/audit-action-selection/security-profile-cases.json" \
+    "$case_id" "$wrong_expected" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+case_id, wrong_expected = sys.argv[2:]
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == case_id)
+case["expected"] = wrong_expected
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+  expect_fail "security-profile control relabelled for $case_id"
+done <<'EOF'
+R002E-S01-material-profile-selected|NO_SECURITY_PROFILE
+R002E-S02-low-exposure-cheap-path|SELECT_NATIVE_SECURITY_PROFILE
+R002E-S03-stale-provenance-blocked|SELECT_NATIVE_SECURITY_PROFILE
+R002E-S04-authentication-is-not-authorization|SELECT_NATIVE_SECURITY_PROFILE
+R002E-S05-availability-is-not-trust-restoration|SELECT_NATIVE_SECURITY_PROFILE
+R002E-S06-label-only-proof-rejected|SELECT_NATIVE_SECURITY_PROFILE
+R002E-S07-no-trigger-no-profile|SELECT_NATIVE_SECURITY_PROFILE
+R002E-S08-unbounded-adversary-held|SELECT_NATIVE_SECURITY_PROFILE
+R002E-S09-missing-assurance-evidence-held|SELECT_NATIVE_SECURITY_PROFILE
+EOF
+
+# 65. Assurance evidence and the limits of that evidence are independent
+# completeness dimensions; the fixture must hold when evidence itself is absent.
+"${py_cmd[@]}" - \
+  fixtures/audit-action-selection/security-profile-cases.json <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+cases = payload["cases"]
+missing = [case["id"] for case in cases
+           if "assurance_evidence" not in case["observations"]]
+if missing:
+    raise SystemExit("security-profile cases missing assurance_evidence: " + ", ".join(missing))
+case = next((item for item in cases
+             if item["id"] == "R002E-S09-missing-assurance-evidence-held"), None)
+if case is None:
+    raise SystemExit("missing assurance-evidence negative control")
+if case["observations"]["assurance_evidence"] is not False:
+    raise SystemExit("missing assurance-evidence control is not false")
+if case["observations"]["assurance_limits"] is not True:
+    raise SystemExit("missing assurance-evidence control also removed assurance limits")
+if case["expected"] != "HOLD_INCOMPLETE_PROFILE":
+    raise SystemExit("missing assurance-evidence control has wrong outcome")
+PY
+
+# 66. Every accepted trigger-family clause is independently pinned. Removing
+# any one from the sandbox owner must make the static checker fail.
+while IFS= read -r trigger_clause; do
+  reset_sandbox
+  "${py_cmd[@]}" - \
+    "$tmp_root/skills/implementaudit/references/planning-depth.md" \
+    "$trigger_clause" <<'PY'
+import pathlib, sys
+path = pathlib.Path(sys.argv[1])
+clause = sys.argv[2]
+text = path.read_text(encoding="utf-8")
+if text.count(clause) != 1:
+    raise SystemExit(f"trigger clause occurrence mismatch for {clause!r}")
+path.write_text(text.replace(clause, "[deleted trigger clause]"), encoding="utf-8")
+PY
+  expect_fail "security-profile trigger clause removed: $trigger_clause"
+done <<'EOF'
+material protected consequence
+or untrusted capability
+changed trust, privilege, or delegation boundary
+consequential security authority
+provenance-dependent claim
+adaptive-adversary or common-mode risk
+weak detection or recovery
+consequential security, privacy, safety, availability, or usability decision
+EOF
+
+# 67. Each named non-proof proxy is independently pinned in the accepted prose.
+# A generic whole-system sentence cannot mask deletion of a concrete proxy.
+while IFS= read -r proxy_token; do
+  reset_sandbox
+  "${py_cmd[@]}" - \
+    "$tmp_root/skills/implementaudit/references/audit-playbook.md" \
+    "$proxy_token" <<'PY'
+import pathlib, sys
+path = pathlib.Path(sys.argv[1])
+token = sys.argv[2]
+text = path.read_text(encoding="utf-8")
+if text.count(token) != 1:
+    raise SystemExit(f"proxy token occurrence mismatch for {token!r}")
+path.write_text(text.replace(token, "[deleted proxy token]"), encoding="utf-8")
+PY
+  expect_fail "security-profile non-proof proxy removed: $proxy_token"
+done <<'EOF'
+scanner
+penetration-test result
+SBOM
+signature
+CVSS score
+certificate
+encryption label
+zero-trust slogan
+EOF
+
+# 68. Each trigger family is causally sufficient by itself: with every trigger
+# false the complete control observes NO_SECURITY_PROFILE, then toggling only
+# the named trigger selects the native profile.
+while IFS= read -r trigger_field; do
+  reset_sandbox
+  "${py_cmd[@]}" - \
+    "$tmp_root/fixtures/audit-action-selection/security-profile-cases.json" \
+    "$trigger_field" false <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+trigger_field, enabled = sys.argv[2], sys.argv[3] == "true"
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R002E-S01-material-profile-selected")
+trigger_fields = (
+    "material_protected_consequence", "exposed_or_untrusted_capability",
+    "trust_or_privilege_boundary_change", "consequential_security_authority",
+    "provenance_dependent_claim", "adaptive_or_common_mode_risk",
+    "weak_detection_or_recovery",
+    "consequential_security_privacy_safety_availability_usability_decision",
+)
+for field in trigger_fields:
+    case["observations"][field] = False
+case["observations"][trigger_field] = enabled
+case["expected"] = "SELECT_NATIVE_SECURITY_PROFILE" if enabled else "NO_SECURITY_PROFILE"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+  bash scripts/check-action-selection-contract.sh --repo-root "$tmp_root" \
+    >/dev/null 2>&1 || fail "all-false trigger counterfactual failed for $trigger_field"
+  "${py_cmd[@]}" - \
+    "$tmp_root/fixtures/audit-action-selection/security-profile-cases.json" \
+    "$trigger_field" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+trigger_field = sys.argv[2]
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R002E-S01-material-profile-selected")
+case["observations"][trigger_field] = True
+case["expected"] = "SELECT_NATIVE_SECURITY_PROFILE"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+  bash scripts/check-action-selection-contract.sh --repo-root "$tmp_root" \
+    >/dev/null 2>&1 || fail "sole-trigger counterfactual failed for $trigger_field"
+done <<'EOF'
+material_protected_consequence
+exposed_or_untrusted_capability
+trust_or_privilege_boundary_change
+consequential_security_authority
+provenance_dependent_claim
+adaptive_or_common_mode_risk
+weak_detection_or_recovery
+consequential_security_privacy_safety_availability_usability_decision
+EOF
+
+# 69. Authentication, restored availability, and a named label/instrument are
+# causal non-proof proxies even when the full profile is otherwise complete.
+while IFS='|' read -r proxy_field rejected_outcome; do
+  reset_sandbox
+  "${py_cmd[@]}" - \
+    "$tmp_root/fixtures/audit-action-selection/security-profile-cases.json" \
+    "$proxy_field" false "SELECT_NATIVE_SECURITY_PROFILE" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+proxy_field, enabled, expected = sys.argv[2], sys.argv[3] == "true", sys.argv[4]
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R002E-S01-material-profile-selected")
+case["observations"][proxy_field] = enabled
+case["expected"] = expected
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+  bash scripts/check-action-selection-contract.sh --repo-root "$tmp_root" \
+    >/dev/null 2>&1 || fail "false proxy counterfactual failed for $proxy_field"
+  "${py_cmd[@]}" - \
+    "$tmp_root/fixtures/audit-action-selection/security-profile-cases.json" \
+    "$proxy_field" true "$rejected_outcome" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+proxy_field, enabled, expected = sys.argv[2], sys.argv[3] == "true", sys.argv[4]
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R002E-S01-material-profile-selected")
+case["observations"][proxy_field] = enabled
+case["expected"] = expected
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+  bash scripts/check-action-selection-contract.sh --repo-root "$tmp_root" \
+    >/dev/null 2>&1 || fail "true proxy counterfactual failed for $proxy_field"
+done <<'EOF'
+authentication_as_authorization|REJECT_AUTHENTICATION_PROXY
+availability_as_trust|REJECT_AVAILABILITY_PROXY
+label_or_instrument_as_whole_system_proof|REJECT_WHOLE_SYSTEM_PROXY
+EOF
+
+# R002E-1. The cheap route still requires current provenance and rejects
+# authentication, availability, or an instrument used as the protected proof.
+while IFS='|' read -r observation_delta expected_outcome; do
+  reset_sandbox
+  "${py_cmd[@]}" - \
+    "$tmp_root/fixtures/audit-action-selection/security-profile-cases.json" \
+    "$observation_delta" "$expected_outcome" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R002E-S02-low-exposure-cheap-path")
+case["observations"].update(json.loads(sys.argv[2]))
+case["expected"] = sys.argv[3]
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+  bash scripts/check-action-selection-contract.sh --repo-root "$tmp_root" \
+    >/dev/null 2>&1 || fail "security cheap-path contradiction accepted: $observation_delta"
+done <<'EOF'
+{"provenance_current":false}|BLOCK_STALE_PROVENANCE
+{"authentication_as_authorization":true}|REJECT_AUTHENTICATION_PROXY
+{"availability_as_trust":true}|REJECT_AVAILABILITY_PROXY
+{"label_or_instrument_as_whole_system_proof":true}|REJECT_WHOLE_SYSTEM_PROXY
+EOF
+
+# R002E-2. No trigger and no claimed cheap envelope creates no profile merely
+# because provenance is unavailable; the ordinary no-claim route stays direct.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/security-profile-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R002E-S07-no-trigger-no-profile")
+case["observations"]["provenance_current"] = False
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+bash scripts/check-action-selection-contract.sh --repo-root "$tmp_root" \
+  >/dev/null 2>&1 || fail "unclaimed provenance created a security profile"
+
+# P34-1. Executor capacity is not downstream or recovery capacity and cannot
+# authorize a material retry by itself.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R48-C147-host-slots-not-downstream-capacity")
+case["expected"] = "ADMIT"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "host slots alone authorized retry"
+
+# P34-2. A short queue is an observation, not semantic retry authority or
+# downstream/recovery headroom.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R48-C148-queue-depth-not-retry-authority")
+case["expected"] = "ADMIT"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "queue depth alone authorized retry"
+
+# P34-3. Definitive, untriggered local work remains on the serial cheap path and
+# never gains retry admission merely because executor capacity is free.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R48-C149-local-retry-cheap-path-stays-serial")
+case["expected"] = "ADMIT"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "local cheap path gained a retry queue"
+
+# P34-4. Planning depth owns the conjunctive admission rule.
+reset_sandbox
+grep -v "Material retry, recovery, or redispatch admission is conjunctive" \
+  "$tmp_root/skills/implementaudit/references/planning-depth.md" \
+  >"$tmp_root/planning-depth.tmp"
+mv "$tmp_root/planning-depth.tmp" \
+  "$tmp_root/skills/implementaudit/references/planning-depth.md"
+expect_fail "planning-depth retry admission owner removed"
+
+# P34-5. Lean discipline owns the same admission factors through the control
+# lifecycle rather than allowing capacity proxies to self-authorise.
+reset_sandbox
+grep -v "For retry, recovery, or redispatch, admit only when semantic eligibility" \
+  "$tmp_root/skills/implementaudit/references/lean-operating-discipline.md" \
+  >"$tmp_root/lean.tmp"
+mv "$tmp_root/lean.tmp" \
+  "$tmp_root/skills/implementaudit/references/lean-operating-discipline.md"
+expect_fail "lean retry admission owner removed"
+
+# P34-6. Child-agent scheduling must not reinterpret free executor capacity as
+# retry authority.
+reset_sandbox
+grep -v "establish semantic retry eligibility" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md" \
+  >"$tmp_root/child-agents.tmp"
+mv "$tmp_root/child-agents.tmp" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md"
+expect_fail "child-agent retry admission boundary removed"
+
+# P34-7. A contradictory record cannot bypass retry/effect predicates merely by
+# selecting the cheap-local flags.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R48-C150-contradictory-cheap-retry-refused")
+case["expected"] = "CHEAP_PATH"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "contradictory retry record bypassed through cheap-local flags"
+
+# P34-8. Effect-state vocabulary is validated before any disposition; the former
+# noncanonical token cannot enter the cheap path.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R48-C149-local-retry-cheap-path-stays-serial")
+case["observations"]["effect_state"] = "NOT_ATTEMPTED"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "noncanonical effect state entered cheap path"
+
+# P34-9. The planning owner must retain the exact coherent cheap-path predicates.
+reset_sandbox
+grep -v 'CHEAP_PATH.*requires canonical.*NOT_STARTED' \
+  "$tmp_root/skills/implementaudit/references/planning-depth.md" \
+  >"$tmp_root/planning-depth.tmp"
+mv "$tmp_root/planning-depth.tmp" \
+  "$tmp_root/skills/implementaudit/references/planning-depth.md"
+expect_fail "planning cheap-path coherence predicates removed"
+
+# P34-10. Reproduce the independent held-out H13 shape against the fixture-aware
+# checker while retaining the coherent local positive in the same six-case set.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/distributed-runtime/r48-admission-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = payload["cases"][1]
+case["id"] = "H13-contradictory-cheap-with-retry-state"
+case["observations"] = {
+    "distributed_trigger": False,
+    "cheap_local_operation": True,
+    "semantic_retry_eligible": True,
+    "effect_state": "FAILED_NO_EFFECT",
+    "deadline_remaining_ms": 0,
+    "queue_age_ms": 0,
+    "max_queue_age_ms": 0,
+    "requested_units": 1,
+    "downstream_available_units": 0,
+    "recovery_available_units": 0,
+}
+case["expected"] = "REFUSE"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+bash scripts/check-action-selection-contract.sh \
+  --repo-root "$tmp_root" \
+  --distributed-runtime-fixture \
+  "$tmp_root/fixtures/distributed-runtime/r48-admission-cases.json" \
+  >/dev/null 2>&1 || fail "held-out contradictory cheap-local record was not refused"
+
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/distributed-runtime/r48-admission-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "H13-contradictory-cheap-with-retry-state")
+case["expected"] = "CHEAP_PATH"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+if bash scripts/check-action-selection-contract.sh \
+  --repo-root "$tmp_root" \
+  --distributed-runtime-fixture \
+  "$tmp_root/fixtures/distributed-runtime/r48-admission-cases.json" \
+  >/dev/null 2>&1; then
+  fail "held-out contradictory cheap-local false green was not detected"
+fi
+
+# P34-11. Exercise typed inputs and each admission predicate through the actual
+# fixture-aware checker. Removing any predicate must admit a named bad record;
+# changing a strict numeric type check must accept a named malformed record.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$repo_root/scripts/check-action-selection-contract.sh" \
+  "$tmp_root" <<'PY'
+import copy
+import json
+from pathlib import Path
+import subprocess
+import sys
+
+owner = Path(sys.argv[1])
+sandbox = Path(sys.argv[2])
+fixture_path = sandbox / "fixtures/distributed-runtime/r48-admission-cases.json"
+baseline = json.loads(fixture_path.read_text(encoding="utf-8"))
+checked = 0
+
+def check(label, payload, valid):
+    global checked
+    fixture_path.write_text(json.dumps(payload), encoding="utf-8")
+    result = subprocess.run(
+        ["bash", str(owner), "--repo-root", str(sandbox),
+         "--distributed-runtime-fixture", str(fixture_path)],
+        capture_output=True, text=True, check=False,
+    )
+    output = result.stdout + result.stderr
+    if valid:
+        if result.returncode != 0 or "D48-C04=PASS cases=6/6" not in output:
+            raise SystemExit(f"distributed retry {label}: valid case refused: {output}")
+    elif result.returncode == 0:
+        raise SystemExit(f"distributed retry {label}: malformed case accepted")
+    elif "fixture" not in output or "Traceback" in output:
+        raise SystemExit(f"distributed retry {label}: no attributable fixture refusal: {output}")
+    checked += 1
+
+def observation(label, changes, expected, case_index=0):
+    payload = copy.deepcopy(baseline)
+    payload["cases"][case_index]["observations"].update(changes)
+    payload["cases"][case_index]["expected"] = expected
+    check(label, payload, True)
+
+check("positive", baseline, True)
+for field in ("deadline_remaining_ms", "queue_age_ms", "max_queue_age_ms",
+              "requested_units", "downstream_available_units", "recovery_available_units",
+              "host_free_slots", "queue_depth"):
+    for value in (True, -1):
+        payload = copy.deepcopy(baseline)
+        payload["cases"][0]["observations"][field] = value
+        check(f"typed-{field}-{value}", payload, False)
+for field, value in (("requested_units", 1.0), ("downstream_available_units", "1"),
+                     ("distributed_trigger", 1), ("cheap_local_operation", 0),
+                     ("semantic_retry_eligible", "true"), ("effect_state", [])):
+    payload = copy.deepcopy(baseline)
+    payload["cases"][0]["observations"][field] = value
+    check(f"typed-{field}", payload, False)
+for field in baseline["cases"][0]["observations"]:
+    payload = copy.deepcopy(baseline)
+    del payload["cases"][0]["observations"][field]
+    check(f"missing-{field}", payload, False)
+for label, changes, expected in (
+    ("deadline-expired", {"deadline_remaining_ms": 0}, "REFUSE"),
+    ("queue-age-over-policy", {"queue_age_ms": 1001, "max_queue_age_ms": 1000}, "REFUSE"),
+    ("queue-age-at-policy", {"queue_age_ms": 1000, "max_queue_age_ms": 1000}, "ADMIT"),
+    ("no-requested-work", {"requested_units": 0}, "REFUSE"),
+    ("semantic-ineligible", {"semantic_retry_eligible": False}, "REFUSE"),
+    ("no-distributed-trigger", {"distributed_trigger": False}, "REFUSE"),
+    ("triggered-cheap-label", {"cheap_local_operation": True}, "REFUSE"),
+    ("host-proxy-not-downstream", {"downstream_available_units": 0,
+                                   "host_free_slots": 10000, "queue_depth": 0}, "REFUSE"),
+    ("queue-proxy-not-recovery", {"recovery_available_units": 0,
+                                 "host_free_slots": 10000, "queue_depth": 0}, "REFUSE"),
+    ("host-proxies-not-an-extra-gate", {"host_free_slots": 0, "queue_depth": 10000}, "ADMIT"),
+):
+    observation(label, changes, expected)
+for state in ("NOT_STARTED", "IN_FLIGHT", "UNKNOWN", "COMMITTED_VERIFIED",
+              "COMPENSATION_PENDING", "COMPENSATED_VERIFIED", "MANUAL_RECONCILIATION"):
+    observation(f"non-retriable-{state}", {"effect_state": state}, "REFUSE")
+for field, value in (("distributed_trigger", True), ("semantic_retry_eligible", True),
+                     ("effect_state", "FAILED_NO_EFFECT"), ("deadline_remaining_ms", 1),
+                     ("queue_age_ms", 1), ("max_queue_age_ms", 1),
+                     ("requested_units", 1), ("downstream_available_units", 1),
+                     ("recovery_available_units", 1)):
+    observation(f"contradictory-cheap-{field}", {field: value}, "REFUSE", 5)
+for label, payload in (("null-root", None), ("list-root", []), ("scalar-root", 7)):
+    check(label, payload, False)
+for field, value in (("schema", "foreign"), ("cell", "foreign"), ("cases", None),
+                     ("extra", True)):
+    payload = copy.deepcopy(baseline)
+    payload[field] = value
+    check(f"schema-{field}", payload, False)
+for label, value in (("null-case", None), ("list-case", []), ("scalar-case", 7)):
+    payload = copy.deepcopy(baseline)
+    payload["cases"][0] = value
+    check(label, payload, False)
+for field, value in (("id", 1), ("expected", True), ("observations", []), ("extra", True)):
+    payload = copy.deepcopy(baseline)
+    payload["cases"][0][field] = value
+    check(f"case-{field}", payload, False)
+payload = copy.deepcopy(baseline)
+payload["cases"][0]["observations"]["extra"] = True
+check("extra-observation", payload, False)
+payload = copy.deepcopy(baseline)
+payload["cases"][1]["id"] = payload["cases"][0]["id"]
+check("duplicate-case", payload, False)
+payload = copy.deepcopy(baseline)
+payload["cases"].pop()
+check("missing-case", payload, False)
+print(f"distributed retry boundary controls: {checked}/{checked}")
+PY
 
 printf 'action-selection-contract.test: ok\n'

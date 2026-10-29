@@ -1,0 +1,27 @@
+{
+  "schema": "implementaudit.research-evidence-transport.v1",
+  "purpose": "Complete lossless representation for bounded portal source observation. Original raw evidence remains retained and directly accessible. No runtime membership or native authority.",
+  "original": {
+    "path": "docs/research/implementaudit/r003f-r0041-pending-source-qualification.json",
+    "bytes": 30022077,
+    "sha256": "0a35a0e973d5627493928801a3ea82df8e5a82d37fa72d6e3cf795059cb63c57",
+    "git_blob": "707953224788ffe951b50a265fb7c456fda76e36",
+    "immutable_commit": "0049ea15d4e406aa6970ef6c30ea57f58154d757",
+    "immutable_tree": "20d88dc9fe0d27ab364d33e58fd2b80878b38b06",
+    "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/0049ea15d4e406aa6970ef6c30ea57f58154d757/docs/research/implementaudit/r003f-r0041-pending-source-qualification.json"
+  },
+  "carrier": {
+    "path": "docs/research/implementaudit/r003f-r0041-pending-source-qualification.json.gz",
+    "format": "gzip",
+    "bytes": 5037688,
+    "sha256": "ed46a9a90918a794beeaa42ceeba0b85bb14f46e72d66101443b857a30cb7941",
+    "git_blob": "f0663d5fbe1e9f429b062001ab6fa025742d1a31"
+  },
+  "receiving": [
+    "Verify exact compressed bytes, size, SHA256 and Git blob.",
+    "Decompress as data with maximum30022077 decoded bytes; require exact raw size/SHA256/Git blob and byte equality with retained original.",
+    "Do not execute embedded programs or promote source custody to native/currentness/acceptance."
+  ],
+  "observation_scope": "The declared portal context observes the complete compressed representation and this mapping. It is not a transitive source-read closure or a claim that every linked raw file was reread during each portal invocation.",
+  "retention": "Raw JSON remains unchanged in the repository and at the immutable original source route. This is a source-observation representation change, not deletion or source-payload replacement."
+}

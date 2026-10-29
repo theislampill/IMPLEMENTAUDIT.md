@@ -36,7 +36,24 @@ def unique(pairs):
         out[key] = value
     return out
 
-def validate_read(method, params):
+OWNED_STDIO_PROFILE = 'codex-app-server-0.153.4-owned-stdio-candidate-v1'
+
+def validate_read(method, params, *, profile_id=None):
+    if profile_id == OWNED_STDIO_PROFILE and method == 'thread/items/list':
+        if (isinstance(params, dict) and
+                set(params) == {'threadId', 'turnId', 'limit', 'cursor', 'sortDirection'} and
+                all(isinstance(params[key], str) and re.fullmatch(r'[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}', params[key])
+                    for key in ('threadId', 'turnId')) and type(params['limit']) is int and
+                0 < params['limit'] <= 64 and params['cursor'] is None and params['sortDirection'] == 'asc'):
+            return
+        raise ValueError('BOUNDED_EXACT_TURN_PAGE_REQUIRED')
+    if profile_id == OWNED_STDIO_PROFILE and method == 'thread/list':
+        if (isinstance(params, dict) and set(params) == {'cwd', 'sourceKinds', 'limit', 'cursor', 'archived', 'useStateDbOnly'} and
+                isinstance(params['cwd'], str) and Path(params['cwd']).is_absolute() and params['sourceKinds'] == ['subAgent'] and
+                type(params['limit']) is int and 0 < params['limit'] <= 64 and params['cursor'] is None and
+                params['archived'] is False and params['useStateDbOnly'] is True):
+            return
+        raise ValueError('OWNED_STDIO_BOUNDED_CWD_CATALOG_REQUIRED')
     if method == 'thread/list':
         if (isinstance(params,dict) and set(params)=={'parentThreadId','sourceKinds','limit','cursor','archived','useStateDbOnly'} and
                 isinstance(params['parentThreadId'],str) and params['parentThreadId'] and params['sourceKinds']==['subAgent'] and
@@ -78,6 +95,36 @@ def project_items(result, params):
                     "body_sha256": hashlib.sha256(item["text"].encode("utf-8")).hexdigest()})
     return out
 
+def project_owned_stdio_items(result, params):
+    """One complete exact-turn page; retain public-message hashes, no private bodies."""
+    validate_read('thread/items/list', params, profile_id=OWNED_STDIO_PROFILE)
+    if (not isinstance(result, dict) or result.get('nextCursor', 'ABSENT') is not None or
+            not isinstance(result.get('data'), list) or len(result['data']) > params['limit']):
+        raise ValueError('COMPLETE_BOUNDED_TURN_PAGE_REQUIRED')
+    seen = set()
+    public = []
+    excluded = {}
+    for entry in result['data']:
+        if not isinstance(entry, dict) or entry.get('turnId') != params['turnId'] or not isinstance(entry.get('item'), dict):
+            raise ValueError('EXACT_TURN_ITEM_REQUIRED')
+        item = entry['item']
+        identity, kind = item.get('id'), item.get('type')
+        if not isinstance(identity, str) or not identity or len(identity) > 256 or identity in seen or not isinstance(kind, str):
+            raise ValueError('UNIQUE_NATIVE_ITEM_REQUIRED')
+        seen.add(identity)
+        if kind != 'agentMessage':
+            excluded[kind] = excluded.get(kind, 0) + 1
+            continue
+        body, phase = item.get('text'), item.get('phase')
+        if not isinstance(body, str) or phase not in ('commentary', 'final_answer'):
+            raise ValueError('PUBLIC_MESSAGE_PHASE_REQUIRED')
+        raw = body.encode('utf-8')
+        if len(raw) > MAX_LINE:
+            raise ValueError('PUBLIC_MESSAGE_BYTE_BOUND')
+        public.append({'id': identity, 'turn_id': params['turnId'], 'phase': phase,
+                       'body_bytes': len(raw), 'body_sha256': hashlib.sha256(raw).hexdigest()})
+    return {'items': public, 'excluded_type_counts': excluded, 'page_complete': True}
+
 def project_thread(thread):
     if not isinstance(thread, dict) or thread.get("turns") != []:
         raise ValueError("UNEXPECTED_HYDRATED_OR_INVALID_THREAD")
@@ -95,6 +142,20 @@ class CatalogProjectionRefusal(ValueError):
     def __init__(self, detail):
         super().__init__('CATALOG_PARENT_SOURCE_OR_UNIQUENESS_CHANGED')
         self.detail=detail
+
+def project_owned_stdio_catalog(result, params):
+    validate_read('thread/list', params, profile_id=OWNED_STDIO_PROFILE)
+    if (not isinstance(result, dict) or result.get('nextCursor', 'ABSENT') is not None or
+            not isinstance(result.get('data'), list) or len(result['data']) > params['limit']):
+        raise ValueError('OWNED_STDIO_COMPLETE_CATALOG_REQUIRED')
+    seen, out = set(), []
+    for thread in result['data']:
+        row = project_thread(thread)
+        if (not isinstance(row.get('id'), str) or not row['id'] or row['id'] in seen or
+                row.get('cwd') != params['cwd'] or row.get('source_kind') != 'subAgent'):
+            raise ValueError('OWNED_STDIO_CATALOG_SOURCE_OR_IDENTITY')
+        seen.add(row['id']); out.append(row)
+    return out
 
 def project_catalog(result, params):
     if (not isinstance(result,dict) or 'nextCursor' not in result or result['nextCursor'] not in (None,'') or
@@ -180,6 +241,13 @@ def _probe_held(selection, methods=None, *, child_id=None):
     EXPECTED_BINARY_SHA256 = selection['native_executable']['sha256']
     CWD = Path(selection['cwd'])
     ROOT_ID = selection['root_thread_id']
+    owned_stdio = selection.get('profile_id') == OWNED_STDIO_PROFILE
+    profile_id = OWNED_STDIO_PROFILE if owned_stdio else None
+    if owned_stdio:
+        code_home = Path(selection['codex_home'])
+        if (selection.get('native_version') != 'codex-cli 0.153.4' or not code_home.is_absolute() or
+                code_home.resolve(strict=True) != code_home or not code_home.is_dir()):
+            raise ValueError('OWNED_STDIO_TASK_HOME_OR_VERSION_REQUIRED')
     if child_id is not None and (not isinstance(child_id, str) or not re.fullmatch(r"[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}", child_id) or child_id == ROOT_ID):
         raise ValueError("DISTINCT_CHILD_ID_REQUIRED")
     methods = methods if methods is not None else [
@@ -187,8 +255,8 @@ def _probe_held(selection, methods=None, *, child_id=None):
     if not isinstance(methods, list) or not 1 <= len(methods) <= 8:
         raise ValueError("REQUEST_COUNT_BOUND")
     for method, params in methods:
-        validate_read(method, params)
-        if method=='thread/list' and params['parentThreadId']!=ROOT_ID or method!='thread/list' and params["threadId"] not in (ROOT_ID, child_id):
+        validate_read(method, params, profile_id=profile_id)
+        if method == 'thread/list' and (params['cwd'] != str(CWD) if owned_stdio else params['parentThreadId'] != ROOT_ID) or method != 'thread/list' and params['threadId'] not in (ROOT_ID, child_id):
             raise ValueError("UNSELECTED_THREAD")
     pin = file_pin(BINARY)
     if pin["sha256"] != EXPECTED_BINARY_SHA256:
@@ -204,7 +272,7 @@ def _probe_held(selection, methods=None, *, child_id=None):
               "authority_ceiling": "NONE", "investigation_only": True,
               "root_thread_id": ROOT_ID, "candidate_child_thread_id": child_id,
               "observed_environment_thread_id": os.environ.get("CODEX_THREAD_ID"),
-              "executable": pin, "command": [str(BINARY), "app-server", "--stdio"],
+              "executable": pin, "command": [str(BINARY), "app-server", "--listen", "stdio://"] if owned_stdio else [str(BINARY), "app-server", "--stdio"],
               "responses": [], "failure": None, "protocol": {"streams": state}}
     process = None
     readers = []
@@ -234,11 +302,14 @@ def _probe_held(selection, methods=None, *, child_id=None):
             state[name]["done"] = True
 
     def request(value):
-        if value["method"] not in {"initialize", "initialized", "thread/read", "thread/items/read", "thread/list"}:
+        allowed = {'initialize', 'initialized', 'thread/read', 'thread/items/read', 'thread/list'}
+        if owned_stdio:
+            allowed.add('thread/items/list')
+        if value['method'] not in allowed:
             raise ValueError("REQUEST_NOT_ALLOWED")
-        if value["method"] in {"thread/read", "thread/items/read", "thread/list"}:
-            validate_read(value["method"], value["params"])
-            if value['method']=='thread/list' and value['params']['parentThreadId']!=ROOT_ID or value['method']!='thread/list' and value["params"]["threadId"] not in (ROOT_ID, child_id):
+        if value["method"] not in {"initialize", "initialized"}:
+            validate_read(value["method"], value["params"], profile_id=profile_id)
+            if value['method'] == 'thread/list' and (value['params']['cwd'] != str(CWD) if owned_stdio else value['params']['parentThreadId'] != ROOT_ID) or value['method'] != 'thread/list' and value['params']['threadId'] not in (ROOT_ID, child_id):
                 raise ValueError("UNSELECTED_THREAD")
         process.stdin.write(canonical(value) + b"\n")
         process.stdin.flush()
@@ -263,6 +334,7 @@ def _probe_held(selection, methods=None, *, child_id=None):
     try:
         process = subprocess.Popen(report["command"], cwd=CWD, stdin=subprocess.PIPE,
             stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            env=dict(os.environ, CODEX_HOME=str(code_home)) if owned_stdio else None,
             creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0)
         report["protocol"]["pid"] = process.pid
         for name in ("stdout", "stderr"):
@@ -283,10 +355,12 @@ def _probe_held(selection, methods=None, *, child_id=None):
                    "response_sha256": hashlib.sha256(canonical(raw)).hexdigest()}
             if "error" in raw:
                 row["error"] = raw["error"]
+            elif method == 'thread/items/list' and owned_stdio:
+                row.update(project_owned_stdio_items(raw.get('result'), params))
             elif method == "thread/items/read":
                 row["items"] = project_items(raw.get("result"), params)
             elif method == 'thread/list':
-                row['threads']=project_catalog(raw.get('result'),params)
+                row['threads'] = project_owned_stdio_catalog(raw.get('result'), params) if owned_stdio else project_catalog(raw.get('result'), params)
                 row['catalog_complete']=True
             else:
                 row["thread"] = project_thread(raw.get("result", {}).get("thread"))

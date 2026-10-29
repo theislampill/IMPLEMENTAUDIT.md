@@ -576,18 +576,18 @@ PY
       [ "$bound_digest_lines" -eq 1 ] \
         || fail "artifact must bind exactly one Bound-Surfaces-SHA256 when --bound-surfaces is used"
       declared_bound_digest="$(sed -n 's/^Bound-Surfaces-SHA256: //p' "$artifact")"
-      actual_bound_digest="$(sha256sum "$bound_surfaces" | awk '{print $1}')"
-      [ "$declared_bound_digest" = "$actual_bound_digest" ] \
-        || fail "bound-surfaces manifest digest does not match the artifact declaration"
       if command -v python >/dev/null 2>&1; then py_cmd=(python)
       elif command -v python3 >/dev/null 2>&1; then py_cmd=(python3)
       elif command -v py >/dev/null 2>&1; then py_cmd=(py -3)
       else fail "python, python3, or py -3 is required for --bound-surfaces"
       fi
-      "${py_cmd[@]}" - "$anchor" "$tree" "$bound_surfaces" <<'PY'
+      "${py_cmd[@]}" - "$anchor" "$tree" "$bound_surfaces" "$declared_bound_digest" <<'PY'
 import fnmatch
+import hashlib
+import os
 import pathlib
 import re
+import stat
 import subprocess
 import sys
 
@@ -595,7 +595,38 @@ def fail(message):
     print(f"check-evidence-anchor: {message}", file=sys.stderr)
     raise SystemExit(1)
 
-anchor, current, manifest_arg = sys.argv[1:]
+anchor, current, manifest_arg, declared_digest = sys.argv[1:]
+manifest = pathlib.Path(manifest_arg)
+
+def identity(info):
+    return (info.st_dev, info.st_ino, info.st_mode, info.st_nlink,
+            info.st_size, info.st_mtime_ns, info.st_ctime_ns)
+
+# The artifact binds bytes, so hash and parse one capture. A separate shell
+# hash followed by a pathname reread can silently narrow the declared scope.
+try:
+    before = manifest.lstat()
+    if not stat.S_ISREG(before.st_mode):
+        fail("bound-surfaces manifest must be a regular non-symlink file")
+    flags = os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_NONBLOCK", 0)
+    fd = os.open(manifest, flags)
+    try:
+        if identity(os.fstat(fd)) != identity(before):
+            fail("bound-surfaces manifest changed before capture")
+        with os.fdopen(fd, "rb", closefd=False) as stream:
+            manifest_raw = stream.read(before.st_size + 1)
+        if (len(manifest_raw) != before.st_size
+                or identity(os.fstat(fd)) != identity(before)
+                or identity(manifest.lstat()) != identity(before)):
+            fail("bound-surfaces manifest changed during capture")
+    finally:
+        os.close(fd)
+    if hashlib.sha256(manifest_raw).hexdigest() != declared_digest:
+        fail("bound-surfaces manifest digest does not match the artifact declaration")
+    manifest_text = manifest_raw.decode("utf-8")
+except (OSError, UnicodeError) as exc:
+    fail(f"bound-surfaces manifest capture refused: {exc}")
+
 head = subprocess.run(
     ["git", "rev-parse", "HEAD"], text=True, capture_output=True, check=False
 )
@@ -610,9 +641,8 @@ for name, value in (("artifact anchor", anchor), ("offered tree", current)):
     if check.returncode != 0:
         fail(f"{name} is not a local commit")
 
-manifest = pathlib.Path(manifest_arg)
 patterns = []
-for raw in manifest.read_text(encoding="utf-8").splitlines():
+for raw in manifest_text.splitlines():
     pattern = raw.strip()
     if not pattern or pattern.startswith("#"):
         continue

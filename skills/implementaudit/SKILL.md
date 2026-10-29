@@ -128,9 +128,16 @@ obligation still requires bounded audit-state execution with unresolved
 currentness/epoch recorded; it grants no authority or ordinary execution.
 Route `audit-assess` only for a digest-bound
 immutable packet under the independence contract in
-`references/plan-lifecycle.md`. Route maintainer-only `audit-implement` only for an
-exact candidate after mechanically verified release currentness under
-`references/transcript-contract.md`; `NOT_APPLICABLE` is invalid there. Route
+`references/plan-lifecycle.md`. For `audit-implement`, progressively read
+`references/transcript-contract.md` §Evidential-support contract before load:
+Both branches require package maintainer admission. Release claims require
+release currentness; non-release claims bind subject currentness. Mixed subjects
+stop; ordinary or mechanically settled work bypasses.
+Run `python3 scripts/validate-audit-implement-return.py --envelope <envelope>`
+before load: `VALID` permits remaining route gates; `BYPASS` means zero loads.
+After return, re-establish current facts, then run
+`python3 scripts/validate-audit-implement-return.py --envelope <original> --result <return> --current-envelope <current>`.
+Drift/refusal returns here; value checks grant no authority. Route
 `audit-andon` from L4 only after a non-trivial Andon is established and bounded
 diagnosis can change the response; it returns to L4/governor. An explicit
 direct cord-pull may invoke the same bounded cognition and returns to the actual
@@ -145,6 +152,9 @@ the Execution Spine. Planning remains progressively owned by
 the Runtime Loop and `references/plan-lifecycle.md`. A verifier failure in the
 target package is a bound audit gate failure, not evidence that the executing
 IMPLEMENTAUDIT package is partial.
+
+Procedural methods and typed subordinate recovery follow the child-routing
+contract in `references/transcript-contract.md`; they add no child or authority.
 
 ---
 
@@ -202,6 +212,8 @@ Load references only when the current gate needs them:
 - `references/canonical-state-rotation.md`: zero-model pair/archive projection
   and claim-owned publication; load only for rotation or typed retrieval.
 - `references/repo-state-comparison.md`: baseline/final and helper dispatch.
+- `references/work-graph-contract.md`: optional graph source/JOIN diagnostics;
+  native producer and executor admission remain separately qualified.
 - `references/host-session-binding.md`: selected portable host/session
   attribution, owner-store custody, and explicit host-activation limits.
 - `references/sidecars.md`: optional Graphify/ActiveGraph and tooling bounds.
@@ -339,7 +351,7 @@ Final markers:
 contract phrase: AUDIT_COMPLETE before IMPLEMENTAUDIT_RUN_COMPLETE. Never print
 completion markers when a handoff marker remains active.
 
-Emit each final audit marker exactly once per run.
+Repeat nonterminal audit markers per round; emit final audit closure once.
 Do not replay a completion marker in a later summary or final response. If a
 marker was already emitted at its transition, describe the result without
 printing that marker again.

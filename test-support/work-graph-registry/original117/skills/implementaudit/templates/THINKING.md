@@ -1,0 +1,273 @@
+# IMPLEMENTAUDIT Thinking
+
+Runtime copy target: `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/THINKING.md`
+
+This file is reviewable planning evidence for goal synthesis or phased audit
+closure. Keep it concise. Do not use it for private chain-of-thought, raw logs,
+secrets, or transient smoke debris.
+
+## Objective
+
+Top objective:
+
+Audit target:
+
+Audit object / record / surface:
+
+Audit object mnemonic: tdqyq-audit-object
+
+Auditing operations needed:
+
+Auditing action mnemonic: ydqyq-audit-action
+
+Double-audit sequence for high-risk work:
+
+1. Audit operation -> audit object:
+2. Action against audit object:
+3. Final audit operation -> terminal object state:
+
+Terminal closure condition:
+
+Invocation shape: embedded governance / direct governance / goal synthesis / governed casual-build intake
+
+Route: greenfield / brownfield / mixed
+
+Run root:
+
+Baseline ref:
+
+IMPLEMENTAUDIT_BASE:
+
+IMPLEMENTAUDIT_RUN_ROOT:
+
+IMPLEMENTAUDIT_BASELINE_REF:
+
+Legacy flat `.IMPLEMENTAUDIT/` resume status:
+
+## Action selection
+
+Input shape:
+
+Intended executor:
+
+Uncertainty / dependency density / evidence gaps:
+
+Authorization state:
+
+Selected ydqyq-audit-actions:
+
+Considered-but-omitted actions (with reasons):
+
+Why deeper planning was or was not warranted:
+
+## Available context
+
+Host/session constraints:
+
+Shell/language runtimes/package managers:
+
+Available skills/tools/MCPs:
+
+Web/current-doc lookup status:
+
+Memory/continuity locations:
+
+Prior run roots:
+
+Applied context:
+
+Intent docs:
+
+## Owner/source
+
+Candidates:
+
+Final owner/source decision:
+
+Why this owner/source controls the behavior:
+
+## Risks and dependencies
+
+Top closure risks:
+
+1.
+2.
+3.
+
+Dependency order:
+
+Blocked / deferred relationships:
+
+Owner decisions needed:
+
+## Evidence strategy
+
+Baseline ref:
+
+Smoke A:
+
+Smoke B:
+
+Mandatory checks:
+
+Complete repo-state comparison:
+
+Trust-prior evidence, if any:
+
+## Audit category matrix
+
+Default category pass applied: yes / scoped / no (reason)
+
+Correctness / bugs:
+
+Security / privacy:
+
+Performance / scale:
+
+Tests / validation:
+
+Architecture / tech debt:
+
+Dependencies / migrations:
+
+DX / tooling:
+
+Docs / handoff:
+
+Direction / design:
+
+Deep-pressure follow-up:
+
+Deep coverage disclosure:
+
+Coverage lanes (per warranted lane: category | owner/source or scope | bounded question | evidence boundary | prompt contract | status executed/serialized/skipped+reason | evidence returned | residual risk):
+
+Security-pressure follow-up:
+
+Quick/bounded audit behavior:
+
+Direction candidates and DMADV routing:
+
+Categories deferred / out of scope / unverified:
+
+Finding row contract:
+
+Repo-content-as-data / prompt-injection boundary:
+
+Read-only audit-object closure:
+
+Prioritization and vetting:
+
+## Branch / diff / reconciliation scope
+
+Base ref or merge-base:
+
+Changed/staged/unstaged/deleted/untracked files:
+
+Direct importers/callers or dependent docs/checkers:
+
+Introduced vs pre-existing classification:
+
+Reconciliation statuses (DONE / BLOCKED / IN PROGRESS / TODO / STALE / DRIFTED / FIXED INDEPENDENTLY):
+
+Scope-creep register link:
+
+## Plan lifecycle
+
+Self-contained plan fields complete: yes / no (gaps)
+
+Review-plan cold-reader result:
+
+Review-plan weak-executor result:
+
+Independent cold-review disposition (PASS / GAP-REVISE / BLOCKED / OWNER DECISION) and reviewer independence (separate child agent / bounded serial fresh-context pass):
+
+Execute/dispatch/review boundary:
+
+Execute isolation contract:
+
+Hidden side effects forbidden: commit / push / merge / release / publication / provenance / install / index / export / issue creation
+
+Issue publication status: deferred / not applicable / future owner gate required
+
+## Rollback / deferral
+
+Rollback or removal path:
+
+Defer/block criteria:
+
+## Generated artifacts
+
+Generated surfaces:
+
+Source generator / owner:
+
+Regeneration command:
+
+Direct-edit policy, if any:
+
+## Optional sidecars
+
+Graphify status: absent / anti-triggered / scoped-fresh / `stale-sidecar` /
+legacy-fresh / orientation only
+
+Graphify trigger decision: unfamiliar + majority-code + terrain-shaped + no
+one-search answer / anti-trigger and deterministic instrument:
+
+Graphify plan: version; outside-repo catalogue/graph; scope/population;
+`--graph-scope` output; parent reason; failure class: stale-graph /
+wrong-or-overbroad-scope / cross-scope / extractor-relation-omission /
+semantic-LLM-not-retained; live proof. Legacy:
+`built_at_commit` vs `git rev-parse HEAD`.
+
+Graphify privacy/spend: `llm: false` / separately proposed model cell; exact
+corpus; owner-named backend/model; filename heuristic; usage/cost boundary.
+
+ActiveGraph status: absent / fork / diff / optional non-authoritative mirror. Run root
+remains authority; replay does not reconstruct the run. Any Capability Ledger
+is a narrow gate-evidence derivative; no broad competence claim.
+
+Sidecars artifact: `<run-root>/sidecars.md`; canonical/live-file boundary and
+Markdown fallback:
+
+## Lean quality route
+
+Quality route: DMAIC / DMADV / PDCA / 5S / mixed / not applicable
+
+DMAIC (brownfield defect/repair/regression):
+- Define: defect/gap, owner/source, scope, user impact, acceptance target:
+- Measure: Smoke A baseline, current behavior, failure rate/count when available:
+- Analyze: root cause, Muda/Mura/Muri class, dependency surface, regression risk:
+- Improve: owner/source patch, derived artifacts regenerated, checks run, countermeasure:
+- Control: sustain via tests, AGENTS.md, CI, package gates, final audit checks:
+
+DMADV (greenfield/replacement design):
+- Define: new capability, users, constraints, non-scope, owner/source, success boundary:
+- Measure: CtQ acceptance measures, evidence types, baseline absence, risk measures:
+- Analyze: design alternatives, dependencies, package/runtime boundary, rollback path:
+- Design: phase specs, templates, fixtures, validation path:
+- Verify: Smoke B, final audit, deliverable/package/sidecar checks, owner acceptance:
+
+## Muda / Mura / Muri register
+
+Muda (waste — unnecessary, redundant, or dead items):
+- Items:
+- Disposition (remove / scope-creep log / defer):
+
+Mura (unevenness — imbalance, inconsistency, stale surfaces):
+- Items:
+- Disposition (rebalance phase / Stage 6 review / defer):
+
+Muri (overburden — too much in one scope, unsafe assumptions):
+- Items:
+- Disposition (split phase / defer / OWNER DECISION):
+
+## Plan review notes
+
+Self-critique result:
+
+Pre-flight result:
+
+Remaining caveats:
+
+Continuity decision:

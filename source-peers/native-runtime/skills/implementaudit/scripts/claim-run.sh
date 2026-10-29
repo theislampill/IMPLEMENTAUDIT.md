@@ -1878,22 +1878,169 @@ sys.stdout.buffer.write(raw[:-1])
   esac
 }
 
+# The companion is the existing claim owner implementation. Exit 3 means only
+# physical absence of both migration authorities; every other refusal is final.
+rotation_io() {
+  local rotation_py=()
+  if command -v python3 >/dev/null 2>&1; then rotation_py=(python3)
+  elif command -v python >/dev/null 2>&1; then rotation_py=(python)
+  elif command -v py >/dev/null 2>&1; then rotation_py=(py -3)
+  else printf 'claim-run.sh: Python 3 is required for generation currentness\n' >&2; return 1; fi
+  # Select the companion before any of its code can run. These literals belong
+  # to this shell source; a new companion requires a reviewed paired binding.
+  "${rotation_py[@]}" -B -c '
+import sys
+script_import_path = bool(sys.path and sys.path[0] == "")
+if script_import_path:
+    sys.path.pop(0)
+import hashlib
+import importlib.machinery
+import os
+from pathlib import Path
+import stat
+import types
+
+argument_path = sys.argv[1]
+path = Path(os.path.abspath(argument_path))
+expected_bytes = 246657
+expected_sha256 = "bc862f87428e86c608ddc5fe31ad8a3e2c8324b52c09ba379163db160ad70e93"
+nodes = []
+descriptor = None
+def identity(info):
+    return (info.st_dev, info.st_ino, info.st_mode, info.st_nlink,
+            info.st_size, info.st_ctime_ns, info.st_mtime_ns)
+def directory_identity(info):
+    if not stat.S_ISDIR(info.st_mode) or getattr(info, "st_file_attributes", 0) & 0x400:
+        raise ValueError("ancestor is not an ordinary directory")
+    return info.st_dev, info.st_ino, info.st_mode
+try:
+    if os.name == "posix":
+        if (not hasattr(os, "O_NOFOLLOW") or not hasattr(os, "O_DIRECTORY")
+                or os.open not in os.supports_dir_fd or os.stat not in os.supports_dir_fd):
+            raise ValueError("retained source directory capability is unavailable")
+        flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | getattr(os, "O_CLOEXEC", 0)
+        parent = None
+        for name in (path.anchor, *path.parts[1:-1]):
+            current = os.open(name, flags, dir_fd=parent)
+            nodes.append((parent, name, current, directory_identity(os.fstat(current))))
+            parent = current
+        before = os.stat(path.name, dir_fd=parent, follow_symlinks=False)
+    else:
+        for ancestor in reversed(path.parents):
+            nodes.append((ancestor, directory_identity(os.lstat(ancestor))))
+        before = os.lstat(path)
+    if (not stat.S_ISREG(before.st_mode) or before.st_nlink != 1
+            or getattr(before, "st_file_attributes", 0) & 0x400
+            or before.st_size != expected_bytes):
+        raise ValueError("is not the selected bounded single-link regular file")
+    flags = os.O_RDONLY | getattr(os, "O_BINARY", 0) | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_NONBLOCK", 0)
+    descriptor = (os.open(path.name, flags, dir_fd=parent) if os.name == "posix"
+                  else os.open(path, flags))
+    with os.fdopen(descriptor, "rb") as stream:
+        descriptor = None
+        opened = os.fstat(stream.fileno())
+        raw = stream.read(expected_bytes + 1)
+        after = os.fstat(stream.fileno())
+        current = (os.stat(path.name, dir_fd=parent, follow_symlinks=False)
+                   if os.name == "posix" else os.lstat(path))
+        if not identity(before) == identity(opened) == identity(after) == identity(current):
+            raise ValueError("identity changed during bounded capture")
+        if os.name == "posix":
+            for ancestor, name, held, selected in nodes:
+                live = os.stat(name, dir_fd=ancestor, follow_symlinks=False)
+                if directory_identity(live) != selected or directory_identity(os.fstat(held)) != selected:
+                    raise ValueError("directory identity changed during capture")
+        else:
+            for ancestor, selected in nodes:
+                if directory_identity(os.lstat(ancestor)) != selected:
+                    raise ValueError("directory identity changed during capture")
+        if len(raw) != expected_bytes or hashlib.sha256(raw).hexdigest() != expected_sha256:
+            raise ValueError("bytes differ from the selected owner")
+except (OSError, ValueError) as exc:
+    print("claim-run.sh: companion source " + str(exc), file=sys.stderr)
+    raise SystemExit(1)
+finally:
+    if descriptor is not None:
+        os.close(descriptor)
+    if os.name == "posix":
+        for _, _, held, _ in reversed(nodes):
+            os.close(held)
+
+# Preserve script invocation semantics while compiling only the verified buffer.
+sys.argv = [argument_path, *sys.argv[2:]]
+if script_import_path:
+    sys.path.insert(0, str(path.parent))
+module = types.ModuleType("__main__")
+module.__file__ = str(path)
+module.__package__ = None
+module.__spec__ = None
+module.__cached__ = None
+module.__loader__ = importlib.machinery.SourceFileLoader("__main__", str(path))
+sys.modules["__main__"] = module
+exec(compile(raw, str(path), "exec", dont_inherit=True, optimize=sys.flags.optimize), module.__dict__)
+' "$(dirname "$0")/claim-run-rotation.py" "$@"
+}
+
 controller='' supersede='' deferred='' boundary='' event=''
 expected_controller='' expected_pointer='' expected_marker=''
 expected_legacy_receipt='' expected_invalidation='' expected_predecessor=''
 case "${1:-}" in
+  --rotate-canonical-state|--recover-canonical-state|--read-current-state|--read-canonical-state|--resolve-canonical-generation|--resolve-resume-generation|--read-resume-state|--prepare-c02-correction|--append-c02-correction|--apply-c02-correction)
+    rotation_operation="$1"; controller="${2:-}"; shift 2
+    case "$rotation_operation" in
+      --rotate-canonical-state) rotation_operation=rotate ;;
+      --recover-canonical-state) rotation_operation=recover ;;
+      --read-current-state) rotation_operation=read ;;
+      --read-canonical-state) rotation_operation=read-role ;;
+      --resolve-canonical-generation) rotation_operation=resolve ;;
+      --resolve-resume-generation) rotation_operation=resolve-resume ;;
+      --read-resume-state) rotation_operation=read-resume ;;
+      --prepare-c02-correction) rotation_operation=c02-prepare ;;
+      --append-c02-correction) rotation_operation=c02-append ;;
+      --apply-c02-correction) rotation_operation=c02-apply ;;
+    esac
+    rotation_io "$rotation_operation" "$controller" "$@"; exit $? ;;
   --publication-custody) publication_custody_io; exit $? ;;
   --recovery-custody) [ "$#" -eq 1 ] || exit 1; publication_custody_io recovery-observation; exit $? ;;
   --current-controller) controller_io current "${2:-}"; exit $? ;;
-  --observe-current-continuity) [ "$#" -eq 1 ] || exit 1; controller_io observe ''; exit $? ;;
+  --observe-current-continuity)
+    [ "$#" -eq 1 ] || exit 1
+    composed_current="$(controller_io current '')" || exit 1
+    IFS=$'\t' read -r composed_controller composed_repo composed_root composed_claim composed_extra <<< "$composed_current"
+    [ -n "$composed_controller" ] && [ -n "$composed_repo" ] && [ -n "$composed_root" ] &&
+      [ -n "$composed_claim" ] && [ -z "$composed_extra" ] || exit 1
+    composed_receipt="$(rotation_io require "$composed_controller")"; rotation_status=$?
+    if [ "$rotation_status" -eq 3 ]; then controller_io observe ''; exit $?; fi
+    [ "$rotation_status" -eq 0 ] || exit "$rotation_status"
+    [ "$(controller_io current "$composed_controller")" = "$composed_current" ] || exit 1
+    printf 'implementaudit.current-continuity-observation.v1\t%s\t%s\n' "$composed_current" "$composed_receipt"
+    exit 0 ;;
   --resume-controller)
-    controller="${2:-}"; shift 2; boundary='' epoch=''
-    while [ "$#" -gt 0 ]; do case "$1" in --boundary) boundary="${2:-}"; shift 2;; --epoch) epoch="${2:-}"; shift 2;; *) printf 'claim-run.sh: unknown resume argument: %s\n' "$1" >&2; exit 1;; esac; done
+    controller="${2:-}"; shift 2; boundary='' epoch='' expected_pointer='' expected_invalidation=''
+    while [ "$#" -gt 0 ]; do
+      [ "$#" -ge 2 ] || { printf 'claim-run.sh: resume argument is missing a value\n' >&2; exit 1; }
+      case "$1" in
+        --boundary) boundary="$2" ;;
+        --epoch) epoch="$2" ;;
+        --expected-pointer) [ -z "$expected_pointer" ] || exit 1; expected_pointer="$2" ;;
+        --expected-invalidation) [ -z "$expected_invalidation" ] || exit 1; expected_invalidation="$2" ;;
+        *) printf 'claim-run.sh: unknown resume argument: %s\n' "$1" >&2; exit 1 ;;
+      esac
+      shift 2
+    done
+    rotation_io resume "$controller" "$boundary" "$epoch" "$expected_pointer" "$expected_invalidation"; rotation_status=$?
+    [ "$rotation_status" -eq 3 ] || exit "$rotation_status"
+    [ -z "$expected_pointer$expected_invalidation" ] || { printf 'claim-run.sh: migrated resume tokens cannot route through legacy continuity\n' >&2; exit 1; }
     controller_io resume "$controller" "$boundary" "$epoch"; exit $? ;;
   --verify-resume-receipt)
     receipt_arg="${2:-}"; controller="${receipt_arg%@*}"; controller="${controller#refs/implementaudit/continuity-receipts/}"; controller="${controller%/*}"
+    rotation_io verify "$controller" "$receipt_arg"; rotation_status=$?
+    [ "$rotation_status" -eq 3 ] || exit "$rotation_status"
     controller_io verify "$controller" "$receipt_arg"; exit $? ;;
-  --require-current-continuity) controller_io require "${2:-}"; exit $? ;;
+  --require-current-continuity)
+    rotation_io require "${2:-}"; rotation_status=$?
+    [ "$rotation_status" -eq 3 ] || exit "$rotation_status"
+    controller_io require "${2:-}"; exit $? ;;
   --require-current-route)
     controller="${2:-}"; shift 2
     if command -v python >/dev/null 2>&1; then route_py=(python)
@@ -1907,22 +2054,8 @@ case "${1:-}" in
     controller="${2:-}"; shift 2; deferred=invalidate; expected_current=''
     while [ "$#" -gt 0 ]; do case "$1" in --boundary) boundary="${2:-}"; shift 2;; --event) event="${2:-}"; shift 2;; --expected-current) expected_current="${2:-}"; shift 2;; *) printf 'claim-run.sh: unknown invalidation argument: %s\n' "$1" >&2; exit 1;; esac; done ;;
   --repair-current-continuity-v3)
-    controller="${2:-}"; shift 2; deferred=repair
-    while [ "$#" -gt 0 ]; do
-      case "$1" in
-        --expected-controller) [ -z "$expected_controller" ] || exit 1; expected_controller="${2:-}"; shift 2;;
-        --expected-pointer) [ -z "$expected_pointer" ] || exit 1; expected_pointer="${2:-}"; shift 2;;
-        --expected-marker) [ -z "$expected_marker" ] || exit 1; expected_marker="${2:-}"; shift 2;;
-        --expected-legacy-receipt) [ -z "$expected_legacy_receipt" ] || exit 1; expected_legacy_receipt="${2:-}"; shift 2;;
-        --expected-invalidation) [ -z "$expected_invalidation" ] || exit 1; expected_invalidation="${2:-}"; shift 2;;
-        --expected-predecessor) [ -z "$expected_predecessor" ] || exit 1; expected_predecessor="${2:-}"; shift 2;;
-        *) printf 'claim-run.sh: unknown repair argument: %s\n' "$1" >&2; exit 1;;
-      esac
-    done
-    [ -n "$controller" ] && [ -n "$expected_controller" ] &&
-      [ -n "$expected_pointer" ] && [ -n "$expected_marker" ] &&
-      [ -n "$expected_legacy_receipt" ] && [ -n "$expected_invalidation" ] &&
-      [ -n "$expected_predecessor" ] || exit 1 ;;
+    printf 'claim-run.sh: selected R0039 original-v3 composition refuses the distinct native18 repair domain\n' >&2
+    exit 1 ;;
   --controller)
     controller="${2:-}"; shift 2
     if [ "${1:-}" = --supersede-claim ]; then supersede="${2:-}"; shift 2; fi ;;
@@ -1973,6 +2106,18 @@ if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
 fi
 
 if [ "$deferred" = invalidate ]; then
+  # The old guard option has no corresponding original14 owner parameter.
+  # Never drop it or mint a migrated effect after checking it outside the CAS.
+  if [ -n "$expected_current" ]; then
+    rotation_io require "$controller" >/dev/null; rotation_status=$?
+    if [ "$rotation_status" -eq 3 ]; then
+      controller_io invalidate "$controller" "$boundary" "$event" "$expected_current"; exit $?
+    fi
+    printf 'claim-run.sh: guarded migrated invalidation requires an original14 owner route; no native18 fallback\n' >&2
+    exit 1
+  fi
+  rotation_io invalidate "$controller" "$boundary" "$event"; rotation_status=$?
+  [ "$rotation_status" -eq 3 ] || exit "$rotation_status"
   controller_io invalidate "$controller" "$boundary" "$event" "$expected_current"; exit $?
 fi
 if [ "$deferred" = repair ]; then

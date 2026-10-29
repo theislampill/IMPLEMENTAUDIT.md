@@ -103,19 +103,23 @@ R0039_BUDGETS = {
     }
     for role in EXPECTED_PROJECTIONS
 }
-EXPECTED_BUDGET_REVISION = {
-    "revision": 3,
-    "applicability": "prospective",
-    "owner": "R003A",
-    "supersedes_revision": 2,
-    "owner_approval": {
-        "path": "package/budgets/r003a-v3-owner-approval.md",
-        "sha256": "21e1affebd7de32a91e578a601671efd1c1acdd8a06df2074eda287e0c9cf0d1",
-    },
-}
-EXPECTED_BUDGETS = {
+R003A_BUDGETS = {
     role: {**budget, "cap_bytes": 458752, "owner": "R003A"}
     for role, budget in R0039_BUDGETS.items()
+}
+EXPECTED_BUDGET_REVISION = {
+    "revision": 4,
+    "applicability": "prospective",
+    "owner": "PR255_COMPOSITE",
+    "supersedes_revision": 3,
+    "owner_approval": {
+        "path": "package/budgets/pr255-v4-owner-approval.md",
+        "sha256": "e4af32dc219e8c041d62170b960cdb465f0cdfebdb7e414d0f45b7726cc31488"
+    }
+}
+EXPECTED_BUDGETS = {
+    role: {**budget, "cap_bytes": 589824, "owner": "PR255_COMPOSITE"}
+    for role, budget in R003A_BUDGETS.items()
 }
 TEXT_SUFFIXES = {".md", ".txt", ".sh", ".json", ".yaml", ".yml"}
 INVENTORY_NAME = "IMPLEMENTAUDIT_INVENTORY.json"
@@ -220,7 +224,7 @@ def validate_contract(root: Path) -> dict[str, Any]:
         "budget_revision", contract.get("budget_revision"), EXPECTED_BUDGET_REVISION
     )
     require_equal("budget_history", contract.get("budget_history"),
-                  {"1": HISTORICAL_BUDGETS, "2": R0039_BUDGETS})
+                  {"1": HISTORICAL_BUDGETS, "2": R0039_BUDGETS, "3": R003A_BUDGETS})
     require_equal("budgets", contract.get("budgets"), EXPECTED_BUDGETS)
     require_equal(
         "generic_activegraph_dependency",

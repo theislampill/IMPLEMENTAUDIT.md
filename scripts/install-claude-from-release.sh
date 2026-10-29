@@ -15,6 +15,10 @@ Usage:
 
 FILE-COPY WORKAROUND — NOT Claude import proof.
 
+Run this helper from a clean checkout at the archive inventory's exact
+source.commit. Contract, commit/tree and payload must match for every route.
+The v0.4.0.0 asset records build commit 71a7101a, not its merge/tag commit.
+
 This script copies IMPLEMENTAUDIT.skill payload files into a Claude session skill
 directory by extracting the archive and copying files directly. It bypasses
 Claude Desktop's normal skill import/install path and does NOT constitute proof
