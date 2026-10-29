@@ -231,10 +231,18 @@ def load(store, session):
     return value
 
 def save(store, state):
-    require(len(canonical(state)) < MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
-    state['revision'] += 1
+    successor = {**state, 'revision': state['revision'] + 1}
+    try:
+        # Bound the exact format emitted by the existing atomic JSON owner,
+        # after the revision change. Every successful write must be reloadable.
+        persisted = (json.dumps(successor, ensure_ascii=False, indent=2,
+                                sort_keys=True, allow_nan=False) + '\n').encode('utf-8')
+    except (ValueError, RecursionError) as exc:
+        raise Refusal('PENDING_STATE_JSON') from exc
+    require(len(persisted) < MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
     path = state_path(store, state['session_id'])
-    CORE.atomic_json(path, state)
+    CORE.atomic_json(path, successor)
+    state['revision'] = successor['revision']
     if os.name != 'nt':
         descriptor = os.open(path.parent, os.O_RDONLY)
         try:

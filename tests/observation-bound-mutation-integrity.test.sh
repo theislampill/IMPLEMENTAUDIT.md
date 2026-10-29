@@ -3023,6 +3023,7 @@ PY
   opposing_moves
   canonical_observation_races
   patch_input_capture_heldouts
+  "$python_bin" "$repo_root/tests/mutation_input_custody.py"
   replacement_batch_preflight_heldouts
   replacement_batch_apply_heldouts
   external_drift_and_recovery
@@ -3035,6 +3036,7 @@ PY
 }
 
 case "${1:-}" in
+  --ordinary-input-custody-heldouts) "$python_bin" "$repo_root/tests/mutation_input_custody.py"; exit 0;;
   --replacement-batch-apply-heldouts) replacement_batch_apply_heldouts "${2:-}" "${3:-all}"; exit 0;;
   --replacement-batch-preflight-heldouts) replacement_batch_preflight_heldouts "${2:-}" "${3:-all}"; exit 0;;
   --guard-loss-effect-recording-heldouts) guard_loss_effect_recording_heldouts "${2:-all}"; printf 'R36_GUARD_LOSS_EFFECT_RECORDING_HELDOUTS=PASS\n'; exit 0;;

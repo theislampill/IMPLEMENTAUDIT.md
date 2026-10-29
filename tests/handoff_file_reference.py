@@ -93,6 +93,13 @@ def main():
         shadow.unlink()
         startup_shadow.unlink()
         if os.name == "nt":
+            outside=repo.parent/"outside-root"
+            outside.mkdir()
+            (outside/"current.txt").write_bytes(original)
+            digest=hashlib.sha256(original).hexdigest()
+            for name,parent in [("drive-absolute-parent",str(outside)),
+                                ("rooted-backslash-parent",str(outside)[2:])]:
+                invoke(name,f"file:{parent}/current.txt#sha256={digest}",False)
             copied = repo.parent / "receiver-source"
             copied.mkdir()
             active_scorer = copied / SCORER.name

@@ -41,6 +41,18 @@ def _raw(value):
 def _hash(value):
     return hashlib.sha256(_raw(value)).hexdigest()
 
+def _record_delivery(record):
+    source = record.get('source_graph')
+    _require(type(source) is dict and type(source.get('nodes')) is list,
+             'completion history has no source node population')
+    selected = [node for node in source['nodes']
+                if type(node) is dict and node.get('id') == record['node']]
+    _require(len(selected) == 1, 'completion history source node is ambiguous')
+    delivery = selected[0].get('logical_delivery')
+    _require(delivery is None or type(delivery) is str and delivery,
+             'completion history logical delivery is malformed')
+    return delivery
+
 def _identity(st):
     return (st.st_dev, st.st_ino, st.st_mode, st.st_nlink, st.st_size,
             st.st_mtime_ns, st.st_ctime_ns)
@@ -227,6 +239,7 @@ class CompletionContract:
                                 self.wg.decode_strict_json_bytes)
         self._live, self._issued = {}, {}
         self._recovery = set()
+        self._recovery_deliveries = set()
         try:
             for event in self.journal.value['events']:
                 body = event['body']
@@ -234,6 +247,9 @@ class CompletionContract:
                 for record in body['records']:
                     _require(type(record) is dict and type(record.get('node')) is str, 'malformed history record')
                     self._recovery.add(record['node'])
+                    delivery = _record_delivery(record)
+                    if delivery is not None:
+                        self._recovery_deliveries.add(delivery)
         except BaseException:
             self.close()
             raise
@@ -295,13 +311,34 @@ class CompletionContract:
     def _derive(self, graph):
         valid, invalid = self._applicable(graph)
         outcomes = {name: dict(status=record['status'], digest=record['digest']) for name, record in valid.items()}
+        holds = {}
+        # Input drift invalidates a result, not the fact that its producer or
+        # logical effect is unresolved. Never turn that loss of applicability
+        # into permission to dispatch the same work under a new identity.
+        for name, record in self._live.items():
+            if record['status'] not in {'PENDING', 'UNKNOWN'}:
+                continue
+            delivery = _record_delivery(record)
+            for node in graph['nodes']:
+                if node['kind'] not in {'TASK', 'JOIN'}:
+                    continue
+                if node['id'] == name and name in valid:
+                    continue
+                if node['id'] == name or delivery is not None and node['logical_delivery'] == delivery:
+                    holds.setdefault(node['id'], set()).add(record['digest'])
+        for name, digests in holds.items():
+            outcomes[name] = dict(status='RECOVERY_CUSTODY_UNVERIFIED', digest=_hash(sorted(digests)))
         for name in self._recovery:
             if name in {n['id'] for n in graph['nodes']}:
                 outcomes[name] = dict(status='RECOVERY_CUSTODY_UNVERIFIED', digest=self.history_digest)
+        for node in graph['nodes']:
+            if (node['kind'] in {'TASK', 'JOIN'} and node['logical_delivery'] is not None
+                    and node['logical_delivery'] in self._recovery_deliveries):
+                outcomes[node['id']] = dict(status='RECOVERY_CUSTODY_UNVERIFIED', digest=self.history_digest)
         frontier = self.wg.derive_completion_frontier_v1(graph, outcomes)
         frontier.update(history_digest=self.history_digest, invalidated=sorted(invalid),
                         evidence_scope='PORTABLE_DECLARED_RESULT_CONTRACT',
-                        recovery_status='PRODUCER_REOBSERVATION_REQUIRED' if self._recovery else 'LIVE_CONTRACT_ONLY')
+                        recovery_status='PRODUCER_REOBSERVATION_REQUIRED' if self._recovery or holds else 'LIVE_CONTRACT_ONLY')
         return frontier, valid
 
     def _transition(self, graph, frontier, valid):

@@ -302,6 +302,83 @@ class PendingSettlementCases(unittest.TestCase):
         self.assert_refused_without_append(frontier, [terminal])
         self.assertNotEqual(self.consumer.frontier()["states"]["A"], "DONE")
 
+    def test_changed_input_does_not_redispatch_live_pending_producer(self):
+        frontier, process = self.begin_pending()
+        original_history = (self.root / "journal/history.json").read_bytes()
+        (self.run / "inputs/a").write_text("new input while original producer is alive\n")
+        current = self.consumer.frontier()
+        self.snapshots["drift_while_pending"] = current
+        self.assertIsNone(process.process.poll())
+        self.assertEqual(current["states"]["A"], "BLOCKED")
+        self.assertEqual(current["selected"], ["B"])
+        self.assertEqual((self.root / "journal/history.json").read_bytes(), original_history)
+        self.assertNotEqual(self.consumer.join("JOIN", expected_old=self.consumer.history_digest)["status"],
+                            "SATISFIED_AT_DECLARED_RESULT_CONTRACT")
+
+    def test_pending_logical_delivery_blocks_new_alias_only(self):
+        self.fixture.nodes[1]["logical_delivery"] = "same-delivery"
+        self.fixture.write_source()
+        frontier, process = self.begin_pending()
+        alias = support.node("RETRY", reads=["path:inputs/a"], logical_delivery="same-delivery", rank=9)
+        self.fixture.nodes.append(alias)
+        self.fixture.state["nodes"].append("RETRY")
+        self.fixture.write_source()
+        current = self.consumer.frontier()
+        self.snapshots["pending_delivery_alias"] = current
+        self.assertIsNone(process.process.poll())
+        self.assertEqual(current["states"]["RETRY"], "BLOCKED")
+        self.assertEqual(current["selected"], ["B"])
+
+    def test_reopened_pending_journal_keeps_logical_alias_held(self):
+        self.fixture.nodes[1]["logical_delivery"] = "same-delivery"
+        self.fixture.write_source()
+        frontier, process = self.begin_pending()
+        self.fixture.nodes.append(support.node("RETRY", reads=["path:inputs/a"],
+                                               logical_delivery="same-delivery", rank=9))
+        self.fixture.state["nodes"].append("RETRY")
+        self.fixture.write_source()
+        before = (self.root / "journal/history.json").read_bytes()
+        self.consumer.close()
+        with self.owner.CompletionContract(self.run, self.root / "journal") as recovered:
+            current = recovered.frontier()
+            self.snapshots["recovered_delivery_alias"] = current
+            self.assertIsNone(process.process.poll())
+            self.assertEqual(current["states"]["RETRY"], "BLOCKED")
+            self.assertEqual(current["selected"], ["B"])
+        self.assertEqual((self.root / "journal/history.json").read_bytes(), before)
+
+    def test_unknown_result_is_not_retry_permission_after_input_drift(self):
+        frontier = self.consumer.frontier()
+        process = self.start()
+        process.finish()
+        # Deliberate declared-result channel loss; not a native effect witness.
+        unknown = self.result(frontier, "UNKNOWN")
+        unknown["evidence_digest"] = None
+        self.consumer.accept(frontier, [unknown], "JOIN", expected_old=self.consumer.history_digest)
+        before = (self.root / "journal/history.json").read_bytes()
+        (self.run / "inputs/a").write_text("new input after unresolved result\n")
+        current = self.consumer.frontier()
+        self.snapshots["unknown_after_drift"] = current
+        self.assertEqual(current["states"]["A"], "BLOCKED")
+        self.assertEqual(current["selected"], ["B"])
+        self.assertEqual((self.root / "journal/history.json").read_bytes(), before)
+
+    def test_unknown_delivery_cannot_be_relabelled_as_new_ready_work(self):
+        self.fixture.nodes[1]["logical_delivery"] = "same-delivery"
+        self.fixture.write_source()
+        frontier = self.consumer.frontier()
+        unknown = self.result(frontier, "UNKNOWN")
+        unknown["evidence_digest"] = None
+        self.consumer.accept(frontier, [unknown], "JOIN", expected_old=self.consumer.history_digest)
+        self.fixture.nodes.append(support.node("RETRY", reads=["path:inputs/a"],
+                                               logical_delivery="same-delivery", rank=9))
+        self.fixture.state["nodes"].append("RETRY")
+        self.fixture.write_source()
+        current = self.consumer.frontier()
+        self.snapshots["unknown_delivery_alias"] = current
+        self.assertEqual(current["states"]["RETRY"], "BLOCKED")
+        self.assertEqual(current["selected"], ["B"])
+
     def test_unrelated_active_occupancy_does_not_redispatch_finished_work(self):
         frontier, process = self.begin_pending()
         terminal = self.result(frontier, "PASS", process.finish())

@@ -1058,9 +1058,14 @@ else:
         fixture = load("composite_pending_fixture", ROOT / "tests/cognition-pending-durability.py")
         pins = fixture.source_pins(ROOT)
         selected = fixture.reservation_refusal_profile(pins)
-        self.assertEqual(selected["qualified_checkpoint"], "source-sha256:681b22da6ee2fc5a84cfab7547a9f0551a76c97659e6b5c5b7158ff910117c23")
+        self.assertEqual(selected["qualified_checkpoint"], "source-sha256:44f37242fed8e136b548172fdd8d95de270552d8c176e8563b5b4075ac059198")
         self.assertEqual(selected["stored_json_refusal"], "PENDING_STATE_JSON")
         self.assertEqual(selected["nonfinite_counter_refusal"], "PENDING_STATE_JSON_CONSTANT")
+        before_pending_repair = dict(pins)
+        before_pending_repair[str(fixture.PEER / "compaction-audit-pending.py")] = "e9e8b5f9246f288ceade888c44ad4f1445033f4d944eabf3d8e4da391891a682"
+        self.assertEqual(fixture.reservation_refusal_profile(before_pending_repair), {
+            **selected,
+            "qualified_checkpoint": "source-sha256:681b22da6ee2fc5a84cfab7547a9f0551a76c97659e6b5c5b7158ff910117c23"})
         # Historical tuples must not inherit the changed current source owners.
         prior_generic = {
             str(fixture.PEER / 'compaction-audit-pending.py'): '8c16f7f142b67eb4504ae275bf53e8ea104bb75378748402e8a4c0a31efdbc43',

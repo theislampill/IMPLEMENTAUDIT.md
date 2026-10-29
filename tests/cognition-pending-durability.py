@@ -775,6 +775,8 @@ def reservation_refusal_profile(pins):
     # differs. Bind the same four source owners recorded by source_pins; do not
     # accept either reason interchangeably or infer it from the response.
     profiles = {
+        # DG15 exact serialized-write repair; all historical tuples retained.
+        ('44f37242fed8e136b548172fdd8d95de270552d8c176e8563b5b4075ac059198', '15de2cb86378960163be08876876ff2473dc034704f6dad014d90a9bb7dc7156', '681b22da6ee2fc5a84cfab7547a9f0551a76c97659e6b5c5b7158ff910117c23', 'f024cd50b4e5cdd3b93f16fe1d0489952a534a0a5f880c842c14afc897ac2bc7'): ('source-sha256:44f37242fed8e136b548172fdd8d95de270552d8c176e8563b5b4075ac059198', 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED', 'PENDING_STATE_JSON', 'PENDING_STATE_JSON_CONSTANT'),
         # Current terminal-inventory tuple; all original profiles retained.
         ('e9e8b5f9246f288ceade888c44ad4f1445033f4d944eabf3d8e4da391891a682', '15de2cb86378960163be08876876ff2473dc034704f6dad014d90a9bb7dc7156', '681b22da6ee2fc5a84cfab7547a9f0551a76c97659e6b5c5b7158ff910117c23', 'f024cd50b4e5cdd3b93f16fe1d0489952a534a0a5f880c842c14afc897ac2bc7'): ('source-sha256:681b22da6ee2fc5a84cfab7547a9f0551a76c97659e6b5c5b7158ff910117c23', 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED', 'PENDING_STATE_JSON', 'PENDING_STATE_JSON_CONSTANT'),
         # Current DG08 source-only tuple; native selection remains absent.

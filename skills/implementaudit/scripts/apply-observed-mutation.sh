@@ -946,9 +946,12 @@ def evidence_bytes(raw):
             return batch_evidence_captures[path][0]
         except (InputCaptureRefusal, OSError):
             return None
-    if not contained_regular(path):
+    try:
+        # Ordinary inputs need the same physical capture as batch evidence.
+        # A pathname check followed by read_bytes can consume a replacement.
+        return read_input_capture(path)[0]
+    except (InputCaptureRefusal, OSError):
         return None
-    return path.read_bytes()
 
 
 if SOURCE is None or source_initial.get("kind") != "regular":

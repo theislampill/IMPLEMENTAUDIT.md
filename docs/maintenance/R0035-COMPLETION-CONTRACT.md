@@ -64,6 +64,13 @@ does not reconstruct the issued object or pending custody, and no JSON import
 or retry API is added. The resource bounds and native authority ceiling below
 continue to apply.
 
+Input drift does not release a retained `PENDING` producer or `UNKNOWN`
+delivery. The affected task and any declared alias of its logical delivery
+retain a conservative custody hold; independent work remains eligible. Journal
+recovery retains those logical-delivery holds without restoring acceptance or
+the original pending settlement slot. No new retry or reconciliation authority
+is inferred from a changed input, node label, or reopened journal.
+
 `join(consumer, expected_old=...)` accumulates contributors across batches and
 calls the compiler's existing JOIN verdict implementation. Missing, failed,
 partial, pending, nonverdict, correlated and contradictory contributions do

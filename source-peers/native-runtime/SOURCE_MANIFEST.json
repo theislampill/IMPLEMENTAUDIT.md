@@ -133,17 +133,18 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-audit-pending.py",
       "materialized_path": "skills/implementaudit/scripts/compaction-audit-pending.py",
-      "bytes": 65954,
-      "sha256": "e9e8b5f9246f288ceade888c44ad4f1445033f4d944eabf3d8e4da391891a682",
+      "bytes": 66459,
+      "sha256": "44f37242fed8e136b548172fdd8d95de270552d8c176e8563b5b4075ac059198",
       "semantic_owner": "R003A/continuity",
       "mode": "100644",
       "source_preimage_sha256": "bbb6e9707a351531809708ce427056ce77560df4351de9ed64b48aff41a12329",
       "modified": true,
       "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
       "source_delta_sha256": "efa76b9360b07f751481a5240c6ef6ddc4a0073755b35881041e1d9864885a97",
-      "additional_delta": "R0039 distinct owned-stdio0.153.4 source profile; existing owners and default refusals retained; no private selection or native admission; composed R0039 native-v3/C02 source candidate; no native admission; composed PR253 strict bounded descriptor decode, lexical custody and exact observation counters; retains R0039 additions; received PR252 f74a7c complete read identity and finite-JSON hardening; no native admission; PR253 c42fc6f5 exact-integer/nonnegative top-level counter guard after retained combined parser/observation guards (preimage b12a6e38); no native admission DG08 source-only correction and exact dependency binding; no native admission or evidence-window expansion.",
+      "additional_delta": "R0039 distinct owned-stdio0.153.4 source profile; existing owners and default refusals retained; no private selection or native admission; composed R0039 native-v3/C02 source candidate; no native admission; composed PR253 strict bounded descriptor decode, lexical custody and exact observation counters; retains R0039 additions; received PR252 f74a7c complete read identity and finite-JSON hardening; no native admission; PR253 c42fc6f5 exact-integer/nonnegative top-level counter guard after retained combined parser/observation guards (preimage b12a6e38); no native admission DG08 source-only correction and exact dependency binding; no native admission or evidence-window expansion. DG15: strict exact UTF-8 persisted successor bound and finite JSON before atomic replacement; original code identities and native admission limits retained.",
       "composition_preimage_sha256": "aacbf3c65f9d36d933160f5169b4f09f126d36db9ae2e9770d1004d9b7cef52d",
-      "dg08_source_receiving_preimage_sha256": "8c16f7f142b67eb4504ae275bf53e8ea104bb75378748402e8a4c0a31efdbc43"
+      "dg08_source_receiving_preimage_sha256": "8c16f7f142b67eb4504ae275bf53e8ea104bb75378748402e8a4c0a31efdbc43",
+      "dg15_pending_write_preimage_sha256": "e9e8b5f9246f288ceade888c44ad4f1445033f4d944eabf3d8e4da391891a682"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_file_custody.py",
