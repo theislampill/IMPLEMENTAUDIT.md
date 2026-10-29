@@ -37,7 +37,7 @@ class Original14GraphReceiving(unittest.TestCase):
         self.addCleanup(self.subject.doCleanups)
         self.subject.setUp()
 
-    def construct(self, *, omit_root=False):
+    def construct(self, *, omit_root=False, production_graph=False):
         subject = self.subject
         with tempfile.TemporaryDirectory(prefix="original14-graph-documents-") as directory:
             documents = Path(directory)
@@ -52,7 +52,17 @@ class Original14GraphReceiving(unittest.TestCase):
                                              + (documents / "phases/PH.md").read_bytes())
             if omit_root:
                 extra.pop("plans/ROOT.md")
-            self.resolution = subject.make_real_generation(native=True,
+            overrides = None
+            if production_graph:
+                canonical = dict(schema="implementaudit.work-graph.v1",
+                    population=dict(total_cells=len(nodes)), serialization_groups={},
+                    cells=[dict(id=n["id"], state=("DONE" if n["state"]=="DONE" else
+                        "READY" if n["id"] in ("PREP","SIB") else "BLOCKED"),
+                        deps=list(n["requires"]), optional_deps=list(n["optional"]),
+                        route_scopes=list(n["route_scopes"])) for n in nodes])
+                NATIVE.wg._validate_graph(canonical)
+                overrides = {"work_graph":json.dumps(canonical,sort_keys=True,separators=(",",":")).encode()+b"\n"}
+            self.resolution = subject.make_real_generation(native=True, artifact_overrides=overrides,
                 state_edit=lambda text: text + "\n" + (documents / "STATE.md").read_text(),
                 roadmap_edit=lambda text: text + "\n" + (documents / "ROADMAP.md").read_text(),
                 extra_artifacts=extra)
@@ -60,6 +70,60 @@ class Original14GraphReceiving(unittest.TestCase):
                      self.resolution["receipt_token"].split("@", 1)[1]], subject.repo)
         self.assertEqual(receipt.returncode, 0, receipt.stderr)
         self.assertEqual(len(receipt.stdout.rstrip(b"\n").split(b"\t")), 14)
+
+    def native_subject(self, *, production_graph=True, retired_decoy=True):
+        self.construct(production_graph=production_graph)
+        subject=self.subject
+        # Administrative state remains in its separate, directly checked owner
+        # domain; it is never a project-worktree input or silently omitted native
+        # source. Existing native intake enforces this standard exclusion.
+        exclude=subject.repo / ".git/info/exclude"
+        exclude.write_bytes(exclude.read_bytes()+b"\n.IMPLEMENTAUDIT/\n")
+        for name in ("a","b","c"):
+            p=subject.repo / "inputs" / (name+".txt")
+            p.parent.mkdir(exist_ok=True)
+            p.write_bytes((subject.run / "inputs" / (name+".txt")).read_bytes())
+        result=subject.read("--native-guards")
+        self.assertEqual(result.returncode,0,result.stderr)
+        if retired_decoy:
+            for role in ("STATE","ROADMAP"):
+                raw=(subject.output / ("native-"+role+".md")).read_bytes()
+                if role=="STATE":
+                    prefix=b"```implementaudit-work-graph\n"
+                    start=raw.index(prefix)+len(prefix);end=raw.index(b"\n```",start)
+                    state=json.loads(raw[start:end]);state["campaign"]="retired-root-decoy"
+                    raw=raw[:start]+json.dumps(state,sort_keys=True,separators=(",",":")).encode()+raw[end:]
+                (subject.run / (role+".md")).write_bytes(raw)
+        return subject
+
+    def test_native_intake_uses_current_original14_not_retired_root(self):
+        subject=self.native_subject()
+        graph=NATIVE.wg.read_native_run_v1(subject.run,subject.repo,input_root=subject.repo)
+        self.assertEqual(graph["campaign"],"portable-fixture")
+        self.assertEqual(graph["binding"]["acquisition"],"NATIVE_CONTINUITY_VERIFIED")
+        frontier=NATIVE.wg.select_native_frontier_v1(graph)
+        self.assertEqual(frontier["selected"],["PREP","SIB"])
+        self.assertIn("ROUTE_PRODUCER_UNAVAILABLE",frontier["blocked"]["ADMIT"])
+        self.assertEqual(frontier["authority"],"NONE")
+
+    def test_native_intake_rejects_opaque_fixture_work_graph(self):
+        subject=self.native_subject(production_graph=False)
+        with self.assertRaisesRegex(NATIVE.wg.WorkGraphError,"canonical WORK_GRAPH"):
+            NATIVE.wg.read_native_run_v1(subject.run,subject.repo,input_root=subject.repo)
+
+    def test_native_intake_rejects_unowned_nested_record(self):
+        subject=self.native_subject()
+        (subject.run / "tasks/UNOWNED.md").write_bytes(b"Unowned native source.\n")
+        with self.assertRaisesRegex(NATIVE.wg.WorkGraphError,"population|unowned"):
+            NATIVE.wg.read_native_run_v1(subject.run,subject.repo,input_root=subject.repo)
+
+    def test_native_intake_later_boundary_prevents_return(self):
+        subject=self.native_subject()
+        with self.assertRaises(NATIVE.wg.WorkGraphError):
+            with NATIVE.wg.observe_native_run_v1(subject.run,subject.repo,input_root=subject.repo):
+                changed=subject.claim("--invalidate-continuity",READER.CONTROLLER,
+                    "--boundary","manual-resume","--event","constructed-native14-closing-control")
+                self.assertEqual(changed.returncode,0,changed.stderr)
 
     def observe(self, after_use=None):
         subject = self.subject

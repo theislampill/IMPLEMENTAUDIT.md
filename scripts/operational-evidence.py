@@ -2047,6 +2047,10 @@ _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['46c043889d7bd6ec4c39992d98a5d9db15c710
 _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['ed2305671968f08090e4be5eeb9e5a129ecb4ed34cd077fb2fc883cd938a2fcc'] = 61705
 
 
+# Current canonical snapshot/NTFS CORE8 source; all qualified historical entries retained.
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['47898b1057aa02a3841d38a90d347cfaba311025914cf267421c01c95671fd07'] = 81384
+
+
 def _native_check_continuity_closure_v1(value, repository, compiler_path, pair):
     """Check the complete live source set at fixed paths, never captured paths.
 
