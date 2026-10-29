@@ -80,7 +80,7 @@
       "before": {"path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "265a777a7ba2bc9c1e28ea1ceda456caa39132b3387a900bbcc5ad09850b3ecf", "anchor": "references/lean-operating-discipline.md"},
       "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "ccd53a446f1a69994d5df694d206b475e969910a579cd4882f09c81f3c88401a", "anchor": "Package semantic preservation"},
       "consumers": [
-        {"kind": "runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "265a777a7ba2bc9c1e28ea1ceda456caa39132b3387a900bbcc5ad09850b3ecf", "route_anchor": "references/lean-operating-discipline.md", "held_out": {"path": "scripts/install-codex-from-release.sh", "revision": "WORKTREE", "sha256": "0d0e5faea158574e51eded0c07325c83d1da9f09ad6a348e3037a4a303fb0a9d", "anchor": "references/lean-operating-discipline.md"}}
+        {"kind": "runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "265a777a7ba2bc9c1e28ea1ceda456caa39132b3387a900bbcc5ad09850b3ecf", "route_anchor": "references/lean-operating-discipline.md", "held_out": {"path": "scripts/install-codex-from-release.sh", "revision": "WORKTREE", "sha256": "521e55d3b9040d185bdc0914140af74ecbc4b03c36ee2ef0da6396181dfa6931", "anchor": "references/lean-operating-discipline.md"}}
       ]
     },
     "exact-marker-changed": {
