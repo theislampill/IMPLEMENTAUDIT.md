@@ -739,7 +739,7 @@ class GenuineC5Session:
     def _image(self, gate_fd):
         acquired, layout = self.acquired, self.acquired['observation']['layout']
         source = acquired['observation']['provider']['source']['state']
-        environment = dict(D._ENVIRONMENT, TMPDIR=WORK_MOUNT,
+        environment = dict(D._ENVIRONMENT, PWD=SOURCE_MOUNT, TMPDIR=WORK_MOUNT,
             R0035_REPRO_EVENT_CAPTURE_DIR=WORK_MOUNT+'/capture',R0035_C5_LIVE_GATE_FD=str(gate_fd))
         # source and runtime are distinct existing allocations, not a new union.
         self.stage = CapturedSourceStage(self.output,source,acquired['objects'],self._reserve)

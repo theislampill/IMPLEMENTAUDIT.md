@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """Three source controls; no original48, namespace, build or package import."""
+import ast
 import copy
+import json
+import subprocess
+import sys
+import types
 import hashlib
 import importlib.util
 from pathlib import Path
@@ -136,6 +141,36 @@ class C5InputCases(unittest.TestCase):
         self.assertEqual(len(result["record"]["producer_contract"]["roles"]), 19)
         self.assertEqual(len(result["record"]["producer_contract"]["release_producers"]), 6)
         self.assertFalse(hasattr(capture, "run"))
+
+
+@unittest.skipUnless(sys.platform.startswith("linux") and shutil.which("bwrap"), "Linux Bubblewrap required")
+class C5ImageEnvironmentCases(unittest.TestCase):
+    def test_actual_image_environment_and_foreign_input_refusal(self):
+        """Actual bwrap cwd insertion must equal the strict bootstrap declaration."""
+        prefix = ast.parse((ROOT / "scripts/qualify-work-graph-prefix.py").read_bytes())
+        base = next(n.value for n in prefix.body if isinstance(n, ast.Assign)
+                    and any(isinstance(t, ast.Name) and t.id == "ENVIRONMENT" for t in n.targets))
+        values = eval(compile(ast.Expression(base), "<fixed-environment>", "eval"), {"dict": dict})
+        executor = ast.parse((ROOT / "scripts/work-graph-c5-executor.py").read_bytes())
+        owner = next(n for n in executor.body if isinstance(n, ast.ClassDef) and n.name == "GenuineC5Session")
+        image = next(n for n in owner.body if isinstance(n, ast.FunctionDef) and n.name == "_image")
+        selected = next(n.value for n in image.body if isinstance(n, ast.Assign)
+                        and any(isinstance(t, ast.Name) and t.id == "environment" for t in n.targets))
+        planned = eval(compile(ast.Expression(selected), "<actual-image-environment>", "eval"),
+                       {"dict": dict, "D": types.SimpleNamespace(_ENVIRONMENT=values),
+                        "SOURCE_MOUNT": "/work", "WORK_MOUNT": "/c5-work", "gate_fd": 9})
+        command = [shutil.which("bwrap"), "--unshare-all", "--unshare-user", "--die-with-parent",
+                   "--new-session", "--clearenv", "--cap-drop", "ALL"]
+        for name, value in sorted(planned.items()):
+            command += ["--setenv", name, value]
+        command += ["--ro-bind", "/usr", "/usr", "--ro-bind", "/lib", "/lib", "--ro-bind", "/lib64", "/lib64", "--proc", "/proc", "--dir", "/work", "--chdir", "/work"]
+        program = [sys.executable, "-I", "-S", "-B", "-c", "import os,json; print(json.dumps(dict(os.environ)))"]
+        for foreign in (False, True):
+            actual_command = command + (["--setenv", "UNSELECTED_C5_INPUT", "foreign"] if foreign else []) + ["--", *program]
+            outcome = subprocess.run(actual_command, capture_output=True, text=True, timeout=15)
+            self.assertEqual(outcome.returncode, 0, outcome.stderr)
+            observed = json.loads(outcome.stdout)
+            self.assertEqual(observed == planned, not foreign, (planned, observed))
 
 
 if __name__ == "__main__":
