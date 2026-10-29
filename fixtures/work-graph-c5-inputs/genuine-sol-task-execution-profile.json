@@ -156,6 +156,7 @@
     }
   },
   "git_scope": "One selected /usr/bin/git-upload-pack spelling resolving to already selected git; all16 installed default template files and4 directories. No helper command executed during data acquisition.",
+  "kernel_entropy_policy": "C5_TASK_FIXED_GIT_REAL_URANDOM_V1",
   "launcher": {
     "bytes": 72160,
     "mode": 493,
@@ -168,7 +169,7 @@
     "tests/reproducible-release-asset.test.sh"
   ],
   "original_index": 48,
-  "private_work_policy": "Original TMPDIR=/c5-work uses existing512MiB private work; /tmp remains32MiB; root/source/runtime readonly; procfs is fresh private PID readonly; only /dev/null and /dev/fd exposed",
+  "private_work_policy": "Original TMPDIR=/c5-work uses existing512MiB private work; /tmp remains32MiB; root/source/runtime readonly; procfs is fresh private PID readonly; /dev/null and /dev/fd plus exact real /dev/urandom under closed task Git CSPRNG policy; no seed or generic device-write confinement",
   "profile": "FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1",
   "representation": "Full captured source read-only pathname bind; canonical sealed runtime file bytes plus every selected actual alias; no Python wrapper, mock provider, archive omission or source projection",
   "runtime": "All original system/provider/cache/RECORD/startup/NSS/native inputs remain selected; complete actual intermediate symlink topology recorded without selecting new regular files.",

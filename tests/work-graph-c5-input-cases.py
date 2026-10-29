@@ -3,6 +3,8 @@
 import ast
 import copy
 import json
+import os
+import stat
 import subprocess
 import sys
 import types
@@ -171,6 +173,74 @@ class C5ImageEnvironmentCases(unittest.TestCase):
             self.assertEqual(outcome.returncode, 0, outcome.stderr)
             observed = json.loads(outcome.stdout)
             self.assertEqual(observed == planned, not foreign, (planned, observed))
+
+
+class C5TaskEntropyCases(unittest.TestCase):
+    TASK = "FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1"
+    def guard(self):
+        tree = ast.parse((ROOT / "scripts/work-graph-c5-executor.py").read_bytes())
+        function = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "task_kernel_entropy_v1")
+        namespace = dict(PROFILE=self.TASK, SPEC=dict(kernel_entropy_policy="C5_TASK_FIXED_GIT_REAL_URANDOM_V1",
+            original_index=48, original_argv=["bash", "tests/reproducible-release-asset.test.sh"]))
+        def need(value, message):
+            if not value: raise ValueError(message)
+        namespace.update(need=need, fixed_task_entropy_device_v1=mock.Mock(return_value={"observed": "real-device-facts"}))
+        exec(compile(ast.Module(body=[function], type_ignores=[]), "<actual-entropy-admission>", "exec"), namespace)
+        return namespace
+
+    def test_exact_task_program_and_git_only(self):
+        n = self.guard()
+        source = dict(source=dict(state=dict(files={"tests/reproducible-release-asset.test.sh":
+            dict(sha256="a27521758cc71e312052d7eaa7c8b488dbbe2dcc5089d6054be0923455763310")})))
+        runtime = dict(files={"/usr/bin/git":dict(sha256="2a8c18fbf43da9f692d75474c72bea9dfd796c260b0f3dfe456376abc3bbd668")})
+        self.assertEqual(n["task_kernel_entropy_v1"](source, runtime), {"observed": "real-device-facts"})
+        for which in ("policy", "index", "argv", "program", "git"):
+            candidate = self.guard(); a, b = copy.deepcopy(source), copy.deepcopy(runtime)
+            if which == "policy": candidate["SPEC"]["kernel_entropy_policy"] = "arbitrary-device-policy"
+            elif which == "index": candidate["SPEC"]["original_index"] = 87
+            elif which == "argv": candidate["SPEC"]["original_argv"] = ["bash", "other.sh"]
+            elif which == "program": a["source"]["state"]["files"]["tests/reproducible-release-asset.test.sh"]["sha256"] = "0"*64
+            else: b["files"]["/usr/bin/git"]["sha256"] = "0"*64
+            with self.subTest(which=which), self.assertRaises(ValueError): candidate["task_kernel_entropy_v1"](a,b)
+            candidate["fixed_task_entropy_device_v1"].assert_not_called()
+
+    def test_device_type_identity_and_alias_refusals(self):
+        tree = ast.parse((ROOT / "scripts/work-graph-c5-executor.py").read_bytes())
+        functions = [n for n in tree.body if isinstance(n, ast.FunctionDef)
+                     and n.name in ("stamp", "fixed_task_entropy_device_v1")]
+        def need(value, message):
+            if not value: raise ValueError(message)
+        n = dict(os=os, stat=stat, need=need)
+        exec(compile(ast.Module(body=functions,type_ignores=[]), "<actual-device-observer>", "exec"), n)
+        valid = dict(st_dev=1,st_ino=7,st_mode=stat.S_IFCHR|0o666,st_nlink=1,st_size=0,
+                     st_mtime_ns=11,st_ctime_ns=12,st_uid=65534,st_gid=65534,st_rdev=os.makedev(1,9))
+        for mutation in (None, "regular", "minor", "owner", "link", "identity"):
+            first = dict(valid)
+            if mutation == "regular": first["st_mode"] = stat.S_IFREG|0o666
+            if mutation == "minor": first["st_rdev"] = os.makedev(1,8)
+            if mutation == "owner": first["st_uid"] = 0
+            path = mock.Mock();path.resolve.return_value = path if mutation != "link" else Path("/other-device")
+            second = dict(first)
+            if mutation == "identity": second["st_ino"] += 1
+            path.lstat.side_effect = [types.SimpleNamespace(**first), types.SimpleNamespace(**second)]
+            n["Path"] = mock.Mock(return_value=path)
+            with self.subTest(mutation=mutation):
+                if mutation is None:
+                    result = n["fixed_task_entropy_device_v1"]()
+                    self.assertEqual(result["identity"][-1], os.makedev(1,9))
+                else:
+                    with self.assertRaises(ValueError): n["fixed_task_entropy_device_v1"]()
+            path.open.assert_not_called()
+
+    def test_other_profiles_never_observe_or_expose_device(self):
+        for profile in ("FIXED_GENUINE_C5_PRODUCER_EFFECT_ORIGINAL48_V1",
+                        "FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1"):
+            n = self.guard(); n["PROFILE"] = profile; n["SPEC"] = {}
+            self.assertIsNone(n["task_kernel_entropy_v1"]({}, {}))
+            n["fixed_task_entropy_device_v1"].assert_not_called()
+            n["SPEC"]["kernel_entropy_policy"] = "C5_TASK_FIXED_GIT_REAL_URANDOM_V1"
+            with self.assertRaises(ValueError): n["task_kernel_entropy_v1"]({}, {})
+            n["fixed_task_entropy_device_v1"].assert_not_called()
 
 
 if __name__ == "__main__":
