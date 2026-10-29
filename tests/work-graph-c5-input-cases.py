@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Three source controls; no original48, namespace, build or package import."""
+"""Source capture and actual image-environment controls; no original48 or package import."""
 import ast
 import copy
 import json
