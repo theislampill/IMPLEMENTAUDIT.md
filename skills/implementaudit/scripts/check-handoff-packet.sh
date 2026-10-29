@@ -200,12 +200,13 @@ verify_receiver_reference() {
     file:*)
       command -v python3 >/dev/null 2>&1 || \
         fail "RECEIVER_INCOMPLETE: safe file reference verification requires python3"
-      python3 - "$repo_root" "$current_ref" <<'PY'
-import hashlib
+      python3 -I - "$repo_root" "$current_ref" "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/canonical_custody.py" <<'PY'
+import sys
 import os
+import hashlib
 import re
 import stat
-import sys
+from pathlib import Path
 
 directories = []
 
@@ -215,6 +216,59 @@ def identity(info):
 def file_identity(info):
     return identity(info) + (info.st_size, info.st_mtime_ns, info.st_ctime_ns)
 
+def verify_windows_reference(parts, wanted):
+    # Reuse the source-bound NTFS handle owner; it grants no state authority.
+    import ctypes
+    import msvcrt
+    import types
+    source = Path(sys.argv[3])
+    before = os.lstat(source)
+    if (not stat.S_ISREG(before.st_mode) or before.st_nlink != 1
+            or getattr(before, "st_file_attributes", 0) & 0x400):
+        raise ValueError("unsafe canonical custody source")
+    # Open the loader source itself without following a final reparse point,
+    # retaining read-only/no-delete sharing through capture and pin checking.
+    kernel = ctypes.WinDLL("kernel32", use_last_error=True)
+    create = kernel.CreateFileW
+    create.argtypes = [ctypes.c_wchar_p, ctypes.c_uint32, ctypes.c_uint32,
+                       ctypes.c_void_p, ctypes.c_uint32, ctypes.c_uint32, ctypes.c_void_p]
+    create.restype = ctypes.c_void_p
+    handle = create(str(source), 0x80000000, 1, None, 3, 0x00200000, None)
+    if handle == ctypes.c_void_p(-1).value:
+        raise ctypes.WinError(ctypes.get_last_error())
+    try:
+        fd = msvcrt.open_osfhandle(handle, os.O_RDONLY | os.O_BINARY)
+    except BaseException:
+        kernel.CloseHandle.argtypes = [ctypes.c_void_p]
+        kernel.CloseHandle(handle)
+        raise
+    with os.fdopen(fd, "rb") as stream:
+        opened = os.fstat(stream.fileno())
+        if (file_identity(before) != file_identity(opened)
+                or not stat.S_ISREG(opened.st_mode)
+                or getattr(opened, "st_file_attributes", 0) & 0x400):
+            raise ValueError("canonical custody source changed before capture")
+        raw = stream.read(36368)
+        after = os.fstat(stream.fileno())
+    if (file_identity(before) != file_identity(opened)
+            or file_identity(opened) != file_identity(after)
+            or len(raw) != 36367
+            or hashlib.sha256(raw).hexdigest() != "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389"):
+        raise ValueError("canonical custody source identity mismatch")
+    custody = types.ModuleType("_handoff_canonical_custody")
+    custody.__file__ = str(source)
+    exec(compile(raw, str(source), "exec"), custody.__dict__)
+    parts = [custody.component(part) for part in parts]
+    parent = Path(sys.argv[1]).absolute().joinpath(*parts[:-1])
+    with custody.Directory(parent) as directory:
+        with custody.File(directory, parts[-1], maximum=sys.maxsize) as state:
+            digest = hashlib.sha256()
+            for chunk in iter(lambda: os.read(state.fd, 1024 * 1024), b""):
+                digest.update(chunk)
+            state.verify()
+            if digest.hexdigest() != wanted:
+                raise ValueError("current state digest mismatch")
+
 try:
     match = re.fullmatch(r"file:(.+)#sha256=([0-9a-fA-F]{64})", sys.argv[2])
     if match is None:
@@ -222,6 +276,9 @@ try:
     parts = match[1].split("/")
     if any(part in ("", ".", "..") for part in parts):
         raise ValueError("file reference must stay beneath the receiver root")
+    if os.name == "nt":
+        verify_windows_reference(parts, match[2].lower())
+        sys.exit(0)
     # Open each component relative to an already opened directory. No symlink
     # check/open race, path traversal, device/FIFO read, or command evaluation.
     if (os.open not in os.supports_dir_fd or

@@ -297,6 +297,7 @@ done
 
 # P. Real receiver state must resolve. Deleting only the target while retaining
 # the exact packet must block; a nonempty string is not reproduction evidence.
+python3 "$repo_root/tests/handoff_file_reference.py"
 state_dir="$(mktemp -d "$repo_root/fixtures/handoff-packet/receiver-state.XXXXXX")"
 trap 'rm -rf "$tmp" "$state_dir"' EXIT
 reference_failures=0
@@ -356,6 +357,9 @@ cp "$tmp/receiver-case.pkt" "$tmp/receiver-rebound.pkt"
 # An unavailable secure-open primitive is a normal refusal, not a traceback
 # or a fallback to following paths. Simulate the platform boundary in the real
 # Python resolver; the exact Git route must remain usable under the same host.
+# These faults target POSIX descriptor APIs. Native NTFS uses retained handles;
+# its actual source, alias and replacement controls run in the family above.
+if [ "$(python3 -c 'import os; print(os.name)')" != nt ]; then
 mkdir "$tmp/unsupported-host"
 python3 - "$tmp/unsupported-host/python3" <<'PY'
 import pathlib
@@ -366,7 +370,7 @@ shim.write_text("#!" + sys.executable + "\n" + '''
 import os
 import sys
 source = sys.stdin.read()
-sys.argv = sys.argv[1:]
+sys.argv = [argument for argument in sys.argv[1:] if argument != "-I"]
 if os.environ.get("HANDOFF_TEST_OPEN_UNAVAILABLE") == "flag":
     del os.O_NOFOLLOW
 else:
@@ -409,7 +413,7 @@ import os
 import pathlib
 import sys
 source = sys.stdin.read()
-sys.argv = sys.argv[1:]
+sys.argv = [argument for argument in sys.argv[1:] if argument != "-I"]
 real_open = os.open
 swapped = False
 def opening(path, *args, **kwargs):
@@ -471,6 +475,9 @@ set_receiver_field current_state_ref "file:$state_dir/state.txt#sha256=$state_ha
 expect_receiver_reject 'absolute current-state path' "$tmp/receiver-case.pkt"
 set_receiver_field current_state_ref "file:${state_path%/*}#sha256=$state_hash"
 expect_receiver_reject 'directory instead of state file' "$tmp/receiver-case.pkt"
+else
+  printf 'handoff-packet-contract: POSIX descriptor faults not applicable to native NTFS; native handle controls executed\n'
+fi
 set_receiver_field current_state_ref "file:$state_path#sha256=${state_hash:0:12}"
 expect_receiver_reject 'short current-state digest' "$tmp/receiver-case.pkt"
 set_receiver_field current_state_ref "file:$state_path"
