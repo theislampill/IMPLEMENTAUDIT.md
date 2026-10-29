@@ -245,5 +245,42 @@ class C5TaskEntropyCases(unittest.TestCase):
             n["fixed_task_entropy_device_v1"].assert_not_called()
 
 
+class C5TaskResourceCases(unittest.TestCase):
+    TASK = "FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1"
+    POLICY = dict(schema="implementaudit.c5-task-resource-policy.v1",
+        identity="C5_TASK_ORIGINAL48_FILE64_V1", inherited_file_bytes=16*1024**2, file_bytes=64*1024**2)
+    def selection(self, profile, policy=None):
+        tree = ast.parse((ROOT / "scripts/work-graph-c5-executor.py").read_bytes())
+        function = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name=="execution_limits_v1")
+        n = dict(PROFILE=profile,SPEC={} if policy is None else dict(task_resource_policy=policy))
+        def need(value,message):
+            if not value: raise ValueError(message)
+        n["need"] = need
+        exec(compile(ast.Module(body=[function],type_ignores=[]),"<actual-task-resource-owner>","exec"),n)
+        return n["execution_limits_v1"]
+
+    def test_only_task_increases_one_declared_limit(self):
+        inherited = dict(file_bytes=16*1024**2,work_bytes=512*1024**2,scratch_bytes=32*1024**2,
+            cpu_seconds=90,wall_seconds=120,address_bytes=1024**3,descriptors=4096,
+            stream_bytes=16*1024**2,retained_object_bytes=1024**3,evidence_bytes=2*1024**3)
+        original = dict(inherited)
+        task = self.selection(self.TASK,dict(self.POLICY))(inherited)
+        self.assertEqual(task,dict(inherited,file_bytes=64*1024**2))
+        self.assertEqual(inherited,original)
+        for profile in ("FIXED_GENUINE_C5_PRODUCER_EFFECT_ORIGINAL48_V1",
+                        "FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1"):
+            self.assertEqual(self.selection(profile)(inherited),inherited)
+            with self.assertRaises(ValueError):self.selection(profile,dict(self.POLICY))(inherited)
+
+    def test_unreviewed_resource_values_refuse(self):
+        inherited = dict(file_bytes=16*1024**2)
+        policies = [None,dict(self.POLICY,file_bytes=128*1024**2),dict(self.POLICY,unbounded=True),
+                    dict(self.POLICY,identity="arbitrary")]
+        for policy in policies:
+            with self.subTest(policy=policy),self.assertRaises(ValueError):
+                self.selection(self.TASK,policy)(inherited)
+        with self.assertRaises(ValueError):self.selection(self.TASK,dict(self.POLICY))(dict(file_bytes=32*1024**2))
+
+
 if __name__ == "__main__":
     unittest.main()

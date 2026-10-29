@@ -203,7 +203,28 @@ PROFILE = SPEC['profile']
 # The current prefix owner remains the one source of these production limits.
 _LIMIT_OWNER = P.bind_session(Q.VerifierTaskSession, Q.WG, ENGINE_ROOT,
                              SOURCES['scripts/qualify-work-graph-prefix.py'][0])
-LIMITS = dict(_LIMIT_OWNER.LIMITS)
+def execution_limits_v1(inherited):
+    """One prospective TASK workload contract; no general override or old rebind.
+
+    Original clone transfers produce a33,372,014-byte pack, and the current
+    tracked source includes a30,022,077-byte member. Keep the generic16MiB
+    refusal as its own valid profile;64MiB supplies bounded clone/intermediate
+    headroom inside the unchanged512MiB work and1GiB address allocations.
+    """
+    need(type(inherited) is dict and inherited.get('file_bytes') == 16*1024**2,
+         'C5 inherited file ceiling changed without resource qualification')
+    limits=dict(inherited)
+    if PROFILE == 'FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1':
+        policy=dict(schema='implementaudit.c5-task-resource-policy.v1',
+            identity='C5_TASK_ORIGINAL48_FILE64_V1',inherited_file_bytes=16*1024**2,file_bytes=64*1024**2)
+        need(SPEC.get('task_resource_policy') == policy,'Unsupported C5 task resource policy')
+        limits['file_bytes']=policy['file_bytes']
+    else:
+        need('task_resource_policy' not in SPEC,'C5 task resources are forbidden for another profile')
+    return limits
+
+
+LIMITS = execution_limits_v1(dict(_LIMIT_OWNER.LIMITS))
 SECCOMP = bytes(Q.VerifierTaskSession.SECCOMP)
 
 
