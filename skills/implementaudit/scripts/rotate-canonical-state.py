@@ -659,8 +659,35 @@ def _freeze_native_input(lease, predecessor: dict, source_bytes: int,
 def _check_calibration(contract: dict) -> None:
     if contract not in (calibration_contract_v1(), token_calibration_contract_v1(),
                         *_historical_or_calibrations_v1(),
+                        native_resume_preparation_policy_v1('windows'),
                         c02_preparation_policy_v1('windows'), c02_preparation_policy_v1('other')):
         raise RotationError('unknown calibration or observation admission contract')
+
+
+def native_resume_preparation_policy_v1(host: str | None = None) -> dict:
+    """Prospective Windows resume preparation; no whole-operation qualification.
+
+    The original calibration, other hosts, helper memory guards and security
+    deadlines are unchanged. Full-operation aggregate job committed memory and
+    process/descendant applicability must be qualified separately, without
+    baseline subtraction. This policy supplies no native boundary or grant.
+    """
+    host = ('windows' if os.name == 'nt' else 'other') if host is None else host
+    if host not in {'windows', 'other'}:
+        raise RotationError('unknown native resume preparation platform')
+    if host == 'other':
+        return calibration_contract_v1()
+    return {'schema': 'implementaudit.native-resume-preparation-policy.v1',
+            'admission_route': 'EXACT_MIGRATED_PREIMAGE_NATIVE_RESUME',
+            'historical_calibration_id': CALIBRATION_ID,
+            'historical_calibration_sha256': CALIBRATION_SHA256,
+            'qualification_host': 'windows',
+            'maximum_runtime_ms': 60000,
+            'windows_full_operation_peak_job_bytes': 201326592,
+            'applies_windows_envelope_to_other_hosts': False,
+            'helper_memory_guard_unchanged_bytes': 67108864,
+            'host_qualification': 'SEPARATE_NOT_INFERRED',
+            'authority_ceiling': 'NO_NATIVE_BOUNDARY_OR_GRANT_AUTHORITY'}
 
 
 def c02_preparation_policy_v1(host: str | None = None) -> dict:
@@ -1205,6 +1232,9 @@ def _verify_archive_one(repo: Path, controller: str, archive_ref: str,
     if native and manifest['predecessor']['receipt_schema'] != 'implementaudit.continuity-receipt.v3':
         raise RotationError('native resume archive requires a migrated predecessor')
     _check_calibration(manifest['calibration'])
+    if (manifest['calibration'] == native_resume_preparation_policy_v1('windows')
+            and kind != 'native-resume'):
+        raise RotationError('native resume policy cannot be selected by another operation')
     if full_or and native:
         raise RotationError('native input OR policy cannot substitute a preserved-preimage operation')
     _tokenizer_guard(repo, controller, manifest['calibration'])
@@ -1420,7 +1450,8 @@ def _prepare_preserved_preimage_draft(repo: Path, run_root: Path, controller: st
     run_root = require_run_root(str(run_root), repo)
     archive_ref = _identity(controller, generation)
     _validate_predecessor_schema(predecessor)
-    preparation_policy = c02_preparation_policy_v1() if preservation_kind == 'c02-correction' else calibration_contract_v1()
+    preparation_policy = (c02_preparation_policy_v1() if preservation_kind == 'c02-correction'
+                          else native_resume_preparation_policy_v1())
     correction_oid = None
     if preservation_kind == 'c02-correction':
         raw = canonical_bytes(correction_record)[:-1]
@@ -1548,7 +1579,9 @@ def _read_native_preparation(repo: Path, run_root: Path, controller: str,
         'draft_manifest_sha256': sha256(draft_raw),
         'source_state_sha256': sha256(source['STATE']), 'source_roadmap_sha256': sha256(source['ROADMAP']),
         'exact_next_action': predecessor['exact_next_action'], 'predecessor': predecessor,
-        'calibration': c02_preparation_policy_v1() if preservation_kind == 'c02-correction' else calibration_contract_v1(),
+        # Retained bytes choose their own historical interpretation. Never
+        # relabel an existing archive with today's platform/preparation policy.
+        'calibration': _json(_blob(repo, archive_oid), 'native archive manifest')['calibration'],
         'measurement': {'live_bytes_before': live_bytes, 'live_byte_reduction': live_bytes - sum(sizes),
                         'model_calls': 0, 'host_qualification': 'SEPARATE_NOT_INFERRED'},
         'authority_ceiling': 'NO_CURRENTNESS_AUTHORITY',
@@ -1587,6 +1620,9 @@ def _prepare_canonical_draft(repo: Path, run_root: Path, controller: str,
     if ((preservation_kind == 'c02-correction')
             != (calibration in (c02_preparation_policy_v1('windows'), c02_preparation_policy_v1('other')))):
         raise RotationError('correction policy cannot be selected by another operation')
+    if (calibration == native_resume_preparation_policy_v1('windows')
+            and (not native_resume or preservation_kind != 'native-resume' or os.name != 'nt')):
+        raise RotationError('Windows native resume policy cannot be selected by another operation or host')
     if (native_resume and tokens_selected) or (tokenizer_bytes is not None and not tokens_selected):
         raise RotationError('token admission cannot substitute for native resume or byte-only policy')
     if not full_or and native_observation is not None:

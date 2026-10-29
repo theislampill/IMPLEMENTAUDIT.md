@@ -7,19 +7,20 @@
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/claim-run.sh",
       "materialized_path": "skills/implementaudit/scripts/claim-run.sh",
       "bytes": 104155,
-      "sha256": "10baf97b4c773d8ac386627a455bb480e8353ccfdb909fc5253d3ac4c65ecd0f",
+      "sha256": "472b9f6493fa5a6c11a4ce24ca7f64176a98de6756d2ac0eca3b25397ab331e6",
       "source_commit": "fa14948894f583cc0b4e3be80e9283839c9992b5",
       "source_path": "skills/implementaudit/scripts/claim-run.sh",
       "modified": true,
       "mode": "100644",
       "semantic_owner": "R0011",
       "source_preimage_sha256": "9665ba20e02c02882f3172549e90d78e790c6c0133cd31749a30e1d29c3cc0ce",
-      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; wave1 composite source reconciliation, see docs/integration/active-rlgwo-composite-20261025.md; no native admission; exact current preparation-template dependency closure; prior profiles retained; no native admission DG08 source-only correction and exact dependency binding; no native admission or evidence-window expansion. DG08 acquisition-v1/startup compatibility and exact dependency binding; selected-evidence limits retained; no native acceptance. Exact terminal-inventory startup classification and dependency bindings; no historical native admission.",
+      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; wave1 composite source reconciliation, see docs/integration/active-rlgwo-composite-20261025.md; no native admission; exact current preparation-template dependency closure; prior profiles retained; no native admission DG08 source-only correction and exact dependency binding; no native admission or evidence-window expansion. DG08 acquisition-v1/startup compatibility and exact dependency binding; selected-evidence limits retained; no native acceptance. Exact terminal-inventory startup classification and dependency bindings; no historical native admission. DG18 prospective Windows native-resume policy/dependency binding; historical profiles retained; no native admission.",
       "integration_preimage_sha256": "405ab3853dfb88c007ea2f8f8dd98fb8e9c6e77552b172f2f71a8751364ea20f",
       "preparation_binding_preimage_sha256": "bd0c6d2ab1ec8f695fe34e459b25d9344e11c5930d3f62d0919b29d9bc4a44ee",
       "dg08_source_receiving_preimage_sha256": "322f17d86170e34788833a619586e8cb9fcc066a70933342ad3f28f036446d0d",
       "dg08_acquisition_preimage_sha256": "d7db3595bfdd6b79e822375df5744597111148315cce6c980dc063792774dc36",
-      "terminal_inventory_preimage_sha256": "5cca165879cb272a8cb494fcdc12ac461ec53c4d9c95fcb13882ea44397be529"
+      "terminal_inventory_preimage_sha256": "5cca165879cb272a8cb494fcdc12ac461ec53c4d9c95fcb13882ea44397be529",
+      "dg18_native_resume_policy_preimage_sha256": "10baf97b4c773d8ac386627a455bb480e8353ccfdb909fc5253d3ac4c65ecd0f"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/validate-run-root.sh",
@@ -62,16 +63,17 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/rotate-canonical-state.py",
       "materialized_path": "skills/implementaudit/scripts/rotate-canonical-state.py",
-      "bytes": 125155,
-      "sha256": "2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc",
+      "bytes": 127297,
+      "sha256": "8ea4b99162ebaf4f1338fbb9086b4da2fd58d94dea3cac6d82d64744520de631",
       "source_commit": "d2397406d51aa080209caa16897283b2e9cb5b61",
       "source_path": "skills/implementaudit/scripts/rotate-canonical-state.py",
       "modified": true,
       "mode": "100755",
       "source_preimage_sha256": "d0a1ce2889e98afa37637777a9cc624ff931700dab8b1468b34e5c201cf46460",
-      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; composed R0039 native-v3/C02 source candidate; no native admission",
+      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; composed R0039 native-v3/C02 source candidate; no native admission DG18 prospective Windows native-resume policy/dependency binding; historical profiles retained; no native admission.",
       "semantic_owner": "R0039 original14/TC06",
-      "composition_preimage_sha256": "fe2359ced910bbb2f460a2c5deb95a84a3dd3f50f970e4f314ff2172b0461d2c"
+      "composition_preimage_sha256": "fe2359ced910bbb2f460a2c5deb95a84a3dd3f50f970e4f314ff2172b0461d2c",
+      "dg18_native_resume_policy_preimage_sha256": "2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/canonical_hot_projection.py",
@@ -186,11 +188,11 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/claim-run-rotation.py",
       "bytes": 246657,
-      "sha256": "bc862f87428e86c608ddc5fe31ad8a3e2c8324b52c09ba379163db160ad70e93",
+      "sha256": "82ddcbb3cf476098fbcac57c0550d4240457688df2c4504c8ab8caea2c3367b1",
       "source_commit": "d2397406d51aa080209caa16897283b2e9cb5b61",
       "composition_preimage_sha256": "69bea85f96c3cca62858bf3ecb6fd9fd19775203064e54b912577ea2a3c69123",
       "modified": true,
-      "additional_delta": "; composed R0039 native-v3/C02 source candidate; no native admission; R0039 exact-source projection binding receiving candidate; captured buffer and physical-path cache retained; exact old companion moved to explicit native-peer source override; materialize with existing complete sibling closure; historical traversal API remains unsupported by this native profile; exact current preparation-template dependency closure; prior profiles retained; no native admission DG08 source-only correction and exact dependency binding; no native admission or evidence-window expansion. DG08 acquisition-v1/startup compatibility and exact dependency binding; selected-evidence limits retained; no native acceptance. Exact terminal-inventory startup classification and dependency bindings; no historical native admission.",
+      "additional_delta": "; composed R0039 native-v3/C02 source candidate; no native admission; R0039 exact-source projection binding receiving candidate; captured buffer and physical-path cache retained; exact old companion moved to explicit native-peer source override; materialize with existing complete sibling closure; historical traversal API remains unsupported by this native profile; exact current preparation-template dependency closure; prior profiles retained; no native admission DG08 source-only correction and exact dependency binding; no native admission or evidence-window expansion. DG08 acquisition-v1/startup compatibility and exact dependency binding; selected-evidence limits retained; no native acceptance. Exact terminal-inventory startup classification and dependency bindings; no historical native admission. DG18 prospective Windows native-resume policy/dependency binding; historical profiles retained; no native admission.",
       "materialized_path": "skills/implementaudit/scripts/claim-run-rotation.py",
       "mode": "100644",
       "semantic_owner": "R0039",
@@ -199,7 +201,8 @@
       "preparation_binding_preimage_sha256": "4dbbd07b5a792289c13c1225a8099900682b3657396f60f4b74867502cbadf97",
       "dg08_source_receiving_preimage_sha256": "31e30b564e83db80c11c18b3bf83eab9d901bf089af7dd7ebd2e7d823f5105f8",
       "dg08_acquisition_preimage_sha256": "4a4dc5a997f3d485c7c43be31cb45818907e1685c8506fbabcb8bcee0872aed6",
-      "terminal_inventory_preimage_sha256": "908cce5054dc23a9e74b6af695204fc6d9889681611311c7136f087fe0be1663"
+      "terminal_inventory_preimage_sha256": "908cce5054dc23a9e74b6af695204fc6d9889681611311c7136f087fe0be1663",
+      "dg18_native_resume_policy_preimage_sha256": "bc862f87428e86c608ddc5fe31ad8a3e2c8324b52c09ba379163db160ad70e93"
     }
   ],
   "composition_domain": "R0039_ORIGINAL14_OWNER_WITH_R0033_VERIFIED_READ_VIEW",

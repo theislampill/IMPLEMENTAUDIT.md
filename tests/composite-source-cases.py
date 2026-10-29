@@ -808,11 +808,19 @@ class CompositeSourceCases(unittest.TestCase):
                         if row["path"].endswith("/claim-run-rotation.py"))
         raw = (ROOT / retained["path"]).read_bytes()
         self.assertEqual((len(raw), hashlib.sha256(raw).hexdigest()),
-                         (246657, 'bc862f87428e86c608ddc5fe31ad8a3e2c8324b52c09ba379163db160ad70e93'))
+                         (246657, '82ddcbb3cf476098fbcac57c0550d4240457688df2c4504c8ab8caea2c3367b1'))
         self.assertEqual(retained["materialized_path"], "skills/implementaudit/scripts/claim-run-rotation.py")
         self.assertNotIn(retained["materialized_path"], [row["path"] for row in manifest["frozen_core_dependencies"]])
         transport = load("retained_core_transport", ROOT / "scripts/work-graph-continuity-transport.py")
-        profile = transport.SOURCE_PROFILES_V1['composite-20261028-dg10-native-stop-v1-core']
+        historical = transport.SOURCE_PROFILES_V1['composite-20261028-dg10-native-stop-v1-core']
+        self.assertEqual(historical[2][1:3],
+                         (259408, '1c70c0612bad4b2311bb89ddad60484937b5d195bf98380c3ef3e0d30d6cd94b'))
+        self.assertEqual(transport.SOURCE_PROFILES_V1['composite-20261028-dg10-native-stop-v1-original14'][2][1:3],
+                         (246657, 'bc862f87428e86c608ddc5fe31ad8a3e2c8324b52c09ba379163db160ad70e93'))
+        profile = transport.SOURCE_PROFILES_V1['composite-20261029-dg18-native-resume-v1-core']
+        self.assertTrue(transport._windows_core_profile_v1(historical))
+        self.assertTrue(transport._windows_core_profile_v1(profile))
+        self.assertFalse(transport._windows_core_profile_v1(((*profile[0][:2], '0' * 64, profile[0][3]), *profile[1:])))
         self.assertEqual(transport.SOURCE_PROFILES_V1['composite-20261028-terminal-inventory-v1-core'][1][1:3],
                          (114294, 'e7a20d7d5eab497338327814367fe8c7221a35cfe61bdfaadd91d84101f0d250'))
         self.assertEqual(transport.SOURCE_PROFILES_V1['composite-20261028-original14-dg17-ledger-v1'][2][1:3],
