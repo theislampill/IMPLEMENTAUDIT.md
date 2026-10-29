@@ -871,7 +871,10 @@ class GenuineC5Session:
             raw = acquired['objects'][row['sha256']]
             need(len(raw) == row['bytes'] and sha(raw) == row['sha256'], 'C5 runtime object unavailable')
             fd = self._seal(raw)
-            args += ['--perms',oct(row['mode'])[2:],'--ro-bind-data',str(fd),name]
+            # The original physical executable oracle requires linked files.
+            # Copy these sealed bytes into the root image; its final remount
+            # keeps the runtime read-only without an unlinked backing inode.
+            args += ['--perms',oct(row['mode'])[2:],'--file',str(fd),name]
         for name,(raw,mode) in sorted(support.items()):
             fd = self._seal(raw)
             args += ['--perms',oct(mode)[2:],'--ro-bind-data',str(fd),name]

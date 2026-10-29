@@ -316,5 +316,45 @@ class C5CurrentnessWitnessCases(unittest.TestCase):
         writer.assert_not_called();check.assert_called_once_with()
 
 
+@unittest.skipUnless(sys.platform.startswith("linux") and shutil.which("bwrap"), "Linux Bubblewrap required")
+class C5RuntimeMaterializationCases(unittest.TestCase):
+    def test_actual_materialization_is_linked_and_readonly_to_original_reader(self):
+        import fcntl
+        tree=ast.parse((ROOT / "scripts/work-graph-c5-executor.py").read_bytes())
+        owner=next(n for n in tree.body if isinstance(n,ast.ClassDef) and n.name=="GenuineC5Session")
+        image=next(n for n in owner.body if isinstance(n,ast.FunctionDef) and n.name=="_image")
+        loop=next(n for n in image.body if isinstance(n,ast.For) and any(
+            isinstance(x,ast.Subscript) and isinstance(x.value,ast.Name) and x.value.id=="layout"
+            and isinstance(x.slice,ast.Constant) and x.slice.value=="files" for x in ast.walk(n.iter)))
+        append=next(n for n in loop.body if isinstance(n,ast.AugAssign) and isinstance(n.target,ast.Name) and n.target.id=="args")
+        operation=ast.literal_eval(append.value.elts[2])
+        raw=b"captured runtime bytes\n"
+        fd=os.memfd_create("actual-selected-runtime-input",os.MFD_ALLOW_SEALING)
+        try:
+            os.write(fd,raw);os.lseek(fd,0,0);fcntl.fcntl(fd,fcntl.F_ADD_SEALS,15)
+            program=("import importlib.util,json,os,errno;from pathlib import Path;"
+                "s=importlib.util.spec_from_file_location('original_capture','/capture.py');"
+                "m=importlib.util.module_from_spec(s);s.loader.exec_module(m);"
+                "r=m.observe(Path('/evidence'),Path('/subject'));"
+                "\ntry:\n f=os.open('/subject',os.O_WRONLY);os.close(f);r['readonly']=False"
+                "\nexcept OSError as e:r['readonly']=e.errno==errno.EROFS"
+                "\nprint(json.dumps(r))")
+            command=[shutil.which("bwrap"),"--unshare-all","--unshare-user","--die-with-parent",
+                "--new-session","--clearenv","--cap-drop","ALL","--ro-bind","/usr","/usr",
+                "--ro-bind","/lib","/lib","--ro-bind","/lib64","/lib64","--proc","/proc",
+                "--ro-bind",str(ROOT / "scripts/repro-event-capture.py"),"/capture.py",
+                "--perms","0755",operation,str(fd),"/subject","--perms","0755","--tmpfs","/evidence",
+                "--dir","/evidence/blobs","--remount-ro","/","--",sys.executable,"-I","-S","-B","-c",program]
+            p=subprocess.run(command,capture_output=True,text=True,pass_fds=(fd,),timeout=15)
+            self.assertEqual(p.returncode,0,p.stderr)
+            observed=json.loads(p.stdout)
+            self.assertEqual(observed["kind"],"FILE",observed)
+            self.assertEqual(observed["stat"]["links"],1)
+            self.assertEqual(observed["stat"]["mode"],0o755)
+            self.assertEqual(observed["blob"],dict(bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest()))
+            self.assertTrue(observed["readonly"],observed)
+        finally:os.close(fd)
+
+
 if __name__ == "__main__":
     unittest.main()
