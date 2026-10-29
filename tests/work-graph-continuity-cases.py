@@ -105,6 +105,13 @@ def require_host():
                                     returncode=exc.returncode, stderr=exc.stderr.decode("utf-8", "replace"))
         save_result("host-capability", _HOST_STATUS)
         print("continuity transport host disposition: " + _HOST_STATUS["status"], file=sys.stderr)
+        if _HOST_STATUS["status"] == "UNSUPPORTED":
+            stderr = _HOST_STATUS["stderr"]
+            diagnostic = dict(refusal_code=_HOST_STATUS["refusal_code"],
+                              returncode=_HOST_STATUS["returncode"], stderr=stderr[:4096],
+                              stderr_truncated=len(stderr) > 4096)
+            print("continuity transport host refusal: " + json.dumps(
+                diagnostic, sort_keys=True, ensure_ascii=True), file=sys.stderr)
     if _HOST_STATUS["status"] == "UNSUPPORTED":
         message = "UNSUPPORTED: " + _HOST_STATUS["refusal_code"]
         if REQUIRE_SUPPORTED_HOST:
