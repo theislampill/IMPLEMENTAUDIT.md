@@ -812,7 +812,9 @@ class CompositeSourceCases(unittest.TestCase):
         self.assertEqual(retained["materialized_path"], "skills/implementaudit/scripts/claim-run-rotation.py")
         self.assertNotIn(retained["materialized_path"], [row["path"] for row in manifest["frozen_core_dependencies"]])
         transport = load("retained_core_transport", ROOT / "scripts/work-graph-continuity-transport.py")
-        profile = transport.SOURCE_PROFILES_V1['composite-20261028-terminal-inventory-v1-core']
+        profile = transport.SOURCE_PROFILES_V1['composite-20261028-dg10-native-stop-v1-core']
+        self.assertEqual(transport.SOURCE_PROFILES_V1['composite-20261028-terminal-inventory-v1-core'][1][1:3],
+                         (114294, 'e7a20d7d5eab497338327814367fe8c7221a35cfe61bdfaadd91d84101f0d250'))
         self.assertEqual(transport.SOURCE_PROFILES_V1['composite-20261028-original14-dg17-ledger-v1'][2][1:3],
                          (246657, '908cce5054dc23a9e74b6af695204fc6d9889681611311c7136f087fe0be1663'))
         self.assertEqual(transport.SOURCE_PROFILES_V1['composite-20261028-core-dg17-ledger-v1'][2][1:3],
