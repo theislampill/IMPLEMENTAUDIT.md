@@ -166,6 +166,9 @@ class ReceivingClosureControls(unittest.TestCase):
         self.adapter.write_bytes(raw)
         self.value["transport"].update(bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest())
         self.check()
+        self.adapter.write_bytes(raw[:-1] + b"X")
+        with self.assertRaises(self.owner.OperationalEvidenceError):
+            self.check()
         self.adapter.write_bytes(raw + b"\n")
         with self.assertRaises(self.owner.OperationalEvidenceError):
             self.check()

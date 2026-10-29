@@ -2088,7 +2088,8 @@ def _native_check_continuity_closure_v1(value, repository, compiler_path, pair):
                        for actual, expected in zip(identity, profile)) for profile in profiles):
         _error("OE_NATIVE_CURRENT_CHANGED", "$native.continuity_closure", "continuity source differs from the qualified closure")
     path = root / "scripts/work-graph-continuity-transport.py"
-    raw = _native_file(path, "$native.continuity_transport", 64 * 1024)
+    raw = _native_file(path, "$native.continuity_transport",
+                       max(_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1.values()))
     info = path.lstat()
     if (_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1.get(hashlib.sha256(raw).hexdigest()) != len(raw)
             or info.st_nlink != 1):
