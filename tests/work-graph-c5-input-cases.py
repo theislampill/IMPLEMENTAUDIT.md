@@ -282,5 +282,39 @@ class C5TaskResourceCases(unittest.TestCase):
         with self.assertRaises(ValueError):self.selection(self.TASK,dict(self.POLICY))(dict(file_bytes=32*1024**2))
 
 
+class C5CurrentnessWitnessCases(unittest.TestCase):
+    def owner_method(self):
+        tree=ast.parse((ROOT / "scripts/work-graph-c5-executor.py").read_bytes())
+        owner=next(n for n in tree.body if isinstance(n,ast.ClassDef) and n.name=="GenuineC5Session")
+        method=next(n for n in owner.body if isinstance(n,ast.FunctionDef) and n.name=="_same_inputs")
+        def need(value,message):
+            if not value:raise ValueError(message)
+        n=dict(need=need,encode=lambda value:json.dumps(value,sort_keys=True).encode())
+        exec(compile(ast.Module(body=[method],type_ignores=[]),"<actual-closing-currentness>","exec"),n)
+        return n["_same_inputs"]
+
+    def test_changed_observation_is_retained_and_still_refused(self):
+        before=dict(observation=dict(physical_input=dict(ctime_ns=11,sha256="old")),key="before")
+        after=dict(observation=dict(physical_input=dict(ctime_ns=12,sha256="new")),key="after")
+        writes={}
+        actor=types.SimpleNamespace(acquired=before,_acquire=lambda:after,
+            _write=lambda name,raw:writes.__setitem__(name,raw),_check_owned=mock.Mock())
+        with self.assertRaisesRegex(ValueError,"^C5 source/runtime/provider/clone-input currentness changed$"):
+            self.owner_method()(actor)
+        self.assertEqual(json.loads(writes["input-currentness-before.json"]),before["observation"])
+        self.assertEqual(json.loads(writes["input-currentness-after.json"]),after["observation"])
+        receipt=json.loads(writes["input-currentness-refusal.json"])
+        self.assertEqual((receipt["before_key"],receipt["after_key"]),("before","after"))
+        self.assertEqual(receipt["decision"],"REFUSED_UNCHANGED_COMPARATOR")
+        actor._check_owned.assert_not_called()
+
+    def test_unchanged_inputs_keep_no_receipt_cheap_path(self):
+        before=dict(observation=dict(physical_input=dict(ctime_ns=11,sha256="same")),key="same")
+        writer=mock.Mock();check=mock.Mock()
+        actor=types.SimpleNamespace(acquired=before,_acquire=lambda:copy.deepcopy(before),_write=writer,_check_owned=check)
+        self.owner_method()(actor)
+        writer.assert_not_called();check.assert_called_once_with()
+
+
 if __name__ == "__main__":
     unittest.main()

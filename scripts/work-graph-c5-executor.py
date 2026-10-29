@@ -626,7 +626,9 @@ class GenuineC5Session:
         self.retained_directories, self.stage_directories = None, []
         self.attempted, self.closed, self.result, self.acquired = False, False, None, None
         self.reserved = 0
-        self.prepaid = {'closing-custody.json':P.MANIFEST_BOUND,'result.json':P.MANIFEST_BOUND}
+        self.prepaid = {'closing-custody.json':P.MANIFEST_BOUND,'result.json':P.MANIFEST_BOUND,
+            'input-currentness-before.json':P.MANIFEST_BOUND,'input-currentness-after.json':P.MANIFEST_BOUND,
+            'input-currentness-refusal.json':P.MANIFEST_BOUND}
         self._reserve(sum(self.prepaid.values()),'bounded closing and result metadata')
         # Journal writes are owned by the unchanged CompletionContract. Reserve
         # its whole existing64MiB cap plus both actual raw outer logs before launch.
@@ -796,6 +798,17 @@ class GenuineC5Session:
 
     def _same_inputs(self):
         fresh = self._acquire()
+        if fresh['observation'] != self.acquired['observation'] or fresh['key'] != self.acquired['key']:
+            # Retain the actual failed comparison, never reconstruct a lost
+            # AFTER value or change equality to admit stale inputs. These are
+            # bounded observation buffers, not new raw-object custody claims.
+            self._write('input-currentness-before.json',encode(self.acquired['observation']))
+            self._write('input-currentness-after.json',encode(fresh['observation']))
+            self._write('input-currentness-refusal.json',encode(dict(
+                schema='implementaudit.c5-input-currentness-refusal.v1',
+                before_key=self.acquired['key'],after_key=fresh['key'],
+                decision='REFUSED_UNCHANGED_COMPARATOR',
+                fresh_object_bytes='NOT_RETAINED_BY_THIS_DIAGNOSTIC',authority='NONE')))
         need(fresh['observation'] == self.acquired['observation'] and fresh['key'] == self.acquired['key'],
              'C5 source/runtime/provider/clone-input currentness changed')
         self._check_owned()
