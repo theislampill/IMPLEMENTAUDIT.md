@@ -4,7 +4,12 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
-tmp_parent="$(mktemp -d)"
+if [ -n "${R0035_RELEASE_ALLOCATION_REQUEST:-}" ]; then
+  [ "$#" -eq 0 ] || exit 2
+  tmp_parent="$("${R0035_RELEASE_ALLOCATION_PYTHON:?}" scripts/qualify-work-graph-verifier.py release-allocation "$R0035_RELEASE_ALLOCATION_REQUEST")"
+else
+  tmp_parent="$(mktemp -d)"
+fi
 stray_file="skills/implementaudit/zz-package-parity-stray-test.txt"
 trap 'rm -rf "$tmp_parent"; rm -f "$stray_file"' EXIT
 
@@ -1373,3 +1378,11 @@ with zipfile.ZipFile(asset) as zf:
 
 print("release-asset.test: ok")
 PY
+
+# Prospective first-node evidence only. Raw diagnostics and the actual consumer
+# above remain unchanged; the existing owner snapshots the targets before EXIT
+# removes this allocation. Capture-off retains the original path.
+if [ -n "${R0035_RELEASE_ALLOCATION_REQUEST:-}" ]; then
+  "$R0035_RELEASE_ALLOCATION_PYTHON" scripts/qualify-work-graph-verifier.py \
+    release-targets "$R0035_RELEASE_ALLOCATION_REQUEST"
+fi

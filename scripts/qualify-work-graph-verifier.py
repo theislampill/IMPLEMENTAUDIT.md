@@ -856,7 +856,13 @@ def verified_record(directory):
     return result
 
 
-def compare(left, right, out):
+def compare(left, right, out, *, profile="NONE_RAW_BYTES"):
+    schemas = [WG.decode_strict_json_bytes((p / "result.json").read_bytes(), "result").get("schema")
+               for p in (left, right)]
+    if schemas == ["implementaudit.release-allocation-node.v1"] * 2:
+        return compare_release_allocation(left, right, out, profile=profile)
+    if profile != "NONE_RAW_BYTES":
+        raise WG.WorkGraphError("allocation profile requires prospective first-node captures; historical captures refuse")
     a, b = (verified_record(p) for p in (left, right))
     checks = dict(same_source=a["before"] == b["before"] == a["after"] == b["after"],
                   same_registry=a["registry_sha256"] == b["registry_sha256"],
@@ -3653,11 +3659,302 @@ def preflight_verifier_pair_file_v1(path):
     return 1 if result["status"] == "BLOCKED" else 0
 
 
+ALLOCATION_PROFILE = "ROLE_BOUND_TEMP_ALLOCATION_LABELS_V1"
+RELEASE_NODE = "COMMAND:tests/release-asset.test.sh:0"
+RELEASE_LABELS = {
+    "IMPLEMENTAUDIT.plugin.zip": "package-contract: wrote ",
+    "IMPLEMENTAUDIT.skill": "package-contract: wrote ",
+    "CHECKSUMS.txt": "write-release-checksums: wrote ",
+}
+RELEASE_SOURCES = ("tests/release-asset.test.sh", "scripts/build-release-asset.sh",
+                   "scripts/package-contract.py", "scripts/write-release-checksums.sh")
+RELEASE_ENV = "R0035_RELEASE_ALLOCATION_REQUEST"
+
+
+def _release_read(directory, name):
+    member = source_member(name, root=directory, with_bytes=True, byte_limit=EXPLICIT_FILE_LIMIT)
+    if member.get("kind") != "FILE":
+        raise WG.WorkGraphError("release allocation evidence is not an ordinary file")
+    return member.pop("_acquired_bytes"), member
+
+
+def _release_json(directory, name):
+    return WG.decode_strict_json_bytes(_release_read(directory, name)[0], name)
+
+
+def _release_sources():
+    return {name: source_member(name) for name in RELEASE_SOURCES}
+
+
+def _release_request(path):
+    request = _release_json(path.parent, path.name)
+    expected = dict(schema="implementaudit.release-allocation-request.v1", profile=ALLOCATION_PROFILE,
+        node=RELEASE_NODE, call="tests/release-asset.test.sh:tmp_parent:0", cwd=str(ROOT),
+        sources=_release_sources(), engine=full_engine_binding(), labels=RELEASE_LABELS,
+        suffix="/path with spaces/", role="release-asset-output-parent", authority="NONE")
+    if request != expected:
+        raise WG.WorkGraphError("release allocation request differs from the prospective source/role declaration")
+    return request
+
+
+def release_allocation_event(path, *, targets=False):
+    """One fixed original-node allocation, never a generic temp-path mapper."""
+    request = _release_request(path)
+    live = path.parent / "live"
+    if not targets:
+        # Record the actual allocator outcome before exposing its label to the
+        # producer. Nothing is discovered from stdout alignment after a run.
+        process = subprocess.run(["mktemp", "-d"], stdout=subprocess.PIPE, check=True)
+        raw = process.stdout
+        if not raw.endswith(b"\n") or raw.count(b"\n") != 1:
+            raise WG.WorkGraphError("ambiguous mktemp allocation")
+        root = Path(os.fsdecode(raw[:-1]))
+        if (not root.is_absolute() or root == ROOT or ROOT in root.parents or
+                root == path.parent or path.parent in root.parents):
+            raise WG.WorkGraphError("allocation overlaps source or evidence")
+        census = _capture_census(root)
+        if set(census["entries"]) != {"."}:
+            raise WG.WorkGraphError("allocation is not empty")
+        allocation = dict(request_sha256=sha(WG.canonical_json_v1(request)), root=str(root),
+                          allocator=["mktemp", "-d"], census=census)
+        durable_bytes(live / "allocation.json", WG.canonical_json_v1(allocation) + b"\n")
+        sys.stdout.buffer.write(raw)
+        return 0
+    allocation = _release_json(live, "allocation.json")
+    root = Path(allocation["root"])
+    census = _capture_census(root)
+    original = allocation["census"]["entries"]["."]["stamp"]
+    observed = census["entries"]["."]["stamp"]
+    if any(original[k] != observed[k] for k in ("device", "inode", "mode", "uid", "gid")):
+        raise WG.WorkGraphError("allocation identity or ownership changed before target acquisition")
+    expected = {".", "path with spaces", *["path with spaces/" + name for name in RELEASE_LABELS]}
+    if set(census["entries"]) != expected:
+        raise WG.WorkGraphError("allocation target population differs from the fixed first-node contract")
+    (live / "artifacts").mkdir()
+    for name in RELEASE_LABELS:
+        data, member = _release_read(root, "path with spaces/" + name)
+        entry = census["entries"]["path with spaces/" + name]
+        if entry["kind"] != "FILE" or member["sha256"] != entry["sha256"]:
+            raise WG.WorkGraphError("target changed between independent census and retention")
+        durable_bytes(live / "artifacts" / name, data)
+    if _capture_census(root) != census or _release_request(path) != request:
+        raise WG.WorkGraphError("allocation target/source changed during capture")
+    durable_bytes(live / "targets.json", WG.canonical_json_v1(census) + b"\n")
+    return 0
+
+
+def release_allocation_pair(output, *, profile):
+    """Actual first node only; no prefix, registry or predecessor equivalence."""
+    if any(k in os.environ for k in (RELEASE_ENV, "R0035_RELEASE_ALLOCATION_PYTHON")):
+        raise WG.WorkGraphError("inherited allocation capture request refuses")
+    if output == ROOT or ROOT in output.parents:
+        raise WG.WorkGraphError("allocation evidence must be outside source")
+    output.mkdir(parents=True, mode=0o700, exist_ok=False)
+    request_path = output / "request.json"
+    request = dict(schema="implementaudit.release-allocation-request.v1", profile=ALLOCATION_PROFILE,
+        node=RELEASE_NODE, call="tests/release-asset.test.sh:tmp_parent:0", cwd=str(ROOT),
+        sources=_release_sources(), engine=full_engine_binding(), labels=RELEASE_LABELS,
+        suffix="/path with spaces/", role="release-asset-output-parent", authority="NONE")
+    durable_bytes(request_path, WG.canonical_json_v1(request) + b"\n")
+    environment = dict(os.environ, **{RELEASE_ENV: str(request_path),
+                                    "R0035_RELEASE_ALLOCATION_PYTHON": sys.executable})
+    before = source_identity()
+    env_before = environment_identity(environment, child_resolution=True)
+    registry = (ROOT / "scripts/verify-package.sh").read_bytes()
+    graph = WG.compile_verifier_graph_v1(registry, WG.verifier_registered_tests_v1(registry), env_before)
+    nodes = [n for n in graph["nodes"] if n["id"] == RELEASE_NODE]
+    if len(nodes) != 1 or nodes[0]["source"] != "bash tests/release-asset.test.sh\n":
+        raise WG.WorkGraphError("fixed first release node differs from its canonical owner")
+    node = nodes[0]
+    for route in ("legacy", "dag"):
+        live = output / "live"
+        live.mkdir(mode=0o700)
+        durable_bytes(live / "request.json", request_path.read_bytes())
+        command = ["bash", "tests/release-asset.test.sh"] if route == "legacy" else [
+            "bash", "scripts/run-work-graph-verifier.sh", "--isolated-leaf", node["id"],
+            node["source"], node["source_sha256"]]
+        if source_identity() != before or environment_identity(environment, child_resolution=True) != env_before:
+            raise WG.WorkGraphError("first-node source/environment currentness changed before dispatch")
+        children = _CaptureChildren()
+        try:
+            with (live / "stdout.log").open("xb") as stdout, (live / "stderr.log").open("xb") as stderr:
+                code = children.launch(command, stdout=stdout, stderr=stderr, environment=environment,
+                    base_environment=dict(os.environ), stdin_bytes=b"")
+            durable_bytes(live / "exit-code.txt", (str(code) + "\n").encode())
+            children.require_quiescent()
+            custody = copy.deepcopy(children.status)
+        finally:
+            children.close()
+        after = source_identity()
+        env_after = environment_identity(environment, child_resolution=True)
+        allocation = _release_json(live, "allocation.json")
+        result = dict(schema="implementaudit.release-allocation-node.v1", mode=route, command=command,
+            before=before, after=after, environment=env_before, environment_after=env_after,
+            request_sha256=sha(request_path.read_bytes()), node=node, registry_sha256=sha(registry),
+            engine_binding=full_engine_binding(), exit=code, process_custody=custody,
+            cleanup_absent=not os.path.lexists(allocation["root"]),
+            stdout_sha256=sha((live / "stdout.log").read_bytes()),
+            stderr_sha256=sha((live / "stderr.log").read_bytes()), authority="NONE")
+        durable_bytes(live / "result.json", WG.canonical_json_v1(result) + b"\n")
+        live.rename(output / route)
+        if code or before != after or env_before != env_after:
+            raise WG.WorkGraphError("actual first node failed or changed source/environment; evidence retained")
+    return compare(output / "legacy", output / "dag", output / "comparison.json", profile=profile)
+
+
+def _release_record(directory):
+    result = _release_json(directory, "result.json")
+    request = _release_json(directory, "request.json")
+    allocation = _release_json(directory, "allocation.json")
+    targets = _release_json(directory, "targets.json")
+    for value, fields in (
+            (result, "schema mode command before after environment environment_after request_sha256 node registry_sha256 engine_binding exit process_custody cleanup_absent stdout_sha256 stderr_sha256 authority"),
+            (request, "schema profile node call cwd sources engine labels suffix role authority"),
+            (allocation, "request_sha256 root allocator census"),
+            (targets, "entries total_bytes limits"),
+            (allocation.get("census") if type(allocation) is dict else None, "entries total_bytes limits")):
+        if type(value) is not dict or set(value) != set(fields.split()):
+            raise WG.WorkGraphError("invalid first-node evidence schema")
+    # This snapshot is taken after actual exit/ECHILD and before close(). The
+    # result is written only after close returns. Do not turn its historical
+    # pre-close flag into a claimed post-close observation on receive.
+    custody = result["process_custody"]
+    if (type(custody) is not dict or set(custody) != set(
+            "owner_pid primary_pid primary_exit other_child_exits owned_pidfd_signals live_children_refused quiescence flag_restored scope previous_subreaper".split()) or
+            any(type(custody[k]) is not int for k in ("owner_pid", "primary_pid", "primary_exit", "owned_pidfd_signals", "previous_subreaper")) or
+            custody["owner_pid"] <= 0 or custody["primary_pid"] <= 0 or
+            custody["owner_pid"] == custody["primary_pid"] or
+            custody["primary_exit"] != result["exit"] or custody["other_child_exits"] != [] or
+            custody["owned_pidfd_signals"] != 0 or custody["live_children_refused"] is not False or
+            custody["quiescence"] != "ECHILD_ALL_CHILDREN" or custody["flag_restored"] is not False or
+            custody["previous_subreaper"] not in {0, 1} or custody["scope"] != _CaptureChildren.SCOPE):
+        raise WG.WorkGraphError("first-node actual exit/descendant custody is inconsistent")
+    if (result["schema"] != "implementaudit.release-allocation-node.v1" or
+            request["schema"] != "implementaudit.release-allocation-request.v1" or
+            request.get("profile") != ALLOCATION_PROFILE or request.get("node") != RELEASE_NODE or
+            request.get("call") != "tests/release-asset.test.sh:tmp_parent:0" or
+            request.get("role") != "release-asset-output-parent" or request.get("labels") != RELEASE_LABELS or
+            request.get("suffix") != "/path with spaces/" or request.get("authority") != "NONE" or
+            result["authority"] != "NONE" or result["request_sha256"] != sha(_release_read(directory, "request.json")[0]) or
+            allocation["request_sha256"] != sha(WG.canonical_json_v1(request)) or
+            allocation["allocator"] != ["mktemp", "-d"] or
+            result["engine_binding"] != request["engine"] or
+            any(result["before"]["members"][name] != dict(tracked=True, **value)
+                for name, value in request["sources"].items()) or
+            set(request["sources"]) != set(RELEASE_SOURCES)):
+        raise WG.WorkGraphError("invalid prospective first-node binding")
+    for key, name in (("driver_sha256", "scripts/qualify-work-graph-verifier.py"),
+                      ("compiler_sha256", "skills/implementaudit/scripts/compile-work-graph.py")):
+        if result["before"]["members"][name]["sha256"] != result["engine_binding"][key]:
+            raise WG.WorkGraphError("first-node engine differs from its observed source")
+    if (type(result["exit"]) is not int or type(result["mode"]) is not str or
+            result["mode"] not in {"legacy", "dag"} or result["node"]["id"] != RELEASE_NODE or
+            result["node"]["source"] != "bash tests/release-asset.test.sh\n" or
+            result["node"]["source_sha256"] != sha(result["node"]["source"].encode()) or
+            _release_read(directory, "exit-code.txt")[0] != (str(result["exit"]) + "\n").encode()):
+        raise WG.WorkGraphError("invalid original-node execution binding")
+    expected_command = ["bash", "tests/release-asset.test.sh"] if result["mode"] == "legacy" else [
+        "bash", "scripts/run-work-graph-verifier.sh", "--isolated-leaf", RELEASE_NODE,
+        result["node"]["source"], result["node"]["source_sha256"]]
+    if result["command"] != expected_command:
+        raise WG.WorkGraphError("first-node command changed")
+    raw = {name: _release_read(directory, name + ".log")[0] for name in ("stdout", "stderr")}
+    if any(sha(value) != result[name + "_sha256"] for name, value in raw.items()):
+        raise WG.WorkGraphError("raw output custody mismatch")
+    root = allocation["root"]
+    source = Path(request["cwd"])
+    if (not Path(root).is_absolute() or not source.is_absolute() or ".." in Path(root).parts or
+            "\n" in root or "\r" in root or Path(root) == source or source in Path(root).parents or
+            Path(root) in source.parents):
+        raise WG.WorkGraphError("invalid allocation label")
+    entries = targets["entries"]
+    expected = {".", "path with spaces", *["path with spaces/" + name for name in RELEASE_LABELS]}
+    if set(entries) != expected or set(allocation["census"]["entries"]) != {"."}:
+        raise WG.WorkGraphError("ambiguous allocation or target population")
+    initial = allocation["census"]["entries"]["."]
+    stamp = entries["."]["stamp"]
+    if (initial["kind"] != "DIRECTORY" or initial["members"] or entries["."]["kind"] != "DIRECTORY" or
+            entries["."]["members"] != ["path with spaces"] or
+            entries["path with spaces"]["kind"] != "DIRECTORY" or
+            entries["path with spaces"]["members"] != sorted(RELEASE_LABELS) or
+            stat.S_IMODE(stamp["mode"]) != 0o700 or
+            any(initial["stamp"][k] != stamp[k] for k in ("device", "inode", "mode", "uid", "gid"))):
+        raise WG.WorkGraphError("allocation ownership/type/mode/identity mismatch")
+    semantic = {}
+    if set(os.listdir(directory / "artifacts")) != set(RELEASE_LABELS):
+        raise WG.WorkGraphError("retained target population differs from its declaration")
+    for name, entry in entries.items():
+        stamp = entry["stamp"]
+        if (type(stamp) is not dict or set(stamp) != set(
+                "device inode mode bytes mtime_ns ctime_ns uid gid links".split()) or
+                any(type(value) is not int for value in stamp.values()) or
+                set(entry) != ({"kind", "stamp", "sha256"} if entry["kind"] == "FILE" else {"kind", "stamp", "members"})):
+            raise WG.WorkGraphError("invalid target identity/type schema")
+        if stamp["uid"] != result["environment"]["process_identity"]["geteuid"]:
+            raise WG.WorkGraphError("foreign target ownership")
+        semantic[name] = {k: stamp[k] for k in ("mode", "uid", "gid", "links")}
+        semantic[name]["kind"] = entry["kind"]
+        if entry["kind"] == "FILE":
+            data, _ = _release_read(directory, "artifacts/" + Path(name).name)
+            if (not stat.S_ISREG(stamp["mode"]) or stamp["links"] != 1 or
+                    stamp["bytes"] != len(data) or entry["sha256"] != sha(data)):
+                raise WG.WorkGraphError("meaningful target artifact custody mismatch")
+            semantic[name].update(bytes=len(data), sha256=sha(data))
+        elif not stat.S_ISDIR(stamp["mode"]):
+            raise WG.WorkGraphError("target type mismatch")
+    if (targets["total_bytes"] != sum(entry["stamp"]["bytes"] for entry in entries.values() if entry["kind"] == "FILE") or
+            allocation["census"]["total_bytes"] != 0 or targets["limits"] != CAPTURE_RETENTION_LIMITS or
+            allocation["census"]["limits"] != CAPTURE_RETENTION_LIMITS):
+        raise WG.WorkGraphError("target census bounds/bytes are inconsistent")
+    # Match whole, prospectively named progress fields only. Everything else,
+    # including unknown paths, authority text, hashes and suffixes, stays exact.
+    lines = raw["stdout"].splitlines(keepends=True)
+    for name, prefix in RELEASE_LABELS.items():
+        label = (prefix + root + request["suffix"] + name + "\n").encode()
+        if lines.count(label) != 1:
+            raise WG.WorkGraphError("missing, unmapped or ambiguous progress label")
+        index = lines.index(label)
+        lines[index] = (prefix + "<release-asset-output-parent>" + request["suffix"] + name + "\n").encode()
+    return result, request, allocation, raw, semantic, b"".join(lines)
+
+
+def compare_release_allocation(left, right, out, *, profile):
+    if profile not in {"NONE_RAW_BYTES", ALLOCATION_PROFILE}:
+        raise WG.WorkGraphError("unknown comparison profile")
+    a, b = (_release_record(path) for path in (left, right))
+    ar, br = a[0], b[0]
+    checks = dict(same_source=ar["before"] == ar["after"] == br["before"] == br["after"],
+        same_environment=ar["environment"] == ar["environment_after"] == br["environment"] == br["environment_after"],
+        same_declaration=a[1] == b[1], same_node=ar["node"] == br["node"],
+        same_registry=ar["registry_sha256"] == br["registry_sha256"],
+        same_engine=ar["engine_binding"] == br["engine_binding"],
+        successful_exits=ar["exit"] == br["exit"] == 0,
+        route_pair={ar["mode"], br["mode"]} == {"legacy", "dag"},
+        cleanup=ar["cleanup_absent"] is True and br["cleanup_absent"] is True,
+        same_target_properties_and_bytes=a[4] == b[4],
+        same_stderr=a[3]["stderr"] == b[3]["stderr"],
+        same_stdout=a[3]["stdout"] == b[3]["stdout"])
+    raw_equal = all(checks.values())
+    if profile == ALLOCATION_PROFILE:
+        checks["same_stdout"] = a[5] == b[5]
+    result = dict(schema="implementaudit.release-allocation-correspondence.v1", checks=checks,
+        normalization=profile, raw_observables_equal=raw_equal, equivalent=all(checks.values()),
+        allocation_roles=[dict(node=RELEASE_NODE, call=a[1]["call"], role=a[1]["role"],
+                               left_root=a[2]["root"], right_root=b[2]["root"])],
+        scope="FIRST_RELEASE_ASSET_NODE_DIRECT_VS_EXISTING_ISOLATED_LEAF; THREE_PROGRESS_FIELDS_ONLY",
+        evidence_semantics="ACTUAL_LOCAL_CAPTURE; IMPORTED_CONSISTENCY_NOT_EXECUTION_AUTHENTICATION; TOOLCHAIN_CLOSURE_UNQUALIFIED",
+        canonical_conversion="NOT_PERFORMED", retirement="NOT_PERFORMED", authority="NONE")
+    durable_bytes(out, WG.canonical_json_v1(result) + b"\n")
+    print(json.dumps(result, sort_keys=True))
+    return 0 if result["equivalent"] else 1
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("mode", choices=["legacy", "dag", "compare", "preflight", "scoped", "registry", "prefix", "prefix24", "composite-prefix", *_FINITE_MODES])
+    parser.add_argument("mode", choices=["legacy", "dag", "compare", "preflight", "scoped", "registry", "prefix", "prefix24", "composite-prefix", "release-asset-pair", "release-allocation", "release-targets", *_FINITE_MODES])
     parser.add_argument("paths", nargs="+", type=Path)
     parser.add_argument("--retain-repro-assets", action="store_true")
+    parser.add_argument("--comparison-profile", choices=["NONE_RAW_BYTES", ALLOCATION_PROFILE], default="NONE_RAW_BYTES")
     parser.add_argument("--capture-dist", action="store_true")
     parser.add_argument("--retain-portal-events", "--capture-portal-events", dest="capture_portal_events", action="store_true")
     parser.add_argument("--retain-repro-events", action="store_true")
@@ -3668,6 +3965,15 @@ def main():
     stdin.add_argument("--empty-stdin", action="store_true")
     args = parser.parse_args()
     try:
+        if args.comparison_profile != "NONE_RAW_BYTES" and (args.mode not in {"compare", "release-asset-pair"} or args.retention_plan is not None):
+            raise WG.WorkGraphError("allocation comparison profile requires a prospective first-node pair")
+        if args.mode in {"release-allocation", "release-targets", "release-asset-pair"} and len(args.paths) == 1:
+            if any((args.retain_repro_assets, args.capture_dist, args.capture_portal_events,
+                    args.retain_repro_events, args.retention_plan, args.stdin_file, args.empty_stdin)):
+                raise WG.WorkGraphError("first-node allocation capture has fixed acquisition options")
+            if args.mode == "release-asset-pair":
+                return release_allocation_pair(args.paths[0].absolute(), profile=args.comparison_profile)
+            return release_allocation_event(args.paths[0].absolute(), targets=args.mode == "release-targets")
         if args.retention_plan is not None and args.mode not in {"legacy", "dag", "compare"}:
             raise WG.WorkGraphError("retention-plan requires a legacy, dag or sealed compare operation")
         if args.mode not in {"legacy", "dag"} and (args.retain_repro_assets or args.stdin_file is not None or args.empty_stdin or args.capture_dist or args.capture_portal_events or args.retain_repro_events):
@@ -3705,7 +4011,7 @@ def main():
         if args.mode == "compare" and len(args.paths) == 3:
             if args.retention_plan is not None:
                 return _compare_sealed_captures(*(path.absolute() for path in args.paths), args.retention_plan)
-            return compare(*args.paths)
+            return compare(*args.paths, profile=args.comparison_profile)
         if args.mode in {"legacy", "dag"} and len(args.paths) == 1:
             return run(args.mode, args.paths[0].absolute() if args.retention_plan is not None else args.paths[0].resolve(), retain_repro_assets=args.retain_repro_assets,
                        stdin_file=args.stdin_file, empty_stdin=args.empty_stdin, capture_dist=args.capture_dist,
