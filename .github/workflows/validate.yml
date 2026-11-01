@@ -38,6 +38,13 @@ jobs:
         timeout-minutes: 5
         run: sudo /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --receive-hosted-prerequisites "$GITHUB_SHA"
 
+      - name: Observe the ordinary continuity transport prerequisite
+        if: always()
+        continue-on-error: true
+        timeout-minutes: 1
+        run: |
+          /usr/bin/python3.12 -I -S -B -c 'import runpy; probe=runpy.run_path("tests/work-graph-continuity-cases.py"); probe["require_host"]()' --require-supported-host
+
       - name: Install validation dependencies
         run: |
           sudo apt-get update
