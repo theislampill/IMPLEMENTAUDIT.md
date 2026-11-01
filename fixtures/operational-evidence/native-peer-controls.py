@@ -294,7 +294,12 @@ class Controls(unittest.TestCase):
                 path.write_bytes(raw)
             before = {k: v for k, v in binding(rec).items() if k not in {'read_set', 'input_root_identity'}}
             fake_producer = types.SimpleNamespace(read_current_route_scope_v1=unittest.mock.Mock(return_value=export_value(rec)))
-            with patch.object(WG, '_native_continuity', return_value=before) as continuity, \
+            def continuity_read(*args, _closure_reads=None):
+                if type(_closure_reads) is not list:
+                    raise AssertionError('historical peer fixture requires its private closure output list')
+                _closure_reads.append(None)
+                return copy.deepcopy(before)
+            with historical_source_documents(), patch.object(WG, '_native_continuity', side_effect=continuity_read) as continuity, \
                  patch.object(WG, '_native_route_scope_module_v1', return_value=(fake_producer, Path(RT.__file__), Path(RT.__file__).read_bytes())) as loader:
                 graph = WG.read_native_run_v1(root, root)
             self.assertEqual(continuity.call_count, 2)
@@ -305,7 +310,7 @@ class Controls(unittest.TestCase):
             changed = copy.deepcopy(export_value(rec))
             changed['route']['record_oid'] = '4' * 40
             fake_producer.read_current_route_scope_v1 = unittest.mock.Mock(side_effect=[export_value(rec), seal(changed)])
-            with patch.object(WG, '_native_continuity', return_value=before), \
+            with historical_source_documents(), patch.object(WG, '_native_continuity', side_effect=continuity_read), \
                  patch.object(WG, '_native_route_scope_module_v1', return_value=(fake_producer, Path(RT.__file__), Path(RT.__file__).read_bytes())), \
                  self.assertRaisesRegex(WG.WorkGraphError, 'route changed'):
                 WG.read_native_run_v1(root, root)
@@ -407,6 +412,25 @@ def current_answer(root, arguments):
                            ['--verify-resume-receipt', RECEIPT]):
         return RECEIPT
     raise AssertionError('unexpected injected currentness operation: ' + repr(arguments))
+
+
+@contextlib.contextmanager
+def historical_source_documents():
+    """Keep this constructed old18 domain's real before/after document reads.
+
+    Actual canonical14 selection and closure custody have separate controls;
+    these fixtures inject currentness and do not own a canonical receipt object.
+    """
+    def select(run_root, repo_root, binding, closure, owner_stack):
+        if Path(run_root) != Path(repo_root) or closure is not None:
+            raise AssertionError('historical peer fixture cannot select a foreign or canonical source domain')
+        def read(root):
+            if Path(root) != Path(run_root):
+                raise AssertionError('historical peer fixture source root changed')
+            return WG._native_source_snapshot(root), None
+        return read
+    with patch.object(WG, '_native_current_source_reader_v1', side_effect=select):
+        yield
 
 
 @contextlib.contextmanager
@@ -729,7 +753,7 @@ class ContinuityCompatibilityControls(unittest.TestCase):
                 p.write_bytes(raw)
             producer.write_bytes(b'raise AssertionError("optional producer executed")\n')
             try:
-                with injected_currentness(root):
+                with injected_currentness(root), historical_source_documents():
                     actual = WG.read_native_run_v1(root, root)
                 self.assertEqual(actual['schema'], 'implementaudit.native-work-graph.v1')
                 self.assertEqual(actual['authority'], 'NONE')
@@ -750,7 +774,7 @@ class ContinuityCompatibilityControls(unittest.TestCase):
                 p.write_bytes(raw)
             producer.write_bytes(b'raise AssertionError("wrong producer executed")\n')
             try:
-                with injected_currentness(root), \
+                with injected_currentness(root), historical_source_documents(), \
                      self.assertRaisesRegex(WG.WorkGraphError, 'source identity changed'):
                     WG.read_native_run_v1(root, root)
             finally:

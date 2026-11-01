@@ -212,6 +212,17 @@ remaining-context basis points, bound to cl100k_base/tiktoken0.12.0 and
 codex-desktop2026-08-20. Its minimum byte reduction is32768, token payoff8192,
 maximum runtime5000ms and memory67108864bytes.
 
+Prospective Windows migrated native-resume preparation uses the distinct
+`implementaudit.native-resume-preparation-policy.v1`: a 60000ms preparation
+ceiling with separately required full-operation qualification at 60000ms and
+201326592 bytes peak aggregate job committed memory, zero baseline subtraction,
+where technically applicable to the pinned population and verified owner and
+descendant accounting. Preparation success does not prove that envelope. The
+historical calibration and failures, other-host budgets, helper memory guards,
+security checks and test deadlines remain unchanged. This is separate from C02
+preparation and supplies no authentic occurrence, observation issuer or grant.
+Retained archives keep their original policy when reread.
+
 The default executable admission uses the exact byte route. Below the byte
 threshold it returns the ordinary cheap path without loading an owner map,
 writing an archive/generation or calling a model. Triggered unsupported grammar

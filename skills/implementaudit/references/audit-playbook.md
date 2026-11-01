@@ -90,6 +90,13 @@ reviewed `31/18/4/6/1` allocation across those layers; it is not 60 mechanisms.
 The six external/domain rows and all domain and effectiveness claims remain
 unverified until their required representative context exists.
 
+Reject "humans are the weakest link" as a terminal security explanation.
+Where human decisions matter, examine control design, burden, incentives and
+authority; prefer secure defaults and phishing-resistant controls that remove
+avoidable decisions, with usable reporting and recovery. Reserve training for
+irreducible tasks. This rejects generic blame, not evidence of malicious
+insiders or accountable human duties, and creates no standing training campaign.
+
 For low-exposure reversible work inside a current proven envelope, record only
 the protected consequence, one plausible-abuse or trust check, exact current
 identity, and rollback. Do not expand that cheap path into the full profile. If

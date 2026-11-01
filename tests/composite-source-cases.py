@@ -808,11 +808,19 @@ class CompositeSourceCases(unittest.TestCase):
                         if row["path"].endswith("/claim-run-rotation.py"))
         raw = (ROOT / retained["path"]).read_bytes()
         self.assertEqual((len(raw), hashlib.sha256(raw).hexdigest()),
-                         (246657, 'bc862f87428e86c608ddc5fe31ad8a3e2c8324b52c09ba379163db160ad70e93'))
+                         (246657, '82ddcbb3cf476098fbcac57c0550d4240457688df2c4504c8ab8caea2c3367b1'))
         self.assertEqual(retained["materialized_path"], "skills/implementaudit/scripts/claim-run-rotation.py")
         self.assertNotIn(retained["materialized_path"], [row["path"] for row in manifest["frozen_core_dependencies"]])
         transport = load("retained_core_transport", ROOT / "scripts/work-graph-continuity-transport.py")
-        profile = transport.SOURCE_PROFILES_V1['composite-20261028-dg10-native-stop-v1-core']
+        historical = transport.SOURCE_PROFILES_V1['composite-20261028-dg10-native-stop-v1-core']
+        self.assertEqual(historical[2][1:3],
+                         (259408, '1c70c0612bad4b2311bb89ddad60484937b5d195bf98380c3ef3e0d30d6cd94b'))
+        self.assertEqual(transport.SOURCE_PROFILES_V1['composite-20261028-dg10-native-stop-v1-original14'][2][1:3],
+                         (246657, 'bc862f87428e86c608ddc5fe31ad8a3e2c8324b52c09ba379163db160ad70e93'))
+        profile = transport.SOURCE_PROFILES_V1['composite-20261029-dg18-native-resume-v1-core']
+        self.assertTrue(transport._windows_core_profile_v1(historical))
+        self.assertTrue(transport._windows_core_profile_v1(profile))
+        self.assertFalse(transport._windows_core_profile_v1(((*profile[0][:2], '0' * 64, profile[0][3]), *profile[1:])))
         self.assertEqual(transport.SOURCE_PROFILES_V1['composite-20261028-terminal-inventory-v1-core'][1][1:3],
                          (114294, 'e7a20d7d5eab497338327814367fe8c7221a35cfe61bdfaadd91d84101f0d250'))
         self.assertEqual(transport.SOURCE_PROFILES_V1['composite-20261028-original14-dg17-ledger-v1'][2][1:3],
@@ -1206,6 +1214,32 @@ else:
         changed = (*rows[:-1], (rows[-1][0], rows[-1][1] + b"\n"))
         with self.assertRaises(transport.ContinuityTransportError):
             transport._source_profile(changed)
+
+    def test_windows_full_snapshot_budget_is_separate_from_thin_reads(self):
+        from types import SimpleNamespace
+        transport = load("snapshot_budget_transport", ROOT / "scripts/work-graph-continuity-transport.py")
+        self.assertEqual(transport._TIMEOUT, 30)
+        owner = SimpleNamespace(_native_module_from_bytes=lambda *a: None,
+                                _native_child_environment=lambda route: {})
+        class ObservedCall(Exception):
+            pass
+        with tempfile.TemporaryDirectory(prefix="snapshot-budget-dispatch-") as temporary:
+            root = Path(temporary).resolve()
+            session = dict(root=root, view=root / "view", scratch=root / "scratch",
+                           expected=[], reads=0)
+            fake_os = SimpleNamespace(name="nt", pathsep=os.pathsep, devnull=os.devnull)
+            for closing in (False, True):
+                session["reads"] = int(closing)
+                with self.subTest(closing=closing), mock.patch.object(transport, "os", fake_os), \
+                        mock.patch.object(transport, "_windows_parent_python_v1", return_value="pinned-python"), \
+                        mock.patch.object(transport.subprocess, "run", side_effect=ObservedCall) as dispatch:
+                    with self.assertRaises(ObservedCall):
+                        transport._call_windows_canonical_snapshot_v1(owner, object(), root, root / "run",
+                            ((str(root / "canonical_custody.py"), b"constructed source selector"),), session=session)
+                    self.assertEqual(dispatch.call_args.kwargs["timeout"], 60)
+                    self.assertEqual(transport._TIMEOUT, 30)
+                    request = json.loads(dispatch.call_args.args[0][-1])
+                    self.assertEqual(request["verify_only"], closing)
 
     def test_combined_route_producer_is_source_selected(self):
         peer = ROOT / "source-peers/route-graph/skills/implementaudit/scripts"
