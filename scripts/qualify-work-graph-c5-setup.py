@@ -493,6 +493,20 @@ def hosted_bwrap_policy_inventory():
     return result
 
 
+def _bwrap_policy_refusal(message, name, row, guard):
+    data = dict(name=name, record=row, guard=guard, truncated=False,
+        predicates=dict(reserved_name=name in HOSTED_BWRAP_NAMES,
+            name_heuristic='bwrap' in name.lower() or 'bubblewrap' in name.lower(),
+            opaque_attachment=row['attach'] == '<unknown>', unresolved_variable='@{' in row['attach']))
+    raw = json.dumps(data, sort_keys=True, separators=(',', ':'), ensure_ascii=True)
+    if len(raw.encode('ascii')) > 16384:
+        data.update(name=name[:128], record={key: value[:128] for key, value in row.items()},
+            truncated=True, complete_record_sha256=hashlib.sha256(raw.encode('ascii')).hexdigest(),
+            complete_record_bytes=len(raw))
+        raw = json.dumps(data, sort_keys=True, separators=(',', ':'), ensure_ascii=True)
+    return message + '; kernel_record=' + raw
+
+
 def hosted_bwrap_policy_delta(before, after=None):
     import re
     for name, row in before.items():
@@ -501,12 +515,13 @@ def hosted_bwrap_policy_delta(before, after=None):
         attachment = row['attach']
         _bwrap_need(name not in HOSTED_BWRAP_NAMES and 'bwrap' not in name.lower()
                     and 'bubblewrap' not in name.lower() and attachment != '<unknown>'
-                    and '@{' not in attachment, "existing or opaque bwrap AppArmor policy refuses replacement")
+                    and '@{' not in attachment, _bwrap_policy_refusal(
+                        "existing or opaque bwrap AppArmor policy refuses replacement", name, row, "name_or_opaque"))
         if attachment.startswith('/'):
             prefix = re.split(r'[*?\[{]', attachment, maxsplit=1)[0]
             _bwrap_need(not any(target == attachment or prefix != attachment and target.startswith(prefix)
                                for target in ('/usr/bin/bwrap', '/bin/bwrap')),
-                        "existing attachment may already govern bwrap")
+                        _bwrap_policy_refusal("existing attachment may already govern bwrap", name, row, "target_attachment"))
     if after is not None:
         _bwrap_need(set(after) == set(before) | set(HOSTED_BWRAP_NAMES)
                     and all(after[name] == row for name, row in before.items()),

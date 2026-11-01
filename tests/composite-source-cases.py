@@ -657,6 +657,36 @@ class CompositeSourceCases(unittest.TestCase):
             receipt.assert_not_called()
             parser.assert_not_called()
 
+    def test_c5_bwrap_policy_refusal_reports_bounded_exact_kernel_record(self):
+        owner = load("c5_bwrap_policy_refusal_record", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        cases = [('opaque-foreign', '<unknown>', 'name_or_opaque'),
+                 ('unpriv_bwrap', 'unpriv_bwrap', 'name_or_opaque'),
+                 ('foreign-target', '/usr/bin/bwrap', 'target_attachment'),
+                 ('foreign-pattern', '/usr/bin/*', 'target_attachment')]
+        with mock.patch.object(owner, 'hosted_bwrap_policy_parser', side_effect=AssertionError('refusal dispatched policy')) as parser:
+            for name, attachment, guard in cases:
+                row = dict(attach=attachment, mode='enforce', sha256='a'*64)
+                with self.subTest(name=name), self.assertRaises(ValueError) as refused:
+                    owner.hosted_bwrap_policy_delta({name: row})
+                message = str(refused.exception)
+                self.assertIn('; kernel_record=', message)
+                record = json.loads(message.split('; kernel_record=', 1)[1])
+                self.assertEqual(record['name'], name)
+                self.assertEqual(record['record'], row)
+                self.assertEqual(record['guard'], guard)
+                self.assertFalse(record['truncated'])
+                self.assertLessEqual(len(message.encode()), 16480)
+            name = 'bwrap-' + '\x01'*4090
+            row = dict(attach='<unknown>', mode='enforce', sha256='a'*64)
+            with self.assertRaises(ValueError) as refused:
+                owner.hosted_bwrap_policy_delta({name: row})
+            message = str(refused.exception)
+            record = json.loads(message.split('; kernel_record=', 1)[1])
+            self.assertTrue(record['truncated'])
+            self.assertEqual(len(record['complete_record_sha256']), 64)
+            self.assertLessEqual(len(message.encode()), 16480)
+            parser.assert_not_called()
+
     def test_native_binding_lookup_refuses_ambiguous_json(self):
         owner = load("native_binding_json", PEER / "host-session-binding.py")
         with tempfile.TemporaryDirectory(prefix="native-binding-json-") as temporary:
