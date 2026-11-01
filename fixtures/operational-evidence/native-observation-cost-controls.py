@@ -104,7 +104,7 @@ class ObservationCostControls(unittest.TestCase):
             h.graph_binding['continuity_helper_digest']=self.continuity_sources['claim_sha256']
             continuity=h.continuity.side_effect
             def capture(*a,**kw):
-                result=continuity(*a)
+                result=continuity(*a,_closure_reads=kw.get('_closure_reads'))
                 if kw.get('_source_reads') is not None:kw['_source_reads'].append(copy.deepcopy(self.continuity_sources))
                 if shared_continuity and kw.get('_current_reads') is not None:
                     kw['_current_reads'].append(dict(controller_result=[h.controller,str(h.root),str(h.root),h.current['claim_id']],
@@ -216,11 +216,9 @@ class ObservationCostControls(unittest.TestCase):
                 h.graph_binding['continuity_helper_digest'] = self.continuity_sources['claim_sha256']
                 continuity = h.continuity.side_effect
                 def capture_sources(*a, **kw):
-                    value = continuity(*a)
+                    value = continuity(*a, _closure_reads=kw.get('_closure_reads'))
                     if kw.get('_source_reads') is not None:
                         kw['_source_reads'].append(copy.deepcopy(self.continuity_sources))
-                    if kw.get('_closure_reads') is not None:
-                        kw['_closure_reads'].append(None)  # Explicit historical two-source fixture.
                     return value
                 h.continuity.side_effect = capture_sources
             original = h.wg._compile_native_documents_v1.side_effect
