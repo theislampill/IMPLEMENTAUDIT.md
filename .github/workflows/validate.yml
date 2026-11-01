@@ -34,7 +34,9 @@ jobs:
 
       - name: Provision the scoped hosted bwrap AppArmor prerequisite
         timeout-minutes: 1
-        run: sudo --preserve-env=GITHUB_ACTIONS,RUNNER_ENVIRONMENT /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --provision-hosted-bwrap-policy
+        run: |
+          sudo --preserve-env=GITHUB_ACTIONS,RUNNER_ENVIRONMENT /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --diagnose-hosted-bwrap-policy
+          sudo --preserve-env=GITHUB_ACTIONS,RUNNER_ENVIRONMENT /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --provision-hosted-bwrap-policy
 
       - name: Receive the C5 current input prerequisites
         if: always()

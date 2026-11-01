@@ -687,6 +687,61 @@ class CompositeSourceCases(unittest.TestCase):
             self.assertLessEqual(len(message.encode()), 16480)
             parser.assert_not_called()
 
+    def test_c5_selected_policy_export_binds_kernel_bytes_and_refuses_escape(self):
+        owner = load("c5_policy_export", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        receive = getattr(owner, '_bwrap_selected_export', None)
+        self.assertTrue(callable(receive), 'selected kernel policy export receiving is absent')
+        with tempfile.TemporaryDirectory(prefix='apparmor-export-') as temporary:
+            root = Path(temporary) / 'policy'
+            entry = root / 'profiles' / '1password.1'
+            rawdir = root / 'raw_data' / '1'
+            entry.mkdir(parents=True)
+            rawdir.mkdir(parents=True)
+            raw = b'bounded kernel-exported policy bytes\x00'
+            for name, value in [('raw_data', raw), ('sha256', hashlib.sha256(raw).hexdigest().encode() + b'\n'), ('abi', b'v9\n')]:
+                (rawdir / name).write_bytes(value)
+            for name, target in [('raw_data', 'raw_data'), ('raw_sha256', 'sha256'), ('raw_abi', 'abi')]:
+                (entry / name).symlink_to('../../raw_data/1/' + target)
+            with mock.patch.object(owner, 'hosted_bwrap_policy_parser', side_effect=AssertionError('policy effect')), \
+                 mock.patch.object(Path, 'resolve', side_effect=AssertionError('kernel policy root is a magic link')):
+                result = receive(entry, root)
+                self.assertEqual(result['bytes'], len(raw))
+                self.assertEqual(result['sha256'], hashlib.sha256(raw).hexdigest())
+                self.assertEqual(__import__('base64').b64decode(result['base64']), raw)
+                (rawdir / 'sha256').write_text('0' * 64 + '\n')
+                with self.assertRaisesRegex(ValueError, 'hash'):
+                    receive(entry, root)
+                (entry / 'raw_data').unlink()
+                (entry / 'raw_data').symlink_to(Path(temporary) / 'foreign')
+                (Path(temporary) / 'foreign').write_bytes(raw)
+                with self.assertRaisesRegex(ValueError, 'export path'):
+                    receive(entry, root)
+
+    def test_c5_selected_policy_export_refuses_oversized_or_mixed_exports(self):
+        owner = load("c5_policy_export_bounds", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        receive = getattr(owner, '_bwrap_selected_export', None)
+        self.assertTrue(callable(receive), 'selected kernel policy export receiving is absent')
+        with tempfile.TemporaryDirectory(prefix='apparmor-export-bound-') as temporary:
+            root = Path(temporary)
+            entry = root / 'profiles' / '1password.1'
+            rawdir = root / 'raw_data' / '1'
+            other = root / 'raw_data' / '2'
+            entry.mkdir(parents=True)
+            rawdir.mkdir(parents=True)
+            other.mkdir()
+            for directory in (rawdir, other):
+                (directory / 'raw_data').write_bytes(b'x' * 65537)
+                (directory / 'sha256').write_text('0' * 64 + '\n')
+                (directory / 'abi').write_text('v9\n')
+            for name, target in [('raw_data', 'raw_data'), ('raw_sha256', 'sha256'), ('raw_abi', 'abi')]:
+                (entry / name).symlink_to('../../raw_data/1/' + target)
+            with self.assertRaisesRegex(ValueError, 'bound'):
+                receive(entry, root)
+            (entry / 'raw_abi').unlink()
+            (entry / 'raw_abi').symlink_to('../../raw_data/2/abi')
+            with self.assertRaisesRegex(ValueError, 'export path'):
+                receive(entry, root)
+
     def test_native_binding_lookup_refuses_ambiguous_json(self):
         owner = load("native_binding_json", PEER / "host-session-binding.py")
         with tempfile.TemporaryDirectory(prefix="native-binding-json-") as temporary:

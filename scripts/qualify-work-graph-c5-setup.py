@@ -534,6 +534,76 @@ def hosted_bwrap_policy_delta(before, after=None):
                         "hosted bwrap policy activation readback differs")
 
 
+def _bwrap_selected_export(entry, root):
+    """Receive one kernel-linked raw export; this cannot admit or load policy."""
+    from pathlib import Path
+    import re
+    # policy is a kernel magic link: readlink's apparmorfs:[ino] is not a
+    # userspace pathname. Keep that kernel traversal and validate only the
+    # documented relative links from a top-level profile to one raw export.
+    root = Path(root).absolute()
+    entry = Path(entry)
+    _bwrap_need(entry.parent == root / 'profiles', 'selected kernel export path is not a top-level profile')
+    names = {'raw_data': 'raw_data', 'raw_sha256': 'sha256', 'raw_abi': 'abi'}
+    links = {name: os.readlink(entry / name) for name in names}
+    parts = {name: Path(link).parts for name, link in links.items()}
+    _bwrap_need(all(len(value) == 5 and value[:3] == ('..', '..', 'raw_data')
+                and value[3] not in ('.', '..') and value[4] == names[name] for name, value in parts.items())
+                and len({value[3] for value in parts.values()}) == 1,
+                'selected kernel export path is outside one raw policy record')
+    paths = {name: root / 'raw_data' / value[3] / value[4] for name, value in parts.items()}
+    raw = _bwrap_read(paths['raw_data'], 65536)
+    digest = _bwrap_read(paths['raw_sha256'], 128).decode('ascii').strip()
+    abi = _bwrap_read(paths['raw_abi'], 32).decode('ascii').strip()
+    _bwrap_need(re.fullmatch('[0-9a-f]{64}', digest) and hashlib.sha256(raw).hexdigest() == digest,
+                'selected kernel raw export hash differs')
+    _bwrap_need(re.fullmatch('v[0-9]+', abi), 'selected kernel raw export ABI is unsupported')
+    _bwrap_need(links == {name: os.readlink(entry / name) for name in names}
+                and _bwrap_read(paths['raw_data'], 65536) == raw
+                and _bwrap_read(paths['raw_sha256'], 128).decode('ascii').strip() == digest
+                and _bwrap_read(paths['raw_abi'], 32).decode('ascii').strip() == abi,
+                'selected kernel export changed during readback')
+    return dict(bytes=len(raw), sha256=digest, abi=abi, base64=base64.b64encode(raw).decode('ascii'),
+                kernel_path=str(paths['raw_data']),
+                scope='RAW_LOAD_EXPORT_LINKED_TO_SELECTED_PROFILE_NOT_DECODED_ATTACHMENT')
+
+
+def diagnose_hosted_bwrap_policy():
+    """Read the observed 1password refusal only; preserve every admission guard."""
+    from pathlib import Path
+    _bwrap_root()
+    context = hosted_bwrap_policy_context()
+    before = hosted_bwrap_policy_inventory()
+    selected = before.get('1password')
+    _bwrap_need(selected is not None and selected['attach'] == '<unknown>',
+                'selected opaque 1password record changed; diagnostic is inapplicable')
+    root = Path('/sys/kernel/security/apparmor/policy')
+    entries = list((root / 'profiles').iterdir())
+    _bwrap_need(len(entries) <= 4096, 'selected policy lookup exceeds bound')
+    matched = [entry for entry in entries if _bwrap_read(entry / 'name').decode('utf-8').strip() == '1password']
+    _bwrap_need(len(matched) == 1, 'selected policy lookup is missing or ambiguous')
+    exported = _bwrap_selected_export(matched[0], root)
+    sources = {}
+    for name in ('/etc/apparmor.d/1password', '/etc/apparmor.d/local/1password'):
+        try:
+            raw, observed = _bwrap_regular(name, 16384)
+        except FileNotFoundError:
+            sources[name] = dict(status='ABSENT_AT_READ')
+        else:
+            sources[name] = dict(status='READ_ONLY_SOURCE_NOT_LOADED_EQUIVALENCE', bytes=len(raw),
+                sha256=hashlib.sha256(raw).hexdigest(), identity=observed,
+                base64=base64.b64encode(raw).decode('ascii'))
+    _bwrap_need(hosted_bwrap_policy_inventory() == before and hosted_bwrap_policy_context() == context,
+                'selected diagnostic inventory or input bookends differ')
+    print(json.dumps(dict(schema='implementaudit.selected-opaque-policy-diagnostic.v1',
+        authority='NONE', policy_operations=0, selected_name='1password', selected_record=selected,
+        exported=exported, source_files=sources, parser=context['files']['/usr/sbin/apparmor_parser'],
+        parser_version='NOT_EXECUTED; BINARY_IDENTITY_ONLY',
+        interpretation='READ_ONLY_OBSERVATION_NO_ATTACHMENT_OR_ADMISSION_VERDICT',
+        inventory_input_bookends_equal=True), sort_keys=True))
+    return 0
+
+
 def hosted_bwrap_policy_parser(mode):
     _bwrap_need(mode in ('--skip-kernel-load', '--add'), "unsupported hosted policy operation")
     result = subprocess.run(['/usr/sbin/apparmor_parser', '--config-file=/dev/null', '--skip-cache',
@@ -1007,6 +1077,8 @@ def emergency_cleanup():
 if __name__ == '__main__':
     import sys
     try:
+        if sys.argv[1:] == ['--diagnose-hosted-bwrap-policy']:
+            raise SystemExit(diagnose_hosted_bwrap_policy())
         if sys.argv[1:] == ['--provision-hosted-bwrap-policy']:
             raise SystemExit(provision_hosted_bwrap_policy())
         if sys.argv[1:] == ['--finalize-hosted-bwrap-policy']:
