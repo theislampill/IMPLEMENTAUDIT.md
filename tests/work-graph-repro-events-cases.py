@@ -2,6 +2,8 @@
 """Executable controls for the opt-in, repo-only C5 reproduction event owner."""
 
 import json
+import contextlib
+import io
 import hashlib
 import importlib.util
 import os
@@ -11,6 +13,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -44,6 +47,8 @@ python - "$1" <<'PY'
 import os, pathlib, sys, zipfile
 root = pathlib.Path(sys.argv[1])
 body = b"same fixture payload\n"
+if os.environ.get("C5_CASE_DIFFERENT_PAYLOAD") == "1":
+    body = b"changed fixture payload\n"
 if os.environ.get("C5_CASE_DIFFERENT_B") == "1" and os.environ["TZ"] == "America/New_York":
     body = b"different fixture payload\n"
 for name in ("IMPLEMENTAUDIT.plugin.zip", "IMPLEMENTAUDIT.skill"):
@@ -63,6 +68,10 @@ if [ "${C5_CASE_MISSING_B:-}" = 1 ] && [ "$TZ" = America/New_York ]; then
   rm "$1/IMPLEMENTAUDIT.plugin.zip"
 fi
 printf 'fixture build complete\n'
+if [ "${C5_CASE_PROGRESS_LABELS:-}" = 1 ]; then
+  printf 'package-contract: wrote %s/IMPLEMENTAUDIT.plugin.zip\n' "$1"
+  printf 'package-contract: wrote %s/IMPLEMENTAUDIT.skill\n' "$1"
+fi
 '''
 
 
@@ -134,6 +143,201 @@ class Fixture:
         ended = self.cli("finish", capture, result.returncode)
         assert ended.returncode == 0 if code else ended.returncode == 125, ended.stderr
         return self.owner.verify_record(capture, require_complete=False)
+
+
+class CorrespondenceAllocationCases(unittest.TestCase):
+    """Real prospective allocation observations; no historical admission."""
+    def setUp(self):
+        self.fixture = Fixture()
+        self.addCleanup(self.fixture.clean)
+        self.owner = self.fixture.owner
+
+    def capture(self, name="capture"):
+        capture, result = self.fixture.run(name,
+            R0035_C5_CORRESPONDENCE_CAPTURE=self.owner.C5_CORRESPONDENCE,
+            C5_CASE_PROGRESS_LABELS="1")
+        self.assertEqual(result.returncode, 0, result.stderr.decode(errors="replace"))
+        record = self.owner.verify_record(capture)
+        self.assertTrue(record["assessment"]["complete"])
+        return capture
+
+    def comparator(self):
+        spec = importlib.util.spec_from_file_location("c5_comparison", ROOT / "scripts/qualify-work-graph-verifier.py")
+        owner = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(owner)
+        return owner
+
+    def test_c5_profile_refuses_other_allocation_before_any_producer_effect(self):
+        owner=self.comparator()
+        with mock.patch.object(sys,'argv',[str(ROOT/'scripts/qualify-work-graph-verifier.py'),
+                'release-asset-pair',str(self.fixture.base/'must-not-exist'),
+                '--comparison-profile',self.owner.C5_CORRESPONDENCE]), \
+                mock.patch.object(owner,'release_allocation_pair',side_effect=AssertionError('unsupported profile dispatched')) as launch, \
+                contextlib.redirect_stderr(io.StringIO()):
+            self.assertEqual(owner.main(),2)
+            launch.assert_not_called()
+
+    def test_real_empty_allocation_and_all_target_windows_survive_cleanup(self):
+        capture = self.capture()
+        allocation = read_json(capture / "allocation.json")
+        self.assertEqual(allocation["root"]["members"], [])
+        self.assertFalse(Path(allocation["root"]["path"]).exists())
+        self.assertEqual(len(list((capture / "allocations").iterdir())), 38)
+        self.assertEqual(read_json(capture / "allocations/18-after.json")["members"],
+                         sorted(["checkout-a", "checkout-b", "out-a", "out-b",
+                                 "plugin-manifest-a.json", "plugin-manifest-b.json",
+                                 "skill-manifest-a.json", "skill-manifest-b.json"]))
+        target = os.environ.get("R0035_C5_POLICY_CASE_ARTIFACTS")
+        if target:
+            shutil.copytree(capture, Path(target) / "actual-allocation-capture")
+
+    def test_initial_nonempty_root_refuses_before_original_child(self):
+        work = self.fixture.base / "occupied"
+        work.mkdir(mode=0o700)
+        sentinel = work / "foreign"
+        sentinel.write_bytes(b"preserved\n")
+        result = self.fixture.cli("init", self.fixture.base / "refused", self.fixture.repo,
+            work, self.fixture.commit, "python", env=dict(self.fixture.env,
+            R0035_C5_CORRESPONDENCE_CAPTURE=self.owner.C5_CORRESPONDENCE))
+        self.assertEqual(result.returncode, 125)
+        self.assertIn(b"must be empty", result.stderr)
+        self.assertEqual(sentinel.read_bytes(), b"preserved\n")
+        self.assertFalse((self.fixture.base / "refused").exists())
+
+    def test_missing_unknown_and_changed_physical_allocation_refuse(self):
+        original = self.capture()
+        for name, mutate in (
+                ("missing", lambda path: (path / "allocations/00-before.json").unlink()),
+                ("unknown", lambda path: self.change_window(path, "members", ["unknown-role"])),
+                ("late-source-omission", lambda path: self.change_window(path, "members",
+                    [name for name in read_json(path / "allocations/18-after.json")["members"] if name != "checkout-a"],
+                    "18-after.json")),
+                ("late-generation-omission", lambda path: self.change_window(path, "members",
+                    [name for name in read_json(path / "allocations/18-before.json")["members"] if name != "out-a"],
+                    "18-before.json")),
+                ("copy-status-type", lambda path: self.change_copy(path, 'copies/a.json',
+                    lambda row: row['status'].update(bytes=False))),
+                ("copy-process-type", lambda path: self.change_copy(path, 'copy-processes/a-0.json',
+                    lambda row: row.update(exit_code=False))),
+                ("copy-source-type", lambda path: self.change_copy(path, 'copies/a.json',
+                    lambda row: row['source_before']['producer']['stat'].update(links=True))),
+                ("physical", lambda path: self.change_window(path, "stat", dict(
+                    read_json(path / "allocations/00-before.json")["stat"], inode=1)))):
+            with self.subTest(name=name):
+                target = self.fixture.base / name
+                shutil.copytree(original, target)
+                mutate(target)
+                with self.assertRaises(self.owner.ReproCaptureError):
+                    self.owner.verify_record(target)
+
+    def change_window(self, path, key, value, window="00-before.json"):
+        target = path / "allocations" / window
+        row = read_json(target)
+        row[key] = value
+        write_json(target, row)
+
+    def change_copy(self, path, relative, mutate):
+        target=path/relative;row=read_json(target);mutate(row);write_json(target,row)
+
+    def test_malformed_closing_copy_runtime_type_refuses(self):
+        capture=self.capture()
+        self.change_copy(capture,'copies/a.json',
+            lambda row: row['executable_after']['stat'].update(links=True))
+        with self.assertRaisesRegex(self.owner.ReproCaptureError,'runtime currentness'):
+            self.owner.verify_record(capture)
+
+    def test_actual_distinct_pair_admits_only_captured_source_copies(self):
+        workspace = self.capture("workspace")
+        left = self.fixture.base / "left"
+        workspace.rename(left)
+        workspace = self.capture("workspace")
+        right = self.fixture.base / "right"
+        workspace.rename(right)
+        owner = self.comparator()
+        comparison = self.fixture.base / "comparison.json"
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(owner.compare_c5_correspondence(left, right, comparison), 0)
+        result = read_json(comparison)
+        self.assertTrue(result["equivalent"])
+        self.assertFalse(result["raw_observables_equal"])
+        source_copy = (right / "copies/a.json").read_bytes()
+        (right / "copies/a.json").unlink()
+        with self.assertRaisesRegex(owner.WG.WorkGraphError, "source-copy admission missing"):
+            owner.compare_c5_correspondence(left, right, self.fixture.base / "refused.json")
+        self.assertFalse((self.fixture.base / "refused.json").exists())
+        self.owner.write_new(right / "copies/a.json", source_copy)
+        for label, mutate in (
+                ("inventory-omission", lambda row: row["inventory"].pop("scripts/build-release-asset.sh")),
+                ("copy-command", lambda row: row["commands"][0]["argv"].append("--local")),
+                ("copy-physical", lambda row: row["inventory"]["scripts/build-release-asset.sh"]["stat"].update(inode=1)),
+                ("unknown-field", lambda row: row.update(unknown=True))):
+            with self.subTest(label=label):
+                row = json.loads(source_copy)
+                mutate(row)
+                write_json(right / "copies/a.json", row)
+                with self.assertRaises(owner.WG.WorkGraphError):
+                    owner.compare_c5_correspondence(left, right, self.fixture.base / (label + ".json"))
+                (right / "copies/a.json").write_bytes(source_copy)
+        target = os.environ.get("R0035_C5_POLICY_CASE_ARTIFACTS")
+        if target:
+            for label, path in (("actual-pair-left", left), ("actual-pair-right", right)):
+                shutil.copytree(path, Path(target) / label)
+
+    def test_real_artifact_change_cannot_become_role_correspondence(self):
+        workspace = self.capture("workspace")
+        left = self.fixture.base / "left"
+        workspace.rename(left)
+        workspace, result = self.fixture.run("workspace",
+            R0035_C5_CORRESPONDENCE_CAPTURE=self.owner.C5_CORRESPONDENCE,
+            C5_CASE_PROGRESS_LABELS="1", C5_CASE_DIFFERENT_PAYLOAD="1")
+        self.assertEqual(result.returncode, 0, result.stderr.decode(errors="replace"))
+        self.owner.verify_record(workspace)
+        output = self.fixture.base / "mismatch.json"
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(self.comparator().compare_c5_correspondence(left, workspace, output), 1)
+        checks = read_json(output)["checks"]
+        self.assertFalse(checks["events/00.json"])
+        self.assertFalse(checks["close.json"])
+
+    def test_same_byte_fixed_source_replacement_is_refused(self):
+        workspace = self.capture("workspace")
+        left = self.fixture.base / "left"
+        workspace.rename(left)
+        producer = self.fixture.repo / "tests/reproducible-release-asset.test.sh"
+        raw = producer.read_bytes()
+        producer.write_bytes(raw)
+        right = self.capture("workspace")
+        owner = self.comparator()
+        with self.assertRaisesRegex(owner.WG.WorkGraphError, "fixed source physical custody differs"):
+            owner.compare_c5_correspondence(left, right, self.fixture.base / "replacement.json")
+
+    def test_original_failed_clone_first_exit_is_durable_without_events(self):
+        work = self.fixture.base / "fresh-work"
+        work.mkdir(mode=0o700)
+        capture = self.fixture.base / "clone-failure"
+        env = dict(self.fixture.env, R0035_C5_CORRESPONDENCE_CAPTURE=self.owner.C5_CORRESPONDENCE)
+        begun = self.fixture.cli("init", capture, self.fixture.repo, work, self.fixture.commit, "python", env=env)
+        self.assertEqual(begun.returncode, 0, begun.stderr.decode(errors="replace"))
+        (self.fixture.repo / ".git").rename(self.fixture.repo / ".git-unavailable")
+        failed = self.fixture.cli("clone", capture, "a", env=env)
+        self.assertEqual(failed.returncode, 128)
+        receipt = read_json(capture / "copy-processes/a-0.json")
+        self.assertEqual(receipt["exit_code"], 128)
+        self.assertEqual(list((capture / "events").iterdir()), [])
+        self.assertFalse((capture / "copy-processes/a-1.json").exists())
+
+    def test_signalled_clone_retains_raw_signal_and_shell_exit_convention(self):
+        work=self.fixture.base/'signal-work';work.mkdir(mode=0o700)
+        capture=self.fixture.base/'signal-capture'
+        env=dict(self.fixture.env,R0035_C5_CORRESPONDENCE_CAPTURE=self.owner.C5_CORRESPONDENCE)
+        begun=self.fixture.cli('init',capture,self.fixture.repo,work,self.fixture.commit,'python',env=env)
+        self.assertEqual(begun.returncode,0,begun.stderr.decode(errors='replace'))
+        tools=self.fixture.base/'negative-only-tools';tools.mkdir()
+        git=tools/'git';git.write_text('#!/bin/bash\nkill -TERM "$$"\n');git.chmod(0o755)
+        failed=self.fixture.cli('clone',capture,'a',env=dict(env,PATH=str(tools)+':'+env['PATH']))
+        self.assertEqual(failed.returncode,143)
+        self.assertEqual(read_json(capture/'copy-processes/a-0.json')['exit_code'],-15)
+        self.assertEqual(list((capture/'events').iterdir()),[])
 
 
 class QualifierCases(unittest.TestCase):

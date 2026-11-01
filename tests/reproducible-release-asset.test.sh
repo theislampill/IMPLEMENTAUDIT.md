@@ -137,6 +137,11 @@ if [ -n "$repro_capture_directory" ]; then
 fi
 
 for lane in a b; do
+  if [ "${R0035_C5_CORRESPONDENCE_CAPTURE:-}" = FINITE_C5_ROLE_CORRESPONDENCE_V1 ]; then
+    [ -n "$repro_capture_directory" ] || fail "C5 correspondence requires its prospective event capture"
+    repro_capture clone "$repro_capture_directory" "$lane"
+    continue
+  fi
   git clone --quiet --no-local --no-checkout "$repo_root" "$tmp/checkout-$lane"
   git -C "$tmp/checkout-$lane" checkout --quiet --detach "$source_commit"
   [ -z "$(git -C "$tmp/checkout-$lane" status --porcelain)" ] \

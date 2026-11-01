@@ -13,6 +13,8 @@ import importlib.util
 from pathlib import Path
 import shutil
 import tempfile
+import socket
+import time
 import unittest
 from unittest import mock
 
@@ -181,7 +183,9 @@ class C5TaskEntropyCases(unittest.TestCase):
         tree = ast.parse((ROOT / "scripts/work-graph-c5-executor.py").read_bytes())
         function = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "task_kernel_entropy_v1")
         namespace = dict(PROFILE=self.TASK, SPEC=dict(kernel_entropy_policy="C5_TASK_FIXED_GIT_REAL_URANDOM_V1",
-            original_index=48, original_argv=["bash", "tests/reproducible-release-asset.test.sh"]))
+            original_index=48, original_argv=["bash", "tests/reproducible-release-asset.test.sh"]),
+            CORRESPONDENCE_PROFILE="FIXED_GENUINE_C5_SHARED_IMAGE_CORRESPONDENCE_20261031_V1",
+            Q=types.SimpleNamespace(REPRO_CORRESPONDENCE_PRODUCER_SHA256="550a92a48989a2a9987b3d51c26a3198cf4828aad28fd3ffe8815fea6399019d"))
         def need(value, message):
             if not value: raise ValueError(message)
         namespace.update(need=need, fixed_task_entropy_device_v1=mock.Mock(return_value={"observed": "real-device-facts"}))
@@ -194,6 +198,12 @@ class C5TaskEntropyCases(unittest.TestCase):
             dict(sha256="a27521758cc71e312052d7eaa7c8b488dbbe2dcc5089d6054be0923455763310")})))
         runtime = dict(files={"/usr/bin/git":dict(sha256="2a8c18fbf43da9f692d75474c72bea9dfd796c260b0f3dfe456376abc3bbd668")})
         self.assertEqual(n["task_kernel_entropy_v1"](source, runtime), {"observed": "real-device-facts"})
+        current=copy.deepcopy(source)
+        current['source']['state']['files']['tests/reproducible-release-asset.test.sh']['sha256']=n['Q'].REPRO_CORRESPONDENCE_PRODUCER_SHA256
+        self.assertEqual(n['task_kernel_entropy_v1'](current,runtime), {'observed':'real-device-facts'})
+        prospective=self.guard();prospective['PROFILE']=prospective['CORRESPONDENCE_PROFILE']
+        with self.assertRaises(ValueError):prospective['task_kernel_entropy_v1'](source,runtime)
+        self.assertEqual(prospective['task_kernel_entropy_v1'](current,runtime), {'observed':'real-device-facts'})
         for which in ("policy", "index", "argv", "program", "git"):
             candidate = self.guard(); a, b = copy.deepcopy(source), copy.deepcopy(runtime)
             if which == "policy": candidate["SPEC"]["kernel_entropy_policy"] = "arbitrary-device-policy"
@@ -252,7 +262,8 @@ class C5TaskResourceCases(unittest.TestCase):
     def selection(self, profile, policy=None):
         tree = ast.parse((ROOT / "scripts/work-graph-c5-executor.py").read_bytes())
         function = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name=="execution_limits_v1")
-        n = dict(PROFILE=profile,SPEC={} if policy is None else dict(task_resource_policy=policy))
+        n = dict(PROFILE=profile,SPEC={} if policy is None else dict(task_resource_policy=policy),
+                 CORRESPONDENCE_PROFILE="FIXED_GENUINE_C5_SHARED_IMAGE_CORRESPONDENCE_20261031_V1")
         def need(value,message):
             if not value: raise ValueError(message)
         n["need"] = need
@@ -267,6 +278,8 @@ class C5TaskResourceCases(unittest.TestCase):
         task = self.selection(self.TASK,dict(self.POLICY))(inherited)
         self.assertEqual(task,dict(inherited,file_bytes=64*1024**2))
         self.assertEqual(inherited,original)
+        paired=self.selection('FIXED_GENUINE_C5_SHARED_IMAGE_CORRESPONDENCE_20261031_V1',dict(self.POLICY))(inherited)
+        self.assertEqual(paired,task)
         for profile in ("FIXED_GENUINE_C5_PRODUCER_EFFECT_ORIGINAL48_V1",
                         "FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1"):
             self.assertEqual(self.selection(profile)(inherited),inherited)
@@ -280,6 +293,199 @@ class C5TaskResourceCases(unittest.TestCase):
             with self.subTest(policy=policy),self.assertRaises(ValueError):
                 self.selection(self.TASK,policy)(inherited)
         with self.assertRaises(ValueError):self.selection(self.TASK,dict(self.POLICY))(dict(file_bytes=32*1024**2))
+
+
+@unittest.skipUnless(sys.platform.startswith('linux') and hasattr(os,'pidfd_open'), 'Linux live child custody required')
+class C5CorrespondenceLiveCases(unittest.TestCase):
+    """Actual tiny C5 channels/children; no acquired-image or original claim."""
+    def test_closed_shared_profile_buffers_and_source_drift_refuse(self):
+        path=ROOT/'scripts/load-work-graph-c5-executor.py';tree=ast.parse(path.read_bytes())
+        assignment=next(n for n in tree.body if isinstance(n,ast.Assign) and
+            any(isinstance(t,ast.Name) and t.id=='CORRESPONDENCE_PINS' for t in n.targets))
+        pins=ast.literal_eval(assignment.value.args[0])
+        with tempfile.TemporaryDirectory(prefix='c5-correspondence-source-') as temporary:
+            source=Path(temporary)
+            for name in [*pins,'scripts/load-work-graph-c5-executor.py']:
+                target=source/name;target.parent.mkdir(parents=True,exist_ok=True)
+                target.write_bytes((ROOT/name).read_bytes());target.chmod(0o644)
+            spec=importlib.util.spec_from_file_location('closed_current_pair_source',source/'scripts/load-work-graph-c5-executor.py')
+            owner=importlib.util.module_from_spec(spec);spec.loader.exec_module(owner)
+            captured=owner._Engine(owner.CORRESPONDENCE_PROFILE);engine=captured.load()
+            self.assertEqual(engine.CORRESPONDENCE_POLICY['runs'],2)
+            self.assertEqual(engine.LIMITS['wall_seconds'],120)
+            self.assertEqual(engine.LIMITS['file_bytes'],64*1024**2)
+            captured.check()
+            with self.assertRaises(ValueError):owner._Engine('unknown')
+            member=source/'scripts/repro-event-capture.py';member.write_bytes(member.read_bytes()+b'\n')
+            with self.assertRaisesRegex(ValueError,'source|current'):captured.check()
+
+    def test_two_actual_profiles_share_one_wait_and_refuse_copy_or_window_omission(self):
+        fixture_spec=importlib.util.spec_from_file_location('existing_c5_fixture',ROOT/'tests/work-graph-repro-events-cases.py')
+        fixtures=importlib.util.module_from_spec(fixture_spec);fixture_spec.loader.exec_module(fixtures)
+        fixture=fixtures.Fixture();self.addCleanup(fixture.clean)
+        source=fixture.base/'closed-owner';source.mkdir()
+        loader_path=ROOT/'scripts/load-work-graph-c5-executor.py'
+        tree=ast.parse(loader_path.read_bytes())
+        assignment=next(n for n in tree.body if isinstance(n,ast.Assign) and
+            any(isinstance(t,ast.Name) and t.id=='CORRESPONDENCE_PINS' for t in n.targets))
+        pins=ast.literal_eval(assignment.value.args[0])
+        for name in [*pins,'scripts/load-work-graph-c5-executor.py']:
+            target=source/name;target.parent.mkdir(parents=True,exist_ok=True)
+            target.write_bytes((ROOT/name).read_bytes());target.chmod(0o644)
+        selected=importlib.util.spec_from_file_location('actual_closed_correspondence_owner',source/'scripts/load-work-graph-c5-executor.py')
+        owner=importlib.util.module_from_spec(selected);selected.loader.exec_module(owner)
+        engine=owner._Engine(owner.CORRESPONDENCE_PROFILE).load()
+        self.assertEqual(engine.PROFILE,owner.CORRESPONDENCE_PROFILE)
+        with self.assertRaisesRegex(ValueError,'Unknown fixed C5 execution profile'):
+            owner._Engine('unknown')
+        work=fixture.base/'private-work';work.mkdir()
+        executor_tree=ast.parse((ROOT/'scripts/work-graph-c5-executor.py').read_bytes())
+        functions=[n for n in executor_tree.body if isinstance(n,ast.FunctionDef) and n.name in
+            ('need','encode','sha','send','read_fd','bootstrap_correspondence_pair')]
+        script=fixture.base/'actual-source-supervisor.py'
+        script.write_text('import os,json,sys,hashlib,subprocess,time\nfrom pathlib import Path\n'+
+            'SOURCE_MOUNT='+repr(str(fixture.repo))+'\nWORK_MOUNT='+repr(str(work))+'\nMAX_HEADER=4194304\n'+
+            'CORRESPONDENCE_PROFILE='+repr(engine.CORRESPONDENCE_PROFILE)+'\nCORRESPONDENCE_POLICY='+repr(engine.CORRESPONDENCE_POLICY)+'\n'+
+            ast.unparse(ast.Module(body=functions,type_ignores=[]))+'\n'+
+            'bootstrap_correspondence_pair(dict(scope=CORRESPONDENCE_PROFILE,correspondence_pair=CORRESPONDENCE_POLICY),int(sys.argv[1]))\n')
+        parent,child=socket.socketpair();self.addCleanup(parent.close);self.addCleanup(child.close)
+        env=dict(fixture.env,TMPDIR=str(work),R0035_REPRO_EVENT_CAPTURE_DIR=str(work/'capture'),
+                 R0035_C5_CORRESPONDENCE_CAPTURE='FINITE_C5_ROLE_CORRESPONDENCE_V1',
+                 R0035_C5_LIVE_GATE_FD=str(child.fileno()),C5_CASE_PROGRESS_LABELS='1')
+        stdout=(fixture.base/'outer-stdout').open('wb');stderr=(fixture.base/'outer-stderr').open('wb')
+        process=subprocess.Popen([sys.executable,'-B',str(script),str(child.fileno())],cwd=fixture.repo,
+            env=env,pass_fds=(child.fileno(),),start_new_session=True,stdout=stdout,stderr=stderr)
+        child.close()
+        source_identity=dict(source_commit=fixture.commit,
+            source_tree=subprocess.check_output(['git','-C',str(fixture.repo),'rev-parse','HEAD^{tree}']).decode().strip())
+        for label,name in (('producer',engine.G.E.PRODUCER),('capture_owner',engine.G.E.OWNER)):
+            path=fixture.repo/name;raw=path.read_bytes()
+            source_identity[label]=dict(path=name,bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest(),mode=stat.S_IMODE(path.stat().st_mode))
+        executables={}
+        for name in ('bash','git','cmp','python'):
+            path=Path(shutil.which(name)).resolve();executables[str(path)]=hashlib.sha256(path.read_bytes()).hexdigest()
+        gates=[];outcomes=[]
+        try:
+            for ordinal in range(2):
+                gate=engine.G.LiveC5Gate(fixture.base/('gate-'+str(ordinal)),process,parent,
+                    expected_source=source_identity,expected_context=dict(repository=str(fixture.repo),cwd=str(fixture.repo),
+                    python_command='python',work_parent=str(work)),executable_inputs=executables,
+                    acquisition_digest='0'*64,require_current=lambda:None,wall_seconds=20,correspondence=True)
+                gates.append(gate)
+                while not gate._finished:gate.handle_next()
+                count=int.from_bytes(gate._read_exact(8),'big');outcome=json.loads(gate._read_exact(count));outcomes.append(outcome)
+                self.assertEqual((outcome['ordinal'],outcome['exit_code']),(ordinal,0))
+                reply=engine.encode(dict(schema='implementaudit.c5-pair-child-release.v1',
+                    image_sha256=outcome['image_sha256'],ordinal=ordinal,accepted=True))
+                parent.sendall(len(reply).to_bytes(8,'big')+reply)
+            first=gates[0].finalize();second=gates[1].finalize(shared_wait_owner=gates[0])
+            self.assertEqual(first['actual_outer_process'],second['actual_outer_process'])
+            self.assertNotEqual(outcomes[0]['actual_pid'],outcomes[1]['actual_pid'])
+            self.assertEqual([g._event_count for g in gates],[19,19])
+            comparison=engine.Q.compare_c5_correspondence(gates[0].capture,gates[1].capture,None)
+            self.assertTrue(comparison['equivalent']);self.assertFalse(comparison['raw_observables_equal'])
+            target=gates[1].capture/'allocations/18-after.json';row=json.loads(target.read_bytes())
+            row['members'].remove('checkout-a');target.write_bytes(engine.G.E.canonical(row))
+            with self.assertRaises(engine.Q.WG.WorkGraphError):
+                engine.Q.compare_c5_correspondence(gates[0].capture,gates[1].capture,None)
+        finally:
+            for gate in reversed(gates):
+                if not gate._reaped and any(g._reaped for g in gates):
+                    peer=next(g for g in gates if g._reaped);gate._reaped=True;gate._wait_result=dict(peer._wait_result)
+                gate.close()
+            if process.returncode is None:process.kill();process.wait(timeout=5)
+            stdout.close();stderr.close()
+
+    def test_failed_or_unreleased_first_actual_child_never_starts_suffix(self):
+        tree=ast.parse((ROOT/'scripts/work-graph-c5-executor.py').read_bytes())
+        functions=[n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name in
+            ('need','encode','sha','send','read_fd','bootstrap_correspondence_pair')]
+        selection=json.loads((ROOT/'fixtures/work-graph-c5-inputs/genuine-correspondence-execution-profile.json').read_bytes())
+        for disposition in ('failed','unreleased'):
+            with self.subTest(disposition=disposition),tempfile.TemporaryDirectory(prefix='c5-pair-stop-') as temporary:
+                base=Path(temporary);source=base/'source';(source/'tests').mkdir(parents=True);work=base/'work';work.mkdir()
+                script=source/'tests/reproducible-release-asset.test.sh'
+                script.write_text("printf 'started\\n' >> starts\nexit "+('47' if disposition=='failed' else '0')+'\n')
+                actor=base/'source-supervisor.py'
+                actor.write_text('import os,json,sys,hashlib,subprocess,time\nfrom pathlib import Path\n'+
+                    'SOURCE_MOUNT='+repr(str(source))+'\nWORK_MOUNT='+repr(str(work))+'\nMAX_HEADER=4194304\n'+
+                    'CORRESPONDENCE_PROFILE='+repr(selection['profile'])+'\nCORRESPONDENCE_POLICY='+repr(selection['correspondence_pair'])+'\n'+
+                    ast.unparse(ast.Module(body=functions,type_ignores=[]))+'\n'+
+                    'bootstrap_correspondence_pair(dict(scope=CORRESPONDENCE_PROFILE,correspondence_pair=CORRESPONDENCE_POLICY),int(sys.argv[1]))\n')
+                parent,child=socket.socketpair();parent.settimeout(10)
+                with (base/'stderr').open('wb') as errors:
+                    process=subprocess.Popen([sys.executable,'-B',str(actor),str(child.fileno())],
+                        pass_fds=(child.fileno(),),stdout=subprocess.DEVNULL,stderr=errors)
+                    child.close()
+                    def receive(count):
+                        result=b''
+                        while len(result)<count:
+                            chunk=parent.recv(count-len(result));self.assertTrue(chunk);result+=chunk
+                        return result
+                    try:
+                        count=int.from_bytes(receive(8),'big');outcome=json.loads(receive(count))
+                        self.assertEqual(outcome['exit_code'],47 if disposition=='failed' else 0)
+                        parent.close()  # Missing continuation is never success.
+                        self.assertNotEqual(process.wait(timeout=10),0)
+                        self.assertEqual((source/'starts').read_text().splitlines(),['started'])
+                        self.assertEqual(json.loads((work/'pair-processes/0.json').read_bytes()),outcome)
+                        self.assertFalse((work/'pair-processes/1.json').exists())
+                    finally:
+                        parent.close()
+                        if process.poll() is None:process.kill();process.wait(timeout=5)
+
+    def test_pre_event_abort_retains_actual_first_clone_exit(self):
+        """One failed clone/control only; not an original or acquired-image pair."""
+        selected=importlib.util.spec_from_file_location('c5_abort_fixture',ROOT/'tests/work-graph-repro-events-cases.py')
+        fixtures=importlib.util.module_from_spec(selected);selected.loader.exec_module(fixtures)
+        fixture=fixtures.Fixture();self.addCleanup(fixture.clean)
+        source=fixture.base/'closed-owner';source.mkdir()
+        tree=ast.parse((ROOT/'scripts/load-work-graph-c5-executor.py').read_bytes())
+        node=next(n for n in tree.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='CORRESPONDENCE_PINS' for t in n.targets))
+        for name in [*ast.literal_eval(node.value.args[0]),'scripts/load-work-graph-c5-executor.py']:
+            target=source/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((ROOT/name).read_bytes());target.chmod(0o644)
+        spec=importlib.util.spec_from_file_location('actual_abort_source_owner',source/'scripts/load-work-graph-c5-executor.py')
+        owner=importlib.util.module_from_spec(spec);spec.loader.exec_module(owner)
+        engine=owner._Engine(owner.CORRESPONDENCE_PROFILE).load()
+        source_tree=subprocess.check_output(['git','-C',str(fixture.repo),'rev-parse','HEAD^{tree}']).decode().strip()
+        producer=fixture.repo/'tests/reproducible-release-asset.test.sh'
+        raw=producer.read_text().replace('for lane in a b; do\n',
+            'mv "$repo_root/.git" "$repo_root/.git-unavailable"\nfor lane in a b; do\n',1)
+        producer.write_text(raw)
+        expected=dict(source_commit=fixture.commit,source_tree=source_tree)
+        for label,name in (('producer',engine.G.E.PRODUCER),('capture_owner',engine.G.E.OWNER)):
+            path=fixture.repo/name;data=path.read_bytes();expected[label]=dict(path=name,bytes=len(data),sha256=hashlib.sha256(data).hexdigest(),mode=stat.S_IMODE(path.stat().st_mode))
+        work=fixture.base/'private-work';work.mkdir()
+        tree=ast.parse((ROOT/'scripts/work-graph-c5-executor.py').read_bytes())
+        functions=[n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name in ('need','encode','sha','send','read_fd','bootstrap_correspondence_pair')]
+        script=fixture.base/'abort-supervisor.py'
+        script.write_text('import os,json,sys,hashlib,subprocess,time\nfrom pathlib import Path\n'+
+            'SOURCE_MOUNT='+repr(str(fixture.repo))+'\nWORK_MOUNT='+repr(str(work))+'\nMAX_HEADER=4194304\n'+
+            'CORRESPONDENCE_PROFILE='+repr(engine.CORRESPONDENCE_PROFILE)+'\nCORRESPONDENCE_POLICY='+repr(engine.CORRESPONDENCE_POLICY)+'\n'+
+            ast.unparse(ast.Module(body=functions,type_ignores=[]))+'\n'+
+            'bootstrap_correspondence_pair(dict(scope=CORRESPONDENCE_PROFILE,correspondence_pair=CORRESPONDENCE_POLICY),int(sys.argv[1]))\n')
+        parent,child=socket.socketpair()
+        env=dict(fixture.env,TMPDIR=str(work),R0035_REPRO_EVENT_CAPTURE_DIR=str(work/'capture'),
+            R0035_C5_CORRESPONDENCE_CAPTURE='FINITE_C5_ROLE_CORRESPONDENCE_V1',R0035_C5_LIVE_GATE_FD=str(child.fileno()))
+        with (fixture.base/'outer-stderr').open('wb') as errors:
+            process=subprocess.Popen([sys.executable,'-B',str(script),str(child.fileno())],cwd=fixture.repo,env=env,
+                pass_fds=(child.fileno(),),start_new_session=True,stdout=subprocess.DEVNULL,stderr=errors)
+            child.close();gate=None
+            try:
+                gate=engine.G.LiveC5Gate(fixture.base/'aborted-live',process,parent,expected_source=expected,
+                    expected_context=dict(repository=str(fixture.repo),cwd=str(fixture.repo),python_command='python',work_parent=str(work)),
+                    executable_inputs={},acquisition_digest='0'*64,require_current=lambda:None,wall_seconds=20,correspondence=True)
+                self.assertEqual(gate.handle_next()['phase'],'INIT')
+                with self.assertRaisesRegex(engine.G.LiveGateError,'aborted'):
+                    gate.handle_next()
+                self.assertEqual(json.loads((gate.capture/'copy-processes/a-0.json').read_bytes())['exit_code'],128)
+                self.assertEqual(json.loads((gate.output/'original-child-abort.json').read_bytes())['exit_code'],128)
+                self.assertEqual(gate._event_count,0)
+                self.assertFalse((work/'pair-processes/1.json').exists())
+            finally:
+                if gate is not None:gate.close()
+                parent.close()
+                if process.returncode is None:process.kill();process.wait(timeout=5)
 
 
 class C5CurrentnessWitnessCases(unittest.TestCase):

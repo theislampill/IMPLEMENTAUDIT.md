@@ -72,7 +72,7 @@ class LiveC5Gate:
     custody: the caller must not poll/wait/reap that child independently.
     """
     def __init__(self, output, process, channel, *, expected_source, expected_context,
-                 executable_inputs, acquisition_digest, require_current, wall_seconds=120):
+                 executable_inputs, acquisition_digest, require_current, wall_seconds=120, correspondence=False):
         _CHECK()
         demand(type(process) is subprocess.Popen and process.returncode is None,
                'live gate requires the actual unreaped Popen child')
@@ -85,6 +85,8 @@ class LiveC5Gate:
         demand(E.HEX.fullmatch(acquisition_digest) is not None, 'invalid acquisition identity')
         demand(callable(require_current), 'missing owner currentness closure')
         self.process, self.channel = process, channel
+        demand(type(correspondence) is bool, 'unknown live C5 correspondence selection')
+        self.correspondence = correspondence
         self.pid, self.owner_pid = process.pid, os.getpid()
         demand(os.getpgid(self.pid) == self.pid and os.getsid(self.pid) == self.pid,
                'live gate child requires its own actual session and process group')
@@ -173,8 +175,9 @@ class LiveC5Gate:
         raw = encode(dict(schema=E.LIVE_REPLY_SCHEMA, phase=phase, accepted=accepted, token=token))
         self.channel.sendall(len(raw).to_bytes(8, 'big') + raw)
 
-    @staticmethod
-    def _member_limit(name):
+    def _member_limit(self, name):
+        if self.correspondence and name == 'allocation.json':
+            return E.MAX_JSON
         if name in ('session.json', 'close.json', 'record.json'):
             return E.MAX_JSON
         group, slash, leaf = name.partition('/')
@@ -185,6 +188,10 @@ class LiveC5Gate:
             return E.MAX_JSON
         if group == 'processes' and E.re.fullmatch(r'[0-9]{2}(?:\.handoff)?\.json', leaf):
             return E.MAX_PROCESS_JSON
+        if self.correspondence and ((group == 'allocations' and E.re.fullmatch(r'[0-9]{2}-(?:before|after)\.json', leaf))
+                or (group == 'copies' and leaf in ('a.json', 'b.json'))
+                or (group == 'copy-processes' and E.re.fullmatch(r'[ab]-[0-2]\.json', leaf))):
+            return E.MAX_JSON
         raise LiveGateError('foreign live capture member')
 
     def _receive(self):
@@ -193,11 +200,16 @@ class LiveC5Gate:
         raw = self._read_exact(count)
         frame = json.loads(raw.decode('utf-8', 'strict'))
         demand(encode(frame) == raw, 'live frame must use canonical unambiguous JSON')
+        if self.correspondence and type(frame) is dict and frame.get('schema') == 'implementaudit.c5-pair-child-outcome.v1':
+            self._write('early-original-outcome.json', raw)
+            raise LiveGateError('actual original ended before a complete live profile; no suffix')
         E.fields(frame, 'schema phase payload files', 'live frame')
-        demand(frame['schema'] == E.LIVE_FRAME_SCHEMA and frame['phase'] in {'INIT', 'BEFORE', 'AFTER', 'FINISH'},
+        phases = {'INIT', 'BEFORE', 'AFTER', 'FINISH'} | ({'PAIR_ABORT'} if self.correspondence else set())
+        demand(frame['schema'] == E.LIVE_FRAME_SCHEMA and frame['phase'] in phases,
                'live frame schema or phase differs')
         rows = frame['files']
-        demand(type(rows) is list and len(rows) <= E.MAX_LIVE_FILES, 'live frame population exceeds bound')
+        bound = E.MAX_CORRESPONDENCE_LIVE_FILES if self.correspondence else E.MAX_LIVE_FILES
+        demand(type(rows) is list and len(rows) <= bound, 'live frame population exceeds bound')
         names = []
         total = blob_total = 0
         for row in rows:
@@ -248,6 +260,10 @@ class LiveC5Gate:
         demand(not E.event_files(self.capture), 'imported event history cannot initialize a live gate')
         demand(not os.listdir(self.capture / 'processes'), 'imported process history cannot initialize a live gate')
         self._session = session
+        if self.correspondence:
+            for group in ('allocations', 'copies', 'copy-processes'):
+                (self.capture / group).mkdir(mode=0o700, exist_ok=True)
+            E.verify_allocation(self.capture, session, [])
         future = lambda name: dict(node=name, condition='actual live owned original event and current effect bytes')
         artifacts = ['path:artifacts/' + lane + '/' + name for lane in 'ab' for name in E.MEMBERS]
         nodes = [node(ROOT_NODE, parent=None, kind='PLAN', requires=[FINAL], reads=[]),
@@ -315,6 +331,14 @@ class LiveC5Gate:
         clone_issues = []
         E.validate_clone(reader, self._session, payload['clone'], spec['lane'], clone_issues, spec['role'])
         demand(not clone_issues, 'clone source or currentness refused before dispatch')
+        if self.correspondence:
+            E.verify_allocation(self.capture, self._session, events, pending_outputs=payload['outputs'])
+            admitted = E.verify_source_copies(self.capture, self._session, events, reader)
+            if spec['lane'] is not None:
+                for role, source in self._session['source_scripts'].items():
+                    demand(payload['clone']['scripts'][role]['stat'] ==
+                           admitted[spec['lane']]['inventory'][source['path']]['stat'],
+                           'live source-copy target changed before dispatch')
         executable = payload['executable']
         demand(type(executable) is dict and executable.get('kind') == 'FILE', 'unavailable actual executable')
         E.observation(reader, executable, executable['path'])
@@ -365,6 +389,9 @@ class LiveC5Gate:
         demand(payload['event_id'] == pending['common']['event_id'] and payload['token'] == pending['token'],
                'outcome belongs to another invocation or channel generation')
         reader, events, _ = self._prefix()
+        if self.correspondence:
+            E.verify_allocation(self.capture, self._session, events)
+            E.verify_source_copies(self.capture, self._session, events, reader)
         demand(len(events) == self._event_count + 1, 'actual outcome is missing or duplicated')
         actual = events[-1]
         demand(all(actual[name] == value for name, value in pending['common'].items()),
@@ -406,6 +433,9 @@ class LiveC5Gate:
                 self._live_child()
                 frame, frame_digest = self._receive()
                 phase, payload = frame['phase'], frame['payload']
+                if phase == 'PAIR_ABORT':
+                    self._write('original-child-abort.json', encode(payload))
+                    raise LiveGateError('actual original aborted; partial raw custody retained and suffix refused')
                 closing_names = {'close.json', 'record.json'} & set(self._captured)
                 demand(closing_names == (set() if phase != 'FINISH' else {'close.json', 'record.json'}),
                        'live closing records appeared in the wrong phase')
@@ -484,11 +514,20 @@ class LiveC5Gate:
             group_absent=group_absent, numeric_group_signalled=False)
         return self._wait_result
 
-    def finalize(self):
+    def finalize(self, *, shared_wait_owner=None):
         """Accept the final JOIN only after the actual original has exited."""
         with self._lock:
             demand(os.getpid() == self.owner_pid and not self._closed, 'live finalizer owner changed')
-            waited = self._reap(terminate=False)
+            if shared_wait_owner is None:
+                waited = self._reap(terminate=False)
+            else:
+                peer = shared_wait_owner
+                demand(self.correspondence and type(peer) is type(self) and peer is not self and peer.correspondence
+                       and peer.owner_pid == self.owner_pid and peer.process is self.process
+                       and peer.channel is self.channel and peer._reaped and peer._finished and not peer._failed,
+                       'shared image wait requires the same actual live parent owner')
+                self._reaped = True
+                waited = self._wait_result = dict(peer._wait_result)
             self._write('actual-outer-process.json', encode(waited))
             demand(self._finished and not self._failed and self._pending is None and waited['exit_code'] == 0
                    and waited['group_absent'] and self._event_count == 19, 'actual original did not close its full live gate')
@@ -505,6 +544,8 @@ class LiveC5Gate:
                 enclosing_execution_image_qualification='REQUIRED_SEPARATELY_FROM_THIS_GATE_COMPONENT',
                 original48_execution_qualified=False, canonical_acceptance='UNQUALIFIED',
                 native_dispatch_authorized=False, authority='NONE')
+            if self.correspondence:
+                result['outer_wait_custody'] = 'ONE_ACTUAL_SHARED_IMAGE_PARENT; PER_RUN_CHILD_EXITS_RETAINED_BY_EXECUTOR'
             self._write('result.json', encode(result))
             return result
 

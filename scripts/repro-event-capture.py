@@ -69,6 +69,356 @@ EVENT_FIELDS = (PROCESS_COMMON + " stdout stderr inputs_before inputs_after outp
                 "source_before source_after clone_before clone_after executable_before executable_after generation_id")
 HEX = re.compile(r"[0-9a-f]{64}\Z")
 SEMANTICS = "OWN_CHILD_PROCESS_OBSERVATIONS; IMPORTED_READBACK_DECLARED_CONSISTENCY_ONLY"
+C5_CORRESPONDENCE = "FINITE_C5_ROLE_CORRESPONDENCE_V1"
+C5_ALLOCATION_ENV = "R0035_C5_CORRESPONDENCE_CAPTURE"
+C5_SOURCE_FILE_LIMIT = 64 * 1024 * 1024
+C5_SOURCE_TOTAL_LIMIT = 256 * 1024 * 1024
+C5_SOURCE_ENTRIES = 4096
+
+
+def allocation_root(work):
+    """Observe the actual original allocation, never infer it from output text."""
+    work = no_alias(Path(work))
+    flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_NONBLOCK
+    fd = os.open(work, flags)
+    try:
+        before = os.fstat(fd)
+        names = sorted(os.listdir(fd))
+        demand(len(names) <= 8, "C5 allocation population exceeds eight roles")
+        demand(metadata(os.fstat(fd)) == metadata(before) == metadata(work.lstat()),
+               "C5 allocation changed during acquisition")
+        demand(stat.S_IMODE(before.st_mode) == 0o700 and before.st_uid == os.geteuid()
+               and before.st_gid == os.getegid(), "C5 allocation ownership/mode differs")
+        return dict(path=str(work), stat=metadata(before), uid=before.st_uid,
+                    gid=before.st_gid, members=names)
+    finally:
+        os.close(fd)
+
+
+def allocation_window(directory, session, index, when):
+    if not (directory / "allocation.json").exists():
+        return
+    initial = json_read(directory / "allocation.json")
+    current = allocation_root(session["context"]["work_root"])
+    demand(all(current["stat"][key] == initial["root"]["stat"][key]
+               for key in ("device", "inode", "mode")) and
+           all(current[key] == initial["root"][key] for key in ("path", "uid", "gid")),
+           "C5 original allocation identity changed")
+    allowed = {"checkout-a", "checkout-b", "out-a", "out-b",
+               "plugin-manifest-a.json", "plugin-manifest-b.json",
+               "skill-manifest-a.json", "skill-manifest-b.json"}
+    demand(set(current["members"]) <= allowed, "unknown C5 allocation role")
+    write_new(directory / "allocations" / (f"{index:02d}-" + when + ".json"), canonical(current))
+
+
+def verify_allocation(directory, session, events, pending_outputs=None):
+    """Validate retained allocation consistency; imported bytes confer no admission."""
+    item = json_read(directory / "allocation.json")
+    fields(item, "schema profile run_id session_sha256 root", "C5 allocation")
+    demand(item["schema"] == "implementaudit.c5-allocation.v1" and
+           item["profile"] == C5_CORRESPONDENCE and item["run_id"] == session["run_id"] and
+           item["session_sha256"] == digest(canonical(session)), "C5 allocation session differs")
+    root = item["root"]
+    fields(root, "path stat uid gid members", "C5 allocation root")
+    fields(root["stat"], "device inode mode links size mtime_ns ctime_ns", "C5 allocation stat")
+    demand(root["path"] == session["context"]["work_root"] and root["members"] == [] and
+           root["stat"]["mode"] == 0o700 and
+           all(integer(value) and value >= 0 for value in root["stat"].values()) and
+           integer(root["uid"]) and root["uid"] >= 0 and integer(root["gid"]) and root["gid"] >= 0,
+           "C5 initial allocation differs")
+    names = sorted(os.listdir(no_alias(directory / "allocations")))
+    expected = [f"{i:02d}-{when}.json" for i in range(len(events)) for when in ("after", "before")]
+    if pending_outputs is not None:
+        expected.append(f"{len(events):02d}-before.json")
+    demand(names == expected, "missing or extra C5 allocation windows")
+    allowed = {"checkout-a", "checkout-b", "out-a", "out-b",
+               "plugin-manifest-a.json", "plugin-manifest-b.json",
+               "skill-manifest-a.json", "skill-manifest-b.json"}
+    populations = {}
+    generated = {"checkout-a", "checkout-b"}
+    for index, (event, spec) in enumerate(zip(events, profile(session))):
+        for when in ("before", "after"):
+            observations = event["outputs_" + when]
+            demand(type(observations) is list and len(observations) == len(spec["outputs"]),
+                   "C5 allocation output population differs from original role")
+            for observed, path in zip(observations, spec["outputs"]):
+                demand(type(observed) is dict and observed.get("path") == path,
+                       "C5 allocation output crossed its original source role")
+                if observed.get("kind") != "MISSING":
+                    # Original manifest stdout redirection creates its empty
+                    # output before dispatch; a build's output starts absent.
+                    generated.add(Path(path).relative_to(root["path"]).parts[0])
+            populations[f"{index:02d}-" + when + ".json"] = sorted(generated)
+    if pending_outputs is not None:
+        demand(len(events) < len(profile(session)), "extra C5 allocation dispatch")
+        spec = profile(session)[len(events)]
+        demand(type(pending_outputs) is list and len(pending_outputs) == len(spec["outputs"]),
+               "pending C5 allocation output population differs")
+        for observed, path in zip(pending_outputs, spec["outputs"]):
+            demand(type(observed) is dict and observed.get("path") == path,
+                   "pending C5 allocation output crossed its source role")
+            if observed.get("kind") != "MISSING":
+                generated.add(Path(path).relative_to(root["path"]).parts[0])
+        populations[f"{len(events):02d}-before.json"] = sorted(generated)
+    for name in names:
+        window = json_read(directory / "allocations" / name)
+        fields(window, "path stat uid gid members", "C5 allocation window")
+        fields(window["stat"], "device inode mode links size mtime_ns ctime_ns", "C5 window stat")
+        demand(integer(window["uid"]) and integer(window["gid"]) and
+               all(window[key] == root[key] for key in ("path", "uid", "gid")) and
+               all(window["stat"][key] == root["stat"][key] for key in ("device", "inode", "mode")) and
+               all(integer(value) and value >= 0 for value in window["stat"].values()) and
+               type(window["members"]) is list and all(type(v) is str for v in window["members"]) and
+               window["members"] == sorted(set(window["members"])) and
+               set(window["members"]) <= allowed and window["members"] == populations[name],
+               "C5 allocation window identity/population differs")
+    return item
+
+
+def copy_inventory(path, commit):
+    """Read every ordinary tracked target against its actual Git blob identity."""
+    rows = git(path, "ls-files", "--stage", "-z").split(b"\0")
+    demand(rows[-1] == b"" and len(rows) <= C5_SOURCE_ENTRIES + 1, "C5 copied source population exceeds bound")
+    result, total = {}, 0
+    for row in rows[:-1]:
+        header, raw_name = row.split(b"\t", 1)
+        mode, object_id, stage = header.decode("ascii").split()
+        name = os.fsdecode(raw_name)
+        demand(mode in {"100644", "100755"} and stage == "0" and
+               name not in result and not Path(name).is_absolute() and ".." not in Path(name).parts,
+               "C5 copied source has unsupported or duplicate member")
+        raw, observed = read_regular(path / name, C5_SOURCE_FILE_LIMIT)
+        total += len(raw)
+        demand(total <= C5_SOURCE_TOTAL_LIMIT and observed["mode"] == int(mode, 8) & 0o777 and
+               hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest() == object_id,
+               "C5 copied source content/mode differs from Git index")
+        result[name] = dict(bytes=len(raw), sha256=digest(raw), git_blob=object_id, stat=observed)
+    demand(git(path, "rev-parse", "HEAD").decode().strip() == commit and
+           git(path, "status", "--porcelain") == b"", "C5 copied source HEAD/clean state differs")
+    return result
+
+
+def source_tree_members(trees, root):
+    """Validate the original Git tree objects, including the full path population."""
+    used, files, entries = set(), {}, [0]
+    def walk(object_id, prefix):
+        demand(object_id in trees and len(used) < 4096, "C5 original Git tree omitted or exceeds bound")
+        encoded = trees[object_id]
+        demand(type(encoded) is str, "C5 original Git tree encoding differs")
+        raw = base64.b64decode(encoded, validate=True)
+        demand(base64.b64encode(raw).decode("ascii") == encoded and
+               hashlib.sha1(b"tree " + str(len(raw)).encode() + b"\0" + raw).hexdigest() == object_id,
+               "C5 original Git tree hash differs")
+        used.add(object_id)
+        position = 0
+        while position < len(raw):
+            end = raw.index(b"\0", position)
+            mode, name = raw[position:end].split(b" ", 1)
+            demand(end + 21 <= len(raw), "C5 original Git tree truncated")
+            child = raw[end + 1:end + 21].hex()
+            position = end + 21
+            name = os.fsdecode(name)
+            demand(name not in {"", ".", ".."} and "/" not in name, "C5 original Git tree path differs")
+            path = prefix + name
+            entries[0] += 1
+            demand(entries[0] <= C5_SOURCE_ENTRIES and len(Path(path).parts) <= 40,
+                   "C5 original source population/depth exceeds existing bound")
+            if mode == b"40000":
+                walk(child, path + "/")
+            else:
+                demand(mode in {b"100644", b"100755"} and path not in files,
+                       "C5 original Git tree member unsupported or duplicated")
+                files[path] = (child, int(mode, 8) & 0o777)
+                demand(len(files) <= C5_SOURCE_ENTRIES, "C5 original Git source population exceeds bound")
+    try:
+        demand(type(trees) is dict and 0 < len(trees) <= 4096, "C5 original Git tree population differs")
+        walk(root, "")
+        demand(set(trees) == used, "C5 foreign original Git tree")
+    except (ValueError, KeyError, RecursionError) as exc:
+        raise ReproCaptureError("C5 original Git tree invalid") from exc
+    return files
+
+
+def capture_source_trees(repository, root):
+    trees = {}
+    def acquire(object_id):
+        if object_id in trees:
+            return
+        raw = git(repository, "cat-file", "tree", object_id)
+        demand(len(trees) < 4096 and len(raw) <= MAX_FILE, "C5 original source tree exceeds bound")
+        trees[object_id] = base64.b64encode(raw).decode("ascii")
+        position = 0
+        while position < len(raw):
+            end = raw.index(b"\0", position)
+            mode = raw[position:end].split(b" ", 1)[0]
+            child = raw[end + 1:end + 21].hex()
+            position = end + 21
+            if mode == b"40000":
+                acquire(child)
+    acquire(root)
+    source_tree_members(trees, root)
+    demand(len(canonical(trees)) <= MAX_JSON, "C5 original tree receipt exceeds bound")
+    return trees
+
+
+def capture_clone(directory, lane):
+    """Capture the existing original clone/checkout, before the 19 events."""
+    directory = no_alias(Path(directory))
+    demand(lane in {"a", "b"}, "unknown C5 clone lane")
+    reader = Readback(directory)
+    session = load_session(directory, reader)
+    demand(os.getcwd() == session["context"]["cwd"], "C5 original clone cwd differs")
+    demand((directory / "allocation.json").is_file() and not event_files(directory),
+           "C5 clone admission requires original prospective allocation before events")
+    copies = directory / "copies"
+    demand(sorted(os.listdir(copies)) == ([] if lane == "a" else ["a.json"]),
+           "C5 clone admission missing, duplicate or reordered")
+    root = Path(session["context"]["work_root"])
+    target = root / ("checkout-" + lane)
+    demand(not target.exists() and not target.is_symlink(), "C5 original clone target already exists")
+    initial = allocation_root(root)
+    allocation = json_read(directory / "allocation.json")["root"]
+    demand(all(initial["stat"][key] == allocation["stat"][key] for key in ("device", "inode", "mode")) and
+           initial["members"] == ([] if lane == "a" else ["checkout-a"]),
+           "C5 original clone allocation changed")
+    source_before = source_now(directory, session)
+    demand(source_before == session["source_custody"], "C5 clone source currentness differs")
+    repository = session["context"]["repository"]
+    commit = session["source"]["source_commit"]
+    commands = [["git", "clone", "--quiet", "--no-local", "--no-checkout", repository, str(target)],
+                ["git", "-C", str(target), "checkout", "--quiet", "--detach", commit],
+                ["git", "-C", str(target), "status", "--porcelain"]]
+    environment = dict(os.environ)
+    # Bash sets '_' to the resolved external command for each original Git
+    # invocation. Python itself does not update it when launching a child.
+    environment["_"] = shutil.which("git")
+    git_before = executable(directory, commands[0])
+    executions, status = [], b""
+    for index, argv in enumerate(commands):
+        start = time.monotonic_ns()
+        process = subprocess.run(argv, cwd=session["context"]["cwd"], env=environment,
+                                 stdout=subprocess.PIPE if index == 2 else None)
+        executions.append(dict(argv=argv, cwd=session["context"]["cwd"],
+            environment_sha256=digest(canonical(environment)), exit_code=process.returncode,
+            start_monotonic_ns=start, end_monotonic_ns=time.monotonic_ns()))
+        # Preserve the first real exit before another child or post-copy read.
+        write_new(directory / "copy-processes" / (lane + "-" + str(index) + ".json"),
+                  canonical(executions[-1]), sync_parent=True)
+        if index == 2:
+            status = process.stdout
+        if process.returncode != 0:
+            write_new(copies / (lane + ".json"), canonical(dict(executions=executions, complete=False)))
+            return process.returncode if process.returncode >= 0 else 128 - process.returncode
+    demand(not status, "C5 original clone is dirty")
+    inventory = copy_inventory(target, commit)
+    trees = capture_source_trees(repository, session["source"]["source_tree"])
+    expected_members = source_tree_members(trees, session["source"]["source_tree"])
+    demand(set(inventory) == set(expected_members) and all(
+        (member["git_blob"], member["stat"]["mode"]) == expected_members[name] for name, member in inventory.items()),
+        "C5 cloned source differs from original complete Git tree")
+    source_after = source_now(directory, session)
+    demand(source_after == source_before, "C5 clone source changed during original copy")
+    git_after = executable(directory, commands[0])
+    demand(git_before == git_after, "C5 clone Git runtime changed during original copy")
+    row = dict(schema="implementaudit.c5-source-copy.v1", profile=C5_CORRESPONDENCE,
+        run_id=session["run_id"], session_sha256=digest(canonical(session)), lane=lane,
+        source=session["source"], source_before=source_before, source_after=source_after,
+        allocation=initial, target=str(target), target_before="MISSING", commands=executions,
+        environment=environment, executable_before=git_before, executable_after=git_after,
+        status=dict(bytes=0, sha256=digest(status)), trees=trees, inventory=inventory, complete=True)
+    write_new(copies / (lane + ".json"), canonical(row))
+    return 0
+
+
+def verify_source_copies(directory, session, events, reader=None):
+    """Receive actual clone receipts as declared consistency, never imported authority."""
+    copies = directory / "copies"
+    reader = Readback(directory) if reader is None else reader
+    demand(sorted(os.listdir(no_alias(copies))) == ["a.json", "b.json"], "C5 source-copy admission missing")
+    demand(sorted(os.listdir(no_alias(directory / "copy-processes"))) ==
+           [lane + "-" + str(index) + ".json" for lane in "ab" for index in range(3)],
+           "C5 original copy process receipt missing or extra")
+    initial = json_read(directory / "allocation.json")["root"]
+    result = {}
+    for lane in "ab":
+        row = json_read(copies / (lane + ".json"))
+        fields(row, "schema profile run_id session_sha256 lane source source_before source_after allocation "
+               "target target_before commands environment executable_before executable_after status trees inventory complete",
+               "C5 source-copy admission")
+        target = Path(session["context"]["work_root"]) / ("checkout-" + lane)
+        demand(row["schema"] == "implementaudit.c5-source-copy.v1" and row["profile"] == C5_CORRESPONDENCE and
+               row["run_id"] == session["run_id"] and row["session_sha256"] == digest(canonical(session)) and
+               row["lane"] == lane and canonical(row["source"]) == canonical(session["source"]) and
+               canonical(row["source_before"]) == canonical(row["source_after"]) == canonical(session["source_custody"]) and
+               row["target"] == str(target) and row["target_before"] == "MISSING" and row["complete"] is True,
+               "C5 source-copy original binding differs")
+        root = row["allocation"]
+        fields(root, "path stat uid gid members", "C5 source-copy allocation")
+        fields(root["stat"], "device inode mode links size mtime_ns ctime_ns", "C5 source-copy root stat")
+        demand(integer(root["uid"]) and integer(root["gid"]) and
+               all(integer(value) and value >= 0 for value in root["stat"].values()) and
+               all(root[key] == initial[key] for key in ("path", "uid", "gid")) and
+               all(root["stat"][key] == initial["stat"][key] for key in ("device", "inode", "mode")) and
+               root["members"] == ([] if lane == "a" else ["checkout-a"]), "C5 source-copy allocation differs")
+        environment = row["environment"]
+        demand(type(environment) is dict and all(type(k) is str and type(v) is str for k, v in environment.items()),
+               "C5 source-copy environment differs")
+        commands = [["git", "clone", "--quiet", "--no-local", "--no-checkout", session["context"]["repository"], str(target)],
+                    ["git", "-C", str(target), "checkout", "--quiet", "--detach", session["source"]["source_commit"]],
+                    ["git", "-C", str(target), "status", "--porcelain"]]
+        demand(type(row["commands"]) is list and len(row["commands"]) == 3, "C5 source-copy command omission")
+        end = 0
+        for index, (receipt, argv) in enumerate(zip(row["commands"], commands)):
+            demand(canonical(json_read(directory / "copy-processes" / (lane + "-" + str(index) + ".json"))) == canonical(receipt),
+                   "C5 original copy process receipt differs")
+            fields(receipt, "argv cwd environment_sha256 exit_code start_monotonic_ns end_monotonic_ns", "C5 copy process")
+            demand(receipt["argv"] == argv and receipt["cwd"] == session["context"]["cwd"] and
+                   receipt["environment_sha256"] == digest(canonical(environment)) and
+                   integer(receipt["exit_code"]) and receipt["exit_code"] == 0 and
+                   integer(receipt["start_monotonic_ns"]) and integer(receipt["end_monotonic_ns"]) and
+                   end <= receipt["start_monotonic_ns"] <= receipt["end_monotonic_ns"], "C5 original copy process differs")
+            end = receipt["end_monotonic_ns"]
+        demand(not events or end <= events[0]["start_monotonic_ns"], "C5 source copy occurred after original events")
+        executable_item = row["executable_before"]
+        demand(type(executable_item) is dict and type(executable_item.get("path")) is str,
+               "C5 source-copy runtime missing")
+        observation(reader, executable_item, executable_item["path"])
+        demand(canonical(executable_item) == canonical(row["executable_after"]) and executable_item["kind"] == "FILE",
+               "C5 source-copy runtime currentness differs")
+        fields(row["status"], "bytes sha256", "C5 original status output")
+        demand(integer(row["status"]["bytes"]) and row["status"] == dict(bytes=0, sha256=digest(b"")),
+               "C5 copied source is dirty or has invalid status output types")
+        inventory = row["inventory"]
+        demand(type(inventory) is dict and 0 < len(inventory) <= C5_SOURCE_ENTRIES, "C5 copied source inventory differs")
+        expected_members = source_tree_members(row["trees"], session["source"]["source_tree"])
+        demand(set(inventory) == set(expected_members), "C5 copied source population omission")
+        for name, member in inventory.items():
+            demand(type(name) is str and not Path(name).is_absolute() and ".." not in Path(name).parts,
+                   "C5 source-copy member path differs")
+            fields(member, "bytes sha256 git_blob stat", "C5 copied member")
+            fields(member["stat"], "device inode mode links size mtime_ns ctime_ns", "C5 copied member stat")
+            demand(integer(member["bytes"]) and 0 <= member["bytes"] <= C5_SOURCE_FILE_LIMIT and
+                   member["stat"]["size"] == member["bytes"] and member["stat"]["mode"] in {0o644, 0o755} and
+                   member["stat"]["links"] == 1 and all(integer(v) and v >= 0 for v in member["stat"].values()) and
+                   type(member["sha256"]) is str and HEX.fullmatch(member["sha256"]) and
+                   type(member["git_blob"]) is str and re.fullmatch(r"[0-9a-f]{40}", member["git_blob"]),
+                   "C5 copied member identity differs")
+            demand((member["git_blob"], member["stat"]["mode"]) == expected_members[name],
+                   "C5 copied source does not match original Git tree")
+        demand(sum(member["bytes"] for member in inventory.values()) <= C5_SOURCE_TOTAL_LIMIT,
+               "C5 copied source exceeds existing source total bound")
+        for event in events:
+            if event["clone_before"] is None or not event["role"].endswith(":" + lane):
+                continue
+            for role, expected in session["source_scripts"].items():
+                member = inventory.get(expected["path"])
+                demand(member is not None and dict(bytes=member["bytes"], sha256=member["sha256"]) == expected["blob"] and
+                       member["stat"]["mode"] == expected["mode"], "C5 source-copy script bytes/mode differ")
+                for when in ("before", "after"):
+                    demand(event["clone_" + when]["scripts"][role]["stat"] == member["stat"],
+                           "C5 admitted source-copy target physical custody differs")
+        result[lane] = row
+    return result
 
 
 class ReproCaptureError(ValueError):
@@ -327,6 +677,7 @@ LIVE_REPLY_SCHEMA = "implementaudit.c5-live-capture-reply.v1"
 # raw-stream, per-file and total blob limits above remain unchanged.
 MAX_LIVE_FRAME_BYTES = MAX_TOTAL + 19 * MAX_PROCESS_JSON + 23 * MAX_JSON
 MAX_LIVE_FILES = MAX_MEMBERS + 19 + 20 + 3
+MAX_CORRESPONDENCE_LIVE_FILES = MAX_LIVE_FILES + 1 + 38 + 2 + 6
 
 
 def _live_write(fd, data):
@@ -349,21 +700,33 @@ def _live_read(fd, count):
 def _live_snapshot(directory):
     """Describe the complete current finite capture without changing it."""
     names = set(os.listdir(no_alias(directory)))
-    demand(names <= {"blobs", "events", "processes", "session.json", "close.json", "record.json", "lock"}
+    correspondence = os.environ.get(C5_ALLOCATION_ENV) == C5_CORRESPONDENCE
+    extra = {"allocation.json", "allocations", "copies", "copy-processes"} if correspondence else set()
+    demand(names <= {"blobs", "events", "processes", "session.json", "close.json", "record.json", "lock"} | extra
            and {"blobs", "events", "processes", "session.json"} <= names,
            "live C5 gate capture namespace differs")
     paths = ["session.json"]
+    if correspondence:
+        demand(extra <= names, "live C5 correspondence custody namespace differs")
+        paths.append("allocation.json")
     paths += [name for name in ("close.json", "record.json") if name in names]
-    for group, bound in (("events", 19), ("processes", 20), ("blobs", MAX_MEMBERS)):
+    groups = [("events", 19), ("processes", 20), ("blobs", MAX_MEMBERS)]
+    if correspondence:
+        groups += [("allocations", 38), ("copies", 2), ("copy-processes", 6)]
+    for group, bound in groups:
         members = sorted(os.listdir(no_alias(directory / group)))
         demand(len(members) <= bound, "live C5 gate member bound exceeded")
         for name in members:
             valid = (bool(HEX.fullmatch(name)) if group == "blobs" else
                      bool(re.fullmatch(r"[0-9]{2}\.json", name)) if group == "events" else
-                     bool(re.fullmatch(r"[0-9]{2}(?:\.handoff)?\.json", name)))
+                     bool(re.fullmatch(r"[0-9]{2}(?:\.handoff)?\.json", name)) if group == "processes" else
+                     bool(re.fullmatch(r"[0-9]{2}-(?:before|after)\.json", name)) if group == "allocations" else
+                     name in {"a.json", "b.json"} if group == "copies" else
+                     bool(re.fullmatch(r"[ab]-[0-2]\.json", name)))
             demand(valid, "live C5 gate foreign capture member")
             paths.append(group + "/" + name)
-    demand(len(paths) <= MAX_LIVE_FILES, "live C5 gate file bound exceeded")
+    demand(len(paths) <= (MAX_CORRESPONDENCE_LIVE_FILES if correspondence else MAX_LIVE_FILES),
+           "live C5 gate file bound exceeded")
     files, observations, total, blob_total = [], {}, 0, 0
     for name in sorted(paths):
         limit = MAX_FILE if name.startswith("blobs/") else MAX_PROCESS_JSON if name.startswith("processes/") else MAX_JSON
@@ -390,7 +753,10 @@ def _live_exchange(directory, phase, payload):
         fd = int(selected)
         demand(3 <= fd < 4096 and stat.S_ISSOCK(os.fstat(fd).st_mode),
                "live C5 gate requires its inherited local channel")
-        demand(phase in {"INIT", "BEFORE", "AFTER", "FINISH"}, "live C5 gate phase differs")
+        phases = {"INIT", "BEFORE", "AFTER", "FINISH"}
+        if os.environ.get(C5_ALLOCATION_ENV) == C5_CORRESPONDENCE:
+            phases.add("PAIR_ABORT")
+        demand(phase in phases, "live C5 gate phase differs")
         files, observations = _live_snapshot(directory)
         header = canonical(dict(schema=LIVE_FRAME_SCHEMA, phase=phase, payload=payload, files=files))
         demand(len(header) <= MAX_JSON, "live C5 gate frame header exceeds bound")
@@ -409,7 +775,8 @@ def _live_exchange(directory, phase, payload):
         reply = json.loads(_live_read(fd, count).decode("utf-8", "strict"))
         fields(reply, "schema phase accepted token", "live C5 gate reply")
         demand(reply["schema"] == LIVE_REPLY_SCHEMA and reply["phase"] == phase
-               and reply["accepted"] is True and type(reply["token"]) is str and HEX.fullmatch(reply["token"]),
+               and reply["accepted"] is (False if phase == "PAIR_ABORT" else True)
+               and type(reply["token"]) is str and HEX.fullmatch(reply["token"]),
                "live C5 gate refused this observation or dispatch")
         return reply["token"]
     except (OSError, UnicodeError, json.JSONDecodeError) as exc:
@@ -426,6 +793,10 @@ def init(directory, repository, work_root, source_commit, python_command):
                "capture must be outside source and temporary worktrees")
     demand(python_command in {"python", "python3"}, "unsupported Python command")
     demand(re.fullmatch(r"[0-9a-f]{40}", source_commit), "invalid source commit")
+    selected = os.environ.get(C5_ALLOCATION_ENV)
+    demand(selected in {None, C5_CORRESPONDENCE}, "unknown C5 correspondence capture profile")
+    allocation = allocation_root(work) if selected else None
+    demand(allocation is None or allocation["members"] == [], "C5 original allocation must be empty")
     tree = git(repo, "rev-parse", source_commit + "^{tree}").decode().strip()
     demand(re.fullmatch(r"[0-9a-f]{40}", tree), "invalid source tree")
     directory.mkdir(mode=0o700)
@@ -450,6 +821,14 @@ def init(directory, repository, work_root, source_commit, python_command):
         session["source_scripts"][role] = dict(path=path, mode=int(mode, 8) & 0o777,
                                                 blob=put_blob(directory, data))
     write_new(directory / "session.json", canonical(session))
+    if allocation is not None:
+        demand(allocation_root(work) == allocation, "C5 allocation changed before session binding")
+        (directory / "allocations").mkdir(mode=0o700)
+        (directory / "copies").mkdir(mode=0o700)
+        (directory / "copy-processes").mkdir(mode=0o700)
+        write_new(directory / "allocation.json", canonical(dict(
+            schema="implementaudit.c5-allocation.v1", profile=C5_CORRESPONDENCE,
+            run_id=session["run_id"], session_sha256=digest(canonical(session)), root=allocation)))
     _live_exchange(directory, "INIT", dict(run_id=session["run_id"]))
     return session
 
@@ -699,6 +1078,7 @@ def event(directory, role, argv):
                       stdin=dict(mode="INLINE_BYTES", blob=put_blob(directory, inline)) if inline is not None
                       else dict(mode="INHERITED_UNQUALIFIED"))
         demand(len(canonical(common)) <= MAX_JSON - 1024, "process metadata exceeds capture bound")
+        allocation_window(directory, session, len(paths), "before")
         live_token = _live_exchange(directory, "BEFORE", dict(common=common,
             inputs=before_inputs, outputs=before_outputs, source=before_source,
             clone=before_clone, executable=before_executable))
@@ -730,6 +1110,7 @@ def event(directory, role, argv):
                         executable_before=before_executable, executable_after=executable(directory, argv),
                         generation_id=event_id + ":outputs" if code == 0 and spec["outputs"] else None)
             write_new(directory / "events" / f"{len(paths):02d}.json", canonical(item))
+            allocation_window(directory, session, len(paths), "after")
         except (OSError, ReproCaptureError) as exc:
             failure = dict(schema=SCHEMA, profile=PROFILE, run_id=session["run_id"], index=len(paths),
                            event_id=event_id, process_sha256=digest(raw_receipt),
@@ -1077,6 +1458,9 @@ def finish(directory, cleanup_exit):
     reader = Readback(directory)
     session = load_session(directory, reader)
     events, refs = read_events(directory, reader, session)
+    if (directory / "allocation.json").exists():
+        verify_allocation(directory, session, events)
+        verify_source_copies(directory, session, events, reader)
     results, failures, process_issues = read_process_results(directory, reader, session, events)
     closing = json_read(directory / "close.json")
     work = Path(session["context"]["work_root"])
@@ -1098,7 +1482,10 @@ def finish(directory, cleanup_exit):
 def verify_record(directory, *, expected_source=None, expected_run_id=None, require_complete=True):
     """Strict imported consistency readback; caller supplies its own bindings."""
     directory = no_alias(Path(directory))
-    demand(sorted(os.listdir(directory)) == ["blobs", "close.json", "events", "processes", "record.json", "session.json"],
+    population = set(os.listdir(directory))
+    allocation = {"allocation.json", "allocations", "copies", "copy-processes"} <= population
+    expected_population = {"blobs", "close.json", "events", "processes", "record.json", "session.json"}
+    demand(population == expected_population | ({"allocation.json", "allocations", "copies", "copy-processes"} if allocation else set()),
            "unexpected or incomplete capture namespace")
     reader = Readback(directory)
     session = load_session(directory, reader)
@@ -1116,6 +1503,9 @@ def verify_record(directory, *, expected_source=None, expected_run_id=None, requ
     if expected_run_id is not None:
         demand(expected_run_id == session["run_id"], "expected run binding mismatch")
     events, _ = read_events(directory, reader, session, record["events"])
+    if allocation:
+        verify_allocation(directory, session, events)
+        verify_source_copies(directory, session, events, reader)
     _, failures, process_issues = read_process_results(directory, reader, session, events,
                                                       record["process_results"], record["handoff_failures"])
     closing = json_read(directory / "close.json")
@@ -1139,6 +1529,9 @@ def main():
     start.add_argument("work_root")
     start.add_argument("source_commit")
     start.add_argument("python_command")
+    clone = commands.add_parser("clone")
+    clone.add_argument("directory")
+    clone.add_argument("lane")
     invoke = commands.add_parser("event")
     invoke.add_argument("directory")
     invoke.add_argument("role")
@@ -1160,6 +1553,8 @@ def main():
         if args.command == "event":
             argv = args.argv[1:] if args.argv[:1] == ["--"] else args.argv
             return event(Path(args.directory), args.role, argv)
+        if args.command == "clone":
+            return capture_clone(Path(args.directory), args.lane)
         if args.command == "close":
             close(Path(args.directory), args.script_exit)
             return 0

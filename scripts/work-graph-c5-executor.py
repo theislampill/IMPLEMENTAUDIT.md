@@ -26,6 +26,10 @@ import time
 import zlib
 
 PROFILE = 'FIXED_GENUINE_C5_PRODUCER_EFFECT_ORIGINAL48_V1'
+CORRESPONDENCE_PROFILE = 'FIXED_GENUINE_C5_SHARED_IMAGE_CORRESPONDENCE_20261031_V1'
+CORRESPONDENCE_POLICY = dict(schema='implementaudit.c5-shared-image-pair.v1',
+    profile='FINITE_C5_ROLE_CORRESPONDENCE_V1', runs=2,
+    continuation='FIRST_COMPLETE_LIVE_PROFILE_AND_ACTUAL_ZERO_CHILD_EXIT_ONLY')
 BOOTSTRAP_SCHEMA = 'implementaudit.c5-execution-bootstrap.v1'
 BOOTSTRAP_REPLY = 'implementaudit.c5-execution-bootstrap-release.v1'
 SOURCE_MOUNT, WORK_MOUNT, SCRATCH_MOUNT = '/work', '/c5-work', '/tmp'
@@ -185,7 +189,72 @@ def bootstrap():
     reply = json.loads(read_fd(fd, size))
     need(reply == dict(schema=BOOTSTRAP_REPLY, image_sha256=sha(raw), accepted=True),
          'C5 outer owner did not release the actual bootstrap')
+    if spec['scope'] == CORRESPONDENCE_PROFILE:
+        need(spec.get('correspondence_pair') == CORRESPONDENCE_POLICY,
+             'unknown C5 shared-image pair policy')
+        bootstrap_correspondence_pair(spec, fd)
+        raise SystemExit(0)
+    need('correspondence_pair' not in spec, 'C5 pair policy is forbidden for an old profile')
     os.execv('/usr/bin/bash', ['bash', 'tests/reproducible-release-asset.test.sh'])
+
+
+def bootstrap_correspondence_pair(spec, fd):
+    """Exactly two prospective originals in ONE unchanged readonly image.
+
+    The source-owned supervisor retains each real direct-child wait before it
+    requests continuation. An absent/unknown/nonzero first outcome never starts
+    a suffix. This is not a retry path or a general command scheduler.
+    """
+    need(spec['scope'] == CORRESPONDENCE_PROFILE and spec.get('correspondence_pair') == CORRESPONDENCE_POLICY,
+         'C5 shared-image pair is not selected')
+    receipts = Path(WORK_MOUNT) / 'pair-processes'
+    receipts.mkdir(mode=0o700)
+    seen = set()
+    for ordinal in range(2):
+        began = time.monotonic_ns()
+        child = subprocess.Popen(['bash', 'tests/reproducible-release-asset.test.sh'],
+                                 executable='/usr/bin/bash', cwd=SOURCE_MOUNT, env=dict(os.environ), close_fds=False)
+        waited = os.wait4(child.pid, 0)
+        child.returncode = os.waitstatus_to_exitcode(waited[1])
+        need(waited[0] == child.pid and child.pid not in seen, 'C5 pair child wait identity differs')
+        seen.add(child.pid)
+        outcome = dict(schema='implementaudit.c5-pair-child-outcome.v1', scope=CORRESPONDENCE_PROFILE,
+            image_sha256=sha(encode(spec)), ordinal=ordinal, argv=['bash', 'tests/reproducible-release-asset.test.sh'],
+            cwd=SOURCE_MOUNT, actual_pid=child.pid, parent_pid=os.getpid(),
+            pid_namespace=os.readlink('/proc/self/ns/pid'), raw_wait_status=waited[1], exit_code=child.returncode,
+            start_monotonic_ns=began, end_monotonic_ns=time.monotonic_ns())
+        raw = encode(outcome)
+        receipt_fd = os.open(receipts / (str(ordinal) + '.json'), os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+        try:
+            send(receipt_fd, raw); os.fsync(receipt_fd)
+        finally:
+            os.close(receipt_fd)
+        if child.returncode != 0:
+            # A clone/setup failure can precede the first BEFORE frame. Keep
+            # those actual durable Git exits outside the dying tmpfs image.
+            helper_path=Path(SOURCE_MOUNT)/'scripts/repro-event-capture.py'
+            capture=Path(WORK_MOUNT)/'capture'
+            module=None
+            if helper_path.is_file() and (capture/'session.json').is_file():
+                module=__import__('types').ModuleType('c5_actual_abort_capture')
+                module.__file__=str(helper_path)
+                exec(compile(helper_path.read_bytes(),str(helper_path),'exec'),module.__dict__)
+                try:module._live_snapshot(capture)
+                except (OSError,ValueError):module=None
+            if module is not None:
+                module._live_exchange(capture,'PAIR_ABORT',outcome)
+            else:
+                send(fd,len(raw).to_bytes(8,'big')+raw)
+            raise ValueError('C5 first/second original child failed; no suffix or retry')
+        send(fd, len(raw).to_bytes(8, 'big') + raw)
+        size = int.from_bytes(read_fd(fd, 8), 'big')
+        reply = json.loads(read_fd(fd, size))
+        need(reply == dict(schema='implementaudit.c5-pair-child-release.v1', image_sha256=sha(encode(spec)),
+                           ordinal=ordinal, accepted=True), 'C5 pair continuation was not released')
+        if ordinal == 0:
+            # Both originals receive exactly the same capture path/environment.
+            # All first-run bytes have already crossed the live owned channel.
+            (Path(WORK_MOUNT) / 'capture').rename(Path(WORK_MOUNT) / 'capture-first')
 
 
 if __name__ == '__main__':
@@ -197,7 +266,7 @@ need(type(_CAPTURE) is dict and set(_CAPTURE) == {'prefix','base','provider','ga
      'C5 executor requires its complete separate fixed captured-source owner')
 P, B, D, G, Q = (_CAPTURE[name] for name in ('prefix','base','provider','gate','qualifier'))
 SOURCES, CHECK, ENGINE_ROOT, SPEC = (_CAPTURE[name] for name in ('sources','check','root','selection'))
-need(SPEC.get('profile') in (PROFILE, 'FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1', 'FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1'),
+need(SPEC.get('profile') in (PROFILE, 'FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1', 'FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', CORRESPONDENCE_PROFILE),
      'Unsupported fixed C5 execution profile')
 PROFILE = SPEC['profile']
 # The current prefix owner remains the one source of these production limits.
@@ -214,7 +283,7 @@ def execution_limits_v1(inherited):
     need(type(inherited) is dict and inherited.get('file_bytes') == 16*1024**2,
          'C5 inherited file ceiling changed without resource qualification')
     limits=dict(inherited)
-    if PROFILE == 'FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1':
+    if PROFILE in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', CORRESPONDENCE_PROFILE):
         policy=dict(schema='implementaudit.c5-task-resource-policy.v1',
             identity='C5_TASK_ORIGINAL48_FILE64_V1',inherited_file_bytes=16*1024**2,file_bytes=64*1024**2)
         need(SPEC.get('task_resource_policy') == policy,'Unsupported C5 task resource policy')
@@ -230,14 +299,16 @@ SECCOMP = bytes(Q.VerifierTaskSession.SECCOMP)
 
 def task_kernel_entropy_v1(record,runtime):
     """TASK-only original48 and exact captured Git; old profiles observe none."""
-    if PROFILE != 'FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1':
+    if PROFILE not in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', CORRESPONDENCE_PROFILE):
         need('kernel_entropy_policy' not in SPEC,'C5 entropy is forbidden for another profile')
         return None
+    producers={Q.REPRO_CORRESPONDENCE_PRODUCER_SHA256}
+    if PROFILE != CORRESPONDENCE_PROFILE:
+        producers.add('a27521758cc71e312052d7eaa7c8b488dbbe2dcc5089d6054be0923455763310')
     need(SPEC.get('kernel_entropy_policy') == 'C5_TASK_FIXED_GIT_REAL_URANDOM_V1'
          and SPEC.get('original_index') == 48
          and SPEC.get('original_argv') == ['bash','tests/reproducible-release-asset.test.sh']
-         and record['source']['state']['files']['tests/reproducible-release-asset.test.sh']['sha256']
-             == 'a27521758cc71e312052d7eaa7c8b488dbbe2dcc5089d6054be0923455763310'
+         and record['source']['state']['files']['tests/reproducible-release-asset.test.sh']['sha256'] in producers
          and runtime['files']['/usr/bin/git']['sha256']
              == '2a8c18fbf43da9f692d75474c72bea9dfd796c260b0f3dfe456376abc3bbd668',
          'C5 task entropy requires its exact closed program/Git policy')
@@ -480,7 +551,7 @@ def runtime_layout(runtime,topology):
         descriptor = {key:row[key] for key in ('bytes','sha256','mode')}
         need(resolved not in files or files[resolved] == descriptor, 'C5 resolved runtime bytes disagree')
         files[resolved] = descriptor
-    if PROFILE in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1', 'FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1'):
+    if PROFILE in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1', 'FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', CORRESPONDENCE_PROFILE):
         selected_paths = set(logical) | set(files) | set(links)
         need(all(not PurePosixPath(name).is_relative_to(mount)
                  for name in selected_paths for mount in (SOURCE_MOUNT, WORK_MOUNT, SCRATCH_MOUNT)),
@@ -496,7 +567,7 @@ def runtime_layout(runtime,topology):
     # fixed policies add no paths or caller-selected directory exceptions.
     policy = SPEC['directory_mode_policy']
     expected_policy = ({'default':0o755,'exceptions':{'/home/agent':0o750}}
-        if PROFILE == 'FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1' else {'default':0o755,'exceptions':{}}
+        if PROFILE in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', CORRESPONDENCE_PROFILE) else {'default':0o755,'exceptions':{}}
         if PROFILE == 'FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1'
         else {'default':0o755,'exceptions':{'/workspace':0o777,'/workspace/scratch':0o700}})
     need(policy == expected_policy,
@@ -523,7 +594,7 @@ def image_directories(source,layout,kernel_entropy=None):
     files=set(layout['files'])|{'/profile/c5-executor.py','/profile/c5-execution.json','/dev/null'}
     links=set(layout['links'])|{'/dev/fd'}
     if kernel_entropy is not None:
-        need(PROFILE == 'FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1'
+        need(PROFILE in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', CORRESPONDENCE_PROFILE)
              and kernel_entropy['path'] == '/dev/urandom','C5 foreign entropy image entry')
         files.add('/dev/urandom')
     for name,mode in source['directories'].items():
@@ -633,6 +704,9 @@ class GenuineC5Session:
         # Journal writes are owned by the unchanged CompletionContract. Reserve
         # its whole existing64MiB cap plus both actual raw outer logs before launch.
         self._reserve(64*1024**2 + 2*LIMITS['stream_bytes'],'journal and outer streams')
+        if PROFILE == CORRESPONDENCE_PROFILE:
+            need(SPEC.get('correspondence_pair') == CORRESPONDENCE_POLICY, 'unknown C5 shared-image pair selection')
+            self._reserve(64*1024**2, 'second independently retained original C5 journal')
 
     def _reserve(self, count, label):
         need(type(count) is int and count >= 0, 'Invalid C5 evidence reservation')
@@ -706,10 +780,12 @@ class GenuineC5Session:
     def _bind_gate(self,gate):
         need(gate._closed and gate._reaped,'C5 gate evidence cannot close before actual wait custody')
         gate._check_owned()
+        prefix=gate.output.relative_to(self.output).as_posix()
+        need(prefix in ('live','live-first','live-second'), 'unknown C5 retained live scope')
         for relative,row in gate._owned.items():
             path=gate.output/relative
             need(G.file_identity(path.lstat())==row['identity'],'C5 live gate terminal identity differs')
-            self._bind_existing('live/'+relative,mode=row['mode'],expected=row,
+            self._bind_existing(prefix+'/'+relative,mode=row['mode'],expected=row,
                                 limit=max(G.E.MAX_PROCESS_JSON,G.E.MAX_FILE))
         if gate._contract is not None:
             journal=gate._contract.journal
@@ -717,10 +793,10 @@ class GenuineC5Session:
             lock=journal.root/'writer.lock'
             need((lock.stat().st_dev,lock.stat().st_ino)==journal.lock_identity,
                  'C5 completion lock changed after live close')
-            self._bind_existing('live/journal/writer.lock',mode=0o600,
+            self._bind_existing(prefix+'/journal/writer.lock',mode=0o600,
                                 expected=dict(bytes=0,sha256=sha(b'')),limit=0)
             if journal.disk is not None:
-                self._bind_existing('live/journal/history.json',mode=0o600,
+                self._bind_existing(prefix+'/journal/history.json',mode=0o600,
                     expected=dict(bytes=len(journal.disk),sha256=sha(journal.disk)),limit=64*1024**2)
 
     def _bind_stage(self):
@@ -829,6 +905,8 @@ class GenuineC5Session:
         source = acquired['observation']['provider']['source']['state']
         environment = dict(D._ENVIRONMENT, PWD=SOURCE_MOUNT, TMPDIR=WORK_MOUNT,
             R0035_REPRO_EVENT_CAPTURE_DIR=WORK_MOUNT+'/capture',R0035_C5_LIVE_GATE_FD=str(gate_fd))
+        if PROFILE == CORRESPONDENCE_PROFILE:
+            environment[G.E.C5_ALLOCATION_ENV]=G.E.C5_CORRESPONDENCE
         # source and runtime are distinct existing allocations, not a new union.
         self.stage = CapturedSourceStage(self.output,source,acquired['objects'],self._reserve)
         startup = {}
@@ -846,6 +924,8 @@ class GenuineC5Session:
             runtime_links=dict(layout['links'],**{'/dev/fd':'/proc/self/fd'}),required_absent=sorted(absent),
             image_directories=image_directories(source,layout,acquired['observation'].get('kernel_entropy')),
             host_pid_namespace=os.readlink('/proc/self/ns/pid'),authority='NONE')
+        if PROFILE == CORRESPONDENCE_PROFILE:
+            configuration['correspondence_pair']=dict(CORRESPONDENCE_POLICY)
         if 'kernel_entropy' in acquired['observation']:
             configuration['kernel_entropy']=acquired['observation']['kernel_entropy']
         configuration_raw = encode(configuration)
@@ -969,6 +1049,49 @@ class GenuineC5Session:
         reply = encode(dict(schema=BOOTSTRAP_REPLY,image_sha256=sha(raw),accepted=True))
         gate.channel.sendall(len(reply).to_bytes(8,'big')+reply)
 
+    def _receive_pair_outcome(self, gate, ordinal, configuration_raw, previous):
+        """Receive only the fixed acquired supervisor's actual direct-child wait."""
+        need(PROFILE == CORRESPONDENCE_PROFILE and gate.correspondence and gate._finished and not gate._failed,
+             'C5 pair outcome lacks its complete live original')
+        need(gate._pending is None and gate._event_count==19 and
+             gate._contract.frontier()['selected']==[G.FINAL],
+             'C5 first/second original lacks its final ready live frontier; no suffix')
+        gate._live_child()
+        count=int.from_bytes(gate._read_exact(8),'big')
+        need(0<count<=MAX_HEADER,'C5 actual pair outcome exceeds bound')
+        raw=gate._read_exact(count)
+        self._write('pair-processes/'+str(ordinal)+'.json',raw)
+        outcome=json.loads(raw)
+        fields={'schema','scope','image_sha256','ordinal','argv','cwd','actual_pid','parent_pid',
+                'pid_namespace','raw_wait_status','exit_code','start_monotonic_ns','end_monotonic_ns'}
+        observed=json.loads((self.output/'bootstrap-observation.json').read_bytes())
+        need(encode(outcome)==raw and type(outcome) is dict and set(outcome)==fields and
+             outcome['schema']=='implementaudit.c5-pair-child-outcome.v1' and outcome['scope']==PROFILE and
+             outcome['image_sha256']==sha(configuration_raw) and type(outcome['ordinal']) is int and
+             outcome['ordinal']==ordinal and outcome['argv']==['bash','tests/reproducible-release-asset.test.sh'] and
+             outcome['cwd']==SOURCE_MOUNT and type(outcome['actual_pid']) is int and outcome['actual_pid']>0 and
+             type(outcome['parent_pid']) is int and outcome['parent_pid']==observed['actual_pid'] and
+             outcome['actual_pid']!=outcome['parent_pid'] and outcome['pid_namespace']==observed['actual_pid_namespace'] and
+             type(outcome['raw_wait_status']) is int and 0<=outcome['raw_wait_status']<65536 and
+             type(outcome['exit_code']) is int and outcome['exit_code']==0 and
+             os.waitstatus_to_exitcode(outcome['raw_wait_status'])==outcome['exit_code'] and
+             type(outcome['start_monotonic_ns']) is int and type(outcome['end_monotonic_ns']) is int and
+             0<=outcome['start_monotonic_ns']<=outcome['end_monotonic_ns'],
+             'C5 actual original child outcome is unknown, failed or foreign; no suffix')
+        first=G.E.json_read(gate.capture/'events/00.json')
+        last=G.E.json_read(gate.capture/'events/18.json')
+        need(outcome['start_monotonic_ns']<=first['start_monotonic_ns']<=last['end_monotonic_ns']<=outcome['end_monotonic_ns'],
+             'C5 actual original child outcome crossed its event window')
+        if previous:
+            need(previous[-1]['actual_pid']!=outcome['actual_pid'] and
+                 previous[-1]['end_monotonic_ns']<=outcome['start_monotonic_ns'],
+                 'C5 pair reused or reordered an actual original child')
+        self._same_inputs();gate._check_owned();gate._live_child()
+        reply=encode(dict(schema='implementaudit.c5-pair-child-release.v1',image_sha256=sha(configuration_raw),
+                          ordinal=ordinal,accepted=True))
+        gate.channel.sendall(len(reply).to_bytes(8,'big')+reply)
+        return outcome
+
     def run(self):
         need(self.lock.acquire(blocking=False),'Concurrent C5 consumption is unsupported')
         try:
@@ -1001,6 +1124,7 @@ class GenuineC5Session:
              'C5 owner has insufficient declared descriptor capacity')
         endpoint,child_endpoint=socket.socketpair(socket.AF_UNIX,socket.SOCK_STREAM)
         process=gate=watchdog=None
+        gates=[]
         stop_watchdog=threading.Event()
         timed_out=[]
         outcome=primary_error=None
@@ -1054,30 +1178,41 @@ class GenuineC5Session:
                 for label,name in (('producer',G.E.PRODUCER),('capture_owner',G.E.OWNER)):
                     expected_source[label]=dict(path=name,**record['source']['state']['files'][name])
                 executable_inputs={row['resolved']:row['sha256'] for row in self.acquired['runtime']['files'].values()}
-                gate=BudgetedGate(self.output/'live',process,endpoint,expected_source=expected_source,
-                    expected_context=dict(repository='/work',cwd='/work',python_command='python',work_parent=WORK_MOUNT),
-                    executable_inputs=executable_inputs,acquisition_digest=self.acquired['key'],require_current=self._check_owned,
-                    wall_seconds=LIMITS['wall_seconds'])
-                self._release_bootstrap(gate,configuration,configuration_raw)
-                preconsumer=False
-                frames=[]
-                while not gate._finished:
-                    if gate._event_count==2 and gate._consumer_frontier is None and not preconsumer:
-                        self._same_inputs();preconsumer=True
-                    frame=gate.handle_next();frames.append(frame)
-                    if frame['phase']=='INIT':
-                        for role,name in (('build',G.E.BUILD),('checksum',G.E.CHECKSUM)):
-                            wanted=record['source']['state']['files'][name]
-                            actual=gate._session['source_scripts'][role]
-                            need(actual['blob']==dict(bytes=wanted['bytes'],sha256=wanted['sha256']) and actual['mode']==wanted['mode'],
-                                 'Actual Git commit scripts differ from the acquired fixed producer programs')
-                    need(not timed_out,'Actual C5 producer exceeded its120-second wall deadline')
-                    need(len(frames)<=40,'C5 original live frame count exceeded INIT+38event+FINISH population')
-                component=gate.finalize()
+                paired=PROFILE==CORRESPONDENCE_PROFILE
+                pair_outcomes=[]
+                preconsumers=[]
+                for ordinal,name in enumerate(('live-first','live-second') if paired else ('live',)):
+                    gate=BudgetedGate(self.output/name,process,endpoint,expected_source=expected_source,
+                        expected_context=dict(repository='/work',cwd='/work',python_command='python',work_parent=WORK_MOUNT),
+                        executable_inputs=executable_inputs,acquisition_digest=self.acquired['key'],require_current=self._check_owned,
+                        wall_seconds=LIMITS['wall_seconds'],correspondence=paired)
+                    gates.append(gate)
+                    if ordinal==0:self._release_bootstrap(gate,configuration,configuration_raw)
+                    preconsumer=False
+                    frames=[]
+                    while not gate._finished:
+                        if gate._event_count==2 and gate._consumer_frontier is None and not preconsumer:
+                            self._same_inputs();preconsumer=True
+                        frame=gate.handle_next();frames.append(frame)
+                        if frame['phase']=='INIT':
+                            for role,member in (('build',G.E.BUILD),('checksum',G.E.CHECKSUM)):
+                                wanted=record['source']['state']['files'][member]
+                                actual=gate._session['source_scripts'][role]
+                                need(actual['blob']==dict(bytes=wanted['bytes'],sha256=wanted['sha256']) and actual['mode']==wanted['mode'],
+                                     'Actual Git commit scripts differ from the acquired fixed producer programs')
+                        need(not timed_out,'Actual C5 producer exceeded its120-second wall deadline')
+                        need(len(frames)<=40,'C5 original live frame count exceeded INIT+38event+FINISH population')
+                    preconsumers.append(preconsumer)
+                    if paired:
+                        pair_outcomes.append(self._receive_pair_outcome(gate,ordinal,configuration_raw,pair_outcomes))
+                components=[gates[0].finalize()]
+                if paired:components.append(gates[1].finalize(shared_wait_owner=gates[0]))
+                component=components[0]
                 stop_watchdog.set();watchdog.join(timeout=3)
                 need(not watchdog.is_alive() and not timed_out,'C5 wall watchdog did not close cleanly')
                 stdout.flush();stderr.flush();os.fsync(stdout.fileno());os.fsync(stderr.fileno())
-                need(preconsumer and component['output_join_preceded_first_consumer'],'Actual C5 consumer lacks required live output JOIN')
+                need(all(preconsumers) and all(c['output_join_preceded_first_consumer'] for c in components),
+                     'Actual C5 consumer lacks required live output JOIN')
                 self._same_inputs()
                 source_stage=self.stage.check(rehash=True)
                 outcome=dict(schema='implementaudit.genuine-c5-live-result.v1',scope=PROFILE,
@@ -1091,6 +1226,18 @@ class GenuineC5Session:
                     source_runtime_current=True,output_join_before_first_consumer=True,final_join=component['history_digest'],
                     actual_stage=source_stage,wall_timeout=False,original48_execution_qualified=True,
                     canonical_acceptance='UNQUALIFIED',native_dispatch_authorized=False,R39_criterion5='NOT_ESTABLISHED',authority='NONE')
+                if paired:
+                    comparison=Q.compare_c5_correspondence(gates[0].capture,gates[1].capture,None)
+                    self._write('comparison.json',encode(comparison))
+                    need(comparison['equivalent'] and not comparison['raw_observables_equal'],
+                         'actual shared-image C5 pair did not satisfy the approved finite relation')
+                    outcome.update(schema='implementaudit.genuine-c5-shared-image-pair-result.v1',
+                        status='SATISFIED_AT_PROSPECTIVE_SHARED_IMAGE_C5_PAIR_CONTRACT',
+                        original48_dispatches=2,validated_actual_events=38,retained_artifacts=12,
+                        original48_execution_qualified=False,prospective_original19_pair_qualified=True,
+                        pair_child_outcomes=pair_outcomes,components=components,
+                        correspondence_sha256=self.owned['comparison.json']['sha256'],
+                        shared_image='ONE_HELD_SOURCE_STAGE_AND_ONE_LINKED_READONLY_RUNTIME_IMAGE')
         except BaseException as exc:
             primary_error=exc
             failure=dict(type=type(exc).__name__,message=str(exc))
@@ -1101,10 +1248,16 @@ class GenuineC5Session:
                 except BaseException as exc:
                     cleanup_errors.append(dict(operation=label,type=type(exc).__name__,message=str(exc)))
                     return None
-            if gate is not None:
-                cleanup('close actual live gate',gate.close)
-                custody=gate._wait_result
-                cleanup('retain closed actual gate and journal',lambda:self._bind_gate(gate))
+            if gates:
+                for retained_gate in reversed(gates):
+                    if not retained_gate._reaped and any(g._reaped for g in gates):
+                        # Failure after a common outer wait still has one real
+                        # kernel wait owner. Never signal/reap that PID again.
+                        peer=next(g for g in gates if g._reaped)
+                        retained_gate._reaped=True;retained_gate._wait_result=dict(peer._wait_result)
+                    cleanup('close actual live gate',retained_gate.close)
+                    custody=retained_gate._wait_result
+                    cleanup('retain closed actual gate and journal',lambda retained_gate=retained_gate:self._bind_gate(retained_gate))
             elif process is not None:
                 custody=cleanup('contain actual constructor-failure child',lambda:self._contain_unconstructed(process))
             if watchdog is not None:

@@ -62,9 +62,11 @@ del _EFFECT_CAPTURE
 REPRO_PRODUCER = "tests/reproducible-release-asset.test.sh"
 REPRO_PRODUCER_SHA256 = "7c892c5e84a29bd33d6ed03c97a5610efde51b0d1ad0165f9e9ded0a3bdfb3ad"
 REPRO_EVENT_PRODUCER_SHA256 = "a27521758cc71e312052d7eaa7c8b488dbbe2dcc5089d6054be0923455763310"
+REPRO_CORRESPONDENCE_PRODUCER_SHA256 = "550a92a48989a2a9987b3d51c26a3198cf4828aad28fd3ffe8815fea6399019d"
 # Keep the original historical v3 producer. The additive profile has actual
 # capture-off raw-stream/exit/export equivalence at the same build source.
-REPRO_PRODUCER_PROFILES = {REPRO_PRODUCER_SHA256: 11460, REPRO_EVENT_PRODUCER_SHA256: 12799}
+REPRO_PRODUCER_PROFILES = {REPRO_PRODUCER_SHA256: 11460, REPRO_EVENT_PRODUCER_SHA256: 12799,
+                           REPRO_CORRESPONDENCE_PRODUCER_SHA256: 13070}
 REPRO_FILES = dict(ASSET_A="IMPLEMENTAUDIT-A.skill", ASSET_B="IMPLEMENTAUDIT-B.skill",
                    PLUGIN_A="IMPLEMENTAUDIT-A.plugin.zip", PLUGIN_B="IMPLEMENTAUDIT-B.plugin.zip",
                    CHECKSUMS_A="CHECKSUMS-A.txt", CHECKSUMS_B="CHECKSUMS-B.txt")
@@ -648,7 +650,7 @@ def repro_event_engine():
 
 def repro_event_binding(mapping, source, original_output):
     producer = repro_binding(mapping, source)
-    if producer["sha256"] != REPRO_EVENT_PRODUCER_SHA256:
+    if producer["sha256"] not in {REPRO_EVENT_PRODUCER_SHA256, REPRO_CORRESPONDENCE_PRODUCER_SHA256}:
         raise WG.WorkGraphError("repro event capture requires its exact event-capable producer")
     identities = {}
     for role, name in (("producer", REPRO_PRODUCER), ("capture_owner", REPRO_EVENT_OWNER)):
@@ -857,11 +859,13 @@ def verified_record(directory):
 
 
 def compare(left, right, out, *, profile="NONE_RAW_BYTES"):
+    if profile == "FINITE_C5_ROLE_CORRESPONDENCE_V1" and all((p / "record.json").is_file() for p in (left, right)):
+        return compare_c5_correspondence(left, right, out)
     schemas = [WG.decode_strict_json_bytes((p / "result.json").read_bytes(), "result").get("schema")
                for p in (left, right)]
     if schemas == ["implementaudit.release-allocation-node.v1"] * 2:
         return compare_release_allocation(left, right, out, profile=profile)
-    if profile != "NONE_RAW_BYTES":
+    if profile not in {"NONE_RAW_BYTES", "FINITE_C5_ROLE_CORRESPONDENCE_V1"}:
         raise WG.WorkGraphError("allocation profile requires prospective first-node captures; historical captures refuse")
     a, b = (verified_record(p) for p in (left, right))
     checks = dict(same_source=a["before"] == b["before"] == a["after"] == b["after"],
@@ -898,6 +902,13 @@ def compare(left, right, out, *, profile="NONE_RAW_BYTES"):
     if a["schema"] == b["schema"] == "implementaudit.verifier-run.v4":
         checks["same_portal_events"] = a["portal_events"] == b["portal_events"]
         checks["same_repro_events"] = a["repro_events"] == b["repro_events"]
+    raw_equal = all(checks.values())
+    c5_relation = None
+    if profile == "FINITE_C5_ROLE_CORRESPONDENCE_V1":
+        if a["schema"] != "implementaudit.verifier-run.v4" or b["schema"] != a["schema"]:
+            raise WG.WorkGraphError("C5 correspondence requires complete v4 C5 captures")
+        c5_relation = compare_c5_correspondence(left / "repro-events", right / "repro-events", None)
+        checks["same_repro_events"] = c5_relation["equivalent"]
     result = dict(schema="implementaudit.verifier-correspondence.v1", checks=checks,
                   record_coverage=["HISTORICAL_V1_RETAINED_TRACE_VALIDATED_NO_ORIGINAL_BINDING" if r["schema"].endswith(".v1") and r["mode"] == "dag"
                                    else "HISTORICAL_V1_WHOLE_PROCESS_ONLY" if r["schema"].endswith(".v1")
@@ -905,9 +916,11 @@ def compare(left, right, out, *, profile="NONE_RAW_BYTES"):
                                    else "FINITE_CHILD_INVOCATION_OBSERVATIONS_V4" if r["schema"].endswith(".v4")
                                    else "ORDERED_TRACE_BOUND_V2" if r["mode"] == "dag"
                                    else "WHOLE_PROCESS_ONLY_V2" for r in (a, b)],
-                  raw_observables_equal=all(checks.values()), normalization="NONE_RAW_BYTES",
+                  raw_observables_equal=raw_equal, normalization=profile,
                   evidence_semantics="NODE_AND_WHOLE_PROCESS_ONLY; TRANSITIVE_OUTPUT_ARTIFACT_SEMANTICS_UNQUALIFIED",
                   canonical_conversion="NOT_PERFORMED", retirement="NOT_PERFORMED", authority="NONE")
+    if c5_relation is not None:
+        result["c5_correspondence"] = c5_relation
     if a["schema"] == b["schema"] and a["schema"] in {"implementaudit.verifier-run.v3", "implementaudit.verifier-run.v4"}:
         result["repro_artifact_coverage"] = [r["repro_artifacts"]["coverage"] if r["repro_artifacts"] is not None
                                              else "NOT_REQUESTED" for r in (a, b)]
@@ -3660,6 +3673,7 @@ def preflight_verifier_pair_file_v1(path):
 
 
 ALLOCATION_PROFILE = "ROLE_BOUND_TEMP_ALLOCATION_LABELS_V1"
+C5_CORRESPONDENCE_PROFILE = "FINITE_C5_ROLE_CORRESPONDENCE_V1"
 RELEASE_NODE = "COMMAND:tests/release-asset.test.sh:0"
 RELEASE_LABELS = {
     "IMPLEMENTAUDIT.plugin.zip": "package-contract: wrote ",
@@ -3669,6 +3683,137 @@ RELEASE_LABELS = {
 RELEASE_SOURCES = ("tests/release-asset.test.sh", "scripts/build-release-asset.sh",
                    "scripts/package-contract.py", "scripts/write-release-checksums.sh")
 RELEASE_ENV = "R0035_RELEASE_ALLOCATION_REQUEST"
+
+
+def compare_c5_correspondence(left, right, out):
+    """Finite C5 relation; original owners validate all run-local raw evidence.
+
+    This direct finite interface supplies no full-verifier, portal or native
+    credit. Distinct source copies require the original captured clone owner.
+    """
+    engine = repro_event_engine()
+    captures = []
+    for directory in (left, right):
+        try:
+            record = engine.verify_record(directory, require_complete=True)
+            session = engine.json_read(directory / "session.json")
+            producer = session["source"]["producer"]
+            helper = session["source"]["capture_owner"]
+            if (producer["path"] != REPRO_PRODUCER or producer["sha256"] != REPRO_CORRESPONDENCE_PRODUCER_SHA256 or
+                    producer["bytes"] != REPRO_PRODUCER_PROFILES[REPRO_CORRESPONDENCE_PRODUCER_SHA256] or
+                    helper["path"] != REPRO_EVENT_OWNER or helper["bytes"] != len(engine._QUALIFIER_LOADED_SOURCE) or
+                    helper["sha256"] != sha(engine._QUALIFIER_LOADED_SOURCE)):
+                raise ValueError("unknown prospective C5 producer/capture-owner source")
+            if not (directory / "allocation.json").exists():
+                raise ValueError("missing prospective C5 original allocation custody")
+            events = [engine.json_read(directory / ("events/%02d.json" % i)) for i in range(19)]
+            engine.verify_allocation(directory, session, events)
+            engine.verify_source_copies(directory, session, events)
+            objects = {"session.json": session, "record.json": record,
+                       "close.json": engine.json_read(directory / "close.json")}
+            objects.update({"events/%02d.json" % i: event for i, event in enumerate(events)})
+            objects.update({"processes/%02d.json" % i: engine.json_read(
+                directory / ("processes/%02d.json" % i), engine.MAX_PROCESS_JSON) for i in range(19)})
+            objects.update({"copies/" + lane + ".json": engine.json_read(directory / "copies" / (lane + ".json"))
+                            for lane in "ab"})
+            descriptors = {name: dict(bytes=len(raw), sha256=sha(raw)) for name in objects
+                           for raw in [engine.read_regular(directory / name, engine.MAX_PROCESS_JSON)[0]]}
+            for name in ["allocation.json", *["allocations/" + name for name in sorted(os.listdir(directory / "allocations"))],
+                         *["copy-processes/" + name for name in sorted(os.listdir(directory / "copy-processes"))]]:
+                raw, _ = engine.read_regular(directory / name, engine.MAX_PROCESS_JSON)
+                descriptors[name] = dict(bytes=len(raw), sha256=sha(raw))
+            captures.append((directory, session, events, objects, descriptors))
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            raise WG.WorkGraphError("C5 correspondence refusal: " + str(exc)) from exc
+    a, b = captures
+    if a[1]["run_id"] == b[1]["run_id"]:
+        raise WG.WorkGraphError("C5 correspondence requires two distinct actual runs")
+    if a[1]["source_custody"] != b[1]["source_custody"]:
+        raise WG.WorkGraphError("C5 fixed source physical custody differs")
+    for ea, eb in zip(a[2], b[2]):
+        for when in ("before", "after"):
+            if ea["executable_" + when] != eb["executable_" + when]:
+                raise WG.WorkGraphError("C5 fixed runtime physical custody differs")
+
+    def operand(value, session):
+        root = session["context"]["work_root"]
+        allowed = {root, root + "/checkout-a", root + "/checkout-b"}
+        for row in engine.profile(session):
+            allowed.update(row["inputs"] + row["outputs"])
+            allowed.update(token for token in row["argv"] if token.startswith(root + "/"))
+        if value not in allowed:
+            return ("EXACT", value)
+        return ("OPERAND", value[len(root):])
+
+    def stream(capture, index):
+        directory, session, events, _, _ = capture
+        event = events[index]
+        raw = engine.Readback(directory).blob(event["stdout"])
+        if event["role"] not in {"build:a", "build:b"}:
+            return raw
+        lane = event["role"][-1]
+        root = session["context"]["work_root"] + "/out-" + lane
+        lines = raw.splitlines(keepends=True)
+        for name, prefix in RELEASE_LABELS.items():
+            label = (prefix + root + "/" + name + "\n").encode()
+            if lines.count(label) != 1:
+                raise WG.WorkGraphError("C5 missing, duplicate or unknown build allocation label")
+            lines[lines.index(label)] = (prefix + "<out-" + lane + ">/" + name + "\n").encode()
+        return b"".join(lines)
+
+    def equal(path, av, bv, *, build=False):
+        if type(av) is not type(bv):
+            return False
+        # These exact values were checked by each unchanged within-run owner.
+        if (len(path) == 2 and path[-1] == "run_id" and path[0] in
+                {"session.json", "record.json", "close.json", "events", "processes", "copies"} or
+                len(path) == 2 and path[0] in {"events", "processes"} and
+                path[-1] in {"event_id", "generation_id", "start_monotonic_ns", "end_monotonic_ns"} or
+                len(path) == 4 and path[:3] == ("copies", "commands", "[]") and
+                path[-1] in {"start_monotonic_ns", "end_monotonic_ns"}):
+            return True
+        if path[0] == "record.json" and (path[-1] in {"session_sha256", "close_sha256"} or
+                len(path) >= 3 and path[1] in {"events", "process_results"} and path[-1] in {"bytes", "sha256"}):
+            return True
+        if path[0] == "copies" and path[-1] == "session_sha256":
+            return True
+        if build and (path[-1] == "stdout_base64" or len(path) >= 2 and path[-2] == "stdout" and path[-1] in {"bytes", "sha256"}):
+            return True
+        if path[-1] in {"device", "inode", "mtime_ns", "ctime_ns"} and "stat" in path and (
+                path[0] == "close.json" and path[1] == "generations" or
+                path[0] == "events" and path[1] in {"inputs_before", "inputs_after", "outputs_before", "outputs_after",
+                                                    "clone_before", "clone_after"} or
+                path[0] == "copies" and path[1] in {"allocation", "inventory"}):
+            return True
+        if type(av) is dict:
+            return av.keys() == bv.keys() and all(equal(path + (k,), av[k], bv[k], build=build) for k in av)
+        if type(av) is list:
+            return len(av) == len(bv) and all(equal(path + ("[]",), x, y, build=build) for x, y in zip(av, bv))
+        if type(av) is str and (path[-1] in {"path", "work_root", "target"} or "argv" in path):
+            return operand(av, a[1]) == operand(bv, b[1])
+        return av == bv
+
+    checks = {"allocation_ownership": all(engine.json_read(a[0] / "allocation.json")["root"][key] ==
+              engine.json_read(b[0] / "allocation.json")["root"][key] for key in ("uid", "gid"))}
+    for name, av in a[3].items():
+        group = name.split("/")[0]
+        index = int(Path(name).stem) if group in {"events", "processes"} else None
+        build = index in {0, 1} if index is not None else False
+        checks[name] = equal((group,), av, b[3][name], build=build)
+    checks["stdout_role_bytes"] = all(stream(a, i) == stream(b, i) for i in range(19))
+    common_blobs = set(os.listdir(left / "blobs")) & set(os.listdir(right / "blobs"))
+    checks["same_common_blob_bytes"] = all(engine.read_regular(left / "blobs" / name)[0] ==
+        engine.read_regular(right / "blobs" / name)[0] for name in sorted(common_blobs))
+    result = dict(schema="implementaudit.c5-role-correspondence.v1", normalization=C5_CORRESPONDENCE_PROFILE,
+        checks=checks, equivalent=all(checks.values()), raw_observables_equal=a[3] == b[3],
+        original_descriptors=[capture[4] for capture in captures], run_ids=[capture[1]["run_id"] for capture in captures],
+        evidence_semantics="FINITE_SOURCE_BOUND_C5_FIELD_RELATION; IMPORTED_READBACK_DECLARED_CONSISTENCY_ONLY",
+        scope="FINITE_C5_ONLY_NO_PORTAL_FULL_VERIFIER_OR_NATIVE_ACCEPTANCE", authority="NONE")
+    if out is None:
+        return result
+    durable_bytes(out, WG.canonical_json_v1(result) + b"\n")
+    print(json.dumps(result, sort_keys=True))
+    return 0 if result["equivalent"] else 1
 
 
 def _release_read(directory, name):
@@ -3954,7 +4099,7 @@ def main():
     parser.add_argument("mode", choices=["legacy", "dag", "compare", "preflight", "scoped", "registry", "prefix", "prefix24", "composite-prefix", "release-asset-pair", "release-allocation", "release-targets", *_FINITE_MODES])
     parser.add_argument("paths", nargs="+", type=Path)
     parser.add_argument("--retain-repro-assets", action="store_true")
-    parser.add_argument("--comparison-profile", choices=["NONE_RAW_BYTES", ALLOCATION_PROFILE], default="NONE_RAW_BYTES")
+    parser.add_argument("--comparison-profile", choices=["NONE_RAW_BYTES", ALLOCATION_PROFILE, C5_CORRESPONDENCE_PROFILE], default="NONE_RAW_BYTES")
     parser.add_argument("--capture-dist", action="store_true")
     parser.add_argument("--retain-portal-events", "--capture-portal-events", dest="capture_portal_events", action="store_true")
     parser.add_argument("--retain-repro-events", action="store_true")
@@ -3965,6 +4110,8 @@ def main():
     stdin.add_argument("--empty-stdin", action="store_true")
     args = parser.parse_args()
     try:
+        if args.comparison_profile == C5_CORRESPONDENCE_PROFILE and args.mode != "compare":
+            raise WG.WorkGraphError("finite C5 correspondence requires an existing C5 comparison, not another allocation producer")
         if args.comparison_profile != "NONE_RAW_BYTES" and (args.mode not in {"compare", "release-asset-pair"} or args.retention_plan is not None):
             raise WG.WorkGraphError("allocation comparison profile requires a prospective first-node pair")
         if args.mode in {"release-allocation", "release-targets", "release-asset-pair"} and len(args.paths) == 1:
