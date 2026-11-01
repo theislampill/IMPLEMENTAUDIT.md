@@ -392,6 +392,31 @@ def main() -> int:
     return 0
 
 
+def selected_disposition(policy: dict[str, Any], run_root: Path):
+    """Select an explicit record consumer; never infer or downgrade a claim."""
+    if policy["schema"] == "implementaudit.codex-stop-policy.v1":
+        if "disposition" in policy:
+            raise InterlockUnavailable("v1 Stop policy permits only nonterminal yield")
+        return "NONTERMINAL_YIELD", None
+    selected = policy.get("disposition")
+    if not isinstance(selected, dict) or selected.get("kind") not in {
+            "NONTERMINAL_YIELD", "TERMINAL_CLOSURE", "AUDITED_HANDOFF"}:
+        raise InterlockUnavailable("missing exact Stop disposition")
+    kind = selected["kind"]
+    if kind == "NONTERMINAL_YIELD":
+        if set(selected) != {"kind"}:
+            raise InterlockUnavailable("yield cannot consume a terminal or handoff record")
+        return kind, None
+    if set(selected) != {"kind", "record", "sha256"} or not isinstance(selected["sha256"], str) or not re.fullmatch(r"[0-9a-f]{64}", selected["sha256"]):
+        raise InterlockUnavailable("terminal or handoff record must be exactly pinned")
+    record = exact_installed_path(selected["record"], directory=False)
+    try:
+        record.relative_to(run_root)
+    except ValueError as error:
+        raise InterlockUnavailable("disposition record is outside the selected run") from error
+    return kind, (record, selected["sha256"])
+
+
 def selected_codex_stop(policy_path: Path, expected_digest: str) -> int:
     """Task-selected native hook transport; receipts need independent host receiving.
 
@@ -419,7 +444,7 @@ def selected_codex_stop(policy_path: Path, expected_digest: str) -> int:
             or hashlib.sha256(raw_policy).hexdigest() != expected_digest):
         raise InterlockUnavailable("selected Stop policy differs")
     policy = json.loads(raw_policy, object_pairs_hook=unique_object)
-    if policy.get("schema") != "implementaudit.codex-stop-policy.v1":
+    if policy.get("schema") not in {"implementaudit.codex-stop-policy.v1", "implementaudit.codex-stop-policy.v2"}:
         raise InterlockUnavailable("unsupported Stop policy")
     raw_event = sys.stdin.buffer.read(MAX_INPUT_BYTES + 1)
     if len(raw_event) > MAX_INPUT_BYTES:
@@ -451,6 +476,7 @@ def selected_codex_stop(policy_path: Path, expected_digest: str) -> int:
         if binding.get(field) != value:
             raise InterlockUnavailable("selected Stop binding differs: " + field)
     run_root = exact_installed_path(binding["explicit_run_root"], directory=True)
+    disposition, record_binding = selected_disposition(policy, run_root)
     helper = exact_installed_path(policy["validator"], directory=False)
     if os.name != "nt":
         raise InterlockUnavailable("selected native qualification requires the Windows custody owner")
@@ -466,31 +492,19 @@ def selected_codex_stop(policy_path: Path, expected_digest: str) -> int:
     text = event["last_assistant_message"] or ""
     with response.open("xb") as handle:
         handle.write(text.encode("utf-8")); handle.flush(); os.fsync(handle.fileno())
-    # The existing owner, rather than a new checklist, decides whether the
-    # actual STATE and response can support a nonterminal yield. No block-count
-    # escape and no stop_hook_active exemption are permitted.
-    command = [policy["bash"], str(helper), "--turn-disposition", "NONTERMINAL_YIELD",
-        str(run_root), "--response-record", str(response)]
-    # Retain original no-reparse/no-delete directory custody and deny-write /
-    # deny-delete file custody while Bash opens and executes these exact bytes.
-    with custody.Directory(helper.parent) as directory, custody.File(directory, helper.name,
-            maximum=1024 * 1024) as held:
-        if hashlib.sha256(held.read()).hexdigest() != policy["validator_sha256"]:
-            raise InterlockUnavailable("selected lifecycle owner differs")
-        result = subprocess.run(command, cwd=binding["repository_identity"],
-            stdin=subprocess.DEVNULL, capture_output=True, text=True, encoding="utf-8",
-            timeout=policy["timeout_seconds"], env=os.environ | {"PATH": policy["path"]})
-        held.verify()
+    result = selected_record_verdict(policy, run_root, helper, custody, response,
+                                     disposition, record_binding)
     output = None
     if result.returncode == 0:
         output = json_result(result, "lifecycle disposition")
-        if output.get("record_disposition") != "NONTERMINAL_YIELD":
+        if output.get("record_disposition") != disposition:
             raise InterlockUnavailable("lifecycle owner returned another disposition")
     receipt = {"schema": "implementaudit.codex-stop-observation.v1",
         "event": event, "event_sha256": event_digest, "policy_sha256": expected_digest,
         "binding": binding, "validator_exit": result.returncode,
         "validator_stdout": result.stdout, "validator_stderr": result.stderr,
-        "record_disposition": output, "host_execution_authenticated": False,
+        "record_disposition": output, "selected_disposition": disposition,
+        "host_execution_authenticated": False,
         "acceptance": "REQUIRES_INDEPENDENT_NATIVE_HOOK_AND_CONTINUATION_RECEIVING"}
     with (evidence / (event_digest + ".json")).open("x", encoding="utf-8") as handle:
         json.dump(receipt, handle, sort_keys=True, ensure_ascii=False); handle.write("\n")
@@ -499,9 +513,41 @@ def selected_codex_stop(policy_path: Path, expected_digest: str) -> int:
         emit({"decision": "block", "reason": "IMPLEMENTAUDIT DG10: the existing lifecycle owner refused this turn disposition. Read the exact native Stop receipt "
               + str(evidence / (event_digest + ".json")) + "; preserve all obligations and correct the actual refusal before another Stop."})
     else:
-        emit({"systemMessage": "IMPLEMENTAUDIT DG10: existing owner accepted NONTERMINAL_YIELD; parent remains open. Native receipt awaits independent receiving: "
+        scope = "; parent remains open" if disposition == "NONTERMINAL_YIELD" else "; selected record only"
+        emit({"systemMessage": "IMPLEMENTAUDIT: existing owner accepted " + disposition + scope + ". Native receipt awaits independent receiving: "
               + str(evidence / (event_digest + ".json"))})
     return 0
+
+
+def selected_record_verdict(policy, run_root, helper, custody, response,
+                            disposition, record_binding):
+    """Execute the existing record owner with custody; grant no native authority."""
+    # No block-count escape, fallback or stop_hook_active exemption.
+    command = [policy["bash"], str(helper), "--turn-disposition", disposition,
+               str(run_root), "--response-record", str(response)]
+    if record_binding is not None:
+        command += ["--closure-record" if disposition == "TERMINAL_CLOSURE" else "--handoff-packet",
+                    str(record_binding[0])]
+    with contextlib.ExitStack() as stack:
+        directory = stack.enter_context(custody.Directory(helper.parent))
+        held = stack.enter_context(custody.File(directory, helper.name, maximum=1024 * 1024))
+        if hashlib.sha256(held.read()).hexdigest() != policy["validator_sha256"]:
+            raise InterlockUnavailable("selected lifecycle owner differs")
+        record_held = None
+        if record_binding is not None:
+            record_path, record_digest = record_binding
+            record_directory = stack.enter_context(custody.Directory(record_path.parent))
+            record_held = stack.enter_context(custody.File(record_directory, record_path.name,
+                                                          maximum=1_000_000))
+            if hashlib.sha256(record_held.read()).hexdigest() != record_digest:
+                raise InterlockUnavailable("selected disposition record differs")
+        result = subprocess.run(command, cwd=policy["binding"]["repository_identity"],
+            stdin=subprocess.DEVNULL, capture_output=True, text=True, encoding="utf-8",
+            timeout=policy["timeout_seconds"], env=os.environ | {"PATH": policy["path"]})
+        held.verify()
+        if record_held is not None:
+            record_held.verify()
+    return result
 
 
 if __name__ == "__main__":
