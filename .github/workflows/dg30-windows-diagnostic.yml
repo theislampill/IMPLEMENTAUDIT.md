@@ -16,6 +16,10 @@ jobs:
     steps:
       - name: Check out exact diagnostic commit
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        env:
+          GIT_CONFIG_COUNT: '1'
+          GIT_CONFIG_KEY_0: core.autocrlf
+          GIT_CONFIG_VALUE_0: 'false'
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -27,7 +31,7 @@ jobs:
           python-version: '3.12'
           architecture: x64
 
-      - name: Execute exactly three disposable kernel controls
+      - name: Execute three kernel and seven grouped-ref disposable controls
         shell: pwsh
         env:
           IMPLEMENTAUDIT_WINDOWS_JOB_CONTROLS: '1'
@@ -52,5 +56,6 @@ jobs:
             ${{ runner.temp }}/dg30-windows-diagnostic/
             ${{ runner.temp }}/dg30-windows-console.log
           if-no-files-found: error
+          include-hidden-files: true
           retention-days: 30
           compression-level: 6

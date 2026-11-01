@@ -159,7 +159,12 @@ class WindowsKernelIntegration(unittest.TestCase):
             self.assertEqual(json.loads((parent / "operation/measurement.json").read_bytes()), result)
 
     def test_actual_git_root_identity_is_observed_before_resume(self):
-        git = Path(r"C:\Program Files\Git\mingw64\bin\git.exe")
+        selected = os.environ.get("IMPLEMENTAUDIT_WINDOWS_JOB_GIT", r"C:\Program Files\Git\mingw64\bin\git.exe")
+        spec = importlib.util.spec_from_file_location("r0039_windows_git_policy", SOURCE.with_name("check-r0039-windows-resume.py"))
+        policy = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(policy)
+        policy.direct_git_layout(selected)
+        git = Path(selected)
         if not git.is_file():
             self.skipTest("The fixed physical Git executable is unavailable")
         with tempfile.TemporaryDirectory(prefix="r0039-windows-git-") as temporary:
