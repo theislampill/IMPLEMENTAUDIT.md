@@ -2458,6 +2458,9 @@ _NATIVE_ROUTE_PRODUCER_PROFILES_V1 = {
 # Current terminal-inventory owner binding; historical subjects remain unchanged.
 _NATIVE_ROUTE_PRODUCER_PROFILES_V1['d420a7b980c7c26408bcc668b6246ac5391988f65395aa842e9e3db57d33deb0'] = 386588
 
+# Exact DG18 original14 history receiving; historical source profiles remain.
+_NATIVE_ROUTE_PRODUCER_PROFILES_V1['6cf278b338a2d3fb59c6adc7f93eb90b11946e138d8b8e6cbebba25f606653f0'] = 386914
+
 
 _NATIVE_ROUTE_OBSERVATION_KEY = object()
 

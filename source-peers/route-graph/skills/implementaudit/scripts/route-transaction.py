@@ -5671,6 +5671,9 @@ _R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (31259, '0d1829770e3c
 # Current terminal-inventory owner binding; historical subjects remain unchanged.
 _R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (31259, '7cfd59d8569ad04221cd4779a803dfc451d5e47b2d4674ad657090564c6c174d'), 'claim-run-rotation.py': (259408, '1c70c0612bad4b2311bb89ddad60484937b5d195bf98380c3ef3e0d30d6cd94b')},)
 
+# Exact DG18 snapshot-budget dependency pair; original14 only, no native admission.
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (31259, '1c00c1707443886a2eff09785fa945b8361f34fd1ee84b082a1326428456c3a7'), 'claim-run-rotation.py': (259408, '969618c330cb4ae450af60431db9ab5e3a148610724e7fd674db10e2117103e8')},)
+
 def original14_retained_predecessor_v1(
     repo, token, fields, *, controller, claim, run_identity, generation,
     current_receipt, explicit_run_root,
