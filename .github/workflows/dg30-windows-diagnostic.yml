@@ -1,0 +1,56 @@
+name: DG30 isolated Windows kernel diagnostics
+
+on:
+  push:
+    branches:
+      - pro/dg30-r0039-windows-diagnostic-20261101
+
+permissions:
+  contents: read
+
+jobs:
+  windows-kernel-diagnostics:
+    if: github.ref == 'refs/heads/pro/dg30-r0039-windows-diagnostic-20261101'
+    runs-on: windows-2022
+    timeout-minutes: 10
+    steps:
+      - name: Check out exact diagnostic commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Select supported physical Python
+        id: python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+          architecture: x64
+
+      - name: Execute exactly three disposable kernel controls
+        shell: pwsh
+        env:
+          IMPLEMENTAUDIT_WINDOWS_JOB_CONTROLS: '1'
+          DG30_PYTHON: ${{ steps.python.outputs.python-path }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $out = Join-Path $env:RUNNER_TEMP 'dg30-windows-diagnostic'
+          $log = Join-Path $env:RUNNER_TEMP 'dg30-windows-console.log'
+          if ((Test-Path $out) -or (Test-Path $log)) { throw 'Diagnostic output already exists; no retry' }
+          & $env:DG30_PYTHON -I -S -B scripts/run-r0039-windows-diagnostics.py --output $out *> $log
+          $code = $LASTEXITCODE
+          Get-Content -Raw $log
+          Write-Host "DG30 diagnostic process exit: $code"
+          if ($code -ne 0) { exit $code }
+
+      - name: Retain raw measurements, logs, source and job identities
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg30-windows-diagnostic-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/dg30-windows-diagnostic/
+            ${{ runner.temp }}/dg30-windows-console.log
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 6
