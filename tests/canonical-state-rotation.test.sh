@@ -13,6 +13,8 @@ bash scripts/check-canonical-state-rotation.sh
 "${py[@]}" fixtures/canonical-state-rotation/protected_projection_v2_test.py
 "${py[@]}" fixtures/canonical-state-rotation/archive_v2_test.py
 "${py[@]}" fixtures/canonical-state-rotation/native_resume_v2_test.py
+"${py[@]}" fixtures/canonical-state-rotation/windows_job_test.py
+"${py[@]}" fixtures/canonical-state-rotation/windows_qualification_test.py
 "${py[@]}" fixtures/canonical-state-rotation/claim_transaction_test.py
 "${py[@]}" fixtures/canonical-state-rotation/canonical_reader_test.py
 "${py[@]}" fixtures/canonical-state-rotation/windows_custody_test.py
