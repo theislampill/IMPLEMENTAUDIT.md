@@ -81,11 +81,12 @@ def environment(tools):
     # Task-local physical executables. No inherited shell/Python/Git startup
     # overrides, WindowsApps aliases or credentials enter the owner process.
     git = Path(tools['git']['path'])
-    root = git.parents[2] if git.parent.parent.name.lower() == 'mingw64' else git.parents[1]
+    Q.direct_git_layout(tools['git']['path'])
+    root = git.parents[2]
     system = os.environ.get('SystemRoot', r'C:\Windows')
     env = {'SystemRoot': system, 'WINDIR': system, 'PATHEXT': '.COM;.EXE;.BAT;.CMD',
            'PATH': os.pathsep.join([str(Path(tools['python']['path']).parent),
-                    str(root / 'mingw64/bin'), str(root / 'cmd'), str(root / 'bin'),
+                    str(git.parent), str(root / 'cmd'), str(root / 'bin'),
                     str(root / 'usr/bin'), str(Path(system) / 'System32')]),
            'IMPLEMENTAUDIT_PYTHON': tools['python']['path'], 'PYTHONDONTWRITEBYTECODE': '1',
            'LC_ALL': 'C', 'MSYS2_ARG_CONV_EXCL': '*'}
@@ -325,14 +326,14 @@ def main():
     if args.action == 'execute':
         execute(args.plan, args.plan_sha256, args.entitlement_reference)
         return
+    Q.direct_git_layout(args.git)
     source = physical(args.source)
     subject = physical(args.repo)
     out = separated_output(args.out, source, subject)
     tools = {name: {'path': str(physical(getattr(args, name))), 'sha256': ident(getattr(args, name))['sha256']}
              for name in ('bash', 'python', 'git')}
     Q.require(Path(tools['python']['path']).samefile(sys.executable), 'run using the exact selected physical Python')
-    Q.require(Q.windows_path(tools['git']['path']) == Q.windows_path(r'C:\Program Files\Git\mingw64\bin\git.exe'),
-              'this packet qualifies the current owner fixed direct Git selection only')
+    Q.direct_git_layout(tools['git']['path'])
     out.mkdir(exist_ok=False)
     request = {'source_root': str(source), 'subject_root': str(subject), 'controller': args.controller,
                'source_head': args.source_head, 'source_tree': args.source_tree, 'tools': tools}

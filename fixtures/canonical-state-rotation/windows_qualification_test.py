@@ -247,6 +247,68 @@ class TransitionControls(unittest.TestCase):
                                          stdout, stdout, stdout)
 
 
+class WindowsGitLayoutControls(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.mod = load()
+
+    def test_direct_git_legacy_and_ucrt_layouts_are_explicit(self):
+        self.assertTrue(callable(getattr(self.mod, 'direct_git_layout', None)), 'supported direct Git layout gate is absent')
+        self.assertEqual(self.mod.direct_git_layout(r'C:\Program Files\Git\mingw64\bin\git.exe'), 'mingw64')
+        self.assertEqual(self.mod.direct_git_layout(r'C:\Program Files\Git\ucrt64\bin\git.exe'), 'ucrt64')
+
+    def test_direct_git_wrappers_foreign_and_aliased_paths_refuse(self):
+        self.assertTrue(callable(getattr(self.mod, 'direct_git_layout', None)), 'supported direct Git layout gate is absent')
+        for value in (r'C:\Program Files\Git\cmd\git.exe', r'C:\Program Files\Git\bin\git.exe',
+                      r'C:\other\ucrt64\bin\git.exe', r'C:\Program Files\Git\ucrt64\bin\..\bin\git.exe',
+                      r'C:\Program Files\Git\ucrt64\bin\.\git.exe', 'git.exe', None):
+            with self.subTest(value=value), self.assertRaises(self.mod.QualificationError):
+                self.mod.direct_git_layout(value)
+
+    def test_selected_layout_drives_exact_owner_search_path(self):
+        from unittest import mock
+        spec = importlib.util.spec_from_file_location('r0039_driver_layout', ROOT / 'scripts/run-r0039-windows-resume.py')
+        driver = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(driver)
+        for variant in ('mingw64', 'ucrt64'):
+            selected = rf'C:\Program Files\Git\{variant}\bin\git.exe'
+            tools = {'git': {'path': selected}, 'python': {'path': r'C:\Python312\python.exe'}}
+            with self.subTest(variant=variant), mock.patch.object(driver, 'Path', pathlib.PureWindowsPath), mock.patch.object(driver.os, 'pathsep', ';'):
+                env = driver.environment(tools)
+                self.assertEqual(env['PATH'].split(';')[:5], [r'C:\Python312',
+                    rf'C:\Program Files\Git\{variant}\bin', r'C:\Program Files\Git\cmd',
+                    r'C:\Program Files\Git\bin', r'C:\Program Files\Git\usr\bin'])
+
+    def test_native_git_selection_refuses_raw_dot_alias_before_measurement(self):
+        from unittest import mock
+        spec = importlib.util.spec_from_file_location('r0039_native_git_selection', ROOT / 'fixtures/canonical-state-rotation/windows_job_test.py')
+        fixture = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(fixture)
+        class ExistingWindowsFile(pathlib.PureWindowsPath):
+            def is_file(self):
+                return True
+        def path(value):
+            return ExistingWindowsFile(value) if str(value).lower().startswith('c:') else pathlib.Path(value)
+        raw = r'C:\Program Files\Git\ucrt64\bin\.\git.exe'
+        with mock.patch.dict(fixture.os.environ, {'IMPLEMENTAUDIT_WINDOWS_JOB_GIT': raw}), mock.patch.object(fixture, 'Path', side_effect=path), mock.patch.object(fixture.M, 'measure', side_effect=AssertionError('aliased selection reached measurement')):
+            control = fixture.WindowsKernelIntegration('test_actual_git_root_identity_is_observed_before_resume')
+            with self.assertRaises(ValueError):
+                control.test_actual_git_root_identity_is_observed_before_resume()
+
+    def test_prepare_refuses_raw_dot_alias_before_physical_reads(self):
+        from unittest import mock
+        spec = importlib.util.spec_from_file_location('r0039_driver_raw_selection', ROOT / 'scripts/run-r0039-windows-resume.py')
+        driver = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(driver)
+        argv = ['driver', 'prepare']
+        for key in ('source', 'repo', 'controller', 'source-head', 'source-tree', 'bash', 'python', 'out'):
+            argv += ['--' + key, 'unused']
+        argv += ['--git', r'C:\Program Files\Git\ucrt64\bin\.\git.exe']
+        with mock.patch.object(driver.sys, 'argv', argv), mock.patch.object(driver.sys, 'platform', 'win32'), mock.patch.object(driver.os, 'name', 'nt'), mock.patch.object(driver, 'physical', side_effect=AssertionError('aliased selection reached physical reads')):
+            with self.assertRaisesRegex(driver.Q.QualificationError, 'aliased direct Git'):
+                driver.main()
+
+
 class DriverControls(unittest.TestCase):
     def test_non_windows_driver_refuses_before_touching_requested_paths(self):
         if sys.platform == 'win32':

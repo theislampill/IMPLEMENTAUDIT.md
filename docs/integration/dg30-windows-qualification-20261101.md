@@ -77,7 +77,11 @@ and [extended limits](https://learn.microsoft.com/en-us/windows/win32/api/winnt/
    return `BLOCKED_FRESH_ENTITLED_SUBJECT_UNAVAILABLE`; do not make a fixture
    and promote it to an original occurrence.
 4. Exact physical executables: Git Bash, a real Python executable with the
-   required runtime support, and `C:\Program Files\Git\mingw64\bin\git.exe`.
+   required runtime support, and the direct Git image at either
+   `C:\Program Files\Git\mingw64\bin\git.exe` (older x64 layout) or
+   `C:\Program Files\Git\ucrt64\bin\git.exe` (Git for Windows 2.56+).
+   Select the actual physical image explicitly; a `cmd`/`bin` launcher or
+   PATH-discovered substitute does not satisfy this packet's direct-image gate.
    No WindowsApps alias, symlink or reparse ancestor is admitted. Launch the
    runner through that same selected Python. Existing owner selection remains
    unchanged.
@@ -98,7 +102,7 @@ is performed by these commands.
 ```powershell
 $dg30Python = 'C:\actual\physical\python.exe'
 $dg30Bash = 'C:\Program Files\Git\usr\bin\bash.exe'
-$dg30Git = 'C:\Program Files\Git\mingw64\bin\git.exe'
+$dg30Git = 'C:\Program Files\Git\ucrt64\bin\git.exe' # Or the actual older mingw64 direct image.
 $dg30Source = 'C:\actual\clean-dg30-source'
 $dg30Subject = 'C:\actual\entitled-governed-subject'
 $dg30Out = 'C:\actual\new-dg30-evidence-directory'
@@ -139,12 +143,15 @@ print(json.dumps({'all_three_executed_and_passed': ok, 'tests_run': result.tests
 raise SystemExit(0 if ok else 1)
 '@
 $dg30PreviousOptIn = $env:IMPLEMENTAUDIT_WINDOWS_JOB_CONTROLS
+$dg30PreviousGit = $env:IMPLEMENTAUDIT_WINDOWS_JOB_GIT
 try {
   $env:IMPLEMENTAUDIT_WINDOWS_JOB_CONTROLS = '1'
+  $env:IMPLEMENTAUDIT_WINDOWS_JOB_GIT = $dg30Git
   & $dg30Python -I -B -c $dg30ControlProgram "$dg30Source\fixtures\canonical-state-rotation\windows_job_test.py" 2>&1 | Tee-Object -FilePath $dg30ControlLog
   if ($LASTEXITCODE -ne 0) { throw 'Native recorder controls failed or skipped; stop before owner launch.' }
 } finally {
   $env:IMPLEMENTAUDIT_WINDOWS_JOB_CONTROLS = $dg30PreviousOptIn
+  $env:IMPLEMENTAUDIT_WINDOWS_JOB_GIT = $dg30PreviousGit
 }
 ```
 

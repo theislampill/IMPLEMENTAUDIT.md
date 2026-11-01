@@ -17,6 +17,10 @@ import re
 
 MAXIMUM_MS = 60000
 MAXIMUM_JOB_BYTES = 201326592
+DIRECT_GIT_EXECUTABLES = (
+    r'C:\Program Files\Git\mingw64\bin\git.exe',
+    r'C:\Program Files\Git\ucrt64\bin\git.exe',
+)
 BOUNDARIES = {'host-reported-compaction', 'new-session', 'handoff-resume',
               'manual-resume', 'inferred-context-gap'}
 
@@ -67,6 +71,19 @@ def windows_path(value):
     require(type(value) is str and ntpath.isabs(value) and '\x00' not in value,
             'absolute physical Windows executable path required')
     return ntpath.normcase(ntpath.normpath(value))
+
+
+def direct_git_layout(value):
+    # Git for Windows 2.56 changed the direct x64 layout to ucrt64.
+    # Keep an exact allowlist; wrapper, PATH discovery and aliased spellings
+    # do not substitute for the selected physical image and measured hash.
+    require(type(value) is str and not any(part in {'.', '..'}
+                for part in value.replace('\\', '/').split('/')), 'aliased direct Git path refused')
+    normalized = windows_path(value)
+    for path, layout in zip(DIRECT_GIT_EXECUTABLES, ('mingw64', 'ucrt64')):
+        if normalized == windows_path(path):
+            return layout
+    raise QualificationError('supported fixed direct Git executable required')
 
 
 def load_job():
