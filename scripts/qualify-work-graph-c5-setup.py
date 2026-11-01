@@ -507,14 +507,26 @@ def _bwrap_policy_refusal(message, name, row, guard):
     return message + '; kernel_record=' + raw
 
 
-def hosted_bwrap_policy_delta(before, after=None):
+def hosted_bwrap_policy_delta(before, after=None, *, opaque_proofs=None, expected_owned=None):
     import re
+    proofs = {} if opaque_proofs is None else opaque_proofs
+    _bwrap_need(type(proofs) is dict and set(proofs) <= set(before), 'opaque proof population differs')
+    if expected_owned is not None:
+        _bwrap_need(type(expected_owned) is dict and set(expected_owned) == set(HOSTED_BWRAP_NAMES)
+                    and all(type(value) is str and re.fullmatch('[0-9a-f]{64}', value)
+                            for value in expected_owned.values()), 'compiled owned profile identity differs')
     for name, row in before.items():
         _bwrap_need(type(row) is dict and set(row) == {'attach', 'mode', 'sha256'}
                     and all(type(value) is str for value in row.values()), "unknown loaded policy shape")
         attachment = row['attach']
+        proof = proofs.get(name)
+        proven = (type(proof) is dict and set(proof) == {'name', 'profile_sha256', 'raw_sha256', 'targets', 'result'}
+            and proof['name'] == name and proof['profile_sha256'] == row['sha256']
+            and type(proof['raw_sha256']) is str and re.fullmatch('[0-9a-f]{64}', proof['raw_sha256'])
+            and type(proof['targets']) is list and proof['targets'] == ['/usr/bin/bwrap', '/bin/bwrap']
+            and proof['result'] == 'PROVED_DFA_NOMATCH_BOTH_FIXED_PATHS')
         _bwrap_need(name not in HOSTED_BWRAP_NAMES and 'bwrap' not in name.lower()
-                    and 'bubblewrap' not in name.lower() and attachment != '<unknown>'
+                    and 'bubblewrap' not in name.lower() and (attachment != '<unknown>' or proven)
                     and '@{' not in attachment, _bwrap_policy_refusal(
                         "existing or opaque bwrap AppArmor policy refuses replacement", name, row, "name_or_opaque"))
         if attachment.startswith('/'):
@@ -529,12 +541,16 @@ def hosted_bwrap_policy_delta(before, after=None):
         for name, attach in zip(HOSTED_BWRAP_NAMES, ('/usr/bin/bwrap', HOSTED_BWRAP_NAMES[1])):
             row = after[name]
             _bwrap_need(type(row) is dict and set(row) == {'attach', 'mode', 'sha256'}
-                        and row['attach'] == attach and row['mode'] == 'enforce'
+                        and (row['attach'] == attach or expected_owned is not None
+                             and name == HOSTED_BWRAP_NAMES[0] and row['attach'] == '<unknown>')
+                        and row['mode'] == 'enforce'
                         and type(row['sha256']) is str and re.fullmatch('[0-9a-f]{64}', row['sha256']),
                         "hosted bwrap policy activation readback differs")
+            if expected_owned is not None:
+                _bwrap_need(row['sha256'] == expected_owned[name], 'loaded policy differs from exact approved compilation')
 
 
-def _bwrap_selected_export(entry, root):
+def _bwrap_selected_export(entry, root, maximum=65536):
     """Receive one kernel-linked raw export; this cannot admit or load policy."""
     from pathlib import Path
     import re
@@ -552,14 +568,15 @@ def _bwrap_selected_export(entry, root):
                 and len({value[3] for value in parts.values()}) == 1,
                 'selected kernel export path is outside one raw policy record')
     paths = {name: root / 'raw_data' / value[3] / value[4] for name, value in parts.items()}
-    raw = _bwrap_read(paths['raw_data'], 65536)
+    _bwrap_need(type(maximum) is int and 0 < maximum <= 65536, 'selected kernel export aggregate bound exhausted')
+    raw = _bwrap_read(paths['raw_data'], maximum)
     digest = _bwrap_read(paths['raw_sha256'], 128).decode('ascii').strip()
     abi = _bwrap_read(paths['raw_abi'], 32).decode('ascii').strip()
     _bwrap_need(re.fullmatch('[0-9a-f]{64}', digest) and hashlib.sha256(raw).hexdigest() == digest,
                 'selected kernel raw export hash differs')
     _bwrap_need(re.fullmatch('v[0-9]+', abi), 'selected kernel raw export ABI is unsupported')
     _bwrap_need(links == {name: os.readlink(entry / name) for name in names}
-                and _bwrap_read(paths['raw_data'], 65536) == raw
+                and _bwrap_read(paths['raw_data'], maximum) == raw
                 and _bwrap_read(paths['raw_sha256'], 128).decode('ascii').strip() == digest
                 and _bwrap_read(paths['raw_abi'], 32).decode('ascii').strip() == abi,
                 'selected kernel export changed during readback')
@@ -602,6 +619,178 @@ def diagnose_hosted_bwrap_policy():
         interpretation='READ_ONLY_OBSERVATION_NO_ATTACHMENT_OR_ADMISSION_VERDICT',
         inventory_input_bookends_equal=True), sort_keys=True))
     return 0
+
+
+def _bwrap_v5_profiles(raw):
+    """Closed ABI5 framing and profile hashes, not a policy authorization."""
+    import struct
+    _bwrap_need(type(raw) is bytes and 0 < len(raw) <= 65536, 'compiled policy export bound differs')
+    position = 0
+    nodes = 0
+    def take(count):
+        nonlocal position
+        _bwrap_need(0 <= count <= len(raw) - position, 'truncated compiled policy export')
+        value = raw[position:position + count]
+        position += count
+        return value
+    def number(width):
+        return int.from_bytes(take(width), 'little')
+    def string():
+        value = take(number(2))
+        _bwrap_need(value and value[-1] == 0, 'compiled policy string is not terminated')
+        return value[:-1]
+    def node(depth=0):
+        nonlocal nodes
+        nodes += 1
+        _bwrap_need(depth <= 16 and nodes <= 8192, 'compiled policy structure exceeds bound')
+        start = position
+        kind = number(1)
+        name = None
+        if kind == 4:
+            name = string()
+            _bwrap_need(b'\0' not in name and len(name) <= 4096, 'compiled policy field name differs')
+            kind = number(1)
+        data_start = position
+        if kind in (0, 1, 2, 3):
+            value = number((1, 2, 4, 8)[kind])
+        elif kind == 5:
+            value = string()
+        elif kind == 6:
+            count = number(4)
+            data_start = position
+            value = take(count)
+        elif kind in (7, 9, 11):
+            count = number(2) if kind == 11 else None
+            _bwrap_need(count is None or count <= 4096, 'compiled policy array exceeds bound')
+            ending = {7: 8, 9: 10, 11: 12}[kind]
+            value = []
+            while position < len(raw) and raw[position] != ending:
+                value.append(node(depth + 1))
+            _bwrap_need(number(1) == ending and (count is None or len(value) == count),
+                        'compiled policy container differs')
+        else:
+            raise ValueError('unsupported compiled policy token')
+        return dict(kind=kind, name=name, value=value, start=start, end=position, data_start=data_start)
+    result = {}
+    while position < len(raw):
+        version = node()
+        _bwrap_need((version['kind'], version['name'], version['value']) == (2, b'version', 5),
+                    'unsupported compiled policy ABI or namespace')
+        profile = node()
+        _bwrap_need(profile['kind'] == 7 and profile['name'] == b'profile', 'compiled profile framing differs')
+        fields = profile['value']
+        _bwrap_need(fields and fields[0]['kind'] == 5 and fields[0]['name'] is None
+                    and b'\0' not in fields[0]['value'], 'compiled profile name differs')
+        name = fields[0]['value'].decode('utf-8')
+        _bwrap_need(name and name not in result, 'compiled profile name is missing or duplicated')
+        xmatch = None
+        if len(fields) > 1 and fields[1]['kind'] == 6 and fields[1]['name'] == b'aadfa':
+            item = fields[1]
+            pad = (-(item['data_start'] - (item['end'] & 7))) % 8
+            _bwrap_need(item['value'][:pad] == b'\0' * pad and len(fields) > 3
+                        and fields[2]['kind'] == 2 and fields[2]['name'] is None
+                        and fields[3]['kind'] == 7 and fields[3]['name'] == b'flags',
+                        'unsupported compiled attachment framing')
+            xmatch = item['value'][pad:]
+        else:
+            _bwrap_need(len(fields) > 1 and fields[1]['kind'] == 7 and fields[1]['name'] == b'flags',
+                        'unsupported compiled attachment fields')
+        digest = hashlib.sha256(struct.pack('<I', 5) + raw[profile['start']:profile['end']]).hexdigest()
+        result[name] = dict(sha256=digest, xmatch=xmatch, abi=5)
+    return result
+
+
+def _bwrap_dfa_nonmatch(dfa, path):
+    """Conservative unflagged AppArmor DFA check; only state0 proves nonmatch."""
+    import struct
+    _bwrap_need(type(dfa) is bytes and 24 <= len(dfa) <= 65536, 'unsupported attachment DFA bound')
+    magic, header, size, flags = struct.unpack_from('>IIIH', dfa)
+    _bwrap_need(magic == 0x1b5e783d and 14 <= header <= size == len(dfa) and flags == 0,
+                'unsupported attachment DFA header')
+    position = header
+    tables = {}
+    widths = {1: 4, 2: 4, 3: 2, 4: 2, 5: 1, 7: 4, 8: 2}
+    while position < len(dfa):
+        _bwrap_need(position + 12 <= len(dfa), 'truncated attachment table')
+        ident, width, high, count = struct.unpack_from('>HHII', dfa, position)
+        end = position + 12 + width * count
+        _bwrap_need(ident in widths and ident not in tables and width == widths[ident]
+                    and high == 0 and 0 < count <= 65535 and end <= len(dfa), 'unsupported attachment table')
+        tables[ident] = [int.from_bytes(dfa[i:i + width], 'big') for i in range(position + 12, end, width)]
+        position = (end + 7) // 8 * 8
+    _bwrap_need(position == len(dfa) and {1, 2, 3, 4, 7, 8} <= set(tables), 'attachment tables incomplete')
+    states = len(tables[2])
+    _bwrap_need(states >= 2 and all(len(tables[i]) == states for i in (1, 4, 7))
+                and len(tables[3]) == len(tables[8]) and tables[1][0] == 0
+                and all(value >> 24 == 0 for value in tables[2])
+                and (5 not in tables or len(tables[5]) == 256), 'unsupported attachment states')
+    state = 1
+    for character in path.encode('ascii'):
+        if 5 in tables:
+            character = tables[5][character]
+        slot = tables[2][state] + character
+        _bwrap_need(slot < len(tables[3]), 'attachment transition exceeds bound')
+        state = tables[8][slot] if tables[3][slot] == state else tables[4][state]
+        _bwrap_need(state < states, 'attachment state exceeds bound')
+    return state == 0
+
+
+def _bwrap_prove_nonmatch(raw, name, row):
+    _bwrap_need(type(row) is dict and set(row) == {'attach', 'mode', 'sha256'}
+                and all(type(value) is str for value in row.values()) and row['attach'] == '<unknown>',
+                'opaque attachment record differs')
+    profiles = _bwrap_v5_profiles(raw)
+    _bwrap_need(name in profiles and profiles[name]['sha256'] == row['sha256'],
+                'compiled attachment profile identity differs')
+    targets = ['/usr/bin/bwrap', '/bin/bwrap']
+    _bwrap_need(all(_bwrap_dfa_nonmatch(profiles[name]['xmatch'], target) for target in targets),
+                'existing compiled attachment may govern bwrap')
+    return dict(name=name, profile_sha256=row['sha256'], raw_sha256=hashlib.sha256(raw).hexdigest(),
+                targets=targets, result='PROVED_DFA_NOMATCH_BOTH_FIXED_PATHS')
+
+
+def _bwrap_resolve_opaque(inventory):
+    """Fresh kernel bytes only; no name exemptions or caller-supplied exports."""
+    from pathlib import Path
+    root = Path('/sys/kernel/security/apparmor/policy')
+    selected = {name: row for name, row in inventory.items() if row['attach'] == '<unknown>'
+                and name not in HOSTED_BWRAP_NAMES and 'bwrap' not in name.lower()
+                and 'bubblewrap' not in name.lower()}
+    if not selected:
+        return {}
+    entries = list((root / 'profiles').iterdir())
+    _bwrap_need(len(entries) <= 4096, 'compiled attachment inventory exceeds bound')
+    indexed = {}
+    for entry in entries:
+        _bwrap_need(stat.S_ISDIR(entry.lstat().st_mode), 'compiled attachment entry is aliased')
+        name = _bwrap_read(entry / 'name').decode('utf-8').strip()
+        _bwrap_need(name not in indexed, 'compiled attachment name is duplicated')
+        indexed[name] = entry
+    proofs = {}
+    total = 0
+    for name, row in selected.items():
+        try:
+            _bwrap_need(name in indexed, 'compiled attachment entry disappeared')
+            exported = _bwrap_selected_export(indexed[name], root, min(65536, 4 * 1024**2 - total))
+            total += exported['bytes']
+            proofs[name] = _bwrap_prove_nonmatch(base64.b64decode(exported['base64'], validate=True), name, row)
+        except (OSError, ValueError, UnicodeError) as exc:
+            raise ValueError(_bwrap_policy_refusal('unresolved compiled attachment: ' + str(exc)[:256],
+                name, row, 'compiled_attachment')) from exc
+    _bwrap_need(hosted_bwrap_policy_inventory() == inventory, 'compiled attachment inventory changed')
+    return proofs
+
+
+def _bwrap_expected_compilation():
+    """Compile approved bytes to stdout, with kernel loading and caches disabled."""
+    result = subprocess.run(['/usr/sbin/apparmor_parser', '--config-file=/dev/null', '--skip-cache',
+        '--skip-read-cache', '--jobs=0', '--skip-kernel-load', '--stdout'], input=HOSTED_BWRAP_POLICY,
+        env=dict(ENV), cwd='/', stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=20, check=False)
+    _bwrap_need(result.returncode == 0 and 0 < len(result.stdout) <= 65536 and len(result.stderr) <= 8192,
+                'approved policy compilation failed or exceeded bound')
+    profiles = _bwrap_v5_profiles(result.stdout)
+    _bwrap_need(set(profiles) == set(HOSTED_BWRAP_NAMES), 'approved compiled profile population differs')
+    return {name: row['sha256'] for name, row in profiles.items()}
 
 
 def hosted_bwrap_policy_parser(mode):
@@ -650,23 +839,29 @@ def provision_hosted_bwrap_policy():
     _bwrap_root()
     context = hosted_bwrap_policy_context()
     before = hosted_bwrap_policy_inventory()
-    hosted_bwrap_policy_delta(before)
-    hosted_bwrap_policy_parser('--skip-kernel-load')
+    opaque_proofs = _bwrap_resolve_opaque(before)
+    hosted_bwrap_policy_delta(before, opaque_proofs=opaque_proofs)
+    expected = _bwrap_expected_compilation()
+    _bwrap_need(hosted_bwrap_policy_context() == context and hosted_bwrap_policy_inventory() == before,
+                'hosted bwrap pre-add inputs or policy changed')
     parent = os.open('/run', os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
     fd = None
     try:
         fd = create_hosted_bwrap_receipt(parent)
-        record = dict(schema='implementaudit.hosted-bwrap-policy.v1', state='PENDING',
-            profile_sha256=HOSTED_BWRAP_POLICY_SHA256, context=context, loaded={})
+        record = dict(schema='implementaudit.hosted-bwrap-policy.v2', state='PENDING',
+            profile_sha256=HOSTED_BWRAP_POLICY_SHA256, context=context, loaded={}, compiled_profiles=expected)
         _bwrap_store(fd, record); os.fsync(parent)
         command = hosted_bwrap_policy_parser('--add')  # One add, never replace or retry.
         after = hosted_bwrap_policy_inventory()
-        hosted_bwrap_policy_delta(before, after)
+        hosted_bwrap_policy_delta(before, after, opaque_proofs=_bwrap_resolve_opaque(after), expected_owned=expected)
         _bwrap_need(hosted_bwrap_policy_context() == context, "hosted bwrap activation input/global state changed")
         record.update(state='ACTIVE', loaded={name: after[name] for name in HOSTED_BWRAP_NAMES})
         _bwrap_store(fd, record)
         print(json.dumps(dict(scope='EPHEMERAL_CI_BWRAP_POLICY_ONLY_NO_NATIVE_ACCEPTANCE',
             profile_sha256=HOSTED_BWRAP_POLICY_SHA256, loaded=record['loaded'], parser=command,
+            compiled_profiles=expected, resolved_opaque_count=len(opaque_proofs),
+            opaque_proofs_sha256=hashlib.sha256(json.dumps(opaque_proofs, sort_keys=True,
+                separators=(',', ':')).encode()).hexdigest(),
             global_state_unchanged=True, receipt='/run/' + HOSTED_BWRAP_RECEIPT), sort_keys=True))
         return 0
     finally:
@@ -674,9 +869,15 @@ def provision_hosted_bwrap_policy():
         os.close(parent)
 
 
-def hosted_bwrap_policy_observation(record, current, before):
-    _bwrap_need(type(record) is dict and set(record) == {'schema', 'state', 'profile_sha256', 'context', 'loaded'}
-                and record['schema'] == 'implementaudit.hosted-bwrap-policy.v1' and record['state'] == 'ACTIVE'
+def hosted_bwrap_policy_observation(record, current, before, *, opaque_proofs=None):
+    _bwrap_need(type(record) is dict, 'hosted bwrap receipt shape differs')
+    keys = {'schema', 'state', 'profile_sha256', 'context', 'loaded'}
+    version2 = record.get('schema') == 'implementaudit.hosted-bwrap-policy.v2'
+    if version2:
+        keys.add('compiled_profiles')
+    _bwrap_need(set(record) == keys
+                and record['schema'] in ('implementaudit.hosted-bwrap-policy.v1', 'implementaudit.hosted-bwrap-policy.v2')
+                and record['state'] == 'ACTIVE'
                 and record['profile_sha256'] == HOSTED_BWRAP_POLICY_SHA256
                 and set(record['loaded']) == set(HOSTED_BWRAP_NAMES),
                 "pending, malformed or different bwrap policy receipt; retain for VM disposal")
@@ -684,7 +885,8 @@ def hosted_bwrap_policy_observation(record, current, before):
                 and all(before.get(name) == row for name, row in record['loaded'].items()),
                 "hosted bwrap observation inputs or loaded policy changed")
     foreign = {name: row for name, row in before.items() if name not in HOSTED_BWRAP_NAMES}
-    hosted_bwrap_policy_delta(foreign, before)
+    hosted_bwrap_policy_delta(foreign, before, opaque_proofs=opaque_proofs,
+                             expected_owned=record['compiled_profiles'] if version2 else None)
 
 
 
@@ -716,7 +918,8 @@ def finalize_hosted_bwrap_policy():
             result[key] = value
         return result
     record = json.loads(raw, object_pairs_hook=unique)
-    hosted_bwrap_policy_observation(record, hosted_bwrap_policy_context(), before)
+    hosted_bwrap_policy_observation(record, hosted_bwrap_policy_context(), before,
+                                   opaque_proofs=_bwrap_resolve_opaque(before))
     print(json.dumps(dict(scope='EPHEMERAL_CI_BWRAP_POLICY_OBSERVATION_ONLY',
         status='ACTIVE_POLICY_AND_RECEIPT_RETAINED', profile_sha256=HOSTED_BWRAP_POLICY_SHA256,
         loaded=record['loaded'], kernel_policy_unloaded=False, receipt_unlinked=False,

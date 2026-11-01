@@ -742,6 +742,127 @@ class CompositeSourceCases(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'export path'):
                 receive(entry, root)
 
+    @unittest.skipUnless(sys.platform == 'linux' and Path('/usr/sbin/apparmor_parser').is_file(), 'AppArmor no-load compiler')
+    def test_c5_compiled_opaque_attachment_is_bound_and_conservative(self):
+        owner = load('c5_opaque_semantics', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
+        receive = getattr(owner, '_bwrap_v5_profiles', None)
+        prove = getattr(owner, '_bwrap_prove_nonmatch', None)
+        self.assertTrue(callable(receive) and callable(prove), 'bound compiled attachment receiving is absent')
+        def compile_policy(attachment):
+            source = ('abi <abi/4.0>,\nprofile ci-selected ' + attachment +
+                      ' flags=(unconfined) { userns, }\n').encode()
+            result = subprocess.run(['/usr/sbin/apparmor_parser', '--config-file=/dev/null',
+                '--skip-cache', '--skip-read-cache', '--jobs=0', '--skip-kernel-load', '--stdout'],
+                input=source, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=20, check=True)
+            return result.stdout
+        raw = compile_policy('/opt/selected/program')
+        profiles = receive(raw)
+        self.assertEqual(set(profiles), {'ci-selected'})
+        row = dict(attach='<unknown>', mode='unconfined', sha256=profiles['ci-selected']['sha256'])
+        proof = prove(raw, 'ci-selected', row)
+        self.assertEqual(proof['targets'], ['/usr/bin/bwrap', '/bin/bwrap'])
+        with self.assertRaises(ValueError):
+            owner.hosted_bwrap_policy_delta({'ci-selected': row})
+        owner.hosted_bwrap_policy_delta({'ci-selected': row}, opaque_proofs={'ci-selected': proof})
+        for changed in (dict(proof, name='foreign'), dict(proof, profile_sha256='0' * 64),
+                        dict(proof, targets=['/usr/bin/bwrap']), dict(proof, result=True)):
+            with self.assertRaises(ValueError):
+                owner.hosted_bwrap_policy_delta({'ci-selected': row}, opaque_proofs={'ci-selected': changed})
+        with self.assertRaises(ValueError):
+            prove(raw, 'foreign-name', row)
+        with self.assertRaises(ValueError):
+            prove(raw, 'ci-selected', dict(row, sha256='0' * 64))
+        for changed in (raw[:-1], raw + b'\x00', b'x' * 65537):
+            with self.assertRaises(ValueError):
+                receive(changed)
+        for attachment in ('/usr/bin/bwrap', '/bin/bwrap', '/usr/bin/*', '/**'):
+            with self.subTest(attachment=attachment):
+                competing = compile_policy(attachment)
+                bound = receive(competing)['ci-selected']
+                with self.assertRaisesRegex(ValueError, 'attachment'):
+                    prove(competing, 'ci-selected', dict(row, sha256=bound['sha256']))
+
+    @unittest.skipUnless(sys.platform == 'linux' and Path('/usr/sbin/apparmor_parser').is_file(), 'AppArmor no-load compiler')
+    def test_c5_approved_compilation_binds_both_exact_profiles_without_loading(self):
+        owner = load('c5_approved_compiled', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
+        receive = getattr(owner, '_bwrap_v5_profiles', None)
+        self.assertTrue(callable(receive), 'compiled profile binding is absent')
+        result = subprocess.run(['/usr/sbin/apparmor_parser', '--config-file=/dev/null',
+            '--skip-cache', '--skip-read-cache', '--jobs=0', '--skip-kernel-load', '--stdout'],
+            input=owner.HOSTED_BWRAP_POLICY, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=20, check=True)
+        profiles = receive(result.stdout)
+        self.assertEqual(set(profiles), set(owner.HOSTED_BWRAP_NAMES))
+        self.assertTrue(profiles[owner.HOSTED_BWRAP_NAMES[0]]['xmatch'])
+        self.assertIsNone(profiles[owner.HOSTED_BWRAP_NAMES[1]]['xmatch'])
+        self.assertEqual(len({row['sha256'] for row in profiles.values()}), 2)
+        expected = {name: row['sha256'] for name, row in profiles.items()}
+        loaded = {name: dict(attach='<unknown>' if row['xmatch'] else name,
+                            mode='enforce', sha256=row['sha256']) for name, row in profiles.items()}
+        owner.hosted_bwrap_policy_delta({}, loaded, expected_owned=expected)
+        wrong = {name: dict(row) for name, row in loaded.items()}
+        wrong[owner.HOSTED_BWRAP_NAMES[0]]['sha256'] = '0' * 64
+        with self.assertRaises(ValueError):
+            owner.hosted_bwrap_policy_delta({}, wrong, expected_owned=expected)
+        context = dict(global_state={'restricted': '1'}, files={})
+        record = dict(schema='implementaudit.hosted-bwrap-policy.v2', state='ACTIVE',
+            profile_sha256=owner.HOSTED_BWRAP_POLICY_SHA256, context=context,
+            loaded=loaded, compiled_profiles=expected)
+        owner.hosted_bwrap_policy_observation(record, context, loaded)
+        with self.assertRaises(ValueError):
+            owner.hosted_bwrap_policy_observation(dict(record, compiled_profiles=dict(expected,
+                **{owner.HOSTED_BWRAP_NAMES[0]: '0' * 64})), context, loaded)
+        legacy = dict(record, schema='implementaudit.hosted-bwrap-policy.v1')
+        del legacy['compiled_profiles']
+        with self.assertRaises(ValueError):
+            owner.hosted_bwrap_policy_observation(legacy, context, loaded)
+
+    @unittest.skipUnless(sys.platform == 'linux' and Path('/usr/sbin/apparmor_parser').is_file(), 'AppArmor no-load compiler')
+    def test_c5_provision_consumes_fresh_proofs_and_retains_pending_on_wrong_loaded_hash(self):
+        """Actual installer/receipt flow with constructed kernel observations; no policy load."""
+        owner = load('c5_provision_compiled_flow', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
+        expected = owner._bwrap_expected_compilation()
+        compiled = subprocess.run(['/usr/sbin/apparmor_parser', '--config-file=/dev/null',
+            '--skip-cache', '--skip-read-cache', '--jobs=0', '--skip-kernel-load', '--stdout'],
+            input=b'abi <abi/4.0>,\nprofile ci-foreign /opt/other flags=(unconfined) { userns, }\n',
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=20, check=True).stdout
+        foreign = dict(attach='<unknown>', mode='unconfined', sha256=owner._bwrap_v5_profiles(compiled)['ci-foreign']['sha256'])
+        before = {'ci-foreign': foreign}
+        proof = {'ci-foreign': owner._bwrap_prove_nonmatch(compiled, 'ci-foreign', foreign)}
+        context = dict(global_state={'restricted': '1'}, files={})
+        actual_open = os.open
+        for corrupt in (False, True):
+            with self.subTest(corrupt=corrupt), tempfile.TemporaryDirectory(prefix='ci-policy-receipt-') as temporary:
+                receipt = Path(temporary) / owner.HOSTED_BWRAP_RECEIPT
+                after = dict(before, **{name: dict(attach='<unknown>' if i == 0 else name,
+                    mode='enforce', sha256=expected[name]) for i, name in enumerate(owner.HOSTED_BWRAP_NAMES)})
+                if corrupt:
+                    after[owner.HOSTED_BWRAP_NAMES[0]]['sha256'] = '0' * 64
+                def open_private(path, *args, **kwargs):
+                    return actual_open(temporary if os.fspath(path) == '/run' else path, *args, **kwargs)
+                def simulated_add(mode):
+                    self.assertEqual(mode, '--add')
+                    pending = json.loads(receipt.read_bytes())
+                    self.assertEqual(pending['state'], 'PENDING')
+                    self.assertEqual(pending['compiled_profiles'], expected)
+                    return dict(exit_code=0, stdout='', stderr='')
+                with mock.patch.object(owner, '_bwrap_root'), \
+                     mock.patch.object(owner, 'hosted_bwrap_policy_context', return_value=context), \
+                     mock.patch.object(owner, 'hosted_bwrap_policy_inventory', side_effect=[before, before, after]), \
+                     mock.patch.object(owner, '_bwrap_resolve_opaque', return_value=proof) as resolve, \
+                     mock.patch.object(owner, '_bwrap_expected_compilation', return_value=expected), \
+                     mock.patch.object(owner, 'hosted_bwrap_policy_parser', side_effect=simulated_add) as parser, \
+                     mock.patch.object(owner.os, 'open', side_effect=open_private), contextlib.redirect_stdout(io.StringIO()):
+                    if corrupt:
+                        with self.assertRaisesRegex(ValueError, 'approved compilation'):
+                            owner.provision_hosted_bwrap_policy()
+                    else:
+                        self.assertEqual(owner.provision_hosted_bwrap_policy(), 0)
+                    self.assertEqual(parser.call_count, 1)
+                    self.assertEqual(resolve.call_args_list, [mock.call(before), mock.call(after)])
+                observed = json.loads(receipt.read_bytes())
+                self.assertEqual(observed['state'], 'PENDING' if corrupt else 'ACTIVE')
+                self.assertEqual(observed['schema'], 'implementaudit.hosted-bwrap-policy.v2')
+
     def test_native_binding_lookup_refuses_ambiguous_json(self):
         owner = load("native_binding_json", PEER / "host-session-binding.py")
         with tempfile.TemporaryDirectory(prefix="native-binding-json-") as temporary:
