@@ -360,6 +360,285 @@ def receive_hosted_prerequisites(expected_commit):
     return 2 if result['deadline_exceeded'] or not result['descriptor_restoration'] else 0
 
 
+
+# AppArmor v4.0.1 bwrap-userns-restrict shape, with private job-only names.
+# Setup gets userns capabilities; every exec stacks a capability-denying domain.
+HOSTED_BWRAP_NAMES = ("implementaudit-c5-bwrap-v1", "implementaudit-c5-unpriv-bwrap-v1")
+HOSTED_BWRAP_RECEIPT = "implementaudit-c5-bwrap-v1.json"
+HOSTED_BWRAP_POLICY_SHA256 = 'b3f303f76b8f2c097f92ca5e41b6e0126cd34a10df1d5d0e67b9e86e92e322af'
+HOSTED_BWRAP_POLICY = b"""# Job-local CI adaptation of the AppArmor v4.0.1 bwrap/userns child boundary.
+abi <abi/4.0>,
+profile implementaudit-c5-bwrap-v1 /usr/bin/bwrap flags=(attach_disconnected) {
+  allow capability,
+  allow file rwlkm /{**,},
+  allow network,
+  allow unix,
+  allow ptrace,
+  allow signal,
+  allow mqueue,
+  allow io_uring,
+  allow userns,
+  allow mount,
+  allow umount,
+  allow pivot_root,
+  allow dbus,
+  allow px /** -> implementaudit-c5-bwrap-v1//&implementaudit-c5-unpriv-bwrap-v1,
+}
+profile implementaudit-c5-unpriv-bwrap-v1 flags=(attach_disconnected) {
+  allow file rwlkm /{**,},
+  allow network,
+  allow unix,
+  allow ptrace,
+  allow signal,
+  allow mqueue,
+  allow io_uring,
+  allow userns,
+  allow mount,
+  allow umount,
+  allow pivot_root,
+  allow dbus,
+  allow pix /** -> &implementaudit-c5-unpriv-bwrap-v1,
+  audit deny capability,
+}
+"""
+
+
+def _bwrap_need(value, message):
+    if not value:
+        raise ValueError(message)
+
+
+def _bwrap_read(path, maximum=4096):
+    fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK | os.O_CLOEXEC)
+    try:
+        raw = os.read(fd, maximum + 1)
+        _bwrap_need(len(raw) <= maximum, "hosted bwrap policy read bound exceeded")
+        return raw
+    finally:
+        os.close(fd)
+
+
+def _bwrap_regular(path, maximum):
+    from pathlib import Path
+    path = Path(path)
+    for item in (path, *path.parents):
+        info = item.lstat()
+        _bwrap_need(not stat.S_ISLNK(info.st_mode) and info.st_uid == info.st_gid == 0
+                    and not info.st_mode & 0o022, "hosted bwrap policy input custody differs")
+    before = path.lstat()
+    _bwrap_need(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and before.st_size <= maximum,
+                "hosted bwrap policy input type/size differs")
+    fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK | os.O_CLOEXEC)
+    try:
+        _bwrap_need(identity(os.fstat(fd)) == identity(before), "hosted bwrap policy input changed at open")
+        with os.fdopen(fd, 'rb', closefd=False) as stream:
+            raw = stream.read(maximum + 1)
+        _bwrap_need(len(raw) == before.st_size and identity(os.fstat(fd)) == identity(before)
+                    == identity(path.lstat()), "hosted bwrap policy input changed during read")
+        return raw, identity(before)
+    finally:
+        os.close(fd)
+
+
+def _bwrap_disk_policies():
+    from pathlib import Path
+    entries = list(Path('/etc/apparmor.d').iterdir())
+    _bwrap_need(len(entries) <= 4096, "hosted AppArmor policy directory exceeds bound")
+    found = [str(path) for path in entries if 'bwrap' in path.name.lower() or 'bubblewrap' in path.name.lower()]
+    extra = Path('/usr/share/apparmor/extra-profiles/bwrap-userns-restrict')
+    try:
+        extra.lstat()
+        found.append(str(extra))
+    except FileNotFoundError:
+        pass
+    return found
+
+
+def hosted_bwrap_policy_context():
+    _bwrap_need(not _bwrap_disk_policies(), "existing bwrap policy file refuses a second definition")
+    paths = {'/sys/module/apparmor/parameters/enabled': 'Y',
+             '/proc/sys/kernel/apparmor_restrict_unprivileged_userns': '1',
+             '/proc/sys/kernel/unprivileged_userns_clone': '1'}
+    current = {name: _bwrap_read(name, 32).decode('ascii').strip() for name in paths}
+    _bwrap_need(current == paths, "hosted bwrap policy requires the unchanged restricted AppArmor host")
+    _bwrap_need(hashlib.sha256(HOSTED_BWRAP_POLICY).hexdigest() == HOSTED_BWRAP_POLICY_SHA256,
+                "hosted bwrap policy definition pin differs")
+    files = {}
+    for path, maximum in [('/usr/bin/bwrap', PIN['bytes']),
+                          ('/usr/sbin/apparmor_parser', 4*1024**2), ('/etc/apparmor.d/abi/4.0', 65536)]:
+        raw, observed = _bwrap_regular(path, maximum)
+        files[path] = dict(bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest(), identity=observed)
+    _bwrap_need({k: files['/usr/bin/bwrap'][k] for k in PIN} == PIN
+                and stat.S_IMODE(files['/usr/bin/bwrap']['identity'][2]) == 0o755,
+                "hosted bwrap policy launcher pin differs")
+    _bwrap_need(not os.listxattr('/usr/bin/bwrap', follow_symlinks=False),
+                "hosted bwrap policy launcher has unqualified extended metadata")
+    return dict(global_state=current, files=files)
+
+
+def hosted_bwrap_policy_inventory():
+    from pathlib import Path
+    import re
+    root = Path('/sys/kernel/security/apparmor/policy/profiles')
+    entries = sorted(root.iterdir())
+    _bwrap_need(len(entries) <= 4096, "hosted AppArmor policy population exceeds bound")
+    result = {}
+    for entry in entries:
+        _bwrap_need(stat.S_ISDIR(entry.lstat().st_mode), "hosted AppArmor policy entry is aliased")
+        name = _bwrap_read(entry / 'name').decode('utf-8').strip()
+        row = {key: _bwrap_read(entry / key).decode('utf-8').strip() for key in ('attach', 'mode', 'sha256')}
+        _bwrap_need(name not in result and re.fullmatch('[0-9a-f]{64}', row['sha256']),
+                    "hosted AppArmor policy identity is missing or duplicated")
+        result[name] = row
+    return result
+
+
+def hosted_bwrap_policy_delta(before, after=None):
+    import re
+    for name, row in before.items():
+        _bwrap_need(type(row) is dict and set(row) == {'attach', 'mode', 'sha256'}
+                    and all(type(value) is str for value in row.values()), "unknown loaded policy shape")
+        attachment = row['attach']
+        _bwrap_need(name not in HOSTED_BWRAP_NAMES and 'bwrap' not in name.lower()
+                    and 'bubblewrap' not in name.lower() and attachment != '<unknown>'
+                    and '@{' not in attachment, "existing or opaque bwrap AppArmor policy refuses replacement")
+        if attachment.startswith('/'):
+            prefix = re.split(r'[*?\[{]', attachment, maxsplit=1)[0]
+            _bwrap_need(not any(target == attachment or prefix != attachment and target.startswith(prefix)
+                               for target in ('/usr/bin/bwrap', '/bin/bwrap')),
+                        "existing attachment may already govern bwrap")
+    if after is not None:
+        _bwrap_need(set(after) == set(before) | set(HOSTED_BWRAP_NAMES)
+                    and all(after[name] == row for name, row in before.items()),
+                    "hosted bwrap policy changed an unrelated policy")
+        for name, attach in zip(HOSTED_BWRAP_NAMES, ('/usr/bin/bwrap', HOSTED_BWRAP_NAMES[1])):
+            row = after[name]
+            _bwrap_need(type(row) is dict and set(row) == {'attach', 'mode', 'sha256'}
+                        and row['attach'] == attach and row['mode'] == 'enforce'
+                        and type(row['sha256']) is str and re.fullmatch('[0-9a-f]{64}', row['sha256']),
+                        "hosted bwrap policy activation readback differs")
+
+
+def hosted_bwrap_policy_parser(mode):
+    _bwrap_need(mode in ('--skip-kernel-load', '--add'), "unsupported hosted policy operation")
+    result = subprocess.run(['/usr/sbin/apparmor_parser', '--config-file=/dev/null', '--skip-cache',
+        '--skip-read-cache', '--jobs=0', mode], input=HOSTED_BWRAP_POLICY, env=dict(ENV), cwd='/',
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=20, check=False)
+    _bwrap_need(len(result.stdout) <= 8192 and len(result.stderr) <= 8192 and result.returncode == 0,
+                'hosted bwrap policy parser refused: ' + result.stderr[:2048].decode('utf-8', 'replace'))
+    return dict(exit_code=result.returncode, stdout=result.stdout.decode('utf-8', 'replace'),
+                stderr=result.stderr.decode('utf-8', 'replace'))
+
+
+def create_hosted_bwrap_receipt(parent):
+    current = os.fstat(parent)
+    _bwrap_need(stat.S_ISDIR(current.st_mode) and current.st_uid == os.geteuid()
+                and current.st_gid == os.getegid() and not current.st_mode & 0o022,
+                "hosted bwrap receipt parent custody differs")
+    fd = os.open(HOSTED_BWRAP_RECEIPT, os.O_RDWR | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.O_CLOEXEC,
+                 0o600, dir_fd=parent)
+    os.fchmod(fd, 0o600)
+    return fd
+
+
+def _bwrap_store(fd, value):
+    raw = (json.dumps(value, sort_keys=True, separators=(',', ':')) + '\n').encode()
+    _bwrap_need(len(raw) <= 16384, "hosted bwrap receipt exceeds bound")
+    os.lseek(fd, 0, os.SEEK_SET)
+    os.ftruncate(fd, 0)
+    view = memoryview(raw)
+    while view:
+        count = os.write(fd, view)
+        _bwrap_need(count > 0, "hosted bwrap receipt write stalled")
+        view = view[count:]
+    os.fsync(fd)
+    _bwrap_need(os.pread(fd, len(raw) + 1, 0) == raw, "hosted bwrap receipt readback differs")
+
+
+def _bwrap_root():
+    _bwrap_need(os.geteuid() == os.getegid() == 0, "hosted bwrap policy requires explicit root invocation")
+    _bwrap_need(os.environ.get("GITHUB_ACTIONS") == "true" and os.environ.get("RUNNER_ENVIRONMENT") == "github-hosted",
+                "hosted bwrap policy is restricted to an explicitly selected ephemeral GitHub-hosted job")
+
+
+def provision_hosted_bwrap_policy():
+    _bwrap_root()
+    context = hosted_bwrap_policy_context()
+    before = hosted_bwrap_policy_inventory()
+    hosted_bwrap_policy_delta(before)
+    hosted_bwrap_policy_parser('--skip-kernel-load')
+    parent = os.open('/run', os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+    fd = None
+    try:
+        fd = create_hosted_bwrap_receipt(parent)
+        record = dict(schema='implementaudit.hosted-bwrap-policy.v1', state='PENDING',
+            profile_sha256=HOSTED_BWRAP_POLICY_SHA256, context=context, loaded={})
+        _bwrap_store(fd, record); os.fsync(parent)
+        command = hosted_bwrap_policy_parser('--add')  # One add, never replace or retry.
+        after = hosted_bwrap_policy_inventory()
+        hosted_bwrap_policy_delta(before, after)
+        _bwrap_need(hosted_bwrap_policy_context() == context, "hosted bwrap activation input/global state changed")
+        record.update(state='ACTIVE', loaded={name: after[name] for name in HOSTED_BWRAP_NAMES})
+        _bwrap_store(fd, record)
+        print(json.dumps(dict(scope='EPHEMERAL_CI_BWRAP_POLICY_ONLY_NO_NATIVE_ACCEPTANCE',
+            profile_sha256=HOSTED_BWRAP_POLICY_SHA256, loaded=record['loaded'], parser=command,
+            global_state_unchanged=True, receipt='/run/' + HOSTED_BWRAP_RECEIPT), sort_keys=True))
+        return 0
+    finally:
+        if fd is not None: os.close(fd)
+        os.close(parent)
+
+
+def hosted_bwrap_policy_observation(record, current, before):
+    _bwrap_need(type(record) is dict and set(record) == {'schema', 'state', 'profile_sha256', 'context', 'loaded'}
+                and record['schema'] == 'implementaudit.hosted-bwrap-policy.v1' and record['state'] == 'ACTIVE'
+                and record['profile_sha256'] == HOSTED_BWRAP_POLICY_SHA256
+                and set(record['loaded']) == set(HOSTED_BWRAP_NAMES),
+                "pending, malformed or different bwrap policy receipt; retain for VM disposal")
+    _bwrap_need(json.dumps(current, sort_keys=True) == json.dumps(record['context'], sort_keys=True)
+                and all(before.get(name) == row for name, row in record['loaded'].items()),
+                "hosted bwrap observation inputs or loaded policy changed")
+    foreign = {name: row for name, row in before.items() if name not in HOSTED_BWRAP_NAMES}
+    hosted_bwrap_policy_delta(foreign, before)
+
+
+
+def finalize_hosted_bwrap_policy():
+    """Read/record only; never unload a label or unlink its receipt.
+
+    A snapshot cannot exclude a subsequent ordinary exec/fork. The dedicated
+    hosted VM's disposal is the only teardown boundary for this job-local policy.
+    """
+    from pathlib import Path
+    _bwrap_root()
+    path = Path('/run') / HOSTED_BWRAP_RECEIPT
+    before = hosted_bwrap_policy_inventory()  # Mandatory even when no receipt exists.
+    try:
+        path.lstat()
+    except FileNotFoundError:
+        _bwrap_need(not any(name in before for name in HOSTED_BWRAP_NAMES),
+                    "unreceipted bwrap policy observed; retain for VM disposal")
+        print(json.dumps(dict(scope='EPHEMERAL_CI_BWRAP_POLICY_OBSERVATION_ONLY',
+            status='NO_OWNED_POLICY_OBSERVED', kernel_policy_unloaded=False, receipt_unlinked=False,
+            retained_until='EPHEMERAL_VM_DISPOSAL', observation_limit='SNAPSHOT_ONLY_NOT_LAUNCH_EXCLUSION')))
+        return 0
+    raw, observed = _bwrap_regular(path, 16384)
+    _bwrap_need(stat.S_IMODE(observed[2]) == 0o600, "hosted bwrap receipt mode differs")
+    def unique(items):
+        result = {}
+        for key, value in items:
+            _bwrap_need(key not in result, "duplicate hosted bwrap receipt field")
+            result[key] = value
+        return result
+    record = json.loads(raw, object_pairs_hook=unique)
+    hosted_bwrap_policy_observation(record, hosted_bwrap_policy_context(), before)
+    print(json.dumps(dict(scope='EPHEMERAL_CI_BWRAP_POLICY_OBSERVATION_ONLY',
+        status='ACTIVE_POLICY_AND_RECEIPT_RETAINED', profile_sha256=HOSTED_BWRAP_POLICY_SHA256,
+        loaded=record['loaded'], kernel_policy_unloaded=False, receipt_unlinked=False,
+        retained_until='EPHEMERAL_VM_DISPOSAL', observation_limit='SNAPSHOT_ONLY_NOT_LAUNCH_EXCLUSION'), sort_keys=True))
+    return 0
+
+
 def hosted_download():
     import urllib.request
 
@@ -713,6 +992,10 @@ def emergency_cleanup():
 if __name__ == '__main__':
     import sys
     try:
+        if sys.argv[1:] == ['--provision-hosted-bwrap-policy']:
+            raise SystemExit(provision_hosted_bwrap_policy())
+        if sys.argv[1:] == ['--finalize-hosted-bwrap-policy']:
+            raise SystemExit(finalize_hosted_bwrap_policy())
         if sys.argv[1:] == ['--provision-hosted-launcher']:
             raise SystemExit(provision_hosted_launcher())
         if len(sys.argv) == 3 and sys.argv[1] == '--receive-hosted-prerequisites':

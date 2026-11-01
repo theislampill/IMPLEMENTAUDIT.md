@@ -487,6 +487,176 @@ class CompositeSourceCases(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "root"):
                 owner.provision_hosted_launcher()
 
+    def test_c5_bwrap_policy_definition_and_child_boundary_are_exact(self):
+        owner = load("c5_bwrap_policy_definition", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        policy = owner.HOSTED_BWRAP_POLICY
+        self.assertEqual(hashlib.sha256(policy).hexdigest(), owner.HOSTED_BWRAP_POLICY_SHA256)
+        self.assertIn(b"abi <abi/4.0>,", policy)
+        self.assertIn(b" /usr/bin/bwrap flags=(attach_disconnected)", policy)
+        self.assertIn(b"audit deny capability,", policy)
+        self.assertNotIn(b"unconfined", policy)
+        self.assertNotIn(b"include", policy)
+
+    def test_c5_bwrap_policy_refuses_competing_or_unrelated_kernel_changes(self):
+        owner = load("c5_bwrap_policy_delta", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        before = {"unprivileged_userns": dict(attach="unprivileged_userns", mode="enforce", sha256="a" * 64)}
+        after = dict(before, **{owner.HOSTED_BWRAP_NAMES[0]: dict(attach="/usr/bin/bwrap", mode="enforce", sha256="b" * 64),
+                               owner.HOSTED_BWRAP_NAMES[1]: dict(attach=owner.HOSTED_BWRAP_NAMES[1], mode="enforce", sha256="c" * 64)})
+        owner.hosted_bwrap_policy_delta(before, after)
+        for attach in ("/usr/bin/bwrap", "/bin/bwrap", "/usr/bin/*", "<unknown>"):
+            with self.subTest(attach=attach), self.assertRaises(ValueError):
+                owner.hosted_bwrap_policy_delta(dict(before, foreign=dict(attach=attach, mode="enforce", sha256="d" * 64)))
+        with self.assertRaises(ValueError):
+            owner.hosted_bwrap_policy_delta(after)
+        changed = dict(after, unrelated=dict(attach="/bin/unrelated", mode="enforce", sha256="e" * 64))
+        with self.assertRaises(ValueError):
+            owner.hosted_bwrap_policy_delta(before, changed)
+        changed = dict(after)
+        changed[owner.HOSTED_BWRAP_NAMES[0]] = dict(after[owner.HOSTED_BWRAP_NAMES[0]], mode="complain")
+        with self.assertRaises(ValueError):
+            owner.hosted_bwrap_policy_delta(before, changed)
+
+    def test_c5_bwrap_policy_requires_root_before_reads_or_effects(self):
+        owner = load("c5_bwrap_policy_authority", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        with mock.patch.object(owner.os, "geteuid", return_value=1001), \
+             mock.patch.object(owner.os, "getegid", return_value=1001), \
+             mock.patch.object(owner, "hosted_bwrap_policy_context", side_effect=AssertionError("unadmitted read")), \
+             mock.patch.object(owner, "hosted_bwrap_policy_parser", side_effect=AssertionError("unadmitted policy effect")):
+            for method in (owner.provision_hosted_bwrap_policy, owner.finalize_hosted_bwrap_policy):
+                with self.assertRaisesRegex(ValueError, "root"):
+                    method()
+
+        with mock.patch.object(owner.os, "geteuid", return_value=0), \
+             mock.patch.object(owner.os, "getegid", return_value=0), \
+             mock.patch.dict(owner.os.environ, {}, clear=True), \
+             mock.patch.object(owner, "hosted_bwrap_policy_context", side_effect=AssertionError("non-hosted read")):
+            for method in (owner.provision_hosted_bwrap_policy, owner.finalize_hosted_bwrap_policy):
+                with self.assertRaisesRegex(ValueError, "GitHub-hosted"):
+                    method()
+
+    def test_c5_bwrap_policy_parser_cannot_replace_or_write_cache(self):
+        owner = load("c5_bwrap_policy_parser", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        with mock.patch.object(owner.subprocess, "run", return_value=subprocess.CompletedProcess([], 0, b"", b"")) as run:
+            owner.hosted_bwrap_policy_parser("--skip-kernel-load")
+            command = run.call_args.args[0]
+            self.assertIn("--config-file=/dev/null", command)
+            self.assertIn("--skip-cache", command)
+            self.assertIn("--skip-read-cache", command)
+            self.assertIn("--jobs=0", command)
+            self.assertEqual(run.call_args.kwargs["input"], owner.HOSTED_BWRAP_POLICY)
+            self.assertEqual(run.call_args.kwargs["env"], owner.ENV)
+            for operation in ("--replace", "--remove"):
+                with self.assertRaises(ValueError):
+                    owner.hosted_bwrap_policy_parser(operation)
+            self.assertEqual(run.call_count, 1)
+
+    @unittest.skipUnless(sys.platform == "linux", "ordinary exclusive receipt controls")
+    def test_c5_bwrap_policy_receipt_is_exclusive_and_never_follows_links(self):
+        owner = load("c5_bwrap_policy_receipt", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        with tempfile.TemporaryDirectory(prefix="c5-policy-receipt-") as temporary:
+            parent = os.open(temporary, os.O_RDONLY | os.O_DIRECTORY)
+            try:
+                descriptor = owner.create_hosted_bwrap_receipt(parent)
+                os.close(descriptor)
+                path = Path(temporary) / owner.HOSTED_BWRAP_RECEIPT
+                self.assertEqual(path.stat().st_mode & 0o777, 0o600)
+                with self.assertRaises(FileExistsError):
+                    owner.create_hosted_bwrap_receipt(parent)
+                path.unlink()
+                sentinel = Path(temporary) / "sentinel"
+                sentinel.write_bytes(b"unchanged")
+                path.symlink_to(sentinel)
+                with self.assertRaises(FileExistsError):
+                    owner.create_hosted_bwrap_receipt(parent)
+                self.assertEqual(sentinel.read_bytes(), b"unchanged")
+            finally:
+                os.close(parent)
+
+    def test_c5_bwrap_policy_changed_launcher_refuses_before_any_parser(self):
+        owner = load("c5_bwrap_policy_changed_binary", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        states = {'/sys/module/apparmor/parameters/enabled': b'Y\n',
+                  '/proc/sys/kernel/apparmor_restrict_unprivileged_userns': b'1\n',
+                  '/proc/sys/kernel/unprivileged_userns_clone': b'1\n'}
+        def regular(path, maximum):
+            return b'changed binary', [1, 2, 0o100755, 1, 14, 5, 6, 0, 0]
+        with mock.patch.object(owner, '_bwrap_disk_policies', return_value=[]), \
+             mock.patch.object(owner, '_bwrap_read', side_effect=lambda path, maximum: states[path]), \
+             mock.patch.object(owner, '_bwrap_regular', side_effect=regular), \
+             mock.patch.object(owner.subprocess, 'run', side_effect=AssertionError('changed binary reached parser')) as run:
+            with self.assertRaisesRegex(ValueError, 'launcher pin'):
+                owner.hosted_bwrap_policy_context()
+            run.assert_not_called()
+
+    def test_c5_bwrap_policy_observation_refuses_pending_or_replaced_policy(self):
+        owner = load("c5_bwrap_policy_rollback", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        current = dict(global_state={'restricted': '1'}, files={})
+        loaded = {owner.HOSTED_BWRAP_NAMES[0]: dict(attach='/usr/bin/bwrap', mode='enforce', sha256='a'*64),
+                  owner.HOSTED_BWRAP_NAMES[1]: dict(attach=owner.HOSTED_BWRAP_NAMES[1], mode='enforce', sha256='b'*64)}
+        record = dict(schema='implementaudit.hosted-bwrap-policy.v1', state='ACTIVE',
+                      profile_sha256=owner.HOSTED_BWRAP_POLICY_SHA256, context=current, loaded=loaded)
+        owner.hosted_bwrap_policy_observation(record, current, loaded)
+        for changed in (dict(record, state='PENDING'), dict(record, profile_sha256='0'*64),
+                        dict(record, unknown=True), dict(record, context=dict(global_state={'restricted': '0'}, files={}))):
+            with self.assertRaises(ValueError):
+                owner.hosted_bwrap_policy_observation(changed, current, loaded)
+        changed = dict(loaded)
+        changed[owner.HOSTED_BWRAP_NAMES[0]] = dict(loaded[owner.HOSTED_BWRAP_NAMES[0]], sha256='c'*64)
+        with self.assertRaises(ValueError):
+            owner.hosted_bwrap_policy_observation(record, current, changed)
+
+    def test_c5_bwrap_policy_existing_disk_definition_refuses_without_effect(self):
+        owner = load("c5_bwrap_policy_existing_disk", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        with mock.patch.object(owner, '_bwrap_disk_policies', return_value=['/etc/apparmor.d/bwrap']), \
+             mock.patch.object(owner.subprocess, 'run', side_effect=AssertionError('existing policy reached parser')) as run:
+            with self.assertRaisesRegex(ValueError, 'existing bwrap policy file'):
+                owner.hosted_bwrap_policy_context()
+            run.assert_not_called()
+
+    def test_c5_bwrap_policy_finalization_retains_live_labels_and_receipt(self):
+        owner = load("c5_bwrap_policy_nonremoving_finalization", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        current = dict(global_state={'restricted': '1'}, files={})
+        loaded = {owner.HOSTED_BWRAP_NAMES[0]: dict(attach='/usr/bin/bwrap', mode='enforce', sha256='a'*64),
+                  owner.HOSTED_BWRAP_NAMES[1]: dict(attach=owner.HOSTED_BWRAP_NAMES[1], mode='enforce', sha256='b'*64)}
+        record = dict(schema='implementaudit.hosted-bwrap-policy.v1', state='ACTIVE',
+                      profile_sha256=owner.HOSTED_BWRAP_POLICY_SHA256, context=current, loaded=loaded)
+        live = []
+        def after_inventory():
+            live.append(424242)  # New managed execution after the observed inventory.
+            return current
+        with tempfile.TemporaryDirectory(prefix='c5-retained-policy-') as temporary:
+            path = Path(temporary) / 'owned.json'
+            raw = (json.dumps(record) + '\n').encode()
+            path.write_bytes(raw);path.chmod(0o600)
+            observed = owner.identity(path.stat())
+            with mock.patch.object(owner, '_bwrap_root'), \
+                 mock.patch.object(owner, 'HOSTED_BWRAP_RECEIPT', str(path)), \
+                 mock.patch.object(owner, 'hosted_bwrap_policy_inventory', return_value=loaded), \
+                 mock.patch.object(owner, 'hosted_bwrap_policy_context', side_effect=after_inventory), \
+                 mock.patch.object(owner, '_bwrap_regular', return_value=(raw, observed)), \
+                 mock.patch.object(owner, 'hosted_bwrap_policy_parser', side_effect=AssertionError('finalizer changed kernel policy')) as parser, \
+                 mock.patch.object(owner.os, 'unlink', side_effect=AssertionError('finalizer deleted retained receipt')), \
+                 contextlib.redirect_stdout(io.StringIO()) as output:
+                self.assertEqual(owner.finalize_hosted_bwrap_policy(), 0)
+            self.assertEqual(live, [424242])
+            parser.assert_not_called()
+            self.assertEqual(path.read_bytes(), raw)
+            result = json.loads(output.getvalue())
+            self.assertFalse(result['kernel_policy_unloaded'])
+            self.assertFalse(result['receipt_unlinked'])
+            self.assertEqual(result['retained_until'], 'EPHEMERAL_VM_DISPOSAL')
+
+    def test_c5_bwrap_policy_finalization_requires_root_inventory_readback(self):
+        owner = load("c5_bwrap_policy_mandatory_inventory", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        with mock.patch.object(owner, '_bwrap_root'), \
+             mock.patch.object(owner, 'hosted_bwrap_policy_inventory', side_effect=PermissionError('not readable')) as inventory, \
+             mock.patch.object(owner, '_bwrap_regular', side_effect=AssertionError('inventory was bypassed')) as receipt, \
+             mock.patch.object(owner, 'hosted_bwrap_policy_parser', side_effect=AssertionError('unqualified kernel change')) as parser:
+            with self.assertRaises(PermissionError):
+                owner.finalize_hosted_bwrap_policy()
+            inventory.assert_called_once()
+            receipt.assert_not_called()
+            parser.assert_not_called()
+
     def test_native_binding_lookup_refuses_ambiguous_json(self):
         owner = load("native_binding_json", PEER / "host-session-binding.py")
         with tempfile.TemporaryDirectory(prefix="native-binding-json-") as temporary:

@@ -13,7 +13,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 3
+          fetch-depth: 2
 
       - name: Observe the C5 setup prerequisite
         if: always()
@@ -32,6 +32,10 @@ jobs:
           printf 'C5 setup observation instrument exit: %s\n' "$setup_status"
           exit "$setup_status"
 
+      - name: Provision the scoped hosted bwrap AppArmor prerequisite
+        timeout-minutes: 1
+        run: sudo --preserve-env=GITHUB_ACTIONS,RUNNER_ENVIRONMENT /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --provision-hosted-bwrap-policy
+
       - name: Receive the C5 current input prerequisites
         if: always()
         continue-on-error: true
@@ -40,7 +44,6 @@ jobs:
 
       - name: Observe the ordinary continuity transport prerequisite
         if: always()
-        continue-on-error: true
         timeout-minutes: 1
         run: |
           /usr/bin/python3.12 -I -S -B -c 'import runpy; probe=runpy.run_path("tests/work-graph-continuity-cases.py"); probe["require_host"]()' --require-supported-host
@@ -62,114 +65,10 @@ jobs:
           python -m json.tool .claude-plugin/marketplace.json >/dev/null
           python -m json.tool package/implementaudit-package.json >/dev/null
 
-      - name: Temporary a8 namespace diagnostic (deliberate failure)
-        timeout-minutes: 3
-        run: |
-          diag="$(mktemp -d "$RUNNER_TEMP/a8-namespace.XXXXXX")"
-          source="$diag/source"
-          git cat-file -e a8f34eed51b5eccc7809d1983e0c67b35b8e8ee8^{commit}
-          git worktree add --quiet --detach "$source" a8f34eed51b5eccc7809d1983e0c67b35b8e8ee8
-          cleanup() { git -C "$GITHUB_WORKSPACE" worktree remove "$source"; }
-          trap cleanup EXIT
-          cat > "$diag/causewalk.py" <<'PY'
-          import hashlib, json, math, os, platform, runpy, stat, subprocess, sys, time
-          from pathlib import Path
-          ROOT = Path.cwd()
-          TARGET = "a8f34eed51b5eccc7809d1983e0c67b35b8e8ee8"
-          TREE = "ef7813302cf0ce67c0d915a7679a0259aa8c9746"
-          PIN = {"bytes": 72160, "sha256": "52231e1caf55bcbc667b269f49c63599a6f7db4767ae6a039580d0ff853db712"}
-          def emit(section, value):
-              print(json.dumps(dict(diagnostic="A8_ONLY_NO_QUALIFICATION", section=section, value=value), sort_keys=True), flush=True)
-          def git(*args):
-              return subprocess.check_output(["git", *args], cwd=ROOT).decode().strip()
-          def read(path, limit=8192):
-              try:
-                  with Path(path).open("rb") as stream:
-                      raw = stream.read(limit + 1)
-                  return dict(text=raw[:limit].decode("utf-8", "backslashreplace"), truncated=len(raw) > limit)
-              except OSError as exc:
-                  return dict(unavailable=type(exc).__name__)
-          head, tree = git("rev-parse", "HEAD"), git("rev-parse", "HEAD^{tree}")
-          emit("source", dict(head=head, tree=tree, required_head=TARGET, required_tree=TREE))
-          assert head == TARGET and tree == TREE and not git("status", "--porcelain"), "exact clean a8 worktree required"
-          status = read("/proc/self/status").get("text", "UNAVAILABLE").splitlines()
-          emit("process", dict(executable=sys.executable, version=sys.version, uid=os.getuid(), euid=os.geteuid(), gid=os.getgid(),
-              flags=str(sys.flags), platform=platform.platform(), status=[s for s in status if s.startswith(("Uid:", "Gid:", "Cap", "NoNewPrivs:", "Seccomp"))]))
-          for path in ("/proc/self/attr/current", "/sys/module/apparmor/parameters/enabled",
-                       "/proc/sys/kernel/apparmor_restrict_unprivileged_userns", "/proc/sys/kernel/unprivileged_userns_clone"):
-              emit("host_fact", dict(path=path, **read(path)))
-          profiles = {Path("/usr/share/apparmor/extra-profiles/bwrap-userns-restrict")}
-          try:
-              profiles.update(p for p in Path("/etc/apparmor.d").iterdir() if "bwrap" in p.name.lower() or "bubblewrap" in p.name.lower())
-          except OSError as exc:
-              emit("profile_listing", dict(unavailable=type(exc).__name__))
-          assert len(profiles) <= 16, "bwrap profile population exceeds diagnostic bound"
-          for path in sorted(profiles):
-              row = dict(path=str(path), exists=path.exists())
-              if row["exists"]:
-                  try:
-                      info = path.lstat()
-                      assert stat.S_ISREG(info.st_mode) and info.st_size <= 16384, "profile type/size exceeds diagnostic bound"
-                      with path.open("rb") as stream: raw = stream.read(16385)
-                      assert len(raw) <= 16384 and len(raw) == info.st_size, "profile changed or exceeded bound"
-                      row.update(bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest(), content=raw.decode("utf-8", "backslashreplace"))
-                  except (OSError, AssertionError) as exc:
-                      row["unavailable"] = str(exc)[:1024]
-              emit("existing_bwrap_profile", row)
-          loaded = read("/sys/kernel/security/apparmor/profiles", 65536)
-          if "text" in loaded:
-              loaded["text"] = "\n".join(line for line in loaded["text"].splitlines() if "bwrap" in line.lower() or "bubblewrap" in line.lower())
-          emit("loaded_bwrap_profiles", loaded)
-          with Path("/usr/bin/bwrap").open("rb") as stream: raw = stream.read(PIN["bytes"] + 1)
-          actual = dict(bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest())
-          emit("launcher", dict(expected=PIN, actual=actual))
-          assert actual == PIN, "pinned C5 launcher prerequisite differs"
-          started = time.time()
-          case = None
-          outcome = "SETUP_ERROR"
-          try:
-              namespace = runpy.run_path(str(ROOT / "tests/work-graph-original14-receiving-cases.py"))
-              case = namespace["Original14GraphReceiving"]("test_native_intake_uses_current_original14_not_retired_root")
-              case.setUp()
-              getattr(case, case._testMethodName)()
-              outcome = "POSITIVE_RETURNED"
-          except BaseException as exc:
-              outcome = "EXCEPTION"
-              seen = set()
-              while exc is not None and id(exc) not in seen and len(seen) < 8:
-                  seen.add(id(exc))
-                  row = dict(type=type(exc).__name__, module=type(exc).__module__, message=str(exc)[:4096])
-                  for key in ("code", "returncode", "stdout", "stderr"):
-                      if hasattr(exc, key):
-                          value = getattr(exc, key)
-                          row[key] = value[:16384].decode("utf-8", "backslashreplace") if isinstance(value, bytes) else value
-                          if isinstance(value, bytes): row[key + "_truncated"] = len(value) > 16384
-                  emit("actual_exception", row)
-                  exc = exc.__cause__ or exc.__context__
-          finally:
-              if case is not None:
-                  try: emit("case_cleanup", dict(ok=bool(case.doCleanups())))
-                  except BaseException as exc: emit("case_cleanup", dict(error=type(exc).__name__, message=str(exc)[:1024]))
-              ended = time.time()
-              command = ["journalctl", "-k", "--no-pager", "-o", "short-unix", "--since", "@" + str(math.floor(started)),
-                         "--until", "@" + str(math.ceil(ended)), "--grep", "bwrap", "-n", "32"]
-              try:
-                  journal = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=5, check=False)
-                  rows = [line[:2048] for line in journal.stdout[:65536].decode("utf-8", "backslashreplace").splitlines() if "denied" in line.lower() and "bwrap" in line.lower()]
-                  emit("contemporaneous_bwrap_denials", dict(returncode=journal.returncode, rows=rows, stdout_truncated=len(journal.stdout) > 65536,
-                      stderr=journal.stderr[:2048].decode("utf-8", "backslashreplace")))
-              except (OSError, subprocess.TimeoutExpired) as exc:
-                  emit("contemporaneous_bwrap_denials", dict(unavailable=type(exc).__name__))
-              emit("diagnostic_terminal", dict(outcome=outcome, seconds=round(ended-started, 3), qualification="NONE", deliberate_failure=True))
-          raise SystemExit(1)
-          PY
-          cd "$source"
-          if command -v python >/dev/null 2>&1; then py=python; else py=python3; fi
-          set +e
-          PYTHONDONTWRITEBYTECODE=1 timeout 90s "$py" "$diag/causewalk.py"
-          probe_status=$?
-          printf 'A8 diagnostic-only probe exit=%s; deliberately failing; no canonical qualification or suite replay.\n' "$probe_status"
-          exit 1
-
       - name: Verify package contract
         run: bash scripts/verify-package.sh
+
+      - name: Observe retained job-owned bwrap AppArmor prerequisite
+        if: always()
+        timeout-minutes: 1
+        run: sudo --preserve-env=GITHUB_ACTIONS,RUNNER_ENVIRONMENT /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --finalize-hosted-bwrap-policy
