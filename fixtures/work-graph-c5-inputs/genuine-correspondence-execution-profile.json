@@ -182,7 +182,7 @@
   "schema": "implementaudit.c5-execution-selection.v1",
   "scratch_mount": "/tmp",
   "selection_origins": {
-    "base_actual_member": "fixtures/work-graph-c5-inputs/execution-sol-task-python312.json",
+    "base_actual_member": "fixtures/work-graph-c5-inputs/execution-correspondence-python312.json",
     "base_logical_key": "fixtures/work-graph-c5-inputs/system-python312.json",
     "provider_actual_member": "fixtures/work-graph-c5-inputs/package-sol-task-venv-python312.json"
   },

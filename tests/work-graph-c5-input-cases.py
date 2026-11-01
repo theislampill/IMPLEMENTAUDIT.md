@@ -298,6 +298,48 @@ class C5TaskResourceCases(unittest.TestCase):
 @unittest.skipUnless(sys.platform.startswith('linux') and hasattr(os,'pidfd_open'), 'Linux live child custody required')
 class C5CorrespondenceLiveCases(unittest.TestCase):
     """Actual tiny C5 channels/children; no acquired-image or original claim."""
+    def source_contract(self):
+        path=ROOT/'scripts/load-work-graph-c5-executor.py';tree=ast.parse(path.read_bytes())
+        assignment=next(n for n in tree.body if isinstance(n,ast.Assign) and
+            any(isinstance(t,ast.Name) and t.id=='CORRESPONDENCE_PINS' for t in n.targets))
+        pins=ast.literal_eval(assignment.value.args[0])
+        temporary=tempfile.TemporaryDirectory(prefix='c5-correspondence-contract-')
+        self.addCleanup(temporary.cleanup);source=Path(temporary.name)
+        for name in [*pins,'scripts/load-work-graph-c5-executor.py']:
+            target=source/name;target.parent.mkdir(parents=True,exist_ok=True)
+            target.write_bytes((ROOT/name).read_bytes());target.chmod(0o644)
+        spec=importlib.util.spec_from_file_location('correspondence_contract_source',source/'scripts/load-work-graph-c5-executor.py')
+        owner=importlib.util.module_from_spec(spec);spec.loader.exec_module(owner)
+        engine=owner._Engine(owner.CORRESPONDENCE_PROFILE).load()
+        names=set(engine.B.SPEC['payload_sources'])|set(engine.B.SPEC['programs'])
+        names|={p.relative_to(ROOT).as_posix() for p in (ROOT/'skills/implementaudit').rglob('*') if p.is_file()}
+        state=dict(files={name:dict(sha256=hashlib.sha256((ROOT/name).read_bytes()).hexdigest()) for name in names})
+        return owner,engine,state
+
+    def test_correspondence_actual_source_contract_uses_separate_current_base(self):
+        owner,engine,state=self.source_contract()
+        try:contract=engine.B._producer_contract(state)
+        except ValueError as error:self.fail('Actual source producer contract refused: '+str(error))
+        self.assertEqual(len(contract['roles']),19)
+        self.assertEqual(contract['original_index'],48)
+        self.assertEqual(set(contract['selected_programs']),{'scripts/build-release-asset.sh',
+            'scripts/check-package-contract.sh','scripts/package-contract.py',
+            'scripts/repro-event-capture.py','scripts/write-release-checksums.sh',
+            'tests/reproducible-release-asset.test.sh'})
+        self.assertNotEqual(owner.CORRESPONDENCE_BASE_SELECTION,owner.TASK_BASE_SELECTION)
+        self.assertEqual(engine.SPEC['selection_origins']['base_actual_member'],owner.CORRESPONDENCE_BASE_SELECTION)
+
+    def test_correspondence_stale_producer_field_refuses(self):
+        owner,engine,state=self.source_contract()
+        try:engine.B._producer_contract(state)
+        except ValueError as error:self.fail('Positive source contract refused before mutation: '+str(error))
+        historical=json.loads((ROOT/'fixtures/work-graph-c5-inputs/execution-sol-task-python312.json').read_bytes())
+        for name in ('scripts/repro-event-capture.py','tests/reproducible-release-asset.test.sh'):
+            changed=copy.deepcopy(state);changed['files'][name]['sha256']=historical['programs'][name]
+            self.assertNotEqual(changed['files'][name]['sha256'],state['files'][name]['sha256'])
+            with self.subTest(name=name),self.assertRaisesRegex(ValueError,'producer source differs'):
+                engine.B._producer_contract(changed)
+
     def test_closed_shared_profile_buffers_and_source_drift_refuse(self):
         path=ROOT/'scripts/load-work-graph-c5-executor.py';tree=ast.parse(path.read_bytes())
         assignment=next(n for n in tree.body if isinstance(n,ast.Assign) and
