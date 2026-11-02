@@ -853,6 +853,38 @@ class CompositeSourceCases(unittest.TestCase):
         with self.assertRaises(ValueError):
             owner._bwrap_dfa_nonmatch(attachment_dfa_bytes(tables), '/bin/bwrap')
 
+    def test_c5_compiled_opaque_network_array_counts_typed_triples(self):
+        """Legacy network arrays count allow/audit/quiet records, not scalars."""
+        owner = load('c5_network_array', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
+        def named(name):
+            return b'\x04' + (len(name) + 1).to_bytes(2, 'little') + name + b'\0'
+        def policy(count, values, name=b'net_allowed_af', nested=False, end=b'\x0c'):
+            array = named(name) + b'\x0b' + count.to_bytes(2, 'little') + values + end
+            if nested:
+                array = named(b'nested') + b'\x07' + array + b'\x08'
+            profile = (named(b'profile') + b'\x07\x05\x03\x00ci\x00' +
+                       named(b'flags') + b'\x07\x08' + array + b'\x08')
+            return named(b'version') + b'\x02\x05\x00\x00\x00' + profile, profile
+        scalar = b'\x01\x00\x00'
+        for count in (0, 1, 46):
+            raw, profile = policy(count, scalar * (3 * count))
+            with self.subTest(valid_count=count):
+                result = owner._bwrap_v5_profiles(raw)
+                self.assertEqual(set(result), {'ci'})
+                self.assertEqual(result['ci']['sha256'], hashlib.sha256(b'\x05\x00\x00\x00' + profile).hexdigest())
+                self.assertIsNone(result['ci']['xmatch'])
+        ordinary, _ = policy(1, scalar, name=b'ordinary')
+        self.assertEqual(set(owner._bwrap_v5_profiles(ordinary)), {'ci'})
+        adverse = [policy(1, scalar * 2), policy(1, scalar * 4), policy(46, scalar * 46),
+                   policy(1, scalar * 2 + b'\x02\x00\x00\x00\x00'),
+                   policy(1, scalar * 2 + named(b'named') + scalar),
+                   policy(1, scalar * 3, name=b'ordinary'),
+                   policy(1, scalar * 3, nested=True),
+                   policy(1, scalar * 3, end=b'\x0a'), policy(4097, b'')]
+        for index, (raw, _) in enumerate(adverse):
+            with self.subTest(adverse=index), self.assertRaises(ValueError):
+                owner._bwrap_v5_profiles(raw)
+
     @unittest.skipUnless(sys.platform == 'linux' and Path('/usr/sbin/apparmor_parser').is_file(), 'AppArmor no-load compiler')
     def test_c5_compiled_opaque_attachment_is_bound_and_conservative(self):
         owner = load('c5_opaque_semantics', ROOT / 'scripts/qualify-work-graph-c5-setup.py')

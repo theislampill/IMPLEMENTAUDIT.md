@@ -666,6 +666,12 @@ def _bwrap_v5_profiles(raw):
             value = []
             while position < len(raw) and raw[position] != ending:
                 value.append(node(depth + 1))
+            if kind == 11 and name == b'net_allowed_af':
+                # ABI5 counts network records; each carries three unnamed
+                # u16 values (allow, audit, quiet), not one scalar element.
+                _bwrap_need(depth == 1 and all(item['kind'] == 1 and item['name'] is None
+                            for item in value), 'unsupported compiled network array')
+                count *= 3
             _bwrap_need(number(1) == ending and (count is None or len(value) == count),
                         'compiled policy container differs')
         else:
