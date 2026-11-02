@@ -1,4 +1,4 @@
-name: DG21 hosted attachment capture
+name: DG21 scoped AppArmor qualification
 
 on:
   push:
@@ -9,11 +9,11 @@ permissions:
   contents: read
 
 jobs:
-  capture:
+  qualify:
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 5
     steps:
-      - name: Check out the exact diagnostic source
+      - name: Check out the exact qualification source
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
@@ -22,40 +22,40 @@ jobs:
       - name: Record source identity
         run: |
           git rev-parse HEAD HEAD^{tree}
-          sha256sum scripts/qualify-work-graph-c5-setup.py
+          sha256sum scripts/qualify-work-graph-c5-setup.py tests/composite-source-cases.py
           git status --porcelain=v1
 
-      - name: Capture the existing refusal without policy operations
+      - name: Run affected AppArmor positive and adverse controls
         timeout-minutes: 1
         run: |
-          sudo --preserve-env=GITHUB_ACTIONS,RUNNER_ENVIRONMENT /usr/bin/python3.12 -I -S -B - <<'PY'
+          /usr/bin/python3.12 -I -S -B - <<'PY'
           import json
           import runpy
-          owner = runpy.run_path('scripts/qualify-work-graph-c5-setup.py')
-          owner['_bwrap_root']()
-          before = owner['hosted_bwrap_policy_inventory']()
-          print(json.dumps({'scope': 'READ_ONLY_ATTACHMENT_CAPTURE', 'policy_operations': 0,
-                            'native_authority': 'NONE', 'profile_count': len(before)}), flush=True)
-          proofs = owner['_bwrap_resolve_opaque'](before)
-          if owner['hosted_bwrap_policy_inventory']() != before:
-              raise ValueError('diagnostic inventory changed')
-          print(json.dumps({'scope': 'READ_ONLY_ATTACHMENT_CAPTURE', 'resolved': len(proofs),
-                            'policy_operations': 0, 'native_authority': 'NONE'}), flush=True)
+          import unittest
+          case = runpy.run_path('tests/composite-source-cases.py')['CompositeSourceCases']
+          prefixes = ('test_c5_bwrap_policy_', 'test_c5_selected_policy_export_',
+                      'test_c5_compiled_opaque_', 'test_c5_approved_compilation_',
+                      'test_c5_provision_consumes_', 'test_c5_differential_attachment_')
+          names = sorted(name for name in dir(case) if name.startswith(prefixes))
+          result = unittest.TextTestRunner(verbosity=2).run(unittest.TestSuite(case(name) for name in names))
+          print(json.dumps({'scope': 'FOCUSED_APPARMOR_CONTROLS_ONLY', 'tests': result.testsRun,
+                            'skipped': len(result.skipped), 'successful': result.wasSuccessful()}))
+          raise SystemExit(0 if names and result.wasSuccessful() and not result.skipped else 1)
           PY
 
-      - name: Observe that no owned policy was added
+      - name: Provision the maintained pinned hosted launcher
+        timeout-minutes: 1
+        run: sudo /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --provision-hosted-launcher
+
+      - name: Provision the unchanged scoped AppArmor policy
+        timeout-minutes: 1
+        run: sudo --preserve-env=GITHUB_ACTIONS,RUNNER_ENVIRONMENT /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --provision-hosted-bwrap-policy
+
+      - name: Observe the ordinary constructed continuity transport
+        timeout-minutes: 1
+        run: /usr/bin/python3.12 -I -S -B -c 'import runpy; probe=runpy.run_path("tests/work-graph-continuity-cases.py"); probe["require_host"]()' --require-supported-host
+
+      - name: Observe retained job-owned AppArmor policy
         if: always()
         timeout-minutes: 1
-        run: |
-          sudo --preserve-env=GITHUB_ACTIONS,RUNNER_ENVIRONMENT /usr/bin/python3.12 -I -S -B - <<'PY'
-          import json
-          import runpy
-          owner = runpy.run_path('scripts/qualify-work-graph-c5-setup.py')
-          owner['_bwrap_root']()
-          inventory = owner['hosted_bwrap_policy_inventory']()
-          owned = sorted(set(inventory).intersection(owner['HOSTED_BWRAP_NAMES']))
-          print(json.dumps({'owned_profiles': owned, 'policy_operations': 0,
-                            'cleanup_boundary': 'EPHEMERAL_VM_DISPOSAL'}), flush=True)
-          if owned:
-              raise ValueError('unexpected owned policy in read-only diagnostic')
-          PY
+        run: sudo --preserve-env=GITHUB_ACTIONS,RUNNER_ENVIRONMENT /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --finalize-hosted-bwrap-policy

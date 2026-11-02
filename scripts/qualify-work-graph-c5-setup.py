@@ -701,14 +701,12 @@ def _bwrap_v5_profiles(raw):
 
 
 def _bwrap_dfa_nonmatch(dfa, path):
-    """Conservative unflagged AppArmor DFA check; only state0 proves nonmatch."""
+    """Conservative direct/differential attachment check; only state0 proves nonmatch."""
     import struct
     _bwrap_need(type(dfa) is bytes and 24 <= len(dfa) <= 65536, 'unsupported attachment DFA bound')
     magic, header, size, flags = struct.unpack_from('>IIIH', dfa)
-    _bwrap_need(magic == 0x1b5e783d and 14 <= header <= size == len(dfa) and flags == 0,
-                'unsupported attachment DFA header; observed=' + json.dumps(dict(
-                    magic=magic, header=header, size=size, flags=flags,
-                    dfa_bytes=len(dfa), prefix_hex=dfa[:24].hex()), sort_keys=True))
+    _bwrap_need(magic == 0x1b5e783d and 14 <= header <= size == len(dfa) and flags in (0, 1),
+                'unsupported attachment DFA header')
     position = header
     tables = {}
     widths = {1: 4, 2: 4, 3: 2, 4: 2, 5: 1, 7: 4, 8: 2}
@@ -722,19 +720,61 @@ def _bwrap_dfa_nonmatch(dfa, path):
         position = (end + 7) // 8 * 8
     _bwrap_need(position == len(dfa) and {1, 2, 3, 4, 7, 8} <= set(tables), 'attachment tables incomplete')
     states = len(tables[2])
+    differential = 0x80000000
     _bwrap_need(states >= 2 and all(len(tables[i]) == states for i in (1, 4, 7))
                 and len(tables[3]) == len(tables[8]) and tables[1][0] == 0
-                and all(value >> 24 == 0 for value in tables[2])
+                and all(value & ~(0x00ffffff | differential) == 0
+                        and (not value & differential or flags == 1) for value in tables[2])
+                and all((value & 0x00ffffff) + 255 < len(tables[3]) for value in tables[2])
+                and all(value < states for ident in (3, 4, 8) for value in tables[ident])
                 and (5 not in tables or len(tables[5]) == 256), 'unsupported attachment states')
-    state = 1
+    # Differential defaults retry the SAME byte. Validate the default graph
+    # first, so corrupt self-loops or longer cycles cannot stall that retry.
+    resolved = set()
+    for initial in range(states):
+        current = initial
+        chain = set()
+        while tables[2][current] & differential and current not in resolved:
+            _bwrap_need(current not in chain, 'cyclic differential attachment default')
+            chain.add(current)
+            current = tables[4][current]
+        resolved.update(chain)
+    def retry_transition(initial, character, cached):
+        chain = []
+        state = initial
+        while state not in cached:
+            base = tables[2][state]
+            slot = (base & 0x00ffffff) + character
+            if tables[3][slot] == state:
+                cached[state] = tables[8][slot]
+                break
+            if not base & differential:
+                cached[state] = tables[4][state]
+                break
+            chain.append(state)
+            state = tables[4][state]
+        result = cached[state]
+        for state in chain:
+            cached[state] = result
+        return result
+    # Attachment leftmatch uses direct defaults until its loop fallback calls
+    # the differential matcher. Overapproximate every possible switch point;
+    # checking only an all-direct and an all-retry traversal is insufficient.
+    possible = {1}
     for character in path.encode('ascii'):
         if 5 in tables:
             character = tables[5][character]
-        slot = tables[2][state] + character
-        _bwrap_need(slot < len(tables[3]), 'attachment transition exceeds bound')
-        state = tables[8][slot] if tables[3][slot] == state else tables[4][state]
-        _bwrap_need(state < states, 'attachment state exceeds bound')
-    return state == 0
+        # A fallback beginning at state0 returns immediately. Preserve that
+        # rejecting result as well as any table transition from state0.
+        following = {0} if 0 in possible else set()
+        cached = {}
+        for state in possible:
+            base = tables[2][state]
+            slot = (base & 0x00ffffff) + character
+            following.add(tables[8][slot] if tables[3][slot] == state else tables[4][state])
+            following.add(retry_transition(state, character, cached))
+        possible = following
+    return possible == {0}
 
 
 def _bwrap_prove_nonmatch(raw, name, row):
@@ -749,21 +789,6 @@ def _bwrap_prove_nonmatch(raw, name, row):
                 'existing compiled attachment may govern bwrap')
     return dict(name=name, profile_sha256=row['sha256'], raw_sha256=hashlib.sha256(raw).hexdigest(),
                 targets=targets, result='PROVED_DFA_NOMATCH_BOTH_FIXED_PATHS')
-
-
-def _bwrap_log_rejected_export(name, row, exported, reason):
-    """Log only the already bounded/readback-verified bytes; never admit policy."""
-    encoded = exported['base64']
-    parts = (len(encoded) + 4095) // 4096
-    print(json.dumps(dict(schema='implementaudit.rejected-opaque-policy-diagnostic.v1',
-        authority='NONE', policy_operations=0, selected_name=name, selected_record=row,
-        reason=reason[:256], exported={key: value for key, value in exported.items() if key != 'base64'},
-        parts=parts, interpretation='READ_ONLY_CAPTURE_NO_ATTACHMENT_OR_ADMISSION_VERDICT'),
-        sort_keys=True), flush=True)
-    for part in range(parts):
-        print(json.dumps(dict(schema='implementaudit.rejected-opaque-policy-chunk.v1',
-            raw_sha256=exported['sha256'], part=part, parts=parts,
-            base64_fragment=encoded[part * 4096:(part + 1) * 4096]), sort_keys=True), flush=True)
 
 
 def _bwrap_resolve_opaque(inventory):
@@ -786,15 +811,12 @@ def _bwrap_resolve_opaque(inventory):
     proofs = {}
     total = 0
     for name, row in selected.items():
-        exported = None
         try:
             _bwrap_need(name in indexed, 'compiled attachment entry disappeared')
             exported = _bwrap_selected_export(indexed[name], root, min(65536, 4 * 1024**2 - total))
             total += exported['bytes']
             proofs[name] = _bwrap_prove_nonmatch(base64.b64decode(exported['base64'], validate=True), name, row)
         except (OSError, ValueError, UnicodeError) as exc:
-            if exported is not None:
-                _bwrap_log_rejected_export(name, row, exported, str(exc))
             raise ValueError(_bwrap_policy_refusal('unresolved compiled attachment: ' + str(exc)[:256],
                 name, row, 'compiled_attachment')) from exc
     _bwrap_need(hosted_bwrap_policy_inventory() == inventory, 'compiled attachment inventory changed')

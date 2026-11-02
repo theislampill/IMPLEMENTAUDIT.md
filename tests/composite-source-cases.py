@@ -30,6 +30,32 @@ def load(name, path):
     return module
 
 
+def attachment_dfa_tables(first=ord('/')):
+    """Hand-built two-default chain; state 4 accepts a first-byte prefix."""
+    tables = {1: [0, 0, 0, 0, 1], 7: [0] * 5,
+              2: [0, 0x80000100, 0x80000200, 768, 1024],
+              4: [0, 2, 3, 0, 0], 3: [0] * 1280, 8: [0] * 1280}
+    tables[3][768 + first] = 3
+    tables[8][768 + first] = 4
+    tables[3][1024:1280] = [4] * 256
+    tables[8][1024:1280] = [4] * 256
+    return tables
+
+
+def attachment_dfa_bytes(tables, flags=1):
+    """Serialize only the documented table framing, without a matching oracle."""
+    import struct
+    widths = {1: 4, 2: 4, 3: 2, 4: 2, 5: 1, 7: 4, 8: 2}
+    data = bytearray(24)
+    for ident, values in sorted(tables.items()):
+        width = widths[ident]
+        data.extend(struct.pack('>HHII', ident, width, 0, len(values)))
+        data.extend(b''.join(value.to_bytes(width, 'big') for value in values))
+        data.extend(bytes((-len(data)) % 8))
+    struct.pack_into('>IIIH', data, 0, 0x1b5e783d, 24, len(data), flags)
+    return bytes(data)
+
+
 class CompositeSourceCases(unittest.TestCase):
     @unittest.skipUnless(sys.platform == "linux", "fixed Linux hosted prerequisites")
     def test_c5_hosted_current_reader_binds_before_owner_loading(self):
@@ -741,6 +767,91 @@ class CompositeSourceCases(unittest.TestCase):
             (entry / 'raw_abi').symlink_to('../../raw_data/2/abi')
             with self.assertRaisesRegex(ValueError, 'export path'):
                 receive(entry, root)
+
+    def test_c5_differential_attachment_retries_the_same_character(self):
+        """Clearing flags or consuming a byte at a differential default is unsafe."""
+        owner = load('c5_diff_attachment', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
+        for first, expected in [(ord('/'), False), (ord('a'), True)]:
+            raw = attachment_dfa_bytes(attachment_dfa_tables(first))
+            for target in ('/usr/bin/bwrap', '/bin/bwrap'):
+                with self.subTest(first=first, target=target):
+                    self.assertIs(owner._bwrap_dfa_nonmatch(raw, target), expected)
+        # An ordinary default consumes the byte even in a flagged DFA.
+        tables = attachment_dfa_tables()
+        tables[2][1] &= 0x00ffffff
+        for target in ('/usr/bin/bwrap', '/bin/bwrap'):
+            self.assertTrue(owner._bwrap_dfa_nonmatch(attachment_dfa_bytes(tables), target))
+
+    def test_c5_differential_attachment_preserves_equivalence_classes(self):
+        """Retry must use the same mapped byte, not remap it or use raw ASCII."""
+        owner = load('c5_diff_equivalence', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
+        tables = attachment_dfa_tables(1)
+        tables[5] = [0] * 256
+        tables[5][ord('/')] = 1
+        raw = attachment_dfa_bytes(tables)
+        self.assertFalse(owner._bwrap_dfa_nonmatch(raw, '/usr/bin/bwrap'))
+        self.assertFalse(owner._bwrap_dfa_nonmatch(raw, '/bin/bwrap'))
+        self.assertTrue(owner._bwrap_dfa_nonmatch(raw, 'another-program'))
+
+    def test_c5_differential_attachment_covers_direct_attachment_defaults(self):
+        """Attachment leftmatch may consume a byte before differential fallback."""
+        owner = load('c5_diff_leftmatch', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
+        tables = {1: [0, 0, 0, 1], 7: [0] * 4,
+                  2: [0, 0x80000100, 512, 768], 4: [0, 2, 0, 0],
+                  3: [0] * 1024, 8: [0] * 1024}
+        for character in (ord('u'), ord('b')):
+            tables[3][512 + character] = 2
+            tables[8][512 + character] = 3
+        tables[3][768:1024] = [3] * 256
+        tables[8][768:1024] = [3] * 256
+        # Retrying '/' reaches zero; consuming it at 1->2 instead allows
+        # the next 'u' or 'b' to reach the accepting self-loop at state 3.
+        for target in ('/usr/bin/bwrap', '/bin/bwrap'):
+            with self.subTest(target=target):
+                self.assertFalse(owner._bwrap_dfa_nonmatch(attachment_dfa_bytes(tables), target))
+
+    def test_c5_differential_attachment_covers_a_midpath_matcher_switch(self):
+        """Checking only two complete deterministic traversals is insufficient."""
+        owner = load('c5_diff_switch', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
+        tables = attachment_dfa_tables(ord('a'))
+        for character in (ord('u'), ord('b')):
+            tables[3][768 + character] = 3
+            tables[8][768 + character] = 4
+        # All-retry rejects '/' and all-direct rejects the third byte.
+        # A direct first default followed by retry reaches accepting state 4.
+        for target in ('/usr/bin/bwrap', '/bin/bwrap'):
+            with self.subTest(target=target):
+                self.assertFalse(owner._bwrap_dfa_nonmatch(attachment_dfa_bytes(tables), target))
+
+    def test_c5_differential_attachment_refuses_unknown_flags_and_cycles(self):
+        """New encoding support must retain closed flags and terminate on corrupt defaults."""
+        owner = load('c5_diff_refusal', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
+        for flags in (0, 2, 3, 65535):
+            with self.subTest(flags=flags), self.assertRaises(ValueError):
+                owner._bwrap_dfa_nonmatch(attachment_dfa_bytes(attachment_dfa_tables(), flags), '/bin/bwrap')
+        for bit in (0x01000000, 0x20000000, 0x40000000):
+            tables = attachment_dfa_tables()
+            tables[2][1] |= bit
+            with self.subTest(bit=bit), self.assertRaises(ValueError):
+                owner._bwrap_dfa_nonmatch(attachment_dfa_bytes(tables), '/bin/bwrap')
+        for defaults in ([0, 1, 3, 0, 0], [0, 2, 1, 0, 0]):
+            tables = attachment_dfa_tables()
+            tables[4] = defaults
+            with self.subTest(defaults=defaults), self.assertRaises(ValueError):
+                owner._bwrap_dfa_nonmatch(attachment_dfa_bytes(tables), '/bin/bwrap')
+
+    def test_c5_differential_attachment_refuses_invalid_state_references(self):
+        """Malformed default/next/check indices cannot establish a nonmatch proof."""
+        owner = load('c5_diff_state_bounds', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
+        for ident, index in ((4, 1), (8, 0), (3, 0)):
+            tables = attachment_dfa_tables()
+            tables[ident][index] = 5
+            with self.subTest(table=ident), self.assertRaises(ValueError):
+                owner._bwrap_dfa_nonmatch(attachment_dfa_bytes(tables), '/bin/bwrap')
+        tables = attachment_dfa_tables()
+        tables[2][1] = 0x80ffffff
+        with self.assertRaises(ValueError):
+            owner._bwrap_dfa_nonmatch(attachment_dfa_bytes(tables), '/bin/bwrap')
 
     @unittest.skipUnless(sys.platform == 'linux' and Path('/usr/sbin/apparmor_parser').is_file(), 'AppArmor no-load compiler')
     def test_c5_compiled_opaque_attachment_is_bound_and_conservative(self):
