@@ -8,6 +8,7 @@ set -euo pipefail
 # and never gate depth on an activation keyword.
 #
 # Usage: check-action-selection-contract.sh [--repo-root <dir>]
+#        [--distributed-runtime-fixture <path>]
 
 fail() {
   printf 'check-action-selection-contract: %s\n' "$*" >&2
@@ -15,10 +16,24 @@ fail() {
 }
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-if [ "${1:-}" = "--repo-root" ]; then
-  [ "$#" -ge 2 ] || fail "--repo-root requires a directory argument"
-  repo_root="$2"
-fi
+distributed_runtime_fixture=""
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --repo-root)
+      [ "$#" -ge 2 ] || fail "--repo-root requires a directory argument"
+      repo_root="$2"
+      shift 2
+      ;;
+    --distributed-runtime-fixture)
+      [ "$#" -ge 2 ] || fail "--distributed-runtime-fixture requires a path argument"
+      distributed_runtime_fixture="$2"
+      shift 2
+      ;;
+    *)
+      fail "unknown argument: $1"
+      ;;
+  esac
+done
 cd "$repo_root"
 
 require() {
@@ -115,6 +130,10 @@ for text in \
   "Temporary option value is retained" \
   "No universal rule makes shorter feedback" \
   "higher utilisation, more slack, or less slack correct" \
+  "Material retry, recovery, or redispatch admission is conjunctive" \
+  "Host/free executor slots and queue depth are" \
+  "untriggered local work remains the serial cheap path" \
+  'CHEAP_PATH` requires canonical `NOT_STARTED' \
   "conditional planner/executor separation" \
   "least-cost" \
   "sufficiently capable route" \
@@ -166,6 +185,18 @@ for text in \
 do
   require "$lean_ref" "$text"
 done
+for text in \
+  "semantic eligibility" \
+  "deadline and queue-age policy" \
+  "downstream capacity" \
+  "recovery headroom" \
+  "Free host slots or queue depth alone never" \
+  "serial cheap path" \
+  'cheap path requires canonical `NOT_STARTED' \
+  "contradictory records refuse"
+do
+  require "$lean_ref" "$text"
+done
 
 child_ref="skills/implementaudit/references/child-agents.md"
 for text in \
@@ -187,6 +218,18 @@ for text in \
 do
   require "$child_ref" "$text"
 done
+for text in \
+  "establish semantic retry eligibility" \
+  "deadline/queue-age" \
+  "downstream capacity" \
+  "recovery headroom" \
+  "cannot authorise retry, recovery, or redispatch" \
+  "local cheap path stays serial" \
+  'requires canonical `NOT_STARTED' \
+  "requested work, deadline, queue-age, downstream, and recovery fields"
+do
+  require "$child_ref" "$text"
+done
 
 skill_ref="skills/implementaudit/SKILL.md"
 for text in \
@@ -199,12 +242,59 @@ do
   require "$skill_ref" "$text"
 done
 
-"${py_cmd[@]}" - "$repo_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+# --- conditional native security profile (R002E) ---
+security_ref="skills/implementaudit/references/audit-playbook.md"
+for text in \
+  "### Conditional systems-security profile" \
+  "protected consequence and unacceptable state" \
+  "bounded adversary and explicit exclusions" \
+  "trust/identity boundary and authority/privilege boundary" \
+  "configuration, dependency, build, artifact, and deployment" \
+  "provenance; stale or missing identity" \
+  "assurance evidence and its limits" \
+  "detection, containment, revocation, recovery, and trust re-establishment" \
+  "Authentication is not authorization" \
+  "restored availability is not restored trust" \
+  "scanner" \
+  "penetration-test result" \
+  "SBOM" \
+  "signature" \
+  "CVSS score" \
+  "certificate" \
+  "encryption label" \
+  "zero-trust slogan" \
+  "whole-system security proof" \
+  "domain and effectiveness claims remain" \
+  "unverified until their required representative context exists"
+do
+  require "$security_ref" "$text"
+done
+
+for text in \
+  "### Conditional systems-security selection" \
+  "material protected consequence" \
+  "or untrusted capability" \
+  "changed trust, privilege, or delegation boundary" \
+  "consequential security authority" \
+  "provenance-dependent claim" \
+  "adaptive-adversary or common-mode risk" \
+  "weak detection or recovery" \
+  "consequential security, privacy, safety, availability, or usability decision" \
+  "Low-exposure reversible work inside a current proven envelope" \
+  "separate security mode, workflow, or planning artifact"
+do
+  require "$depth_ref" "$text"
+done
+
+"${py_cmd[@]}" - \
+  "$repo_root/fixtures/audit-action-selection/engineering-value-cases.json" \
+  "$distributed_runtime_fixture" <<'PY'
 import json
 import sys
 from pathlib import Path
 
 path = Path(sys.argv[1])
+distributed_path = Path(sys.argv[2]) if sys.argv[2] else None
 try:
     payload = json.loads(path.read_text(encoding="utf-8"))
 except (OSError, UnicodeError, json.JSONDecodeError) as exc:
@@ -345,6 +435,10 @@ required_ids.update({
     "R44-C144-bounded-degraded-operation",
     "R44-C145-risk-matrix-insufficient",
     "R34-C146-safe-stop-control-cheap-path",
+    "R48-C147-host-slots-not-downstream-capacity",
+    "R48-C148-queue-depth-not-retry-authority",
+    "R48-C149-local-retry-cheap-path-stays-serial",
+    "R48-C150-contradictory-cheap-retry-refused",
 })
 ids = [case.get("id") for case in cases if isinstance(case, dict)]
 if len(ids) != len(set(ids)) or set(ids) != required_ids:
@@ -386,9 +480,58 @@ def booleans(observations, names):
     if any(type(observations[name]) is not bool for name in names.split()):
         raise ValueError("boolean observation type")
 
+def decide_distributed_retry(observations):
+    required = set("distributed_trigger cheap_local_operation semantic_retry_eligible effect_state deadline_remaining_ms queue_age_ms max_queue_age_ms requested_units downstream_available_units recovery_available_units".split())
+    optional = {"host_free_slots", "queue_depth"}
+    if not required.issubset(observations) or not set(observations).issubset(required | optional):
+        raise ValueError("distributed retry observation members")
+    booleans(observations, "distributed_trigger cheap_local_operation semantic_retry_eligible")
+    effect_states = {
+        "NOT_STARTED", "IN_FLIGHT", "UNKNOWN", "COMMITTED_VERIFIED",
+        "FAILED_NO_EFFECT", "COMPENSATION_PENDING", "COMPENSATED_VERIFIED",
+        "MANUAL_RECONCILIATION",
+    }
+    if observations["effect_state"] not in effect_states:
+        raise ValueError("distributed retry effect state")
+    numeric = required - {"distributed_trigger", "cheap_local_operation", "semantic_retry_eligible", "effect_state"}
+    if any(type(observations[name]) is not int or observations[name] < 0 for name in numeric):
+        raise ValueError("distributed retry numeric observation type")
+    if any(type(observations[name]) is not int or observations[name] < 0 for name in optional & set(observations)):
+        raise ValueError("distributed retry proxy observation type")
+    cheap_path = all((
+        not observations["distributed_trigger"],
+        observations["cheap_local_operation"],
+        not observations["semantic_retry_eligible"],
+        observations["effect_state"] == "NOT_STARTED",
+        observations["deadline_remaining_ms"] == 0,
+        observations["queue_age_ms"] == 0,
+        observations["max_queue_age_ms"] == 0,
+        observations["requested_units"] == 0,
+        observations["downstream_available_units"] == 0,
+        observations["recovery_available_units"] == 0,
+    ))
+    if cheap_path:
+        return "CHEAP_PATH"
+    admitted = all((
+        observations["distributed_trigger"],
+        not observations["cheap_local_operation"],
+        observations["semantic_retry_eligible"],
+        observations["effect_state"] == "FAILED_NO_EFFECT",
+        observations["deadline_remaining_ms"] > 0,
+        observations["queue_age_ms"] >= 0,
+        observations["max_queue_age_ms"] >= 0,
+        observations["queue_age_ms"] <= observations["max_queue_age_ms"],
+        observations["requested_units"] > 0,
+        observations["downstream_available_units"] >= observations["requested_units"],
+        observations["recovery_available_units"] >= observations["requested_units"],
+    ))
+    return "ADMIT" if admitted else "REFUSE"
+
 def decide(case):
     kind = case["kind"]
     o = case["observations"]
+    if kind == "distributed_retry_admission":
+        return decide_distributed_retry(o)
     if kind == "depth":
         exact(o, "activation process_heavy_or_disputed")
         booleans(o, "activation process_heavy_or_disputed")
@@ -572,9 +715,10 @@ def decide(case):
             "information_value_remaining", "bounded_degraded_operation"))
         if complete and o["capable_intervention_chain"] and not o["stopping_hazardous"] and no_material_trigger:
             return "CHEAP_PATH"
-        if o["low_consequence_reversible"] and o["direct_readback"] and not o["high_consequence"]:
+        if (o["low_consequence_reversible"] and o["direct_readback"]
+                and not o["high_consequence"] and not o["stopping_hazardous"]):
             return "SERIAL_CHEAP_PATH"
-        if o["high_consequence"]:
+        if o["high_consequence"] or o["stopping_hazardous"]:
             if not complete:
                 return "DEFER"
             if o["stopping_hazardous"]:
@@ -720,6 +864,38 @@ if failures:
     raise SystemExit("\n".join(failures))
 sys.stdout.write(f"engineering-value controls: {len(cases)}/{len(cases)}\n")
 
+if distributed_path is not None:
+    try:
+        distributed = json.loads(distributed_path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        raise SystemExit(f"distributed-runtime admission fixture unreadable: {exc}")
+    if (not isinstance(distributed, dict)
+            or set(distributed) != {"schema", "cell", "cases"}
+            or distributed["schema"] != "implementaudit.distributed-runtime.admission-cases.v1"
+            or distributed["cell"] != "D48-C04"
+            or not isinstance(distributed["cases"], list)):
+        raise SystemExit("D48-C04 distributed-runtime admission fixture schema mismatch")
+    distributed_failures = []
+    distributed_ids = []
+    for case in distributed["cases"]:
+        case_id = case.get("id", "<unknown>") if isinstance(case, dict) else "<unknown>"
+        try:
+            if not isinstance(case, dict) or set(case) != {"id", "observations", "expected"}:
+                raise ValueError("case members")
+            if type(case["id"]) is not str or type(case["expected"]) is not str or not isinstance(case["observations"], dict):
+                raise ValueError("case types")
+            distributed_ids.append(case["id"])
+            actual = decide_distributed_retry(case["observations"])
+            if actual != case["expected"]:
+                distributed_failures.append(f"{case['id']}: expected {case['expected']}, observed {actual}")
+        except (KeyError, TypeError, ValueError) as exc:
+            distributed_failures.append(f"{case_id}: invalid fixture: {exc}")
+    if len(distributed_ids) != 6 or len(distributed_ids) != len(set(distributed_ids)):
+        distributed_failures.append("D48-C04 admission fixture population is incomplete or duplicated")
+    if distributed_failures:
+        raise SystemExit("\n".join(distributed_failures))
+    sys.stdout.write(f"D48-C04=PASS cases={len(distributed_ids)}/{len(distributed_ids)}\n")
+
 verifier_path = Path("fixtures/audit-action-selection/verifier-plan-cases.json")
 try:
     verifier_payload = json.loads(verifier_path.read_text(encoding="utf-8"))
@@ -798,6 +974,105 @@ for case in verifier_cases:
 if verifier_failures:
     raise SystemExit("\n".join(verifier_failures))
 sys.stdout.write(f"verifier-plan controls: {len(verifier_cases)}/{len(verifier_cases)}\n")
+
+security_path = Path("fixtures/audit-action-selection/security-profile-cases.json")
+try:
+    security_payload = json.loads(security_path.read_text(encoding="utf-8"))
+except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+    raise SystemExit(f"security-profile fixture unreadable: {exc}")
+if set(security_payload) != {
+        "schema_version", "kind", "proof_layer_partition",
+        "domain_effectiveness_status", "cases"}:
+    raise SystemExit("security-profile fixture schema")
+if (security_payload["schema_version"] != 1
+        or security_payload["kind"] != "conditional-native-security-profile"):
+    raise SystemExit("security-profile fixture identity")
+expected_partition = {
+    "source_static": 31,
+    "deterministic_fixture": 18,
+    "package_provenance_reachability": 4,
+    "external_domain_unverified": 6,
+    "bounded_behavioural_deferred": 1,
+}
+if security_payload["proof_layer_partition"] != expected_partition:
+    raise SystemExit("security-profile proof-layer partition")
+if security_payload["domain_effectiveness_status"] != "UNVERIFIED":
+    raise SystemExit("security-profile domain/effectiveness boundary")
+security_cases = security_payload["cases"]
+required_security_ids = {
+    "R002E-S01-material-profile-selected",
+    "R002E-S02-low-exposure-cheap-path",
+    "R002E-S03-stale-provenance-blocked",
+    "R002E-S04-authentication-is-not-authorization",
+    "R002E-S05-availability-is-not-trust-restoration",
+    "R002E-S06-label-only-proof-rejected",
+    "R002E-S07-no-trigger-no-profile",
+    "R002E-S08-unbounded-adversary-held",
+    "R002E-S09-missing-assurance-evidence-held",
+}
+security_ids = [case.get("id") for case in security_cases if isinstance(case, dict)]
+if len(security_ids) != len(set(security_ids)) or set(security_ids) != required_security_ids:
+    raise SystemExit("security-profile fixture population is incomplete or duplicated")
+
+security_fields = """material_protected_consequence exposed_or_untrusted_capability
+trust_or_privilege_boundary_change consequential_security_authority
+provenance_dependent_claim adaptive_or_common_mode_risk weak_detection_or_recovery
+consequential_security_privacy_safety_availability_usability_decision low_exposure
+reversible inside_current_proven_envelope protected_consequence_named
+unacceptable_state_named adversary_bounded exclusions_explicit trust_identity_boundary
+authority_privilege_boundary provenance_current assurance_evidence assurance_limits
+detection_containment_revocation recovery trust_reestablishment
+plausible_abuse_or_trust_check current_identity rollback authentication_as_authorization
+availability_as_trust label_or_instrument_as_whole_system_proof""".split()
+security_trigger_fields = security_fields[:8]
+full_profile_fields = """protected_consequence_named unacceptable_state_named
+adversary_bounded exclusions_explicit trust_identity_boundary authority_privilege_boundary
+provenance_current assurance_evidence assurance_limits detection_containment_revocation recovery
+trust_reestablishment""".split()
+
+def decide_security_profile(observations):
+    exact(observations, " ".join(security_fields))
+    booleans(observations, " ".join(security_fields))
+    triggered = any(observations[name] for name in security_trigger_fields)
+    cheap_path = all(observations[name] for name in (
+        "low_exposure", "reversible", "inside_current_proven_envelope"))
+    if triggered or cheap_path:
+        if not observations["provenance_current"]:
+            return "BLOCK_STALE_PROVENANCE"
+        if observations["authentication_as_authorization"]:
+            return "REJECT_AUTHENTICATION_PROXY"
+        if observations["availability_as_trust"]:
+            return "REJECT_AVAILABILITY_PROXY"
+        if observations["label_or_instrument_as_whole_system_proof"]:
+            return "REJECT_WHOLE_SYSTEM_PROXY"
+    if triggered:
+        if not all(observations[name] for name in full_profile_fields):
+            return "HOLD_INCOMPLETE_PROFILE"
+        return "SELECT_NATIVE_SECURITY_PROFILE"
+    if cheap_path:
+        cheap_complete = all(observations[name] for name in (
+            "protected_consequence_named", "plausible_abuse_or_trust_check",
+            "current_identity", "rollback"))
+        return "SECURITY_CHEAP_PATH" if cheap_complete else "HOLD_INCOMPLETE_CHEAP_PATH"
+    return "NO_SECURITY_PROFILE"
+
+security_failures = []
+for case in security_cases:
+    try:
+        if set(case) != {"id", "observations", "expected"}:
+            raise ValueError("case members")
+        if (not isinstance(case["observations"], dict)
+                or not all(type(value) is bool for value in case["observations"].values())):
+            raise ValueError("observation types")
+        actual = decide_security_profile(case["observations"])
+        if actual != case["expected"]:
+            security_failures.append(
+                f"{case['id']}: expected {case['expected']}, observed {actual}")
+    except (KeyError, TypeError, ValueError) as exc:
+        security_failures.append(f"{case.get('id', '<unknown>')}: invalid fixture: {exc}")
+if security_failures:
+    raise SystemExit("\n".join(security_failures))
+sys.stdout.write(f"security-profile controls: {len(security_cases)}/{len(security_cases)}\n")
 PY
 
 # --- bootloader: Stage 1 derives and records the action set ---

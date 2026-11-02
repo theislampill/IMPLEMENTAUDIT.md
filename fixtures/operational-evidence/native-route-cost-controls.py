@@ -182,15 +182,32 @@ class Harness:
         self.graph_snapshot, self.graph_binding, self.graph_read_set = snapshot, binding, {}
         nodes = [{'id': 'review', 'route_scopes': [self.record['scope']['identity']]}]
         producer = types.SimpleNamespace(read_current_route_scope_v1=self.rt.read_current_route_scope_v1) if legacy else self.rt
-        def compile_docs(snap, bound, *, acquire_only=False, _route_observation=None):
+        def compile_docs(snap, bound, *, acquire_only=False, _route_observation=None, _canonical_work_graph=None):
+            if _canonical_work_graph is not None:
+                raise AssertionError('historical cost fixture does not represent canonical WORK_GRAPH input')
             if acquire_only: return {'nodes': copy.deepcopy(nodes)}
             value = {'nodes': copy.deepcopy(nodes), 'route': self.wg._route_observation_value(_route_observation)}
             if mutate_observation: _route_observation.value['scope']['identity'] = 'foreign mutation'
             if on_projection: on_projection()
             return value
+        def continuity(*args, _closure_reads=None):
+            if type(_closure_reads) is not list:
+                raise AssertionError('historical cost fixture requires its private closure output list')
+            _closure_reads.append(None)  # Explicit historical two-source fixture output.
+            return copy.deepcopy(binding)
+        def historical_sources(run_root, repo_root, bound, closure, owner_stack):
+            if Path(run_root) != self.root or Path(repo_root) != self.root or closure is not None:
+                raise AssertionError('historical cost fixture cannot select a foreign or canonical source domain')
+            def read(root):
+                if Path(root) != self.root:
+                    raise AssertionError('historical cost fixture source root changed')
+                return self.wg._native_source_snapshot(root), None
+            return read
         with contextlib.ExitStack() as stack:
-            self.continuity = stack.enter_context(patch.object(self.wg, '_native_continuity', side_effect=lambda *a: copy.deepcopy(binding)))
+            self.continuity = stack.enter_context(patch.object(self.wg, '_native_continuity', side_effect=continuity))
             self.documents = stack.enter_context(patch.object(self.wg, '_native_source_snapshot', side_effect=lambda *a: copy.deepcopy(snapshot)))
+            # Only this constructed historical domain bypasses canonical receipt selection.
+            stack.enter_context(patch.object(self.wg, '_native_current_source_reader_v1', side_effect=historical_sources))
             self.readset = stack.enter_context(patch.object(self.wg, '_acquire_native_read_set', side_effect=lambda *a: copy.deepcopy(self.graph_read_set)))
             stack.enter_context(patch.object(self.wg, '_compile_native_documents_v1', side_effect=compile_docs))
             # Explicit source-only composition; ROOT alone updates production pins.

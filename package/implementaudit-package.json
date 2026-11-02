@@ -79,13 +79,13 @@
     ]
   },
   "budget_revision": {
-    "revision": 3,
+    "revision": 4,
     "applicability": "prospective",
-    "owner": "R003A",
-    "supersedes_revision": 2,
+    "owner": "PR255_COMPOSITE",
+    "supersedes_revision": 3,
     "owner_approval": {
-      "path": "package/budgets/r003a-v3-owner-approval.md",
-      "sha256": "21e1affebd7de32a91e578a601671efd1c1acdd8a06df2074eda287e0c9cf0d1"
+      "path": "package/budgets/pr255-v4-owner-approval.md",
+      "sha256": "e4af32dc219e8c041d62170b960cdb465f0cdfebdb7e414d0f45b7726cc31488"
     }
   },
   "budget_history": {
@@ -132,6 +132,24 @@
         "reserve_bytes": 2000,
         "owner": "R0039"
       }
+    },
+    "3": {
+      "canonical_plugin": {
+        "artifact_role": "canonical_plugin",
+        "measurement": "final_deterministic_compressed_bytes",
+        "rounding_unit_bytes": 65536,
+        "cap_bytes": 458752,
+        "reserve_bytes": 2000,
+        "owner": "R003A"
+      },
+      "standalone_compatibility": {
+        "artifact_role": "standalone_compatibility",
+        "measurement": "final_deterministic_compressed_bytes",
+        "rounding_unit_bytes": 65536,
+        "cap_bytes": 458752,
+        "reserve_bytes": 2000,
+        "owner": "R003A"
+      }
     }
   },
   "budgets": {
@@ -139,17 +157,17 @@
       "artifact_role": "canonical_plugin",
       "measurement": "final_deterministic_compressed_bytes",
       "rounding_unit_bytes": 65536,
-      "cap_bytes": 458752,
+      "cap_bytes": 589824,
       "reserve_bytes": 2000,
-      "owner": "R003A"
+      "owner": "PR255_COMPOSITE"
     },
     "standalone_compatibility": {
       "artifact_role": "standalone_compatibility",
       "measurement": "final_deterministic_compressed_bytes",
       "rounding_unit_bytes": 65536,
-      "cap_bytes": 458752,
+      "cap_bytes": 589824,
       "reserve_bytes": 2000,
-      "owner": "R003A"
+      "owner": "PR255_COMPOSITE"
     }
   },
   "generic_activegraph_dependency": false

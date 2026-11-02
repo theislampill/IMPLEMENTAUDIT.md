@@ -17,6 +17,9 @@ Installs IMPLEMENTAUDIT.skill into a Codex-style skill directory:
   $CODEX_HOME/skills/implementaudit
 
 This script validates archive shape and checksum when a manifest is supplied.
+Run it from a clean checkout at the archive inventory's exact source.commit;
+contract, commit/tree and payload must match, including for --url and --tag.
+The v0.4.0.0 asset records build commit 71a7101a, not its merge/tag commit.
 It does not install Graphify, install ActiveGraph, index, configure event stores,
 push, tag, release, or publish provenance.
 EOF

@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import ast
 import importlib.util
+import io
 import json
 import os
 from pathlib import Path
@@ -13,6 +14,7 @@ import re
 import subprocess
 import sys
 import tempfile
+import tokenize
 import unittest
 from unittest import mock
 
@@ -143,7 +145,7 @@ class CanonicalReaderTests(unittest.TestCase):
         self.put_ref("current-generation-migrations")
         self.assertNotEqual(self.phase_authority().returncode, 0, "phase authority used a retired ROADMAP")
 
-    def make_real_generation(self, *, native=False, state_edit=None, roadmap_edit=None, extra_artifacts=None):
+    def make_real_generation(self, *, native=False, state_edit=None, roadmap_edit=None, extra_artifacts=None, artifact_overrides=None):
         factory_path = ROOT / "fixtures/canonical-state-rotation/protected_projection_v2_test.py"
         spec = importlib.util.spec_from_file_location("canonical_reader_factory", factory_path)
         factory = importlib.util.module_from_spec(spec)
@@ -163,6 +165,10 @@ class CanonicalReaderTests(unittest.TestCase):
                 if item["role"] == "CONTINUITY_RECEIPT":
                     item["locator"] = receipt_ref
         artifacts = {key: text.encode() for key, text in source["artifact_texts"].items()}
+        for key, raw in (artifact_overrides or {}).items():
+            self.assertIn(key, artifacts)
+            self.assertIsInstance(raw, bytes)
+            artifacts[key] = raw
         if native:
             self.write_phase()
             continuation = bodies["STATE"]["payload"]["continuation"]["value"]
@@ -934,12 +940,15 @@ class SharedContractTests(unittest.TestCase):
         path = ROOT / "scripts/check-helper-reachability.sh"
         text = path.read_text().split("<<'PY'\n", 1)[1].rsplit("\nPY", 1)[0]
         tree = ast.parse(text)
-        names = {"shell_code", "python_array_invokes", "captured_python_library", "caller_invokes", "claim_public_modes"}
+        names = {"shell_code", "python_array_invokes", "captured_python_library",
+                 "captured_shell_companion", "caller_invokes", "claim_public_modes"}
         functions = [node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name in names]
         self.assertEqual({node.name for node in functions}, names)
-        self.scope = {"ast": ast, "hashlib": hashlib, "re": re,
+        self.scope = {"ast": ast, "hashlib": hashlib, "io": io, "json": json,
+                      "re": re, "tokenize": tokenize,
                       "projection_payloads": {"standalone_compatibility": {
-                          "scripts/canonical_hot_projection.py": (SCRIPTS / "canonical_hot_projection.py").read_bytes()}}}
+                          "scripts/canonical_hot_projection.py": (SCRIPTS / "canonical_hot_projection.py").read_bytes(),
+                          "scripts/claim-run-rotation.py": (SCRIPTS / "claim-run-rotation.py").read_bytes()}}}
         exec(compile(ast.Module(body=functions, type_ignores=[]), str(path), "exec"), self.scope)
 
     def test_complete_new_helper_population_has_actual_callers(self):

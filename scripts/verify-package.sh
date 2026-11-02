@@ -345,8 +345,11 @@ require_file tests/claim-run.test.sh
 require_file tests/continuity.test.sh
 require_file scripts/check-canonical-state-rotation.sh
 require_file tests/canonical-state-rotation.test.sh
+require_file tests/composite-source.test.sh
+require_file tests/composite-source-cases.py
 require_file skills/implementaudit/scripts/rotate-canonical-state.py
 require_file skills/implementaudit/scripts/canonical_hot_projection.py
+require_file skills/implementaudit/scripts/canonical_rotation_inputs.py
 require_file skills/implementaudit/scripts/claim-run-rotation.py
 require_file skills/implementaudit/scripts/read-canonical-pair.py
 require_file skills/implementaudit/references/canonical-state-rotation.md
@@ -387,6 +390,13 @@ require_file tests/e2e-mini-audit-loop.test.sh
 require_file tests/skill-bootstrap-budget.test.sh
 require_file tests/source-evidence-pack.test.sh
 require_file tests/action-selection-contract.test.sh
+require_file tests/work-graph-compiler.test.sh
+require_file tests/native-work-graph.test.sh
+require_file tests/work-graph-verifier.test.sh
+require_file tests/distributed-runtime-contract.test.sh
+require_file tests/distributed_generation_fence.py
+require_file fixtures/distributed-runtime/r48-admission-cases.json
+require_file fixtures/distributed-runtime/r48-fencing-cases.json
 require_file tests/fanout-coverage-contract.test.sh
 require_file tests/cold-review-contract.test.sh
 require_file tests/claim-boundary-proof-levels.test.sh
@@ -713,6 +723,7 @@ bash tests/added-lines-clean.test.sh
 bash tests/claim-run.test.sh
 bash tests/continuity.test.sh
 bash tests/canonical-state-rotation.test.sh
+bash tests/composite-source.test.sh
 bash tests/phase-validation.test.sh
 bash tests/acceptance-instrument-discipline.test.sh
 bash tests/lossless-evidence-capture.test.sh
@@ -740,7 +751,11 @@ bash tests/e2e-mini-audit-loop.test.sh
 bash tests/skill-bootstrap-budget.test.sh
 bash tests/source-evidence-pack.test.sh
 bash tests/action-selection-contract.test.sh
+bash tests/distributed-runtime-contract.test.sh
 bash tests/fanout-coverage-contract.test.sh
+bash tests/work-graph-compiler.test.sh
+bash tests/native-work-graph.test.sh
+bash tests/work-graph-verifier.test.sh
 bash tests/cold-review-contract.test.sh
 bash tests/claim-boundary-proof-levels.test.sh
 bash tests/no-terminal-cap.test.sh

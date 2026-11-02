@@ -161,6 +161,30 @@ mkdir "$tmp/surface-repo"
   if bash "$cea" --artifact verdict.md --tree "$current" --bound-surfaces surfaces.txt >/dev/null 2>&1; then
     fail "intersecting bounded-surface change accepted"
   fi
+  # Break caught: verify a broad manifest, then parse a later narrower file.
+  # The schedule runs at the real consumer's interpreter entry, after the old
+  # shell hash but before parsing; it neither spoofs hashes nor Git results.
+  cat > narrow-at-consumer.bash <<'BASH'
+python() {
+  printf 'never-selected/**\n' > "$BOUND_SURFACE_RACE_FILE"
+  printf 'fired\n' > "$BOUND_SURFACE_RACE_FIRED"
+  command python "$@"
+}
+python3() {
+  printf 'never-selected/**\n' > "$BOUND_SURFACE_RACE_FILE"
+  printf 'fired\n' > "$BOUND_SURFACE_RACE_FIRED"
+  command python3 "$@"
+}
+BASH
+  if BASH_ENV="$PWD/narrow-at-consumer.bash" \
+      BOUND_SURFACE_RACE_FILE="$PWD/surfaces.txt" \
+      BOUND_SURFACE_RACE_FIRED="$PWD/narrowing-fired" \
+      bash "$cea" --artifact verdict.md --tree "$current" --bound-surfaces surfaces.txt \
+      > narrowing.out 2>&1; then
+    fail "post-verification manifest narrowing accepted intersecting evidence"
+  fi
+  [ -f narrowing-fired ] || fail "manifest narrowing control did not execute"
+  printf 'relevant/**\n' > surfaces.txt
   if bash "$cea" --artifact verdict.md --tree "$current" --bound-surfaces unsafe-surfaces.txt >/dev/null 2>&1; then
     fail "unsafe bounded-surface declaration accepted"
   fi

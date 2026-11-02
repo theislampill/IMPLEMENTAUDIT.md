@@ -7,12 +7,14 @@ elif command -v python >/dev/null 2>&1; then python_cmd=(python)
 elif command -v py >/dev/null 2>&1; then python_cmd=(py -3)
 else printf 'apply-observed-mutation: Python is required\n' >&2; exit 77
 fi
-MSYS2_ARG_CONV_EXCL='*' exec "${python_cmd[@]}" - "$script_dir" "$bash_exe" "$@" <<'PY'
+MSYS2_ARG_CONV_EXCL='*' exec "${python_cmd[@]}" -c 'import sys; source = sys.stdin.buffer.read(); exec(compile(source, "<apply-observed-mutation>", "exec"), {"__name__": "__main__", "_MUTATION_SOURCE": source})' "$script_dir" "$bash_exe" "$@" <<'PY'
 import argparse
+import base64
 import ctypes
 import errno
 import hashlib
 import json
+import math
 import os
 import re
 import secrets
@@ -45,6 +47,7 @@ EXITS = {
     "ROLLBACK_FAILED_WITH_RESIDUE": 75,
     "POST_COMMIT_DRIFT": 76,
     "UNSUPPORTED_OWNER_DECISION": 77,
+    "UNKNOWN": 78,
 }
 COORDINATION_SCOPE = "GOVERNED_HELPER_ROUTED_WRITERS_ONLY"
 
@@ -251,13 +254,99 @@ def wait(name, release="release"):
     raise RuntimeError("timeout")
 
 
+def git_read(args, binary=False):
+    completed = subprocess.run(
+        ["git", *args], cwd=os.fspath(REPO), text=not binary,
+        capture_output=True, check=False,
+    )
+    return completed.returncode, completed.stdout
+
+
+def load_generation_identity(controller, token, control):
+    # claim-run is the sole semantic owner for legacy and native receipts.
+    # Consume its verified opaque identity; do not clone either receipt parser.
+    pattern = rf"(refs/implementaudit/continuity-receipts/{re.escape(controller)}/(G[0-9A-F]{{4}}))@([0-9a-f]{{40}}|[0-9a-f]{{64}})"
+    match = re.fullmatch(pattern, token)
+    if match is None or match.group(2) == "G0000":
+        return None
+    return {
+        "generation_id": match.group(2),
+        "receipt_ref": match.group(1),
+        "receipt_oid": match.group(3),
+    }
+
+
+def current_controller_binding():
+    marker = RUN / ".controller"
+    identity = path_identity(marker)
+    same = lambda l, r: os.path.normcase(os.path.abspath(native_input(l))) == os.path.normcase(os.path.abspath(r))
+    def record(controller):
+        completed = subprocess.run(
+            [BASH_EXE, bash_path(SCRIPT_DIR / "claim-run.sh"), "--current-controller", controller],
+            cwd=os.fspath(REPO), text=True, capture_output=True,
+        )
+        return completed.returncode, completed.stdout.rstrip("\n").split("\t")
+    if identity.get("kind") == "absent":
+        refs = subprocess.run(
+            ["git", "for-each-ref", "--format=%(refname:strip=3)", "refs/implementaudit/controllers/"],
+            cwd=os.fspath(REPO), text=True, capture_output=True,
+        )
+        if refs.returncode != 0:
+            return "STALE_CONTROLLER_CUSTODY", None, None
+        for controller in refs.stdout.splitlines():
+            rc, fields = record(controller)
+            if rc == 0 and len(fields) == 4 and same(fields[1], REPO) and same(fields[2], RUN) and fields[3] == claim_id:
+                return "STALE_CONTROLLER_CUSTODY", None, None
+        return None, None, None
+    if identity.get("kind") != "regular" or identity.get("link_count") != 1 or not contained_regular(marker, RUN):
+        return "STALE_CONTROLLER_CUSTODY", None, None
+    match = re.fullmatch(rb"controller_id=([a-z0-9](?:[a-z0-9-]{0,47}))\n", marker.read_bytes())
+    if match is None:
+        return "STALE_CONTROLLER_CUSTODY", None, None
+    controller = match.group(1).decode("ascii")
+    rc, fields = record(controller)
+    if rc != 0 or len(fields) != 4:
+        return "STALE_CONTROLLER_CUSTODY", None, None
+    if not (fields[0] == controller and same(fields[1], REPO) and same(fields[2], RUN) and fields[3] == claim_id):
+        return "STALE_CONTROLLER_CUSTODY", None, None
+    controller_ref = f"refs/implementaudit/controllers/{controller}"
+    rc, controller_oid = git_read(["rev-parse", "--verify", controller_ref])
+    controller_oid = controller_oid.strip()
+    if rc != 0 or re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", controller_oid) is None:
+        return "STALE_CONTROLLER_CUSTODY", None, None
+    control = {
+        "controller_id": controller,
+        "controller_ref": controller_ref,
+        "controller_oid": controller_oid,
+        "claim_id": claim_id,
+    }
+    current = subprocess.run(
+        [BASH_EXE, bash_path(SCRIPT_DIR / "claim-run.sh"), "--require-current-continuity", controller],
+        cwd=os.fspath(REPO), text=True, capture_output=True,
+    )
+    if current.returncode != 0:
+        return "STALE_CONTINUITY_RECEIPT", control, None
+    # Ordinary work retains every historical receipt accepted by its owner.
+    # Only the selected protected route requires a canonical generation token.
+    if not protected_route_requested:
+        return None, control, None
+    token = current.stdout.rstrip("\r\n")
+    generation = load_generation_identity(controller, token, control)
+    if generation is None:
+        return "STALE_CONTINUITY_RECEIPT", control, None
+    return None, control, generation
+
+
 parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument("--repo-root", required=True)
 parser.add_argument("--run-root", required=True)
 parser.add_argument("--phase", required=True, type=int)
-parser.add_argument("--step", required=True, type=int)
+parser.add_argument("--step", type=int)
+parser.add_argument("--batch-preflight", dest="preflight_replacements")
+parser.add_argument("--batch-apply", dest="apply_replacements")
 parser.add_argument("--preimage")
 parser.add_argument("--candidate")
+parser.add_argument("--require-generation-fence", action="store_true")
 parser.add_argument("--offset")
 parser.add_argument("--region")
 parser.add_argument("--replacement")
@@ -265,7 +354,13 @@ try:
     args, unknown = parser.parse_known_args(ARGV)
 except SystemExit:
     raise SystemExit(64)
-if unknown or args.phase <= 0 or args.step <= 0:
+batch_mode = args.preflight_replacements is not None or args.apply_replacements is not None
+if (unknown or args.phase <= 0
+        or (args.preflight_replacements is not None and args.apply_replacements is not None)
+        or (not batch_mode and (args.step is None or args.step <= 0))
+        or (batch_mode and any(value is not None for value in
+            (args.step, args.preimage, args.candidate, args.offset, args.region, args.replacement)))
+        or (batch_mode and (args.require_generation_fence or "_BATCH_RESTRICTION" in globals()))):
     if unknown:
         sys.stderr.write(f"apply-observed-mutation: unknown arguments: {unknown!r}\n")
     raise SystemExit(64)
@@ -311,6 +406,471 @@ def validator(command):
             sys.stderr.write(completed.stderr)
         raise SystemExit(64)
     return completed.stdout.strip()
+
+
+class InputCaptureRefusal(Exception):
+    def __init__(self, reason, code=64):
+        self.reason, self.code = reason, code
+
+def witness(st):
+    return (st.st_dev, st.st_ino, st.st_mode, st.st_size,
+            st.st_mtime_ns, st.st_ctime_ns, st.st_nlink)
+
+def read_input_capture(path, limit=None):
+    path = Path(path)
+    if not contained_regular(path):
+        raise InputCaptureRefusal("INPUT_CUSTODY_UNSAFE")
+    before = os.lstat(path)
+    fd = os.open(path, os.O_RDONLY | getattr(os, "O_BINARY", 0)
+                 | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_NONBLOCK", 0))
+    try:
+        opened = os.fstat(fd)
+        if not stat.S_ISREG(opened.st_mode) or witness(before) != witness(opened):
+            raise InputCaptureRefusal("INPUT_CUSTODY_UNSAFE")
+        with os.fdopen(fd, "rb", closefd=False) as stream:
+            data = stream.read() if limit is None else stream.read(limit + 1)
+        after = os.fstat(fd)
+        current = os.lstat(path)
+        if (witness(opened) != witness(after) or witness(after) != witness(current)
+                or not contained_regular(path)):
+            raise InputCaptureRefusal("OBSERVED_INPUT_DRIFT", 65)
+        if limit is not None and len(data) > limit:
+            raise InputCaptureRefusal("BATCH_INPUT_TOO_LARGE")
+        return data, witness(after)
+    finally:
+        os.close(fd)
+
+
+def replacement_batch_preflight(emit=True):
+    """Inspect a finite ordinary replacement population; never grant effects."""
+    global claim_id, protected_route_requested
+    result = {
+        "schema": "implementaudit.replacement-batch-preflight.v1",
+        "status": "REFUSED", "reason_code": "NONE", "authority": "NONE",
+        "effect_authority": False, "atomic_snapshot": False,
+        "later_effect_requires_revalidation": True, "governed_effects": [],
+        "support_effect_boundary": "EXISTING_VALIDATOR_TEMPORARY_SNAPSHOTS_AND_CLEANUP",
+        "phase": args.phase, "requested_rows": None, "checked_rows": 0,
+        "batch_input_sha256": None, "rows": [],
+    }
+    captures = {}
+    capture_limits = {}
+    absent = []
+    batch = None
+
+    Refusal = InputCaptureRefusal
+    read_capture = read_input_capture
+
+    def request(command, reason):
+        try:
+            return validator(command)
+        except SystemExit:
+            raise Refusal(reason)
+
+    def capture(path, limit=None):
+        path = Path(path)
+        if path not in captures:
+            captures[path] = read_capture(path, limit)
+        if limit is not None:
+            if len(captures[path][0]) > limit:
+                raise Refusal("BATCH_INPUT_TOO_LARGE")
+            capture_limits[path] = min(capture_limits.get(path, limit), limit)
+        return captures[path]
+
+    def relative_file(raw):
+        path = repo_path(raw)
+        if path is None:
+            raise Refusal("INPUT_CUSTODY_UNSAFE")
+        return path
+
+    def unique_members(pairs):
+        value = {}
+        for key, item in pairs:
+            if key in value:
+                raise ValueError("duplicate JSON key")
+            value[key] = item
+        return value
+
+    def require_absent(path, reason, code):
+        if not safe_directory_chain(path.parent, RUN, True):
+            raise Refusal("INTERNAL_CUSTODY_UNSAFE")
+        try:
+            os.lstat(path)
+        except FileNotFoundError:
+            return
+        raise Refusal(reason, code)
+
+    claim_command = [BASH_EXE, bash_path(SCRIPT_DIR / "validate-run-root.sh"),
+                     "--claim-only", bash_path(native_input(RAW_RUN)),
+                     "--repo-root", bash_path(native_input(RAW_REPO))]
+    try:
+        request(claim_command, "CLAIM_CUSTODY_REFUSED")
+        claim_data = capture(RUN / ".claimed")[0]
+        claim_id = dict(row.split("=", 1) for row in claim_data.decode("utf-8").splitlines())["claim_id"]
+        result["claim_id"] = claim_id
+        for path in (PHASE_FILE, RUN / "STATE.md", RUN / "ROADMAP.md"):
+            capture(path)
+        protected_route_requested = False
+        failure, controller, generation = current_controller_binding()
+        if failure:
+            raise Refusal(failure, 65)
+        result["controller_identity"] = controller
+        if controller is not None:
+            capture(RUN / ".controller")
+        rc, head = git_read(["rev-parse", "--verify", "HEAD"])
+        if rc != 0:
+            raise Refusal("REPOSITORY_IDENTITY_UNAVAILABLE")
+        result["repository_head"] = head.strip()
+        raw, _ = capture(Path(os.path.abspath(native_input(
+            args.preflight_replacements if args.preflight_replacements is not None else args.apply_replacements))), 1048576)
+        result["batch_input_sha256"] = digest(raw)
+        try:
+            batch = json.loads(raw.decode("utf-8"), object_pairs_hook=unique_members)
+        except (ValueError, UnicodeDecodeError):
+            raise Refusal("BATCH_SCHEMA_INVALID")
+        if (not isinstance(batch, dict) or set(batch) != {"schema", "rows"}
+                or batch["schema"] != "implementaudit.replacement-batch-preflight-input.v1"
+                or not isinstance(batch["rows"], list) or not batch["rows"]):
+            raise Refusal("BATCH_SCHEMA_INVALID")
+        result["requested_rows"] = len(batch["rows"])
+        steps, targets, objects = set(), set(), set()
+        for ordinal, row in enumerate(batch["rows"]):
+            result["refused_row"] = ordinal
+            if (not isinstance(row, dict) or set(row) != {"step", "source", "preimage", "candidate"}
+                    or type(row["step"]) is not int or row["step"] <= 0
+                    or any(not isinstance(row[k], str) or not row[k]
+                           or any(ord(c) < 32 for c in row[k])
+                           for k in ("source", "preimage", "candidate"))):
+                raise Refusal("BATCH_SCHEMA_INVALID")
+            step = row["step"]
+            if step in steps:
+                raise Refusal("DUPLICATE_STEP")
+            steps.add(step)
+            projection = json.loads(request([
+                BASH_EXE, bash_path(SCRIPT_DIR / "validate-phase.sh"),
+                "--mutation-authority", bash_path(PHASE_FILE), "--phase", str(args.phase),
+                "--step", str(step), "--repo-root", bash_path(REPO), "--run-root", bash_path(RUN),
+            ], "PHASE_AUTHORITY_REFUSED"))
+            if projection.get("operation") != "replace" or projection.get("destination") is not None:
+                raise Refusal("REPLACE_ONLY")
+            if projection.get("source") != row["source"]:
+                raise Refusal("SOURCE_AUTHORITY_MISMATCH")
+            source = relative_file(row["source"])
+            target_key = os.path.normcase(str(source))
+            if target_key in targets:
+                raise Refusal("ALIASED_TARGET")
+            targets.add(target_key)
+            current, physical = capture(source)
+            object_key = physical[:2]
+            if object_key in objects:
+                raise Refusal("ALIASED_TARGET")
+            objects.add(object_key)
+            preimage = capture(relative_file(row["preimage"]))[0]
+            candidate = capture(relative_file(row["candidate"]))[0]
+            if current != preimage:
+                raise Refusal("PREIMAGE_DRIFT", 65)
+            transaction = RUN / "mutation-transactions" / f"{claim_id}-p{args.phase}-s{step}"
+            fence = RUN / "mutation-fences" / f"phase-{args.phase}-step-{step}.json"
+            for path, reason, code in ((transaction, "PHASE_AUTHORITY_IN_PROGRESS_OR_REPLAY", 65),
+                                       (fence, "PROTECTED_PREFLIGHT_UNSUPPORTED", 64)):
+                require_absent(path, reason, code)
+                absent.append((path, reason, code))
+            result["rows"].append({"step": step, "source": row["source"],
+                                   "authority": projection, "preimage": simple_identity(preimage),
+                                   "candidate": simple_identity(candidate)})
+            result["checked_rows"] += 1
+        result.pop("refused_row", None)
+        phase_hook("replacement-batch-recheck")
+        request(claim_command, "CLAIM_CUSTODY_REFUSED")
+        for row in result["rows"]:
+            projection = json.loads(request([
+                BASH_EXE, bash_path(SCRIPT_DIR / "validate-phase.sh"),
+                "--mutation-authority", bash_path(PHASE_FILE), "--phase", str(args.phase),
+                "--step", str(row["step"]), "--repo-root", bash_path(REPO), "--run-root", bash_path(RUN),
+            ], "PHASE_AUTHORITY_REFUSED"))
+            if projection != row["authority"]:
+                raise Refusal("PHASE_AUTHORITY_DRIFT", 65)
+        failure, current_controller, current_generation = current_controller_binding()
+        if failure:
+            raise Refusal(failure, 65)
+        if current_controller != controller or current_generation != generation:
+            raise Refusal("CONTROLLER_IDENTITY_DRIFT", 65)
+        for path, observation in captures.items():
+            if read_capture(path, capture_limits.get(path)) != observation:
+                raise Refusal("OBSERVED_INPUT_DRIFT", 65)
+        for path, reason, code in absent:
+            require_absent(path, reason, code)
+        current_rc, current_head = git_read(["rev-parse", "--verify", "HEAD"])
+        if current_rc != 0 or current_head != head:
+            raise Refusal("REPOSITORY_IDENTITY_DRIFT", 65)
+        result["input_observations"] = [
+            {"path": os.fspath(path), **simple_identity(data)}
+            for path, (data, physical) in captures.items()
+        ]
+        result["status"] = "OBSERVATION_ONLY"
+        code = 0
+    except Refusal as error:
+        result["reason_code"], code = error.reason, error.code
+    except (OSError, ValueError, KeyError, TypeError):
+        result["reason_code"], code = "INPUT_CUSTODY_UNAVAILABLE", 64
+    if not emit:
+        rows = batch.get("rows", []) if isinstance(batch, dict) else []
+        return result, code, {"rows": rows if isinstance(rows, list) else [], "captures": captures}
+    print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
+    raise SystemExit(code)
+
+
+if args.preflight_replacements is not None:
+    replacement_batch_preflight()
+
+
+def strict_json(raw):
+    """One UTF-8 JSON value, with unique members and finite numbers only."""
+    def members(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON member")
+            result[key] = value
+        return result
+
+    def reject_constant(value):
+        raise ValueError("nonfinite JSON number")
+
+    def finite_float(value):
+        number = float(value)
+        if not math.isfinite(number):
+            raise ValueError("nonfinite JSON number")
+        return number
+
+    value = json.loads(raw.decode("utf-8"), object_pairs_hook=members,
+                       parse_constant=reject_constant, parse_float=finite_float)
+    canonical(value)  # Reject escaped unpaired surrogates before report output.
+    return value
+
+
+def classify_replacement_return(raw, returncode, expected):
+    """Classify the actual live return; saved transaction files are not inputs."""
+    decoded = None
+
+    def unknown(reason):
+        return {"disposition": "UNKNOWN", "reason": reason,
+                "result": decoded, "exit_code": EXITS["UNKNOWN"]}
+
+    try:
+        decoded = strict_json(raw)
+    except (ValueError, UnicodeError, RecursionError):
+        return unknown("RESULT_JSON_INVALID")
+    fields = {
+        "schema", "transaction_id", "claim_id", "phase", "step",
+        "authority_binding_sha256", "coordination_scope", "operation", "status",
+        "reason_code", "source_path", "destination_path", "pre_identities",
+        "candidate_identities", "post_identities", "planned_effect_set",
+        "planned_effect_set_sha256", "actual_effect_set", "residue",
+    }
+    protected_fields = {"identity_bindings", "authority_publication_guard",
+                        "generation_fence_disposition", "retry_permitted", "terminal_closure_claim"}
+    if not isinstance(decoded, dict):
+        return unknown("RESULT_SHAPE_INVALID")
+    schema = decoded.get("schema")
+    if (not isinstance(schema, str)
+            or (schema == "implementaudit.observation_bound_mutation.v2" and set(decoded) != fields)
+            or (schema == "implementaudit.observation_bound_mutation.v3" and set(decoded) != fields | protected_fields)
+            or schema not in {"implementaudit.observation_bound_mutation.v2", "implementaudit.observation_bound_mutation.v3"}):
+        return unknown("RESULT_SHAPE_INVALID")
+    status = decoded["status"]
+    if (not isinstance(status, str) or status not in EXITS
+            or not isinstance(decoded["reason_code"], str) or not decoded["reason_code"]
+            or type(decoded["phase"]) is not int or type(decoded["step"]) is not int
+            or any(not isinstance(decoded[key], list) or any(not isinstance(row, dict) for row in decoded[key])
+                   for key in ("pre_identities", "candidate_identities", "post_identities",
+                               "planned_effect_set", "actual_effect_set", "residue"))):
+        return unknown("RESULT_SHAPE_INVALID")
+    identity = {
+        "claim_id": expected["claim_id"], "phase": expected["phase"], "step": expected["step"],
+        "source_path": expected["source"], "destination_path": None, "operation": "replace",
+        "authority_binding_sha256": expected["authority"]["authority_binding_sha256"],
+        "coordination_scope": COORDINATION_SCOPE,
+    }
+    transaction = f"{expected['claim_id']}-p{expected['phase']}-s{expected['step']}"
+    if (any(decoded[key] != value for key, value in identity.items())
+            or decoded["transaction_id"] not in (None, transaction)):
+        return unknown("RESULT_IDENTITY_MISMATCH")
+    if type(returncode) is not int or returncode != EXITS[status]:
+        return unknown("RESULT_EXIT_MISMATCH")
+    if decoded["planned_effect_set_sha256"] != digest(canonical(decoded["planned_effect_set"])):
+        return unknown("RESULT_EFFECT_DIGEST_MISMATCH")
+    for key in ("pre_identities", "candidate_identities", "post_identities"):
+        if any(set(row) != {"path", "identity"} or not isinstance(row["path"], str)
+               or not isinstance(row["identity"], dict) or not isinstance(row["identity"].get("kind"), str)
+               for row in decoded[key]):
+            return unknown("RESULT_SHAPE_INVALID")
+    effects = {}
+    for row in decoded["planned_effect_set"]:
+        if (set(row) != {"scope", "path", "roles", "allowed_effects", "retention"}
+                or any(not isinstance(row[key], str) or not row[key] for key in ("scope", "path", "retention"))
+                or any(not isinstance(row[key], list) or any(not isinstance(value, str) for value in row[key])
+                       for key in ("roles", "allowed_effects"))
+                or (row["scope"], row["path"]) in effects):
+            return unknown("RESULT_SHAPE_INVALID")
+        effects[(row["scope"], row["path"])] = row["allowed_effects"]
+    for ordinal, row in enumerate(decoded["actual_effect_set"], 1):
+        if (set(row) != {"sequence", "scope", "path", "effect", "before", "after", "outcome"}
+                or type(row["sequence"]) is not int or row["sequence"] != ordinal
+                or any(not isinstance(row[key], str) or not row[key] for key in ("scope", "path", "effect", "outcome"))
+                or any(row[key] is not None and not isinstance(row[key], dict) for key in ("before", "after"))
+                or row["effect"] not in effects.get((row["scope"], row["path"]), [])):
+            return unknown("RESULT_SHAPE_INVALID")
+    if any(set(row) != {"scope", "path", "identity", "custody"}
+           or any(not isinstance(row[key], str) or not row[key] for key in ("scope", "path", "custody"))
+           or not isinstance(row["identity"], dict) for row in decoded["residue"]):
+        return unknown("RESULT_SHAPE_INVALID")
+    if status == "UNKNOWN":
+        return unknown("ROW_REPORTED_UNKNOWN")
+    if status not in {"COMMITTED", "NO_CHANGE"}:
+        return {"disposition": "STOPPED", "reason": "MATCHING_NON_SUCCESS",
+                "result": decoded, "exit_code": returncode}
+
+    def matches(rows, selected):
+        if len(rows) != 1 or set(rows[0]) != {"path", "identity"} or rows[0]["path"] != expected["source"]:
+            return False
+        value = rows[0]["identity"]
+        return (isinstance(value, dict) and value.get("kind") == "regular"
+                and type(value.get("byte_length")) is int
+                and all(value.get(key) == selected[key] for key in ("sha256", "byte_length")))
+
+    if (schema != "implementaudit.observation_bound_mutation.v2" or decoded["reason_code"] != "NONE"
+            or decoded["residue"] or not matches(decoded["pre_identities"], expected["preimage"])
+            or not matches(decoded["candidate_identities"], expected["candidate"])
+            or not matches(decoded["post_identities"], expected["candidate"])):
+        return unknown("RESULT_SUCCESS_EVIDENCE_MISMATCH")
+    if status == "NO_CHANGE":
+        if (decoded["transaction_id"] is not None or decoded["planned_effect_set"]
+                or decoded["actual_effect_set"] or expected["preimage"] != expected["candidate"]):
+            return unknown("RESULT_SUCCESS_EVIDENCE_MISMATCH")
+    elif decoded["transaction_id"] != transaction or not decoded["planned_effect_set"] or not decoded["actual_effect_set"]:
+        return unknown("RESULT_SUCCESS_EVIDENCE_MISMATCH")
+    return {"disposition": "COMPLETED", "reason": "MATCHING_" + status,
+            "result": decoded, "exit_code": 0}
+
+
+# This private transport supplies extra restrictions, never a grant. It reads
+# one data frame; only the retained maintained source buffer is compiled.
+REPLACEMENT_CHILD_BOOTSTRAP = """import base64, hashlib, json, sys
+def unique(pairs):
+    value = {}
+    for key, item in pairs:
+        if key in value:
+            raise ValueError("duplicate child frame member")
+        value[key] = item
+    return value
+def invalid_number(value):
+    raise ValueError("non-integer child restriction number")
+try:
+    packet = json.loads(sys.stdin.buffer.read(), object_pairs_hook=unique,
+                        parse_constant=invalid_number, parse_float=invalid_number)
+    if not isinstance(packet, dict) or set(packet) != {"source", "restriction"}:
+        raise ValueError("invalid child frame")
+    source = base64.b64decode(packet["source"], validate=True)
+    restriction = packet["restriction"]
+    if not isinstance(restriction, dict) or restriction.get("source_execution") != {
+            "sha256": hashlib.sha256(source).hexdigest(), "byte_length": len(source)}:
+        raise ValueError("missing or corrupt child restriction")
+except (ValueError, TypeError, KeyError):
+    sys.stderr.write("apply-observed-mutation: invalid private batch transport\\n")
+    raise SystemExit(64)
+exec(compile(source, "<apply-observed-mutation>", "exec"),
+     {"__name__": "__main__", "_MUTATION_SOURCE": source, "_BATCH_RESTRICTION": restriction})
+"""
+
+
+def replacement_batch_apply():
+    """Ordered ordinary dispatch with a truthful completed prefix and tail."""
+    preflight, code, selected = replacement_batch_preflight(emit=False)
+    captured_source = _MUTATION_SOURCE
+    report = {
+        "schema": "implementaudit.replacement-batch-apply.v1", "status": "REFUSED",
+        "reason_code": preflight["reason_code"], "phase": args.phase,
+        "claim_id": preflight.get("claim_id"), "batch_input_sha256": preflight["batch_input_sha256"],
+        "requested_rows": preflight["requested_rows"], "attempted_rows": 0, "completed_rows": 0,
+        "stopped_ordinal": None, "aggregate_authority": "NONE", "aggregate_effect_authority": False,
+        "aggregate_atomicity": False, "aggregate_durable_receipt": False,
+        "automatic_retry": False, "automatic_compensation": False,
+        "source_execution": {"scope": "CAPTURED_PYTHON_BODY", **simple_identity(captured_source)},
+        "preflight": preflight, "rows": [],
+    }
+    population = selected["rows"]
+    for ordinal, row in enumerate(population):
+        if not isinstance(row, dict) or type(row.get("step")) is not int or not isinstance(row.get("source"), str):
+            continue
+        report["rows"].append({
+            "ordinal": ordinal, "step": row["step"], "source": row["source"],
+            "disposition": "NEVER_STARTED", "dispatch_started": False, "returncode": None,
+            "classification_reason": "NOT_DISPATCHED", "stdout": None, "stderr": None,
+            "decoded_result": None,
+        })
+
+    def raw_record(data):
+        return {"encoding": "base64", "data": base64.b64encode(data).decode("ascii"), **simple_identity(data)}
+
+    def captured_record(path):
+        data, physical = selected["captures"][path]
+        return {"path": os.fspath(path), "identity": simple_identity(data), "physical": list(physical)}
+
+    if code == 0:
+        report["status"] = "COMPLETED"
+        shared_paths = [RUN / ".claimed", PHASE_FILE, RUN / "STATE.md", RUN / "ROADMAP.md"]
+        if preflight["controller_identity"] is not None:
+            shared_paths.append(RUN / ".controller")
+        for ordinal, (row, observed) in enumerate(zip(population, preflight["rows"])):
+            result_row = report["rows"][ordinal]
+            expected = {"claim_id": preflight["claim_id"], "phase": args.phase, **observed}
+            restriction = {
+                "schema": "implementaudit.replacement-batch-restriction.v1",
+                "source_execution": simple_identity(captured_source), "repo_root": os.fspath(REPO),
+                "run_root": os.fspath(RUN), "claim_id": preflight["claim_id"], "phase": args.phase,
+                "step": row["step"], "source": row["source"], "authority": observed["authority"],
+                "repository_head": preflight["repository_head"], "controller_identity": preflight["controller_identity"],
+                "shared": [captured_record(path) for path in shared_paths],
+                "evidence": {key: captured_record(repo_path(row[key])) for key in ("preimage", "candidate")},
+            }
+            command = [sys.executable, "-c", REPLACEMENT_CHILD_BOOTSTRAP, SCRIPT_DIR_RAW, BASH_EXE_RAW,
+                       "--repo-root", os.fspath(REPO), "--run-root", os.fspath(RUN), "--phase", str(args.phase),
+                       "--step", str(row["step"]), "--preimage", os.fspath(repo_path(row["preimage"])),
+                       "--candidate", os.fspath(repo_path(row["candidate"]))]
+            transport = canonical({
+                "source": base64.b64encode(captured_source).decode("ascii"), "restriction": restriction,
+            })
+            report["attempted_rows"] += 1
+            try:
+                returned = subprocess.run(command, input=transport,
+                                          capture_output=True, cwd=os.fspath(REPO), check=False)
+            except OSError as error:
+                result_row.update(disposition="UNKNOWN", dispatch_started=None,
+                                  classification_reason="DISPATCH_UNAVAILABLE")
+                result_row["dispatch_exception"] = {"type": type(error).__name__, "errno": error.errno, "message": str(error)}
+                report.update(status="UNKNOWN", reason_code="DISPATCH_UNAVAILABLE", stopped_ordinal=ordinal)
+                code = EXITS["UNKNOWN"]
+                break
+            classified = classify_replacement_return(returned.stdout, returned.returncode, expected)
+            result_row.update(dispatch_started=True, returncode=returned.returncode,
+                              stdout=raw_record(returned.stdout), stderr=raw_record(returned.stderr),
+                              disposition=classified["disposition"], classification_reason=classified["reason"],
+                              decoded_result=classified["result"])
+            if classified["disposition"] == "COMPLETED":
+                report["completed_rows"] += 1
+                continue
+            report.update(status=classified["disposition"], stopped_ordinal=ordinal,
+                          reason_code=(classified["result"]["reason_code"] if classified["disposition"] == "STOPPED"
+                                       else classified["reason"]))
+            code = classified["exit_code"]
+            break
+    print(json.dumps(report, separators=(",", ":"), ensure_ascii=False))
+    raise SystemExit(code)
+
+
+if args.apply_replacements is not None:
+    replacement_batch_apply()
 
 
 validator(
@@ -371,13 +931,27 @@ preimage_data = None
 reason = "NONE"
 
 
+batch_evidence_captures = {}
+
+
 def evidence_bytes(raw):
     if not raw:
         return None
     path = Path(native_input(raw))
-    if not contained_regular(path):
+    if "_BATCH_RESTRICTION" in globals():
+        path = Path(os.path.abspath(path))
+        try:
+            if path not in batch_evidence_captures:
+                batch_evidence_captures[path] = read_input_capture(path)
+            return batch_evidence_captures[path][0]
+        except (InputCaptureRefusal, OSError):
+            return None
+    try:
+        # Ordinary inputs need the same physical capture as batch evidence.
+        # A pathname check followed by read_bytes can consume a replacement.
+        return read_input_capture(path)[0]
+    except (InputCaptureRefusal, OSError):
         return None
-    return path.read_bytes()
 
 
 if SOURCE is None or source_initial.get("kind") != "regular":
@@ -445,11 +1019,84 @@ def current_post_rows():
 
 
 empty_effect_digest = digest(canonical([]))
+controller_identity = None
+generation_identity = None
+FENCE_PATH = RUN / "mutation-fences" / f"phase-{args.phase}-step-{args.step}.json"
+protected_route_requested = os.path.lexists(FENCE_PATH) or args.require_generation_fence
+fence_disposition = "NOT_EVALUATED" if protected_route_requested else "NOT_APPLICABLE"
+fence_capture = None
+
+
+def protected_target_fingerprint():
+    if SOURCE is None or source_initial.get("kind") != "regular":
+        return None
+    body = {
+        "authorized_path": source_name,
+        "preimage_identity": {
+            "sha256": source_initial["sha256"],
+            "byte_length": source_initial["byte_length"],
+        },
+    }
+    return {
+        "schema": "implementaudit.protected-target-fingerprint.v1",
+        **body,
+        "fingerprint_sha256": digest(canonical(body)),
+    }
+
+
+target_identity = protected_target_fingerprint()
+
+
+def identity_bindings(transaction=None, effect_digest=empty_effect_digest):
+    return {
+        "operation": {
+            "kind": "operation",
+            "operation": operation,
+            "source_path": source_name,
+            "destination_path": destination_name,
+        },
+        "attempt": {
+            "kind": "attempt",
+            "transaction_id": transaction,
+            "claim_id": claim_id,
+            "phase": args.phase,
+            "step": args.step,
+            "authority_binding_sha256": authority_projection["authority_binding_sha256"],
+        },
+        "effect": {
+            "kind": "effect-plan",
+            "planned_effect_set_sha256": effect_digest,
+        },
+        "controller": controller_identity,
+        "generation": generation_identity,
+        "target": target_identity,
+    }
+
+
+def versioned_fence_fields(schema, transaction=None, effect_digest=empty_effect_digest,
+                           status=None, guard_available=False):
+    # The ordinary v2 contract is fixed. Protected records explicitly opt into
+    # v3; a late carrier refusal must also expose its protected uncertainty.
+    if not protected_route_requested and fence_disposition == "NOT_APPLICABLE":
+        return {"schema": schema + ".v2"}
+    fields = {
+        "schema": schema + ".v3",
+        "identity_bindings": identity_bindings(transaction, effect_digest),
+        "authority_publication_guard": authority_guard_record() if guard_available else None,
+        "generation_fence_disposition": fence_disposition,
+    }
+    if status is not None:
+        fields.update({
+            "retry_permitted": False,
+            "terminal_closure_claim": "PROHIBITED" if status == "UNKNOWN" else "NOT_ASSERTED",
+        })
+    return fields
 
 
 def emit_no_effect(status, why, transaction=None):
     result = {
-        "schema": "implementaudit.observation_bound_mutation.v2",
+        **versioned_fence_fields("implementaudit.observation_bound_mutation",
+                                 transaction, status=status),
         "transaction_id": transaction,
         "claim_id": claim_id,
         "phase": args.phase,
@@ -473,6 +1120,73 @@ def emit_no_effect(status, why, transaction=None):
     raise SystemExit(EXITS[status])
 
 
+def batch_restriction_failure():
+    """Narrow the actual ordinary grant before NO_CHANGE or transaction effects."""
+    if "_BATCH_RESTRICTION" not in globals():
+        return None
+    restriction = _BATCH_RESTRICTION
+    fields = {"schema", "source_execution", "repo_root", "run_root", "claim_id", "phase", "step", "source",
+              "authority", "repository_head", "controller_identity", "shared", "evidence"}
+    if (not isinstance(restriction, dict) or set(restriction) != fields
+            or restriction["schema"] != "implementaudit.replacement-batch-restriction.v1"
+            or restriction["source_execution"] != simple_identity(_MUTATION_SOURCE)
+            or type(restriction["phase"]) is not int or type(restriction["step"]) is not int
+            or not isinstance(restriction["shared"], list)
+            or not isinstance(restriction["evidence"], dict) or set(restriction["evidence"]) != {"preimage", "candidate"}):
+        return "REJECTED_NO_MUTATION", "BATCH_RESTRICTION_INVALID"
+    identity = {"repo_root": os.fspath(REPO), "run_root": os.fspath(RUN), "claim_id": claim_id,
+                "phase": args.phase, "step": args.step, "source": source_name, "authority": authority_projection}
+    if (any(restriction[key] != value for key, value in identity.items())
+            or operation != "replace" or destination_name is not None):
+        return "CONFLICT_REBASE", "BATCH_INPUT_DRIFT"
+    if args.require_generation_fence or os.path.lexists(FENCE_PATH):
+        return "REJECTED_NO_MUTATION", "PROTECTED_BATCH_UNSUPPORTED"
+    shared_paths = [RUN / ".claimed", PHASE_FILE, RUN / "STATE.md", RUN / "ROADMAP.md"]
+    if restriction["controller_identity"] is not None:
+        shared_paths.append(RUN / ".controller")
+
+    def agrees(observation, path, captured):
+        data, physical = captured
+        return (isinstance(observation, dict) and set(observation) == {"path", "identity", "physical"}
+                and observation["path"] == os.fspath(path)
+                and isinstance(observation["physical"], list) and all(type(value) is int for value in observation["physical"])
+                and observation["identity"] == simple_identity(data) and observation["physical"] == list(physical))
+
+    try:
+        if len(restriction["shared"]) != len(shared_paths):
+            return "REJECTED_NO_MUTATION", "BATCH_RESTRICTION_INVALID"
+        for observation, path in zip(restriction["shared"], shared_paths):
+            if not agrees(observation, path, read_input_capture(path)):
+                return "CONFLICT_REBASE", "BATCH_INPUT_DRIFT"
+        for key, data in (("preimage", preimage_data), ("candidate", candidate_data)):
+            path = Path(os.path.abspath(native_input(getattr(args, key))))
+            captured = batch_evidence_captures.get(path)
+            if captured is None or data is None or data != captured[0] or not agrees(restriction["evidence"][key], path, captured):
+                return "CONFLICT_REBASE", "BATCH_INPUT_DRIFT"
+            # Retain and use the first captured buffer; a later path change
+            # refuses rather than silently replacing that buffer.
+            if read_input_capture(path) != captured:
+                return "CONFLICT_REBASE", "BATCH_INPUT_DRIFT"
+        projection = strict_json(validator([
+            BASH_EXE, bash_path(SCRIPT_DIR / "validate-phase.sh"), "--mutation-authority", bash_path(PHASE_FILE),
+            "--phase", str(args.phase), "--step", str(args.step), "--repo-root", bash_path(REPO), "--run-root", bash_path(RUN),
+        ]).encode("utf-8"))
+        if projection != restriction["authority"]:
+            return "CONFLICT_REBASE", "BATCH_INPUT_DRIFT"
+        failure, controller, generation = current_controller_binding()
+        rc, head = git_read(["rev-parse", "--verify", "HEAD"])
+        if failure or controller != restriction["controller_identity"] or rc != 0 or head.strip() != restriction["repository_head"]:
+            return "CONFLICT_REBASE", "BATCH_INPUT_DRIFT"
+    except (InputCaptureRefusal, OSError, ValueError, TypeError, KeyError, SystemExit):
+        return "CONFLICT_REBASE", "BATCH_INPUT_DRIFT"
+    return None
+
+
+batch_failure = batch_restriction_failure()
+if batch_failure is not None:
+    emit_no_effect(*batch_failure)
+
+
 if reason != "NONE":
     emit_no_effect("REJECTED_NO_MUTATION", reason)
 current_data = regular_bytes(SOURCE)
@@ -485,7 +1199,22 @@ if operation in {"replace", "delete", "move"} and current_data != preimage_data:
         else "CONFLICT_REBASE"
     )
     emit_no_effect(status, "PREIMAGE_DRIFT")
+transaction_id = f"{claim_id}-p{args.phase}-s{args.step}"
+TX_PARENT = RUN / "mutation-transactions"
+TX = TX_PARENT / transaction_id
 if operation == "replace" and candidate_data == current_data:
+    # Matching target bytes cannot settle an existing phase/step transaction.
+    # Check custody without treating saved journal contents as recovery authority.
+    if not safe_directory_chain(TX_PARENT, RUN, True):
+        emit_no_effect("REJECTED_NO_MUTATION", "INTERNAL_CUSTODY_UNSAFE", transaction_id)
+    try:
+        os.lstat(TX)
+    except FileNotFoundError:
+        pass
+    except OSError:
+        emit_no_effect("REJECTED_NO_MUTATION", "INTERNAL_CUSTODY_UNSAFE", transaction_id)
+    else:
+        emit_no_effect("CONFLICT_REBASE", "PHASE_AUTHORITY_IN_PROGRESS_OR_REPLAY", transaction_id)
     emit_no_effect("NO_CHANGE", "NONE")
 if operation == "move" and path_identity(DESTINATION).get("kind") != "absent":
     emit_no_effect("REJECTED_NO_MUTATION", "DESTINATION_EXISTS")
@@ -494,13 +1223,11 @@ if operation == "move" and path_identity(DESTINATION).get("kind") != "absent":
 def source_observation_unchanged():
     return path_identity(SOURCE) == source_initial
 
-transaction_id = f"{claim_id}-p{args.phase}-s{args.step}"
-TX_PARENT = RUN / "mutation-transactions"
-TX = TX_PARENT / transaction_id
 AUTHORITY = TX / "authority.json"
 JOURNAL = TX / "journal.json"
 JOURNAL_TMP = TX / "journal.tmp"
 RESULT = TX / "result.json"
+RESULT_TMP = TX / "result.tmp"
 DISPOSITION = TX / "disposition.json"
 BACKUP = TX / "backup.bin"
 STAGE = TX / "stage.bin"
@@ -554,7 +1281,8 @@ plan(TX, ["transaction-dir"], ["mkdir", "rmdir", "fsync"], "durable")
 plan(AUTHORITY, ["authority"], ["create", "write", "unlink", "fsync"], "durable")
 plan(JOURNAL, ["journal", "residue"], ["create", "write", "replace", "unlink", "fsync"], "conditional-residue")
 plan(JOURNAL_TMP, ["journal-temp"], ["create", "write", "replace", "unlink", "fsync"], "transient")
-plan(RESULT, ["result"], ["create", "write", "fsync"], "durable")
+plan(RESULT, ["result"], ["create", "write", "replace", "fsync"], "durable")
+plan(RESULT_TMP, ["result-temp"], ["create", "write", "replace", "fsync"], "transient")
 plan(DISPOSITION, ["disposition"], [], "durable")
 plan(BACKUP, ["backup", "residue"], ["link", "replace", "unlink", "fsync"], "conditional-residue")
 plan(STAGE, ["stage", "residue"], ["create", "write", "link", "unlink", "fsync"], "conditional-residue")
@@ -585,7 +1313,6 @@ allowed = {
 }
 actual = []
 namespace_gate_fd = None
-
 
 def acquire_window_gate():
     """Lock the persistent governed-writer inode before any run-root effect."""
@@ -665,44 +1392,345 @@ def release_window_gate():
     return errors
 
 
-def current_controller_failure():
-    marker = RUN / ".controller"
-    identity = path_identity(marker)
-    same = lambda l, r: os.path.normcase(os.path.abspath(native_input(l))) == os.path.normcase(os.path.abspath(r))
-    def record(controller):
-        completed = subprocess.run(
-            [BASH_EXE, bash_path(SCRIPT_DIR / "claim-run.sh"), "--current-controller", controller],
-            cwd=os.fspath(REPO), text=True, capture_output=True,
-        )
-        return completed.returncode, completed.stdout.rstrip("\n").split("\t")
-    if identity.get("kind") == "absent":
-        refs = subprocess.run(
-            ["git", "for-each-ref", "--format=%(refname:strip=3)", "refs/implementaudit/controllers/"],
-            cwd=os.fspath(REPO), text=True, capture_output=True,
-        )
-        if refs.returncode != 0:
-            return "STALE_CONTROLLER_CUSTODY"
-        for controller in refs.stdout.splitlines():
-            rc, fields = record(controller)
-            if rc == 0 and len(fields) == 4 and same(fields[1], REPO) and same(fields[2], RUN) and fields[3] == claim_id:
-                return "STALE_CONTROLLER_CUSTODY"
+def read_fence_buffer():
+    if not safe_directory_chain(FENCE_PATH.parent, RUN):
+        raise ValueError("unsafe fence directory")
+    before = os.lstat(FENCE_PATH)
+    if not stat.S_ISREG(before.st_mode) or is_reparse(before) or before.st_nlink != 1:
+        raise ValueError("fence is not a unique regular file")
+    flags = os.O_RDONLY | getattr(os, "O_BINARY", 0) | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_NONBLOCK", 0)
+    fd = os.open(FENCE_PATH, flags)
+    try:
+        opened = os.fstat(fd)
+        if (not stat.S_ISREG(opened.st_mode) or opened.st_nlink != 1
+            or is_reparse(before) or stat.S_ISLNK(before.st_mode)
+            or (before.st_dev, before.st_ino) != (opened.st_dev, opened.st_ino)
+            or opened.st_size > 16384):
+            raise ValueError("unsafe fence file")
+        with os.fdopen(fd, "rb", closefd=False) as handle:
+            raw = handle.read(16385)
+        after = os.fstat(fd)
+        current = os.lstat(FENCE_PATH)
+        witness = lambda st: (st.st_dev, st.st_ino, st.st_size, st.st_mtime_ns, st.st_ctime_ns, st.st_nlink)
+        if len(raw) > 16384 or witness(before) != witness(opened) or witness(opened) != witness(after) or witness(after) != witness(current):
+            raise ValueError("fence changed during capture")
+        return raw
+    finally:
+        os.close(fd)
+
+
+def unique_fence_members(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError("duplicate fence member")
+        result[key] = value
+    return result
+
+
+def require_generation_fence():
+    global controller_identity, generation_identity, fence_disposition, fence_capture
+    if not protected_route_requested:
+        if os.path.lexists(FENCE_PATH):
+            fence_disposition = "UNKNOWN"
+            return "UNKNOWN", "MANUAL_RECONCILIATION"
+        fence_disposition = "NOT_APPLICABLE"
         return None
-    if identity.get("kind") != "regular" or identity.get("link_count") != 1 or not contained_regular(marker, RUN):
-        return "STALE_CONTROLLER_CUSTODY"
-    match = re.fullmatch(rb"controller_id=([a-z0-9](?:[a-z0-9-]{0,47}))\n", marker.read_bytes())
-    if match is None:
-        return "STALE_CONTROLLER_CUSTODY"
-    controller = match.group(1).decode("ascii")
-    rc, fields = record(controller)
-    if rc != 0 or len(fields) != 4:
-        return "STALE_CONTROLLER_CUSTODY"
-    if not (fields[0] == controller and same(fields[1], REPO) and same(fields[2], RUN) and fields[3] == claim_id):
-        return "STALE_CONTROLLER_CUSTODY"
-    current = subprocess.run(
-        [BASH_EXE, bash_path(SCRIPT_DIR / "claim-run.sh"), "--require-current-continuity", controller],
-        cwd=os.fspath(REPO), text=True, capture_output=True,
-    )
-    return None if current.returncode == 0 else "STALE_CONTINUITY_RECEIPT"
+    try:
+        raw = read_fence_buffer()
+        if fence_capture is not None and raw != fence_capture:
+            fence_disposition = "REJECTED"
+            return "REJECTED_NO_MUTATION", "FENCE_IDENTITY_DRIFT"
+        fence = json.loads(raw.decode("utf-8"), object_pairs_hook=unique_fence_members)
+        fence_capture = raw
+    except (OSError, UnicodeDecodeError, ValueError):
+        fence_disposition = "UNKNOWN"
+        return "UNKNOWN", "MANUAL_RECONCILIATION"
+    required = {
+        "schema", "phase", "step", "source_path", "protected_target",
+        "controller_generation", "authority_generation", "protected_generation",
+        "verified_resume_receipt",
+    }
+    optional = {"sink_capability", "controller_id"}
+    if (
+        not isinstance(fence, dict)
+        or set(fence) - required - optional
+        or not required.issubset(fence)
+        or fence.get("schema") != "implementaudit.protected-mutation-fence.v1"
+    ):
+        fence_disposition = "UNKNOWN"
+        return "UNKNOWN", "MANUAL_RECONCILIATION"
+    if controller_identity is None or generation_identity is None:
+        fence_disposition = "UNKNOWN"
+        return "UNKNOWN", "MANUAL_RECONCILIATION"
+    controller = controller_identity["controller_id"]
+    declared_controller = fence.get("controller_id", controller)
+    capability = fence.get("sink_capability", "REJECT_AND_REPORT")
+    if declared_controller != controller:
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "WRONG_CONTROLLER"
+    if type(fence.get("phase")) is not int or type(fence.get("step")) is not int or fence.get("phase") != args.phase or fence.get("step") != args.step or fence.get("source_path") != source_name:
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "PROTECTED_TARGET_IDENTITY_MISMATCH"
+    target = fence.get("protected_target")
+    expected_target = None if target_identity is None else target_identity["preimage_identity"]
+    if not isinstance(target, dict) or set(target) != {"sha256", "byte_length"} or type(target.get("byte_length")) is not int or target != expected_target:
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "PROTECTED_TARGET_IDENTITY_MISMATCH"
+    current_generation = generation_identity["generation_id"]
+    generations = [
+        fence.get("controller_generation"), fence.get("authority_generation"),
+        fence.get("protected_generation"),
+    ]
+    if any(not isinstance(item, str) or re.fullmatch(r"G[0-9A-F]{4}", item) is None for item in generations):
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "STALE_AUTHORITY_GENERATION"
+    if fence["controller_generation"] != current_generation:
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "STALE_CONTROLLER_GENERATION"
+    if fence["authority_generation"] != current_generation:
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "STALE_AUTHORITY_GENERATION"
+    if fence["protected_generation"] != current_generation:
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "PROTECTED_GENERATION_MISMATCH"
+    current_token = f'{generation_identity["receipt_ref"]}@{generation_identity["receipt_oid"]}'
+    if fence.get("verified_resume_receipt") != current_token:
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "POINTER_RECEIPT_DRIFT"
+    if capability != "REJECT_AND_REPORT":
+        fence_disposition = "UNKNOWN"
+        return "UNKNOWN", "MANUAL_RECONCILIATION"
+    failure, current_control, current_generation_binding = current_controller_binding()
+    if failure is not None:
+        fence_disposition = "REJECTED"
+        status = "UNSUPPORTED_OWNER_DECISION" if failure == "STALE_CONTROLLER_CUSTODY" else "REJECTED_NO_MUTATION"
+        reason_code = failure if failure == "STALE_CONTROLLER_CUSTODY" else "POINTER_RECEIPT_DRIFT"
+        return status, reason_code
+    if current_control != controller_identity:
+        fence_disposition = "REJECTED"
+        return "UNSUPPORTED_OWNER_DECISION", "STALE_CONTROLLER_CUSTODY"
+    if current_generation_binding != generation_identity:
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "POINTER_RECEIPT_DRIFT"
+    if source_initial != path_identity(SOURCE):
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "PROTECTED_TARGET_IDENTITY_MISMATCH"
+    fence_disposition = "VERIFIED"
+    return None
+
+
+authority_guard = None
+authority_guard_reader = None
+authority_guard_refs = {}
+authority_guard_paths = {}
+authority_guard_locks = {}
+authority_guard_common = None
+authority_guard_state = "NOT_APPLICABLE"
+authority_guard_head_target = None
+
+
+class AuthorityGuardLost(RuntimeError):
+    pass
+
+
+def initialise_authority_guard():
+    """Plan a native Git verify-only transaction; claim-run owns its meaning."""
+    global authority_guard_common, authority_guard_refs, authority_guard_state, authority_guard_head_target
+    global planned, planned_digest, allowed
+    if not protected_route_requested:
+        return
+    rc, storage = git_read(["config", "--get", "extensions.refStorage"])
+    if rc not in (0, 1) or (rc == 0 and storage.strip() != "files"):
+        raise ValueError("protected effect requires the qualified Git files backend")
+    rc, raw_common = git_read(["rev-parse", "--path-format=absolute", "--git-common-dir"])
+    if rc != 0:
+        raise ValueError("Git common directory unavailable")
+    common = Path(os.path.abspath(native_input(raw_common.strip())))
+    claimed = Path(os.path.abspath(native_input(claim["git_common_dir"])))
+    if os.path.normcase(str(common)) != os.path.normcase(str(claimed)) or not safe_directory_chain(common, Path(common.anchor)):
+        raise ValueError("Git common directory custody mismatch")
+    authority_guard_common = common
+    controller = controller_identity["controller_id"]
+    refs = {
+        controller_identity["controller_ref"], generation_identity["receipt_ref"],
+        f"refs/implementaudit/continuity-invalidations/{controller}",
+        f"refs/implementaudit/current-generations/{controller}",
+        f"refs/implementaudit/current-generation-migrations/{controller}", "HEAD",
+    }
+    rc, branch = git_read(["symbolic-ref", "--quiet", "HEAD"])
+    if rc == 0:
+        if not branch.strip().startswith("refs/heads/"):
+            raise ValueError("unsupported current branch reference")
+        refs.add(branch.strip())
+        authority_guard_head_target = branch.strip()
+    elif rc != 1:
+        raise ValueError("HEAD identity unavailable")
+    zero = "0" * len(generation_identity["receipt_oid"])
+    for ref in sorted(refs):
+        rc, oid = git_read(["rev-parse", "--verify", "--quiet", ref])
+        if rc == 0 and re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", oid.strip()):
+            authority_guard_refs[ref] = oid.strip()
+        elif rc == 1 and ref not in {"HEAD", controller_identity["controller_ref"], generation_identity["receipt_ref"]}:
+            authority_guard_refs[ref] = zero
+        else:
+            raise ValueError("reference identity unavailable")
+        rc, raw_path = git_read(["rev-parse", "--path-format=absolute", "--git-path", ref + ".lock"])
+        if rc != 0:
+            raise ValueError("reference lock location unavailable")
+        lock = Path(os.path.abspath(native_input(raw_path.strip())))
+        try:
+            relative = lock.relative_to(common)
+        except ValueError as error:
+            raise ValueError("reference lock outside bound common directory") from error
+        cursor = common
+        for part in relative.parts[:-1]:
+            cursor /= part
+            identity = path_identity(cursor)
+            if identity["kind"] not in {"directory", "absent"}:
+                raise ValueError("unsafe reference directory")
+            authority_guard_paths[cursor] = identity
+        if os.path.lexists(lock):
+            raise ValueError("reference lock already present")
+        authority_guard_paths[lock] = {"kind": "absent"}
+        authority_guard_locks[lock] = None
+    for path, identity in authority_guard_paths.items():
+        lock = path in authority_guard_locks
+        plan_key = ("git-common", path.relative_to(common).as_posix())
+        planned_map[plan_key] = {
+            "roles": {"authority-ref-lock" if lock else "authority-ref-directory"},
+            "allowed_effects": {"create", "unlink", "lock-attempt"} if lock else {"mkdir"},
+            "retention": "transient" if lock else "durable",
+        }
+    planned = [dict(scope=scope, path=path, roles=sorted(row["roles"]),
+                    allowed_effects=sorted(row["allowed_effects"]), retention=row["retention"])
+               for (scope, path), row in sorted(planned_map.items())]
+    planned_digest = digest(canonical(planned))
+    allowed = {(row["scope"], row["path"]): set(row["allowed_effects"]) for row in planned}
+    authority_guard_state = "PLANNED"
+
+
+def record_guard_effect(path, effect, before, after, outcome="applied"):
+    relative = path.relative_to(authority_guard_common).as_posix()
+    if effect not in allowed.get(("git-common", relative), set()):
+        raise RuntimeError("EFFECT_SET_INCOMPLETE:git-common:" + relative)
+    actual.append(dict(sequence=len(actual) + 1, scope="git-common", path=relative,
+                       effect=effect, before=before, after=after, outcome=outcome))
+
+
+def capture_guard_effects(prepared):
+    for path, before in authority_guard_paths.items():
+        after = path_identity(path)
+        if path in authority_guard_locks:
+            if not prepared:
+                record_guard_effect(path, "lock-attempt", before, after, "unknown")
+                continue
+            if after.get("kind") == "regular" and after.get("link_count") == 1 and after.get("byte_length") == 0:
+                authority_guard_locks[path] = after
+                record_guard_effect(path, "create", before, after)
+            elif prepared:
+                raise AuthorityGuardLost("prepared reference lock is not held")
+            else:
+                # A failed prepare can create and remove locks before readback.
+                # Absence after failure does not prove that no auxiliary effect ran.
+                record_guard_effect(path, "lock-attempt", before, after, "unknown")
+        elif before["kind"] == "absent" and after["kind"] == "directory":
+            record_guard_effect(path, "mkdir", before, after)
+
+
+def acquire_authority_guard():
+    global authority_guard, authority_guard_state, authority_guard_reader
+    if not protected_route_requested:
+        return
+    import queue
+    import threading
+    messages = queue.Queue()
+    command = ["git", "-c", "core.hooksPath=" + os.devnull,
+               "-c", "core.filesRefLockTimeout=1000", "update-ref", "--stdin", "--no-deref"]
+    authority_guard = subprocess.Popen(command, cwd=os.fspath(REPO), text=True,
+                                      stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = authority_guard
+    def receive_prepare():
+        try:
+            messages.put((process.stdout.readline().strip(), process.stdout.readline().strip()))
+        except (OSError, ValueError) as error:
+            messages.put(error)
+    reader = threading.Thread(target=receive_prepare, daemon=True)
+    authority_guard_reader = reader
+    reader.start()
+    # Git also locks HEAD when verifying its current branch. Listing both
+    # creates a duplicate-update refusal. Capture requires both physical locks;
+    # a changed symbolic HEAD therefore cannot silently weaken this guard.
+    request = "start\n" + "".join(
+        f"verify {ref} {oid}\n" for ref, oid in sorted(authority_guard_refs.items())
+        if ref != "HEAD" or authority_guard_head_target is None) + "prepare\n"
+    prepared = False
+    try:
+        authority_guard.stdin.write(request)
+        authority_guard.stdin.flush()
+        reply = messages.get(timeout=10)
+        prepared = reply == ("start: ok", "prepare: ok") and authority_guard.poll() is None
+        capture_guard_effects(prepared)
+        if not prepared:
+            raise AuthorityGuardLost("Git reference guard was not prepared")
+        authority_guard_state = "HELD"
+        ensure_authority_guard()
+        failure = require_generation_fence()
+        if failure is not None:
+            raise AuthorityGuardLost("continuity changed before reference guard preparation")
+    except (BrokenPipeError, OSError, queue.Empty) as error:
+        if not prepared:
+            capture_guard_effects(False)
+        raise AuthorityGuardLost("Git reference guard unavailable") from error
+
+
+def ensure_authority_guard():
+    if not protected_route_requested:
+        return
+    if authority_guard is None or authority_guard.poll() is not None or authority_guard_state != "HELD":
+        raise AuthorityGuardLost("authority guard process is not live")
+    for path, expected in authority_guard_locks.items():
+        if expected is None or path_identity(path) != expected:
+            raise AuthorityGuardLost("authority guard lock identity changed")
+
+
+def release_authority_guard():
+    global authority_guard, authority_guard_state
+    process = authority_guard
+    if process is None:
+        return []
+    authority_guard = None
+    errors = []
+    if authority_guard_reader is not None and authority_guard_reader.is_alive():
+        process.kill()
+        authority_guard_reader.join(timeout=10)
+        errors.append("reference guard preparation reader required termination")
+    try:
+        output, stderr = process.communicate("abort\n", timeout=10)
+        if process.returncode != 0 or output.strip() != "abort: ok":
+            errors.append("reference guard abort was not acknowledged: " + stderr.strip()[:1000])
+    except (OSError, ValueError, subprocess.TimeoutExpired):
+        process.kill()
+        process.communicate(timeout=10)
+        errors.append("reference guard process required termination")
+    for path, before in authority_guard_locks.items():
+        after = path_identity(path)
+        if before is not None and after["kind"] == "absent":
+            record_guard_effect(path, "unlink", before, after)
+        elif after["kind"] != "absent":
+            errors.append("reference guard residue: " + path.relative_to(authority_guard_common).as_posix())
+    authority_guard_state = "RELEASE_UNCERTAIN" if errors else "RELEASED"
+    if errors:
+        sys.stderr.write("apply-observed-mutation: " + "; ".join(errors) + "\n")
+    return errors
+
+
+def authority_guard_record():
+    return {"state": authority_guard_state, "method": "GIT_VERIFY_ONLY_PREPARED_TRANSACTION",
+            "git_common_dir": str(authority_guard_common) if authority_guard_common is not None else None,
+            "expected_refs": dict(authority_guard_refs), "head_symbolic_ref": authority_guard_head_target,
+            "scope": COORDINATION_SCOPE,
+            "remaining_lock_paths": [path.relative_to(authority_guard_common).as_posix() for path in authority_guard_locks if os.path.lexists(path)]}
 
 
 def window_intents():
@@ -764,15 +1792,22 @@ def verification_window_failure():
     return None
 
 
-def authorise(path, effect):
+def require_planned_effect(path, effect):
     key = ("repo", repo_relative(path))
     if effect not in allowed.get(key, set()):
         raise RuntimeError(f"EFFECT_SET_INCOMPLETE:{key[1]}:{effect}")
+    return key
+
+
+def authorise(path, effect):
+    if protected_route_requested and path in {SOURCE, DESTINATION, BACKUP, STAGE}:
+        ensure_authority_guard()
+    require_planned_effect(path, effect)
 
 
 def record(path, effect, before=None, after=None, outcome="applied"):
-    key = ("repo", repo_relative(path))
-    authorise(path, effect)
+    # Retain the observed outcome even if authority was lost after the syscall.
+    key = require_planned_effect(path, effect)
     actual.append(
         {
             "sequence": len(actual) + 1,
@@ -851,11 +1886,13 @@ def write_new(path, data, on_mutated=None, on_durable=None, effect_rows=None, sy
     with path.open("xb", buffering=0) as handle:
         notify_mutated(on_mutated, path, "create")
         record_applied(path, "create", before, path_identity(path), rows[0])
+        authorise(path, "write")
         written = handle.write(data)
         notify_mutated(on_mutated, path, "write")
         record_applied(path, "write", before, path_identity(path), rows[1])
         if written != len(data):
             raise OSError("short write")
+        authorise(path, "fsync")
         os.fsync(handle.fileno())
         record_applied(path, "fsync", path_identity(path), path_identity(path), rows[2])
     if sync_parent:
@@ -998,10 +2035,12 @@ def sync_directory_raw(path):
 
 def observations():
     if operation == "patch":
+        # Bind the same captured bytes that constructed candidate_data; reopening
+        # an input here can describe a different patch or lose it after capture.
         return {
             "current": simple_identity(current_data),
-            "region": simple_identity(evidence_bytes(args.region)),
-            "replacement": simple_identity(evidence_bytes(args.replacement)),
+            "region": simple_identity(region),
+            "replacement": simple_identity(replacement),
             "offset": int(args.offset),
             "candidate": simple_identity(candidate_data),
         }
@@ -1011,34 +2050,37 @@ def observations():
     return result
 
 
-authority_record = {
-    "schema": "implementaudit.observation-bound-mutation.authority.v2",
-    "transaction_id": transaction_id,
-    "created_at_utc": utc_now(),
-    "claim": {
-        "claim_id": claim_id,
-        "claim_sha256": digest(claim_bytes),
-        "repo_root": claim["repo_root"],
-        "git_common_dir": claim["git_common_dir"],
-        "run_root": claim["run_root"],
-    },
-    "phase": {
-        "phase": args.phase,
-        "step": args.step,
-        "authority_binding_sha256": authority_projection["authority_binding_sha256"],
-    },
-    "operation": operation,
-    "source": source_name,
-    "destination": destination_name,
-    "observations": observations(),
-    "planned_effect_set": planned,
-    "planned_effect_set_sha256": planned_digest,
-}
+def authority_record():
+    return {
+        **versioned_fence_fields("implementaudit.observation-bound-mutation.authority",
+                                 transaction_id, planned_digest, guard_available=True),
+        "transaction_id": transaction_id,
+        "created_at_utc": utc_now(),
+        "claim": {
+            "claim_id": claim_id,
+            "claim_sha256": digest(claim_bytes),
+            "repo_root": claim["repo_root"],
+            "git_common_dir": claim["git_common_dir"],
+            "run_root": claim["run_root"],
+        },
+        "phase": {
+            "phase": args.phase,
+            "step": args.step,
+            "authority_binding_sha256": authority_projection["authority_binding_sha256"],
+        },
+        "operation": operation,
+        "source": source_name,
+        "destination": destination_name,
+        "observations": observations(),
+        "planned_effect_set": planned,
+        "planned_effect_set_sha256": planned_digest,
+    }
 
 
 def emit_transaction_conflict(reason_code):
     result = {
-        "schema": "implementaudit.observation_bound_mutation.v2",
+        **versioned_fence_fields("implementaudit.observation_bound_mutation",
+                                 transaction_id, planned_digest, "CONFLICT_REBASE", True),
         "transaction_id": transaction_id,
         "claim_id": claim_id,
         "phase": args.phase,
@@ -1058,6 +2100,9 @@ def emit_transaction_conflict(reason_code):
         "actual_effect_set": actual,
         "residue": [],
     }
+    gate_release_errors = release_window_gate()
+    if gate_release_errors:
+        sys.stderr.write("apply-observed-mutation: governed-writer gate release requires manual reconciliation\n")
     print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
     raise SystemExit(EXITS["CONFLICT_REBASE"])
 
@@ -1096,7 +2141,8 @@ def residue_row(path):
 
 def result_record(status, reason_code, residue_paths, effect_rows):
     return {
-        "schema": "implementaudit.observation_bound_mutation.v2",
+        **versioned_fence_fields("implementaudit.observation_bound_mutation",
+                                 transaction_id, planned_digest, status, True),
         "transaction_id": transaction_id,
         "claim_id": claim_id,
         "phase": args.phase,
@@ -1118,34 +2164,55 @@ def result_record(status, reason_code, residue_paths, effect_rows):
     }
 
 
-def persist_result_record(status, reason_code, residue_paths):
+def persist_result_record(status, reason_code, residue_paths, replace_existing=False):
+    # Persisted files snapshot completed observations. Their publication
+    # effects enter the live result only after the syscalls return.
     result_before = path_identity(RESULT)
     transaction_identity = path_identity(TX)
-    future = future_effect_rows(
-        [
-            (RESULT, "create", result_before, None),
-            (RESULT, "write", result_before, None),
-            (RESULT, "fsync", None, None),
-            (TX, "fsync", transaction_identity, transaction_identity),
-        ]
-    )
-    payload = result_record(status, reason_code, residue_paths, actual + future)
-    write_new(RESULT, canonical(payload), effect_rows=future[:3], sync_parent=False)
-    fsync_dir(TX, future[3])
+    if replace_existing:
+        temporary_before = path_identity(RESULT_TMP)
+        if result_before.get("kind") != "regular" or temporary_before.get("kind") != "absent":
+            raise RuntimeError("TERMINAL_CHECKPOINT_CUSTODY_CHANGED")
+        future = future_effect_rows(
+            [
+                (RESULT_TMP, "create", temporary_before, None),
+                (RESULT_TMP, "write", temporary_before, None),
+                (RESULT_TMP, "fsync", None, None),
+                (RESULT_TMP, "replace", None, {"kind": "absent"}),
+                (RESULT, "replace", result_before, None),
+                (TX, "fsync", transaction_identity, transaction_identity),
+            ]
+        )
+        payload = result_record(status, reason_code, residue_paths, actual)
+        write_new(RESULT_TMP, canonical(payload), effect_rows=future[:3], sync_parent=False)
+        replace(RESULT_TMP, RESULT, effect_rows=future[3:5], sync_parents=False)
+        fsync_dir(TX, future[5])
+    else:
+        future = future_effect_rows(
+            [
+                (RESULT, "create", result_before, None),
+                (RESULT, "write", result_before, None),
+                (RESULT, "fsync", None, None),
+                (TX, "fsync", transaction_identity, transaction_identity),
+            ]
+        )
+        payload = result_record(status, reason_code, residue_paths, actual)
+        write_new(RESULT, canonical(payload), effect_rows=future[:3], sync_parent=False)
+        fsync_dir(TX, future[3])
     return result_record(status, reason_code, residue_paths, actual)
 
 
-def persist_terminal_or_fallback(status, reason_code, residue_paths):
+def persist_terminal_or_fallback(status, reason_code, residue_paths, replace_existing=False):
     try:
-        return status, persist_result_record(status, reason_code, residue_paths)
+        result = persist_result_record(status, reason_code, residue_paths, replace_existing)
+        return True, status, result
     except (OSError, RuntimeError):
         fallback_paths = list(residue_paths)
-        if path_identity(TX).get("kind") == "directory" and TX not in fallback_paths:
-            fallback_paths.append(TX)
-        if path_identity(RESULT).get("kind") != "absent":
-            fallback_paths.append(RESULT)
+        for path in (TX, JOURNAL, RESULT_TMP, RESULT):
+            if path not in fallback_paths and path_identity(path).get("kind") != "absent":
+                fallback_paths.append(path)
         status = "ROLLBACK_FAILED_WITH_RESIDUE"
-        return status, result_record(status, "RESULT_PERSISTENCE_FAILURE", fallback_paths, actual)
+        return False, status, result_record(status, "RESULT_PERSISTENCE_FAILURE", fallback_paths, actual)
 
 
 def initialisation_residue_paths():
@@ -1174,7 +2241,7 @@ def emit_initialisation_failure():
     status = "MUTATION_FAILED_NO_STATE_CHANGE" if not residue_paths else "ROLLBACK_FAILED_WITH_RESIDUE"
     result = result_record(status, "INITIALISATION_IO_FAILURE", residue_paths, actual)
     if status == "ROLLBACK_FAILED_WITH_RESIDUE" and path_identity(TX).get("kind") == "directory":
-        status, result = persist_terminal_or_fallback(status, "INITIALISATION_IO_FAILURE", residue_paths)
+        _, status, result = persist_terminal_or_fallback(status, "INITIALISATION_IO_FAILURE", residue_paths)
     print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
     raise SystemExit(EXITS[status])
 
@@ -1182,11 +2249,13 @@ def emit_initialisation_failure():
 try:
     acquire_window_gate()
 except WriterDomainBreach:
+    release_window_gate()
     emit_no_effect("UNSUPPORTED_OWNER_DECISION", "WRITER_DOMAIN_BREACH")
 except OSError as error:
+    release_window_gate()
     sys.stderr.write(f"apply-observed-mutation: namespace gate acquisition failed: {error}\n")
     emit_no_effect("MUTATION_FAILED_NO_STATE_CHANGE", "IO_FAILURE")
-controller_failure = current_controller_failure()
+controller_failure, controller_identity, generation_identity = current_controller_binding()
 if controller_failure is not None:
     if release_window_gate():
         emit_no_effect("ROLLBACK_FAILED_WITH_RESIDUE", "GATE_RELEASE_FAILURE")
@@ -1201,6 +2270,24 @@ if window_failure is not None:
         emit_no_effect("ROLLBACK_FAILED_WITH_RESIDUE", "GATE_RELEASE_FAILURE")
     emit_no_effect("UNSUPPORTED_OWNER_DECISION", "OPEN_VERIFICATION_WINDOW")
 phase_hook("window-scan-complete")
+fence_failure = require_generation_fence()
+if fence_failure is not None:
+    fence_status, fence_reason = fence_failure
+    if release_window_gate():
+        emit_no_effect("ROLLBACK_FAILED_WITH_RESIDUE", "GATE_RELEASE_FAILURE")
+    emit_no_effect(fence_status, fence_reason)
+# The gate may have waited for another cooperating writer. Recheck the
+# retained preflight restrictions before any transaction/authority creation.
+batch_failure = batch_restriction_failure()
+if batch_failure is not None:
+    if release_window_gate():
+        emit_no_effect("ROLLBACK_FAILED_WITH_RESIDUE", "GATE_RELEASE_FAILURE")
+    emit_no_effect(*batch_failure)
+try:
+    initialise_authority_guard()
+except (OSError, ValueError):
+    release_window_gate()
+    emit_no_effect("UNKNOWN", "MANUAL_RECONCILIATION")
 
 try:
     if path_identity(TX_PARENT).get("kind") == "absent":
@@ -1215,7 +2302,7 @@ except FileExistsError:
 except OSError:
     emit_initialisation_failure()
 try:
-    write_new(AUTHORITY, canonical(authority_record), mark_init_authority)
+    write_new(AUTHORITY, canonical(authority_record()), mark_init_authority)
     fsync_dir(TX)
 except OSError:
     emit_initialisation_failure()
@@ -1226,7 +2313,8 @@ residue = []
 
 def journal_record(status, residue_paths=(), effect_rows=None):
     return {
-        "schema": "implementaudit.observation-bound-mutation.journal.v2",
+        **versioned_fence_fields("implementaudit.observation-bound-mutation.journal",
+                                 transaction_id, planned_digest, guard_available=True),
         "transaction_id": transaction_id,
         "authority_sha256": digest(AUTHORITY.read_bytes()),
         "status": status,
@@ -1256,7 +2344,10 @@ def persist_journal(status, residue_paths=()):
             (TX, "fsync", directory_identity, directory_identity),
         ]
     )
-    data = canonical(journal_record(status, residue_paths, actual + future))
+    # Journals snapshot completed observations; publication enters live
+    # actual only after each syscall returns.
+    payload = journal_record(status, residue_paths, actual)
+    data = canonical(payload)
     write_new(JOURNAL_TMP, data, effect_rows=future[:3], sync_parent=False)
     replace(JOURNAL_TMP, JOURNAL, effect_rows=future[3:5], sync_parents=False)
     fsync_dir(TX, future[5])
@@ -1380,12 +2471,26 @@ terminal_finalized = False
 def final_result(status, reason_code="NONE", residue_paths=(), post_path=None):
     global retain_owned_locks, terminal_finalized
     uncertain_paths = list(residue_paths)
-    if uncertain_paths:
+    cleanup_journal = False
+    if authority_guard is not None:
+        try:
+            # Hold publication exclusion through every target/rollback effect
+            # and a durable terminal target journal. The final result includes
+            # observed guard release effects and asserts no later currentness.
+            persist_journal(status, uncertain_paths)
+        except (OSError, RuntimeError):
+            status, reason_code = "UNKNOWN", "MANUAL_RECONCILIATION"
+            uncertain_paths.append(TX)
+        if release_authority_guard():
+            status, reason_code = "UNKNOWN", "MANUAL_RECONCILIATION"
+            uncertain_paths.extend([JOURNAL, TX])
+    if uncertain_paths or status in {"UNKNOWN", "ROLLBACK_FAILED_WITH_RESIDUE"}:
         retain_owned_locks = True
         uncertain_paths.extend(owned_lock_residue_paths())
+        if not uncertain_paths:
+            uncertain_paths.append(TX)
     else:
-        if path_identity(JOURNAL).get("kind") != "absent":
-            unlink(JOURNAL)
+        cleanup_journal = path_identity(JOURNAL).get("kind") != "absent"
         release_locks()
         release_lock_root()
         cleanup_residue = owned_lock_residue_paths()
@@ -1404,12 +2509,46 @@ def final_result(status, reason_code="NONE", residue_paths=(), post_path=None):
         reason_code = "GATE_RELEASE_FAILURE"
         uncertain_paths.append(LOCK_GATE)
         uncertain_paths.extend(owned_lock_residue_paths())
-    status, result = persist_terminal_or_fallback(status, reason_code, uncertain_paths)
+    if uncertain_paths and path_identity(JOURNAL).get("kind") != "absent":
+        uncertain_paths.append(JOURNAL)
+    if cleanup_journal and not uncertain_paths:
+        # The pending result replaces no custody: retain the terminal journal
+        # until this observed-execution checkpoint is durable. Cleanup itself
+        # enters the final result only after it actually occurs.
+        durable, pending_status, pending_result = persist_terminal_or_fallback(
+            "RECOVERY_REQUIRED", "RESIDUE_RETAINED", [JOURNAL]
+        )
+        if not durable:
+            status, result = pending_status, pending_result
+        else:
+            try:
+                unlink(JOURNAL)
+            except (OSError, RuntimeError):
+                # Target effects and guard release have already completed.
+                # Do not re-enter target rollback for a cleanup-only failure.
+                status, reason_code = "ROLLBACK_FAILED_WITH_RESIDUE", "IO_FAILURE"
+                uncertain_paths.append(TX)
+                if path_identity(JOURNAL).get("kind") != "absent":
+                    uncertain_paths.append(JOURNAL)
+            durable, status, result = persist_terminal_or_fallback(
+                status, reason_code, uncertain_paths, replace_existing=True
+            )
+    else:
+        durable, status, result = persist_terminal_or_fallback(status, reason_code, uncertain_paths)
     if status == "ROLLBACK_FAILED_WITH_RESIDUE":
         retain_owned_locks = True
+    if durable:
+        phase_hook("terminal-result-durable")
     terminal_finalized = True
     print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
     raise SystemExit(EXITS[status])
+
+
+def require_first_protected_effect_generation_fence():
+    fence_failure = require_generation_fence()
+    if fence_failure is not None:
+        final_result(*fence_failure)
+    acquire_authority_guard()
 
 
 phase_hook("init")
@@ -1468,6 +2607,8 @@ try:
         if not source_observation_unchanged() or path_identity(DESTINATION).get("kind") != "absent":
             final_result("CONFLICT_REBASE", "PREIMAGE_DRIFT")
         persist_journal("PLANNED")
+        require_first_protected_effect_generation_fence()
+        phase_hook("first-protected-effect-boundary")
         try:
             link(SOURCE, DESTINATION, mark_move_destination_published)
         except FileExistsError:
@@ -1485,6 +2626,8 @@ try:
         final_result("COMMITTED")
 
     persist_journal("PLANNED")
+    require_first_protected_effect_generation_fence()
+    phase_hook("first-protected-effect-boundary")
     replace(SOURCE, BACKUP, mark_displaced)
     persist_journal("DISPLACEMENT_DURABLE", [BACKUP])
     if fault == "after-displacement":
@@ -1524,6 +2667,9 @@ try:
     unlink(BACKUP)
     final_result("COMMITTED")
 except RuntimeError as error:
+    if isinstance(error, AuthorityGuardLost):
+        paths = [path for path in (JOURNAL, BACKUP, STAGE, DESTINATION) if path is not None and path_identity(path).get("kind") != "absent"]
+        final_result("UNKNOWN", "MANUAL_RECONCILIATION", paths)
     if isinstance(error, WriterDomainBreach):
         final_result("UNSUPPORTED_OWNER_DECISION", "WRITER_DOMAIN_BREACH")
     if str(error).startswith("EFFECT_SET_INCOMPLETE:"):
@@ -1558,5 +2704,6 @@ finally:
         if not retain_owned_locks:
             release_locks()
             release_lock_root()
+        release_authority_guard()
         release_namespace_gate()
 PY

@@ -1,200 +1,1282 @@
 #!/usr/bin/env python3
-"""Bounded canonical hot projection rendering; no native handles or publication.
+"""Deterministic canonical whole-pair projection and protected-state algebra.
 
-Typed state and custody validation remain canonical at the rotation owner. They
-are explicit injected preconditions, not duplicated field models in this module.
+Unknown source grammar, incomplete owners and semantic changes refuse. Native
+admission, boundary authenticity and publication remain owned by claim-run.
 """
 from __future__ import annotations
-from typing import Any, Mapping, Sequence
-STATE_HOT_SECTIONS_V1 = (
-    "# IMPLEMENTAUDIT State", "## Current phase", "## Audit object state",
-    "## Runtime artifacts", "## Ledger", "## Andon log",
-    "## Occurrence resolution and residuals", "## Execution identity",
-    "## Context epochs and instruction applicability", "## AGENTS_UPDATE_DECISION",
-    "## CONTINUITY_DECISION", "## Local git trace", "## Run terminal disposition",
-)
-ROADMAP_HOT_SECTIONS_V1 = (
-    "# IMPLEMENTAUDIT Roadmap", "## Goal", "## Audit object",
-    "## Action selection", "## Baseline ref", "## Run root",
-    "## Planning evidence", "## Phases", "## Execution index (projection)",
-    "## Scope boundaries", "## Scope-creep register",
-)
+from typing import Mapping, Sequence
 
-class HotProjectionRenderer:
-    def __init__(self, *, error_type, validate_fields, validate_dependencies):
-        self._error_type = error_type
-        self._validate_fields = validate_fields
-        self._validate_dependencies = validate_dependencies
+import copy as _v2_copy_module
+import hashlib as _v2_hashlib
+import json as _v2_json_module
+import re as _v2_re
 
 
-    def _hot_value_v1(self, value: object) -> str:
-        if (type(value) is not str or not value or any(char in value for char in "\r\n|")):
-            raise self._error_type("hot projection field is invalid")
+class ProjectionV2Error(ValueError):
+    """A complete source/projection contract could not be established."""
+
+
+_V2_AUTHORITY = "NO_CURRENTNESS_AUTHORITY"
+_V2_BODY_SCHEMA = "implementaudit.canonical-pair.v2"
+_V2_TRANSITION_SCHEMA = "implementaudit.canonical-state-transition.v2"
+_V2_NATIVE_RESUME_SCHEMA = "implementaudit.native-resume-transition.v1"
+_V2_C02_SCHEMA = "implementaudit.c02-correction-transition.v1"
+_V2_POINTER_SCHEMA = "implementaudit.typed-archive-pointer.v2"
+_V2_OWNERS = {"STATE.md", "ROADMAP.md", "claim-run.sh", "WORK_GRAPH.json", "R0033/continuity"}
+_V2_GROUP_OWNERS = {
+    "STATE": {"identity": "claim-run.sh", "continuation": "STATE.md",
+              "instructions": "STATE.md", "authorisations": "STATE.md",
+              "terminal": "STATE.md", "andons": "STATE.md", "original_reds": "STATE.md",
+              "non_verdicts": "STATE.md", "evidence_ceilings": "STATE.md", "steers": "STATE.md",
+              "rollback": "STATE.md", "runtime_artifacts": "STATE.md",
+              "pending_boundaries": "R0033/continuity"},
+    "ROADMAP": {"frontier": "WORK_GRAPH.json", "obligations": "ROADMAP.md",
+                "deferrals": "ROADMAP.md", "dependencies": "ROADMAP.md",
+                "compensations": "ROADMAP.md", "planning": "ROADMAP.md"},
+}
+_V2_BODY_KEYS = {"schema_version", "role", "pair_id", "payload", "continuity", "history",
+                 "archive_pointers", "artifact_refs", "transition"}
+_V2_CONTINUITY_KEYS = {"projection_generation_id", "continuity_epoch", "invalidation_oid",
+                       "predecessor_receipt_ref_oid", "expected_receipt_ref", "expected_receipt_schema",
+                       "boundary", "reconciled"}
+_V2_TRANSITION_KEYS = _V2_CONTINUITY_KEYS | {
+    "schema_version", "boundary", "predecessor_generation_id", "predecessor_epoch",
+    "transition_kind", "failed_transition_epoch", "failed_projection_generation_id", "failed_transition_receipt_ref_oid"}
+_V2_MAP_KEYS = {"field", "owner", "source_kind", "source_id", "source_pointer", "source_sha256", "value_sha256"}
+_V2_DESCRIPTOR_KEYS = {"role", "source_role", "source_pointer", "source_sha256", "source_bytes",
+                        "blob_oid", "record_id", "record_sha256", "owner"}
+_V2_POINTER_KEYS = _V2_DESCRIPTOR_KEYS | {"schema_version", "archive_ref", "archive_manifest_oid",
+                                         "archive_manifest_sha256", "authority", "preparation_generation_id"}
+_V2_PREIMAGE_KEYS = {"schema_version", "authority_ceiling", "state_bytes", "roadmap_bytes", "bodies",
+                     "payload", "owner_map", "artifacts", "source_hashes", "current_continuity",
+                     "current_receipt_ref_oid", "archive_population", "protected_manifest"}
+_V2_CANDIDATE_KEYS = {"schema_version", "authority_ceiling", "state_bytes", "roadmap_bytes", "payload",
+                      "source_hashes", "owner_map", "artifact_refs", "predecessor_continuity", "transition",
+                      "archive_pointers", "protected_manifest", "limits"}
+_V2_RECORD_STATES = {"OPEN", "BLOCKED", "DONE", "DEFERRED", "UNVERIFIED", "PRESERVED", "ACTIVE",
+                      "SATISFIED", "EXPIRED", "SUPERSEDED", "REVOKED", "UNRESOLVED"}
+_V2_BOUNDARIES = {"host-reported-compaction", "new-session", "handoff-resume", "manual-resume",
+                   "inferred-context-gap", "canonical-state-rotation"}
+_V2_NATIVE_BOUNDARIES = _V2_BOUNDARIES - {"canonical-state-rotation"}
+_V2_BOUNDARIES = _V2_BOUNDARIES | {"erroneous-invalidation-correction"}
+_V2_HISTORY_KINDS = {"finding.closed", "andon.closed", "residual.terminal", "epoch.closed",
+                      "instruction.satisfied", "phase.completed", "transition.closed",
+                      "recovery.record", "artifact.historical"}
+
+
+def _v2_require(condition: object, message: str) -> None:
+    if not condition:
+        raise ProjectionV2Error(message)
+
+
+def _v2_object(value: object, keys: set[str], label: str) -> Mapping[str, object]:
+    _v2_require(isinstance(value, Mapping) and set(value) == keys, label + " has missing or unknown fields")
+    return value
+
+
+def _v2_string(value: object, label: str, *, nullable: bool = False) -> None:
+    if value is None and nullable:
+        return
+    _v2_require(type(value) is str and bool(value) and "\0" not in value, label + " must be a nonempty string")
+    try:
+        value.encode("utf-8", "strict")
+    except UnicodeError as exc:
+        raise ProjectionV2Error(label + " is not valid UTF-8") from exc
+
+
+def _v2_enum(value: object, choices: set[str], label: str) -> None:
+    _v2_require(type(value) is str and value in choices, label + " is outside its closed vocabulary")
+
+
+def _v2_integer(value: object, label: str, minimum: int = 0) -> None:
+    _v2_require(type(value) is int and value >= minimum, label + " must be an integer in range")
+
+
+def _v2_list(value: object, label: str) -> Sequence[object]:
+    _v2_require(type(value) in (list, tuple), label + " must be a sequence")
+    return value
+
+
+def _v2_strings(value: object, label: str) -> None:
+    rows = _v2_list(value, label)
+    for row in rows:
+        _v2_string(row, label)
+    _v2_require(len(set(rows)) == len(rows), label + " contains duplicates")
+
+
+def _v2_digest(value: object, label: str, *, oid: bool = False, nullable: bool = False) -> None:
+    if value is None and nullable:
+        return
+    pattern = r"(?:[0-9a-f]{40}|[0-9a-f]{64})" if oid else r"[0-9a-f]{64}"
+    _v2_require(type(value) is str and _v2_re.fullmatch(pattern, value) is not None,
+                label + " has an invalid digest")
+
+
+def _v2_epoch(value: object) -> int:
+    _v2_require(type(value) is str and _v2_re.fullmatch(r"G[0-9A-F]{4}", value) is not None,
+                "epoch/generation must be exact uppercase Gxxxx")
+    number = int(value[1:], 16)
+    _v2_require(number > 0, "epoch/generation zero is outside the qualified grammar")
+    return number
+
+
+def _v2_next(value: str, increment: int = 1) -> str:
+    number = _v2_epoch(value) + increment
+    _v2_require(number <= 65535, "epoch/generation namespace exhausted")
+    return "G%04X" % number
+
+
+def _v2_data(value: object) -> object:
+    if value is None or type(value) in (bool, int, str):
+        if type(value) is str:
+            _v2_require("\0" not in value, "NUL is not admitted in canonical JSON")
+        return value
+    if isinstance(value, Mapping):
+        _v2_require(all(type(key) is str for key in value), "canonical JSON keys must be strings")
+        return {key: _v2_data(child) for key, child in value.items()}
+    if type(value) in (list, tuple):
+        return [_v2_data(child) for child in value]
+    raise ProjectionV2Error("canonical JSON excludes floats and unsupported values")
+
+
+def _v2_canonical(value: object) -> bytes:
+    try:
+        return _v2_json_module.dumps(_v2_data(value), sort_keys=True, separators=(",", ":"),
+                                     ensure_ascii=False, allow_nan=False).encode("utf-8", "strict")
+    except (UnicodeError, TypeError, OverflowError, RecursionError) as exc:
+        raise ProjectionV2Error("value cannot be encoded as canonical JSON") from exc
+
+
+def _v2_sha(raw: bytes) -> str:
+    return _v2_hashlib.sha256(raw).hexdigest()
+
+
+def _v2_blob(raw: bytes, algorithm: str = "sha1") -> str:
+    return _v2_hashlib.new(algorithm, b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw).hexdigest()
+
+
+def _v2_clone(value: object) -> object:
+    return _v2_copy_module.deepcopy(value)
+
+
+def _v2_same(left: object, right: object) -> bool:
+    if isinstance(left, Mapping) and isinstance(right, Mapping):
+        return set(left) == set(right) and all(_v2_same(left[key], right[key]) for key in left)
+    if type(left) is not type(right):
+        return False
+    if type(left) in (list, tuple):
+        return len(left) == len(right) and all(_v2_same(a, b) for a, b in zip(left, right))
+    return left == right
+
+
+def _v2_pointer_escape(value: str) -> str:
+    return value.replace("~", "~0").replace("/", "~1")
+
+
+def _v2_leaves(value: object, pointer: str):
+    if isinstance(value, Mapping) and value:
+        for key in sorted(value):
+            yield from _v2_leaves(value[key], pointer + "/" + _v2_pointer_escape(key))
+    elif type(value) in (list, tuple) and value:
+        for index, child in enumerate(value):
+            yield from _v2_leaves(child, pointer + "/" + str(index))
+    else:
+        yield pointer, value
+
+
+def _v2_safe_path(value: object) -> None:
+    _v2_string(value, "artifact locator")
+    _v2_require(not any(char in value for char in "\\:\r\n\t")
+                and all(part not in ("", ".", "..") for part in value.split("/")),
+                "artifact locator is not a contained relative POSIX path")
+
+
+def _v2_records(value: object, keys: set[str], label: str) -> Sequence[Mapping[str, object]]:
+    rows = _v2_list(value, label)
+    seen = set()
+    for row in rows:
+        _v2_object(row, keys, label)
+        _v2_string(row["record_id"], label + " record_id")
+        _v2_require(row["record_id"] not in seen, label + " record_id duplicated")
+        seen.add(row["record_id"])
+        if "evidence_refs" in row:
+            _v2_strings(row["evidence_refs"], label + " evidence_refs")
+    return rows
+
+
+def _v2_instruction_rows(value: object) -> None:
+    rows = _v2_records(value, {"record_id", "issuer", "subject", "scope", "applicability", "status",
+                               "evidence_refs", "issued_epoch", "expires_at", "supersedes"}, "instruction")
+    for row in rows:
+        for key in ("issuer", "subject", "scope"):
+            _v2_string(row[key], "instruction " + key)
+        _v2_enum(row["applicability"], {"APPLIES", "DOES_NOT_APPLY", "UNRESOLVED"}, "applicability")
+        _v2_enum(row["status"], {"ACTIVE", "SATISFIED", "SUPERSEDED", "REVOKED", "EXPIRED", "AMBIGUOUS"}, "instruction status")
+        _v2_epoch(row["issued_epoch"])
+        _v2_string(row["expires_at"], "instruction expires_at", nullable=True)
+        _v2_strings(row["supersedes"], "instruction supersedes")
+
+
+def _v2_general_rows(value: object, *, deferred: bool = False) -> None:
+    keys = {"record_id", "status", "description", "scope", "evidence_refs"}
+    if deferred:
+        keys.add("revisit_trigger")
+    for row in _v2_records(value, keys, "protected record"):
+        _v2_enum(row["status"], {"DEFERRED", "READY", "DONE", "BLOCKED"} if deferred else _V2_RECORD_STATES,
+                  "protected status")
+        for key in ("description", "scope") + (("revisit_trigger",) if deferred else ()):
+            _v2_string(row[key], "protected " + key)
+
+
+def _v2_acyclic(edges: Mapping[str, Sequence[str]], label: str) -> None:
+    """Check a closed relation without imposing a recursive depth/census cap."""
+    incoming = {record_id: 0 for record_id in edges}
+    for targets in edges.values():
+        for target in targets:
+            incoming[target] += 1
+    ready = [record_id for record_id, count in incoming.items() if count == 0]
+    visited = 0
+    while ready:
+        record_id = ready.pop()
+        visited += 1
+        for target in edges[record_id]:
+            incoming[target] -= 1
+            if incoming[target] == 0:
+                ready.append(target)
+    _v2_require(visited == len(edges), label + " contains a cycle")
+
+
+def _v2_relations(payload: Mapping[str, object]) -> None:
+    """Bind relational fields to the complete typed protected populations."""
+    records = {}
+    pending = [payload]
+    while pending:
+        value = pending.pop()
+        if isinstance(value, Mapping):
+            if "record_id" in value:
+                _v2_require(value["record_id"] not in records, "protected record identity is ambiguous")
+                records[value["record_id"]] = value
+            pending.extend(value.values())
+        elif type(value) in (list, tuple):
+            pending.extend(value)
+    state, roadmap = payload["STATE"], payload["ROADMAP"]
+    instruction_rows = list(state["instructions"]["value"]) + list(state["authorisations"]["value"])
+    instructions = {row["record_id"]: row for row in instruction_rows}
+    supersession = {}
+    for record_id, row in instructions.items():
+        _v2_require(set(row["supersedes"]) <= set(instructions), "supersession target is not an instruction/authorisation record")
+        _v2_require(record_id not in row["supersedes"], "instruction/authorisation supersedes itself")
+        supersession[record_id] = row["supersedes"]
+    _v2_acyclic(supersession, "supersession")
+    compensations = {row["record_id"]: row for row in roadmap["compensations"]["value"]}
+    compensation_edges = {}
+    for record_id, row in compensations.items():
+        subject = row["for_record"]
+        _v2_require(subject in records and subject != record_id, "compensation subject is missing or self-referential")
+        compensation_edges[record_id] = [subject] if subject in compensations else []
+    _v2_acyclic(compensation_edges, "compensation")
+    action = roadmap["planning"]["value"]["action_selection"]
+    _v2_require(not set(action["selected"]) & set(action["omitted"]), "action is both selected and omitted")
+
+
+def _v2_pending_rows(value: object) -> None:
+    rows = _v2_list(value, "pending boundaries")
+    keys = {"boundary_id", "boundary_kind", "owner", "original_evidence_ref", "original_evidence_locator",
+            "physical_source", "observation", "reservation", "result", "consumption", "uncovered_successors",
+            "historical_refusal", "currentness", "selected_occurrence_id", "prior_occurrence_ids", "retry",
+            "completed", "audit_state_required"}
+    seen = set()
+    for row in rows:
+        _v2_object(row, keys, "pending boundary")
+        _v2_string(row["boundary_id"], "boundary_id")
+        _v2_require(row["boundary_id"] not in seen, "boundary_id duplicated")
+        seen.add(row["boundary_id"])
+        _v2_enum(row["boundary_kind"], _V2_BOUNDARIES, "boundary kind")
+        _v2_require(row["owner"] == "R0033/continuity", "pending boundary owner changed")
+        _v2_string(row["original_evidence_ref"], "original evidence ref")
+        _v2_safe_path(row["original_evidence_locator"])
+        source = _v2_object(row["physical_source"], {"file_identity", "offset", "byte_length", "sha256", "ordinal", "source_binding"}, "physical source")
+        _v2_safe_path(source["file_identity"])
+        _v2_require(source["file_identity"] == row["original_evidence_locator"], "physical source locator changed")
+        for key, minimum in (("offset", 0), ("byte_length", 1), ("ordinal", 1)):
+            _v2_integer(source[key], "physical " + key, minimum)
+        _v2_digest(source["sha256"], "physical source slice")
+        _v2_digest(source["source_binding"], "physical source binding")
+        observation = _v2_object(row["observation"], {"scope", "cutoff", "boundary_ids"}, "observation")
+        _v2_string(observation["scope"], "observation scope")
+        _v2_integer(observation["cutoff"], "observation cutoff")
+        _v2_strings(observation["boundary_ids"], "observed boundary ids")
+        _v2_require(row["boundary_id"] in observation["boundary_ids"], "boundary missing from its observation")
+        reservation = _v2_object(row["reservation"], {"state", "owner_ref"}, "reservation")
+        _v2_enum(reservation["state"], {"UNRESERVED", "RESERVED", "RELEASED"}, "reservation state")
+        _v2_string(reservation["owner_ref"], "reservation owner", nullable=reservation["state"] != "RESERVED")
+        result = _v2_object(row["result"], {"state", "original_response_sha256", "returned_response_sha256"}, "boundary result")
+        _v2_enum(result["state"], {"PENDING", "FAILED", "SUCCEEDED"}, "boundary result")
+        for key in ("original_response_sha256", "returned_response_sha256"):
+            _v2_digest(result[key], key, nullable=True)
+        consumption = _v2_object(row["consumption"], {"state", "witness", "covered_boundary_ids"}, "consumption")
+        _v2_enum(consumption["state"], {"PENDING", "ACCEPTED", "REFUSED"}, "consumption state")
+        _v2_strings(consumption["covered_boundary_ids"], "consumed boundary ids")
+        _v2_require(set(consumption["covered_boundary_ids"]) <= set(observation["boundary_ids"]), "consumption exceeds observation")
+        if consumption["state"] == "ACCEPTED":
+            _v2_require(result["state"] == "SUCCEEDED" and bool(consumption["covered_boundary_ids"]),
+                        "reservation or failed result cannot consume a boundary")
+            witness = _v2_object(consumption["witness"], {"evidence_ref", "sha256", "observation_scope", "cutoff", "boundary_ids"}, "accepted witness")
+            _v2_string(witness["evidence_ref"], "accepted witness evidence")
+            _v2_digest(witness["sha256"], "accepted witness digest")
+            _v2_integer(witness["cutoff"], "witness cutoff")
+            _v2_strings(witness["boundary_ids"], "witness boundary ids")
+            _v2_require(witness["observation_scope"] == observation["scope"] and witness["cutoff"] == observation["cutoff"]
+                        and witness["boundary_ids"] == consumption["covered_boundary_ids"], "accepted witness scope changed")
+        else:
+            _v2_require(consumption["witness"] is None and consumption["covered_boundary_ids"] == [],
+                        "unaccepted consumption has a witness or covered population")
+        _v2_strings(row["uncovered_successors"], "uncovered successors")
+        _v2_require(not set(row["uncovered_successors"]) & set(consumption["covered_boundary_ids"]), "covered successor also uncovered")
+        refusal = _v2_object(row["historical_refusal"], {"state", "evidence_ref", "original_prefix_cutoff"}, "historical refusal")
+        _v2_enum(refusal["state"], {"NONE", "PRESERVED", "ORIGINAL_PREFIX_REQUIRED"}, "historical refusal state")
+        _v2_string(refusal["evidence_ref"], "historical refusal evidence", nullable=refusal["state"] == "NONE")
+        if refusal["original_prefix_cutoff"] is not None:
+            _v2_integer(refusal["original_prefix_cutoff"], "original prefix cutoff")
+        _v2_require(refusal["state"] != "ORIGINAL_PREFIX_REQUIRED" or refusal["original_prefix_cutoff"] is not None,
+                    "original-prefix refusal lost its cutoff")
+        current = _v2_object(row["currentness"], {"state", "epoch"}, "pending currentness")
+        _v2_enum(current["state"], {"CURRENT", "UNRESOLVED"}, "pending currentness state")
+        if current["epoch"] is not None:
+            _v2_epoch(current["epoch"])
+        _v2_require(current["state"] != "CURRENT" or current["epoch"] is not None, "currentness lacks a bound epoch")
+        _v2_string(row["selected_occurrence_id"], "selected occurrence")
+        _v2_strings(row["prior_occurrence_ids"], "prior occurrences")
+        retry = _v2_object(row["retry"], {"state", "original_occurrence_id", "supported_evidence_ref"}, "retry")
+        _v2_enum(retry["state"], {"NONE", "ORIGINAL_OCCURRENCE", "SUPPORTED_RETRY"}, "retry state")
+        _v2_string(retry["original_occurrence_id"], "retry original occurrence", nullable=retry["state"] == "NONE")
+        _v2_string(retry["supported_evidence_ref"], "retry evidence", nullable=retry["state"] != "SUPPORTED_RETRY")
+        _v2_require(type(row["completed"]) is bool and type(row["audit_state_required"]) is bool, "pending booleans must be exact")
+        _v2_require(not (row["completed"] and row["boundary_kind"] == "host-reported-compaction") or row["audit_state_required"],
+                    "completed host compaction must retain audit-state requirement, even when epoch/currentness unresolved")
+    for row in rows:
+        _v2_require(set(row["observation"]["boundary_ids"]) <= seen and set(row["uncovered_successors"]) <= seen,
+                    "pending observation names an unmapped boundary")
+
+
+def _v2_payload_schema(payload: object) -> None:
+    _v2_object(payload, {"STATE", "ROADMAP"}, "protected pair payload")
+    _v2_canonical(payload)
+    native = [isinstance(payload[role], Mapping) and "native_guards" in payload[role] for role in ("STATE", "ROADMAP")]
+    _v2_require(native[0] == native[1], "native guard profiles must bind the complete pair")
+    for role, groups in _V2_GROUP_OWNERS.items():
+        owners = dict(groups, native_guards=role + ".md") if native[0] else dict(groups)
+        if role == "STATE" and "native_episode" in payload[role]:
+            owners["native_episode"] = "R0033/continuity"
+        _v2_object(payload[role], set(owners), role + " payload")
+        for name, owner in owners.items():
+            group = _v2_object(payload[role][name], {"owner", "value"}, name)
+            _v2_require(group["owner"] == owner, name + " native owner mismatch")
+        if native[0]:
+            profile = _v2_object(payload[role]["native_guards"]["value"], {"schema_version", "lines"}, "native guard profile")
+            _v2_require(profile["schema_version"] == "implementaudit.native-guard-profile.v1", "native guard schema mismatch")
+            lines = _v2_list(profile["lines"], "native guard lines")
+            _v2_require(bool(lines) and all(type(line) is str and not any(c in line for c in "\r\n\0")
+                        and not any(0xD800 <= ord(c) <= 0xDFFF for c in line) for line in lines),
+                        "native guards require exact nonempty line population")
+            _v2_require(not any(_v2_re.search(r"current\s+epoch\s*:", line, _v2_re.I) for line in lines),
+                        "live native epoch is derived only from effective continuity")
+    if "native_episode" in payload["STATE"]:
+        _v2_native_reference(payload["STATE"]["native_episode"]["value"])
+    state = {key: group["value"] for key, group in payload["STATE"].items()}
+    roadmap = {key: group["value"] for key, group in payload["ROADMAP"].items()}
+    identity = _v2_object(state["identity"], {"controller_id", "claim_id", "run_root_identity", "audit_object", "candidate", "tree", "package", "pull_request", "release"}, "identity")
+    for key in identity:
+        _v2_string(identity[key], "identity " + key, nullable=key in {"pull_request", "release"})
+    _v2_require(_v2_re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*", identity["controller_id"]) is not None,
+                "controller identity cannot form an exact ref")
+    _v2_digest(identity["candidate"], "candidate", oid=True)
+    _v2_digest(identity["tree"], "tree", oid=True)
+    continuation = _v2_object(state["continuation"], {"phase", "status", "next_action", "route", "last_check"}, "continuation")
+    for key in ("phase", "next_action", "last_check"):
+        _v2_string(continuation[key], "continuation " + key)
+    _v2_require(not any(char in continuation["next_action"] for char in "\r\n\t|"), "next action cannot be represented exactly in the frame/receipt")
+    statuses = {"open", "READY_TO_DISPATCH", "IN_PHASE", "PAUSED", "BLOCKED", "INTERRUPTED", "DONE"} if native[0] else {"DONE", "ACTIVE", "READY", "BLOCKED"}
+    _v2_enum(continuation["status"], statuses, "continuation status")
+    if native[0]:
+        lines = state["native_guards"]["lines"]
+        for label, value in (("Status", continuation["status"]), ("Next action", continuation["next_action"])):
+            near = [line for line in lines if _v2_re.match(r"\s*\|\s*" + label.replace(" ", r"\s+") + r"\s*(?:\||:)", line, _v2_re.I)]
+            _v2_require(near == ["| " + label + " | " + value + " |"], "native " + label + " must be one exact protected mirror")
+    _v2_enum(continuation["route"], {"ordinary", "recovery", "handoff"}, "continuation route")
+    _v2_instruction_rows(state["instructions"])
+    _v2_instruction_rows(state["authorisations"])
+    terminal = _v2_object(state["terminal"], {"one_shots", "markers", "handoffs", "external_effects"}, "terminal")
+    kinds = {"one_shots": "ONE_SHOT", "markers": "MARKER", "handoffs": "HANDOFF", "external_effects": "EXTERNAL_EFFECT"}
+    for group, kind in kinds.items():
+        for row in _v2_records(terminal[group], {"record_id", "kind", "status", "scope", "evidence_refs"}, "terminal record"):
+            _v2_require(row["kind"] == kind, "terminal record kind mismatch")
+            _v2_enum(row["status"], {"PLANNED", "PENDING", "ISSUED", "CONSUMED", "BLOCKED", "CANCELLED", "NOT_GRANTED"}, "terminal status")
+            _v2_string(row["scope"], "terminal scope")
+    for group in ("andons", "original_reds", "non_verdicts", "evidence_ceilings", "steers"):
+        _v2_general_rows(state[group])
+    rollback = _v2_object(state["rollback"], {"status", "target", "conditions", "evidence_refs"}, "rollback")
+    _v2_enum(rollback["status"], {"AVAILABLE", "PENDING", "BLOCKED", "COMPLETED", "UNAVAILABLE"}, "rollback status")
+    _v2_string(rollback["target"], "rollback target", nullable=True)
+    _v2_strings(rollback["conditions"], "rollback conditions")
+    _v2_strings(rollback["evidence_refs"], "rollback evidence")
+    _v2_strings(state["runtime_artifacts"], "runtime artifacts")
+    _v2_pending_rows(state["pending_boundaries"])
+    frontier = _v2_object(roadmap["frontier"], {"DONE", "ACTIVE", "READY", "BLOCKED"}, "frontier")
+    nodes = []
+    for population in frontier.values():
+        _v2_strings(population, "frontier nodes")
+        nodes.extend(population)
+    _v2_require(len(nodes) == len(set(nodes)), "frontier node occurs in more than one state")
+    _v2_general_rows(roadmap["obligations"])
+    _v2_general_rows(roadmap["deferrals"], deferred=True)
+    for row in _v2_records(roadmap["dependencies"], {"record_id", "source", "target", "status", "evidence_refs"}, "dependency"):
+        _v2_string(row["source"], "dependency source")
+        _v2_string(row["target"], "dependency target")
+        _v2_require(row["source"] in nodes and row["target"] in nodes, "dependency frontier node missing")
+        _v2_enum(row["status"], {"OPEN", "SATISFIED", "BLOCKED", "INVALIDATED"}, "dependency status")
+    for row in _v2_records(roadmap["compensations"], {"record_id", "for_record", "status", "description", "evidence_refs"}, "compensation"):
+        _v2_string(row["for_record"], "compensation subject")
+        _v2_string(row["description"], "compensation description")
+        _v2_enum(row["status"], {"PENDING", "READY", "DONE", "BLOCKED"}, "compensation status")
+    planning = _v2_object(roadmap["planning"], {"goal", "action_selection", "scope_boundaries", "baseline_ref"}, "planning")
+    _v2_string(planning["goal"], "planning goal")
+    _v2_string(planning["baseline_ref"], "planning baseline")
+    _v2_strings(planning["scope_boundaries"], "scope boundaries")
+    action = _v2_object(planning["action_selection"], {"selected", "omitted", "rationale"}, "action selection")
+    _v2_strings(action["selected"], "selected actions")
+    _v2_strings(action["omitted"], "omitted actions")
+    _v2_string(action["rationale"], "action rationale")
+    _v2_relations(payload)
+
+
+def validate_protected_payload_v2(payload: Mapping[str, object],
+                                  owner_map: Sequence[Mapping[str, object]]) -> dict[str, object]:
+    """Validate complete typed groups and one owner/value row for every leaf.
+
+    Whole-file hashes are checked by parse_canonical_pair_v2, which has their
+    bytes. This standalone validator grants no source authenticity/currentness.
+    """
+    _v2_payload_schema(payload)
+    expected = {}
+    for role in ("STATE", "ROADMAP"):
+        for name, group in payload[role].items():
+            for pointer, value in _v2_leaves(group, "/payload/" + _v2_pointer_escape(name)):
+                expected["/" + role + pointer] = (role, pointer, group["owner"], _v2_sha(_v2_canonical(value)))
+    rows = _v2_list(owner_map, "owner map")
+    seen = set()
+    hashes = {}
+    for row in rows:
+        _v2_object(row, _V2_MAP_KEYS, "owner map row")
+        _v2_string(row["field"], "owner map field")
+        _v2_require(row["field"] not in seen and row["field"] in expected, "owner map is duplicate, missing or extra")
+        seen.add(row["field"])
+        role, pointer, owner, value_hash = expected[row["field"]]
+        _v2_require(row["source_kind"] == "PAIR" and row["source_id"] == role and row["source_pointer"] == pointer
+                    and row["owner"] == owner and row["value_sha256"] == value_hash, "owner map leaf binding mismatch")
+        _v2_digest(row["source_sha256"], "owner source hash")
+        _v2_require(role not in hashes or hashes[role] == row["source_sha256"], "one source has conflicting full-file hashes")
+        hashes[role] = row["source_sha256"]
+    _v2_require(seen == set(expected), "owner map omits a protected leaf")
+    return {"schema_version": "implementaudit.protected-payload-validation.v2", "authority_ceiling": _V2_AUTHORITY,
+            "payload": _v2_clone(payload), "owner_map": sorted(_v2_clone(list(rows)), key=lambda row: row["field"]),
+            "leaf_count": len(expected)}
+
+
+def _v2_receipt_ref(controller: str, epoch: str) -> str:
+    return "refs/implementaudit/continuity-receipts/" + controller + "/" + epoch
+
+
+def _v2_receipt_token(value: object, controller: str, *, epoch: str | None = None,
+                       nullable: bool = False) -> str | None:
+    if value is None and nullable:
+        return None
+    _v2_require(type(value) is str and value.count("@") == 1, "receipt token must be exact ref@oid")
+    ref, oid = value.split("@")
+    _v2_digest(oid, "receipt token object", oid=True)
+    prefix = "refs/implementaudit/continuity-receipts/" + controller + "/"
+    _v2_require(ref.startswith(prefix), "receipt token controller scope mismatch")
+    token_epoch = ref[len(prefix):]
+    _v2_epoch(token_epoch)
+    _v2_require(epoch is None or token_epoch == epoch, "receipt token epoch scope mismatch")
+    return token_epoch
+
+
+def _v2_continuity(value: object, controller: str) -> None:
+    _v2_object(value, _V2_CONTINUITY_KEYS, "predecessor continuity")
+    _v2_epoch(value["projection_generation_id"])
+    number = _v2_epoch(value["continuity_epoch"])
+    _v2_digest(value["invalidation_oid"], "predecessor invalidation", oid=True, nullable=number == 1)
+    previous = _v2_receipt_token(value["predecessor_receipt_ref_oid"], controller, nullable=number == 1)
+    _v2_require(previous is None or _v2_epoch(previous) < number, "predecessor receipt does not precede source epoch")
+    _v2_enum(value["boundary"], _V2_BOUNDARIES, "source continuity boundary")
+    _v2_require(value["reconciled"] is True, "source reconciliation must be an explicit true fact")
+    _v2_enum(value["expected_receipt_schema"], {"implementaudit.continuity-receipt.v2", "implementaudit.continuity-receipt.v3"}, "receipt schema")
+    _v2_require(value["expected_receipt_ref"] == _v2_receipt_ref(controller, value["continuity_epoch"]), "receipt ref scope mismatch")
+
+
+def _v2_transition(value: object, current: Mapping[str, object], controller: str,
+                    receipt_oid: str | None = None) -> None:
+    _v2_object(value, _V2_TRANSITION_KEYS, "successor transition")
+    if value["transition_kind"] == "c02-correction":
+        _v2_require(value["schema_version"] == _V2_C02_SCHEMA
+                    and value["boundary"] == "erroneous-invalidation-correction"
+                    and current["expected_receipt_schema"] == "implementaudit.continuity-receipt.v3",
+                    "C02 requires its distinct owner transition and migrated predecessor")
+    elif value["transition_kind"] == "native-resume":
+        _v2_require(value["schema_version"] == _V2_NATIVE_RESUME_SCHEMA
+                    and current["expected_receipt_schema"] == "implementaudit.continuity-receipt.v3",
+                    "native resume requires the original native boundary and migrated predecessor")
+        _v2_enum(value["boundary"], _V2_NATIVE_BOUNDARIES, "native resume boundary")
+    else:
+        _v2_require(value["schema_version"] == _V2_TRANSITION_SCHEMA and value["boundary"] == "canonical-state-rotation",
+                    "successor schema/boundary mismatch")
+        _v2_enum(value["transition_kind"], {"rotation", "recovery"}, "transition kind")
+    _v2_require(value["reconciled"] is True, "transition reconciliation must be owner-supplied true")
+    recovery = value["transition_kind"] == "recovery"
+    _v2_require(value["predecessor_generation_id"] == current["projection_generation_id"]
+                and value["predecessor_epoch"] == current["continuity_epoch"], "successor predecessor mismatch")
+    for field, source in (("projection_generation_id", "projection_generation_id"), ("continuity_epoch", "continuity_epoch")):
+        _v2_require(value[field] == _v2_next(current[source], 2 if recovery else 1), "successor skips or reuses a generation/epoch")
+    _v2_require(value["failed_transition_epoch"] == (_v2_next(current["continuity_epoch"]) if recovery else None)
+                and value["failed_projection_generation_id"] == (_v2_next(current["projection_generation_id"]) if recovery else None),
+                "recovery lacks the exact separately recorded failed allocation")
+    _v2_digest(value["invalidation_oid"], "successor invalidation", oid=True)
+    _v2_require(value["invalidation_oid"] != current["invalidation_oid"], "successor reuses old invalidation")
+    failed_receipt = value["failed_transition_receipt_ref_oid"]
+    _v2_require(recovery or failed_receipt is None, "non-recovery transition cannot name a failed receipt")
+    if failed_receipt is not None:
+        _v2_receipt_token(failed_receipt, controller, epoch=value["failed_transition_epoch"])
+        _v2_require(value["predecessor_receipt_ref_oid"] == failed_receipt,
+                    "recovery predecessor is not the exact actual failed receipt token")
+    else:
+        _v2_receipt_token(value["predecessor_receipt_ref_oid"], controller, epoch=current["continuity_epoch"])
+        if receipt_oid is not None:
+            _v2_require(value["predecessor_receipt_ref_oid"] == receipt_oid, "successor fabricates/substitutes predecessor receipt")
+    _v2_require(value["expected_receipt_ref"] == _v2_receipt_ref(controller, value["continuity_epoch"])
+                and value["expected_receipt_schema"] == "implementaudit.continuity-receipt.v3", "successor receipt expectation mismatch")
+
+
+def _v2_effective(body: Mapping[str, object]) -> dict[str, object]:
+    source = body["transition"] if body["transition"] is not None else body["continuity"]
+    return {key: _v2_clone(source[key]) for key in _V2_CONTINUITY_KEYS}
+
+
+def _v2_render(body: Mapping[str, object], action: str, identity: Mapping[str, object]) -> bytes:
+    current = _v2_effective(body)
+    text = ("# IMPLEMENTAUDIT " + body["role"].title() + "\n\nCurrent epoch: " + current["continuity_epoch"]
+            + "\nCanonical projection generation: " + current["projection_generation_id"]
+            + "\n\n| Field | Value |\n|---|---|\n| Next action | " + action + " |\n\n"
+            + "## Context epochs and instruction applicability\n\n"
+            + "| Epoch | Boundary provenance | Established at | Repo identity | Reconciled | Notes |\n"
+            + "|---|---|---|---|---|---|\n| " + current["continuity_epoch"] + " | " + current["boundary"]
+            + " | not measured | `" + identity["candidate"] + "` / `" + identity["tree"]
+            + "` | yes | exact source facts |\n\n```json\n")
+    return text.encode("utf-8") + _v2_canonical(body) + b"\n```\n"
+
+
+def _v2_load_body(raw: object, role: str) -> Mapping[str, object]:
+    _v2_require(type(raw) is bytes and b"\r" not in raw and not raw.startswith(b"\xef\xbb\xbf"),
+                "canonical source must be BOM-free UTF-8 LF bytes")
+    try:
+        text = raw.decode("utf-8", "strict")
+    except UnicodeError as exc:
+        raise ProjectionV2Error("canonical source is not UTF-8") from exc
+    lines = text.split("\n")
+    _v2_require(len(lines) == 19 and lines[15] == "```json" and lines[17:] == ["```", ""],
+                "unsupported or incomplete canonical whole-file grammar")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            _v2_require(key not in result, "duplicate canonical JSON key")
+            result[key] = value
+        return result
+    def forbidden(_):
+        raise ProjectionV2Error("canonical JSON does not admit floats/constants")
+    try:
+        body = _v2_json_module.loads(lines[16], object_pairs_hook=unique, parse_float=forbidden, parse_constant=forbidden)
+    except (ValueError, RecursionError) as exc:
+        raise ProjectionV2Error("canonical JSON body is invalid") from exc
+    _v2_object(body, _V2_BODY_KEYS, "canonical body")
+    _v2_require(body["schema_version"] == _V2_BODY_SCHEMA and body["role"] == role, "canonical schema/role mismatch")
+    _v2_string(body["pair_id"], "pair identity")
+    _v2_require(_v2_canonical(body).decode("utf-8") == lines[16], "JSON body is not canonical exact bytes")
+    return body
+
+
+def _v2_history(value: object) -> None:
+    for row in _v2_records(value, {"record_id", "record_kind", "owner", "status", "payload"}, "typed history"):
+        _v2_enum(row["record_kind"], _V2_HISTORY_KINDS, "history kind")
+        _v2_enum(row["owner"], _V2_OWNERS, "history owner")
+        _v2_enum(row["status"], {"PRESERVED", "CLOSED", "SATISFIED", "EXPIRED", "SUPERSEDED"}, "history status")
+        data = _v2_object(row["payload"], {"text", "evidence_refs", "original_scope", "current_applicability", "historical_refusal"}, "history payload")
+        _v2_string(data["text"], "history text")
+        _v2_strings(data["evidence_refs"], "history evidence")
+        _v2_string(data["original_scope"], "history original scope")
+        _v2_enum(data["current_applicability"], {"UNCHANGED", "INVALIDATED_CURRENT_USE"}, "history current applicability")
+        _v2_string(data["historical_refusal"], "history refusal", nullable=data["current_applicability"] == "UNCHANGED")
+
+
+def _v2_archive_pointer(row: object, controller: str) -> None:
+    _v2_object(row, _V2_POINTER_KEYS, "typed archive pointer")
+    _v2_require(row["schema_version"] == _V2_POINTER_SCHEMA and row["authority"] == "ARCHIVED_ONLY_HISTORY", "archive pointer authority/schema mismatch")
+    _v2_enum(row["source_role"], {"STATE", "ROADMAP"}, "archive source role")
+    _v2_enum(row["role"], {"STATE_PREIMAGE", "ROADMAP_PREIMAGE", "HISTORY_RECORD"}, "archive record role")
+    _v2_enum(row["owner"], _V2_OWNERS, "archive record owner")
+    _v2_string(row["record_id"], "archive record identity")
+    _v2_epoch(row["preparation_generation_id"])
+    _v2_require(row["archive_ref"] == "refs/implementaudit/state-archives/" + controller + "/" + row["preparation_generation_id"],
+                "archive ref is not the exact prepared generation scope")
+    for key in ("source_sha256", "record_sha256", "archive_manifest_sha256"):
+        _v2_digest(row[key], key)
+    for key in ("blob_oid", "archive_manifest_oid"):
+        _v2_digest(row[key], key, oid=True)
+    _v2_integer(row["source_bytes"], "archive source bytes", 1)
+    if row["role"] == "HISTORY_RECORD":
+        _v2_require(type(row["source_pointer"]) is str and _v2_re.fullmatch(r"/history/(?:0|[1-9][0-9]*)", row["source_pointer"]) is not None,
+                    "history source pointer is not exact")
+    else:
+        _v2_require(row["role"] == row["source_role"] + "_PREIMAGE" and row["source_pointer"] == ""
+                    and row["record_id"] == row["source_role"] + ".md" and row["owner"] == row["record_id"]
+                    and row["record_sha256"] == row["source_sha256"], "whole-pair archive descriptor mismatch")
+
+
+def _v2_existing_archives(bodies: Mapping[str, object], controller: str) -> list[dict[str, object]]:
+    population = {}
+    for role in ("STATE", "ROADMAP"):
+        rows = _v2_list(bodies[role]["archive_pointers"], "existing archives")
+        seen = set()
+        for row in rows:
+            _v2_archive_pointer(row, controller)
+            identity = _v2_canonical(row)
+            _v2_require(identity not in seen, "duplicate existing archive within one source")
+            seen.add(identity)
+            population[identity] = _v2_clone(row)
+    return [population[key] for key in sorted(population)]
+
+
+def _v2_artifact_refs(bodies: Mapping[str, object], controller: str, current: Mapping[str, object]) -> list[dict[str, object]]:
+    refs = {}
+    roles = {"CONTINUITY_RECEIPT": [], "WORK_GRAPH": [], "EVIDENCE": []}
+    for role in ("STATE", "ROADMAP"):
+        for row in _v2_list(bodies[role]["artifact_refs"], "artifact declarations"):
+            _v2_object(row, {"artifact_id", "owner", "role", "locator", "object_format"}, "artifact declaration")
+            _v2_string(row["artifact_id"], "artifact identity")
+            _v2_require(_v2_re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*", row["artifact_id"]) is not None,
+                        "artifact identity cannot form an exact owner field")
+            _v2_require(row["artifact_id"] not in refs, "duplicate artifact declaration")
+            _v2_enum(row["owner"], _V2_OWNERS, "artifact owner")
+            _v2_enum(row["role"], set(roles), "artifact role")
+            _v2_enum(row["object_format"], {"sha1", "sha256"}, "artifact object format")
+            if row["role"] == "CONTINUITY_RECEIPT":
+                _v2_require(row["owner"] == "claim-run.sh" and row["locator"] == current["expected_receipt_ref"], "receipt artifact owner/ref mismatch")
+            else:
+                _v2_safe_path(row["locator"])
+                if row["role"] == "WORK_GRAPH":
+                    _v2_require(row["owner"] == "WORK_GRAPH.json" and row["locator"] == "WORK_GRAPH.json", "WORK_GRAPH owner/locator mismatch")
+            refs[row["artifact_id"]] = _v2_clone(row)
+            roles[row["role"]].append(row["artifact_id"])
+    _v2_require(len(roles["CONTINUITY_RECEIPT"]) == len(roles["WORK_GRAPH"]) == 1, "exactly one receipt and WORK_GRAPH dependency required")
+    return [refs[key] for key in sorted(refs)]
+
+
+def _v2_check_references(value: object, ids: set[str]) -> None:
+    if isinstance(value, Mapping):
+        for key, child in value.items():
+            if key == "evidence_refs":
+                _v2_strings(child, "evidence references")
+                _v2_require(set(child) <= ids, "undeclared evidence dependency")
+            elif key in {"evidence_ref", "original_evidence_ref", "supported_evidence_ref"} and child is not None:
+                _v2_require(type(child) is str and child in ids, "undeclared singular evidence dependency")
+            _v2_check_references(child, ids)
+    elif type(value) in (list, tuple):
+        for child in value:
+            _v2_check_references(child, ids)
+
+
+def _v2_receipt(raw: bytes, current: Mapping[str, object], identity: Mapping[str, object],
+                hashes: Mapping[str, str], action: str) -> None:
+    _v2_require(type(raw) is bytes and raw.endswith(b"\n") and raw.count(b"\n") == 1 and b"\r" not in raw and b"\0" not in raw,
+                "receipt is not exact single-LF native wire bytes")
+    try:
+        fields = raw[:-1].decode("utf-8", "strict").split("\t")
+    except UnicodeError as exc:
+        raise ProjectionV2Error("receipt is not UTF-8") from exc
+    schema = current["expected_receipt_schema"]
+    _v2_require(fields[0] == schema, "receipt schema changed")
+    if schema == "implementaudit.continuity-receipt.v2":
+        _v2_require(len(fields) == 12, "v2 receipt field population mismatch")
+        _v2_digest(fields[2], "controller object", oid=True)
+        _v2_require(fields[1] == identity["controller_id"] and fields[3] == identity["claim_id"]
+                    and fields[4] == identity["candidate"] and fields[5] == identity["tree"]
+                    and fields[6] == hashes["STATE"] and fields[7] == hashes["ROADMAP"]
+                    and fields[8] == (current["invalidation_oid"] or "none") and fields[9] == current["boundary"]
+                    and fields[10] == current["continuity_epoch"] and fields[11] == action, "v2 receipt source binding mismatch")
+    else:
+        _v2_require(len(fields) == 14, "v3 receipt field population mismatch")
+        _v2_require(fields[1] == identity["controller_id"] and fields[2] == identity["claim_id"]
+                    and fields[3] == identity["run_root_identity"] and fields[4] == current["continuity_epoch"]
+                    and fields[5] == current["invalidation_oid"] and fields[8] == hashes["STATE"]
+                    and fields[9] == hashes["ROADMAP"] and fields[12] == action
+                    and fields[13] == current["predecessor_receipt_ref_oid"], "v3 receipt source binding mismatch")
+        _v2_require(fields[6] == "refs/implementaudit/current-generations/" + identity["controller_id"],
+                    "v3 receipt pointer ref role/controller mismatch")
+        _v2_digest(fields[7], "v3 pointer object", oid=True)
+        _v2_digest(fields[10], "v3 protected manifest")
+        _v2_digest(fields[11], "v3 archive manifest")
+
+
+def _v2_population(bodies: Mapping[str, object], raw: Mapping[str, bytes]) -> list[dict[str, object]]:
+    whole, history = [], []
+    for role in ("STATE", "ROADMAP"):
+        common = {"source_role": role, "source_sha256": _v2_sha(raw[role]), "source_bytes": len(raw[role]), "blob_oid": _v2_blob(raw[role])}
+        whole.append({**common, "role": role + "_PREIMAGE", "source_pointer": "", "record_id": role + ".md",
+                      "record_sha256": common["source_sha256"], "owner": role + ".md"})
+        for index, row in enumerate(bodies[role]["history"]):
+            history.append({**common, "role": "HISTORY_RECORD", "source_pointer": "/history/" + str(index),
+                            "record_id": row["record_id"], "record_sha256": _v2_sha(_v2_canonical(row)), "owner": row["owner"]})
+    return whole + history
+
+
+
+# Generated unchanged from the existing R0033 frozen export contract.
+NATIVE_EPISODE_CONTRACT_SHA256 = 'a5ada93e0093d5cb5780d7fcfbe3b372e7defa0f4affedea3cebd3f3582104d2'
+def _v2_validate_native_export(value):
+    import hashlib, json, re
+    from datetime import datetime
+    _v2_require(type(value) is dict and value.get("schema") ==
+                "implementaudit.native-episode-export.v1", "native export profile required")
+    MAX_TOTAL = 2 * 1024 * 1024
+
+    def require(condition, reason):
+        if not condition:
+            raise ValueError(reason)
+
+    def canonical(value):
+        return json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()
+
+    def digest(raw):
+        return hashlib.sha256(raw).hexdigest()
+
+    def closed(value, keys, reason):
+        require(isinstance(value, dict) and set(value) == set(keys), reason)
         return value
 
-    def _render_lines_v1(self, lines: Sequence[str]) -> bytes:
-        raw = ("\n".join(lines).rstrip() + "\n").encode("utf-8")
-        if len(raw) > 4096:
-            raise self._error_type("hot projection exceeds v1 byte bound")
-        return raw
+    def before(first, second):
+        require(datetime.fromisoformat(first['timestamp'].replace('Z', '+00:00')) < datetime.fromisoformat(second['timestamp'].replace('Z', '+00:00')), 'OBSERVATION_ORDER')
+        if first['path'] == second['path']:
+            require(first['locator']['offset'] + first['locator']['bytes'] <= second['locator']['offset'], 'SOURCE_RECORD_ORDER')
 
-    def _markdown_headings_v1(self, raw: bytes) -> tuple[str, ...]:
+    NONPROTECTED_PROFILE = 'codex-app-bounded-public-nonprotected-v1'
+
+    OWNED_STDIO_PROFILE = 'codex-app-server-0.153.4-owned-stdio-candidate-v1'
+
+    def _episode_export_pin(value):
+        closed(value, ('path', 'bytes', 'sha256'), 'EPISODE_EXPORT_PIN_SHAPE')
+        require(isinstance(value['path'], str) and 0 < len(value['path']) <= 4096 and (type(value['bytes']) is int) and (0 < value['bytes'] <= MAX_TOTAL) and isinstance(value['sha256'], str) and re.fullmatch('[0-9a-f]{64}', value['sha256']), 'EPISODE_EXPORT_PIN_BINDING')
+
+    def _episode_export_scope(value):
+        require(isinstance(value, list) and len(value) <= 4096, 'EPISODE_EXPORT_SCOPE_BOUND')
+        seen = set()
+        for row in value:
+            closed(row, ('id', 'version', 'kind'), 'EPISODE_EXPORT_SCOPE_SHAPE')
+            require(isinstance(row['id'], str) and 0 < len(row['id']) <= 256 and (row['id'] not in seen) and (type(row['version']) is int) and (row['version'] > 0) and (row['kind'] in ('COMPLETED_RESUMED_BOUNDARY', 'AMBIGUOUS_MARKER_GROUP', 'UNRESOLVED_RESUME_OBSERVATION', 'UNRESOLVED_SIGNAL')), 'EPISODE_EXPORT_SCOPE_BINDING')
+            seen.add(row['id'])
+
+    def _episode_export_path(value):
+        require(isinstance(value, str) and 0 < len(value) <= 4096 and ('\x00' not in value) and (re.match('^(?:[A-Za-z]:[\\\\/]|/[^/])', value) is not None) and all((part not in ('.', '..') and '~' not in part for part in re.split('[\\\\/]', value))), 'EPISODE_EXPORT_SOURCE_PATH')
+
+    def _episode_export_physical(value):
+        closed(value, ('device', 'inode'), 'EPISODE_EXPORT_SOURCE_PHYSICAL_SHAPE')
+        require(all((type(item) is int and item > 0 for item in value.values())), 'EPISODE_EXPORT_SOURCE_PHYSICAL_BINDING')
+
+    def _episode_export_locator(value):
+        closed(value, ('offset', 'bytes', 'sha256', 'embedded_ordinal', 'physical_line'), 'EPISODE_EXPORT_SOURCE_LOCATOR_SHAPE')
+        require(type(value['offset']) is int and value['offset'] >= 0 and (type(value['bytes']) is int) and (0 < value['bytes'] <= 256 * 1024) and isinstance(value['sha256'], str) and re.fullmatch('[0-9a-f]{64}', value['sha256']) and (type(value['embedded_ordinal']) is int) and (value['embedded_ordinal'] >= 0) and (value['physical_line'] is None or (type(value['physical_line']) is int and value['physical_line'] > 0)), 'EPISODE_EXPORT_SOURCE_LOCATOR_BINDING')
+
+    def _episode_export_source(value, role, episode, opening_digest):
+        closed(value, ('path', 'physical', 'metadata', 'metadata_payload_digest', 'history_start_ordinal', 'allowed_ranges', 'canonical_open_binding_digest'), 'EPISODE_EXPORT_SOURCE_SHAPE')
+        _episode_export_path(value['path'])
+        _episode_export_physical(value['physical'])
+        _episode_export_locator(value['metadata'])
+        identity = episode['parent_identity'] if role == 'parent' else episode['actual_child_identity']
+        require(value['path'].endswith('-' + identity['thread_id'] + '.jsonl') and value['metadata']['offset'] == value['metadata']['embedded_ordinal'] == 0 and (value['metadata']['physical_line'] == 1) and (value['history_start_ordinal'] == (0 if role == 'parent' else 1)) and (value['canonical_open_binding_digest'] == opening_digest) and isinstance(value['metadata_payload_digest'], str) and re.fullmatch('[0-9a-f]{64}', value['metadata_payload_digest']), 'EPISODE_EXPORT_SOURCE_IDENTITY_BINDING')
+        ranges = value['allowed_ranges']
+        require(isinstance(ranges, list) and 0 < len(ranges) <= 64, 'EPISODE_EXPORT_SOURCE_RANGE_BOUND')
+        end = 0
+        for window in ranges:
+            closed(window, ('offset', 'bytes'), 'EPISODE_EXPORT_SOURCE_RANGE_SHAPE')
+            require(type(window['offset']) is int and window['offset'] == end and (type(window['bytes']) is int) and (0 < window['bytes'] <= MAX_TOTAL), 'EPISODE_EXPORT_SOURCE_RANGE_BINDING')
+            end += window['bytes']
+        require(value['metadata']['bytes'] <= end <= 64 * MAX_TOTAL, 'EPISODE_EXPORT_SOURCE_RANGE_BOUND')
+        return end
+
+    def _episode_export_route_binding(owner, episode):
+        route = closed(owner['canonical_route'], ('controller_id', 'controller_record_oid', 'ref', 'record_oid',
+            'record_identity', 'decision', 'classification', 'route_transaction_id', 'obligation_id', 'route_state'),
+            'EPISODE_EXPORT_CANONICAL_ROUTE_SHAPE')
+        scope = closed(owner['host_and_scope'], ('host_id', 'host_session_id', 'host_binding_generation', 'host_correlation_id',
+            'continuity_generation', 'continuity_receipt', 'obligation_id', 'route_transaction_id', 'controller_id',
+            'claim_id', 'explicit_run_root'), 'EPISODE_EXPORT_HOST_SCOPE_SHAPE')
+        require(isinstance(route['controller_id'], str) and re.fullmatch('[a-z0-9][a-z0-9-]{0,47}', route['controller_id']) and
+            route['ref'] == 'refs/implementaudit/route-decisions/' + route['controller_id'] and
+            all(isinstance(route[key], str) and re.fullmatch('[0-9a-f]{40}(?:[0-9a-f]{24})?', route[key])
+                for key in ('controller_record_oid', 'record_oid')) and route['decision'] == 'REQUIRED' and
+            route['classification'] in ('MECHANICALLY_REQUIRED', 'JUDGEMENT_REQUIRED') and
+            route['route_state'] in ('OPEN', 'RETURNED', 'SATISFIED'), 'EPISODE_EXPORT_CANONICAL_ROUTE_BINDING')
+        for item in (route['record_identity'], route['route_transaction_id'], route['obligation_id'], scope['host_correlation_id']):
+            require(isinstance(item, str) and re.fullmatch('sha256:[0-9a-f]{64}', item), 'EPISODE_EXPORT_ROUTE_DIGEST_SHAPE')
+        require(all(scope[key] == route[key] for key in ('controller_id', 'route_transaction_id', 'obligation_id')) and
+            scope['host_id'] == 'codex' and scope['host_session_id'] == episode['parent_identity']['thread_id'] and
+            all(isinstance(scope[key], str) and re.fullmatch('G[0-9A-F]{4}', scope[key])
+                for key in ('host_binding_generation', 'continuity_generation')) and
+            isinstance(scope['claim_id'], str) and re.fullmatch('[0-9a-f]{32}', scope['claim_id']),
+            'EPISODE_EXPORT_ROUTE_SCOPE_BINDING')
+        receipt_prefix = 'refs/implementaudit/continuity-receipts/' + scope['controller_id'] + '/' + scope['continuity_generation'] + '@'
+        require(isinstance(scope['continuity_receipt'], str) and
+            re.fullmatch(re.escape(receipt_prefix) + '[0-9a-f]{40}(?:[0-9a-f]{24})?', scope['continuity_receipt']),
+            'EPISODE_EXPORT_CONTINUITY_RECEIPT_BINDING')
+        _episode_export_path(scope['explicit_run_root'])
+
+    def _episode_export_code_pins(pins):
+        required = {'implementaudit/SKILL.md', 'audit-state/SKILL.md',
+            'implementaudit/references/child-agents.md', 'implementaudit/references/continuity.md'}
+        required.update('implementaudit/scripts/' + name for name in (
+            'compaction-audit-pending.py', 'compaction-result-observation.py',
+            'compaction-source-owner-codex-app.py', 'codex-recovery-native-reader.py',
+            'bounded_file_custody.py', 'bounded_native_reader.py', 'bounded_source_owner.py',
+            'host-session-binding.py', 'route-transaction.py'))
+        require(type(pins) is dict and len(pins) == len(required) and
+            all(type(key) is str and 0 < len(key) <= 256 and type(item) is str and
+                re.fullmatch('[0-9a-f]{64}', item) for key, item in pins.items()),
+            'EPISODE_EXPORT_CODE_PIN_SHAPE')
+        normalized = {key.replace('\\', '/') for key in pins}
+        require(normalized == required and len(normalized) == len(pins), 'EPISODE_EXPORT_CODE_PIN_POPULATION')
+
+    def validate_frozen_episode_export_v1(value):
+        if isinstance(value, dict) and value.get('schema') == 'implementaudit.ordinary-episode-export.v1':
+            return validate_ordinary_episode_export_v1(value)
+        'Validate a captured projection only. No filesystem, native RPC or refresh.\n\n    This function does not authenticate caller-authored facts. The collector\n    must separately pin this owner and the fixed producer acquisition path.\n    '
+        closed(value, ('schema', 'status', 'reason_code', 'owner', 'episode', 'pending', 'lifecycle', 'occurrences', 'custody', 'export_digest', 'authority_ceiling'), 'EPISODE_EXPORT_SHAPE')
+        require(len(canonical(value)) <= MAX_TOTAL and value['schema'] == 'implementaudit.native-episode-export.v1' and (value['authority_ceiling'] == 'NONE') and (value['status'] in ('AVAILABLE', 'UNAVAILABLE')), 'EPISODE_EXPORT_BOUND')
+        require(value['export_digest'] == digest(canonical({key: item for key, item in value.items() if key != 'export_digest'})), 'EPISODE_EXPORT_DIGEST')
+        if value['status'] == 'UNAVAILABLE':
+            require(value['reason_code'] in ('FIXED_SELECTION_UNBOUND', 'CANONICAL_EPISODE_ABSENT', 'PENDING_STATE_ABSENT', 'SELECTED_ASSIGNMENT_ABSENT', 'ADMITTED_JOIN_ABSENT') and all((value[key] is None for key in ('owner', 'episode', 'pending', 'lifecycle', 'occurrences', 'custody'))), 'EPISODE_EXPORT_ABSENCE_SHAPE')
+            return value
+        require(value['reason_code'] is None, 'EPISODE_EXPORT_PRESENT_REASON')
+        owner = closed(value['owner'], ('profile_id', 'issuer_id', 'policy_digest', 'code_pins', 'canonical_opening_digest', 'canonical_route', 'host_and_scope'), 'EPISODE_EXPORT_OWNER_SHAPE')
+        issuers = {NONPROTECTED_PROFILE: 'codex-app-canonical-episode-public-source-v1', OWNED_STDIO_PROFILE: 'codex-owned-stdio-canonical-episode-public-source-v1'}
+        require(owner['profile_id'] in issuers and owner['issuer_id'] == issuers[owner['profile_id']], 'EPISODE_EXPORT_OWNER_BINDING')
+        _episode_export_code_pins(owner['code_pins'])
+        episode = closed(value['episode'], ('parent_identity', 'actual_child_identity', 'assignment_identity', 'obligation_digest', 'observation_id', 'covered_boundary_versions', 'result_digest', 'acceptance_digest', 'Q_digest', 'E_digest'), 'EPISODE_EXPORT_EPISODE_SHAPE')
+        parent = closed(episode['parent_identity'], ('thread_id', 'agent_path'), 'EPISODE_EXPORT_PARENT_SHAPE')
+        child = closed(episode['actual_child_identity'], ('thread_id', 'parent_thread_id', 'agent_path'), 'EPISODE_EXPORT_CHILD_SHAPE')
+        require(all((isinstance(item, str) and 0 < len(item) <= 256 for item in (*parent.values(), *child.values()))) and child['parent_thread_id'] == parent['thread_id'] and (child['thread_id'] != parent['thread_id']) and child['agent_path'].startswith(parent['agent_path'] + '/'), 'EPISODE_EXPORT_PARENT_CHILD_BINDING')
+        _episode_export_route_binding(owner, episode)
+        require(isinstance(owner['canonical_opening_digest'], str) and re.fullmatch('sha256:[0-9a-f]{64}', owner['canonical_opening_digest']), 'EPISODE_EXPORT_CANONICAL_OPENING_DIGEST')
+        for item in (owner['policy_digest'], *(episode[key] for key in ('assignment_identity', 'obligation_digest', 'observation_id', 'result_digest', 'acceptance_digest', 'Q_digest', 'E_digest'))):
+            require(isinstance(item, str) and re.fullmatch('[0-9a-f]{64}', item), 'EPISODE_EXPORT_DIGEST_SHAPE')
+        _episode_export_scope(episode['covered_boundary_versions'])
+        require(episode['covered_boundary_versions'] and all((row['kind'] == 'COMPLETED_RESUMED_BOUNDARY' for row in episode['covered_boundary_versions'])), 'EPISODE_EXPORT_REAL_BOUNDARY_REQUIRED')
+        pending = closed(value['pending'], ('revision', 'observations', 'assignment_scope', 'covered_scope', 'pending_scope'), 'EPISODE_EXPORT_PENDING_SHAPE')
+        require(type(pending['revision']) is int and pending['revision'] >= 0 and isinstance(pending['observations'], list) and (len(pending['observations']) <= 4096), 'EPISODE_EXPORT_PENDING_BOUND')
+        for field in ('assignment_scope', 'covered_scope', 'pending_scope'):
+            _episode_export_scope(pending[field])
+        require(pending['covered_scope'] == episode['covered_boundary_versions'] and all((row in pending['assignment_scope'] for row in pending['covered_scope'])), 'EPISODE_EXPORT_COVERAGE_BINDING')
+        observations = {}
+        for row in pending['observations']:
+            closed(row, ('id', 'kind', 'version', 'consumed_version', 'assignment_children'), 'EPISODE_EXPORT_PENDING_ROW_SHAPE')
+            _episode_export_scope([{key: row[key] for key in ('id', 'kind', 'version')}])
+            require(row['id'] not in observations and type(row['consumed_version']) is int and (0 <= row['consumed_version'] <= row['version']) and isinstance(row['assignment_children'], list) and (len(row['assignment_children']) <= 64) and (len(set(row['assignment_children'])) == len(row['assignment_children'])) and all((isinstance(item, str) and item for item in row['assignment_children'])), 'EPISODE_EXPORT_PENDING_ROW_BINDING')
+            observations[row['id']] = row
+        require(all(row['id'] in observations and observations[row['id']]['kind'] == row['kind'] and
+            observations[row['id']]['version'] >= row['version'] for row in pending['assignment_scope']),
+            'EPISODE_EXPORT_ASSIGNED_OBSERVATION_BINDING')
+        require(pending['pending_scope'] == [{key: row[key] for key in ('id', 'version', 'kind')} for row in pending['observations'] if row['version'] > row['consumed_version']] and all((row['id'] in observations and observations[row['id']]['consumed_version'] >= row['version'] for row in pending['covered_scope'])), 'EPISODE_EXPORT_CONSUMPTION_BINDING')
+        lifecycle = closed(value['lifecycle'], ('result', 'acceptance', 'join', 'h0', 'source_terminal_release'), 'EPISODE_EXPORT_LIFECYCLE_SHAPE')
+        require(lifecycle['result'] == {'status': 'SUCCEEDED', 'return_digest': episode['result_digest']} and lifecycle['acceptance'] == {'status': 'ACCEPTED_EXACT_RESULT', 'digest': episode['acceptance_digest']} and (lifecycle['join'] == {'status': 'JOINED_EVIDENCE_ONLY', 'covered': episode['covered_boundary_versions'], 'pending_consumed': True}), 'EPISODE_EXPORT_RESULT_ACCEPTANCE_JOIN_BINDING')
+        h0 = closed(lifecycle['h0'], ('status', 'stage_receipts'), 'EPISODE_EXPORT_H0_SHAPE')
+        require(h0['status'] in ('NOT_RECORDED', 'RECORDED') and isinstance(h0['stage_receipts'], dict) and (set(h0['stage_receipts']) == (set() if h0['status'] == 'NOT_RECORDED' else {'LOAD', 'USE', 'DISPOSE'})) and all((isinstance(item, str) and re.fullmatch('sha256:[0-9a-f]{64}', item) for item in h0['stage_receipts'].values())) and (len(set(h0['stage_receipts'].values())) == len(h0['stage_receipts'])), 'EPISODE_EXPORT_H0_BINDING')
+        release = closed(lifecycle['source_terminal_release'], ('status', 'digest'), 'EPISODE_EXPORT_RELEASE_SHAPE')
+        require(release['status'] == 'SOURCE_OWNER_VALIDATED' and isinstance(release['digest'], str) and re.fullmatch('[0-9a-f]{64}', release['digest']), 'EPISODE_EXPORT_RELEASE_BINDING')
+        occurrences = closed(value['occurrences'], ('schema', 'observation_id', 'actual_child_identity', 'covered_boundary_versions', 'source_cutoff', 'occurrences', 'authority_ceiling'), 'EPISODE_EXPORT_OCCURRENCES_SHAPE')
+        require(occurrences['schema'] == 'implementaudit.compaction-selected-occurrences.v1' and occurrences['observation_id'] == episode['observation_id'] and (occurrences['actual_child_identity'] == child) and (occurrences['covered_boundary_versions'] == episode['covered_boundary_versions']) and (occurrences['authority_ceiling'] == 'NONE') and isinstance(occurrences['occurrences'], list) and (3 <= len(occurrences['occurrences']) <= 256), 'EPISODE_EXPORT_OCCURRENCES_BINDING')
+        for row in occurrences['occurrences']:
+            closed(row, ('population', 'attempt_class', 'semantic', 'observation_id', 'completion', 'records'), 'EPISODE_EXPORT_OCCURRENCE_SHAPE')
+            require((row['population'], row['attempt_class'], row['semantic']) in {('CURRENT', 'ORIGINAL', semantic) for semantic in ('LOAD', 'EXCHANGE', 'BIND')} | {('PRIOR', 'ORIGINAL', semantic) for semantic in ('LOAD', 'EXCHANGE', 'BIND')} | {('PRIOR', 'RETRY', 'BIND')} and row['completion'] == 'COMPLETED' and isinstance(row['observation_id'], str) and re.fullmatch('[0-9a-f]{64}', row['observation_id']), 'EPISODE_EXPORT_OCCURRENCE_CLASSIFICATION')
+            closed(row['records'], ('call', 'result'), 'EPISODE_EXPORT_OCCURRENCE_PAIR')
+            require(all((isinstance(row['records'][part], dict) and row['records'][part] for part in ('call', 'result'))), 'EPISODE_EXPORT_OCCURRENCE_COMPLETION')
+            for pin in row['records'].values():
+                closed(pin, ('path', 'physical', 'role', 'locator', 'timestamp', 'message_or_call_id'), 'EPISODE_EXPORT_RECORD_PIN_SHAPE')
+                locator = closed(pin['locator'], ('offset', 'bytes', 'sha256', 'embedded_ordinal', 'physical_line'), 'EPISODE_EXPORT_RECORD_LOCATOR_SHAPE')
+                physical = closed(pin['physical'], ('device', 'inode'), 'EPISODE_EXPORT_RECORD_PHYSICAL_SHAPE')
+                require(pin['role'] == 'child' and isinstance(pin['path'], str) and (0 < len(pin['path']) <= 4096) and all((type(item) is int and item >= 0 for item in physical.values())) and (type(locator['offset']) is int) and (locator['offset'] >= 0) and (type(locator['bytes']) is int) and (0 < locator['bytes'] <= 256 * 1024) and (type(locator['embedded_ordinal']) is int) and (locator['embedded_ordinal'] >= 1) and (locator['physical_line'] is None or (type(locator['physical_line']) is int and locator['physical_line'] >= 1)) and isinstance(locator['sha256'], str) and re.fullmatch('[0-9a-f]{64}', locator['sha256']) and all((isinstance(pin[key], str) and pin[key] for key in ('timestamp', 'message_or_call_id'))), 'EPISODE_EXPORT_RECORD_PIN_BINDING')
+            before(row['records']['call'], row['records']['result'])
+        require({row['semantic'] for row in occurrences['occurrences'] if row['population'] == 'CURRENT'} == {'LOAD', 'EXCHANGE', 'BIND'} and all((row['observation_id'] == episode['observation_id'] for row in occurrences['occurrences'] if row['population'] == 'CURRENT')), 'EPISODE_EXPORT_CURRENT_OCCURRENCES')
+        custody = closed(value['custody'], ('candidate', 'qualification', 'episode', 'attestation', 'source_cutoffs'), 'EPISODE_EXPORT_CUSTODY_SHAPE')
+        for key in ('candidate', 'qualification', 'episode', 'attestation'):
+            _episode_export_pin(custody[key])
+        require(custody['qualification']['sha256'] == episode['Q_digest'] and custody['episode']['sha256'] == episode['E_digest'], 'EPISODE_EXPORT_CUSTODY_BINDING')
+        cuts = closed(custody['source_cutoffs'], ('parent', 'child', 'compaction_cutoff', 'hold_history'), 'EPISODE_EXPORT_CUTOFF_SHAPE')
+        parent_limit = _episode_export_source(cuts['parent'], 'parent', episode, owner['canonical_opening_digest'])
+        child_limit = _episode_export_source(cuts['child'], 'child', episode, owner['canonical_opening_digest'])
+        require(cuts['parent']['path'] != cuts['child']['path'] and cuts['parent']['physical'] != cuts['child']['physical'], 'EPISODE_EXPORT_SOURCE_PHYSICAL_ALIAS')
+        compact = closed(cuts['compaction_cutoff'], ('path', 'task_id', 'session_id', 'sessions_root', 'physical', 'session_meta_sha256', 'prefix_bytes', 'prefix_sha256', 'provenance', 'native_producer_runtime_equivalence'), 'EPISODE_EXPORT_COMPACTION_CUTOFF_SHAPE')
+        _episode_export_path(compact['sessions_root'])
+        _episode_export_physical(compact['physical'])
+        root = compact['sessions_root'].replace('\\', '/').rstrip('/') + '/'
+        require(compact['path'] == cuts['parent']['path'] and compact['physical'] == cuts['parent']['physical'] and (compact['task_id'] == compact['session_id'] == parent['thread_id']) and all((cuts[role]['path'].replace('\\', '/').startswith(root) for role in ('parent', 'child'))) and (compact['session_meta_sha256'] == cuts['parent']['metadata']['sha256']) and (type(compact['prefix_bytes']) is int) and (cuts['parent']['metadata']['bytes'] <= compact['prefix_bytes'] <= parent_limit) and isinstance(compact['prefix_sha256'], str) and re.fullmatch('[0-9a-f]{64}', compact['prefix_sha256']) and (compact['provenance'] == 'HOST_STORE_OWNER_REGISTERED_PHYSICAL_NATIVE_SESSION_PREFIX') and (compact['native_producer_runtime_equivalence'] == 'UNVERIFIED'), 'EPISODE_EXPORT_COMPACTION_CUTOFF_BINDING')
+        held = closed(cuts['hold_history'], ('path', 'physical', 'prefix_bytes', 'prefix_sha256', 'physical_records', 'history_start_ordinal', 'host_producer_authenticated', 'original_bind'), 'EPISODE_EXPORT_HOLD_CUTOFF_SHAPE')
+        _episode_export_physical(held['physical'])
+        require(held == occurrences['source_cutoff'] and held['path'] == cuts['child']['path'] and (held['physical'] == cuts['child']['physical']) and (type(held['prefix_bytes']) is int) and (cuts['child']['metadata']['bytes'] < held['prefix_bytes'] <= min(MAX_TOTAL, child_limit)) and isinstance(held['prefix_sha256'], str) and re.fullmatch('[0-9a-f]{64}', held['prefix_sha256']) and (type(held['physical_records']) is int) and (held['physical_records'] >= 2) and (held['history_start_ordinal'] == 1) and (held['host_producer_authenticated'] is False), 'EPISODE_EXPORT_FIXED_CUTOFF_BINDING')
+        current_rows = [row for row in occurrences['occurrences'] if row['population'] == 'CURRENT']
+        require(len(current_rows) == 3 and held['original_bind'] == next((row['records'] for row in current_rows if row['semantic'] == 'BIND')), 'EPISODE_EXPORT_ORIGINAL_BIND_CUTOFF')
+        offsets = set()
+        ordered_records = []
+        for row in occurrences['occurrences']:
+            for pin in row['records'].values():
+                locator = pin['locator']
+                require(pin['path'] == held['path'] and pin['physical'] == held['physical'] and (cuts['child']['metadata']['bytes'] <= locator['offset']) and (locator['offset'] + locator['bytes'] <= held['prefix_bytes']) and (locator['embedded_ordinal'] < held['physical_records']) and (locator['physical_line'] in (None, locator['embedded_ordinal'] + 1)) and (locator['offset'] not in offsets), 'EPISODE_EXPORT_OCCURRENCE_SOURCE_RANGE_OR_IDENTITY')
+                offsets.add(locator['offset'])
+                ordered_records.append(pin)
+        ordered_records.sort(key=lambda pin: pin['locator']['offset'])
+        for prior, current in zip(ordered_records, ordered_records[1:]):
+            before(prior, current)
+            require(prior['locator']['embedded_ordinal'] < current['locator']['embedded_ordinal'],
+                'EPISODE_EXPORT_RECORD_ORDINAL_ORDER')
+        return value
+    return validate_frozen_episode_export_v1(value)
+
+# Inserted into the existing projection owner by build_proposal.py.
+# This reference owns no pending store, selection, currentness, or native call.
+def _v2_native_reference(value):
+    _v2_object(value, {"schema_version", "export_artifact_id", "capture_artifact_id",
+                      "facts_artifact_id", "contract_sha256"}, "native episode reference")
+    _v2_require(value["schema_version"] == "implementaudit.protected-native-episode-reference.v1"
+                and value["contract_sha256"] == NATIVE_EPISODE_CONTRACT_SHA256,
+                "unknown native episode profile or owner contract")
+    names = [value[key] for key in ("export_artifact_id", "capture_artifact_id", "facts_artifact_id")]
+    _v2_require(len(set(names)) == 3 and all(type(name) is str and
+                _v2_re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*", name) for name in names),
+                "native episode artifact identities must be distinct")
+
+
+def _v2_native_json(raw):
+    def unique(pairs):
+        value = dict(pairs)
+        _v2_require(len(value) == len(pairs), "duplicate native owner artifact key")
+        return value
+    def forbidden(_):
+        raise ProjectionV2Error("native owner artifacts cannot contain floats/constants")
+    _v2_require(type(raw) is bytes and 0 < len(raw) <= 2*1024*1024,
+                "native owner artifact byte bound")
+    try:
+        return _v2_json_module.loads(raw, object_pairs_hook=unique,
+                                    parse_float=forbidden, parse_constant=forbidden)
+    except (ValueError, UnicodeError) as error:
+        raise ProjectionV2Error("native owner artifact JSON refused") from error
+
+
+def _v2_owned_native(payload, artifacts, refs):
+    group = payload["STATE"].get("native_episode")
+    if group is None:
+        return None
+    reference = group["value"]
+    _v2_native_reference(reference)
+    by_id = {row["artifact_id"]: row for row in refs}
+    values, maps = {}, []
+    for kind, field in (("export", "export_artifact_id"), ("capture", "capture_artifact_id"),
+                        ("facts", "facts_artifact_id")):
+        name = reference[field]
+        _v2_require(name in by_id and by_id[name]["owner"] == "R0033/continuity"
+                    and by_id[name]["role"] == "EVIDENCE", "unentitled native owner artifact")
+        raw = artifacts[name]
+        values[kind] = _v2_native_json(raw)
+        for pointer, value in _v2_leaves(values[kind], ""):
+            maps.append({"field": "/native_episode/"+kind+pointer, "owner": "R0033/continuity",
+                "source_kind": "ARTIFACT", "source_id": name, "source_pointer": pointer,
+                "source_sha256": _v2_sha(raw), "value_sha256": _v2_sha(_v2_canonical(value))})
+    exported, capture, facts = values["export"], values["capture"], values["facts"]
+    try:
+        _v2_validate_native_export(exported)
+    except (ValueError, KeyError, TypeError) as error:
+        raise ProjectionV2Error("existing R0033 frozen export refused: "+str(error)) from error
+    _v2_require(exported["status"] == "AVAILABLE", "accepted native export absent")
+    _v2_object(capture, {"boundaries", "C", "D", "H0_currentness_checkpoints",
+                         "original13520_14114_credit", "authority_ceiling"}, "native C/D capture")
+    _v2_require(capture["original13520_14114_credit"] is False and capture["authority_ceiling"] == "NONE"
+                and capture["C"] != capture["D"] and exported["pending"]["covered_scope"] == [capture["C"]]
+                and capture["D"] in exported["pending"]["pending_scope"], "C only coverage or D survival changed")
+    _v2_require(type(capture["boundaries"]) is list and
+                [row.get("label") for row in capture["boundaries"]] == ["C", "D"], "exact C/D originals required")
+    checkpoints = capture["H0_currentness_checkpoints"]
+    _v2_require(type(checkpoints) is list and len(checkpoints) == 3, "native C/D checkpoints required")
+    previous = -1
+    for checkpoint in checkpoints:
+        _v2_object(checkpoint, {"binding", "receipt", "opening_digest", "observed_wall_ns", "observed_monotonic_ns"},
+                   "native C/D checkpoint")
+        _v2_require(type(checkpoint["binding"]) is dict and checkpoint["binding"] == checkpoints[0]["binding"]
+                    and checkpoint["receipt"] == exported["owner"]["host_and_scope"]["continuity_receipt"]
+                    and checkpoint["opening_digest"] == exported["owner"]["canonical_opening_digest"],
+                    "native C/D original H0/currentness binding changed")
+        _v2_integer(checkpoint["observed_wall_ns"], "native checkpoint wall time", 1)
+        _v2_integer(checkpoint["observed_monotonic_ns"], "native checkpoint monotonic time", previous+1)
+        previous = checkpoint["observed_monotonic_ns"]
+    _v2_object(facts, {"schema", "export_digest", "pending_revision", "observation_proofs",
+                       "assignments", "custody_documents", "uncertainty", "source_state_sha256", "authority_ceiling"}, "native owner facts")
+    _v2_require(facts["schema"] == "implementaudit.native-owner-facts.v1"
+                and facts["authority_ceiling"] == "NONE" and facts["export_digest"] == exported["export_digest"]
+                and facts["pending_revision"] == exported["pending"]["revision"], "native owner fact binding changed")
+    _v2_require(type(facts["observation_proofs"]) is dict and
+                set(facts["observation_proofs"]) == {row["id"] for row in exported["pending"]["observations"]},
+                "native observation denominator changed")
+    _v2_require(type(facts["assignments"]) is dict and type(facts["uncertainty"]) is dict,
+                "native reservation/failure/unknown population required")
+    _v2_digest(facts["source_state_sha256"], "native original state digest")
+    for row in exported["pending"]["observations"]:
+        proof = facts["observation_proofs"][row["id"]]
+        _v2_require(type(proof) is dict and all(proof.get(key) == row[key]
+            for key in ("id", "kind", "version", "consumed_version")) and type(proof.get("proof")) is dict,
+            "native original observation meaning changed")
+        if row['kind'] in ('COMPLETED_RESUMED_BOUNDARY', 'AMBIGUOUS_MARKER_GROUP'):
+            # Existing compaction-audit-pending.refresh identity formula, unchanged.
+            _v2_require(row['id'] == 'boundary-'+_v2_sha(_v2_canonical(proof['proof'])),
+                        "native boundary ID differs from original physical proof")
+        _v2_require(all(child in facts["assignments"] for child in row["assignment_children"]),
+                    "native assigned child population omitted")
+    for child, assignment in facts["assignments"].items():
+        _v2_string(child, "native assignment child")
+        _v2_object(assignment, {"source_assignment_sha256", "scope", "native_lifecycle", "reservation_request",
+            "observations", "return_state", "return_digest", "join_state", "joined_scope", "hold_failures", "hold_refusals"},
+            "native assignment facts")
+        _v2_digest(assignment["source_assignment_sha256"], "native assignment original digest")
+        _v2_require(type(assignment["scope"]) is list and type(assignment["observations"]) is dict
+                    and type(assignment["hold_failures"]) is dict and type(assignment["hold_refusals"]) is dict,
+                    "native assignment pending/refusal populations required")
+    selected_child = exported["episode"]["actual_child_identity"]["thread_id"]
+    _v2_require(selected_child in facts["assignments"], "accepted native assignment omitted")
+    accepted = facts["assignments"][selected_child]
+    _v2_require(accepted["return_state"] == "SUCCEEDED" and accepted["return_digest"] == exported["episode"]["result_digest"]
+                and accepted["join_state"] == "JOINED_EVIDENCE_ONLY" and accepted["joined_scope"] == exported["pending"]["covered_scope"],
+                "native accepted result and assignment relation changed")
+    _v2_object(facts["custody_documents"], {"candidate", "qualification", "episode", "attestation"}, "native retained custody documents")
+    import base64
+    for name, document in facts["custody_documents"].items():
+        _v2_object(document, {"pin", "bytes_b64"}, "native exact custody document")
+        _v2_require(document["pin"] == exported["custody"][name], "native custody document belongs to another export")
         try:
-            lines = raw.decode("utf-8", "strict").splitlines()
-        except UnicodeDecodeError as exc:
-            raise self._error_type("hot template is not UTF-8") from exc
-        return tuple(line for line in lines
-                     if line.startswith("# ") or line.startswith("## "))
+            raw = base64.b64decode(document["bytes_b64"], validate=True)
+        except (ValueError, TypeError) as error:
+            raise ProjectionV2Error("native custody document wire refused") from error
+        _v2_require(len(raw) == document["pin"]["bytes"] and _v2_sha(raw) == document["pin"]["sha256"],
+                    "native custody document exact bytes changed")
+    for boundary in capture["boundaries"]:
+        _v2_object(boundary, {"label", "compaction_turn", "resume_turn", "summary", "source_bytes", "source_sha256"},
+                   "native original C/D boundary")
+        selected = capture[boundary["label"]]
+        _v2_require(selected["id"] in facts["observation_proofs"], "native boundary original absent")
+        original = facts["observation_proofs"][selected["id"]]["proof"]
+        _v2_require(type(boundary["summary"]) is dict and boundary["summary"]
+                    and all(original.get(key) == value for key, value in boundary["summary"].items())
+                    and original.get("resume_turn") == boundary["resume_turn"], "native C/D physical proof changed")
+        _v2_require(original.get("source", {}).get("path") == exported["custody"]["source_cutoffs"]["parent"]["path"]
+                    and original["source"]["physical"] == exported["custody"]["source_cutoffs"]["parent"]["physical"],
+                    "native C/D original physical source changed")
+        _v2_integer(boundary["source_bytes"], "native original source length", 1)
+        _v2_digest(boundary["source_sha256"], "native original source hash")
+    for key in ("controller_id", "claim_id"):
+        _v2_require(exported["owner"]["host_and_scope"][key] == payload["STATE"]["identity"]["value"][key],
+                    "native export belongs to another canonical owner")
+    return {"profile": reference["schema_version"], "authority_ceiling": "NONE",
+            "values": values, "owner_map": sorted(maps, key=lambda row: row["field"]),
+            "protected_leaf_count": len(maps)}
 
-    def verify_hot_renderer_template_parity_v1(self,
-            state_template: bytes, roadmap_template: bytes,
-            state_rendered: bytes, roadmap_rendered: bytes) -> None:
-        populations = (
-            (state_template, state_rendered, STATE_HOT_SECTIONS_V1),
-            (roadmap_template, roadmap_rendered, ROADMAP_HOT_SECTIONS_V1),
-        )
-        for template, rendered, expected in populations:
-            if (type(template) is not bytes or type(rendered) is not bytes
-                    or self._markdown_headings_v1(template) != expected
-                    or self._markdown_headings_v1(rendered) != expected):
-                raise self._error_type("hot renderer and canonical template sections disagree")
 
-    def render_state_template_v1(self, fields: Mapping[str, object], graph: Any,
-                                 custody: Any) -> bytes:
-        self._validate_fields(fields)
-        self._validate_dependencies(graph, custody)
-        lines = [
-            "# IMPLEMENTAUDIT State", "",
-            "Runtime copy target: `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/STATE.md`", "",
-            "Bounded current/open projection; closed detail is immutable query history.", "",
-            "## Current phase", "", "| Field | Value |", "|---|---|",
-            f"| Run root | `{self._hot_value_v1(fields['implementaudit_base'])}/{self._hot_value_v1(fields['run_id'])}` |",
-            f"| Phase | {self._hot_value_v1(fields['phase'])} |",
-            f"| Status | {self._hot_value_v1(fields['status'])} |",
-            f"| Audit object state | {self._hot_value_v1(fields['audit_object_state'])} |",
-            f"| Route | {self._hot_value_v1(fields['route'])} |",
-            f"| Owner/source | {self._hot_value_v1(fields['owner_source'])} |",
-            f"| Baseline ref | `{self._hot_value_v1(fields['baseline_ref'])}` |",
-            f"| Last check | {self._hot_value_v1(fields['last_check'])} |",
-            f"| Next action | {self._hot_value_v1(fields['next_action'])} |", "",
-            "## Audit object state", "",
-            f"Audit object source: {self._hot_value_v1(fields['audit_object_source'])}", "",
-            f"Latest auditing operation: {self._hot_value_v1(fields['latest_auditing_operation'])}", "",
-            f"Terminal closure condition: {self._hot_value_v1(fields['terminal_closure_condition'])}", "",
-            f"Handoff state: {self._hot_value_v1(fields['handoff_state'])}", "",
-            "## Runtime artifacts", "", "| Artifact | Status | Notes |", "|---|---|---|",
-        ]
-        for artifact in fields["runtime_artifacts"]:
-            lines.append(f"| `{artifact.path}` | {artifact.status} | {artifact.notes} |")
-        lines.extend([
-            "", "## Ledger", "",
-            "| # | Finding | Priority | Action | Status | Evidence | Depends on | Follow-up |",
-            "|---|---|---:|---|---|---|---|---|",
-        ])
-        for finding in fields["open_ledger"]:
-            lines.append("| %s | %s | %s | %s | %s | %s | %s | %s |" % finding)
-        lines.extend([
-            "", "## Andon log", "",
-            "| # | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |",
-            "|---|---|---|---|---|---|---|---|",
-        ])
-        for andon in fields["open_andons"]:
-            lines.append("| %s | %s | %s | %s | %s | %s | %s | %s |" % andon)
-        lines.extend([
-            "", "## Occurrence resolution and residuals", "",
-            f"Occurrence resolution: {self._hot_value_v1(fields['occurrence_resolution'])}", "",
-            "| Residual | Consequential | Disposition | Owner / policy ref | Evidence |",
-            "|---|---|---|---|---|",
-        ])
-        for residual in fields["open_residuals"]:
-            lines.append("| %s | %s | %s | %s | %s |" % residual)
-        lines.extend([
-            "", "## Execution identity", "",
-            f"Current execution identity: {self._hot_value_v1(fields['execution_identity'])}", "",
-            "", "## Context epochs and instruction applicability", "",
-            f"Current epoch: {self._hot_value_v1(fields['current_epoch'])}", "",
-            f"Canonical projection generation: {self._hot_value_v1(fields['current_epoch'])}", "",
-            f"Current-generation pointer: `{custody.current_generation_ref}@{custody.pointer_oid}`", "",
-            "Migration marker: not published by migration-only projection", "",
-            "Current continuity receipt: query on demand", "",
-            "| Epoch | Boundary provenance | Established at | Repo identity | Reconciled | Notes |",
-            "|---|---|---|---|---|---|",
-            f"| {self._hot_value_v1(fields['current_epoch'])} | handoff-resume | current | `{graph.work_graph_path}` at `{graph.work_graph_digest}` | yes | current hot projection |",
-            "", "| Instr | Reference | Kind | Authority | Subject | Issued epoch | Status | Status evidence | Supersedes/by | Scope end |",
-            "|---|---|---|---|---|---|---|---|---|---|",
-        ])
-        for instruction in fields["active_instructions"]:
-            lines.append("| %s | %s | %s | %s | %s | %s | %s | %s | %s | %s |" % instruction)
-        agents = fields["agents_update_decision"]
-        continuity = fields["continuity_decision_record"]
-        lines.extend([
-            "", f"Exact archive: `{custody.archive_ref}` at `{custody.archive_digest}`", "",
-            f"History query: `{custody.history_query}`", "",
-            "## AGENTS_UPDATE_DECISION", "",
-            f"Status: {agents.status}", "", f"Reason: {agents.reason}", "",
-            f"Scope: {agents.target}", "", f"Evidence location: {agents.evidence}", "",
-            "## CONTINUITY_DECISION", "",
-            f"Status: {continuity.status}", "", f"Reason: {continuity.reason}", "",
-            f"Destination: {continuity.target}", "", f"Evidence boundary: {continuity.evidence}", "",
-            "", "## Local git trace", "", "Commit authorized: no", "",
-            "Push authorized: no", "", "Tag/release/publication/provenance authorized: no",
-            "", "## Run terminal disposition", "",
-            "Current open state only; closed history remains in immutable events and exact archives.",
-        ])
-        return self._render_lines_v1(lines)
+def _v2_native_applicability(native_episode, current):
+    scope = native_episode["values"]["export"]["owner"]["host_and_scope"]
+    exact = scope["continuity_generation"] == current["continuity_epoch"]
+    return {"historical_scope": "PRESERVED_EXACT_ACCEPTED_EXPORT",
+            "current_use": "SAME_EPOCH_REQUIRES_SEPARATE_OWNER_READ" if exact else "INAPPLICABLE_AFTER_CONTINUITY_CHANGE",
+            "pending_consumption_authority": "NONE", "producer_authentication_by_projection": False}
 
-    def render_roadmap_template_v1(self, fields: Mapping[str, object], graph: Any,
-                                   custody: Any) -> bytes:
-        self._validate_fields(fields)
-        self._validate_dependencies(graph, custody)
-        lines = [
-            "# IMPLEMENTAUDIT Roadmap", "",
-            "Runtime copy target: `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/ROADMAP.md`", "",
-            "## Goal", "", self._hot_value_v1(fields["next_action"]), "",
-            "## Audit object", "",
-            f"Audit object source: {self._hot_value_v1(fields['audit_object_source'])}", "",
-            f"Terminal closure condition: {self._hot_value_v1(fields['terminal_closure_condition'])}", "",
-            f"Current auditing operation: {self._hot_value_v1(fields['latest_auditing_operation'])}", "",
-            "## Action selection", "", "Selected current actions:",
-        ]
-        lines.extend(f"- {self._hot_value_v1(row)}" for row in fields["action_selected"])
-        lines.extend(["", "Omitted current actions:"])
-        lines.extend(f"- {self._hot_value_v1(row)}" for row in fields["action_omitted"])
-        lines.extend([
-            "", f"Depth rationale: {self._hot_value_v1(fields['action_depth_rationale'])}", "",
-            "## Baseline ref", "", f"`{self._hot_value_v1(fields['baseline_ref'])}`", "",
-            "## Run root", "",
-            f"IMPLEMENTAUDIT_BASE: {self._hot_value_v1(fields['implementaudit_base'])}", "",
-            f"IMPLEMENTAUDIT_RUN_ROOT: {self._hot_value_v1(fields['implementaudit_base'])}/{self._hot_value_v1(fields['run_id'])}", "",
-            f"IMPLEMENTAUDIT_BASELINE_REF: {self._hot_value_v1(fields['baseline_ref'])}", "",
-            f"Canonical projection generation: {self._hot_value_v1(fields['current_epoch'])}", "",
-            f"Current-generation pointer: `{custody.current_generation_ref}@{custody.pointer_oid}`", "",
-            "Migration marker: not published by migration-only projection", "",
-            "Current continuity receipt: query on demand", "",
-            "## Planning evidence", "", "Current pointers only:",
-        ])
-        lines.extend(f"- {self._hot_value_v1(row)}" for row in fields["planning_evidence"])
-        lines.extend([
-            f"- Exact archive: `{custody.archive_ref}` at `{custody.archive_digest}`",
-            f"- History query: `{custody.history_query}`",
-            "", "## Phases", "",
-            "| Phase | Objective | Owner/source | Depends on | Smoke A | Smoke B | Review | Status |",
-            "|---|---|---|---|---|---|---|---|",
-        ])
-        for index, node in enumerate(graph.active_nodes, 1):
-            lines.append(f"| {index} | {self._hot_value_v1(node)} | {self._hot_value_v1(fields['controller_id'])} | - | captured | pending | not applicable | {self._hot_value_v1(fields['status'])} |")
-        lines.extend([
-            "", "## Execution index (projection)", "",
-            f"- Current graph: `{graph.work_graph_path}` at `{graph.work_graph_digest}`",
-            f"- Generation pointer: `{custody.current_generation_ref}@{custody.pointer_oid}`",
-            f"- Generation manifest digest: `{custody.manifest_digest}`",
-            "", "## Scope boundaries", "",
-        ])
-        lines.extend(f"- {self._hot_value_v1(row.subject)}"
-                     for row in fields["active_instructions"])
-        lines.extend(["", "## Scope-creep register", "",
-                      "| # | Issue | Location | Recommendation | Status |",
-                      "|---|---|---|---|---|"])
-        for row in fields["open_scope_creep"]:
-            lines.append("| %s | %s | %s | %s | %s |" % row)
-        return self._render_lines_v1(lines)
+
+def _v2_manifest(payload, rows, source_hashes, current, receipt_oid, transition, refs, output_hashes, archives, native_episode=None):
+    result = {"PRESERVED_PAYLOAD": {"payload": _v2_clone(payload), "owner_map": _v2_clone(rows), "source_hashes": _v2_clone(source_hashes)},
+            "MONOTONIC_TRANSITION": _v2_clone(transition),
+            "DERIVED_BINDINGS": {"authority_ceiling": _V2_AUTHORITY, "predecessor_continuity": _v2_clone(current),
+                                 "current_receipt_ref_oid": receipt_oid, "artifact_refs": _v2_clone(refs),
+                                 "state_sha256": output_hashes["STATE"], "roadmap_sha256": output_hashes["ROADMAP"]},
+            "ARCHIVED_ONLY_HISTORY": _v2_clone(archives)}
+    if native_episode is not None:
+        result["PRESERVED_PAYLOAD"]["native_episode"] = _v2_clone(native_episode)
+        result["DERIVED_BINDINGS"]["native_episode_applicability"] = _v2_native_applicability(native_episode, transition or current)
+    return result
+
+
+def parse_canonical_pair_v2(state_bytes: bytes, roadmap_bytes: bytes, *,
+                             owner_map: Sequence[Mapping[str, object]], artifacts: Mapping[str, bytes]) -> dict[str, object]:
+    """Parse all bytes or refuse; validate external owner/artifact denominator.
+
+    The WORK_GRAPH dependency is preserved as exact owner-bound bytes. Its
+    native schema/frontier interpretation remains a separate owner qualification.
+    """
+    raw = {"STATE": state_bytes, "ROADMAP": roadmap_bytes}
+    bodies = {role: _v2_load_body(data, role) for role, data in raw.items()}
+    payload = {role: body["payload"] for role, body in bodies.items()}
+    _v2_payload_schema(payload)
+    identity = payload["STATE"]["identity"]["value"]
+    controller = identity["controller_id"]
+    action = payload["STATE"]["continuation"]["value"]["next_action"]
+    _v2_require(bodies["STATE"]["pair_id"] == bodies["ROADMAP"]["pair_id"]
+                and _v2_same(bodies["STATE"]["continuity"], bodies["ROADMAP"]["continuity"])
+                and _v2_same(bodies["STATE"]["transition"], bodies["ROADMAP"]["transition"]), "whole-pair identity/continuity mismatch")
+    for role, body in bodies.items():
+        _v2_continuity(body["continuity"], controller)
+        if body["transition"] is not None:
+            _v2_transition(body["transition"], body["continuity"], controller)
+        _v2_history(body["history"])
+        _v2_require(_v2_render(body, action, identity) == raw[role], "canonical frame or identity-bearing mirror changed")
+    current = _v2_effective(bodies["STATE"])
+    refs = _v2_artifact_refs(bodies, controller, current)
+    ids = {row["artifact_id"] for row in refs}
+    _v2_require(isinstance(artifacts, Mapping) and set(artifacts) == ids and all(type(value) is bytes for value in artifacts.values()),
+                "complete declared artifact byte population required")
+    _v2_require(set(payload["STATE"]["runtime_artifacts"]["value"]) == ids, "runtime artifact population omits a declared dependency")
+    _v2_check_references(payload, ids)
+    for body in bodies.values():
+        _v2_check_references(body["history"], ids)
+    rows = _v2_list(owner_map, "complete owner map")
+    for row in rows:
+        _v2_object(row, _V2_MAP_KEYS, "complete owner row")
+        _v2_enum(row["source_kind"], {"PAIR", "ARTIFACT"}, "owner source kind")
+    pair_rows = [row for row in rows if row["source_kind"] == "PAIR"]
+    checked = validate_protected_payload_v2(payload, pair_rows)
+    hashes = {role: _v2_sha(data) for role, data in raw.items()}
+    _v2_require(all(row["source_sha256"] == hashes[row["source_id"]] for row in pair_rows), "owner rows do not bind complete source bytes")
+    expected_artifacts = {}
+    for ref in refs:
+        artifact_id = ref["artifact_id"]
+        digest = _v2_sha(artifacts[artifact_id])
+        expected_artifacts[artifact_id] = {"field": "/artifacts/" + artifact_id, "owner": ref["owner"], "source_kind": "ARTIFACT",
+                                           "source_id": artifact_id, "source_pointer": "", "source_sha256": digest, "value_sha256": digest}
+    artifact_rows = [row for row in rows if row["source_kind"] == "ARTIFACT"]
+    _v2_require(len(artifact_rows) == len(expected_artifacts) and all(type(row["source_id"]) is str and row["source_id"] in expected_artifacts
+                and _v2_same(row, expected_artifacts[row["source_id"]]) for row in artifact_rows)
+                and len({row["source_id"] for row in artifact_rows}) == len(expected_artifacts), "artifact owner denominator/binding mismatch")
+    by_id = {row["artifact_id"]: row for row in refs}
+    for pending in payload["STATE"]["pending_boundaries"]["value"]:
+        artifact_id = pending["original_evidence_ref"]
+        evidence = artifacts[artifact_id]
+        source = pending["physical_source"]
+        _v2_require(by_id[artifact_id]["role"] == "EVIDENCE" and by_id[artifact_id]["locator"] == pending["original_evidence_locator"]
+                    and source["source_binding"] == _v2_sha(evidence)
+                    and source["offset"] + source["byte_length"] <= len(evidence)
+                    and source["sha256"] == _v2_sha(evidence[source["offset"]:source["offset"] + source["byte_length"]]),
+                    "pending physical source bytes/locator mismatch")
+        witness = pending["consumption"]["witness"]
+        if witness is not None:
+            _v2_require(witness["sha256"] == _v2_sha(artifacts[witness["evidence_ref"]]), "accepted witness artifact bytes mismatch")
+    receipt_ref = next(row for row in refs if row["role"] == "CONTINUITY_RECEIPT")
+    receipt_bytes = artifacts[receipt_ref["artifact_id"]]
+    _v2_receipt(receipt_bytes, current, identity, hashes, action)
+    receipt_oid = receipt_ref["locator"] + "@" + _v2_blob(receipt_bytes, receipt_ref["object_format"])
+    sorted_rows = sorted(_v2_clone(list(rows)), key=lambda row: row["field"])
+    old_archives = _v2_existing_archives(bodies, controller)
+    native_episode = _v2_owned_native(payload, artifacts, refs)
+    manifest = _v2_manifest(payload, sorted_rows, hashes, current, receipt_oid, bodies["STATE"]["transition"], refs, hashes, old_archives, native_episode)
+    return {"schema_version": "implementaudit.canonical-pair-preimage.v2", "authority_ceiling": _V2_AUTHORITY,
+            "state_bytes": state_bytes, "roadmap_bytes": roadmap_bytes, "bodies": _v2_clone(bodies),
+            "payload": checked["payload"], "owner_map": sorted_rows, "artifacts": _v2_clone(dict(artifacts)),
+            "source_hashes": hashes, "current_continuity": current, "current_receipt_ref_oid": receipt_oid,
+            "archive_population": _v2_population(bodies, raw), "protected_manifest": manifest}
+
+
+def _v2_revalidate(preimage: object) -> dict[str, object]:
+    _v2_object(preimage, _V2_PREIMAGE_KEYS, "preimage")
+    expected = parse_canonical_pair_v2(preimage["state_bytes"], preimage["roadmap_bytes"], owner_map=preimage["owner_map"], artifacts=preimage["artifacts"])
+    _v2_require(_v2_same(preimage, expected), "preimage metadata was omitted, changed or not derived from exact source bytes")
+    return expected
+
+
+def _v2_derive(preimage, transition, archive_pointers, max_state_bytes, max_roadmap_bytes):
+    _v2_integer(max_state_bytes, "STATE output byte limit", 1)
+    _v2_integer(max_roadmap_bytes, "ROADMAP output byte limit", 1)
+    controller = preimage["payload"]["STATE"]["identity"]["value"]["controller_id"]
+    current = preimage["current_continuity"]
+    if transition is not None:
+        _v2_transition(transition, current, controller, preimage["current_receipt_ref_oid"])
+    preparation = _v2_next(current["projection_generation_id"])
+    supplied = _v2_list(archive_pointers, "new archive pointer population")
+    expected = {(row["source_role"], row["source_pointer"]): row for row in preimage["archive_population"]}
+    indexed, anchor = {}, None
+    for row in supplied:
+        _v2_archive_pointer(row, controller)
+        identity = (row["source_role"], row["source_pointer"])
+        _v2_require(identity in expected and identity not in indexed
+                    and _v2_same({key: row[key] for key in _V2_DESCRIPTOR_KEYS}, expected[identity]), "archive population is not the exact complete source/history denominator")
+        _v2_require(row["preparation_generation_id"] == preparation, "archive preparation generation mismatch")
+        row_anchor = (row["archive_ref"], row["archive_manifest_oid"], row["archive_manifest_sha256"], row["preparation_generation_id"])
+        _v2_require(anchor is None or anchor == row_anchor, "new archive pointers have conflicting anchors")
+        anchor = row_anchor
+        indexed[identity] = _v2_clone(row)
+    _v2_require(set(indexed) == set(expected), "archive pointers omit a whole source or removed typed history item")
+    new_pointers = [indexed[(row["source_role"], row["source_pointer"])] for row in preimage["archive_population"]]
+    archives = _v2_existing_archives(preimage["bodies"], controller) + new_pointers
+    bodies = _v2_clone(preimage["bodies"])
+    effective = transition if transition is not None else current
+    for body in bodies.values():
+        body["history"] = []
+        body["archive_pointers"] = _v2_clone(archives)
+        body["continuity"] = _v2_clone(current)
+        body["transition"] = _v2_clone(transition)
+        for ref in body["artifact_refs"]:
+            if ref["role"] == "CONTINUITY_RECEIPT":
+                ref["locator"] = effective["expected_receipt_ref"]
+    action = preimage["payload"]["STATE"]["continuation"]["value"]["next_action"]
+    identity = preimage["payload"]["STATE"]["identity"]["value"]
+    raw = {role: _v2_render(body, action, identity) for role, body in bodies.items()}
+    _v2_require(len(raw["STATE"]) <= max_state_bytes and len(raw["ROADMAP"]) <= max_roadmap_bytes,
+                "complete protected projection exceeds caller/calibration byte limits")
+    refs = _v2_artifact_refs(bodies, controller, effective)
+    output_hashes = {role: _v2_sha(data) for role, data in raw.items()}
+    return {"schema_version": "implementaudit.canonical-pair-candidate.v2", "authority_ceiling": _V2_AUTHORITY,
+            "state_bytes": raw["STATE"], "roadmap_bytes": raw["ROADMAP"], "payload": _v2_clone(preimage["payload"]),
+            "source_hashes": _v2_clone(preimage["source_hashes"]), "owner_map": _v2_clone(preimage["owner_map"]),
+            "artifact_refs": refs, "predecessor_continuity": _v2_clone(current), "transition": _v2_clone(transition),
+            "archive_pointers": archives,
+            "protected_manifest": _v2_manifest(preimage["payload"], preimage["owner_map"], preimage["source_hashes"], current,
+                                                preimage["current_receipt_ref_oid"], transition, refs, output_hashes, archives,
+                                                preimage["protected_manifest"]["PRESERVED_PAYLOAD"].get("native_episode")),
+            "limits": {"max_state_bytes": max_state_bytes, "max_roadmap_bytes": max_roadmap_bytes}}
+
+
+def derive_hot_pair_v2(preimage: Mapping[str, object], *, transition: Mapping[str, object] | None,
+                        archive_pointers: Sequence[Mapping[str, object]], max_state_bytes: int,
+                        max_roadmap_bytes: int) -> dict[str, object]:
+    """Deterministically preserve all protected fields; compact only typed history.
+
+    None is an F2 draft with no successor envelope. Non-None transitions must be
+    supplied after owner admission and archive anchoring; this pure function
+    verifies their algebra, never their native authority or ref currentness.
+    """
+    return _v2_derive(_v2_revalidate(preimage), transition, archive_pointers, max_state_bytes, max_roadmap_bytes)
+
+
+def verify_projection_equivalence_v2(preimage: Mapping[str, object], candidate: Mapping[str, object]) -> dict[str, object]:
+    """Recompute the full result from exact source bytes; reject every omission.
+
+    Immutable-preimage custody is the caller's responsibility. This checks no
+    caller PASS bit, performs no model summary, and creates no authority.
+    """
+    checked = _v2_revalidate(preimage)
+    _v2_object(candidate, _V2_CANDIDATE_KEYS, "candidate")
+    limits = _v2_object(candidate["limits"], {"max_state_bytes", "max_roadmap_bytes"}, "candidate limits")
+    pointers = _v2_list(candidate["archive_pointers"], "candidate archives")
+    count = len(checked["archive_population"])
+    _v2_require(len(pointers) >= count, "candidate omits exact retrieval pointers")
+    expected = _v2_derive(checked, candidate["transition"], pointers[-count:], limits["max_state_bytes"], limits["max_roadmap_bytes"])
+    _v2_require(_v2_same(candidate, expected), "whole-field projection omission, semantic change or derived binding mismatch")
+    return {"schema_version": "implementaudit.projection-equivalence.v2", "authority_ceiling": _V2_AUTHORITY,
+            "equivalent": True, "protected_leaf_count": len([row for row in checked["owner_map"] if row["source_kind"] == "PAIR"]),
+            "source_hashes": _v2_clone(checked["source_hashes"])}

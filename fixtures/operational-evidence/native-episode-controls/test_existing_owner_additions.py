@@ -1,4 +1,4 @@
-from native_test_support import source_path, source_text, functions as selected_functions, load, source_api, SCRATCH, PUBLIC_OWNERS, guard_ast_digest, canonical_unbound_fixture, bounded_bytes
+from native_test_support import source_path, source_text, functions as selected_functions, load, source_api, SCRATCH, PUBLIC_OWNERS, guard_ast_digest, canonical_unbound_fixture, bounded_bytes, source_profile_constants
 from unittest import mock
 import os
 import subprocess
@@ -24,6 +24,7 @@ def functions(names):
     tree = ast.parse(text)
     body = [node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name in names | {'unique'}]
     env = {'require': require, 'json': json, 're': re, 'Path': Path, 'MAX_TOTAL': 2 * 1024 * 1024, 'canonical': lambda value: json.dumps(value, sort_keys=True, separators=(',', ':')).encode(), 'HoldObservationRefusal': ValueError, 'CURRENT_BOUNDARY_PROFILE': 'old-current', 'NONPROTECTED_PROFILE': 'codex-app-bounded-public-nonprotected-v1'}
+    env.update(source_profile_constants())
     exec(compile(ast.Module(body=body, type_ignores=[]), '<actual-public-owner-functions>', 'exec'), env)
     return env
 
@@ -56,7 +57,15 @@ class ExistingObservationControls(unittest.TestCase):
         for name in ('actual_result', 'acceptance'):
             node = next((n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == name))
             if name == 'actual_result':
-                node.body = [n for n in node.body if not (isinstance(n, ast.Assign) and any((isinstance(t, ast.Name) and t.id == 'selected_occurrences' for t in n.targets))) and (not (isinstance(n, ast.If) and ast.unparse(n.test) == "context['profile_id'] == NONPROTECTED_PROFILE"))]
+                source_profile_constants()  # The family must remain the exact two declared profiles.
+                additions = [n for n in node.body if isinstance(n, ast.If)
+                             and ast.unparse(n.test) in ("context['profile_id'] == NONPROTECTED_PROFILE",
+                                                        "context['profile_id'] in SOURCE_PROFILES")]
+                self.assertEqual(len(additions), 1)
+                expected = ast.parse("identity['selected_occurrences'] = selected_occurrences").body
+                self.assertEqual([ast.dump(n) for n in additions[0].body], [ast.dump(n) for n in expected])
+                self.assertEqual(additions[0].orelse, [])
+                node.body = [n for n in node.body if n is not additions[0] and not (isinstance(n, ast.Assign) and any((isinstance(t, ast.Name) and t.id == 'selected_occurrences' for t in n.targets)))]
                 for item in ast.walk(node):
                     if isinstance(item, ast.Call) and isinstance(item.func, ast.Name) and (item.func.id == 'hold_history'):
                         item.keywords = [k for k in item.keywords if k.arg != 'occurrence_sink']

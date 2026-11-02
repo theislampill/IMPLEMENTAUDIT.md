@@ -124,8 +124,11 @@ class NativeRouteProjectionTests(unittest.TestCase):
         producer = (PEERS / "route-transaction.py").read_bytes()
         self.assertEqual(WG._NATIVE_STATIC_OWNER_SHA256, hashlib.sha256(primary).hexdigest())
         self.assertEqual(WG._NATIVE_STATIC_OWNER_BYTES, len(primary))
-        self.assertEqual(WG._NATIVE_ROUTE_PRODUCER_SHA256, hashlib.sha256(producer).hexdigest())
-        self.assertEqual(WG._NATIVE_ROUTE_PRODUCER_BYTES, len(producer))
+        self.assertEqual(WG._NATIVE_ROUTE_PRODUCER_PROFILES_V1[WG._NATIVE_ROUTE_PRODUCER_SHA256],
+                         WG._NATIVE_ROUTE_PRODUCER_BYTES)
+        self.assertEqual(WG._NATIVE_ROUTE_PRODUCER_PROFILES_V1.get(hashlib.sha256(producer).hexdigest()),
+                         len(producer))
+        self.assertNotIn(hashlib.sha256(producer + b"\n").hexdigest(), WG._NATIVE_ROUTE_PRODUCER_PROFILES_V1)
 
     def material(self, satisfied=False, record_overrides=None):
         rec = record(LANE / ".IMPLEMENTAUDIT/runs/native-route-projection")

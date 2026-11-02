@@ -4,8 +4,124 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
-tmp="$(mktemp -d)"
-trap 'rm -rf "$tmp"' EXIT
+if [ -n "${IA_DOGFOOD_TEST_CAPTURE_DIR:-}" ]; then
+  tmp="$IA_DOGFOOD_TEST_CAPTURE_DIR"
+  mkdir "$tmp" # Explicit capture is create-once and survives the first outcome.
+else
+  tmp="$(mktemp -d)"
+  trap 'rm -rf "$tmp"' EXIT
+fi
+
+# A completed content identity and its read/search view must use one acquisition.
+# The plain sink below is test data; no authenticated broker events are created.
+python -B - "$tmp/read-acquisition" <<'PY'
+import argparse
+import contextlib
+import hashlib
+import json
+from pathlib import Path
+import sys
+import traceback
+import types
+
+root = Path(sys.argv[1]).resolve()
+root.mkdir()
+owner = Path('scripts/dogfood-evidence-broker.py').resolve()
+owner_bytes = owner.read_bytes()
+module = types.ModuleType('dogfood_acquisition_contract_test')
+module.__file__ = str(owner)
+exec(compile(owner_bytes, str(owner), 'exec'), module.__dict__)
+
+def digest(data):
+    return hashlib.sha256(data).hexdigest()
+
+def save(path, value):
+    with path.open('x', encoding='utf-8') as handle:
+        json.dump(value, handle, indent=2, sort_keys=True)
+        handle.write('\n')
+
+def check(name, payload, expected, *, action='read', needle='', replacement=None,
+          expected_exception=None):
+    directory = root / name
+    directory.mkdir()
+    source = directory / 'source'
+    runtime = directory / 'runtime'
+    source.mkdir()
+    runtime.mkdir()
+    target = source / 'target.txt'
+    target.write_bytes(payload)
+    (directory / 'before.bin').write_bytes(payload)
+    sinks = []
+    reads = []
+    stimulus = []
+    outcome = {'name': name, 'action': action, 'source_sha256': digest(owner_bytes),
+               'exception': None, 'owner_return': None, 'native_authority': False}
+    module.load_context = lambda unused: {'source_root': str(source), 'runtime_root': str(runtime)}
+    module.completed_actions = lambda unused: {'baseline-status', 'baseline-head', 'baseline-tree', 'activate-runtime'}
+    def collect(unused_context, **kwargs):
+        sinks.append(dict(kwargs))
+        return dict(kwargs)
+    module.append_event = collect
+    original_read = Path.read_bytes
+    def actual_read(path):
+        data = original_read(path)
+        if path == target:
+            reads.append({'bytes': len(data), 'sha256': digest(data), 'hex': data.hex()})
+            if replacement is not None and len(reads) == 1:
+                target.write_bytes(replacement)
+                stimulus.append({'after_real_return': True, 'written_sha256': digest(replacement)})
+        return data
+    try:
+        with (directory / 'stdout').open('w', encoding='utf-8', newline='') as stdout, \
+             (directory / 'stderr').open('w', encoding='utf-8', newline='') as stderr:
+            Path.read_bytes = actual_read
+            try:
+                with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+                    result = module.read_target(argparse.Namespace(context=str(directory / 'context-marker'),
+                        path=str(target), correlation_id=name, fixed_string=needle), action)
+                    outcome['owner_return'] = {'type': type(result).__name__, 'repr': repr(result)}
+            except BaseException as exc:
+                outcome['exception'] = {'type': type(exc).__name__, 'message': str(exc),
+                                        'traceback': traceback.format_exc()}
+            finally:
+                Path.read_bytes = original_read
+                stdout.flush()
+                stderr.flush()
+    finally:
+        Path.read_bytes = original_read
+    output = (directory / 'stdout').read_bytes()
+    errors = (directory / 'stderr').read_bytes()
+    after = target.read_bytes()
+    (directory / 'after.bin').write_bytes(after)
+    outcome.update(read_returns=reads, stimulus=stimulus, sink_calls=sinks,
+                   stdout_hex=output.hex(), stderr_hex=errors.hex(), after_hex=after.hex())
+    save(directory / 'RAW.json', outcome) # Preserve first raw outcome before assertions.
+    assert len(reads) == 1 and reads[0]['hex'] == payload.hex(), name + ': acquisition changed'
+    assert after == (payload if replacement is None else replacement), name + ': target changed'
+    assert len(stimulus) == (0 if replacement is None else 1), name + ': missing stimulus'
+    assert output == expected and errors == b'', name + ': output behavior changed'
+    if expected_exception is not None:
+        assert outcome['exception'] and outcome['exception']['type'] == expected_exception, name + ': decode did not refuse'
+        assert not sinks, name + ': failed decode recorded completed content'
+    else:
+        assert outcome['exception'] is None and outcome['owner_return'] == {'type': 'NoneType', 'repr': 'None'}, name + ': unexpected return'
+        assert len(sinks) == 1 and sinks[0]['result'] == 'completed', name + ': missing completed view'
+        assert sinks[0]['target_identity'] == sinks[0]['content_sha256'] == digest(payload), name + ': digest/view mismatch'
+    save(directory / 'RESULT.json', {'name': name, 'contract_passed': True})
+
+a = b'R2D-NEXT-01\nvalue=old\n'
+b = b'R2D-NEXT-01\nvalue=new\n'
+mixed = b'\xef\xbb\xbfna\xc3\xafve\r\nmiddle\rlast'
+check('stable-read', a, a)
+check('interleaved-read', a, a, replacement=b)
+check('interleaved-search', a, b'2:value=old\n', action='search', needle='value=', replacement=b)
+check('utf8-universal-newlines', mixed, '\ufeffna\u00efve\nmiddle\nlast\n'.encode('utf-8'))
+check('search-line-numbering', mixed, b'2:middle\n', action='search', needle='middle')
+check('search-no-match', a, b'', action='search', needle='VALUE=')
+check('empty-read', b'', b'')
+check('strict-invalid-utf8', b'valid\nbad=\xff\n', b'', expected_exception='UnicodeDecodeError')
+print('dogfood-read-acquisition: eight controls ok')
+PY
 
 bash scripts/check-dogfood-bootstrap-contract.sh
 
@@ -46,7 +162,15 @@ git -C "$source_root" config user.name 'Dogfood Contract Test'
 git -C "$source_root" config user.email 'dogfood-contract@example.invalid'
 git -C "$source_root" config core.autocrlf false
 git -C "$source_root" add .
-git -C "$source_root" commit -q -m baseline
+# This synthetic baseline is an input to raw serial/DAG correspondence.
+# Keep its real Git identity reproducible without replacing the observed HEAD.
+GIT_AUTHOR_NAME='Dogfood Contract Test' \
+GIT_AUTHOR_EMAIL='dogfood-contract@example.invalid' \
+GIT_COMMITTER_NAME='Dogfood Contract Test' \
+GIT_COMMITTER_EMAIL='dogfood-contract@example.invalid' \
+GIT_AUTHOR_DATE='2000-01-01T00:00:00+0000' \
+GIT_COMMITTER_DATE='2000-01-01T00:00:00+0000' \
+  git -C "$source_root" commit -q -m baseline
 
 candidate_commit="$(git -C "$source_root" rev-parse HEAD)"
 candidate_tree="$(git -C "$source_root" rev-parse 'HEAD^{tree}')"
@@ -830,9 +954,9 @@ fi
 
 if ! bash scripts/check-dogfood-bootstrap-contract.sh \
   --transcript-file fixtures/dogfood-bootstrap/positive/host-activation-before-baseline-transcript.jsonl \
-  >/tmp/dogfood-bootstrap-host-activation.out 2>&1; then
+  >"$tmp/dogfood-bootstrap-host-activation.out" 2>&1; then
   printf 'dogfood-bootstrap-contract.test: qualified host activation before runner baseline was rejected\n' >&2
-  cat /tmp/dogfood-bootstrap-host-activation.out >&2
+  cat "$tmp/dogfood-bootstrap-host-activation.out" >&2
   exit 1
 fi
 
@@ -963,79 +1087,79 @@ BAD
 
 if bash scripts/check-dogfood-bootstrap-contract.sh \
   --skill-file "$tmp/skill-missing-bootstrap.md" \
-  >/tmp/dogfood-bootstrap.out 2>&1; then
+  >"$tmp/dogfood-bootstrap.out" 2>&1; then
   printf 'dogfood-bootstrap-contract.test: missing bootstrap unexpectedly passed\n' >&2
   exit 1
 fi
 
-grep -F "missing ## State-derived RC self-dogfood route" /tmp/dogfood-bootstrap.out >/dev/null || {
+grep -F "missing ## State-derived RC self-dogfood route" "$tmp/dogfood-bootstrap.out" >/dev/null || {
   printf 'dogfood-bootstrap-contract.test: expected missing-bootstrap diagnostic\n' >&2
-  cat /tmp/dogfood-bootstrap.out >&2
+  cat "$tmp/dogfood-bootstrap.out" >&2
   exit 1
 }
 
 if bash scripts/check-dogfood-bootstrap-contract.sh \
   --transcript-file fixtures/dogfood-bootstrap/negative/installed-readback-before-baseline-transcript.jsonl \
-  >/tmp/dogfood-bootstrap-transcript.out 2>&1; then
+  >"$tmp/dogfood-bootstrap-transcript.out" 2>&1; then
   printf 'dogfood-bootstrap-contract.test: readback-before-baseline transcript unexpectedly passed\n' >&2
   exit 1
 fi
 
-grep -F "installed skill readback occurred before baseline" /tmp/dogfood-bootstrap-transcript.out >/dev/null || {
+grep -F "installed skill readback occurred before baseline" "$tmp/dogfood-bootstrap-transcript.out" >/dev/null || {
   printf 'dogfood-bootstrap-contract.test: expected transcript-order diagnostic\n' >&2
-  cat /tmp/dogfood-bootstrap-transcript.out >&2
+  cat "$tmp/dogfood-bootstrap-transcript.out" >&2
   exit 1
 }
 
 if bash scripts/check-dogfood-bootstrap-contract.sh \
   --transcript-file fixtures/dogfood-bootstrap/negative/chunking-readback-before-baseline-transcript.jsonl \
-  >/tmp/dogfood-bootstrap-chunking.out 2>&1; then
+  >"$tmp/dogfood-bootstrap-chunking.out" 2>&1; then
   printf 'dogfood-bootstrap-contract.test: chunking-readback transcript unexpectedly passed\n' >&2
   exit 1
 fi
 
-grep -F "installed skill readback occurred before baseline" /tmp/dogfood-bootstrap-chunking.out >/dev/null || {
+grep -F "installed skill readback occurred before baseline" "$tmp/dogfood-bootstrap-chunking.out" >/dev/null || {
   printf 'dogfood-bootstrap-contract.test: expected chunking-readback diagnostic\n' >&2
-  cat /tmp/dogfood-bootstrap-chunking.out >&2
+  cat "$tmp/dogfood-bootstrap-chunking.out" >&2
   exit 1
 }
 
 if bash scripts/check-dogfood-bootstrap-contract.sh \
   --transcript-file fixtures/dogfood-bootstrap/negative/real-home-readback-before-temp-home-transcript.jsonl \
-  >/tmp/dogfood-bootstrap-real-home.out 2>&1; then
+  >"$tmp/dogfood-bootstrap-real-home.out" 2>&1; then
   printf 'dogfood-bootstrap-contract.test: real-home-readback transcript unexpectedly passed\n' >&2
   exit 1
 fi
 
-grep -F "real-home skill readback occurred before structured temp-home installation or activation evidence" /tmp/dogfood-bootstrap-real-home.out >/dev/null || {
+grep -F "real-home skill readback occurred before structured temp-home installation or activation evidence" "$tmp/dogfood-bootstrap-real-home.out" >/dev/null || {
   printf 'dogfood-bootstrap-contract.test: expected real-home contamination diagnostic\n' >&2
-  cat /tmp/dogfood-bootstrap-real-home.out >&2
+  cat "$tmp/dogfood-bootstrap-real-home.out" >&2
   exit 1
 }
 
 if bash scripts/check-dogfood-bootstrap-contract.sh \
   --transcript-file fixtures/dogfood-bootstrap/negative/real-home-readback-generic-user-before-temp-home-transcript.jsonl \
-  >/tmp/dogfood-bootstrap-real-home-generic.out 2>&1; then
+  >"$tmp/dogfood-bootstrap-real-home-generic.out" 2>&1; then
   printf 'dogfood-bootstrap-contract.test: generic-user real-home transcript unexpectedly passed\n' >&2
   exit 1
 fi
 
-grep -F "real-home skill readback occurred before structured temp-home installation or activation evidence" /tmp/dogfood-bootstrap-real-home-generic.out >/dev/null || {
+grep -F "real-home skill readback occurred before structured temp-home installation or activation evidence" "$tmp/dogfood-bootstrap-real-home-generic.out" >/dev/null || {
   printf 'dogfood-bootstrap-contract.test: expected generic-user real-home contamination diagnostic\n' >&2
-  cat /tmp/dogfood-bootstrap-real-home-generic.out >&2
+  cat "$tmp/dogfood-bootstrap-real-home-generic.out" >&2
   exit 1
 }
 
 if bash scripts/check-dogfood-bootstrap-contract.sh \
   --transcript-file fixtures/dogfood-bootstrap/negative/real-home-host-activation-generic-user-transcript.jsonl \
-  >/tmp/dogfood-bootstrap-real-home-host.out 2>&1; then
+  >"$tmp/dogfood-bootstrap-real-home-host.out" 2>&1; then
   printf 'dogfood-bootstrap-contract.test: generic-user real-home host activation unexpectedly passed\n' >&2
   exit 1
 fi
 
-grep -F "real-home skill readback occurred before structured temp-home installation or activation evidence" /tmp/dogfood-bootstrap-real-home-host.out >/dev/null || {
+grep -F "real-home skill readback occurred before structured temp-home installation or activation evidence" "$tmp/dogfood-bootstrap-real-home-host.out" >/dev/null || {
   printf 'dogfood-bootstrap-contract.test: expected real-home host-activation diagnostic\n' >&2
-  cat /tmp/dogfood-bootstrap-real-home-host.out >&2
+  cat "$tmp/dogfood-bootstrap-real-home-host.out" >&2
   exit 1
 }
 

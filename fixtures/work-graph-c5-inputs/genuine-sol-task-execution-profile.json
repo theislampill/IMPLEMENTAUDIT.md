@@ -1,0 +1,192 @@
+{
+  "authority": "NONE",
+  "directory_mode_policy": {
+    "default": 493,
+    "exceptions": {
+      "/home/agent": 488
+    }
+  },
+  "git_directories": {
+    "/usr/share/git-core/templates": [
+      "branches",
+      "description",
+      "hooks",
+      "info"
+    ],
+    "/usr/share/git-core/templates/branches": [],
+    "/usr/share/git-core/templates/hooks": [
+      "applypatch-msg.sample",
+      "commit-msg.sample",
+      "fsmonitor-watchman.sample",
+      "post-update.sample",
+      "pre-applypatch.sample",
+      "pre-commit.sample",
+      "pre-merge-commit.sample",
+      "pre-push.sample",
+      "pre-rebase.sample",
+      "pre-receive.sample",
+      "prepare-commit-msg.sample",
+      "push-to-checkout.sample",
+      "sendemail-validate.sample",
+      "update.sample"
+    ],
+    "/usr/share/git-core/templates/info": [
+      "exclude"
+    ]
+  },
+  "git_files": {
+    "/usr/bin/git-upload-pack": {
+      "bytes": 4066232,
+      "link": "git",
+      "mode": 493,
+      "resolved": "/usr/bin/git",
+      "sha256": "2a8c18fbf43da9f692d75474c72bea9dfd796c260b0f3dfe456376abc3bbd668"
+    },
+    "/usr/share/git-core/templates/description": {
+      "bytes": 73,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/share/git-core/templates/description",
+      "sha256": "85ab6c163d43a17ea9cf7788308bca1466f1b0a8d1cc92e26e9bf63da4062aee"
+    },
+    "/usr/share/git-core/templates/hooks/applypatch-msg.sample": {
+      "bytes": 478,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/applypatch-msg.sample",
+      "sha256": "0223497a0b8b033aa58a3a521b8629869386cf7ab0e2f101963d328aa62193f7"
+    },
+    "/usr/share/git-core/templates/hooks/commit-msg.sample": {
+      "bytes": 896,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/commit-msg.sample",
+      "sha256": "1f74d5e9292979b573ebd59741d46cb93ff391acdd083d340b94370753d92437"
+    },
+    "/usr/share/git-core/templates/hooks/fsmonitor-watchman.sample": {
+      "bytes": 4726,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/fsmonitor-watchman.sample",
+      "sha256": "e0549964e93897b519bd8e333c037e51fff0f88ba13e086a331592bf801fa1d0"
+    },
+    "/usr/share/git-core/templates/hooks/post-update.sample": {
+      "bytes": 189,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/post-update.sample",
+      "sha256": "81765af2daef323061dcbc5e61fc16481cb74b3bac9ad8a174b186523586f6c5"
+    },
+    "/usr/share/git-core/templates/hooks/pre-applypatch.sample": {
+      "bytes": 424,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/pre-applypatch.sample",
+      "sha256": "e15c5b469ea3e0a695bea6f2c82bcf8e62821074939ddd85b77e0007ff165475"
+    },
+    "/usr/share/git-core/templates/hooks/pre-commit.sample": {
+      "bytes": 1643,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/pre-commit.sample",
+      "sha256": "f9af7d95eb1231ecf2eba9770fedfa8d4797a12b02d7240e98d568201251244a"
+    },
+    "/usr/share/git-core/templates/hooks/pre-merge-commit.sample": {
+      "bytes": 416,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/pre-merge-commit.sample",
+      "sha256": "d3825a70337940ebbd0a5c072984e13245920cdf8898bd225c8d27a6dfc9cb53"
+    },
+    "/usr/share/git-core/templates/hooks/pre-push.sample": {
+      "bytes": 1374,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/pre-push.sample",
+      "sha256": "ecce9c7e04d3f5dd9d8ada81753dd1d549a9634b26770042b58dda00217d086a"
+    },
+    "/usr/share/git-core/templates/hooks/pre-rebase.sample": {
+      "bytes": 4898,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/pre-rebase.sample",
+      "sha256": "4febce867790052338076f4e66cc47efb14879d18097d1d61c8261859eaaa7b3"
+    },
+    "/usr/share/git-core/templates/hooks/pre-receive.sample": {
+      "bytes": 544,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/pre-receive.sample",
+      "sha256": "a4c3d2b9c7bb3fd8d1441c31bd4ee71a595d66b44fcf49ddb310252320169989"
+    },
+    "/usr/share/git-core/templates/hooks/prepare-commit-msg.sample": {
+      "bytes": 1492,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/prepare-commit-msg.sample",
+      "sha256": "e9ddcaa4189fddd25ed97fc8c789eca7b6ca16390b2392ae3276f0c8e1aa4619"
+    },
+    "/usr/share/git-core/templates/hooks/push-to-checkout.sample": {
+      "bytes": 2783,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/push-to-checkout.sample",
+      "sha256": "a53d0741798b287c6dd7afa64aee473f305e65d3f49463bb9d7408ec3b12bf5f"
+    },
+    "/usr/share/git-core/templates/hooks/sendemail-validate.sample": {
+      "bytes": 2308,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/sendemail-validate.sample",
+      "sha256": "44ebfc923dc5466bc009602f0ecf067b9c65459abfe8868ddc49b78e6ced7a92"
+    },
+    "/usr/share/git-core/templates/hooks/update.sample": {
+      "bytes": 3650,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/update.sample",
+      "sha256": "8d5f2fa83e103cf08b57eaa67521df9194f45cbdbcb37da52ad586097a14d106"
+    },
+    "/usr/share/git-core/templates/info/exclude": {
+      "bytes": 240,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/share/git-core/templates/info/exclude",
+      "sha256": "6671fe83b7a07c8932ee89164d1f2793b2318058eb8b98dc5c06ee0a5a3b0ec1"
+    }
+  },
+  "git_scope": "One selected /usr/bin/git-upload-pack spelling resolving to already selected git; all16 installed default template files and4 directories. No helper command executed during data acquisition.",
+  "kernel_entropy_policy": "C5_TASK_FIXED_GIT_REAL_URANDOM_V1",
+  "launcher": {
+    "bytes": 72160,
+    "mode": 493,
+    "sha256": "52231e1caf55bcbc667b269f49c63599a6f7db4767ae6a039580d0ff853db712"
+  },
+  "limits_owner": "Unchanged prefix LIMITS except explicit TASK-only C5_TASK_ORIGINAL48_FILE64_V1; all source/runtime/work/scratch/address/CPU/wall/stream/object/evidence bounds unchanged",
+  "loose_commit_metadata_max_bytes": 1048576,
+  "original_argv": [
+    "bash",
+    "tests/reproducible-release-asset.test.sh"
+  ],
+  "original_index": 48,
+  "private_work_policy": "Original TMPDIR=/c5-work uses existing512MiB private work; /tmp remains32MiB; root/source/runtime readonly; procfs is fresh private PID readonly; /dev/null and /dev/fd plus exact real /dev/urandom under closed task Git CSPRNG policy; no seed or generic device-write confinement",
+  "profile": "FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1",
+  "representation": "Full captured source read-only pathname bind; canonical sealed runtime file bytes plus every selected actual alias; no Python wrapper, mock provider, archive omission or source projection",
+  "runtime": "All original system/provider/cache/RECORD/startup/NSS/native inputs remain selected; complete actual intermediate symlink topology recorded without selecting new regular files.",
+  "schema": "implementaudit.c5-execution-selection.v1",
+  "scratch_mount": "/tmp",
+  "selection_origins": {
+    "base_actual_member": "fixtures/work-graph-c5-inputs/execution-sol-task-python312.json",
+    "base_logical_key": "fixtures/work-graph-c5-inputs/system-python312.json",
+    "provider_actual_member": "fixtures/work-graph-c5-inputs/package-sol-task-venv-python312.json"
+  },
+  "source_identity": "Frozen post-commit outer comparison metadata only; actual captured HEAD and bounded hash-verified loose commit/tree; actual INIT and both clone observations required",
+  "source_mount": "/work",
+  "task_resource_policy": {
+    "file_bytes": 67108864,
+    "identity": "C5_TASK_ORIGINAL48_FILE64_V1",
+    "inherited_file_bytes": 16777216,
+    "schema": "implementaudit.c5-task-resource-policy.v1"
+  },
+  "work_mount": "/c5-work"
+}

@@ -176,7 +176,21 @@ class ReceiverDispatchControls(unittest.TestCase):
     @unittest.skipUnless(os.name=='nt','Selected fixed source uses Windows held-file custody')
     def test_actual_read_native_run_connects_owner_binding_to_full_compiler(self):
         self.compile();raw=Path(self.h.rt.__file__).read_bytes()
-        with self.actual_bootstrap(),mock.patch.object(self.wg,'_native_continuity',return_value=self.binding), \
+        def continuity(*args,_closure_reads=None):
+            if type(_closure_reads) is not list:
+                raise AssertionError('historical receiver fixture requires its private closure output list')
+            _closure_reads.append(None)
+            return copy.deepcopy(self.binding)
+        def historical_sources(run_root,repo_root,binding,closure,owner_stack):
+            if Path(run_root)!=self.h.root or Path(repo_root)!=self.h.root or closure is not None:
+                raise AssertionError('historical receiver fixture cannot select a foreign or canonical source domain')
+            def read(root):
+                if Path(root)!=self.h.root:
+                    raise AssertionError('historical receiver fixture source root changed')
+                return self.wg._native_source_snapshot(root),None
+            return read
+        with self.actual_bootstrap(),mock.patch.object(self.wg,'_native_continuity',side_effect=continuity), \
+             mock.patch.object(self.wg,'_native_current_source_reader_v1',side_effect=historical_sources), \
              mock.patch.object(self.wg,'_native_source_snapshot',return_value=self.snapshot),mock.patch.object(self.wg,'_acquire_native_read_set',return_value={}), \
              mock.patch.object(self.wg,'_native_route_scope_module_v1',return_value=(self.h.rt,Path(self.h.rt.__file__),raw)):
             graph=self.wg.read_native_run_v1(self.h.root,self.h.root)

@@ -30,6 +30,7 @@ fi
 "${py_cmd[@]}" - "$repo_root" "$authority_root" "$BASH" "$census_only" <<'PY'
 import os
 import ast
+import io
 import json
 import hashlib
 import re
@@ -41,6 +42,7 @@ import tempfile
 import threading
 import time
 import types
+import tokenize
 from pathlib import Path
 from pathlib import PurePosixPath
 
@@ -331,6 +333,13 @@ def captured_python_library(helper, content):
             if ((isinstance(call.func, ast.Name) and call.func.id == "read_regular")
                     or (isinstance(call.func, ast.Attribute) and call.func.attr == "read")):
                 captured.update(target.id for target in node.targets if isinstance(target, ast.Name))
+                # read_regular returns captured bytes followed by file metadata.
+                # Only its first tuple target can supply the executed buffer.
+                if isinstance(call.func, ast.Name) and call.func.id == "read_regular":
+                    captured.update(target.elts[0].id for target in node.targets
+                                    if isinstance(target, ast.Tuple) and len(target.elts) == 2
+                                    and all(isinstance(value, ast.Name) for value in target.elts)
+                                    and target.elts[0].id != target.elts[1].id)
         executed = any(isinstance(call.func, ast.Name) and call.func.id == "exec" and call.args
                        and isinstance(call.args[0], ast.Call) and isinstance(call.args[0].func, ast.Name)
                        and call.args[0].func.id == "compile" and len(call.args[0].args) == 3
@@ -356,10 +365,69 @@ def captured_python_library(helper, content):
                            ("len(_source)", "_HOT_PROJECTION_MODULE_BYTES", "sha256(_source)", "_HOT_PROJECTION_MODULE_SHA256"))
                        for guard in guards):
                 return False
+        if helper == "canonical_rotation_inputs.py":
+            raw = projection_payloads["standalone_compatibility"]["scripts/" + helper]
+            if (constants.get("NATIVE_INPUT_MODULE_BYTES") != len(raw)
+                    or constants.get("NATIVE_INPUT_MODULE_SHA256") != hashlib.sha256(raw).hexdigest()):
+                return False
+            guards = [node for node in nodes if isinstance(node, ast.If)
+                      and any(isinstance(child, ast.Raise) for child in node.body)]
+            if not any(all(token in ast.unparse(guard.test) for token in
+                           ("len(raw)", "NATIVE_INPUT_MODULE_BYTES", "sha256(raw)", "NATIVE_INPUT_MODULE_SHA256"))
+                       for guard in guards):
+                return False
         return True
     return False
 
+def captured_shell_companion(helper, content):
+    # Recognize the reviewed buffer launcher as an actual shell command. Do not
+    # admit arbitrary -c text or a filename mention. The token pin excludes only
+    # the two separately checked companion identity literals; it is source
+    # reachability evidence, not runtime custody or native admission.
+    if helper != "claim-run-rotation.py":
+        return False
+    match = re.search(r'(?ms)^  (?:"\$\{rotation_py\[@\]\}"|"\$rotation_py") -B -c \'\n(.*?)^\' "\$\(dirname "\$0"\)/claim-run-rotation.py" "\$@"$', content)
+    legacy_selector = re.search(r'rotation_py=\((?:python3?|py -3)\)', content)
+    physical_selector = (re.search(r'(?m)^select_claim_python\(\) \{$', content)
+                         and re.search(r'(?m)^  rotation_py="\$\(select_claim_python\)" \|\| \{$', content))
+    if match is None or not (legacy_selector or physical_selector):
+        return False
+    try:
+        code = match.group(1)
+        tree = ast.parse(code)
+    except SyntaxError:
+        return False
+    constants, spans = {}, []
+    offsets = [0]
+    for line in code.splitlines(keepends=True):
+        offsets.append(offsets[-1] + len(line))
+    for node in tree.body:
+        if isinstance(node, ast.Assign) and len(node.targets) == 1 and isinstance(node.value, ast.Constant):
+            for target in node.targets:
+                if isinstance(target, ast.Name) and target.id in {"expected_bytes", "expected_sha256"}:
+                    constants[target.id] = node.value.value
+                    value = node.value
+                    spans.append((offsets[value.lineno - 1] + value.col_offset,
+                                  offsets[value.end_lineno - 1] + value.end_col_offset))
+    for start, end in sorted(spans, reverse=True):
+        code = code[:start] + '"SELECTED_COMPANION_IDENTITY"' + code[end:]
+    # Tokenize the actual code, retaining indentation structure. Unlike
+    # ast.dump this does not change when Python adds empty AST fields. Token
+    # numbers also shift between Python versions; retain their symbolic names.
+    ignored = {tokenize.COMMENT, tokenize.NL, tokenize.ENDMARKER}
+    tokens = [(tokenize.tok_name[token.type], "" if token.type in (tokenize.INDENT, tokenize.DEDENT)
+               else "\n" if token.type == tokenize.NEWLINE else token.string)
+              for token in tokenize.generate_tokens(io.StringIO(code).readline)
+              if token.type not in ignored]
+    raw = projection_payloads["standalone_compatibility"]["scripts/" + helper]
+    return (constants == {"expected_bytes": len(raw), "expected_sha256": hashlib.sha256(raw).hexdigest()}
+            and hashlib.sha256(json.dumps(tokens, separators=(",", ":")).encode()).hexdigest()
+            == "048778ca98ed97c78dc6f1d0d78425dc18d985b6823cc777af7c30eeb537ec7a")
+
+
 def caller_invokes(helper, content):
+    if captured_shell_companion(helper, content):
+        return True
     content = shell_code(content)
     if python_array_invokes(helper, content):
         return True
@@ -409,11 +477,44 @@ def claim_public_modes(content):
     return sorted({mode for label in labels for mode in label.split("|")} - {"--controller"})
 
 
+def replacement_preflight_modes(content):
+    # Each public replacement mode needs its top-level parser, dispatch and
+    # function. Prose or a nested dead branch does not implement a mode.
+    opening, closing = "<<'PY'\n", "\nPY\n"
+    if content.count(opening) != 1 or content.count(closing) != 1:
+        return []
+    try:
+        body = ast.parse(content.split(opening, 1)[1].split(closing, 1)[0]).body
+    except SyntaxError:
+        return []
+    actual = [ast.dump(node, include_attributes=False) for node in body]
+    modes = []
+    for mode, destination, function in (
+            ("--batch-preflight", "preflight_replacements", "replacement_batch_preflight"),
+            ("--batch-apply", "apply_replacements", "replacement_batch_apply")):
+        required = [f'parser.add_argument("{mode}", dest="{destination}")',
+                    f'if args.{destination} is not None:\n    {function}()']
+        if (all(actual.count(ast.dump(ast.parse(source).body[0], include_attributes=False)) == 1
+                for source in required)
+                and sum(isinstance(node, ast.FunctionDef) and node.name == function for node in body) == 1):
+            modes.append(mode)
+    return modes
+
+
 implemented_mode_sets = {}
 implemented_mode_sets["claim-run.sh"] = claim_public_modes((skill_root / "scripts/claim-run.sh").read_text(encoding="utf-8"))
+implemented_mode_sets["apply-observed-mutation.sh"] = replacement_preflight_modes(
+    (skill_root / "scripts/apply-observed-mutation.sh").read_text(encoding="utf-8"))
 graph_helper = "validate-run-root.sh"
 graph_text = (skill_root / "scripts" / graph_helper).read_text(encoding="utf-8")
 implemented_mode_sets[graph_helper] = sorted(set(re.findall(r"--graph-[a-z0-9-]+", graph_text)))
+# The additive record mode is dispatched by the ordinary argument parser,
+# outside the graph case. Require that actual parser branch, not a prose token.
+if re.search(r'^elif \[ "\$\{1:-\}" = "--nonterminal-yield" \]; then$', graph_text, re.M):
+    implemented_mode_sets[graph_helper].append("--nonterminal-yield")
+if re.search(r'^if \[ "\$\{1:-\}" = "--turn-disposition" \]; then$', graph_text, re.M):
+    implemented_mode_sets[graph_helper].append("--turn-disposition")
+
 rehearsal_helper, rehearsal_mode = "check-authorization-binding.sh", "--phase --rehearsal --launch"
 # R0020: static census records the declared mode; candidate-bound F10 below is
 # the only execution authority for its parser, mediator, wrapper, and stub.

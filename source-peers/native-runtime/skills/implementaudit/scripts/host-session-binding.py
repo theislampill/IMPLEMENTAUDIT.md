@@ -238,6 +238,12 @@ def atomic_create_json(path: Path, payload: dict[str, Any]) -> None:
 
 
 def read_json(path: Path, label: str) -> dict[str, Any]:
+    def unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+        value = dict(pairs)
+        if len(value) != len(pairs):
+            fail(f"{label} contains a duplicate JSON member")
+        return value
+
     try:
         absolute = path.absolute()
         resolved = path.resolve(strict=True)
@@ -246,7 +252,7 @@ def read_json(path: Path, label: str) -> dict[str, Any]:
         info = os.lstat(path)
         if unsafe_file(info):
             fail(f"{label} is not a safe regular file")
-        payload = json.loads(path.read_text(encoding="utf-8"))
+        payload = json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=unique_object)
     except (OSError, UnicodeError, json.JSONDecodeError) as exc:
         fail(f"{label} is unreadable or malformed: {exc}")
     if not isinstance(payload, dict):
