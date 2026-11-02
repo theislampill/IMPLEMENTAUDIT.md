@@ -20,16 +20,17 @@ jobs:
       - name: Check out the exact disposable qualification commit
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          fetch-depth: 3
           persist-credentials: false
       - name: Receive source equality with the qualified parent
         id: source_binding
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD^)" = '123089d1f1b9cc3650a2fba8260d322741c53070'
-          test "$(git rev-parse HEAD^:.)" = 'bb09e710455ef7b76de3ef7c0c836a20433c6524'
-          git diff --exit-code HEAD^ HEAD -- . ':!.github/workflows/pro5-combined-portable.yml'
+          test "$(git rev-parse HEAD^)" = '4aedfeb74d77288491318ef21dcee1f2b9636c2f'
+          test "$(git rev-parse HEAD~2)" = '123089d1f1b9cc3650a2fba8260d322741c53070'
+          test "$(git rev-parse 'HEAD~2^{tree}')" = 'bb09e710455ef7b76de3ef7c0c836a20433c6524'
+          git diff --exit-code HEAD~2 HEAD -- . ':!.github/workflows/pro5-combined-portable.yml'
           git status --porcelain=v1
       - name: Portable composed source controls
         run: python3 -B tests/composite-source-cases.py -v
