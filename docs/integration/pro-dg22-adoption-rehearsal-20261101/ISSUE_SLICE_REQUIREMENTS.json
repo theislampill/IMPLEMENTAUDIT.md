@@ -1,0 +1,266 @@
+{
+  "coverage": "Adoption-specific clauses derived by searching the complete supplied ten-issue body/comment corpus, comparing it to current GitHub content, and reading matched adoption/public-readback/lifecycle sections with context. Native and whole-issue acceptance were not re-adjudicated.",
+  "created_at": "2026-11-02T00:55:25.036Z",
+  "schema": "dg22.issue-adoption-readback-map.v1",
+  "shared_boundary": "CE059 requires the actual DG21 COMMON_ADOPTION receipt for the selected finite adoption subject, not all-ten whole-issue acceptance. These slice requirements constrain truthful downstream identity/claims and preserve residuals; they are not ten new pre-adoption campaigns.",
+  "slices": [
+    {
+      "adoption_identity_requirements": [
+        "Bind the selected main commit/tree and consumed source blob/mode/digest closure to the existing consequence-control owners; source equality does not establish an effect outcome.",
+        "Keep source, generated/package, isolated-installed/activation, hosted CI and public projection identities separate. Reuse old evidence only where its material source/consumer dependencies are unchanged.",
+        "Any R001D projection remains FINAL_COMPOSED_ONLY or carries actual final-candidate public readback; retain all original row dispositions and evidence limits."
+      ],
+      "donor_pr": 251,
+      "issue": 196,
+      "population": "68 original properties / 116 source records; 54 positive or contextual and 14 negative rows remain distinct.",
+      "public_lifecycle_readback": [
+        "Preserve #196 OPEN and its existing body/comment bytes, labels and milestone unless the authorized issue owner later performs a separately approved operation.",
+        "For any later issue evidence publication, independently read back exact comment ID/bytes/hash and issue state before separately authorized manual closure."
+      ],
+      "residuals_not_discharged": [
+        "Full safety-lineage acceptance, installed activation, native effect isolation/recovery and independently verified consequence postconditions are not established by Git adoption or this readback.",
+        "No silent erasure of unresolved rows, negative boundaries or residual loss; no new safety campaign or native effect is commissioned here."
+      ],
+      "rlgwo": "R002C",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/196",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/196#issuecomment-5312877705"
+      ]
+    },
+    {
+      "adoption_identity_requirements": [
+        "Bind one coherent canonical plugin identity/version/inventory to both host manifests, generated standalone compatibility projection, archive members/checksums and any installed readback. Final source commit metadata is a real dependency; equal product trees do not by themselves make old archive hashes current.",
+        "Preserve historical package/population/budget amendments at their historical identities; consume the selected candidate's actual current package policy and four-child topology rather than reinstating an old governor-only or three-child population.",
+        "Re-establish only affected interface/configuration/currentness relations. Preserve the conditional trajectory-changeability acceptance, including NOT_TRIGGERED/NO_CHANGE branches, and separate the SSS continuation's source/target states from the 72-row lineage."
+      ],
+      "donor_pr": 251,
+      "issue": 197,
+      "population": "72 original properties / 125 source records (60/12 split); prospective SSS continuation has a separate 235-property / 34-group scope.",
+      "public_lifecycle_readback": [
+        "Preserve #197 OPEN with exact body and all five comments. Any eventual evidence comment requires independent exact comment and issue readback before manual closure.",
+        "If a future closure/supersession affects the separately addressable SSS continuation, cold-read the continuing full-content/action route, actual custodian/consumer/rights and accepted residuals; an issue link or hash alone is insufficient."
+      ],
+      "residuals_not_discharged": [
+        "The original P007/P012/P032 dispositions, actual intended-use claims, and historical final-candidate ActiveGraph terminal row or a reviewed exact-current superseding disposition remain distinct qualification questions; this task does not adjudicate them.",
+        "The prospective SSS component is not admitted or stewarded merely by its filing or by mainline adoption. Future-only research need not block a separately qualified product slice."
+      ],
+      "rlgwo": "R002D",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/197",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/197#issuecomment-5295310221",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/197#issuecomment-5298047541",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/197#issuecomment-5312878148",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/197#issuecomment-5333816833",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/197#issuecomment-5636842021"
+      ]
+    },
+    {
+      "adoption_identity_requirements": [
+        "Bind security profile source and owner paths to the selected source/tree. For package claims, bind P35-P37/P40 package provenance and reachability separately from P01 installed behavioural activation.",
+        "Preserve the exact native consumer-purpose and pre-execution helper-buffer custody contract from comment 5638868663. A prior package check, policy digest or caller-consistent metadata cannot substitute for the actual consumer's selected source/purpose/grant.",
+        "Public capability or install claims require exact public/consumer readback at their claimed layer; P53-P58 anti-adoption and external/domain boundaries remain intact."
+      ],
+      "donor_pr": 251,
+      "issue": 198,
+      "population": "60 original properties / 117 source records; 31/18/4/6/1 proof-layer split and 242 directional sibling relations are distinct accounting.",
+      "public_lifecycle_readback": [
+        "Preserve #198 OPEN and both additive comments. Read any later authorized evidence comment and issue state back exactly before issue closure.",
+        "Public text/release state stays at its authorized scope; source qualified no-further-change remains a valid disposition when the exact successor already satisfies the controls."
+      ],
+      "residuals_not_discharged": [
+        "The final-candidate installed security family and actual authenticated effect/native consumer qualification are not supplied by adoption.",
+        "A missing native receipt is not proof of a source defect, a reason to replay a failed campaign, or authority for credentials/security changes."
+      ],
+      "rlgwo": "R002E",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/198",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/198#issuecomment-5312878656",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/198#issuecomment-5638868663"
+      ]
+    },
+    {
+      "adoption_identity_requirements": [
+        "Bind actual operation/attempt/effect, target preimage, authority generation, immutable parameters and authoritative postconditions at the affected consumer; preserve UNKNOWN, compensation and manual-reconciliation states.",
+        "Keep source, package, installed and optional behavioural/cross-repository claims separate. D48-C07 package/reachability applies once to the changed composed member set; it is not a per-property acceptance multiplier.",
+        "Publication identity is exact number/title/URL/state and normalized body hash. The old R48 filing script is historical evidence; this receiving uses the actual current R0030/#200 title and unchanged body, not that old title literal as a new command."
+      ],
+      "donor_pr": 251,
+      "issue": 200,
+      "population": "54 original properties / 102 source records; 48 crosswalk-worthy and six negative/bounded, with P53 a separate owner-decision row.",
+      "public_lifecycle_readback": [
+        "Preserve #200 OPEN and both comments, including the denominator/residual correction.",
+        "Any later authorized issue/public mutation requires exact title/body/state/URL readback and canonical body-hash equality for the approved text."
+      ],
+      "residuals_not_discharged": [
+        "P34/P37 end-to-end admission and protected-sink obligations retain their actual source/consumer evidence scopes; P53 is not silently converted into an implementation task.",
+        "Git adoption is not an effect-authority, batch-application, distributed availability or recovery-closure result; do not erase existing journals or external residues."
+      ],
+      "rlgwo": "R0030",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/200",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/200#issuecomment-5312879845",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/200#issuecomment-5314418103"
+      ]
+    },
+    {
+      "adoption_identity_requirements": [
+        "Bind exact source/generated/plugin/standalone/build/archive/isolated-install population, version and hashes; do not let tree equality substitute for current package metadata.",
+        "Preserve one shared governed/direct audit-andon contract, capability-specific entry policies, original child non-authority and absence of child chaining. Preserve the historical v0.4 terminal receipt at its original identity.",
+        "A later realized-implementation or release claim requires exact candidate/package/host and verified release currentness; non-release proposition evidence uses its own exact subject/configuration/evidence/consumer boundary.",
+        "Keep route-open/full-payload delivery/return/currentness/post-route decision and RETURNED, ACCEPTED, JOINED, PARENT COMPLETE identities separate. The latest prospective compaction amendment has a bounded mandatory nonauthorizing case and does not waive native/effect gates."
+      ],
+      "donor_pr": 253,
+      "issue": 207,
+      "population": "Sole /implementaudit governor plus exactly audit-state, audit-assess, audit-implement and audit-andon; original three-child prose remains historical ancestry.",
+      "public_lifecycle_readback": [
+        "Preserve #207 OPEN/reopened and all five comments. Original body and superseding comments remain append-only historical records.",
+        "For any later authorized evidence publication, independently receive comment ID, author, timestamp, exact bytes/hash and issue state before manual closure."
+      ],
+      "residuals_not_discharged": [
+        "Current native installed routing and source-only/disposable/package observations remain different proof layers; unavailable native outcomes remain bounded rather than promoted by adoption.",
+        "Neither historical v0.4 PASS nor a current source/package pass closes later successor routing, compaction or native custody obligations."
+      ],
+      "rlgwo": "R0033",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/207",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/207#issuecomment-5302308276",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/207#issuecomment-5312881461",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/207#issuecomment-5314405274",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/207#issuecomment-5349224694",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/207#issuecomment-5638868697"
+      ]
+    },
+    {
+      "adoption_identity_requirements": [
+        "Bind source/tree, registry/schema/input/graph, node-to-obligation/JOIN mapping, result/currentness, writer/resource and consumer identities for the exact selected candidate.",
+        "When shipped bytes change, preserve exact source-to-generated-to-built-to-package-to-isolated-install parity, version/inventory and applicable host evidence; unchanged package legs may be NOT_TRIGGERED at their actual scope.",
+        "Whole-population legacy/DAG equivalence, canonical route conversion with actual consumer readback, and retirement of the duplicate route are three separate decisions. Mainline adoption does not perform conversion or retirement.",
+        "Preserve the historical v0.4 terminal receipt, all failed/partial/nonverdict outcomes and only the affected invalidation radius; original required-route and campaign-scope/partial-JOIN constraints remain separate."
+      ],
+      "donor_pr": 246,
+      "issue": 209,
+      "population": "Complete original DAG/JOIN contract and additive successor amendments; current verifier population is registry-derived, not a transplanted historical 104 or other fixed count.",
+      "public_lifecycle_readback": [
+        "Preserve #209 OPEN/reopened with all four comments; re-anchor exact body/comment identity at the eventual action boundary.",
+        "Any authorized implementation evidence comment must be read back by exact identity/bytes/state before separately authorized manual closure; PR merge/auto-close is not terminal acceptance."
+      ],
+      "residuals_not_discharged": [
+        "No canonical-route conversion, legacy retirement, whole-population equivalence, required native JOIN or full original acceptance is certified here.",
+        "Missing final adoption input is not evidence of a defect and does not authorize replay of an accepted or protected campaign."
+      ],
+      "rlgwo": "R0035",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/209",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/209#issuecomment-5312882718",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/209#issuecomment-5314412493",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/209#issuecomment-5349213181",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/209#issuecomment-5638756153"
+      ]
+    },
+    {
+      "adoption_identity_requirements": [
+        "Bind exact source/generated/built/package/installed/host/CI/public claims independently, with PASS/FAIL/BLOCKED/UNVERIFIED/NOT_TRIGGERED stated per layer. Source green cannot supply host or public effects.",
+        "The historical terminal-cap held-out requires the selected maintained-main/public readback; do not lose its original failing witness or equate an isolated source repair with maintained-main acceptance.",
+        "If host actuation is claimed, requalify the actual selected host manifests/hook inventory, package inventories/budgets, executable modes/platform assumptions, source/install parity and host-specific results.",
+        "Retain exact nested receiving scope and source/corpus/rights bindings. Preserve full records, pending siblings and accepted partial JOINs; prospective cross-retention filing does not appoint a custodian or adopt the full 747-member scope."
+      ],
+      "donor_pr": 253,
+      "issue": 211,
+      "population": "Original nested L1-L5 acceptance plus terminal-cap, turn-exit and receiving amendments; prospective cross-retention 747 properties remains a separate undertaking.",
+      "public_lifecycle_readback": [
+        "The contract expressly calls for exact issue body, evidence comment, labels, milestone, state and affected public docs readbacks.",
+        "Preserve #211 OPEN and all four comments with non-closing references. Manual closure requires the evidence/readback and eligible original joins, including no relevant active Andon/handoff."
+      ],
+      "residuals_not_discharged": [
+        "No host-native turn-exit actuation, native lifecycle completion, whole nested-control acceptance or cross-retention ownership is established by adoption.",
+        "Future retained research and conditional members may coexist with a qualified product slice; losing a continuing content/action route is not permitted by closure/merge/transfer."
+      ],
+      "rlgwo": "R0037",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211#issuecomment-5312883966",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211#issuecomment-5343276081",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211#issuecomment-5636805839",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211#issuecomment-5638868695"
+      ]
+    },
+    {
+      "adoption_identity_requirements": [
+        "Bind exact source closure across continuity/claim-run/STATE/ROADMAP readers, governor re-entry, validation registry, generated/package inventory and public claims.",
+        "Preserve source-specific reader/receipt/marker/archive compatibility and original physical/source identities. A later installed copy is not automatically the entitled occurrence or accepting consumer.",
+        "Any claimed receiving must preserve exact pending boundaries, original/current/prior/retry, observation cutoff/scope, reservation, actual result, accepted-consumption witness and uncovered successors. Equal bytes or copied command text is not original native occurrence proof.",
+        "Rollback at the native owner uses expected-current compensating CAS and fresh justified receipts; Git method rehearsal does not perform or authorize that native transaction."
+      ],
+      "donor_pr": 252,
+      "issue": 215,
+      "population": "All fourteen original criteria, amended criterion-5 cold receiving, authentic occurrence/prior/retry distinctions and C02 obligations remain one issue.",
+      "public_lifecycle_readback": [
+        "Preserve #215 OPEN/reopened, original body and its amendment; any eventual continuation merge requires its separate exact-source approval.",
+        "Actual authorized C02 publication requires independent host readback of the accepting effect, not a pure proposal or mainline Git observation."
+      ],
+      "residuals_not_discharged": [
+        "Authentic OR observation/issuer, real H0 and occurrence coverage, original/prior/retry discrimination, full amended independent canary and entitled C02 publication remain separately bound requirements; this report does not decide their current acceptance.",
+        "Preserve the protected UNKNOWN, historical ref/identity/epoch failures and one-time rescue evidence. No new controller, issuer, replay, expired-window reset or retrospective native credit."
+      ],
+      "rlgwo": "R0039",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215#issuecomment-5638756120"
+      ]
+    },
+    {
+      "adoption_identity_requirements": [
+        "Preserve every original EBPM identity/source disposition and separate target/qualification state. Bind actual source/configuration/consumer, full records, inputs/result and accepting readback for a receiving claim.",
+        "Keep EBPM73 and BWP234 component acceptance separate, including all original membership/overlap accounting, relation guards and source-vs-target reasons. Public source custody or a shared control pass is not target adoption.",
+        "Retain EBPM-053 research-only autonomy, claim-specific intervention-benefit limits, and mixed BWP-K031 outcomes. Use scoped NO_CHANGE/non-use/accepted continuation where justified.",
+        "The EPM constituent receipt 6207300434 is a scoped documentary/receiving input with runtime NO_CHANGE; it does not close EBPM, BWP or EWM. Its public transformed record bytes and original wrapper digests remain distinct."
+      ],
+      "donor_pr": 254,
+      "issue": 225,
+      "population": "EBPM 73 properties; embedded R003F::BWP-LANE-CONTINUATION separately covers 234 unique members / 41 groups / 608 memberships (374 intentional repeats).",
+      "public_lifecycle_readback": [
+        "Preserve #225 OPEN and all eight comments. Any later lineage/component evidence comment must state accepted scope and member/residual dispositions, then receive independent exact readback before manual closure.",
+        "Before any actual carrier merge/supersession/retirement, an entitled receiver must recover and accept the complete continuing residual/content/action route. No lifetime steward is appointed by this receiving."
+      ],
+      "residuals_not_discharged": [
+        "EBPM-specific operative receiving and any actual autonomy/benefit claim require their own discriminator. Component full acceptance/transfer is not inferred from a source map or successful current product slice.",
+        "Neither missing future studies nor retained research-only members authorizes manufacturing implementation work; unaccepted material receiving gaps stay scoped and explicit."
+      ],
+      "rlgwo": "R003F",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/225",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/225#issuecomment-5638961875",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/225#issuecomment-5640823536",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/225#issuecomment-5640823862",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/225#issuecomment-5640824190",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/225#issuecomment-5640824499",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/225#issuecomment-5640824819",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/225#issuecomment-5640825118",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/225#issuecomment-6207300434"
+      ]
+    },
+    {
+      "adoption_identity_requirements": [
+        "Bind all 77 source/target records and exact old/new process definition/configuration, actual running state, completed work, data, pending interactions, receiver and changed-obligation rights if a migration is selected.",
+        "Preserve version/state mapping, external facts, supported consumers, source rejection reasons, residuals and lawful next actions through any real transfer/retirement.",
+        "Keep EWM-048 partial/no actual migration at its historical scope; supported old-version coexistence/non-migration remains valid. EWM-059/060 non-triggers, EWM-074 unresolved and mixed BWP-K031 neighbour constraints must not be flattened.",
+        "Any public capability/reconstruction/traceability/release claim remains final-composed and requires exact independent public readback at its claimed layer; send only actually accepted scoped EWM results to the embedded BWP component."
+      ],
+      "donor_pr": 254,
+      "issue": 230,
+      "population": "77 original EWM properties; separate from EBPM73, EPM84 and BWP234 component acceptance.",
+      "public_lifecycle_readback": [
+        "Preserve #230 OPEN and exact body (zero comments at observation). Any later lineage evidence comment must bind actual source/configuration/consumer and all member dispositions, followed by independent readback and separate manual closure.",
+        "An entitled successor must accept full residual identities/content/actions before predecessor retirement; source/Git adoption alone is not that acceptance."
+      ],
+      "residuals_not_discharged": [
+        "No migration means no migration qualification claim. Any actual state-transition, unknown-effect, progress or receiving claim requires supported configuration/authority/evidence.",
+        "Future-only scientific-domain obligations need not become current engineering cells; no whole EWM/BWP closure follows from mainline adoption."
+      ],
+      "rlgwo": "R0041",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/230"
+      ]
+    }
+  ]
+}

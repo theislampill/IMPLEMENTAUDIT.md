@@ -1,0 +1,39 @@
+{
+  "base_commit": "4af2e43b4047cd577aa6b56eecd5b27c5f0e45e0",
+  "entries": [
+    {
+      "bytes": 14522,
+      "mode": "100644",
+      "path": "ADOPTION_READINESS.json",
+      "sha256": "9df61893fbb5099ecb13642e3b02f820591dd15c905a0be1f5d67e03dc02bc93"
+    },
+    {
+      "bytes": 23990,
+      "mode": "100644",
+      "path": "ISSUE_SLICE_REQUIREMENTS.json",
+      "sha256": "7230aece74a74a6f6563093d00682cba456af5d52d76f428fc04896c925a809f"
+    },
+    {
+      "bytes": 15323,
+      "mode": "100644",
+      "path": "METHOD_RESULTS.json",
+      "sha256": "e8e1bdfb4559cc419e1c13145eff33edc239be9256ce32a7dd8e910ec9089261"
+    },
+    {
+      "bytes": 8905,
+      "mode": "100644",
+      "path": "README.md",
+      "sha256": "7b6fe0d42ac094157adfdb8f0275ec59a79afad0ef595efee5fa4c2d52ccd670"
+    },
+    {
+      "bytes": 21240,
+      "mode": "100644",
+      "path": "rehearse.py",
+      "sha256": "364e5314699de0eb09799d56d988febfc0f947c8ad1103d44f08aabee073c48c"
+    }
+  ],
+  "private_raw_payloads_published": false,
+  "proof_scope": "PL4/PL5 method-only; review and final adoption authority remain separate",
+  "schema": "dg22.public-review-payload.v1",
+  "scope": "docs/integration/pro-dg22-adoption-rehearsal-20261101"
+}

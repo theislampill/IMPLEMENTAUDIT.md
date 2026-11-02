@@ -1,0 +1,84 @@
+{
+  "authoring_context_reuse": false,
+  "created_utc": "2026-11-02T01:08:06.829350+00:00",
+  "disposition": "PASS_METHOD_ONLY",
+  "fresh_context_initial_review": true,
+  "independent_checks": {
+    "control_count": 19,
+    "control_replay_performed": false,
+    "final_adoption_fields_pending": true,
+    "history_parent_rows": 1216,
+    "no_private_raw_payloads_in_candidate": true,
+    "no_product_delta": true,
+    "package_identity_expected_refusals": 2,
+    "preflight_refusals": 14,
+    "refused_native_pushes": 3,
+    "self_contained_bundle_reconstruction": true,
+    "source_result_complete_binary_diff_equal": true,
+    "successful_native_pushes": 2
+  },
+  "initial_finding": {
+    "id": "DG22-IR-001",
+    "resolution": "Disposable retained refs were intentionally changed for negative controls and restored exactly at completion; input source-pool refs remained unchanged. Original raw evidence was preserved.",
+    "status": "RESOLVED"
+  },
+  "limitations": [
+    "Local Git file-transport method evidence only; future GitHub transport and lifecycle effects require separate exact qualification and public readback.",
+    "Full product-source semantic qualification, final package/consumer COMMON_ADOPTION, owner approval, native effects and original-issue acceptance are not supplied.",
+    "Historical public observations are non-atomic and time-bound; final material inputs must be received at the effect boundary."
+  ],
+  "packet_sha256": "40cfab2501eb455f31e14ad755fa90a777df1cb30cc4055828e6af629a0d1311",
+  "private_final_report_sha256": "c5f2a48fe7e134aa78949cea2750af175d79117060aa45a144def2461865079f",
+  "public_manifest_sha256": "6999205779b6063b50f43f16746ee7faf827ea4e3c36bae95463ece9b8737d3a",
+  "qualification": "Exact method-evidence payload and privacy-safe isolated-branch publication content qualified; no final product-source COMMON acceptance, owner approval or live-adoption authority.",
+  "receipt_scope": "This standalone receipt binds the six listed payload files. Adding this receipt does not change or broaden the reviewed payload or create new authority.",
+  "reviewed_base": "4af2e43b4047cd577aa6b56eecd5b27c5f0e45e0",
+  "reviewed_commit": "b949b9e1ca8e256c98993967d99421d36837569a",
+  "reviewed_six_file_manifest": [
+    {
+      "blob": "6179f5da9c27e2b4b215bedccfa7477c58e544f8",
+      "bytes": 14522,
+      "mode": "100644",
+      "path": "docs/integration/pro-dg22-adoption-rehearsal-20261101/ADOPTION_READINESS.json",
+      "sha256": "9df61893fbb5099ecb13642e3b02f820591dd15c905a0be1f5d67e03dc02bc93"
+    },
+    {
+      "blob": "f17e23f32125a339c761be4bb6330dafdf4f1e79",
+      "bytes": 23990,
+      "mode": "100644",
+      "path": "docs/integration/pro-dg22-adoption-rehearsal-20261101/ISSUE_SLICE_REQUIREMENTS.json",
+      "sha256": "7230aece74a74a6f6563093d00682cba456af5d52d76f428fc04896c925a809f"
+    },
+    {
+      "blob": "4addc1436c8dfb659ae2af8cd37bc0ec5d0f2b71",
+      "bytes": 15323,
+      "mode": "100644",
+      "path": "docs/integration/pro-dg22-adoption-rehearsal-20261101/METHOD_RESULTS.json",
+      "sha256": "e8e1bdfb4559cc419e1c13145eff33edc239be9256ce32a7dd8e910ec9089261"
+    },
+    {
+      "blob": "a446d1eebd0e591791a3495d1e2a980f71af6069",
+      "bytes": 8905,
+      "mode": "100644",
+      "path": "docs/integration/pro-dg22-adoption-rehearsal-20261101/README.md",
+      "sha256": "7b6fe0d42ac094157adfdb8f0275ec59a79afad0ef595efee5fa4c2d52ccd670"
+    },
+    {
+      "blob": "74b0c3e28c623ef9c57634d7d0fdcf86511f30c4",
+      "bytes": 21240,
+      "mode": "100644",
+      "path": "docs/integration/pro-dg22-adoption-rehearsal-20261101/rehearse.py",
+      "sha256": "364e5314699de0eb09799d56d988febfc0f947c8ad1103d44f08aabee073c48c"
+    },
+    {
+      "blob": "6f65d79d08c9accb3ccd1b214d42eba28a93a8e8",
+      "bytes": 1222,
+      "mode": "100644",
+      "path": "docs/integration/pro-dg22-adoption-rehearsal-20261101/CANDIDATE_MANIFEST.json",
+      "sha256": "6999205779b6063b50f43f16746ee7faf827ea4e3c36bae95463ece9b8737d3a"
+    }
+  ],
+  "reviewed_tree": "1d9811eb9db6364a90f62e7db001d1e1048af8bb",
+  "reviewer_task": "/root/independent_method_review",
+  "schema": "dg22.public-independent-method-review-receipt.v1"
+}

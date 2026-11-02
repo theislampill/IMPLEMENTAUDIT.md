@@ -1,0 +1,367 @@
+{
+  "current_observations": {
+    "allow_auto_merge": false,
+    "delete_branch_on_merge": false,
+    "donors": [
+      {
+        "commit": "87b7ed0c560e70c278c73b6fd5d20670b9bc1f4c",
+        "draft": true,
+        "github_review_submission_count": 0,
+        "merged": false,
+        "pr": 246,
+        "received_at": "2026-11-02T00:49:07.755Z",
+        "ref": "refs/heads/pro/r0035-209-portable-20261017",
+        "state": "open",
+        "tree": "772cccc11c4b0ac980b60d30461f443032c6ce32",
+        "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/246"
+      },
+      {
+        "commit": "92f7f388654c159a99e0f3db9b7e369304e90310",
+        "draft": true,
+        "github_review_submission_count": 0,
+        "merged": false,
+        "pr": 251,
+        "received_at": "2026-11-02T00:49:07.974Z",
+        "ref": "refs/heads/pro/r002c-r002d-r002e-r0030-20261023",
+        "state": "open",
+        "tree": "de72731f07aba016e698794cd6ad8878ce6b206c",
+        "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/251"
+      },
+      {
+        "commit": "7a369223d68ebc84057cdde7fff33e9933893be7",
+        "draft": true,
+        "github_review_submission_count": 0,
+        "merged": false,
+        "pr": 252,
+        "received_at": "2026-11-02T00:49:07.860Z",
+        "ref": "refs/heads/pro/r0039-215-full-acceptance-20261023",
+        "state": "open",
+        "tree": "cb4a02ab3fdbeea936347ed8eb5d30d9990e5e26",
+        "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/252"
+      },
+      {
+        "commit": "c42fc6f53c30b4ef22d935f656b9ca763c527042",
+        "draft": true,
+        "github_review_submission_count": 0,
+        "merged": false,
+        "pr": 253,
+        "received_at": "2026-11-02T00:49:07.755Z",
+        "ref": "refs/heads/pro/r0033-r0037-20261023",
+        "state": "open",
+        "tree": "89e6b42e4df02b5a03e8df280d8f8494b13a6cfc",
+        "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/253"
+      },
+      {
+        "commit": "0358c6b2dc5d16df50713911ed5b58a390864065",
+        "draft": true,
+        "github_review_submission_count": 0,
+        "merged": false,
+        "pr": 254,
+        "received_at": "2026-11-02T00:49:07.909Z",
+        "ref": "refs/heads/pro/r003f-r0041-bwp-20261024",
+        "state": "open",
+        "tree": "1fc12e33c9a46656322dbd2826bf8d039cae388d",
+        "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/254"
+      }
+    ],
+    "issues": [
+      {
+        "body_sha256": "b0c75c88af3c6bec8bd1536ed8a7c5cd3b5e53f991c6f59d71008ac3e3ab98db",
+        "comments_count": 1,
+        "labels": [],
+        "milestone": null,
+        "number": 196,
+        "received_at": "2026-11-02T00:49:07.649Z",
+        "state": "open",
+        "state_reason": null,
+        "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/196"
+      },
+      {
+        "body_sha256": "35ecac26609bdf30ddd782168145d7ede8023e5dcab09d135ad20e2f81d46896",
+        "comments_count": 5,
+        "labels": [],
+        "milestone": null,
+        "number": 197,
+        "received_at": "2026-11-02T00:49:07.703Z",
+        "state": "open",
+        "state_reason": null,
+        "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/197"
+      },
+      {
+        "body_sha256": "00e311b14a7ddce720c19f0109da541aea19e6e94a1a1f63741135bb2387591a",
+        "comments_count": 2,
+        "labels": [],
+        "milestone": null,
+        "number": 198,
+        "received_at": "2026-11-02T00:49:07.693Z",
+        "state": "open",
+        "state_reason": null,
+        "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/198"
+      },
+      {
+        "body_sha256": "1954bc3d59d300df00f609e55bb1f447dce5916ad5f01e6ee6d9070e8558fa59",
+        "comments_count": 2,
+        "labels": [],
+        "milestone": null,
+        "number": 200,
+        "received_at": "2026-11-02T00:49:07.648Z",
+        "state": "open",
+        "state_reason": null,
+        "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/200"
+      },
+      {
+        "body_sha256": "c4f47b411395b515ee4ea57ce83a0d029359343683ddd2e77819bbac965c2b60",
+        "comments_count": 5,
+        "labels": [],
+        "milestone": null,
+        "number": 207,
+        "received_at": "2026-11-02T00:49:07.659Z",
+        "state": "open",
+        "state_reason": "reopened",
+        "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/207"
+      },
+      {
+        "body_sha256": "6605343572b2a3ad62c4b0392703ccfdea2b1280f50a669348734a6dca60d097",
+        "comments_count": 4,
+        "labels": [],
+        "milestone": null,
+        "number": 209,
+        "received_at": "2026-11-02T00:49:07.695Z",
+        "state": "open",
+        "state_reason": "reopened",
+        "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/209"
+      },
+      {
+        "body_sha256": "ca62f4899a45544549f623a0312c16121bb99f432ccb87a87b7361974ceb94c4",
+        "comments_count": 4,
+        "labels": [],
+        "milestone": null,
+        "number": 211,
+        "received_at": "2026-11-02T00:49:07.639Z",
+        "state": "open",
+        "state_reason": null,
+        "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211"
+      },
+      {
+        "body_sha256": "40dbebcc34083f49a49af13e5c6ab50ffe6fbf5a99395d9594926e4668fd09f1",
+        "comments_count": 1,
+        "labels": [],
+        "milestone": null,
+        "number": 215,
+        "received_at": "2026-11-02T00:49:07.642Z",
+        "state": "open",
+        "state_reason": "reopened",
+        "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215"
+      },
+      {
+        "body_sha256": "c82f5dfd9d0829e7635df732ba549e603d63fd6a7fede19dac1e0253ac29b019",
+        "comments_count": 8,
+        "labels": [],
+        "milestone": null,
+        "number": 225,
+        "received_at": "2026-11-02T00:49:07.658Z",
+        "state": "open",
+        "state_reason": null,
+        "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/225"
+      },
+      {
+        "body_sha256": "0a3ed67c70aa5698590945d2a132014a5b6c0adff07e902469b96280a2f8a24f",
+        "comments_count": 0,
+        "labels": [],
+        "milestone": null,
+        "number": 230,
+        "received_at": "2026-11-02T00:49:07.683Z",
+        "state": "open",
+        "state_reason": null,
+        "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/230"
+      }
+    ],
+    "main": {
+      "commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "ref": "refs/heads/main",
+      "tree": "e0263d4455549a47243d82f45cf31101c6b94df2"
+    },
+    "non_atomic": true,
+    "not_permanent_expected_heads": true,
+    "pr255": {
+      "commit": "4af2e43b4047cd577aa6b56eecd5b27c5f0e45e0",
+      "draft": true,
+      "merged": false,
+      "number": 255,
+      "ref": "refs/heads/integration/active-rlgwo-composite-20261025",
+      "state": "open",
+      "tree": "8cb97d13e2b4f5e8bf99cc3e6e17e9267cbdef77"
+    }
+  },
+  "expected_post_effect_readbacks": [
+    "Independent main commit/tree and ordered-parent equality with exact approval.",
+    "Complete adopted delta and absence of closing directives.",
+    "PR255 and five donor actual refs/states; all ten issue states/body/comment identities/labels/milestone as applicable.",
+    "Actual package inventories/build identities and each affected consumer mapping; no native/release promotion."
+  ],
+  "final_approval_subject": {
+    "COMMON_ADOPTION_receipt_identity": null,
+    "approved_expected_old_public_main": null,
+    "artifact_build_sources_and_consumer_bridge": null,
+    "exact_authorized_transport_and_command": null,
+    "exact_commit_message": null,
+    "final_independent_candidate_review": null,
+    "finite_common_claim_set": null,
+    "human_exact_approval": null,
+    "ordered_parents": null,
+    "proposed_adoption_commit": null,
+    "selected_source_commit": null,
+    "selected_source_tree": null
+  },
+  "issue_slice_requirements": "ISSUE_SLICE_REQUIREMENTS.json; preserves exact downstream requirements and residuals without making all-ten acceptance a COMMON prerequisite.",
+  "live_adoption": "NOT_PERFORMED",
+  "owner_request_ready": false,
+  "package_identity_decision": {
+    "actual_candidate_verification_exits": {
+      "canonical_plugin": 1,
+      "standalone_compatibility": 1
+    },
+    "observed_build_commit": "4af2e43b4047cd577aa6b56eecd5b27c5f0e45e0",
+    "observed_tree": "8cb97d13e2b4f5e8bf99cc3e6e17e9267cbdef77",
+    "reason": "inventory source binding differs at new commit; same tree does not satisfy the existing strict consumer",
+    "required": "Select qualified build-at-final-candidate or explicit truthful source/package/consumer bridge; retain actual archive provenance and obey every strict consumer. No inventory edit/hash reuse or product change is authorized here."
+  },
+  "proof_scope": "PL4/PL5 method-only; no AUTH_MAINLINE or source acceptance is asserted",
+  "qualified_method": {
+    "content_contract": "Exact selected source tree and complete binary delta, with paths/modes/blobs preserved",
+    "later_live_transport": "Must be exactly selected and approved by owner/Astra; this harness has no live mode or GitHub main route.",
+    "name": "single-parent-exact-tree/non-force-push-with-advertised-old-guard",
+    "parent_contract": "Exactly one parent, equal to freshly approved old public main",
+    "performed_command_shape": [
+      "git",
+      "-c",
+      "credential.helper=",
+      "-c",
+      "core.hooksPath=PRIVATE_BOUND_PRE_PUSH",
+      "-C",
+      "PRIVATE_SUBJECT",
+      "push",
+      "--porcelain",
+      "--atomic",
+      "--no-follow-tags",
+      "--no-force",
+      "--recurse-submodules=no",
+      "PRIVATE_LOCAL_REMOTE",
+      "EXACT_METHOD_RESULT:refs/heads/rehearsal-main"
+    ],
+    "performed_transport": "Local file transport; native Git receive transaction plus explicit advertised-old guard. Exact expanded argv and raw readbacks are in the private return.",
+    "retention_contract": "Keep integration and all five donor refs/histories; no donor/PR/issue operation",
+    "subject_results": {
+      "engineering": {
+        "ancestry": {
+          "246": {
+            "ancestor_of_candidate": false,
+            "ancestor_of_source": false
+          },
+          "251": {
+            "ancestor_of_candidate": false,
+            "ancestor_of_source": false
+          },
+          "252": {
+            "ancestor_of_candidate": false,
+            "ancestor_of_source": false
+          },
+          "253": {
+            "ancestor_of_candidate": false,
+            "ancestor_of_source": false
+          },
+          "254": {
+            "ancestor_of_candidate": false,
+            "ancestor_of_source": false
+          },
+          "source": {
+            "ancestor_of_candidate": false,
+            "ancestor_of_source": true
+          }
+        },
+        "candidate": "c56ff57d4d2fd5d91ad6f2cc4be3d43eaa9a3642",
+        "complete_binary_diff": {
+          "bytes": 65841257,
+          "sha256": "2f89c13507a81687e1c7be993dccab63e1347a03a3d9a0a555a71e4897505c64"
+        },
+        "full_binary_diff_equal": true,
+        "new_main_commits": 1,
+        "parents": [
+          "e78f7cb21af4197d490f10bc95917a4c75f748aa"
+        ],
+        "source": {
+          "commit": "d0abed5967e7fb2aab294089f75eb5c6c7e71471",
+          "tree": "d0446a12550dca6c885a3c569ffed21a9ec7dcd1"
+        },
+        "tree_equal": true
+      },
+      "published": {
+        "ancestry": {
+          "246": {
+            "ancestor_of_candidate": false,
+            "ancestor_of_source": false
+          },
+          "251": {
+            "ancestor_of_candidate": false,
+            "ancestor_of_source": false
+          },
+          "252": {
+            "ancestor_of_candidate": false,
+            "ancestor_of_source": false
+          },
+          "253": {
+            "ancestor_of_candidate": false,
+            "ancestor_of_source": false
+          },
+          "254": {
+            "ancestor_of_candidate": false,
+            "ancestor_of_source": false
+          },
+          "source": {
+            "ancestor_of_candidate": false,
+            "ancestor_of_source": true
+          }
+        },
+        "candidate": "cdfec64a6dfad645f4b27a3a77562bc55c61c35c",
+        "complete_binary_diff": {
+          "bytes": 64875620,
+          "sha256": "629064293fb66ded99ed70eb53a5147fd2f3518e01e4c90bbf84a3d3d12c7bf3"
+        },
+        "full_binary_diff_equal": true,
+        "new_main_commits": 1,
+        "parents": [
+          "e78f7cb21af4197d490f10bc95917a4c75f748aa"
+        ],
+        "source": {
+          "commit": "4af2e43b4047cd577aa6b56eecd5b27c5f0e45e0",
+          "tree": "8cb97d13e2b4f5e8bf99cc3e6e17e9267cbdef77"
+        },
+        "tree_equal": true
+      }
+    }
+  },
+  "required_before_request": [
+    "Actual Sol-selected stable source/tree and finite adoption claim set; receive any real composition without blending previous subjects.",
+    "Actual DG21 COMMON_ADOPTION receipt for this exact subject, packages and applicable consumers.",
+    "Prepared exact single-parent adoption commit/message/tree and complete final diff review.",
+    "Explicit package source.commit strategy; unchanged verifiers refuse old-source archives at a new same-tree commit.",
+    "Fresh main/PR255/five-donor/ten-issue identity and lifecycle readback; applicable original scoped authority.",
+    "Exact proposed transport/preconditions, preserving histories and issue residuals, then independent final review."
+  ],
+  "roles": {
+    "approval": "Human owner",
+    "final_source_coordination": "Sol",
+    "mainline_executor": "Astra under separate exact owner approval",
+    "original_issue_operations": "Sol",
+    "root_DAG_acceptance": "Astra"
+  },
+  "rollback_and_containment": {
+    "post_effect_correction": "Separately authorize reviewed forward revert/corrective commit preserving history; no force/reset. Source correction does not undo external lifecycle/native facts.",
+    "pre_effect_drift": "Refuse; retain candidate and reconcile only materially changed dependencies.",
+    "private_cleanup": "Retain exact bundles/raw evidence; disposable local resources carry no live route and no persistent child processes.",
+    "uncertain_transport": "Read target before retry: approved result means reconcile completion; expected old or another head needs explicit outcome/authority analysis. No blind replay."
+  },
+  "schema": "dg22.owner-adoption-readiness.v1",
+  "status": "WAITING_DG21_COMMON_ADOPTION_AND_FINAL_SELECTION",
+  "whole_cell_acceptance": "NOT_CLAIMED"
+}

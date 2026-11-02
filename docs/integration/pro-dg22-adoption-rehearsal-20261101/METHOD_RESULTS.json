@@ -1,0 +1,401 @@
+{
+  "conflict_control": {
+    "adopted": false,
+    "conflict_output_sha256": "daac248025300ef8fde9fc25d2704fd4533783ebf34631609e56f662da206aed",
+    "native_git_merge_tree_exit": 1,
+    "synthetic_main": "7f36fbb786848d2c6884ad0cca2d88ab985d7d5b"
+  },
+  "controls": [
+    {
+      "expected": "accepted private update",
+      "expected_behavior_observed": true,
+      "id": "positive-published",
+      "intentional_race_fixture": null,
+      "native_git_push_executed": true,
+      "native_git_push_exit": 0,
+      "observation_boundary": "native Git push",
+      "recipe_refusal": null,
+      "target_after": "cdfec64a6dfad645f4b27a3a77562bc55c61c35c",
+      "target_before": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "unexpected_ref_effects": false
+    },
+    {
+      "expected": "accepted private update",
+      "expected_behavior_observed": true,
+      "id": "positive-engineering",
+      "intentional_race_fixture": null,
+      "native_git_push_executed": true,
+      "native_git_push_exit": 0,
+      "observation_boundary": "native Git push",
+      "recipe_refusal": null,
+      "target_after": "c56ff57d4d2fd5d91ad6f2cc4be3d43eaa9a3642",
+      "target_before": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "unexpected_ref_effects": false
+    },
+    {
+      "expected": "refusal",
+      "expected_behavior_observed": true,
+      "id": "stale-expected-head",
+      "intentional_race_fixture": null,
+      "native_git_push_executed": true,
+      "native_git_push_exit": 1,
+      "observation_boundary": "native Git push",
+      "recipe_refusal": "NATIVE_GIT_PUSH_REFUSED",
+      "target_after": "0eb6fdaf00d827447dfe033f9052c32fe803bca1",
+      "target_before": "0eb6fdaf00d827447dfe033f9052c32fe803bca1",
+      "unexpected_ref_effects": false
+    },
+    {
+      "expected": "refusal",
+      "expected_behavior_observed": true,
+      "id": "wrong-candidate-tree",
+      "intentional_race_fixture": null,
+      "native_git_push_executed": false,
+      "native_git_push_exit": null,
+      "observation_boundary": "recipe preflight before any Git push",
+      "recipe_refusal": "WRONG_CANDIDATE_TREE",
+      "target_after": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "target_before": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "unexpected_ref_effects": false
+    },
+    {
+      "expected": "refusal",
+      "expected_behavior_observed": true,
+      "id": "wrong-source-tree",
+      "intentional_race_fixture": null,
+      "native_git_push_executed": false,
+      "native_git_push_exit": null,
+      "observation_boundary": "recipe preflight before any Git push",
+      "recipe_refusal": "SOURCE_BINDING_MISMATCH",
+      "target_after": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "target_before": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "unexpected_ref_effects": false
+    },
+    {
+      "expected": "refusal",
+      "expected_behavior_observed": true,
+      "id": "ambiguous-method",
+      "intentional_race_fixture": null,
+      "native_git_push_executed": false,
+      "native_git_push_exit": null,
+      "observation_boundary": "recipe preflight before any Git push",
+      "recipe_refusal": "AMBIGUOUS_OR_MISMATCHED_METHOD",
+      "target_after": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "target_before": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "unexpected_ref_effects": false
+    },
+    {
+      "expected": "refusal",
+      "expected_behavior_observed": true,
+      "id": "mismatched-method",
+      "intentional_race_fixture": null,
+      "native_git_push_executed": false,
+      "native_git_push_exit": null,
+      "observation_boundary": "recipe preflight before any Git push",
+      "recipe_refusal": "AMBIGUOUS_OR_MISMATCHED_METHOD",
+      "target_after": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "target_before": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "unexpected_ref_effects": false
+    },
+    {
+      "expected": "refusal",
+      "expected_behavior_observed": true,
+      "id": "unapproved-effects",
+      "intentional_race_fixture": null,
+      "native_git_push_executed": false,
+      "native_git_push_exit": null,
+      "observation_boundary": "recipe preflight before any Git push",
+      "recipe_refusal": "UNAPPROVED_EFFECTS",
+      "target_after": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "target_before": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "unexpected_ref_effects": false
+    },
+    {
+      "expected": "refusal",
+      "expected_behavior_observed": true,
+      "id": "missing-authority",
+      "intentional_race_fixture": null,
+      "native_git_push_executed": false,
+      "native_git_push_exit": null,
+      "observation_boundary": "recipe preflight before any Git push",
+      "recipe_refusal": "MISSING_OR_CHANGED_REHEARSAL_AUTHORITY",
+      "target_after": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "target_before": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "unexpected_ref_effects": false
+    },
+    {
+      "expected": "refusal",
+      "expected_behavior_observed": true,
+      "id": "live-adoption-without-common",
+      "intentional_race_fixture": null,
+      "native_git_push_executed": false,
+      "native_git_push_exit": null,
+      "observation_boundary": "recipe preflight before any Git push",
+      "recipe_refusal": "NO_LIVE_ADOPTION_MODE",
+      "target_after": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "target_before": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "unexpected_ref_effects": false
+    },
+    {
+      "expected": "refusal",
+      "expected_behavior_observed": true,
+      "id": "wrong-target-ref",
+      "intentional_race_fixture": null,
+      "native_git_push_executed": false,
+      "native_git_push_exit": null,
+      "observation_boundary": "recipe preflight before any Git push",
+      "recipe_refusal": "TARGET_OR_EXPECTED_INPUT_MISMATCH",
+      "target_after": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "target_before": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "unexpected_ref_effects": false
+    },
+    {
+      "expected": "refusal",
+      "expected_behavior_observed": true,
+      "id": "missing-donor-history",
+      "intentional_race_fixture": null,
+      "native_git_push_executed": false,
+      "native_git_push_exit": null,
+      "observation_boundary": "recipe preflight before any Git push",
+      "recipe_refusal": "MISSING_OR_CHANGED_DONOR_HISTORY:246",
+      "target_after": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "target_before": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "unexpected_ref_effects": false
+    },
+    {
+      "expected": "refusal",
+      "expected_behavior_observed": true,
+      "id": "truncated-donor-ancestry",
+      "intentional_race_fixture": null,
+      "native_git_push_executed": false,
+      "native_git_push_exit": null,
+      "observation_boundary": "recipe preflight before any Git push",
+      "recipe_refusal": "MISSING_OR_CHANGED_DONOR_HISTORY:246",
+      "target_after": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "target_before": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "unexpected_ref_effects": false
+    },
+    {
+      "expected": "refusal",
+      "expected_behavior_observed": true,
+      "id": "changed-source-input",
+      "intentional_race_fixture": null,
+      "native_git_push_executed": false,
+      "native_git_push_exit": null,
+      "observation_boundary": "recipe preflight before any Git push",
+      "recipe_refusal": "CHANGED_SOURCE_REF",
+      "target_after": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "target_before": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "unexpected_ref_effects": false
+    },
+    {
+      "expected": "refusal",
+      "expected_behavior_observed": true,
+      "id": "wrong-parent",
+      "intentional_race_fixture": null,
+      "native_git_push_executed": false,
+      "native_git_push_exit": null,
+      "observation_boundary": "recipe preflight before any Git push",
+      "recipe_refusal": "WRONG_PARENT_COUNT_OR_ORDER",
+      "target_after": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "target_before": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "unexpected_ref_effects": false
+    },
+    {
+      "expected": "refusal",
+      "expected_behavior_observed": true,
+      "id": "reversed-two-parents",
+      "intentional_race_fixture": null,
+      "native_git_push_executed": false,
+      "native_git_push_exit": null,
+      "observation_boundary": "recipe preflight before any Git push",
+      "recipe_refusal": "WRONG_PARENT_COUNT_OR_ORDER",
+      "target_after": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "target_before": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "unexpected_ref_effects": false
+    },
+    {
+      "expected": "refusal",
+      "expected_behavior_observed": true,
+      "id": "closing-message",
+      "intentional_race_fixture": null,
+      "native_git_push_executed": false,
+      "native_git_push_exit": null,
+      "observation_boundary": "recipe preflight before any Git push",
+      "recipe_refusal": "ISSUE_CLOSING_DIRECTIVE",
+      "target_after": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "target_before": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "unexpected_ref_effects": false
+    },
+    {
+      "expected": "refusal",
+      "expected_behavior_observed": true,
+      "id": "post-advertisement-race",
+      "intentional_race_fixture": "ff0c99370a0c51081a87e95141b4de45b58ab482",
+      "native_git_push_executed": true,
+      "native_git_push_exit": 1,
+      "observation_boundary": "native Git push",
+      "recipe_refusal": "NATIVE_GIT_PUSH_REFUSED",
+      "target_after": "ff0c99370a0c51081a87e95141b4de45b58ab482",
+      "target_before": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "unexpected_ref_effects": false
+    },
+    {
+      "expected": "refusal",
+      "expected_behavior_observed": true,
+      "id": "changed-conflicting-main",
+      "intentional_race_fixture": null,
+      "native_git_push_executed": true,
+      "native_git_push_exit": 1,
+      "observation_boundary": "native Git push",
+      "recipe_refusal": "NATIVE_GIT_PUSH_REFUSED",
+      "target_after": "7f36fbb786848d2c6884ad0cca2d88ab985d7d5b",
+      "target_before": "7f36fbb786848d2c6884ad0cca2d88ab985d7d5b",
+      "unexpected_ref_effects": false
+    }
+  ],
+  "created_utc": "2026-11-02T00:54:33+00:00",
+  "history_preservation": "The input source-pool refs were unchanged during the method run. Inside the disposable method subject, retained pr246 and published refs were deliberately removed/repointed for negative controls and restored to their exact initial values at completion. No public Git ref was written by the rehearsal.",
+  "live_effects": 0,
+  "main": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+  "method": "single-parent-exact-tree/non-force-push-with-advertised-old-guard",
+  "native_episodes": 0,
+  "negative_control_count": 17,
+  "ordinary_merge": {
+    "commit": "695608585fde54e679dcbc89a4917b50a54d3f4e",
+    "parents": [
+      "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "4af2e43b4047cd577aa6b56eecd5b27c5f0e45e0"
+    ],
+    "source_ancestry_introduced": true,
+    "tree": "8cb97d13e2b4f5e8bf99cc3e6e17e9267cbdef77"
+  },
+  "original_raw_flag_interpretation": {
+    "initial_final_retained_ref_readbacks": [
+      17,
+      388
+    ],
+    "input_source_pool_ref_readbacks": [
+      18,
+      389
+    ],
+    "intentional_private_ref_mutation_commands": [
+      210,
+      223,
+      236,
+      237,
+      248
+    ],
+    "retained_refs_unchanged": "The original raw RESULT.json field means initial/final retained-ref equality, not an invariant throughout the negative controls. Original raw bytes are preserved."
+  },
+  "package_identity_controls": {
+    "actual_verifier_exit_each": 1,
+    "archive_build_commit": "4af2e43b4047cd577aa6b56eecd5b27c5f0e45e0",
+    "builds": 0,
+    "count": 2,
+    "expected_refusal": "inventory source binding: same tree, different commit",
+    "installs": 0,
+    "inventories_modified": false,
+    "rehearsal_commit": "cdfec64a6dfad645f4b27a3a77562bc55c61c35c",
+    "roles": [
+      "canonical_plugin",
+      "standalone_compatibility"
+    ]
+  },
+  "packages_built": 0,
+  "positive_control_count": 2,
+  "proof_scope": "PL4 structural checks and PL5 disposable empirical method controls only; no DG21 COMMON, mainline adoption, native, release or original-issue acceptance.",
+  "raw_evidence": "Private return archive holds actual Git history, incremental bundle, complete binary diffs, every command/output/exit, pre-push observations and negative outcomes.",
+  "schema": "dg22.private-method-rehearsal.v1",
+  "scope": "METHOD_ONLY",
+  "status": "METHOD_CONTROLS_PASS_FINAL_ADOPTION_PENDING",
+  "subjects": {
+    "engineering": {
+      "ancestry": {
+        "246": {
+          "ancestor_of_candidate": false,
+          "ancestor_of_source": false
+        },
+        "251": {
+          "ancestor_of_candidate": false,
+          "ancestor_of_source": false
+        },
+        "252": {
+          "ancestor_of_candidate": false,
+          "ancestor_of_source": false
+        },
+        "253": {
+          "ancestor_of_candidate": false,
+          "ancestor_of_source": false
+        },
+        "254": {
+          "ancestor_of_candidate": false,
+          "ancestor_of_source": false
+        },
+        "source": {
+          "ancestor_of_candidate": false,
+          "ancestor_of_source": true
+        }
+      },
+      "candidate": "c56ff57d4d2fd5d91ad6f2cc4be3d43eaa9a3642",
+      "complete_binary_diff": {
+        "bytes": 65841257,
+        "sha256": "2f89c13507a81687e1c7be993dccab63e1347a03a3d9a0a555a71e4897505c64"
+      },
+      "full_binary_diff_equal": true,
+      "new_main_commits": 1,
+      "parents": [
+        "e78f7cb21af4197d490f10bc95917a4c75f748aa"
+      ],
+      "source": {
+        "commit": "d0abed5967e7fb2aab294089f75eb5c6c7e71471",
+        "tree": "d0446a12550dca6c885a3c569ffed21a9ec7dcd1"
+      },
+      "tree_equal": true
+    },
+    "published": {
+      "ancestry": {
+        "246": {
+          "ancestor_of_candidate": false,
+          "ancestor_of_source": false
+        },
+        "251": {
+          "ancestor_of_candidate": false,
+          "ancestor_of_source": false
+        },
+        "252": {
+          "ancestor_of_candidate": false,
+          "ancestor_of_source": false
+        },
+        "253": {
+          "ancestor_of_candidate": false,
+          "ancestor_of_source": false
+        },
+        "254": {
+          "ancestor_of_candidate": false,
+          "ancestor_of_source": false
+        },
+        "source": {
+          "ancestor_of_candidate": false,
+          "ancestor_of_source": true
+        }
+      },
+      "candidate": "cdfec64a6dfad645f4b27a3a77562bc55c61c35c",
+      "complete_binary_diff": {
+        "bytes": 64875620,
+        "sha256": "629064293fb66ded99ed70eb53a5147fd2f3518e01e4c90bbf84a3d3d12c7bf3"
+      },
+      "full_binary_diff_equal": true,
+      "new_main_commits": 1,
+      "parents": [
+        "e78f7cb21af4197d490f10bc95917a4c75f748aa"
+      ],
+      "source": {
+        "commit": "4af2e43b4047cd577aa6b56eecd5b27c5f0e45e0",
+        "tree": "8cb97d13e2b4f5e8bf99cc3e6e17e9267cbdef77"
+      },
+      "tree_equal": true
+    }
+  },
+  "transport_scope": "Git2.51.1 local file transport; no network or GitHub main mutation. Local Git evidence does not prove future GitHub lifecycle effects."
+}
