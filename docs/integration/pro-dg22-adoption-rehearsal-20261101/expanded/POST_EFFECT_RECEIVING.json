@@ -1,0 +1,755 @@
+{
+  "author": "/root/lifecycle_contracts",
+  "authoring_validation": {
+    "executed_Git_or_native_operations": 0,
+    "final_subject_ids_invented": false,
+    "live_GitHub_calls_in_this_task": 0,
+    "live_writes": 0,
+    "source_build_rehearsal_directories_inspected": false
+  },
+  "authority_and_scope": {
+    "CE059_scope": "COMMON_ADOPTION receipt for the exact selected finite adoption subject; no all-ten or all-native issue acceptance prerequisite.",
+    "basis": [
+      {
+        "bytes": 14522,
+        "path": "private-return-reference:dg22/publication/independent/received-files/ADOPTION_READINESS.json",
+        "role": "accepted_readiness",
+        "sha256": "9df61893fbb5099ecb13642e3b02f820591dd15c905a0be1f5d67e03dc02bc93"
+      },
+      {
+        "bytes": 6195,
+        "path": "private-return-reference:dg22/handoff/contracts/selected-cell.json",
+        "role": "selected_cell_contract",
+        "sha256": "c0c0b58391519f6fde5f2def0d08e409e3f181c5681238b13b2afe6189c915b1"
+      },
+      {
+        "bytes": 40788,
+        "path": "private-return-reference:dg22-expanded/source-receiving/CURRENT_SOURCE_CUTOFF.json",
+        "role": "current_source_cutoff",
+        "sha256": "84ca9bffa0a4e1148c94448a72522f937d6dd9e4266916ccf993d57ba0c9aab5"
+      },
+      {
+        "bytes": 47268,
+        "path": "private-return-reference:dg22/lifecycle-receiving/DG22_LIFECYCLE_RECEIVING.json",
+        "role": "original_issue_identities",
+        "sha256": "7d526bf5f89c98818493b08acbf3c1f036579a98b7c976951a99d375036345f8"
+      },
+      {
+        "bytes": 23990,
+        "path": "private-return-reference:dg22/publication/independent/received-files/ISSUE_SLICE_REQUIREMENTS.json",
+        "role": "issue_slice_requirements",
+        "sha256": "7230aece74a74a6f6563093d00682cba456af5d52d76f428fc04896c925a809f"
+      },
+      {
+        "bytes": 28647,
+        "path": "private-return-reference:dg22/publication/lifecycle/POST_PUBLICATION_LIFECYCLE_READBACK.json",
+        "role": "accepted_post_publication",
+        "sha256": "91811d98cb236e04b1b59bdd2eb3e2dc7a23474ff7ba2dd182839d0ae0ae4326"
+      }
+    ],
+    "finite_claims_only": true,
+    "no_all_ten_or_all_native_acceptance_prerequisite": true,
+    "purpose": "Independent receiving after a separately authorized exact DG22 mainline operation; this file grants no operation authority and performs no readback now.",
+    "receiver_limit": "Observe exact output bytes/identities, authority and environment bindings, negative outcomes and residuals. Do not turn a successful transport, sender receipt or source test into whole-cell/native/release acceptance.",
+    "roles": {
+      "approval": "Human owner",
+      "final_source_coordination": "Sol",
+      "mainline_executor": "Astra under separate exact owner approval",
+      "original_issue_operations": "Sol",
+      "root_DAG_acceptance": "Astra"
+    },
+    "selected_cell_completion_boundary": "The approved exact source candidate is adopted by the approved method, resulting main commit/tree and package/consumer claims are qualified at their real identities, donor histories/PR lifecycle are preserved as approved, and all issue/PR public states are independently read back.",
+    "whole_issue_closure_implied": false,
+    "writes": "None to GitHub, source, refs, PRs, issues, tags, release, real homes or native state. Only a new local receiving evidence directory may be written when receiving is separately undertaken."
+  },
+  "cached_reference_only": {
+    "DG21": {
+      "commit": "2eb99c23b9345bf532fbfb3fe3c7bcd3324b7c6b",
+      "receipt_disposition": "No current COMMON_ADOPTION or final source selection received in that finite cutoff; failed repair/diagnostic runs remain scoped as recorded.",
+      "tree": "400a0c519aa705474db24590ac7aa4aec8deb872"
+    },
+    "PRs": [
+      {
+        "body_sha256": "3f2fe6df6c1138f8fcda24001df0bcf5618ca14b111b14749453a25d43123d17",
+        "comment_count": 60,
+        "draft": true,
+        "head_ref": "integration/active-rlgwo-composite-20261025",
+        "head_sha": "4af2e43b4047cd577aa6b56eecd5b27c5f0e45e0",
+        "head_tree": "8cb97d13e2b4f5e8bf99cc3e6e17e9267cbdef77",
+        "merged": false,
+        "number": 255,
+        "state": "open"
+      },
+      {
+        "body_sha256": "8ddea9f31b78012f7aa13b41db96ee7db9b4c0dac6fc0905e4f2cd9e40e2eca3",
+        "comment_count": 9,
+        "draft": true,
+        "head_ref": "pro/r0035-209-portable-20261017",
+        "head_sha": "87b7ed0c560e70c278c73b6fd5d20670b9bc1f4c",
+        "head_tree": "772cccc11c4b0ac980b60d30461f443032c6ce32",
+        "merged": false,
+        "number": 246,
+        "state": "open"
+      },
+      {
+        "body_sha256": "928f596084932c0bc5f6152193979d8e8e7f9a3767668a52849c20e13bd43594",
+        "comment_count": 31,
+        "draft": true,
+        "head_ref": "pro/r002c-r002d-r002e-r0030-20261023",
+        "head_sha": "92f7f388654c159a99e0f3db9b7e369304e90310",
+        "head_tree": "de72731f07aba016e698794cd6ad8878ce6b206c",
+        "merged": false,
+        "number": 251,
+        "state": "open"
+      },
+      {
+        "body_sha256": "9f07d680d5268e4cb1c9f286f0f600befb4f09f9126028106af2d5de48a4eb59",
+        "comment_count": 8,
+        "draft": true,
+        "head_ref": "pro/r0039-215-full-acceptance-20261023",
+        "head_sha": "7a369223d68ebc84057cdde7fff33e9933893be7",
+        "head_tree": "cb4a02ab3fdbeea936347ed8eb5d30d9990e5e26",
+        "merged": false,
+        "number": 252,
+        "state": "open"
+      },
+      {
+        "body_sha256": "194857c9f1cb8832c599a87d3b3d61015e52671bd4349e80f8762314654d7381",
+        "comment_count": 26,
+        "draft": true,
+        "head_ref": "pro/r0033-r0037-20261023",
+        "head_sha": "c42fc6f53c30b4ef22d935f656b9ca763c527042",
+        "head_tree": "89e6b42e4df02b5a03e8df280d8f8494b13a6cfc",
+        "merged": false,
+        "number": 253,
+        "state": "open"
+      },
+      {
+        "body_sha256": "4b485de805c8a0121ff34cdc9145eade7ec169b97772cc3a385977c82606985a",
+        "comment_count": 8,
+        "draft": true,
+        "head_ref": "pro/r003f-r0041-bwp-20261024",
+        "head_sha": "0358c6b2dc5d16df50713911ed5b58a390864065",
+        "head_tree": "1fc12e33c9a46656322dbd2826bf8d039cae388d",
+        "merged": false,
+        "number": 254,
+        "state": "open"
+      }
+    ],
+    "comment_identity_columns": [
+      "id",
+      "body_sha256"
+    ],
+    "main": {
+      "commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "received_at": "2026-11-02T01:31:21.156Z",
+      "tree": "e0263d4455549a47243d82f45cf31101c6b94df2"
+    },
+    "not_effect_time_evidence": true,
+    "not_permanent_expected_heads": true,
+    "original_issue_snapshot_at": {
+      "atomic_snapshot": false,
+      "first": "2026-11-02T00:49:07.639Z",
+      "last": "2026-11-02T00:53:07.514Z"
+    },
+    "original_ten_issue_identities": [
+      {
+        "body_sha256": "b0c75c88af3c6bec8bd1536ed8a7c5cd3b5e53f991c6f59d71008ac3e3ab98db",
+        "comment_count": 1,
+        "comments": [
+          [
+            5312877705,
+            "ac7f16f92bf24ec1155b2b95181e603e1cd5c169308a969f04dc7b3e18348614"
+          ]
+        ],
+        "labels": [],
+        "locked": false,
+        "milestone": null,
+        "number": 196,
+        "state": "open",
+        "state_reason": null
+      },
+      {
+        "body_sha256": "35ecac26609bdf30ddd782168145d7ede8023e5dcab09d135ad20e2f81d46896",
+        "comment_count": 5,
+        "comments": [
+          [
+            5295310221,
+            "a79eecd328da14874f4dd305ac35541f77ef3153a1d36cd814a457c4cd821db1"
+          ],
+          [
+            5298047541,
+            "e74d2af6024d8914ee63ddd0b1ae68defd17efeae445b2aba0a29e86c76b4f0a"
+          ],
+          [
+            5312878148,
+            "d89fa58cf3d86c4d84938f4beed396e29a3d24fc2780c611ad2c6f89a1c482a4"
+          ],
+          [
+            5333816833,
+            "bbca898273292d33156d8684482048759a5fdea1659a769e43ec7c340a5fcad1"
+          ],
+          [
+            5636842021,
+            "a8716fa6e8bae2f67be09c41449894901781b7b814a671bec925eb7031b01644"
+          ]
+        ],
+        "labels": [],
+        "locked": false,
+        "milestone": null,
+        "number": 197,
+        "state": "open",
+        "state_reason": null
+      },
+      {
+        "body_sha256": "00e311b14a7ddce720c19f0109da541aea19e6e94a1a1f63741135bb2387591a",
+        "comment_count": 2,
+        "comments": [
+          [
+            5312878656,
+            "cfd7c33be31c0c6aeeb8e52424e419b6c16ef3250c69a71b6c43c174a9d4568f"
+          ],
+          [
+            5638868663,
+            "03056fcaf4820a5b565f899c3be1d626b684878b9472a8b616f8a024073dd112"
+          ]
+        ],
+        "labels": [],
+        "locked": false,
+        "milestone": null,
+        "number": 198,
+        "state": "open",
+        "state_reason": null
+      },
+      {
+        "body_sha256": "1954bc3d59d300df00f609e55bb1f447dce5916ad5f01e6ee6d9070e8558fa59",
+        "comment_count": 2,
+        "comments": [
+          [
+            5312879845,
+            "eda5c673e7173ea04a62a7c527e2a3a9cca4e7d5a25ee0dccde490f9162db162"
+          ],
+          [
+            5314418103,
+            "023199ad41855879ea2d89e4c0c45e933be0a8610d0e0cd12f3b7361fbbd7826"
+          ]
+        ],
+        "labels": [],
+        "locked": false,
+        "milestone": null,
+        "number": 200,
+        "state": "open",
+        "state_reason": null
+      },
+      {
+        "body_sha256": "c4f47b411395b515ee4ea57ce83a0d029359343683ddd2e77819bbac965c2b60",
+        "comment_count": 5,
+        "comments": [
+          [
+            5302308276,
+            "c56e847f600f149a616523c61ad7b7709a0e4e08aa86574dd9e10d94c43f0d6d"
+          ],
+          [
+            5312881461,
+            "9ee19db40cc4932f1290b39633ed2c83c662fbb7d31369e1516e05629d098447"
+          ],
+          [
+            5314405274,
+            "813b6926b6b1d4c39d52a3175f3cd075414b08a509a119418f7c640f06a07c4f"
+          ],
+          [
+            5349224694,
+            "1ddb813b36bbd70b67255369a6d43edf43422f9fcf36fafea88d74fa0257d522"
+          ],
+          [
+            5638868697,
+            "aa799fd41a8e8fd06014bed74c762ecdc8e73d5df7f0b9ad0b1bda6b2a5230f1"
+          ]
+        ],
+        "labels": [],
+        "locked": false,
+        "milestone": null,
+        "number": 207,
+        "state": "open",
+        "state_reason": "reopened"
+      },
+      {
+        "body_sha256": "6605343572b2a3ad62c4b0392703ccfdea2b1280f50a669348734a6dca60d097",
+        "comment_count": 4,
+        "comments": [
+          [
+            5312882718,
+            "ef4c6fc72a195c242e8ab3e06c05f81304d3252e9c80d76cd51e065b2f26433d"
+          ],
+          [
+            5314412493,
+            "20987a03b8a145174dd31fe6662f54f5bc5a924a6a8d9ead9fa80b016aef2b8e"
+          ],
+          [
+            5349213181,
+            "ed16779818ec1a80a8ec6fec4b0a05df178aebb94b7ad7adda541d3f1e570ecf"
+          ],
+          [
+            5638756153,
+            "ea83965dfcdbc0d0311a24d9ddbe95b63f665cedf5c3b46d471839476dd53a12"
+          ]
+        ],
+        "labels": [],
+        "locked": false,
+        "milestone": null,
+        "number": 209,
+        "state": "open",
+        "state_reason": "reopened"
+      },
+      {
+        "body_sha256": "ca62f4899a45544549f623a0312c16121bb99f432ccb87a87b7361974ceb94c4",
+        "comment_count": 4,
+        "comments": [
+          [
+            5312883966,
+            "3cc85a827866836af965c03c64d814e37006e995b84c1c54a599d8cd8252a44d"
+          ],
+          [
+            5343276081,
+            "7f39828c5f76683d74531bd49c2ec9a6a2c84bc4d59e52ba8d7a07c251c8c38e"
+          ],
+          [
+            5636805839,
+            "d49b1b839a24b103289acee1f4726231bff12fb7e1824bbff6a93df0ea60a388"
+          ],
+          [
+            5638868695,
+            "7ca42522f7fa411b5c5b376f25f0020713816dfaea2eaa5024d59343cd757082"
+          ]
+        ],
+        "labels": [],
+        "locked": false,
+        "milestone": null,
+        "number": 211,
+        "state": "open",
+        "state_reason": null
+      },
+      {
+        "body_sha256": "40dbebcc34083f49a49af13e5c6ab50ffe6fbf5a99395d9594926e4668fd09f1",
+        "comment_count": 1,
+        "comments": [
+          [
+            5638756120,
+            "3774677f6aa3ad2676d8afbded7dce277f5e561a8bf492200418a0495393caaf"
+          ]
+        ],
+        "labels": [],
+        "locked": false,
+        "milestone": null,
+        "number": 215,
+        "state": "open",
+        "state_reason": "reopened"
+      },
+      {
+        "body_sha256": "c82f5dfd9d0829e7635df732ba549e603d63fd6a7fede19dac1e0253ac29b019",
+        "comment_count": 8,
+        "comments": [
+          [
+            5638961875,
+            "c3156871121b4e7088469915ad7814b2b5c1edf63466f45ae6e5a6e8db83e73a"
+          ],
+          [
+            5640823536,
+            "b242d05a28e817bc76a4f31028bff80059bfa63eb26b3f18b95709fcc9491596"
+          ],
+          [
+            5640823862,
+            "867094585938cc60e3025919b0c668cc60997dbca2bb25d491df83ef8b4d488f"
+          ],
+          [
+            5640824190,
+            "2a32659fbffa7927739d301038c28167b602363c7644fe21c0a071ded50c265a"
+          ],
+          [
+            5640824499,
+            "5841b3841fb8af1fd3322b35ffcb426f94bf1fd332ad80813d07f881b839b5e8"
+          ],
+          [
+            5640824819,
+            "32d065e63cd63c78064ba94dbaa392b879819478977bc4276543b09989983413"
+          ],
+          [
+            5640825118,
+            "b57f47a015691fd5d52a61c18245df80fda994d24f26007f327d89a34fdbc283"
+          ],
+          [
+            6207300434,
+            "08ecb6473c19d78f9796d797e3a9443a0c5ed716dc8009fd2af50b272a74189c"
+          ]
+        ],
+        "labels": [],
+        "locked": false,
+        "milestone": null,
+        "number": 225,
+        "state": "open",
+        "state_reason": null
+      },
+      {
+        "body_sha256": "0a3ed67c70aa5698590945d2a132014a5b6c0adff07e902469b96280a2f8a24f",
+        "comment_count": 0,
+        "comments": [],
+        "labels": [],
+        "locked": false,
+        "milestone": null,
+        "number": 230,
+        "state": "open",
+        "state_reason": null
+      }
+    ],
+    "reuse_rule": "Reuse immutable unchanged source/requirement evidence at its actual scope. For the effect, reacquire the public state below and compare to the fresh approved pre-effect receipt. Reconcile any material difference from cached records; never silently overwrite history.",
+    "source_cutoff_window_utc": {
+      "atomic_snapshot": false,
+      "first_response": "2026-11-02T01:31:21.093Z",
+      "last_response": "2026-11-02T01:34:56.323Z",
+      "no_polling": "Each current ref was read once; later reads targeted already fixed immutable objects and existing run evidence.",
+      "refs_first_response": "2026-11-02T01:31:21.127Z",
+      "refs_last_response": "2026-11-02T01:31:52.676Z"
+    }
+  },
+  "comparison_contract": {
+    "PRs_and_retained_histories": "Compare fresh PR255/donor head repository/ref/SHA, base, actual branch-ref SHA, state/draft/merged/merged_at/closed_at, body digest, comment count, requested/submitted reviews, labels and milestone against fresh approved pre-effect expectations. Require each retained integration/donor ref still exists and retain exact histories/bundles. Record donor reachability from actual main and any indirect merged-state change. No branch deletion, ordinary merge or unapproved successor PR is inferred to be allowed.",
+    "closing_references": "Review actual adoption commit message, complete introduced delta and current PR bodies for close/fix/resolve issue references and other approved lifecycle effects. A lexical empty scan is supporting evidence, not a substitute for exact final diff review and actual issue-state readback.",
+    "complete_delta": "Compare approved-old-main-to-actual and approved-old-main-to-selected full binary diff bytes, including additions/deletions/modes/binary data, with the same pinned Git version/config/argv. If an approval used another recipe, retain its original digest and separately produce both sides with this recipe; never compare incomparable digests or a filename-only list.",
+    "complete_inventory": "Parse NUL-delimited ls-tree output without line splitting paths. Compare every path byte sequence, mode, type and object ID, including directory trees, symlinks and gitlinks, to the approved selected inventory. Preserve ordering/raw bytes and count/digest. API recursive trees require truncated=false; otherwise receive the finite subtree closure by validated tree IDs and record completeness. Do not follow symlinks or silently materialize gitlinks. Hash required consumed blob bytes and verify Git object IDs/declared sizes and approved digest closure.",
+    "issue_comparison": "Compare to the fresh approved pre-effect receipt, retaining the cached original32 comment identities as historical anchors. Keep null distinct from empty string. Preserve body bytes and newlines without normalization. Compare ordered comment IDs and each body digest, not count alone. Unknown baseline timestamps remain unknown; do not manufacture equality. Any later authorized issue-owner changes must have their own exact authority/readback and must not erase original evidence.",
+    "issue_fields": [
+      "number",
+      "state",
+      "state_reason",
+      "closed_at",
+      "locked",
+      "active_lock_reason",
+      "title",
+      "body UTF-8 bytes/length/SHA256",
+      "comments count",
+      "comment id/node_id/url/author/created_at/updated_at/body UTF-8 bytes/length/SHA256",
+      "labels id/name",
+      "milestone id/number/title/state"
+    ],
+    "issue_slice_scope": "Consume the digest-bound ISSUE_SLICE_REQUIREMENTS.json for original populations, issue-specific downstream identity requirements and residuals. No issue is certified or closed by this receiving. COMMON_ADOPTION applies only to the exact selected finite subject, without an all-ten/all-native prerequisite.",
+    "main": "observed_main_commit == approved adoption commit; actual commit.tree == approved selected source tree; actual ordered parents == approved ordered_parents == [freshly approved old main]. Compare raw actual message digest with the approved message. Do not accept only tree equality or an abbreviated commit.",
+    "package_claims": "Archive SHA256, inventory digest/member list, actual build commit/tree/worktree_state, package contract version, both host manifests and each affected consumer identity must match the approved records. Same tree/version does not permit relabeling old source.commit metadata, reusing an old archive hash as a new build, or weakening a strict source consumer. A bridge must remain truthful and satisfy the actual named consumers; missing/failed evidence stays unresolved.",
+    "time": "Store requested_at, received_at, exact URL/argv, HTTP/result status, response headers when actually exposed, return code, raw response/output digest and evidence path. Bookend tuples and each per-resource observation are non-atomic; do not state that all existed simultaneously."
+  },
+  "created_at": "2026-11-02T01:49:50.524664+00:00",
+  "effect_time_receiving_sequence": [
+    {
+      "action": "Read and hash the exact approval, scoped authority, final independent review, COMMON_ADOPTION, finite claim set, approved source/tree/ordered-parent/message, package/consumer identities, retained refs/lifecycle expectations and fresh pre-effect receipt. Record actual attempt start/end and transport receipt; a transport claim alone is insufficient.",
+      "name": "Bind the actual attempted operation",
+      "step": 1
+    },
+    {
+      "action": "After the attempt returns or becomes uncertain, first read actual main before any retry. Obtain main and retained refs independently through ls-remote and GitHub GET ref metadata, plus PR255 and five donor PR objects/reviews. Record each observation time; sources may disagree during convergence and that is evidence requiring reconciliation.",
+      "name": "Begin independent public bookend",
+      "step": 2
+    },
+    {
+      "action": "Acquire the observed main commit metadata/object and full ordered parent list; require exact approved adoption commit, approved selected tree and exactly the approved old-main parent for this single-parent method. Compare complete actual/selected inventories and binary deltas using identical recorded recipes. Inspect the actual new commit message and complete delta for issue-closing references; preserve all raw outputs and discrepancies.",
+      "name": "Receive actual immutable result",
+      "step": 3
+    },
+    {
+      "action": "Read issue196,197,198,200,207,209,211,215,225,230 objects, then every existing comment page once per issue. Record exact body/comment bytes and identities, labels and milestone. Read each issue object again after its comment pages to bookend concurrent changes. Same count alone cannot prove unchanged comment identities or edited bodies. This is public lifecycle preservation, not ten acceptance campaigns.",
+      "name": "Receive all ten issue lifecycle identities",
+      "step": 4
+    },
+    {
+      "action": "Read the approved real package archives/inventories and named consumer receipts as data; verify their file digests and exact source commit/tree/cleanliness or explicit truthful approved bridge. Compare actual inventory members, manifests, archive roles and consumer subject/environment bindings. Keep canonical, standalone, installed, native, hosted and public claims distinct; unperformed or failed consumers remain explicit.",
+      "name": "Receive actual package and affected consumer bindings",
+      "step": 5
+    },
+    {
+      "action": "Repeat main/retained-ref and six PR metadata reads after the finite receiving work; compare their identity/lifecycle tuples with begin reads and approved pre-effect values. Retain the per-issue after-comment bookends. Any changed source/state/body/comment identity is a dated discrepancy. Equal bookends bound observations but do not establish an atomic global snapshot.",
+      "name": "Close public bookend",
+      "step": 6
+    },
+    {
+      "action": "Write immutable raw-response/command-output manifests, per-check comparisons, exact actual identities, observation windows, original issue denominators/residuals, qualified finite claims and unresolved discrepancies. End the finite pass. No polling loop, blind retry, repair, issue mutation or acceptance invention follows.",
+      "name": "Write the independent receiving result",
+      "step": 7
+    }
+  ],
+  "final_binding_required_from_exact_approved_packet": {
+    "CE021_scoped_exclusive_writer_receipt": null,
+    "COMMON_ADOPTION_receipt_identity": null,
+    "Sol_selected_source_record_identity": null,
+    "approval_packet_path": null,
+    "approval_packet_sha256": null,
+    "approved_complete_binary_delta_digest_and_recipe": null,
+    "approved_expected_old_public_main": null,
+    "approved_full_inventory_digest_and_recipe": null,
+    "approved_issue_lifecycle_map": null,
+    "approved_method_and_exact_transport_identity": null,
+    "approved_retained_ref_and_PR_lifecycle_map": null,
+    "artifact_build_sources_and_consumer_bridge": null,
+    "effect_attempt_receipt_sha256": null,
+    "exact_commit_message_sha256": null,
+    "final_independent_candidate_review_identity": null,
+    "finite_common_claim_set": null,
+    "human_exact_approval_identity": null,
+    "null_policy": "These are intentionally unfilled. Bind only actual reviewed/approved records. Do not use cdfec, c56, published4af, engineeringd0ab or DG21 as a guessed final subject. Missing approval bindings do not prevent harmless observation of an uncertain outcome, but they prevent an APPROVED_RESULT_MATCH claim.",
+    "ordered_parents": null,
+    "pre_effect_observation_receipt_sha256": null,
+    "proposed_adoption_commit": null,
+    "selected_source_commit": null,
+    "selected_source_tree": null
+  },
+  "read_only_command_construction_shapes": {
+    "API_GET_shapes": [
+      "/repos/theislampill/IMPLEMENTAUDIT.md/git/ref/heads/main",
+      "/repos/theislampill/IMPLEMENTAUDIT.md/git/ref/heads/{url_encoded_approved_branch_suffix}",
+      "/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/{observed_main_commit}",
+      "/repos/theislampill/IMPLEMENTAUDIT.md/git/trees/{observed_tree_oid}?recursive=1",
+      "/repos/theislampill/IMPLEMENTAUDIT.md/git/trees/{validated_subtree_oid}",
+      "/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/{validated_inventory_blob_oid}",
+      "/repos/theislampill/IMPLEMENTAUDIT.md/pulls/{allowlisted_PR_number}",
+      "/repos/theislampill/IMPLEMENTAUDIT.md/pulls/{allowlisted_PR_number}/reviews?per_page=100&page={positive_integer_page}",
+      "/repos/theislampill/IMPLEMENTAUDIT.md/issues/{allowlisted_issue_number}",
+      "/repos/theislampill/IMPLEMENTAUDIT.md/issues/{allowlisted_issue_number}/comments?per_page=100&page={positive_integer_page}"
+    ],
+    "API_connector_call_shape": {
+      "arguments": {
+        "url": "FIXED_API_ORIGIN + CONSTRUCTED_VALIDATED_GET_PATH"
+      },
+      "tool": "mcp__codex_apps__github_fetch"
+    },
+    "exit_codes": "For ancestry and quiet diff, 0 and 1 have different semantic meanings; capture them explicitly. Any other code or failed object read is an error, never a successful negative proof. A missing individual ls-remote row must be detected even when other rows made the command return0.",
+    "git_actual_commit_object": [
+      "git",
+      "--no-replace-objects",
+      "-C",
+      "${receiver_object_repository}",
+      "cat-file",
+      "commit",
+      "${observed_main_commit}"
+    ],
+    "git_actual_complete_binary_delta": [
+      "git",
+      "--no-replace-objects",
+      "-C",
+      "${receiver_object_repository}",
+      "diff",
+      "--binary",
+      "--full-index",
+      "--no-ext-diff",
+      "--no-textconv",
+      "--no-renames",
+      "--no-color",
+      "--diff-algorithm=myers",
+      "--no-indent-heuristic",
+      "--src-prefix=a/",
+      "--dst-prefix=b/",
+      "${approved_expected_old_main}",
+      "${observed_main_commit}",
+      "--"
+    ],
+    "git_actual_full_inventory": [
+      "git",
+      "--no-replace-objects",
+      "-C",
+      "${receiver_object_repository}",
+      "ls-tree",
+      "-r",
+      "-t",
+      "-z",
+      "--full-tree",
+      "${observed_main_commit}"
+    ],
+    "git_actual_ordered_parents": [
+      "git",
+      "--no-replace-objects",
+      "-C",
+      "${receiver_object_repository}",
+      "rev-list",
+      "--parents",
+      "-n",
+      "1",
+      "${observed_main_commit}"
+    ],
+    "git_actual_tree": [
+      "git",
+      "--no-replace-objects",
+      "-C",
+      "${receiver_object_repository}",
+      "show",
+      "--no-patch",
+      "--format=%T",
+      "${observed_main_commit}"
+    ],
+    "git_blob_bytes": [
+      "git",
+      "--no-replace-objects",
+      "-C",
+      "${receiver_object_repository}",
+      "cat-file",
+      "blob",
+      "${validated_inventory_blob_oid}"
+    ],
+    "git_check_ref_format": [
+      "git",
+      "check-ref-format",
+      "${approved_full_ref}"
+    ],
+    "git_complete_new_commit_messages": [
+      "git",
+      "--no-replace-objects",
+      "-C",
+      "${receiver_object_repository}",
+      "log",
+      "--format=%H%x00%B%x00",
+      "${approved_expected_old_main}..${observed_main_commit}"
+    ],
+    "git_donor_ancestry": [
+      "git",
+      "--no-replace-objects",
+      "-C",
+      "${receiver_object_repository}",
+      "merge-base",
+      "--is-ancestor",
+      "${approved_retained_donor_commit}",
+      "${observed_main_commit}"
+    ],
+    "git_main_and_retained_refs": [
+      "git",
+      "ls-remote",
+      "--refs",
+      "--exit-code",
+      "https://github.com/theislampill/IMPLEMENTAUDIT.md.git",
+      "refs/heads/main",
+      "${approved_integration_ref}",
+      "${approved_donor246_ref}",
+      "${approved_donor251_ref}",
+      "${approved_donor252_ref}",
+      "${approved_donor253_ref}",
+      "${approved_donor254_ref}"
+    ],
+    "git_ref_history_retention": [
+      "git",
+      "--no-replace-objects",
+      "-C",
+      "${receiver_object_repository}",
+      "merge-base",
+      "--is-ancestor",
+      "${approved_retained_before_commit}",
+      "${observed_retained_after_commit}"
+    ],
+    "git_selected_complete_binary_delta": [
+      "git",
+      "--no-replace-objects",
+      "-C",
+      "${receiver_object_repository}",
+      "diff",
+      "--binary",
+      "--full-index",
+      "--no-ext-diff",
+      "--no-textconv",
+      "--no-renames",
+      "--no-color",
+      "--diff-algorithm=myers",
+      "--no-indent-heuristic",
+      "--src-prefix=a/",
+      "--dst-prefix=b/",
+      "${approved_expected_old_main}",
+      "${approved_selected_source_commit}",
+      "--"
+    ],
+    "git_selected_full_inventory": [
+      "git",
+      "--no-replace-objects",
+      "-C",
+      "${receiver_object_repository}",
+      "ls-tree",
+      "-r",
+      "-t",
+      "-z",
+      "--full-tree",
+      "${approved_selected_source_commit}"
+    ],
+    "git_source_tree_equality": [
+      "git",
+      "--no-replace-objects",
+      "-C",
+      "${receiver_object_repository}",
+      "diff",
+      "--exit-code",
+      "--quiet",
+      "--no-ext-diff",
+      "--no-textconv",
+      "${approved_selected_source_commit}",
+      "${observed_main_commit}",
+      "--"
+    ],
+    "pagination": "Receive every page of reviews/comments until the documented terminal page/absence of next link. An exactly full page requires the next page unless an authoritative terminal link proves completion. Record page order, item IDs, counts and response digests; flag duplicates, omissions and disagreement with bookended metadata."
+  },
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "result_record_minimum": {
+    "dispositions": {
+      "APPROVED_COMMIT_OBSERVED_RECEIVING_INCOMPLETE": "Approved commit is public, but a required consumer/state observation is missing, unstable, failed or mismatched. Do not replay the effect.",
+      "APPROVED_OLD_MAIN_OBSERVED": "Expected result not observed at this read; this does not prove no transient or external effect occurred. Read/reconcile actual outcome and authority before any separately authorized next attempt.",
+      "APPROVED_RESULT_MATCH": "Actual approved commit/tree/ordered parents and all named required output/identity/lifecycle/package/consumer comparisons match within their recorded scope. This receiver does not independently grant whole-cell/root-DAG acceptance.",
+      "INDETERMINATE": "Errors, inconsistent bookends, unavailable objects or incomplete pagination prevent the relevant comparison. Preserve known observations; no success or empty-result inference.",
+      "UNEXPECTED_MAIN_OR_LIFECYCLE_OBSERVED": "Preserve the actual head/state and evidence. No automatic overwrite, reset, donor/issue repair or attribution of cause."
+    },
+    "fields": [
+      "receiver identity",
+      "specification SHA256",
+      "approved packet and attempt digests",
+      "first/last observation times",
+      "actual main commit/tree/ordered parents/message digest",
+      "complete inventory/delta recipe/count/digests/comparisons",
+      "six PR and retained-ref begin/end observations",
+      "ten issue and all comment identity observations/bookends",
+      "actual package/consumer bindings and qualified finite claims",
+      "raw evidence manifest",
+      "per-check matches/differences/unknowns",
+      "negative outcomes",
+      "issue-specific residuals",
+      "disposition"
+    ],
+    "schema": "dg22.post-effect-receiving-result.v1"
+  },
+  "schema": "dg22.post-effect-receiving-specification.v1",
+  "status": "INERT_SPECIFICATION_NOT_EXECUTED",
+  "uncertainty_retry_and_correction": {
+    "history_retention": "Keep integration and all five donor refs/histories and immutable source/package/approval/receiving evidence. A public-state discrepancy is observed and referred to the accountable owner; this specification performs no corrective issue/PR action.",
+    "read_before_retry": "An uncertain transport outcome first requires actual target/ref and relevant lifecycle readback. If the approved result is present, reconcile completion; do not push again. If old main or another head is present, preserve evidence and analyze exact outcome/current authority. No automatic retry loop is included.",
+    "replay_limit": "Reuse unchanged evidence at its exact producer, consumer, source, environment and authority scope. Re-execute only a demonstrated affected discriminator or an unperformed original obligation; never rerun a satisfied one-shot or the protected R0039 UNKNOWN episode.",
+    "rollback": "Only a separately authorized, independently reviewed forward revert or corrective commit preserving history. Never force/reset. A source correction does not undo external lifecycle or native facts; those require their own authority and readback."
+  },
+  "validated_input_and_construction_rules": {
+    "API_rules": "GET only. Build paths from the fixed origin/repository prefix and validated allowlisted integer/object/ref data. No PUT/PATCH/POST/DELETE. Preserve complete raw response bytes where exposed and the connector envelope. Do not treat a permission error, missing page, redirect to another origin or truncation as an empty result.",
+    "PR_allowlist": [
+      255,
+      246,
+      251,
+      252,
+      253,
+      254
+    ],
+    "api_origin": "https://api.github.com",
+    "api_repository_prefix": "/repos/theislampill/IMPLEMENTAUDIT.md",
+    "argv_rules": "Templates below are arrays. Replace each whole placeholder element from validated structured values; shell=False, no eval or string interpolation into a shell. Join independently validated full OIDs only for the explicitly described range argument. Retain exact expanded argv, environment/configuration identity and return codes.",
+    "filesystem_inputs": "receiver_object_repository is a validated absolute receiver-owned repository/object store with the required immutable objects and no replace/graft ambiguity. Evidence files are outside product source. Do not run source code, hooks, filters, installers or native operations to obtain this readback.",
+    "issue_allowlist": [
+      196,
+      197,
+      198,
+      200,
+      207,
+      209,
+      211,
+      215,
+      225,
+      230
+    ],
+    "local_object_absence": "Do not substitute cached source objects for missing effect-time identities. Record the gap. Any local object acquisition is a separately recorded read-only receiving setup step; no remote-ref update or checkout is part of this specification.",
+    "object_ids": "Validate every interpolated commit/tree/blob as exactly 40 lowercase hexadecimal characters before construction; SHA256 evidence digests are exactly 64 lowercase hexadecimal characters. Reject missing, shortened or option-shaped values.",
+    "ref_inputs": "Use only refs frozen in the exact approved retained-ref map. Validate full refs with git check-ref-format using argv, require refs/heads/, match the approved repository, and URL-encode the branch suffix as data. A fresh PR head with a different ref/repository is a recorded discrepancy, not permission to redirect a command.",
+    "repository_https_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md.git"
+  }
+}

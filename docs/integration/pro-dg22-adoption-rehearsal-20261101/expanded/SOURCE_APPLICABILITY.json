@@ -1,0 +1,59 @@
+{
+  "DG21_observed": {
+    "COMMON_ADOPTION_received": false,
+    "commit": "2eb99c23b9345bf532fbfb3fe3c7bcd3324b7c6b",
+    "diagnostic_result": "failed qualification; exact rejected export retained; zero policy operations; zero artifacts",
+    "diagnostic_run": 41372258048,
+    "final_selection_received": false,
+    "repair_affected_source_controls_passed": 22,
+    "repair_hosted_result": "failed: compiled policy container differs for rsyslogd; ordinary continuity skipped; zero artifacts",
+    "repair_run": 41371714554,
+    "tree": "400a0c519aa705474db24590ac7aa4aec8deb872"
+  },
+  "PR255": {
+    "commit": "4af2e43b4047cd577aa6b56eecd5b27c5f0e45e0",
+    "tree": "8cb97d13e2b4f5e8bf99cc3e6e17e9267cbdef77"
+  },
+  "all_70_skills_blobs_and_modes_unchanged": true,
+  "all_noninventory_package_inputs_unchanged": true,
+  "applicability_receipt_sha256": "d3c74c3792ac8067d91028779267c91b2e3425daf74c62599d52a805dbddc1ff",
+  "conclusions": [
+    "Main/PR255/five donor source and lifecycle inputs remain unchanged at the dated cutoff, including all six actual branch refs and empty submitted-review lists. No changed PR body/count/identity required history refetch.",
+    "DG21 progressed from accepted380 through a substantive parser/test repair2b51413 to a diagnostic-only latest commit2eb. The whole2eb checkpoint must not be described as only diagnostic: it carries the parser repair.",
+    "Repair2b51413 supplies 22 passing affected source controls, but its actual hosted qualification failed before ordinary continuity; current2eb supplies an exact rsyslogd refusal/export and zero-policy-operation inventory bookends. Neither run supplies COMMON_ADOPTION.",
+    "No new exact final composed source/tree/method selection or current independent review was received. Preserve published4af, private engineeringd0ab, DG21tree400a and the parent\u2019s current cdfec/c56 build subjects as distinct evidence roles.",
+    "All DG21 changes are outside shipped package payload selection, and package/install/readme/review owners remain unchanged. Nonetheless, any newly selected source commit/tree requires fresh exact-bound inventories/archives and its own applicable consumer receiving.",
+    "Missing COMMON or final selection is a receiving limit, not evidence that underlying source is missing or defective."
+  ],
+  "cutoff_receipt_sha256": "84ca9bffa0a4e1148c94448a72522f937d6dd9e4266916ccf993d57ba0c9aab5",
+  "four_changed_paths_relative_to_published": [
+    ".github/workflows/pro-dg21-diagnostic-20261101.yml",
+    "docs/integration/pro-dg21-diagnostics-20261101/capture-rsyslog.py",
+    "scripts/qualify-work-graph-c5-setup.py",
+    "tests/composite-source-cases.py"
+  ],
+  "limit": "Finite received public evidence; no assertion that absent private receipts cannot exist.",
+  "main": {
+    "commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+    "tree": "e0263d4455549a47243d82f45cf31101c6b94df2"
+  },
+  "main_PR255_five_donors_changed": false,
+  "replacement_inputs_when_authentic_selection_arrives": [
+    "Exact selected source/tree and opaque original Sol selection receipt.",
+    "Effect-time expected old main, proposed commit metadata/identity and complete adopted inventory/delta.",
+    "Both freshly built archives, inventories, checksums and source/consumer receiving at actual resulting commit.",
+    "Actual finite CE059 receipt, CE021 authority, exact final review and human approval.",
+    "Effect-time main/PR255/donor/lifecycle observations and approved native transport."
+  ],
+  "reuse": "Retain unchanged nineteen method controls and prior history; requalify only changed source/package/consumer/environment/authority dependencies.",
+  "schema": "dg22.expanded-source-applicability.v1",
+  "six_PR_lifecycles": "open, draft, unmerged; zero submitted reviews at the bounded cutoff",
+  "window_utc": {
+    "atomic_snapshot": false,
+    "first_response": "2026-11-02T01:31:21.093Z",
+    "last_response": "2026-11-02T01:34:56.323Z",
+    "no_polling": "Each current ref was read once; later reads targeted already fixed immutable objects and existing run evidence.",
+    "refs_first_response": "2026-11-02T01:31:21.127Z",
+    "refs_last_response": "2026-11-02T01:31:52.676Z"
+  }
+}

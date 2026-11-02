@@ -1,0 +1,78 @@
+{
+  "branch": "pro/dg22-transport-diagnostic-20261101",
+  "cleanup": {
+    "available_delete_ref_tool": false,
+    "obligation": "Entitled owner may remove only this disposable branch after checking its exact current head; do not force-reset it or remove a subsequently reused branch.",
+    "status": "branch retained as diagnostic evidence"
+  },
+  "initial_head": "df39941a0893d6555c5479607aa606f576a02400",
+  "matching_expected_request": {
+    "actual_readback": "3f2b7e940d4aac10ada4e7dbecda2994547d8c3b",
+    "caller_result": "success true",
+    "expected_sha": "df39941a0893d6555c5479607aa606f576a02400",
+    "force": false
+  },
+  "no_PR_created": true,
+  "no_main_donor_issue_write": true,
+  "not_proven": [
+    "native Git HTTPS push",
+    "server-side atomic expected-old compare-and-swap",
+    "mainline branch protections or authorized write",
+    "downstream issue or PR adoption effects"
+  ],
+  "ordered_parents": [
+    "df39941a0893d6555c5479607aa606f576a02400"
+  ],
+  "raw_receipts": [
+    {
+      "file": "001-initial-absence.json",
+      "sha256": "8e3d1750ca94b2a8b3fc3c36b4569a92e664c31aeae95be6c0e8fd922da44948"
+    },
+    {
+      "file": "002-create-branch.json",
+      "sha256": "89579fa47ba317a9d09d95026a3d0a4e053a45bfb9f57d704f91bfd73f7db2b3"
+    },
+    {
+      "file": "003-created-readback.json",
+      "sha256": "e54c03015f78223425862cfd9b9ffdada31b83ef035aadd6baefb323c8a852be"
+    },
+    {
+      "file": "004-create-diagnostic-commit.json",
+      "sha256": "32dfa783cac29f4f2770f5e469ab09ac4d61ce8886b994c9fa7df2a3ce1ff690"
+    },
+    {
+      "file": "005-diagnostic-commit-readback.json",
+      "sha256": "bc178205bd508d267469afe10f8b6b1318f315a5509a9cde8bf0b32d0ef07395"
+    },
+    {
+      "file": "006-wrong-expected-head-refusal.json",
+      "sha256": "cd807d5ec86bc88779dfcad2d56f10712ce2add60af228de3ab924d1bc0c3c70"
+    },
+    {
+      "file": "007-after-refusal-readback.json",
+      "sha256": "d60a7ab82827fd4c55e9df2137a7c28078607c87568411ee212e8f3a5301c6dc"
+    },
+    {
+      "file": "008-correct-expected-head-update.json",
+      "sha256": "6aa49ef975afd67a87fa5c49de8baa05a4bdd9730ef69c5c46c9c1ae48522d15"
+    },
+    {
+      "file": "009-final-readback.json",
+      "sha256": "681601795a5f9d46fde74158a9494200e1033fdc13ba78406fbb17bb82a20d53"
+    }
+  ],
+  "result_head": "3f2b7e940d4aac10ada4e7dbecda2994547d8c3b",
+  "schema": "dg22.bounded-remote-diagnostic.v1",
+  "scope": "PRO_OWNED_TEST_BRANCH_ONLY",
+  "source_delta": "none; same-tree empty diagnostic commit",
+  "transport_availability": "Connected tools expose guarded API ref updates, not the exact native Git remote push. No authenticated shell route or credential retrieval was attempted.",
+  "tree": "f884d9c786ca761f803d5897389128cccb02234d",
+  "wrong_expected_request": {
+    "actual_readback": "df39941a0893d6555c5479607aa606f576a02400",
+    "diagnostic": "generic GithubGraphQLAPIError / UNKNOWN",
+    "force": false,
+    "guard_specific_cause_proven": false,
+    "result": "error"
+  },
+  "wrong_expected_sha": "4af2e43b4047cd577aa6b56eecd5b27c5f0e45e0"
+}

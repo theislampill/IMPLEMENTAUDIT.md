@@ -1,0 +1,19 @@
+{
+  "bridge_disposition": {
+    "complete_final_adoption_bridge": "NOT_QUALIFIED: no authentic selected finite consumer/COMMON acceptance supplied",
+    "engineering_bridge_from_published_archive": "REJECTED for complete payload: two shipped helpers differ",
+    "existing_original_build_helper_pair": "QUALIFIED_NARROW_ROUTE: three real isolated copies, unaltered original archives and original checkout",
+    "invented_allow_either_source_policy": "REJECTED",
+    "inventory_relabeling": "REJECTED",
+    "published_noninventory_payload_and_modes": "equal; actual inventories and archive hashes differ",
+    "strict_new_checkout_reuse_of_old_archive": "REJECTED by existing exact source.commit contract"
+  },
+  "contract_receiving_sha256": "68cb39ddfc0b164a3ec44be445d8b72e4beae1c284d0497469ba0e1a51f69c4c",
+  "procedure_sha256": "795525611784c8a2195e213ed1ca295cb6b5ad15246d98b6ab2a53aa0c5d2a32",
+  "qualification": "PROVISIONAL_NOT_FINAL_SOURCE; procedure qualified, final artifacts and selected source not claimed",
+  "reason": "Actually builds both roles and passes unchanged exact-source consumers at both provisional new commits; introduces no compatibility policy.",
+  "same_version_constraint": "All three actual installers refuse different inventory at 0.4.0 and preserve predecessor. A required replacement needs the source owner to select a supported version/migration before final build.",
+  "scanner_constraint": "Full direct standalone scan remains exit1 due validated inventory declarations; no full scanner pass. If included in exact finite claims, source-owner resolution is required.",
+  "schema": "dg22.package-source-decision.v1",
+  "selected_procedure": "build_at_exact_prepared_adoption_commit"
+}

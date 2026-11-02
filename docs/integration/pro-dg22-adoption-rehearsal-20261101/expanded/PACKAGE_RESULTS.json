@@ -1,0 +1,581 @@
+{
+  "accepted_method_checkpoint": "df39941a0893d6555c5479607aa606f576a02400",
+  "builds": {
+    "engineering": {
+      "artifacts": [
+        {
+          "all_member_bytes_modes_source_inventory_verified": true,
+          "bytes": 576115,
+          "cap_bytes": 589824,
+          "headroom_bytes": 13709,
+          "inventory_sha256": "e554226c9506af2dce8d7e57b86bea26554b8d21c54dbcd0052e28e4ad01ab80",
+          "inventory_source": {
+            "commit": "c56ff57d4d2fd5d91ad6f2cc4be3d43eaa9a3642",
+            "tree": "d0446a12550dca6c885a3c569ffed21a9ec7dcd1",
+            "worktree_state": "clean"
+          },
+          "members": 75,
+          "path": "artifacts/engineering/IMPLEMENTAUDIT.plugin.zip",
+          "reserve_bytes": 2000,
+          "role": "canonical_plugin",
+          "sha256": "3a93929fb1af6aefa9d0bff7ed1b2bec062fa47623caa8222b3cab7c0fd8fb52",
+          "strict_clean_verifier_exit": 0
+        },
+        {
+          "all_member_bytes_modes_source_inventory_verified": true,
+          "bytes": 571503,
+          "cap_bytes": 589824,
+          "headroom_bytes": 18321,
+          "inventory_sha256": "55fd209a7347b2ff14a57e7148efdba4337d40e95384c115395c9c37e4f6fe51",
+          "inventory_source": {
+            "commit": "c56ff57d4d2fd5d91ad6f2cc4be3d43eaa9a3642",
+            "tree": "d0446a12550dca6c885a3c569ffed21a9ec7dcd1",
+            "worktree_state": "clean"
+          },
+          "members": 72,
+          "path": "artifacts/engineering/IMPLEMENTAUDIT.skill",
+          "reserve_bytes": 2000,
+          "role": "standalone_compatibility",
+          "sha256": "7ea35978d9b5d4e4cd122b09d85f7d4e99ac0a20d03cde0b80e829a85e1797a5",
+          "strict_clean_verifier_exit": 0
+        }
+      ],
+      "commit": "c56ff57d4d2fd5d91ad6f2cc4be3d43eaa9a3642",
+      "original_source": "d0abed5967e7fb2aab294089f75eb5c6c7e71471",
+      "parent": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "tree": "d0446a12550dca6c885a3c569ffed21a9ec7dcd1"
+    },
+    "published": {
+      "artifacts": [
+        {
+          "all_member_bytes_modes_source_inventory_verified": true,
+          "bytes": 575270,
+          "cap_bytes": 589824,
+          "headroom_bytes": 14554,
+          "inventory_sha256": "1847ecaa1bf6534da4c2f25ec34a940d6dd5c3fe6462e20e1ac0ea791e0208cb",
+          "inventory_source": {
+            "commit": "cdfec64a6dfad645f4b27a3a77562bc55c61c35c",
+            "tree": "8cb97d13e2b4f5e8bf99cc3e6e17e9267cbdef77",
+            "worktree_state": "clean"
+          },
+          "members": 75,
+          "path": "artifacts/published/IMPLEMENTAUDIT.plugin.zip",
+          "reserve_bytes": 2000,
+          "role": "canonical_plugin",
+          "sha256": "f0fd1e4a2bbd577f78688fb79b62f607f23707ebd852c504b39c93f40bbe2253",
+          "strict_clean_verifier_exit": 0
+        },
+        {
+          "all_member_bytes_modes_source_inventory_verified": true,
+          "bytes": 570661,
+          "cap_bytes": 589824,
+          "headroom_bytes": 19163,
+          "inventory_sha256": "4022f824ead217014678dcee00398603c1b43e696b552ad7198675ffcd00a7e7",
+          "inventory_source": {
+            "commit": "cdfec64a6dfad645f4b27a3a77562bc55c61c35c",
+            "tree": "8cb97d13e2b4f5e8bf99cc3e6e17e9267cbdef77",
+            "worktree_state": "clean"
+          },
+          "members": 72,
+          "path": "artifacts/published/IMPLEMENTAUDIT.skill",
+          "reserve_bytes": 2000,
+          "role": "standalone_compatibility",
+          "sha256": "f0c7ac6391debf38775ddc72ef2f1c8227cb65f3257e3e739797817ff8a07b27",
+          "strict_clean_verifier_exit": 0
+        }
+      ],
+      "commit": "cdfec64a6dfad645f4b27a3a77562bc55c61c35c",
+      "original_source": "4af2e43b4047cd577aa6b56eecd5b27c5f0e45e0",
+      "parent": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "tree": "8cb97d13e2b4f5e8bf99cc3e6e17e9267cbdef77"
+    }
+  },
+  "first_failure_preserved": {
+    "command": 32,
+    "exit": 1,
+    "full_standalone_scanner_pass_claimed": false,
+    "independent_diagnosis_sha256": "3dff23bbf0a8ca0e971ad37f85da12cd1c1f8937e3cbacea93546b67d6d2f545",
+    "inventory_diagnostics": 7,
+    "kind": "standalone scanner metadata applicability",
+    "runtime_file_diagnostics": 0
+  },
+  "fresh_transaction_compensation": [
+    {
+      "exit": 1,
+      "fault": "during-swap",
+      "predecessor_restore_claim": false,
+      "route": "plugin-codex",
+      "target_absent": true,
+      "transaction_residue": []
+    },
+    {
+      "exit": 1,
+      "fault": "during-swap",
+      "predecessor_restore_claim": false,
+      "route": "standalone-codex",
+      "target_absent": true,
+      "transaction_residue": []
+    },
+    {
+      "exit": 1,
+      "fault": "during-swap",
+      "predecessor_restore_claim": false,
+      "route": "standalone-claude",
+      "target_absent": true,
+      "transaction_residue": []
+    }
+  ],
+  "limits": [
+    "Linux isolated file-copy and read-only helper consumers only; no native host import/discovery/load, Windows permission behavior or original native authority.",
+    "Direct standalone self-containment scan failed on metadata; separate bounded receiving is required and the raw failure remains.",
+    "Same-version different-inventory updates are refused by existing policy; no version edit or allow-either-source rule is introduced.",
+    "Fresh transaction compensation has no predecessor; no newly executed different-version predecessor rollback.",
+    "No final COMMON/source/owner approval is supplied by provisional copies."
+  ],
+  "new_archive_wrong_commit_refusals": [
+    {
+      "new_archive_at_original_checkout_exit": 1,
+      "role": "canonical_plugin"
+    },
+    {
+      "new_archive_at_original_checkout_exit": 1,
+      "role": "standalone_compatibility"
+    }
+  ],
+  "new_archives_built": 4,
+  "new_artifact_installs": [
+    {
+      "child_resolutions": [
+        {
+          "child": "audit-state",
+          "relative_path": "skills/audit-state/SKILL.md",
+          "sha256": "14caf13c42a49b335197fb24a632a9fb3ebc51b26947f311cde4a7e5b6b05a8d"
+        },
+        {
+          "child": "audit-assess",
+          "relative_path": "skills/audit-assess/SKILL.md",
+          "sha256": "6f5d5738b9efd5fa5d4c35868400220458a2f81179d4081fce508ef65c3f72e4"
+        },
+        {
+          "child": "audit-implement",
+          "relative_path": "skills/audit-implement/SKILL.md",
+          "sha256": "aaeb90c6fcded31064f4731cd19cb0e8dcb9e7a5c82a0db4de2f3eab17d978b2"
+        },
+        {
+          "child": "audit-andon",
+          "relative_path": "skills/audit-andon/SKILL.md",
+          "sha256": "d774154be7940f88e6402b9d7299f36792e0a636c9023f68fe88b062e2604ff9"
+        }
+      ],
+      "fresh_copy_exit": 0,
+      "idempotent_exit": 0,
+      "idempotent_state_unchanged": true,
+      "native_load_or_allocation": false,
+      "prior_commands_reused_without_reexecution": true,
+      "registry_validate_exit": 0,
+      "resume_full_member_readback": true,
+      "route": "plugin-codex",
+      "self_containment": {
+        "exit": 0,
+        "status": "PASS"
+      },
+      "subject": "published"
+    },
+    {
+      "child_resolutions": [
+        {
+          "child": "audit-state",
+          "relative_path": "skills/audit-state/SKILL.md",
+          "sha256": "14caf13c42a49b335197fb24a632a9fb3ebc51b26947f311cde4a7e5b6b05a8d"
+        },
+        {
+          "child": "audit-assess",
+          "relative_path": "skills/audit-assess/SKILL.md",
+          "sha256": "6f5d5738b9efd5fa5d4c35868400220458a2f81179d4081fce508ef65c3f72e4"
+        },
+        {
+          "child": "audit-implement",
+          "relative_path": "skills/audit-implement/SKILL.md",
+          "sha256": "aaeb90c6fcded31064f4731cd19cb0e8dcb9e7a5c82a0db4de2f3eab17d978b2"
+        },
+        {
+          "child": "audit-andon",
+          "relative_path": "skills/audit-andon/SKILL.md",
+          "sha256": "d774154be7940f88e6402b9d7299f36792e0a636c9023f68fe88b062e2604ff9"
+        }
+      ],
+      "fresh_copy_exit": 0,
+      "idempotent_exit": 0,
+      "idempotent_state_unchanged": true,
+      "native_load_or_allocation": false,
+      "prior_commands_reused_without_reexecution": true,
+      "registry_validate_exit": 0,
+      "resume_full_member_readback": true,
+      "route": "plugin-claude",
+      "self_containment": {
+        "exit": 0,
+        "status": "PASS"
+      },
+      "subject": "published"
+    },
+    {
+      "child_resolutions": [
+        {
+          "child": "audit-state",
+          "relative_path": "internal-procedures/audit-state.md",
+          "sha256": "dec229a4101d9fe8dfb2af4691d0e917c70de846b8f5429cc514ebe84cd686ae"
+        },
+        {
+          "child": "audit-assess",
+          "relative_path": "internal-procedures/audit-assess.md",
+          "sha256": "b79ceb0974025be85675fa896df3dbce596e971ae8f07e48cea4d66ca2bfd9b1"
+        },
+        {
+          "child": "audit-implement",
+          "relative_path": "internal-procedures/audit-implement.md",
+          "sha256": "c03f5ec57821c200140a58aaa3715a535dfa62676c5afb4d719020a133f3f015"
+        },
+        {
+          "child": "audit-andon",
+          "relative_path": "internal-procedures/audit-andon.md",
+          "sha256": "bb723d4b45e313425dace87d3555be211a8e0e84dce8cd19f527fac0d0095693"
+        }
+      ],
+      "fresh_copy_exit": 0,
+      "idempotent_exit": 0,
+      "idempotent_state_unchanged": true,
+      "native_load_or_allocation": false,
+      "prior_commands_reused_without_reexecution": true,
+      "registry_validate_exit": 0,
+      "resume_full_member_readback": true,
+      "route": "standalone-codex",
+      "self_containment": {
+        "actual_exit": 1,
+        "direct_pass_claim": false,
+        "duplicate_execution_omitted": false,
+        "preserved_first_failure": "commands/032-published-standalone-codex-self-contained",
+        "reason": "Unchanged scanner reads flattened inventory member identities as unlabeled repo commands.",
+        "status": "UNQUALIFIED_DIRECT_STANDALONE_APPLICATION"
+      },
+      "subject": "published"
+    },
+    {
+      "child_resolutions": [
+        {
+          "child": "audit-state",
+          "relative_path": "internal-procedures/audit-state.md",
+          "sha256": "dec229a4101d9fe8dfb2af4691d0e917c70de846b8f5429cc514ebe84cd686ae"
+        },
+        {
+          "child": "audit-assess",
+          "relative_path": "internal-procedures/audit-assess.md",
+          "sha256": "b79ceb0974025be85675fa896df3dbce596e971ae8f07e48cea4d66ca2bfd9b1"
+        },
+        {
+          "child": "audit-implement",
+          "relative_path": "internal-procedures/audit-implement.md",
+          "sha256": "c03f5ec57821c200140a58aaa3715a535dfa62676c5afb4d719020a133f3f015"
+        },
+        {
+          "child": "audit-andon",
+          "relative_path": "internal-procedures/audit-andon.md",
+          "sha256": "bb723d4b45e313425dace87d3555be211a8e0e84dce8cd19f527fac0d0095693"
+        }
+      ],
+      "fresh_copy_exit": 0,
+      "idempotent_exit": 0,
+      "idempotent_state_unchanged": true,
+      "native_load_or_allocation": false,
+      "prior_commands_reused_without_reexecution": false,
+      "registry_validate_exit": 0,
+      "resume_full_member_readback": false,
+      "route": "standalone-claude",
+      "self_containment": {
+        "direct_pass_claim": false,
+        "duplicate_execution_omitted": true,
+        "preserved_first_failure": "commands/032-published-standalone-codex-self-contained",
+        "reason": "Unchanged scanner reads flattened inventory member identities as unlabeled repo commands.",
+        "status": "UNQUALIFIED_DIRECT_STANDALONE_APPLICATION"
+      },
+      "subject": "published"
+    },
+    {
+      "child_resolutions": [
+        {
+          "child": "audit-state",
+          "relative_path": "skills/audit-state/SKILL.md",
+          "sha256": "14caf13c42a49b335197fb24a632a9fb3ebc51b26947f311cde4a7e5b6b05a8d"
+        },
+        {
+          "child": "audit-assess",
+          "relative_path": "skills/audit-assess/SKILL.md",
+          "sha256": "6f5d5738b9efd5fa5d4c35868400220458a2f81179d4081fce508ef65c3f72e4"
+        },
+        {
+          "child": "audit-implement",
+          "relative_path": "skills/audit-implement/SKILL.md",
+          "sha256": "aaeb90c6fcded31064f4731cd19cb0e8dcb9e7a5c82a0db4de2f3eab17d978b2"
+        },
+        {
+          "child": "audit-andon",
+          "relative_path": "skills/audit-andon/SKILL.md",
+          "sha256": "d774154be7940f88e6402b9d7299f36792e0a636c9023f68fe88b062e2604ff9"
+        }
+      ],
+      "fresh_copy_exit": 0,
+      "idempotent_exit": 0,
+      "idempotent_state_unchanged": true,
+      "native_load_or_allocation": false,
+      "prior_commands_reused_without_reexecution": false,
+      "registry_validate_exit": 0,
+      "resume_full_member_readback": false,
+      "route": "plugin-codex",
+      "self_containment": {
+        "exit": 0,
+        "status": "PASS"
+      },
+      "subject": "engineering"
+    },
+    {
+      "child_resolutions": [
+        {
+          "child": "audit-state",
+          "relative_path": "skills/audit-state/SKILL.md",
+          "sha256": "14caf13c42a49b335197fb24a632a9fb3ebc51b26947f311cde4a7e5b6b05a8d"
+        },
+        {
+          "child": "audit-assess",
+          "relative_path": "skills/audit-assess/SKILL.md",
+          "sha256": "6f5d5738b9efd5fa5d4c35868400220458a2f81179d4081fce508ef65c3f72e4"
+        },
+        {
+          "child": "audit-implement",
+          "relative_path": "skills/audit-implement/SKILL.md",
+          "sha256": "aaeb90c6fcded31064f4731cd19cb0e8dcb9e7a5c82a0db4de2f3eab17d978b2"
+        },
+        {
+          "child": "audit-andon",
+          "relative_path": "skills/audit-andon/SKILL.md",
+          "sha256": "d774154be7940f88e6402b9d7299f36792e0a636c9023f68fe88b062e2604ff9"
+        }
+      ],
+      "fresh_copy_exit": 0,
+      "idempotent_exit": 0,
+      "idempotent_state_unchanged": true,
+      "native_load_or_allocation": false,
+      "prior_commands_reused_without_reexecution": false,
+      "registry_validate_exit": 0,
+      "resume_full_member_readback": false,
+      "route": "plugin-claude",
+      "self_containment": {
+        "exit": 0,
+        "status": "PASS"
+      },
+      "subject": "engineering"
+    },
+    {
+      "child_resolutions": [
+        {
+          "child": "audit-state",
+          "relative_path": "internal-procedures/audit-state.md",
+          "sha256": "dec229a4101d9fe8dfb2af4691d0e917c70de846b8f5429cc514ebe84cd686ae"
+        },
+        {
+          "child": "audit-assess",
+          "relative_path": "internal-procedures/audit-assess.md",
+          "sha256": "b79ceb0974025be85675fa896df3dbce596e971ae8f07e48cea4d66ca2bfd9b1"
+        },
+        {
+          "child": "audit-implement",
+          "relative_path": "internal-procedures/audit-implement.md",
+          "sha256": "c03f5ec57821c200140a58aaa3715a535dfa62676c5afb4d719020a133f3f015"
+        },
+        {
+          "child": "audit-andon",
+          "relative_path": "internal-procedures/audit-andon.md",
+          "sha256": "bb723d4b45e313425dace87d3555be211a8e0e84dce8cd19f527fac0d0095693"
+        }
+      ],
+      "fresh_copy_exit": 0,
+      "idempotent_exit": 0,
+      "idempotent_state_unchanged": true,
+      "native_load_or_allocation": false,
+      "prior_commands_reused_without_reexecution": false,
+      "registry_validate_exit": 0,
+      "resume_full_member_readback": false,
+      "route": "standalone-codex",
+      "self_containment": {
+        "direct_pass_claim": false,
+        "duplicate_execution_omitted": true,
+        "preserved_first_failure": "commands/032-published-standalone-codex-self-contained",
+        "reason": "Unchanged scanner reads flattened inventory member identities as unlabeled repo commands.",
+        "status": "UNQUALIFIED_DIRECT_STANDALONE_APPLICATION"
+      },
+      "subject": "engineering"
+    },
+    {
+      "child_resolutions": [
+        {
+          "child": "audit-state",
+          "relative_path": "internal-procedures/audit-state.md",
+          "sha256": "dec229a4101d9fe8dfb2af4691d0e917c70de846b8f5429cc514ebe84cd686ae"
+        },
+        {
+          "child": "audit-assess",
+          "relative_path": "internal-procedures/audit-assess.md",
+          "sha256": "b79ceb0974025be85675fa896df3dbce596e971ae8f07e48cea4d66ca2bfd9b1"
+        },
+        {
+          "child": "audit-implement",
+          "relative_path": "internal-procedures/audit-implement.md",
+          "sha256": "c03f5ec57821c200140a58aaa3715a535dfa62676c5afb4d719020a133f3f015"
+        },
+        {
+          "child": "audit-andon",
+          "relative_path": "internal-procedures/audit-andon.md",
+          "sha256": "bb723d4b45e313425dace87d3555be211a8e0e84dce8cd19f527fac0d0095693"
+        }
+      ],
+      "fresh_copy_exit": 0,
+      "idempotent_exit": 0,
+      "idempotent_state_unchanged": true,
+      "native_load_or_allocation": false,
+      "prior_commands_reused_without_reexecution": false,
+      "registry_validate_exit": 0,
+      "resume_full_member_readback": false,
+      "route": "standalone-claude",
+      "self_containment": {
+        "direct_pass_claim": false,
+        "duplicate_execution_omitted": true,
+        "preserved_first_failure": "commands/032-published-standalone-codex-self-contained",
+        "reason": "Unchanged scanner reads flattened inventory member identities as unlabeled repo commands.",
+        "status": "UNQUALIFIED_DIRECT_STANDALONE_APPLICATION"
+      },
+      "subject": "engineering"
+    }
+  ],
+  "original_and_new_published_payload_comparison": [
+    {
+      "all_member_modes_equal": true,
+      "artifact": "IMPLEMENTAUDIT.plugin.zip",
+      "changed_members": [
+        "IMPLEMENTAUDIT_INVENTORY.json"
+      ],
+      "new_sha256": "f0fd1e4a2bbd577f78688fb79b62f607f23707ebd852c504b39c93f40bbe2253",
+      "new_source": {
+        "commit": "cdfec64a6dfad645f4b27a3a77562bc55c61c35c",
+        "tree": "8cb97d13e2b4f5e8bf99cc3e6e17e9267cbdef77",
+        "worktree_state": "clean"
+      },
+      "non_inventory_payload_equal": true,
+      "old_sha256": "f656f9da508963dd244cbb0a5fd12dae89483fda3ece19bf73b4ee9e85aa389c",
+      "old_source": {
+        "commit": "4af2e43b4047cd577aa6b56eecd5b27c5f0e45e0",
+        "tree": "8cb97d13e2b4f5e8bf99cc3e6e17e9267cbdef77",
+        "worktree_state": "clean"
+      }
+    },
+    {
+      "all_member_modes_equal": true,
+      "artifact": "IMPLEMENTAUDIT.skill",
+      "changed_members": [
+        "IMPLEMENTAUDIT_INVENTORY.json"
+      ],
+      "new_sha256": "f0c7ac6391debf38775ddc72ef2f1c8227cb65f3257e3e739797817ff8a07b27",
+      "new_source": {
+        "commit": "cdfec64a6dfad645f4b27a3a77562bc55c61c35c",
+        "tree": "8cb97d13e2b4f5e8bf99cc3e6e17e9267cbdef77",
+        "worktree_state": "clean"
+      },
+      "non_inventory_payload_equal": true,
+      "old_sha256": "3e8ea6f6b854dc704bd23f8d68eda16fdbaa39e006f353b9ff1fe2171fefb897",
+      "old_source": {
+        "commit": "4af2e43b4047cd577aa6b56eecd5b27c5f0e45e0",
+        "tree": "8cb97d13e2b4f5e8bf99cc3e6e17e9267cbdef77",
+        "worktree_state": "clean"
+      }
+    }
+  ],
+  "original_build_pair_copies": 3,
+  "private_package_qualification_sha256": "81f363899e1d9b2d1db1c80dea03a346c04ac3458a2ce9a886a47faa5bdeb5ee",
+  "published_and_engineering_payload_comparison": [
+    {
+      "artifact": "IMPLEMENTAUDIT.plugin.zip",
+      "differences": [
+        {
+          "engineering_sha256": "e554226c9506af2dce8d7e57b86bea26554b8d21c54dbcd0052e28e4ad01ab80",
+          "member": "IMPLEMENTAUDIT_INVENTORY.json",
+          "modes_equal": true,
+          "published_sha256": "1847ecaa1bf6534da4c2f25ec34a940d6dd5c3fe6462e20e1ac0ea791e0208cb"
+        },
+        {
+          "engineering_sha256": "11a9c175f2fa7995edf3f99547038303fe04091fd6b40d77c35354b02576b90d",
+          "member": "skills/implementaudit/scripts/compile-work-graph.py",
+          "modes_equal": true,
+          "published_sha256": "25f2c24645cc65ed4b9bfbd70bb2d0ce26eb6accc51de0af0df06b3bdff5b627"
+        },
+        {
+          "engineering_sha256": "a2e37da6d580332db6200df0f61f2886198b2f0f1d18f9d0356fd08a2d82b6de",
+          "member": "skills/implementaudit/scripts/validate-run-root.sh",
+          "modes_equal": true,
+          "published_sha256": "c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978"
+        }
+      ]
+    },
+    {
+      "artifact": "IMPLEMENTAUDIT.skill",
+      "differences": [
+        {
+          "engineering_sha256": "55fd209a7347b2ff14a57e7148efdba4337d40e95384c115395c9c37e4f6fe51",
+          "member": "IMPLEMENTAUDIT_INVENTORY.json",
+          "modes_equal": true,
+          "published_sha256": "4022f824ead217014678dcee00398603c1b43e696b552ad7198675ffcd00a7e7"
+        },
+        {
+          "engineering_sha256": "11a9c175f2fa7995edf3f99547038303fe04091fd6b40d77c35354b02576b90d",
+          "member": "scripts/compile-work-graph.py",
+          "modes_equal": true,
+          "published_sha256": "25f2c24645cc65ed4b9bfbd70bb2d0ce26eb6accc51de0af0df06b3bdff5b627"
+        },
+        {
+          "engineering_sha256": "a2e37da6d580332db6200df0f61f2886198b2f0f1d18f9d0356fd08a2d82b6de",
+          "member": "scripts/validate-run-root.sh",
+          "modes_equal": true,
+          "published_sha256": "c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978"
+        }
+      ]
+    }
+  ],
+  "recorded_environment_build_and_consumer_commands": 87,
+  "same_version_update_refusals": [
+    {
+      "different_same_version_identity_exit": 1,
+      "original_build_copy_exit": 0,
+      "predecessor_unchanged": true,
+      "route": "plugin-codex"
+    },
+    {
+      "different_same_version_identity_exit": 1,
+      "original_build_copy_exit": 0,
+      "predecessor_unchanged": true,
+      "route": "standalone-codex"
+    },
+    {
+      "different_same_version_identity_exit": 1,
+      "original_build_copy_exit": 0,
+      "predecessor_unchanged": true,
+      "route": "standalone-claude"
+    }
+  ],
+  "schema": "dg22.expanded-public-package-results.v1",
+  "scope": "PROVISIONAL_NOT_FINAL_SOURCE",
+  "strict_clean_verifiers_passed": 4,
+  "supported_builder_invocations": 2,
+  "versions": {
+    "bash": "GNU bash, version 5.2.21(1)-release (x86_64-pc-linux-gnu)",
+    "git": "git version 2.51.1",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+    "python": "Python 3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "zopfli": "0.2.3.post1"
+  }
+}

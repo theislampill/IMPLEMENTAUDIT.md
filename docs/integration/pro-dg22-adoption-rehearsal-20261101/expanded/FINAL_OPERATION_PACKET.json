@@ -1,0 +1,67 @@
+{
+  "effect_time_values": [
+    "Fresh old main and material PR255/donor/lifecycle observations",
+    "Exact authorized transport, remote, authentication route, bound hook bytes and push argv",
+    "Final candidate commit, message, ordered parent, artifact hashes, exact original receipts and owner approval"
+  ],
+  "field_population_rule": "Two fields contain only legitimately fixed procedure/contract portions; every source-dependent, final-consumer, receipt and owner-dependent value remains NULL. Partially populated objects are not complete approvals.",
+  "final_approval_subject": {
+    "COMMON_ADOPTION_receipt_identity": null,
+    "approved_expected_old_public_main": null,
+    "artifact_build_sources_and_consumer_bridge": {
+      "final_artifact_identities": null,
+      "final_bridge_receipt": null,
+      "final_build_commit": null,
+      "final_build_tree": null,
+      "final_consumer_mapping": null,
+      "procedure_sha256": "795525611784c8a2195e213ed1ca295cb6b5ad15246d98b6ab2a53aa0c5d2a32",
+      "qualified_strategy": "build_at_exact_prepared_adoption_commit"
+    },
+    "exact_authorized_transport_and_command": null,
+    "exact_commit_message": null,
+    "final_independent_candidate_review": null,
+    "finite_common_claim_set": {
+      "CE059_selector": "COMMON_ADOPTION",
+      "exact_DG21_selected_finite_claims": null,
+      "fixed_contract": "Owner-approved exact mainline adoption and public readback",
+      "whole_ten_issue_acceptance_required": false
+    },
+    "human_exact_approval": null,
+    "ordered_parents": null,
+    "proposed_adoption_commit": null,
+    "selected_source_commit": null,
+    "selected_source_tree": null
+  },
+  "fixed_reusable_inputs": {
+    "construction_and_execution_recipe_sha256": "895c6fda1a2473b615c2e2ac6617c790c5e50fd4b4922a7d7a05dcc01a6abb62",
+    "method": "single-parent-exact-tree/non-force-push-with-advertised-old-guard",
+    "method_checkpoint": "df39941a0893d6555c5479607aa606f576a02400",
+    "package_procedure_sha256": "795525611784c8a2195e213ed1ca295cb6b5ad15246d98b6ab2a53aa0c5d2a32",
+    "post_effect_receiving_private_sha256": "de9dfd9db912f4da306ddebb0a6e7b071cb0f3847949df629b66d91f5d211d25",
+    "preflight_sha256": "490f299815cdf8bd8de138b18090e5de1f0bc36d2d5de86d7361a1219ae7a4c9"
+  },
+  "inert_preflight": {
+    "actual_provisional_subjects_passed": [
+      "published",
+      "engineering"
+    ],
+    "authority_authentication": "External entitled receiving; hashes do not infer issuer or authority",
+    "final_gate_actual_exit": 2,
+    "final_gate_reason": "CE021, DG21_COMMON_ADOPTION, Sol_selected_final_source, final_independent_candidate_review, human_exact_approval absent",
+    "focused_tests": 11
+  },
+  "live_mutation_mode": false,
+  "no_mainline_adoption_or_issue_closure": true,
+  "owner_request_ready": false,
+  "prerequisites": {
+    "Astra_live_operation_authority": null,
+    "CE021_exclusive_source_writer_receipt": null,
+    "CE059_exact_finite_COMMON_ADOPTION": null,
+    "Sol_final_selection": null,
+    "exact_final_review": null,
+    "human_exact_approval": null
+  },
+  "rollback": "Independently authorized reviewed forward correction preserving history; no forced reset",
+  "schema": "dg22.expanded-final-operation-packet.v1",
+  "status": "WAITING_DG21_COMMON_ADOPTION_AND_OWNER_APPROVAL"
+}

@@ -1,0 +1,147 @@
+{
+  "accepted_method_checkpoint": "df39941a0893d6555c5479607aa606f576a02400",
+  "accepted_method_replayed": false,
+  "created_at": "2026-11-02T02:04:35.177108+00:00",
+  "disposition": "PASS_QUALIFIED_PROVISIONAL_PACKAGE_AND_PREPARATION",
+  "final_authority": {
+    "COMMON_ADOPTION_received": false,
+    "adoption_ready": false,
+    "final_selected_source_received": false,
+    "human_exact_approval_received": false,
+    "live_main_operation_performed": false
+  },
+  "findings_requiring_revision": [],
+  "independent_execution": {
+    "builder_installer_or_method_control_replay": false,
+    "frozen_preflight_tests": 11,
+    "network_polling": false,
+    "original_subjects_preserved": true,
+    "require_final_inputs_actual_exit": 2,
+    "unittest_exit": 0
+  },
+  "material_limits": [
+    "PROVISIONAL_NOT_FINAL_SOURCE: neither cdfec64a6dfad645f4b27a3a77562bc55c61c35c nor c56ff57d4d2fd5d91ad6f2cc4be3d43eaa9a3642 is a Sol-selected final source or final DG22 package.",
+    "The direct standalone scanner invocation remains actual exit 1. All seven diagnostics are generated inventory path declarations. No full standalone scanner PASS, waiver, filtered pass or product correction is claimed.",
+    "Three real same-version identity-changing updates refused with full predecessor preservation. Three fresh transaction compensations had no predecessor. They do not establish a successful old-to-new upgrade or different-version predecessor rollback.",
+    "The old archive plus original clean helper is supported at its own identity. A complete final source/package bridge is not qualified; no metadata relabeling or allow-either-source rule is accepted.",
+    "The preflight checks mechanical source/package/custody predicates. File hashes do not authenticate CE021, CE059, Sol selection, final review or human approval. The helper always returns adoption_ready false and has no live-main mutation mode.",
+    "The bounded remote API diagnostic does not prove the cause of the generic wrong-expected error, server-side atomic compare-and-swap, native Git HTTPS push, main protections or issue/PR lifecycle effects.",
+    "Current-source absence is bounded to the retained public cutoff. It does not assert that a private COMMON or source-selection receipt cannot exist elsewhere.",
+    "Linux isolated file copies, child path resolution and registry validation do not establish native host discovery, child execution/load, Claude Desktop import, Windows behavior, release provenance, marketplace installation or real-home operation.",
+    "Publication remains pending actual GitHub commit/ref/tree/file readback. This review is evidence receiving, not owner approval, CE021 transfer, COMMON_ADOPTION, mainline acceptance, issue closure or original native authority."
+  ],
+  "public_parent_required": "df39941a0893d6555c5479607aa606f576a02400",
+  "publication_binding": "This receipt may be appended as a standalone twelfth file. The eleven reviewed payload blobs and modes must remain unchanged; publication requires independent readback.",
+  "received_results": {
+    "canonical_scanner_passes": 4,
+    "current_source_changed_paths": 4,
+    "fresh_transaction_compensations": 3,
+    "idempotent_routes": 8,
+    "installed_child_resolutions": 32,
+    "installed_registry_validations": 8,
+    "isolated_copy_routes": 8,
+    "new_archive_wrong_commit_refusals": 2,
+    "new_artifacts": 4,
+    "original_build_helper_copies": 3,
+    "raw_command_records": 87,
+    "remote_diagnostic_records": 9,
+    "same_version_predecessor_preserving_refusals": 3,
+    "standalone_scanner_nonzero_retained": 1,
+    "strict_clean_source_verifiers": 4,
+    "supported_build_invocations": 2,
+    "unchanged_skill_blobs_and_modes": 70
+  },
+  "review_packet_entries": 477,
+  "review_packet_sha256": "bf1d47cb9fa3c3373935f33b8112299580a4a8b57e8a8067c2700f7a3f702736",
+  "reviewed_payload_files": [
+    {
+      "bytes": 7326,
+      "git_blob": "92450e8e142abee77404e0b044308abf2934af72",
+      "mode": "100644",
+      "path": "docs/integration/pro-dg22-adoption-rehearsal-20261101/expanded/FINAL_OPERATION.md",
+      "sha256": "895c6fda1a2473b615c2e2ac6617c790c5e50fd4b4922a7d7a05dcc01a6abb62"
+    },
+    {
+      "bytes": 3301,
+      "git_blob": "5676c0f24ed3eabe01e78c041acca126c5dca9f4",
+      "mode": "100644",
+      "path": "docs/integration/pro-dg22-adoption-rehearsal-20261101/expanded/FINAL_OPERATION_PACKET.json",
+      "sha256": "f4c3e31df3becefb91fc227b828d22c741a142c462c8afb34b419e5d0e6483a8"
+    },
+    {
+      "bytes": 22272,
+      "git_blob": "a0e6753ef255275a9a88d00e820b9e207ae345a2",
+      "mode": "100644",
+      "path": "docs/integration/pro-dg22-adoption-rehearsal-20261101/expanded/PACKAGE_RESULTS.json",
+      "sha256": "5a8ed72a574495daa4222d23ca9d7f54f54b32282440e85d0f2501c3840998bf"
+    },
+    {
+      "bytes": 35252,
+      "git_blob": "26e8043b48bdba352b525149ff9d85a6d50f38f1",
+      "mode": "100644",
+      "path": "docs/integration/pro-dg22-adoption-rehearsal-20261101/expanded/POST_EFFECT_RECEIVING.json",
+      "sha256": "031eca561ee0c0b651295bd884dc439fd51095bf5737852854e658994d44c42c"
+    },
+    {
+      "bytes": 6846,
+      "git_blob": "4a2409468fced4f0af74d39d9ef79298958b2a66",
+      "mode": "100644",
+      "path": "docs/integration/pro-dg22-adoption-rehearsal-20261101/expanded/QUALIFIED_PACKAGE_PROCEDURE.md",
+      "sha256": "795525611784c8a2195e213ed1ca295cb6b5ad15246d98b6ab2a53aa0c5d2a32"
+    },
+    {
+      "bytes": 5362,
+      "git_blob": "343590aad5aa481c3f284564b519f736a26b2a62",
+      "mode": "100644",
+      "path": "docs/integration/pro-dg22-adoption-rehearsal-20261101/expanded/README.md",
+      "sha256": "869a0271b791ddaa792ff764fe01cb0fd4f545c5d9d49453990b843ad693e14e"
+    },
+    {
+      "bytes": 3063,
+      "git_blob": "fc616812dda52428c0b4e593535227ab57464eec",
+      "mode": "100644",
+      "path": "docs/integration/pro-dg22-adoption-rehearsal-20261101/expanded/REMOTE_DIAGNOSTIC.json",
+      "sha256": "fe9f9325caa41e833e5f4699ae5fd79bc7d137cb36287ee1d40d3803121b2f49"
+    },
+    {
+      "bytes": 4206,
+      "git_blob": "0e75dae85dfea0e0853b52e1740145fb87671082",
+      "mode": "100644",
+      "path": "docs/integration/pro-dg22-adoption-rehearsal-20261101/expanded/SOURCE_APPLICABILITY.json",
+      "sha256": "6f8cf59ea950c8e4d56a126797ad32da4bee404ebc144b2934ffd217ed6ee8eb"
+    },
+    {
+      "bytes": 1720,
+      "git_blob": "d82e0c54b4dec4bd144881dde0de4ddc510af05d",
+      "mode": "100644",
+      "path": "docs/integration/pro-dg22-adoption-rehearsal-20261101/expanded/STRATEGY_DECISION.json",
+      "sha256": "b0a9a06a02aeace4afa57e53509480bdcff06d0c1e7a052471fea08cd511993a"
+    },
+    {
+      "bytes": 10313,
+      "git_blob": "cef61390bfa73e061b6f372d6870b9d57cd7252a",
+      "mode": "100644",
+      "path": "docs/integration/pro-dg22-adoption-rehearsal-20261101/expanded/preflight.py",
+      "sha256": "490f299815cdf8bd8de138b18090e5de1f0bc36d2d5de86d7361a1219ae7a4c9"
+    },
+    {
+      "bytes": 4271,
+      "git_blob": "e9950b9cf0fb71789e291eb2b4d01b41df07e871",
+      "mode": "100644",
+      "path": "docs/integration/pro-dg22-adoption-rehearsal-20261101/expanded/test_preflight.py",
+      "sha256": "da22fade260af3d7dbc5263db9fc6094c1fb0cf449fc8af5bd047a154a9f4af4"
+    }
+  ],
+  "reviewed_payload_manifest_sha256": "f76ff563869be2382a343cf3670b375f43ec96ffc51abc8ef64050969f5d4402",
+  "reviewer": {
+    "authoring_context_reuse": false,
+    "model_attestation": "No independent model or effort attestation asserted beyond host-visible task identity.",
+    "new_material_authored_by_reviewer": false,
+    "prior_accepted_method_review_context_reused": true,
+    "separate_agent": true,
+    "task": "/root/independent_method_review"
+  },
+  "schema": "dg22.expanded-independent-review-receipt.v1",
+  "scope": "Bounded privacy-safe DG22 expanded evidence publication only",
+  "selected_procedure": "build_at_exact_prepared_adoption_commit"
+}
