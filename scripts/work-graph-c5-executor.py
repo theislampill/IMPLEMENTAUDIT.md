@@ -59,6 +59,44 @@ def anchor(info):
     return [str(info.st_dev), str(info.st_ino), info.st_mode, info.st_uid, info.st_gid]
 
 
+def read_owned_digest(path, limit):
+    """Hash every fresh byte without materializing the whole permitted bound.
+
+    The owned-currentness consumer needs only metadata. Keep the physical
+    reader's checks and fresh no-follow ancestor walk; retain no file or digest
+    cache and never replace an input observation with a prior stat or hash.
+    """
+    path = Path(path)
+    parent = P.open_directory(path.parent)
+    fd = None
+    try:
+        before = os.stat(path.name, dir_fd=parent, follow_symlinks=False)
+        need(stat.S_ISREG(before.st_mode) and before.st_nlink == 1,
+             'input must be an ordinary single-link file')
+        need(before.st_size <= limit, 'input file byte bound exceeded')
+        fd = os.open(path.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=parent)
+        need(P.identity(os.fstat(fd)) == P.identity(before) and not os.listxattr(fd),
+             'input changed or extended metadata is unsupported')
+        digest, size = hashlib.sha256(), 0
+        block = min(1024**2, before.st_size + 1, limit + 1)
+        while True:
+            piece = os.read(fd, min(block, limit + 1 - size))
+            if not piece:
+                break
+            size += len(piece)
+            need(size <= limit, 'input file byte bound exceeded')
+            digest.update(piece)
+        need(size == before.st_size and P.identity(os.fstat(fd)) == P.identity(before)
+             and P.identity(os.stat(path.name, dir_fd=parent, follow_symlinks=False)) == P.identity(before),
+             'input changed during bounded acquisition')
+        return dict(kind='FILE', mode=stat.S_IMODE(before.st_mode), size=size,
+                    sha256=digest.hexdigest(), identity=P.identity(before))
+    finally:
+        if fd is not None:
+            os.close(fd)
+        os.close(parent)
+
+
 def send(fd, raw):
     view = memoryview(raw)
     while view:
@@ -741,9 +779,9 @@ class GenuineC5Session:
         for name,row in self.owned.items():
             path = self.output/name
             B._ancestors(path.parent)
-            metadata,raw = P.read_regular(path,max(P.SOURCE_BOUNDS['file_bytes'],G.E.MAX_PROCESS_JSON))
+            metadata = read_owned_digest(path,max(P.SOURCE_BOUNDS['file_bytes'],G.E.MAX_PROCESS_JSON))
             need(stamp(path.lstat()) == row['identity'] and metadata['mode'] == row['mode']
-                 and len(raw) == row['bytes'] and sha(raw) == row['sha256'], 'C5 retained evidence changed')
+                 and metadata['size'] == row['bytes'] and metadata['sha256'] == row['sha256'], 'C5 retained evidence changed')
         for fd,row in self.sealed.items():
             need(stamp(os.fstat(fd)) == row['identity'] and fcntl.fcntl(fd,fcntl.F_GET_SEALS) == 15,
                  'C5 acquired sealed input custody changed')

@@ -295,6 +295,190 @@ class C5TaskResourceCases(unittest.TestCase):
         with self.assertRaises(ValueError):self.selection(self.TASK,dict(self.POLICY))(dict(file_bytes=32*1024**2))
 
 
+class C5PublicStreamingSourceRevisionCases(unittest.TestCase):
+    """Explicit public-base source composition; no native session or producer."""
+    HISTORY = ROOT / 'test-support/work-graph-c5-profile-history/pro-dg16-public-cost-20261101'
+    SOURCE_LOADER = 'scripts/load-work-graph-c5-executor.py'
+    EXECUTOR = 'scripts/work-graph-c5-executor.py'
+    REVISION = 'DG16_PUBLIC_BASE_STREAMING_OWNED_DIGEST_SOURCE_20261101_V1'
+    EXECUTOR_SHA = '5b9d9fea7f67dd3ab3a58ee4ff648ee07c0f3ce9cbf069629f33906c04c6cfcf'
+
+    def module(self, root):
+        path = root / self.SOURCE_LOADER
+        value = types.ModuleType('public_streaming_source_control')
+        value.__file__ = str(path)
+        exec(compile(path.read_bytes(), str(path), 'exec'), value.__dict__)
+        return value
+
+    def source(self, profile_name='CORRESPONDENCE_PROFILE'):
+        owner = self.module(ROOT)
+        self.assertEqual(getattr(owner, 'PUBLIC_STREAMING_SOURCE_REVISION', None), self.REVISION,
+                         'the public-base streaming tuple must be explicitly supported')
+        profile = getattr(owner, profile_name)
+        temporary = tempfile.TemporaryDirectory(prefix='c5-public-streaming-')
+        self.addCleanup(temporary.cleanup)
+        source = Path(temporary.name)
+        for name in (owner.LOADER, *owner.PUBLIC_STREAMING_PINS[profile]):
+            path = source / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes((ROOT / name).read_bytes())
+            path.chmod(0o644)
+        return self.module(source), source, profile
+
+    def candidate(self):
+        owner, source, profile = self.source()
+        captured = owner._Engine(profile, source_revision=self.REVISION)
+        return owner, source, profile, captured, captured.load()
+
+    def owned(self, engine, raw):
+        temporary = tempfile.TemporaryDirectory(prefix='c5-public-owned-')
+        self.addCleanup(temporary.cleanup)
+        root = Path(temporary.name)
+        path = root / 'owned.bin'
+        path.write_bytes(raw)
+        path.chmod(0o400)
+        row = dict(bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest(),
+                   identity=engine.stamp(path.stat()), mode=0o400)
+        actor = types.SimpleNamespace(closed=False, owner=os.getpid(), output=root,
+            output_anchor=engine.anchor(root.stat()), owned={'owned.bin': row},
+            sealed={}, stage=None, retained_directories=None)
+        return actor, path, row
+
+    def test_exact_public_tuple_preserves_compiler_qualifier_and_budget(self):
+        for profile_name in ('CURRENT_PROFILE', 'CORRESPONDENCE_PROFILE'):
+            with self.subTest(profile=profile_name):
+                owner, _, profile = self.source(profile_name)
+                captured = owner._Engine(profile, source_revision=self.REVISION)
+                engine = captured.load()
+                self.assertEqual(captured.pins[self.EXECUTOR], self.EXECUTOR_SHA)
+                self.assertEqual(captured.pins[owner.COMPILER],
+                    '25f2c24645cc65ed4b9bfbd70bb2d0ce26eb6accc51de0af0df06b3bdff5b627')
+                self.assertEqual(captured.pins[owner.QUALIFIER],
+                    'c090833db1049c5922d78875fab4630ed686e23e56f5aca1926db482457c6c13')
+                self.assertEqual(hashlib.sha256(engine.Q.LOADED_COMPILER).hexdigest(),
+                                 captured.pins[owner.COMPILER])
+                self.assertEqual(engine.PROFILE, profile)
+                self.assertEqual(engine.LIMITS['wall_seconds'], 120)
+                captured.check()
+
+    def test_historical_maps_buffers_and_default_refusal_remain_exact(self):
+        owner, source, profile, _, _ = self.candidate()
+        old = self.module(self.HISTORY)
+        for name in ('PINS', 'CURRENT_PINS', 'TASK_PINS', 'CORRESPONDENCE_PINS'):
+            self.assertEqual(dict(getattr(owner, name)), dict(getattr(old, name)), name)
+        manifest = json.loads((self.HISTORY / 'MANIFEST.json').read_bytes())
+        for row in manifest['files']:
+            raw = (self.HISTORY / row['path']).read_bytes()
+            self.assertEqual((len(raw), hashlib.sha256(raw).hexdigest()),
+                             (row['bytes'], row['sha256']))
+        with self.assertRaisesRegex(ValueError, 'Unsupported fixed C5 execution member'):
+            owner._Engine(profile)
+        for name in (owner.LOADER, owner.EXECUTOR):
+            (source / name).write_bytes((self.HISTORY / name).read_bytes())
+        historical = self.module(source)
+        self.assertEqual(historical._Engine(profile).load().PROFILE, profile)
+
+    def test_unknown_mixed_missing_and_changed_source_refuse_before_loading(self):
+        owner, _, profile, _, _ = self.candidate()
+        for revision in ('unknown', {}, 1, 'DG16_STREAMING_OWNED_DIGEST_SOURCE_20261101_V1'):
+            with self.subTest(revision=revision), self.assertRaisesRegex(ValueError, 'source revision'):
+                owner._Engine(profile, source_revision=revision)
+        for wrong in (owner.PROFILE, owner.TASK_PROFILE, None):
+            with self.subTest(profile=wrong), self.assertRaisesRegex(ValueError, 'source revision'):
+                owner._Engine(wrong, source_revision=self.REVISION)
+        for change in ('mixed', 'missing', 'changed'):
+            with self.subTest(change=change):
+                selected, source, profile = self.source()
+                path = source / selected.EXECUTOR
+                if change == 'mixed':
+                    path.write_bytes((self.HISTORY / selected.EXECUTOR).read_bytes())
+                elif change == 'missing':
+                    path.unlink()
+                else:
+                    path.write_bytes(b"raise AssertionError('unbound executor ran')\n")
+                with self.assertRaises((ValueError, OSError)):
+                    selected._Engine(profile, source_revision=self.REVISION)
+
+    def test_captured_source_content_and_identity_drift_refuse(self):
+        for change in ('content', 'replacement', 'ancestor'):
+            with self.subTest(change=change):
+                owner, source, _, captured, _ = self.candidate()
+                path = source / owner.EXECUTOR
+                if change == 'content':
+                    path.write_bytes(path.read_bytes() + b'\n')
+                elif change == 'replacement':
+                    raw = path.read_bytes()
+                    held = os.open(path, os.O_RDONLY)
+                    self.addCleanup(os.close, held)
+                    path.unlink()
+                    path.write_bytes(raw)
+                else:
+                    target = source / 'old-scripts'
+                    path.parent.rename(target)
+                    shutil.copytree(target, source / 'scripts')
+                with self.assertRaisesRegex(ValueError, 'source|current|ancestor'):
+                    captured.check()
+
+    def test_fresh_bytes_chunk_boundaries_short_reads_and_metadata_refusals(self):
+        _, _, _, _, engine = self.candidate()
+        for size in (0, 1, 1024**2-1, 1024**2, 1024**2+1):
+            raw = (b'fresh\x00data' * (size // 10 + 1))[:size]
+            actor, path, _ = self.owned(engine, raw)
+            self.assertEqual(engine.read_owned_digest(path, size)['sha256'], hashlib.sha256(raw).hexdigest())
+            engine.GenuineC5Session._check_owned(actor)
+        _, path, _ = self.owned(engine, b'abc' * 71)
+        real_read = os.read
+        with mock.patch('os.read', side_effect=lambda fd, size: real_read(fd, min(size, 7))):
+            self.assertEqual(engine.read_owned_digest(path, 213)['sha256'], hashlib.sha256(b'abc'*71).hexdigest())
+        with self.assertRaisesRegex(ValueError, 'bound'):
+            engine.read_owned_digest(path, 212)
+        path.chmod(0o600)
+        os.setxattr(path, 'user.c5_public_streaming', b'refuse')
+        path.chmod(0o400)
+        with self.assertRaisesRegex(ValueError, 'metadata'):
+            engine.read_owned_digest(path, 213)
+
+    def test_real_hash_length_mode_identity_and_link_changes_refuse(self):
+        _, _, _, _, engine = self.candidate()
+        for change in ('hash', 'growth', 'shrink', 'mode', 'identity', 'link'):
+            with self.subTest(change=change):
+                actor, path, row = self.owned(engine, b'fresh owned bytes')
+                if change == 'hash':
+                    row['sha256'] = '0' * 64
+                elif change in ('growth', 'shrink'):
+                    path.chmod(0o600)
+                    raw = path.read_bytes()
+                    path.write_bytes(raw+b'x' if change == 'growth' else raw[:-1])
+                    path.chmod(0o400)
+                    row['identity'] = engine.stamp(path.stat())
+                elif change == 'mode':
+                    path.chmod(0o600)
+                elif change == 'identity':
+                    raw = path.read_bytes()
+                    held = os.open(path, os.O_RDONLY)
+                    self.addCleanup(os.close, held)
+                    path.unlink()
+                    path.write_bytes(raw)
+                    path.chmod(0o400)
+                else:
+                    os.link(path, path.parent / 'alias')
+                with self.assertRaises((ValueError, OSError)):
+                    engine.GenuineC5Session._check_owned(actor)
+
+    def test_large_fresh_input_keeps_bounded_allocation(self):
+        import tracemalloc
+        _, _, _, _, engine = self.candidate()
+        actor, _, _ = self.owned(engine, b'x' * (16 * 1024**2 + 1))
+        tracemalloc.start()
+        try:
+            engine.GenuineC5Session._check_owned(actor)
+            _, peak = tracemalloc.get_traced_memory()
+        finally:
+            tracemalloc.stop()
+        self.assertLess(peak, 4 * 1024**2)
+
+
+
 @unittest.skipUnless(sys.platform.startswith('linux') and hasattr(os,'pidfd_open'), 'Linux live child custody required')
 class C5CorrespondenceLiveCases(unittest.TestCase):
     """Actual tiny C5 channels/children; no acquired-image or original claim."""
@@ -310,7 +494,7 @@ class C5CorrespondenceLiveCases(unittest.TestCase):
             target.write_bytes((ROOT/name).read_bytes());target.chmod(0o644)
         spec=importlib.util.spec_from_file_location('correspondence_contract_source',source/'scripts/load-work-graph-c5-executor.py')
         owner=importlib.util.module_from_spec(spec);spec.loader.exec_module(owner)
-        engine=owner._Engine(owner.CORRESPONDENCE_PROFILE).load()
+        engine=owner._Engine(owner.CORRESPONDENCE_PROFILE,source_revision=owner.PUBLIC_STREAMING_SOURCE_REVISION).load()
         names=set(engine.B.SPEC['payload_sources'])|set(engine.B.SPEC['programs'])
         names|={p.relative_to(ROOT).as_posix() for p in (ROOT/'skills/implementaudit').rglob('*') if p.is_file()}
         state=dict(files={name:dict(sha256=hashlib.sha256((ROOT/name).read_bytes()).hexdigest()) for name in names})
@@ -352,7 +536,7 @@ class C5CorrespondenceLiveCases(unittest.TestCase):
                 target.write_bytes((ROOT/name).read_bytes());target.chmod(0o644)
             spec=importlib.util.spec_from_file_location('closed_current_pair_source',source/'scripts/load-work-graph-c5-executor.py')
             owner=importlib.util.module_from_spec(spec);spec.loader.exec_module(owner)
-            captured=owner._Engine(owner.CORRESPONDENCE_PROFILE);engine=captured.load()
+            captured=owner._Engine(owner.CORRESPONDENCE_PROFILE,source_revision=owner.PUBLIC_STREAMING_SOURCE_REVISION);engine=captured.load()
             self.assertEqual(engine.CORRESPONDENCE_POLICY['runs'],2)
             self.assertEqual(engine.LIMITS['wall_seconds'],120)
             self.assertEqual(engine.LIMITS['file_bytes'],64*1024**2)
@@ -376,7 +560,7 @@ class C5CorrespondenceLiveCases(unittest.TestCase):
             target.write_bytes((ROOT/name).read_bytes());target.chmod(0o644)
         selected=importlib.util.spec_from_file_location('actual_closed_correspondence_owner',source/'scripts/load-work-graph-c5-executor.py')
         owner=importlib.util.module_from_spec(selected);selected.loader.exec_module(owner)
-        engine=owner._Engine(owner.CORRESPONDENCE_PROFILE).load()
+        engine=owner._Engine(owner.CORRESPONDENCE_PROFILE,source_revision=owner.PUBLIC_STREAMING_SOURCE_REVISION).load()
         self.assertEqual(engine.PROFILE,owner.CORRESPONDENCE_PROFILE)
         with self.assertRaisesRegex(ValueError,'Unknown fixed C5 execution profile'):
             owner._Engine('unknown')
@@ -488,7 +672,7 @@ class C5CorrespondenceLiveCases(unittest.TestCase):
             target=source/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((ROOT/name).read_bytes());target.chmod(0o644)
         spec=importlib.util.spec_from_file_location('actual_abort_source_owner',source/'scripts/load-work-graph-c5-executor.py')
         owner=importlib.util.module_from_spec(spec);spec.loader.exec_module(owner)
-        engine=owner._Engine(owner.CORRESPONDENCE_PROFILE).load()
+        engine=owner._Engine(owner.CORRESPONDENCE_PROFILE,source_revision=owner.PUBLIC_STREAMING_SOURCE_REVISION).load()
         source_tree=subprocess.check_output(['git','-C',str(fixture.repo),'rev-parse','HEAD^{tree}']).decode().strip()
         producer=fixture.repo/'tests/reproducible-release-asset.test.sh'
         raw=producer.read_text().replace('for lane in a b; do\n',
