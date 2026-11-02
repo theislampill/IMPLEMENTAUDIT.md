@@ -706,7 +706,9 @@ def _bwrap_dfa_nonmatch(dfa, path):
     _bwrap_need(type(dfa) is bytes and 24 <= len(dfa) <= 65536, 'unsupported attachment DFA bound')
     magic, header, size, flags = struct.unpack_from('>IIIH', dfa)
     _bwrap_need(magic == 0x1b5e783d and 14 <= header <= size == len(dfa) and flags == 0,
-                'unsupported attachment DFA header')
+                'unsupported attachment DFA header; observed=' + json.dumps(dict(
+                    magic=magic, header=header, size=size, flags=flags,
+                    dfa_bytes=len(dfa), prefix_hex=dfa[:24].hex()), sort_keys=True))
     position = header
     tables = {}
     widths = {1: 4, 2: 4, 3: 2, 4: 2, 5: 1, 7: 4, 8: 2}
@@ -749,6 +751,21 @@ def _bwrap_prove_nonmatch(raw, name, row):
                 targets=targets, result='PROVED_DFA_NOMATCH_BOTH_FIXED_PATHS')
 
 
+def _bwrap_log_rejected_export(name, row, exported, reason):
+    """Log only the already bounded/readback-verified bytes; never admit policy."""
+    encoded = exported['base64']
+    parts = (len(encoded) + 4095) // 4096
+    print(json.dumps(dict(schema='implementaudit.rejected-opaque-policy-diagnostic.v1',
+        authority='NONE', policy_operations=0, selected_name=name, selected_record=row,
+        reason=reason[:256], exported={key: value for key, value in exported.items() if key != 'base64'},
+        parts=parts, interpretation='READ_ONLY_CAPTURE_NO_ATTACHMENT_OR_ADMISSION_VERDICT'),
+        sort_keys=True), flush=True)
+    for part in range(parts):
+        print(json.dumps(dict(schema='implementaudit.rejected-opaque-policy-chunk.v1',
+            raw_sha256=exported['sha256'], part=part, parts=parts,
+            base64_fragment=encoded[part * 4096:(part + 1) * 4096]), sort_keys=True), flush=True)
+
+
 def _bwrap_resolve_opaque(inventory):
     """Fresh kernel bytes only; no name exemptions or caller-supplied exports."""
     from pathlib import Path
@@ -769,12 +786,15 @@ def _bwrap_resolve_opaque(inventory):
     proofs = {}
     total = 0
     for name, row in selected.items():
+        exported = None
         try:
             _bwrap_need(name in indexed, 'compiled attachment entry disappeared')
             exported = _bwrap_selected_export(indexed[name], root, min(65536, 4 * 1024**2 - total))
             total += exported['bytes']
             proofs[name] = _bwrap_prove_nonmatch(base64.b64decode(exported['base64'], validate=True), name, row)
         except (OSError, ValueError, UnicodeError) as exc:
+            if exported is not None:
+                _bwrap_log_rejected_export(name, row, exported, str(exc))
             raise ValueError(_bwrap_policy_refusal('unresolved compiled attachment: ' + str(exc)[:256],
                 name, row, 'compiled_attachment')) from exc
     _bwrap_need(hosted_bwrap_policy_inventory() == inventory, 'compiled attachment inventory changed')

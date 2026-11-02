@@ -1,0 +1,61 @@
+name: DG21 hosted attachment capture
+
+on:
+  push:
+    branches:
+      - pro/dg21-common-qualification-20261101
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Check out the exact diagnostic source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+
+      - name: Record source identity
+        run: |
+          git rev-parse HEAD HEAD^{tree}
+          sha256sum scripts/qualify-work-graph-c5-setup.py
+          git status --porcelain=v1
+
+      - name: Capture the existing refusal without policy operations
+        timeout-minutes: 1
+        run: |
+          sudo --preserve-env=GITHUB_ACTIONS,RUNNER_ENVIRONMENT /usr/bin/python3.12 -I -S -B - <<'PY'
+          import json
+          import runpy
+          owner = runpy.run_path('scripts/qualify-work-graph-c5-setup.py')
+          owner['_bwrap_root']()
+          before = owner['hosted_bwrap_policy_inventory']()
+          print(json.dumps({'scope': 'READ_ONLY_ATTACHMENT_CAPTURE', 'policy_operations': 0,
+                            'native_authority': 'NONE', 'profile_count': len(before)}), flush=True)
+          proofs = owner['_bwrap_resolve_opaque'](before)
+          if owner['hosted_bwrap_policy_inventory']() != before:
+              raise ValueError('diagnostic inventory changed')
+          print(json.dumps({'scope': 'READ_ONLY_ATTACHMENT_CAPTURE', 'resolved': len(proofs),
+                            'policy_operations': 0, 'native_authority': 'NONE'}), flush=True)
+          PY
+
+      - name: Observe that no owned policy was added
+        if: always()
+        timeout-minutes: 1
+        run: |
+          sudo --preserve-env=GITHUB_ACTIONS,RUNNER_ENVIRONMENT /usr/bin/python3.12 -I -S -B - <<'PY'
+          import json
+          import runpy
+          owner = runpy.run_path('scripts/qualify-work-graph-c5-setup.py')
+          owner['_bwrap_root']()
+          inventory = owner['hosted_bwrap_policy_inventory']()
+          owned = sorted(set(inventory).intersection(owner['HOSTED_BWRAP_NAMES']))
+          print(json.dumps({'owned_profiles': owned, 'policy_operations': 0,
+                            'cleanup_boundary': 'EPHEMERAL_VM_DISPOSAL'}), flush=True)
+          if owned:
+              raise ValueError('unexpected owned policy in read-only diagnostic')
+          PY
