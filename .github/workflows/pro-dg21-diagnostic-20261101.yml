@@ -1,0 +1,35 @@
+name: DG21 finite read-only resource discriminator
+
+on:
+  push:
+    branches:
+      - pro/dg21-common-qualification-20261101
+
+permissions:
+  contents: read
+
+jobs:
+  discriminate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Check out the exact reviewed diagnostic
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+
+      - name: Record source identities
+        run: |
+          git rev-parse HEAD HEAD^{tree}
+          sha256sum scripts/qualify-work-graph-c5-setup.py tests/composite-source-cases.py docs/integration/pro-dg21-diagnostics-20261101/resource-discriminator.py
+          git status --porcelain=v1
+
+      - name: Observe one unchanged bounded read path without provisioning
+        timeout-minutes: 1
+        run: sudo --preserve-env=GITHUB_ACTIONS,RUNNER_ENVIRONMENT /usr/bin/python3.12 -I -S -B docs/integration/pro-dg21-diagnostics-20261101/resource-discriminator.py
+
+      - name: Observe metadata-only final retained-policy state
+        if: always()
+        timeout-minutes: 1
+        run: sudo --preserve-env=GITHUB_ACTIONS,RUNNER_ENVIRONMENT /usr/bin/python3.12 -I -S -B docs/integration/pro-dg21-diagnostics-20261101/resource-discriminator.py --snapshot-only
