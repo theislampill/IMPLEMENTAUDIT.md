@@ -1,0 +1,22 @@
+{
+  "state": "PENDING",
+  "core_sha256": null,
+  "reviewer": null,
+  "independent_of_preparer": false,
+  "record": {
+    "origin": "receipts",
+    "path": null,
+    "bytes": null,
+    "sha256": null,
+    "json_pointer": "",
+    "selected_value_canonical_sha256": null
+  },
+  "authority": {
+    "origin": "receipts",
+    "path": null,
+    "bytes": null,
+    "sha256": null,
+    "json_pointer": "",
+    "selected_value_canonical_sha256": null
+  }
+}

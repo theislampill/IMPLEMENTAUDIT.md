@@ -1,0 +1,164 @@
+{
+  "schema": "dg31.r003f.final-binding-input.v1",
+  "evidence_kind": "ACTUAL",
+  "prepared_by": null,
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "issue": "R003F",
+  "source": {
+    "commit": null,
+    "tree": null
+  },
+  "ce085": {
+    "state": "PENDING_CURRENT_FINAL_SOURCE_RECEIVING",
+    "issue": "R003F",
+    "source": {
+      "commit": null,
+      "tree": null
+    },
+    "scope": "DOCUMENTARY_SOURCE_SEMANTIC_RESIDUAL",
+    "producer": null,
+    "receiver": null,
+    "environment": null,
+    "original_receipt": {
+      "origin": "continuation",
+      "path": "ce085/PUBLIC_RECEIVING_RECORDS.json",
+      "bytes": 282848,
+      "sha256": "1c37997510051396ea778e4a39b39e035b6570f33dd56f4d5cc4b3bd3452d2a0",
+      "json_pointer": "/records/5/record",
+      "selected_value_canonical_sha256": "1217052e1321a1a62bcd7784d3024c25d9b5f38e27e02fa35d6804282ee5884d"
+    },
+    "current_receiving": {
+      "origin": "receipts",
+      "path": null,
+      "bytes": null,
+      "sha256": null,
+      "json_pointer": "",
+      "selected_value_canonical_sha256": null
+    },
+    "receiver_authority": {
+      "origin": "receipts",
+      "path": null,
+      "bytes": null,
+      "sha256": null,
+      "json_pointer": "",
+      "selected_value_canonical_sha256": null
+    },
+    "certificate_sha256": "8820fe72ce965f22af3a038e46636fdb8f5a4595403c3f9bb164297da3237f88",
+    "residual_receipt_hashes": {
+      "E6": "8db43517cac003b584031d6b3c5ac2c6f2631f77f940a54671e319d4e33a3406",
+      "B8": "20e0b7652f7b3c6795e7f2794db65aaa7fb8d8d01a8ad551dafb09b4a6f6fa32"
+    },
+    "conditional_claims": {
+      "package": {
+        "state": "NOT_TRIGGERED_WITH_JUSTIFICATION",
+        "reason": "At the preserved documentary/source/semantic/residual scope no package capability is selected. Reassess only if the actual adopted composition or selected claim triggers the original conditional requirement.",
+        "record": {
+          "origin": "receipts",
+          "path": null,
+          "bytes": null,
+          "sha256": null,
+          "json_pointer": "",
+          "selected_value_canonical_sha256": null
+        }
+      },
+      "installed": {
+        "state": "NOT_TRIGGERED_WITH_JUSTIFICATION",
+        "reason": "At the preserved documentary/source/semantic/residual scope no installed capability is selected. Reassess only if the actual adopted composition or selected claim triggers the original conditional requirement.",
+        "record": {
+          "origin": "receipts",
+          "path": null,
+          "bytes": null,
+          "sha256": null,
+          "json_pointer": "",
+          "selected_value_canonical_sha256": null
+        }
+      },
+      "native": {
+        "state": "NOT_TRIGGERED_WITH_JUSTIFICATION",
+        "reason": "At the preserved documentary/source/semantic/residual scope no native capability is selected. Reassess only if the actual adopted composition or selected claim triggers the original conditional requirement.",
+        "record": {
+          "origin": "receipts",
+          "path": null,
+          "bytes": null,
+          "sha256": null,
+          "json_pointer": "",
+          "selected_value_canonical_sha256": null
+        }
+      }
+    }
+  },
+  "ce086": {
+    "state": "PENDING_ACTUAL_APPROVED_ADOPTION",
+    "issue": "R003F",
+    "source": {
+      "commit": null,
+      "tree": null
+    },
+    "expected_old_main": null,
+    "ordered_parents": [],
+    "target_ref": "refs/heads/main",
+    "owner_approval": {
+      "record": {
+        "origin": "receipts",
+        "path": null,
+        "bytes": null,
+        "sha256": null,
+        "json_pointer": "",
+        "selected_value_canonical_sha256": null
+      },
+      "operation": "ADOPT_MAIN",
+      "source": {
+        "commit": null,
+        "tree": null
+      },
+      "expected_old_main": null,
+      "ordered_parents": []
+    },
+    "adoption_result": {
+      "origin": "receipts",
+      "path": null,
+      "bytes": null,
+      "sha256": null,
+      "json_pointer": "",
+      "selected_value_canonical_sha256": null
+    },
+    "main_readback": {
+      "origin": "receipts",
+      "path": null,
+      "bytes": null,
+      "sha256": null,
+      "json_pointer": "",
+      "selected_value_canonical_sha256": null
+    },
+    "commit_readback": {
+      "origin": "receipts",
+      "path": null,
+      "bytes": null,
+      "sha256": null,
+      "json_pointer": "",
+      "selected_value_canonical_sha256": null
+    },
+    "issue_slice_readback": {
+      "record": {
+        "origin": "receipts",
+        "path": null,
+        "bytes": null,
+        "sha256": null,
+        "json_pointer": "",
+        "selected_value_canonical_sha256": null
+      },
+      "issue": "R003F",
+      "source": {
+        "commit": null,
+        "tree": null
+      },
+      "receiver": null,
+      "independent_of_adoption_writer": false,
+      "certificate_sha256": "8820fe72ce965f22af3a038e46636fdb8f5a4595403c3f9bb164297da3237f88",
+      "residual_receipt_hashes": {
+        "E6": "8db43517cac003b584031d6b3c5ac2c6f2631f77f940a54671e319d4e33a3406",
+        "B8": "20e0b7652f7b3c6795e7f2794db65aaa7fb8d8d01a8ad551dafb09b4a6f6fa32"
+      }
+    }
+  }
+}

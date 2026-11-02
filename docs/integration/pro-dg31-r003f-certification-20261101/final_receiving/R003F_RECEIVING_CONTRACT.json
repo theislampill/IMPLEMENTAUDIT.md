@@ -1,0 +1,293 @@
+{
+  "schema": "dg31.r003f.final-receiving-contract.v1",
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "issue": 225,
+  "rlgwo": "R003F",
+  "accepted_checkpoint": "149e7f9eb12af23ccb55a833ba566d9914f24ace",
+  "accepted_tree": "48fd9b3ce5b2a4bc8c9f7bbd95ed160aade22511",
+  "retained_files": [
+    {
+      "path": "checkpoint/CERTIFICATE.json",
+      "bytes": 254640,
+      "sha256": "8820fe72ce965f22af3a038e46636fdb8f5a4595403c3f9bb164297da3237f88"
+    },
+    {
+      "path": "checkpoint/SOURCE_BINDINGS.json",
+      "bytes": 30604,
+      "sha256": "64868ca3a87f3fcfd1a36322ef160ede89567993f9179b57967a333f45a955eb"
+    },
+    {
+      "path": "payload/MANIFEST.json",
+      "bytes": 40028,
+      "sha256": "161f18e83cce1d9964d9c632d1b6b36f488b505cc72b78838b7e3094af6652b6"
+    },
+    {
+      "path": "review/v2/FINAL_REVIEW_CANDIDATE_V2.json",
+      "bytes": 18300,
+      "sha256": "a9b5f6f8fbe77658158521eb187fcf7bdb4f5cb20a43d788ca1d50bc8c614de2"
+    },
+    {
+      "path": "payload/input/evidence/original-certification-resumption-20261031/pro-package/evidence/root_receiving/EBPM_ROOT_CURRENT_RECEIVING.json",
+      "bytes": 48566,
+      "sha256": "8db43517cac003b584031d6b3c5ac2c6f2631f77f940a54671e319d4e33a3406"
+    },
+    {
+      "path": "payload/input/evidence/original-certification-resumption-20261031/pro-package/evidence/root_receiving/BWP_ROOT_CURRENT_RECEIVING.json",
+      "bytes": 128657,
+      "sha256": "20e0b7652f7b3c6795e7f2794db65aaa7fb8d8d01a8ad551dafb09b4a6f6fa32"
+    },
+    {
+      "path": "payload/input/evidence/original-certification-resumption-20261031/pro-package/evidence/lanes/closure_challenge/ROOT_RECEIVING_INDEPENDENT_READBACK.json",
+      "bytes": 269132,
+      "sha256": "14b56e6cf6e2e8023002cc3212793d2487007fa4368f27832bb994ef9e20bdb7"
+    }
+  ],
+  "historical_dg21_records": {
+    "path": "ce085/PUBLIC_RECEIVING_RECORDS.json",
+    "bytes": 282848,
+    "sha256": "1c37997510051396ea778e4a39b39e035b6570f33dd56f4d5cc4b3bd3452d2a0"
+  },
+  "historical_record_urls": [
+    "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/255#issuecomment-6440157632",
+    "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/255#issuecomment-6440358417",
+    "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/255#issuecomment-6441660146",
+    "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/255#issuecomment-6441670573",
+    "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/255#issuecomment-6442107774",
+    "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/255#issuecomment-6477617651",
+    "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/255#issuecomment-6493770699",
+    "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/255#issuecomment-6494070214"
+  ],
+  "original_predicates": {
+    "E1": "SATISFIED_AT_RECEIVED_SCOPE",
+    "E2": "JUSTIFIED_NO_CHANGE",
+    "E3": "SATISFIED_AT_RECEIVED_SCOPE",
+    "E4": "SATISFIED_AT_RECEIVED_SCOPE",
+    "E5": "SATISFIED_AT_RECEIVED_SCOPE",
+    "E6": "EXPRESS_ACCEPTED_RESIDUAL_CONTINUATION",
+    "B1": "SATISFIED_AT_RECEIVED_SCOPE",
+    "B2": "SATISFIED_AT_RECEIVED_SCOPE",
+    "B3": "SATISFIED_AT_RECEIVED_SCOPE",
+    "B4": "JUSTIFIED_NO_CHANGE",
+    "B5": "SATISFIED_AT_RECEIVED_SCOPE",
+    "B6": "SATISFIED_AT_RECEIVED_SCOPE",
+    "B7": "SATISFIED_AT_RECEIVED_SCOPE",
+    "B8": "EXPRESS_ACCEPTED_RESIDUAL_CONTINUATION"
+  },
+  "consumed_paths": [
+    {
+      "path": "docs/operational-evidence.md",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "8261543a8fba346c4d298f871ee7785c8df0efbf",
+      "bytes": 73105
+    },
+    {
+      "path": "docs/portal/site.json",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "95335498b108606807182e016586357c6391e61e",
+      "bytes": 28508
+    },
+    {
+      "path": "docs/research/implementaudit/r003f-actual-receiving.json",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "7efd4d92b2782f6097c2bff5187ce76945069fc2",
+      "bytes": 350945
+    },
+    {
+      "path": "docs/research/implementaudit/r003f-member-qualification.json",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "f196015ea802dfb6f4adb62ca8f627bea2e80993",
+      "bytes": 984436
+    },
+    {
+      "path": "docs/research/implementaudit/r003f-r0041-bwp-ledger.json",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "00b0bff15adb0b8636b04eaae7b7cafc52421a09",
+      "bytes": 1477005
+    },
+    {
+      "path": "docs/research/implementaudit/r003f-r0041-bwp-receiving.json",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "973b5ac5920b4fa7abd150bf97f3fadb4f436159",
+      "bytes": 2288686
+    },
+    {
+      "path": "docs/research/implementaudit/r003f-r0041-continuation-qualification.json",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "a610db6e17c76fb58a27832975095b20d3a65371",
+      "bytes": 770058
+    },
+    {
+      "path": "docs/research/implementaudit/r003f-r0041-engineering-evidence.json",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "d167070ae080005868375ca233c4619fe8b38499",
+      "bytes": 266833
+    },
+    {
+      "path": "docs/research/implementaudit/r003f-r0041-owner-interface-qualification.json",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "5ba57504a855eeb6364bb398fde20e6759a06226",
+      "bytes": 930176
+    },
+    {
+      "path": "docs/research/implementaudit/r003f-r0041-pending-source-qualification.json",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "707953224788ffe951b50a265fb7c456fda76e36",
+      "bytes": 30022077
+    },
+    {
+      "path": "docs/research/implementaudit/r003f-r0041-pending-source-qualification.json.gz",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "f0663d5fbe1e9f429b062001ab6fa025742d1a31",
+      "bytes": 5037688
+    },
+    {
+      "path": "docs/research/implementaudit/r003f-r0041-pending-source-transport.json",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "de2a7fbf65f79ca8c2ae3ccd9e7b97a84e246902",
+      "bytes": 1936
+    },
+    {
+      "path": "docs/research/implementaudit/r003f-r0041-preparation-inputs.json",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "1f1d51b4854b7a170240610a4d5bf85b439734ba",
+      "bytes": 177033
+    },
+    {
+      "path": "docs/research/implementaudit/r003f-r0041-preparation-receiving.json",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "602e9b626135c99f9a5cddcacac39ecb4ec6d5ba",
+      "bytes": 5376925
+    },
+    {
+      "path": "docs/research/implementaudit/r003f-r0041-preparation-recovery.json",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "d6fe31fc1d0a71a5b9f2ca0af95057892c271b39",
+      "bytes": 4713015
+    },
+    {
+      "path": "docs/research/implementaudit/r003f-r0041-receiving-inputs.json",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "280fa9c7e5f3b754b006772db621af4c32abf258",
+      "bytes": 236416
+    },
+    {
+      "path": "docs/research/implementaudit/r0041-actual-receiving.json",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "0f7ec7244f482bb15ffbdf24221a1bc3ba0bcb68",
+      "bytes": 357727
+    },
+    {
+      "path": "docs/research/implementaudit/r0041-member-qualification.json",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "6509746c6bf56e2434261fe19d9d75c8e7d1df4c",
+      "bytes": 978630
+    },
+    {
+      "path": "scripts/build-docs-portal.py",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "1539b70a8f2ee06eabcff47a4b16f0facfe202b1",
+      "bytes": 32530
+    },
+    {
+      "path": "scripts/check-docs-portal.py",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "1be71a211291ebab62d7d6ae33729adad83a215c",
+      "bytes": 76492
+    },
+    {
+      "path": "scripts/portal-event-capture.py",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "f75911d401e0e082f6eaa92a2d6446308af6d7f9",
+      "bytes": 53561
+    },
+    {
+      "path": "scripts/verify-docs-portal.sh",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "38dcd39f17e661923f9c31c4482b2b7a6912c95f",
+      "bytes": 646
+    },
+    {
+      "path": "skills/implementaudit/SKILL.md",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "31a74f174dd31b1dbde3d0dd41d46ab690c68a65",
+      "bytes": 21248
+    },
+    {
+      "path": "skills/implementaudit/references/continuity.md",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "5b3c69b9ed33f8e536aee105f26537dda3047430",
+      "bytes": 18286
+    },
+    {
+      "path": "skills/implementaudit/references/issue-ready-work-orders.md",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "aa35d40d1099e386bf364ab83d898898288445b9",
+      "bytes": 18210
+    },
+    {
+      "path": "skills/implementaudit/references/phase-design.md",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "58807f828495e9423c10f27a35d0a6284cb0f840",
+      "bytes": 20396
+    },
+    {
+      "path": "skills/implementaudit/references/plan-lifecycle.md",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "5d93f7a61ff58b92fca383fdd720de81cecdc3b4",
+      "bytes": 32365
+    },
+    {
+      "path": "skills/implementaudit/references/planning-depth.md",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "ec026656bf8dae38d4512c9496dc6ffe983a5125",
+      "bytes": 20507
+    },
+    {
+      "path": "tests/docs-portal.test.sh",
+      "mode": "100644",
+      "kind": "blob",
+      "blob": "9238473737134961a5bbc08b1c5ac9ab4b6389bf",
+      "bytes": 50453
+    }
+  ],
+  "residual_receipt_hashes": {
+    "E6": "8db43517cac003b584031d6b3c5ac2c6f2631f77f940a54671e319d4e33a3406",
+    "B8": "20e0b7652f7b3c6795e7f2794db65aaa7fb8d8d01a8ad551dafb09b4a6f6fa32"
+  },
+  "selected_scope": "DOCUMENTARY_SOURCE_SEMANTIC_RESIDUAL",
+  "conditional_claims": [
+    "package",
+    "installed",
+    "native"
+  ],
+  "scope_rule": "The original E/B documentary scope selects no new native operation. A changed composed package or stronger actually selected package/installed/native claim needs its exact actual source/environment/consumer qualification or an entitled justified nontrigger. No historical package is silently relabelled to an adopted commit.",
+  "authority_limit": "A receiving envelope normalizes independently checked facts and references complete originals; its labels do not authenticate a real-world act. Final comment readiness requires actual independent acceptance of the exact final core and Sol-exclusive authority. Closure effects remain separate."
+}

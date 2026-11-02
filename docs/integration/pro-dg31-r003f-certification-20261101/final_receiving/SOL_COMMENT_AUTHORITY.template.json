@@ -1,0 +1,15 @@
+{
+  "core_sha256": null,
+  "issue": 225,
+  "writer": "Sol",
+  "exclusive": true,
+  "operation": "post_final_evidence_comment",
+  "record": {
+    "origin": "receipts",
+    "path": null,
+    "bytes": null,
+    "sha256": null,
+    "json_pointer": "",
+    "selected_value_canonical_sha256": null
+  }
+}
