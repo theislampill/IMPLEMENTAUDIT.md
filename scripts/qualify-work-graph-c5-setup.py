@@ -33,6 +33,7 @@ HOSTED_PACKAGE_URL = 'https://snapshot.ubuntu.com/ubuntu/20260901T000000Z/pool/m
 HOSTED_PACKAGE_PIN = {'bytes': 50178, 'sha256': '1b506492bd9c7fd0cdb4f02ac822f1d3e336b0aead5113c1239baf8db5db562a'}
 HOSTED_SOURCE_URL = 'https://github.com/theislampill/IMPLEMENTAUDIT.md.git'
 HOSTED_LOADER_PIN = {'bytes': 17279, 'sha256': '4aa8a08b2b54a3cad7c60f58a1de68c5d062205d77adf8deb359867f370fd9d5'}
+HOSTED_PUBLIC_STREAMING_LOADER_PIN = {'bytes': 19193, 'sha256': '55684c8ad3e79b9d511e20bd550295e27f55ceade6867c9b70950c0f21f4199c'}
 
 
 class HostedPrerequisiteDeadline(BaseException):
@@ -47,15 +48,21 @@ def hosted_current_owner(root):
     fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK | os.O_CLOEXEC)
     try:
         opening = identity(os.fstat(fd))
-        if not stat.S_ISREG(opening[2]) or opening[3] != 1 or opening[4] != HOSTED_LOADER_PIN['bytes']:
+        pins = (HOSTED_LOADER_PIN, HOSTED_PUBLIC_STREAMING_LOADER_PIN)
+        if not stat.S_ISREG(opening[2]) or opening[3] != 1 or opening[4] not in tuple(pin['bytes'] for pin in pins):
             raise ValueError('hosted current loader pin differs')
-        raw = os.pread(fd, HOSTED_LOADER_PIN['bytes'] + 1, 0)
-        if hashlib.sha256(raw).hexdigest() != HOSTED_LOADER_PIN['sha256']:
+        raw = os.pread(fd, max(pin['bytes'] for pin in pins) + 1, 0)
+        observed = {'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()}
+        if observed not in pins:
             raise ValueError('hosted current loader pin differs')
         module = types.ModuleType('c5_hosted_current_source_loader')
         module.__file__ = str(path)
         exec(compile(raw, str(path), 'exec'), module.__dict__)
-        current = module._Engine(module.CURRENT_PROFILE).load()
+        if observed == HOSTED_LOADER_PIN:
+            current = module._Engine(module.CURRENT_PROFILE).load()
+        else:
+            current = module._Engine(module.CURRENT_PROFILE,
+                source_revision=module.PUBLIC_STREAMING_SOURCE_REVISION).load()
         if (identity(os.fstat(fd)) != opening or identity(os.lstat(path)) != opening
                 or os.pread(fd, len(raw) + 1, 0) != raw):
             raise ValueError('hosted current loader changed during loading')
@@ -312,7 +319,8 @@ def receive_hosted_prerequisites(expected_commit):
         signal.alarm(240)
         current = hosted_current_owner(root)
         result['current_profile'] = current.PROFILE
-        result['loader'] = HOSTED_LOADER_PIN
+        loader_raw = current.SOURCES['scripts/load-work-graph-c5-executor.py'][0]
+        result['loader'] = {'bytes': len(loader_raw), 'sha256': hashlib.sha256(loader_raw).hexdigest()}
         phase = 'host_input_receiving'
         try:
             result['host_inputs'] = receive_hosted_inputs(current)
@@ -666,6 +674,12 @@ def _bwrap_v5_profiles(raw):
             value = []
             while position < len(raw) and raw[position] != ending:
                 value.append(node(depth + 1))
+            if kind == 11 and name == b'net_allowed_af':
+                # ABI5 counts network records; each carries three unnamed
+                # u16 values (allow, audit, quiet), not one scalar element.
+                _bwrap_need(depth == 1 and all(item['kind'] == 1 and item['name'] is None
+                            for item in value), 'unsupported compiled network array')
+                count *= 3
             _bwrap_need(number(1) == ending and (count is None or len(value) == count),
                         'compiled policy container differs')
         else:
@@ -701,11 +715,11 @@ def _bwrap_v5_profiles(raw):
 
 
 def _bwrap_dfa_nonmatch(dfa, path):
-    """Conservative unflagged AppArmor DFA check; only state0 proves nonmatch."""
+    """Conservative direct/differential attachment check; only state0 proves nonmatch."""
     import struct
     _bwrap_need(type(dfa) is bytes and 24 <= len(dfa) <= 65536, 'unsupported attachment DFA bound')
     magic, header, size, flags = struct.unpack_from('>IIIH', dfa)
-    _bwrap_need(magic == 0x1b5e783d and 14 <= header <= size == len(dfa) and flags == 0,
+    _bwrap_need(magic == 0x1b5e783d and 14 <= header <= size == len(dfa) and flags in (0, 1),
                 'unsupported attachment DFA header')
     position = header
     tables = {}
@@ -720,19 +734,61 @@ def _bwrap_dfa_nonmatch(dfa, path):
         position = (end + 7) // 8 * 8
     _bwrap_need(position == len(dfa) and {1, 2, 3, 4, 7, 8} <= set(tables), 'attachment tables incomplete')
     states = len(tables[2])
+    differential = 0x80000000
     _bwrap_need(states >= 2 and all(len(tables[i]) == states for i in (1, 4, 7))
                 and len(tables[3]) == len(tables[8]) and tables[1][0] == 0
-                and all(value >> 24 == 0 for value in tables[2])
+                and all(value & ~(0x00ffffff | differential) == 0
+                        and (not value & differential or flags == 1) for value in tables[2])
+                and all((value & 0x00ffffff) + 255 < len(tables[3]) for value in tables[2])
+                and all(value < states for ident in (3, 4, 8) for value in tables[ident])
                 and (5 not in tables or len(tables[5]) == 256), 'unsupported attachment states')
-    state = 1
+    # Differential defaults retry the SAME byte. Validate the default graph
+    # first, so corrupt self-loops or longer cycles cannot stall that retry.
+    resolved = set()
+    for initial in range(states):
+        current = initial
+        chain = set()
+        while tables[2][current] & differential and current not in resolved:
+            _bwrap_need(current not in chain, 'cyclic differential attachment default')
+            chain.add(current)
+            current = tables[4][current]
+        resolved.update(chain)
+    def retry_transition(initial, character, cached):
+        chain = []
+        state = initial
+        while state not in cached:
+            base = tables[2][state]
+            slot = (base & 0x00ffffff) + character
+            if tables[3][slot] == state:
+                cached[state] = tables[8][slot]
+                break
+            if not base & differential:
+                cached[state] = tables[4][state]
+                break
+            chain.append(state)
+            state = tables[4][state]
+        result = cached[state]
+        for state in chain:
+            cached[state] = result
+        return result
+    # Attachment leftmatch uses direct defaults until its loop fallback calls
+    # the differential matcher. Overapproximate every possible switch point;
+    # checking only an all-direct and an all-retry traversal is insufficient.
+    possible = {1}
     for character in path.encode('ascii'):
         if 5 in tables:
             character = tables[5][character]
-        slot = tables[2][state] + character
-        _bwrap_need(slot < len(tables[3]), 'attachment transition exceeds bound')
-        state = tables[8][slot] if tables[3][slot] == state else tables[4][state]
-        _bwrap_need(state < states, 'attachment state exceeds bound')
-    return state == 0
+        # A fallback beginning at state0 returns immediately. Preserve that
+        # rejecting result as well as any table transition from state0.
+        following = {0} if 0 in possible else set()
+        cached = {}
+        for state in possible:
+            base = tables[2][state]
+            slot = (base & 0x00ffffff) + character
+            following.add(tables[8][slot] if tables[3][slot] == state else tables[4][state])
+            following.add(retry_transition(state, character, cached))
+        possible = following
+    return possible == {0}
 
 
 def _bwrap_prove_nonmatch(raw, name, row):

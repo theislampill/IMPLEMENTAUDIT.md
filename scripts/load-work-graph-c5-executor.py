@@ -54,7 +54,22 @@ CORRESPONDENCE_ORIGINS=types.MappingProxyType(dict(TASK_ORIGINS,base_actual_memb
 CORRESPONDENCE_EXECUTION_SELECTION='fixtures/work-graph-c5-inputs/genuine-correspondence-execution-profile.json'
 CORRESPONDENCE_PINS=types.MappingProxyType({'scripts/qualify-work-graph-prefix.py': 'ff5dbdce5b4419268b0fc11c4659763ad68d40e32f18f721b6093a7dd269b7ab', 'scripts/work-graph-c5-inputs.py': '49a559777539285a7a31886686459134a1e135675f2e542c079a0b71360b5bd1', 'scripts/work-graph-c5-provider-inputs.py': '05bcb64db1ad0787ce8704846ea0ee4f3127f24d2dc471a9abcb14736937b81a', 'scripts/repro-event-capture.py': 'e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08', 'scripts/work-graph-completion.py': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb', 'skills/implementaudit/scripts/compile-work-graph.py': '25f2c24645cc65ed4b9bfbd70bb2d0ce26eb6accc51de0af0df06b3bdff5b627', 'scripts/qualify-work-graph-verifier.py': 'c090833db1049c5922d78875fab4630ed686e23e56f5aca1926db482457c6c13', 'scripts/work-graph-c5-live-gate.py': '4979cc5aa810cf2abdbca67cd70c553b624d6f8d643d2c1ea2e643845fab6c25', 'scripts/work-graph-c5-executor.py': '3c8d532cc72b379b2e9cc19e00968ac7949204208489df7445f7bda98cead232', 'fixtures/work-graph-c5-inputs/execution-correspondence-python312.json': '70b152d79a3921f9c5772121e7f1ab1ce63266445b308e632c706c7e87c40163', 'fixtures/work-graph-c5-inputs/package-sol-task-venv-python312.json': 'cf53875d2414184a48b153a139ebc7298483b33876c7379aa07d8450536ca446', 'fixtures/work-graph-c5-inputs/genuine-correspondence-execution-profile.json': '9463226d36ea19e51e9b0a6b9a753968600ca55cf4e6a7b41024941d1108f8a3'})
 
-def _selection(profile):
+# Public-base derivative of the independently qualified streaming executor.
+# The public compiler/qualifier and every preceding tuple stay unchanged.
+PUBLIC_STREAMING_SOURCE_REVISION='DG16_PUBLIC_BASE_STREAMING_OWNED_DIGEST_SOURCE_20261101_V1'
+PUBLIC_STREAMING_EXECUTOR_SHA256='5b9d9fea7f67dd3ab3a58ee4ff648ee07c0f3ce9cbf069629f33906c04c6cfcf'
+PUBLIC_STREAMING_PINS=types.MappingProxyType({
+    profile:types.MappingProxyType(dict(pins,**{EXECUTOR:PUBLIC_STREAMING_EXECUTOR_SHA256}))
+    for profile,pins in ((CURRENT_PROFILE,CURRENT_PINS),(CORRESPONDENCE_PROFILE,CORRESPONDENCE_PINS))})
+
+
+def _selection(profile,source_revision=None):
+    if source_revision is not None:
+        if (type(source_revision) is not str or type(profile) is not str
+                or source_revision!=PUBLIC_STREAMING_SOURCE_REVISION or profile not in PUBLIC_STREAMING_PINS):
+            raise ValueError('Unknown fixed C5 source revision')
+        _,base,provider,execution,origins=_selection(profile)
+        return PUBLIC_STREAMING_PINS[profile],base,provider,execution,origins
     if type(profile) is str and profile == PROFILE:
         return PINS, BASE_SELECTION, PROVIDER_SELECTION, EXECUTION_SELECTION, ORIGINS
     if type(profile) is str and profile == CURRENT_PROFILE:
@@ -75,8 +90,8 @@ def _anchor(info):
     return (str(info.st_dev),str(info.st_ino),info.st_mode,info.st_uid,info.st_gid)
 
 
-def _read(name, profile=PROFILE):
-    pins, *_ = _selection(profile)
+def _read(name, profile=PROFILE,source_revision=None):
+    pins, *_ = _selection(profile,source_revision)
     if name not in pins and name!=LOADER:raise ValueError('Unknown fixed C5 execution member')
     path=ROOT/name
     if not path.is_absolute() or '..' in path.parts:raise ValueError('C5 execution source alias is unsupported')
@@ -107,12 +122,13 @@ def _read(name, profile=PROFILE):
 
 
 class _Engine:
-    def __init__(self, profile=PROFILE):
-        self.pins,self.base_selection,self.provider_selection,self.execution_selection,self.origins=_selection(profile)
+    def __init__(self, profile=PROFILE,*,source_revision=None):
+        self.pins,self.base_selection,self.provider_selection,self.execution_selection,self.origins=_selection(profile,source_revision)
         self.profile=profile
+        self.source_revision=source_revision
         sources={};ancestors={}
         for name in (LOADER,*self.pins):
-            raw,identity,observed=_read(name,self.profile)
+            raw,identity,observed=_read(name,self.profile,self.source_revision)
             if name in self.pins and hashlib.sha256(raw).hexdigest()!=self.pins[name]:
                 raise ValueError('Unsupported fixed C5 execution member: '+name)
             for directory,value in observed.items():
@@ -126,7 +142,7 @@ class _Engine:
 
     def check(self):
         for name,expected in self.sources.items():
-            raw,identity,ancestors=_read(name,self.profile)
+            raw,identity,ancestors=_read(name,self.profile,self.source_revision)
             if (raw,identity)!=expected or any(self.ancestors[name]!=value for name,value in ancestors.items()):
                 raise ValueError('Captured C5 execution source or ancestor is no longer current')
 
@@ -197,3 +213,15 @@ def create_sol_task_c5_session_v1(source_root,output,*,expected_source):
 def create_correspondence_c5_session_v1(source_root,output,*,expected_source):
     """Exactly two fresh originals in one held image; no old-session replay."""
     return _Engine(CORRESPONDENCE_PROFILE).load().GenuineC5Session(source_root,output,expected_source=expected_source)
+
+
+def create_public_streaming_source_current_composite_c5_session_v1(source_root,output,*,expected_source):
+    """Public source tuple; unchanged current-composite runtime selection."""
+    return _Engine(CURRENT_PROFILE,source_revision=PUBLIC_STREAMING_SOURCE_REVISION).load().GenuineC5Session(
+        source_root,output,expected_source=expected_source)
+
+
+def create_public_streaming_source_correspondence_c5_session_v1(source_root,output,*,expected_source):
+    """Public source tuple; unchanged two-original correspondence policy."""
+    return _Engine(CORRESPONDENCE_PROFILE,source_revision=PUBLIC_STREAMING_SOURCE_REVISION).load().GenuineC5Session(
+        source_root,output,expected_source=expected_source)
