@@ -1,0 +1,653 @@
+{
+  "scope": "Public row identity/disposition projection; exact full private receiving is bound by certificate digest",
+  "rows": [
+    {
+      "id": "P001",
+      "name": "Ground stakeholder and mission intent in authoritative, current evidence",
+      "original_disposition": "ALREADY_STRICTLY_STRONGER",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P002",
+      "name": "Separate validated need and problem from proposed solution",
+      "original_disposition": "ALREADY_STRICTLY_STRONGER",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P003",
+      "name": "Map stakeholder authority, conflicts and lifecycle standing",
+      "original_disposition": "EXISTING_RXX_NEEDS_AMENDMENT",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P004",
+      "name": "Model intended use, operational states and environment",
+      "original_disposition": "ASSUMPTION_BOUND",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P005",
+      "name": "Govern outcome, mission and effectiveness measures",
+      "original_disposition": "ALREADY_STRICTLY_STRONGER",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P006",
+      "name": "Preserve requirement provenance, authority and rationale",
+      "original_disposition": "ALREADY_STRICTLY_STRONGER",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P007",
+      "name": "Refine requirements progressively under controlled baselines",
+      "original_disposition": "UNRESOLVED",
+      "documentary_disposition": "RECEIVED_ACCEPTED_F1_CURRENT_TREE_SUPERSESSION_AT_EXACT_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P008",
+      "name": "Apply requirement quality criteria as decision aids, not truth certificates",
+      "original_disposition": "ALREADY_STRICTLY_STRONGER",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P009",
+      "name": "Expose requirement priority, conflict and volatility",
+      "original_disposition": "EXISTING_RXX_NEEDS_AMENDMENT",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P010",
+      "name": "Manage assumptions as owned, testable and expiring engineering claims",
+      "original_disposition": "ALREADY_STRICTLY_STRONGER",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P011",
+      "name": "Maintain semantic, consumer-driven traceability",
+      "original_disposition": "ALREADY_STRICTLY_STRONGER",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P012",
+      "name": "Justify derived requirements and allocations",
+      "original_disposition": "UNRESOLVED",
+      "documentary_disposition": "RECEIVED_ACCEPTED_F1_CURRENT_TREE_SUPERSESSION_AT_EXACT_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P013",
+      "name": "Identify architecture drivers and quality-attribute concerns",
+      "original_disposition": "ASSUMPTION_BOUND",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P014",
+      "name": "Record architecture decisions, alternatives and rationale",
+      "original_disposition": "ALREADY_STRICTLY_STRONGER",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P015",
+      "name": "Decompose responsibilities while preserving interaction reasoning",
+      "original_disposition": "STRONGER_BY_NATIVE_COMPOSITION",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P016",
+      "name": "Demonstrate modularity, coupling and evolvability rather than merely claiming them",
+      "original_disposition": "ASSUMPTION_BOUND",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P017",
+      "name": "Evaluate architecture against scenarios and evidence before irreversible commitment",
+      "original_disposition": "ASSUMPTION_BOUND",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P018",
+      "name": "Detect and manage architecture, requirements and model debt/erosion",
+      "original_disposition": "ASSUMPTION_BOUND",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P019",
+      "name": "Generate real alternatives before consequential commitment",
+      "original_disposition": "ALREADY_STRICTLY_STRONGER",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P020",
+      "name": "Test trade decisions for uncertainty, sensitivity and false precision",
+      "original_disposition": "EXISTING_RXX_NEEDS_AMENDMENT",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P021",
+      "name": "Preserve options, reversibility and decision-reopening triggers",
+      "original_disposition": "ALREADY_STRICTLY_STRONGER",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P022",
+      "name": "Assign explicit interface ownership and decision authority",
+      "original_disposition": "EXISTING_RXX_NEEDS_AMENDMENT",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P023",
+      "name": "Specify interface semantics, timing, state and failure contracts",
+      "original_disposition": "EXISTING_RXX_NEEDS_AMENDMENT",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P024",
+      "name": "Verify interface assumptions and currentness",
+      "original_disposition": "EXISTING_RXX_NEEDS_AMENDMENT",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P025",
+      "name": "Obtain cross-boundary interface and integration evidence",
+      "original_disposition": "EXISTING_RXX_NEEDS_AMENDMENT",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P026",
+      "name": "Establish authoritative configuration identity and baselines",
+      "original_disposition": "ALREADY_STRICTLY_STRONGER",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P027",
+      "name": "Govern change authority, status and implementation",
+      "original_disposition": "ALREADY_STRICTLY_STRONGER",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P028",
+      "name": "Propagate change impact across technical relationships",
+      "original_disposition": "ALREADY_STRICTLY_STRONGER",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P029",
+      "name": "Re-establish evidence currentness after change",
+      "original_disposition": "ALREADY_STRICTLY_STRONGER",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P030",
+      "name": "Maintain parity among model, implementation, test, data and environment",
+      "original_disposition": "EXISTING_RXX_NEEDS_AMENDMENT",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P031",
+      "name": "Plan integration strategy, sequence and readiness",
+      "original_disposition": "EXISTING_RXX_NEEDS_AMENDMENT",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P032",
+      "name": "Integrate early, incrementally and at risky boundaries",
+      "original_disposition": "UNRESOLVED",
+      "documentary_disposition": "RECEIVED_ACCEPTED_F1_CURRENT_TREE_SUPERSESSION_AT_EXACT_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P033",
+      "name": "Use credible integration environments, stubs, simulators and testbeds",
+      "original_disposition": "ASSUMPTION_BOUND",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P034",
+      "name": "Manage integration anomalies and regressions as system evidence",
+      "original_disposition": "EXISTING_RXX_NEEDS_AMENDMENT",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P035",
+      "name": "Reason about emergent and whole-system interactions",
+      "original_disposition": "ASSUMPTION_BOUND",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P036",
+      "name": "Distinguish verification from validation",
+      "original_disposition": "ALREADY_STRICTLY_STRONGER",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P037",
+      "name": "Plan V&V and testability before implementation closes options",
+      "original_disposition": "EXISTING_RXX_NEEDS_AMENDMENT",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P038",
+      "name": "Select evidence methods fit to the claim and decision",
+      "original_disposition": "ALREADY_STRICTLY_STRONGER",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P039",
+      "name": "Validate with real users, operations and mission context",
+      "original_disposition": "BEHAVIOURAL_PROOF_GAP",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ACTUAL_DG09_PORTABLE_INTENDED_USE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P040",
+      "name": "Preserve evidence identity, coverage, limitations and anomalies",
+      "original_disposition": "ALREADY_STRICTLY_STRONGER",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P041",
+      "name": "Establish model credibility for a specified intended use",
+      "original_disposition": "ASSUMPTION_BOUND",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P042",
+      "name": "Track technical performance, margins, reserves and trends for decisions",
+      "original_disposition": "EXISTING_RXX_NEEDS_AMENDMENT",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P043",
+      "name": "Link technical risk and uncertainty to learning and decisions",
+      "original_disposition": "EXISTING_RXX_NEEDS_AMENDMENT",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P044",
+      "name": "Tailor systems-engineering depth to consequence, complexity, uncertainty and reversibility",
+      "original_disposition": "ALREADY_STRICTLY_STRONGER",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P045",
+      "name": "Engineer distributed authority and federated governance in systems of systems",
+      "original_disposition": "DOMAIN_OR_HIGH_CONSEQUENCE_BOUND",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P046",
+      "name": "Manage interoperability and asynchronous evolution across independent constituents",
+      "original_disposition": "DOMAIN_OR_HIGH_CONSEQUENCE_BOUND",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P047",
+      "name": "Use model-centred representation only when it carries engineering decisions",
+      "original_disposition": "PUBLIC_DOCUMENTATION_ONLY",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P048",
+      "name": "Federate models semantically and preserve representation portability",
+      "original_disposition": "ASSUMPTION_BOUND",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P049",
+      "name": "Bound digital-thread and digital-twin claims by provenance, currentness and validity",
+      "original_disposition": "PUBLIC_DOCUMENTATION_ONLY",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P050",
+      "name": "Reuse evidence only within explicit applicability boundaries",
+      "original_disposition": "ALREADY_STRICTLY_STRONGER",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P051",
+      "name": "Design rollback, recovery and change containment for consequential updates",
+      "original_disposition": "ALREADY_STRICTLY_STRONGER",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P052",
+      "name": "Retire stale requirements, models, reviews and controls without live consumers",
+      "original_disposition": "ALREADY_STRICTLY_STRONGER",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P053",
+      "name": "Include enabling systems and lifecycle stakeholders in system definition",
+      "original_disposition": "DOMAIN_OR_HIGH_CONSEQUENCE_BOUND",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P054",
+      "name": "Allocate functions and authority across hardware, software, humans and organisations",
+      "original_disposition": "DOMAIN_OR_HIGH_CONSEQUENCE_BOUND",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P055",
+      "name": "Govern platform, product-line and variability architecture",
+      "original_disposition": "DOMAIN_OR_HIGH_CONSEQUENCE_BOUND",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P056",
+      "name": "Engineer mission/capability relationships beyond a single system when the mission is the unit of value",
+      "original_disposition": "DOMAIN_OR_HIGH_CONSEQUENCE_BOUND",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P057",
+      "name": "Use AI-assisted requirements, architecture and modelling under human, provenance and validation controls",
+      "original_disposition": "ASSUMPTION_BOUND",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P058",
+      "name": "Apply independent technical challenge where consequence and incentive justify it",
+      "original_disposition": "ALREADY_STRICTLY_STRONGER",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P059",
+      "name": "Feed integration and operational evidence back into intent, requirements and architecture",
+      "original_disposition": "EXISTING_RXX_NEEDS_AMENDMENT",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P060",
+      "name": "Maintain accessible, current technical data and decision records",
+      "original_disposition": "EXISTING_RXX_NEEDS_AMENDMENT",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P061",
+      "name": "Fixed one-pass V-model or waterfall lifecycle as a universal SE property",
+      "original_disposition": "REJECTED_SOURCE_CEREMONY_OR_WEAKER_FORM",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P062",
+      "name": "Exhaustive upfront frozen requirements as a universal optimum",
+      "original_disposition": "REJECTED_SOURCE_CEREMONY_OR_WEAKER_FORM",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P063",
+      "name": "Maximal traceability or link count as proof of coherence",
+      "original_disposition": "SUPERSEDED_BY_STRONGER_NATIVE_FORM",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P064",
+      "name": "Mandatory SysML, a single authoritative model or a digital twin as automatic truth",
+      "original_disposition": "SUPERSEDED_BY_STRONGER_NATIVE_FORM",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P065",
+      "name": "Architecture diagrams as architecture",
+      "original_disposition": "SUPERSEDED_BY_STRONGER_NATIVE_FORM",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P066",
+      "name": "Signed interface-control document as a solved interface",
+      "original_disposition": "SUPERSEDED_BY_STRONGER_NATIVE_FORM",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P067",
+      "name": "Acceptance sign-off as technical truth",
+      "original_disposition": "REJECTED_SOURCE_CEREMONY_OR_WEAKER_FORM",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P068",
+      "name": "More reviews and gates as more assurance",
+      "original_disposition": "REJECTED_SOURCE_CEREMONY_OR_WEAKER_FORM",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P069",
+      "name": "Weighted scorecard as an objective engineering answer",
+      "original_disposition": "SUPERSEDED_BY_STRONGER_NATIVE_FORM",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P070",
+      "name": "A single source of truth eliminates disagreement",
+      "original_disposition": "REJECTED_SOURCE_CEREMONY_OR_WEAKER_FORM",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P071",
+      "name": "More model detail or MBSE volume as engineering value",
+      "original_disposition": "SUPERSEDED_BY_STRONGER_NATIVE_FORM",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    },
+    {
+      "id": "P072",
+      "name": "Standards or process compliance as proof of system coherence or ROI",
+      "original_disposition": "REJECTED_SOURCE_CEREMONY_OR_WEAKER_FORM",
+      "documentary_disposition": "RECEIVED_ACCEPTED_ORIGINAL_DISPOSITION_AT_BOUNDED_SCOPE",
+      "source_commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "source_map": "SOURCE_APPLICABILITY.json",
+      "first_missing_final_predicate": "Authentic R002D CE064 and actual approved CE065, not a sibling-issue barrier"
+    }
+  ]
+}

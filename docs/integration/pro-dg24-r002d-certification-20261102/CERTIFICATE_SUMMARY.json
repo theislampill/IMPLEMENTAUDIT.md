@@ -1,0 +1,115 @@
+{
+  "schema": "dg24.public-evidence-checkpoint-summary.v1",
+  "scope": "Privacy-safe summary of finite documentary receiving. Full private return remains separately delivered to the owner; this summary is not final entitled delivery or issue closure.",
+  "cell": "DG24",
+  "issue": 197,
+  "source_roles": {
+    "selected_source": "123089d1f1b9cc3650a2fba8260d322741c53070",
+    "selected_tree": "bb09e710455ef7b76de3ef7c0c836a20433c6524",
+    "accepted_DG12_source": "6010eaf1b2237af41c762c13f0f337b3e995745c",
+    "accepted_DG12_tree": "ee8348dff6378f5a02ff39a613a21f44759d8ba5",
+    "native_origin": "022d2443a4889d1bfab3b73fa3a686eb1698bf0b",
+    "historical_finding_successor": "df65d25d717f5e28a66f02cbe5b58c108db2a312",
+    "P039_actual_use": "00b333b9258d21393d1982d37fea56dfc05998e6",
+    "synthetic_checkout_not_package_source": "b0901269aec133eb3fab1968cd0ce55352ba3568",
+    "normal_CI": {
+      "run": 41403118577,
+      "attempt": 1,
+      "conclusion": "FAILURE"
+    },
+    "final_adopted_source": null,
+    "final_adopted_tree": null
+  },
+  "populations": {
+    "original_properties": 72,
+    "original_sources": 125,
+    "crosswalk_worthy": 60,
+    "negative_ceremonial": 12,
+    "terminal_clauses": 10,
+    "binding_comments": 5,
+    "amendment_terminal_predicates": 14,
+    "complete_contract_sections": 83,
+    "separate_SSS": {
+      "members": 235,
+      "groups": 34,
+      "memberships": 672,
+      "finite_cases": 15,
+      "prepared_reconsideration_records": 69,
+      "observed_outcomes": {
+        "retained": 150,
+        "bounded": 80,
+        "research": 5
+      },
+      "prepared_states": {
+        "partial": 92,
+        "conditional": 95,
+        "rejected": 43,
+        "research_only": 5
+      }
+    },
+    "distinct_histories": {
+      "concerns47": {
+        "proposed_adequate": 32,
+        "amendments": 3,
+        "conditional_deferred": 11,
+        "research_only": 1
+      },
+      "receiving32": {
+        "gaps": 28,
+        "conditional_scoped": 4
+      },
+      "secondary_limit_history": 21,
+      "supplied_explicit_member_secondary_limits": 8
+    },
+    "counts_are_not_PASS_totals": true
+  },
+  "executed_receiving": {
+    "archive_intake": "130members/129payloads CRC/name/size/hash and paired prompt match",
+    "original_rows": "72 exact IDs;125 source records;792 direct field comparisons; all primary/critical IDs resolve",
+    "original_contract": "10 terminal clauses,five full comments,14 amendment terminal predicates and83 complete body sections",
+    "SSS": "All235 member/34group/15case/69action preserved records round-trip;672 exact membership pointertriplets; all34 embedded group hashes; relation endpoints structurally checked",
+    "native_carriers": {
+      "records": 93,
+      "tool_attempts": 42,
+      "semantic_actions": 35,
+      "matching_read_search_outputs": 31,
+      "full_governor_bytes": 21248,
+      "pass_checks": true,
+      "new_native_operation": false,
+      "HMAC_recomputed": false
+    },
+    "historical_archives": {
+      "count": 4,
+      "pass_checks": true,
+      "new_build_or_install": false
+    },
+    "source_receiving": {
+      "official_blob_bindings": 60,
+      "crosswalk_owners": 31,
+      "unchanged_owner_blob_modes": 30,
+      "selected_package_source_paths": 74,
+      "changed_shipped_owner_paths": 7
+    },
+    "private_path_map_entries": 138
+  },
+  "edge_dispositions": {
+    "CE063": "ACCEPTED_ORIGINAL_DG12_RECEIVED_AT_DECLARED_SCOPE",
+    "CE064": "MISSING_AUTHENTIC_ISSUE_RECEIPT[R002D]",
+    "CE065": "MISSING_ACTUAL_APPROVED_DG22_ADOPTION_AND_R002D_READBACK"
+  },
+  "final_issue_readiness": false,
+  "complete_private_certificate_sha256": "f348567199524ecc37b8765e607b83e99a4f9fe83f9ac9687d7d08d2c1de8423",
+  "independent_final_receiving": {
+    "required": true,
+    "receipt": "INDEPENDENT_REVIEW.json"
+  },
+  "corrected_finding": {
+    "id": "F-DG24-001",
+    "issue": "P039 provisional source baseline labels mixed original00b and accepted6010",
+    "adverse_preimage_sha256": "362f263b0ffd5ada992b02ae88b05c23826c53e542001832791e813d0c57136e",
+    "corrected_source_map_sha256": "22652c874b6b3f18c855f7f572834bbd1ecae6faa8a1b2fa2a93e1f46703311f",
+    "affected_independent_receiving": "PASS in original-properties/RECEPTION.json#/corrected_evidence_finding",
+    "product_source_defect_claimed": false
+  },
+  "authority_ceiling": "Evidence checkpoint only; no original-issue/native/adoption/main/PR255 effects."
+}

@@ -1,0 +1,4229 @@
+{
+  "scope": "Public individual state projection only; full member/group mechanisms/limits and exact records remain in the delivered private return",
+  "counts": {
+    "members": 235,
+    "groups": 34,
+    "memberships": 672,
+    "finite_cases": 15,
+    "prepared_reconsideration_records": 69,
+    "observed_outcomes": {
+      "retained": 150,
+      "bounded": 80,
+      "research": 5
+    },
+    "prepared_states": {
+      "partial": 92,
+      "conditional": 95,
+      "rejected": 43,
+      "research_only": 5
+    }
+  },
+  "members": [
+    {
+      "id": "ESA:ESA-001",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K001"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-002",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K001",
+        "SSS-K022",
+        "SSS-K034"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-003",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K002",
+        "SSS-K007",
+        "SSS-K029"
+      ],
+      "case_refs": [
+        {
+          "id": "Q04",
+          "pointer": "/receiving_case_decisions/6"
+        }
+      ]
+    },
+    {
+      "id": "ESA:ESA-004",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K010",
+        "SSS-K030"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-005",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K009",
+        "SSS-K021",
+        "SSS-K022"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-006",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K001",
+        "SSS-K027"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-007",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K004",
+        "SSS-K005",
+        "SSS-K030"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-008",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K003",
+        "SSS-K012",
+        "SSS-K019",
+        "SSS-K020",
+        "SSS-K022",
+        "SSS-K029"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-009",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K003",
+        "SSS-K013",
+        "SSS-K019"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-010",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K004"
+      ],
+      "case_refs": [
+        {
+          "id": "Q06",
+          "pointer": "/receiving_case_decisions/3"
+        }
+      ]
+    },
+    {
+      "id": "ESA:ESA-011",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K004"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-012",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K010",
+        "SSS-K021",
+        "SSS-K026"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-013",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K005",
+        "SSS-K021",
+        "SSS-K030"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-014",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K006",
+        "SSS-K034"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-015",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K006",
+        "SSS-K015",
+        "SSS-K018",
+        "SSS-K033"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-016",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K006"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-017",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K006",
+        "SSS-K011",
+        "SSS-K026",
+        "SSS-K034"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-018",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K006",
+        "SSS-K014",
+        "SSS-K015",
+        "SSS-K018",
+        "SSS-K020",
+        "SSS-K025",
+        "SSS-K033"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-019",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K006"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-020",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K007",
+        "SSS-K008",
+        "SSS-K032"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-021",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K002",
+        "SSS-K007",
+        "SSS-K015",
+        "SSS-K017",
+        "SSS-K029",
+        "SSS-K032"
+      ],
+      "case_refs": [
+        {
+          "id": "Q04",
+          "pointer": "/receiving_case_decisions/6"
+        }
+      ]
+    },
+    {
+      "id": "ESA:ESA-022",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K007",
+        "SSS-K015",
+        "SSS-K017"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-023",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K008",
+        "SSS-K032"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-024",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K007",
+        "SSS-K032"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-025",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K016",
+        "SSS-K027"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-026",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K011",
+        "SSS-K023",
+        "SSS-K028"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-027",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K004",
+        "SSS-K031"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-028",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K006",
+        "SSS-K033"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-029",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K011",
+        "SSS-K026",
+        "SSS-K031",
+        "SSS-K033"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-030",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K006",
+        "SSS-K015",
+        "SSS-K018"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-031",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K007",
+        "SSS-K018",
+        "SSS-K033"
+      ],
+      "case_refs": [
+        {
+          "id": "Q04",
+          "pointer": "/receiving_case_decisions/6"
+        }
+      ]
+    },
+    {
+      "id": "ESA:ESA-032",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K008"
+      ],
+      "case_refs": [
+        {
+          "id": "Q02",
+          "pointer": "/receiving_case_decisions/9"
+        }
+      ]
+    },
+    {
+      "id": "ESA:ESA-033",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K008",
+        "SSS-K014",
+        "SSS-K015",
+        "SSS-K023"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-034",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K010",
+        "SSS-K021",
+        "SSS-K022"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-035",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K009",
+        "SSS-K010",
+        "SSS-K019",
+        "SSS-K021",
+        "SSS-K022"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-036",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K010",
+        "SSS-K027"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-037",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K008",
+        "SSS-K032"
+      ],
+      "case_refs": [
+        {
+          "id": "Q02",
+          "pointer": "/receiving_case_decisions/9"
+        }
+      ]
+    },
+    {
+      "id": "ESA:ESA-038",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K002",
+        "SSS-K007",
+        "SSS-K012",
+        "SSS-K030"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-039",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K009",
+        "SSS-K012",
+        "SSS-K014",
+        "SSS-K030"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-040",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K016"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-041",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K008"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-042",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K009",
+        "SSS-K012",
+        "SSS-K030"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-043",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K011",
+        "SSS-K016",
+        "SSS-K031"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-044",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K013",
+        "SSS-K023"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-045",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K014",
+        "SSS-K015"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-046",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K014",
+        "SSS-K020"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-047",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K019",
+        "SSS-K020"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-048",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K009",
+        "SSS-K020"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-049",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K005",
+        "SSS-K011",
+        "SSS-K023",
+        "SSS-K028",
+        "SSS-K031"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-050",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K016",
+        "SSS-K026"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-051",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K013",
+        "SSS-K016",
+        "SSS-K023",
+        "SSS-K026"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-052",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K026"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-053",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K025"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-054",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K015",
+        "SSS-K024",
+        "SSS-K033"
+      ],
+      "case_refs": [
+        {
+          "id": "Q25",
+          "pointer": "/receiving_case_decisions/11"
+        }
+      ]
+    },
+    {
+      "id": "ESA:ESA-055",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K011",
+        "SSS-K026"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-056",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K011",
+        "SSS-K023",
+        "SSS-K026",
+        "SSS-K028",
+        "SSS-K032"
+      ],
+      "case_refs": [
+        {
+          "id": "Q09",
+          "pointer": "/receiving_case_decisions/5"
+        }
+      ]
+    },
+    {
+      "id": "ESA:ESA-057",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K027"
+      ],
+      "case_refs": [
+        {
+          "id": "Q05",
+          "pointer": "/receiving_case_decisions/12"
+        }
+      ]
+    },
+    {
+      "id": "ESA:ESA-058",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K016",
+        "SSS-K027"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-059",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K007",
+        "SSS-K027"
+      ],
+      "case_refs": [
+        {
+          "id": "Q04",
+          "pointer": "/receiving_case_decisions/6"
+        }
+      ]
+    },
+    {
+      "id": "ESA:ESA-060",
+      "documentary_disposition": "RECEIVED_DISTINCT_UNRESOLVED_RESEARCH_QUESTION",
+      "prepared_absorption_literal": "RESEARCH_ONLY",
+      "historical_observed_outcome_literal": "RESEARCH_QUESTION_RETAINED_NOT_RESOLVED",
+      "group_ids": [
+        "SSS-K024",
+        "SSS-K033"
+      ],
+      "case_refs": [
+        {
+          "id": "Q25",
+          "pointer": "/receiving_case_decisions/11"
+        }
+      ]
+    },
+    {
+      "id": "ESA:ESA-061",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K003",
+        "SSS-K029"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-062",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K006",
+        "SSS-K022"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-063",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K009",
+        "SSS-K014",
+        "SSS-K015",
+        "SSS-K020",
+        "SSS-K025"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-064",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K008",
+        "SSS-K029"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-065",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K003"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-066",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K003",
+        "SSS-K022"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-067",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K034"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESA:ESA-068",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K003",
+        "SSS-K017",
+        "SSS-K020"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C001",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K001",
+        "SSS-K009",
+        "SSS-K012",
+        "SSS-K034"
+      ],
+      "case_refs": [
+        {
+          "id": "Q21",
+          "pointer": "/receiving_case_decisions/4"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C002",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K001",
+        "SSS-K027"
+      ],
+      "case_refs": [
+        {
+          "id": "Q21",
+          "pointer": "/receiving_case_decisions/4"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C003",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K001",
+        "SSS-K025"
+      ],
+      "case_refs": [
+        {
+          "id": "Q06",
+          "pointer": "/receiving_case_decisions/3"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C004",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K010",
+        "SSS-K021",
+        "SSS-K022"
+      ],
+      "case_refs": [
+        {
+          "id": "Q02",
+          "pointer": "/receiving_case_decisions/9"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C005",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K002",
+        "SSS-K015"
+      ],
+      "case_refs": [
+        {
+          "id": "Q18",
+          "pointer": "/receiving_case_decisions/0"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C006",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K020"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C007",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K001",
+        "SSS-K027"
+      ],
+      "case_refs": [
+        {
+          "id": "Q21",
+          "pointer": "/receiving_case_decisions/4"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C008",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K014",
+        "SSS-K028"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C009",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K027",
+        "SSS-K028"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C010",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K018",
+        "SSS-K033"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C011",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K010",
+        "SSS-K026"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C012",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K010",
+        "SSS-K027"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C013",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K004",
+        "SSS-K032"
+      ],
+      "case_refs": [
+        {
+          "id": "Q09",
+          "pointer": "/receiving_case_decisions/5"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C014",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K004",
+        "SSS-K032"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C015",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K004",
+        "SSS-K032"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C016",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K007",
+        "SSS-K008",
+        "SSS-K029"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C017",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K007",
+        "SSS-K008",
+        "SSS-K032"
+      ],
+      "case_refs": [
+        {
+          "id": "Q02",
+          "pointer": "/receiving_case_decisions/9"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C018",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K007",
+        "SSS-K027",
+        "SSS-K029"
+      ],
+      "case_refs": [
+        {
+          "id": "Q18",
+          "pointer": "/receiving_case_decisions/0"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C019",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K008",
+        "SSS-K032"
+      ],
+      "case_refs": [
+        {
+          "id": "Q09",
+          "pointer": "/receiving_case_decisions/5"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C020",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K004"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C021",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K007",
+        "SSS-K008",
+        "SSS-K029",
+        "SSS-K032"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C022",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K004",
+        "SSS-K014",
+        "SSS-K019",
+        "SSS-K025",
+        "SSS-K030",
+        "SSS-K034"
+      ],
+      "case_refs": [
+        {
+          "id": "Q06",
+          "pointer": "/receiving_case_decisions/3"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C023",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K004",
+        "SSS-K033"
+      ],
+      "case_refs": [
+        {
+          "id": "Q03",
+          "pointer": "/receiving_case_decisions/1"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C024",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K004",
+        "SSS-K033"
+      ],
+      "case_refs": [
+        {
+          "id": "Q15",
+          "pointer": "/receiving_case_decisions/2"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C025",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K004",
+        "SSS-K015",
+        "SSS-K019",
+        "SSS-K025"
+      ],
+      "case_refs": [
+        {
+          "id": "Q06",
+          "pointer": "/receiving_case_decisions/3"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C026",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K003",
+        "SSS-K012",
+        "SSS-K030"
+      ],
+      "case_refs": [
+        {
+          "id": "Q04",
+          "pointer": "/receiving_case_decisions/6"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C027",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K012"
+      ],
+      "case_refs": [
+        {
+          "id": "Q04",
+          "pointer": "/receiving_case_decisions/6"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C028",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K019"
+      ],
+      "case_refs": [
+        {
+          "id": "Q19",
+          "pointer": "/receiving_case_decisions/8"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C029",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K005",
+        "SSS-K030"
+      ],
+      "case_refs": [
+        {
+          "id": "Q11",
+          "pointer": "/receiving_case_decisions/7"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C030",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K003",
+        "SSS-K006",
+        "SSS-K012",
+        "SSS-K017",
+        "SSS-K029",
+        "SSS-K030"
+      ],
+      "case_refs": [
+        {
+          "id": "Q04",
+          "pointer": "/receiving_case_decisions/6"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C031",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K017"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C032",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K007",
+        "SSS-K015",
+        "SSS-K017"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C033",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K007",
+        "SSS-K015",
+        "SSS-K017"
+      ],
+      "case_refs": [
+        {
+          "id": "Q19",
+          "pointer": "/receiving_case_decisions/8"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C034",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K006",
+        "SSS-K011",
+        "SSS-K016",
+        "SSS-K026",
+        "SSS-K031"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C035",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K006",
+        "SSS-K016",
+        "SSS-K031",
+        "SSS-K033"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C036",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K016",
+        "SSS-K027"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C037",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K012"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C038",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K006",
+        "SSS-K009",
+        "SSS-K012",
+        "SSS-K030",
+        "SSS-K034"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C039",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K006",
+        "SSS-K007",
+        "SSS-K015",
+        "SSS-K017",
+        "SSS-K018"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C040",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K015",
+        "SSS-K017",
+        "SSS-K018"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C041",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K018"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C042",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K018"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C043",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K018"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C044",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K017",
+        "SSS-K018"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C045",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K007",
+        "SSS-K018",
+        "SSS-K033"
+      ],
+      "case_refs": [
+        {
+          "id": "Q04",
+          "pointer": "/receiving_case_decisions/6"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C046",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K002",
+        "SSS-K015"
+      ],
+      "case_refs": [
+        {
+          "id": "Q06",
+          "pointer": "/receiving_case_decisions/3"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C047",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K014",
+        "SSS-K019"
+      ],
+      "case_refs": [
+        {
+          "id": "Q19",
+          "pointer": "/receiving_case_decisions/8"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C048",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K014"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C049",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K013",
+        "SSS-K020"
+      ],
+      "case_refs": [
+        {
+          "id": "Q08",
+          "pointer": "/receiving_case_decisions/14"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C050",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K028"
+      ],
+      "case_refs": [
+        {
+          "id": "Q09",
+          "pointer": "/receiving_case_decisions/5"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C051",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K011",
+        "SSS-K028"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C052",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K005",
+        "SSS-K011",
+        "SSS-K013",
+        "SSS-K023",
+        "SSS-K028"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C053",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K013"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C054",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K013"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C055",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K003",
+        "SSS-K013",
+        "SSS-K020",
+        "SSS-K029"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C056",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K003",
+        "SSS-K013",
+        "SSS-K029"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C057",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K013",
+        "SSS-K019",
+        "SSS-K020",
+        "SSS-K030"
+      ],
+      "case_refs": [
+        {
+          "id": "Q11",
+          "pointer": "/receiving_case_decisions/7"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C058",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K013",
+        "SSS-K023"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C059",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K013",
+        "SSS-K016",
+        "SSS-K028"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C060",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K016",
+        "SSS-K027",
+        "SSS-K028"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C061",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K013",
+        "SSS-K020"
+      ],
+      "case_refs": [
+        {
+          "id": "Q08",
+          "pointer": "/receiving_case_decisions/14"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C062",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K011",
+        "SSS-K016",
+        "SSS-K031"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C063",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K031"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C064",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K005",
+        "SSS-K011",
+        "SSS-K026",
+        "SSS-K031"
+      ],
+      "case_refs": [
+        {
+          "id": "Q14",
+          "pointer": "/receiving_case_decisions/10"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C065",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K005",
+        "SSS-K011",
+        "SSS-K023",
+        "SSS-K028",
+        "SSS-K031"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C066",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K010",
+        "SSS-K011",
+        "SSS-K021",
+        "SSS-K031"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C067",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K011",
+        "SSS-K031"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C068",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K011",
+        "SSS-K016",
+        "SSS-K031"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C069",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K011",
+        "SSS-K016",
+        "SSS-K031"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C070",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K008"
+      ],
+      "case_refs": [
+        {
+          "id": "Q02",
+          "pointer": "/receiving_case_decisions/9"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C071",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K009",
+        "SSS-K010",
+        "SSS-K021",
+        "SSS-K022"
+      ],
+      "case_refs": [
+        {
+          "id": "Q19",
+          "pointer": "/receiving_case_decisions/8"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C072",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K010",
+        "SSS-K021",
+        "SSS-K023",
+        "SSS-K026"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C073",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K010",
+        "SSS-K033"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C074",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K021",
+        "SSS-K022"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C075",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K021",
+        "SSS-K022"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C076",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K021",
+        "SSS-K022"
+      ],
+      "case_refs": [
+        {
+          "id": "Q02",
+          "pointer": "/receiving_case_decisions/9"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C077",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K022",
+        "SSS-K023"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C078",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K022",
+        "SSS-K023",
+        "SSS-K028"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C079",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K023"
+      ],
+      "case_refs": [
+        {
+          "id": "Q18",
+          "pointer": "/receiving_case_decisions/0"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C080",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K033"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C081",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K011",
+        "SSS-K023",
+        "SSS-K028"
+      ],
+      "case_refs": [
+        {
+          "id": "Q17",
+          "pointer": "/receiving_case_decisions/13"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C082",
+      "documentary_disposition": "RECEIVED_DISTINCT_UNRESOLVED_RESEARCH_QUESTION",
+      "prepared_absorption_literal": "RESEARCH_ONLY",
+      "historical_observed_outcome_literal": "RESEARCH_QUESTION_RETAINED_NOT_RESOLVED",
+      "group_ids": [
+        "SSS-K023"
+      ],
+      "case_refs": [
+        {
+          "id": "Q25",
+          "pointer": "/receiving_case_decisions/11"
+        },
+        {
+          "id": "Q14",
+          "pointer": "/receiving_case_decisions/10"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C083",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K024"
+      ],
+      "case_refs": [
+        {
+          "id": "Q25",
+          "pointer": "/receiving_case_decisions/11"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C084",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K015",
+        "SSS-K018",
+        "SSS-K024"
+      ],
+      "case_refs": [
+        {
+          "id": "Q04",
+          "pointer": "/receiving_case_decisions/6"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C085",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K015",
+        "SSS-K024",
+        "SSS-K033"
+      ],
+      "case_refs": [
+        {
+          "id": "Q25",
+          "pointer": "/receiving_case_decisions/11"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C086",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K024"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C087",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K024",
+        "SSS-K026"
+      ],
+      "case_refs": [
+        {
+          "id": "Q14",
+          "pointer": "/receiving_case_decisions/10"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C088",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K015",
+        "SSS-K024"
+      ],
+      "case_refs": [
+        {
+          "id": "Q14",
+          "pointer": "/receiving_case_decisions/10"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C089",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K024",
+        "SSS-K026"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C090",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K019"
+      ],
+      "case_refs": [
+        {
+          "id": "Q19",
+          "pointer": "/receiving_case_decisions/8"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C091",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K015",
+        "SSS-K025"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C092",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K014",
+        "SSS-K015",
+        "SSS-K025"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C093",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K015",
+        "SSS-K025",
+        "SSS-K029"
+      ],
+      "case_refs": [
+        {
+          "id": "Q06",
+          "pointer": "/receiving_case_decisions/3"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C094",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K009",
+        "SSS-K020",
+        "SSS-K024"
+      ],
+      "case_refs": [
+        {
+          "id": "Q14",
+          "pointer": "/receiving_case_decisions/10"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C095",
+      "documentary_disposition": "RECEIVED_DISTINCT_UNRESOLVED_RESEARCH_QUESTION",
+      "prepared_absorption_literal": "RESEARCH_ONLY",
+      "historical_observed_outcome_literal": "RESEARCH_QUESTION_RETAINED_NOT_RESOLVED",
+      "group_ids": [
+        "SSS-K024",
+        "SSS-K033"
+      ],
+      "case_refs": [
+        {
+          "id": "Q25",
+          "pointer": "/receiving_case_decisions/11"
+        },
+        {
+          "id": "Q14",
+          "pointer": "/receiving_case_decisions/10"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C096",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K009",
+        "SSS-K024"
+      ],
+      "case_refs": [
+        {
+          "id": "Q25",
+          "pointer": "/receiving_case_decisions/11"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C097",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K009",
+        "SSS-K012",
+        "SSS-K030"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C098",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K009",
+        "SSS-K014",
+        "SSS-K020"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C099",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K024"
+      ],
+      "case_refs": [
+        {
+          "id": "Q14",
+          "pointer": "/receiving_case_decisions/10"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C100",
+      "documentary_disposition": "RECEIVED_DISTINCT_UNRESOLVED_RESEARCH_QUESTION",
+      "prepared_absorption_literal": "RESEARCH_ONLY",
+      "historical_observed_outcome_literal": "RESEARCH_QUESTION_RETAINED_NOT_RESOLVED",
+      "group_ids": [
+        "SSS-K024",
+        "SSS-K033"
+      ],
+      "case_refs": [
+        {
+          "id": "Q25",
+          "pointer": "/receiving_case_decisions/11"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C101",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K009",
+        "SSS-K032"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESME:ESME-C102",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K002",
+        "SSS-K015"
+      ],
+      "case_refs": [
+        {
+          "id": "Q18",
+          "pointer": "/receiving_case_decisions/0"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C103",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K014",
+        "SSS-K015",
+        "SSS-K025"
+      ],
+      "case_refs": [
+        {
+          "id": "Q14",
+          "pointer": "/receiving_case_decisions/10"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C104",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K013",
+        "SSS-K019",
+        "SSS-K020"
+      ],
+      "case_refs": [
+        {
+          "id": "Q19",
+          "pointer": "/receiving_case_decisions/8"
+        }
+      ]
+    },
+    {
+      "id": "ESME:ESME-C105",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K011",
+        "SSS-K023",
+        "SSS-K026",
+        "SSS-K032"
+      ],
+      "case_refs": [
+        {
+          "id": "Q09",
+          "pointer": "/receiving_case_decisions/5"
+        }
+      ]
+    },
+    {
+      "id": "ESPLE:ESPLE-001",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K001",
+        "SSS-K005",
+        "SSS-K034"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-002",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K001",
+        "SSS-K005",
+        "SSS-K008",
+        "SSS-K030"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-003",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K005",
+        "SSS-K011",
+        "SSS-K023",
+        "SSS-K026",
+        "SSS-K028",
+        "SSS-K030",
+        "SSS-K031"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-004",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K009",
+        "SSS-K010",
+        "SSS-K021",
+        "SSS-K022",
+        "SSS-K034"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-005",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K008",
+        "SSS-K014",
+        "SSS-K021",
+        "SSS-K022"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-006",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K009",
+        "SSS-K012",
+        "SSS-K013",
+        "SSS-K021",
+        "SSS-K022",
+        "SSS-K023",
+        "SSS-K030"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-007",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K005",
+        "SSS-K011",
+        "SSS-K013",
+        "SSS-K016",
+        "SSS-K028",
+        "SSS-K031"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-008",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K001",
+        "SSS-K003",
+        "SSS-K022",
+        "SSS-K029",
+        "SSS-K034"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-009",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K007"
+      ],
+      "case_refs": [
+        {
+          "id": "Q04",
+          "pointer": "/receiving_case_decisions/6"
+        }
+      ]
+    },
+    {
+      "id": "ESPLE:ESPLE-010",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K006",
+        "SSS-K007"
+      ],
+      "case_refs": [
+        {
+          "id": "Q04",
+          "pointer": "/receiving_case_decisions/6"
+        }
+      ]
+    },
+    {
+      "id": "ESPLE:ESPLE-011",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K022",
+        "SSS-K032"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-012",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K003",
+        "SSS-K029",
+        "SSS-K032"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-013",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K020",
+        "SSS-K025",
+        "SSS-K026",
+        "SSS-K034"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-014",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K004",
+        "SSS-K008",
+        "SSS-K029",
+        "SSS-K032"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-015",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K016"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-016",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K013",
+        "SSS-K019"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-017",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K007",
+        "SSS-K015",
+        "SSS-K017",
+        "SSS-K024",
+        "SSS-K025"
+      ],
+      "case_refs": [
+        {
+          "id": "Q06",
+          "pointer": "/receiving_case_decisions/3"
+        }
+      ]
+    },
+    {
+      "id": "ESPLE:ESPLE-018",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K008",
+        "SSS-K021",
+        "SSS-K032"
+      ],
+      "case_refs": [
+        {
+          "id": "Q06",
+          "pointer": "/receiving_case_decisions/3"
+        }
+      ]
+    },
+    {
+      "id": "ESPLE:ESPLE-019",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K003",
+        "SSS-K021",
+        "SSS-K030",
+        "SSS-K034"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-020",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K002",
+        "SSS-K024",
+        "SSS-K034"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-021",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K002",
+        "SSS-K015",
+        "SSS-K024",
+        "SSS-K025"
+      ],
+      "case_refs": [
+        {
+          "id": "Q04",
+          "pointer": "/receiving_case_decisions/6"
+        }
+      ]
+    },
+    {
+      "id": "ESPLE:ESPLE-022",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K002"
+      ],
+      "case_refs": [
+        {
+          "id": "Q11",
+          "pointer": "/receiving_case_decisions/7"
+        }
+      ]
+    },
+    {
+      "id": "ESPLE:ESPLE-023",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K006",
+        "SSS-K007",
+        "SSS-K015",
+        "SSS-K017",
+        "SSS-K018",
+        "SSS-K024",
+        "SSS-K025",
+        "SSS-K033"
+      ],
+      "case_refs": [
+        {
+          "id": "Q04",
+          "pointer": "/receiving_case_decisions/6"
+        }
+      ]
+    },
+    {
+      "id": "ESPLE:ESPLE-024",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K004",
+        "SSS-K006",
+        "SSS-K018",
+        "SSS-K019",
+        "SSS-K025"
+      ],
+      "case_refs": [
+        {
+          "id": "Q11",
+          "pointer": "/receiving_case_decisions/7"
+        }
+      ]
+    },
+    {
+      "id": "ESPLE:ESPLE-025",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K006",
+        "SSS-K015",
+        "SSS-K018",
+        "SSS-K026",
+        "SSS-K033"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-026",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K015",
+        "SSS-K017",
+        "SSS-K018",
+        "SSS-K032"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-027",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K003",
+        "SSS-K012",
+        "SSS-K015",
+        "SSS-K017",
+        "SSS-K019",
+        "SSS-K020",
+        "SSS-K030"
+      ],
+      "case_refs": [
+        {
+          "id": "Q11",
+          "pointer": "/receiving_case_decisions/7"
+        }
+      ]
+    },
+    {
+      "id": "ESPLE:ESPLE-028",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K002",
+        "SSS-K006",
+        "SSS-K007",
+        "SSS-K012",
+        "SSS-K015",
+        "SSS-K017",
+        "SSS-K024"
+      ],
+      "case_refs": [
+        {
+          "id": "Q04",
+          "pointer": "/receiving_case_decisions/6"
+        }
+      ]
+    },
+    {
+      "id": "ESPLE:ESPLE-029",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K004",
+        "SSS-K015",
+        "SSS-K025"
+      ],
+      "case_refs": [
+        {
+          "id": "Q06",
+          "pointer": "/receiving_case_decisions/3"
+        }
+      ]
+    },
+    {
+      "id": "ESPLE:ESPLE-030",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K012",
+        "SSS-K014",
+        "SSS-K029"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-031",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K012",
+        "SSS-K013",
+        "SSS-K023",
+        "SSS-K029",
+        "SSS-K030"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-032",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K004",
+        "SSS-K014",
+        "SSS-K019",
+        "SSS-K021",
+        "SSS-K030"
+      ],
+      "case_refs": [
+        {
+          "id": "Q14",
+          "pointer": "/receiving_case_decisions/10"
+        }
+      ]
+    },
+    {
+      "id": "ESPLE:ESPLE-033",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K013",
+        "SSS-K019",
+        "SSS-K021",
+        "SSS-K023",
+        "SSS-K030"
+      ],
+      "case_refs": [
+        {
+          "id": "Q11",
+          "pointer": "/receiving_case_decisions/7"
+        }
+      ]
+    },
+    {
+      "id": "ESPLE:ESPLE-034",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K004",
+        "SSS-K008",
+        "SSS-K029"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-035",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K014",
+        "SSS-K015",
+        "SSS-K018"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-036",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K005",
+        "SSS-K006",
+        "SSS-K011",
+        "SSS-K026",
+        "SSS-K031",
+        "SSS-K033"
+      ],
+      "case_refs": [
+        {
+          "id": "Q14",
+          "pointer": "/receiving_case_decisions/10"
+        }
+      ]
+    },
+    {
+      "id": "ESPLE:ESPLE-037",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K005",
+        "SSS-K011",
+        "SSS-K016",
+        "SSS-K023",
+        "SSS-K028",
+        "SSS-K032"
+      ],
+      "case_refs": [
+        {
+          "id": "Q14",
+          "pointer": "/receiving_case_decisions/10"
+        }
+      ]
+    },
+    {
+      "id": "ESPLE:ESPLE-038",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K011",
+        "SSS-K014",
+        "SSS-K016",
+        "SSS-K023",
+        "SSS-K028",
+        "SSS-K031"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-039",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K009",
+        "SSS-K010",
+        "SSS-K021",
+        "SSS-K022"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-040",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K010",
+        "SSS-K021",
+        "SSS-K026"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-041",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K009",
+        "SSS-K010",
+        "SSS-K021",
+        "SSS-K022"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-042",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K001",
+        "SSS-K009",
+        "SSS-K021",
+        "SSS-K022"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-043",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K014",
+        "SSS-K020",
+        "SSS-K025",
+        "SSS-K027"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-044",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K013",
+        "SSS-K019",
+        "SSS-K020"
+      ],
+      "case_refs": [
+        {
+          "id": "Q08",
+          "pointer": "/receiving_case_decisions/14"
+        }
+      ]
+    },
+    {
+      "id": "ESPLE:ESPLE-045",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K020"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-046",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K003",
+        "SSS-K007",
+        "SSS-K029"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-047",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K009",
+        "SSS-K015",
+        "SSS-K024"
+      ],
+      "case_refs": [
+        {
+          "id": "Q25",
+          "pointer": "/receiving_case_decisions/11"
+        }
+      ]
+    },
+    {
+      "id": "ESPLE:ESPLE-048",
+      "documentary_disposition": "RECEIVED_DISTINCT_UNRESOLVED_RESEARCH_QUESTION",
+      "prepared_absorption_literal": "RESEARCH_ONLY",
+      "historical_observed_outcome_literal": "RESEARCH_QUESTION_RETAINED_NOT_RESOLVED",
+      "group_ids": [
+        "SSS-K024",
+        "SSS-K033"
+      ],
+      "case_refs": [
+        {
+          "id": "Q25",
+          "pointer": "/receiving_case_decisions/11"
+        },
+        {
+          "id": "Q14",
+          "pointer": "/receiving_case_decisions/10"
+        }
+      ]
+    },
+    {
+      "id": "ESPLE:ESPLE-049",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K011",
+        "SSS-K027",
+        "SSS-K033"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-050",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K005",
+        "SSS-K016",
+        "SSS-K028"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-051",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K007",
+        "SSS-K008",
+        "SSS-K027",
+        "SSS-K032"
+      ],
+      "case_refs": [
+        {
+          "id": "Q05",
+          "pointer": "/receiving_case_decisions/12"
+        }
+      ]
+    },
+    {
+      "id": "ESPLE:ESPLE-052",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K007"
+      ],
+      "case_refs": [
+        {
+          "id": "Q04",
+          "pointer": "/receiving_case_decisions/6"
+        }
+      ]
+    },
+    {
+      "id": "ESPLE:ESPLE-053",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K018",
+        "SSS-K033"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-054",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K020",
+        "SSS-K023",
+        "SSS-K026",
+        "SSS-K028"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-055",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K027"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-056",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K024",
+        "SSS-K027",
+        "SSS-K032"
+      ],
+      "case_refs": [
+        {
+          "id": "Q09",
+          "pointer": "/receiving_case_decisions/5"
+        }
+      ]
+    },
+    {
+      "id": "ESPLE:ESPLE-057",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K005",
+        "SSS-K011",
+        "SSS-K016",
+        "SSS-K028",
+        "SSS-K031"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-058",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K012",
+        "SSS-K029"
+      ],
+      "case_refs": [
+        {
+          "id": "Q11",
+          "pointer": "/receiving_case_decisions/7"
+        }
+      ]
+    },
+    {
+      "id": "ESPLE:ESPLE-059",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "CONDITIONAL",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K011",
+        "SSS-K016",
+        "SSS-K026",
+        "SSS-K031",
+        "SSS-K033"
+      ],
+      "case_refs": []
+    },
+    {
+      "id": "ESPLE:ESPLE-060",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K009",
+        "SSS-K020"
+      ],
+      "case_refs": [
+        {
+          "id": "Q08",
+          "pointer": "/receiving_case_decisions/14"
+        }
+      ]
+    },
+    {
+      "id": "ESPLE:ESPLE-061",
+      "documentary_disposition": "RECEIVED_FINITE_CASE_INTERPRETATION_ONLY",
+      "prepared_absorption_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_outcome_literal": "BOUNDED_RECEIVING_DECISION_ONLY",
+      "group_ids": [
+        "SSS-K011",
+        "SSS-K013",
+        "SSS-K023",
+        "SSS-K028"
+      ],
+      "case_refs": [
+        {
+          "id": "Q02",
+          "pointer": "/receiving_case_decisions/9"
+        }
+      ]
+    },
+    {
+      "id": "ESPLE:ESPLE-062",
+      "documentary_disposition": "RECEIVED_RETAINED_GUARDED_NO_ADDITIONAL_INTERVENTION",
+      "prepared_absorption_literal": "REJECTED_WITH_REASON",
+      "historical_observed_outcome_literal": "RETAINED_NO_ADDITIONAL_TARGET_INTERVENTION",
+      "group_ids": [
+        "SSS-K020",
+        "SSS-K025",
+        "SSS-K027"
+      ],
+      "case_refs": []
+    }
+  ],
+  "groups": [
+    {
+      "id": "SSS-K001",
+      "name": "Consequential scope and legitimate product intent",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-001",
+        "ESA:ESA-002",
+        "ESA:ESA-006",
+        "ESME:ESME-C001",
+        "ESME:ESME-C002",
+        "ESME:ESME-C003",
+        "ESME:ESME-C007",
+        "ESPLE:ESPLE-001",
+        "ESPLE:ESPLE-002",
+        "ESPLE:ESPLE-008",
+        "ESPLE:ESPLE-042"
+      ]
+    },
+    {
+      "id": "SSS-K002",
+      "name": "Identity across descriptions, interventions and derivations",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-003",
+        "ESA:ESA-021",
+        "ESA:ESA-038",
+        "ESME:ESME-C005",
+        "ESME:ESME-C046",
+        "ESME:ESME-C102",
+        "ESPLE:ESPLE-020",
+        "ESPLE:ESPLE-021",
+        "ESPLE:ESPLE-022",
+        "ESPLE:ESPLE-028"
+      ]
+    },
+    {
+      "id": "SSS-K003",
+      "name": "Semantic obligations across interfaces",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-008",
+        "ESA:ESA-009",
+        "ESA:ESA-061",
+        "ESA:ESA-065",
+        "ESA:ESA-066",
+        "ESA:ESA-068",
+        "ESME:ESME-C026",
+        "ESME:ESME-C030",
+        "ESME:ESME-C055",
+        "ESME:ESME-C056",
+        "ESPLE:ESPLE-008",
+        "ESPLE:ESPLE-012",
+        "ESPLE:ESPLE-019",
+        "ESPLE:ESPLE-027",
+        "ESPLE:ESPLE-046"
+      ]
+    },
+    {
+      "id": "SSS-K004",
+      "name": "Typed cross-boundary impact",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-007",
+        "ESA:ESA-010",
+        "ESA:ESA-011",
+        "ESA:ESA-027",
+        "ESME:ESME-C013",
+        "ESME:ESME-C014",
+        "ESME:ESME-C015",
+        "ESME:ESME-C020",
+        "ESME:ESME-C022",
+        "ESME:ESME-C023",
+        "ESME:ESME-C024",
+        "ESME:ESME-C025",
+        "ESPLE:ESPLE-014",
+        "ESPLE:ESPLE-024",
+        "ESPLE:ESPLE-029",
+        "ESPLE:ESPLE-032",
+        "ESPLE:ESPLE-034"
+      ]
+    },
+    {
+      "id": "SSS-K005",
+      "name": "Warranted commonality and anticipatory flexibility",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-007",
+        "ESA:ESA-013",
+        "ESA:ESA-049",
+        "ESME:ESME-C029",
+        "ESME:ESME-C052",
+        "ESME:ESME-C064",
+        "ESME:ESME-C065",
+        "ESPLE:ESPLE-001",
+        "ESPLE:ESPLE-002",
+        "ESPLE:ESPLE-003",
+        "ESPLE:ESPLE-007",
+        "ESPLE:ESPLE-036",
+        "ESPLE:ESPLE-037",
+        "ESPLE:ESPLE-050",
+        "ESPLE:ESPLE-057"
+      ]
+    },
+    {
+      "id": "SSS-K006",
+      "name": "Quality criteria and selected populations",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-014",
+        "ESA:ESA-015",
+        "ESA:ESA-016",
+        "ESA:ESA-017",
+        "ESA:ESA-018",
+        "ESA:ESA-019",
+        "ESA:ESA-028",
+        "ESA:ESA-030",
+        "ESA:ESA-062",
+        "ESME:ESME-C030",
+        "ESME:ESME-C034",
+        "ESME:ESME-C035",
+        "ESME:ESME-C038",
+        "ESME:ESME-C039",
+        "ESPLE:ESPLE-010",
+        "ESPLE:ESPLE-023",
+        "ESPLE:ESPLE-024",
+        "ESPLE:ESPLE-025",
+        "ESPLE:ESPLE-028",
+        "ESPLE:ESPLE-036"
+      ]
+    },
+    {
+      "id": "SSS-K007",
+      "name": "Model, tool and actual-product assurance layers",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-003",
+        "ESA:ESA-020",
+        "ESA:ESA-021",
+        "ESA:ESA-022",
+        "ESA:ESA-024",
+        "ESA:ESA-031",
+        "ESA:ESA-038",
+        "ESA:ESA-059",
+        "ESME:ESME-C016",
+        "ESME:ESME-C017",
+        "ESME:ESME-C018",
+        "ESME:ESME-C021",
+        "ESME:ESME-C032",
+        "ESME:ESME-C033",
+        "ESME:ESME-C039",
+        "ESME:ESME-C045",
+        "ESPLE:ESPLE-009",
+        "ESPLE:ESPLE-010",
+        "ESPLE:ESPLE-017",
+        "ESPLE:ESPLE-023",
+        "ESPLE:ESPLE-028",
+        "ESPLE:ESPLE-046",
+        "ESPLE:ESPLE-051",
+        "ESPLE:ESPLE-052"
+      ]
+    },
+    {
+      "id": "SSS-K008",
+      "name": "Useful rationale and reconstructible knowledge",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-020",
+        "ESA:ESA-023",
+        "ESA:ESA-032",
+        "ESA:ESA-033",
+        "ESA:ESA-037",
+        "ESA:ESA-041",
+        "ESA:ESA-064",
+        "ESME:ESME-C016",
+        "ESME:ESME-C017",
+        "ESME:ESME-C019",
+        "ESME:ESME-C021",
+        "ESME:ESME-C070",
+        "ESPLE:ESPLE-002",
+        "ESPLE:ESPLE-005",
+        "ESPLE:ESPLE-014",
+        "ESPLE:ESPLE-018",
+        "ESPLE:ESPLE-034",
+        "ESPLE:ESPLE-051"
+      ]
+    },
+    {
+      "id": "SSS-K009",
+      "name": "Authority is not evidence or tooling",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-005",
+        "ESA:ESA-035",
+        "ESA:ESA-039",
+        "ESA:ESA-042",
+        "ESA:ESA-048",
+        "ESA:ESA-063",
+        "ESME:ESME-C001",
+        "ESME:ESME-C038",
+        "ESME:ESME-C071",
+        "ESME:ESME-C094",
+        "ESME:ESME-C096",
+        "ESME:ESME-C097",
+        "ESME:ESME-C098",
+        "ESME:ESME-C101",
+        "ESPLE:ESPLE-004",
+        "ESPLE:ESPLE-006",
+        "ESPLE:ESPLE-039",
+        "ESPLE:ESPLE-041",
+        "ESPLE:ESPLE-042",
+        "ESPLE:ESPLE-047",
+        "ESPLE:ESPLE-060"
+      ]
+    },
+    {
+      "id": "SSS-K010",
+      "name": "Practical capacity and coordination",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-004",
+        "ESA:ESA-012",
+        "ESA:ESA-034",
+        "ESA:ESA-035",
+        "ESA:ESA-036",
+        "ESME:ESME-C004",
+        "ESME:ESME-C011",
+        "ESME:ESME-C012",
+        "ESME:ESME-C066",
+        "ESME:ESME-C071",
+        "ESME:ESME-C072",
+        "ESME:ESME-C073",
+        "ESPLE:ESPLE-004",
+        "ESPLE:ESPLE-039",
+        "ESPLE:ESPLE-040",
+        "ESPLE:ESPLE-041"
+      ]
+    },
+    {
+      "id": "SSS-K011",
+      "name": "Lifecycle alternatives, cost bearers and uncertainty",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-017",
+        "ESA:ESA-026",
+        "ESA:ESA-029",
+        "ESA:ESA-043",
+        "ESA:ESA-049",
+        "ESA:ESA-055",
+        "ESA:ESA-056",
+        "ESME:ESME-C034",
+        "ESME:ESME-C051",
+        "ESME:ESME-C052",
+        "ESME:ESME-C062",
+        "ESME:ESME-C064",
+        "ESME:ESME-C065",
+        "ESME:ESME-C066",
+        "ESME:ESME-C067",
+        "ESME:ESME-C068",
+        "ESME:ESME-C069",
+        "ESME:ESME-C081",
+        "ESME:ESME-C105",
+        "ESPLE:ESPLE-003",
+        "ESPLE:ESPLE-007",
+        "ESPLE:ESPLE-036",
+        "ESPLE:ESPLE-037",
+        "ESPLE:ESPLE-038",
+        "ESPLE:ESPLE-049",
+        "ESPLE:ESPLE-057",
+        "ESPLE:ESPLE-059",
+        "ESPLE:ESPLE-061"
+      ]
+    },
+    {
+      "id": "SSS-K012",
+      "name": "Preservation and deliberate revision",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-008",
+        "ESA:ESA-038",
+        "ESA:ESA-039",
+        "ESA:ESA-042",
+        "ESME:ESME-C001",
+        "ESME:ESME-C026",
+        "ESME:ESME-C027",
+        "ESME:ESME-C030",
+        "ESME:ESME-C037",
+        "ESME:ESME-C038",
+        "ESME:ESME-C097",
+        "ESPLE:ESPLE-006",
+        "ESPLE:ESPLE-027",
+        "ESPLE:ESPLE-028",
+        "ESPLE:ESPLE-030",
+        "ESPLE:ESPLE-031",
+        "ESPLE:ESPLE-058"
+      ]
+    },
+    {
+      "id": "SSS-K013",
+      "name": "Migration, coexistence and reachable states",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-009",
+        "ESA:ESA-044",
+        "ESA:ESA-051",
+        "ESME:ESME-C049",
+        "ESME:ESME-C052",
+        "ESME:ESME-C053",
+        "ESME:ESME-C054",
+        "ESME:ESME-C055",
+        "ESME:ESME-C056",
+        "ESME:ESME-C057",
+        "ESME:ESME-C058",
+        "ESME:ESME-C059",
+        "ESME:ESME-C061",
+        "ESME:ESME-C104",
+        "ESPLE:ESPLE-006",
+        "ESPLE:ESPLE-007",
+        "ESPLE:ESPLE-016",
+        "ESPLE:ESPLE-031",
+        "ESPLE:ESPLE-033",
+        "ESPLE:ESPLE-044",
+        "ESPLE:ESPLE-061"
+      ]
+    },
+    {
+      "id": "SSS-K014",
+      "name": "Observation, feedback and revision",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-018",
+        "ESA:ESA-033",
+        "ESA:ESA-039",
+        "ESA:ESA-045",
+        "ESA:ESA-046",
+        "ESA:ESA-063",
+        "ESME:ESME-C008",
+        "ESME:ESME-C022",
+        "ESME:ESME-C047",
+        "ESME:ESME-C048",
+        "ESME:ESME-C092",
+        "ESME:ESME-C098",
+        "ESME:ESME-C103",
+        "ESPLE:ESPLE-005",
+        "ESPLE:ESPLE-030",
+        "ESPLE:ESPLE-032",
+        "ESPLE:ESPLE-035",
+        "ESPLE:ESPLE-038",
+        "ESPLE:ESPLE-043"
+      ]
+    },
+    {
+      "id": "SSS-K015",
+      "name": "Selective evidence applicability and invalidation",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-015",
+        "ESA:ESA-018",
+        "ESA:ESA-021",
+        "ESA:ESA-022",
+        "ESA:ESA-030",
+        "ESA:ESA-033",
+        "ESA:ESA-045",
+        "ESA:ESA-054",
+        "ESA:ESA-063",
+        "ESME:ESME-C005",
+        "ESME:ESME-C025",
+        "ESME:ESME-C032",
+        "ESME:ESME-C033",
+        "ESME:ESME-C039",
+        "ESME:ESME-C040",
+        "ESME:ESME-C046",
+        "ESME:ESME-C084",
+        "ESME:ESME-C085",
+        "ESME:ESME-C088",
+        "ESME:ESME-C091",
+        "ESME:ESME-C092",
+        "ESME:ESME-C093",
+        "ESME:ESME-C102",
+        "ESME:ESME-C103",
+        "ESPLE:ESPLE-017",
+        "ESPLE:ESPLE-021",
+        "ESPLE:ESPLE-023",
+        "ESPLE:ESPLE-025",
+        "ESPLE:ESPLE-026",
+        "ESPLE:ESPLE-027",
+        "ESPLE:ESPLE-028",
+        "ESPLE:ESPLE-029",
+        "ESPLE:ESPLE-035",
+        "ESPLE:ESPLE-047"
+      ]
+    },
+    {
+      "id": "SSS-K016",
+      "name": "Structural intervention versus actual benefit",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-025",
+        "ESA:ESA-040",
+        "ESA:ESA-043",
+        "ESA:ESA-050",
+        "ESA:ESA-051",
+        "ESA:ESA-058",
+        "ESME:ESME-C034",
+        "ESME:ESME-C035",
+        "ESME:ESME-C036",
+        "ESME:ESME-C059",
+        "ESME:ESME-C060",
+        "ESME:ESME-C062",
+        "ESME:ESME-C068",
+        "ESME:ESME-C069",
+        "ESPLE:ESPLE-007",
+        "ESPLE:ESPLE-015",
+        "ESPLE:ESPLE-037",
+        "ESPLE:ESPLE-038",
+        "ESPLE:ESPLE-050",
+        "ESPLE:ESPLE-057",
+        "ESPLE:ESPLE-059"
+      ]
+    },
+    {
+      "id": "SSS-K017",
+      "name": "Reusable local proofs and composition premises",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-021",
+        "ESA:ESA-022",
+        "ESA:ESA-068",
+        "ESME:ESME-C030",
+        "ESME:ESME-C031",
+        "ESME:ESME-C032",
+        "ESME:ESME-C033",
+        "ESME:ESME-C039",
+        "ESME:ESME-C040",
+        "ESME:ESME-C044",
+        "ESPLE:ESPLE-017",
+        "ESPLE:ESPLE-023",
+        "ESPLE:ESPLE-026",
+        "ESPLE:ESPLE-027",
+        "ESPLE:ESPLE-028"
+      ]
+    },
+    {
+      "id": "SSS-K018",
+      "name": "Sampling, regression selection and oracle limits",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-015",
+        "ESA:ESA-018",
+        "ESA:ESA-030",
+        "ESA:ESA-031",
+        "ESME:ESME-C010",
+        "ESME:ESME-C039",
+        "ESME:ESME-C040",
+        "ESME:ESME-C041",
+        "ESME:ESME-C042",
+        "ESME:ESME-C043",
+        "ESME:ESME-C044",
+        "ESME:ESME-C045",
+        "ESME:ESME-C084",
+        "ESPLE:ESPLE-023",
+        "ESPLE:ESPLE-024",
+        "ESPLE:ESPLE-025",
+        "ESPLE:ESPLE-026",
+        "ESPLE:ESPLE-035",
+        "ESPLE:ESPLE-053"
+      ]
+    },
+    {
+      "id": "SSS-K019",
+      "name": "Concurrent change and joint interaction",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-008",
+        "ESA:ESA-009",
+        "ESA:ESA-035",
+        "ESA:ESA-047",
+        "ESME:ESME-C022",
+        "ESME:ESME-C025",
+        "ESME:ESME-C028",
+        "ESME:ESME-C047",
+        "ESME:ESME-C057",
+        "ESME:ESME-C090",
+        "ESME:ESME-C104",
+        "ESPLE:ESPLE-016",
+        "ESPLE:ESPLE-024",
+        "ESPLE:ESPLE-027",
+        "ESPLE:ESPLE-032",
+        "ESPLE:ESPLE-033",
+        "ESPLE:ESPLE-044"
+      ]
+    },
+    {
+      "id": "SSS-K020",
+      "name": "Runtime change, recovery and action envelopes",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-008",
+        "ESA:ESA-018",
+        "ESA:ESA-046",
+        "ESA:ESA-047",
+        "ESA:ESA-048",
+        "ESA:ESA-063",
+        "ESA:ESA-068",
+        "ESME:ESME-C006",
+        "ESME:ESME-C049",
+        "ESME:ESME-C055",
+        "ESME:ESME-C057",
+        "ESME:ESME-C061",
+        "ESME:ESME-C094",
+        "ESME:ESME-C098",
+        "ESME:ESME-C104",
+        "ESPLE:ESPLE-013",
+        "ESPLE:ESPLE-027",
+        "ESPLE:ESPLE-043",
+        "ESPLE:ESPLE-044",
+        "ESPLE:ESPLE-045",
+        "ESPLE:ESPLE-054",
+        "ESPLE:ESPLE-060",
+        "ESPLE:ESPLE-062"
+      ]
+    },
+    {
+      "id": "SSS-K021",
+      "name": "Shared-asset responsibility and product autonomy",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-005",
+        "ESA:ESA-012",
+        "ESA:ESA-013",
+        "ESA:ESA-034",
+        "ESA:ESA-035",
+        "ESME:ESME-C004",
+        "ESME:ESME-C066",
+        "ESME:ESME-C071",
+        "ESME:ESME-C072",
+        "ESME:ESME-C074",
+        "ESME:ESME-C075",
+        "ESME:ESME-C076",
+        "ESPLE:ESPLE-004",
+        "ESPLE:ESPLE-005",
+        "ESPLE:ESPLE-006",
+        "ESPLE:ESPLE-018",
+        "ESPLE:ESPLE-019",
+        "ESPLE:ESPLE-032",
+        "ESPLE:ESPLE-033",
+        "ESPLE:ESPLE-039",
+        "ESPLE:ESPLE-040",
+        "ESPLE:ESPLE-041",
+        "ESPLE:ESPLE-042"
+      ]
+    },
+    {
+      "id": "SSS-K022",
+      "name": "Consumer-directed communication",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-002",
+        "ESA:ESA-005",
+        "ESA:ESA-008",
+        "ESA:ESA-034",
+        "ESA:ESA-035",
+        "ESA:ESA-062",
+        "ESA:ESA-066",
+        "ESME:ESME-C004",
+        "ESME:ESME-C071",
+        "ESME:ESME-C074",
+        "ESME:ESME-C075",
+        "ESME:ESME-C076",
+        "ESME:ESME-C077",
+        "ESME:ESME-C078",
+        "ESPLE:ESPLE-004",
+        "ESPLE:ESPLE-005",
+        "ESPLE:ESPLE-006",
+        "ESPLE:ESPLE-008",
+        "ESPLE:ESPLE-011",
+        "ESPLE:ESPLE-039",
+        "ESPLE:ESPLE-041",
+        "ESPLE:ESPLE-042"
+      ]
+    },
+    {
+      "id": "SSS-K023",
+      "name": "Completion, support-aware retirement and historical retention",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-026",
+        "ESA:ESA-033",
+        "ESA:ESA-044",
+        "ESA:ESA-049",
+        "ESA:ESA-051",
+        "ESA:ESA-056",
+        "ESME:ESME-C052",
+        "ESME:ESME-C058",
+        "ESME:ESME-C065",
+        "ESME:ESME-C072",
+        "ESME:ESME-C077",
+        "ESME:ESME-C078",
+        "ESME:ESME-C079",
+        "ESME:ESME-C081",
+        "ESME:ESME-C082",
+        "ESME:ESME-C105",
+        "ESPLE:ESPLE-003",
+        "ESPLE:ESPLE-006",
+        "ESPLE:ESPLE-031",
+        "ESPLE:ESPLE-033",
+        "ESPLE:ESPLE-037",
+        "ESPLE:ESPLE-038",
+        "ESPLE:ESPLE-054",
+        "ESPLE:ESPLE-061"
+      ]
+    },
+    {
+      "id": "SSS-K024",
+      "name": "Bounded automation versus lifecycle replacement",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-054",
+        "ESA:ESA-060",
+        "ESME:ESME-C083",
+        "ESME:ESME-C084",
+        "ESME:ESME-C085",
+        "ESME:ESME-C086",
+        "ESME:ESME-C087",
+        "ESME:ESME-C088",
+        "ESME:ESME-C089",
+        "ESME:ESME-C094",
+        "ESME:ESME-C095",
+        "ESME:ESME-C096",
+        "ESME:ESME-C099",
+        "ESME:ESME-C100",
+        "ESPLE:ESPLE-017",
+        "ESPLE:ESPLE-020",
+        "ESPLE:ESPLE-021",
+        "ESPLE:ESPLE-023",
+        "ESPLE:ESPLE-028",
+        "ESPLE:ESPLE-047",
+        "ESPLE:ESPLE-048",
+        "ESPLE:ESPLE-056"
+      ]
+    },
+    {
+      "id": "SSS-K025",
+      "name": "Learned, generated and environmental dependencies",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-018",
+        "ESA:ESA-053",
+        "ESA:ESA-063",
+        "ESME:ESME-C003",
+        "ESME:ESME-C022",
+        "ESME:ESME-C025",
+        "ESME:ESME-C091",
+        "ESME:ESME-C092",
+        "ESME:ESME-C093",
+        "ESME:ESME-C103",
+        "ESPLE:ESPLE-013",
+        "ESPLE:ESPLE-017",
+        "ESPLE:ESPLE-021",
+        "ESPLE:ESPLE-023",
+        "ESPLE:ESPLE-024",
+        "ESPLE:ESPLE-029",
+        "ESPLE:ESPLE-043",
+        "ESPLE:ESPLE-062"
+      ]
+    },
+    {
+      "id": "SSS-K026",
+      "name": "Resource constraints and costly flexibility",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-012",
+        "ESA:ESA-017",
+        "ESA:ESA-029",
+        "ESA:ESA-050",
+        "ESA:ESA-051",
+        "ESA:ESA-052",
+        "ESA:ESA-055",
+        "ESA:ESA-056",
+        "ESME:ESME-C011",
+        "ESME:ESME-C034",
+        "ESME:ESME-C064",
+        "ESME:ESME-C072",
+        "ESME:ESME-C087",
+        "ESME:ESME-C089",
+        "ESME:ESME-C105",
+        "ESPLE:ESPLE-003",
+        "ESPLE:ESPLE-013",
+        "ESPLE:ESPLE-025",
+        "ESPLE:ESPLE-036",
+        "ESPLE:ESPLE-040",
+        "ESPLE:ESPLE-054",
+        "ESPLE:ESPLE-059"
+      ]
+    },
+    {
+      "id": "SSS-K027",
+      "name": "Classification and labels without universal mandates",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-006",
+        "ESA:ESA-025",
+        "ESA:ESA-036",
+        "ESA:ESA-057",
+        "ESA:ESA-058",
+        "ESA:ESA-059",
+        "ESME:ESME-C002",
+        "ESME:ESME-C007",
+        "ESME:ESME-C009",
+        "ESME:ESME-C012",
+        "ESME:ESME-C018",
+        "ESME:ESME-C036",
+        "ESME:ESME-C060",
+        "ESPLE:ESPLE-043",
+        "ESPLE:ESPLE-049",
+        "ESPLE:ESPLE-051",
+        "ESPLE:ESPLE-055",
+        "ESPLE:ESPLE-056",
+        "ESPLE:ESPLE-062"
+      ]
+    },
+    {
+      "id": "SSS-K028",
+      "name": "Legitimate local, unchanged and non-family alternatives",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-026",
+        "ESA:ESA-049",
+        "ESA:ESA-056",
+        "ESME:ESME-C008",
+        "ESME:ESME-C009",
+        "ESME:ESME-C050",
+        "ESME:ESME-C051",
+        "ESME:ESME-C052",
+        "ESME:ESME-C059",
+        "ESME:ESME-C060",
+        "ESME:ESME-C065",
+        "ESME:ESME-C078",
+        "ESME:ESME-C081",
+        "ESPLE:ESPLE-003",
+        "ESPLE:ESPLE-007",
+        "ESPLE:ESPLE-037",
+        "ESPLE:ESPLE-038",
+        "ESPLE:ESPLE-050",
+        "ESPLE:ESPLE-054",
+        "ESPLE:ESPLE-057",
+        "ESPLE:ESPLE-061"
+      ]
+    },
+    {
+      "id": "SSS-K029",
+      "name": "Semantic translation and model evolution",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-003",
+        "ESA:ESA-008",
+        "ESA:ESA-021",
+        "ESA:ESA-061",
+        "ESA:ESA-064",
+        "ESME:ESME-C016",
+        "ESME:ESME-C018",
+        "ESME:ESME-C021",
+        "ESME:ESME-C030",
+        "ESME:ESME-C055",
+        "ESME:ESME-C056",
+        "ESME:ESME-C093",
+        "ESPLE:ESPLE-008",
+        "ESPLE:ESPLE-012",
+        "ESPLE:ESPLE-014",
+        "ESPLE:ESPLE-030",
+        "ESPLE:ESPLE-031",
+        "ESPLE:ESPLE-034",
+        "ESPLE:ESPLE-046",
+        "ESPLE:ESPLE-058"
+      ]
+    },
+    {
+      "id": "SSS-K030",
+      "name": "Stability under justified evolution",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-004",
+        "ESA:ESA-007",
+        "ESA:ESA-013",
+        "ESA:ESA-038",
+        "ESA:ESA-039",
+        "ESA:ESA-042",
+        "ESME:ESME-C022",
+        "ESME:ESME-C026",
+        "ESME:ESME-C029",
+        "ESME:ESME-C030",
+        "ESME:ESME-C038",
+        "ESME:ESME-C057",
+        "ESME:ESME-C097",
+        "ESPLE:ESPLE-002",
+        "ESPLE:ESPLE-003",
+        "ESPLE:ESPLE-006",
+        "ESPLE:ESPLE-019",
+        "ESPLE:ESPLE-027",
+        "ESPLE:ESPLE-031",
+        "ESPLE:ESPLE-032",
+        "ESPLE:ESPLE-033"
+      ]
+    },
+    {
+      "id": "SSS-K031",
+      "name": "Causal liabilities and prospective payoff",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-027",
+        "ESA:ESA-029",
+        "ESA:ESA-043",
+        "ESA:ESA-049",
+        "ESME:ESME-C034",
+        "ESME:ESME-C035",
+        "ESME:ESME-C062",
+        "ESME:ESME-C063",
+        "ESME:ESME-C064",
+        "ESME:ESME-C065",
+        "ESME:ESME-C066",
+        "ESME:ESME-C067",
+        "ESME:ESME-C068",
+        "ESME:ESME-C069",
+        "ESPLE:ESPLE-003",
+        "ESPLE:ESPLE-007",
+        "ESPLE:ESPLE-036",
+        "ESPLE:ESPLE-038",
+        "ESPLE:ESPLE-057",
+        "ESPLE:ESPLE-059"
+      ]
+    },
+    {
+      "id": "SSS-K032",
+      "name": "Proportionate knowledge and control forms",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-020",
+        "ESA:ESA-021",
+        "ESA:ESA-023",
+        "ESA:ESA-024",
+        "ESA:ESA-037",
+        "ESA:ESA-056",
+        "ESME:ESME-C013",
+        "ESME:ESME-C014",
+        "ESME:ESME-C015",
+        "ESME:ESME-C017",
+        "ESME:ESME-C019",
+        "ESME:ESME-C021",
+        "ESME:ESME-C101",
+        "ESME:ESME-C105",
+        "ESPLE:ESPLE-011",
+        "ESPLE:ESPLE-012",
+        "ESPLE:ESPLE-014",
+        "ESPLE:ESPLE-018",
+        "ESPLE:ESPLE-026",
+        "ESPLE:ESPLE-037",
+        "ESPLE:ESPLE-051",
+        "ESPLE:ESPLE-056"
+      ]
+    },
+    {
+      "id": "SSS-K033",
+      "name": "Evidence populations and limits of generalisation",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-015",
+        "ESA:ESA-018",
+        "ESA:ESA-028",
+        "ESA:ESA-029",
+        "ESA:ESA-031",
+        "ESA:ESA-054",
+        "ESA:ESA-060",
+        "ESME:ESME-C010",
+        "ESME:ESME-C023",
+        "ESME:ESME-C024",
+        "ESME:ESME-C035",
+        "ESME:ESME-C045",
+        "ESME:ESME-C073",
+        "ESME:ESME-C080",
+        "ESME:ESME-C085",
+        "ESME:ESME-C095",
+        "ESME:ESME-C100",
+        "ESPLE:ESPLE-023",
+        "ESPLE:ESPLE-025",
+        "ESPLE:ESPLE-036",
+        "ESPLE:ESPLE-048",
+        "ESPLE:ESPLE-049",
+        "ESPLE:ESPLE-053",
+        "ESPLE:ESPLE-059"
+      ]
+    },
+    {
+      "id": "SSS-K034",
+      "name": "Driver refinement across design and product construction",
+      "documentary_disposition": "RECEIVED_SCOPED_GROUP_DECISION_WITH_ALL_MIXED_MEMBER_STATES",
+      "prepared_state_literal": "PARTIALLY_ABSORBED",
+      "historical_observed_status_literal": "BOUNDED_RECEIVING_RETURN_WITH_MEMBER_RESIDUALS",
+      "member_ids": [
+        "ESA:ESA-002",
+        "ESA:ESA-014",
+        "ESA:ESA-017",
+        "ESA:ESA-067",
+        "ESME:ESME-C001",
+        "ESME:ESME-C022",
+        "ESME:ESME-C038",
+        "ESPLE:ESPLE-001",
+        "ESPLE:ESPLE-004",
+        "ESPLE:ESPLE-008",
+        "ESPLE:ESPLE-013",
+        "ESPLE:ESPLE-019",
+        "ESPLE:ESPLE-020"
+      ]
+    }
+  ],
+  "full_receiving_sha256": "33beeda4edb028db753bcc60004f717fb8363460e9a58b0e99b6678031f87752",
+  "final_issue_readiness": false
+}

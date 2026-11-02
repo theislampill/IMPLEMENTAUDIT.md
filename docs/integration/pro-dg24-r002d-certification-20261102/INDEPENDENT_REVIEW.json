@@ -1,0 +1,54 @@
+{
+  "schema": "dg24.public-independent-review-summary.v1",
+  "result": "PASS",
+  "result_scope": "Finite documentary preparation and exact eight-file prospective public checkpoint, bound to the frozen 79-file candidate and original immutable input.",
+  "reviewer": {
+    "actual_model": "GPT-6 Astra Pro",
+    "model_basis": "Host developer context",
+    "actual_reasoning_effort": "NOT_EXPOSED",
+    "authoring_context_reuse": "no",
+    "other_reviewer_working_context_reuse": "no",
+    "frozen_reports_received_as_evidence": true,
+    "independence_limit": "Expected counts and accepted-history scope supplied in dispatch; review is a separate documentary judgment, not blind discovery, independent empirical replication or native entitlement authentication.",
+    "formal_audit_assess": false,
+    "nested_agents": 0,
+    "role": "Separate final independent receiver; exact agent identity is bound in the private report"
+  },
+  "reviewed_subject": {
+    "manifest": "REVIEW_PACKET_MANIFEST.json",
+    "sha256": "b707543cac56bfb0c09f0047aad863fa7915da694f4ba05c2b013d03f37f6fd5",
+    "files_excluding_manifest": 79,
+    "bytes_excluding_manifest": 9637377
+  },
+  "private_review_record": {
+    "path": "independent/FINAL_REVIEW.json",
+    "bytes": 70348,
+    "sha256": "ef965c31e1ffb792825ad986915258f8a9bf24912ab4b832aa5ddd272fb80b00"
+  },
+  "private_review_report": {
+    "path": "independent/REPORT.md",
+    "bytes": 17451,
+    "sha256": "3bc0042fa36f47a8df3ae228e1a6a5f6e3e87b2c8628d1f3bc8db52a086ba28e"
+  },
+  "public_projection_reviewed": {
+    "files": 8,
+    "bytes": 315778,
+    "additional_this_record": "This additive receipt reports the actual independent verdict; it is not an additional source or native claim."
+  },
+  "blocking_findings": [],
+  "repair_requests": [],
+  "final_issue_readiness": false,
+  "whole_issue_closed": false,
+  "new_authority": false,
+  "limits": [
+    "Outer input ZIP identity is parent-supplied; every unpacked payload was independently verified.",
+    "Full individual historical 32/21 carriers are not supplied; eight detailed secondary-limit records and exact accepted aggregate scope are received without inventing completeness.",
+    "Original external research corpus and every relation argument were not newly re-reviewed.",
+    "Other than the one exact supplemental public source, official current-source fetching is reused from the frozen map and separate receiving, not claimed as a new fetch of every blob.",
+    "No original experiment, product code/test, package build/install, model/native/host operation, HMAC/key replay, encrypted-message authentication or live public/closed-entry discovery occurred.",
+    "No dynamic equivalence, sustained support, unseen-cue freedom, native entitlement, selected-current artifact readiness or future adoption is established.",
+    "Root follow-up publication-guard/public-claim notes outside the frozen candidate were not inspected or used as substitutes for this independent review.",
+    "Public pattern screening has finite recognition scope; known workflow observations are time-bound."
+  ],
+  "publication_condition": "The owner-authorized isolated checkpoint remains subject to fresh collision/currentness, applicable workflow checks and independent actual remote readback."
+}
