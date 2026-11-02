@@ -1,0 +1,50 @@
+{
+  "schema": "dg31.sol.conditional-closure-preparation.v1",
+  "issue": 225,
+  "current_state": "OPEN_NO_TERMINAL_COMMENT_NO_CLOSURE",
+  "sole_issue_writer": "Sol",
+  "root_acceptance_owner": "Astra",
+  "automatic_closing_keywords": false,
+  "ready_for_final_issue_effects": false,
+  "sequence": [
+    {
+      "step": 1,
+      "gate": "CE085",
+      "state": "MISSING_ACTUAL_ISSUE_RECEIPT",
+      "required": "Receive and independently read ISSUE_RECEIPT[R003F] at its exact final source/environment and applicable claim scope."
+    },
+    {
+      "step": 2,
+      "gate": "CE086",
+      "state": "MISSING_ACTUAL_ADOPTION_READBACK",
+      "required": "Receive owner-approved actual mainline adoption commit/tree and exact issue-slice readback."
+    },
+    {
+      "step": 3,
+      "gate": "FINAL_CERTIFICATE",
+      "state": "CONDITIONAL_PREPARATION_ONLY",
+      "required": "Reconcile only changed material dependencies, bind1and2, read actual delivery/review outputs and obtain entitled final certificate acceptance."
+    },
+    {
+      "step": 4,
+      "gate": "COMMENT_READBACK",
+      "state": "UNPERFORMED",
+      "required": "Sol posts the authorized issue-specific final evidence comment, then an independent actor reads the exact body and verifies its hash and scope."
+    },
+    {
+      "step": 5,
+      "gate": "MANUAL_CLOSURE_AND_POST_STATE",
+      "state": "UNPERFORMED",
+      "required": "Only with actual separate manual closure authority, Sol closes this issue; independently verify the resulting issue state."
+    }
+  ],
+  "preserve": [
+    "original E1\u2013E6/B1\u2013B8/W1\u2013W8 scopes",
+    "EBPM053 research-only and TC10 limits",
+    "all negative and UNKNOWN outcomes",
+    "private raw channel",
+    "no sibling whole-issue dependency",
+    "CE084 accepted DG19 scope",
+    "no PR255/main/donor branch mutation by this preparation lane"
+  ]
+}
