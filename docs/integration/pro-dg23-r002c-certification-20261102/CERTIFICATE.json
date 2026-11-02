@@ -1,0 +1,70 @@
+{
+  "schema": "dg23.public-evidence-checkpoint.v1",
+  "proof_level": "PL4 structural integrity/source receiving; no new PL6 live behavior or PL7 fresh-executor proof; historical native evidence retains its accepted scope",
+  "cell": "DG23",
+  "lineage": "R002C",
+  "issue": 196,
+  "subject_source": "123089d1f1b9cc3650a2fba8260d322741c53070",
+  "subject_tree": "bb09e710455ef7b76de3ef7c0c836a20433c6524",
+  "underlying_DG11": {
+    "decision": "ACCEPTED",
+    "source": "6292009296708a205459aa84b824ccbbb44e1de4",
+    "tree": "b0838804546a1efae08c9352c5853b5fe424e5fe",
+    "scope": "Prospective current-source qualification with accepted tracked unproved canonical-recovery residual"
+  },
+  "denominator": {
+    "properties": 68,
+    "sources": 116,
+    "positive_contextual": 54,
+    "negative": 14,
+    "terminal_clauses": 11
+  },
+  "original_dispositions": {
+    "STRONGER_BY_NATIVE_COMPOSITION": 31,
+    "LINEAGE_RXX_NATIVE_RESIDUAL": 3,
+    "ALREADY_STRICTLY_STRONGER": 12,
+    "DOMAIN_OR_HIGH_CONSEQUENCE_BOUND": 8,
+    "REJECTED_SOURCE_CEREMONY_OR_WEAKER_FORM": 13,
+    "SUPERSEDED_BY_STRONGER_NATIVE_FORM": 1
+  },
+  "edges": [
+    {
+      "id": "CE060",
+      "status": "ACCEPTED_ORIGINAL_DG11_AT_ITS_RECORDED_SCOPE",
+      "satisfied": true
+    },
+    {
+      "id": "CE061",
+      "status": "MISSING_AUTHENTIC_ISSUE_SPECIFIC_PORT",
+      "satisfied": false
+    },
+    {
+      "id": "CE062",
+      "status": "MISSING_APPROVED_ACTUAL_ADOPTION_AND_READBACK",
+      "satisfied": false
+    }
+  ],
+  "current_hosted_run": {
+    "run": 41403118577,
+    "attempt": 1,
+    "conclusion": "FAILURE",
+    "synthetic_checkout": "b0901269aec133eb3fab1968cd0ce55352ba3568",
+    "tree": "bb09e710455ef7b76de3ef7c0c836a20433c6524",
+    "package_source_is_synthetic_checkout": false
+  },
+  "recovery_predicate": "UNPROVED_NOT_PASS_NOT_NA",
+  "final_issue_readiness": false,
+  "whole_issue_closed": false,
+  "adoption_performed": false,
+  "issue_effects_authorized": false,
+  "source_changed": false,
+  "independent_review": "See INDEPENDENT_REVIEW.json for exact independently received subject and disposition; absent review means UNVERIFIED.",
+  "private_return": "Complete original-row and private native carriers supplied to the owner in the DG23 return; raw private transcripts are not published.",
+  "limits": [
+    "No current123089 package/native mission fabricated",
+    "No original71a/B/NONVERDICT/UNKNOWN result rewritten",
+    "No whole-DG21/all-ten-issue barrier",
+    "No new controller/issuer/pending store",
+    "No comment, closure, PR creation, CI dispatch/rerun or main effect"
+  ]
+}

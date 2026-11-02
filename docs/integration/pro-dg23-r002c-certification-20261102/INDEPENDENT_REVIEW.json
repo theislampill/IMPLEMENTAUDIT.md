@@ -1,0 +1,82 @@
+{
+  "schema": "dg23.public-independent-cold-review.v1",
+  "verdict": "PASS_AT_DECLARED_SCOPE",
+  "recorded_utc": "2026-11-02T08:50:52.721357+00:00",
+  "reviewer": "separate cold adversarial receiver",
+  "authoring_context_reuse": false,
+  "review_subject_sha256": "821de6ab5361b8e6a05826a4f1fcdb419f8f87fe3a7275514c1e8e3e5c1e49f0",
+  "review_subject_bytes": 37540,
+  "issue_readiness": false,
+  "host_reported_model": "GPT-6 Astra Pro",
+  "host_reported_reasoning_effort": "NOT_EXPOSED",
+  "numeric_effort": "NOT_EXPOSED",
+  "scope": "Frozen evidence-only documentary/current-source preparation and exact3-file public projection. No final issue/native/adoption/closure verdict.",
+  "public_files": [
+    {
+      "path": "public/CERTIFICATE.json",
+      "publication_path": "docs/integration/pro-dg23-r002c-certification-20261102/CERTIFICATE.json",
+      "bytes": 2595,
+      "sha256": "0bc76e5e0b30efdd031e23c6543f65146a35e754fdc98ad0cde1ff8882111add"
+    },
+    {
+      "path": "public/README.md",
+      "publication_path": "docs/integration/pro-dg23-r002c-certification-20261102/README.md",
+      "bytes": 1691,
+      "sha256": "960e56e4f4fdaa23c7f09ecbbc0bc3692fc89244ae23b75729d5af17f0b7c3a9"
+    },
+    {
+      "path": "public/SOURCE_APPLICABILITY.json",
+      "publication_path": "docs/integration/pro-dg23-r002c-certification-20261102/SOURCE_APPLICABILITY.json",
+      "bytes": 41283,
+      "sha256": "d005538b1837896f8fc7f96f85733ff6874b08557c5fbb0c386081931d383edf"
+    }
+  ],
+  "verification": {
+    "candidate_files_integrity_verified": 133,
+    "frozen_source_cache_bindings_verified": 35,
+    "original_properties_received": 68,
+    "source_records_accounted": 116,
+    "negative_rows_retained": 14,
+    "domain_bound_rows_retained": 8,
+    "original_terminal_clauses_received": 11,
+    "binding_amendments_received": 3,
+    "direct_source_paths_received": 24,
+    "direct_source_changes_received": 4,
+    "public_privacy_scope": "All three complete public files; no private absolute paths, raw transcripts or credentials identified.",
+    "independent_methods": "Original contract/row/source comparisons, exact-byte and immutable Git tree/blob/mode verification, inert historical native/package receiving, independent hostile document discrimination, exact public-text and tracked-workflow review. No product code/native/model replay.",
+    "reviewer_count_is_empirical_proof": false
+  },
+  "source_subject": {
+    "commit": "123089d1f1b9cc3650a2fba8260d322741c53070",
+    "tree": "bb09e710455ef7b76de3ef7c0c836a20433c6524"
+  },
+  "original_edges": {
+    "CE060": "Accepted original DG11 at its recorded6292 scope with explicit unproved recovery residual",
+    "CE061": "Authentic ISSUE_RECEIPT[R002C] missing; no whole-DG21 or all-ten-issues barrier",
+    "CE062": "Actual human-approved adoption and issue-slice source/readback missing"
+  },
+  "retained_limits": [
+    "Current hosted41403118577 attempt1 remains FAILURE; historical6292 hosted success is a different subject.",
+    "Recovery remains UNPROVED_NOT_PASS_NOT_NA and requires actual proof or an expressly lawful issue-exit disposition by entitled authority.",
+    "Old71a missing activation, caseB GAP-REVISE, readiness NONVERDICTs and custody UNKNOWN remain unchanged.",
+    "Independent receivers use shared historical carriers; their number does not create new independent native producers.",
+    "Byte/source equality does not establish a current package/install/native occurrence, authority, adoption or closure.",
+    "Original external research and domain effectiveness were not newly requalified.",
+    "Privacy checks cover the exact projection; no universal absence guarantee. Workflow checks cover tracked GitHub Actions, not unknown third-party integrations.",
+    "Final envelope/member manifest, delivered ZIP and publication readback are additive after this frozen review and require separate final verification."
+  ],
+  "publication_review": {
+    "exact_projection_pass": true,
+    "publication_authority_created": false,
+    "reserved_branch": "pro/dg23-r002c-certification-20261102",
+    "namespace": "docs/integration/pro-dg23-r002c-certification-20261102/",
+    "tracked_workflow_guard": "Current and pinned-main workflows allow push only to main; validate also has pull_request, Pages also has workflow_dispatch, and neither has create.",
+    "conditions": [
+      "Keep reviewed public bytes unchanged and bind this exact review carrier",
+      "Fresh no-collision and materially unchanged source/workflow checks",
+      "Only the existing commissioned branch/namespace; no PR, dispatch/rerun, main or issue effect",
+      "Receive actual publication readback separately"
+    ]
+  },
+  "accepting_boundary": "Root owns final integration/readiness; Sol retains original-issue effects and native operations; exact adoption approval remains human-owned. This review is evidence input and grants no authority."
+}
