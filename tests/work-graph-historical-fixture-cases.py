@@ -36,7 +36,7 @@ class HistoricalInputCases(unittest.TestCase):
                 self.assertIn(row["mode"], (0o644, 0o755))
         self.assertEqual(hashlib.sha256(H.original(A.REGISTRY)).hexdigest(), A.REGISTRY_SHA256)
         self.assertEqual(hashlib.sha256(H.original(A.PREFIX_HELPER)).hexdigest(), A.PREFIX_HELPER_SHA256)
-        for profile in A._CONTRACTS:
+        for profile in (name for name in A._CONTRACTS if name != A.CURRENT_CUSTODY_APPEND_PROFILE):
             contract = A.contract_for(profile)
             for name, expected in {**contract["programs"], **contract.get("pinned_data", {})}.items():
                 with self.subTest(profile=profile, pin=name):
@@ -50,18 +50,23 @@ class HistoricalInputCases(unittest.TestCase):
         old = H.original(name)
         current_pin = "6f6d2bdbcf8350d6b370d37a5e15f4ddb73d336b5bc42d941540f3269613150f"
         self.assertEqual(H.input_bytes(name), old)
-        self.assertEqual(H.selected_input_bytes(name, current_pin), (ROOT / name).read_bytes())
+        retained = H.selected_input_bytes(name, current_pin)
+        self.assertEqual((len(retained), hashlib.sha256(retained).hexdigest()), (15266, current_pin))
+        self.assertNotEqual(retained, old)
+        self.assertNotEqual(retained, (ROOT / name).read_bytes())
         with self.assertRaisesRegex(ValueError, "selected source pin"):
             H.selected_input_bytes(name, "0" * 64)
         with tempfile.TemporaryDirectory() as temporary:
-            changed_root = Path(temporary)
-            path = changed_root / name
+            changed_collection = Path(temporary)
+            path = changed_collection / H.ORIGINAL105_RUNNER["specimen"]
             path.parent.mkdir(parents=True)
-            path.write_bytes((ROOT / name).read_bytes() + b"\n")
-            with mock.patch.object(H, "ROOT", changed_root):
+            changed = retained[:-1] + b"X"
+            path.write_bytes(changed)
+            with mock.patch.object(H, "COLLECTION", changed_collection):
                 with self.assertRaisesRegex(ValueError, "selected source pin"):
                     H.selected_input_bytes(name, current_pin)
-                self.assertEqual(H.input_bytes(name), old)
+            self.assertEqual(path.read_bytes(), changed)
+        self.assertEqual(H.input_bytes(name), old)
 
     def test_changed_specimen_refuses_without_repairing_it(self):
         name = A.REGISTRY
@@ -110,13 +115,15 @@ class HistoricalInputCases(unittest.TestCase):
         self.assertEqual(H.Q.ROOT, H.ENGINE_ROOT)
         self.assertEqual(H.Q.LOADED_DRIVER_PATH, H.ENGINE_ROOT / H.ENGINE_NAMES[0])
         for name in H.ENGINE_NAMES:
-            expected = H.original(name) if name == A.PREFIX_HELPER else (ROOT / name).read_bytes()
+            expected = (H.original(name) if name == A.PREFIX_HELPER else
+                        H.selected_input_bytes(name, H.ORIGINAL105_RUNNER["sha256"]) if name == A.RUNNER else
+                        (ROOT / name).read_bytes())
             self.assertEqual((H.ENGINE_ROOT / name).read_bytes(), expected)
 
     def test_all_historical_selectors_refuse_current_registry(self):
         old, current = H.original(A.REGISTRY), (ROOT / A.REGISTRY).read_bytes()
         self.assertNotEqual(old, current)
-        for profile in A._CONTRACTS:
+        for profile in (name for name in A._CONTRACTS if name != A.CURRENT_CUSTODY_APPEND_PROFILE):
             with self.subTest(profile=profile):
                 graph, scope, node = A.select_node(H.Q.WG, old, H.P.ENVIRONMENT, profile=profile)
                 self.assertEqual(len(graph["nodes"]), 117)
@@ -129,7 +136,7 @@ class HistoricalInputCases(unittest.TestCase):
     def test_current_factory_cannot_use_old_profile_or_create_evidence(self):
         current = load("actual_current_factory", ROOT / "scripts/qualify-work-graph-verifier.py")
         with tempfile.TemporaryDirectory() as temporary:
-            for number, profile in enumerate(A._CONTRACTS):
+            for number, profile in enumerate(name for name in A._CONTRACTS if name != A.CURRENT_CUSTODY_APPEND_PROFILE):
                 output = Path(temporary) / str(number)
                 with self.subTest(profile=profile), self.assertRaisesRegex(ValueError, "captured prefix helper"):
                     current.create_finite_leaf_session(ROOT, output, profile=profile)
@@ -146,7 +153,7 @@ class HistoricalInputCases(unittest.TestCase):
 
 @unittest.skipUnless(sys.platform == "linux", "finite source admission requires Linux")
 class ChangedCurrentInputCases(unittest.TestCase):
-    def test_all_eight_changed_populations_refuse_before_runtime_or_receipt(self):
+    def test_all_twelve_changed_populations_refuse_before_runtime_or_receipt(self):
         cases = {
             A.ACTION_SELECTION_PROFILE: ("action-selection", "SourceCases"),
             A.INTERNAL_ROUTING_PROFILE: ("internal-routing", "AdmissionCases"),
@@ -156,6 +163,10 @@ class ChangedCurrentInputCases(unittest.TestCase):
             A.AUTHORIZATION_PROFILE: ("planning", "AuthorizationAdmission"),
             A.BOOTSTRAP_BUDGET_PROFILE: ("bootstrap-budget", "AdmissionCases"),
             A.LEAN_DISCIPLINE_PROFILE: ("lean-discipline", "AdmissionCases"),
+            A.SKILL_LAYOUT_PROFILE: ("skill-layout", "AdmissionCases"),
+            A.RETENTION_PROFILE: ("audit-retention", "AdmissionCases"),
+            A.CLAIM_BOUNDARY_PROFILE: ("claim-boundary", "AdmissionCases"),
+            A.TERMINOLOGY_PROFILE: ("terminology", "AdmissionCases"),
         }
         changed = {}
         for profile, contract in A._CONTRACTS.items():
@@ -177,7 +188,8 @@ class ChangedCurrentInputCases(unittest.TestCase):
                     current = (ROOT / name).read_bytes()
                     self.assertNotEqual(original, current)
                     path.write_bytes(current)
-                    session = fixture.session()
+                    session = (fixture.session() if hasattr(fixture, "session") else
+                               H.Q.create_finite_leaf_session(fixture.source, fixture.base / "evidence", profile=profile))
                     scope = session._acquire.__func__.__globals__
                     with mock.patch.object(session, "_observer", return_value=mock.sentinel.source_only), \
                          mock.patch.dict(scope, {"finite_runtime": mock.Mock(side_effect=AssertionError("runtime reached"))}), \

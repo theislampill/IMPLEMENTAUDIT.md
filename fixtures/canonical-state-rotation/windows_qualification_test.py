@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Constructed evidence-gate controls; no Windows or native acceptance claim."""
 import copy
+import contextlib
 import hashlib
 import importlib.util
 import json
@@ -10,6 +11,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 PATH = ROOT / 'scripts/check-r0039-windows-resume.py'
@@ -419,6 +421,195 @@ class DriverControls(unittest.TestCase):
                         driver.separated_output(out, source, subject)
                 self.assertEqual(list(protected.iterdir()), [])
             self.assertEqual(list(outside.iterdir()), [])
+
+
+class UnqualifiedOperationReadbackControls(unittest.TestCase):
+    """Exercise the real one-shot driver with an inert measurement boundary.
+
+    The fixture operation changes one disposable Git ref. The readback shell
+    accepts only the three existing read-only queries and records each query.
+    No Windows launch, governor authority or native episode is constructed.
+    """
+    def setUp(self):
+        if sys.platform == 'win32':
+            self.skipTest('portable inert subprocess controls')
+        spec = importlib.util.spec_from_file_location(
+            'r0039_failed_driver', ROOT / 'scripts/run-r0039-windows-resume.py')
+        self.driver = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(self.driver)
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.base = pathlib.Path(self.tmp.name)
+        self.source, self.subject, self.evidence = [self.base / n for n in ('source', 'subject', 'evidence')]
+        for path in (self.source, self.subject, self.evidence):
+            path.mkdir()
+        subprocess.run(['/usr/bin/git', 'init', '-q', str(self.subject)], check=True)
+        self.controller = 'dg30-disposable-readback'
+        self.pointer_ref = 'refs/implementaudit/current-generations/' + self.controller
+        self.old_oid = subprocess.check_output(
+            ['/usr/bin/git', '-C', str(self.subject), 'hash-object', '-w', '--stdin'], input=b'old fixture pointer').decode().strip()
+        self.new_oid = subprocess.check_output(
+            ['/usr/bin/git', '-C', str(self.subject), 'hash-object', '-w', '--stdin'], input=b'new fixture pointer').decode().strip()
+        subprocess.run(['/usr/bin/git', '-C', str(self.subject), 'update-ref', self.pointer_ref, self.old_oid], check=True)
+        self.claim_path = self.subject / 'skills/implementaudit/scripts/claim-run.sh'
+        self.claim_path.parent.mkdir(parents=True)
+        self.claim_path.write_text('#!/usr/bin/bash\ncase "$1" in\n  --resolve-canonical-generation|--resolve-resume-generation|--require-current-continuity)\n    printf \'%s\\n\' "$1" >> query.log\n    printf \'fixture refuses currentness after incomplete owner effect\\n\' >&2\n    exit 19 ;;\n  *) printf \'unexpected non-read-only query\\n\' >&2; exit 93 ;;\nesac\n')
+        self.claim_path.chmod(0o755)
+        self.tools = {name: {'path': path, 'sha256': self.driver.ident(path)['sha256']}
+                      for name, path in [('bash', '/usr/bin/bash'), ('python', str(pathlib.Path(sys.executable).resolve())), ('git', '/usr/bin/git')]}
+        self.request = {'source_root': str(self.source), 'subject_root': str(self.subject),
+                        'controller': self.controller, 'tools': self.tools}
+        runtime = {'skills/implementaudit/scripts/claim-run.sh': self.driver.ident(self.claim_path)}
+        recorders = {name: self.driver.ident(ROOT / 'scripts' / name) for name in
+                     ('run-r0039-windows-resume.py', 'check-r0039-windows-resume.py', 'r0039-windows-job.py')}
+        run = self.subject / '.IMPLEMENTAUDIT/runs/disposable'
+        generation = run / 'generation'
+        generation.mkdir(parents=True)
+        before = {'controller': self.controller, 'run_root_identity': '.IMPLEMENTAUDIT/runs/disposable'}
+        for key, name in (('state_path', 'STATE.md'), ('roadmap_path', 'ROADMAP.md'),
+                          ('protected_manifest_path', 'protected.json'), ('archive_manifest_path', 'archive.json')):
+            path = generation / name
+            path.write_bytes(b'unchanged retained fixture')
+            before[key] = str(path)
+        for name in ('STATE.md', 'ROADMAP.md'):
+            (run / name).write_bytes(b'unchanged retired fixture')
+        self.current = {'snapshot': {'runtime': runtime, 'tools': self.tools, 'recorders': recorders},
+                        'before': before, 'command': ['inert-disposable-owner-operation'],
+                        'retained': {'files': {}, 'refs': {self.pointer_ref: self.old_oid}}}
+        self.plan = self.evidence / 'OPERATION.json'
+        raw = self.driver.canonical({'schema': 'implementaudit.dg30-windows-operation.v1',
+                                    'request': self.request, 'prepared': self.current})
+        self.plan.write_bytes(raw)
+        self.plan_sha = hashlib.sha256(raw).hexdigest()
+        self.operation_calls = 0
+
+    def invoke(self, *, exit_code=23, stdout=b'', raise_measurement=False, after_effect=None, fail_one_query=False):
+        def measure(argv, cwd, environment, out):
+            self.operation_calls += 1
+            out.mkdir()
+            (out / 'stdout.bin').write_bytes(stdout)
+            (out / 'stderr.bin').write_bytes(b'original inert measurement failure\n')
+            subprocess.run(['/usr/bin/git', '-C', str(self.subject), 'update-ref',
+                            self.pointer_ref, self.new_oid, self.old_oid], check=True)
+            if after_effect:
+                after_effect()
+            if raise_measurement:
+                raise RuntimeError('original measurement unavailable after fixture effect')
+            return {'exit_code': exit_code}
+        with contextlib.ExitStack() as stack:
+            stack.enter_context(mock.patch.object(self.driver, 'preflight', return_value=self.current))
+            stack.enter_context(mock.patch.object(self.driver, 'native_control', return_value={'constructed': True}))
+            stack.enter_context(mock.patch.object(self.driver, 'environment', return_value={'PATH': '/usr/bin:/bin', 'LC_ALL': 'C'}))
+            stack.enter_context(mock.patch.object(self.driver, 'load', return_value=type('InertMeter', (), {'measure': staticmethod(measure)})()))
+            if fail_one_query:
+                original_command = self.driver.command
+                def command(*args, **kwargs):
+                    if args[4] == 'resolve-canonical':
+                        raise RuntimeError('secondary read-only query unavailable')
+                    return original_command(*args, **kwargs)
+                stack.enter_context(mock.patch.object(self.driver, 'command', side_effect=command))
+            with self.assertRaisesRegex(Exception, 'owner failed|original measurement unavailable'):
+                self.driver.execute(self.plan, self.plan_sha, 'inert fixture only; no native grant')
+        self.assertEqual(self.operation_calls, 1)
+        self.assertEqual(subprocess.check_output(['/usr/bin/git', '-C', str(self.subject),
+                          'rev-parse', self.pointer_ref]).decode().strip(), self.new_oid)
+        self.assertFalse((self.evidence / 'execution/RESULT.json').exists())
+        return self.evidence / 'execution'
+
+    def test_nonzero_owner_retains_actual_after_effect_refs_without_retry(self):
+        out = self.invoke()
+        observation = json.loads((out / 'unqualified-readback/OBSERVATION.json').read_text())
+        self.assertEqual(observation['refs_before_queries'][self.pointer_ref], self.new_oid)
+        self.assertEqual(observation['refs_after_queries'][self.pointer_ref], self.new_oid)
+        self.assertEqual(observation['status'], 'UNQUALIFIED_POST_ATTEMPT_OBSERVATION')
+        self.assertEqual((self.subject / 'query.log').read_text().splitlines(),
+                         ['--resolve-canonical-generation', '--resolve-resume-generation', '--require-current-continuity'])
+        failure = json.loads((out / 'FAILURE.json').read_text())
+        self.assertEqual(failure['status'], 'OWNER_LAUNCH_ATTEMPTED_UNQUALIFIED')
+        self.assertFalse(failure['automatic_retry'])
+        with self.assertRaises(FileExistsError):
+            self.driver.execute(self.plan, self.plan_sha, 'inert fixture only; no native grant')
+        self.assertEqual(self.operation_calls, 1)
+
+
+    def test_zero_exit_without_receipt_still_observes_actual_effect(self):
+        out = self.invoke(exit_code=0, stdout=b'no authenticated receipt\n')
+        observation = json.loads((out / 'unqualified-readback/OBSERVATION.json').read_text())
+        self.assertEqual(observation['refs_after_queries'][self.pointer_ref], self.new_oid)
+        self.assertEqual(observation['queries']['require-current']['exit_code'], 19)
+        self.assertEqual(len(observation['retained_files']), 6)
+        self.assertFalse(observation['errors'])
+        self.assertEqual(observation['authority_ceiling'], 'NO_CURRENTNESS_TRANSITION_OR_NATIVE_ACCEPTANCE')
+
+    def test_measurement_exception_preserves_original_failure_and_after_effect_refs(self):
+        out = self.invoke(raise_measurement=True)
+        failure = json.loads((out / 'FAILURE.json').read_text())
+        self.assertEqual(failure['detail'], 'original measurement unavailable after fixture effect')
+        self.assertEqual((out / 'operation/stderr.bin').read_bytes(), b'original inert measurement failure\n')
+        observation = json.loads((out / 'unqualified-readback/OBSERVATION.json').read_text())
+        self.assertEqual(observation['refs_after_queries'][self.pointer_ref], self.new_oid)
+
+    def test_failed_primary_marker_write_preserves_error_and_continues_readback(self):
+        original_save = self.driver.save
+        def save(path, value):
+            if path.name == 'FAILURE.json':
+                raise OSError('injected primary diagnostic write failure')
+            return original_save(path, value)
+        with mock.patch.object(self.driver, 'save', side_effect=save):
+            out = self.invoke(raise_measurement=True)
+        self.assertFalse((out / 'FAILURE.json').exists())
+        observation = json.loads((out / 'unqualified-readback/OBSERVATION.json').read_text())
+        self.assertEqual(observation['refs_after_queries'][self.pointer_ref], self.new_oid)
+        self.assertEqual((self.subject / 'query.log').read_text().splitlines(),
+                         ['--resolve-canonical-generation', '--resolve-resume-generation', '--require-current-continuity'])
+        with self.assertRaises(FileExistsError):
+            self.driver.execute(self.plan, self.plan_sha, 'inert fixture only; no native grant')
+        self.assertEqual(self.operation_calls, 1)
+
+    def test_failed_prelaunch_marker_write_preserves_error_without_queries(self):
+        original_save = self.driver.save
+        def save(path, value):
+            if path.name == 'FAILURE.json':
+                raise OSError('injected prelaunch diagnostic write failure')
+            return original_save(path, value)
+        with mock.patch.object(self.driver, 'save', side_effect=save), \
+                mock.patch.object(self.driver, 'preflight', side_effect=RuntimeError('preflight refused')):
+            with self.assertRaisesRegex(RuntimeError, '^preflight refused$'):
+                self.driver.execute(self.plan, self.plan_sha, 'inert fixture only; no native grant')
+        self.assertFalse((self.evidence / 'execution/unqualified-readback').exists())
+        self.assertFalse((self.subject / 'query.log').exists())
+        self.assertEqual(self.operation_calls, 0)
+
+    def test_secondary_readback_error_cannot_replace_operation_failure(self):
+        out = self.invoke(fail_one_query=True)
+        failure = json.loads((out / 'FAILURE.json').read_text())
+        self.assertIn('owner failed or returned no receipt', failure['detail'])
+        observation = json.loads((out / 'unqualified-readback/OBSERVATION.json').read_text())
+        self.assertIn('secondary read-only query unavailable', observation['errors']['resolve-canonical']['detail'])
+        self.assertEqual(observation['refs_after_queries'][self.pointer_ref], self.new_oid)
+        self.assertEqual(observation['queries']['resolve-resume']['exit_code'], 19)
+        self.assertEqual(observation['queries']['require-current']['exit_code'], 19)
+
+    def test_changed_runtime_blocks_owner_queries_but_retains_actual_refs(self):
+        out = self.invoke(after_effect=lambda: self.claim_path.write_text('#!/usr/bin/bash\nexit 0\n'))
+        observation = json.loads((out / 'unqualified-readback/OBSERVATION.json').read_text())
+        self.assertFalse((self.subject / 'query.log').exists())
+        self.assertEqual(observation['refs_after_queries'][self.pointer_ref], self.new_oid)
+        for label in ('resolve-canonical', 'resolve-resume', 'require-current'):
+            self.assertIn('runtime identity changed', observation['errors'][label]['detail'])
+            self.assertIsNone(observation['queries'][label])
+
+    def test_prelaunch_failure_does_not_start_after_effect_queries(self):
+        with mock.patch.object(self.driver, 'preflight', side_effect=RuntimeError('preflight refused')):
+            with self.assertRaisesRegex(RuntimeError, 'preflight refused'):
+                self.driver.execute(self.plan, self.plan_sha, 'inert fixture only; no native grant')
+        out = self.evidence / 'execution'
+        failure = json.loads((out / 'FAILURE.json').read_text())
+        self.assertEqual(failure['status'], 'NO_OWNER_LAUNCH')
+        self.assertFalse((out / 'unqualified-readback').exists())
+        self.assertFalse((self.subject / 'query.log').exists())
+        self.assertEqual(self.operation_calls, 0)
+
 
 
 if __name__ == '__main__':

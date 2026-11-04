@@ -298,7 +298,7 @@ class AdmissionCases(SourceFixture, unittest.TestCase):
         runner = "/work/" + self.A.RUNNER
         self.assertEqual((state["files"][self.A.RUNNER]["mode"], image[runner][1], image[runner][1] & ~0o022),
                          (0o644, 0o666, 0o644))
-        self.assertEqual(image[runner][0], (ROOT / self.A.RUNNER).read_bytes())
+        self.assertEqual(image[runner][0], H.selected_input_bytes(self.A.RUNNER, H.ORIGINAL105_RUNNER["sha256"]))
         self.assertEqual((image["/usr/bin/cp"][1], image["/usr/lib/data"][1]), (0o555, 0o600))
         self.assertIn("/work/" + self.A.REGISTRY, image)
 

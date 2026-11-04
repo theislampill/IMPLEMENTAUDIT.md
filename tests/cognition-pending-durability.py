@@ -318,7 +318,10 @@ class Harness:
         value = self.call(action, data, expected_exit=2, **options)
         require(value["status"] == "PENDING_OPERATION_REFUSED" and value["reason"] == reason,
                 name + ": unexpected refusal " + json.dumps(value))
-        require(before == self.snapshot(), name + ": refusal wrote fixture state")
+        after = self.snapshot()
+        require(before == after, name + ": refusal wrote fixture state: " + json.dumps({
+            key: {"before": before.get(key), "after": after.get(key)}
+            for key in sorted(set(before) | set(after)) if before.get(key) != after.get(key)}, sort_keys=True))
         self.held(self.call("status"))
         self.mark(name)
 
@@ -775,6 +778,16 @@ def reservation_refusal_profile(pins):
     # differs. Bind the same four source owners recorded by source_pins; do not
     # accept either reason interchangeably or infer it from the response.
     profiles = {
+        # R4 current native-canary source, with no native selection in this CLI fixture.
+        ('cc7c7e2f5666ab59b3af89742d07f2eaf8626cd594dc7f4ce85425f166b248ee', '15de2cb86378960163be08876876ff2473dc034704f6dad014d90a9bb7dc7156', '5e10f2e36842c7f5dcfe5a131da43c502e9f36b0d1d727ca9bdb4412bde4c523', 'f024cd50b4e5cdd3b93f16fe1d0489952a534a0a5f880c842c14afc897ac2bc7'):
+            ('source-sha256:5e10f2e36842c7f5dcfe5a131da43c502e9f36b0d1d727ca9bdb4412bde4c523', 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED', 'PENDING_STATE_JSON', 'PENDING_STATE_JSON_CONSTANT'),
+        # Exact repaired issuer custody owner; native selection remains absent.
+        ('44f37242fed8e136b548172fdd8d95de270552d8c176e8563b5b4075ac059198',
+         '15de2cb86378960163be08876876ff2473dc034704f6dad014d90a9bb7dc7156',
+         '8d6e51fcd82ab3d236c5b6707129228a73483fcb7700825c42b0fb797cef9ebf',
+         'f024cd50b4e5cdd3b93f16fe1d0489952a534a0a5f880c842c14afc897ac2bc7'):
+            ('source-sha256:8d6e51fcd82ab3d236c5b6707129228a73483fcb7700825c42b0fb797cef9ebf',
+             'NONPROTECTED_PROJECTION_PROFILE_REQUIRED', 'PENDING_STATE_JSON', 'PENDING_STATE_JSON_CONSTANT'),
         # DG15 exact serialized-write repair; all historical tuples retained.
         ('44f37242fed8e136b548172fdd8d95de270552d8c176e8563b5b4075ac059198', '15de2cb86378960163be08876876ff2473dc034704f6dad014d90a9bb7dc7156', '681b22da6ee2fc5a84cfab7547a9f0551a76c97659e6b5c5b7158ff910117c23', 'f024cd50b4e5cdd3b93f16fe1d0489952a534a0a5f880c842c14afc897ac2bc7'): ('source-sha256:44f37242fed8e136b548172fdd8d95de270552d8c176e8563b5b4075ac059198', 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED', 'PENDING_STATE_JSON', 'PENDING_STATE_JSON_CONSTANT'),
         # Current terminal-inventory tuple; all original profiles retained.

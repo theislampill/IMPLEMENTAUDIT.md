@@ -11,9 +11,11 @@ from __future__ import annotations
 import contextlib
 import hashlib
 import importlib.util
+import json
 import os
 from pathlib import Path
 import shutil
+import subprocess
 import sys
 import tempfile
 import types
@@ -249,6 +251,179 @@ class NativeSourceControls(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'UNOBSERVED_OWNER_ADJUDICATION'):
                 self.source.census_facts_v1()
         self.assertEqual(self.refs(), before)
+
+    def test_selected_session_holds_issuer_and_closes_every_exit(self):
+        decision_path = self.repo / 'constructed-issuer-decision.json'
+        configured = {'issuer':'constructed-issuer', 'census_owner':'constructed-census',
+            'decision_path':str(decision_path), 'owner_decision_locator':'constructed-only',
+            'source_contract_locator':'constructed-only'}
+        self.selected['c02_adjudication'] = configured
+        document = {'schema':'implementaudit.c02-configured-owner-decision.v1',
+            'issuer':configured['issuer'], 'role':'CONTINUITY_ADJUDICATION_OWNER',
+            'subject':{key:self.context[key] for key in ('controller','claim_id','run_root_identity')},
+            'decision_id':'constructed-decision', 'revoked':False,
+            'qualification':'CONTROLLED_NONPROTECTED_FAULT_INJECTION',
+            'expected_old':self.source.expected_old, 'source_cutoff':self.source.source_cutoff,
+            'append_grant':{}, 'conditional_fresh_grant':{}}
+        for exit_kind in ('success','cutoff-mismatch','body-error'):
+            with self.subTest(exit_kind=exit_kind):
+                value = dict(document)
+                if exit_kind == 'cutoff-mismatch':
+                    value['source_cutoff'] = 'foreign-constructed-cutoff'
+                decision_path.write_bytes(self.owner.canonical(value))
+                made = []
+                actual = self.owner.PinnedFile
+                def acquire(*args, **kwargs):
+                    pin = actual(*args, **kwargs)
+                    made.append(pin)
+                    return pin
+                with mock.patch.object(self.source_owner, 'OWNED_STDIO_SELECTION_PIN', {}), \
+                        mock.patch.object(self.source_owner, '_np_selection', return_value=self.selected), \
+                        mock.patch.object(self.owner, 'PinnedFile', side_effect=acquire):
+                    def run():
+                        with self.source_owner.selected_c02_materializer_session_v1((self.selected,), self.context, self.source) as selected:
+                            self.assertIs(selected[1], self.source)
+                            selected[2].verify()
+                            if exit_kind == 'body-error':
+                                raise RuntimeError('constructed body failure')
+                    if exit_kind == 'success':
+                        run()
+                    else:
+                        with self.assertRaises((ValueError,RuntimeError)):
+                            run()
+                self.assertEqual(len(made), 1)
+                self.assertIsNone(made[0].fd)
+                self.assertIsNone(made[0].native)
+                self.assertIsNone(self.source_owner._C02_SELECTED_SESSION_V1.get())
+
+
+class ConfiguredIssuerCustodyControls(unittest.TestCase):
+    """Actual configured reader and claim custody; constructed document only."""
+    def setUp(self):
+        self.source = load(SOURCE, 'c02_configured_' + uuid.uuid4().hex)
+        self.owner = load(SCRIPTS / 'claim-run-rotation.py', 'c02_custody_' + uuid.uuid4().hex)
+        self.temporary = tempfile.TemporaryDirectory(prefix='c02-issuer-custody-')
+        self.addCleanup(self.temporary.cleanup)
+        self.root = Path(self.temporary.name).resolve()
+        self.path = self.root / 'decision.json'
+        self.subject = {'controller':'constructed-reader-only', 'claim_id':'1'*32,
+                        'run_root_identity':'constructed-reader-only'}
+        self.configured = {'issuer':'constructed-issuer', 'census_owner':'constructed-census',
+            'decision_path':str(self.path), 'owner_decision_locator':'constructed-only',
+            'source_contract_locator':'constructed-only'}
+        self.document = {'schema':'implementaudit.c02-configured-owner-decision.v1',
+            'issuer':'constructed-issuer', 'role':'CONTINUITY_ADJUDICATION_OWNER',
+            'subject':self.subject, 'decision_id':'constructed-decision', 'revoked':False,
+            'qualification':'CONTROLLED_NONPROTECTED_FAULT_INJECTION',
+            'expected_old':{}, 'source_cutoff':'constructed-cutoff',
+            'append_grant':{'effect':'APPEND_ONLY_NO_CURRENTNESS'},
+            'conditional_fresh_grant':{'effect':'C02_FRESH_TRANSITION',
+                'scope':{'correction_record_oid':'$OBSERVED_EXACT_APPEND'}}}
+        self.path.write_text(json.dumps(self.document))
+
+    def acquire(self):
+        return self.source.ConfiguredC02IssuerV1(self.configured, self.subject, claim_owner=self.owner)
+
+    def test_exact_retained_reader_separates_grants_and_closes(self):
+        issuer = self.acquire()
+        self.assertIs(type(issuer._held), self.owner.PinnedFile)
+        request = {'decision_id':self.document['decision_id'], 'source_cutoff':'constructed-cutoff',
+                   'expected_old':{}, 'effect':'APPEND_ONLY_NO_CURRENTNESS'}
+        try:
+            self.assertEqual(issuer.grant(request), self.document['append_grant'])
+            request.update(effect='C02_FRESH_TRANSITION', correction_record_oid='a'*40)
+            self.assertEqual(issuer.grant(request)['scope']['correction_record_oid'], 'a'*40)
+            self.assertEqual(issuer.decision['conditional_fresh_grant']['scope']['correction_record_oid'],
+                             '$OBSERVED_EXACT_APPEND')
+        finally:
+            issuer.close()
+        issuer.close()
+        with self.assertRaisesRegex(ValueError, 'ISSUER_WITHDRAWN'):
+            issuer.verify()
+        self.assertIsNone(issuer._held.fd)
+        self.assertIsNone(issuer._held.native)
+
+    def test_hardlink_alias_and_later_link_are_refused(self):
+        alias = self.root / 'second-name.json'
+        os.link(self.path, alias)
+        with self.assertRaises(self.owner.CustodyError):
+            self.acquire()
+        alias.unlink()
+        issuer = self.acquire()
+        try:
+            os.link(self.path, alias)
+            with self.assertRaises(self.owner.CustodyError):
+                issuer.verify()
+        finally:
+            issuer.close()
+
+    def test_same_bytes_new_file_cannot_replace_the_issuer(self):
+        issuer = self.acquire()
+        try:
+            self.path.rename(self.root / 'retained.json')
+            self.path.write_text(json.dumps(self.document))
+            with self.assertRaises(self.owner.CustodyError):
+                issuer.verify()
+        finally:
+            issuer.close()
+
+    @unittest.skipUnless(os.name == 'posix', 'POSIX replacement control; Windows has retained-handle controls')
+    def test_fifo_and_post_lstat_fifo_refuse_without_waiting(self):
+        if os.environ.get('R0039_ISSUER_FIFO_CHILD') != '1':
+            # A regression to blocking path-open must fail a bounded subprocess,
+            # rather than strand the qualification runner on a FIFO.
+            completed = subprocess.run([sys.executable, '-B', __file__,
+                'ConfiguredIssuerCustodyControls.test_fifo_and_post_lstat_fifo_refuse_without_waiting'],
+                env=dict(os.environ, R0039_ISSUER_FIFO_CHILD='1'), capture_output=True, timeout=10)
+            self.assertEqual(completed.returncode, 0, completed.stderr.decode())
+            return
+        self.path.unlink()
+        os.mkfifo(self.path)
+        with self.assertRaises(self.owner.CustodyError):
+            self.acquire()
+        self.path.unlink()
+        self.path.write_text(json.dumps(self.document))
+        original = os.open
+        changed = []
+        def replace(path, flags, *args, **kwargs):
+            if path == self.path.name and not changed:
+                changed.append(True)
+                self.path.rename(self.root / 'retained.json')
+                os.mkfifo(self.path)
+            return original(path, flags, *args, **kwargs)
+        with mock.patch.object(os, 'open', new=replace), \
+                mock.patch.object(os, 'supports_dir_fd', os.supports_dir_fd | {replace}):
+            with self.assertRaises(self.owner.CustodyError):
+                self.acquire()
+        self.assertEqual(changed, [True])
+
+    def test_malformed_or_changed_decision_releases_or_refuses_custody(self):
+        self.path.write_bytes(b'{"duplicate":1,"duplicate":2}')
+        made = []
+        actual = self.owner.PinnedFile
+        def tracked(*args, **kwargs):
+            value = actual(*args, **kwargs)
+            made.append(value)
+            return value
+        with mock.patch.object(self.owner, 'PinnedFile', side_effect=tracked):
+            with self.assertRaisesRegex(ValueError, 'DUPLICATE_ISSUER_FIELD'):
+                self.acquire()
+        self.assertEqual(len(made), 1)
+        self.assertIsNone(made[0].fd)
+        self.assertIsNone(made[0].native)
+        self.path.write_text(json.dumps(self.document))
+        issuer = self.acquire()
+        try:
+            self.document['revoked'] = True
+            self.path.write_text(json.dumps(self.document))
+            with self.assertRaises(self.owner.CustodyError):
+                issuer.verify()
+        finally:
+            issuer.close()
+
+    def test_missing_existing_custody_does_not_fall_back_to_path_open(self):
+        with self.assertRaisesRegex(ValueError, 'EXISTING_CLAIM_CUSTODY_REQUIRED'):
+            self.source.ConfiguredC02IssuerV1(self.configured, self.subject)
 
 
 class CorrectionScopeControls(unittest.TestCase):

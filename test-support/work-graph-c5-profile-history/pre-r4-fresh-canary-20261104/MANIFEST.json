@@ -1,0 +1,54 @@
+{
+  "schema": "implementaudit.retained-source-fixture.v1",
+  "scope": "Exact R3 preimages for unchanged historical C5 selections; no execution authority.",
+  "files": [
+    {
+      "path": "scripts/load-work-graph-c5-executor.py",
+      "bytes": 21822,
+      "sha256": "391fa6ef90ee331e0d7fe1cbf2a460bc8223b2641e4b0e0a865a873ecfc5a0e0",
+      "mode": 420
+    },
+    {
+      "path": "scripts/work-graph-c5-inputs.py",
+      "bytes": 21081,
+      "sha256": "49a559777539285a7a31886686459134a1e135675f2e542c079a0b71360b5bd1",
+      "mode": 420
+    },
+    {
+      "path": "scripts/work-graph-c5-provider-inputs.py",
+      "bytes": 19058,
+      "sha256": "05bcb64db1ad0787ce8704846ea0ee4f3127f24d2dc471a9abcb14736937b81a",
+      "mode": 420
+    },
+    {
+      "path": "scripts/work-graph-c5-executor.py",
+      "bytes": 81136,
+      "sha256": "5b9d9fea7f67dd3ab3a58ee4ff648ee07c0f3ce9cbf069629f33906c04c6cfcf",
+      "mode": 420
+    },
+    {
+      "path": "scripts/work-graph-c5-live-gate.py",
+      "bytes": 33768,
+      "sha256": "4979cc5aa810cf2abdbca67cd70c553b624d6f8d643d2c1ea2e643845fab6c25",
+      "mode": 420
+    },
+    {
+      "path": "scripts/qualify-work-graph-verifier.py",
+      "bytes": 256920,
+      "sha256": "0f148dc343a955dde59c7b6a22d89d5885c920cd4c6ceeba455cec80b88adc23",
+      "mode": 420
+    },
+    {
+      "path": "scripts/qualify-work-graph-c5-setup.py",
+      "bytes": 76871,
+      "sha256": "1ddc12e3e9f0aa4c3604817d5c79629e68d1fc181e77d8ac1e84bff462f87bcf",
+      "mode": 493
+    },
+    {
+      "path": "skills/implementaudit/scripts/compile-work-graph.py",
+      "bytes": 262047,
+      "sha256": "bce6f3bad3a98f850cb5d30e1df21ca8da237ba20609d49a609cccef1a81f21e",
+      "mode": 493
+    }
+  ]
+}

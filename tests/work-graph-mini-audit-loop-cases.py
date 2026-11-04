@@ -141,7 +141,8 @@ class CatalogCases(MiniFixture, unittest.TestCase):
         payload = "\n".join(ast.dump(ast.Tuple(elts=[key, value], ctx=ast.Load()), include_attributes=False)
                             for key, value in retained)
         self.assertEqual(hashlib.sha256(payload.encode()).hexdigest(), INCOMING_CONTRACTS_AST_SHA256)
-        self.assertEqual(hashlib.sha256((ROOT / self.A.RUNNER).read_bytes()).hexdigest(),
+        self.assertEqual(hashlib.sha256(H.selected_input_bytes(self.A.RUNNER,
+                         H.ORIGINAL105_RUNNER["sha256"])).hexdigest(),
                          "6f6d2bdbcf8350d6b370d37a5e15f4ddb73d336b5bc42d941540f3269613150f")
         session = self.session()
         self.assertEqual(session.ENVIRONMENT, dict(B.P.ENVIRONMENT, HOME="/nonexistent", GIT_ATTR_NOSYSTEM="1"))

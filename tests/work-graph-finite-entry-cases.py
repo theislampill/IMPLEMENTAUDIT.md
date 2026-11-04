@@ -55,6 +55,7 @@ PROFILES = {
     "mini-audit-loop": "CONTROLLED_TASK_MINI_AUDIT_LOOP_V1",
     "action-selection-contract": "CONTROLLED_TASK_ACTION_SELECTION_CONTRACT_V1",
     "custody-append": "CONTROLLED_TASK_CUSTODY_APPEND_V1",
+    "custody-append-current": "CONTROLLED_TASK_CUSTODY_APPEND_CURRENT_COMPOSITE_20261101_V1",
 }
 
 
@@ -75,7 +76,9 @@ class FactoryCases(unittest.TestCase):
 
     def test_all_explicit_profiles_have_separate_live_session_custody(self):
         self.assertEqual(self.q._FINITE_MODES, PROFILES)
-        sessions = [self.q.create_finite_leaf_session(ROOT, self.base / mode, profile=profile)
+        current = load()
+        sessions = [(current if mode == "custody-append-current" else self.q).create_finite_leaf_session(
+                        ROOT, self.base / mode, profile=profile)
                     for mode, profile in PROFILES.items()]
         self.assertEqual([s.SCOPE for s in sessions], list(PROFILES.values()))
         self.assertEqual(len({type(s) for s in sessions}), len(PROFILES))
@@ -87,6 +90,35 @@ class FactoryCases(unittest.TestCase):
             self.assertEqual(record["engine"][HELPER], self.q.sha((ROOT / HELPER).read_bytes()))
             with self.assertRaises(TypeError):
                 s.run(receipt={"exit": 0})
+
+    def test_current_checkout_factory_binds_explicit_current_profile(self):
+        current = load()
+        session = current.create_finite_leaf_session(ROOT, self.base / "current-profile",
+                    profile=PROFILES["custody-append-current"])
+        prefix = "scripts/qualify-work-graph-prefix.py"
+        self.assertEqual(session.SCOPE, PROFILES["custody-append-current"])
+        self.assertEqual(session._engine[prefix], current.sha((ROOT / prefix).read_bytes()))
+        session._custody()
+        self.assertEqual(session.dispatch_count, 0)
+        self.assertEqual(list(session.output.rglob("receipt.json")), [])
+
+    def test_current_prefix_drift_and_unreviewed_successor_refuse(self):
+        engine = H.copy_engine(self.base / "current-engine")
+        prefix = "scripts/qualify-work-graph-prefix.py"
+        path = engine / prefix
+        path.write_bytes((ROOT / prefix).read_bytes())
+        current = load(engine)
+        session = current.create_finite_leaf_session(ROOT, self.base / "bound-current",
+                    profile=PROFILES["custody-append-current"])
+        path.write_bytes(path.read_bytes() + b"\n# unreviewed successor\n")
+        with self.assertRaisesRegex(ValueError, "loaded prefix helper differs"):
+            session._custody()
+        self.assertEqual(session.dispatch_count, 0)
+        fresh = load(engine)
+        output = self.base / "foreign-current"
+        with self.assertRaisesRegex(ValueError, "unsupported captured prefix helper"):
+            fresh.create_finite_leaf_session(ROOT, output, profile=PROFILES["custody-append-current"])
+        self.assertFalse(output.exists())
 
     def test_default_and_repeated_profile_keep_unique_evidence_and_producer(self):
         first = self.q.create_finite_leaf_session(ROOT, self.base / "one")

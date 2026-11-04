@@ -1306,6 +1306,157 @@ class _CaptureChildren:
                 self.primary_fd = None
 
 
+_NESTED_PROC_PLAN_SCHEMA_V1 = "implementaudit.verifier-pair-plan.v3"
+_NESTED_PROC_SCOPE_V1 = "DEDICATED_SINGLE_THREAD_LINUX_SUBREAPER_TWO_LEVEL_PROC_PIDFD_V1; NO_FOREIGN_SAME_UID_WRITER_AUTHORITY"
+
+
+def _nested_proc_validate_v1(fields, kernel_stat, *, local_pid=None, single_thread=False):
+    """Validate the exact two-level proc presentation; no arithmetic PID mapping."""
+    wanted = ("Pid", "Tgid", "PPid", "NSpid", "NStgid", "Threads")
+    if any(key not in fields for key in wanted):
+        raise WG.WorkGraphError("nested proc identity fields are incomplete")
+    try:
+        chain = tuple(int(value) for value in fields["NSpid"])
+        groups = tuple(int(value) for value in fields["NStgid"])
+        visible, group, parent, threads = (int(fields[key][0]) for key in ("Pid", "Tgid", "PPid", "Threads"))
+        stat_pid = int(kernel_stat.split(" ", 1)[0])
+        tail = kernel_stat.rsplit(") ", 1)[1].split()
+        stat_parent, started = int(tail[1]), int(tail[19])
+    except (ValueError, IndexError, TypeError) as exc:
+        raise WG.WorkGraphError("nested proc identity fields are malformed") from exc
+    if (len(chain) != 2 or any(value <= 0 for value in chain) or groups != chain or
+            any(len(fields[key]) != 1 for key in ("Pid", "Tgid", "PPid", "Threads")) or
+            visible != group or visible != stat_pid or chain[0] != visible or
+            parent != stat_parent or parent < 0 or started <= 0 or threads < 1 or
+            single_thread and threads != 1 or local_pid is not None and chain[-1] != local_pid):
+        raise WG.WorkGraphError("nested proc PID chain or stat binding differs")
+    return dict(visible_pid=visible, local_pid=chain[-1], parent_visible_pid=parent,
+                namespace_pids=list(chain), start_ticks=started)
+
+
+def _nested_proc_fields_v1(raw):
+    if len(raw) > 65536:
+        raise WG.WorkGraphError("nested proc status exceeds bound")
+    fields = {}
+    for line in raw.decode("ascii").splitlines():
+        if ":" not in line:
+            continue
+        key, value = line.split(":", 1)
+        if key in fields:
+            raise WG.WorkGraphError("nested proc status repeats a field")
+        fields[key] = value.split()
+    return fields
+
+
+def _nested_proc_observe_v1(path, *, local_pid=None, single_thread=False):
+    """Bookend one kernel proc directory and its PID namespace descriptor."""
+    fd = os.open(path, os.O_RDONLY | os.O_DIRECTORY | os.O_CLOEXEC)
+    namespace = None
+    try:
+        root = os.fstat(fd)
+        def read(name):
+            member = os.open(name, os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC, dir_fd=fd)
+            try:
+                value = os.read(member, 65537)
+                if len(value) > 65536 or os.read(member, 1):
+                    raise WG.WorkGraphError("nested proc member exceeds bound")
+                return value
+            finally:
+                os.close(member)
+        first = _nested_proc_validate_v1(_nested_proc_fields_v1(read("status")),
+                    read("stat").decode("ascii"), local_pid=local_pid, single_thread=single_thread)
+        namespace = os.open("ns/pid", os.O_RDONLY | os.O_CLOEXEC, dir_fd=fd)
+        ns = os.fstat(namespace)
+        second = _nested_proc_validate_v1(_nested_proc_fields_v1(read("status")),
+                    read("stat").decode("ascii"), local_pid=local_pid, single_thread=single_thread)
+        current = os.stat("ns/pid", dir_fd=fd)
+        after, named = os.fstat(fd), os.stat(path)
+        visible = os.stat("/proc/" + str(first["visible_pid"]))
+        identity = (root.st_dev, root.st_ino)
+        if (first != second or any((item.st_dev, item.st_ino) != identity for item in (after, named, visible)) or
+                (current.st_dev, current.st_ino) != (ns.st_dev, ns.st_ino)):
+            raise WG.WorkGraphError("nested proc descriptor/name/start identity changed")
+        if single_thread and sorted(os.listdir("/proc/self/task")) != [str(first["visible_pid"])]:
+            raise WG.WorkGraphError("nested proc owner has another thread or foreign task view")
+        first.update(proc_device=root.st_dev, proc_inode=root.st_ino,
+                     namespace_device=ns.st_dev, namespace_inode=ns.st_ino)
+        return first
+    finally:
+        if namespace is not None:
+            os.close(namespace)
+        os.close(fd)
+
+
+class _CaptureChildrenNestedProcV1(_CaptureChildren):
+    """Explicit two-level proc successor; terminal custody remains kernel pidfd/ECHILD."""
+    SCOPE = _NESTED_PROC_SCOPE_V1
+
+    def _scope(self):
+        if os.getpid() != self.pid or self.threading.current_thread() is not self.threading.main_thread():
+            raise WG.WorkGraphError("nested capture child owner process/thread changed")
+        observed = _nested_proc_observe_v1("/proc/self", local_pid=self.pid, single_thread=True)
+        if os.readlink("/proc/self") != str(observed["visible_pid"]):
+            raise WG.WorkGraphError("nested proc self link differs")
+        fd = os.pidfd_open(self.pid, 0)
+        try:
+            info = _nested_proc_fields_v1(Path("/proc/self/fdinfo/" + str(fd)).read_bytes())
+            if (info.get("Pid") != [str(observed["visible_pid"])] or
+                    info.get("NSpid") != [str(value) for value in observed["namespace_pids"]]):
+                raise WG.WorkGraphError("nested owner pidfd namespace identity differs")
+            signal.pidfd_send_signal(fd, 0, None, 0)
+        finally:
+            os.close(fd)
+        if _nested_proc_observe_v1("/proc/self", local_pid=self.pid, single_thread=True) != observed:
+            raise WG.WorkGraphError("nested owner changed across pidfd observation")
+        prior = getattr(self, "namespace_binding", None)
+        if prior is not None and prior != observed:
+            raise WG.WorkGraphError("nested capture owner namespace/start identity changed")
+        self.namespace_binding = observed
+        self.status["namespace_binding"] = observed
+
+    def _cleanup_candidates(self, deadline):
+        self._scope()
+        owner = self.namespace_binding
+        # CONFIG_PROC_CHILDREN may be absent. A bounded proc scan only discovers
+        # candidates; the unchanged P_PIDFD child-wait check authorizes signals.
+        candidates = []
+        count = size = 0
+        with os.scandir("/proc") as entries:
+            for entry in entries:
+                if time.monotonic() >= deadline:
+                    break
+                if not entry.name.isdigit():
+                    continue
+                count += 1
+                size += len(entry.name) + 1
+                if count > 4096 or size > 65536:
+                    raise WG.WorkGraphError("nested proc cleanup discovery exceeds bound")
+                try:
+                    fields = _nested_proc_fields_v1(Path(entry.path, "status").read_bytes())
+                    if fields.get("PPid") != [str(owner["visible_pid"])]:
+                        continue
+                    child = _nested_proc_observe_v1(entry.path)
+                except (FileNotFoundError, ProcessLookupError):
+                    continue
+                if child["parent_visible_pid"] != owner["visible_pid"]:
+                    continue
+                if ((child["namespace_device"], child["namespace_inode"]) !=
+                        (owner["namespace_device"], owner["namespace_inode"]) or
+                        child["visible_pid"] != int(entry.name) or child["local_pid"] == self.pid):
+                    raise WG.WorkGraphError("nested owned child namespace mapping differs")
+                candidates.append(str(child["local_pid"]).encode("ascii"))
+        self._scope()
+        return candidates
+
+
+def _nested_proc_receipt_binding_v1(binding, owner_pid):
+    expected = {"visible_pid", "local_pid", "parent_visible_pid", "namespace_pids", "start_ticks",
+                "proc_device", "proc_inode", "namespace_device", "namespace_inode"}
+    return (type(binding) is dict and set(binding) == expected and
+        all(type(binding[key]) is int and binding[key] > 0 for key in expected - {"namespace_pids"}) and
+        binding["local_pid"] == owner_pid and binding["namespace_pids"] == [binding["visible_pid"], owner_pid])
+
+
 def _capture_stamp(value):
     return dict(device=value.st_dev, inode=value.st_ino, mode=value.st_mode, bytes=value.st_size,
         mtime_ns=value.st_mtime_ns, ctime_ns=value.st_ctime_ns, uid=value.st_uid,
@@ -1527,8 +1678,13 @@ def _read_sealed_capture(sink, plan, file_digest, plan_digest):
         process = custody["process_custody"]
         process_fields = {"owner_pid", "primary_pid", "primary_exit", "other_child_exits", "owned_pidfd_signals",
             "live_children_refused", "quiescence", "flag_restored", "scope", "previous_subreaper"}
+        nested = plan["schema"] == _NESTED_PROC_PLAN_SCHEMA_V1
+        if nested:
+            process_fields.add("namespace_binding")
+        expected_scope = _CaptureChildrenNestedProcV1.SCOPE if nested else _CaptureChildren.SCOPE
         if (type(process) is not dict or set(process) != process_fields or
-                process.get("quiescence") != "ECHILD_ALL_CHILDREN" or process.get("scope") != _CaptureChildren.SCOPE or
+                nested and not _nested_proc_receipt_binding_v1(process.get("namespace_binding"), process.get("owner_pid")) or
+                process.get("quiescence") != "ECHILD_ALL_CHILDREN" or process.get("scope") != expected_scope or
                 process.get("flag_restored") is not True or process.get("live_children_refused") is not False or
                 type(process.get("primary_exit")) is not int or process["primary_exit"] != custody["primary_exit"] or
                 any(type(process.get(key)) is not int or process[key] <= 0 for key in ("primary_pid", "owner_pid")) or
@@ -1598,7 +1754,7 @@ class _CaptureRetention:
             if os.path.lexists(self.workspace) or os.path.lexists(self.sink):
                 raise WG.WorkGraphError("capture workspace or retention destination already exists")
             self.base_environment = dict(os.environ)
-            self.children = _CaptureChildren()
+            self.children = (_CaptureChildrenNestedProcV1() if self.plan["schema"] == _NESTED_PROC_PLAN_SCHEMA_V1 else _CaptureChildren())
             self.renameat2 = getattr(self.children.libc, "renameat2", None)
             if self.renameat2 is None:
                 raise WG.WorkGraphError("capture retention requires renameat2 with no-replace support")
@@ -2429,7 +2585,7 @@ class VerifierTaskSession:
 
     def _claim_overlay_configuration_v1(self, files, directories):
         """One fixed original96 image policy, derived only from acquired bytes."""
-        if self.SCOPE == "CONTROLLED_TASK_CUSTODY_APPEND_V1":
+        if self.SCOPE in _CUSTODY_APPEND_SCOPES:
             return self._custody_overlay_configuration_v1(files, directories)
         root, config_path = "/work/docs", "/profile/original96-overlay.json"
         source_directories = sorted(name for name in set(directories)
@@ -2473,7 +2629,8 @@ class VerifierTaskSession:
             directories={"." if name == root else name[len(root)+1:]: 0o755 for name in source_directories})
         config = dict(schema="implementaudit.original105-overlay-config.v1", policy="ORIGINAL105_PRIVATE_WORK_V1",
             root=root, tmp_root="/tmp", census_key="source", buffer_bytes=4 * 1024**2,
-            entry_limit=4096, path_bytes=2048, file_bytes=self.LIMITS["file_bytes"],
+            entry_limit=4096, path_bytes=2048,
+            file_bytes=(128 * 1024**2 if self.SCOPE == "CONTROLLED_TASK_CUSTODY_APPEND_CURRENT_COMPOSITE_20261101_V1" else self.LIMITS["file_bytes"]),
             baseline=baseline, immutable_paths=sorted(set(source_files) | (set(source_directories) - {root}) | {"/"}))
         raw = self._encode(config)
         if len(raw) > 1024**2 or self.LIMITS["scratch_bytes"] != 32 * 1024**2:
@@ -2503,11 +2660,11 @@ class VerifierTaskSession:
     def _claim_overlay_guard_v1(self, files, manifest, node):
         policy = manifest.get("private_source_overlay")
         if policy is None:
-            if self.SCOPE in ("CONTROLLED_TASK_CLAIM_BOUNDARY_V1", "CONTROLLED_TASK_CUSTODY_APPEND_V1"):
-                label = "original105" if self.SCOPE == "CONTROLLED_TASK_CUSTODY_APPEND_V1" else "original96"
+            if self.SCOPE in ("CONTROLLED_TASK_CLAIM_BOUNDARY_V1", *_CUSTODY_APPEND_SCOPES):
+                label = "original105" if self.SCOPE in _CUSTODY_APPEND_SCOPES else "original96"
                 raise WG.WorkGraphError(label + " requires its fixed private source overlay")
             return None
-        if self.SCOPE == "CONTROLLED_TASK_CUSTODY_APPEND_V1":
+        if self.SCOPE in _CUSTODY_APPEND_SCOPES:
             if (manifest.get("root_read_only") is not True
                     or manifest.get("source_materialization") != "SINGLE_LINK_FILES_READ_ONLY_ROOT"
                     or manifest.get("source_permissions") != "PRESERVE_MODES_PRIVATE_ROOT_READ_ONLY_EXISTING_MEMBERS"
@@ -2726,7 +2883,7 @@ class VerifierTaskSession:
                 "PRESERVE_MODES_PRIVATE_ROOT_READ_ONLY_EXISTING_MEMBERS") or (
                 copy_permissions and (materialization != "SINGLE_LINK_FILES_READ_ONLY_ROOT" or
                     data_permissions != "OWNER_0600_READ_ONLY_MOUNT" or manifest.get("copy_umask") != 0o022)) or (
-                private_work_permissions and (self.SCOPE != "CONTROLLED_TASK_CUSTODY_APPEND_V1" or
+                private_work_permissions and (self.SCOPE not in _CUSTODY_APPEND_SCOPES or
                     materialization != "SINGLE_LINK_FILES_READ_ONLY_ROOT" or
                     data_permissions != "OWNER_0600_READ_ONLY_MOUNT" or manifest.get("copy_umask") != 0o022)) or (
                 not copy_permissions and (any(mode == 0o666 for _, mode in files.values()) or
@@ -3023,6 +3180,8 @@ def create_composed_prefix_session(source_root, output, *, max_age=3600,
 
 
 
+_CUSTODY_APPEND_SCOPES = ("CONTROLLED_TASK_CUSTODY_APPEND_V1", "CONTROLLED_TASK_CUSTODY_APPEND_CURRENT_COMPOSITE_20261101_V1")
+
 _FINITE_LEAF = None
 _FINITE_SESSIONS = {}
 _FINITE_MODES = {
@@ -3062,6 +3221,7 @@ _FINITE_MODES = {
     "mini-audit-loop": "CONTROLLED_TASK_MINI_AUDIT_LOOP_V1",
     "action-selection-contract": "CONTROLLED_TASK_ACTION_SELECTION_CONTRACT_V1",
     "custody-append": "CONTROLLED_TASK_CUSTODY_APPEND_V1",
+    "custody-append-current": "CONTROLLED_TASK_CUSTODY_APPEND_CURRENT_COMPOSITE_20261101_V1",
 }
 
 
@@ -3522,7 +3682,7 @@ def _verifier_pair_plan_v1_or_v2(plan):
     plan = WG.decode_strict_json_bytes(encoded, "preflight plan")
     _preflight_fields(plan, {"schema", "expected_currentness", "runs"}, "plan")
     if type(plan["schema"]) is not str or plan["schema"] not in {
-            "implementaudit.verifier-pair-plan.v1", "implementaudit.verifier-pair-plan.v2"}:
+            "implementaudit.verifier-pair-plan.v1", "implementaudit.verifier-pair-plan.v2", _NESTED_PROC_PLAN_SCHEMA_V1}:
         raise WG.WorkGraphError("preflight plan schema is unsupported")
     expected = plan["expected_currentness"]
     _preflight_fields(expected, {"source_sha256", "engine_binding", "base_environment_sha256",
@@ -3537,7 +3697,7 @@ def _verifier_pair_plan_v1_or_v2(plan):
                "capture_portal_events", "retain_repro_events"}
     for route in routes:
         fields = {"mode", "output", "base_environment_sha256", "capture"}
-        if plan["schema"].endswith(".v2"):
+        if plan["schema"] in {"implementaudit.verifier-pair-plan.v2", _NESTED_PROC_PLAN_SCHEMA_V1}:
             fields.add("retention")
         _preflight_fields(route, fields, "route")
         if type(route["mode"]) is not str or route["mode"] not in {"legacy", "dag"}:
@@ -3562,7 +3722,7 @@ def _verifier_pair_plan_v1_or_v2(plan):
 
 
 def _capture_plan_paths(plan):
-    if plan["schema"] != "implementaudit.verifier-pair-plan.v2":
+    if plan["schema"] not in {"implementaudit.verifier-pair-plan.v2", _NESTED_PROC_PLAN_SCHEMA_V1}:
         raise WG.WorkGraphError("capture retention requires a v2 paired plan")
     routes = plan["runs"]
     workspace = Path(routes[0]["output"])
@@ -3578,7 +3738,7 @@ def preflight_verifier_pair_v1(plan):
     """Diagnose a bound paired plan; never execute, authorize, or claim equality."""
     plan, encoded = _verifier_pair_plan_v1_or_v2(plan)
     expected, routes = plan["expected_currentness"], plan["runs"]
-    retained = plan["schema"].endswith(".v2")
+    retained = plan["schema"] in {"implementaudit.verifier-pair-plan.v2", _NESTED_PROC_PLAN_SCHEMA_V1}
     before = verifier_preflight_currentness_v1()
     reasons, false = set(), set()
     identities = {r["mode"]: _preflight_capture_identity_v1(r, before["base_environment_sha256"]) for r in routes}

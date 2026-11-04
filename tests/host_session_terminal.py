@@ -15,6 +15,8 @@ import subprocess
 import sys
 import tempfile
 import unittest
+import types
+from unittest import mock
 
 SOURCE = Path(__file__).resolve().parents[1] / "skills/implementaudit/scripts"
 
@@ -393,6 +395,77 @@ else:
                 with self.assertRaises(SystemExit):
                     route.validate_binding(foreign, common, args, current, request, "obligation-a", "transaction-a")
         self.assertEqual(self.snapshot(), before)
+
+
+class SelectedStopDiagnosticsTests(unittest.TestCase):
+    def exercise(self, failure, expected_error=None):
+        spec = importlib.util.spec_from_file_location('dg17_stop_control', (SOURCE / "host-stop-interlock.py"))
+        stop = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(stop)
+        with tempfile.TemporaryDirectory(prefix='dg17-diagnostics-') as name:
+            root = Path(name)
+            evidence, run, store = root/'evidence', root/'run', root/'store'
+            for p in (evidence, run, store): p.mkdir()
+            helper, binding = root/'validator.sh', root/'binding.py'
+            helper.write_text('# inert validator fixture\n')
+            binding.write_text('# inert binding fixture\n')
+            event = dict(session_id='selected',turn_id='turn',hook_event_name='Stop',
+                         stop_hook_active=False,last_assistant_message='ordinary pause',cwd=str(root))
+            bound = dict(explicit_run_root=str(run), repository_identity=str(root))
+            policy = dict(schema='implementaudit.codex-stop-policy.v1',session_id='selected',
+                evidence_directory=str(evidence),cwd=str(root),binding_store=str(store),
+                binding_owner=str(binding),binding_owner_sha256='0'*64,binding=bound,
+                validator=str(helper))
+            raw = json.dumps(policy).encode()
+            path = root/'policy.json'; path.write_bytes(raw)
+            stdin = io.TextIOWrapper(io.BytesIO(json.dumps(event).encode()))
+            # Only platform selection and custody/owner seam are injected. The
+            # real selected_codex_stop acquisition, capture and receipt code runs.
+            os_proxy = types.SimpleNamespace(**{k:getattr(os,k) for k in dir(os) if k!='name'},name='nt')
+            result = subprocess.CompletedProcess([],0,json.dumps(dict(status='BOUND',binding=bound))+'\n','')
+            sys_proxy=types.SimpleNamespace(**{k:getattr(sys,k) for k in dir(sys) if k not in ('flags','stdin')},
+                flags=types.SimpleNamespace(isolated=True,no_site=True,dont_write_bytecode=True),stdin=stdin)
+            verdict=({'side_effect':failure} if isinstance(failure,BaseException) else {'return_value':failure})
+            with mock.patch.object(stop,'sys',sys_proxy), mock.patch.object(stop,'os',os_proxy), mock.patch.object(stop,'load_pinned_owner',return_value=object()), \
+                 mock.patch.object(stop,'run_owner_module',return_value=result), mock.patch.object(stop,'selected_record_verdict',**verdict), contextlib.redirect_stdout(io.StringIO()) as output:
+                stop.selected_codex_stop(path,hashlib.sha256(raw).hexdigest())
+            receipts = [p for p in evidence.glob('*.json') if not p.name.startswith('input-')]
+            self.assertEqual(len(receipts),1,'validator failure lost the structured observation receipt')
+            receipt = json.loads(receipts[0].read_text())
+            expected_error=expected_error or (type(failure).__name__ if isinstance(failure,BaseException) else None)
+            if expected_error:
+                self.assertEqual(receipt['validator_error']['type'],expected_error)
+                self.assertIs(receipt['validator_accepted'], False)
+                self.assertIsNone(receipt['record_disposition'])
+                self.assertEqual(json.loads(output.getvalue())['decision'],'block')
+            else:
+                self.assertNotIn('validator_error',receipt)
+                self.assertIs(receipt['validator_accepted'], True)
+                self.assertIn('systemMessage',json.loads(output.getvalue()))
+            self.assertFalse(receipt['host_execution_authenticated'])
+            self.assertEqual(len(list(evidence.glob('input-*.json'))),1)
+            return receipt
+
+    def test_timeout_retains_partial_diagnostics_and_blocks(self):
+        receipt=self.exercise(subprocess.TimeoutExpired(['never-launch'],0.1,output=b'partial-output',stderr=b'partial-error'))
+        self.assertEqual(receipt['validator_stdout'],'partial-output')
+        self.assertEqual(receipt['validator_stderr'],'partial-error')
+        self.assertEqual(receipt['validator_exit'],None)
+
+    def test_startup_error_retains_typed_diagnostic_and_blocks(self):
+        self.exercise(FileNotFoundError('inert missing interpreter'))
+
+    def test_owner_refusal_retains_typed_diagnostic_and_blocks(self):
+        self.exercise(RuntimeError('inert owner acquisition refusal'))
+
+    def test_malformed_success_output_is_recorded_and_blocked(self):
+        self.exercise(subprocess.CompletedProcess([],0,'malformed\n',''),'InterlockUnavailable')
+
+    def test_wrong_disposition_is_recorded_and_blocked(self):
+        self.exercise(subprocess.CompletedProcess([],0,'{"record_disposition":"TERMINAL_CLOSURE"}\n',''),'InterlockUnavailable')
+
+    def test_ordinary_positive_preserves_existing_receiving_limit(self):
+        self.exercise(subprocess.CompletedProcess([],0,'{"record_disposition":"NONTERMINAL_YIELD"}\n',''))
 
 
 if __name__ == "__main__":

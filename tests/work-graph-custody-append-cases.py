@@ -45,7 +45,7 @@ class CatalogCases(unittest.TestCase):
         self.assertEqual((node["id"], node["source"]), ("COMMAND:" + PROGRAM + ":0", "bash " + PROGRAM + "\n"))
         self.assertEqual(scope["nodes"], [node["id"]])
         self.assertEqual(q._FINITE_MODES["custody-append"], PROFILE)
-        self.assertEqual(len(helper._CONTRACTS), 36)
+        self.assertEqual(len(helper._CONTRACTS), 37)
 
 
 class SourceFixture(unittest.TestCase):
@@ -480,8 +480,12 @@ class RuntimeCases(unittest.TestCase):
 class WiringCases(unittest.TestCase):
     def test_shared_runner_and_old_contract_semantics_are_preserved(self):
         helper = load("custody_wiring_finite", "scripts/qualify-work-graph-finite-leaf.py")
-        runner = (ROOT / helper.RUNNER).read_bytes()
+        runner = H.selected_input_bytes(helper.RUNNER, H.ORIGINAL105_RUNNER["sha256"])
         pin = hashlib.sha256(runner).hexdigest()
+        current = (ROOT / helper.RUNNER).read_bytes()
+        # The default carrier repair does not alter either isolated policy.
+        boundary = b'if [ "$#" -lt 4 ]; then\n'
+        self.assertEqual(runner.split(boundary, 1)[0], current.split(boundary, 1)[0])
         references = [contract[role][helper.RUNNER] for contract in helper._CONTRACTS.values()
                       for role in ("programs", "pinned_data") if helper.RUNNER in contract.get(role, {})]
         self.assertEqual(references, [pin] * 6)
@@ -520,6 +524,88 @@ class WiringCases(unittest.TestCase):
             "COMPLETE_ACTUAL_ROOT_MEMBERSHIP_PUBLIC_READ_BYTES_EXCLUDED_CONTENT_TYPED_PLACEHOLDERS_FIXED_PRIVATE_DOCS_OVERLAY")
         wrapper = (ROOT / "tests/work-graph-verifier.test.sh").read_text()
         self.assertEqual(wrapper.count("tests/work-graph-custody-append-cases.py"), 1)
+
+
+class CurrentCompositeInputCases(SourceFixture):
+    def setUp(self):
+        super().setUp()
+        (self.source / self.h.REGISTRY).write_bytes((ROOT / self.h.REGISTRY).read_bytes())
+
+    def snapshot(self):
+        objects = {}
+        state, stamps = self.h.snapshot_source(self.p, self.source, objects,
+            profile=self.h.CURRENT_CUSTODY_APPEND_PROFILE)
+        return state, stamps, objects
+
+    def test_complete_large_source_is_captured_and_physically_staged_without_child_limit_change(self):
+        # A real ordinary member exceeds the historical 16 MiB input/child
+        # ceiling. It is retained fully and staged only by the existing owner.
+        raw = b"current source bytes\n" * (1024 * 1024)
+        self.add(".git/objects/pack/complete.pack", raw)
+        (self.source / ".git/empty").mkdir()
+        state, _, objects = self.snapshot()
+        selected = state["files"][".git/objects/pack/complete.pack"]
+        self.assertEqual(objects[selected["sha256"]], raw)
+        self.assertIn(".git/empty", state["directories"])
+        qualifier = load("current_large_source_qualifier", "scripts/qualify-work-graph-verifier.py")
+        owner = object.__new__(qualifier.VerifierTaskSession)
+        owner.SCOPE = self.h.CURRENT_CUSTODY_APPEND_PROFILE
+        owner.LIMITS = dict(file_bytes=16 * 1024**2, scratch_bytes=32 * 1024**2)
+        files = {"/work/" + name: (objects[row["sha256"]], row["mode"])
+                 for name, row in state["files"].items()}
+        directories = {"/work" if name == "." else "/work/" + name for name in state["directories"]}
+        _, _, overlay = owner._custody_overlay_configuration_v1(files, directories)
+        output = self.parent / "stage"
+        output.mkdir()
+        stage = self.h.CustodyAppendSourceStage(output, files, directories, overlay, 4096,
+            profile=self.h.CURRENT_CUSTODY_APPEND_PROFILE)
+        try:
+            stage.check()
+            bindings = {destination: Path(source) for source, destination in stage.bindings}
+            staged = bindings["/work/.git"] / "objects/pack/complete.pack"
+            self.assertEqual(staged.read_bytes(), raw)
+            self.assertEqual(staged.stat().st_nlink, 1)
+        finally:
+            stage.close()
+        self.assertEqual(owner.LIMITS["file_bytes"], 16 * 1024**2)
+
+    def test_oversized_current_source_member_refuses_before_object_capture(self):
+        path = self.add(".git/oversized")
+        with path.open("r+b") as stream:
+            stream.truncate(128 * 1024**2 + 1)
+        with self.assertRaisesRegex(ValueError, "oversized|bound"):
+            self.snapshot()
+
+
+class CurrentCompositeSourceCases(unittest.TestCase):
+    """Prospective current-source contract only; no session or original run."""
+    def test_explicit_current119_mapping_preserves_original105_identity(self):
+        helper = load("custody_current_finite", "scripts/qualify-work-graph-finite-leaf.py")
+        qualifier = load("custody_current_qualifier", "scripts/qualify-work-graph-verifier.py")
+        profile = helper.CURRENT_CUSTODY_APPEND_PROFILE
+        registry = (ROOT / "scripts/verify-package.sh").read_bytes()
+        graph, scope, node = helper.select_node(qualifier.WG, registry, {}, profile=profile)
+        self.assertEqual((len(graph["nodes"]), graph["nodes"].index(node)), (119, 107))
+        self.assertEqual((scope["original_index"], scope["original_node"]),
+                         (105, "COMMAND:tests/custody-append.test.sh:0"))
+        self.assertEqual(qualifier._FINITE_MODES["custody-append-current"], profile)
+        with self.assertRaises(ValueError):
+            helper.select_node(qualifier.WG, H.input_bytes(helper.REGISTRY), {}, profile=profile)
+        with self.assertRaises(ValueError):
+            helper.select_node(qualifier.WG, registry, {}, profile=PROFILE)
+
+    def test_new_source_bounds_do_not_change_historical_contract(self):
+        helper = load("custody_current_bounds", "scripts/qualify-work-graph-finite-leaf.py")
+        old = helper.contract_for(PROFILE)
+        current = helper.contract_for(helper.CURRENT_CUSTODY_APPEND_PROFILE)
+        self.assertEqual(old["complete_root"], dict(file_bytes=16 * 1024**2,
+            total_bytes=192 * 1024**2, entries=4096, depth=40, path_bytes=2048))
+        self.assertEqual(current["complete_root"], dict(file_bytes=128 * 1024**2,
+            total_bytes=256 * 1024**2, entries=4096, depth=40, path_bytes=2048))
+        for name in ("programs", "data", "bounds", "runtime_branch", "source_modes"):
+            self.assertEqual(current[name], old[name])
+        current["complete_root"]["file_bytes"] = 1
+        self.assertEqual(helper.contract_for(PROFILE), old)
 
 
 if __name__ == "__main__":

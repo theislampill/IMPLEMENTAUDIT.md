@@ -170,7 +170,7 @@ class CatalogCases(unittest.TestCase):
 
     def test_retention_runner_pin_matches_captured_source(self):
         contract = self.A.contract_for(PROFILE)
-        _, runner = P.read_regular(ROOT / self.A.RUNNER)
+        runner = H.selected_input_bytes(self.A.RUNNER, contract["pinned_data"][self.A.RUNNER])
         self.assertEqual(contract["pinned_data"][self.A.RUNNER],
                          hashlib.sha256(runner).hexdigest(),
                          "retention runner pin differs from captured source")
@@ -202,7 +202,7 @@ class RetentionFixture(shared.ProfileFixture):
             shutil.copytree(template, self.source, symlinks=True, copy_function=shutil.copy2)
             return
         for name, raw in {
-            self.A.RUNNER: (ROOT / self.A.RUNNER).read_bytes(),
+            self.A.RUNNER: H.selected_input_bytes(self.A.RUNNER, H.ORIGINAL105_RUNNER["sha256"]),
             "docs/research/binary-input.bin": b"\xff\x00 complete research bytes\n",
             "eval/selected.txt": b"ordinary selected input\n",
             "docs/audits/archive/history-a.md": b"historical retained archive\n",

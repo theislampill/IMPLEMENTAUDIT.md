@@ -39,6 +39,17 @@ class NativeInputOutcomeUnknown(NativeInputError):
 
 NATIVE_BINARY_SHA256 = '444a3f0008050605cae73cd9b7a2dcac61294062dfaab56dd20430fd6498518b'
 HEALTH_SEMANTICS = 'CONFIGURED_OPERATIONAL_HEADROOM_EXACT_USAGE_AT_CUTOFF'
+FRESH_CANARY_BINARY_SHA256 = 'b8a11fedf24b2dfb59a70c9e52b030f9a508dcd49cd2dd0d41956f4c785156b8'
+FRESH_CANARY_HEALTH_SEMANTICS = 'CONFIGURED_OPERATIONAL_HEADROOM_RAW_USAGE_EMULATED_PROVIDER'
+FRESH_CANARY_POLICY_ID = 'R4-FRESH-CANARY-CONFIGURED-HEADROOM-v1'
+
+
+def fresh_canary_binding_v1(binding):
+    return (type(binding) is dict and binding.get('host', {}).get('version') == '0.166.0'
+            and binding.get('host', {}).get('binary_sha256') == FRESH_CANARY_BINARY_SHA256
+            and binding.get('host', {}).get('model') == 'dg18-emulated-model'
+            and binding.get('budget_policy', {}).get('id') == FRESH_CANARY_POLICY_ID)
+
 _SUBJECT_KEYS = {'controller', 'claim_id', 'run_root_identity', 'receipt_token',
                  'state_sha256', 'roadmap_sha256'}
 _USAGE_KEYS = {'inputTokens', 'outputTokens', 'totalTokens', 'cachedInputTokens',
@@ -150,8 +161,8 @@ def _validate_binding(binding):
     host = binding['host']
     _require(type(host) is dict
              and set(host) == {'name', 'version', 'binary_sha256', 'effective_config_sha256', 'model'}
-             and host['name'] == 'codex' and host['version'] == '0.153.4'
-             and host['binary_sha256'] == NATIVE_BINARY_SHA256
+             and host['name'] == 'codex' and ((host['version'] == '0.153.4'
+             and host['binary_sha256'] == NATIVE_BINARY_SHA256) or fresh_canary_binding_v1(binding))
              and _sha(host['effective_config_sha256']) and _text(host['model']), 'UNSUPPORTED_HOST_BINDING')
     policy = binding['budget_policy']
     _require(type(policy) is dict
@@ -452,7 +463,7 @@ class _RotationInputLease:
             context_health_bp=configured_headroom_bp_v1(
                 state._snapshot['usage']['totalTokens'],
                 state._binding['budget_policy']['configured_usable_tokens']),
-            health_semantics=HEALTH_SEMANTICS,
+            health_semantics=(FRESH_CANARY_HEALTH_SEMANTICS if fresh_canary_binding_v1(state._binding) else HEALTH_SEMANTICS),
             authority_ceiling='INPUT_ONLY_NO_CURRENTNESS_OR_PUBLICATION_AUTHORITY')
 
     @property

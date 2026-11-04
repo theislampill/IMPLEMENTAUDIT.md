@@ -5674,6 +5674,12 @@ _R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (31259, '7cfd59d8569a
 # Exact DG18 snapshot-budget dependency pair; original14 only, no native admission.
 _R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (31259, '1c00c1707443886a2eff09785fa945b8361f34fd1ee84b082a1326428456c3a7'), 'claim-run-rotation.py': (259408, '969618c330cb4ae450af60431db9ab5e3a148610724e7fd674db10e2117103e8')},)
 
+# Exact repaired read-only CORE owner; native companion still lacks this CLI.
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (31259, '2405210c86bb842fcd3a1304e83f2a14eceb4c9f06a5d16f40c8a8e4531d4e28'), 'claim-run-rotation.py': (259820, '2a35fc864297604be1839024fca899b3fb2becdb8d0f08377629b026d107051e')},)
+
+# Exact R4 CORE read-only owner. Historical/native companion scopes are unchanged.
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (31259, 'cade5a010143b131ac70758ef68d907c4238dc5a596f341cc1be108eb1a147a0'), 'claim-run-rotation.py': (264505, 'b599e7efbdac3008b5720f2b65796851eb163a2c287753d68abd232211c5d82a')},)
+
 def original14_retained_predecessor_v1(
     repo, token, fields, *, controller, claim, run_identity, generation,
     current_receipt, explicit_run_root,

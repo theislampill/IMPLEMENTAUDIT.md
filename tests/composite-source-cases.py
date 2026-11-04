@@ -56,7 +56,226 @@ def attachment_dfa_bytes(tables, flags=1):
     return bytes(data)
 
 
+def large_policy_export(size, *, name='ci-large'):
+    """ABI5 fixture: fixed attachment DFA plus an opaque permission blob."""
+    def named(value):
+        return b'\x04' + (len(value) + 1).to_bytes(2, 'little') + value + b'\0'
+    dfa = attachment_dfa_bytes(attachment_dfa_tables(ord('a')))
+    version = named(b'version') + b'\x02\x05\0\0\0'
+    head = (named(b'profile') + b'\x07\x05' + (len(name.encode()) + 1).to_bytes(2, 'little') +
+            name.encode() + b'\0' + named(b'aadfa') + b'\x06' + len(dfa).to_bytes(4, 'little') + dfa +
+            b'\x02\0\0\0\0' + named(b'flags') + b'\x07\x08' + named(b'filedfa') + b'\x06')
+    padding = size - len(version) - len(head) - 5
+    assert padding >= 0
+    profile = head + padding.to_bytes(4, 'little') + bytes(padding) + b'\x08'
+    return version + profile, hashlib.sha256(b'\x05\0\0\0' + profile).hexdigest()
+
+
+def kernel_export_fixture(root, name, raw, ident='1'):
+    """Task-owned physical files; never a live kernel policy or admission."""
+    entry = root / 'profiles' / (name + '.' + ident)
+    rawdir = root / 'raw_data' / ident
+    entry.mkdir(parents=True)
+    rawdir.mkdir(parents=True)
+    (entry / 'name').write_text(name + '\n')
+    for key, value in [('raw_data', raw), ('sha256', hashlib.sha256(raw).hexdigest().encode() + b'\n'),
+                       ('abi', b'v5\n')]:
+        (rawdir / key).write_bytes(value)
+    for key, target in [('raw_data', 'raw_data'), ('raw_sha256', 'sha256'), ('raw_abi', 'abi')]:
+        (entry / key).symlink_to('../../raw_data/' + ident + '/' + target)
+    return entry
+
+
 class CompositeSourceCases(unittest.TestCase):
+    def test_c5_raw_export_oversize_refuses_before_kernel_open_work(self):
+        """AppArmor raw_data open decompresses; advertised overflow must stop first."""
+        owner = load('c5_export_preopen_bound', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
+        with tempfile.TemporaryDirectory(prefix='policy-preopen-bound-') as temporary:
+            root = Path(temporary)
+            entry = kernel_export_fixture(root, 'ci-large', b'x' * 17)
+            with mock.patch.object(owner.os, 'open', side_effect=AssertionError('oversized export opened')), \
+                 self.assertRaisesRegex(ValueError, 'advertised.*bound'):
+                owner._bwrap_selected_export(entry, root, 16)
+
+    def test_c5_raw_export_readback_rechecks_advertised_bound_before_open(self):
+        """A larger replacement between reads must not trigger a second raw open."""
+        owner = load('c5_export_readback_preopen', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
+        actual_read, actual_open = owner._bwrap_read, os.open
+        with tempfile.TemporaryDirectory(prefix='policy-readback-preopen-') as temporary:
+            root = Path(temporary)
+            entry = kernel_export_fixture(root, 'ci-large', b'x' * 17)
+            raw_path = root / 'raw_data/1/raw_data'
+            raw_opens = []
+            def open_counted(path, *args, **kwargs):
+                if Path(path) == raw_path:
+                    raw_opens.append(str(path))
+                return actual_open(path, *args, **kwargs)
+            def read_then_replace(path, maximum=4096):
+                raw = actual_read(path, maximum)
+                if Path(path) == raw_path:
+                    raw_path.write_bytes(b'x' * 18)
+                return raw
+            with mock.patch.object(owner, '_bwrap_read', side_effect=read_then_replace), \
+                 mock.patch.object(owner.os, 'open', side_effect=open_counted), \
+                 self.assertRaisesRegex(ValueError, 'advertised.*bound'):
+                owner._bwrap_selected_export(entry, root, 17)
+            self.assertEqual(len(raw_opens), 1)
+
+    def test_c5_tcpdump_diagnostic_retains_actual_export_without_loading_policy(self):
+        """The selected refusal can be inspected without changing kernel policy."""
+        owner = load('c5_tcpdump_diagnostic', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
+        actual_iterdir = Path.iterdir
+        actual_receive = owner._bwrap_selected_export
+        raw, digest = large_policy_export(70000, name='tcpdump')
+        inventory = {'tcpdump': dict(attach='<unknown>', mode='enforce', sha256=digest)}
+        context = dict(global_state={}, files={'/usr/sbin/apparmor_parser': {'sha256': '1' * 64}})
+        with tempfile.TemporaryDirectory(prefix='tcpdump-diagnostic-') as temporary:
+            root = Path(temporary)
+            entry = kernel_export_fixture(root, 'tcpdump', raw)
+            def entries_at(path):
+                return iter([entry]) if str(path) == '/sys/kernel/security/apparmor/policy/profiles' else actual_iterdir(path)
+            def receive_at(selected, kernel_root):
+                self.assertEqual(str(kernel_root), '/sys/kernel/security/apparmor/policy')
+                return actual_receive(selected, root)
+            output = io.StringIO()
+            with mock.patch.object(owner, '_bwrap_root'), \
+                 mock.patch.object(owner, 'hosted_bwrap_policy_context', return_value=context), \
+                 mock.patch.object(owner, 'hosted_bwrap_policy_inventory', return_value=inventory), \
+                 mock.patch.object(Path, 'iterdir', entries_at), \
+                 mock.patch.object(owner, '_bwrap_selected_export', side_effect=receive_at), \
+                 mock.patch.object(owner, '_bwrap_regular', side_effect=FileNotFoundError), \
+                 mock.patch.object(owner, 'hosted_bwrap_policy_parser', side_effect=AssertionError('policy effect')), \
+                 contextlib.redirect_stdout(output):
+                self.assertEqual(owner.diagnose_hosted_bwrap_policy('tcpdump'), 0)
+            record = json.loads(output.getvalue())
+            self.assertEqual((record['authority'], record['policy_operations'], record['selected_name']),
+                             ('NONE', 0, 'tcpdump'))
+            self.assertEqual(record['exported']['bytes'], 70000)
+            self.assertEqual(__import__('base64').b64decode(record['exported']['base64']), raw)
+            self.assertEqual(record['attachment_observation']['status'], 'PROVED_NOMATCH')
+            self.assertEqual(record['attachment_observation']['proof']['profile_sha256'], digest)
+            self.assertEqual(set(record['source_files']), {'/etc/apparmor.d/usr.bin.tcpdump',
+                                                          '/etc/apparmor.d/local/usr.bin.tcpdump'})
+        with mock.patch.object(owner, '_bwrap_root', side_effect=AssertionError('invalid selection reached host')), \
+             self.assertRaisesRegex(ValueError, 'selection'):
+            owner.diagnose_hosted_bwrap_policy('../other')
+
+    def test_c5_policy_reader_completes_short_reads_and_refuses_hidden_overflow(self):
+        """One short read must neither truncate a valid export nor hide overflow."""
+        owner = load('c5_incremental_export', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
+        actual_read = os.read
+        with tempfile.TemporaryDirectory(prefix='policy-short-read-') as temporary:
+            path = Path(temporary) / 'raw'
+            path.write_bytes(b'0123456789')
+            with mock.patch.object(owner.os, 'read', side_effect=lambda fd, count: actual_read(fd, min(count, 3))):
+                self.assertEqual(owner._bwrap_read(path, 10), b'0123456789')
+                with self.assertRaisesRegex(ValueError, 'bound'):
+                    owner._bwrap_read(path, 9)
+
+    def test_c5_policy_reader_refuses_same_bytes_physical_replacement(self):
+        """Matching content does not authorize switching the captured file object."""
+        owner = load('c5_export_replacement', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
+        actual_read = os.read
+        with tempfile.TemporaryDirectory(prefix='policy-replace-') as temporary:
+            path = Path(temporary) / 'raw'
+            path.write_bytes(b'original bytes')
+            changed = False
+            def replace_on_read(fd, count):
+                nonlocal changed
+                if not changed:
+                    changed = True
+                    path.rename(path.with_name('old'))
+                    path.write_bytes(b'original bytes')
+                return actual_read(fd, count)
+            with mock.patch.object(owner.os, 'read', side_effect=replace_on_read), \
+                 self.assertRaisesRegex(ValueError, 'changed'):
+                owner._bwrap_read(path, 100)
+
+    def test_c5_selected_export_refuses_replacement_between_complete_reads(self):
+        """Full-export bookends bind the object, not just identical second bytes."""
+        owner = load('c5_export_bookend_identity', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
+        with tempfile.TemporaryDirectory(prefix='policy-readback-replace-') as temporary:
+            root = Path(temporary)
+            entry = kernel_export_fixture(root, 'ci-selected', b'same bytes')
+            actual_read = owner._bwrap_read
+            changed = False
+            def replace_after_read(path, maximum=4096):
+                nonlocal changed
+                raw = actual_read(path, maximum)
+                if Path(path).name == 'raw_data' and not changed:
+                    changed = True
+                    Path(path).rename(Path(path).with_name('old'))
+                    Path(path).write_bytes(raw)
+                return raw
+            with mock.patch.object(owner, '_bwrap_read', side_effect=replace_after_read), \
+                 self.assertRaisesRegex(ValueError, 'changed'):
+                owner._bwrap_selected_export(entry, root)
+
+    def test_c5_large_policy_export_reaches_bound_nonmatch_consumer(self):
+        """A large permission blob must not force a small, safe attachment UNKNOWN."""
+        owner = load('c5_large_export', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
+        raw, digest = large_policy_export(70000)
+        row = dict(attach='<unknown>', mode='enforce', sha256=digest)
+        with tempfile.TemporaryDirectory(prefix='policy-large-export-') as temporary:
+            root = Path(temporary)
+            entry = kernel_export_fixture(root, 'ci-large', raw)
+            with self.assertRaisesRegex(ValueError, 'bound'):
+                owner._bwrap_selected_export(entry, root, 65536)
+            received = owner._bwrap_selected_export(entry, root)
+            self.assertEqual(received['bytes'], 70000)
+            decoded = __import__('base64').b64decode(received['base64'], validate=True)
+            proof = owner._bwrap_prove_nonmatch(decoded, 'ci-large', row)
+            owner.hosted_bwrap_policy_delta({'ci-large': row}, opaque_proofs={'ci-large': proof})
+            self.assertEqual(proof['result'], 'PROVED_DFA_NOMATCH_BOTH_FIXED_PATHS')
+            self.assertEqual(proof['raw_sha256'], hashlib.sha256(raw).hexdigest())
+
+    def test_c5_raw_policy_bound_preserves_smaller_dfa_and_structural_limits(self):
+        """The new raw-export budget does not enlarge attachment or parser work."""
+        owner = load('c5_large_export_limits', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
+        raw, digest = large_policy_export(4 * 1024**2)
+        row = dict(attach='<unknown>', mode='enforce', sha256=digest)
+        with tempfile.TemporaryDirectory(prefix='policy-exact-bound-') as temporary:
+            root = Path(temporary)
+            entry = kernel_export_fixture(root, 'ci-large', raw)
+            self.assertEqual(owner._bwrap_selected_export(entry, root)['bytes'], 4194304)
+            self.assertEqual(owner._bwrap_prove_nonmatch(raw, 'ci-large', row)['profile_sha256'], digest)
+            (root / 'raw_data/1/raw_data').write_bytes(raw + b'x')
+            with self.assertRaisesRegex(ValueError, 'bound'):
+                owner._bwrap_selected_export(entry, root)
+        for value in (raw + b'x', raw[:-1], b'x' * 65537):
+            with self.subTest(bytes=len(value)), self.assertRaises(ValueError):
+                owner._bwrap_v5_profiles(value)
+        with self.assertRaisesRegex(ValueError, 'DFA bound'):
+            owner._bwrap_dfa_nonmatch(bytes(65537), '/usr/bin/bwrap')
+
+    def test_c5_opaque_resolver_debits_actual_exports_against_same_aggregate(self):
+        """Two individually bounded exports must not exceed the four-MiB batch."""
+        owner = load('c5_export_aggregate', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
+        actual_iterdir = Path.iterdir
+        actual_receive = owner._bwrap_selected_export
+        for excess in (0, 1):
+            with self.subTest(excess=excess), tempfile.TemporaryDirectory(prefix='policy-aggregate-') as temporary:
+                root = Path(temporary)
+                first, digest1 = large_policy_export(3 * 1024**2, name='first')
+                second, digest2 = large_policy_export(1024**2 + excess, name='second')
+                entries = [kernel_export_fixture(root, 'first', first),
+                           kernel_export_fixture(root, 'second', second, '2')]
+                inventory = {name: dict(attach='<unknown>', mode='enforce', sha256=digest)
+                             for name, digest in [('first', digest1), ('second', digest2)]}
+                def entries_at(path):
+                    return iter(entries) if str(path) == '/sys/kernel/security/apparmor/policy/profiles' else actual_iterdir(path)
+                def receive_at(entry, kernel_root, maximum):
+                    self.assertEqual(str(kernel_root), '/sys/kernel/security/apparmor/policy')
+                    return actual_receive(entry, root, maximum)
+                with mock.patch.object(Path, 'iterdir', entries_at), \
+                     mock.patch.object(owner, '_bwrap_selected_export', side_effect=receive_at), \
+                     mock.patch.object(owner, 'hosted_bwrap_policy_inventory', return_value=inventory):
+                    if excess:
+                        with self.assertRaisesRegex(ValueError, 'advertised size exceeds bound'):
+                            owner._bwrap_resolve_opaque(inventory)
+                    else:
+                        self.assertEqual(set(owner._bwrap_resolve_opaque(inventory)), {'first', 'second'})
+
     @unittest.skipUnless(sys.platform == "linux", "fixed Linux hosted prerequisites")
     def test_c5_hosted_current_reader_binds_before_owner_loading(self):
         """Break caught: a changed loader or implicit original profile reads host inputs."""
@@ -65,7 +284,13 @@ class CompositeSourceCases(unittest.TestCase):
         self.assertTrue(callable(receive), "bounded hosted current-owner receiving is absent")
         with mock.patch("subprocess.Popen", side_effect=AssertionError("reader dispatched a child")):
             current = receive(ROOT)
-            self.assertEqual(current.PROFILE, "FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1")
+            self.assertEqual(current.PROFILE, "FIXED_GENUINE_C5_SHARED_IMAGE_CORRESPONDENCE_R4_BUILD_LOCAL_COMPRESSION_20261104_V1")
+            self.assertEqual(hashlib.sha256(current.Q.LOADED_DRIVER).hexdigest(),
+                             '8cc8342f025866ffaf8c98cc1dd33d7576416c2de39e9d444b9acfd546685a0b')
+            self.assertEqual(hashlib.sha256(current.SOURCES['skills/implementaudit/scripts/compile-work-graph.py'][0]).hexdigest(),
+                             'addcae949fdab009f7f0b4a9f023392309841c1798357ca89f9ec2b84d4c8ba9')
+            self.assertEqual(observer.HOSTED_CURRENT105_LOADER_PIN,
+                             {'bytes': 20466, 'sha256': 'cc2b2306e05d0845a0dcc809aaa886427009633a7390d7cdb664fbb9884aced9'})
             with tempfile.TemporaryDirectory(prefix="c5-hosted-loader-") as temporary:
                 root = Path(temporary)
                 (root / "scripts").mkdir()
@@ -80,7 +305,7 @@ class CompositeSourceCases(unittest.TestCase):
         receive = getattr(observer, "hosted_pin_receiving", None)
         self.assertTrue(callable(receive), "literal hosted pin receiving is absent")
         original = load("hosted_pin_owner", ROOT / "scripts/load-work-graph-c5-executor.py")
-        base = original._Engine(original.CURRENT_PROFILE, source_revision=original.PUBLIC_STREAMING_SOURCE_REVISION).load().B
+        base = original._Engine(original.CURRENT_PROFILE, source_revision=original.R4_COMPOSED_SOURCE_REVISION).load().B
         with tempfile.TemporaryDirectory(prefix="c5-hosted-pin-") as temporary:
             path = Path(temporary) / "input"
             path.write_bytes(b"abc")
@@ -104,7 +329,7 @@ class CompositeSourceCases(unittest.TestCase):
         receive = getattr(observer, "hosted_nss_receiving", None)
         self.assertTrue(callable(receive), "literal hosted NSS receiving is absent")
         original = load("hosted_nss_owner", ROOT / "scripts/load-work-graph-c5-executor.py")
-        selected = original._Engine(original.CURRENT_PROFILE, source_revision=original.PUBLIC_STREAMING_SOURCE_REVISION).load()
+        selected = original._Engine(original.CURRENT_PROFILE, source_revision=original.R4_COMPOSED_SOURCE_REVISION).load()
         # Explicit source-control data for the unchanged NSS parser, not a host receipt.
         objects = {}
         observed = dict(files={}, nscd={name: {"kind": "MISSING"} for name in selected.B._NSCD})
@@ -308,7 +533,7 @@ class CompositeSourceCases(unittest.TestCase):
             self.assertTrue(result["complete_objects"])
             self.assertTrue(all(item["wait_reaped"] and item["owned_group_absent"] for item in result["commands"]))
             original = load("hosted_source_namespace_owner", ROOT / "scripts/load-work-graph-c5-executor.py")
-            owner = original._Engine(original.CURRENT_PROFILE, source_revision=original.PUBLIC_STREAMING_SOURCE_REVISION).load()
+            owner = original._Engine(original.CURRENT_PROFILE, source_revision=original.R4_COMPOSED_SOURCE_REVISION).load()
             objects = {}
             captured = owner.B.complete_source(source, objects)
             try:
@@ -761,7 +986,7 @@ class CompositeSourceCases(unittest.TestCase):
             rawdir.mkdir(parents=True)
             other.mkdir()
             for directory in (rawdir, other):
-                (directory / 'raw_data').write_bytes(b'x' * 65537)
+                (directory / 'raw_data').write_bytes(b'x' * (4 * 1024**2 + 1))
                 (directory / 'sha256').write_text('0' * 64 + '\n')
                 (directory / 'abi').write_text('v9\n')
             for name, target in [('raw_data', 'raw_data'), ('raw_sha256', 'sha256'), ('raw_abi', 'abi')]:
@@ -1167,10 +1392,12 @@ class CompositeSourceCases(unittest.TestCase):
                 self.assertEqual(provider._ENVIRONMENT["PATH"], "/opt/implementaudit-c5-current-python312-v1/bin:/usr/bin:/bin")
                 self.assertEqual(provider._ALIASES[:3], tuple(
                     "/opt/implementaudit-c5-current-python312-v1/bin/" + name for name in ("python", "python3", "python3.12")))
-                compiler_sha = hashlib.sha256((ROOT / "skills/implementaudit/scripts/compile-work-graph.py").read_bytes()).hexdigest()
+                compiler_sha = hashlib.sha256((legacy_root / "skills/implementaudit/scripts/compile-work-graph.py").read_bytes()).hexdigest()
+                self.assertEqual(compiler_sha, "25f2c24645cc65ed4b9bfbd70bb2d0ce26eb6accc51de0af0df06b3bdff5b627")
+                self.assertNotEqual(compiler_sha, hashlib.sha256((ROOT / "skills/implementaudit/scripts/compile-work-graph.py").read_bytes()).hexdigest())
                 self.assertEqual(hashlib.sha256(selected["Q"].LOADED_COMPILER).hexdigest(), compiler_sha)
                 self.assertEqual(selected["G"].COMPILER_SHA, compiler_sha)
-                state = {"files": {name: {"sha256": hashlib.sha256((ROOT / name).read_bytes()).hexdigest()}
+                state = {"files": {name: {"sha256": hashlib.sha256((legacy_root / name).read_bytes()).hexdigest()}
                                    for name in set(base.SPEC["programs"]) | set(base.SPEC["payload_sources"])}}
                 # CURRENT retains its historical producer selection. Its
                 # constructor wiring is valid, but today's producer bytes must
@@ -1189,7 +1416,7 @@ class CompositeSourceCases(unittest.TestCase):
             # The existing explicit correspondence profile selects all six
             # current producers. This is a source-contract positive only.
             current_output = Path(temporary) / "correspondence-evidence"
-            current = owner.create_public_streaming_source_correspondence_c5_session_v1(
+            current = owner.create_r4_build_local_compression_correspondence_c5_session_v6(
                 ROOT, current_output, expected_source={"source_commit": "0" * 40, "source_tree": "1" * 40})
             try:
                 base = type(current).__init__.__globals__["B"]
@@ -1221,6 +1448,14 @@ class CompositeSourceCases(unittest.TestCase):
                 selected = ROOT / name
                 if name in (owner.LOADER, owner.EXECUTOR):
                     selected = ROOT / "test-support/work-graph-c5-profile-history/pro-dg16-public-cost-20261101" / name
+                elif name in (owner.BASE, owner.PROVIDER, owner.GATE):
+                    selected = ROOT / "test-support/work-graph-c5-profile-history/pre-r4-fresh-canary-20261104" / name
+                elif name == "scripts/package-contract.py":
+                    selected = ROOT / "fixtures/work-graph-c5-inputs/r4-package-contract-before-build-cache.py"
+                elif name == owner.QUALIFIER:
+                    selected = ROOT / "test-support/work-graph-c5-profile-history/pre-current105-qualifier-20261104" / name
+                elif name == owner.COMPILER:
+                    selected = ROOT / "test-support/work-graph-c5-profile-history/pre-composed-compiler-20261104" / name
                 shutil.copyfile(selected, target)
             yield root, Path(temporary) / "evidence"
 
@@ -1228,8 +1463,8 @@ class CompositeSourceCases(unittest.TestCase):
     def correspondence_c5_source_copy(self):
         """Current producer inputs; historical CURRENT helper stays separate."""
         owner = load("correspondence_c5_copy_owner", ROOT / "scripts/load-work-graph-c5-executor.py")
-        selection = json.loads((ROOT / "fixtures/work-graph-c5-inputs/execution-correspondence-python312.json").read_bytes())
-        members = {owner.LOADER, *owner.PUBLIC_STREAMING_PINS[owner.CORRESPONDENCE_PROFILE],
+        selection = json.loads((ROOT / owner.R4_BUILD_CACHE_BASE_SELECTION).read_bytes())
+        members = {owner.LOADER, *owner.R4_BUILD_CACHE_PINS,
                    *selection["programs"], *selection["payload_sources"]}
         with tempfile.TemporaryDirectory(prefix="c5-correspondence-source-") as temporary:
             root = Path(temporary) / "source"
@@ -1254,7 +1489,7 @@ class CompositeSourceCases(unittest.TestCase):
     def test_current_c5_runtime_layout_refuses_private_mount_shadowing(self):
         """Break caught: a later private mount hides selected runtime bytes/aliases."""
         owner = load("current_c5_layout", ROOT / "scripts/load-work-graph-c5-executor.py")
-        selected = owner._Engine(owner.CURRENT_PROFILE, source_revision=owner.PUBLIC_STREAMING_SOURCE_REVISION).load()
+        selected = owner._Engine(owner.CURRENT_PROFILE, source_revision=owner.R4_COMPOSED_SOURCE_REVISION).load()
         def layout(logical, resolved=None, links=None):
             resolved = resolved or logical
             # Constructed layout inputs only, never physical custody evidence.
@@ -1286,7 +1521,7 @@ class CompositeSourceCases(unittest.TestCase):
         """Break caught: the selected real provider is hidden or its alias/modes change."""
         owner = load("current_c5_provider_layout", ROOT / "scripts/load-work-graph-c5-executor.py")
         with mock.patch("subprocess.Popen", side_effect=AssertionError("provider layout dispatched a producer")):
-            selected = owner._Engine(owner.CURRENT_PROFILE, source_revision=owner.PUBLIC_STREAMING_SOURCE_REVISION).load()
+            selected = owner._Engine(owner.CURRENT_PROFILE, source_revision=owner.R4_COMPOSED_SOURCE_REVISION).load()
             self.assertEqual(selected.D.VENV, Path("/opt/implementaudit-c5-current-python312-v1"))
             objects = {}
             tree = selected.D._capture_tree(selected.D.VENV, objects)
@@ -1329,7 +1564,7 @@ class CompositeSourceCases(unittest.TestCase):
             with self.subTest(change=change), self.correspondence_c5_source_copy() as (root, output):
                 owner = load("drifted_current_c5", root / "scripts/load-work-graph-c5-executor.py")
                 with mock.patch("subprocess.Popen", side_effect=AssertionError("drifted input dispatched a producer")):
-                    session = owner.create_public_streaming_source_correspondence_c5_session_v1(root, output,
+                    session = owner.create_r4_build_local_compression_correspondence_c5_session_v6(root, output,
                         expected_source={"source_commit": "0" * 40, "source_tree": "1" * 40})
                     try:
                         base = type(session).__init__.__globals__["B"]
@@ -1383,7 +1618,7 @@ class CompositeSourceCases(unittest.TestCase):
                         if row["path"].endswith("/claim-run-rotation.py"))
         raw = (ROOT / retained["path"]).read_bytes()
         self.assertEqual((len(raw), hashlib.sha256(raw).hexdigest()),
-                         (246657, '82ddcbb3cf476098fbcac57c0550d4240457688df2c4504c8ab8caea2c3367b1'))
+                         (247069, '60b96654209ffa21091ce0bdcda1135d73ff0c116750842277019a1b26787a4f'))
         self.assertEqual(retained["materialized_path"], "skills/implementaudit/scripts/claim-run-rotation.py")
         self.assertNotIn(retained["materialized_path"], [row["path"] for row in manifest["frozen_core_dependencies"]])
         transport = load("retained_core_transport", ROOT / "scripts/work-graph-continuity-transport.py")
@@ -1392,9 +1627,14 @@ class CompositeSourceCases(unittest.TestCase):
                          (259408, '1c70c0612bad4b2311bb89ddad60484937b5d195bf98380c3ef3e0d30d6cd94b'))
         self.assertEqual(transport.SOURCE_PROFILES_V1['composite-20261028-dg10-native-stop-v1-original14'][2][1:3],
                          (246657, 'bc862f87428e86c608ddc5fe31ad8a3e2c8324b52c09ba379163db160ad70e93'))
-        profile = transport.SOURCE_PROFILES_V1['composite-20261029-dg18-native-resume-v1-core']
+        previous = transport.SOURCE_PROFILES_V1['composite-20261029-dg18-native-resume-v1-core']
+        self.assertEqual(transport.SOURCE_PROFILES_V1['composite-20261029-dg18-native-resume-v1-original14'][2][1:3],
+                         (246657, '82ddcbb3cf476098fbcac57c0550d4240457688df2c4504c8ab8caea2c3367b1'))
+        profile = transport.SOURCE_PROFILES_V1['composite-20261104-r4-native-canary-v4-core']
         self.assertTrue(transport._windows_core_profile_v1(historical))
+        self.assertTrue(transport._windows_core_profile_v1(previous))
         self.assertTrue(transport._windows_core_profile_v1(profile))
+        self.assertNotEqual(previous, profile)
         self.assertFalse(transport._windows_core_profile_v1(((*profile[0][:2], '0' * 64, profile[0][3]), *profile[1:])))
         self.assertEqual(transport.SOURCE_PROFILES_V1['composite-20261028-terminal-inventory-v1-core'][1][1:3],
                          (114294, 'e7a20d7d5eab497338327814367fe8c7221a35cfe61bdfaadd91d84101f0d250'))
@@ -1417,6 +1657,43 @@ class CompositeSourceCases(unittest.TestCase):
         self.assertNotEqual(profile, transport.SOURCE_PROFILES_V1["composite-20261025-core-posix-reads"])
         self.assertNotEqual(profile, transport.SOURCE_PROFILES_V1["composite-20261025-core-retained-history-v1"])
         self.assertNotEqual(profile, transport.SOURCE_PROFILES_V1["composite-20261026-core-binder-v1"])
+
+    def test_engineered_profiles_select_current_bytes_and_preserve_every_historical_domain(self):
+        """Break caught: repaired helper bytes cannot reach a fixed accepting consumer."""
+        transport = load("engineered_continuity_transport", ROOT / "scripts/work-graph-continuity-transport.py")
+        owner = load("engineered_continuity_receiver", ROOT / "scripts/operational-evidence.py")
+        prefix = "composite-20261104-r4-native-canary-v4-"
+        previous = {name: rows for name, rows in transport.SOURCE_PROFILES_V1.items()
+                    if not name.startswith(prefix)}
+        self.assertEqual(len(previous), 37)
+        self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
+                         separators=(",", ":")).encode()).hexdigest(), '8ce4b8d78c7ce1257231650f9c49b4df4a3d23a709df102ac24beb457ef0759c')
+        historical = {name: rows for name, rows in previous.items()
+                      if not name.startswith("composite-20261104-dg17-dg18-custody-v1-")}
+        self.assertEqual(len(historical), 35)
+        self.assertEqual(hashlib.sha256(json.dumps(historical, sort_keys=True,
+                         separators=(",", ":")).encode()).hexdigest(),
+                         "50c356cb09ebd3bf3b5be64bab44ba966f758e0abe7f24b8d87c17ef2978dda6")
+        self.assertEqual(len(transport.SOURCE_PROFILES_V1), 38)
+        for kind, directory in (("core", CORE), ("original14", PEER)):
+            with self.subTest(kind=kind):
+                selected_name = prefix + kind if kind == "core" else "composite-20261104-dg17-dg18-custody-v1-original14"
+                profile = transport.SOURCE_PROFILES_V1[selected_name]
+                self.assertIn(profile, owner._NATIVE_CONTINUITY_SOURCE_PROFILES_V1)
+                sources = tuple((str(directory / name if (directory / name).is_file() else CORE / name),
+                                 (directory / name if (directory / name).is_file() else CORE / name).read_bytes())
+                                for name, _, _, _ in profile)
+                selected = transport.source_profiles_for_helpers_v1(sources[0][1], sources[1][1])
+                self.assertIn(transport._platform_source_profile_v1(profile), selected)
+                self.assertEqual(transport._source_profile(sources), transport._platform_source_profile_v1(profile))
+                changed = ((sources[0][0], b"!" + sources[0][1][1:]), *sources[1:])
+                self.assertEqual(transport.source_profiles_for_helpers_v1(changed[0][1], changed[1][1]), ())
+                with self.assertRaisesRegex(transport.ContinuityTransportError, "SOURCE_REFUSED"):
+                    transport._source_profile(changed)
+                if kind == "original14" and os.name != "nt":
+                    with mock.patch.object(subprocess, "run", side_effect=AssertionError("unsupported host dispatched")), \
+                            self.assertRaisesRegex(transport.ContinuityTransportError, "UNSUPPORTED_HOST"):
+                        transport._original14_call(None, None, ROOT, sources, ("--current-controller",))
 
     def test_retained_native_profile_refuses_new_history_api_before_dispatch(self):
         peer = ROOT / "source-peers/route-graph/skills/implementaudit/scripts"
@@ -1641,10 +1918,20 @@ else:
         fixture = load("composite_pending_fixture", ROOT / "tests/cognition-pending-durability.py")
         pins = fixture.source_pins(ROOT)
         selected = fixture.reservation_refusal_profile(pins)
-        self.assertEqual(selected["qualified_checkpoint"], "source-sha256:44f37242fed8e136b548172fdd8d95de270552d8c176e8563b5b4075ac059198")
+        self.assertEqual(selected["qualified_checkpoint"], 'source-sha256:5e10f2e36842c7f5dcfe5a131da43c502e9f36b0d1d727ca9bdb4412bde4c523')
         self.assertEqual(selected["stored_json_refusal"], "PENDING_STATE_JSON")
         self.assertEqual(selected["nonfinite_counter_refusal"], "PENDING_STATE_JSON_CONSTANT")
-        before_pending_repair = dict(pins)
+        r3 = dict(pins)
+        r3[str(fixture.PEER / "compaction-audit-pending.py")] = "44f37242fed8e136b548172fdd8d95de270552d8c176e8563b5b4075ac059198"
+        r3[str(fixture.PEER / "compaction-source-owner-codex-app.py")] = "8d6e51fcd82ab3d236c5b6707129228a73483fcb7700825c42b0fb797cef9ebf"
+        self.assertEqual(fixture.reservation_refusal_profile(r3), {**selected,
+            "qualified_checkpoint": "source-sha256:8d6e51fcd82ab3d236c5b6707129228a73483fcb7700825c42b0fb797cef9ebf"})
+        before_issuer_repair = dict(r3)
+        before_issuer_repair[str(fixture.PEER / "compaction-source-owner-codex-app.py")] = "681b22da6ee2fc5a84cfab7547a9f0551a76c97659e6b5c5b7158ff910117c23"
+        self.assertEqual(fixture.reservation_refusal_profile(before_issuer_repair), {
+            **selected,
+            "qualified_checkpoint": "source-sha256:44f37242fed8e136b548172fdd8d95de270552d8c176e8563b5b4075ac059198"})
+        before_pending_repair = dict(before_issuer_repair)
         before_pending_repair[str(fixture.PEER / "compaction-audit-pending.py")] = "e9e8b5f9246f288ceade888c44ad4f1445033f4d944eabf3d8e4da391891a682"
         self.assertEqual(fixture.reservation_refusal_profile(before_pending_repair), {
             **selected,
@@ -1716,6 +2003,12 @@ else:
         self.assertEqual(scope["historical_receipt_reuse"], "FORBIDDEN")
         programs = {name: {"sha256": hashlib.sha256((ROOT / name).read_bytes()).hexdigest()}
                     for name in prefix.PROGRAM_PINS}
+        # This closed historical C4 profile still binds its original
+        # package owner. The new builder is deliberately refused.
+        with self.assertRaisesRegex(ValueError, "executable"):
+            prefix.validate_programs({"files": programs}, profile="COMPOSED_COMPOSITE_PREFIX_23_V1")
+        retained = ROOT / "fixtures/work-graph-c5-inputs/r4-package-contract-before-build-cache.py"
+        programs["scripts/package-contract.py"]["sha256"] = hashlib.sha256(retained.read_bytes()).hexdigest()
         prefix.validate_programs({"files": programs}, profile="COMPOSED_COMPOSITE_PREFIX_23_V1")
         with self.assertRaisesRegex(ValueError, "executable"):
             prefix.validate_programs({"files": programs})
@@ -1778,6 +2071,15 @@ else:
             result = subprocess.run([sys.executable, "-B", str(target / "rotate-canonical-state.py"), "--help"], capture_output=True, timeout=20)
             self.assertEqual(result.returncode, 0, result.stderr.decode())
             self.assertIn(b"usage:", result.stdout)
+            owner = load("retained_overlay_lazy_native_input", target / "rotate-canonical-state.py")
+            native = owner.native_inputs_module_v1()
+            raw = Path(native.__file__).read_bytes()
+            self.assertEqual((len(raw), hashlib.sha256(raw).hexdigest()),
+                             (27154, "96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489"))
+            # The new core dependency remains invalid for the retained peer.
+            shutil.copyfile(CORE / "canonical_rotation_inputs.py", target / "canonical_rotation_inputs.py")
+            with self.assertRaisesRegex(owner.RotationError, "native input source identity mismatch"):
+                owner.native_inputs_module_v1()
 
     def test_combined_read_closure_is_selected_and_changed_member_refuses(self):
         transport = load("composite_transport", ROOT / "scripts/work-graph-continuity-transport.py")
@@ -1861,6 +2163,28 @@ else:
                 self.assertEqual(len(sources), 8)
                 self.assertEqual(graph._NATIVE_CONTINUITY_TRANSPORT_SHA256, hashlib.sha256(transport).hexdigest())
                 self.assertEqual(graph._NATIVE_CONTINUITY_TRANSPORT_BYTES, len(transport))
+                # Constructed comparison metadata only: exercise the independent
+                # receiver's actual source reads without dispatch/currentness.
+                closure = dict(schema="implementaudit.native-continuity-closure.v1",
+                    execution=dict(schema="implementaudit.continuity-source-closure.v2",
+                        repository=str(target), members=[dict(name=Path(path).name,
+                            path=path, bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest(),
+                            mode=Path(path).stat().st_mode & 0o777, links=1, readonly=True, seals=15)
+                            for path, raw in sources],
+                        startup=dict(profile="ISOLATED_CPYTHON_V1", isolated=True,
+                            no_site=True, dont_write_bytecode=True)),
+                    transport=dict(path=str(target / "scripts/work-graph-continuity-transport.py"),
+                        bytes=len(transport), sha256=hashlib.sha256(transport).hexdigest(),
+                        mode=(target / "scripts/work-graph-continuity-transport.py").stat().st_mode & 0o777))
+                pair = dict(claim_sha256=hashlib.sha256(claim).hexdigest(),
+                            validate_sha256=hashlib.sha256(validate).hexdigest())
+                owner._native_check_continuity_closure_v1(closure, target,
+                    scripts / "compile-work-graph.py", pair)
+                changed_closure = json.loads(json.dumps(closure))
+                changed_closure["execution"]["members"][0]["sha256"] = "0" * 64
+                with self.assertRaisesRegex(owner.OperationalEvidenceError, "executed closure differs"):
+                    owner._native_check_continuity_closure_v1(changed_closure, target,
+                        scripts / "compile-work-graph.py", pair)
                 marker = target / "UNSELECTED_TRANSPORT_EXECUTED"
                 # Keep the selected byte length so this exercises the digest
                 # refusal rather than the earlier exact acquisition bound.

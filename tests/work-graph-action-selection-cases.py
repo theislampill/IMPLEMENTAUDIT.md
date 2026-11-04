@@ -145,7 +145,7 @@ class SourceCases(B.ProfileFixture, unittest.TestCase):
         # Original105 advances six shared runner identities. Reverse only that
         # exact byte pin before comparing the complete historical34 contracts.
         runner_pin = "6f6d2bdbcf8350d6b370d37a5e15f4ddb73d336b5bc42d941540f3269613150f"
-        self.assertEqual(hashlib.sha256((ROOT / self.A.RUNNER).read_bytes()).hexdigest(), runner_pin)
+        self.assertEqual(hashlib.sha256(H.selected_input_bytes(self.A.RUNNER, runner_pin)).hexdigest(), runner_pin)
         normalized = self.helper.replace(runner_pin.encode("ascii"),
             b"532b06dbe91298bf71d44c88ecf20186adc93b4e3fb16ee2c4d12bc2edee45ff")
         contracts = next(node.value for node in ast.parse(normalized).body if isinstance(node, ast.Assign)

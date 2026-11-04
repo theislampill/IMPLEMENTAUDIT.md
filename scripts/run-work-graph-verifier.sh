@@ -222,6 +222,11 @@ if [ "$#" -lt 4 ]; then
 fi
 r0035_verifier_stream="$1"
 r0035_verifier_trace="$2"
+# Source frames may cd; retain the caller-relative trace destination.
+case "$r0035_verifier_trace" in
+  /*) ;;
+  *) r0035_verifier_trace="$PWD/$r0035_verifier_trace" ;;
+esac
 r0035_verifier_expected="$3"
 r0035_verifier_digest="$4"
 shift 4
@@ -303,16 +308,18 @@ raise SystemExit(0 if valid else 2)
   exit 2
 fi
 r0035_verifier_seen=0
-exec 3>"$r0035_verifier_trace"
+# Open the trace only for each carrier write. A persistent descriptor leaks
+# into registry children and EXIT traps, including Bash errexit unwinding.
+: >"$r0035_verifier_trace"
 for r0035_verifier_index in "${!r0035_verifier_ids[@]}"; do
   r0035_verifier_id="${r0035_verifier_ids[$r0035_verifier_index]}"
   r0035_verifier_source="${r0035_verifier_sources[$r0035_verifier_index]}"
-  printf '%s\tSTART\n' "$r0035_verifier_id" >&3
+  printf '%s\tSTART\n' "$r0035_verifier_id" >>"$r0035_verifier_trace"
   # One shell retains prelude locals/functions, traps, arguments and set -e.
   # BASH_SOURCE resolves this helper in the same scripts/ directory as the
   # legacy registry, preserving the canonical repo-root calculation.
   eval "$r0035_verifier_source"
-  printf '%s\tPASS\n' "$r0035_verifier_id" >&3
+  printf '%s\tPASS\n' "$r0035_verifier_id" >>"$r0035_verifier_trace"
   r0035_verifier_seen=$((r0035_verifier_seen + 1))
 done
 if [ "$r0035_verifier_seen" -ne "$r0035_verifier_expected" ]; then

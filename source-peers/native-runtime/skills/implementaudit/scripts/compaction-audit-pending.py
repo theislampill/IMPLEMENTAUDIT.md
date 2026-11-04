@@ -144,7 +144,7 @@ def _scan_source_unheld(path, prefix=None, native_cli_version=None, *, require_c
         # Narrow positive: an actual last native task_complete record, not an
         # empty selected list or inferred absence from endpoints. Full framing,
         # physical, prefix and ordinal checks above still cover every byte.
-        require(version == '0.153.4' and not group and number > 1 and
+        require((version == '0.153.4' or version == native_cli_version == '0.166.0') and not group and number > 1 and
             row['type'] == 'event_msg' and row['payload'].get('type') == 'task_complete' and
             'metadata' not in row and type(row['payload'].get('turn_id')) is str and row['payload']['turn_id'],
             'C02_POSITIVE_CURRENT_TERMINAL_SOURCE_FENCE_REQUIRED')
@@ -321,7 +321,14 @@ def record_signal(store, session, event):
         return decision(state)
 
 def code_identity():
-    raise Refusal('NONPROTECTED_PROJECTION_REQUIRES_SELECTED_SOURCE')
+    pins = nonprotected_code_identity()
+    owner = OBSERVATION._nonprotected_source_owner(pins)
+    require(owner.selected_source_pin_v1() is not None and
+        owner.selected_source_profile_v1() == owner.FRESH_CANARY_PROFILE,
+        'NONPROTECTED_PROJECTION_REQUIRES_SELECTED_SOURCE')
+    # Logical reservation/cutoff only. Actual native result joins still require
+    # their existing independent prepared-obligation and evidence contracts.
+    return pins
 
 def prepare_obligation(store, state, assignment):
     scope = [item for item in outstanding(state) if scope_owners(state, item['id']) == [assignment['child_id']]]
@@ -508,7 +515,14 @@ def operate(store, session, owner, action, request):
                 scope = selected
             require(scope, 'NO_UNASSIGNED_INDEPENDENT_SCOPE; existing claims require reconciliation')
             assignment = {'child_id': child, 'scope': scope, 'code': nonprotected_code_identity() if _nonprotected_reservation(request) else code_identity(), 'observations': {}, 'return': None, 'join': None, 'native_lifecycle': 'NOT_CLAIMED', 'reservation_request': request}
-            assignment['policy'] = OBSERVATION.fixed_policy(assignment['code'], OBSERVATION._nonprotected_source_owner(assignment['code']).selected_source_profile_v1() if _nonprotected_reservation(request) else OBSERVATION.PROFILE)
+            if _nonprotected_reservation(request):
+                assignment['policy'] = OBSERVATION.fixed_policy(assignment['code'], OBSERVATION._nonprotected_source_owner(assignment['code']).selected_source_profile_v1())
+            else:
+                descriptor = {'schema':'implementaudit.fresh-canary-physical-reservation-policy.v1',
+                    'profile_id':OBSERVATION._nonprotected_source_owner(assignment['code']).FRESH_CANARY_PROFILE,
+                    'code':assignment['code'],'authority_ceiling':'NONE',
+                    'result_admission':'SEPARATE_ACTUAL_PREPARED_OBLIGATION_REQUIRED'}
+                assignment['policy'] = {'descriptor':descriptor,'sha256':digest(canonical(descriptor))}
             state['assignments'][child] = assignment
             obligation = {}
             if 'observation_source' in request:
@@ -746,7 +760,7 @@ def scan_source(path, prefix=None, *, require_c02_terminal=False):
     if str(path) != selected['root_source']:
         require(not require_c02_terminal, 'C02_FOREIGN_SOURCE_INTERVAL')
         return _scan_source_unheld(path, prefix)
-    custody = owner._np_module(selected['runtime_helpers']['bounded_file_custody.py'], 'bounded_file_custody.py')
+    custody = owner.selected_custody_v1(selected) if selected.get('profile_id') == getattr(owner,'FRESH_CANARY_PROFILE',None) else owner._np_module(selected['runtime_helpers']['bounded_file_custody.py'], 'bounded_file_custody.py')
     with custody.held_file(path):
         return _scan_source_unheld(path, prefix, native_cli_version=selected['cli_version'], require_c02_terminal=require_c02_terminal)
 

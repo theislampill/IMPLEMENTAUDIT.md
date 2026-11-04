@@ -324,13 +324,37 @@ class NativeInputMechanics(unittest.TestCase):
         receipt_ref, receipt_oid = SUBJECT['receipt_token'].split('@')
         predecessor = dict(SUBJECT, receipt_ref=receipt_ref, receipt_oid=receipt_oid)
         current = rotation.full_or_calibration_contract_v1()
-        for calibration in rotation._historical_or_calibrations_v1():
-            current_schema = calibration == current
+        # The retained R3 producer already emitted reported_window/v2.
+        # Schema is tied to the producer, not whether a calibration is
+        # the currently selected live one. Keep full-population downgrade
+        # and upgrade refusals for every historical calibration below.
+        v2_producers = {
+            'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76',
+            '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489',
+        }
+        calibrations = rotation._historical_or_calibrations_v1()
+        self.assertTrue(v2_producers.issubset(
+            {row['native_input_module_sha256'] for row in calibrations}))
+        for calibration in calibrations:
+            current_schema = calibration['native_input_module_sha256'] in v2_producers
+            selected_observation = copy.deepcopy(observation)
+            selected_observation['host'].update(calibration['native_input_host'])
+            selected_observation['budget_policy'].update(
+                id=calibration['native_input_policy_id'],
+                configured_usable_tokens=calibration['configured_usable_context_tokens'])
+            selected_observation['health_semantics'] = calibration['context_health_semantics']
+            selected_observation['context_health_bp'] = MODULE.configured_headroom_bp_v1(
+                selected_observation['exact_usage']['usage']['totalTokens'],
+                calibration['configured_usable_context_tokens'])
             record = dict(schema='implementaudit.rotation-native-input.v2' if current_schema else
-                          'implementaudit.rotation-native-input.v1', observation=copy.deepcopy(observation),
+                          'implementaudit.rotation-native-input.v1', observation=selected_observation,
                           prepared_at_unix_ms=NOW, authority_ceiling='HISTORICAL_INPUT_NOT_REAUTHENTICATED')
             if not current_schema: del record['observation']['reported_window']
             rotation._check_native_input_record(record, predecessor, 100000, 30000, calibration)
+            wrong_host = copy.deepcopy(record)
+            wrong_host['observation']['host']['model'] = 'unselected-fixture-host'
+            with self.assertRaises(rotation.RotationError):
+                rotation._check_native_input_record(wrong_host, predecessor, 100000, 30000, calibration)
             # Change the entire member population as well as the version: this
             # catches an actual downgrade, not merely a malformed schema label.
             record['schema'] = ('implementaudit.rotation-native-input.v1' if current_schema else

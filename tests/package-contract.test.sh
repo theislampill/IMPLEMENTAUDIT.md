@@ -331,4 +331,9 @@ PY
 
 python fixtures/package-contract/installed_modes_test.py
 
+# Bounded compression reuse is a build-local optimization; fault and eviction
+# controls use a declared unit provider, so this contract gate needs no zopfli.
+python fixtures/package-contract/build_local_compression_test.py \
+  --source "$repo_root" --out "$tmp/build-local-compression" --unit-provider
+
 printf 'package-contract.test: ok\n'

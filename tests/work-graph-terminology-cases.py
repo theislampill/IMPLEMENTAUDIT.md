@@ -51,7 +51,7 @@ class TerminologyFixture(shared.ProfileFixture):
     def setUp(self):
         super().setUp()
         for name, data in {
-            self.A.RUNNER: (ROOT / self.A.RUNNER).read_bytes(),
+            self.A.RUNNER: H.selected_input_bytes(self.A.RUNNER, H.ORIGINAL105_RUNNER["sha256"]),
             '.git': b'gitdir: /not-an-original-git-input\n',
             '.hidden': b'captured hidden member\n',
             'docs/research/opaque.bin': b'\xff\x00\xfe\n',

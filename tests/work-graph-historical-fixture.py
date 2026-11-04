@@ -28,6 +28,11 @@ SUPPLEMENTAL = {
         "sha256": "1a73009c7085c66797d9310258b2b1d723f304a0034cbc6a7ce16e1c97283b92", "mode": 0o644,
     },
 }
+# The original105 source tuple selected this exact runner before the default
+# carrier descriptor repair. It remains separate from both original117 and
+# current variable source bytes, and is selected only while building fixtures.
+ORIGINAL105_RUNNER = dict(specimen="original105-runner/run-work-graph-verifier.sh",
+    bytes=15266, sha256="6f6d2bdbcf8350d6b370d37a5e15f4ddb73d336b5bc42d941540f3269613150f")
 ENGINE_NAMES = ("scripts/qualify-work-graph-verifier.py",
                 "scripts/run-work-graph-verifier.sh",
                 "skills/implementaudit/scripts/compile-work-graph.py",
@@ -66,9 +71,10 @@ def copy_input(name, destination):
 
 def selected_input_bytes(name, expected):
     """An explicit successor runner selection never changes historical defaults."""
-    if (name == "scripts/run-work-graph-verifier.sh" and expected ==
-            "6f6d2bdbcf8350d6b370d37a5e15f4ddb73d336b5bc42d941540f3269613150f"):
-        raw = (ROOT / name).read_bytes()
+    if name == "scripts/run-work-graph-verifier.sh" and expected == ORIGINAL105_RUNNER["sha256"]:
+        raw = (COLLECTION / ORIGINAL105_RUNNER["specimen"]).read_bytes()
+        if len(raw) != ORIGINAL105_RUNNER["bytes"]:
+            raise ValueError("fixture does not supply selected source pin: " + name)
     else:
         raw = input_bytes(name)
     if hashlib.sha256(raw).hexdigest() != expected:
@@ -96,12 +102,17 @@ def load(name, path):
 
 
 def copy_engine(destination):
-    """Current driver/compiler/finite helper plus its exact historical dependency."""
+    """Current driver/compiler/helper with exact historical runner and prefix."""
     destination = Path(destination)
     for name in ENGINE_NAMES:
         path = destination / name
         path.parent.mkdir(parents=True, exist_ok=True)
-        raw = original(name) if name == "scripts/qualify-work-graph-prefix.py" else (ROOT / name).read_bytes()
+        if name == "scripts/qualify-work-graph-prefix.py":
+            raw = original(name)
+        elif name == "scripts/run-work-graph-verifier.sh":
+            raw = selected_input_bytes(name, ORIGINAL105_RUNNER["sha256"])
+        else:
+            raw = (ROOT / name).read_bytes()
         path.write_bytes(raw)
         path.chmod((ROOT / name).stat().st_mode & 0o777)
     return destination

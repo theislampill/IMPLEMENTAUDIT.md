@@ -492,24 +492,46 @@ def selected_codex_stop(policy_path: Path, expected_digest: str) -> int:
     text = event["last_assistant_message"] or ""
     with response.open("xb") as handle:
         handle.write(text.encode("utf-8")); handle.flush(); os.fsync(handle.fileno())
-    result = selected_record_verdict(policy, run_root, helper, custody, response,
-                                     disposition, record_binding)
+    result = None
     output = None
-    if result.returncode == 0:
-        output = json_result(result, "lifecycle disposition")
-        if output.get("record_disposition") != disposition:
-            raise InterlockUnavailable("lifecycle owner returned another disposition")
+    validator_error = None
+    try:
+        result = selected_record_verdict(policy, run_root, helper, custody, response,
+                                         disposition, record_binding)
+        if result.returncode == 0:
+            output = json_result(result, "lifecycle disposition")
+            if output.get("record_disposition") != disposition:
+                raise InterlockUnavailable("lifecycle owner returned another disposition")
+    except (InterlockUnavailable, OSError, RuntimeError, KeyError, TypeError, ValueError,
+            subprocess.SubprocessError) as error:
+        # Failure is still an observation. Do not lose the selected event and
+        # validator diagnostics by escaping before the receipt is durable. The
+        # exception message/command may contain unrelated sensitive arguments;
+        # retain its type and bounded partial streams instead.
+        validator_error = {"type": type(error).__name__, "phase": "record_validation"}
+        output = None
+        if result is None:
+            def partial_text(value):
+                if isinstance(value, bytes):
+                    return value[:MAX_INPUT_BYTES].decode("utf-8", errors="replace")
+                return value[:MAX_INPUT_BYTES] if isinstance(value, str) else ""
+            result = subprocess.CompletedProcess([], None,
+                partial_text(getattr(error, "stdout", None)),
+                partial_text(getattr(error, "stderr", None)))
     receipt = {"schema": "implementaudit.codex-stop-observation.v1",
         "event": event, "event_sha256": event_digest, "policy_sha256": expected_digest,
         "binding": binding, "validator_exit": result.returncode,
+        "validator_accepted": validator_error is None and result.returncode == 0,
         "validator_stdout": result.stdout, "validator_stderr": result.stderr,
         "record_disposition": output, "selected_disposition": disposition,
         "host_execution_authenticated": False,
         "acceptance": "REQUIRES_INDEPENDENT_NATIVE_HOOK_AND_CONTINUATION_RECEIVING"}
+    if validator_error is not None:
+        receipt["validator_error"] = validator_error
     with (evidence / (event_digest + ".json")).open("x", encoding="utf-8") as handle:
         json.dump(receipt, handle, sort_keys=True, ensure_ascii=False); handle.write("\n")
         handle.flush(); os.fsync(handle.fileno())
-    if result.returncode:
+    if validator_error is not None or result.returncode:
         emit({"decision": "block", "reason": "IMPLEMENTAUDIT DG10: the existing lifecycle owner refused this turn disposition. Read the exact native Stop receipt "
               + str(evidence / (event_digest + ".json")) + "; preserve all obligations and correct the actual refusal before another Stop."})
     else:

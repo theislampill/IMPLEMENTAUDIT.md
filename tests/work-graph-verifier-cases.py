@@ -1152,8 +1152,9 @@ def capture_boundary_cases(root, directory, registry, prelude, tail):
     assert checked.returncode == 0, (checked.stdout, checked.stderr)
     (root / "scripts/verify-package.sh").write_bytes(registry)
     # A malformed real trace may fail postprocessing, but must retain exit 9.
-    sample.write_text("#!/bin/bash\nprintf 'sample\\n'\nprintf 'FOREIGN\\tPASS\\n' >&3\nexit 9\n")
     output = directory / "capture-trace-parser-failure"
+    sample.write_text("#!/bin/bash\nprintf 'sample\\n'\nprintf 'FOREIGN\\tPASS\\n' >> " +
+                      shlex.quote(str(output / "nodes.tsv")) + "\nexit 9\n")
     process = run_command([sys.executable, "-B", "scripts/qualify-work-graph-verifier.py",
                            "dag", str(output)], cwd=root, capture_output=True)
     assert process.returncode == 2 and b"trace" in process.stderr

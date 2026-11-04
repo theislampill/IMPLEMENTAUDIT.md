@@ -1,0 +1,19 @@
+{
+  "schema": "work-graph-c5-exact-historical-source-v1",
+  "authority": "EVIDENCE_ONLY_NO_EXECUTION_OR_ACCEPTANCE_AUTHORITY",
+  "provenance": {
+    "source": "Exact R2 postimage before shared R3 continuity repair",
+    "public_base": "123089d1",
+    "r2_combined_patch_sha256": "ed9801dd5331a3663c5e558adc370a32fa4c994dd2055a25ade814e05d4bc1f6",
+    "captured_preimage_manifest": "R2_PREIMAGE_MANIFEST.json",
+    "purpose": "Retain the physical compiler required by existing public-streaming and current105 V1 source tuples; do not redefine their pins."
+  },
+  "files": [
+    {
+      "path": "skills/implementaudit/scripts/compile-work-graph.py",
+      "bytes": 261851,
+      "sha256": "25f2c24645cc65ed4b9bfbd70bb2d0ce26eb6accc51de0af0df06b3bdff5b627",
+      "mode": "0644"
+    }
+  ]
+}

@@ -140,7 +140,8 @@ class NativeClaim(unittest.TestCase):
         marker = b'OWNED_STDIO_SELECTION_PIN = None'
         self.assertEqual(template.count(marker), 1)
         materialized = template.replace(marker, b'OWNED_STDIO_SELECTION_PIN = ' + repr(pin(profile)).encode())
-        self.assertLessEqual(len(materialized), 131072)
+        # Match the existing private owner selector; capture runner has its own 128 KiB guard.
+        self.assertLessEqual(len(materialized), 512 * 1024)
         (self.fixture.scripts / 'compaction-source-owner-codex-app.py').write_bytes(materialized)
         selected = self.owner._native_selection_v1(self.context)
         def close_selection():

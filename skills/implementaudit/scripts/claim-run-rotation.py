@@ -122,8 +122,8 @@ POINTER_KEYS = {"schema", "controller", "claim_id", "run_root_identity",
                 "projection_schema", "state_sha256", "roadmap_sha256",
                 "protected_manifest_sha256", "archive_manifest_sha256", "exact_next_action"}
 MAX_BYTES = 64 * 1024 * 1024
-_PROJECTION_MODULE_BYTES = 127297
-_PROJECTION_MODULE_SHA256 = "8ea4b99162ebaf4f1338fbb9086b4da2fd58d94dea3cac6d82d64744520de631"
+_PROJECTION_MODULE_BYTES = 129890
+_PROJECTION_MODULE_SHA256 = '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678'
 
 
 class RotationError(RuntimeError):
@@ -1530,7 +1530,11 @@ class _NativePredecessorReadV1:
                 for role in ('state', 'roadmap')):
             raise RotationError('native predecessor owner/code or exact source bytes are not retained')
         self._retained.verify()
-        self._scope._native_ref_custody()  # Reverify held Git routing/config inputs.
+        fresh = _FRESH_NATIVE_OPERATION_V1.get()
+        if os.name == 'posix' and fresh is not None and fresh[0] == context:
+            fresh[1].verify_git_routing_v1(context,self._scope)
+        else:
+            self._scope._native_ref_custody()  # Exact historical Windows custody.
 
     def verify(self):
         if _NATIVE_PREDECESSOR_BINDING_V1 is not self:
@@ -1585,7 +1589,8 @@ def _native_predecessor_scope_v1(read, retained):
 # pins its provider artifact; public accepting-core bytes contain no private
 # repo/issuer/episode literal. Only the governed private pin expression may vary
 # from this source-owner template. Actual episode/grant data comes AFTER OPEN.
-_NATIVE_SOURCE_OWNER_TEMPLATE_SHA256 = '681b22da6ee2fc5a84cfab7547a9f0551a76c97659e6b5c5b7158ff910117c23'
+_NATIVE_SOURCE_OWNER_TEMPLATE_SHA256 = '8d6e51fcd82ab3d236c5b6707129228a73483fcb7700825c42b0fb797cef9ebf'
+_NATIVE_SOURCE_OWNER_TEMPLATE_SHA256S = {_NATIVE_SOURCE_OWNER_TEMPLATE_SHA256, '5e10f2e36842c7f5dcfe5a131da43c502e9f36b0d1d727ca9bdb4412bde4c523'}
 _NATIVE_PRIVATE_PROFILE_V1 = None
 _NATIVE_INPUT_RESOLVED_V1 = None
 _NATIVE_INPUT_BINARY_PIN_V1 = None
@@ -1630,7 +1635,7 @@ def _private_native_input_selection_v1(context):
         start = sum(map(len, rows[:value.lineno - 1])) + value.col_offset
         end = sum(map(len, rows[:value.end_lineno - 1])) + value.end_col_offset
         normalized = raw[:start] + b'None' + raw[end:]
-        if hashlib.sha256(normalized).hexdigest() != _NATIVE_SOURCE_OWNER_TEMPLATE_SHA256:
+        if hashlib.sha256(normalized).hexdigest() not in _NATIVE_SOURCE_OWNER_TEMPLATE_SHA256S:
             raise RotationError('private native owner differs from the reviewed source template')
         if pin is None:
             return None
@@ -2228,6 +2233,16 @@ class _NativePreparationConsumerV1:
 @contextlib.contextmanager
 def _native_preparation_scope_v1(context, read, retained, subject, source_bytes, source_tokens):
     global _NATIVE_PREPARATION_CONSUMER_V1
+    fresh = _FRESH_NATIVE_OPERATION_V1.get()
+    if fresh is not None:
+        active_context, source = fresh
+        if active_context is not context:
+            raise RotationError('fresh native preparation crossed existing owner context')
+        read.verify(); retained.verify(); source.verify()
+        source.prepare_v1(subject,source_bytes,source_tokens,read.predecessor())
+        yield source
+        source.verify()
+        return
     if _NATIVE_PREPARATION_CONSUMER_V1 is not None:
         raise RotationError('native preparation consumer cannot be nested or replayed')
     selected = _native_selection_v1(context)
@@ -2409,6 +2424,12 @@ def _resolve_native_input_state_v1(native, controller):
     global _NATIVE_INPUT_RESOLVED_V1
     if type(controller) is not str or not CONTROLLER.fullmatch(controller):
         raise native.NativeInputError('NATIVE_INPUT_EXISTING_OWNER_SELECTION_ABSENT')
+    fresh = _FRESH_NATIVE_OPERATION_V1.get()
+    if fresh is not None:
+        context, source = fresh
+        if controller != context['controller']:
+            raise native.NativeInputError('FRESH_NATIVE_FOREIGN_CONTROLLER')
+        return source.resolve_v1(native,controller)
     waiter = None
     try:
         if _NATIVE_INPUT_RESOLVED_V1 is not None:
@@ -2696,6 +2717,62 @@ class _C02OwnedOperation:
         self.signal('ISSUER_WITHDRAWN')
 
 
+_FRESH_NATIVE_OPERATION_V1 = _c02_contextvars.ContextVar('claim_fresh_native_operation', default=None)
+
+
+@contextlib.contextmanager
+def fresh_canary_native_operation_v1(context, *, _selected_source_owner):
+    """Actual selected current-native source in this one existing owner process.
+
+    This does not reopen the historical Windows durable-receiver profile. The
+    fixed getter is verified against the governed physical template and provider.
+    The source itself owns the live pipe, issuer, clocks and source/grant CAS.
+    """
+    import ast
+    if _FRESH_NATIVE_OPERATION_V1.get() is not None:
+        raise RotationError('fresh native operation cannot nest')
+    expected = context['repo'] / 'skills/implementaudit/scripts/compaction-source-owner-codex-app.py'  # source repo: separately provisioned current-native owner
+    if (type(_selected_source_owner) is not types.ModuleType or
+            Path(_selected_source_owner.__file__).absolute() != expected):
+        raise RotationError('fresh native source must be the physical materialized owner')
+    with contextlib.ExitStack() as held:
+        producer = held.enter_context(PinnedFile(expected,max_bytes=512*1024))
+        raw = producer.read()
+        declarations = [node for node in ast.parse(raw).body if isinstance(node,ast.Assign)
+            and len(node.targets)==1 and isinstance(node.targets[0],ast.Name)
+            and node.targets[0].id=='OWNED_STDIO_SELECTION_PIN']
+        if len(declarations)!=1:
+            raise RotationError('fresh native provider declaration is not unique')
+        value=declarations[0].value; pin=ast.literal_eval(value); rows=raw.splitlines(keepends=True)
+        start=sum(map(len,rows[:value.lineno-1]))+value.col_offset
+        end=sum(map(len,rows[:value.end_lineno-1]))+value.end_col_offset
+        if hashlib.sha256(raw[:start]+b'None'+raw[end:]).hexdigest() not in _NATIVE_SOURCE_OWNER_TEMPLATE_SHA256S:
+            raise RotationError('fresh native source differs from reviewed template')
+        if (type(pin) is not dict or set(pin)!={'path','bytes','sha256'} or
+                type(pin['path']) is not str or not Path(pin['path']).is_absolute() or
+                type(pin['bytes']) is not int or not 0<pin['bytes']<=256*1024 or
+                type(pin['sha256']) is not str or not SHA256.fullmatch(pin['sha256'])):
+            raise RotationError('fresh native fixed provider pin is invalid')
+        provider=held.enter_context(PinnedFile(Path(pin['path']),max_bytes=256*1024)); payload=provider.read()
+        if len(payload)!=pin['bytes'] or hashlib.sha256(payload).hexdigest()!=pin['sha256']:
+            raise RotationError('fresh native fixed provider changed')
+        getter=getattr(_selected_source_owner,'get_selected_fresh_rotation_v1',None)
+        compiled=compile(raw,str(expected),'exec',dont_inherit=True)
+        code=next((v for v in compiled.co_consts if isinstance(v,types.CodeType) and
+            v.co_name=='get_selected_fresh_rotation_v1'),None)
+        if (type(getter) is not types.FunctionType or code is None or getter.__closure__ is not None or
+                getter.__globals__ is not _selected_source_owner.__dict__ or
+                getter.__code__.replace(co_filename=str(expected)) != code):
+            raise RotationError('fresh native getter is not the fixed physical function')
+        source=getter(context)
+        token=_FRESH_NATIVE_OPERATION_V1.set((context,source))
+        try:
+            yield source
+            producer.verify(); provider.verify(); source.verify()
+        finally:
+            _FRESH_NATIVE_OPERATION_V1.reset(token)
+
+
 @contextlib.contextmanager
 def c02_owned_operation_v1(context, invalidation_token, decision, *, _selected_source_owner=None):
     """Use the same materialized, template-bound existing owner as native OR."""
@@ -2721,7 +2798,7 @@ def c02_owned_operation_v1(context, invalidation_token, decision, *, _selected_s
             rows = raw.splitlines(keepends=True)
             start = sum(map(len, rows[:value.lineno - 1])) + value.col_offset
             end = sum(map(len, rows[:value.end_lineno - 1])) + value.end_col_offset
-            if hashlib.sha256(raw[:start] + b'None' + raw[end:]).hexdigest() != _NATIVE_SOURCE_OWNER_TEMPLATE_SHA256:
+            if hashlib.sha256(raw[:start] + b'None' + raw[end:]).hexdigest() not in _NATIVE_SOURCE_OWNER_TEMPLATE_SHA256S:
                 raise RotationError('C02 materialized owner differs from the shared reviewed source template')
             if (type(pin) is not dict or set(pin) != {'path', 'bytes', 'sha256'}
                     or type(pin['path']) is not str or not Path(pin['path']).is_absolute()
@@ -2923,9 +3000,16 @@ def materialize_c02_owner_revisions_v1(context, invalidation_token, decision, *,
             if current != {refs['ref']: source_oid, refs['grant_ref']: grant_oid}:
                 raise CASFailure('C02 materialized revisions changed during readback')
         except BaseException as exc:
-            current = read_refs(context['repo'], refs.values())
-            landed = current.get(refs['ref']) == source_oid or current.get(refs['grant_ref']) == grant_oid
-            if landed or isinstance(exc, C02MaterializationUnknown):
+            try:
+                current = read_refs(context['repo'], refs.values())
+            except BaseException:
+                # The issued CAS may have landed. Failed reconciliation is not
+                # evidence of no effect and must not demote UNKNOWN to a plain
+                # custody/read error that a caller could treat as retryable.
+                current = None
+            landed = current is not None and (current.get(refs['ref']) == source_oid
+                                              or current.get(refs['grant_ref']) == grant_oid)
+            if current is None or landed or isinstance(exc, C02MaterializationUnknown):
                 try:
                     operation.signal('SOURCE_CLOSED')
                 except BaseException:
@@ -3796,7 +3880,7 @@ def run_canonical_rotation_v1(context, owner_map_path, calibration, *, tokenizer
                 token_input['tokenizer_bytes'] = read_regular(Path(tokenizer_encoding).absolute())
             native_lease = None
             if native_input:
-                if calibration != helper.full_or_calibration_contract_v1():
+                if calibration not in helper._live_or_calibrations_v1():
                     raise RotationError("native input requires the exact complete OR policy")
                 source = tuple(read_regular(context['repo'] / predecessor[key + '_path'])
                                for key in ('state', 'roadmap'))

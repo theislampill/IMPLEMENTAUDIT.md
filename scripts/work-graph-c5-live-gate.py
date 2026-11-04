@@ -64,6 +64,34 @@ def node(name, **changes):
     return value
 
 
+class _PrefixReadback(E.Readback):
+    """Reuse verified immutable bytes inside the guarded live owner.
+
+    Every new descriptor uses the complete maintained reader. The enclosing
+    handle_next checks every owned file before and after prefix consumption,
+    including byte digests and physical identity, before sending any ACK. An
+    exactly repeated proof may seed a fresh reader with its verified bytes and
+    accounting; final verification uses the ordinary independent reader.
+    """
+    def __init__(self, directory):
+        super().__init__(directory)
+        self._prefix_blobs = {}
+
+    def blob(self, descriptor):
+        E.fields(descriptor, 'bytes sha256', 'blob')
+        E.demand(E.integer(descriptor['bytes']) and 0 <= descriptor['bytes'] <= E.MAX_FILE
+                 and type(descriptor['sha256']) is str and E.HEX.fullmatch(descriptor['sha256']),
+                 'invalid blob identity')
+        name = descriptor['sha256']
+        if name not in self._prefix_blobs:
+            self._prefix_blobs[name] = super().blob(descriptor)
+        data = self._prefix_blobs[name]
+        E.demand(len(data) == descriptor['bytes'], 'retained blob identity mismatch')
+        E.demand(len(self.used) <= E.MAX_MEMBERS and self.total <= E.MAX_TOTAL,
+                 'capture namespace exceeds bound')
+        return data
+
+
 class LiveC5Gate:
     """Private component of one fixed executor; no serialized result entrypoint.
 
@@ -105,6 +133,8 @@ class LiveC5Gate:
             path.mkdir(mode=0o700)
         self._owned, self._captured, self._projections, self._effects = {}, {}, {}, {}
         self._session = self._contract = self._pending = self._consumer_frontier = None
+        self._source_copy_cache = self._source_copy_binding = self._source_copy_session = None
+        self._prefix_proof = None
         self._sequence, self._event_count, self._received_bytes = 0, 0, 0
         self._finished = self._failed = self._closed = self._reaped = False
         self._wait_result = None
@@ -287,7 +317,34 @@ class LiveC5Gate:
             input_root=self.output / 'inputs', compiler_sha256=COMPILER_SHA)
 
     def _prefix(self):
-        reader = E.Readback(self.capture)
+        # The same completed event prefix occurs at AFTER and the next BEFORE.
+        # Cache only that exact pure proof, under the unchanged fresh owned-byte
+        # and physical-identity checks in handle_next before/after consumption.
+        # Live operands, copy/allocation custody, and final full receiving are
+        # outside this reuse. A new event or any input binding changes the key.
+        reader = _PrefixReadback(self.capture)
+        names = []
+        for group in ('events', 'processes'):
+            actual = sorted(os.listdir(E.no_alias(self.capture / group)))
+            expected = sorted(name[len(group) + 1:] for name in self._captured
+                              if name.startswith(group + '/'))
+            demand(actual == expected, 'live prefix captured population changed')
+            names.extend(group + '/' + name for name in actual)
+        binding = encode(dict(capture=str(self.capture), session=self._session,
+                              members={name: self._captured[name] for name in names}))
+        proof = self._prefix_proof
+        if proof is not None and binding == proof['binding']:
+            demand(all(self._captured.get('blobs/' + name) == descriptor
+                       for name, descriptor in proof['blob_descriptors'].items()),
+                   'live prefix retained blob descriptor changed')
+            reader._prefix_blobs = dict(proof['blobs'])
+            reader.used = set(proof['used'])
+            reader.process_used = set(proof['process_used'])
+            reader.total = proof['total']
+            E.demand(len(reader.used) <= E.MAX_MEMBERS and reader.total <= E.MAX_TOTAL,
+                     'capture namespace exceeds bound')
+            result = json.loads(proof['result'])
+            return reader, result['events'], result['generations']
         events, _ = E.read_events(self.capture, reader, self._session)
         issues, generations = E.assess_events(reader, self._session, events)
         processes, failures, process_issues = E.read_process_results(self.capture, reader, self._session, events)
@@ -297,7 +354,59 @@ class LiveC5Gate:
         demand(len(processes) == len(events) and issues == allowed and not failures
                and process_issues == allowed_process,
                'actual producer/consumer outcome, clone, source or raw correspondence refused')
+        self._prefix_proof = dict(binding=binding, result=encode(dict(events=events, generations=generations)),
+            blobs=dict(reader._prefix_blobs), used=set(reader.used), process_used=set(reader.process_used),
+            total=reader.total, blob_descriptors={name: dict(self._captured['blobs/' + name]) for name in reader.used})
         return reader, events, generations
+
+    def _source_copy_admission(self, events, reader):
+        """Reuse invariant admitted copy data inside this guarded live owner.
+
+        The first call executes the complete maintained copy verifier. Every
+        later prefix retains the exact session and all ten captured source-copy
+        input descriptors, checks the two directory populations, accounts for
+        the runtime observation, and checks every event's time and physical
+        script custody. handle_next still verifies every owned byte and inode
+        before and after this call, before ACK. FINISH and final receiving use
+        the complete independent verifier, without this reuse.
+        """
+        names = ['session.json', 'allocation.json']
+        names += ['copies/' + lane + '.json' for lane in 'ab']
+        names += ['copy-processes/' + lane + '-' + str(index) + '.json'
+                  for lane in 'ab' for index in range(3)]
+        demand(set(names) <= set(self._captured), 'source-copy captured inputs are missing')
+        binding = encode({name: self._captured[name] for name in names})
+        session = digest(encode(self._session))
+        if self._source_copy_cache is None:
+            result = E.verify_source_copies(self.capture, self._session, events, reader)
+            self._source_copy_binding, self._source_copy_session = binding, session
+            self._source_copy_cache = result
+            return result
+        demand(binding == self._source_copy_binding and session == self._source_copy_session,
+               'source-copy admitted input binding changed')
+        E.demand(sorted(os.listdir(E.no_alias(self.capture / 'copies'))) == ['a.json', 'b.json'],
+                 'C5 source-copy admission missing')
+        E.demand(sorted(os.listdir(E.no_alias(self.capture / 'copy-processes'))) ==
+                 [lane + '-' + str(index) + '.json' for lane in 'ab' for index in range(3)],
+                 'C5 original copy process receipt missing or extra')
+        for lane in 'ab':
+            row = self._source_copy_cache[lane]
+            E.demand(not events or row['commands'][-1]['end_monotonic_ns'] <= events[0]['start_monotonic_ns'],
+                     'C5 source copy occurred after original events')
+            executable_item = row['executable_before']
+            E.observation(reader, executable_item, executable_item['path'])
+            for event in events:
+                if event['clone_before'] is None or not event['role'].endswith(':' + lane):
+                    continue
+                for role, expected in self._session['source_scripts'].items():
+                    member = row['inventory'].get(expected['path'])
+                    E.demand(member is not None and dict(bytes=member['bytes'], sha256=member['sha256']) == expected['blob']
+                             and member['stat']['mode'] == expected['mode'],
+                             'C5 source-copy script bytes/mode differ')
+                    for when in ('before', 'after'):
+                        E.demand(event['clone_' + when]['scripts'][role]['stat'] == member['stat'],
+                                 'C5 admitted source-copy target physical custody differs')
+        return self._source_copy_cache
 
     def _before(self, payload):
         demand(self._session is not None and self._pending is None and not self._failed and not self._finished,
@@ -333,7 +442,7 @@ class LiveC5Gate:
         demand(not clone_issues, 'clone source or currentness refused before dispatch')
         if self.correspondence:
             E.verify_allocation(self.capture, self._session, events, pending_outputs=payload['outputs'])
-            admitted = E.verify_source_copies(self.capture, self._session, events, reader)
+            admitted = self._source_copy_admission(events, reader)
             if spec['lane'] is not None:
                 for role, source in self._session['source_scripts'].items():
                     demand(payload['clone']['scripts'][role]['stat'] ==
@@ -391,7 +500,7 @@ class LiveC5Gate:
         reader, events, _ = self._prefix()
         if self.correspondence:
             E.verify_allocation(self.capture, self._session, events)
-            E.verify_source_copies(self.capture, self._session, events, reader)
+            self._source_copy_admission(events, reader)
         demand(len(events) == self._event_count + 1, 'actual outcome is missing or duplicated')
         actual = events[-1]
         demand(all(actual[name] == value for name, value in pending['common'].items()),

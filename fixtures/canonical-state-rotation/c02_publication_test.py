@@ -432,6 +432,148 @@ class CorrectionPublication(unittest.TestCase):
         self.withdrawal_at_actual_cas('issuer')
 
 
+class ConfiguredIssuerPublication(unittest.TestCase):
+    """Constructed authorization; real configured file custody and consumers.
+
+    No native event, issuer entitlement or campaign acceptance is supplied here.
+    Unlike the generic lease fixture, the maintained configured issuer reader,
+    materializer, append publisher, fresh-transition consumer and Git CAS execute.
+    """
+    rotate = transaction_tests.RealHelperIntegration.rotate
+    digest = CorrectionPublication.digest
+    write_source = CorrectionPublication.write_source
+    write_grant = CorrectionPublication.write_grant
+    refs = CorrectionPublication.refs
+    required = CorrectionPublication.required
+    prepare = CorrectionPublication.prepare
+    publish = CorrectionPublication.publish
+
+    def setUp(self):
+        transaction_tests.RealHelperIntegration.setUp(self)
+        CorrectionPublication.seed_correction(self)
+        from pathlib import Path
+        source_path = transaction_tests.BASE / 'source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py'
+        spec = importlib.util.spec_from_file_location('configured_issuer_integration', source_path)
+        self.provider = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(self.provider)
+        self.subject = {key:self.context[key] for key in ('controller','claim_id','run_root_identity')}
+        scope = dict(self.subject, controller_oid=self.context['controller_oid'],
+            pointer_oid=self.joined['pointer_oid'], receipt_oid=self.joined['receipt_token'].split('@')[1],
+            marker_oid=self.joined['marker_oid'], correction_record_oid='$OBSERVED_EXACT_APPEND',
+            corrected_invalidation_oid=self.observed['invalidation_oid'],
+            projection_generation_id='G0003', continuity_epoch='G0003', source_cutoff=self.source['source_cutoff'])
+        self.decision_path = self.fixture.repo / 'constructed-issuer-decision.json'
+        self.configured = {'issuer':'fixture-only-issuer', 'census_owner':'fixture-only-source-owner',
+            'decision_path':str(self.decision_path), 'source_contract_locator':'constructed-only',
+            'owner_decision_locator':'constructed-only-not-native-admission'}
+        self.document = {'schema':'implementaudit.c02-configured-owner-decision.v1',
+            'issuer':'fixture-only-issuer', 'role':'CONTINUITY_ADJUDICATION_OWNER',
+            'subject':self.subject, 'decision_id':self.decision['decision_id'], 'revoked':False,
+            'qualification':'CONTROLLED_NONPROTECTED_FAULT_INJECTION', 'expected_old':None,
+            'source_cutoff':self.source['source_cutoff'], 'append_grant':self.grant,
+            'conditional_fresh_grant':{'schema':'implementaudit.c02-fresh-transition-grant.v1',
+                'issuer':'fixture-only-issuer', 'scope':scope, 'effect':'C02_FRESH_TRANSITION',
+                'code_sha256':hashlib.sha256(self.fixture.scripts.joinpath('claim-run-rotation.py').read_bytes()).hexdigest(),
+                'projection_code_sha256':hashlib.sha256(self.fixture.scripts.joinpath('rotate-canonical-state.py').read_bytes()).hexdigest(),
+                'revoked':False}}
+        self.decision_path.write_bytes(self.owner.canonical(self.document))
+
+    @contextlib.contextmanager
+    def configured_operation(self):
+        source = ConstructedSourceLease(self)
+        issuer = self.provider.ConfiguredC02IssuerV1(self.configured, self.subject, claim_owner=self.owner)
+        selected = dict(self.subject, repo=str(self.context['repo']), census_owner='fixture-only-source-owner',
+            issuer='fixture-only-issuer', source_contract_locator='constructed-only',
+            owner_decision_locator='constructed-only-not-native-admission')
+        try:
+            with mock.patch.object(self.owner, '_C02_ADMITTED_OWNER_SELECTION_V1', selected), \
+                    mock.patch.object(self.owner, '_resolve_c02_materializer_capabilities_v1', return_value=(source,issuer)):
+                with self.owner.c02_owned_operation_v1(self.context, self.event_token, self.decision) as operation:
+                    yield operation
+        finally:
+            issuer.close()
+
+    def materialize(self, correction_oid=None):
+        return self.owner.materialize_c02_owner_revisions_v1(self.context, self.event_token,
+            self.decision, correction_record_oid=correction_oid)
+
+    def test_configured_reader_materializes_append_and_distinct_fresh_transition(self):
+        with self.configured_operation():
+            first = self.materialize()
+            self.assertEqual(first['status'], 'OWNER_REVISIONS_MATERIALIZED')
+            self.assertEqual(self.materialize()['status'], 'EXACT_REVISION_RETRY_NO_EFFECT')
+            prepared = self.prepare()
+            appended = self.publish(prepared)
+            self.assertEqual(appended['status'], 'APPENDED_NO_CURRENTNESS')
+            self.assertEqual(self.publish()['status'], 'EXACT_RETRY_NO_EFFECT')
+            with self.assertRaises(self.owner.RotationError):
+                self.owner.require_current_generation_join_v1(self.context)
+            with self.assertRaises(self.owner.RotationError):
+                self.owner.run_c02_correction_v1(self.context, appended['record_oid'])
+            self.materialize(appended['record_oid'])
+            result = self.owner.run_c02_correction_v1(self.context, appended['record_oid'])
+            self.assertEqual(result['status'], 'CORRECTED_FRESH')
+            before = self.refs()
+            self.assertEqual(self.owner.run_c02_correction_v1(self.context, appended['record_oid'])['status'],
+                             'ALREADY_CORRECTED')
+            self.assertEqual(self.refs(), before)
+        joined = self.owner.require_current_generation_join_v1(self.context)
+        self.assertEqual(joined['receipt_token'], result['receipt_token'])
+        self.assertEqual(joined['protected_manifest']['PRESERVED_PAYLOAD']['payload'],
+                         self.joined['protected_manifest']['PRESERVED_PAYLOAD']['payload'])
+        self.assertEqual(joined['marker_oid'], self.joined['marker_oid'])
+        self.assertEqual(len(self.owner.read_blob(self.fixture.repo, result['receipt_token'].split('@')[1]).strip().split(b'\t')), 14)
+        for oid in (self.observed['invalidation_oid'], appended['record_oid']):
+            self.owner.require_anchor(self.context, oid)
+
+    def test_configured_issuer_same_bytes_replacement_at_real_cas_is_unknown(self):
+        real_git = self.owner.git_process
+        fired = []
+        with self.assertRaises(self.owner.C02MaterializationUnknown):
+            with self.configured_operation():
+                self.materialize()
+                prepared = self.prepare()
+                def replace(repo, *args, **kwargs):
+                    if args[:3] == ('update-ref','--stdin','-z') and not fired:
+                        fired.append(True)
+                        self.decision_path.rename(self.decision_path.with_suffix('.retained'))
+                        self.decision_path.write_bytes(self.owner.canonical(self.document))
+                    return real_git(repo, *args, **kwargs)
+                with mock.patch.object(self.owner, 'git_process', side_effect=replace):
+                    self.publish(prepared)
+        self.assertEqual(fired, [True])
+        self.owner.require_anchor(self.context, prepared['record_oid'])
+        self.assertEqual(self.owner.read_ref(self.fixture.repo, self.context['invalidation_ref']),
+                         self.observed['invalidation_oid'])
+        with self.assertRaises(self.owner.RotationError):
+            self.owner.require_current_generation_join_v1(self.context)
+
+    def test_materialization_unavailable_readback_retains_unknown_after_real_effect(self):
+        real_git, real_read = self.owner.git_process, self.owner.read_refs
+        committed = []
+        def issue(repo, *args, **kwargs):
+            result = real_git(repo, *args, **kwargs)
+            if args[:3] == ('update-ref','--stdin','-z'):
+                committed.append(result.returncode)
+            return result
+        def unavailable(*args, **kwargs):
+            if committed:
+                raise self.owner.CustodyError('constructed readback unavailable after real Git commit')
+            return real_read(*args, **kwargs)
+        with self.assertRaises(self.owner.C02MaterializationUnknown):
+            with self.configured_operation():
+                with mock.patch.object(self.owner, 'git_process', side_effect=issue), \
+                        mock.patch.object(self.owner, 'read_refs', side_effect=unavailable):
+                    self.materialize()
+        self.assertEqual(committed, [0])
+        refs = self.owner._c02_owner_revision_refs_v1(self.context)
+        source_oid = self.owner.read_ref(self.fixture.repo, refs['ref'])
+        self.assertIsNotNone(source_oid)
+        self.owner.require_anchor(self.context, source_oid)
+        with self.assertRaises(self.owner.RotationError):
+            self.owner.require_current_generation_join_v1(self.context)
+
+
 class FreshCorrection(unittest.TestCase):
     """Explicit fresh-transition stimuli; the real production issuer is absent."""
     rotate = transaction_tests.RealHelperIntegration.rotate

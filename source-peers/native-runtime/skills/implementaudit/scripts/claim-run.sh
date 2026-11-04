@@ -1902,8 +1902,8 @@ import types
 
 argument_path = sys.argv[1]
 path = Path(os.path.abspath(argument_path))
-expected_bytes = 246657
-expected_sha256 = "82ddcbb3cf476098fbcac57c0550d4240457688df2c4504c8ab8caea2c3367b1"
+expected_bytes = 247069
+expected_sha256 = "60b96654209ffa21091ce0bdcda1135d73ff0c116750842277019a1b26787a4f"
 nodes = []
 descriptor = None
 def identity(info):

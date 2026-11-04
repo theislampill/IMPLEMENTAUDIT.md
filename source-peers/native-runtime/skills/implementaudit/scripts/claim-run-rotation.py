@@ -1567,7 +1567,7 @@ def _native_predecessor_scope_v1(read, retained):
 # pins its provider artifact; public accepting-core bytes contain no private
 # repo/issuer/episode literal. Only the governed private pin expression may vary
 # from this source-owner template. Actual episode/grant data comes AFTER OPEN.
-_NATIVE_SOURCE_OWNER_TEMPLATE_SHA256 = '681b22da6ee2fc5a84cfab7547a9f0551a76c97659e6b5c5b7158ff910117c23'
+_NATIVE_SOURCE_OWNER_TEMPLATE_SHA256 = '8d6e51fcd82ab3d236c5b6707129228a73483fcb7700825c42b0fb797cef9ebf'
 _NATIVE_PRIVATE_PROFILE_V1 = None
 _NATIVE_INPUT_RESOLVED_V1 = None
 _NATIVE_INPUT_BINARY_PIN_V1 = None
@@ -2905,9 +2905,16 @@ def materialize_c02_owner_revisions_v1(context, invalidation_token, decision, *,
             if current != {refs['ref']: source_oid, refs['grant_ref']: grant_oid}:
                 raise CASFailure('C02 materialized revisions changed during readback')
         except BaseException as exc:
-            current = read_refs(context['repo'], refs.values())
-            landed = current.get(refs['ref']) == source_oid or current.get(refs['grant_ref']) == grant_oid
-            if landed or isinstance(exc, C02MaterializationUnknown):
+            try:
+                current = read_refs(context['repo'], refs.values())
+            except BaseException:
+                # The issued CAS may have landed. Failed reconciliation is not
+                # evidence of no effect and must not demote UNKNOWN to a plain
+                # custody/read error that a caller could treat as retryable.
+                current = None
+            landed = current is not None and (current.get(refs['ref']) == source_oid
+                                              or current.get(refs['grant_ref']) == grant_oid)
+            if current is None or landed or isinstance(exc, C02MaterializationUnknown):
                 try:
                     operation.signal('SOURCE_CLOSED')
                 except BaseException:

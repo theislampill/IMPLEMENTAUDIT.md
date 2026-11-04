@@ -344,6 +344,38 @@ SOURCE_PROFILES_V1['composite-20261028-dg10-native-stop-v1-original14'] = (('cla
 # DG18 prospective Windows resume source; historical profiles remain immutable.
 SOURCE_PROFILES_V1['composite-20261029-dg18-native-resume-v1-core'] = (('claim-run.sh', 31259, '1c00c1707443886a2eff09785fa945b8361f34fd1ee84b082a1326428456c3a7', 420), ('validate-run-root.sh', 114674, 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978', 420), ('claim-run-rotation.py', 259408, '969618c330cb4ae450af60431db9ab5e3a148610724e7fd674db10e2117103e8', 420), ('rotate-canonical-state.py', 127297, '8ea4b99162ebaf4f1338fbb9086b4da2fd58d94dea3cac6d82d64744520de631', 493), ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493), ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 420), ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493))
 SOURCE_PROFILES_V1['composite-20261029-dg18-native-resume-v1-original14'] = (('claim-run.sh', 104155, '472b9f6493fa5a6c11a4ce24ca7f64176a98de6756d2ac0eca3b25397ab331e6', None), ('validate-run-root.sh', 114674, 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978', None), ('claim-run-rotation.py', 246657, '82ddcbb3cf476098fbcac57c0550d4240457688df2c4504c8ab8caea2c3367b1', None), ('rotate-canonical-state.py', 127297, '8ea4b99162ebaf4f1338fbb9086b4da2fd58d94dea3cac6d82d64744520de631', None), ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None), ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None), ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None))
+# Current issuer custody and post-CAS uncertainty fixes; old source domains are immutable.
+SOURCE_PROFILES_V1['composite-20261104-dg17-dg18-custody-v1-core'] = (
+    ('claim-run.sh', 31259, '2405210c86bb842fcd3a1304e83f2a14eceb4c9f06a5d16f40c8a8e4531d4e28', 420),
+    ('validate-run-root.sh', 114674, 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978', 420),
+    ('claim-run-rotation.py', 259820, '2a35fc864297604be1839024fca899b3fb2becdb8d0f08377629b026d107051e', 420),
+    ('rotate-canonical-state.py', 127297, '8ea4b99162ebaf4f1338fbb9086b4da2fd58d94dea3cac6d82d64744520de631', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+)
+SOURCE_PROFILES_V1['composite-20261104-dg17-dg18-custody-v1-original14'] = (
+    ('claim-run.sh', 104155, '83411f994564f7d5e87cbfe61ba093bf0bfc338ea6b55b1bf4fa561883b7bd2a', None),
+    ('validate-run-root.sh', 114674, 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978', None),
+    ('claim-run-rotation.py', 247069, '60b96654209ffa21091ce0bdcda1135d73ff0c116750842277019a1b26787a4f', None),
+    ('rotate-canonical-state.py', 127297, '8ea4b99162ebaf4f1338fbb9086b4da2fd58d94dea3cac6d82d64744520de631', None),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None),
+    ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None),
+)
+# R4 fixed native-canary/source integration; all earlier profiles retain their identities.
+SOURCE_PROFILES_V1['composite-20261104-r4-native-canary-v4-core'] = (
+    ('claim-run.sh', 31259, 'cade5a010143b131ac70758ef68d907c4238dc5a596f341cc1be108eb1a147a0', 420),
+    ('validate-run-root.sh', 114674, 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978', 420),
+    ('claim-run-rotation.py', 264505, 'b599e7efbdac3008b5720f2b65796851eb163a2c287753d68abd232211c5d82a', 420),
+    ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+)
 ORIGINAL14_SOURCE_PROFILES_V1 = tuple(rows for rows in SOURCE_PROFILES_V1.values() if rows[0][3] is None)
 ORIGINAL14_SOURCE_PROFILE_V1 = SOURCE_PROFILES_V1["r0039-original14-windows"]
 
@@ -425,9 +457,16 @@ _WINDOWS_CORE8_PAIR_V1=('7cfd59d8569ad04221cd4779a803dfc451d5e47b2d4674ad6570905
 
 _WINDOWS_DG18_CORE8_PAIR_V1 = ('1c00c1707443886a2eff09785fa945b8361f34fd1ee84b082a1326428456c3a7', 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978')
 
+# Same existing Windows held-file contract for the distinct current CORE8 bytes.
+_WINDOWS_DG17_DG18_CUSTODY_CORE8_PAIR_V1 = ('2405210c86bb842fcd3a1304e83f2a14eceb4c9f06a5d16f40c8a8e4531d4e28', 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978')
+
+# Unchanged held-file contract for this exact new CORE8 source identity.
+_WINDOWS_R4_CANARY_CORE8_PAIR_V1 = ('cade5a010143b131ac70758ef68d907c4238dc5a596f341cc1be108eb1a147a0', 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978')
+
 def _windows_core_profile_v1(profile):
     return len(profile)==8 and tuple(row[2] for row in profile[:2]) in (
-        _WINDOWS_CORE8_PAIR_V1, _WINDOWS_DG18_CORE8_PAIR_V1)
+        _WINDOWS_CORE8_PAIR_V1, _WINDOWS_DG18_CORE8_PAIR_V1,
+        _WINDOWS_DG17_DG18_CUSTODY_CORE8_PAIR_V1, _WINDOWS_R4_CANARY_CORE8_PAIR_V1)
 
 def _platform_source_profile_v1(profile):
     if os.name=='nt' and _windows_core_profile_v1(profile):

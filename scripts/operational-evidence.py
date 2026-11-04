@@ -2011,6 +2011,42 @@ _NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((('claim-run.sh', 31259, '7cfd59d8569a
 _NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((('claim-run.sh', 31259, '7cfd59d8569ad04221cd4779a803dfc451d5e47b2d4674ad657090564c6c174d', 420), ('validate-run-root.sh', 114674, 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978', 420), ('claim-run-rotation.py', 259408, '1c70c0612bad4b2311bb89ddad60484937b5d195bf98380c3ef3e0d30d6cd94b', 420), ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', 493), ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493), ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 420), ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493)), (('claim-run.sh', 104155, '10baf97b4c773d8ac386627a455bb480e8353ccfdb909fc5253d3ac4c65ecd0f', None), ('validate-run-root.sh', 114674, 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978', None), ('claim-run-rotation.py', 246657, 'bc862f87428e86c608ddc5fe31ad8a3e2c8324b52c09ba379163db160ad70e93', None), ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', None), ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None), ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None), ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None)))
 # DG18 current source tuple; no historical qualification expansion.
 _NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((('claim-run.sh', 31259, '1c00c1707443886a2eff09785fa945b8361f34fd1ee84b082a1326428456c3a7', 420), ('validate-run-root.sh', 114674, 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978', 420), ('claim-run-rotation.py', 259408, '969618c330cb4ae450af60431db9ab5e3a148610724e7fd674db10e2117103e8', 420), ('rotate-canonical-state.py', 127297, '8ea4b99162ebaf4f1338fbb9086b4da2fd58d94dea3cac6d82d64744520de631', 493), ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493), ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 420), ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493)), (('claim-run.sh', 104155, '472b9f6493fa5a6c11a4ce24ca7f64176a98de6756d2ac0eca3b25397ab331e6', None), ('validate-run-root.sh', 114674, 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978', None), ('claim-run-rotation.py', 246657, '82ddcbb3cf476098fbcac57c0550d4240457688df2c4504c8ab8caea2c3367b1', None), ('rotate-canonical-state.py', 127297, '8ea4b99162ebaf4f1338fbb9086b4da2fd58d94dea3cac6d82d64744520de631', None), ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None), ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None), ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None)))
+# Current repaired source closure only; historical/native acceptance is not inherited.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += (
+    (
+        ('claim-run.sh', 31259, '2405210c86bb842fcd3a1304e83f2a14eceb4c9f06a5d16f40c8a8e4531d4e28', 420),
+        ('validate-run-root.sh', 114674, 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978', 420),
+        ('claim-run-rotation.py', 259820, '2a35fc864297604be1839024fca899b3fb2becdb8d0f08377629b026d107051e', 420),
+        ('rotate-canonical-state.py', 127297, '8ea4b99162ebaf4f1338fbb9086b4da2fd58d94dea3cac6d82d64744520de631', 493),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 420),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+    ),
+    (
+        ('claim-run.sh', 104155, '83411f994564f7d5e87cbfe61ba093bf0bfc338ea6b55b1bf4fa561883b7bd2a', None),
+        ('validate-run-root.sh', 114674, 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978', None),
+        ('claim-run-rotation.py', 247069, '60b96654209ffa21091ce0bdcda1135d73ff0c116750842277019a1b26787a4f', None),
+        ('rotate-canonical-state.py', 127297, '8ea4b99162ebaf4f1338fbb9086b4da2fd58d94dea3cac6d82d64744520de631', None),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None),
+    ),
+)
+# Explicit R4 source domains; no prior native/campaign acceptance is inherited.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += (
+    (
+        ('claim-run.sh', 31259, 'cade5a010143b131ac70758ef68d907c4238dc5a596f341cc1be108eb1a147a0', 420),
+        ('validate-run-root.sh', 114674, 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978', 420),
+        ('claim-run-rotation.py', 264505, 'b599e7efbdac3008b5720f2b65796851eb163a2c287753d68abd232211c5d82a', 420),
+        ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+        ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+    ),
+)
 _NATIVE_LEGACY_CONTINUITY_PAIRS_V1 = (
     ('07e09843b2831149dc43e5f0dc458e82ae5cf9614b116393ac774ddea19390c7',
      'fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5'),
@@ -2055,6 +2091,13 @@ _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['9ac6eb3862a95df809449a53ef81753b34823a
 # Prospective Windows fullsnapshot containment; all old transport identities remain.
 _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['e74b75859e471a3ddad6e04c645e61ff7e3b9974a511b524114913d010cf5c5e'] = 83793
 
+
+# Current repaired transport; every earlier exact transport remains retained.
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['7f6fbc766be6f6232d70cb4862f7b9298b27389bbbd408ed1bf76f475ed21bbb'] = 86153
+
+
+# Exact R4 transport; every prior receiver remains retained.
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['24f316c7a2eb83e7c11d39dcbeea6c00fc998b3bb03d8c4070ff4edb3ac3594c'] = 87494
 
 def _native_check_continuity_closure_v1(value, repository, compiler_path, pair):
     """Check the complete live source set at fixed paths, never captured paths.

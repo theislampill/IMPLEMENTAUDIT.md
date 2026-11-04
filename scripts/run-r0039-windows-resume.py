@@ -96,9 +96,9 @@ def environment(tools):
     return env
 
 
-def command(argv, cwd, env, out, label, *, require_success=True):
+def command(argv, cwd, env, out, label, *, require_success=True, timeout=180):
     result = subprocess.run([str(x) for x in argv], cwd=cwd, env=env,
-                            stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=180)
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=timeout)
     save(out / (label + '.stdout'), result.stdout)
     save(out / (label + '.stderr'), result.stderr)
     save(out / (label + '.json'), {'command': [str(x) for x in argv], 'exit_code': result.returncode,
@@ -157,6 +157,70 @@ def refs(request):
                      for family in ('continuity-receipts', 'state-archives'))
     return {ref: oid for ref, oid in (line.split(' ', 1) for line in raw.decode().splitlines())
             if ref in exact or ref.startswith(prefixes)}
+
+
+
+def unqualified_readback(request, prepared, out):
+    """Retain observations after an attempted effect; never qualify or retry it.
+
+    The recorded failure remains primary. Each query is independently bounded
+    and may refuse; neither equal ref scans nor successful queries prove a
+    coherent transition, receipt, currentness or native acceptance.
+    """
+    out.mkdir(exist_ok=False)
+    snapshot = prepared['snapshot']
+    observation = {'status': 'UNQUALIFIED_POST_ATTEMPT_OBSERVATION',
+                   'authority_ceiling': 'NO_CURRENTNESS_TRANSITION_OR_NATIVE_ACCEPTANCE',
+                   'automatic_retry': False, 'cleanup_or_compensation': False,
+                   'queries': {}, 'errors': {}, 'started_utc': utc()}
+
+    def unchanged(*, owner=False):
+        # Check physical bytes without invoking potentially changed tools.
+        Q.require(snapshot['tools'] == request['tools'], 'prepared tool identities differ')
+        for item in request['tools'].values():
+            Q.require(ident(item['path'])['sha256'] == item['sha256'],
+                      'tool identity changed; unqualified query refused')
+        if owner:
+            for name, expected in snapshot['runtime'].items():
+                Q.require(ident(Path(request['subject_root']) / name) == expected,
+                          'runtime identity changed; unqualified owner query refused: ' + name)
+            for name, expected in snapshot['recorders'].items():
+                Q.require(ident(Path(__file__).with_name(name)) == expected,
+                          'recorder identity changed; unqualified owner query refused: ' + name)
+
+    def observe(label, action):
+        try:
+            return action()
+        except Exception as error:
+            observation['errors'][label] = {'exception': type(error).__name__, 'detail': str(error)}
+            return None
+
+    def observed_refs():
+        unchanged()
+        return refs(request)
+
+    observation['refs_before_queries'] = observe('refs_before_queries', observed_refs)
+    for flag, label in (('--resolve-canonical-generation', 'resolve-canonical'),
+                        ('--resolve-resume-generation', 'resolve-resume'),
+                        ('--require-current-continuity', 'require-current')):
+        def query():
+            unchanged(owner=True)
+            result = command(claim(request, flag, request['controller']), request['subject_root'],
+                             environment(request['tools']), out, label, require_success=False, timeout=30)
+            return {'exit_code': result.returncode, 'stdout_sha256': Q.digest(result.stdout),
+                    'stderr_sha256': Q.digest(result.stderr)}
+        observation['queries'][label] = observe(label, query)
+    observation['refs_after_queries'] = observe('refs_after_queries', observed_refs)
+
+    def retained():
+        _, paths = retained_paths(request, prepared['before'])
+        return {role: observe('retained-' + role, lambda path=path: ident(path))
+                for role, path in paths.items()}
+    observation['retained_files'] = observe('retained_files', retained)
+    first, last = observation['refs_before_queries'], observation['refs_after_queries']
+    observation['ref_scans_equal'] = first == last if first is not None and last is not None else None
+    observation['ended_utc'] = utc()
+    save(out / 'OBSERVATION.json', observation)
 
 
 def payload(raw):
@@ -305,9 +369,25 @@ def execute(plan_path, expected_sha, entitlement):
         print(json.dumps({'status': result['status'], 'result_file': str(out / 'RESULT.json'),
                           'authority_ceiling': result['authority_ceiling']}, indent=2))
     except BaseException as exc:
-        save(out / 'FAILURE.json', {'status': 'OWNER_LAUNCH_ATTEMPTED_UNQUALIFIED' if launched else 'NO_OWNER_LAUNCH',
-                                   'exception': type(exc).__name__, 'detail': str(exc),
-                                   'automatic_retry': False, 'cleanup_or_compensation': False, 'ended_utc': utc()})
+        try:
+            save(out / 'FAILURE.json', {'status': 'OWNER_LAUNCH_ATTEMPTED_UNQUALIFIED' if launched else 'NO_OWNER_LAUNCH',
+                                       'exception': type(exc).__name__, 'detail': str(exc),
+                                       'automatic_retry': False, 'cleanup_or_compensation': False, 'ended_utc': utc()})
+        except Exception:
+            # Recording the primary failure is best-effort. A failed marker
+            # write must neither replace it nor suppress eligible readback.
+            pass
+        if launched and isinstance(exc, Exception):
+            try:
+                unqualified_readback(request, current, out / 'unqualified-readback')
+            except Exception as readback_error:
+                # A diagnostic failure must not replace the owner/measurement
+                # failure or turn this consumed attempt into a retry permission.
+                try:
+                    save(out / 'READBACK_FAILURE.json', {'exception': type(readback_error).__name__,
+                         'detail': str(readback_error), 'automatic_retry': False})
+                except Exception:
+                    pass
         raise
 
 

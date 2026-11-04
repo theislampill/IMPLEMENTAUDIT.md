@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Separate fixed genuine-C5 execution owner; live gate, no native authority.
 
-PROPOSAL ONLY: this source has not executed. The exact loader and selection
-buffers must be frozen and independently qualified before create/run is exposed.
-Original commands, package programs, provider bytes and oracle values are not
-replaced. The new fixed image assigns original mktemp/clone/build writes to the
+The exact loader and selection buffers require independent qualification.
+Original test/capture commands, provider bytes and oracle values stay fixed.
+The separate build-local profile selects its exact package-builder successor.
+Historical profiles keep their physical owner preimages. The new fixed image assigns original mktemp/clone/build writes to the
 existing 512 MiB private-work allocation and keeps /tmp at 32 MiB. That explicit
 C5 placement policy needs execution qualification; it is not a larger scratch
 allocation. Imported JSON never constructs or restores this live session.
@@ -27,6 +27,10 @@ import zlib
 
 PROFILE = 'FIXED_GENUINE_C5_PRODUCER_EFFECT_ORIGINAL48_V1'
 CORRESPONDENCE_PROFILE = 'FIXED_GENUINE_C5_SHARED_IMAGE_CORRESPONDENCE_20261031_V1'
+R4_CORRESPONDENCE_PROFILE = 'FIXED_GENUINE_C5_SHARED_IMAGE_CORRESPONDENCE_R4_CURRENT_HOST_20261104_V1'
+R4_BUILD_CACHE_PROFILE = 'FIXED_GENUINE_C5_SHARED_IMAGE_CORRESPONDENCE_R4_BUILD_LOCAL_COMPRESSION_20261104_V1'
+R4_HOST_PROFILES = (R4_CORRESPONDENCE_PROFILE, R4_BUILD_CACHE_PROFILE)
+CORRESPONDENCE_PROFILES = (CORRESPONDENCE_PROFILE, *R4_HOST_PROFILES)
 CORRESPONDENCE_POLICY = dict(schema='implementaudit.c5-shared-image-pair.v1',
     profile='FINITE_C5_ROLE_CORRESPONDENCE_V1', runs=2,
     continuation='FIRST_COMPLETE_LIVE_PROFILE_AND_ACTUAL_ZERO_CHILD_EXIT_ONLY')
@@ -115,19 +119,22 @@ def read_fd(fd, count):
     return bytes(data)
 
 
-def fixed_task_entropy_device_v1():
+def fixed_task_entropy_device_v1(profile=CORRESPONDENCE_PROFILE):
     """One genuine kernel interface, not a seed, snapshot or generic device grant.
 
     This task's rootless namespace maps host-root ownership to65534. Device
     I/O is explicitly admitted only by the closed Git/program policy below;
     read-only filesystem flags do not imply character-device write confinement.
     """
+    need(profile in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', *CORRESPONDENCE_PROFILES), 'C5 entropy profile is unknown')
+    uid = 0 if profile in R4_HOST_PROFILES else 65534
+    policy = 'C5_R4_FIXED_GIT_REAL_URANDOM_UID0_V1' if profile in R4_HOST_PROFILES else 'C5_TASK_FIXED_GIT_REAL_URANDOM_V1'
     path = Path('/dev/urandom')
     before = path.lstat()
     need(path.resolve(strict=True) == path and stat.S_ISCHR(before.st_mode)
          and (os.major(before.st_rdev),os.minor(before.st_rdev)) == (1,9)
          and stat.S_IMODE(before.st_mode) == 0o666 and before.st_nlink == 1
-         and (before.st_uid,before.st_gid,before.st_size) == (65534,65534,0),
+         and (before.st_uid,before.st_gid,before.st_size) == (uid,uid,0),
          'C5 task kernel entropy device differs')
     mount_flags = os.statvfs(path).f_flag
     need(not mount_flags & os.ST_NODEV,'C5 task entropy source mount forbids device I/O')
@@ -137,8 +144,8 @@ def fixed_task_entropy_device_v1():
          and os.statvfs(path).f_flag == mount_flags,
          'C5 task kernel entropy device changed during observation')
     return dict(schema='implementaudit.c5-task-kernel-entropy.v1',
-        policy='C5_TASK_FIXED_GIT_REAL_URANDOM_V1',path='/dev/urandom',
-        identity=identity,mount_flags=mount_flags,major=1,minor=9,mode=0o666,uid=65534,gid=65534,
+        policy=policy,path='/dev/urandom',
+        identity=identity,mount_flags=mount_flags,major=1,minor=9,mode=0o666,uid=uid,gid=uid,
         state='LIVE_TRUSTED_KERNEL_NONDETERMINISM_NOT_SNAPSHOTTED',
         capability='EXACT_CHARACTER_DEVICE_IO_NOT_GENERIC_DEVICE_WRITE_CONFINEMENT',authority='NONE')
 
@@ -196,7 +203,7 @@ def bootstrap():
         need(value==wanted,'C5 complete selected image namespace differs: '+name)
         directory_observations[name]=value
     if 'kernel_entropy' in spec:
-        need(fixed_task_entropy_device_v1() == spec['kernel_entropy'],
+        need(fixed_task_entropy_device_v1(spec['scope']) == spec['kernel_entropy'],
              'C5 actual task entropy device differs from acquired identity')
     null=Path('/dev/null').stat()
     need(stat.S_ISCHR(null.st_mode) and os.major(null.st_rdev)==1 and os.minor(null.st_rdev)==3,
@@ -219,7 +226,7 @@ def bootstrap():
         startup_files=observations, image_directories=directory_observations, private_work_bytes=spec['limits']['work_bytes'],
         scratch_bytes=spec['limits']['scratch_bytes'], source_readonly=True, root_readonly=True,
         retained_descriptor=fd, authority='NONE')
-    if 'kernel_entropy' in spec:message['kernel_entropy']=fixed_task_entropy_device_v1()
+    if 'kernel_entropy' in spec:message['kernel_entropy']=fixed_task_entropy_device_v1(spec['scope'])
     data = encode(message)
     need(len(data) <= MAX_HEADER, 'C5 bootstrap observation exceeds bound')
     send(fd, len(data).to_bytes(8,'big') + data)
@@ -227,7 +234,7 @@ def bootstrap():
     reply = json.loads(read_fd(fd, size))
     need(reply == dict(schema=BOOTSTRAP_REPLY, image_sha256=sha(raw), accepted=True),
          'C5 outer owner did not release the actual bootstrap')
-    if spec['scope'] == CORRESPONDENCE_PROFILE:
+    if spec['scope'] in CORRESPONDENCE_PROFILES:
         need(spec.get('correspondence_pair') == CORRESPONDENCE_POLICY,
              'unknown C5 shared-image pair policy')
         bootstrap_correspondence_pair(spec, fd)
@@ -243,7 +250,7 @@ def bootstrap_correspondence_pair(spec, fd):
     requests continuation. An absent/unknown/nonzero first outcome never starts
     a suffix. This is not a retry path or a general command scheduler.
     """
-    need(spec['scope'] == CORRESPONDENCE_PROFILE and spec.get('correspondence_pair') == CORRESPONDENCE_POLICY,
+    need(spec['scope'] in CORRESPONDENCE_PROFILES and spec.get('correspondence_pair') == CORRESPONDENCE_POLICY,
          'C5 shared-image pair is not selected')
     receipts = Path(WORK_MOUNT) / 'pair-processes'
     receipts.mkdir(mode=0o700)
@@ -256,7 +263,7 @@ def bootstrap_correspondence_pair(spec, fd):
         child.returncode = os.waitstatus_to_exitcode(waited[1])
         need(waited[0] == child.pid and child.pid not in seen, 'C5 pair child wait identity differs')
         seen.add(child.pid)
-        outcome = dict(schema='implementaudit.c5-pair-child-outcome.v1', scope=CORRESPONDENCE_PROFILE,
+        outcome = dict(schema='implementaudit.c5-pair-child-outcome.v1', scope=spec['scope'],
             image_sha256=sha(encode(spec)), ordinal=ordinal, argv=['bash', 'tests/reproducible-release-asset.test.sh'],
             cwd=SOURCE_MOUNT, actual_pid=child.pid, parent_pid=os.getpid(),
             pid_namespace=os.readlink('/proc/self/ns/pid'), raw_wait_status=waited[1], exit_code=child.returncode,
@@ -304,7 +311,7 @@ need(type(_CAPTURE) is dict and set(_CAPTURE) == {'prefix','base','provider','ga
      'C5 executor requires its complete separate fixed captured-source owner')
 P, B, D, G, Q = (_CAPTURE[name] for name in ('prefix','base','provider','gate','qualifier'))
 SOURCES, CHECK, ENGINE_ROOT, SPEC = (_CAPTURE[name] for name in ('sources','check','root','selection'))
-need(SPEC.get('profile') in (PROFILE, 'FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1', 'FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', CORRESPONDENCE_PROFILE),
+need(SPEC.get('profile') in (PROFILE, 'FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1', 'FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', *CORRESPONDENCE_PROFILES),
      'Unsupported fixed C5 execution profile')
 PROFILE = SPEC['profile']
 # The current prefix owner remains the one source of these production limits.
@@ -321,7 +328,7 @@ def execution_limits_v1(inherited):
     need(type(inherited) is dict and inherited.get('file_bytes') == 16*1024**2,
          'C5 inherited file ceiling changed without resource qualification')
     limits=dict(inherited)
-    if PROFILE in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', CORRESPONDENCE_PROFILE):
+    if PROFILE in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', *CORRESPONDENCE_PROFILES):
         policy=dict(schema='implementaudit.c5-task-resource-policy.v1',
             identity='C5_TASK_ORIGINAL48_FILE64_V1',inherited_file_bytes=16*1024**2,file_bytes=64*1024**2)
         need(SPEC.get('task_resource_policy') == policy,'Unsupported C5 task resource policy')
@@ -337,20 +344,22 @@ SECCOMP = bytes(Q.VerifierTaskSession.SECCOMP)
 
 def task_kernel_entropy_v1(record,runtime):
     """TASK-only original48 and exact captured Git; old profiles observe none."""
-    if PROFILE not in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', CORRESPONDENCE_PROFILE):
+    if PROFILE not in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', *CORRESPONDENCE_PROFILES):
         need('kernel_entropy_policy' not in SPEC,'C5 entropy is forbidden for another profile')
         return None
     producers={Q.REPRO_CORRESPONDENCE_PRODUCER_SHA256}
-    if PROFILE != CORRESPONDENCE_PROFILE:
+    if PROFILE not in CORRESPONDENCE_PROFILES:
         producers.add('a27521758cc71e312052d7eaa7c8b488dbbe2dcc5089d6054be0923455763310')
-    need(SPEC.get('kernel_entropy_policy') == 'C5_TASK_FIXED_GIT_REAL_URANDOM_V1'
+    entropy_policy = ('C5_R4_FIXED_GIT_REAL_URANDOM_UID0_V1' if PROFILE in R4_HOST_PROFILES
+                      else 'C5_TASK_FIXED_GIT_REAL_URANDOM_V1')
+    need(SPEC.get('kernel_entropy_policy') == entropy_policy
          and SPEC.get('original_index') == 48
          and SPEC.get('original_argv') == ['bash','tests/reproducible-release-asset.test.sh']
          and record['source']['state']['files']['tests/reproducible-release-asset.test.sh']['sha256'] in producers
          and runtime['files']['/usr/bin/git']['sha256']
              == '2a8c18fbf43da9f692d75474c72bea9dfd796c260b0f3dfe456376abc3bbd668',
          'C5 task entropy requires its exact closed program/Git policy')
-    return fixed_task_entropy_device_v1()
+    return fixed_task_entropy_device_v1(PROFILE)
 
 
 class CapturedSourceStage:
@@ -589,7 +598,7 @@ def runtime_layout(runtime,topology):
         descriptor = {key:row[key] for key in ('bytes','sha256','mode')}
         need(resolved not in files or files[resolved] == descriptor, 'C5 resolved runtime bytes disagree')
         files[resolved] = descriptor
-    if PROFILE in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1', 'FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', CORRESPONDENCE_PROFILE):
+    if PROFILE in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1', 'FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', *CORRESPONDENCE_PROFILES):
         selected_paths = set(logical) | set(files) | set(links)
         need(all(not PurePosixPath(name).is_relative_to(mount)
                  for name in selected_paths for mount in (SOURCE_MOUNT, WORK_MOUNT, SCRATCH_MOUNT)),
@@ -606,7 +615,7 @@ def runtime_layout(runtime,topology):
     policy = SPEC['directory_mode_policy']
     expected_policy = ({'default':0o755,'exceptions':{'/home/agent':0o750}}
         if PROFILE in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', CORRESPONDENCE_PROFILE) else {'default':0o755,'exceptions':{}}
-        if PROFILE == 'FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1'
+        if PROFILE in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1', *R4_HOST_PROFILES)
         else {'default':0o755,'exceptions':{'/workspace':0o777,'/workspace/scratch':0o700}})
     need(policy == expected_policy,
          'C5 selected directory mode policy differs from its fixed profile')
@@ -632,7 +641,7 @@ def image_directories(source,layout,kernel_entropy=None):
     files=set(layout['files'])|{'/profile/c5-executor.py','/profile/c5-execution.json','/dev/null'}
     links=set(layout['links'])|{'/dev/fd'}
     if kernel_entropy is not None:
-        need(PROFILE in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', CORRESPONDENCE_PROFILE)
+        need(PROFILE in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', *CORRESPONDENCE_PROFILES)
              and kernel_entropy['path'] == '/dev/urandom','C5 foreign entropy image entry')
         files.add('/dev/urandom')
     for name,mode in source['directories'].items():
@@ -742,7 +751,7 @@ class GenuineC5Session:
         # Journal writes are owned by the unchanged CompletionContract. Reserve
         # its whole existing64MiB cap plus both actual raw outer logs before launch.
         self._reserve(64*1024**2 + 2*LIMITS['stream_bytes'],'journal and outer streams')
-        if PROFILE == CORRESPONDENCE_PROFILE:
+        if PROFILE in CORRESPONDENCE_PROFILES:
             need(SPEC.get('correspondence_pair') == CORRESPONDENCE_POLICY, 'unknown C5 shared-image pair selection')
             self._reserve(64*1024**2, 'second independently retained original C5 journal')
 
@@ -943,7 +952,7 @@ class GenuineC5Session:
         source = acquired['observation']['provider']['source']['state']
         environment = dict(D._ENVIRONMENT, PWD=SOURCE_MOUNT, TMPDIR=WORK_MOUNT,
             R0035_REPRO_EVENT_CAPTURE_DIR=WORK_MOUNT+'/capture',R0035_C5_LIVE_GATE_FD=str(gate_fd))
-        if PROFILE == CORRESPONDENCE_PROFILE:
+        if PROFILE in CORRESPONDENCE_PROFILES:
             environment[G.E.C5_ALLOCATION_ENV]=G.E.C5_CORRESPONDENCE
         # source and runtime are distinct existing allocations, not a new union.
         self.stage = CapturedSourceStage(self.output,source,acquired['objects'],self._reserve)
@@ -962,7 +971,7 @@ class GenuineC5Session:
             runtime_links=dict(layout['links'],**{'/dev/fd':'/proc/self/fd'}),required_absent=sorted(absent),
             image_directories=image_directories(source,layout,acquired['observation'].get('kernel_entropy')),
             host_pid_namespace=os.readlink('/proc/self/ns/pid'),authority='NONE')
-        if PROFILE == CORRESPONDENCE_PROFILE:
+        if PROFILE in CORRESPONDENCE_PROFILES:
             configuration['correspondence_pair']=dict(CORRESPONDENCE_POLICY)
         if 'kernel_entropy' in acquired['observation']:
             configuration['kernel_entropy']=acquired['observation']['kernel_entropy']
@@ -1089,7 +1098,7 @@ class GenuineC5Session:
 
     def _receive_pair_outcome(self, gate, ordinal, configuration_raw, previous):
         """Receive only the fixed acquired supervisor's actual direct-child wait."""
-        need(PROFILE == CORRESPONDENCE_PROFILE and gate.correspondence and gate._finished and not gate._failed,
+        need(PROFILE in CORRESPONDENCE_PROFILES and gate.correspondence and gate._finished and not gate._failed,
              'C5 pair outcome lacks its complete live original')
         need(gate._pending is None and gate._event_count==19 and
              gate._contract.frontier()['selected']==[G.FINAL],
@@ -1216,7 +1225,7 @@ class GenuineC5Session:
                 for label,name in (('producer',G.E.PRODUCER),('capture_owner',G.E.OWNER)):
                     expected_source[label]=dict(path=name,**record['source']['state']['files'][name])
                 executable_inputs={row['resolved']:row['sha256'] for row in self.acquired['runtime']['files'].values()}
-                paired=PROFILE==CORRESPONDENCE_PROFILE
+                paired=PROFILE in CORRESPONDENCE_PROFILES
                 pair_outcomes=[]
                 preconsumers=[]
                 for ordinal,name in enumerate(('live-first','live-second') if paired else ('live',)):

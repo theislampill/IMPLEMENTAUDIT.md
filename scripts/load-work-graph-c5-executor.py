@@ -63,13 +63,101 @@ PUBLIC_STREAMING_PINS=types.MappingProxyType({
     for profile,pins in ((CURRENT_PROFILE,CURRENT_PINS),(CORRESPONDENCE_PROFILE,CORRESPONDENCE_PINS))})
 
 
+# Exact composed source successor; runtime, executor and old revision stay fixed.
+CURRENT105_SOURCE_REVISION='DG16_CURRENT105_CLOSED_RUNTIME_SOURCE_20261104_V1'
+CURRENT105_QUALIFIER_SHA256='0f148dc343a955dde59c7b6a22d89d5885c920cd4c6ceeba455cec80b88adc23'
+CURRENT105_PINS=types.MappingProxyType({
+    profile:types.MappingProxyType(dict(pins,**{QUALIFIER:CURRENT105_QUALIFIER_SHA256}))
+    for profile,pins in PUBLIC_STREAMING_PINS.items()})
+
+
+# Exact successor for the composed continuity repair. The R2 V1 tuple and
+# every runtime selection remain unchanged; this revision adds no authority.
+CURRENT105_COMPOSED_SOURCE_REVISION='DG16_CURRENT105_COMPOSED_CONTINUITY_SOURCE_20261104_V2'
+CURRENT105_COMPOSED_COMPILER_SHA256='bce6f3bad3a98f850cb5d30e1df21ca8da237ba20609d49a609cccef1a81f21e'
+CURRENT105_COMPOSED_PINS=types.MappingProxyType({
+    profile:types.MappingProxyType(dict(pins,**{COMPILER:CURRENT105_COMPOSED_COMPILER_SHA256}))
+    for profile,pins in CURRENT105_PINS.items()})
+
+
+# Explicit fresh subject/current-host successor; all preceding pins remain unchanged.
+R4_CORRESPONDENCE_PROFILE='FIXED_GENUINE_C5_SHARED_IMAGE_CORRESPONDENCE_R4_CURRENT_HOST_20261104_V1'
+R4_SOURCE_REVISION='DG16_R4_OWNED_CURRENT_HOST_SOURCE_20261104_V1'
+R4_BASE_SELECTION='fixtures/work-graph-c5-inputs/execution-r4-current-host-python312.json'
+R4_PROVIDER_SELECTION='fixtures/work-graph-c5-inputs/package-r4-owned-venv-python312.json'
+R4_EXECUTION_SELECTION='fixtures/work-graph-c5-inputs/genuine-r4-correspondence-execution-profile.json'
+R4_ORIGINS=types.MappingProxyType(dict(base_logical_key=ORIGINS['base_logical_key'],base_actual_member=R4_BASE_SELECTION,provider_actual_member=R4_PROVIDER_SELECTION))
+R4_PINS=types.MappingProxyType({'scripts/qualify-work-graph-prefix.py': 'ff5dbdce5b4419268b0fc11c4659763ad68d40e32f18f721b6093a7dd269b7ab', 'scripts/work-graph-c5-inputs.py': '99c833db89500f2784f4f625cb757a56acc71eb688094bc9fc51f1c9440c694a', 'scripts/work-graph-c5-provider-inputs.py': '34699698d49f10c854b6f831bf38b856adb84791bf848e26fc105a1f1687a776', 'scripts/repro-event-capture.py': 'e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08', 'scripts/work-graph-completion.py': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb', 'skills/implementaudit/scripts/compile-work-graph.py': 'bce6f3bad3a98f850cb5d30e1df21ca8da237ba20609d49a609cccef1a81f21e', 'scripts/qualify-work-graph-verifier.py': '0f148dc343a955dde59c7b6a22d89d5885c920cd4c6ceeba455cec80b88adc23', 'scripts/work-graph-c5-live-gate.py': '4979cc5aa810cf2abdbca67cd70c553b624d6f8d643d2c1ea2e643845fab6c25', 'scripts/work-graph-c5-executor.py': '019bfc7b069295759847a1668345cae7112a789a9392a6233f4b7119c1cc237d', 'fixtures/work-graph-c5-inputs/execution-r4-current-host-python312.json': '83dadabffcc276d29748c210d9ca6c5c776fecb655d173ae577d8b7fedc16cf2', 'fixtures/work-graph-c5-inputs/package-r4-owned-venv-python312.json': 'c7d405ab460ecabf85ccb4ce13f6df97d0564a7aaa2cd0b6073478272e06bf17', 'fixtures/work-graph-c5-inputs/genuine-r4-correspondence-execution-profile.json': 'd7c89be13320e4c9ee98702b64a07232d8646d190be48adfc5e08724b4ade9f6'})
+
+
+R4_MEMO_SOURCE_REVISION='DG16_R4_GUARDED_PREFIX_READBACK_SOURCE_20261104_V2'
+R4_MEMO_PINS=types.MappingProxyType(dict(R4_PINS, **{GATE:'a5ec1232870739da0f7f987fef804b9098c719db92f12abf09e850d08f90c7d9'}))
+R4_ORIGINAL_GATE_MEMBER='fixtures/work-graph-c5-inputs/r4-live-gate-original-v1.py.txt'
+
+
+R4_COPY_MEMO_SOURCE_REVISION='DG16_R4_GUARDED_SOURCE_COPY_ADMISSION_20261104_V3'
+R4_COPY_MEMO_PINS=types.MappingProxyType(dict(R4_MEMO_PINS, **{GATE:'4ed3413327b0fa6337d49245d144f1db3a52fe0d133671665041dffb04db602e'}))
+R4_PREFIX_GATE_MEMBER='fixtures/work-graph-c5-inputs/r4-live-gate-prefix-v2.py.txt'
+
+
+# Composed successor for received DG16 and DG18 owners. No old pin is rewritten.
+R4_COMPOSED_SOURCE_REVISION='DG16_DG18_R4_COMPOSED_SOURCE_20261104_V4'
+R4_COMPOSED_OWNER_PINS=types.MappingProxyType({'scripts/qualify-work-graph-prefix.py': 'ff5dbdce5b4419268b0fc11c4659763ad68d40e32f18f721b6093a7dd269b7ab', 'scripts/work-graph-c5-inputs.py': '99c833db89500f2784f4f625cb757a56acc71eb688094bc9fc51f1c9440c694a', 'scripts/work-graph-c5-provider-inputs.py': '34699698d49f10c854b6f831bf38b856adb84791bf848e26fc105a1f1687a776', 'scripts/repro-event-capture.py': 'e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08', 'scripts/work-graph-completion.py': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb', 'skills/implementaudit/scripts/compile-work-graph.py': 'addcae949fdab009f7f0b4a9f023392309841c1798357ca89f9ec2b84d4c8ba9', 'scripts/qualify-work-graph-verifier.py': '8cc8342f025866ffaf8c98cc1dd33d7576416c2de39e9d444b9acfd546685a0b', 'scripts/work-graph-c5-live-gate.py': '4ed3413327b0fa6337d49245d144f1db3a52fe0d133671665041dffb04db602e', 'scripts/work-graph-c5-executor.py': '019bfc7b069295759847a1668345cae7112a789a9392a6233f4b7119c1cc237d'})
+R4_COMPOSED_PINS=types.MappingProxyType({
+    CURRENT_PROFILE:types.MappingProxyType(dict(CURRENT105_COMPOSED_PINS[CURRENT_PROFILE],**R4_COMPOSED_OWNER_PINS)),
+    CORRESPONDENCE_PROFILE:types.MappingProxyType(dict(CURRENT105_COMPOSED_PINS[CORRESPONDENCE_PROFILE],**R4_COMPOSED_OWNER_PINS)),
+    R4_CORRESPONDENCE_PROFILE:types.MappingProxyType(dict(R4_PINS,**R4_COMPOSED_OWNER_PINS)),
+})
+
+R4_PREFIX_RESULT_SOURCE_REVISION='DG16_R4_GUARDED_PREFIX_RESULT_ADMISSION_20261104_V5'
+R4_COPY_GATE_MEMBER='fixtures/work-graph-c5-inputs/r4-source-copy-gate-v3.py'
+R4_PREFIX_RESULT_PINS=types.MappingProxyType(dict(R4_COMPOSED_PINS[R4_CORRESPONDENCE_PROFILE],
+    **{GATE: 'b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5'}))
+
+
+# Explicit build-local package compression successor; historical tuples are immutable.
+R4_BUILD_CACHE_PROFILE='FIXED_GENUINE_C5_SHARED_IMAGE_CORRESPONDENCE_R4_BUILD_LOCAL_COMPRESSION_20261104_V1'
+R4_BUILD_CACHE_SOURCE_REVISION='DG16_R4_BUILD_LOCAL_COMPRESSION_SOURCE_20261104_V6'
+R4_BUILD_CACHE_BASE_SELECTION='fixtures/work-graph-c5-inputs/execution-r4-build-local-compression-python312.json'
+R4_BUILD_CACHE_EXECUTION_SELECTION='fixtures/work-graph-c5-inputs/genuine-r4-build-local-compression-execution-profile.json'
+R4_BUILD_CACHE_ORIGINS=types.MappingProxyType(dict(R4_ORIGINS,base_actual_member=R4_BUILD_CACHE_BASE_SELECTION))
+R4_BUILD_CACHE_PINS=types.MappingProxyType(dict(
+    {name:pin for name,pin in R4_PREFIX_RESULT_PINS.items() if name not in (R4_BASE_SELECTION,R4_EXECUTION_SELECTION)},
+    **{'scripts/work-graph-c5-inputs.py': 'dbe0eb5765a249b02f13f97c379a83da7b7a6c68ba2c8320100cd973381c2b6e', 'scripts/work-graph-c5-executor.py': 'ac9a7ea7f364c235aa1192a715a4c33c712bcd249275eb8bdce7064702a4bf4d', 'fixtures/work-graph-c5-inputs/execution-r4-build-local-compression-python312.json': '25c8348ef3f03bb9bb60c234ac6701cc35cf498902fcec4164868f9c48f1f70f', 'fixtures/work-graph-c5-inputs/genuine-r4-build-local-compression-execution-profile.json': '83cfa2de999dc79aaca5aa7973bfa56ec334a4698c42a4c5f4b0706c4c80c60a'}))
+R4_BUILD_CACHE_PHYSICAL_HISTORY=types.MappingProxyType({'scripts/work-graph-c5-inputs.py': ('fixtures/work-graph-c5-inputs/r4-inputs-before-build-cache-v5.py', '99c833db89500f2784f4f625cb757a56acc71eb688094bc9fc51f1c9440c694a'), 'scripts/work-graph-c5-executor.py': ('fixtures/work-graph-c5-inputs/r4-executor-before-build-cache-v5.py', '019bfc7b069295759847a1668345cae7112a789a9392a6233f4b7119c1cc237d')})
+
 def _selection(profile,source_revision=None):
+    if source_revision == R4_BUILD_CACHE_SOURCE_REVISION:
+        if type(profile) is not str or profile != R4_BUILD_CACHE_PROFILE:
+            raise ValueError('Unknown fixed R4 build-local compression C5 profile')
+        return R4_BUILD_CACHE_PINS,R4_BUILD_CACHE_BASE_SELECTION,R4_PROVIDER_SELECTION,R4_BUILD_CACHE_EXECUTION_SELECTION,R4_BUILD_CACHE_ORIGINS
+    if source_revision == R4_PREFIX_RESULT_SOURCE_REVISION:
+        if type(profile) is not str or profile != R4_CORRESPONDENCE_PROFILE:
+            raise ValueError('Unknown fixed R4 prefix-result C5 profile')
+        return R4_PREFIX_RESULT_PINS,R4_BASE_SELECTION,R4_PROVIDER_SELECTION,R4_EXECUTION_SELECTION,R4_ORIGINS
+    if source_revision == R4_COMPOSED_SOURCE_REVISION:
+        if type(profile) is not str or profile not in R4_COMPOSED_PINS:
+            raise ValueError('Unknown fixed R4 composed C5 profile')
+        previous = R4_SOURCE_REVISION if profile == R4_CORRESPONDENCE_PROFILE else None
+        _,base,provider,execution,origins=_selection(profile,previous)
+        return R4_COMPOSED_PINS[profile],base,provider,execution,origins
+    if profile == R4_CORRESPONDENCE_PROFILE:
+        if source_revision == R4_COPY_MEMO_SOURCE_REVISION:
+            return R4_COPY_MEMO_PINS,R4_BASE_SELECTION,R4_PROVIDER_SELECTION,R4_EXECUTION_SELECTION,R4_ORIGINS
+        if source_revision == R4_MEMO_SOURCE_REVISION:
+            return R4_MEMO_PINS,R4_BASE_SELECTION,R4_PROVIDER_SELECTION,R4_EXECUTION_SELECTION,R4_ORIGINS
+        if source_revision != R4_SOURCE_REVISION:
+            raise ValueError('Fresh R4 C5 requires its explicit closed source revision')
+        return R4_PINS,R4_BASE_SELECTION,R4_PROVIDER_SELECTION,R4_EXECUTION_SELECTION,R4_ORIGINS
     if source_revision is not None:
+        revisions={PUBLIC_STREAMING_SOURCE_REVISION:PUBLIC_STREAMING_PINS,
+                   CURRENT105_SOURCE_REVISION:CURRENT105_PINS,
+                   CURRENT105_COMPOSED_SOURCE_REVISION:CURRENT105_COMPOSED_PINS}
         if (type(source_revision) is not str or type(profile) is not str
-                or source_revision!=PUBLIC_STREAMING_SOURCE_REVISION or profile not in PUBLIC_STREAMING_PINS):
+                or source_revision not in revisions or profile not in revisions[source_revision]):
             raise ValueError('Unknown fixed C5 source revision')
         _,base,provider,execution,origins=_selection(profile)
-        return PUBLIC_STREAMING_PINS[profile],base,provider,execution,origins
+        return revisions[source_revision][profile],base,provider,execution,origins
     if type(profile) is str and profile == PROFILE:
         return PINS, BASE_SELECTION, PROVIDER_SELECTION, EXECUTION_SELECTION, ORIGINS
     if type(profile) is str and profile == CURRENT_PROFILE:
@@ -93,7 +181,19 @@ def _anchor(info):
 def _read(name, profile=PROFILE,source_revision=None):
     pins, *_ = _selection(profile,source_revision)
     if name not in pins and name!=LOADER:raise ValueError('Unknown fixed C5 execution member')
-    path=ROOT/name
+    physical = name
+    if profile == R4_CORRESPONDENCE_PROFILE and name == GATE:
+        if source_revision == R4_SOURCE_REVISION:
+            physical = R4_ORIGINAL_GATE_MEMBER
+        elif source_revision == R4_MEMO_SOURCE_REVISION:
+            physical = R4_PREFIX_GATE_MEMBER
+    if name == GATE and (source_revision == R4_COMPOSED_SOURCE_REVISION
+                         or (profile == R4_CORRESPONDENCE_PROFILE and source_revision == R4_COPY_MEMO_SOURCE_REVISION)):
+        physical = R4_COPY_GATE_MEMBER
+    historical = R4_BUILD_CACHE_PHYSICAL_HISTORY.get(name)
+    if historical is not None and pins.get(name) == historical[1]:
+        physical = historical[0]
+    path=ROOT/physical
     if not path.is_absolute() or '..' in path.parts:raise ValueError('C5 execution source alias is unsupported')
     directory=os.open('/',os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW)
     current=Path('/')
@@ -224,4 +324,76 @@ def create_public_streaming_source_current_composite_c5_session_v1(source_root,o
 def create_public_streaming_source_correspondence_c5_session_v1(source_root,output,*,expected_source):
     """Public source tuple; unchanged two-original correspondence policy."""
     return _Engine(CORRESPONDENCE_PROFILE,source_revision=PUBLIC_STREAMING_SOURCE_REVISION).load().GenuineC5Session(
+        source_root,output,expected_source=expected_source)
+
+
+def create_current105_source_current_composite_c5_session_v1(source_root,output,*,expected_source):
+    """Exact current105 source integration; unchanged current-composite runtime."""
+    return _Engine(CURRENT_PROFILE,source_revision=CURRENT105_SOURCE_REVISION).load().GenuineC5Session(
+        source_root,output,expected_source=expected_source)
+
+
+def create_current105_source_correspondence_c5_session_v1(source_root,output,*,expected_source):
+    """Exact current105 source integration; unchanged two-original policy."""
+    return _Engine(CORRESPONDENCE_PROFILE,source_revision=CURRENT105_SOURCE_REVISION).load().GenuineC5Session(
+        source_root,output,expected_source=expected_source)
+
+
+def create_current105_composed_source_current_composite_c5_session_v2(source_root,output,*,expected_source):
+    """Exact composed compiler successor; unchanged current-composite runtime."""
+    return _Engine(CURRENT_PROFILE,source_revision=CURRENT105_COMPOSED_SOURCE_REVISION).load().GenuineC5Session(
+        source_root,output,expected_source=expected_source)
+
+
+def create_current105_composed_source_correspondence_c5_session_v2(source_root,output,*,expected_source):
+    """Exact composed compiler successor; unchanged two-original policy."""
+    return _Engine(CORRESPONDENCE_PROFILE,source_revision=CURRENT105_COMPOSED_SOURCE_REVISION).load().GenuineC5Session(
+        source_root,output,expected_source=expected_source)
+
+
+def create_r4_current_host_correspondence_c5_session_v1(source_root,output,*,expected_source):
+    """Fresh real provider/current-host pair; unchanged120s whole-pair bound."""
+    return _Engine(R4_CORRESPONDENCE_PROFILE,source_revision=R4_SOURCE_REVISION).load().GenuineC5Session(
+        source_root,output,expected_source=expected_source)
+
+
+def create_r4_guarded_prefix_correspondence_c5_session_v2(source_root,output,*,expected_source):
+    """Explicit guarded-prefix successor; no old tuple or deadline is changed."""
+    return _Engine(R4_CORRESPONDENCE_PROFILE,source_revision=R4_MEMO_SOURCE_REVISION).load().GenuineC5Session(
+        source_root,output,expected_source=expected_source)
+
+
+def create_r4_guarded_source_copy_correspondence_c5_session_v3(source_root,output,*,expected_source):
+    """Explicit guarded copy-proof successor; unchanged complete final receiving."""
+    return _Engine(R4_CORRESPONDENCE_PROFILE,source_revision=R4_COPY_MEMO_SOURCE_REVISION).load().GenuineC5Session(
+        source_root,output,expected_source=expected_source)
+
+
+def create_r4_composed_source_current_c5_session_v4(source_root,output,*,expected_source):
+    """Exact R4 composed source; existing execution/runtime bounds unchanged."""
+    return _Engine(CURRENT_PROFILE,source_revision=R4_COMPOSED_SOURCE_REVISION).load().GenuineC5Session(
+        source_root,output,expected_source=expected_source)
+
+
+def create_r4_composed_source_correspondence_c5_session_v4(source_root,output,*,expected_source):
+    """Exact R4 composed source; existing execution/runtime bounds unchanged."""
+    return _Engine(CORRESPONDENCE_PROFILE,source_revision=R4_COMPOSED_SOURCE_REVISION).load().GenuineC5Session(
+        source_root,output,expected_source=expected_source)
+
+
+def create_r4_composed_source_owned_correspondence_c5_session_v4(source_root,output,*,expected_source):
+    """Exact R4 composed source; existing execution/runtime bounds unchanged."""
+    return _Engine(R4_CORRESPONDENCE_PROFILE,source_revision=R4_COMPOSED_SOURCE_REVISION).load().GenuineC5Session(
+        source_root,output,expected_source=expected_source)
+
+
+def create_r4_guarded_prefix_result_correspondence_c5_session_v5(source_root,output,*,expected_source):
+    """Explicit identical-prefix proof reuse; all live byte/identity guards remain."""
+    return _Engine(R4_CORRESPONDENCE_PROFILE,source_revision=R4_PREFIX_RESULT_SOURCE_REVISION).load().GenuineC5Session(
+        source_root,output,expected_source=expected_source)
+
+
+def create_r4_build_local_compression_correspondence_c5_session_v6(source_root,output,*,expected_source):
+    """Exact new package builder; original scripts and all execution limits unchanged."""
+    return _Engine(R4_BUILD_CACHE_PROFILE,source_revision=R4_BUILD_CACHE_SOURCE_REVISION).load().GenuineC5Session(
         source_root,output,expected_source=expected_source)

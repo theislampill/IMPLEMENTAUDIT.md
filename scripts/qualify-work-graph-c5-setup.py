@@ -34,6 +34,11 @@ HOSTED_PACKAGE_PIN = {'bytes': 50178, 'sha256': '1b506492bd9c7fd0cdb4f02ac822f1d
 HOSTED_SOURCE_URL = 'https://github.com/theislampill/IMPLEMENTAUDIT.md.git'
 HOSTED_LOADER_PIN = {'bytes': 17279, 'sha256': '4aa8a08b2b54a3cad7c60f58a1de68c5d062205d77adf8deb359867f370fd9d5'}
 HOSTED_PUBLIC_STREAMING_LOADER_PIN = {'bytes': 19193, 'sha256': '55684c8ad3e79b9d511e20bd550295e27f55ceade6867c9b70950c0f21f4199c'}
+HOSTED_CURRENT105_LOADER_PIN = {'bytes': 20466, 'sha256': 'cc2b2306e05d0845a0dcc809aaa886427009633a7390d7cdb664fbb9884aced9'}
+HOSTED_CURRENT105_COMPOSED_LOADER_PIN = {'bytes': 21822, 'sha256': '391fa6ef90ee331e0d7fe1cbf2a460bc8223b2641e4b0e0a865a873ecfc5a0e0'}
+HOSTED_R4_COMPOSED_LOADER_PIN = {'bytes': 29572, 'sha256': '37bd1aeef96ee43d6d845a80ae234b602cc840305e8cf08344450730b56baabd'}
+
+HOSTED_R4_BUILD_LOCAL_LOADER_PIN = {'bytes': 33475, 'sha256': '4285ac2ee8fd9353a14cdf5af4552bd0b5e3c7bdc1d7595610f3fa3d2faddb49'}
 
 
 class HostedPrerequisiteDeadline(BaseException):
@@ -48,7 +53,9 @@ def hosted_current_owner(root):
     fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK | os.O_CLOEXEC)
     try:
         opening = identity(os.fstat(fd))
-        pins = (HOSTED_LOADER_PIN, HOSTED_PUBLIC_STREAMING_LOADER_PIN)
+        pins = (HOSTED_LOADER_PIN, HOSTED_PUBLIC_STREAMING_LOADER_PIN,
+                HOSTED_CURRENT105_LOADER_PIN, HOSTED_CURRENT105_COMPOSED_LOADER_PIN,
+                HOSTED_R4_COMPOSED_LOADER_PIN, HOSTED_R4_BUILD_LOCAL_LOADER_PIN)
         if not stat.S_ISREG(opening[2]) or opening[3] != 1 or opening[4] not in tuple(pin['bytes'] for pin in pins):
             raise ValueError('hosted current loader pin differs')
         raw = os.pread(fd, max(pin['bytes'] for pin in pins) + 1, 0)
@@ -60,9 +67,21 @@ def hosted_current_owner(root):
         exec(compile(raw, str(path), 'exec'), module.__dict__)
         if observed == HOSTED_LOADER_PIN:
             current = module._Engine(module.CURRENT_PROFILE).load()
-        else:
+        elif observed == HOSTED_PUBLIC_STREAMING_LOADER_PIN:
             current = module._Engine(module.CURRENT_PROFILE,
                 source_revision=module.PUBLIC_STREAMING_SOURCE_REVISION).load()
+        elif observed == HOSTED_CURRENT105_LOADER_PIN:
+            current = module._Engine(module.CURRENT_PROFILE,
+                source_revision=module.CURRENT105_SOURCE_REVISION).load()
+        elif observed == HOSTED_CURRENT105_COMPOSED_LOADER_PIN:
+            current = module._Engine(module.CURRENT_PROFILE,
+                source_revision=module.CURRENT105_COMPOSED_SOURCE_REVISION).load()
+        elif observed == HOSTED_R4_COMPOSED_LOADER_PIN:
+            current = module._Engine(module.CURRENT_PROFILE,
+                source_revision=module.R4_COMPOSED_SOURCE_REVISION).load()
+        else:
+            current = module._Engine(module.R4_BUILD_CACHE_PROFILE,
+                source_revision=module.R4_BUILD_CACHE_SOURCE_REVISION).load()
         if (identity(os.fstat(fd)) != opening or identity(os.lstat(path)) != opening
                 or os.pread(fd, len(raw) + 1, 0) != raw):
             raise ValueError('hosted current loader changed during loading')
@@ -373,6 +392,11 @@ def receive_hosted_prerequisites(expected_commit):
 # Setup gets userns capabilities; every exec stacks a capability-denying domain.
 HOSTED_BWRAP_NAMES = ("implementaudit-c5-bwrap-v1", "implementaudit-c5-unpriv-bwrap-v1")
 HOSTED_BWRAP_RECEIPT = "implementaudit-c5-bwrap-v1.json"
+HOSTED_BWRAP_EXPORT_AGGREGATE = 4 * 1024**2
+# A raw load record may contain a large permission DFA unrelated to its
+# attachment. Keep the existing aggregate ceiling and the separate 64-KiB
+# attachment-DFA ceiling; do not confuse total record size with match work.
+HOSTED_BWRAP_EXPORT_LIMIT = HOSTED_BWRAP_EXPORT_AGGREGATE
 HOSTED_BWRAP_POLICY_SHA256 = 'b3f303f76b8f2c097f92ca5e41b6e0126cd34a10df1d5d0e67b9e86e92e322af'
 HOSTED_BWRAP_POLICY = b"""# Job-local CI adaptation of the AppArmor v4.0.1 bwrap/userns child boundary.
 abi <abi/4.0>,
@@ -417,11 +441,24 @@ def _bwrap_need(value, message):
 
 
 def _bwrap_read(path, maximum=4096):
+    _bwrap_need(type(maximum) is int and 0 < maximum <= HOSTED_BWRAP_EXPORT_LIMIT,
+                "hosted bwrap policy read bound differs")
+    before = os.stat(path, follow_symlinks=False)
+    _bwrap_need(stat.S_ISREG(before.st_mode), "hosted bwrap policy input is not a regular file")
     fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK | os.O_CLOEXEC)
     try:
-        raw = os.read(fd, maximum + 1)
-        _bwrap_need(len(raw) <= maximum, "hosted bwrap policy read bound exceeded")
-        return raw
+        _bwrap_need(identity(os.fstat(fd)) == identity(before), "hosted bwrap policy input changed at open")
+        raw = bytearray()
+        while True:
+            block = os.read(fd, min(65536, maximum + 1 - len(raw)))
+            if not block:
+                break
+            raw.extend(block)
+            _bwrap_need(len(raw) <= maximum, "hosted bwrap policy read bound exceeded")
+        _bwrap_need(identity(os.fstat(fd)) == identity(before)
+                    == identity(os.stat(path, follow_symlinks=False)),
+                    "hosted bwrap policy input changed during read")
+        return bytes(raw)
     finally:
         os.close(fd)
 
@@ -558,7 +595,7 @@ def hosted_bwrap_policy_delta(before, after=None, *, opaque_proofs=None, expecte
                 _bwrap_need(row['sha256'] == expected_owned[name], 'loaded policy differs from exact approved compilation')
 
 
-def _bwrap_selected_export(entry, root, maximum=65536):
+def _bwrap_selected_export(entry, root, maximum=HOSTED_BWRAP_EXPORT_LIMIT):
     """Receive one kernel-linked raw export; this cannot admit or load policy."""
     from pathlib import Path
     import re
@@ -576,40 +613,69 @@ def _bwrap_selected_export(entry, root, maximum=65536):
                 and len({value[3] for value in parts.values()}) == 1,
                 'selected kernel export path is outside one raw policy record')
     paths = {name: root / 'raw_data' / value[3] / value[4] for name, value in parts.items()}
-    _bwrap_need(type(maximum) is int and 0 < maximum <= 65536, 'selected kernel export aggregate bound exhausted')
-    raw = _bwrap_read(paths['raw_data'], maximum)
+    directories = (entry, root / 'profiles', root / 'raw_data', paths['raw_data'].parent)
+    directory_info = {path: path.lstat() for path in directories}
+    _bwrap_need(all(stat.S_ISDIR(info.st_mode) for info in directory_info.values()),
+                'selected kernel export directory is aliased')
+    observed = {path: identity(path.lstat()) for path in (*directories, *paths.values())}
+    _bwrap_need(type(maximum) is int and 0 < maximum <= HOSTED_BWRAP_EXPORT_LIMIT,
+                'selected kernel export aggregate bound exhausted')
+    # AppArmor rawdata_open allocates/decompresses the immutable load record
+    # before the first read. Its raw_data inode advertises uncompressed size;
+    # reject that work before open, not merely after reading maximum+1 bytes.
+    # Other sysfs fields can advertise a page for a short value, so this check
+    # belongs to this selected raw-export path, not the generic text reader.
+    def read_raw():
+        advertised = paths['raw_data'].lstat()
+        _bwrap_need(stat.S_ISREG(advertised.st_mode) and 0 < advertised.st_size <= maximum,
+                    'selected kernel export advertised size exceeds bound')
+        raw = _bwrap_read(paths['raw_data'], maximum)
+        _bwrap_need(len(raw) == advertised.st_size,
+                    'selected kernel export length differs from advertised size')
+        return raw
+    raw = read_raw()
     digest = _bwrap_read(paths['raw_sha256'], 128).decode('ascii').strip()
     abi = _bwrap_read(paths['raw_abi'], 32).decode('ascii').strip()
     _bwrap_need(re.fullmatch('[0-9a-f]{64}', digest) and hashlib.sha256(raw).hexdigest() == digest,
                 'selected kernel raw export hash differs')
     _bwrap_need(re.fullmatch('v[0-9]+', abi), 'selected kernel raw export ABI is unsupported')
     _bwrap_need(links == {name: os.readlink(entry / name) for name in names}
-                and _bwrap_read(paths['raw_data'], maximum) == raw
+                and read_raw() == raw
                 and _bwrap_read(paths['raw_sha256'], 128).decode('ascii').strip() == digest
-                and _bwrap_read(paths['raw_abi'], 32).decode('ascii').strip() == abi,
+                and _bwrap_read(paths['raw_abi'], 32).decode('ascii').strip() == abi
+                and observed == {path: identity(path.lstat()) for path in observed},
                 'selected kernel export changed during readback')
     return dict(bytes=len(raw), sha256=digest, abi=abi, base64=base64.b64encode(raw).decode('ascii'),
                 kernel_path=str(paths['raw_data']),
                 scope='RAW_LOAD_EXPORT_LINKED_TO_SELECTED_PROFILE_NOT_DECODED_ATTACHMENT')
 
 
-def diagnose_hosted_bwrap_policy():
-    """Read the observed 1password refusal only; preserve every admission guard."""
+def diagnose_hosted_bwrap_policy(selected_name='1password'):
+    """Read a retained refusal without policy effects or admission authority."""
     from pathlib import Path
+    source_names = {'1password': '1password', 'tcpdump': 'usr.bin.tcpdump'}
+    _bwrap_need(type(selected_name) is str and selected_name in source_names,
+                'unsupported selected policy diagnostic selection')
     _bwrap_root()
     context = hosted_bwrap_policy_context()
     before = hosted_bwrap_policy_inventory()
-    selected = before.get('1password')
+    selected = before.get(selected_name)
     _bwrap_need(selected is not None and selected['attach'] == '<unknown>',
-                'selected opaque 1password record changed; diagnostic is inapplicable')
+                'selected opaque record changed; diagnostic is inapplicable')
     root = Path('/sys/kernel/security/apparmor/policy')
     entries = list((root / 'profiles').iterdir())
     _bwrap_need(len(entries) <= 4096, 'selected policy lookup exceeds bound')
-    matched = [entry for entry in entries if _bwrap_read(entry / 'name').decode('utf-8').strip() == '1password']
+    matched = [entry for entry in entries if _bwrap_read(entry / 'name').decode('utf-8').strip() == selected_name]
     _bwrap_need(len(matched) == 1, 'selected policy lookup is missing or ambiguous')
     exported = _bwrap_selected_export(matched[0], root)
+    try:
+        proof = _bwrap_prove_nonmatch(base64.b64decode(exported['base64'], validate=True), selected_name, selected)
+        attachment_observation = dict(status='PROVED_NOMATCH', proof=proof)
+    except (ValueError, UnicodeError) as exc:
+        attachment_observation = dict(status='REFUSED', reason=str(exc)[:256])
     sources = {}
-    for name in ('/etc/apparmor.d/1password', '/etc/apparmor.d/local/1password'):
+    for name in ('/etc/apparmor.d/' + source_names[selected_name],
+                 '/etc/apparmor.d/local/' + source_names[selected_name]):
         try:
             raw, observed = _bwrap_regular(name, 16384)
         except FileNotFoundError:
@@ -621,8 +687,9 @@ def diagnose_hosted_bwrap_policy():
     _bwrap_need(hosted_bwrap_policy_inventory() == before and hosted_bwrap_policy_context() == context,
                 'selected diagnostic inventory or input bookends differ')
     print(json.dumps(dict(schema='implementaudit.selected-opaque-policy-diagnostic.v1',
-        authority='NONE', policy_operations=0, selected_name='1password', selected_record=selected,
+        authority='NONE', policy_operations=0, selected_name=selected_name, selected_record=selected,
         exported=exported, source_files=sources, parser=context['files']['/usr/sbin/apparmor_parser'],
+        attachment_observation=attachment_observation, raw_export_bound=HOSTED_BWRAP_EXPORT_LIMIT,
         parser_version='NOT_EXECUTED; BINARY_IDENTITY_ONLY',
         interpretation='READ_ONLY_OBSERVATION_NO_ATTACHMENT_OR_ADMISSION_VERDICT',
         inventory_input_bookends_equal=True), sort_keys=True))
@@ -632,7 +699,8 @@ def diagnose_hosted_bwrap_policy():
 def _bwrap_v5_profiles(raw):
     """Closed ABI5 framing and profile hashes, not a policy authorization."""
     import struct
-    _bwrap_need(type(raw) is bytes and 0 < len(raw) <= 65536, 'compiled policy export bound differs')
+    _bwrap_need(type(raw) is bytes and 0 < len(raw) <= HOSTED_BWRAP_EXPORT_LIMIT,
+                'compiled policy export bound differs')
     position = 0
     nodes = 0
     def take(count):
@@ -827,7 +895,8 @@ def _bwrap_resolve_opaque(inventory):
     for name, row in selected.items():
         try:
             _bwrap_need(name in indexed, 'compiled attachment entry disappeared')
-            exported = _bwrap_selected_export(indexed[name], root, min(65536, 4 * 1024**2 - total))
+            exported = _bwrap_selected_export(indexed[name], root,
+                min(HOSTED_BWRAP_EXPORT_LIMIT, HOSTED_BWRAP_EXPORT_AGGREGATE - total))
             total += exported['bytes']
             proofs[name] = _bwrap_prove_nonmatch(base64.b64decode(exported['base64'], validate=True), name, row)
         except (OSError, ValueError, UnicodeError) as exc:
@@ -1338,6 +1407,8 @@ if __name__ == '__main__':
     try:
         if sys.argv[1:] == ['--diagnose-hosted-bwrap-policy']:
             raise SystemExit(diagnose_hosted_bwrap_policy())
+        if len(sys.argv) == 3 and sys.argv[1] == '--diagnose-hosted-bwrap-policy':
+            raise SystemExit(diagnose_hosted_bwrap_policy(sys.argv[2]))
         if sys.argv[1:] == ['--provision-hosted-bwrap-policy']:
             raise SystemExit(provision_hosted_bwrap_policy())
         if sys.argv[1:] == ['--finalize-hosted-bwrap-policy']:

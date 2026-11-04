@@ -44,6 +44,8 @@ CLAIM_BOUNDARY_OVERLAY_BYTES = 1024**2
 CLAIM_BOUNDARY_CENSUS_BYTES = 4 * 1024**2
 CLAIM_BOUNDARY_CONFIG = "/profile/original96-overlay.json"
 CUSTODY_APPEND_PROFILE = "CONTROLLED_TASK_CUSTODY_APPEND_V1"
+CURRENT_CUSTODY_APPEND_PROFILE = "CONTROLLED_TASK_CUSTODY_APPEND_CURRENT_COMPOSITE_20261101_V1"
+CUSTODY_APPEND_PROFILES = (CUSTODY_APPEND_PROFILE, CURRENT_CUSTODY_APPEND_PROFILE)
 CUSTODY_APPEND_POLICY = "ORIGINAL105_PRIVATE_WORK_V1"
 CUSTODY_APPEND_CONFIG = "/profile/original105-overlay.json"
 CUSTODY_APPEND_WORK_BYTES = 2 * 1024**2
@@ -958,12 +960,26 @@ def digest(data):
     return hashlib.sha256(data).hexdigest()
 
 
+# A separately selected current-composed source contract. Historical entries,
+# pins and resource ceilings above remain unchanged; no automatic fallback.
+_CONTRACTS[CURRENT_CUSTODY_APPEND_PROFILE] = copy.deepcopy(_CONTRACTS[CUSTODY_APPEND_PROFILE])
+_CONTRACTS[CURRENT_CUSTODY_APPEND_PROFILE].update(
+    label="custody-append-current", index=107, original_index=105,
+    original_node="COMMAND:tests/custody-append.test.sh:0",
+    registry_sha256="65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878",
+    registry_nodes=119,
+    prefix_helper_sha256="ff5dbdce5b4419268b0fc11c4659763ad68d40e32f18f721b6093a7dd269b7ab",
+    complete_root=dict(file_bytes=128 * 1024**2, total_bytes=256 * 1024**2,
+        entries=4096, depth=40, path_bytes=2048),
+    projection="COMPLETE_CURRENT_ACTUAL_ROOT_BYTES_MODES_GIT_AND_EMPTY_DIRECTORIES_FIXED_PRIVATE_WORK_EXISTING_MEMBERS_READ_ONLY")
+
+
 def contract_for(profile):
     if type(profile) is not str or profile not in (PROFILE, ANDON_PROFILE, REGISTRY_PROFILE, MARKER_PROFILE,
                                                      COMMIT_PROFILE, AGENTS_PROFILE, ESCALATION_PROFILE, TOPOLOGY_PROFILE,
                                                      CAPABILITY_PROFILE, ISSUES_PROFILE, TERMINAL_PROFILE,
                                                      BACKGROUND_PROFILE, LIFECYCLE_PROFILE, PLAN_QUALITY_PROFILE,
-                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE, LEAN_DISCIPLINE_PROFILE, INTERNAL_ROUTING_PROFILE, BOOTSTRAP_BUDGET_PROFILE, RESPEC_PROFILE, PACKAGE_SHAPE_PROFILE, MINI_AUDIT_PROFILE, ACTION_SELECTION_PROFILE, CUSTODY_APPEND_PROFILE):
+                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE, LEAN_DISCIPLINE_PROFILE, INTERNAL_ROUTING_PROFILE, BOOTSTRAP_BUDGET_PROFILE, RESPEC_PROFILE, PACKAGE_SHAPE_PROFILE, MINI_AUDIT_PROFILE, ACTION_SELECTION_PROFILE, CUSTODY_APPEND_PROFILE, CURRENT_CUSTODY_APPEND_PROFILE):
         raise ValueError("unsupported finite-leaf profile")
     return copy.deepcopy(_CONTRACTS[profile])
 
@@ -977,24 +993,27 @@ def image_subject(state, *, profile=PROFILE):
     """Retain the registry bytes whenever the original actually reads them."""
     contract_for(profile)
     return {name: value for name, value in state["files"].items()
-            if name != REGISTRY or profile in (REGISTRY_PROFILE, SKILL_LAYOUT_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE, LEAN_DISCIPLINE_PROFILE, CUSTODY_APPEND_PROFILE)}
+            if name != REGISTRY or profile in (REGISTRY_PROFILE, SKILL_LAYOUT_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE, LEAN_DISCIPLINE_PROFILE, *CUSTODY_APPEND_PROFILES)}
 
 
 def select_node(compiler, registry, environment, *, profile=PROFILE):
     contract = contract_for(profile)
-    if digest(registry) != REGISTRY_SHA256:
+    if digest(registry) != contract.get("registry_sha256", REGISTRY_SHA256):
         raise ValueError("unsupported finite-leaf registry source")
     graph = compiler.compile_verifier_graph_v1(registry, compiler.verifier_registered_tests_v1(registry), environment)
     compiler.verifier_command_stream_v1(graph, registry)
     nodes = graph["nodes"]
     node_id = "COMMAND:" + contract["program"] + ":0"
-    if len(nodes) != 117 or nodes[contract["index"]]["id"] != node_id or nodes[contract["index"]]["source"] != "bash " + contract["program"] + "\n":
+    if len(nodes) != contract.get("registry_nodes", 117) or nodes[contract["index"]]["id"] != node_id or nodes[contract["index"]]["source"] != "bash " + contract["program"] + "\n":
         raise ValueError("unsupported finite-leaf registry mapping")
     node = nodes[contract["index"]]
-    return graph, dict(profile=profile, graph_digest=graph["digest"], nodes=[node_id],
+    scope = dict(profile=profile, graph_digest=graph["digest"], nodes=[node_id],
         omitted_nodes=[n["id"] for n in nodes if n["id"] != node_id],
         source_sha256=node["source_sha256"], source_bytes=len(node["source"].encode()),
-        composition="ONE_INDEPENDENT_ORIGINAL_NODE_NO_PREDECESSOR_SUBSTITUTION"), node
+        composition="ONE_INDEPENDENT_ORIGINAL_NODE_NO_PREDECESSOR_SUBSTITUTION")
+    if profile == CURRENT_CUSTODY_APPEND_PROFILE:
+        scope.update(original_index=contract["original_index"], original_node=contract["original_node"])
+    return graph, scope, node
 
 
 def snapshot_skill_namespace(prefix, root):
@@ -1682,9 +1701,11 @@ def custody_append_inputs(prefix, root, objects, contract):
     return state, record
 
 
-def custody_append_source_plan(files, directories, overlay):
+def custody_append_source_plan(files, directories, overlay, *, profile=CUSTODY_APPEND_PROFILE):
     """Complete fixed105 input population; never a caller-selected host tree."""
-    bounds = _CONTRACTS[CUSTODY_APPEND_PROFILE]["complete_root"]
+    if profile not in CUSTODY_APPEND_PROFILES:
+        raise ValueError("unsupported fixed custody source profile")
+    bounds = contract_for(profile)["complete_root"]
     source = {name: value for name, value in files.items() if name.startswith("/work/")}
     dirs = {name for name in directories if name == "/work" or name.startswith("/work/")}
     if "/work" not in dirs or set(source) & dirs or len(source) + len(dirs) > bounds["entries"]:
@@ -1732,10 +1753,10 @@ class CustodyAppendSourceStage:
             raise ValueError("original105 staged descriptor capacity exceeded")
         return fd
 
-    def __init__(self, parent, files, directories, overlay, descriptor_limit):
+    def __init__(self, parent, files, directories, overlay, descriptor_limit, *, profile=CUSTODY_APPEND_PROFILE):
         self._fds, self._nodes, self._ancestors = [], {}, []
         self._closed, self._descriptor_limit = False, descriptor_limit
-        self._source, self._directories, targets = custody_append_source_plan(files, directories, overlay)
+        self._source, self._directories, targets = custody_append_source_plan(files, directories, overlay, profile=profile)
         parent = Path(parent).absolute()
         if ".." in parent.parts or len(parent.parts) > self.ANCESTOR_LIMIT:
             raise ValueError("original105 staging ancestor bound exceeded")
@@ -1832,16 +1853,32 @@ class CustodyAppendSourceStage:
         self._closed = True
 
 
-def custody_append_image_reservation(files, directories, limits, overlay, environment):
+def custody_append_image_reservation(files, directories, limits, overlay, environment, *, profile=CUSTODY_APPEND_PROFILE):
     """Exact argv construction of the existing launcher for the fixed policy."""
     if (overlay["policy"] != CUSTODY_APPEND_POLICY or overlay["root"] != "/work"
             or overlay["overlay_bytes"] != CUSTODY_APPEND_WORK_BYTES
             or overlay["tmp_bytes"] != CUSTODY_APPEND_TMP_BYTES
             or limits["scratch_bytes"] != 32 * 1024**2):
         raise ValueError("original105 fixed resource policy differs")
-    reserved = retention_image_reservation(files, limits)
-    source, source_directories, targets = custody_append_source_plan(files, directories, overlay)
+    if profile not in CUSTODY_APPEND_PROFILES:
+        raise ValueError("unsupported fixed custody image profile")
+    if profile == CUSTODY_APPEND_PROFILE:
+        reserved = retention_image_reservation(files, limits)
+    source, source_directories, targets = custody_append_source_plan(files, directories, overlay, profile=profile)
     runtime = {name: value for name, value in files.items() if name not in source}
+    if profile == CURRENT_CUSTODY_APPEND_PROFILE:
+        # Parent-owned physical source staging is not child-created runtime data.
+        # Keep the child write ceiling and closed runtime ceiling unchanged.
+        reserved = retention_image_reservation(runtime, limits)
+        runtime_bytes = reserved["mounted_bytes"]
+        source_bytes = sum(len(raw) for raw, _ in source.values())
+        if runtime_bytes > 128 * 1024**2 or source_bytes + runtime_bytes > 384 * 1024**2:
+            raise ValueError("current original105 staged source/runtime exceeds fixed input reservation")
+        reserved.update(mounted_bytes=source_bytes + runtime_bytes,
+            sealed_runtime_bytes=runtime_bytes, source_stage_file_limit=128 * 1024**2,
+            source_stage_total_limit=256 * 1024**2,
+            host_input_total_limit=384 * 1024**2,
+            source_staging_owner="PARENT_PRIVATE_PHYSICAL_FILES_NOT_CHILD_WRITES")
     # Hold every staged file/directory and bounded ancestor chain in the owner;
     # only runtime sealed inputs, seccomp, args and census enter the child.
     descriptors = len(files) + len(source_directories) + CustodyAppendSourceStage.ANCESTOR_LIMIT + 1 + 3 + 64
@@ -2481,7 +2518,7 @@ def snapshot_source(prefix, root, objects, *, profile=PROFILE, registry_snapshot
         state["directories"].update(complete["directories"])
         state["public_inputs"] = observation
         stamps["public_inputs"] = observation["currentness"]
-    if profile == CUSTODY_APPEND_PROFILE:
+    if profile in CUSTODY_APPEND_PROFILES:
         complete, observation = custody_append_inputs(prefix, root, objects, contract)
         if any(complete["files"].get(name) != entry for name, entry in state["files"].items()):
             raise ValueError("original105 literal inputs changed during complete acquisition")
@@ -2512,7 +2549,7 @@ def snapshot_source(prefix, root, objects, *, profile=PROFILE, registry_snapshot
     for name in sorted(directories):
         if prefix.identity(directory(name)) != stamps[name]:
             raise ValueError("finite-leaf source ancestor changed during acquisition")
-    for name, pin in dict(contract["programs"], **{REGISTRY: REGISTRY_SHA256}).items():
+    for name, pin in dict(contract["programs"], **{REGISTRY: contract.get("registry_sha256", REGISTRY_SHA256)}).items():
         if state["files"][name]["sha256"] != pin:
             raise ValueError("unsupported finite-leaf executable or registry source")
     for name, pin in contract.get("pinned_data", {}).items():
@@ -2564,7 +2601,7 @@ def temporary_requirements(state, *, profile=PROFILE):
     sizes = [state["files"][name]["bytes"] for name in contract["data"]]
     rounded = lambda size: ((size + granule - 1) // granule) * granule
     extra = {}
-    if profile == CUSTODY_APPEND_PROFILE:
+    if profile in CUSTODY_APPEND_PROFILES:
         bound = state["custody_inputs"]["resources"]
         return dict(copies=0, files=9, directories=2,
             content_bytes=sum(bound["spool_sizes"]), allocation_granule=granule, observed_page_bytes=page,
@@ -3714,7 +3751,7 @@ def finite_runtime(prefix, objects, *, profile=PROFILE):
     runtime["totals"] = prefix.runtime_budget(runtime["files"], prefix.RUNTIME_BOUNDS)
     runtime["startup"] += "_UMASK_022_BEFORE_ISOLATED_LEAF_BOOTSTRAP"
     runtime["umask"] = 0o022
-    if profile == CUSTODY_APPEND_PROFILE:
+    if profile in CUSTODY_APPEND_PROFILES:
         _capture_custody_runtime(prefix, runtime, objects)
         runtime["totals"] = prefix.runtime_budget(runtime["files"], prefix.RUNTIME_BOUNDS)
     return runtime
@@ -3726,12 +3763,13 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
     label = contract["label"]
     path = engine_root / PREFIX_HELPER
     data = base._regular(path)[1]
-    if digest(data) != PREFIX_HELPER_SHA256:
+    if digest(data) != contract.get("prefix_helper_sha256", PREFIX_HELPER_SHA256):
         raise compiler.WorkGraphError("unsupported captured prefix helper source")
     spec = importlib.util.spec_from_file_location("audit_spec_prefix", path)
     prefix = importlib.util.module_from_spec(spec)
     exec(compile(data, str(path), "exec"), prefix.__dict__)
-    parent = prefix.bind_session(base, compiler, engine_root, data)
+    parent = (prefix.bind_session(base, compiler, engine_root, data, profile=prefix.COMPOSITE_PROFILE)
+              if profile == CURRENT_CUSTODY_APPEND_PROFILE else prefix.bind_session(base, compiler, engine_root, data))
     # Reuse the exact established namespace owner from the captured qualifier;
     # do not fork the census algorithm or accept a receiving callback policy.
     registry_snapshot = (base._acquire.__globals__["_registry_membership_snapshot_v1"]
@@ -3793,9 +3831,9 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
             return result
 
         def _custody_source_stage_v1(self, files, directories, overlay, output):
-            if self.SCOPE != CUSTODY_APPEND_PROFILE:
+            if self.SCOPE not in CUSTODY_APPEND_PROFILES:
                 raise compiler.WorkGraphError("private source staging requires original105")
-            return CustodyAppendSourceStage(output, files, directories, overlay, self.LIMITS["descriptors"])
+            return CustodyAppendSourceStage(output, files, directories, overlay, self.LIMITS["descriptors"], profile=profile)
 
         def _acquire(self):
             self._custody()
@@ -3852,12 +3890,12 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                 raise compiler.WorkGraphError("original-readable runner differs from captured engine bytes")
             if profile == CLAIM_BOUNDARY_PROFILE and files["/work/" + RUNNER][0] != objects[self._engine[RUNNER]]:
                 raise compiler.WorkGraphError("observed original96 runner differs from fixed engine runner")
-            if profile == CUSTODY_APPEND_PROFILE and source["files"][RUNNER]["sha256"] != self._engine[RUNNER]:
+            if profile in CUSTODY_APPEND_PROFILES and source["files"][RUNNER]["sha256"] != self._engine[RUNNER]:
                 raise compiler.WorkGraphError("original105 source runner differs from captured engine bytes")
             if profile == TERMINOLOGY_PROFILE and source["files"][RUNNER]["sha256"] != self._engine[RUNNER]:
                 raise compiler.WorkGraphError("whole-copy runner differs from captured engine bytes")
             files["/work/" + RUNNER] = (objects[self._engine[RUNNER]], 0o555)
-            if profile == CUSTODY_APPEND_PROFILE:
+            if profile in CUSTODY_APPEND_PROFILES:
                 files["/work/" + RUNNER] = (objects[self._engine[RUNNER]], source["files"][RUNNER]["mode"])
             if profile == LEAN_DISCIPLINE_PROFILE:
                 if source["files"][RUNNER]["sha256"] != self._engine[RUNNER]:
@@ -3872,7 +3910,7 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                 # Bash reads the runner directly; its source mode stays exact.
                 files["/work/" + RUNNER] = (objects[self._engine[RUNNER]], source["files"][RUNNER]["mode"])
             files, image_permissions = finite_image_permissions(files, source, profile=profile)
-            if profile == CUSTODY_APPEND_PROFILE:
+            if profile in CUSTODY_APPEND_PROFILES:
                 # Source bytes/modes stay exact. Only runtime data uses the
                 # existing compact read-only data-mount spelling.
                 files = {name: (raw, 0o600 if not name.startswith("/work/") and mode == 0o444 else mode)
@@ -3906,7 +3944,7 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                 _, configuration, overlay = self._claim_overlay_configuration_v1(files, source_directories)
                 files[CLAIM_BOUNDARY_CONFIG] = (configuration, 0o600)
                 objects.setdefault(digest(configuration), configuration)
-            if profile == CUSTODY_APPEND_PROFILE:
+            if profile in CUSTODY_APPEND_PROFILES:
                 membership = source["custody_inputs"]["projection"]
                 source_directories = {"/work"} | {"/work/" + name for name in source["directories"] if name != "."}
                 _, configuration, overlay = self._claim_overlay_configuration_v1(files, source_directories)
@@ -3993,9 +4031,9 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                     "/dev/null", "stdout", "stderr"]
                 manifest["startup"] = "EXISTING_ISOLATED_LEAF_FIXED_ORIGINAL96_CENSUS_PYTHON_I_B_ORIGINAL_ENVIRONMENT_UNCHANGED"
                 image_key = self._object(self._encode(manifest))
-            if profile == CUSTODY_APPEND_PROFILE:
+            if profile in CUSTODY_APPEND_PROFILES:
                 manifest["directories"] = sorted(set(manifest["directories"]) | source_directories | set(runtime["directories"]))
-                reservation = custody_append_image_reservation(files, manifest["directories"], self.LIMITS, overlay, self.environment)
+                reservation = custody_append_image_reservation(files, manifest["directories"], self.LIMITS, overlay, self.environment, profile=profile)
                 temporary["image_reservation"] = reservation
                 manifest.update(directory_membership=membership, source_projection=contract["projection"],
                     private_source_overlay=overlay, image_reservation=reservation,
@@ -4047,7 +4085,7 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                     directory_modes="NORMALIZED_0755_EXISTING_MEMBERS_READ_ONLY_FIXED_DOCS_PARENT_WRITABLE",
                     mutable_resources=manifest["writable_resources"],
                     effects="ACTUAL_BEFORE_AFTER_PRIVATE_NAMESPACE_CENSUS_NOT_A_TEMPORAL_WRITE_TRACE")
-            if profile == CUSTODY_APPEND_PROFILE:
+            if profile in CUSTODY_APPEND_PROFILES:
                 acquired.update(source_bounds=contract["complete_root"], private_source_overlay=overlay,
                     directory_modes="ACTUAL_0755_EXISTING_MEMBERS_READ_ONLY_PRIVATE_WORK_PARENT_WRITABLE",
                     mutable_resources=manifest["writable_resources"], runtime_branch=runtime["custody_runtime_branch"],
