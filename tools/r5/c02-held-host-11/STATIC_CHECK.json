@@ -1,0 +1,15 @@
+{
+  "actual_host_prepared": false,
+  "actual_review_or_GO_created": false,
+  "authority": "NONE",
+  "code_bundle_sha256": "307f4b3efc3ae61c2eb060b55873a73c192e12c55d40b1e7d22fa0cdcf9519b5",
+  "external_effects": false,
+  "fresh_subject": "r5-c02-native-tail-20261105-06",
+  "input_count": 92,
+  "native_or_product_execution": false,
+  "public_result_bytes": 4096,
+  "schema": "r5.c02-held11.static-author-selection.v1",
+  "source_commit": "35bf9823856eb4efe254b882954120480632230e",
+  "source_tree": "abe08aabc83de3b27c43e6acf28646fb089f0f34",
+  "workflow_branch": "pro/dg16-dg18-r5-c02-held-11-20261105"
+}

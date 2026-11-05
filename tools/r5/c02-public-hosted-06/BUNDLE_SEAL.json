@@ -1,0 +1,124 @@
+{
+  "author": "/root/h0_c02_or",
+  "authority": "PREPARATION_ONLY",
+  "consumed_predecessor_run": 42104414502,
+  "currentness": "NOT_ESTABLISHED",
+  "diagnostics": "TYPED_ATOMIC_OBSERVATION_ONLY_FRESH06",
+  "execution": "NOT_PERFORMED",
+  "files": [
+    {
+      "bytes": 1582,
+      "mode": 420,
+      "name": "AUTHORIZATION_FORMATS.json",
+      "sha256": "bfb627a67297462cd99e12d9ee6835140d9b85edfefdff5d7f54bce73b02cc52"
+    },
+    {
+      "bytes": 4283,
+      "mode": 420,
+      "name": "DESIGN.md",
+      "sha256": "f18614a855e44832f2f3280859b0e22dd22b02b847460722b5bdf1f2d64748d0"
+    },
+    {
+      "bytes": 5455,
+      "mode": 420,
+      "name": "HOST_OPERATIONS.md",
+      "sha256": "6a688c7513071888cc31ac427bbb746d18933170eeb5070c45c7d90b8b2f6dda"
+    },
+    {
+      "bytes": 38466,
+      "mode": 420,
+      "name": "INPUT_TEMPLATE.json",
+      "sha256": "f0784acb991056fb96a016754ca14eefe911d0d9b6189a6192061372020fbd1d"
+    },
+    {
+      "bytes": 5526,
+      "mode": 420,
+      "name": "PROSPECTIVE_INPUT_DELTA.json",
+      "sha256": "258db49762a96ae86914bf7b3f0d476ddfff6ed423a5f50826cd5694e8f67d3f"
+    },
+    {
+      "bytes": 3853,
+      "mode": 420,
+      "name": "PROTOCOL_TEMPLATE.json",
+      "sha256": "b95b328bd0ca48034507165814056295cd733d626c33e28fdc02c1dad8dee12e"
+    },
+    {
+      "bytes": 1409,
+      "mode": 420,
+      "name": "PUBLIC_SCOPE.md",
+      "sha256": "685e7b6052a2bc0a6a79323b51c8b7f15afe718c7def962cfcf2124e4741293c"
+    },
+    {
+      "bytes": 857,
+      "mode": 420,
+      "name": "REVIEW_REQUEST.json",
+      "sha256": "bcae604b09309e6c9908e63636e939ea83f160b468ebb46b804cc24bc8d875b0"
+    },
+    {
+      "bytes": 579,
+      "mode": 420,
+      "name": "STATIC_CHECK.json",
+      "sha256": "a06806156ae5faccbff7b0d2aafa4f4e7be963ed2d77cbcb110c894e8341873b"
+    },
+    {
+      "bytes": 170958,
+      "mode": 420,
+      "name": "history/historical-source-owner.py",
+      "sha256": "5e10f2e36842c7f5dcfe5a131da43c502e9f36b0d1d727ca9bdb4412bde4c523"
+    },
+    {
+      "bytes": 9657,
+      "mode": 420,
+      "name": "prepare_on_host.py",
+      "sha256": "480c7598770def493175eaaf36bc158c117a7b40f3a6b0ea76459e664bdeadf3"
+    },
+    {
+      "bytes": 8039,
+      "mode": 420,
+      "name": "summarize_public.py",
+      "sha256": "7f9128bfb33218c34b71586c69ce57e768d3f9fc649f4975753f095d5b79d1e7"
+    },
+    {
+      "bytes": 3848,
+      "mode": 420,
+      "name": "support/canary_issuer.py",
+      "sha256": "55bd90d01fd911f2e781541b0632d4d51c5a0bfe478b65fa1e18a1042490e197"
+    },
+    {
+      "bytes": 1507,
+      "mode": 420,
+      "name": "support/local_mcp_canary.py",
+      "sha256": "0733a8014e7e301e3c6afe36a2b61cfe31343efca6741beeadeb61128ff5aa24"
+    },
+    {
+      "bytes": 4052,
+      "mode": 420,
+      "name": "support/local_responses_canary.py",
+      "sha256": "e5280c1e2a3b0d35a414745770f4e62efb73a2a8ac01f1fa6635a26092af230d"
+    },
+    {
+      "bytes": 4179,
+      "mode": 420,
+      "name": "support/native_transport.py",
+      "sha256": "2d7e86617ee433cb304501cf3b041d74b33dea26bf8909a7e1102a441fb99b3d"
+    },
+    {
+      "bytes": 95675,
+      "mode": 420,
+      "name": "templates/c02_native_tail.py",
+      "sha256": "7b985a8b44b11017d5dc8b497023fe900457fd318d7cbd87343ea610961e282f"
+    },
+    {
+      "bytes": 29077,
+      "mode": 420,
+      "name": "templates/receive_tail.py",
+      "sha256": "d3ecb6e0963c716cb3cc94d973d37e88e099114ec25a7ed603c69c29b6439dc5"
+    }
+  ],
+  "independent_review": "REQUIRED_AFTER_HOST_BINDING",
+  "predecessor_seal_sha256": "ec088dc3f69b77afec88536f617354da73be72277f54e157ce34925f2cb5a058",
+  "public_mutation": "NOT_PERFORMED",
+  "schema": "r5.c02-public-hosted-code-bundle.v1",
+  "source_commit": "35bf9823856eb4efe254b882954120480632230e",
+  "source_tree": "abe08aabc83de3b27c43e6acf28646fb089f0f34"
+}

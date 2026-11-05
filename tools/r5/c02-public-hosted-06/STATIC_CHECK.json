@@ -1,0 +1,15 @@
+{
+  "actual_host_prepared": false,
+  "actual_review_or_go_created": false,
+  "authority": "NONE",
+  "diagnostic_bytes": 2048,
+  "input_count": 92,
+  "native_operation_performed": false,
+  "public_result_bytes": 4096,
+  "schema": "r5.c02-06.author-static-preparation.v1",
+  "source_commit": "35bf9823856eb4efe254b882954120480632230e",
+  "source_owner_changed": false,
+  "source_tree": "abe08aabc83de3b27c43e6acf28646fb089f0f34",
+  "state": "PROSPECTIVE_CODE_ONLY",
+  "verification_evidence": "Separate immutable c02-diagnostics06-delta review packet; no native result inferred"
+}

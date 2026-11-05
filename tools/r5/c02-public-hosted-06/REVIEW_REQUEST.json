@@ -1,0 +1,20 @@
+{
+  "author": "/root/h0_c02_or",
+  "excluded_reviewers": [
+    "/root/r5_c02_successor_prepare",
+    "/root/h0_c02_or"
+  ],
+  "execution_authorized": false,
+  "review_scope": [
+    "Exact generated host SEALED_PREPARATION.json and92-input census",
+    "99-to92 reference-only omission and public scope attribution",
+    "Three current source dependency changes",
+    "Fresh host executable and ancestor custody without exceptions",
+    "Exact03 repaired transaction/tail/cleanup/readback functions",
+    "No public raw evidence or credential access; no authentic OR claim",
+    "Fresh06 typed atomic diagnostic checkpoints, strict public projection and missing-final-result fallback; no source/effect change"
+  ],
+  "root_currentness_required_separately": true,
+  "schema": "r5.c02-06.prospective-review-request.v1",
+  "status": "REQUESTED_NOT_PERFORMED"
+}

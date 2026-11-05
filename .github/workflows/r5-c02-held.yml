@@ -2,11 +2,11 @@ name: R5 C02 held fresh native tail
 
 on:
   push:
-    branches: [pro/dg16-dg18-r5-c02-held-10-20261105]
+    branches: [pro/dg16-dg18-r5-c02-held-11-20261105]
     paths:
       - .github/workflows/r5-c02-held.yml
-      - tools/r5/c02-held-host-06/**
-      - tools/r5/c02-public-hosted-05/**
+      - tools/r5/c02-held-host-11/**
+      - tools/r5/c02-public-hosted-06/**
 
 # Public Git reads use no token. The artifact action receives only its ordinary
 # platform runtime credential; no credential is mapped into the adapter/driver.
@@ -20,7 +20,7 @@ jobs:
   c02:
     if: >-
       github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
-      github.ref == 'refs/heads/pro/dg16-dg18-r5-c02-held-10-20261105' &&
+      github.ref == 'refs/heads/pro/dg16-dg18-r5-c02-held-11-20261105' &&
       github.event_name == 'push' &&
       github.event.deleted == false &&
       github.run_attempt == '1'
@@ -29,7 +29,7 @@ jobs:
     steps:
       - name: Acquire the exact public workflow commit without credentials
         env:
-          C02_WORK: ${{ runner.temp }}/c02-held-06
+          C02_WORK: ${{ runner.temp }}/c02-held-11
         timeout-minutes: 5
         shell: bash
         run: |
@@ -50,17 +50,17 @@ jobs:
 
       - name: Bind and seal code on this host without allocating a native subject
         env:
-          C02_WORK: ${{ runner.temp }}/c02-held-06
+          C02_WORK: ${{ runner.temp }}/c02-held-11
         timeout-minutes: 12
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -I -B "$C02_WORK/worker/tools/r5/c02-held-host-06/held_control.py" prepare --work "$C02_WORK" --run-id "$GITHUB_RUN_ID" --run-attempt "$GITHUB_RUN_ATTEMPT" --workflow-commit "$GITHUB_SHA"
+          /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -I -B "$C02_WORK/worker/tools/r5/c02-held-host-11/held_control.py" prepare --work "$C02_WORK" --run-id "$GITHUB_RUN_ID" --run-attempt "$GITHUB_RUN_ATTEMPT" --workflow-commit "$GITHUB_SHA"
 
       - name: Publish only the fixed twelve-file preparation for actual review
         env:
-          C02_WORK: ${{ runner.temp }}/c02-held-06
+          C02_WORK: ${{ runner.temp }}/c02-held-11
         timeout-minutes: 2
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
@@ -84,17 +84,17 @@ jobs:
 
       - name: Hold this job for actual review and exact root GO, then dispatch once
         env:
-          C02_WORK: ${{ runner.temp }}/c02-held-06
+          C02_WORK: ${{ runner.temp }}/c02-held-11
         timeout-minutes: 45
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -I -B "$C02_WORK/worker/tools/r5/c02-held-host-06/held_control.py" hold --work "$C02_WORK"
+          /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -I -B "$C02_WORK/worker/tools/r5/c02-held-host-11/held_control.py" hold --work "$C02_WORK"
 
       - name: Create the allowlisted public result without copying raw evidence
         env:
-          C02_WORK: ${{ runner.temp }}/c02-held-06
+          C02_WORK: ${{ runner.temp }}/c02-held-11
         id: public_summary
         if: always()
         timeout-minutes: 1
@@ -102,12 +102,12 @@ jobs:
         run: |
           set -euo pipefail
           umask 077
-          test -f "$C02_WORK/worker/tools/r5/c02-held-host-06/held_control.py"
-          /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -I -B "$C02_WORK/worker/tools/r5/c02-held-host-06/held_control.py" public-summary --work "$C02_WORK"
+          test -f "$C02_WORK/worker/tools/r5/c02-held-host-11/held_control.py"
+          /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -I -B "$C02_WORK/worker/tools/r5/c02-held-host-11/held_control.py" public-summary --work "$C02_WORK"
 
       - name: Publish only the allowlisted observation
         env:
-          C02_WORK: ${{ runner.temp }}/c02-held-06
+          C02_WORK: ${{ runner.temp }}/c02-held-11
         if: always() && steps.public_summary.outcome == 'success'
         timeout-minutes: 2
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
