@@ -1,0 +1,78 @@
+{
+  "authority": "NONE",
+  "host_prerequisite": {
+    "architecture": "x86_64",
+    "kernel": "7.0.0-1019-azure",
+    "os": {
+      "ID": "ubuntu",
+      "VERSION_ID": "26.04"
+    },
+    "python_version": [
+      3,
+      14,
+      4
+    ],
+    "tools": {
+      "bash": {
+        "available": true,
+        "bytes": 1540520,
+        "canonical": "/usr/bin/bash",
+        "requested": "/usr/bin/bash",
+        "root_owned_nonwritable_chain": true,
+        "setid_or_file_capabilities": false,
+        "sha256": "450c68376d14e5040d36cce58605c35b2211d244f3079297440dc9d602ee4994"
+      },
+      "bwrap": {
+        "available": true,
+        "bytes": 80424,
+        "canonical": "/usr/bin/bwrap",
+        "requested": "/usr/bin/bwrap",
+        "root_owned_nonwritable_chain": true,
+        "setid_or_file_capabilities": false,
+        "sha256": "a85b0ff8664c52ab923e0daf7e20cbc394272cd3831cc492ab144105d8091361"
+      },
+      "git": {
+        "available": true,
+        "bytes": 4771424,
+        "canonical": "/usr/bin/git",
+        "requested": "/usr/bin/git",
+        "root_owned_nonwritable_chain": true,
+        "setid_or_file_capabilities": false,
+        "sha256": "63acee09d55a44c7f4480f3a2c3fb79e7063deaf61df3f920b113ed38c0541e6"
+      },
+      "python3": {
+        "available": true,
+        "bytes": 7468968,
+        "canonical": "/usr/bin/python3.14",
+        "requested": "/usr/bin/python3",
+        "root_owned_nonwritable_chain": true,
+        "setid_or_file_capabilities": false,
+        "sha256": "be9a2a5eada8c89c1c399fdfb8397179e877c20d8db0739c802f726d4d0e69fd"
+      }
+    }
+  },
+  "original_acceptance": false,
+  "public_records": {
+    "HOST.json": {
+      "bytes": 37103,
+      "sha256": "97061d5cc16e12d693ee3ebed784bea4b9f44080ee797ed56d1d4f5a627bfe9d"
+    },
+    "PROBE.json": {
+      "bytes": 7039,
+      "sha256": "ca559901da6b971fd02d1a17ac95a02fd761d02652ce0f05c754fc5aafd04475"
+    },
+    "RESULT.json": {
+      "bytes": 1214,
+      "sha256": "2f3f6ecfc9eb02798a343e0c3ddcdcf3e401347f7fe9eedfd3a0c5f57931084d"
+    }
+  },
+  "receiving_status": "RECEIVED_AT_DECLARED_SCOPE",
+  "run_id": "42092153646",
+  "schema": "dg16.full-registry-earned-prerequisite.v1",
+  "source_commit": "539aa846e37eab2dd527912d5e5eaa95f69d61cf",
+  "source_delta_applicability": "INSPECTED_ADDITIVE_WINDOWS_PROFILES; NO_EXACT_35BF_AWARD_TRANSFER",
+  "source_tree": "6a278e8c95eb1812ce39ca1af288532d4951d860",
+  "status": "QUALIFIED_AT_DECLARED_SCOPE",
+  "tests_run": 9,
+  "workflow_commit": "6e316761f92bee12feec0b30b34347b060bfa88b"
+}
