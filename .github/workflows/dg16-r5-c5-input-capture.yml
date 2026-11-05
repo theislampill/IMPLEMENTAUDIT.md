@@ -1,0 +1,99 @@
+name: R5 prospective C5 exact hosted input capture
+on:
+  push:
+    branches: [pro/dg16-r5-c5-input-capture-04-20261105]
+    paths:
+      - .github/workflows/dg16-r5-c5-input-capture.yml
+      - qualification/dg16-r5-c5-input-capture/capture.py
+      - qualification/dg16-r5-c5-input-capture/INPUT_SPEC.json
+      - qualification/dg16-r5-c5-input-capture/host_utility.py
+permissions:
+  contents: read
+concurrency:
+  group: dg16-r5-c5-input-capture-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  capture:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/pro/dg16-r5-c5-input-capture-04-20261105' &&
+      github.event.deleted == false && github.run_attempt == '1'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out exact reviewed packet
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+      - name: Check out exact selected source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 35bf9823856eb4efe254b882954120480632230e
+          path: qualified-source
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+      - name: Capture actual root-owned runtime and a new fixed-wheel provider
+        timeout-minutes: 10
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-c5-input-capture/capture.py"
+          selection="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-c5-input-capture/INPUT_SPEC.json"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          test "${actual%% *}" = '4e1db26c7393c6fe3b93ab2481998e7c6b4f83a310061eb0ba8d790c5d67a17c'
+          actual="$(/usr/bin/sha256sum "$selection")"
+          test "${actual%% *}" = '0c311669d2882356a3bf23b94bd8f4c7c4af1055b43dd2f4fabad9dcc119268d'
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          # The owner permitted a fresh root-owned allocation on this disposable
+          # host. No existing path's ownership or source bytes are changed.
+          sudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \
+            /usr/bin/timeout --signal=TERM --kill-after=10s 540s \
+            /usr/bin/python3.12 -I -S -B "$adapter" \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-c5-capture-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" \
+            --repository "$GITHUB_REPOSITORY" --branch "${GITHUB_REF#refs/heads/}" \
+            --attempt "$GITHUB_RUN_ATTEMPT" --run-id "$GITHUB_RUN_ID" \
+            --workflow-commit "$GITHUB_SHA" --image-os "$ImageOS" --image-version "$ImageVersion"
+      - name: Observe validated public-output eligibility
+        id: public
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          marker="$RUNNER_TEMP/dg16-c5-capture-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/PUBLIC_ELIGIBLE"
+          if test -f "$marker" && test "$(cat "$marker")" = true; then
+            echo 'eligible=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'eligible=false' >> "$GITHUB_OUTPUT"
+            echo 'DG16_C5_INPUT_REFUSAL {"code":"VALIDATED_OUTPUT_UNAVAILABLE","authority":"NONE","automatic_retry":false}'
+          fi
+      - name: Retain exactly the bounded metadata records
+        if: always() && steps.public.outputs.eligible == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg16-r5-c5-input-capture-${{ github.run_id }}-1
+          if-no-files-found: error
+          retention-days: 3
+          compression-level: 9
+          path: |
+            ${{ runner.temp }}/dg16-c5-capture-${{ github.run_id }}-${{ github.run_attempt }}/public/RESULT.json
+            ${{ runner.temp }}/dg16-c5-capture-${{ github.run_id }}-${{ github.run_attempt }}/public/HOST.json
+            ${{ runner.temp }}/dg16-c5-capture-${{ github.run_id }}-${{ github.run_attempt }}/public/SOURCE.json
+            ${{ runner.temp }}/dg16-c5-capture-${{ github.run_id }}-${{ github.run_attempt }}/public/RUNTIME_A.json
+            ${{ runner.temp }}/dg16-c5-capture-${{ github.run_id }}-${{ github.run_attempt }}/public/RUNTIME_B.json
+            ${{ runner.temp }}/dg16-c5-capture-${{ github.run_id }}-${{ github.run_attempt }}/public/RUNTIME_C.json
+            ${{ runner.temp }}/dg16-c5-capture-${{ github.run_id }}-${{ github.run_attempt }}/public/RUNTIME_D.json
+            ${{ runner.temp }}/dg16-c5-capture-${{ github.run_id }}-${{ github.run_attempt }}/public/PROVIDER.json
+            ${{ runner.temp }}/dg16-c5-capture-${{ github.run_id }}-${{ github.run_attempt }}/public/SETUP.json
+            ${{ runner.temp }}/dg16-c5-capture-${{ github.run_id }}-${{ github.run_attempt }}/public/DIFFERENCES.json
+            ${{ runner.temp }}/dg16-c5-capture-${{ github.run_id }}-${{ github.run_attempt }}/public/ARTIFACT_MANIFEST.json
