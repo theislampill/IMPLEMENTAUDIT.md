@@ -17,6 +17,8 @@ elif command -v python3 >/dev/null 2>&1; then py_cmd=(python3)
 elif command -v py >/dev/null 2>&1; then py_cmd=(py -3)
 else printf 'claim-run.test: Python is required\n' >&2; exit 1; fi
 
+"${py_cmd[@]}" -B "$repo_root/fixtures/controller-initialization/path_spelling_test.py"
+
 work="$tmp/work with spaces"
 mkdir -p "$work"
 cd "$work"

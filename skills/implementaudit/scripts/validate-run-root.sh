@@ -344,17 +344,18 @@ PYDISPOSITION
   exit $?
 fi
 
-if [ "${1:-}" = "--claim-only" ]; then
+if [ "${1:-}" = "--claim-only" ] || [ "${1:-}" = "--claim-custody-only" ]; then
+  claim_scope="$1"
   run_arg="${2:-}"; [ "${3:-}" = "--repo-root" ] && repo_arg="${4:-}" || repo_arg=""
   [ -n "$run_arg" ] && [ -n "$repo_arg" ] && [ "$#" -eq 4 ] || { printf 'usage: validate-run-root.sh --claim-only <run-root> --repo-root <repo-root>\n' >&2; exit 2; }
   if command -v python >/dev/null 2>&1; then claim_py=(python)
   elif command -v python3 >/dev/null 2>&1; then claim_py=(python3)
   elif command -v py >/dev/null 2>&1; then claim_py=(py -3)
   else printf 'validate-run-root: Python is required for strict claim validation\n' >&2; exit 2; fi
-  "${claim_py[@]}" - "$run_arg" "$repo_arg" <<'PY'
+  "${claim_py[@]}" -I -B - "$run_arg" "$repo_arg" "$claim_scope" <<'PY'
 import datetime,os,re,stat,subprocess,sys
 from pathlib import Path
-run_arg,repo_arg=sys.argv[1:]
+run_arg,repo_arg,claim_scope=sys.argv[1:]
 def die(s): print('validate-run-root: '+s,file=sys.stderr); raise SystemExit(1)
 def canon(p): return os.path.normcase(os.path.abspath(p))
 def unsafe(p):
@@ -409,8 +410,10 @@ templates='STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md cont
 if d['templates']!=templates: die('.claimed template promise drift')
 for name in templates.split():
  p=run/name
+ if claim_scope=='--claim-custody-only' and not os.path.lexists(p): continue
  if unsafe(p) or not stat.S_ISREG(os.lstat(p).st_mode): die(f'claimed template is not regular custody: {name}')
-print('validate-run-root: claim ok')
+print('validate-run-root: claim ok' if claim_scope=='--claim-only' else
+      'validate-run-root: claim custody only; initialization/currentness not asserted')
 PY
   exit $?
 fi

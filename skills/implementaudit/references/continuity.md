@@ -3,6 +3,55 @@
 The run root survives context loss. A reconstructed summary is an OBSERVATION OF HISTORY,
 never authority. Reconcile a boundary; never replay a satisfied one-shot.
 
+## Fresh controller initialization and interrupted preparation
+
+`claim-run.sh --controller <id> <task>` allocates a claimed root and a distinct
+`refs/implementaudit/controller-initializations/<id>/<claim>` preparation record.
+It returns the run-root path as before. It does not publish a current controller
+or continuity receipt. Ordinary roots without `--controller` keep their existing
+cheap claim path.
+
+The owner-authorized bootstrap action may inspect this exact preparation and
+author its real task's seven files and phase specifications. It may not execute
+the task, resume an older session, or claim success or closure. Preserve and
+reconcile conflicting partial files; blank files or copied success statements
+are not initialization.
+
+```text
+claim-run.sh --inspect-controller-initialization <id> --run-root <relative-root>
+claim-run.sh --activate-controller <id> --run-root <relative-root> --expected-initialization <exact-token>
+```
+
+Inspection is evidence only; it never activates. Activation receives the exact
+claim, worktree/common directory, HEAD/tree, paired runtime sources, all seven
+files and the bounded initial document population. The existing full run-root
+and phase validators consume an exact safely received content snapshot without
+the two controller discovery hints. Retained file/directory handles and complete
+population readback fence the live originals through publication. The new
+`--claim-custody-only` validator checks partial claim custody; it explicitly
+asserts neither initialization nor currentness, and never replaces `--claim-only`.
+
+Activation publishes the unchanged controller-current.v1 format and a structural
+initialization binding record in one expected-old Git CAS. This record is not a
+continuity receipt. Missing, replaced or aliased inputs, source drift, stale
+tokens, conflicting claims or newer boundaries refuse. Exact repeated activation
+has no effect. After activation, perform the normal invalidate, separate
+STATE/ROADMAP reads, resume, verify and require sequence below.
+
+An interruption before activation leaves pending custody with no active binding.
+Inspect the exact token, finish only authorized initialization, then activate.
+After atomic publication, inspect or exactly retry activation, and establish
+normal continuity. Preparation and binding refs preserve the separate facts.
+
+Existing `--controller` callers must explicitly activate after authoring. An
+expected-claim supersession prepares a successor while preserving the predecessor,
+then replaces it only on validated activation. A legacy published-but-incomplete
+root may use that route only with intact exact custody and no continuity receipt,
+invalidation or canonical migration authority. Preserve its partial files and
+historical ref blob; do not reconstruct missing original state as current fact.
+Initialization cannot erase or reset established canonical migration. Arbitrary
+same-principal Git writers remain outside this cooperative guarantee.
+
 ## Boundary contract
 
 A boundary starts a CONTEXT EPOCH in STATE.md with provenance

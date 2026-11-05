@@ -2047,6 +2047,28 @@ _NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += (
         ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
     ),
 )
+# R4 initialization source domain; currentness still requires the original strict owner operations.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 31280, 'ad0dac4014087970c4898bf574207a871b8e08929a605889e038fe4dfdec404d', 420),
+    ('validate-run-root.sh', 114967, 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a', 420),
+    ('claim-run-rotation.py', 288433, '5ccadac1f8576d647b26a8dcb95beda1de55fd9abba280410087f96310d01adc', 420),
+    ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+),)
+# R5 Windows path initialization source domain; currentness still requires the original strict owner operations.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 31280, '7320327b903714358647bdee550bd795e087cc83db3b756e804264ad5bbf7be3', 420),
+    ('validate-run-root.sh', 114967, 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a', 420),
+    ('claim-run-rotation.py', 288439, 'ce40c4410011e46b209df718207b58c15d18e60db1379e7b66b24f04616637f9', 420),
+    ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+),)
 _NATIVE_LEGACY_CONTINUITY_PAIRS_V1 = (
     ('07e09843b2831149dc43e5f0dc458e82ae5cf9614b116393ac774ddea19390c7',
      'fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5'),
@@ -2098,6 +2120,10 @@ _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['7f6fbc766be6f6232d70cb4862f7b9298b2738
 
 # Exact R4 transport; every prior receiver remains retained.
 _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['24f316c7a2eb83e7c11d39dcbeea6c00fc998b3bb03d8c4070ff4edb3ac3594c'] = 87494
+
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['9948c6a866ed780ef862719397b47871aa0acf5e5db1b7d161ad92e85208ddfb'] = 88790
+
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['aa98b1a45b9345d3ccf88611a7b90cd2939e04ee3f520b82610546ba96b77d48'] = 90101
 
 def _native_check_continuity_closure_v1(value, repository, compiler_path, pair):
     """Check the complete live source set at fixed paths, never captured paths.

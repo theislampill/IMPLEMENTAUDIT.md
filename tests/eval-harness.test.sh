@@ -11,6 +11,7 @@ else echo "eval-harness.test: python required" >&2; exit 1; fi
 "$py" "$repo_root/eval/adversarial.py"
 "$py" "$repo_root/eval/test_reporting.py"
 "$py" "$repo_root/eval/test_adapters.py"
+"$py" "$repo_root/eval/test_process_identity.py"
 "$py" "$repo_root/eval/test_hosts.py"
 "$py" "$repo_root/eval/test_campaign_lifecycle.py"
 "$py" "$repo_root/eval/test_b3v4_contract_matrix.py"

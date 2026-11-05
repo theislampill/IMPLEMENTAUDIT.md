@@ -4342,14 +4342,410 @@ def read_resume_component(context, component, pointer_token, invalidation_token)
     return source["joined"][component.lower() + "_bytes"]
 
 
+# Initialization is an additive claim-owner transition, not a currentness
+# shortcut. Legacy controller/receipt schemas and normal readers stay intact.
+_INITIALIZATION_SCHEMA = 'implementaudit.controller-initialization.v1'
+_INITIALIZATION_BOUND_SCHEMA = 'implementaudit.controller-initialization-bound.v1'
+_INITIALIZATION_TEMPLATES = ('STATE.md', 'PROTOCOL.md', 'ROADMAP.md', 'THINKING.md',
+                             'sidecars.md', 'tools.md', 'context.md')
+_INITIALIZATION_VALIDATOR_BYTES = 114967
+_INITIALIZATION_VALIDATOR_SHA256 = 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a'
+
+
+def _initialization_context(controller, run):
+    if not isinstance(controller, str) or not CONTROLLER.fullmatch(controller):
+        raise RotationError('controller identity is invalid')
+    if not isinstance(run, str) or not re.fullmatch(
+            r'\.IMPLEMENTAUDIT/runs/[a-z0-9][a-z0-9-]*-[A-Za-z0-9]{6}', run):
+        raise RotationError('initialization requires the exact relative claimed root')
+    repo = Path(git(Path.cwd(), 'rev-parse', '--path-format=absolute', '--show-toplevel').decode().strip())
+    common = Path(git(repo, 'rev-parse', '--path-format=absolute', '--git-common-dir').decode().strip())
+    safe_chain(repo); safe_chain(common); safe_chain(repo / run)
+    if git(repo, 'rev-parse', '--show-object-format') != b'sha1\n':
+        raise RotationError('initialization requires the qualified SHA-1 object store')
+    storage = git_process(repo, 'config', '--get', 'extensions.refStorage')
+    if storage.returncode not in (0, 1) or storage.stdout.strip() not in (b'', b'files'):
+        raise RotationError('initialization requires the qualified files ref backend')
+    return {'repo': repo, 'common': common, 'run_root': repo / run,
+            'run_root_identity': run, 'controller': controller,
+            'controller_ref': 'refs/implementaudit/controllers/' + controller}
+
+
+def _initialization_sources():
+    owner = Path(__file__).absolute().parent
+    names = ('claim-run.sh', 'claim-run-rotation.py', 'canonical_custody.py',
+             'validate-run-root.sh', 'read-canonical-pair.py', 'validate-phase.sh',
+             'check-respec-impact-set.sh', 'rotate-canonical-state.py',
+             'canonical_hot_projection.py', 'canonical_rotation_inputs.py')
+    paths = [owner / name for name in names]
+    paths += [owner.parent / 'templates' / name for name in _INITIALIZATION_TEMPLATES]
+    optional = owner.parents[2] / 'scripts/check-cold-review-contract.sh'
+    if os.path.lexists(optional):
+        paths.append(optional)
+    rows = []
+    for path in paths:
+        raw = read_regular(path, max_bytes=1024 * 1024)
+        rows.append({'path': str(path), 'bytes': len(raw), 'mode': stat.S_IMODE(os.lstat(path).st_mode),
+                     'sha256': hashlib.sha256(raw).hexdigest()})
+    validator = read_regular(owner / 'validate-run-root.sh', max_bytes=1024 * 1024)
+    if (len(validator) != _INITIALIZATION_VALIDATOR_BYTES or
+            hashlib.sha256(validator).hexdigest() != _INITIALIZATION_VALIDATOR_SHA256):
+        raise RotationError('initialization validator differs from the paired owner source')
+    return rows, paths
+
+
+def _initialization_validation_process(context, name, arguments):
+    import tempfile
+    owner = Path(__file__).absolute().parent
+    rows, paths = _initialization_sources()
+    expected = context.get('_initialization_source_rows', rows)
+    if rows != expected:
+        raise RotationError('initialization validator source differs before execution')
+    # Execute captured, authenticated owner bytes, not a second lookup of a
+    # mutable source path. Preserve the source layout for sibling helpers and
+    # templates; keep inline Python away from task-supplied import roots.
+    with RetainedInputs(paths) as retained, tempfile.TemporaryDirectory(
+            prefix='implementaudit-initialization-source-') as temporary:
+        base = Path(temporary)
+        copied_owner = base / 'source/skills/implementaudit/scripts'
+        for path, row in zip(paths, rows):
+            if path.parent == owner:
+                copied = copied_owner / path.name
+            elif path.parent == owner.parent / 'templates':
+                copied = copied_owner.parent / 'templates' / path.name
+            else:
+                copied = base / 'source/scripts' / path.name
+            raw = read_regular(path, max_bytes=1024 * 1024)
+            if len(raw) != row['bytes'] or hashlib.sha256(raw).hexdigest() != row['sha256']:
+                raise CustodyError('initialization validator capture changed before execution')
+            copied.parent.mkdir(parents=True, exist_ok=True)
+            copied.write_bytes(raw)
+            copied.chmod(row['mode'])
+        empty = base / 'empty'
+        empty.mkdir()
+        retained.verify()
+        shell = r'C:\Program Files\Git\bin\bash.exe' if os.name == 'nt' else '/bin/bash'
+        result = subprocess.run([shell, str(copied_owner / name), *arguments],
+                                cwd=empty, env=git_environment(),
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                timeout=30, check=False)
+        retained.verify()
+        return result
+
+
+def _initialization_validator(context, scope, root):
+    arguments = ([scope, str(root), '--repo-root', str(context['repo'])]
+                 if scope else [str(root)])
+    result = _initialization_validation_process(context, 'validate-run-root.sh', arguments)
+    if result.returncode:
+        detail = result.stderr[-4096:].decode('utf-8', 'replace')
+        raise RotationError('initialization validation refused: ' + detail.strip())
+
+
+def _initialization_claim(context):
+    _initialization_validator(context, '--claim-custody-only', context['run_root'])
+    raw = read_regular(context['run_root'] / '.claimed', max_bytes=16384)
+    claim = dict(line.split('=', 1) for line in raw.decode('utf-8', 'strict').splitlines())
+    marker = read_regular(context['run_root'] / '.controller', max_bytes=128)
+    if marker != ('controller_id=' + context['controller'] + '\n').encode():
+        raise RotationError('initialization controller marker does not bind the explicit controller')
+    context['claim_id'] = claim['claim_id']
+    context['initialization_ref'] = ('refs/implementaudit/controller-initializations/' +
+                                     context['controller'] + '/' + context['claim_id'])
+    context['activation_ref'] = ('refs/implementaudit/controller-initialization-bindings/' +
+                                context['controller'] + '/' + context['claim_id'])
+    return hashlib.sha256(raw).hexdigest()
+
+
+def _initialization_guards(context):
+    c = context['controller']
+    refs = [context['controller_ref'], 'HEAD']
+    refs += ['refs/implementaudit/' + kind + '/' + c for kind in
+             ('current-generations', 'current-generation-migrations', 'continuity-invalidations')]
+    return read_refs(context['repo'], refs)
+
+
+def _initialization_predecessor(context, oid, expected):
+    if oid is None:
+        if expected:
+            raise RotationError('initialization expected a predecessor which is absent')
+        return 'NONE'
+    row = tsv(read_blob(context['repo'], oid), 4)
+    if (not expected or row[:3] != ['implementaudit.controller-current.v1',
+                                  context['controller'], expected]):
+        raise RotationError('initialization predecessor is not the exact expected claim')
+    prior = Path(row[3])
+    if not prior.is_absolute() or '/.IMPLEMENTAUDIT/runs/' not in row[3]:
+        raise RotationError('initialization predecessor run identity is malformed')
+    repo_text, rel_tail = row[3].rsplit('/.IMPLEMENTAUDIT/runs/', 1)
+    prior_context = dict(context, repo=Path(repo_text), run_root=prior,
+                         run_root_identity='.IMPLEMENTAUDIT/runs/' + rel_tail)
+    safe_chain(prior)
+    common = Path(git(prior_context['repo'], 'rev-parse', '--path-format=absolute', '--git-common-dir').decode().strip())
+    if common != context['common']:
+        raise RotationError('initialization predecessor is foreign Git-common custody')
+    if _initialization_claim(prior_context) != hashlib.sha256(read_regular(prior / '.claimed')).hexdigest() or prior_context['claim_id'] != expected:
+        raise RotationError('initialization predecessor claim changed')
+    missing = [name for name in _INITIALIZATION_TEMPLATES if not os.path.lexists(prior / name)]
+    if not missing:
+        return 'INITIALIZED_PREDECESSOR'
+    prefix = 'refs/implementaudit/continuity-receipts/' + context['controller'] + '/'
+    if git(context['repo'], 'for-each-ref', '--format=%(refname)', prefix).strip():
+        raise RotationError('incomplete predecessor has prior continuity receipts; recovery is not initialization')
+    if any(oid is not None for ref, oid in _initialization_guards(context).items()
+           if ref not in {context['controller_ref'], 'HEAD'}):
+        raise RotationError('incomplete predecessor has established boundary or migration authority')
+    return 'LEGACY_INCOMPLETE_NO_RECEIPTS'
+
+
+def prepare_controller_initialization(controller, expected, run):
+    context = _initialization_context(controller, run)
+    sources, paths = _initialization_sources()
+    context['_initialization_source_rows'] = sources
+    claim_sha = _initialization_claim(context)
+    guards = _initialization_guards(context)
+    if any(guards['refs/implementaudit/' + kind + '/' + controller] is not None
+           for kind in ('current-generations', 'current-generation-migrations')):
+        raise RotationError('initialization cannot replace established canonical migration authority')
+    predecessor = _initialization_predecessor(context, guards[context['controller_ref']], expected)
+    record = {'schema': _INITIALIZATION_SCHEMA, 'controller': controller,
+              'claim_id': context['claim_id'], 'run_root_identity': run,
+              'repo_root': str(context['repo']), 'git_common_dir': str(context['common']),
+              'claim_sha256': claim_sha, 'source': sources, 'guards': guards,
+              'source_tree': git(context['repo'], 'rev-parse', 'HEAD^{tree}').decode().strip(),
+              'predecessor_kind': predecessor, 'expected_predecessor_claim': expected or None,
+              'authority_ceiling': 'INITIALIZATION_ONLY_NO_EXECUTION_OR_CONTINUITY'}
+    with RetainedInputs(paths + [context['run_root'] / '.claimed', context['run_root'] / '.controller']) as retained:
+        if _initialization_sources()[0] != sources:
+            raise RotationError('initialization source changed before preparation')
+        oid = write_blob(context, canonical(record))
+        update_refs(context, {context['initialization_ref']: (oid, None)},
+                    guards, observation=retained)
+    return context['initialization_ref'] + '@' + oid
+
+
+def _initialization_record(context, token=None):
+    claim_sha = _initialization_claim(context)
+    ref = context['initialization_ref']
+    oid = read_ref(context['repo'], ref)
+    if oid is None or (token is not None and token != ref + '@' + oid):
+        raise RotationError('initialization token is absent, stale, copied or belongs to another claim')
+    record = decode_json(read_blob(context['repo'], oid))
+    keys = {'schema', 'controller', 'claim_id', 'run_root_identity', 'repo_root', 'git_common_dir',
+            'claim_sha256', 'source', 'guards', 'source_tree', 'predecessor_kind',
+            'expected_predecessor_claim', 'authority_ceiling'}
+    if type(record) is not dict or set(record) != keys or record['schema'] != _INITIALIZATION_SCHEMA:
+        raise RotationError('initialization record is not the closed source-owned schema')
+    expected = dict(controller=context['controller'], claim_id=context['claim_id'],
+                    run_root_identity=context['run_root_identity'], repo_root=str(context['repo']),
+                    git_common_dir=str(context['common']), claim_sha256=claim_sha,
+                    authority_ceiling='INITIALIZATION_ONLY_NO_EXECUTION_OR_CONTINUITY')
+    if any(record[key] != value for key, value in expected.items()):
+        raise RotationError('initialization record has foreign or changed claim custody')
+    sources, paths = _initialization_sources()
+    if sources != record['source']:
+        raise RotationError('initialization source differs from the prepared source')
+    context['_initialization_source_rows'] = sources
+    if (git(context['repo'], 'rev-parse', 'HEAD').decode().strip() != record['guards'].get('HEAD') or
+            git(context['repo'], 'rev-parse', 'HEAD^{tree}').decode().strip() != record['source_tree']):
+        raise RotationError('initialization repository source changed')
+    return record, oid, paths
+
+
+def inspect_controller_initialization(controller, run):
+    context = _initialization_context(controller, run)
+    record, oid, _ = _initialization_record(context)
+    bound = read_ref(context['repo'], context['activation_ref'])
+    return {'schema': 'implementaudit.controller-initialization-inspection.v1',
+            'controller': controller, 'claim_id': context['claim_id'], 'run_root': run,
+            'initialization_token': context['initialization_ref'] + '@' + oid,
+            'binding_record_oid': bound, 'current_controller_oid': read_ref(context['repo'], context['controller_ref']),
+            'missing_files': [name for name in _INITIALIZATION_TEMPLATES
+                              if not os.path.lexists(context['run_root'] / name)],
+            'prepared_source_head': record['guards']['HEAD'], 'predecessor_kind': record['predecessor_kind'],
+            'authority_ceiling': 'EVIDENCE_ONLY_NO_EXECUTION_OR_CONTINUITY'}
+
+
+def _initialization_population(root):
+    rows = []
+    directories = []
+    for base, subdirs, names in os.walk(root, followlinks=False):
+        relative = Path(base).relative_to(root)
+        if len(relative.parts) > 12:
+            raise RotationError('initialization directory depth exceeds the bounded profile')
+        with DirectoryPin(Path(base)):
+            directories.append(relative.as_posix())
+        if len(directories) > 64:
+            raise RotationError('initialization directory count exceeds the bounded profile')
+        for name in sorted(subdirs):
+            with DirectoryPin(Path(base) / name):
+                pass
+        for name in sorted(names):
+            path = Path(base) / name
+            with PinnedFile(path, max_bytes=1024 * 1024) as pinned:
+                raw = pinned.read()
+                rows.append({'path': path.relative_to(root).as_posix(), 'bytes': len(raw),
+                             'mode': stat.S_IMODE(os.lstat(path).st_mode),
+                             'sha256': hashlib.sha256(raw).hexdigest()})
+            if len(rows) > 256 or sum(row['bytes'] for row in rows) > 16 * 1024 * 1024:
+                raise RotationError('initialization file population exceeds the bounded profile')
+    return {'directories': sorted(directories), 'files': sorted(rows, key=lambda row: row['path'])}
+
+
+class _InitializationInputs:
+    def __init__(self, context, source_paths, population, record, token):
+        self.context, self.population = context, population
+        self.record, self.token = record, token
+        self.retained = RetainedInputs(source_paths + [context['run_root'] / row['path'] for row in population['files']])
+
+    def verify(self):
+        self.retained.verify()
+        if _initialization_record(self.context, self.token)[0] != self.record:
+            raise CustodyError('initialization claim, prepared source or repository identity drifted')
+        if _initialization_population(self.context['run_root']) != self.population:
+            raise CustodyError('initialization population was added, removed, aliased or changed')
+
+    def close(self):
+        self.retained.close()
+
+
+def _validate_initialized_content(context, population):
+    import tempfile
+    root = context['run_root']
+    for name in _INITIALIZATION_TEMPLATES:
+        raw = read_regular(root / name, max_bytes=1024 * 1024)
+        if not raw.strip() or '\x00' in raw.decode('utf-8', 'strict'):
+            raise RotationError('initialized template is blank or malformed: ' + name)
+    state = read_regular(root / 'STATE.md').decode('utf-8', 'strict')
+    def value(name):
+        found = re.findall(r'^\|\s*' + re.escape(name) + r'\s*\|([^|]*)\|\s*$', state, re.M)
+        if len(found) != 1:
+            raise RotationError('initialized STATE requires one exact ' + name + ' row')
+        return found[0].strip().strip('`')
+    if (value('Run root') != context['run_root_identity'] or
+            value('Baseline ref') != git(context['repo'], 'rev-parse', 'HEAD').decode().strip()):
+        raise RotationError('initialized STATE does not bind the real run and source baseline')
+    if value('Status') not in {'open', 'READY_TO_DISPATCH', 'PAUSED', 'BLOCKED', 'INTERRUPTED'}:
+        raise RotationError('initialization requires a truthful nonterminal initial state')
+    phase = value('Phase')
+    if not re.fullmatch(r'[1-9][0-9]*', phase):
+        raise RotationError('initialization requires the actual initial phase')
+    phase_path = 'phases/phase-' + phase + '.md'
+    if phase_path not in {row['path'] for row in population['files']}:
+        raise RotationError('initialization lacks its actual declared phase specification')
+    roadmap = read_regular(root / 'ROADMAP.md').decode('utf-8', 'strict')
+    phase_rows = []
+    columns = None
+    for line in roadmap.splitlines():
+        if not line.startswith('|'):
+            columns = None
+            continue
+        cells = [cell.strip().strip('`') for cell in line.strip('|').split('|')]
+        if cells and cells[0] in {'#', 'Phase'} and 'Status' in cells:
+            columns = cells
+            continue
+        if columns and cells and cells[0] == phase:
+            if len(cells) != len(columns) or len(cells) < 3:
+                raise RotationError('initialized roadmap phase row is malformed')
+            phase_rows.append(cells)
+            status = cells[columns.index('Status')]
+            if not cells[1] or status.lower() not in {'open', 'pending', 'ready', 'ready_to_dispatch', 'blocked', 'paused', 'interrupted'}:
+                raise RotationError('initialized roadmap lacks a real nonterminal initial phase')
+    if len(phase_rows) != 1:
+        raise RotationError('initialized roadmap must identify exactly one declared initial phase')
+    action = value('Next action')
+    if len(action) < 8 or action.lower() in {'continue', 'pending', 'unknown', 'todo', 'none'}:
+        raise RotationError('initialization requires the actual bounded next action')
+    # The unchanged structural validator must not mistake a pending controller
+    # hint for current authority. Validate an exact safely received content copy,
+    # with only the two custody hints excluded; retain/recheck every original.
+    with tempfile.TemporaryDirectory(prefix='implementaudit-initialization-validation-') as temporary:
+        target = Path(temporary)
+        for relative in population['directories']:
+            (target / relative).mkdir(parents=True, exist_ok=True)
+        for row in population['files']:
+            if row['path'] in {'.claimed', '.controller'}:
+                continue
+            raw = read_regular(root / row['path'], max_bytes=1024 * 1024)
+            if len(raw) != row['bytes'] or hashlib.sha256(raw).hexdigest() != row['sha256']:
+                raise CustodyError('initialization copy differs from the retained input')
+            (target / row['path']).write_bytes(raw)
+            (target / row['path']).chmod(row['mode'])
+        _initialization_validator(context, '', target)
+        for row in population['files']:
+            if re.fullmatch(r'phases/phase-[1-9][0-9]*\.md', row['path']):
+                result = _initialization_validation_process(
+                    context, 'validate-phase.sh', [str(target / row['path'])])
+                if result.returncode:
+                    raise RotationError('initialization phase validation refused: ' +
+                                        result.stderr[-4096:].decode('utf-8', 'replace').strip())
+    _initialization_validator(context, '--claim-only', root)
+
+
+def activate_controller_initialization(controller, run, token):
+    context = _initialization_context(controller, run)
+    record, oid, source_paths = _initialization_record(context, token)
+    population = _initialization_population(context['run_root'])
+    observation = _InitializationInputs(context, source_paths, population, record, token)
+    try:
+        observation.verify()
+        _validate_initialized_content(context, population)
+        observation.verify()
+        raw = ('implementaudit.controller-current.v1\t' + controller + '\t' +
+               context['claim_id'] + '\t' + context['run_root'].as_posix() + '\n').encode()
+        coid = write_blob(context, raw)
+        bound = {'schema': _INITIALIZATION_BOUND_SCHEMA, 'initialization_token': token,
+                 'controller_oid': coid, 'run_population': population,
+                 'structural_validation': 'EXACT_CONTENT_EXISTING_FULL_VALIDATOR',
+                 'authority_ceiling': 'ELIGIBLE_FOR_NORMAL_CURRENTNESS_ONLY'}
+        previous = read_ref(context['repo'], context['activation_ref'])
+        if previous is not None:
+            if read_blob(context['repo'], previous) != canonical(bound) or read_ref(context['repo'], context['controller_ref']) != coid:
+                raise RotationError('initialization was changed, superseded or already bound to different content')
+            observation.verify()
+            return dict(bound, status='EXACT_RETRY_NO_EFFECT', binding_record_oid=previous)
+        if _initialization_guards(context) != record['guards']:
+            raise RotationError('initialization expected-old source/controller/boundary changed')
+        _initialization_predecessor(context, record['guards'][context['controller_ref']],
+                                    record['expected_predecessor_claim'])
+        bound_oid = write_blob(context, canonical(bound))
+        guards = dict(record['guards'])
+        old = guards.pop(context['controller_ref'])
+        guards[context['initialization_ref']] = oid
+        update_refs(context, {context['controller_ref']: (coid, old),
+                              context['activation_ref']: (bound_oid, None)},
+                    guards, observation=observation)
+        return dict(bound, status='BOUND_ELIGIBLE_FOR_NORMAL_CURRENTNESS', binding_record_oid=bound_oid)
+    finally:
+        observation.close()
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=("require", "verify", "resume", "invalidate", "read", "read-role", "resolve", "resolve-retained-predecessor",
                                            "resolve-resume", "read-resume", "rotate", "recover",
-                                           "c02-prepare", "c02-append", "c02-apply"))
+                                           "c02-prepare", "c02-append", "c02-apply",
+                                           "initialization-prepare", "initialization-inspect", "initialization-activate"))
     parser.add_argument("controller")
     parser.add_argument("arguments", nargs=argparse.REMAINDER)
     args = parser.parse_args(argv)
+    if args.command.startswith('initialization-'):
+        if args.command == 'initialization-prepare':
+            if len(args.arguments) != 2:
+                raise RotationError('initialization preparation requires expected claim and exact run root')
+            token = prepare_controller_initialization(args.controller, *args.arguments)
+            print('claim-run.sh: initialization pending; token=' + token + '; no currentness authority', file=sys.stderr)
+            return 0
+        initialization = argparse.ArgumentParser(prog='claim-run.sh --' + args.command)
+        initialization.add_argument('--run-root', required=True)
+        if args.command == 'initialization-activate':
+            initialization.add_argument('--expected-initialization', required=True)
+        options = initialization.parse_args(args.arguments)
+        result = (activate_controller_initialization(args.controller, options.run_root, options.expected_initialization)
+                  if args.command == 'initialization-activate' else
+                  inspect_controller_initialization(args.controller, options.run_root))
+        sys.stdout.buffer.write(canonical(result) + b'\n')
+        return 0
     context = discover(args.controller)
     if args.command == "resolve-retained-predecessor":
         reader = argparse.ArgumentParser(prog="claim-run.sh --resolve-retained-continuity-predecessor")

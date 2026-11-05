@@ -376,6 +376,28 @@ SOURCE_PROFILES_V1['composite-20261104-r4-native-canary-v4-core'] = (
     ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
     ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
 )
+# Exact R4 controller initialization successor; previous source profiles remain immutable.
+SOURCE_PROFILES_V1['composite-20261104-r4-controller-initialization-v1-core'] = (
+    ('claim-run.sh', 31280, 'ad0dac4014087970c4898bf574207a871b8e08929a605889e038fe4dfdec404d', 420),
+    ('validate-run-root.sh', 114967, 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a', 420),
+    ('claim-run-rotation.py', 288433, '5ccadac1f8576d647b26a8dcb95beda1de55fd9abba280410087f96310d01adc', 420),
+    ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+)
+# Exact R5 Windows path initialization successor; previous source profiles remain immutable.
+SOURCE_PROFILES_V1['composite-20261105-r5-windows-initialization-v1-core'] = (
+    ('claim-run.sh', 31280, '7320327b903714358647bdee550bd795e087cc83db3b756e804264ad5bbf7be3', 420),
+    ('validate-run-root.sh', 114967, 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a', 420),
+    ('claim-run-rotation.py', 288439, 'ce40c4410011e46b209df718207b58c15d18e60db1379e7b66b24f04616637f9', 420),
+    ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+)
 ORIGINAL14_SOURCE_PROFILES_V1 = tuple(rows for rows in SOURCE_PROFILES_V1.values() if rows[0][3] is None)
 ORIGINAL14_SOURCE_PROFILE_V1 = SOURCE_PROFILES_V1["r0039-original14-windows"]
 
@@ -463,10 +485,14 @@ _WINDOWS_DG17_DG18_CUSTODY_CORE8_PAIR_V1 = ('2405210c86bb842fcd3a1304e83f2a14ece
 # Unchanged held-file contract for this exact new CORE8 source identity.
 _WINDOWS_R4_CANARY_CORE8_PAIR_V1 = ('cade5a010143b131ac70758ef68d907c4238dc5a596f341cc1be108eb1a147a0', 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978')
 
+_WINDOWS_R4_INITIALIZATION_CORE8_PAIR_V1 = ('ad0dac4014087970c4898bf574207a871b8e08929a605889e038fe4dfdec404d', 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a')
+
+_WINDOWS_R5_WINDOWS_INITIALIZATION_CORE8_PAIR_V1 = ('7320327b903714358647bdee550bd795e087cc83db3b756e804264ad5bbf7be3', 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a')
+
 def _windows_core_profile_v1(profile):
     return len(profile)==8 and tuple(row[2] for row in profile[:2]) in (
         _WINDOWS_CORE8_PAIR_V1, _WINDOWS_DG18_CORE8_PAIR_V1,
-        _WINDOWS_DG17_DG18_CUSTODY_CORE8_PAIR_V1, _WINDOWS_R4_CANARY_CORE8_PAIR_V1)
+        _WINDOWS_DG17_DG18_CUSTODY_CORE8_PAIR_V1, _WINDOWS_R4_CANARY_CORE8_PAIR_V1, _WINDOWS_R4_INITIALIZATION_CORE8_PAIR_V1, _WINDOWS_R5_WINDOWS_INITIALIZATION_CORE8_PAIR_V1)
 
 def _platform_source_profile_v1(profile):
     if os.name=='nt' and _windows_core_profile_v1(profile):

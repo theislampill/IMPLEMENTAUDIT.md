@@ -1865,6 +1865,7 @@ def fixture_capture_environment_cases(directory):
     observed_banks = [row["argv"][0] for row in rows]
     expected_banks = [
         "tests/work-graph-verifier-cases.py", "tests/work-graph-stream-cases.py",
+        "tests/work-graph-verifier-transport-cases.py",
         "tests/work-graph-prefix-cases.py", "tests/work-graph-registry-cases.py",
         "tests/work-graph-repro-events-cases.py", "tests/work-graph-correspondence-preflight-cases.py",
         "tests/work-graph-historical-fixture-cases.py",

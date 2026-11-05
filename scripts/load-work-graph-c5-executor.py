@@ -126,7 +126,27 @@ R4_BUILD_CACHE_PINS=types.MappingProxyType(dict(
     **{'scripts/work-graph-c5-inputs.py': 'dbe0eb5765a249b02f13f97c379a83da7b7a6c68ba2c8320100cd973381c2b6e', 'scripts/work-graph-c5-executor.py': 'ac9a7ea7f364c235aa1192a715a4c33c712bcd249275eb8bdce7064702a4bf4d', 'fixtures/work-graph-c5-inputs/execution-r4-build-local-compression-python312.json': '25c8348ef3f03bb9bb60c234ac6701cc35cf498902fcec4164868f9c48f1f70f', 'fixtures/work-graph-c5-inputs/genuine-r4-build-local-compression-execution-profile.json': '83cfa2de999dc79aaca5aa7973bfa56ec334a4698c42a4c5f4b0706c4c80c60a'}))
 R4_BUILD_CACHE_PHYSICAL_HISTORY=types.MappingProxyType({'scripts/work-graph-c5-inputs.py': ('fixtures/work-graph-c5-inputs/r4-inputs-before-build-cache-v5.py', '99c833db89500f2784f4f625cb757a56acc71eb688094bc9fc51f1c9440c694a'), 'scripts/work-graph-c5-executor.py': ('fixtures/work-graph-c5-inputs/r4-executor-before-build-cache-v5.py', '019bfc7b069295759847a1668345cae7112a789a9392a6233f4b7119c1cc237d')})
 
+# Reviewed initialization successor; same bounded C5 execution policy and provider.
+R4_INITIALIZATION_SOURCE_REVISION = 'DG16_DG17_DG18_R4_CONTROLLER_INITIALIZATION_SOURCE_20261104_V1'
+R4_INITIALIZATION_PINS = types.MappingProxyType({'scripts/qualify-work-graph-prefix.py': 'ff5dbdce5b4419268b0fc11c4659763ad68d40e32f18f721b6093a7dd269b7ab', 'scripts/work-graph-c5-inputs.py': 'dbe0eb5765a249b02f13f97c379a83da7b7a6c68ba2c8320100cd973381c2b6e', 'scripts/work-graph-c5-provider-inputs.py': '34699698d49f10c854b6f831bf38b856adb84791bf848e26fc105a1f1687a776', 'scripts/repro-event-capture.py': 'e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08', 'scripts/work-graph-completion.py': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb', 'skills/implementaudit/scripts/compile-work-graph.py': '1e33ab31553903ca64f58b64673371e0ec4efdf3208031db79f50898744ca033', 'scripts/qualify-work-graph-verifier.py': '8cc8342f025866ffaf8c98cc1dd33d7576416c2de39e9d444b9acfd546685a0b', 'scripts/work-graph-c5-live-gate.py': 'b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5', 'scripts/work-graph-c5-executor.py': 'ac9a7ea7f364c235aa1192a715a4c33c712bcd249275eb8bdce7064702a4bf4d', 'fixtures/work-graph-c5-inputs/package-r4-owned-venv-python312.json': 'c7d405ab460ecabf85ccb4ce13f6df97d0564a7aaa2cd0b6073478272e06bf17', 'fixtures/work-graph-c5-inputs/execution-r4-build-local-compression-python312.json': '25c8348ef3f03bb9bb60c234ac6701cc35cf498902fcec4164868f9c48f1f70f', 'fixtures/work-graph-c5-inputs/genuine-r4-build-local-compression-execution-profile.json': '83cfa2de999dc79aaca5aa7973bfa56ec334a4698c42a4c5f4b0706c4c80c60a'})
+R4_INITIALIZATION_PHYSICAL_HISTORY = types.MappingProxyType({'skills/implementaudit/scripts/compile-work-graph.py': ('test-support/r4-controller-initialization-history/f0b9-source/skills/implementaudit/scripts/compile-work-graph.py', 'addcae949fdab009f7f0b4a9f023392309841c1798357ca89f9ec2b84d4c8ba9')})
+
+# Windows spelling repair successor; same bounded C5 execution policy and provider.
+R5_WINDOWS_INITIALIZATION_SOURCE_REVISION = 'DG16_DG17_DG18_R5_WINDOWS_INITIALIZATION_SOURCE_20261105_V1'
+R5_WINDOWS_INITIALIZATION_PINS = types.MappingProxyType({'scripts/qualify-work-graph-prefix.py': 'ff5dbdce5b4419268b0fc11c4659763ad68d40e32f18f721b6093a7dd269b7ab', 'scripts/work-graph-c5-inputs.py': 'dbe0eb5765a249b02f13f97c379a83da7b7a6c68ba2c8320100cd973381c2b6e', 'scripts/work-graph-c5-provider-inputs.py': '34699698d49f10c854b6f831bf38b856adb84791bf848e26fc105a1f1687a776', 'scripts/repro-event-capture.py': 'e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08', 'scripts/work-graph-completion.py': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb', 'skills/implementaudit/scripts/compile-work-graph.py': '62c3b0fb95bbf006ef81e981a16325395e6165ae65c901f667de0e60bf74de3c', 'scripts/qualify-work-graph-verifier.py': '8cc8342f025866ffaf8c98cc1dd33d7576416c2de39e9d444b9acfd546685a0b', 'scripts/work-graph-c5-live-gate.py': 'b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5', 'scripts/work-graph-c5-executor.py': 'ac9a7ea7f364c235aa1192a715a4c33c712bcd249275eb8bdce7064702a4bf4d', 'fixtures/work-graph-c5-inputs/package-r4-owned-venv-python312.json': 'c7d405ab460ecabf85ccb4ce13f6df97d0564a7aaa2cd0b6073478272e06bf17', 'fixtures/work-graph-c5-inputs/execution-r4-build-local-compression-python312.json': '25c8348ef3f03bb9bb60c234ac6701cc35cf498902fcec4164868f9c48f1f70f', 'fixtures/work-graph-c5-inputs/genuine-r4-build-local-compression-execution-profile.json': '83cfa2de999dc79aaca5aa7973bfa56ec334a4698c42a4c5f4b0706c4c80c60a'})
+R5_WINDOWS_INITIALIZATION_PHYSICAL_HISTORY = types.MappingProxyType({'skills/implementaudit/scripts/compile-work-graph.py': ('test-support/r5-windows-initialization-history/75e2da4-source/skills/implementaudit/scripts/compile-work-graph.py', '1e33ab31553903ca64f58b64673371e0ec4efdf3208031db79f50898744ca033')})
+
 def _selection(profile,source_revision=None):
+    if source_revision == R5_WINDOWS_INITIALIZATION_SOURCE_REVISION:
+        if type(profile) is not str or profile != R4_BUILD_CACHE_PROFILE:
+            raise ValueError('Unknown fixed R5 Windows initialization source profile')
+        _,base,provider,execution,origins=_selection(profile,R4_BUILD_CACHE_SOURCE_REVISION)
+        return R5_WINDOWS_INITIALIZATION_PINS,base,provider,execution,origins
+    if source_revision == R4_INITIALIZATION_SOURCE_REVISION:
+        if type(profile) is not str or profile != R4_BUILD_CACHE_PROFILE:
+            raise ValueError('Unknown fixed R4 initialization source profile')
+        _,base,provider,execution,origins=_selection(profile,R4_BUILD_CACHE_SOURCE_REVISION)
+        return R4_INITIALIZATION_PINS,base,provider,execution,origins
     if source_revision == R4_BUILD_CACHE_SOURCE_REVISION:
         if type(profile) is not str or profile != R4_BUILD_CACHE_PROFILE:
             raise ValueError('Unknown fixed R4 build-local compression C5 profile')
@@ -193,6 +213,12 @@ def _read(name, profile=PROFILE,source_revision=None):
     historical = R4_BUILD_CACHE_PHYSICAL_HISTORY.get(name)
     if historical is not None and pins.get(name) == historical[1]:
         physical = historical[0]
+    retained = R4_INITIALIZATION_PHYSICAL_HISTORY.get(name)
+    if retained is not None and pins.get(name) == retained[1]:
+        physical = retained[0]
+    retained = R5_WINDOWS_INITIALIZATION_PHYSICAL_HISTORY.get(name)
+    if retained is not None and pins.get(name) == retained[1]:
+        physical = retained[0]
     path=ROOT/physical
     if not path.is_absolute() or '..' in path.parts:raise ValueError('C5 execution source alias is unsupported')
     directory=os.open('/',os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW)
@@ -396,4 +422,16 @@ def create_r4_guarded_prefix_result_correspondence_c5_session_v5(source_root,out
 def create_r4_build_local_compression_correspondence_c5_session_v6(source_root,output,*,expected_source):
     """Exact new package builder; original scripts and all execution limits unchanged."""
     return _Engine(R4_BUILD_CACHE_PROFILE,source_revision=R4_BUILD_CACHE_SOURCE_REVISION).load().GenuineC5Session(
+        source_root,output,expected_source=expected_source)
+
+
+def create_r4_initialized_source_correspondence_c5_session_v1(source_root,output,*,expected_source):
+    """Exact initialization-repaired source; original two-process limits remain unchanged."""
+    return _Engine(R4_BUILD_CACHE_PROFILE,source_revision=R4_INITIALIZATION_SOURCE_REVISION).load().GenuineC5Session(
+        source_root,output,expected_source=expected_source)
+
+
+def create_r5_windows_initialized_source_correspondence_c5_session_v1(source_root,output,*,expected_source):
+    """Exact initialization-repaired source; original two-process limits remain unchanged."""
+    return _Engine(R4_BUILD_CACHE_PROFILE,source_revision=R5_WINDOWS_INITIALIZATION_SOURCE_REVISION).load().GenuineC5Session(
         source_root,output,expected_source=expected_source)

@@ -278,6 +278,13 @@ epoch_case bare_revoked \
 # atomic expected-claim transition.  After compaction, a stale summary/root
 # must resolve to the successor and cannot emit the successor's receipt.
 claim_helper="${IMPLEMENTAUDIT_CLAIM_HELPER:-$repo_root/skills/implementaudit/scripts/claim-run.sh}"
+initialize_controller_fixture() {
+  local target_repo="$1" target_run="$2" action="$3"; shift 3
+  "${py_cmd[@]}" "$repo_root/fixtures/controller-initialization/author_checkpoint.py" \
+    --repo "$target_repo" --run-root "$target_run" --source "$repo_root" \
+    --purpose 'Qualify explicit controller continuity, transfer and refusal semantics on this disposable subject' \
+    --next-action "$action" "$@" >/dev/null
+}
 resume_repo="$tmp/resume-repo"; successor_repo="$tmp/resume-successor"
 mkdir -p "$resume_repo"
 git -C "$resume_repo" init -q
@@ -293,6 +300,7 @@ initial_rel="$(cd "$resume_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs \
   || fail "initial controller claim failed"
 initial_root="$resume_repo/$initial_rel"
 initial_claim="$(sed -n 's/^claim_id=//p' "$initial_root/.claimed")"
+initialize_controller_fixture "$resume_repo" "$initial_rel" 'continue implementation in the controller worktree' --activate || fail 'initial activation failed'
 [ "$(cat "$initial_root/.controller" 2>/dev/null)" = 'controller_id=release-v0333' ] || fail 'S3E-W02 RED: controller root lacks value-bearing custody record'
 
 printf 'post-merge\n' >> "$successor_repo/product.txt"
@@ -307,16 +315,12 @@ successor_root="$successor_repo/$successor_rel"
 successor_claim="$(sed -n 's/^claim_id=//p' "$successor_root/.claimed")"
 [ "$(cat "$successor_root/.controller" 2>/dev/null)" = 'controller_id=release-v0333' ] || fail 'successor controller custody record is missing or malformed'
 
-for root in "$initial_root" "$successor_root"; do
-  for f in STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md; do
-    cp "$repo_root/skills/implementaudit/templates/$f" "$root/$f"
-  done
-done
+initialize_controller_fixture "$successor_repo" "$successor_rel" 'qualify the authoritative successor before release' || fail 'successor initialization failed'
 
 "${py_cmd[@]}" - "$initial_root/STATE.md" "$initial_rel" \
   "$(git -C "$resume_repo" rev-parse HEAD)" "$(git -C "$resume_repo" rev-parse 'HEAD^{tree}')" \
   "$successor_root/STATE.md" "$successor_rel" "$successor_head" "$successor_tree" <<'PY'
-import sys
+import re,sys
 from pathlib import Path
 for state, run, head, tree, epoch, boundary, action in (
     (*sys.argv[1:5], "G0001", "new-session", "continue implementation in the controller worktree"),
@@ -328,8 +332,10 @@ for state, run, head, tree, epoch, boundary, action in (
     s=s.replace("Current epoch: G0001", f"Current epoch: {epoch}")
     anchor="| Epoch | Boundary provenance | Established at | Repo identity | Reconciled | Notes |\n|---|---|---|---|---|---|"
     row=f"| {epoch} | {boundary} | 2026-08-12T13:00:00Z | repo at `{head}` / `{tree}` | yes | live readback complete |"
-    p.write_text(s.replace(anchor, anchor+"\n"+row), encoding="utf-8")
+    p.write_text(re.sub(r"^\| G[0-9A-F]{4} \|[^\n]*$",row,s,flags=re.M), encoding="utf-8")
 PY
+
+initialize_controller_fixture "$successor_repo" "$successor_rel" 'qualify the authoritative successor before release' --activate-only || fail 'successor activation failed'
 
 current="$(cd "$resume_repo" && bash "$claim_helper" --current-controller)" \
   || fail "current controller discovery failed"
@@ -463,9 +469,9 @@ if (cd "$successor_repo" && bash "$claim_helper" --resume-controller release-v03
 fi
 
 # Multiple controller records are an audited ambiguity, never a guessed root.
-(cd "$successor_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs \
-  bash "$claim_helper" --controller sibling-controller 'independent sibling' >/dev/null 2>&1) \
-  || fail "independent controller claim failed"
+sibling_rel="$(cd "$successor_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs \
+  bash "$claim_helper" --controller sibling-controller 'independent sibling' 2>/dev/null)" || fail 'independent controller claim failed'
+initialize_controller_fixture "$successor_repo" "$sibling_rel" 'Receive independent sibling continuity under explicit discovery' --activate || fail 'sibling activation failed'
 if (cd "$successor_repo" && bash "$claim_helper" --current-controller) >/dev/null 2>&1; then
   fail "ambiguous controller discovery guessed one current root"
 fi
@@ -487,9 +493,7 @@ done
   bash "$claim_helper" --controller foreign-custody 'foreign controller' >"$tmp/foreign-rel" 2>/dev/null) \
   || fail "foreign controller fixture claim failed"
 foreign_root="$foreign_b/$(cat "$tmp/foreign-rel")"
-for f in STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md; do
-  cp "$repo_root/skills/implementaudit/templates/$f" "$foreign_root/$f"
-done
+initialize_controller_fixture "$foreign_b" "$(cat "$tmp/foreign-rel")" 'Receive the source controller before testing foreign copied-ref refusal' --activate || fail 'foreign fixture activation failed'
 foreign_ref='refs/implementaudit/controllers/foreign-custody'
 foreign_oid="$(git -C "$foreign_b" rev-parse "$foreign_ref")"
 copied_oid="$(git -C "$foreign_b" cat-file blob "$foreign_oid" | git -C "$foreign_a" hash-object -w --stdin)"
@@ -534,14 +538,24 @@ git -C "$race_repo" worktree add -q -b race-b "$race_b"
 race_initial_rel="$(cd "$race_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs \
   bash "$claim_helper" --controller split-brain 'initial race controller' 2>/dev/null)"
 race_claim="$(sed -n 's/^claim_id=//p' "$race_repo/$race_initial_rel/.claimed")"
+initialize_controller_fixture "$race_repo" "$race_initial_rel" 'Receive the exact initial race predecessor' --activate || fail 'race predecessor activation failed'
+for race_side in a b; do
+  if [ "$race_side" = a ]; then target_race_repo="$race_a"; else target_race_repo="$race_b"; fi
+  target_race_rel="$(cd "$target_race_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$claim_helper" --controller split-brain --supersede-claim "$race_claim" "racing successor $race_side")" || fail 'racing preparation failed'
+  initialize_controller_fixture "$target_race_repo" "$target_race_rel" 'Receive exactly one expected-old race successor' || fail 'racing initialization failed'
+  printf '%s\n' "$target_race_rel" >"$tmp/race-$race_side.rel"
+  (cd "$target_race_repo" && bash "$claim_helper" --inspect-controller-initialization split-brain --run-root "$target_race_rel") >"$tmp/race-$race_side.inspection"
+done
+race_a_token="$("${py_cmd[@]}" -c 'import json,sys;print(json.load(open(sys.argv[1]))["initialization_token"])' "$tmp/race-a.inspection")"
+race_b_token="$("${py_cmd[@]}" -c 'import json,sys;print(json.load(open(sys.argv[1]))["initialization_token"])' "$tmp/race-b.inspection")"
 (
   cd "$race_a" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$claim_helper" \
-    --controller split-brain --supersede-claim "$race_claim" 'racing successor a' \
+    --activate-controller split-brain --run-root "$(cat "$tmp/race-a.rel")" --expected-initialization "$race_a_token" \
     >"$tmp/race-a.out" 2>"$tmp/race-a.err"
 ) & race_a_pid=$!
 (
   cd "$race_b" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$claim_helper" \
-    --controller split-brain --supersede-claim "$race_claim" 'racing successor b' \
+    --activate-controller split-brain --run-root "$(cat "$tmp/race-b.rel")" --expected-initialization "$race_b_token" \
     >"$tmp/race-b.out" 2>"$tmp/race-b.err"
 ) & race_b_pid=$!
 race_a_rc=0; wait "$race_a_pid" || race_a_rc=$?
@@ -549,15 +563,14 @@ race_b_rc=0; wait "$race_b_pid" || race_b_rc=$?
 [ $(( (race_a_rc == 0) + (race_b_rc == 0) )) -eq 1 ] ||
   fail "controller CAS did not select exactly one racing successor: $race_a_rc/$race_b_rc"
 if [ "$race_a_rc" -eq 0 ]; then
-  expected_winner="$race_a"; winner_rel="$(cat "$tmp/race-a.out")"; losing_repo="$race_b"
+  expected_winner="$race_a"; winner_rel="$(cat "$tmp/race-a.rel")"; losing_repo="$race_b"
 else
-  expected_winner="$race_b"; winner_rel="$(cat "$tmp/race-b.out")"; losing_repo="$race_a"
+  expected_winner="$race_b"; winner_rel="$(cat "$tmp/race-b.rel")"; losing_repo="$race_a"
 fi
-find "$losing_repo/.IMPLEMENTAUDIT/runs" -mindepth 1 -maxdepth 1 -type d -print -quit 2>/dev/null | grep -q . &&
-  fail "losing controller CAS retained a plausible stale run root"
-for f in STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md; do
-  cp "$repo_root/skills/implementaudit/templates/$f" "$expected_winner/$winner_rel/$f"
-done
+[ -d "$losing_repo/.IMPLEMENTAUDIT/runs" ] || fail 'losing preparation evidence was erased'
+if (cd "$losing_repo" && bash "$claim_helper" --require-current-continuity split-brain) >/dev/null 2>&1; then
+  fail 'losing prepared contender acquired current continuity'
+fi
 race_current="$(cd "$race_repo" && bash "$claim_helper" --current-controller split-brain)" ||
   fail "winning racing controller was not discoverable"
 race_winner_repo="$(printf '%s' "$race_current" | cut -f2)"
@@ -577,20 +590,19 @@ git -C "$positive_repo" add product.txt; git -C "$positive_repo" commit -qm posi
 positive_rel="$(cd "$positive_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs \
   bash "$claim_helper" --controller positive-n06 'positive continuity' 2>/dev/null)"
 positive_root="$positive_repo/$positive_rel"
-for f in STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md; do
-  cp "$repo_root/skills/implementaudit/templates/$f" "$positive_root/$f"
-done
+initialize_controller_fixture "$positive_repo" "$positive_rel" 'resume the exact current checkpoint' || fail 'positive initialization failed'
 "${py_cmd[@]}" - "$positive_root/STATE.md" "$positive_rel" \
   "$(git -C "$positive_repo" rev-parse HEAD)" "$(git -C "$positive_repo" rev-parse 'HEAD^{tree}')" <<'PY'
-import sys
+import re,sys
 from pathlib import Path
 p=Path(sys.argv[1]); run,head,tree=sys.argv[2:]
 s=p.read_text(encoding="utf-8").replace("| Run root |  |",f"| Run root | `{run}` |")
 s=s.replace("| Next action |  |","| Next action | resume the exact current checkpoint |")
 a="| Epoch | Boundary provenance | Established at | Repo identity | Reconciled | Notes |\n|---|---|---|---|---|---|"
 r=f"| G0001 | host-reported-compaction | 2026-08-12T12:00:00Z | repo at `{head}` / `{tree}` | yes | separate live reads complete |"
-p.write_text(s.replace(a,a+"\n"+r),encoding="utf-8")
+p.write_text(re.sub(r"^\| G0001 \|[^\n]*$",r,s,flags=re.M),encoding="utf-8")
 PY
+initialize_controller_fixture "$positive_repo" "$positive_rel" 'resume the exact current checkpoint' --activate-only || fail 'positive activation failed'
 (cd "$positive_repo" && bash "$claim_helper" --resume-controller positive-n06 \
   --boundary host-reported-compaction --epoch G0001) >/dev/null \
   || fail "positive same-controller continuity case failed"

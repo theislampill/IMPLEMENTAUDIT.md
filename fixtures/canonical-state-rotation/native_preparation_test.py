@@ -120,6 +120,16 @@ def _preparation_fixture_pin(path):
     return {'path':str(path),'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest()}
 
 
+def _preparation_fixture_producer_bytes():
+    # This protocol still selects the historical unselected producer role.
+    path = REPO/'test-support/native-preparation-history/compaction-source-owner-codex-app.py'
+    raw = path.read_bytes()
+    if (len(raw) != 133273 or hashlib.sha256(raw).hexdigest()
+            != '8d6e51fcd82ab3d236c5b6707129228a73483fcb7700825c42b0fb797cef9ebf'):
+        raise AssertionError('historical preparation producer fixture differs from its exact preimage')
+    return raw
+
+
 def _preparation_fixture_support():
     source = _preparation_fixture_load('_preparation_actual_source_template',SOURCE_TEMPLATE)
     helper = _preparation_fixture_load('_preparation_actual_live_helper',SOURCE_TEMPLATE.with_name('bounded_source_owner.py'))
@@ -132,6 +142,9 @@ class PortableFactoryLoaderControls(unittest.TestCase):
 
     def setUp(self):
         self.stack=contextlib.ExitStack();self.addCleanup(self.stack.close)
+        self.prepare_fixture(_preparation_fixture_producer_bytes())
+
+    def prepare_fixture(self, producer_bytes):
         temporary=self.stack.enter_context(tempfile.TemporaryDirectory(prefix='r0039-preparation-loader-'))
         self.root=Path(temporary).resolve()
         scripts=self.root/'skills/implementaudit/scripts';scripts.mkdir(parents=True)
@@ -148,7 +161,7 @@ class PortableFactoryLoaderControls(unittest.TestCase):
         self.assertIs(self.claim.native_preparation_for_owned_stdio_v1.__globals__,self.claim.__dict__)
         self.assertNotIn(self.claim.__name__,sys.modules)
         producer_path=self.root/'producer/compaction-source-owner-codex-app.py'
-        producer_path.parent.mkdir();producer_path.write_bytes(SOURCE_TEMPLATE.read_bytes())
+        producer_path.parent.mkdir();producer_path.write_bytes(producer_bytes)
         runner=self.root/'constructed-runner.py';runner.write_bytes(b'# inert fixture pin\n')
         runner_pin=_preparation_fixture_pin(runner)
         dependencies={'claim-run-rotation.py':self.claim_pin,
@@ -179,6 +192,15 @@ class PortableFactoryLoaderControls(unittest.TestCase):
             self.invoke()
         self.producer.check.assert_called_once_with()
         self.assertNotIn(self.claim.__name__,sys.modules)
+
+    def test_current_template_cannot_fill_historical_producer_role(self):
+        self.prepare_fixture(SOURCE_TEMPLATE.read_bytes())
+        pin = self.producer.pins['source_owner']
+        self.assertEqual(pin, self.runtime[0]['producer_dependencies']['compaction-source-owner-codex-app.py'])
+        self.assertNotEqual(pin['sha256'], self.claim._NATIVE_SOURCE_OWNER_TEMPLATE_SHA256)
+        with self.assertRaisesRegex(self.claim.RotationError,'selected dependency closure'):
+            self.invoke()
+        self.producer.check.assert_not_called()
 
     def test_foreign_or_equal_bytes_reloaded_module_refuses(self):
         reload=self.helper.load_live_claim_v1(self.claim_pin,self.source._np_read_pin)
@@ -704,7 +726,7 @@ class RendezvousMechanics(unittest.TestCase):
         selected_path.write_bytes(SOURCE_TEMPLATE.read_bytes())
         selected_source = _preparation_fixture_load('_preparation_selected_windows_owner',selected_path)
         producer_path = self.root/'producer/compaction-source-owner-codex-app.py'
-        producer_path.parent.mkdir();producer_path.write_bytes(SOURCE_TEMPLATE.read_bytes())
+        producer_path.parent.mkdir();producer_path.write_bytes(_preparation_fixture_producer_bytes())
         source_pin = _preparation_fixture_pin(producer_path)
         fixture_pin = _preparation_fixture_pin(self.file)
         dependencies = {name:fixture_pin for name in ('owned_stdio_loop.py','claim-run-rotation.py','bounded_source_owner.py')}

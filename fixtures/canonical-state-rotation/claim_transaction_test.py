@@ -27,6 +27,10 @@ POST = BASE / "skills/implementaudit/scripts"
 EVIDENCE = Path(os.environ.get("R0039_CLAIM_EVIDENCE_DIR") or tempfile.mkdtemp(prefix="claim-evidence-")).absolute()
 EVIDENCE.mkdir(parents=True, exist_ok=True)
 CONTROLLER = "transaction-test"
+# Original117 is a retained six-source subject, not a pending-initialization
+# caller. Keep its actual authoring protocol without probing unsupported modes.
+LEGACY_CLAIM_SHA256 = "50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383"
+LEGACY_SOURCE_SHA256 = "3b026c414bac82243bc46bf44b18d531e78e6887849c2372430dac5be59aa9e3"
 
 
 def run(argv, *, cwd, input_bytes=None):
@@ -43,7 +47,7 @@ def run(argv, *, cwd, input_bytes=None):
 
 
 class Fixture:
-    def __init__(self, *, seed_receipt=True, persistent_repo=None):
+    def __init__(self, *, seed_receipt=True, persistent_repo=None, source_scripts=None):
         # Completed test cases contain cyclic module globals; retire them before
         # measuring another invocation in this long-lived test process.
         gc.collect()
@@ -52,12 +56,22 @@ class Fixture:
         if persistent_repo is not None:
             self.repo.mkdir(parents=True, exist_ok=False)
         self.scripts = self.repo / "skills/implementaudit/scripts"
-        self.scripts.mkdir(parents=True)
+        selected_scripts = POST if source_scripts is None else Path(source_scripts)
+        shutil.copytree(BASE / 'skills/implementaudit/scripts', self.scripts)
+        shutil.copytree(BASE / 'skills/implementaudit/templates', self.scripts.parent / 'templates')
         for name in ("claim-run.sh", "claim-run-rotation.py", "validate-run-root.sh",
                      "rotate-canonical-state.py", "canonical_hot_projection.py", "canonical_custody.py"):
-            chosen = POST / name if (POST / name).is_file() else BASE / "skills/implementaudit/scripts" / name
+            chosen = selected_scripts / name if (selected_scripts / name).is_file() else BASE / "skills/implementaudit/scripts" / name
             if chosen.is_file():
                 shutil.copyfile(chosen, self.scripts / name)
+        self.legacy_initialization = hashlib.sha256((self.scripts / 'claim-run.sh').read_bytes()).hexdigest() == LEGACY_CLAIM_SHA256
+        if self.legacy_initialization:
+            names = ("claim-run.sh", "claim-run-rotation.py", "validate-run-root.sh",
+                     "rotate-canonical-state.py", "canonical_hot_projection.py", "canonical_custody.py")
+            members = [(name, len((self.scripts / name).read_bytes()),
+                        hashlib.sha256((self.scripts / name).read_bytes()).hexdigest()) for name in names]
+            if hashlib.sha256(json.dumps(members, separators=(',', ':')).encode()).hexdigest() != LEGACY_SOURCE_SHA256:
+                raise ValueError('retained original117 initialization source population differs')
         self.git("init", "-q")
         self.git("config", "user.name", "claim transaction fixture")
         self.git("config", "user.email", "claim-transaction@example.invalid")
@@ -68,8 +82,16 @@ class Fixture:
         if claimed.returncode:
             raise RuntimeError(claimed.stderr.decode())
         self.run_root = self.repo / claimed.stdout.decode().strip()
-        for name in ("STATE.md", "ROADMAP.md", "PROTOCOL.md", "THINKING.md", "sidecars.md", "tools.md", "context.md"):
-            (self.run_root / name).write_text(name + " fixture\n")
+        if self.legacy_initialization:
+            for name in ("STATE.md", "ROADMAP.md", "PROTOCOL.md", "THINKING.md", "sidecars.md", "tools.md", "context.md"):
+                (self.run_root / name).write_text(name + " fixture\n")
+        else:
+            initialized = run([sys.executable, BASE / 'fixtures/controller-initialization/author_checkpoint.py',
+                '--repo', self.repo, '--run-root', self.run_root.relative_to(self.repo).as_posix(),
+                '--source', self.repo, '--purpose', 'Qualify claim-owned canonical generation transaction and reader guards on this disposable subject.',
+                '--next-action', 'Exercise the declared canonical transaction discriminator and retain its actual result', '--activate'], cwd=self.repo)
+            if initialized.returncode:
+                raise RuntimeError(initialized.stderr.decode())
         self.head = self.git("rev-parse", "HEAD")
         self.tree = self.git("rev-parse", "HEAD^{tree}")
         if not seed_receipt:
@@ -106,10 +128,20 @@ class Fixture:
         return self.git("hash-object", "-w", "--stdin", input_bytes=data)
 
     def write_state(self, epoch, boundary):
-        (self.run_root / "STATE.md").write_text(
-            "# STATE\n\n| Next action | continue exact action |\n"
-            + "Current epoch: " + epoch + "\n"
-            + f"| {epoch} | {boundary} | fixture | repo at `{self.head}` / `{self.tree}` | yes | fixture |\n")
+        if self.legacy_initialization:
+            (self.run_root / "STATE.md").write_text(
+                "# STATE\n\n| Next action | continue exact action |\n"
+                + "Current epoch: " + epoch + "\n"
+                + f"| {epoch} | {boundary} | fixture | repo at `{self.head}` / `{self.tree}` | yes | fixture |\n")
+            return
+        import re
+        path = self.run_root / 'STATE.md'
+        text = path.read_text()
+        text = re.sub(r'^\| Next action \|.*$', '| Next action | continue exact action |', text, flags=re.M)
+        text = re.sub(r'^Current epoch: .+$', 'Current epoch: ' + epoch, text, flags=re.M)
+        text = re.sub(r'^\| G[0-9A-F]{4} \|[^\n]*$',
+            f'| {epoch} | {boundary} | fixture | repo at `{self.head}` / `{self.tree}` | yes | actual fixture source reconciled |', text, flags=re.M)
+        path.write_text(text)
 
     def malformed_marker(self):
         self.git("update-ref", f"refs/implementaudit/current-generation-migrations/{CONTROLLER}",
@@ -268,6 +300,21 @@ class FixtureProjection:
 
 
 class FixtureLifecycleControls(unittest.TestCase):
+    def test_retained_and_current_callers_select_their_actual_initialization_protocols(self):
+        historical = BASE / 'test-support/work-graph-registry/original117/skills/implementaudit/scripts'
+        with mock.patch.dict(globals(), POST=historical):
+            for selected, legacy in ((None, True), (BASE / 'skills/implementaudit/scripts', False)):
+                with self.subTest(legacy=legacy):
+                    subject = Fixture(source_scripts=selected)
+                    try:
+                        self.assertEqual(subject.legacy_initialization, legacy)
+                        current = subject.claim('--require-current-continuity', CONTROLLER)
+                        self.assertEqual(current.returncode, 0, current.stderr.decode())
+                        self.assertEqual(current.stdout.decode().strip(), subject.receipt)
+                        self.assertEqual(len(list((subject.repo / '.IMPLEMENTAUDIT/runs').iterdir())), 1)
+                    finally:
+                        subject.close()
+
     def test_disposal_removes_only_the_retired_installations_modules(self):
         import types
         with tempfile.TemporaryDirectory(prefix="fixture-disposal-", dir=EVIDENCE) as directory:

@@ -641,7 +641,8 @@ class CurrentCoreControls(unittest.TestCase):
         cls.temp = tempfile.TemporaryDirectory(prefix="current-core-read-controls-", dir="/tmp")
         cls.addClassCleanup(cls.temp.cleanup)
         cls.base = Path(cls.temp.name)
-        cls.fixture = FIXTURES.Fixture(seed_receipt=False, persistent_repo=cls.base / "repo")
+        cls.fixture = FIXTURES.Fixture(seed_receipt=False, persistent_repo=cls.base / "repo",
+                                       source_scripts=ROOT / "skills/implementaudit/scripts")
         cls.addClassCleanup(cls.fixture.close)
         cls.source_dir = cls.fixture.scripts
         cls.names = NAMES + ("canonical_rotation_inputs.py", "read-canonical-pair.py")

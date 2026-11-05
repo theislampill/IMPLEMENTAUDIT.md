@@ -288,6 +288,15 @@ class CompositeSourceCases(unittest.TestCase):
             self.assertEqual(hashlib.sha256(current.Q.LOADED_DRIVER).hexdigest(),
                              '8cc8342f025866ffaf8c98cc1dd33d7576416c2de39e9d444b9acfd546685a0b')
             self.assertEqual(hashlib.sha256(current.SOURCES['skills/implementaudit/scripts/compile-work-graph.py'][0]).hexdigest(),
+                             '62c3b0fb95bbf006ef81e981a16325395e6165ae65c901f667de0e60bf74de3c')
+            loader = load("hosted_retained_r4_source", ROOT / "scripts/load-work-graph-c5-executor.py")
+            initialized = loader._Engine(loader.R4_BUILD_CACHE_PROFILE,
+                                        source_revision=loader.R4_INITIALIZATION_SOURCE_REVISION).load()
+            self.assertEqual(hashlib.sha256(initialized.SOURCES['skills/implementaudit/scripts/compile-work-graph.py'][0]).hexdigest(),
+                             '1e33ab31553903ca64f58b64673371e0ec4efdf3208031db79f50898744ca033')
+            retained = loader._Engine(loader.R4_BUILD_CACHE_PROFILE,
+                                     source_revision=loader.R4_BUILD_CACHE_SOURCE_REVISION).load()
+            self.assertEqual(hashlib.sha256(retained.SOURCES['skills/implementaudit/scripts/compile-work-graph.py'][0]).hexdigest(),
                              'addcae949fdab009f7f0b4a9f023392309841c1798357ca89f9ec2b84d4c8ba9')
             self.assertEqual(observer.HOSTED_CURRENT105_LOADER_PIN,
                              {'bytes': 20466, 'sha256': 'cc2b2306e05d0845a0dcc809aaa886427009633a7390d7cdb664fbb9884aced9'})
@@ -1464,7 +1473,7 @@ class CompositeSourceCases(unittest.TestCase):
         """Current producer inputs; historical CURRENT helper stays separate."""
         owner = load("correspondence_c5_copy_owner", ROOT / "scripts/load-work-graph-c5-executor.py")
         selection = json.loads((ROOT / owner.R4_BUILD_CACHE_BASE_SELECTION).read_bytes())
-        members = {owner.LOADER, *owner.R4_BUILD_CACHE_PINS,
+        members = {owner.LOADER, *owner.R5_WINDOWS_INITIALIZATION_PINS,
                    *selection["programs"], *selection["payload_sources"]}
         with tempfile.TemporaryDirectory(prefix="c5-correspondence-source-") as temporary:
             root = Path(temporary) / "source"
@@ -1564,7 +1573,7 @@ class CompositeSourceCases(unittest.TestCase):
             with self.subTest(change=change), self.correspondence_c5_source_copy() as (root, output):
                 owner = load("drifted_current_c5", root / "scripts/load-work-graph-c5-executor.py")
                 with mock.patch("subprocess.Popen", side_effect=AssertionError("drifted input dispatched a producer")):
-                    session = owner.create_r4_build_local_compression_correspondence_c5_session_v6(root, output,
+                    session = owner.create_r5_windows_initialized_source_correspondence_c5_session_v1(root, output,
                         expected_source={"source_commit": "0" * 40, "source_tree": "1" * 40})
                     try:
                         base = type(session).__init__.__globals__["B"]
@@ -1630,7 +1639,7 @@ class CompositeSourceCases(unittest.TestCase):
         previous = transport.SOURCE_PROFILES_V1['composite-20261029-dg18-native-resume-v1-core']
         self.assertEqual(transport.SOURCE_PROFILES_V1['composite-20261029-dg18-native-resume-v1-original14'][2][1:3],
                          (246657, '82ddcbb3cf476098fbcac57c0550d4240457688df2c4504c8ab8caea2c3367b1'))
-        profile = transport.SOURCE_PROFILES_V1['composite-20261104-r4-native-canary-v4-core']
+        profile = transport.SOURCE_PROFILES_V1['composite-20261105-r5-windows-initialization-v1-core']
         self.assertTrue(transport._windows_core_profile_v1(historical))
         self.assertTrue(transport._windows_core_profile_v1(previous))
         self.assertTrue(transport._windows_core_profile_v1(profile))
@@ -1662,9 +1671,21 @@ class CompositeSourceCases(unittest.TestCase):
         """Break caught: repaired helper bytes cannot reach a fixed accepting consumer."""
         transport = load("engineered_continuity_transport", ROOT / "scripts/work-graph-continuity-transport.py")
         owner = load("engineered_continuity_receiver", ROOT / "scripts/operational-evidence.py")
-        prefix = "composite-20261104-r4-native-canary-v4-"
+        prefix = "composite-20261105-r5-windows-initialization-v1-"
         previous = {name: rows for name, rows in transport.SOURCE_PROFILES_V1.items()
                     if not name.startswith(prefix)}
+        self.assertEqual(len(previous), 39)
+        self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
+                         separators=(",", ":")).encode()).hexdigest(),
+                         'c70eff98c71f83219fc1776b77081942672dc12d463df2469db29b678a640348')
+        previous = {name: rows for name, rows in previous.items()
+                    if not name.startswith("composite-20261104-r4-controller-initialization-v1-")}
+        self.assertEqual(len(previous), 38)
+        self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
+                         separators=(",", ":")).encode()).hexdigest(),
+                         "b7e885d4bc1bddad04b5d43e2ca2ef3dca96bc46c79a916961373e154b68ffcd")
+        previous = {name: rows for name, rows in previous.items()
+                    if not name.startswith("composite-20261104-r4-native-canary-v4-")}
         self.assertEqual(len(previous), 37)
         self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
                          separators=(",", ":")).encode()).hexdigest(), '8ce4b8d78c7ce1257231650f9c49b4df4a3d23a709df102ac24beb457ef0759c')
@@ -1674,7 +1695,7 @@ class CompositeSourceCases(unittest.TestCase):
         self.assertEqual(hashlib.sha256(json.dumps(historical, sort_keys=True,
                          separators=(",", ":")).encode()).hexdigest(),
                          "50c356cb09ebd3bf3b5be64bab44ba966f758e0abe7f24b8d87c17ef2978dda6")
-        self.assertEqual(len(transport.SOURCE_PROFILES_V1), 38)
+        self.assertEqual(len(transport.SOURCE_PROFILES_V1), 40)
         for kind, directory in (("core", CORE), ("original14", PEER)):
             with self.subTest(kind=kind):
                 selected_name = prefix + kind if kind == "core" else "composite-20261104-dg17-dg18-custody-v1-original14"

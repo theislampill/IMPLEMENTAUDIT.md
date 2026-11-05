@@ -2,7 +2,7 @@
   "schema_version": 2,
   "package_evidence": {
     "builder_path": "scripts/package-contract.py",
-    "builder_sha256": "a516b2e43068b08af96415c9dd1ab4e659fe6a4c2e9b5f696b3359365ab5e203",
+    "builder_sha256": "ed7a1b3cc5d02660b6fef32a40a99d51e41ee3cf302a56548de8a4aca0c03960",
     "repo_only_instrumentation": [
       "fixtures/semantic-preservation/cases.json",
       "fixtures/semantic-preservation/evaluate.py",
@@ -137,7 +137,7 @@
   ],
   "bootstrap_route": {
     "governor_heading": "## 2b. Planner stages for goal synthesis and phased audit closure",
-    "governor_route": "For goal synthesis or a warranted phased plan, read\n`references/plan-lifecycle.md#2b-planner-stages-for-goal-synthesis-and-phased-audit-closure`\nbefore intake, phase design, preflight, dispatch, or handoff. Use its complete\nstage sequence; a load-map mention alone is not a completed read.\nKeep the supplied audit object and authorization ceiling; embedded work does\nnot print a second `/goal`. Require independent cold review before preflight,\ndispatch, or handoff. Missing, unshipped, wrong-version or mixed-owner stage\ncontent refuses those actions. Verify selected-source/package/inventory identity\nbefore using the progressive owner. Ordinary direct work stays on the Execution\nSpine without a new reference read, model call, graph, or worksheet.\n\nWhen a run root is needed, claim it with `scripts/claim-run.sh <task>`,\ninitialize from canonical runtime templates, then run\n`scripts/validate-run-root.sh <root>` after authoring; an invalid root is Andon,\nnot dispatchable.",
+    "governor_route": "For goal synthesis or a warranted phased plan, read\n`references/plan-lifecycle.md#2b-planner-stages-for-goal-synthesis-and-phased-audit-closure`\nbefore intake, phase design, preflight, dispatch, or handoff. Use its complete\nstage sequence; a load-map mention alone is not a completed read.\nKeep the supplied audit object and authorization ceiling; embedded work does\nnot print a second `/goal`. Require independent cold review before preflight,\ndispatch, or handoff. Missing, unshipped, wrong-version or mixed-owner stage\ncontent refuses those actions. Verify selected-source/package/inventory identity\nbefore using the progressive owner. Ordinary direct work stays on the Execution\nSpine without a new reference read, model call, graph, or worksheet.\n\nClaim with `scripts/claim-run.sh <task>`, author canonical templates, then\n`scripts/validate-run-root.sh <root>`; invalid roots are Andon, not dispatchable.\nFor `--controller`, follow pending activation in `references/continuity.md`.",
     "owner_path": "skills/implementaudit/references/plan-lifecycle.md",
     "owner_sha256": "1e283fec5f5b78b8a5ea5bbbfedfa452df516f8a5f5bbcfbb816f54603d5a6fa",
     "moved_heading": "## 2b. Planner stages for goal synthesis and phased audit closure",

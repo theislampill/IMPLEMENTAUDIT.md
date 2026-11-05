@@ -79,10 +79,11 @@ class CorrectionReaders(unittest.TestCase):
         claimed = self.claim('--controller', CONTROLLER, 'C02 canonical receiving')
         self.assertEqual(claimed.returncode, 0, claimed.stderr.decode())
         self.run = self.repo / claimed.stdout.decode().strip()
-        for name in ('STATE.md', 'ROADMAP.md', 'PROTOCOL.md', 'THINKING.md', 'sidecars.md', 'tools.md', 'context.md'):
-            shutil.copyfile(self.scripts.parent / 'templates' / name, self.run / name)
-        (self.run / 'phases').mkdir()
-        (self.run / 'phases/phase-1.md').write_text('open constructed phase\n')
+        initialized = reader_tests.command([sys.executable, ROOT / 'fixtures/controller-initialization/author_checkpoint.py',
+            '--repo', self.repo, '--run-root', self.run.relative_to(self.repo).as_posix(), '--source', self.repo,
+            '--purpose', 'Qualify C02 canonical reader and correction receiving on this disposable subject without original-operation retries.',
+            '--next-action', 'Exercise the selected C02 receiving discriminator and retain its actual result', '--activate'], self.repo)
+        self.assertEqual(initialized.returncode, 0, initialized.stderr.decode())
         self.output = self.repo / 'read-output'
         self.output.mkdir()
         spec = importlib.util.spec_from_file_location('c02_reader_claim_' + self.repo.name.replace('-', '_'),

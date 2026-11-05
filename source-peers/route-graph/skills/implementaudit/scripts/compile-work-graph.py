@@ -1466,9 +1466,7 @@ def compile_native_a_g_v1(request_bytes: bytes) -> dict[str, JSONValue]:
     return {'schema': 'implementaudit.native-a-g.projection.v1', 'dependency': dependency_projection, 'conflicts': conflict_projection, 'schedule': schedule_projection, 'invalidation': invalidation_projection, 'execution_owner': owner_projection}
 
 
-# The v1 projection and native-a-g interfaces above retain their historical
-# caller-fact boundary. The explicit native source and transition interfaces
-# below do not silently upgrade those interfaces into native authentication.
+# Earlier caller-fact interfaces gain no native authentication from the explicit interfaces below.
 
 NATIVE_FENCE = re.compile('(?m)^```implementaudit-work-graph\\r?\\n(.*?)\\r?\\n```[ \\t]*$', re.S)
 NATIVE_NODE_FIELDS = {'id', 'parent', 'kind', 'state', 'requires', 'optional', 'reads', 'writes', 'acceptance', 'resources', 'authority', 'effect', 'authorization', 'independence', 'resource_demand', 'rank', 'route_scopes', 'logical_delivery', 'future_consumer', 'invalidators', 'independent_results', 'context', 'done_evidence'}
@@ -1553,10 +1551,10 @@ def _native_document(data, path, schema):
         raise WorkGraphError(f'{path}: unknown native metadata schema')
     return obj
 
-_NATIVE_STATIC_OWNER_SHA256 = '9128207c570e808e5c46e6a02ce5c13dfdb21166c0df9aa59dc330ec90694a25'
+_NATIVE_STATIC_OWNER_SHA256 = '3bd885178babf611c4e88da9d031b9a0a2ee887dd7528807b2bd971c1f766b34'
 
 
-_NATIVE_STATIC_OWNER_BYTES = 416557
+_NATIVE_STATIC_OWNER_BYTES = 418898
 
 
 NATIVE_SOURCE_MAX_ENTRIES = 1024
@@ -2144,8 +2142,8 @@ _NATIVE_COMBINED_CURRENT_PAIR_V1 = (
 _NATIVE_SIX_SOURCE_PAIR_V1 = (
     '50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383',
     'd8b046b5417dce13ed66a5ac5fffaf3d18fae40c97d42aef8b38470500d575a6')
-_NATIVE_CONTINUITY_TRANSPORT_SHA256 = '24f316c7a2eb83e7c11d39dcbeea6c00fc998b3bb03d8c4070ff4edb3ac3594c'
-_NATIVE_CONTINUITY_TRANSPORT_BYTES = 87494
+_NATIVE_CONTINUITY_TRANSPORT_SHA256 = 'aa98b1a45b9345d3ccf88611a7b90cd2939e04ee3f520b82610546ba96b77d48'
+_NATIVE_CONTINUITY_TRANSPORT_BYTES = 90101
 
 
 def _native_six_source_transport_v1(owner, claim_raw, validate_raw):
@@ -2455,15 +2453,14 @@ _NATIVE_ROUTE_PRODUCER_PROFILES_V1 = {
     # Exact DG08 source-only predecessor binding; no native credit.
     '1af6389ad074954a25b3fd279674bfa51c0b6d1f2ed18befa94292b324709875': 386265,
 }
-# Current terminal-inventory owner binding; historical subjects remain unchanged.
+# Route owners retain their original source scopes.
 _NATIVE_ROUTE_PRODUCER_PROFILES_V1['d420a7b980c7c26408bcc668b6246ac5391988f65395aa842e9e3db57d33deb0'] = 386588
 
-# Exact DG18 original14 history receiving; historical source profiles remain.
 _NATIVE_ROUTE_PRODUCER_PROFILES_V1['6cf278b338a2d3fb59c6adc7f93eb90b11946e138d8b8e6cbebba25f606653f0'] = 386914
-# Current read-only retained-predecessor receiver; prior producer domains retained.
 _NATIVE_ROUTE_PRODUCER_PROFILES_V1['684d1f09b49c6a85eb59df59e0aca516503df6ffc1158dac4cbc8d653b2380a2'] = 387234
-# Exact composed R4 read-only route owner.
 _NATIVE_ROUTE_PRODUCER_PROFILES_V1['aa8628759e157f16ca8c1907a558b34f858aa91d1b2b74a2b6256b123106338a'] = 387559
+_NATIVE_ROUTE_PRODUCER_PROFILES_V1['5b6bb99bd4430e8b62883cc65a52d04a87c30a8fa7be188fb9f7bdfc1a928989'] = 387801
+_NATIVE_ROUTE_PRODUCER_PROFILES_V1['66140f18674686efbc87dbc92e4c9f3624637ec181280331d21461cc796d3919'] = 388043
 
 
 _NATIVE_ROUTE_OBSERVATION_KEY = object()

@@ -271,15 +271,11 @@ controller_io() {
   case "$a" in
     bind)
       [ "$#" = 2 ] && [ "$base" = .IMPLEMENTAUDIT/runs ] || return 1
-      local expect="$1" run="$2" old new newclaim zero=0000000000000000000000000000000000000000
-      newclaim="$(sed -n 's/^claim_id=//p' "$repo/$run/.claimed")"; [ -n "$newclaim" ] || return
-      old="$(git rev-parse --verify "$ref" 2>/dev/null || printf %s "$zero")"
-      if [ "$old" != "$zero" ]; then
-        IFS=$'\t' read -r s rc rg _ <<< "$(git cat-file blob "$old")"
-        [ -n "$expect" ] && [ "$s:$rc:$rg" = "implementaudit.controller-current.v1:$c:$expect" ] || return 1
-      else [ -z "$expect" ] || return 1; fi
-      new="$(printf 'implementaudit.controller-current.v1\t%s\t%s\t%s/%s\n' "$c" "$newclaim" "$repo" "$run" | git hash-object -w --stdin)" &&
-        update_controller_ref "$ref" "$new" "$old" ;;
+      # Allocation is durable pending custody, never a current controller.
+      # Retain an uncertain/losing claim for inspection; never erase possible
+      # authority after interruption or an unverified publication result.
+      controller_ref_readback_uncertain=1
+      rotation_io initialization-prepare "$c" "$1" "$2" ;;
     current)
       load || return; printf '%s\t%s\t%s\t%s\n' "$c" "$rr" "$root" "$rg" ;;
     invalidate)
@@ -364,8 +360,8 @@ import types
 
 argument_path = sys.argv[1]
 path = Path(os.path.abspath(argument_path))
-expected_bytes = 264505
-expected_sha256 = "b599e7efbdac3008b5720f2b65796851eb163a2c287753d68abd232211c5d82a"
+expected_bytes = 288439
+expected_sha256 = "ce40c4410011e46b209df718207b58c15d18e60db1379e7b66b24f04616637f9"
 nodes = []
 descriptor = None
 def identity(info):
@@ -445,6 +441,13 @@ exec(compile(raw, str(path), "exec", dont_inherit=True, optimize=sys.flags.optim
 
 controller='' supersede='' deferred='' boundary='' event=''
 case "${1:-}" in
+  --inspect-controller-initialization|--activate-controller)
+    initialization_command="$1"; controller="${2:-}"; shift 2
+    case "$initialization_command" in
+      --inspect-controller-initialization) initialization_operation=initialization-inspect ;;
+      --activate-controller) initialization_operation=initialization-activate ;;
+    esac
+    rotation_io "$initialization_operation" "$controller" "$@"; exit $? ;;
   --rotate-canonical-state|--recover-canonical-state|--read-current-state|--read-canonical-state|--resolve-canonical-generation|--resolve-retained-continuity-predecessor|--resolve-resume-generation|--read-resume-state|--prepare-c02-correction|--append-c02-correction|--apply-c02-correction)
     rotation_operation="$1"; controller="${2:-}"; shift 2
     case "$rotation_operation" in

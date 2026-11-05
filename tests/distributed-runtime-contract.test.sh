@@ -226,11 +226,10 @@ prepare_fencing_case() {
   run_rel="$(cd "$case_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs \
     bash "$claim_owner" --controller d48-c02 "${case_id,,}")" || return 1
   run_root="$case_repo/$run_rel"
-  local promised
-  for promised in STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md; do
-    cp "$repo_root/skills/implementaudit/templates/$promised" "$run_root/$promised"
-  done
-  sed -i '/^| 1 |  |  | - |  |  |  | open |$/d' "$run_root/ROADMAP.md"
+  "${py_cmd[@]}" "$repo_root/fixtures/controller-initialization/author_checkpoint.py" \
+    --repo "$case_repo" --run-root "$run_rel" --source "$repo_root" \
+    --purpose "Qualify $case_id protected mutation fence on this disposable source" \
+    --next-action 'exercise protected mutation fence' >/dev/null || return 1
 
   write_bytes "$case_repo/$source_path" "$preimage_hex"
   write_bytes "$case_repo/artifacts/candidate.bin" "$candidate_hex"
@@ -259,8 +258,7 @@ scope = json.dumps({"in": [source], "out": ["README.md"]}, separators=(",", ":")
 text = text.replace("In scope: src/routes/settings.ts, tests/settings.test.ts, src/app.ts", "In scope: D48-C02 protected mutation fixture\nMutation scope: " + scope)
 Path(output_file).write_text(text, encoding="utf-8", newline="\n")
 
-with Path(roadmap_file).open("a", encoding="utf-8", newline="\n") as handle:
-    handle.write("| 1 | D48-C02 cooperating protected mutation |\n")
+
 
 state_path = Path(state_file)
 state = state_path.read_text(encoding="utf-8")
@@ -272,6 +270,10 @@ row = f"| {epoch} | new-session | 2026-08-20T00:00:00Z | repo at `{head}` / `{tr
 state_path.write_text(state.replace(anchor, anchor + "\n" + row), encoding="utf-8", newline="\n")
 PY
 
+  "${py_cmd[@]}" "$repo_root/fixtures/controller-initialization/author_checkpoint.py" \
+    --repo "$case_repo" --run-root "$run_rel" --source "$repo_root" \
+    --purpose "Qualify $case_id protected mutation fence on this disposable source" \
+    --next-action 'exercise protected mutation fence' --activate-only >/dev/null || return 1
   receipt="$(cd "$case_repo" && bash "$claim_owner" \
     --resume-controller d48-c02 --boundary new-session --epoch "$controller_generation")" \
     || return 1

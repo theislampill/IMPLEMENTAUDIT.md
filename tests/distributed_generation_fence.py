@@ -50,18 +50,15 @@ class Fixture:
             ["bash", str(CLAIM), "--controller", CONTROLLER, "d48-fence"]
         ).stdout.strip()
         self.run = self.repo / self.run_rel
-        for name in ("STATE.md", "PROTOCOL.md", "ROADMAP.md", "THINKING.md",
-                     "sidecars.md", "tools.md", "context.md"):
-            shutil.copyfile(TEMPLATES / name, self.run / name)
-        roadmap = self.run / "ROADMAP.md"
-        roadmap.write_text(roadmap.read_text().replace(
-            "| 1 |  |  | - |  |  |  | open |\n", ""
-        ) + "| 1 | D48-C02 cooperating protected mutation |\n")
+        self.run_command([sys.executable, str(ROOT / 'fixtures/controller-initialization/author_checkpoint.py'),
+            '--repo', str(self.repo), '--run-root', self.run_rel, '--source', str(ROOT),
+            '--purpose', 'Qualify the D48 cooperating protected mutation fence on this disposable source.',
+            '--next-action', 'exercise protected mutation fence'])
         (self.repo / "target").write_bytes(PREIMAGE)
         (self.repo / "artifacts").mkdir()
         self.candidate = self.repo / "artifacts/candidate.bin"
         self.candidate.write_bytes(CANDIDATE)
-        (self.run / "phases").mkdir()
+        (self.run / "phases").mkdir(exist_ok=True)
         phase = (ROOT / "fixtures/phase-validation/valid-full-spec.md").read_text()
         phase = phase.replace("Phase: 1 of 3", "Phase: 1 of 1")
         phase = phase.replace("Run root: .IMPLEMENTAUDIT/runs/add-settings-Xy9Zq1",
@@ -87,6 +84,10 @@ class Fixture:
         require(state.count(anchor) == 1, "state epoch anchor is not unique")
         state = state.replace(anchor, anchor + f"\n| G0002 | new-session | 2026-08-20T00:00:00Z | repo at `{head}` / `{tree}` | yes | D48-C02 fixture reconciliation complete |")
         state_path.write_text(state)
+        self.run_command([sys.executable, str(ROOT / 'fixtures/controller-initialization/author_checkpoint.py'),
+            '--repo', str(self.repo), '--run-root', self.run_rel, '--source', str(ROOT),
+            '--purpose', 'Qualify the D48 cooperating protected mutation fence on this disposable source.',
+            '--next-action', 'exercise protected mutation fence', '--activate-only'])
         self.receipt = self.run_command([
             "bash", str(CLAIM), "--resume-controller", CONTROLLER,
             "--boundary", "new-session", "--epoch", "G0002",
@@ -171,8 +172,16 @@ for _ in range(1500):
     time.sleep(0.02)
 else:
     raise RuntimeError('D48 test barrier timed out')""")
-    writer_command = ["bash", str(CLAIM), "--controller", CONTROLLER,
-                      "--supersede-claim", claim_id, "d48-linked-successor"]
+    successor = fixture.run_command(['bash', str(CLAIM), '--controller', CONTROLLER,
+        '--supersede-claim', claim_id, 'd48-linked-successor'], cwd=linked).stdout.strip()
+    fixture.run_command([sys.executable, str(ROOT / 'fixtures/controller-initialization/author_checkpoint.py'),
+        '--repo', str(linked), '--run-root', successor, '--source', str(ROOT),
+        '--purpose', 'Receive the authorized D48 linked-worktree successor after the guarded protected effect.',
+        '--next-action', 'Receive successor custody after the protected effect boundary releases'], cwd=linked)
+    inspected = fixture.run_command(['bash', str(CLAIM), '--inspect-controller-initialization', CONTROLLER,
+        '--run-root', successor], cwd=linked)
+    writer_command = ['bash', str(CLAIM), '--activate-controller', CONTROLLER,
+        '--run-root', successor, '--expected-initialization', json.loads(inspected.stdout)['initialization_token']]
     writer = None
     with (barrier / "sink.out").open("w") as sink_out, (barrier / "sink.err").open("w") as sink_err:
         sink = subprocess.Popen(fixture.command(helper), cwd=fixture.repo, env=fixture.env,
@@ -210,7 +219,7 @@ else:
                     and (fixture.repo / "target").read_bytes() == CANDIDATE,
                     "current sink failed while cooperating publication was excluded: " + json.dumps(evidence))
             if writer.returncode != 0:
-                require("cannot lock ref" in writer_err and ".lock" in writer_err,
+                require(("cannot lock ref" in writer_err and ".lock" in writer_err) or "publication did not have one exact verified effect" in writer_err,
                         "competing publication failed for a setup reason: " + writer_err)
                 retry = fixture.run_command(writer_command, cwd=linked)
                 require(bool(retry.stdout.strip()), "publication retry returned no claim")

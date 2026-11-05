@@ -677,6 +677,8 @@ resume uses its original boundary/epoch form without migrated tokens.
 
 | Command | Boundary |
 |---|---|
+| `claim-run.sh --inspect-controller-initialization <controller> --run-root <relative-root>` | initialization-evidence-only |
+| `claim-run.sh --activate-controller <controller> --run-root <relative-root> --expected-initialization <initialization-token>` | initialization-validated-binding |
 | `claim-run.sh --current-controller <controller>` | controller-custody |
 | `claim-run.sh --invalidate-continuity <controller> --boundary <boundary> --event <event>` | fresh-invalidation |
 | `claim-run.sh --resume-controller <controller> --boundary <boundary> --epoch <epoch> --expected-pointer <pointer-token> --expected-invalidation <invalidation-token>` | native-resume-currentness |
@@ -697,6 +699,8 @@ Rotation may additionally select `--tokenizer-encoding <encoding-file>` and
 `--native-input` under its exact input contracts. The C02 modes require their
 separate entitled source and issuer; a decision file supplies neither authority.
 
+helper-mode: claim-run.sh|--inspect-controller-initialization|<controller> --run-root <relative-root>|initialization-evidence-only
+helper-mode: claim-run.sh|--activate-controller|<controller> --run-root <relative-root> --expected-initialization <initialization-token>|initialization-validated-binding
 helper-mode: claim-run.sh|--current-controller|<controller>|controller-custody
 helper-mode: claim-run.sh|--invalidate-continuity|<controller> --boundary <boundary> --event <event>|fresh-invalidation
 helper-mode: claim-run.sh|--resume-controller|<controller> --boundary <boundary> --epoch <epoch> --expected-pointer <pointer-token> --expected-invalidation <invalidation-token>|native-resume-currentness

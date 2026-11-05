@@ -24,6 +24,7 @@ from __future__ import annotations
 import ctypes
 import json
 import os
+import select
 import sys
 
 
@@ -61,8 +62,8 @@ def host_boot_id():
     to absorb clock slew at a minute boundary)."""
     if os.name == "posix":
         try:
-            return open("/proc/sys/kernel/random/boot_id",
-                        encoding="ascii").read().strip()
+            with open("/proc/sys/kernel/random/boot_id", encoding="ascii") as fh:
+                return fh.read().strip()
         except OSError:
             return None
     try:
@@ -74,28 +75,145 @@ def host_boot_id():
         return None
 
 
+def _proc_fields(raw):
+    """Receive bounded kernel fields without choosing among duplicates."""
+    if len(raw) > 65536:
+        raise ValueError("process kernel record exceeds bound")
+    result = {}
+    for line in raw.decode("latin-1").splitlines():
+        if ":" not in line:
+            continue
+        key, value = line.split(":", 1)
+        if key in result:
+            raise ValueError("process kernel field is duplicated")
+        result[key] = value.split()
+    return result
+
+
+def _read_proc_member(fd, name):
+    member = os.open(name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK |
+                     os.O_CLOEXEC, dir_fd=fd)
+    try:
+        raw = os.read(member, 65537)
+        if len(raw) > 65536 or os.read(member, 1):
+            raise ValueError("process kernel member exceeds bound")
+        return raw
+    finally:
+        os.close(member)
+
+
+def _proc_snapshot(path):
+    """Hold proc and namespace descriptors across exact PID/start bookends."""
+    fd = os.open(path, os.O_RDONLY | os.O_DIRECTORY | os.O_CLOEXEC)
+    namespace_fd = None
+    try:
+        directory = os.fstat(fd)
+
+        def parse():
+            fields = _proc_fields(_read_proc_member(fd, "status"))
+            raw = _read_proc_member(fd, "stat")
+            visible = int(raw.split(b" ", 1)[0])
+            ticks = int(raw.rsplit(b") ", 1)[1].split()[19])
+            chain = tuple(int(value) for value in fields.get("NSpid", []))
+            if (fields.get("Pid") != [str(visible)] or
+                    fields.get("Tgid") != [str(visible)] or not chain or
+                    chain[0] != visible or any(value <= 0 for value in chain) or
+                    ticks < 0):
+                raise ValueError("process PID chain/stat identity differs")
+            return dict(visible_pid=visible, namespace_pids=chain,
+                        start_ticks=ticks)
+
+        first = parse()
+        namespace_fd = os.open("ns/pid", os.O_RDONLY | os.O_CLOEXEC, dir_fd=fd)
+        namespace = os.fstat(namespace_fd)
+        second = parse()
+        current_namespace = os.stat("ns/pid", dir_fd=fd)
+        directories = (os.fstat(fd), os.stat(path),
+                       os.stat("/proc/%d" % first["visible_pid"]))
+        if (first != second or
+                any((value.st_dev, value.st_ino) !=
+                    (directory.st_dev, directory.st_ino) for value in directories) or
+                (current_namespace.st_dev, current_namespace.st_ino) !=
+                (namespace.st_dev, namespace.st_ino)):
+            raise ValueError("process descriptor/name/start identity changed")
+        return dict(first, directory=(directory.st_dev, directory.st_ino),
+                    namespace=(namespace.st_dev, namespace.st_ino))
+    finally:
+        if namespace_fd is not None:
+            os.close(namespace_fd)
+        os.close(fd)
+
+
+def _pidfd_fields(fd):
+    with open("/proc/self/fdinfo/%d" % fd, "rb") as fh:
+        return _proc_fields(fh.read(65537))
+
+
+def _posix_process_snapshot(pid):
+    """Map this caller's PID through held pidfd evidence, never PID arithmetic.
+
+    Adapted from the separately exercised DG17 namespace process custody
+    mechanism. This lookup sends no signal and grants no process ownership.
+    A proc mount exposing an ancestor namespace is admissible only when its
+    complete pidfd chain agrees with the target and the target's actual PID
+    namespace equals the caller's. Unsupported pidfds fail closed.
+    """
+    if not hasattr(os, "pidfd_open"):
+        raise OSError("process pidfd identity is unavailable")
+    caller_pid = os.getpid()
+    caller = _proc_snapshot("/proc/self")
+    if (caller["namespace_pids"][-1] != caller_pid or
+            os.readlink("/proc/self") != str(caller["visible_pid"])):
+        raise ValueError("caller PID namespace presentation differs")
+    fd = os.pidfd_open(pid, 0)
+    try:
+        def binding():
+            fields = _pidfd_fields(fd)
+            visible = fields.get("Pid", [])
+            chain = tuple(int(value) for value in fields.get("NSpid", []))
+            if (len(visible) != 1 or not chain or
+                    int(visible[0]) != chain[0] or any(value <= 0 for value in chain) or
+                    len(chain) != len(caller["namespace_pids"]) or chain[-1] != pid):
+                raise ValueError("pidfd PID namespace binding differs")
+            return dict(visible_pid=chain[0], namespace_pids=chain)
+
+        first = binding()
+        observed = _proc_snapshot("/proc/%d" % first["visible_pid"])
+        poller = select.poll()
+        poller.register(fd, select.POLLIN)
+        if (any(observed[key] != value for key, value in first.items()) or
+                observed["namespace"] != caller["namespace"] or
+                binding() != first or _proc_snapshot("/proc/self") != caller or
+                os.getpid() != caller_pid or poller.poll(0)):
+            raise ValueError("process pidfd/current identity differs or exited")
+        return observed
+    finally:
+        os.close(fd)
+
+
 def process_creation_time(pid):
     """Absolute UTC epoch seconds when `pid` was created; None if unknown.
     This is the identity field that distinguishes a RECYCLED pid from the
     original process: a recycled pid has a different creation time.
-    Linux: /proc/stat btime + /proc/<pid>/stat field 22 / CLK_TCK
-    (absolute, so stable across reads within one boot).
+    Linux: /proc/stat btime + the held-pidfd-selected process start ticks /
+    CLK_TCK. The v1 numeric field retains its two-decimal representation;
+    it does not gain a persistent PID namespace identity field.
     Windows: GetProcessTimes creation FILETIME (absolute UTC)."""
-    if not isinstance(pid, int) or pid <= 0:
+    if type(pid) is not int or pid <= 0:
         return None
     if os.name == "posix":
         try:
-            stat = open("/proc/%d/stat" % pid, "rb").read().decode("latin-1")
-            # comm may contain spaces/parens; fields resume after last ')'
-            rest = stat[stat.rindex(")") + 2:].split()
-            start_jiffies = int(rest[19])          # overall field 22
-            hz = os.sysconf("SC_CLK_TCK") or 100
             btime = None
-            for ln in open("/proc/stat", encoding="ascii", errors="replace"):
-                if ln.startswith("btime "):
-                    btime = int(ln.split()[1])
-                    break
+            with open("/proc/stat", encoding="ascii", errors="replace") as fh:
+                for ln in fh:
+                    if ln.startswith("btime "):
+                        btime = int(ln.split()[1])
+                        break
             if btime is None:
+                return None
+            start_jiffies = _posix_process_snapshot(pid)["start_ticks"]
+            hz = os.sysconf("SC_CLK_TCK")
+            if type(hz) is not int or hz <= 0:
                 return None
             return round(btime + start_jiffies / float(hz), 2)
         except (OSError, ValueError, IndexError):
@@ -158,17 +276,19 @@ def original_process_alive(started):
     if not _pid_alive(pid):
         return False, "process dead"
     rec_ct = started.get("process_creation_time")
-    if not isinstance(rec_ct, (int, float)):
+    if type(rec_ct) not in (int, float):
         return False, "no recorded process_creation_time — identity " \
                       "unverifiable, not treated as the original process"
     cur_ct = process_creation_time(pid)
     if cur_ct is None:
         return False, "live pid identity unreadable — not treated as the " \
                       "original process"
-    # 1.0s absorbs representation jitter (POSIX btime can slew under NTP)
-    # while keeping the recycled-pid coincidence window minimal — both
-    # reads come from the same kernel source for the same live pid.
-    if abs(cur_ct - rec_ct) > 1.0:
+    # POSIX reads must agree exactly. Clock slew cannot justify accepting a
+    # different birth identity; it makes this v1 observation unverifiable.
+    # Retain the Windows representation tolerance, while rejecting NaN too.
+    same_birth = (cur_ct == rec_ct if os.name == "posix"
+                  else abs(cur_ct - rec_ct) <= 1.0)
+    if not same_birth:
         return False, "pid recycled: creation time %r != recorded %r" \
             % (cur_ct, rec_ct)
     rec_boot = started.get("host_boot_id")

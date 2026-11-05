@@ -25,7 +25,8 @@ WORK = Path(os.environ.get("SHELL_CUSTODY_WORK") or tempfile.gettempdir())
 EVIDENCE = os.environ.get("SHELL_CUSTODY_EVIDENCE")
 MEMBERS = ("claim-run.sh", "claim-run-rotation.py", "canonical_custody.py",
            "canonical_hot_projection.py", "canonical_rotation_inputs.py",
-           "rotate-canonical-state.py", "validate-run-root.sh", "read-canonical-pair.py")
+           "rotate-canonical-state.py", "validate-run-root.sh", "read-canonical-pair.py",
+           "validate-phase.sh", "check-respec-impact-set.sh")
 MARKER = "EXECUTED_UNSELECTED_COMPANION"
 
 OBSERVER = r'''
@@ -114,6 +115,7 @@ class ShellCompanionSourceCustody(unittest.TestCase):
         for name in MEMBERS:
             if (SOURCE / name).is_file():
                 shutil.copyfile(SOURCE / name, scripts / name)
+        shutil.copytree(SOURCE.parent / 'templates', scripts.parent / 'templates')
         return scripts
 
     def invoke(self, scripts=None, *, args=None, extra_env=None, input_bytes=b"", timeout=20):
@@ -407,33 +409,68 @@ class ShellCompanionSourceCustody(unittest.TestCase):
         shutil.copyfile(sys.executable, path)
         self.assert_interpreter_refusal(self.invoke(extra_env={"IMPLEMENTAUDIT_PYTHON": str(path)}))
 
-    def test_successful_interpreter_without_controller_effect_is_not_a_successful_claim(self):
-        for command in (["git", "init", "-q"], ["git", "-c", "user.name=postcondition fixture",
-                "-c", "user.email=postcondition@example.invalid", "-c", "commit.gpgsign=false",
-                "commit", "--allow-empty", "-qm", "disposable postcondition fixture"]):
+    def initialize_test_repository(self, label):
+        for command in (["git", "init", "-q"], ["git", "-c", "user.name=initialization custody fixture",
+                "-c", "user.email=initialization@example.invalid", "-c", "commit.gpgsign=false",
+                "commit", "--allow-empty", "-qm", label]):
             result = subprocess.run(command, cwd=self.cwd, capture_output=True, timeout=20)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        shell = self.scripts / "claim-run.sh"
-        original = shell.read_bytes()
-        anchor = b" with subprocess.Popen(['git','update-ref','--stdin'],stdin=subprocess.PIPE,stdout=subprocess.PIPE) as transaction:"
+
+    def prepare_activation(self, controller, expected=None):
+        args = ['--controller', controller]
+        if expected is not None:
+            args += ['--supersede-claim', expected]
+        result = self.invoke(args=args + ['bounded actual source-custody test'],
+                             extra_env={'IMPLEMENTAUDIT_PYTHON': sys.executable})
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        relative = result.stdout.decode().strip()
+        helper = Path(__file__).resolve().parents[1] / 'fixtures/controller-initialization/author_checkpoint.py'
+        authored = subprocess.run([sys.executable, str(helper), '--repo', str(self.cwd),
+            '--run-root', relative, '--source', str(self.scripts.parents[2]),
+            '--purpose', 'Qualify actual controller publication and interpreter/source custody on this disposable subject.',
+            '--next-action', 'Exercise the explicit activation postcondition without original authority or publication'],
+            capture_output=True, timeout=30)
+        self.assertEqual(authored.returncode, 0, authored.stdout + authored.stderr)
+        inspected = self.invoke(args=['--inspect-controller-initialization', controller, '--run-root', relative])
+        self.assertEqual(inspected.returncode, 0, inspected.stderr)
+        token = json.loads(inspected.stdout)['initialization_token']
+        return self.cwd / relative, ['--activate-controller', controller, '--run-root', relative,
+                                      '--expected-initialization', token]
+
+    def instrument_activation(self, before='', after=''):
+        import re
+        original = self.companion.read_text()
+        anchor = '            result = git_process(repo, "update-ref", "--stdin", "-z", input_bytes=b"".join(chunks))\n'
         self.assertEqual(original.count(anchor), 1)
-        marker = self.root / "interpreter-returned-without-effect"
-        replacement = (" open(" + repr(str(marker)) + ", 'w').write('observed no-effect return')\n"
-                       " raise SystemExit(0)\n" + anchor.decode()).encode()
-        instrumented = original.replace(anchor, replacement)
-        self.assertEqual(instrumented.replace(replacement, anchor), original)
-        shell.write_bytes(instrumented)
-        result = self.invoke(args=["--controller", "postcondition", "new ordinary fixture"],
-                             extra_env={"IMPLEMENTAUDIT_PYTHON": sys.executable})
-        self.assertEqual(marker.read_text(), "observed no-effect return")
-        self.assertNotEqual(result.returncode, 0, "exit zero was mistaken for the absent controller effect")
-        self.assertIn(b"controller ref readback is unverified; retained claim", result.stderr)
-        retained = list((self.cwd / ".IMPLEMENTAUDIT/runs").glob("*/.claimed"))
-        self.assertEqual(len(retained), 1)
-        self.assertTrue(retained[0].with_name(".controller").is_file())
-        refs = subprocess.run(["git", "for-each-ref", "--format=%(refname)", "refs/implementaudit/"],
+        active = "any(ref.startswith('refs/implementaudit/controllers/') for ref in updates)"
+        if before:
+            replacement = '            if ' + active + ':\n' + ''.join('                ' + line + '\n' for line in before.splitlines()) + '            else:\n    ' + anchor
+        else:
+            replacement = anchor + '            if ' + active + ':\n' + ''.join('                ' + line + '\n' for line in after.splitlines())
+        changed = original.replace(anchor, replacement)
+        self.assertEqual(changed.replace(replacement, anchor), original)
+        self.companion.write_text(changed)
+        shell = self.scripts / 'claim-run.sh'
+        text = shell.read_text()
+        raw = self.companion.read_bytes()
+        text = re.sub(r'expected_bytes = [0-9]+', 'expected_bytes = ' + str(len(raw)), text, count=1)
+        text = re.sub(r'expected_sha256 = "[0-9a-f]{64}"', 'expected_sha256 = "' + hashlib.sha256(raw).hexdigest() + '"', text, count=1)
+        shell.write_text(text)
+
+    def test_successful_interpreter_without_controller_effect_is_not_a_successful_claim(self):
+        self.initialize_test_repository('disposable activation postcondition subject')
+        marker = self.root / 'interpreter-returned-without-effect'
+        self.instrument_activation(before="Path(" + repr(str(marker)) + ").write_text('observed no-effect return')\nresult = types.SimpleNamespace(returncode=0)")
+        run, args = self.prepare_activation('postcondition')
+        result = self.invoke(args=args)
+        self.assertEqual(marker.read_text(), 'observed no-effect return')
+        self.assertNotEqual(result.returncode, 0, 'exit zero was mistaken for an absent activation effect')
+        self.assertIn(b'publication did not have one exact verified effect', result.stderr)
+        self.assertTrue((run / '.claimed').is_file())
+        self.assertTrue((run / '.controller').is_file())
+        refs = subprocess.run(['git', 'for-each-ref', '--format=%(refname)', 'refs/implementaudit/controllers/'],
                               cwd=self.cwd, capture_output=True, check=True)
-        self.assertEqual(refs.stdout, b"")
+        self.assertEqual(refs.stdout, b'')
 
     def test_controller_update_ignores_caller_python_modules(self):
         for command in (["git", "init", "-q"], ["git", "-c", "user.name=import fixture",
@@ -442,82 +479,119 @@ class ShellCompanionSourceCustody(unittest.TestCase):
             result = subprocess.run(command, cwd=self.cwd, capture_output=True, timeout=20)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         marker = self.root / "CALLER_MODULE_EXECUTED"
-        (self.cwd / "subprocess.py").write_text("from pathlib import Path\nPath(" + repr(str(marker))
-            + ").write_text('unselected caller module')\nraise ImportError('controlled caller module')\n")
+        for name in ('subprocess.py', 'json.py', 'pathlib.py'):
+            (self.cwd / name).write_text("open(" + repr(str(marker))
+                + ", 'w').write('unselected caller module: " + name + "')\n"
+                + "raise ImportError('controlled caller module')\n")
         result = self.invoke(args=["--controller", "isolated-import", "new ordinary fixture"],
                              extra_env={"IMPLEMENTAUDIT_PYTHON": sys.executable})
         self.assertFalse(marker.exists(), "controller update executed caller-directory code")
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        observed = subprocess.run(["git", "rev-parse", "--verify", "refs/implementaudit/controllers/isolated-import"],
-                                  cwd=self.cwd, capture_output=True, check=True)
-        self.assertEqual(len(observed.stdout.strip()), 40)
+        relative = result.stdout.decode().strip()
+        inspected = self.invoke(args=['--inspect-controller-initialization', 'isolated-import', '--run-root', relative])
+        self.assertEqual(inspected.returncode, 0, inspected.stderr)
+        self.assertIsNone(json.loads(inspected.stdout)['current_controller_oid'])
+        self.assertFalse(marker.exists(), 'pending controller path executed caller-directory code')
+        helper = Path(__file__).resolve().parents[1] / 'fixtures/controller-initialization/author_checkpoint.py'
+        authored = subprocess.run([sys.executable, str(helper), '--repo', str(self.cwd),
+            '--run-root', relative, '--source', str(self.scripts.parents[2]),
+            '--purpose', 'Qualify explicit activation and ordinary currentness discovery against caller-directory import substitution.',
+            '--next-action', 'Inspect actual activated custody while refusing every caller-directory module'],
+            capture_output=True, timeout=30)
+        self.assertEqual(authored.returncode, 0, authored.stdout + authored.stderr)
+        token = json.loads(inspected.stdout)['initialization_token']
+        activated = self.invoke(args=['--activate-controller', 'isolated-import', '--run-root', relative,
+                                      '--expected-initialization', token])
+        self.assertEqual(activated.returncode, 0, activated.stdout + activated.stderr)
+        self.assertFalse(marker.exists(), 'full initialization validation executed caller-directory code')
+        current = self.invoke(args=['--current-controller', 'isolated-import'])
+        self.assertEqual(current.returncode, 0, current.stdout + current.stderr)
+        self.assertFalse(marker.exists(), 'ordinary controller discovery executed caller-directory code')
 
-    def test_controller_cas_loser_cleans_only_its_unpublished_claim(self):
-        for command in (["git", "init", "-q"], ["git", "-c", "user.name=CAS fixture",
-                "-c", "user.email=cas@example.invalid", "-c", "commit.gpgsign=false",
-                "commit", "--allow-empty", "-qm", "disposable CAS fixture"]):
-            result = subprocess.run(command, cwd=self.cwd, capture_output=True, timeout=20)
-            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        initial = self.invoke(args=["--controller", "cas-loser", "initial fixture"],
-                              extra_env={"IMPLEMENTAUDIT_PYTHON": sys.executable})
-        self.assertEqual(initial.returncode, 0, initial.stdout + initial.stderr)
-        claim = next((self.cwd / ".IMPLEMENTAUDIT/runs").glob("*/.claimed"))
-        claim_id = next(line.removeprefix("claim_id=") for line in claim.read_text().splitlines()
-                        if line.startswith("claim_id="))
-        competing = subprocess.check_output(["git", "hash-object", "-w", "--stdin"],
-                                            input=b"concurrent CAS fixture\n", cwd=self.cwd).strip().decode()
-        shell = self.scripts / "claim-run.sh"
-        original = shell.read_bytes()
-        anchor = b" if unsafe(current) or (current.st_dev,current.st_ino)!=(opened.st_dev,opened.st_ino): raise SystemExit(1)\n"
-        self.assertEqual(original.count(anchor), 1)
-        # Move the real ref after the shell captured its expected old OID.
-        # This is a Git CAS control; the opaque competing blob claims no authority.
-        insertion = (" subprocess.run(['git','update-ref',ref," + repr(competing)
-                     + ",old],check=True)\n").encode()
-        shell.write_bytes(original.replace(anchor, anchor + insertion))
-        result = self.invoke(args=["--controller", "cas-loser", "--supersede-claim", claim_id,
-                                   "losing fixture"], extra_env={"IMPLEMENTAUDIT_PYTHON": sys.executable})
+    def test_controller_cas_loser_preserves_prepared_claim_without_current_authority(self):
+        self.initialize_test_repository('disposable activation CAS subject')
+        prior, args = self.prepare_activation('cas-loser')
+        self.assertEqual(self.invoke(args=args).returncode, 0)
+        claim_id = next(line.removeprefix('claim_id=') for line in (prior / '.claimed').read_text().splitlines() if line.startswith('claim_id='))
+        competing = subprocess.check_output(['git', 'hash-object', '-w', '--stdin'],
+                                            input=b'concurrent CAS fixture; no authority claim\n', cwd=self.cwd).strip().decode()
+        self.instrument_activation(before="ref = next(ref for ref in updates if ref.startswith('refs/implementaudit/controllers/'))\ngit(repo, 'update-ref', ref, " + repr(competing) + ", updates[ref][1])\nresult = git_process(repo, 'update-ref', '--stdin', '-z', input_bytes=b''.join(chunks))")
+        losing, args = self.prepare_activation('cas-loser', claim_id)
+        result = self.invoke(args=args)
         self.assertNotEqual(result.returncode, 0)
-        self.assertIn(b"cannot lock ref", result.stderr)
-        observed = subprocess.check_output(["git", "rev-parse", "refs/implementaudit/controllers/cas-loser"],
-                                            cwd=self.cwd).strip().decode()
+        observed = subprocess.check_output(['git', 'rev-parse', 'refs/implementaudit/controllers/cas-loser'],cwd=self.cwd).strip().decode()
         self.assertEqual(observed, competing)
-        self.assertEqual(list((self.cwd / ".IMPLEMENTAUDIT/runs").iterdir()), [claim.parent],
-                         "proved losing CAS retained a plausible unpublished run root")
-        self.assertTrue(claim.is_file(), "losing contender changed the original claim")
+        self.assertTrue((losing / '.claimed').is_file(), 'prepared losing custody evidence was erased')
+        self.assertTrue((prior / '.claimed').is_file(), 'prior custody evidence was changed')
+        self.assertNotEqual(self.invoke(args=['--current-controller', 'cas-loser']).returncode, 0)
 
-    def test_actual_controller_write_then_nonzero_retains_unverified_claim(self):
+    def test_initialization_refuses_replaced_validator_before_any_execution(self):
+        self.initialize_test_repository('disposable validator authentication subject')
+        run, args = self.prepare_activation('validator-before')
+        marker = self.root / 'UNAUTHENTICATED_VALIDATOR_EXECUTED'
+        validator = self.scripts / 'validate-run-root.sh'
+        validator.write_text("#!/bin/bash\nprintf 'unselected validator' > "
+                             + shlex.quote(str(marker)) + "\nexit 1\n")
+        before = subprocess.check_output(['git', 'for-each-ref', '--format=%(refname) %(objectname)',
+                                          'refs/implementaudit'], cwd=self.cwd)
+        result = self.invoke(args=args)
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn(b'initialization validator differs from the paired owner source', result.stderr)
+        self.assertFalse(marker.exists(), 'replaced validator ran before paired source authentication')
+        after = subprocess.check_output(['git', 'for-each-ref', '--format=%(refname) %(objectname)',
+                                         'refs/implementaudit'], cwd=self.cwd)
+        self.assertEqual(after, before)
+
+    def test_initialization_executes_captured_validator_and_refuses_source_replacement(self):
+        self.initialize_test_repository('disposable validator capture subject')
+        run, args = self.prepare_activation('validator-capture')
+        marker = self.root / 'UNAUTHENTICATED_VALIDATOR_EXECUTED'
+        observed = self.root / 'validator-replacement-observed'
+        observer = self.root / 'validator-observer'
+        observer.mkdir()
+        validator = self.scripts / 'validate-run-root.sh'
+        replacement = "#!/bin/bash\nprintf 'unselected validator' > " + shlex.quote(str(marker)) + "\nexit 1\n"
+        (observer / 'sitecustomize.py').write_text(
+            "import sys\nfrom pathlib import Path\narmed=True\n"
+            "def observe(event,args):\n global armed\n"
+            " if event!='subprocess.Popen' or not armed:return\n"
+            " command=args[1]\n"
+            " if not isinstance(command,(list,tuple)) or len(command)<2:return\n"
+            " if 'implementaudit-initialization-source-' not in str(command[1]) or not str(command[1]).endswith('/validate-run-root.sh'):return\n"
+            " armed=False\n Path(" + repr(str(validator)) + ").write_text(" + repr(replacement) + ")\n"
+            " Path(" + repr(str(observed)) + ").write_text('replaced original after captured validator selected')\n"
+            "sys.addaudithook(observe)\n")
+        before = subprocess.check_output(['git', 'for-each-ref', '--format=%(refname) %(objectname)',
+                                          'refs/implementaudit'], cwd=self.cwd)
+        result = self.invoke(args=args, extra_env={'PYTHONPATH': str(observer)})
+        self.assertTrue(observed.is_file(), 'validator capture boundary was not reached')
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertFalse(marker.exists(), 'mutable original validator was re-opened for execution')
+        after = subprocess.check_output(['git', 'for-each-ref', '--format=%(refname) %(objectname)',
+                                         'refs/implementaudit'], cwd=self.cwd)
+        self.assertEqual(after, before)
+
+    def test_actual_controller_write_then_nonzero_is_received_by_exact_readback(self):
         self.assert_post_write_failure_retains_claim(lost_ack=False)
 
-    def test_actual_controller_write_then_lost_commit_ack_retains_unverified_claim(self):
+    def test_actual_controller_write_then_lost_ack_is_received_by_exact_readback(self):
         self.assert_post_write_failure_retains_claim(lost_ack=True)
 
     def assert_post_write_failure_retains_claim(self, *, lost_ack):
-        for command in (["git", "init", "-q"], ["git", "-c", "user.name=return fixture",
-                "-c", "user.email=return@example.invalid", "-c", "commit.gpgsign=false",
-                "commit", "--allow-empty", "-qm", "disposable return fixture"]):
-            result = subprocess.run(command, cwd=self.cwd, capture_output=True, timeout=20)
-            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        shell = self.scripts / "claim-run.sh"
-        original = shell.read_bytes()
-        anchor = b"  raise SystemExit(0 if committed==b'commit: ok\\n' and transaction.returncode==0 else 1)"
-        self.assertEqual(original.count(anchor), 1)
-        replacement = ((b"  committed=b''\n" + anchor) if lost_ack else
-                       b"  raise SystemExit(transaction.returncode if transaction.returncode else 17)")
-        instrumented = original.replace(anchor, replacement)
-        self.assertEqual(instrumented.replace(replacement, anchor), original)
-        shell.write_bytes(instrumented)
-        result = self.invoke(args=["--controller", "post-write-failure", "new ordinary fixture"],
-                             extra_env={"IMPLEMENTAUDIT_PYTHON": sys.executable})
-        self.assertNotEqual(result.returncode, 0)
-        observed = subprocess.run(["git", "show", "refs/implementaudit/controllers/post-write-failure"],
-                                  cwd=self.cwd, capture_output=True, check=True)
-        self.assertTrue(observed.stdout.startswith(b"implementaudit.controller-current.v1\tpost-write-failure\t"))
-        retained = list((self.cwd / ".IMPLEMENTAUDIT/runs").glob("*/.claimed"))
-        self.assertEqual(len(retained), 1, "completed controller effect lost its claim evidence")
-        self.assertTrue(retained[0].with_name(".controller").is_file())
-        self.assertIn(observed.stdout.decode().split("\t")[2], retained[0].read_text())
-        self.assertIn(b"retained claim", result.stderr)
+        self.initialize_test_repository('disposable activation acknowledgment subject')
+        self.instrument_activation(after=("raise RotationError('controlled lost acknowledgment after real Git publication')"
+                                          if lost_ack else 'result.returncode = 17'))
+        run, args = self.prepare_activation('post-write-failure')
+        result = self.invoke(args=args)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        binding = json.loads(result.stdout)
+        self.assertEqual(binding['status'], 'BOUND_ELIGIBLE_FOR_NORMAL_CURRENTNESS')
+        observed = subprocess.check_output(['git', 'show', 'refs/implementaudit/controllers/post-write-failure'],cwd=self.cwd)
+        self.assertTrue(observed.startswith(b'implementaudit.controller-current.v1\tpost-write-failure\t'))
+        self.assertIn(observed.decode().split('\t')[2], (run / '.claimed').read_text())
+        # Exact authority readback proves the actual landed effect; a process
+        # acknowledgment alone still proves nothing. No continuity is minted.
+        self.assertNotEqual(self.invoke(args=['--require-current-continuity','post-write-failure']).returncode, 0)
 
 
 if __name__ == "__main__":

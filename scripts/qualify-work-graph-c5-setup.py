@@ -40,6 +40,10 @@ HOSTED_R4_COMPOSED_LOADER_PIN = {'bytes': 29572, 'sha256': '37bd1aeef96ee43d6d84
 
 HOSTED_R4_BUILD_LOCAL_LOADER_PIN = {'bytes': 33475, 'sha256': '4285ac2ee8fd9353a14cdf5af4552bd0b5e3c7bdc1d7595610f3fa3d2faddb49'}
 
+HOSTED_R4_INITIALIZATION_LOADER_PIN = {'bytes': 36344, 'sha256': 'e6f0b41c728006241bc1c6ebb85d0a09b73943e8b413c8699bba99fa9f3d03e1'}
+
+HOSTED_R5_WINDOWS_INITIALIZATION_LOADER_PIN = {'bytes': 39282, 'sha256': '042cf21f807ce52ac3522285458f1c0407415c1f0883370f1d73404abd9e97d1'}
+
 
 class HostedPrerequisiteDeadline(BaseException):
     """End the whole operation; ordinary input refusals must not consume this."""
@@ -55,7 +59,7 @@ def hosted_current_owner(root):
         opening = identity(os.fstat(fd))
         pins = (HOSTED_LOADER_PIN, HOSTED_PUBLIC_STREAMING_LOADER_PIN,
                 HOSTED_CURRENT105_LOADER_PIN, HOSTED_CURRENT105_COMPOSED_LOADER_PIN,
-                HOSTED_R4_COMPOSED_LOADER_PIN, HOSTED_R4_BUILD_LOCAL_LOADER_PIN)
+                HOSTED_R4_COMPOSED_LOADER_PIN, HOSTED_R4_BUILD_LOCAL_LOADER_PIN, HOSTED_R4_INITIALIZATION_LOADER_PIN, HOSTED_R5_WINDOWS_INITIALIZATION_LOADER_PIN)
         if not stat.S_ISREG(opening[2]) or opening[3] != 1 or opening[4] not in tuple(pin['bytes'] for pin in pins):
             raise ValueError('hosted current loader pin differs')
         raw = os.pread(fd, max(pin['bytes'] for pin in pins) + 1, 0)
@@ -79,9 +83,15 @@ def hosted_current_owner(root):
         elif observed == HOSTED_R4_COMPOSED_LOADER_PIN:
             current = module._Engine(module.CURRENT_PROFILE,
                 source_revision=module.R4_COMPOSED_SOURCE_REVISION).load()
-        else:
+        elif observed == HOSTED_R4_BUILD_LOCAL_LOADER_PIN:
             current = module._Engine(module.R4_BUILD_CACHE_PROFILE,
                 source_revision=module.R4_BUILD_CACHE_SOURCE_REVISION).load()
+        elif observed == HOSTED_R4_INITIALIZATION_LOADER_PIN:
+            current = module._Engine(module.R4_BUILD_CACHE_PROFILE,
+                source_revision=module.R4_INITIALIZATION_SOURCE_REVISION).load()
+        else:
+            current = module._Engine(module.R4_BUILD_CACHE_PROFILE,
+                source_revision=module.R5_WINDOWS_INITIALIZATION_SOURCE_REVISION).load()
         if (identity(os.fstat(fd)) != opening or identity(os.lstat(path)) != opening
                 or os.pread(fd, len(raw) + 1, 0) != raw):
             raise ValueError('hosted current loader changed during loading')

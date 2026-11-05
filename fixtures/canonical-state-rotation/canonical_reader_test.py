@@ -51,10 +51,11 @@ class CanonicalReaderTests(unittest.TestCase):
         claimed = self.claim("--controller", CONTROLLER, "canonical reader")
         self.assertEqual(claimed.returncode, 0, claimed.stderr.decode())
         self.run = self.repo / claimed.stdout.decode().strip()
-        for name in ("STATE.md", "ROADMAP.md", "PROTOCOL.md", "THINKING.md", "sidecars.md", "tools.md", "context.md"):
-            shutil.copyfile(self.scripts.parent / "templates" / name, self.run / name)
-        (self.run / "phases").mkdir()
-        (self.run / "phases/phase-1.md").write_text("open fixture phase\n")
+        initialized = command([sys.executable, ROOT / 'fixtures/controller-initialization/author_checkpoint.py',
+            '--repo', self.repo, '--run-root', self.run.relative_to(self.repo).as_posix(), '--source', self.repo,
+            '--purpose', 'Qualify canonical reader custody and preservation of native structural guards on this disposable subject.',
+            '--next-action', 'Exercise the selected reader discriminator and receive its actual currentness result', '--activate'], self.repo)
+        self.assertEqual(initialized.returncode, 0, initialized.stderr.decode())
         self.output = self.repo / "read-output"
         self.output.mkdir()
 
@@ -174,7 +175,11 @@ class CanonicalReaderTests(unittest.TestCase):
             continuation = bodies["STATE"]["payload"]["continuation"]["value"]
             continuation.update(status="IN_PHASE", phase="1")
             native_state = (self.run / "STATE.md").read_text().replace("| Status | open |", "| Status | IN_PHASE |")
-            native_state = native_state.replace("| Next action |  |", "| Next action | " + continuation["next_action"] + " |")
+            native_state, mirrored_rows = re.subn(
+                r"(?m)^\| Next action \| [^\n]* \|$",
+                lambda _: "| Next action | " + continuation["next_action"] + " |",
+                native_state)
+            self.assertEqual(mirrored_rows, 1, "native checkpoint must have one Next action row")
             native_state = re.sub(r"(?m)^Current epoch:.*\n", "", native_state)
             native_roadmap = (self.run / "ROADMAP.md").read_text()
             if state_edit:
@@ -424,7 +429,11 @@ class CanonicalReaderTests(unittest.TestCase):
             b"profile epoch row collides with the derived live epoch")
 
     def test_native_phase_table_cannot_be_hidden_by_stale_roadmap(self):
-        self.make_real_generation(native=True, roadmap_edit=lambda s: s.replace("| 1 |  |  | - |  |  |  | open |", ""))
+        def remove_phase(text):
+            changed, removed_rows = re.subn(r"(?m)^\| 1 \|[^\n]*$", "", text)
+            self.assertEqual(removed_rows, 1, "control must remove the actual authored phase row")
+            return changed
+        self.make_real_generation(native=True, roadmap_edit=remove_phase)
         shutil.copyfile(self.scripts.parent / "templates/ROADMAP.md", self.run / "ROADMAP.md")
         result = self.phase_authority()
         self.assertNotEqual(result.returncode, 0)

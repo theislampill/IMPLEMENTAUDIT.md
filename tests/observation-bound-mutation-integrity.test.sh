@@ -77,14 +77,21 @@ setup() {
   [ -z "$controller" ] || claim_args=(--controller "$controller" 'r36-observation-bound-mutation')
   run_root="$(cd "$fixture_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" "${claim_args[@]}")"
   run_root="$fixture_repo/$run_root"
-  for promised in STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md; do
-    cp "$repo_root/skills/implementaudit/templates/$promised" "$run_root/$promised"
-  done
+  if [ -n "$controller" ]; then
+    "$python_bin" "$repo_root/fixtures/controller-initialization/author_checkpoint.py" \
+      --repo "$fixture_repo" --run-root "${run_root#$fixture_repo/}" --source "$repo_root" \
+      --purpose 'Qualify observation-bound mutation and continuity fences on this disposable subject' \
+      --next-action 'exercise governed mutation under current continuity' >/dev/null
+  else
+    for promised in STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md; do
+      cp "$repo_root/skills/implementaudit/templates/$promised" "$run_root/$promised"
+    done
+  fi
   sed -i '/^| 1 |  |  | - |  |  |  | open |$/d' "$run_root/ROADMAP.md"
   if [ -n "$controller" ]; then
     "$python_bin" - "$run_root/STATE.md" "${run_root#$fixture_repo/}" \
       "$(git -C "$fixture_repo" rev-parse HEAD)" "$(git -C "$fixture_repo" rev-parse 'HEAD^{tree}')" <<'PY'
-import sys
+import re,sys
 from pathlib import Path
 p=Path(sys.argv[1]); run,head,tree=sys.argv[2:]
 s=p.read_text(encoding='utf-8')
@@ -92,8 +99,12 @@ s=s.replace('| Run root |  |',f'| Run root | `{run}` |')
 s=s.replace('| Next action |  |','| Next action | exercise governed mutation under current continuity |')
 anchor='| Epoch | Boundary provenance | Established at | Repo identity | Reconciled | Notes |\n|---|---|---|---|---|---|'
 row=f'| G0001 | new-session | 2026-08-13T00:00:00Z | repo at `{head}` / `{tree}` | yes | fixture reconciliation complete |'
-p.write_text(s.replace(anchor,anchor+'\n'+row),encoding='utf-8')
+p.write_text(re.sub(r'^\| G0001 \|[^\n]*$',row,s,flags=re.M),encoding='utf-8')
 PY
+    "$python_bin" "$repo_root/fixtures/controller-initialization/author_checkpoint.py" \
+      --repo "$fixture_repo" --run-root "${run_root#$fixture_repo/}" --source "$repo_root" \
+      --purpose 'Qualify observation-bound mutation and continuity fences on this disposable subject' \
+      --next-action 'exercise governed mutation under current continuity' --activate-only >/dev/null
     receipt="$(cd "$fixture_repo" && bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" \
       --resume-controller "$controller" --boundary new-session --epoch G0001)" \
       || fail 'controller fixture continuity receipt mint failed'
@@ -146,6 +157,9 @@ scope=json.dumps({'in':paths,'out':['README.md']},separators=(',',':'))
 text=text.replace('In scope: src/routes/settings.ts, tests/settings.test.ts, src/app.ts','In scope: R0024 fixture mutation evidence\nMutation scope: '+scope)
 Path(out).write_text(text,encoding='utf-8')
 PY
+  if [ "$prepared_phase" = 1 ]; then
+    sed -i '/^| 1 | Receive verified fresh custody and perform the declared receiving task |/d' "$run_root/ROADMAP.md"
+  fi
   printf '| %s | R0024 observation-bound mutation fixture |\n' "$prepared_phase" >> "$run_root/ROADMAP.md"
   if [ -f "$run_root/.controller" ]; then
     local controller epoch receipt
@@ -2113,11 +2127,18 @@ controller_stale_heldout() {
   prepare_authority replace target -
   successor="$(cd "$fixture_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" --controller "$controller" --supersede-claim "$old_claim" 's3e w02 successor' 2>/dev/null)" || fail 'S3E-W02 successor transfer fixture failed'
   [ -f "$fixture_repo/$successor/.claimed" ] || fail 'S3E-W02 successor root is absent'
+  "$python_bin" "$repo_root/fixtures/controller-initialization/author_checkpoint.py" \
+    --repo "$fixture_repo" --run-root "$successor" --source "$repo_root" \
+    --purpose 'Receive the authorized stale-controller test successor without executing its predecessor mutation' \
+    --next-action 'Receive the exact successor and test stale predecessor refusal' --activate >/dev/null
   stdout="$tmp/controller-stale.out"; stderr="$tmp/controller-stale.err"
   set +e; bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$prepared_phase" --step 1 --preimage "$pre" --candidate "$cand" >"$stdout" 2>"$stderr"; actual=$?; set -e
   if [ "$actual" -eq 0 ]; then fail 'S3E-W02 RED: stale controller reached governed mutation sink'; fi
-  [ "$actual" -eq 77 ] || fail "S3E-W02 stale controller exit=$actual expected=77 stderr=$(<"$stderr")"
   assert_hex S3E-W02-stale-controller "$fixture_repo/target" 4142434445
+  if [ "$actual" -eq 64 ]; then
+    [ ! -s "$stdout" ] && grep -Fq 'native controller does not bind the requested run and claim' "$stderr" || fail 'stale controller early validator refusal lacked exact custody reason'
+  else
+    [ "$actual" -eq 77 ] || fail "S3E-W02 stale controller exit=$actual expected=64-or-77 stderr=$(<"$stderr")"
   "$python_bin" - "$stdout" <<'PY' || fail 'S3E-W02 stale controller refusal is not explicit'
 import json,sys
 from pathlib import Path
@@ -2125,18 +2146,23 @@ r=json.loads(Path(sys.argv[1]).read_text())
 assert r['status']=='UNSUPPORTED_OWNER_DECISION' and r['reason_code']=='STALE_CONTROLLER_CUSTODY'
 assert r['transaction_id'] is None and r['actual_effect_set']==[]
 PY
+  fi
   setup s3e-w02-malformed
   pre="$(artifact controller-malformed-pre 4142434445)"; cand="$(artifact controller-malformed-candidate 4e4557)"
   prepare_authority replace target -
   printf 'controller_id=s3e-w02-malformed \n' >"$run_root/.controller"
   set +e; bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$prepared_phase" --step 1 --preimage "$pre" --candidate "$cand" >"$tmp/S3E-W02-malformed.out" 2>"$tmp/S3E-W02-malformed.err"; actual=$?; set -e
-  [ "$actual" -eq 77 ] || fail "S3E-W02 malformed controller exit=$actual expected=77"
   assert_hex S3E-W02-malformed "$fixture_repo/target" 4142434445
+  if [ "$actual" -eq 64 ]; then
+    [ ! -s "$tmp/S3E-W02-malformed.out" ] && grep -Fq 'malformed controller discovery hint' "$tmp/S3E-W02-malformed.err" || fail 'malformed controller early validator refusal lacked exact custody reason'
+  else
+    [ "$actual" -eq 77 ] || fail "S3E-W02 malformed controller exit=$actual expected=64-or-77"
   "$python_bin" - "$tmp/S3E-W02-malformed.out" <<'PY' || fail 'S3E-W02 malformed controller record lacked named refusal'
 import json,sys
 from pathlib import Path
 assert json.loads(Path(sys.argv[1]).read_text())['reason_code']=='STALE_CONTROLLER_CUSTODY'
 PY
+  fi
 }
 
 post_compaction_continuity_heldout() {
@@ -2181,6 +2207,10 @@ post_compaction_marker_deletion_heldout() {
   sibling="$(cd "$fixture_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" \
     --controller s3e-continuity-sibling 's3e continuity sibling')" || fail 'sibling controller fixture failed'
   [ -f "$fixture_repo/$sibling/.claimed" ] || fail 'sibling controller root is absent'
+  "$python_bin" "$repo_root/fixtures/controller-initialization/author_checkpoint.py" \
+    --repo "$fixture_repo" --run-root "$sibling" --source "$repo_root" \
+    --purpose 'Establish an independent sibling for controller discovery and marker deletion controls' \
+    --next-action 'Receive sibling custody without mutating the other controller' --activate >/dev/null
   rm "$run_root/.controller"
   stdout="$tmp/continuity-marker-deletion.out"; stderr="$tmp/continuity-marker-deletion.err"
   set +e; bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$prepared_phase" --step 1 --preimage "$pre" --candidate "$cand" >"$stdout" 2>"$stderr"; actual=$?; set -e
@@ -2200,15 +2230,21 @@ PY
 }
 
 controller_transfer_race_heldout() {
-  local controller=s3e-w02-race old_claim pre cand derived barrier helper_pid transfer_pid ticks helper_rc transfer_rc current
+  local controller=s3e-w02-race old_claim pre cand derived barrier helper_pid transfer_pid ticks helper_rc transfer_rc current successor initialization_token
   setup "$controller"; old_claim="$(sed -n 's/^claim_id=//p' "$run_root/.claimed")"
   pre="$(artifact controller-race-pre 4142434445)"; cand="$(artifact controller-race-candidate 4e4557)"
+  successor="$(cd "$fixture_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" --controller "$controller" --supersede-claim "$old_claim" 's3e w02 raced successor')" || fail 'successor preparation failed'
+  "$python_bin" "$repo_root/fixtures/controller-initialization/author_checkpoint.py" \
+    --repo "$fixture_repo" --run-root "$successor" --source "$repo_root" \
+    --purpose 'Receive the successor only after the protected mutation window releases' \
+    --next-action 'Receive successor custody after the actual guarded mutation completes' >/dev/null
+  initialization_token="$(cd "$fixture_repo" && bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" --inspect-controller-initialization "$controller" --run-root "$successor" | "$python_bin" -c 'import json,sys; print(json.load(sys.stdin)["initialization_token"])')"
   prepare_authority replace target -; derived="$(instrumented_helper)"; barrier="$tmp/controller-transfer-race"; mkdir "$barrier"
   (IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=lock-aba bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$prepared_phase" --step 1 --preimage "$pre" --candidate "$cand" >"$barrier/helper.out" 2>"$barrier/helper.err") & helper_pid=$!
   owned_background_pids=("$helper_pid"); owned_release_path="$barrier/release"
   ticks=0; while [ ! -f "$barrier/paused" ] && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done
   [ -f "$barrier/paused" ] || fail "S3E-W02 controller race did not reach protected mutation boundary: $(<"$barrier/helper.err")"
-  (cd "$fixture_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" --controller "$controller" --supersede-claim "$old_claim" 's3e w02 raced successor' >"$barrier/transfer.out" 2>"$barrier/transfer.err") & transfer_pid=$!
+  (cd "$fixture_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" --activate-controller "$controller" --run-root "$successor" --expected-initialization "$initialization_token" >"$barrier/transfer.out" 2>"$barrier/transfer.err") & transfer_pid=$!
   owned_background_pids+=("$transfer_pid")
   for _ in $(seq 1 100); do [ ! -s "$barrier/transfer.out" ] || break; sleep .02; done
   if [ -s "$barrier/transfer.out" ]; then
@@ -2221,9 +2257,8 @@ controller_transfer_race_heldout() {
   [ "$helper_rc" -eq 0 ] || fail "S3E-W02 protected mutation failed before transfer: $helper_rc $(<"$barrier/helper.err")"
   [ "$transfer_rc" -eq 0 ] || fail "S3E-W02 serialized transfer failed: $transfer_rc $(<"$barrier/transfer.err")"
   assert_hex S3E-W02-controller-race "$fixture_repo/target" 4e4557
-  for promised in STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md; do cp "$repo_root/skills/implementaudit/templates/$promised" "$fixture_repo/$(<"$barrier/transfer.out")/$promised"; done
   current="$(cd "$fixture_repo" && bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" --current-controller "$controller")" || fail 'S3E-W02 raced successor is not current'
-  [ "$(printf '%s' "$current" | cut -f4)" = "$(sed -n 's/^claim_id=//p' "$fixture_repo/$(<"$barrier/transfer.out")/.claimed")" ] || fail 'S3E-W02 transfer result and current controller differ'
+  [ "$(printf '%s' "$current" | cut -f4)" = "$(sed -n 's/^claim_id=//p' "$fixture_repo/$successor/.claimed")" ] || fail 'S3E-W02 transfer result and current controller differ'
 }
 
 # Patch authority must describe the same captured inputs that constructed the
@@ -2367,10 +2402,16 @@ def fixture(name, controller=False):
     args = ['bash', str(claim)] + (['--controller', 'batch-preflight'] if controller else []) + ['batch-preflight']
     run_rel = command(args, repo, env).stdout.strip()
     run = repo / run_rel
-    for name in ['STATE.md', 'PROTOCOL.md', 'ROADMAP.md', 'THINKING.md', 'sidecars.md', 'tools.md', 'context.md']:
-        shutil.copyfile(root / 'skills/implementaudit/templates' / name, run / name)
-    roadmap = run / 'ROADMAP.md'
-    roadmap.write_text(roadmap.read_text().replace('| 1 |  |  | - |  |  |  | open |\n', '') + '| 1 | Replacement preflight |\n')
+    if controller:
+        command([sys.executable, str(root / 'fixtures/controller-initialization/author_checkpoint.py'),
+            '--repo', str(repo), '--run-root', run_rel, '--source', str(root),
+            '--purpose', 'Qualify replacement-batch observation preflight on this disposable source',
+            '--next-action', 'inspect ordinary replacements'], repo, env)
+    else:
+        for name in ['STATE.md', 'PROTOCOL.md', 'ROADMAP.md', 'THINKING.md', 'sidecars.md', 'tools.md', 'context.md']:
+            shutil.copyfile(root / 'skills/implementaudit/templates' / name, run / name)
+        roadmap = run / 'ROADMAP.md'
+        roadmap.write_text(roadmap.read_text().replace('| 1 |  |  | - |  |  |  | open |\n', '') + '| 1 | Replacement preflight |\n')
     phase = (root / 'fixtures/phase-validation/valid-full-spec.md').read_text()
     phase = phase.replace('Phase: 1 of 3', 'Phase: 1 of 1').replace('Run root: .IMPLEMENTAUDIT/runs/add-settings-Xy9Zq1', 'Run root: ' + run_rel)
     phase = phase.replace('Baseline ref: abc123def456', 'Baseline ref: HEAD').replace('Owner/source: src/routes/settings.ts', 'Owner/source: issue:#200 replacement preflight')
@@ -2380,7 +2421,7 @@ def fixture(name, controller=False):
         matches = re.findall(pattern, phase)
         require(len(matches) == 1, 'fixture step anchor not unique')
         phase = phase.replace(matches[0], matches[0] + '\n  mutation-authority: ' + json.dumps({'operation': 'replace', 'source': source, 'destination': None}, separators=(',', ':')))
-    (run / 'phases').mkdir()
+    (run / 'phases').mkdir(exist_ok=True)
     phase_path = run / 'phases/phase-1.md'
     phase_path.write_text(phase)
     (repo / 'a').write_bytes(b'ALPHA\n')
@@ -2397,8 +2438,12 @@ def fixture(name, controller=False):
         state = (run / 'STATE.md').read_text().replace('| Run root |  |', f'| Run root | `{run_rel}` |').replace('| Next action |  |', '| Next action | inspect ordinary replacements |')
         state = re.sub(r'^Current epoch: .+$', 'Current epoch: G0001', state, flags=re.M)
         anchor = '| Epoch | Boundary provenance | Established at | Repo identity | Reconciled | Notes |\n|---|---|---|---|---|---|'
-        state = state.replace(anchor, anchor + f'\n| G0001 | new-session | 2026-10-25T00:00:00Z | repo at `{head}` / `{tree}` | yes | fixture reconciliation complete |')
+        state = re.sub(r'^\| G0001 \|[^\n]*$', f'| G0001 | new-session | 2026-10-25T00:00:00Z | repo at `{head}` / `{tree}` | yes | fixture reconciliation complete |', state, flags=re.M)
         (run / 'STATE.md').write_text(state)
+        command([sys.executable, str(root / 'fixtures/controller-initialization/author_checkpoint.py'),
+            '--repo', str(repo), '--run-root', run_rel, '--source', str(root),
+            '--purpose', 'Qualify replacement-batch observation preflight on this disposable source',
+            '--next-action', 'inspect ordinary replacements', '--activate-only'], repo, env)
         receipt = command(['bash', str(claim), '--resume-controller', 'batch-preflight', '--boundary', 'new-session', '--epoch', 'G0001'], repo, env).stdout.strip()
         command(['bash', str(claim), '--verify-resume-receipt', receipt], repo, env)
     return repo, run, env, phase, batch
