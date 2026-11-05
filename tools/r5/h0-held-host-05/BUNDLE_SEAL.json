@@ -1,0 +1,92 @@
+{
+  "authority": "NONE",
+  "files": [
+    {
+      "bytes": 4175,
+      "mode": 420,
+      "name": "CONTROL_FORMAT.md",
+      "sha256": "d476f5da8b8fa4a00e4d2cc5cdb51c009655ba1177bb5b6893d06dbdb08a4c98"
+    },
+    {
+      "bytes": 34059,
+      "mode": 420,
+      "name": "INPUT_TEMPLATE.json",
+      "sha256": "d75c51066b636fd4264dbb2f4c6e5fbfccdb584bd72706e711d02ccc9629716a"
+    },
+    {
+      "bytes": 4527,
+      "mode": 420,
+      "name": "PLAN.json",
+      "sha256": "a67c78c896782a370f9df497f16e983d8bf6e29735b3f8d81f16b1540fd91e87"
+    },
+    {
+      "bytes": 10264,
+      "mode": 420,
+      "name": "PURE_CONTROLS.json",
+      "sha256": "bebabc9f2fa4039f5bd0c8a047e5aaa62187990b2e664a5050536b5da5cda62f"
+    },
+    {
+      "bytes": 2799,
+      "mode": 420,
+      "name": "REPORT.md",
+      "sha256": "b8eb0a5f7c350c0951d5cbd11e9951e9b4256837dca3ea8f462d6db691e89783"
+    },
+    {
+      "bytes": 23883,
+      "mode": 420,
+      "name": "held_control.py",
+      "sha256": "55cb39123c45d42149f3ed84c02022a0349c6214fd4f795fbf2f7edab42a880e"
+    },
+    {
+      "bytes": 11672,
+      "mode": 420,
+      "name": "host_io.py",
+      "sha256": "b4bfff1e7cba30789233f4754481e6ec4ecb39e9357fbefcc8c693d140eb0536"
+    },
+    {
+      "bytes": 54556,
+      "mode": 420,
+      "name": "host_utility.py",
+      "sha256": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c"
+    },
+    {
+      "bytes": 8052,
+      "mode": 420,
+      "name": "live_receiver.py",
+      "sha256": "ace6f387d85fa9f6be50febd2d443d8aef26b4294b4eefdcc4d596912b7788a2"
+    },
+    {
+      "bytes": 16079,
+      "mode": 420,
+      "name": "mechanical_driver.py",
+      "sha256": "237e32f2f35d40a42fc6253bf41ccf68b431348dbb94f64e23a2e433c2c7e6bd"
+    },
+    {
+      "bytes": 27242,
+      "mode": 420,
+      "name": "native_driver.py",
+      "sha256": "430069cdf276443cb92ec54084af77ccf741fc068ca46a9233fb3cbb13472d1b"
+    },
+    {
+      "bytes": 4500,
+      "mode": 420,
+      "name": "native_transport.py",
+      "sha256": "60dd721c37a44d820fde02f66abe54f22587db5a6fad27547500bd9b70e39c26"
+    },
+    {
+      "bytes": 4164,
+      "mode": 420,
+      "name": "provider.py",
+      "sha256": "d3bd454bafb6fe4bdc1d9c74168953161c522657c337791b52402b0bc10b88fc"
+    },
+    {
+      "bytes": 5000,
+      "mode": 420,
+      "name": "r5-h0-held.yml",
+      "sha256": "fabf941052e5be97d7f4cf7858d7c4bfb0e94ea204423bce5729f0688376adc4"
+    }
+  ],
+  "schema": "r5.h0-held-code-seal.v1",
+  "source_commit": "481e529b691ed3d21169b07f376e357ae51f1f03",
+  "source_tree": "786b4bfaf39b5cc15ce9cf662a51d4518add4645"
+}

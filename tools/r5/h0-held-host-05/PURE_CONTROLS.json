@@ -1,0 +1,473 @@
+{
+  "all_positive_authorization_and_receipt_values": "DISPOSABLE_PURE_CONTROL_FIXTURES_ONLY; NOT_ACTUAL_REVIEW_GO_OR_NATIVE_EVIDENCE",
+  "authority": "NONE",
+  "checks": [
+    {
+      "name": "python_ast:held_control.py",
+      "passed": true
+    },
+    {
+      "name": "python_ast:host_io.py",
+      "passed": true
+    },
+    {
+      "name": "python_ast:host_utility.py",
+      "passed": true
+    },
+    {
+      "name": "python_ast:live_receiver.py",
+      "passed": true
+    },
+    {
+      "name": "python_ast:mechanical_driver.py",
+      "passed": true
+    },
+    {
+      "name": "python_ast:native_driver.py",
+      "passed": true
+    },
+    {
+      "name": "python_ast:native_transport.py",
+      "passed": true
+    },
+    {
+      "name": "python_ast:provider.py",
+      "passed": true
+    },
+    {
+      "name": "python_ast:verify_packet.py",
+      "passed": true
+    },
+    {
+      "name": "source05_exact_seal",
+      "passed": true
+    },
+    {
+      "name": "source05_exact_tree",
+      "passed": true
+    },
+    {
+      "name": "exact_published_source_commit",
+      "passed": true
+    },
+    {
+      "name": "runtime_83_distinct_members",
+      "passed": true
+    },
+    {
+      "name": "runtime_exact_source05_pins",
+      "passed": true
+    },
+    {
+      "name": "unchanged_linux03_cleanup_utility",
+      "passed": true
+    },
+    {
+      "name": "fixed_public_populations",
+      "passed": true
+    },
+    {
+      "name": "all102inputs_and_exact_binary_ceiling",
+      "passed": true
+    },
+    {
+      "name": "unchanged_cleanup_bounds_in_plan",
+      "passed": true
+    },
+    {
+      "name": "original_mechanical_driver_uniquely_found",
+      "passed": true
+    },
+    {
+      "name": "only_optional_progress_argument_added",
+      "passed": true
+    },
+    {
+      "name": "only_diagnostic_label_argument_added",
+      "passed": true
+    },
+    {
+      "name": "diagnostic_label_is_fixed_209",
+      "passed": true
+    },
+    {
+      "name": "diagnostic_label_is_fixed_221",
+      "passed": true
+    },
+    {
+      "name": "mechanical_operational_ast_unchanged",
+      "passed": true
+    },
+    {
+      "name": "selection_precedes_native0166_registration",
+      "passed": true
+    },
+    {
+      "name": "live_receiver_precedes_native_cleanup",
+      "passed": true
+    },
+    {
+      "name": "grant_precedes_every_allocation",
+      "passed": true
+    },
+    {
+      "name": "binary_fits_rlimit_without_enlarging_bound",
+      "passed": true
+    },
+    {
+      "name": "only_one_explicit_native_compaction",
+      "passed": true
+    },
+    {
+      "name": "archive_extraction_uses_original_held_identity",
+      "passed": true
+    },
+    {
+      "name": "hold_recensus_before_and_after_final_pure_check",
+      "passed": true
+    },
+    {
+      "name": "exact_preparation_positive_control",
+      "passed": true
+    },
+    {
+      "name": "exact_original_held_census_positive_control",
+      "passed": true
+    },
+    {
+      "name": "equal_bytes_replacement_is_new_inode",
+      "passed": true
+    },
+    {
+      "name": "equal_bytes_new_inode_prepared_refused",
+      "passed": true
+    },
+    {
+      "name": "equal_bytes_new_inode_held_refused",
+      "passed": true
+    },
+    {
+      "name": "equal_bytes_new_inode_before_reservation_refused",
+      "passed": true
+    },
+    {
+      "name": "refusal_precedes_exclusive_reservation",
+      "passed": true
+    },
+    {
+      "name": "prepared_equal_bytes_new_inode",
+      "passed": true
+    },
+    {
+      "name": "prepared_identity_not_only_bytes",
+      "passed": true
+    },
+    {
+      "name": "input_mode_change_refused",
+      "passed": true
+    },
+    {
+      "name": "same_target_invocation_replacement_detected",
+      "passed": true
+    },
+    {
+      "name": "symlinked_input_ancestor_refused",
+      "passed": true
+    },
+    {
+      "name": "duplicate_json_keys_refused",
+      "passed": true
+    },
+    {
+      "name": "nonfinite_json_refused",
+      "passed": true
+    },
+    {
+      "name": "exact_json_boolean_type",
+      "passed": true
+    },
+    {
+      "name": "pure_GO_scope_positive_control",
+      "passed": true
+    },
+    {
+      "name": "same_actual_grant_parser_positive_control",
+      "passed": true
+    },
+    {
+      "name": "control_refuses_author_review",
+      "passed": true
+    },
+    {
+      "name": "driver_refuses_author_review",
+      "passed": true
+    },
+    {
+      "name": "control_refuses_author_child_review",
+      "passed": true
+    },
+    {
+      "name": "driver_refuses_author_child_review",
+      "passed": true
+    },
+    {
+      "name": "control_refuses_root_is_not_independent_review",
+      "passed": true
+    },
+    {
+      "name": "driver_refuses_root_is_not_independent_review",
+      "passed": true
+    },
+    {
+      "name": "control_refuses_foreign_review_preparation",
+      "passed": true
+    },
+    {
+      "name": "driver_refuses_foreign_review_preparation",
+      "passed": true
+    },
+    {
+      "name": "control_refuses_numeric_one_shot",
+      "passed": true
+    },
+    {
+      "name": "driver_refuses_numeric_one_shot",
+      "passed": true
+    },
+    {
+      "name": "control_refuses_foreign_GO_source",
+      "passed": true
+    },
+    {
+      "name": "driver_refuses_foreign_GO_source",
+      "passed": true
+    },
+    {
+      "name": "control_refuses_foreign_GO_census",
+      "passed": true
+    },
+    {
+      "name": "driver_refuses_foreign_GO_census",
+      "passed": true
+    },
+    {
+      "name": "control_refuses_object_GO_preparation",
+      "passed": true
+    },
+    {
+      "name": "driver_refuses_object_GO_preparation",
+      "passed": true
+    },
+    {
+      "name": "control_authorization_exact_bytes",
+      "passed": true
+    },
+    {
+      "name": "pure_STOP_positive_control",
+      "passed": true
+    },
+    {
+      "name": "closed_control_shape",
+      "passed": true
+    },
+    {
+      "name": "actual_route_request_pure_grammar",
+      "passed": true
+    },
+    {
+      "name": "F01_exact_constructor_current_domains_have_no_invalidators",
+      "passed": true
+    },
+    {
+      "name": "F01_exact_constructor_mechanically_required",
+      "passed": true
+    },
+    {
+      "name": "F01_shared_initialization_next_action",
+      "passed": true
+    },
+    {
+      "name": "F01_wrong_boundary_digest_refuses",
+      "passed": true
+    },
+    {
+      "name": "F01_wrong_scope_digest_refuses",
+      "passed": true
+    },
+    {
+      "name": "F01_wrong_action_digest_refuses",
+      "passed": true
+    },
+    {
+      "name": "F01_actual_next_action_drift_still_stale",
+      "passed": true
+    },
+    {
+      "name": "F01_proof_and_capsule_separately_pinned",
+      "passed": true
+    },
+    {
+      "name": "actual_recovery_capsule_v2_pure_grammar",
+      "passed": true
+    },
+    {
+      "name": "actual_canonical_packet_pure_grammar",
+      "passed": true
+    },
+    {
+      "name": "fresh_boundary_exact_proof_identity",
+      "passed": true
+    },
+    {
+      "name": "invalidation_precedes_resume",
+      "passed": true
+    },
+    {
+      "name": "stale_capsule_schema_refused",
+      "passed": true
+    },
+    {
+      "name": "fixed_MCP_source_owner_configuration",
+      "passed": true
+    },
+    {
+      "name": "closed_loopback_provider_no_auth",
+      "passed": true
+    },
+    {
+      "name": "summary_ceiling_83",
+      "passed": true
+    },
+    {
+      "name": "absent_request_has_no_positive_receipt",
+      "passed": true
+    },
+    {
+      "name": "summary_ceiling_85",
+      "passed": true
+    },
+    {
+      "name": "summary_omits_malformed_preparation_object",
+      "passed": true
+    },
+    {
+      "name": "summary_ceiling_87",
+      "passed": true
+    },
+    {
+      "name": "summary_omits_malformed_preparation_list",
+      "passed": true
+    },
+    {
+      "name": "summary_ceiling_89",
+      "passed": true
+    },
+    {
+      "name": "summary_omits_malformed_preparation_uppercase",
+      "passed": true
+    },
+    {
+      "name": "summary_ceiling_91",
+      "passed": true
+    },
+    {
+      "name": "summary_omits_malformed_preparation_wrong_length",
+      "passed": true
+    },
+    {
+      "name": "summary_ceiling_93",
+      "passed": true
+    },
+    {
+      "name": "summary_omits_malformed_preparation_integer",
+      "passed": true
+    },
+    {
+      "name": "summary_request_replaced_equal_bytes",
+      "passed": true
+    },
+    {
+      "name": "summary_ceiling_96",
+      "passed": true
+    },
+    {
+      "name": "summary_requires_original_private_request_identity",
+      "passed": true
+    },
+    {
+      "name": "summary_ceiling_98",
+      "passed": true
+    },
+    {
+      "name": "receipt_without_cleanup_stays_unconfirmed",
+      "passed": true
+    },
+    {
+      "name": "private_commands_not_projected",
+      "passed": true
+    },
+    {
+      "name": "summary_ceiling_101",
+      "passed": true
+    },
+    {
+      "name": "complete_receipt_retains_root_reconciliation_ceiling",
+      "passed": true
+    },
+    {
+      "name": "all_completed_milestones_fit_public_ceiling",
+      "passed": true
+    },
+    {
+      "name": "summary_ceiling_104",
+      "passed": true
+    },
+    {
+      "name": "malformed_receipt_never_leaves_partial_predicates",
+      "passed": true
+    },
+    {
+      "name": "summary_ceiling_106",
+      "passed": true
+    },
+    {
+      "name": "failed_stage_and_verified_prior_survive_cleanup",
+      "passed": true
+    },
+    {
+      "name": "summary_ceiling_108",
+      "passed": true
+    },
+    {
+      "name": "unknown_failure_text_is_closed_category",
+      "passed": true
+    },
+    {
+      "name": "interrupted_progress_replace_refused",
+      "passed": true
+    },
+    {
+      "name": "interrupted_write_retains_last_complete_progress",
+      "passed": true
+    },
+    {
+      "name": "exact_push_first_attempt_and_ancestry_depth",
+      "passed": true
+    },
+    {
+      "name": "only_fixed_public_paths_no_private_upload",
+      "passed": true
+    },
+    {
+      "name": "no_credentials_to_driver_environment",
+      "passed": true
+    }
+  ],
+  "external_network_or_public_effects": false,
+  "independent_review": false,
+  "maintained_controller_or_native_execution": false,
+  "passed": 115,
+  "schema": "r5.h0-held-pure-controls.v1",
+  "source_tree": "786b4bfaf39b5cc15ce9cf662a51d4518add4645",
+  "total": 115
+}
