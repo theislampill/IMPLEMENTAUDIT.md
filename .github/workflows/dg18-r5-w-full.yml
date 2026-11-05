@@ -1,0 +1,121 @@
+name: R5 isolated fresh Windows whole-owner receiving
+
+on:
+  push:
+    branches:
+      - pro/dg18-r5-w-full-03-20261105
+    paths:
+      - .github/workflows/dg18-r5-w-full.yml
+      - qualification/dg18-r5-w-full/**
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dg18-r5-w-full-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  fresh-windows-owner:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/pro/dg18-r5-w-full-03-20261105' &&
+      github.run_attempt == '1'
+    runs-on: windows-2022
+    timeout-minutes: 20
+    steps:
+      - name: Check out exact reviewed workflow packet
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        env:
+          GIT_CONFIG_COUNT: '1'
+          GIT_CONFIG_KEY_0: core.autocrlf
+          GIT_CONFIG_VALUE_0: 'false'
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Check out exact qualified source separately
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        env:
+          GIT_CONFIG_COUNT: '1'
+          GIT_CONFIG_KEY_0: core.autocrlf
+          GIT_CONFIG_VALUE_0: 'false'
+        with:
+          ref: 539aa846e37eab2dd527912d5e5eaa95f69d61cf
+          path: qualified-source
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Select physical Python 3.12
+        id: python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.10'
+          architecture: x64
+
+      - name: Prepare one new subject and execute the maintained runner once
+        shell: pwsh
+        env:
+          DG18_PHYSICAL_PYTHON: ${{ steps.python.outputs.python-path }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $packet = Join-Path $env:GITHUB_WORKSPACE 'packet/qualification/dg18-r5-w-full'
+          $adapter = Join-Path $packet 'prepare_and_execute.py'
+          $manifest = Join-Path $packet 'SOURCE_MANIFEST.json'
+          if ((Get-FileHash -Algorithm SHA256 $adapter).Hash.ToLowerInvariant() -ne '0d1ba9400ebe65a65567884fd05c8cf4977126526350a451a9d74511e5d91f2a') { throw 'Reviewed adapter digest differs' }
+          if ((Get-FileHash -Algorithm SHA256 $manifest).Hash.ToLowerInvariant() -ne 'b60c7e5aac40a452bae05578a8ee793737f949a130d7f402095ca3ed5a5734fb') { throw 'Reviewed source manifest digest differs' }
+          $source = Join-Path $env:GITHUB_WORKSPACE 'qualified-source'
+          $out = Join-Path $env:RUNNER_TEMP ('dg18-w-full-' + $env:GITHUB_RUN_ID + '-' + $env:GITHUB_RUN_ATTEMPT)
+          $log = $out + '.console.log'
+          if ((Test-Path $out) -or (Test-Path $log)) { throw 'Owned output already exists; no retry' }
+          & $env:DG18_PHYSICAL_PYTHON -I -X utf8 -B $adapter --source $source --python $env:DG18_PHYSICAL_PYTHON --output $out 1> $log 2>&1
+          $code = $LASTEXITCODE
+          Write-Host ('Fresh Windows adapter exit: ' + $code)
+          Write-Host 'Only explicitly selected new-subject evidence is eligible for upload.'
+          if ($code -ne 0) { exit $code }
+
+      - name: Retain explicitly selected fresh public evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg18-w-full-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/dg18-w-full-${{ github.run_id }}-${{ github.run_attempt }}/public/RESULT.json
+            ${{ runner.temp }}/dg18-w-full-${{ github.run_id }}-${{ github.run_attempt }}/public/SOURCE.json
+            ${{ runner.temp }}/dg18-w-full-${{ github.run_id }}-${{ github.run_attempt }}/public/TOOLS.json
+            ${{ runner.temp }}/dg18-w-full-${{ github.run_id }}-${{ github.run_attempt }}/public/CONTROL.json
+            ${{ runner.temp }}/dg18-w-full-${{ github.run_id }}-${{ github.run_attempt }}/public/MEASUREMENT.json
+            ${{ runner.temp }}/dg18-w-full-${{ github.run_id }}-${{ github.run_attempt }}/public/TRANSITION.json
+            ${{ runner.temp }}/dg18-w-full-${{ github.run_id }}-${{ github.run_attempt }}/public/RECEIVING.json
+            ${{ runner.temp }}/dg18-w-full-${{ github.run_id }}-${{ github.run_attempt }}/public/FAILURE.json
+            ${{ runner.temp }}/dg18-w-full-${{ github.run_id }}-${{ github.run_attempt }}/public/ARTIFACT_MANIFEST.json
+          if-no-files-found: warn
+          include-hidden-files: false
+          retention-days: 7
+          compression-level: 6
+
+      - name: Emit exact selected fresh evidence for read-only receiving
+        if: always()
+        shell: pwsh
+        env:
+          DG18_PHYSICAL_PYTHON: ${{ steps.python.outputs.python-path }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $adapter = Join-Path $env:GITHUB_WORKSPACE 'packet/qualification/dg18-r5-w-full/prepare_and_execute.py'
+          $out = Join-Path $env:RUNNER_TEMP ('dg18-w-full-' + $env:GITHUB_RUN_ID + '-' + $env:GITHUB_RUN_ATTEMPT)
+          if (Test-Path (Join-Path $out 'public/ARTIFACT_MANIFEST.json')) {
+            if ((Get-FileHash -Algorithm SHA256 $adapter).Hash.ToLowerInvariant() -ne '0d1ba9400ebe65a65567884fd05c8cf4977126526350a451a9d74511e5d91f2a') { throw 'Reviewed adapter digest differs' }
+            & $env:DG18_PHYSICAL_PYTHON -I -X utf8 -B $adapter --emit-public --output $out
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          } else {
+            Write-Host 'No public evidence manifest exists; receiving remains unqualified.'
+          }
