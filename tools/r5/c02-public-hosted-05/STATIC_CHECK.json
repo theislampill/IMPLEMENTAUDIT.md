@@ -1,0 +1,686 @@
+{
+  "authority": "NONE",
+  "hashed_static_inputs": [
+    {
+      "binding": "source",
+      "bytes": 2812,
+      "key": "runtime/skills/audit-andon/SKILL.md",
+      "mode": 420,
+      "sha256": "d774154be7940f88e6402b9d7299f36792e0a636c9023f68fe88b062e2604ff9"
+    },
+    {
+      "binding": "source",
+      "bytes": 2039,
+      "key": "runtime/skills/audit-assess/SKILL.md",
+      "mode": 420,
+      "sha256": "6f5d5738b9efd5fa5d4c35868400220458a2f81179d4081fce508ef65c3f72e4"
+    },
+    {
+      "binding": "source",
+      "bytes": 5448,
+      "key": "runtime/skills/audit-implement/SKILL.md",
+      "mode": 420,
+      "sha256": "aaeb90c6fcded31064f4731cd19cb0e8dcb9e7a5c82a0db4de2f3eab17d978b2"
+    },
+    {
+      "binding": "source",
+      "bytes": 3858,
+      "key": "runtime/skills/audit-state/SKILL.md",
+      "mode": 420,
+      "sha256": "14caf13c42a49b335197fb24a632a9fb3ebc51b26947f311cde4a7e5b6b05a8d"
+    },
+    {
+      "binding": "source",
+      "bytes": 21257,
+      "key": "runtime/skills/implementaudit/SKILL.md",
+      "mode": 420,
+      "sha256": "4c8363c2235ba6c50675c93af7319aeb0caf57f020c4858eba1c28e76de4c6c5"
+    },
+    {
+      "binding": "source",
+      "bytes": 14156,
+      "key": "runtime/skills/implementaudit/references/audit-category-matrix.md",
+      "mode": 420,
+      "sha256": "d67a3ef3fb6a484c8360b4c031da40b5329030b6bc0c3a5b99e56cc58b1bcf79"
+    },
+    {
+      "binding": "source",
+      "bytes": 23193,
+      "key": "runtime/skills/implementaudit/references/audit-playbook.md",
+      "mode": 420,
+      "sha256": "efc6ecb9f0972f0606e4f2a5a3b6a01bb496090c08fa567120ebd2425ac1e0f8"
+    },
+    {
+      "binding": "source",
+      "bytes": 3844,
+      "key": "runtime/skills/implementaudit/references/canonical-state-ref-namespaces.json",
+      "mode": 420,
+      "sha256": "c03764f0043240cc742ff5f6fce60ccdaceda5ee774e39750693fa6601c3d390"
+    },
+    {
+      "binding": "source",
+      "bytes": 25561,
+      "key": "runtime/skills/implementaudit/references/canonical-state-rotation.md",
+      "mode": 420,
+      "sha256": "db72ee6b5cb7550ce02b232a29e2c8c72f8d6bf0d312e475ba4c0efaa01f2f6a"
+    },
+    {
+      "binding": "source",
+      "bytes": 18955,
+      "key": "runtime/skills/implementaudit/references/child-agents.md",
+      "mode": 420,
+      "sha256": "eb418e296027d4cccc17218466e8ba78303ea356a5151b077214b473d19625bb"
+    },
+    {
+      "binding": "source",
+      "bytes": 21266,
+      "key": "runtime/skills/implementaudit/references/continuity.md",
+      "mode": 420,
+      "sha256": "e5cb92461b39b70cabc333aea6c157c44d939e6727ef49d440a33a3c880d14e1"
+    },
+    {
+      "binding": "source",
+      "bytes": 8668,
+      "key": "runtime/skills/implementaudit/references/convergence-mode.md",
+      "mode": 420,
+      "sha256": "ecef97598b378e0b34efe988da5237b15fd2af9052cd90d8b0ab857903088f69"
+    },
+    {
+      "binding": "source",
+      "bytes": 6895,
+      "key": "runtime/skills/implementaudit/references/goal-format.md",
+      "mode": 420,
+      "sha256": "193d29e93bc590d355b5a2f28e8c12a1b9bc27689fb64e1a80c14cfda1190ef9"
+    },
+    {
+      "binding": "source",
+      "bytes": 21315,
+      "key": "runtime/skills/implementaudit/references/host-session-binding.md",
+      "mode": 420,
+      "sha256": "10787ac1b2f80f4e0b1f4efc5d4ef7068b3f81f477e540c4aeb942eeae560ffa"
+    },
+    {
+      "binding": "source",
+      "bytes": 1265,
+      "key": "runtime/skills/implementaudit/references/identity-namespaces.json",
+      "mode": 420,
+      "sha256": "d47300b2a29d8b5018619faa39076c662f5a639c608b5c3e63b36edcaacec5cb"
+    },
+    {
+      "binding": "source",
+      "bytes": 18210,
+      "key": "runtime/skills/implementaudit/references/issue-ready-work-orders.md",
+      "mode": 420,
+      "sha256": "fc9bf75e9a4274af94b6df4ffc863eeae54dc096ea1422db5740b96030493b04"
+    },
+    {
+      "binding": "source",
+      "bytes": 22319,
+      "key": "runtime/skills/implementaudit/references/lean-operating-discipline.md",
+      "mode": 420,
+      "sha256": "ccd53a446f1a69994d5df694d206b475e969910a579cd4882f09c81f3c88401a"
+    },
+    {
+      "binding": "source",
+      "bytes": 20396,
+      "key": "runtime/skills/implementaudit/references/phase-design.md",
+      "mode": 420,
+      "sha256": "65756c5b90280795d20c5235f5c74359d2179befa408e72e26d12182344105a0"
+    },
+    {
+      "binding": "source",
+      "bytes": 32365,
+      "key": "runtime/skills/implementaudit/references/plan-lifecycle.md",
+      "mode": 420,
+      "sha256": "1e283fec5f5b78b8a5ea5bbbfedfa452df516f8a5f5bbcfbb816f54603d5a6fa"
+    },
+    {
+      "binding": "source",
+      "bytes": 20507,
+      "key": "runtime/skills/implementaudit/references/planning-depth.md",
+      "mode": 420,
+      "sha256": "73c074c86fc5fb2b49ae2611bb2e2b4d378a57448293a78ddb35500822d1e293"
+    },
+    {
+      "binding": "source",
+      "bytes": 50343,
+      "key": "runtime/skills/implementaudit/references/repo-state-comparison.md",
+      "mode": 420,
+      "sha256": "e05daf50dea4480b11a6129355c21664fcab66fdd0fd93318313a0d8afc9b961"
+    },
+    {
+      "binding": "source",
+      "bytes": 14323,
+      "key": "runtime/skills/implementaudit/references/routing.md",
+      "mode": 420,
+      "sha256": "3bcb44f11ec26370d4330f95d06a38c4267403a58757f818e69970cd9a026222"
+    },
+    {
+      "binding": "source",
+      "bytes": 5673,
+      "key": "runtime/skills/implementaudit/references/sidecars.md",
+      "mode": 420,
+      "sha256": "6ee357d04dd0321c13fd56436a0efa30341423742afeb0e3669dab81929d38e7"
+    },
+    {
+      "binding": "source",
+      "bytes": 4877,
+      "key": "runtime/skills/implementaudit/references/terminology-integration.md",
+      "mode": 420,
+      "sha256": "dc1022fa37731104bc094844c94d867095747f157c61046bbd4fc4c8f6afceb5"
+    },
+    {
+      "binding": "source",
+      "bytes": 30771,
+      "key": "runtime/skills/implementaudit/references/transcript-contract.md",
+      "mode": 420,
+      "sha256": "a7bafb939d75f54ad442f113d08ccd60b28710a1f9c088ec40b6078dd1fd56cf"
+    },
+    {
+      "binding": "source",
+      "bytes": 7038,
+      "key": "runtime/skills/implementaudit/references/work-graph-contract.md",
+      "mode": 420,
+      "sha256": "e7b8ab734743e15e453f40984868650b04ec1f850687785de855d39edce2bb9f"
+    },
+    {
+      "binding": "source",
+      "bytes": 115042,
+      "key": "runtime/skills/implementaudit/scripts/apply-observed-mutation.sh",
+      "mode": 493,
+      "sha256": "0e893c6218c8105eb575630fa8fdad10ae3238b31f4fc08845b7ed540d67e590"
+    },
+    {
+      "binding": "source",
+      "bytes": 10273,
+      "key": "runtime/skills/implementaudit/scripts/bounded_file_custody.py",
+      "mode": 420,
+      "sha256": "0b3d1f461be76f67e9eab96b102879074971530a1dcfb69410cd47522b05ebde"
+    },
+    {
+      "binding": "source",
+      "bytes": 20749,
+      "key": "runtime/skills/implementaudit/scripts/bounded_native_reader.py",
+      "mode": 420,
+      "sha256": "1f72979eb39138d999843c127893c8dbeba97cc8c5546b19c3725758011df5a6"
+    },
+    {
+      "binding": "source",
+      "bytes": 83394,
+      "key": "runtime/skills/implementaudit/scripts/bounded_source_owner.py",
+      "mode": 420,
+      "sha256": "bb6cfe1f4da62625cd6578f23102242ad35b0a6b1068a54da991ceec8a94da4e"
+    },
+    {
+      "binding": "source",
+      "bytes": 36367,
+      "key": "runtime/skills/implementaudit/scripts/canonical_custody.py",
+      "mode": 493,
+      "sha256": "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389"
+    },
+    {
+      "binding": "source",
+      "bytes": 93893,
+      "key": "runtime/skills/implementaudit/scripts/canonical_hot_projection.py",
+      "mode": 493,
+      "sha256": "10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f"
+    },
+    {
+      "binding": "source",
+      "bytes": 27916,
+      "key": "runtime/skills/implementaudit/scripts/canonical_rotation_inputs.py",
+      "mode": 420,
+      "sha256": "dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76"
+    },
+    {
+      "binding": "source",
+      "bytes": 17837,
+      "key": "runtime/skills/implementaudit/scripts/check-authorization-binding.sh",
+      "mode": 420,
+      "sha256": "ce41e7306b7b11f5dde4844fd753ec77965ec04f15f0d8dfef4e9684a7c9d2e3"
+    },
+    {
+      "binding": "source",
+      "bytes": 94842,
+      "key": "runtime/skills/implementaudit/scripts/check-closure-surface.sh",
+      "mode": 420,
+      "sha256": "ba994fed1fb6c5d4688627bd31a577e7ce6fec5f6214fa3cc1093c9b70337ed7"
+    },
+    {
+      "binding": "source",
+      "bytes": 5208,
+      "key": "runtime/skills/implementaudit/scripts/check-duplication-parity.sh",
+      "mode": 493,
+      "sha256": "b76e8f851f7849c28f631dbc00f400beb749c2ee13d73612b4bef15e246da9b7"
+    },
+    {
+      "binding": "source",
+      "bytes": 44602,
+      "key": "runtime/skills/implementaudit/scripts/check-evidence-anchor.sh",
+      "mode": 420,
+      "sha256": "960d23f288d02ebd9f6a78c69a63e9db7c87d655178cf415d14a08f519dab735"
+    },
+    {
+      "binding": "source",
+      "bytes": 18913,
+      "key": "runtime/skills/implementaudit/scripts/check-handoff-packet.sh",
+      "mode": 420,
+      "sha256": "0b7d67fa3529cf7f53417ef1acd54b7d29228139cabeef8717dc39c28abd6120"
+    },
+    {
+      "binding": "source",
+      "bytes": 11417,
+      "key": "runtime/skills/implementaudit/scripts/check-lesson-lift.sh",
+      "mode": 420,
+      "sha256": "d73a873b63fe4efc7a5dadcc7b45043b68242c0afedbae6b5eb6cdf6a2630e9a"
+    },
+    {
+      "binding": "source",
+      "bytes": 6560,
+      "key": "runtime/skills/implementaudit/scripts/check-respec-impact-set.sh",
+      "mode": 420,
+      "sha256": "313e8e4173139a10c79822f6a2cd6cb59925fd45a36c66c06649cc89566d9a38"
+    },
+    {
+      "binding": "source",
+      "bytes": 288439,
+      "key": "runtime/skills/implementaudit/scripts/claim-run-rotation.py",
+      "mode": 420,
+      "sha256": "ce40c4410011e46b209df718207b58c15d18e60db1379e7b66b24f04616637f9"
+    },
+    {
+      "binding": "source",
+      "bytes": 32290,
+      "key": "runtime/skills/implementaudit/scripts/claim-run.sh",
+      "mode": 420,
+      "sha256": "dce0e6af8ce69e63283d0ed5ad1496779d5f2c1b90024c79228af5e22df75d4c"
+    },
+    {
+      "binding": "source",
+      "bytes": 1563,
+      "key": "runtime/skills/implementaudit/scripts/codex-recovery-native-reader.py",
+      "mode": 420,
+      "sha256": "a6cb50e4926b106400864755599c096ab0b7236e7d5368184dbde9117fb35d06"
+    },
+    {
+      "binding": "source",
+      "bytes": 67507,
+      "key": "runtime/skills/implementaudit/scripts/compaction-audit-pending.py",
+      "mode": 420,
+      "sha256": "cc7c7e2f5666ab59b3af89742d07f2eaf8626cd594dc7f4ce85425f166b248ee"
+    },
+    {
+      "binding": "source",
+      "bytes": 153682,
+      "key": "runtime/skills/implementaudit/scripts/compaction-result-observation.py",
+      "mode": 420,
+      "sha256": "15de2cb86378960163be08876876ff2473dc034704f6dad014d90a9bb7dc7156"
+    },
+    {
+      "binding": "source",
+      "bytes": 170958,
+      "key": "runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
+      "mode": 420,
+      "sha256": "5e10f2e36842c7f5dcfe5a131da43c502e9f36b0d1d727ca9bdb4412bde4c523"
+    },
+    {
+      "binding": "source",
+      "bytes": 262015,
+      "key": "runtime/skills/implementaudit/scripts/compile-work-graph.py",
+      "mode": 493,
+      "sha256": "2e447dd27364918d7c0f5b508f17650fd2cc9a5c716ffe105c35ecbcb66a533e"
+    },
+    {
+      "binding": "source",
+      "bytes": 5668,
+      "key": "runtime/skills/implementaudit/scripts/custody-append.sh",
+      "mode": 420,
+      "sha256": "8cddcbd9891e29b368c928615915bf70a308be7ffb2515673419c30f163cc762"
+    },
+    {
+      "binding": "source",
+      "bytes": 7221,
+      "key": "runtime/skills/implementaudit/scripts/detect-env.sh",
+      "mode": 493,
+      "sha256": "637f1141836e19dc610d45a3f97f8c7c31e263cc57e269811f8a81a6f4ddf516"
+    },
+    {
+      "binding": "source",
+      "bytes": 3601,
+      "key": "runtime/skills/implementaudit/scripts/detect-stack.sh",
+      "mode": 493,
+      "sha256": "2cc0ec03f7c07272bd90ca437a0efd91e13852ca82ad2dabfe9c482f7f6b86f2"
+    },
+    {
+      "binding": "source",
+      "bytes": 58351,
+      "key": "runtime/skills/implementaudit/scripts/host-session-binding.py",
+      "mode": 493,
+      "sha256": "8b4f91a51e2e2d45c4bd72b58fb1e115981903f8a752f95eb71cda64b106b6ef"
+    },
+    {
+      "binding": "source",
+      "bytes": 27873,
+      "key": "runtime/skills/implementaudit/scripts/host-stop-interlock.py",
+      "mode": 493,
+      "sha256": "b9ac38ecbda0b372ead2b473f51bdce716cd1200b243bc92218508fab3afaa43"
+    },
+    {
+      "binding": "source",
+      "bytes": 2459,
+      "key": "runtime/skills/implementaudit/scripts/lane-survivor-inventory.sh",
+      "mode": 493,
+      "sha256": "20386cd717f502c237abd47554dcf81bc91d968ae5789d9beb0349c2f3300d45"
+    },
+    {
+      "binding": "source",
+      "bytes": 2615,
+      "key": "runtime/skills/implementaudit/scripts/map-pin-chain.sh",
+      "mode": 493,
+      "sha256": "d45838f0bc81ff43cf0d8b0728a02f88791bd9bcee92825da86d9ce2a2e4ea74"
+    },
+    {
+      "binding": "source",
+      "bytes": 27208,
+      "key": "runtime/skills/implementaudit/scripts/read-canonical-pair.py",
+      "mode": 493,
+      "sha256": "c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8"
+    },
+    {
+      "binding": "source",
+      "bytes": 22629,
+      "key": "runtime/skills/implementaudit/scripts/repo-state.sh",
+      "mode": 420,
+      "sha256": "b2220d0627c5e66d106bb3ce8a9daafb5310b87643b9281d63db5a5aa886df3b"
+    },
+    {
+      "binding": "source",
+      "bytes": 6787,
+      "key": "runtime/skills/implementaudit/scripts/resolve-durable-identity.py",
+      "mode": 420,
+      "sha256": "cc61d49eb06af30db10ec34c586acc505d559b347fe63123ba17da7e079dd203"
+    },
+    {
+      "binding": "source",
+      "bytes": 5178,
+      "key": "runtime/skills/implementaudit/scripts/resolve-internal-skill.py",
+      "mode": 420,
+      "sha256": "97ce587a295cfa0f13276a8dfccf63ca9f679352fdcf0d769a095eab5284b67d"
+    },
+    {
+      "binding": "source",
+      "bytes": 129890,
+      "key": "runtime/skills/implementaudit/scripts/rotate-canonical-state.py",
+      "mode": 493,
+      "sha256": "7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678"
+    },
+    {
+      "binding": "source",
+      "bytes": 388285,
+      "key": "runtime/skills/implementaudit/scripts/route-transaction.py",
+      "mode": 493,
+      "sha256": "c0a65ad074c2a157566390cda163d268d6230af707ad36bb13333ffa3cefb6a7"
+    },
+    {
+      "binding": "source",
+      "bytes": 7281,
+      "key": "runtime/skills/implementaudit/scripts/summarize-repo.sh",
+      "mode": 493,
+      "sha256": "4a0a70ed4c587bce6dde7de3f4094a35b5b69553f3250291850c0e824ecf241c"
+    },
+    {
+      "binding": "source",
+      "bytes": 13460,
+      "key": "runtime/skills/implementaudit/scripts/validate-audit-implement-return.py",
+      "mode": 493,
+      "sha256": "170699fc3571640f67223f2a80fd9ba42ecc79b498f1f14c0292c53e5b599301"
+    },
+    {
+      "binding": "source",
+      "bytes": 1673,
+      "key": "runtime/skills/implementaudit/scripts/validate-audit-spec.sh",
+      "mode": 420,
+      "sha256": "f0b88b4b2d2745eb2df1f339b5daaa1bf7d20a148b4ecccb3de7d9c0de0074d7"
+    },
+    {
+      "binding": "source",
+      "bytes": 45816,
+      "key": "runtime/skills/implementaudit/scripts/validate-phase.sh",
+      "mode": 493,
+      "sha256": "07b2e04ba9aefffc572ac9cf60ecddf88654a26590aaa045dadf464da7bc7dab"
+    },
+    {
+      "binding": "source",
+      "bytes": 114967,
+      "key": "runtime/skills/implementaudit/scripts/validate-run-root.sh",
+      "mode": 420,
+      "sha256": "d51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a"
+    },
+    {
+      "binding": "source",
+      "bytes": 73424,
+      "key": "runtime/skills/implementaudit/templates/PROTOCOL.md",
+      "mode": 420,
+      "sha256": "4e006be6c32d995bdabf2f518735da814eee9311b4597e8b1cf44d304f1e80de"
+    },
+    {
+      "binding": "source",
+      "bytes": 3512,
+      "key": "runtime/skills/implementaudit/templates/ROADMAP.md",
+      "mode": 420,
+      "sha256": "abdaec32627231b55b545849cbac3176f499f74359aeece9af0a2a866ad2543a"
+    },
+    {
+      "binding": "source",
+      "bytes": 10089,
+      "key": "runtime/skills/implementaudit/templates/STATE.md",
+      "mode": 420,
+      "sha256": "ac756ae16ff6e6c9e4ca9ae467d13746f7ca76f33896c47f6f3f636e59d0543b"
+    },
+    {
+      "binding": "source",
+      "bytes": 6380,
+      "key": "runtime/skills/implementaudit/templates/THINKING.md",
+      "mode": 420,
+      "sha256": "a3b8ebfdbecacab5d0c24effa565fd799a4eaaeaf5376fe45676132c455326ba"
+    },
+    {
+      "binding": "source",
+      "bytes": 4461,
+      "key": "runtime/skills/implementaudit/templates/child-agent-report.md",
+      "mode": 420,
+      "sha256": "636112c2b68e6b20849df47afee20b55ee7d706a6074265dc23bb2e8f1344ff4"
+    },
+    {
+      "binding": "source",
+      "bytes": 740,
+      "key": "runtime/skills/implementaudit/templates/context.md",
+      "mode": 420,
+      "sha256": "19e78a3e6a2e0961fa05d473dca64b723fff7a8fd55cb29080779450cd170f8a"
+    },
+    {
+      "binding": "source",
+      "bytes": 4250,
+      "key": "runtime/skills/implementaudit/templates/final-report.md",
+      "mode": 420,
+      "sha256": "16fcf56ee68d88b710385dfa4ea57b47fa0f7061dfb812b51f4b9836d28648a9"
+    },
+    {
+      "binding": "source",
+      "bytes": 785,
+      "key": "runtime/skills/implementaudit/templates/host-notes.md",
+      "mode": 420,
+      "sha256": "294b7b1b8e3e0d24e07dd78fc290f6deade54a4eb5078fd8b0d3cd37b6ab28b8"
+    },
+    {
+      "binding": "source",
+      "bytes": 12501,
+      "key": "runtime/skills/implementaudit/templates/phase-goal.txt",
+      "mode": 420,
+      "sha256": "1b42247b1aa5cf0fbb2a2de91d3a3d6552087ed178503f3c230d9124f026fe49"
+    },
+    {
+      "binding": "source",
+      "bytes": 3188,
+      "key": "runtime/skills/implementaudit/templates/read-only-plan.md",
+      "mode": 420,
+      "sha256": "755a122aea31e6118f148839771eeb4d53096b7806095d5b6b2e5086c53670a2"
+    },
+    {
+      "binding": "source",
+      "bytes": 1129,
+      "key": "runtime/skills/implementaudit/templates/respec-impact-set.md",
+      "mode": 420,
+      "sha256": "e74faf421a4a6e9544669b25f4e3f503179e171ddb0d75aebbd1473e073f4e40"
+    },
+    {
+      "binding": "source",
+      "bytes": 763,
+      "key": "runtime/skills/implementaudit/templates/sidecars.md",
+      "mode": 420,
+      "sha256": "6ad96c4a0638e62559d20d455d8f27404b3ea504bd68b49d1586440d7695e332"
+    },
+    {
+      "binding": "source",
+      "bytes": 997,
+      "key": "runtime/skills/implementaudit/templates/tools.md",
+      "mode": 420,
+      "sha256": "904eeefc04ec64b865e6f42fecf8ad4f75077d35eef25279dbfd5d22ec2d046a"
+    },
+    {
+      "binding": "source",
+      "bytes": 9420,
+      "key": "runtime/fixtures/controller-initialization/author_checkpoint.py",
+      "mode": 420,
+      "sha256": "8ca871eaf6a182b4be9191cae61b71998a2c84afcf23216d13129e48ebf029cf"
+    },
+    {
+      "binding": "source",
+      "bytes": 39677,
+      "key": "runtime/fixtures/canonical-state-rotation/protected_projection_v2_test.py",
+      "mode": 420,
+      "sha256": "926d68a0588e1fc60d0a6bfc5ea98a3c6ae3ba9f6bb700fbe3cc619f9d5f9c7a"
+    },
+    {
+      "binding": "source",
+      "bytes": 17400,
+      "key": "runtime/fixtures/canonical-state-rotation/v2/source.json",
+      "mode": 420,
+      "sha256": "d8d07242e5052693d9da07ae1b9f88cc0cf8fbb46e19b71099e10bfd640ea266"
+    },
+    {
+      "binding": "bundle",
+      "bytes": 3848,
+      "key": "retained/canary_issuer.py",
+      "mode": 420,
+      "sha256": "55bd90d01fd911f2e781541b0632d4d51c5a0bfe478b65fa1e18a1042490e197"
+    },
+    {
+      "binding": "bundle",
+      "bytes": 4179,
+      "key": "retained/native_transport.py",
+      "mode": 420,
+      "sha256": "2d7e86617ee433cb304501cf3b041d74b33dea26bf8909a7e1102a441fb99b3d"
+    },
+    {
+      "binding": "bundle",
+      "bytes": 4052,
+      "key": "retained/local_responses_canary.py",
+      "mode": 420,
+      "sha256": "e5280c1e2a3b0d35a414745770f4e62efb73a2a8ac01f1fa6635a26092af230d"
+    },
+    {
+      "binding": "bundle",
+      "bytes": 1507,
+      "key": "retained/local_mcp_canary.py",
+      "mode": 420,
+      "sha256": "0733a8014e7e301e3c6afe36a2b61cfe31343efca6741beeadeb61128ff5aa24"
+    },
+    {
+      "binding": "bundle",
+      "bytes": 1409,
+      "key": "owner-continuation",
+      "mode": 420,
+      "sha256": "685e7b6052a2bc0a6a79323b51c8b7f15afe718c7def962cfcf2124e4741293c"
+    },
+    {
+      "binding": "bundle",
+      "bytes": 170958,
+      "key": "history/reviewed-r4-source-owner",
+      "mode": 420,
+      "sha256": "5e10f2e36842c7f5dcfe5a131da43c502e9f36b0d1d727ca9bdb4412bde4c523"
+    },
+    {
+      "binding": "archive",
+      "bytes": 172325449,
+      "key": "official-binary-archive",
+      "mode": 420,
+      "sha256": "cbc00a26d3d0e2ceefc4be8891f8a81ef1e349b3b175bc0ae308762bc001fd93"
+    }
+  ],
+  "host_builder_executed": false,
+  "host_dynamic_inputs": "3 executable pins and protocol require selected-host preparation; no custody/currentness claim",
+  "independent_review_created": false,
+  "input_count": 92,
+  "model_called": false,
+  "native_executed": false,
+  "privacy": "allowlisted new code/templates; prior private paths absent; no raw history or credentials included",
+  "product_imported": false,
+  "public_summary_checks": [
+    "arbitrary_private_fields_and_typed_cleanup_values_omitted",
+    "malformed_status_error_and_hash_values_not_echoed",
+    "duplicate_JSON_keys_rejected_without_echo",
+    "caller_claims_cannot_promote_acceptance_OR_JOIN_closure_or_release"
+  ],
+  "python_AST": [
+    {
+      "bytes": 170958,
+      "name": "history/historical-source-owner.py",
+      "sha256": "5e10f2e36842c7f5dcfe5a131da43c502e9f36b0d1d727ca9bdb4412bde4c523"
+    },
+    {
+      "bytes": 9657,
+      "name": "prepare_on_host.py",
+      "sha256": "b352238145895542e87585d3d29a38d7f8f485968fa07e0a40992a176da3fa65"
+    },
+    {
+      "bytes": 3220,
+      "name": "summarize_public.py",
+      "sha256": "870b0ba5fd43a8bcb550ba4ab7e4a7aba4832aee1942cf8f55eb3eda97ac35df"
+    },
+    {
+      "bytes": 3848,
+      "name": "support/canary_issuer.py",
+      "sha256": "55bd90d01fd911f2e781541b0632d4d51c5a0bfe478b65fa1e18a1042490e197"
+    },
+    {
+      "bytes": 1507,
+      "name": "support/local_mcp_canary.py",
+      "sha256": "0733a8014e7e301e3c6afe36a2b61cfe31343efca6741beeadeb61128ff5aa24"
+    },
+    {
+      "bytes": 4052,
+      "name": "support/local_responses_canary.py",
+      "sha256": "e5280c1e2a3b0d35a414745770f4e62efb73a2a8ac01f1fa6635a26092af230d"
+    },
+    {
+      "bytes": 4179,
+      "name": "support/native_transport.py",
+      "sha256": "2d7e86617ee433cb304501cf3b041d74b33dea26bf8909a7e1102a441fb99b3d"
+    },
+    {
+      "bytes": 84707,
+      "name": "templates/c02_native_tail.py",
+      "sha256": "31062383c61c24d5932f9592194a02f09d605d11e9bbf1808ce001a6be1e239d"
+    },
+    {
+      "bytes": 29077,
+      "name": "templates/receive_tail.py",
+      "sha256": "4abc04a9cc3fd1e3d66c01e0799d9eadffa2ff9b5f12ae89048a3acb5f868a52"
+    }
+  ],
+  "python_AST_count": 9,
+  "root_go_created": false,
+  "schema": "r5.c02-public-hosted-static-check.v1",
+  "status": "STATIC_CHECKED_ONLY"
+}

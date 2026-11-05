@@ -1,0 +1,123 @@
+{
+  "authority": "PREPARATION_ONLY",
+  "execution_and_review": "NOT_PERFORMED",
+  "new_05_input_count": 92,
+  "old_01_effects": "PRESERVED_NOT_REPLAYED",
+  "old_03_identity": "HISTORICAL_PRESERVED_NOT_RENAMED",
+  "old_03_input_count": 99,
+  "operational_ast_checks": [
+    {
+      "base_sha256": "f82433e2dcf8267082409c866924171eb94a7d13bffaa30d57eaa3ac58735d94",
+      "binding_constants": [
+        "BASE",
+        "CONTROLLER",
+        "INPUT_SHA256",
+        "LANE",
+        "OWNED_BINARY",
+        "SOURCE",
+        "SOURCE_HEAD",
+        "SOURCE_TREE",
+        "SUBJECT"
+      ],
+      "candidate_sha256": "31062383c61c24d5932f9592194a02f09d605d11e9bbf1808ce001a6be1e239d",
+      "file": "c02_native_tail.py",
+      "remaining_operational_ast": "IDENTICAL_TO_RECOVERED_03",
+      "reviewer_exclusion_extended": true,
+      "scope_attribution_changed": true
+    },
+    {
+      "base_sha256": "c6e2750535a332b1d7eb6626dc6355a230ef105b8cad1c7700321cf85b3c0017",
+      "binding_constants": [
+        "BASE",
+        "CONTROLLER",
+        "INPUT_SHA256",
+        "LANE",
+        "OWNED_BINARY",
+        "SOURCE_HEAD",
+        "SOURCE_TREE",
+        "SUBJECT"
+      ],
+      "candidate_sha256": "4abc04a9cc3fd1e3d66c01e0799d9eadffa2ff9b5f12ae89048a3acb5f868a52",
+      "file": "receive_tail.py",
+      "remaining_operational_ast": "IDENTICAL_TO_RECOVERED_03",
+      "reviewer_exclusion_extended": true,
+      "scope_attribution_changed": false
+    }
+  ],
+  "protected_original_discriminator_populations": "UNCHANGED;92 is a fresh engineering input census, not48,95,14 or any original acceptance population.",
+  "removed_reference_only_inputs": [
+    {
+      "bytes": 13049,
+      "category": "retained-reviewed-reference",
+      "key": "retained-reference/fresh_native_c02.py",
+      "reason": "Reference-only census or AST input; never invoked, copied into runtime, or used by live transaction. Historical identity retained in this delta.",
+      "sha256": "3a19bc7a1f02e8b68f1c6a92cdf3c4345cfca8b5b40c1164cb4a314d8403a2eb"
+    },
+    {
+      "bytes": 12330,
+      "category": "retained-reviewed-reference",
+      "key": "retained-reference/native_h0_pending.py",
+      "reason": "Reference-only census or AST input; never invoked, copied into runtime, or used by live transaction. Historical identity retained in this delta.",
+      "sha256": "76f65849e8063c9aa5b4170a1e2115d7fb361198580d83f600eca3e674db83f3"
+    },
+    {
+      "bytes": 13766,
+      "category": "retained-reviewed-reference",
+      "key": "retained-reference/fresh_dg18.py",
+      "reason": "Reference-only census or AST input; never invoked, copied into runtime, or used by live transaction. Historical identity retained in this delta.",
+      "sha256": "d3bd4d1f42759b93ccc97fc1a3af3ddd6bcae4c6225f0f92db8997d149d2c378"
+    },
+    {
+      "bytes": 16529,
+      "category": "contract-or-current-reference",
+      "key": "acceptance-edges-report",
+      "reason": "Reference-only census or AST input; never invoked, copied into runtime, or used by live transaction. Historical identity retained in this delta.",
+      "sha256": "ae53e3c1391032d22d3668028720c673b77ecd2abf282bee861a91385377ae7a"
+    },
+    {
+      "bytes": 38810,
+      "category": "contract-or-current-reference",
+      "key": "acceptance-edges-json",
+      "reason": "Reference-only census or AST input; never invoked, copied into runtime, or used by live transaction. Historical identity retained in this delta.",
+      "sha256": "a7e6a767d11eacec4d99e457f4a9bbfc8b2aaa0587778590788a9a1742df3477"
+    },
+    {
+      "bytes": 54924,
+      "category": "contract-or-current-reference",
+      "key": "current-initialization-reference",
+      "reason": "Reference-only census or AST input; never invoked, copied into runtime, or used by live transaction. Historical identity retained in this delta.",
+      "sha256": "c3ef0ad909d49ace637664c46e30c94744ce9d151e9622c63f86603766e6b604"
+    },
+    {
+      "bytes": 6112,
+      "category": "contract-or-current-reference",
+      "key": "current-independent-reader-reference",
+      "reason": "Reference-only census or AST input; never invoked, copied into runtime, or used by live transaction. Historical identity retained in this delta.",
+      "sha256": "3a6cddad95ddbed7fbdcea1f8348c82089e598725c1203c48570dac85cc674da"
+    }
+  ],
+  "replacement": {
+    "key": "owner-continuation",
+    "meaning": "New public preparation data, explicitly not the recovered private owner instruction or authority.",
+    "new_sha256": "685e7b6052a2bc0a6a79323b51c8b7f15afe718c7def962cfcf2124e4741293c",
+    "old_sha256": "e9502034e53797c78cc4124257862e521ced96e74741aadf4a85f9e70b3ee044"
+  },
+  "schema": "r5.c02-05.prospective-public-input-delta.v1",
+  "source_changes": [
+    {
+      "key": "runtime/skills/implementaudit/scripts/claim-run.sh",
+      "new_sha256": "dce0e6af8ce69e63283d0ed5ad1496779d5f2c1b90024c79228af5e22df75d4c",
+      "old_sha256": "7320327b903714358647bdee550bd795e087cc83db3b756e804264ad5bbf7be3"
+    },
+    {
+      "key": "runtime/skills/implementaudit/scripts/compile-work-graph.py",
+      "new_sha256": "2e447dd27364918d7c0f5b508f17650fd2cc9a5c716ffe105c35ecbcb66a533e",
+      "old_sha256": "62c3b0fb95bbf006ef81e981a16325395e6165ae65c901f667de0e60bf74de3c"
+    },
+    {
+      "key": "runtime/skills/implementaudit/scripts/route-transaction.py",
+      "new_sha256": "c0a65ad074c2a157566390cda163d268d6230af707ad36bb13333ffa3cefb6a7",
+      "old_sha256": "66140f18674686efbc87dbc92e4c9f3624637ec181280331d21461cc796d3919"
+    }
+  ]
+}

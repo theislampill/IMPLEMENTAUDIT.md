@@ -1,0 +1,50 @@
+{
+  "actual_host_packet_prepared": false,
+  "actual_review_or_GO_created": false,
+  "author": "/root/h0_c02_or",
+  "authority": "PREPARATION_ONLY",
+  "corrected_findings": [
+    "F02",
+    "F03"
+  ],
+  "currentness_or_acceptance_claim": false,
+  "files": [
+    {
+      "bytes": 6631,
+      "mode": 420,
+      "name": "CONTROL_FORMAT.md",
+      "sha256": "71ce5e7f87b671bf2e6b995e51fdbefdc83fff4460ecca61c25e90b29f0c7af0"
+    },
+    {
+      "bytes": 11547,
+      "mode": 420,
+      "name": "README.md",
+      "sha256": "67480fa641ba8bf8870a1af1a6e78ca0a6658a12701cda57da0f473d6d603c03"
+    },
+    {
+      "bytes": 4710,
+      "mode": 420,
+      "name": "STATIC_CHECK.json",
+      "sha256": "41fb9cfea3c4cdfb89437008191c9b8b45ddb60dd1665284528249d7cd9efb0d"
+    },
+    {
+      "bytes": 38353,
+      "mode": 420,
+      "name": "held_control.py",
+      "sha256": "9f729b9a0d32a910d353a396a97030f862327f81e0d2654764b7502e04ec1d03"
+    },
+    {
+      "bytes": 4886,
+      "mode": 420,
+      "name": "r5-c02-held.yml",
+      "sha256": "d10b9d30b436ac3c0df59348f5dccced7a1aa9eebe472e17c8110ed38bec55de"
+    }
+  ],
+  "predecessor_seal_sha256": "d2a7b2922c744bea926ce1dd8e40888dcabdce51b286155f6304bc6d4d18f82e",
+  "product_native_model_or_controller_executed": false,
+  "public_mutation": false,
+  "review_findings_seal_sha256": "89d20b1e021fb78cf536dad0fd3eb23de12dbd6548b8a2e96510e7b78027f18f",
+  "root07_trigger_preserved": true,
+  "schema": "r5.c02-held-adapter-code.v1",
+  "status": "F02_F03_CORRECTION_PENDING_INDEPENDENT_DELTA_REVIEW"
+}

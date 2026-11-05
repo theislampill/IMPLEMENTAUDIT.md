@@ -1,0 +1,93 @@
+{
+  "authority": "PREPARATION_ONLY",
+  "binary_resource_route": "EXCLUSIVE_FRESH_TMP_CONTAINMENT_AND_DIAGNOSTIC_ONLY_NO_CAUSE_ATTRIBUTION",
+  "bounds": {
+    "individual_object_bytes": 4194304,
+    "max_refs": 128,
+    "native_close_wait_seconds": 11,
+    "native_compactions": 1,
+    "native_resume_turns": 1,
+    "native_threads": 1,
+    "provider_steps": 3,
+    "receiver_seconds": 180,
+    "rpc_seconds": 20,
+    "source_snapshot_bytes": 33554432,
+    "subprocess_seconds": 45,
+    "total_retained_ref_object_bytes": 33554432,
+    "turn_seconds": 40,
+    "whole_operation_seconds": 900
+  },
+  "census_owner": "r5-fresh-c02-native-tail-census-owner",
+  "cli_version": "0.166.0",
+  "compact_text": "R5 actual native compaction summary. This deterministic text and its usage are emulated.",
+  "compact_usage": {
+    "input_tokens": 1800,
+    "output_tokens": 30,
+    "total_tokens": 1830
+  },
+  "controlled_event": "r5-c02-native-tail-controlled-nonprotected-fault-20261105-05",
+  "controller": "r5-c02-native-tail-20261105-05",
+  "forbidden": [
+    "old Subject constructor",
+    "new route/store/schema in source",
+    "fabricated native event or marker",
+    "restore the withdrawn C02 interval",
+    "native child result/JOIN",
+    "provider usage authority or OR award",
+    "original criterion award",
+    "automatic retry",
+    "source edits",
+    "Windows resource-envelope claim"
+  ],
+  "initial_prompt": "Emit the R5 controlled source checkpoint.",
+  "initial_text": "R5 fresh native C02 source checkpoint. Provider text and usage are emulated.",
+  "initial_usage": {
+    "input_tokens": 1000,
+    "output_tokens": 20,
+    "total_tokens": 1020
+  },
+  "issuer": "r5-fresh-c02-native-tail-controlled-owner",
+  "later_state": {
+    "audit_state_required": true,
+    "consumed_version": 0,
+    "currentness": "STALE_AFTER_NEWER_BOUNDARY_EXPECTED",
+    "native_lifecycle": "NOT_CLAIMED",
+    "pending": true
+  },
+  "logical_reservation": "r5-c02-native-tail-pending-reservation-05",
+  "loopback_only": true,
+  "mcp_service": "explicit deterministic local cua_repl acknowledgment; no browser or CUA",
+  "model": "dg18-emulated-model",
+  "model_context_window": 258400,
+  "native_steps": [
+    "initialize",
+    "initialized notification",
+    "thread/start",
+    "armed turn/start checkpoint; await matching turn/completed",
+    "thread/read fence; acquire FreshCanaryQuiescenceV1",
+    "actual controlled C02 fault and complete transaction while source interval remains held",
+    "independent corrected canonical cold readback while held",
+    "thread/read ingress irrevocably withdraws the old C02 interval",
+    "thread/compact/start; await matching completed turn",
+    "armed turn/start resume; await matching completed turn",
+    "thread/read fence; verify transport receipt only, never renew C02 interval",
+    "existing host binding and pending register-source/reserve/observe-child",
+    "canonical --invalidate-continuity with exact owner-derived new boundary ID",
+    "independent later cold readback requiring stale currentness and unconsumed pending obligation"
+  ],
+  "native_version": "codex-cli 0.166.0",
+  "owned_binary": "/tmp/implementaudit-r5-c02-native-binary-20261105-05/codex",
+  "profile": "codex-app-server-0.166.0-linux-fresh-canary-v1",
+  "provider": "dg18_canary",
+  "provider_retry_count": 0,
+  "resume_prompt": "Resume after this completed native compaction and acknowledge the pending audit obligation.",
+  "resume_text": "R5 resumed native turn after the newly completed compaction. Text and usage are emulated.",
+  "resume_usage": {
+    "input_tokens": 900,
+    "output_tokens": 20,
+    "total_tokens": 920
+  },
+  "schema": "implementaudit.r5.c02-native-tail-prospective-protocol.v1",
+  "subject": "/tmp/implementaudit-r5-c02-native-tail-20261105-05",
+  "usage_origin": "DETERMINISTIC_LOCAL_RESPONSES_EMULATION"
+}
