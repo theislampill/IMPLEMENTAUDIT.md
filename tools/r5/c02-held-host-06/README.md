@@ -72,3 +72,9 @@ Changing either fixed branch, bundle path, integration file, protocol, input cen
 ## Exact09 workflow-context correction
 
 Run42099547513 at commit87f9aa173a3af7713f87d7f0e31096815b903004 was rejected before any runner/job/preparation/controller/native effect. The observed annotation names runner.temp as unavailable in jobs.c02.env. This successor moves the identical C02_WORK expression to each of the six supported step.env contexts. The fresh trigger branch is pro/dg16-dg18-r5-c02-held-09-20261105. All adapter functions (only its declared workflow-branch literal changes),05 nativecode,controlref,path,inputs,budgets,actualreview/GO andone-shotsemantics remain unchanged. The old failed run and both published source objects are retained; this is a new reviewed event, not a workflow rerun.
+
+## C02-10 public checkout creation mask
+
+Run42102535955 passed workflow validation and acquired its exact commit, then refused with ADAPTER_CODE_CHANGED before any actual preparation, dispatch reservation, controller or native effect. Its public refusal and all earlier publications remain retained. The exact failing per-file metadata was not emitted. An inert Git control demonstrates that checkout under the prior077 mask creates0600 non-executable files and0700 executable files, which cannot satisfy the unchanged sealed0644/0755 public code modes.
+
+Only the two public code checkout boundaries now use022: a shell subshell for the workflow checkout, and subprocess child umask for the source worktree creation. The top-level work directory remains explicitly0700, the parent shell/process umask remains077, private evidence writes remain unchanged, and all physical custody/byte/mode/ancestor checks remain strict. The new branch is pro/dg16-dg18-r5-c02-held-10-20261105. No old job is rerun and no reviewed host or GO is inherited.

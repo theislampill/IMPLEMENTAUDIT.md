@@ -21,7 +21,7 @@ import urllib.request
 
 REPOSITORY = 'theislampill/IMPLEMENTAUDIT.md'
 REMOTE = 'https://github.com/' + REPOSITORY + '.git'
-WORKFLOW_BRANCH = 'pro/dg16-dg18-r5-c02-held-09-20261105'
+WORKFLOW_BRANCH = 'pro/dg16-dg18-r5-c02-held-10-20261105'
 CONTROL_BRANCH = 'pro/dg16-dg18-r5-c02-control-20261105'
 SOURCE_COMMIT = '35bf9823856eb4efe254b882954120480632230e'
 SOURCE_TREE = 'abe08aabc83de3b27c43e6acf28646fb089f0f34'
@@ -123,9 +123,10 @@ def write_new(path, raw, mode=0o600):
     os.chmod(path, mode)
 
 
-def git(args, timeout=30, allow_missing=False):
+def git(args, timeout=30, allow_missing=False, *, file_creation_mask=-1):
     done = subprocess.run(['/usr/bin/git', *args], env=CLEAN_ENV, stdin=subprocess.DEVNULL,
-                          stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, timeout=timeout)
+                          stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, timeout=timeout,
+                          umask=file_creation_mask)
     need(len(done.stdout) <= 65536, 'GIT_METADATA_BYTE_BOUND')
     if allow_missing and done.returncode != 0:
         return None
@@ -369,7 +370,8 @@ def prepare(work, run_id, run_attempt, workflow_commit):
     need(not git(['-C', str(worker), 'status', '--porcelain=v1', '--untracked-files=no']),
          'WORKFLOW_TRACKED_FILES_CHANGED')
     git(['-C', str(worker), 'fetch', '--quiet', '--no-tags', '--depth=1', REMOTE, SOURCE_COMMIT], timeout=120)
-    git(['-C', str(worker), 'worktree', 'add', '--quiet', '--detach', str(work / 'source'), SOURCE_COMMIT], timeout=60)
+    git(['-C', str(worker), 'worktree', 'add', '--quiet', '--detach', str(work / 'source'), SOURCE_COMMIT], timeout=60,
+        file_creation_mask=0o022)
     archive = download_archive(work)
     bundle = worker / BUNDLE_RELATIVE
     private_command(['/usr/bin/python3', '-I', '-B', str(bundle / 'prepare_on_host.py'),

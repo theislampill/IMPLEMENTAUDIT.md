@@ -2,7 +2,7 @@ name: R5 C02 held fresh native tail
 
 on:
   push:
-    branches: [pro/dg16-dg18-r5-c02-held-09-20261105]
+    branches: [pro/dg16-dg18-r5-c02-held-10-20261105]
     paths:
       - .github/workflows/r5-c02-held.yml
       - tools/r5/c02-held-host-06/**
@@ -20,7 +20,7 @@ jobs:
   c02:
     if: >-
       github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
-      github.ref == 'refs/heads/pro/dg16-dg18-r5-c02-held-09-20261105' &&
+      github.ref == 'refs/heads/pro/dg16-dg18-r5-c02-held-10-20261105' &&
       github.event_name == 'push' &&
       github.event.deleted == false &&
       github.run_attempt == '1'
@@ -42,7 +42,10 @@ jobs:
           git_public=(/usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_TERMINAL_PROMPT=0 /usr/bin/git)
           "${git_public[@]}" init --quiet "$C02_WORK/worker"
           "${git_public[@]}" -C "$C02_WORK/worker" fetch --quiet --no-tags --depth=1 https://github.com/theislampill/IMPLEMENTAUDIT.md.git "$GITHUB_SHA"
-          "${git_public[@]}" -C "$C02_WORK/worker" checkout --quiet --detach FETCH_HEAD
+          (
+            umask 022
+            "${git_public[@]}" -C "$C02_WORK/worker" checkout --quiet --detach FETCH_HEAD
+          )
           test "$("${git_public[@]}" -C "$C02_WORK/worker" rev-parse HEAD)" = "$GITHUB_SHA"
 
       - name: Bind and seal code on this host without allocating a native subject

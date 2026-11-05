@@ -1,16 +1,24 @@
 {
-  "schema": "r5.c02-held09-context-static.v1",
-  "predecessor_run": 42099547513,
-  "actual_observed_prehost_annotation": "Line30/Col17 runner.temp context unavailable",
-  "official_context_source": "https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#context-availability",
-  "jobenv_runner_context_removed": true,
-  "six_stepenv_exact_values": true,
-  "normalized_workflow_semantics_identical": true,
-  "control_format_identical": true,
-  "syntax_and_shell_blocks": true,
-  "new_trigger_branch": "pro/dg16-dg18-r5-c02-held-09-20261105",
-  "original_awards": [],
-  "native_executed": false,
-  "adapter_AST_identical_except_exact_WORKFLOW_BRANCH": true,
-  "maintained_seal_schema_unchanged": true
+  "adapter_syntax": "PASS",
+  "delta": [
+    "new workflow branch",
+    "workflow checkout only: subshell022",
+    "source worktree only: subprocess umask022"
+  ],
+  "native_or_product_executed": false,
+  "predecessor_run": 42102535955,
+  "schema": "r5.c02-held10-static.v1",
+  "status": "AUTHOR_STATIC_BINDINGS_ONLY",
+  "unchanged": [
+    "private0700 parent",
+    "ambient077",
+    "exact custody and mode guards",
+    "92input census",
+    "05driver",
+    "10allocations",
+    "actual held review andGO",
+    "one-shot reservations",
+    "budgets",
+    "summary limits"
+  ]
 }
