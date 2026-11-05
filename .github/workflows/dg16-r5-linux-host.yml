@@ -1,0 +1,97 @@
+name: R5 isolated Linux host primitive qualification
+
+on:
+  push:
+    branches:
+      - pro/dg16-r5-linux-host-02-20261105
+    paths:
+      - .github/workflows/dg16-r5-linux-host.yml
+      - qualification/dg16-r5-linux-host/probe.py
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dg16-r5-linux-host-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  linux-host-primitives:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/pro/dg16-r5-linux-host-02-20261105' &&
+      github.event.deleted == false &&
+      github.run_attempt == '1'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out the exact prospective packet commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Check out the public immutable source reference
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 539aa846e37eab2dd527912d5e5eaa95f69d61cf
+          path: qualified-source
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Inventory the actual host and attempt one unprivileged discrimination
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-linux-host/probe.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '13f8b4e7dfb0340bf740b0089a0067536789963a3d63f269acfb97f1b2ead1fa' ]]; then
+            echo 'DG16_LINUX_HOST_TRANSPORT {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --run \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-linux-host-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Retain only the seven sanitized public JSON records
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg16-linux-host-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/dg16-linux-host-${{ github.run_id }}-${{ github.run_attempt }}/public/RESULT.json
+            ${{ runner.temp }}/dg16-linux-host-${{ github.run_id }}-${{ github.run_attempt }}/public/HOST.json
+            ${{ runner.temp }}/dg16-linux-host-${{ github.run_id }}-${{ github.run_attempt }}/public/SOURCE.json
+            ${{ runner.temp }}/dg16-linux-host-${{ github.run_id }}-${{ github.run_attempt }}/public/PROBE.json
+            ${{ runner.temp }}/dg16-linux-host-${{ github.run_id }}-${{ github.run_attempt }}/public/CLEANUP.json
+            ${{ runner.temp }}/dg16-linux-host-${{ github.run_id }}-${{ github.run_attempt }}/public/FAILURE.json
+            ${{ runner.temp }}/dg16-linux-host-${{ github.run_id }}-${{ github.run_attempt }}/public/ARTIFACT_MANIFEST.json
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 7
+          compression-level: 6
+
+      - name: Emit exact bounded ASCII evidence for independent receiving
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-linux-host/probe.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '13f8b4e7dfb0340bf740b0089a0067536789963a3d63f269acfb97f1b2ead1fa' ]]; then
+            echo 'DG16_LINUX_HOST_TRANSPORT {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --emit-public \
+            --output "$RUNNER_TEMP/dg16-linux-host-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
