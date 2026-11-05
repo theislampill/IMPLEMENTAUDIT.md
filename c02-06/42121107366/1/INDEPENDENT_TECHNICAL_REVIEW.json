@@ -1,0 +1,22 @@
+{
+  "authority": "NONE",
+  "blocking_findings": [],
+  "code_delta_review_seal_sha256": "0da87655732c440ac47c795adbbde5223025dc6072687f0af3ccd0fdf8d57b49",
+  "currentness_transferred": false,
+  "decision": "PASS",
+  "execution_authorized": false,
+  "host_request_sha256": "78d4df7649d4f526220249a7ee1f9fb63ec3c2957bfe4e8cf33417348384a116",
+  "input_count": 92,
+  "input_custody_sha256": "48a773175612222c48bc35bdf8a22328c8f16dda4ac73455c31c4c44b83bc3f0",
+  "input_manifest_sha256": "d78a71accc30e9b5bfd9ebc97d78b8c5dd31ac5664a0c1f458fbb8fa828b3b60",
+  "native_executed": false,
+  "original_acceptance": false,
+  "preparation_sha256": "8377bf6b9382471ff9f57d56b1d469d459e6a578e3f2272eec6e46ad4b9ca541",
+  "reviewer": "/root/windows_episode",
+  "run_attempt": "1",
+  "run_id": "42121107366",
+  "schema": "implementaudit.r5.c02-native-tail-independent-review.v1",
+  "scope": "ACTUAL_HELD_HOST_PREPARATION_ONLY_FRESH06_HELD11",
+  "separate_exact_root_GO_required": true,
+  "workflow_commit": "bf0db96eb6007eefaeb2f6b3efb8aea9a7d4148b"
+}
