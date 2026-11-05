@@ -1473,7 +1473,7 @@ class CompositeSourceCases(unittest.TestCase):
         """Current producer inputs; historical CURRENT helper stays separate."""
         owner = load("correspondence_c5_copy_owner", ROOT / "scripts/load-work-graph-c5-executor.py")
         selection = json.loads((ROOT / owner.R4_BUILD_CACHE_BASE_SELECTION).read_bytes())
-        members = {owner.LOADER, *owner.R5_WINDOWS_INITIALIZATION_PINS,
+        members = {owner.LOADER, *owner.R5_WINDOWS_CAPTURE_PINS,
                    *selection["programs"], *selection["payload_sources"]}
         with tempfile.TemporaryDirectory(prefix="c5-correspondence-source-") as temporary:
             root = Path(temporary) / "source"
@@ -1573,7 +1573,7 @@ class CompositeSourceCases(unittest.TestCase):
             with self.subTest(change=change), self.correspondence_c5_source_copy() as (root, output):
                 owner = load("drifted_current_c5", root / "scripts/load-work-graph-c5-executor.py")
                 with mock.patch("subprocess.Popen", side_effect=AssertionError("drifted input dispatched a producer")):
-                    session = owner.create_r5_windows_initialized_source_correspondence_c5_session_v1(root, output,
+                    session = owner.create_r5_windows_capture_source_correspondence_c5_session_v1(root, output,
                         expected_source={"source_commit": "0" * 40, "source_tree": "1" * 40})
                     try:
                         base = type(session).__init__.__globals__["B"]
@@ -1639,7 +1639,7 @@ class CompositeSourceCases(unittest.TestCase):
         previous = transport.SOURCE_PROFILES_V1['composite-20261029-dg18-native-resume-v1-core']
         self.assertEqual(transport.SOURCE_PROFILES_V1['composite-20261029-dg18-native-resume-v1-original14'][2][1:3],
                          (246657, '82ddcbb3cf476098fbcac57c0550d4240457688df2c4504c8ab8caea2c3367b1'))
-        profile = transport.SOURCE_PROFILES_V1['composite-20261105-r5-windows-initialization-v1-core']
+        profile = transport.SOURCE_PROFILES_V1['composite-20261105-r5-windows-companion-capture-v1-core']
         self.assertTrue(transport._windows_core_profile_v1(historical))
         self.assertTrue(transport._windows_core_profile_v1(previous))
         self.assertTrue(transport._windows_core_profile_v1(profile))
@@ -1671,9 +1671,15 @@ class CompositeSourceCases(unittest.TestCase):
         """Break caught: repaired helper bytes cannot reach a fixed accepting consumer."""
         transport = load("engineered_continuity_transport", ROOT / "scripts/work-graph-continuity-transport.py")
         owner = load("engineered_continuity_receiver", ROOT / "scripts/operational-evidence.py")
-        prefix = "composite-20261105-r5-windows-initialization-v1-"
+        prefix = "composite-20261105-r5-windows-companion-capture-v1-"
         previous = {name: rows for name, rows in transport.SOURCE_PROFILES_V1.items()
                     if not name.startswith(prefix)}
+        self.assertEqual(len(previous), 40)
+        self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
+                         separators=(",", ":")).encode()).hexdigest(),
+                         'df36e93324b15e6aecd3701e059cfd426714a25ddf8c8d6997018a959b2996a1')
+        previous = {name: rows for name, rows in previous.items()
+                    if not name.startswith("composite-20261105-r5-windows-initialization-v1-")}
         self.assertEqual(len(previous), 39)
         self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
                          separators=(",", ":")).encode()).hexdigest(),
@@ -1695,7 +1701,7 @@ class CompositeSourceCases(unittest.TestCase):
         self.assertEqual(hashlib.sha256(json.dumps(historical, sort_keys=True,
                          separators=(",", ":")).encode()).hexdigest(),
                          "50c356cb09ebd3bf3b5be64bab44ba966f758e0abe7f24b8d87c17ef2978dda6")
-        self.assertEqual(len(transport.SOURCE_PROFILES_V1), 40)
+        self.assertEqual(len(transport.SOURCE_PROFILES_V1), 41)
         for kind, directory in (("core", CORE), ("original14", PEER)):
             with self.subTest(kind=kind):
                 selected_name = prefix + kind if kind == "core" else "composite-20261104-dg17-dg18-custody-v1-original14"
@@ -1715,6 +1721,69 @@ class CompositeSourceCases(unittest.TestCase):
                     with mock.patch.object(subprocess, "run", side_effect=AssertionError("unsupported host dispatched")), \
                             self.assertRaisesRegex(transport.ContinuityTransportError, "UNSUPPORTED_HOST"):
                         transport._original14_call(None, None, ROOT, sources, ("--current-controller",))
+
+    def test_windows_capture_receiver_platform_shapes_and_refusals(self):
+        """Constructed platform rows exercise the real receiver; no native Windows credit."""
+        import copy
+        import stat
+        import types
+        owner = load("capture_receiver_shapes", ROOT / "scripts/operational-evidence.py")
+        transport = load("capture_transport_shapes", ROOT / "scripts/work-graph-continuity-transport.py")
+        profile = transport.SOURCE_PROFILES_V1['composite-20261105-r5-windows-companion-capture-v1-core']
+        pair = dict(claim_sha256=profile[0][2], validate_sha256=profile[1][2])
+        source = ROOT / "scripts/work-graph-continuity-transport.py"
+        raw = source.read_bytes()
+        transport_row = dict(path=str(source), bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest(),
+                             mode=stat.S_IMODE(source.stat().st_mode))
+        def value(platform):
+            rows = []
+            for name, size, digest, _mode in profile:
+                path = CORE / name
+                row = dict(name=name, path=str(path), bytes=size, sha256=digest,
+                           mode=stat.S_IMODE(path.stat().st_mode), links=1)
+                row.update(dict(held=True) if platform == 'nt' else dict(readonly=True, seals=15))
+                rows.append(row)
+            if platform == 'nt':
+                execution = dict(schema='implementaudit.continuity-windows-source-closure.v1',
+                                 repository=str(ROOT), members=rows, custody='WINDOWS_HELD_FILES_V1')
+            else:
+                execution = dict(schema='implementaudit.continuity-source-closure.v2',
+                                 repository=str(ROOT), members=rows,
+                                 startup=dict(profile='ISOLATED_CPYTHON_V1', isolated=True,
+                                              no_site=True, dont_write_bytecode=True))
+            return dict(schema='implementaudit.native-continuity-closure.v1', execution=execution,
+                        transport=transport_row)
+        def read(path, _label, maximum):
+            data = path.read_bytes()
+            self.assertLessEqual(len(data), maximum)
+            return data
+        for platform in ('posix', 'nt'):
+            with self.subTest(platform=platform), mock.patch.object(owner, 'os', types.SimpleNamespace(name=platform)), \
+                    mock.patch.object(owner, '_native_file', side_effect=read):
+                owner._native_check_continuity_closure_v1(value(platform), ROOT, CORE / 'compile-work-graph.py', pair)
+                with self.assertRaisesRegex(ValueError, 'executed closure differs'):
+                    owner._native_check_continuity_closure_v1(value('nt' if platform == 'posix' else 'posix'),
+                                                             ROOT, CORE / 'compile-work-graph.py', pair)
+                for mutation in ('digest', 'mode', 'member', 'path', 'custody'):
+                    damaged = copy.deepcopy(value(platform))
+                    rows = damaged['execution']['members']
+                    if mutation == 'digest': rows[0]['sha256'] = '0' * 64
+                    elif mutation == 'mode': rows[0]['mode'] ^= 0o100
+                    elif mutation == 'member': rows.append(copy.deepcopy(rows[0]))
+                    elif mutation == 'path': rows[0]['path'] += '-foreign'
+                    else: rows[0]['held' if platform == 'nt' else 'seals'] = False
+                    with self.subTest(mutation=mutation), self.assertRaisesRegex(ValueError, 'executed closure differs'):
+                        owner._native_check_continuity_closure_v1(damaged, ROOT, CORE / 'compile-work-graph.py', pair)
+                foreign = dict(pair, claim_sha256='0' * 64)
+                with self.assertRaisesRegex(ValueError, 'unknown or incomplete source closure'):
+                    owner._native_check_continuity_closure_v1(value(platform), ROOT, CORE / 'compile-work-graph.py', foreign)
+        # A POSIX registry mode mismatch remains a strict source refusal.
+        damaged_profile = ((*profile[0][:3], profile[0][3] ^ 0o100), *profile[1:])
+        with mock.patch.object(owner, '_NATIVE_CONTINUITY_SOURCE_PROFILES_V1', (damaged_profile,)), \
+                mock.patch.object(owner, 'os', types.SimpleNamespace(name='posix')), \
+                mock.patch.object(owner, '_native_file', side_effect=read), \
+                self.assertRaisesRegex(ValueError, 'source differs from the qualified closure'):
+            owner._native_check_continuity_closure_v1(value('posix'), ROOT, CORE / 'compile-work-graph.py', pair)
 
     def test_retained_native_profile_refuses_new_history_api_before_dispatch(self):
         peer = ROOT / "source-peers/route-graph/skills/implementaudit/scripts"

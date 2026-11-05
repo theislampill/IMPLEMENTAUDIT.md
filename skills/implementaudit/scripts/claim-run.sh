@@ -367,6 +367,20 @@ descriptor = None
 def identity(info):
     return (info.st_dev, info.st_ino, info.st_mode, info.st_nlink,
             info.st_size, info.st_ctime_ns, info.st_mtime_ns)
+def cross_api_identity(info):
+    # CPython 3.12.10 on Windows reports birth time through path ctime,
+    # but ChangeTime through descriptor ctime. Keep ctime in both same-API
+    # comparisons and compare common physical metadata across the APIs.
+    if (os.name == "nt" and sys.platform == "win32"
+            and sys.implementation.name == "cpython"
+            and sys.version_info[:3] == (3, 12, 10)):
+        birthtime = getattr(info, "st_birthtime_ns", None)
+        attributes = getattr(info, "st_file_attributes", None)
+        if type(birthtime) is not int or type(attributes) is not int:
+            raise ValueError("Windows capture identity metadata is unavailable")
+        return (info.st_dev, info.st_ino, info.st_mode, info.st_nlink,
+                info.st_size, info.st_mtime_ns, birthtime, attributes)
+    return identity(info)
 def directory_identity(info):
     if not stat.S_ISDIR(info.st_mode) or getattr(info, "st_file_attributes", 0) & 0x400:
         raise ValueError("ancestor is not an ordinary directory")
@@ -401,7 +415,9 @@ try:
         after = os.fstat(stream.fileno())
         current = (os.stat(path.name, dir_fd=parent, follow_symlinks=False)
                    if os.name == "posix" else os.lstat(path))
-        if not identity(before) == identity(opened) == identity(after) == identity(current):
+        if (identity(before) != identity(current) or identity(opened) != identity(after)
+                or not cross_api_identity(before) == cross_api_identity(opened)
+                       == cross_api_identity(after) == cross_api_identity(current)):
             raise ValueError("identity changed during bounded capture")
         if os.name == "posix":
             for ancestor, name, held, selected in nodes:

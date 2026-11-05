@@ -2069,6 +2069,17 @@ _NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
     ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
     ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
 ),)
+# R5 Windows companion capture source domain; currentness still requires the original strict owner operations.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 32290, 'dce0e6af8ce69e63283d0ed5ad1496779d5f2c1b90024c79228af5e22df75d4c', 420),
+    ('validate-run-root.sh', 114967, 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a', 420),
+    ('claim-run-rotation.py', 288439, 'ce40c4410011e46b209df718207b58c15d18e60db1379e7b66b24f04616637f9', 420),
+    ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+),)
 _NATIVE_LEGACY_CONTINUITY_PAIRS_V1 = (
     ('07e09843b2831149dc43e5f0dc458e82ae5cf9614b116393ac774ddea19390c7',
      'fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5'),
@@ -2125,6 +2136,8 @@ _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['9948c6a866ed780ef862719397b47871aa0acf
 
 _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['aa98b1a45b9345d3ccf88611a7b90cd2939e04ee3f520b82610546ba96b77d48'] = 90101
 
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['d198e8c65c30c20cd33d0e3acf1e3a27f67b200e3bce521f018f8a947b9bf967'] = 91399
+
 def _native_check_continuity_closure_v1(value, repository, compiler_path, pair):
     """Check the complete live source set at fixed paths, never captured paths.
 
@@ -2135,6 +2148,8 @@ def _native_check_continuity_closure_v1(value, repository, compiler_path, pair):
     helper_pair = (pair.get("claim_sha256"), pair.get("validate_sha256"))
     profiles = tuple(profile for profile in _NATIVE_CONTINUITY_SOURCE_PROFILES_V1
                      if (profile[0][2], profile[1][2]) == helper_pair)
+    if os.name == "nt" and helper_pair == ('dce0e6af8ce69e63283d0ed5ad1496779d5f2c1b90024c79228af5e22df75d4c', 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a'):
+        profiles = tuple(tuple((*row[:3], None) for row in profile) for profile in profiles)
     if not profiles:
         if value is not None or helper_pair not in _NATIVE_LEGACY_CONTINUITY_PAIRS_V1:
             _error("OE_NATIVE_CURRENT_SOURCE", "$native.continuity_closure", "unknown or incomplete source closure")

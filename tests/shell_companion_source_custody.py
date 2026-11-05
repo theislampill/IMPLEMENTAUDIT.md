@@ -96,6 +96,83 @@ sys.addaudithook(audit)
 '''
 
 
+class CompanionIdentityPredicate(unittest.TestCase):
+    """Constructed metadata controls of selected source AST, never native host proof."""
+    def guard(self, platform='win32', version=(3, 12, 10), os_name='nt', implementation='cpython'):
+        import ast
+        import copy
+        import types
+        text = (SOURCE / 'claim-run.sh').read_text()
+        marker = '  "$rotation_py" -B -c \'\n'
+        suffix = '\n\' "$(dirname "$0")/claim-run-rotation.py" "$@"'
+        self.assertEqual(text.count(marker), 1)
+        self.assertEqual(text.count(suffix), 1)
+        tree = ast.parse(text.split(marker, 1)[1].split(suffix, 1)[0])
+        definitions = [copy.deepcopy(n) for n in tree.body if isinstance(n, ast.FunctionDef)
+                       and n.name in ('identity', 'cross_api_identity')]
+        predicates = [copy.deepcopy(n) for n in ast.walk(tree) if isinstance(n, ast.If)
+                      and len(n.body) == 1 and isinstance(n.body[0], ast.Raise)
+                      and isinstance(n.body[0].exc, ast.Call)
+                      and len(n.body[0].exc.args) == 1
+                      and isinstance(n.body[0].exc.args[0], ast.Constant)
+                      and n.body[0].exc.args[0].value == 'identity changed during bounded capture']
+        self.assertEqual(len(predicates), 1)
+        wrapper = ast.parse('def guarded(before, opened, after, current):\n    return True\n').body[0]
+        wrapper.body = predicates + wrapper.body
+        module = ast.fix_missing_locations(ast.Module(body=definitions + [wrapper], type_ignores=[]))
+        namespace = dict(os=types.SimpleNamespace(name=os_name),
+                         sys=types.SimpleNamespace(platform=platform, version_info=version,
+                                                   implementation=types.SimpleNamespace(name=implementation)))
+        exec(compile(module, '<selected-capture-predicate>', 'exec'), namespace)
+        return namespace['guarded']
+
+    def rows(self, split=True):
+        from types import SimpleNamespace
+        # Constructed birth/change times model the documented API difference.
+        base = dict(st_dev=1, st_ino=2, st_mode=0o100644, st_nlink=1, st_size=10,
+                    st_ctime_ns=100, st_mtime_ns=200, st_birthtime_ns=100, st_file_attributes=32)
+        rows = [SimpleNamespace(**base) for _ in range(4)]
+        if split:
+            rows[1].st_ctime_ns = rows[2].st_ctime_ns = 200
+        return rows
+
+    def test_windows_api_difference_preserves_both_mutation_checks(self):
+        guard = self.guard()
+        self.assertTrue(guard(*self.rows()))
+        self.assertTrue(guard(*self.rows(False)))
+        for position in range(4):
+            for field in ('st_dev', 'st_ino', 'st_mode', 'st_nlink', 'st_size',
+                          'st_ctime_ns', 'st_mtime_ns', 'st_birthtime_ns', 'st_file_attributes'):
+                rows = self.rows()
+                setattr(rows[position], field, getattr(rows[position], field) + 1)
+                with self.subTest(position=position, field=field), self.assertRaisesRegex(ValueError, 'identity changed'):
+                    guard(*rows)
+
+    def test_unqualified_runtime_retains_strict_chain(self):
+        contexts = [dict(os_name='posix', platform='linux'), dict(version=(3, 12, 9)),
+                    dict(version=(3, 13, 0)), dict(platform='cygwin'), dict(implementation='pypy')]
+        for context in contexts:
+            guard = self.guard(**context)
+            self.assertTrue(guard(*self.rows(False)))
+            with self.subTest(context=context), self.assertRaisesRegex(ValueError, 'identity changed'):
+                guard(*self.rows())
+
+    def test_required_windows_metadata_refuses_missing_and_wrong_types(self):
+        guard = self.guard()
+        for position in range(4):
+            for field in ('st_birthtime_ns', 'st_file_attributes'):
+                for value in (None, True, 1.5, '32'):
+                    rows = self.rows()
+                    setattr(rows[position], field, value)
+                    with self.subTest(position=position, field=field, value=value), \
+                            self.assertRaisesRegex(ValueError, 'metadata is unavailable'):
+                        guard(*rows)
+                rows = self.rows()
+                delattr(rows[position], field)
+                with self.assertRaisesRegex(ValueError, 'metadata is unavailable'):
+                    guard(*rows)
+
+
 class ShellCompanionSourceCustody(unittest.TestCase):
     def setUp(self):
         WORK.mkdir(parents=True, exist_ok=True)

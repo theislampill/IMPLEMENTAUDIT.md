@@ -1551,10 +1551,10 @@ def _native_document(data, path, schema):
         raise WorkGraphError(f'{path}: unknown native metadata schema')
     return obj
 
-_NATIVE_STATIC_OWNER_SHA256 = '3bd885178babf611c4e88da9d031b9a0a2ee887dd7528807b2bd971c1f766b34'
+_NATIVE_STATIC_OWNER_SHA256 = 'd841f0094b07bdb117311d1056f27fe15a467f4c3cc041718c5370e4f075eb53'
 
 
-_NATIVE_STATIC_OWNER_BYTES = 418898
+_NATIVE_STATIC_OWNER_BYTES = 420346
 
 
 NATIVE_SOURCE_MAX_ENTRIES = 1024
@@ -2142,8 +2142,8 @@ _NATIVE_COMBINED_CURRENT_PAIR_V1 = (
 _NATIVE_SIX_SOURCE_PAIR_V1 = (
     '50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383',
     'd8b046b5417dce13ed66a5ac5fffaf3d18fae40c97d42aef8b38470500d575a6')
-_NATIVE_CONTINUITY_TRANSPORT_SHA256 = 'aa98b1a45b9345d3ccf88611a7b90cd2939e04ee3f520b82610546ba96b77d48'
-_NATIVE_CONTINUITY_TRANSPORT_BYTES = 90101
+_NATIVE_CONTINUITY_TRANSPORT_SHA256 = 'd198e8c65c30c20cd33d0e3acf1e3a27f67b200e3bce521f018f8a947b9bf967'
+_NATIVE_CONTINUITY_TRANSPORT_BYTES = 91399
 
 
 def _native_six_source_transport_v1(owner, claim_raw, validate_raw):
@@ -2461,6 +2461,7 @@ _NATIVE_ROUTE_PRODUCER_PROFILES_V1['684d1f09b49c6a85eb59df59e0aca516503df6ffc115
 _NATIVE_ROUTE_PRODUCER_PROFILES_V1['aa8628759e157f16ca8c1907a558b34f858aa91d1b2b74a2b6256b123106338a'] = 387559
 _NATIVE_ROUTE_PRODUCER_PROFILES_V1['5b6bb99bd4430e8b62883cc65a52d04a87c30a8fa7be188fb9f7bdfc1a928989'] = 387801
 _NATIVE_ROUTE_PRODUCER_PROFILES_V1['66140f18674686efbc87dbc92e4c9f3624637ec181280331d21461cc796d3919'] = 388043
+_NATIVE_ROUTE_PRODUCER_PROFILES_V1['c0a65ad074c2a157566390cda163d268d6230af707ad36bb13333ffa3cefb6a7'] = 388285
 
 
 _NATIVE_ROUTE_OBSERVATION_KEY = object()
@@ -3057,9 +3058,7 @@ def _acquire_native_read_set(nodes, input_root):
         raise WorkGraphError('native static source owner changed during input acquisition')
     return result
 
-# Explicitly constructed intake preserves the self-contained R0035 diagnostic.
-# These original portable readers acquire no repository/native currentness. They
-# are selected only when repo_root is absent, never after a native-owner refusal.
+# Constructed intake is selected only without repo_root, never after native refusal.
 def _constructed_source_snapshot_v1(run_root):
     root = pathlib.Path(run_root)
     if root.is_symlink() or not root.is_dir():
