@@ -779,6 +779,8 @@ def reservation_refusal_profile(pins):
     # accept either reason interchangeably or infer it from the response.
     profiles = {
         # R4 current native-canary source, with no native selection in this CLI fixture.
+        ('729f7eb108b30647bf62e19d71be4cd10e41486af020a6dc69b8aa6295d8aee5', 'a68145e62a0a81dfb02fc48f72cefaf3740e499bf6b85bd70f5d30cc64a038c1', '5bb21eed89945a8da97857f980b1f85a06dc07df47b25475b9173f23e82ce8f8', 'f024cd50b4e5cdd3b93f16fe1d0489952a534a0a5f880c842c14afc897ac2bc7'):
+            ('source-sha256:5bb21eed89945a8da97857f980b1f85a06dc07df47b25475b9173f23e82ce8f8', 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED', 'PENDING_STATE_JSON', 'PENDING_STATE_JSON_CONSTANT'),
         ('cc7c7e2f5666ab59b3af89742d07f2eaf8626cd594dc7f4ce85425f166b248ee', '15de2cb86378960163be08876876ff2473dc034704f6dad014d90a9bb7dc7156', '5e10f2e36842c7f5dcfe5a131da43c502e9f36b0d1d727ca9bdb4412bde4c523', 'f024cd50b4e5cdd3b93f16fe1d0489952a534a0a5f880c842c14afc897ac2bc7'):
             ('source-sha256:5e10f2e36842c7f5dcfe5a131da43c502e9f36b0d1d727ca9bdb4412bde4c523', 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED', 'PENDING_STATE_JSON', 'PENDING_STATE_JSON_CONSTANT'),
         # Exact repaired issuer custody owner; native selection remains absent.

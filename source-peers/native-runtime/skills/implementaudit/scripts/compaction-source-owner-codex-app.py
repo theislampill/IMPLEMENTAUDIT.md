@@ -221,6 +221,8 @@ def _np_selection():
             result[key] = value
         return result
     selected = json.loads(raw, object_pairs_hook=unique)
+    if MECHANICAL_SELECTION_PIN is not None:
+        return validate_mechanical_selection_v1(selected)
     if OWNED_STDIO_SELECTION_PIN is not None:
         return validate_owned_stdio_selection_shape_v1(selected)
     required = {'schema', 'profile_id', 'root_thread_id', 'root_agent_path', 'root_source', 'session_root', 'cwd', 'cli_version', 'native_version', 'desktop_version', 'host_process', 'desktop_process', 'native_executable', 'desktop_executable', 'desktop_asar', 'config_file', 'runtime_helpers', 'episode_owner', 'pending_owner'}
@@ -236,7 +238,7 @@ def _np_selection():
 
 def selected_custody_v1(selected):
     custody = _np_module(selected['runtime_helpers']['bounded_file_custody.py'], 'bounded_file_custody.py')
-    if selected.get('profile_id') == FRESH_CANARY_PROFILE:
+    if selected.get('profile_id') in (FRESH_CANARY_PROFILE, MECHANICAL_PROFILE):
         return FreshCanaryPosixCustodyV1()
     return custody
 
@@ -282,6 +284,8 @@ def _np_subject(runtime):
 
 def nonprotected_bind_sources(obs, request, code_pins):
     """Bind actual source-selected child to canonical OPEN and real host events."""
+    if _np_selection()['profile_id'] == MECHANICAL_PROFILE:
+        return _mechanical_bind_sources_v1(obs, request, code_pins)
     import contextlib
     import json
     require(isinstance(request, dict) and set(request) == {'open', 'spawn_call', 'spawn_output', 'child_activation', 'parent_turn_start'}, 'NONPROTECTED_PUBLIC_LOCATOR_REQUEST_SHAPE')
@@ -332,6 +336,8 @@ def nonprotected_bind_sources(obs, request, code_pins):
 
 def nonprotected_fixed_policy(obs, code_pins):
     selected, _, _, helpers, _ = _np_runtime(obs, code_pins)
+    if selected['profile_id'] == MECHANICAL_PROFILE:
+        return _mechanical_fixed_policy_v1(obs, code_pins, selected)
     if selected['profile_id'] == OWNED_STDIO_PROFILE:
         return _as_fixed_policy_v1(obs, code_pins, selected)
     require(isinstance(selected['episode_owner'], dict) and selected['episode_owner'].get('module_pin') is not None, 'NONPROTECTED_CANONICAL_EPISODE_OWNER_UNBOUND')
@@ -352,6 +358,8 @@ def nonprotected_fixed_policy(obs, code_pins):
 def _np_provider_guard(runtime):
     import contextlib
     selected, custody, protocol, helpers, _ = runtime
+    if selected['profile_id'] == MECHANICAL_PROFILE:
+        return _fresh_canary_provider_guard_v1(runtime)
     if selected['profile_id'] == OWNED_STDIO_PROFILE:
         return _as_provider_guard_v1(runtime)
 
@@ -443,6 +451,8 @@ def nonprotected_public_binding(obs, context, policy, pins):
     return {'schema': 'implementaudit.nonprotected-native-public-record-binding.v1', 'records': records, 'source_prefixes': prefixes, 'anchor_response_sha256s': [], 'canonical_episode_binding': episode, 'authority_ceiling': 'NONE'}
 
 def nonprotected_sources_guard(obs, context, code_pins):
+    if context.get('profile_id') == MECHANICAL_PROFILE:
+        return _mechanical_sources_guard_v1(obs, context, code_pins)
     import contextlib
     runtime = _np_runtime(obs, code_pins)
     selected, custody, _, helpers, _ = runtime
@@ -905,10 +915,12 @@ OWNED_STDIO_PROFILE = 'codex-app-server-0.153.4-owned-stdio-candidate-v1'
 FRESH_CANARY_PROFILE = 'codex-app-server-0.166.0-linux-fresh-canary-v1'
 FRESH_CANARY_BINARY_SHA256 = 'b8a11fedf24b2dfb59a70c9e52b030f9a508dcd49cd2dd0d41956f4c785156b8'
 OWNED_STDIO_SELECTION_PIN = None
+MECHANICAL_PROFILE = 'codex-app-server-0.166.0-linux-prior-mechanical-v1'
+MECHANICAL_SELECTION_PIN = None
 SOURCE_PROFILES = (NONPROTECTED_PROFILE, OWNED_STDIO_PROFILE)
 
 def selected_source_pin_v1():
-    selected = [pin for pin in (NONPROTECTED_SELECTION_PIN, OWNED_STDIO_SELECTION_PIN) if pin is not None]
+    selected = [pin for pin in (NONPROTECTED_SELECTION_PIN, OWNED_STDIO_SELECTION_PIN, MECHANICAL_SELECTION_PIN) if pin is not None]
     require(len(selected) <= 1 and not (selected and ORDINARY_SELECTION_PIN is not None), 'FIXED_SOURCE_SELECTION_AMBIGUOUS')
     return selected[0] if selected else None
 
@@ -2646,3 +2658,214 @@ def get_selected_fresh_rotation_v1(context):
         value[1]._seal is _FRESH_ROTATION_SEAL_V1, 'FRESH_ROTATION_SOURCE_NOT_SELECTED')
     value[1].verify()
     return value[1]
+
+
+# Proposed additions to the existing compaction-source-owner-codex-app.py.
+# No issuer, grant, selection or native process is created by this fragment.
+
+def validate_mechanical_selection_v1(selected):
+    required = {'schema', 'profile_id', 'root_thread_id', 'root_agent_path', 'root_source',
+                'session_root', 'cwd', 'cli_version', 'native_version', 'native_executable',
+                'codex_home', 'runtime_helpers', 'episode_owner', 'pending_owner',
+                'producer_capture_pin', 'capture_producer_pin', 'tool_evidence_contract',
+                'mechanical_tool'}
+    require(type(selected) is dict and set(selected) == required
+            and selected['schema'] == 'implementaudit.codex0166-mechanical-selection.v1'
+            and selected['profile_id'] == MECHANICAL_PROFILE
+            and selected['cli_version'] == '0.166.0' and selected['native_version'] == 'codex-cli 0.166.0'
+            and selected['root_agent_path'] == '/root'
+            and selected['tool_evidence_contract'] == 'ACTUAL_NATIVE_MCP_PRIOR_ONLY_EMULATED_PROVIDER_V1'
+            and selected['native_executable']['sha256'] == FRESH_CANARY_BINARY_SHA256
+            and set(selected['runtime_helpers']) == {'bounded_native_reader.py', 'bounded_source_owner.py', 'bounded_file_custody.py'},
+            'MECHANICAL_FIXED_SELECTION_SHAPE')
+    require(re.fullmatch(r'[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}', selected['root_thread_id']),
+            'MECHANICAL_ROOT_IDENTITY')
+    for key in ('root_source', 'session_root', 'cwd', 'codex_home'):
+        path = Path(selected[key])
+        require(path.is_absolute() and path.resolve(strict=True) == path, 'MECHANICAL_PATH_ALIAS')
+    require(Path(selected['session_root']) == Path(selected['codex_home']) / 'sessions'
+            and Path(selected['root_source']).is_relative_to(Path(selected['session_root']))
+            and Path(selected['root_source']).name.endswith('-' + selected['root_thread_id'] + '.jsonl'),
+            'MECHANICAL_SOURCE_NAMESPACE')
+    pending = selected['pending_owner']; episode = selected['episode_owner']; tool = selected['mechanical_tool']
+    require(type(pending) is dict and set(pending) == {'store', 'session_id', 'owner_id'}
+            and Path(pending['store']).is_absolute() and pending['session_id'] == selected['root_thread_id']
+            and type(pending['owner_id']) is str and pending['owner_id'], 'MECHANICAL_PENDING_OWNER')
+    require(type(episode) is dict and set(episode) == {'module_pin', 'repository', 'controller'}
+            and episode['repository'] == selected['cwd'] and type(episode['controller']) is str
+            and episode['controller'], 'MECHANICAL_CANONICAL_OWNER_REQUIRED')
+    require(type(tool) is dict and set(tool) == {'server_pin', 'protocol_pin', 'config_pin', 'python_pin'}
+            and tool['server_pin']['path'] == str(HERE / 'compaction-prior-mcp.py')
+            and tool['protocol_pin']['path'] == str(HERE / 'compaction-prior-protocol.py')
+            and tool['config_pin']['path'] == str(Path(selected['codex_home']) / 'config.toml'),
+            'MECHANICAL_FIXED_TOOL_CONFIGURATION')
+    return selected
+
+
+def _mechanical_fixed_policy_v1(obs, code_pins, selected):
+    for key, name in (('server_pin', 'compaction-prior-mcp.py'), ('protocol_pin', 'compaction-prior-protocol.py')):
+        pin = selected['mechanical_tool'][key]
+        require(pin['sha256'] == code_pins['implementaudit/scripts/' + name], 'MECHANICAL_TOOL_CODE_CHANGED')
+        _np_read_pin(pin, 128 * 1024)
+    import tomllib
+    config_raw = _np_read_pin(selected['mechanical_tool']['config_pin'], 128 * 1024)
+    tool = selected['mechanical_tool']
+    _np_read_pin(tool['python_pin'], 32 * 1024 * 1024)
+    configured = tomllib.loads(config_raw.decode('utf-8')).get('mcp_servers', {}).get('dg18prior')
+    require(configured == {'command': tool['python_pin']['path'],
+                           'args': [str(HERE / 'compaction-prior-mcp.py'), '--source-owner',
+                                    str(HERE / 'compaction-source-owner-codex-app.py')]},
+            'MECHANICAL_NATIVE_TOOL_CONFIG_DIFFERS')
+    value = {'descriptor': {
+        'schema': 'implementaudit.compaction-fixed-acquisition-policy.v1',
+        'profile_id': MECHANICAL_PROFILE, 'selection_pin': dict(MECHANICAL_SELECTION_PIN),
+        'tool_evidence_contract': selected['tool_evidence_contract'],
+        'mechanical_tool': selected['mechanical_tool'],
+        'native_executable': selected['native_executable'],
+        'producer_capture_pin': selected['producer_capture_pin'],
+        'capture_producer_pin': selected['capture_producer_pin'],
+        'authority_ceiling': 'NONE', 'result_admission': 'UNQUALIFIED',
+        'return_join_admission': 'REFUSED'}, 'code_and_skill_pins': code_pins}
+    return {**value, 'policy_digest': obs.digest(obs.canonical(value))}
+
+
+def _mechanical_sources_guard_v1(obs, context, code_pins):
+    import contextlib
+    runtime = _np_runtime(obs, code_pins)
+    selected, custody, _, helpers, _ = runtime
+
+    @contextlib.contextmanager
+    def guard():
+        current = _np_episode(runtime)
+        require(selected['profile_id'] == context['profile_id'] == MECHANICAL_PROFILE
+                and context['_mechanical_selection_sha256'] == MECHANICAL_SELECTION_PIN['sha256']
+                and current['opening_digest'] == context['canonical_episode_binding']['opening_digest']
+                and current['logical_task'] == context['canonical_episode_binding']['logical_task'],
+                'MECHANICAL_SOURCE_SCOPE_OR_OPEN_CHANGED')
+        with contextlib.ExitStack() as held:
+            for role in ('parent', 'child'):
+                source = context[role]; path = custody.lexical_path(source['path'])
+                require(path.is_relative_to(custody.lexical_path(selected['session_root'])), 'MECHANICAL_SOURCE_NAMESPACE')
+                if role == 'parent':
+                    require(str(path) == selected['root_source'], 'MECHANICAL_ROOT_SOURCE_CHANGED')
+                held.enter_context(custody.held_file(path))
+                header = helpers.header({'path': str(path)})
+                require({k: header['physical'][k] for k in ('device', 'inode')} == source['physical']
+                        and header['header_prefix']['sha256'] == source['metadata']['sha256']
+                        and header['metadata'].get('cli_version') == '0.166.0', 'MECHANICAL_SOURCE_CHANGED')
+                expected = context['parent_identity' if role == 'parent' else 'actual_child_identity']['thread_id']
+                require(header['metadata'].get('id') == expected and path.name.endswith('-' + expected + '.jsonl'),
+                        'MECHANICAL_SOURCE_IDENTITY_CHANGED')
+                if role == 'child':
+                    require(header['metadata'].get('session_id') == selected['root_thread_id']
+                            and header['metadata'].get('parent_thread_id') == selected['root_thread_id']
+                            and header['metadata'].get('agent_path') is None, 'MECHANICAL_CHILD_RELATION_CHANGED')
+            yield
+            require(_np_episode(runtime) == current, 'MECHANICAL_OPEN_CHANGED_DURING_READ')
+    return guard()
+
+
+def _mechanical_child_path_v1(selected, identifier):
+    """Bounded source nomination by the actual native spawn-result UUID."""
+    require(re.fullmatch(r'[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}', identifier),
+            'MECHANICAL_NATIVE_CHILD_ID_ABSENT')
+    pending = [(Path(selected['session_root']), 0)]
+    candidates = []
+    entries = 0
+    files = 0
+    while pending:
+        directory, depth = pending.pop()
+        require(not directory.is_symlink(), 'MECHANICAL_SOURCE_NAMESPACE_ALIAS')
+        with os.scandir(directory) as stream:
+            for entry in stream:
+                entries += 1
+                require(entries <= 64 and not entry.is_symlink(), 'MECHANICAL_FRESH_NAMESPACE_BOUND')
+                if entry.is_dir(follow_symlinks=False):
+                    require(depth < 3, 'MECHANICAL_FRESH_NAMESPACE_DEPTH')
+                    pending.append((Path(entry.path), depth + 1))
+                else:
+                    require(entry.is_file(follow_symlinks=False) and entry.name.endswith('.jsonl'),
+                            'MECHANICAL_FRESH_NAMESPACE_KIND')
+                    files += 1
+                    require(files <= 16, 'MECHANICAL_FRESH_SESSION_FILE_BOUND')
+                    if entry.name.endswith('-' + identifier + '.jsonl'):
+                        candidates.append(Path(entry.path))
+    require(len(candidates) == 1, 'MECHANICAL_UNIQUE_NATIVE_CHILD_REQUIRED')
+    return candidates[0]
+
+
+def _mechanical_bind_sources_v1(obs, request, code_pins):
+    import contextlib
+    import json
+    require(type(request) is dict and set(request) ==
+            {'open', 'spawn_call', 'spawn_output', 'child_activation', 'parent_turn_start'},
+            'NONPROTECTED_PUBLIC_LOCATOR_REQUEST_SHAPE')
+    runtime = _np_runtime(obs, code_pins)
+    selected, custody, _, helpers, _ = runtime
+    episode = _np_episode(runtime)
+    context = {'profile_id': MECHANICAL_PROFILE, 'canonical_episode_binding': episode,
+               '_source_profile_code_pins': code_pins,
+               '_mechanical_selection_sha256': MECHANICAL_SELECTION_PIN['sha256'],
+               '_mechanical_pending_owner': selected['pending_owner'],
+               'source_association': 'PUBLIC_BOUNDARY_CHILD_STRUCTURAL_UNQUALIFIED',
+               'host_producer_authenticated': False}
+    protocol = obs._mechanical_protocol(context)
+    protocol.spawn_message(episode)
+
+    def source(path, role):
+        info = helpers.header({'path': str(path)})
+        prefix = info['header_prefix']
+        with custody.held_file(path) as stream:
+            raw = stream.read(prefix['bytes'])
+        row = json.loads(raw, object_pairs_hook=obs.unique)
+        require(obs.digest(raw) == prefix['sha256'] and row['type'] == 'session_meta'
+                and row['ordinal'] == 0 and row['payload'].get('cli_version') == '0.166.0',
+                'MECHANICAL_SOURCE_HEADER')
+        return row, {'path': str(path), 'physical': {k: info['physical'][k] for k in ('device', 'inode')},
+                     'metadata': {'offset': 0, 'bytes': prefix['bytes'], 'sha256': prefix['sha256'],
+                                  'embedded_ordinal': 0, 'physical_line': 1},
+                     'metadata_payload_digest': obs.digest(obs.canonical(row['payload'])),
+                     'history_start_ordinal': 1 if role == 'child' else 0,
+                     'allowed_ranges': [{'offset': i * obs.MAX_TOTAL, 'bytes': obs.MAX_TOTAL} for i in range(obs.MAX_RECORDS)],
+                     'canonical_open_binding_digest': episode['opening_digest']}
+
+    with _np_provider_guard(runtime), contextlib.ExitStack() as held:
+        held.enter_context(custody.held_file(selected['root_source']))
+        parent, context['parent'] = source(selected['root_source'], 'parent')
+        # Child selection comes from the held parent's actual spawn result.
+        observed = obs.read_records(context['parent']['path'], [request['spawn_call'], request['spawn_output']],
+                                    context['parent']['allowed_ranges'], context['parent']['physical'])['records']
+        spawn, reply = (r['row'] for r in observed)
+        answer = protocol.parse(reply['payload'].get('output'))
+        ident = answer.get('agent_id') if type(answer) is dict else None
+        require(type(ident) is str and re.fullmatch(protocol.UUID, ident), 'MECHANICAL_NATIVE_CHILD_ID_ABSENT')
+        child_path = _mechanical_child_path_v1(selected, ident)
+        held.enter_context(custody.held_file(child_path))
+        child, context['child'] = source(child_path, 'child')
+        association = protocol.native_spawn_identity(parent['payload'], child['payload'],
+                                                     spawn['payload'], reply['payload'], episode)
+        context.update({key: association[key] for key in ('parent_identity', 'actual_child_identity')})
+        context['canonical_logical_task'] = association['canonical_logical_task']
+        context['logical_task_basis'] = association['logical_task_basis']
+        context['native_agent_path'] = None
+        for key, role in (('open', 'parent'), ('spawn_call', 'parent'), ('spawn_output', 'parent'),
+                          ('child_activation', 'child'), ('parent_turn_start', 'parent')):
+            row, pin = obs.resolve_record(context, role, request[key])
+            context[key] = pin
+            if key == 'open':
+                obs.visible(row, {'CHILD_TASK': episode['logical_task'], 'CHILD_SKILL_SELECTED': 'audit-state',
+                                  'STATUS': 'OPEN', 'LOAD': 'UNVERIFIED'}, context=context)
+            if key == 'parent_turn_start':
+                require(row['type'] == 'event_msg' and row['payload'].get('type') == 'task_started', 'MECHANICAL_PARENT_TURN')
+        obs.before(context['parent_turn_start'], context['open'])
+        obs.before(context['open'], context['spawn_call'])
+        context['fresh_child_boundary'] = obs.fresh_child_boundary(context)
+        # Pin the actual startup settings content, never a caller-supplied hash.
+        records, _ = obs.hold_records(context)
+        settings = [r for r in records if r['row']['type'] == 'event_msg'
+                    and r['row']['payload'].get('type') == 'thread_settings_applied']
+        require(len(settings) == 1 and settings[0]['row']['payload'].get('thread_id') == ident,
+                'MECHANICAL_INITIAL_SETTINGS_REQUIRED')
+        context['_current_child_settings_sha256'] = obs.digest(obs.canonical(settings[0]['row']['payload']['thread_settings']))
+        require(_np_episode(runtime) == episode, 'MECHANICAL_OPEN_CHANGED_DURING_BIND')
+    return context

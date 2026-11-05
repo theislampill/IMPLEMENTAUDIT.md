@@ -83,6 +83,8 @@ def current_retained_locator(row, context):
     return r
 
 def current_record_metadata(row, context, active_turn=None, native_current_hold=False):
+    if mechanical_context(context):
+        return _mechanical_protocol(context).metadata_ok(row, active_turn)
     if 'metadata' not in row:
         return row['payload'].get('type') != 'message' or row['payload'].get('role') != 'assistant'
     if context.get('profile_id') not in (CURRENT_BOUNDARY_PROFILE, NONPROTECTED_PROFILE):
@@ -102,6 +104,8 @@ def current_record_metadata(row, context, active_turn=None, native_current_hold=
     return (kind == 'agent_message' or (kind == 'message' and p.get('role') == 'user')) and isinstance(m, dict) and (set(m) == {'client_authored', 'user_input_order'}) and (m['client_authored'] is False) and (type(m['user_input_order']) is int) and (m['user_input_order'] >= 0)
 
 def public_message(row, phase='commentary', context=None):
+    if context is not None and mechanical_context(context):
+        return _mechanical_protocol(context).public_text(row, phase)
     payload = row['payload']
     native_current = context is not None and context.get('profile_id') in (CURRENT_BOUNDARY_PROFILE, NONPROTECTED_PROFILE)
     if native_current:
@@ -140,7 +144,7 @@ def before(first, second):
 
 def resolve_record(context, role, locator):
     source = context[role]
-    observed = _nonprotected_read_records(context, role, [source['metadata'], locator]) if context['profile_id'] in SOURCE_PROFILES else read_records(source['path'], [source['metadata'], locator], source['allowed_ranges'], source['physical'])
+    observed = _nonprotected_read_records(context, role, [source['metadata'], locator]) if context['profile_id'] in PREPARATION_PROFILES else read_records(source['path'], [source['metadata'], locator], source['allowed_ranges'], source['physical'])
     meta, selected = observed['records']
     require(meta['row']['type'] == 'session_meta' and digest(canonical(meta['row']['payload'])) == source['metadata_payload_digest'], 'SOURCE_METADATA_CHANGED')
     require(role != 'child' or selected['row']['ordinal'] >= source['history_start_ordinal'], 'INHERITED_CHILD_RECORD')
@@ -169,6 +173,11 @@ def current_history_metadata_shape(metadata):
 
 def qualified_async_spawn(context):
     """Select the causal rule by the exact bound header, not a caller flag."""
+    if mechanical_context(context):
+        source = context['child']
+        row = read_records(source['path'], [source['metadata']], source['allowed_ranges'], source['physical'])['records'][0]['row']
+        require(digest(canonical(row['payload'])) == source['metadata_payload_digest'], 'SOURCE_METADATA_CHANGED')
+        return row['payload'].get('cli_version') == '0.166.0'
     if context.get('profile_id') != NONPROTECTED_PROFILE:
         return False
     source = context['child']
@@ -194,6 +203,8 @@ def load_acknowledgement_order(context, load_identity, route_pin):
 
 
 def fresh_child_boundary(context):
+    if mechanical_context(context):
+        return mechanical_fresh_boundary(context)
     require(context.get('profile_id') in (CURRENT_BOUNDARY_PROFILE, *SOURCE_PROFILES), 'CURRENT_FRESH_PROFILE_REQUIRED')
     source = context['child']
     metadata = read_records(source['path'], [source['metadata']], source['allowed_ranges'], source['physical'])['records'][0]['row']
@@ -218,17 +229,25 @@ def tool_input(command):
 
 def profile_tool_input(context, command):
     """Match the exact terminal LF emitted by this current host profile only."""
+    if mechanical_context(context):
+        return command
     require(isinstance(command, str) and (not command.endswith('\n')), 'TOOL_INPUT_BASE_SHAPE')
     if context.get('source_association') in ('PUBLIC_OPEN_SPAWN_ACTIVATION_STRUCTURAL_UNQUALIFIED', 'PUBLIC_BOUNDARY_CHILD_STRUCTURAL_UNQUALIFIED'):
         return command + '\n'
     return command
 
-def load_tool_input(skill_pin):
+def load_tool_input(skill_pin, context=None):
+    if context is not None and mechanical_context(context):
+        return mechanical_tool_input(context, 'LOAD', skill_pin)
     command = '$p = ' + shell_literal(skill_pin['path']) + '\n$b = [IO.File]::ReadAllBytes($p)\n'
     command += '[PSCustomObject]@{path=$p;bytes=$b.Length;sha256=(Get-FileHash -LiteralPath $p -Algorithm SHA256).Hash.ToLowerInvariant();utf8=[Text.Encoding]::UTF8.GetString($b)} | ConvertTo-Json -Compress'
     return tool_input(command)
 
-def delivery_tool_input(store, session, owner, request):
+def delivery_tool_input(store, session, owner, request, context=None):
+    if context is not None and mechanical_context(context):
+        require(context['_mechanical_pending_owner'] == {'store': str(store), 'session_id': session, 'owner_id': owner}, 'MECHANICAL_FIXED_PENDING_OWNER_DIFFERS')
+        require(request.get('phase') in ('deliver', 'bind'), 'MECHANICAL_OPERATION_UNSUPPORTED')
+        return mechanical_tool_input(context, request['phase'].upper(), request)
     pending = Path(__file__).resolve().with_name('compaction-audit-pending.py')
     command = shell_literal(json.dumps(request, sort_keys=True)) + ' | & ' + shell_literal(sys.executable)
     command += ' -I -S -B ' + shell_literal(pending) + ' --store ' + shell_literal(store)
@@ -257,6 +276,8 @@ def artifact(pin, maximum=1024 * 1024, admitted=None):
     return (raw, identity(before_stat))
 
 def command_response(context, role, call_locator, result_locator, expected_input):
+    if mechanical_context(context):
+        return mechanical_command_response(context, role, call_locator, result_locator, expected_input)
     call_row, call_pin = resolve_record(context, role, call_locator)
     output_row, output_pin = resolve_record(context, role, result_locator)
     call = call_row['payload']
@@ -271,13 +292,13 @@ def command_response(context, role, call_locator, result_locator, expected_input
 
 def authorization(context, prepared, evidence, skill_pin):
     closed(evidence, ('load_call', 'load_output', 'route', 'authorization'), 'AUTHORIZATION_EVIDENCE_SHAPE')
-    loaded_text, load_identity = command_response(context, 'child', evidence['load_call'], evidence['load_output'], profile_tool_input(context, load_tool_input(skill_pin)))
+    loaded_text, load_identity = command_response(context, 'child', evidence['load_call'], evidence['load_output'], profile_tool_input(context, load_tool_input(skill_pin, context=context)))
     loaded = json.loads(loaded_text, object_pairs_hook=unique)
     closed(loaded, ('path', 'bytes', 'sha256', 'utf8'), 'FULL_LOAD_CONTENT_SHAPE')
     skill_raw, _ = artifact(skill_pin)
     require({key: loaded[key] for key in ('path', 'bytes', 'sha256')} == skill_pin and loaded['utf8'].encode('utf-8') == skill_raw, 'ACTUAL_FULL_SKILL_LOAD_DIFFERS')
     route_row, route_pin = resolve_record(context, 'parent', evidence['route'])
-    task = context['actual_child_identity']['agent_path'].removeprefix('/root/')
+    task = context['canonical_logical_task'] if mechanical_context(context) else context['actual_child_identity']['agent_path'].removeprefix('/root/')
     visible(route_row, {'CHILD_TASK': task, 'CHILD_SKILL_ROUTE': 'audit-state', 'LOAD': 'VERIFIED'}, context=context)
     row, record_pin = resolve_record(context, 'parent', evidence['authorization'])
     value = typed_message(row, ('schema', 'action', 'parent_identity', 'actual_child_identity', 'obligation_digest', 'observation_id', 'load_observation_identity', 'selected_child', 'skill_source_pin', 'authority_ceiling'), 'implementaudit.compaction-use-authorization.v1', 'AUTHORIZE_BOUNDED_POST_COMPACTION_RECONCILIATION', context=context)
@@ -298,7 +319,7 @@ def completed_exchange(context, prepared, request, store, session, owner, skill_
     require(prepared['authorization'] is not None and prepared.get('delivery_request') is not None, 'OBLIGATION_NOT_DELIVERED')
     validated = authorization(context, prepared, prepared['authorization']['evidence'], skill_pin)
     require(validated == prepared['authorization'], 'PUBLIC_AUTHORIZATION_CHANGED')
-    text, identity = command_response(context, 'child', request['call'], request['result'], profile_tool_input(context, delivery_tool_input(store, session, owner, prepared['delivery_request'])))
+    text, identity = command_response(context, 'child', request['call'], request['result'], profile_tool_input(context, delivery_tool_input(store, session, owner, prepared['delivery_request'], context=context)))
     packet = json.loads(text, object_pairs_hook=unique)
     require(packet == delivery_packet(prepared, validated), 'ACTUAL_FULL_OBLIGATION_AUTHORIZATION_RESPONSE_DIFFERS')
     before(validated['record'], identity['call'])
@@ -393,7 +414,7 @@ def hold_records(context, cutoff=None, prior=None, until_call=None):
         physical_count = history['physical_records']
     # A fresh native child can contain more physical host rows than the selected
     # evidence window. Keep inherited/other-profile histories at the old bound.
-    record_limit = NONPROTECTED_HOLD_RECORDS if context.get('profile_id') == NONPROTECTED_PROFILE and source['history_start_ordinal'] == 1 and 'historical_prefix' not in source else MAX_RECORDS
+    record_limit = NONPROTECTED_HOLD_RECORDS if context.get('profile_id') in (NONPROTECTED_PROFILE, MECHANICAL_PROFILE) and source['history_start_ordinal'] == 1 and 'historical_prefix' not in source else MAX_RECORDS
     wires = []
     activation_seen = False
     original_seen = False
@@ -429,7 +450,7 @@ def hold_records(context, cutoff=None, prior=None, until_call=None):
                         require(row['ordinal'] == source['history_start_ordinal'], 'HOLD_ACTIVATION_COVERAGE_MISSING')
                     activation_seen = True
             if discovering and position == original['offset']:
-                require(all((locator[key] == original[key] for key in ('offset', 'bytes', 'sha256', 'embedded_ordinal'))) and (original['physical_line'] is None or locator['physical_line'] == original['physical_line']) and (row['type'] == 'response_item') and (row['payload'].get('type') == 'custom_tool_call') and (row['payload'].get('name') == 'exec') and (row['payload'].get('call_id') == until_call['call_id']), 'HOLD_ORIGINAL_CALL_DIFFERS')
+                require(all((locator[key] == original[key] for key in ('offset', 'bytes', 'sha256', 'embedded_ordinal'))) and (original['physical_line'] is None or locator['physical_line'] == original['physical_line']) and (row['type'] == 'response_item') and mechanical_call(context, row['payload']) and (row['payload'].get('call_id') == until_call['call_id']), 'HOLD_ORIGINAL_CALL_DIFFERS')
                 original_seen = True
             elif discovering and position > original['offset']:
                 require(original_seen, 'HOLD_ORIGINAL_CALL_NOT_COVERED')
@@ -438,7 +459,7 @@ def hold_records(context, cutoff=None, prior=None, until_call=None):
             digestor.update(wire)
             position += len(wire)
             physical_count += 1
-            if discovering and original_seen and (row['type'] == 'response_item') and (row['payload'].get('type') == 'custom_tool_call_output') and (row['payload'].get('call_id') == until_call['call_id']):
+            if discovering and original_seen and (row['type'] == 'response_item') and mechanical_output(context, row['payload']) and (row['payload'].get('call_id') == until_call['call_id']):
                 break
         if prior is not None and history is not None:
             stream.seek(0)
@@ -476,11 +497,16 @@ def original_bind_records(context, prepared, bind_request, store, session, owner
     records, prefix = hold_records(context, prior=prior, until_call={'path': context['child']['path'], 'physical': context['child']['physical'], 'locator': original['locator'], 'call_id': call_id})
     last = records[-1]
     completed = None
-    if last['row']['payload'].get('type') == 'custom_tool_call_output' and last['row']['payload'].get('call_id') == call_id:
+    if mechanical_output(context, last['row']['payload']) and last['row']['payload'].get('call_id') == call_id:
         completed = {key: resolve_record(context, 'child', locator)[1] for key, locator in (('call', original['locator']), ('result', last['locator']))}
     return (records, prefix, completed)
 
 def qualified_same_source_ticks(context, records):
+    if mechanical_context(context):
+        return (context['child']['history_start_ordinal'] == 1 and 'historical_prefix' not in context['child']
+                and records[0]['row']['payload'].get('cli_version') == '0.166.0'
+                and records[0]['row']['payload'].get('id') == context['actual_child_identity']['thread_id']
+                and records[0]['row']['payload'].get('session_id') == context['parent_identity']['thread_id'])
     admitted = (
         context['profile_id'] == OWNED_STDIO_PROFILE and
         context.get('source_association') == 'PUBLIC_BOUNDARY_CHILD_STRUCTURAL_UNQUALIFIED' and
@@ -537,7 +563,7 @@ def history_with_priors(context, prepared, exchange, bind_request, store, sessio
             actual = indexed.get(pin['locator']['offset'])
             require(pin['path'] == context['child']['path'] and pin['physical'] == context['child']['physical'] and (pin['role'] == 'child') and (pin['locator']['embedded_ordinal'] >= context['child']['history_start_ordinal']) and (actual is not None) and all((actual['locator'][key] == pin['locator'][key] for key in ('offset', 'bytes', 'sha256', 'embedded_ordinal'))) and (pin['locator']['physical_line'] is None or actual['locator']['physical_line'] == pin['locator']['physical_line']), 'HOLD_ANCHOR_COVERAGE_DIFFERS')
         current_pairs[pair['call']['locator']['offset']] = pair['result']['locator']['offset']
-    bind_input = profile_tool_input(context, delivery_tool_input(store, session, owner, bind_request))
+    bind_input = profile_tool_input(context, delivery_tool_input(store, session, owner, bind_request, context=context))
     marker = '// COMPACTION_OBSERVATION_EXCHANGE=' + exchange['identity'] + '\n'
 
     def witnessed(condition, reason, record):
@@ -560,7 +586,7 @@ def history_with_priors(context, prepared, exchange, bind_request, store, sessio
     # Same-source chronology comes from the complete checked physical history.
     # Cross-source before() and original call/result pairing remain unchanged.
     owned_physical_order = qualified_same_source_ticks(context, records)
-    native_current_hold = context['profile_id'] == NONPROTECTED_PROFILE and owned_physical_order
+    native_current_hold = context['profile_id'] in (NONPROTECTED_PROFILE, MECHANICAL_PROFILE) and owned_physical_order
     load_offset = prepared['authorization']['load_identity']['call']['locator']['offset']
     settings_required = native_current_hold and context.get('_current_child_settings_sha256') is not None
     settings_seen = 0
@@ -600,23 +626,26 @@ def history_with_priors(context, prepared, exchange, bind_request, store, sessio
             # The declaration is inert. Actual calls still pass the unchanged
             # operation, provenance, pairing and early-USE guards below.
             continue
-        witnessed(row['type'] == 'response_item' and (current_record_metadata(row, context, active_turn, native_current_hold) if context['profile_id'] in (CURRENT_BOUNDARY_PROFILE, NONPROTECTED_PROFILE) else 'metadata' not in row), 'HOLD_UNCLASSIFIED_EVENT', record)
+        witnessed(row['type'] == 'response_item' and (current_record_metadata(row, context, active_turn, native_current_hold) if context['profile_id'] in (CURRENT_BOUNDARY_PROFILE, NONPROTECTED_PROFILE, MECHANICAL_PROFILE) else 'metadata' not in row), 'HOLD_UNCLASSIFIED_EVENT', record)
         payload = row['payload']
         kind = payload.get('type')
-        if kind == 'custom_tool_call':
-            command = payload.get('input')
+        if kind == 'custom_tool_call' or (mechanical_context(context) and mechanical_call(context, payload)):
+            try:
+                command = mechanical_input(context, payload)
+            except ValueError as exc:
+                raise HoldObservationRefusal('HOLD_UNCLASSIFIED_TOOL_CALL:' + str(exc), prefix, record) from exc
             call_id = payload.get('call_id')
-            witnessed(payload.get('name') == 'exec' and isinstance(command, str) and isinstance(call_id, str) and call_id, 'HOLD_UNCLASSIFIED_TOOL_CALL', record)
+            witnessed(mechanical_call(context, payload) and isinstance(command, str) and isinstance(call_id, str) and call_id, 'HOLD_UNCLASSIFIED_TOOL_CALL', record)
             witnessed(not command.startswith(marker), 'HOLD_EARLY_SAME_EPISODE_USE', record)
             if record['locator']['offset'] in prior_occurrences:
                 continue
             witnessed(call_id not in calls, 'HOLD_UNCLASSIFIED_TOOL_CALL', record)
             if classify_prior_retry(context, record, records, prefix, current_call['locator']['offset'], prior_proofs, prior_occurrences, store, session, owner, occurrence_sink=occurrences if occurrence_sink is not None else None):
                 continue
-            foreign = re.match('^// COMPACTION_OBSERVATION_EXCHANGE=([0-9a-f]{64})\\n\\S', command)
+            foreign = None if mechanical_context(context) else re.match('^// COMPACTION_OBSERVATION_EXCHANGE=([0-9a-f]{64})\\n\\S', command)
             witnessed(record['locator']['offset'] in current_pairs or foreign is not None, 'HOLD_UNCLASSIFIED_TOOL_CALL', record)
             calls[call_id] = record['locator']['offset']
-        elif kind == 'custom_tool_call_output':
+        elif mechanical_output(context, payload):
             if record['locator']['offset'] in prior_occurrences:
                 continue
             call_id = payload.get('call_id')
@@ -676,13 +705,13 @@ def history_with_priors(context, prepared, exchange, bind_request, store, sessio
 
 def bind_entry_record(context, records, bind_request, store, session, owner):
     """Select the first physical original attempt, never a later same-ID reply."""
-    expected = profile_tool_input(context, delivery_tool_input(store, session, owner, bind_request))
-    matches = [record for record in records[1:] if record['row']['ordinal'] >= context['child']['history_start_ordinal'] and record['row']['type'] == 'response_item' and (record['row']['payload'].get('type') == 'custom_tool_call') and (record['row']['payload'].get('name') == 'exec') and (record['row']['payload'].get('input') == expected)]
+    expected = profile_tool_input(context, delivery_tool_input(store, session, owner, bind_request, context=context))
+    matches = [record for record in records[1:] if record['row']['ordinal'] >= context['child']['history_start_ordinal'] and record['row']['type'] == 'response_item' and mechanical_call(context, record['row']['payload']) and (mechanical_input(context, record['row']['payload']) == expected)]
     require(len(matches) == 1, 'HOLD_ORIGINAL_BIND_CALL_UNPROVED')
     original = matches[0]
     identifier = original['row']['payload'].get('call_id')
     require(isinstance(identifier, str) and identifier, 'HOLD_ORIGINAL_BIND_CALL_UNPROVED')
-    require(not any((record['locator']['offset'] > original['locator']['offset'] and record['row']['payload'].get('type') == 'custom_tool_call_output' and (record['row']['payload'].get('call_id') == identifier) for record in records)), 'HOLD_ORIGINAL_BIND_NOT_PENDING_AT_ENTRY')
+    require(not any((record['locator']['offset'] > original['locator']['offset'] and mechanical_output(context, record['row']['payload']) and (record['row']['payload'].get('call_id') == identifier) for record in records)), 'HOLD_ORIGINAL_BIND_NOT_PENDING_AT_ENTRY')
     return original
 
 def prior_candidate_shape(context, current, identifier, prior):
@@ -761,13 +790,13 @@ def classify_prior_retry(context, record, records, prefix, boundary, proofs, adm
     indexed = {item['locator']['offset']: item for item in records}
     for proof in proofs:
         prior, original = (proof['prior'], proof['original'])
-        bind_input = profile_tool_input(context, delivery_tool_input(store, session, owner, prior['bind_request']))
+        bind_input = profile_tool_input(context, delivery_tool_input(store, session, owner, prior['bind_request'], context=context))
         end = original['result']['locator']['offset'] + original['result']['locator']['bytes']
-        if not end <= offset < boundary or payload.get('input') != bind_input:
+        if not end <= offset < boundary or mechanical_input(context, payload) != bind_input:
             continue
         call_id = payload.get('call_id')
-        following = [item for item in records if offset < item['locator']['offset'] < boundary and item['row']['payload'].get('call_id') == call_id and (item['row']['payload'].get('type') in ('custom_tool_call', 'custom_tool_call_output'))]
-        require(following and following[0]['row']['payload'].get('type') == 'custom_tool_call_output', 'HOLD_PRIOR_RETRY_COMPLETION_UNPROVED')
+        following = [item for item in records if offset < item['locator']['offset'] < boundary and item['row']['payload'].get('call_id') == call_id and (mechanical_call(context, item['row']['payload']) or mechanical_output(context, item['row']['payload']))]
+        require(following and mechanical_output(context, following[0]['row']['payload']), 'HOLD_PRIOR_RETRY_COMPLETION_UNPROVED')
         response = following[0]
         try:
             text, pair = command_response(context, 'child', record['locator'], response['locator'], bind_input)
@@ -805,7 +834,7 @@ def _hold_history_unheld(context, prepared, exchange, bind_request, store, sessi
             source_request['child_thread_id'] = context['actual_child_identity']['thread_id']
         if context['profile_id'] in BOUNDARY_PROFILES:
             source_request['child_activation'] = context['child_activation']['locator']
-        if context['profile_id'] in SOURCE_PROFILES:
+        if context['profile_id'] in PREPARATION_PROFILES:
             nominations = {key: context[key]['locator'] for key in ('open', 'spawn_call', 'spawn_output', 'child_activation', 'parent_turn_start')}
             rebound = bind_nonprotected_sources(nominations, context['_source_profile_code_pins'])
             require(rebound['canonical_episode_binding']['opening_digest'] == context['canonical_episode_binding']['opening_digest'], 'NONPROTECTED_PRIOR_CANONICAL_OPEN_CHANGED')
@@ -816,6 +845,7 @@ def _hold_history_unheld(context, prepared, exchange, bind_request, store, sessi
     return history_with_priors(context, prepared, exchange, bind_request, store, session, owner, candidates, {}, occurrence_sink=occurrence_sink)
 
 def actual_result(context, prepared, evidence, store, session, owner, skill_pin, prior_context=None):
+    require(not mechanical_context(context), 'MECHANICAL_PROFILE_RETURN_JOIN_NOT_ADMITTED')
     closed(evidence, ('bound_exchange', 'use', 'child_final', 'parent_delivery'), 'ACTUAL_RESULT_EVIDENCE_SHAPE')
     require(prepared.get('exchange') is not None and prepared.get('bound_response') is not None, 'ACTUAL_CHILD_OBSERVATION_MISSING')
     exchange = completed_exchange(context, prepared, prepared['exchange']['evidence'], store, session, owner, skill_pin)
@@ -890,7 +920,7 @@ def acceptance(context, prepared, result, locator):
     return {'record': record_pin, 'value': value}
 
 def fixed_policy(code_pins, profile_id=None):
-    require(profile_id in SOURCE_PROFILES, 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED')
+    require(profile_id in PREPARATION_PROFILES, 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED')
     policy = nonprotected_fixed_policy(code_pins)
     require(policy['descriptor']['profile_id'] == profile_id, 'FIXED_SELECTED_PROFILE_DIFFERS')
     return policy
@@ -1112,7 +1142,9 @@ checked against actual wire bytes, with no assumption that the two are equal.
 NONPROTECTED_PROFILE = 'codex-app-bounded-public-nonprotected-v1'
 OWNED_STDIO_PROFILE = 'codex-app-server-0.153.4-owned-stdio-candidate-v1'
 SOURCE_PROFILES = (NONPROTECTED_PROFILE, OWNED_STDIO_PROFILE)
-BOUNDARY_PROFILES = (*BOUNDARY_PROFILES, *SOURCE_PROFILES)
+MECHANICAL_PROFILE = 'codex-app-server-0.166.0-linux-prior-mechanical-v1'
+PREPARATION_PROFILES = (*SOURCE_PROFILES, MECHANICAL_PROFILE)
+BOUNDARY_PROFILES = (*BOUNDARY_PROFILES, *PREPARATION_PROFILES)
 
 def _nonprotected_source_owner(code_pins):
     """Load the existing owner by exact verified bytes; never execute a reread."""
@@ -1146,7 +1178,7 @@ def _nonprotected_read_records(context, role, selectors):
         return read_records(source['path'], selectors, source['allowed_ranges'], source['physical'])
 
 def hold_history(context, prepared, exchange, bind_request, store, session, owner, prior_context=None, occurrence_sink=None):
-    if context['profile_id'] not in SOURCE_PROFILES:
+    if context['profile_id'] not in PREPARATION_PROFILES:
         return _hold_history_unheld(context, prepared, exchange, bind_request, store, session, owner, prior_context=prior_context, occurrence_sink=occurrence_sink)
     code_pins = context['_source_profile_code_pins']
     source_owner = _nonprotected_source_owner(code_pins)
@@ -1758,3 +1790,97 @@ def _validate_owned_stdio_host_binding_v1(binding, owner, context, policy):
         binding['child_source_physical'] == context['child']['physical'] and binding['authority_ceiling'] == 'NONE' and
         all(type(binding[key]) is str and re.fullmatch('[0-9a-f]{64}', binding[key])
             for key in ('parent_thread_read_response_sha256', 'child_thread_read_response_sha256')), 'OWNED_STDIO_HOST_BINDING_CHANGED')
+
+
+# Proposed additions to the existing compaction-result-observation.py owner.
+# This fragment is assembled, never imported or executed during preparation.
+
+def _mechanical_protocol(context):
+    import types
+    key = 'implementaudit/scripts/compaction-prior-protocol.py'
+    pins = context['_source_profile_code_pins']
+    require(key in pins, 'MECHANICAL_PROTOCOL_CODE_PIN_ABSENT')
+    path = Path(__file__).resolve().with_name('compaction-prior-protocol.py')
+    raw, _ = artifact({'path': str(path), 'bytes': path.stat().st_size,
+                       'sha256': pins[key]}, maximum=128 * 1024)
+    module = types.ModuleType('_codex0166_mechanical_protocol')
+    exec(compile(raw, str(path), 'exec', dont_inherit=True), module.__dict__)
+    require(module.PROFILE == MECHANICAL_PROFILE, 'MECHANICAL_PROTOCOL_PROFILE')
+    return module
+
+
+def mechanical_context(context):
+    return context.get('profile_id') == MECHANICAL_PROFILE
+
+
+def mechanical_call(context, payload):
+    if mechanical_context(context):
+        return _mechanical_protocol(context).is_call(payload)
+    return payload.get('type') == 'custom_tool_call' and payload.get('name') == 'exec'
+
+
+def mechanical_output(context, payload):
+    if mechanical_context(context):
+        return _mechanical_protocol(context).is_output(payload)
+    return payload.get('type') == 'custom_tool_call_output'
+
+
+def mechanical_input(context, payload):
+    if mechanical_context(context):
+        return _mechanical_protocol(context).call_input(payload)
+    return payload.get('input')
+
+
+def mechanical_tool_input(context, operation, request):
+    protocol = _mechanical_protocol(context)
+    return protocol.arguments_wire(protocol.arguments(
+        context['_mechanical_selection_sha256'], operation, request))
+
+
+def mechanical_command_response(context, role, call_locator, result_locator, expected_input):
+    require(role == 'child', 'MECHANICAL_CHILD_TOOL_REQUIRED')
+    call, call_pin = resolve_record(context, role, call_locator)
+    output, output_pin = resolve_record(context, role, result_locator)
+    protocol = _mechanical_protocol(context)
+    turn = call['payload'].get('internal_chat_message_metadata_passthrough', {}).get('turn_id')
+    require(call['type'] == output['type'] == 'response_item'
+            and protocol.metadata_ok(call, turn) and protocol.metadata_ok(output, turn),
+            'ACTUAL_HOST_CALL_RESULT_ASSOCIATION')
+    value = protocol.response_text(call['payload'], output['payload'], expected_input)
+    before(call_pin, output_pin)
+    return value, {'call': call_pin, 'result': output_pin}
+
+
+def mechanical_fresh_boundary(context):
+    source = context['child']
+    require(source['history_start_ordinal'] == 1 and 'historical_prefix' not in source,
+            'MECHANICAL_FRESH_CHILD_REQUIRED')
+    child = read_records(source['path'], [source['metadata']], source['allowed_ranges'], source['physical'])['records'][0]['row']
+    parent_source = context['parent']
+    parent = read_records(parent_source['path'], [parent_source['metadata']],
+                          parent_source['allowed_ranges'], parent_source['physical'])['records'][0]['row']
+    require(child['type'] == parent['type'] == 'session_meta' and child['ordinal'] == parent['ordinal'] == 0
+            and digest(canonical(child['payload'])) == source['metadata_payload_digest']
+            and digest(canonical(parent['payload'])) == parent_source['metadata_payload_digest'],
+            'SOURCE_METADATA_CHANGED')
+    call, call_pin = resolve_record(context, 'parent', context['spawn_call']['locator'])
+    output, output_pin = resolve_record(context, 'parent', context['spawn_output']['locator'])
+    bound = _mechanical_protocol(context).native_spawn_identity(
+        parent['payload'], child['payload'], call['payload'], output['payload'],
+        context['canonical_episode_binding'])
+    require(bound['actual_child_identity'] == context['actual_child_identity']
+            and bound['parent_identity'] == context['parent_identity'], 'MECHANICAL_CHILD_CHANGED')
+    activation, activation_pin = resolve_record(context, 'child', context['child_activation']['locator'])
+    require(activation_pin['locator']['offset'] == source['metadata']['bytes'] and activation['ordinal'] == 1
+            and activation['type'] == 'event_msg' and activation['payload'].get('type') == 'task_started'
+            and type(activation['payload'].get('turn_id')) is str and 'metadata' not in activation,
+            'CHILD_ACTIVATION_BOUNDARY')
+    before(call_pin, output_pin)
+    before(call_pin, activation_pin)
+    return {'schema': 'implementaudit.codex0166-fresh-mechanical-boundary.v1',
+            'metadata': source['metadata'], 'metadata_shape': current_history_metadata_shape(child['payload']),
+            'actual_spawn_call': call_pin, 'actual_spawn_output': output_pin,
+            'observed_fork_context': False, 'actual_activation': activation_pin,
+            'history_start_ordinal_from_activation': 1,
+            'native_agent_path': None, 'canonical_logical_task': bound['canonical_logical_task'],
+            'authority_ceiling': 'NONE'}

@@ -1619,6 +1619,41 @@ _NATIVE_INPUT_RESOLVED_V1 = None
 _NATIVE_INPUT_BINARY_PIN_V1 = None
 
 
+def _h0_mechanical_source_template_v1(raw):
+    """Recognize one reviewed mechanical source; grant no rotation input.
+
+    This profile exercises physical prior/retry occurrences only. Its private
+    selector is never an authentic usage/context-health issuer or C02 input
+    owner. Existing stdio templates still use their separate original path.
+    """
+    import ast
+    declarations = [node for node in ast.parse(raw).body
+                    if isinstance(node, ast.Assign) and len(node.targets) == 1
+                    and isinstance(node.targets[0], ast.Name)
+                    and node.targets[0].id == 'MECHANICAL_SELECTION_PIN']
+    if not declarations:
+        return False
+    if len(declarations) != 1:
+        raise RotationError('mechanical source selector is not one declared literal')
+    value = declarations[0].value
+    try:
+        pin = ast.literal_eval(value)
+    except (ValueError, TypeError):
+        raise RotationError('mechanical source selector is not a literal') from None
+    rows = raw.splitlines(keepends=True)
+    start = sum(map(len, rows[:value.lineno - 1])) + value.col_offset
+    end = sum(map(len, rows[:value.end_lineno - 1])) + value.end_col_offset
+    normalized = raw[:start] + b'None' + raw[end:]
+    if hashlib.sha256(normalized).hexdigest() != '5bb21eed89945a8da97857f980b1f85a06dc07df47b25475b9173f23e82ce8f8':
+        raise RotationError('mechanical source differs from the reviewed template')
+    if pin is not None and (type(pin) is not dict or set(pin) != {'path', 'bytes', 'sha256'}
+            or type(pin['path']) is not str or not Path(pin['path']).is_absolute()
+            or type(pin['bytes']) is not int or not 0 < pin['bytes'] <= 256 * 1024
+            or type(pin['sha256']) is not str or not SHA256.fullmatch(pin['sha256'])):
+        raise RotationError('mechanical source selector is malformed')
+    return True
+
+
 def _private_native_input_selection_v1(context):
     """Existing source-owned provider selection, through authenticated repo custody.
 
@@ -1647,6 +1682,8 @@ def _private_native_input_selection_v1(context):
         producer = PinnedFile(path, max_bytes=512 * 1024)
         held.append(producer)
         raw = producer.read()
+        if _h0_mechanical_source_template_v1(raw):
+            return None  # Mechanical H0 never becomes an authentic rotation-input owner.
         declarations = [node for node in ast.parse(raw).body if isinstance(node, ast.Assign)
                         and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name)
                         and node.targets[0].id == 'OWNED_STDIO_SELECTION_PIN']
@@ -4402,7 +4439,7 @@ def _initialization_sources():
              'canonical_hot_projection.py', 'canonical_rotation_inputs.py')
     paths = [owner / name for name in names]
     paths += [owner.parent / 'templates' / name for name in _INITIALIZATION_TEMPLATES]
-    optional = owner.parents[2] / 'scripts/check-cold-review-contract.sh'
+    optional = owner.parents[2] / 'scripts/check-cold-review-contract.sh'  # source repo: optional cold-review checker
     if os.path.lexists(optional):
         paths.append(optional)
     rows = []

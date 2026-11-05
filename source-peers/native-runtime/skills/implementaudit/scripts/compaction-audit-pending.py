@@ -530,7 +530,7 @@ def operate(store, session, owner, action, request):
                 if _nonprotected_reservation(request):
                     require(assignment['observation_source']['actual_child_identity']['thread_id'] == child and assignment['observation_source']['parent_identity']['thread_id'] == session, 'NONPROTECTED_RESERVED_ACTUAL_CHILD_DIFFERS')
                 context = assignment['observation_source']
-                if context['profile_id'] in (OBSERVATION.CURRENT_BOUNDARY_PROFILE, *OBSERVATION.SOURCE_PROFILES):
+                if context['profile_id'] in (OBSERVATION.CURRENT_BOUNDARY_PROFILE, *OBSERVATION.PREPARATION_PROFILES):
                     require(context['fresh_child_boundary'] == OBSERVATION.fresh_child_boundary(context), 'CURRENT_FRESH_SOURCE_BOUNDARY_CHANGED')
                 if context['profile_id'] in OBSERVATION.BOUNDARY_PROFILES:
                     require('scope' in request, 'EXACT_BOUNDARY_SCOPE_REQUIRED')
@@ -605,6 +605,8 @@ def operate(store, session, owner, action, request):
             assignment['observations'][identifier] = observation
             save(store, state)
             return {'observation_id': identifier, **observation, **CEILING}
+        if action in ('return', 'join'):
+            require(assignment.get('observation_source', {}).get('profile_id') != OBSERVATION.MECHANICAL_PROFILE, 'MECHANICAL_PROFILE_RETURN_JOIN_NOT_ADMITTED')
         if action == 'return':
             require(set(request) == {'child_id', 'observation_id', 'result_evidence'}, 'RETURN_SHAPE_OR_AUTHORITY_CLAIM')
             require(request['observation_id'] in assignment['observations'], 'UNOBSERVED_RETURN_SCOPE')
@@ -702,7 +704,7 @@ def nonprotected_code_identity():
     """Actual selected dependency closure; legacy identity stays unchanged."""
     skill = HERE.parent
     paths = [skill / 'SKILL.md', skill.parent / 'audit-state/SKILL.md', skill / 'references/child-agents.md', skill / 'references/continuity.md']
-    paths += [HERE / name for name in ('compaction-audit-pending.py', 'compaction-result-observation.py', 'compaction-source-owner-codex-app.py', 'codex-recovery-native-reader.py', 'bounded_file_custody.py', 'bounded_native_reader.py', 'bounded_source_owner.py', 'host-session-binding.py', 'route-transaction.py')]
+    paths += [HERE / name for name in ('compaction-audit-pending.py', 'compaction-result-observation.py', 'compaction-source-owner-codex-app.py', 'codex-recovery-native-reader.py', 'bounded_file_custody.py', 'bounded_native_reader.py', 'bounded_source_owner.py', 'host-session-binding.py', 'route-transaction.py', 'compaction-prior-protocol.py', 'compaction-prior-mcp.py')]
     pins = {}
     for path in paths:
         canonical_path, info = OBSERVATION.physical(path)
@@ -719,14 +721,14 @@ def _nonprotected_reservation(request):
     return isinstance(request.get('observation_source'), dict) and set(request['observation_source']) == {'open', 'spawn_call', 'spawn_output', 'child_activation', 'parent_turn_start'}
 
 def _assignment_code_identity(assignment):
-    if assignment.get('observation_source', {}).get('profile_id') in OBSERVATION.SOURCE_PROFILES:
+    if assignment.get('observation_source', {}).get('profile_id') in OBSERVATION.PREPARATION_PROFILES:
         return nonprotected_code_identity()
     return code_identity()
 
 def _rebind_selected_assignment(assignment, session, child):
     source_request = assignment['reservation_request']['observation_source']
     previous = assignment['observation_source']
-    if previous['profile_id'] not in OBSERVATION.SOURCE_PROFILES:
+    if previous['profile_id'] not in OBSERVATION.PREPARATION_PROFILES:
         return OBSERVATION.bind_sources(source_request, session, child)
     source = OBSERVATION.bind_nonprotected_sources(source_request, assignment['code'])
     require(source['canonical_episode_binding']['opening_digest'] == previous['canonical_episode_binding']['opening_digest'], 'NONPROTECTED_RELEASE_CANONICAL_OPEN_CHANGED')
@@ -760,7 +762,7 @@ def scan_source(path, prefix=None, *, require_c02_terminal=False):
     if str(path) != selected['root_source']:
         require(not require_c02_terminal, 'C02_FOREIGN_SOURCE_INTERVAL')
         return _scan_source_unheld(path, prefix)
-    custody = owner.selected_custody_v1(selected) if selected.get('profile_id') == getattr(owner,'FRESH_CANARY_PROFILE',None) else owner._np_module(selected['runtime_helpers']['bounded_file_custody.py'], 'bounded_file_custody.py')
+    custody = owner.selected_custody_v1(selected) if selected.get('profile_id') in (getattr(owner,'FRESH_CANARY_PROFILE',None), getattr(owner,'MECHANICAL_PROFILE',None)) else owner._np_module(selected['runtime_helpers']['bounded_file_custody.py'], 'bounded_file_custody.py')
     with custody.held_file(path):
         return _scan_source_unheld(path, prefix, native_cli_version=selected['cli_version'], require_c02_terminal=require_c02_terminal)
 

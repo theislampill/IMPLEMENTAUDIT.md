@@ -2091,6 +2091,17 @@ _NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
     ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
     ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
 ),)
+# Exact H0 source-template admission, with no authentic telemetry admission.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 32290, '9bce5c887cd89c2d2991b84f1bf765787e7a6b75a2eba29a8433c3a6c05f73a3', 420),
+    ('validate-run-root.sh', 114967, 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a', 420),
+    ('claim-run-rotation.py', 291624, '128dfe66ce656cd194d5fe1e55b245fecb1b4fd811dea87f75f8ace4a59a0487', 420),
+    ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+),)
 _NATIVE_LEGACY_CONTINUITY_PAIRS_V1 = (
     ('07e09843b2831149dc43e5f0dc458e82ae5cf9614b116393ac774ddea19390c7',
      'fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5'),
@@ -2150,6 +2161,8 @@ _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['aa98b1a45b9345d3ccf88611a7b90cd2939e04
 _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['d198e8c65c30c20cd33d0e3acf1e3a27f67b200e3bce521f018f8a947b9bf967'] = 91399
 
 _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['39fd9e9a2c9f07bbf10569e2811043e33b9097dcbd2126825e7e0c018f5ee2a3'] = 92708
+
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['a6ecc502ef72cdd280684353899f306a3d5dbd1a858c2ae9b39269e047d04760'] = 93973
 
 def _native_check_continuity_closure_v1(value, repository, compiler_path, pair):
     """Check the complete live source set at fixed paths, never captured paths.

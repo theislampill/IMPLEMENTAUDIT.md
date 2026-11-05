@@ -26,16 +26,12 @@ PREPARATION_FORBIDDEN = {'SOURCE_MUTATION', 'GRAPH_MUTATION', 'LIFECYCLE_CREDIT'
 PRODUCT_DISPOSITIONS = {'CONSUMED', 'COMPOSED', 'INTEGRATED', 'SUPERSEDED', 'REJECTED', 'EXPLICITLY_DEFERRED_TO_NAMED_JOIN'}
 PROXIMAL_SERIALIZATION_REASONS = {'HARD_PREREQUISITE', 'SHARED_WRITER_OR_RESOURCE', 'CURRENTNESS_OR_IDENTITY', 'IRREVERSIBLE_EFFECT_PRECONDITION', 'CONSEQUENCE_CONTROL', 'HOST_CAPACITY_OR_EXCLUSION'}
 PROXIMAL_LANE_STATUSES = {'PASS', 'FAIL', 'PENDING'}
-
 class WorkGraphError(ValueError):
     """The supplied WORK_GRAPH bytes do not satisfy the v1 contract."""
-
 def _reject_float(token: str) -> float:
     raise WorkGraphError(f'floats are forbidden: {token}')
-
 def _reject_constant(token: str) -> None:
     raise WorkGraphError(f'non-finite numbers are forbidden: {token}')
-
 def _decode_int(token: str) -> int:
     if token == '-0':
         raise WorkGraphError('negative zero is forbidden')
@@ -43,7 +39,6 @@ def _decode_int(token: str) -> int:
     if not INT64_MIN <= value <= INT64_MAX:
         raise WorkGraphError('integer outside signed 64-bit range')
     return value
-
 def _unique_object(pairs: list[tuple[str, JSONValue]]) -> dict[str, JSONValue]:
     result: dict[str, JSONValue] = {}
     for key, value in pairs:
@@ -51,11 +46,9 @@ def _unique_object(pairs: list[tuple[str, JSONValue]]) -> dict[str, JSONValue]:
             raise WorkGraphError(f'duplicate key: {key}')
         result[key] = value
     return result
-
 def _validate_scalar_unicode(value: str, path: str) -> None:
     if any((55296 <= ord(char) <= 57343 for char in value)):
         raise WorkGraphError(f'{path}: string contains a non-scalar surrogate')
-
 def validate_identity_json_v1(value: JSONValue, path: str='$') -> None:
     if value is None or type(value) is bool:
         return
@@ -78,11 +71,9 @@ def validate_identity_json_v1(value: JSONValue, path: str='$') -> None:
             validate_identity_json_v1(item, f'{path}.{key}')
         return
     raise WorkGraphError(f'{path}: floats and non-JSON values are forbidden')
-
 def canonical_json_v1(value: JSONValue) -> bytes:
     validate_identity_json_v1(value)
     return json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False, allow_nan=False).encode('utf-8')
-
 def decode_strict_json_bytes(raw: bytes, source: str) -> JSONValue:
     if not isinstance(raw, bytes):
         raise WorkGraphError(f'{source}: input must be bytes')
@@ -102,17 +93,14 @@ def decode_strict_json_bytes(raw: bytes, source: str) -> JSONValue:
     except (ValueError, RecursionError) as exc:
         raise WorkGraphError(f'{source}: JSON parser or validation limit exceeded') from exc
     return value
-
 def _require_object(value: JSONValue, path: str) -> dict[str, JSONValue]:
     if type(value) is not dict:
         raise WorkGraphError(f'{path}: object required')
     return value
-
 def _require_string(value: JSONValue, path: str) -> str:
     if type(value) is not str or not value:
         raise WorkGraphError(f'{path}: non-empty string required')
     return value
-
 def _require_string_list(value: JSONValue, path: str) -> list[str]:
     if type(value) is not list or not value:
         raise WorkGraphError(f'{path}: non-empty array required')
@@ -120,7 +108,6 @@ def _require_string_list(value: JSONValue, path: str) -> list[str]:
     if len(result) != len(set(result)):
         raise WorkGraphError(f'{path}: duplicate value')
     return result
-
 def _require_string_array(value: JSONValue, path: str) -> list[str]:
     if type(value) is not list:
         raise WorkGraphError(f'{path}: array required')
@@ -128,28 +115,23 @@ def _require_string_array(value: JSONValue, path: str) -> list[str]:
     if len(result) != len(set(result)):
         raise WorkGraphError(f'{path}: duplicate value')
     return result
-
 def _require_digest(value: JSONValue, path: str) -> str:
     result = _require_string(value, path)
     if not DIGEST_RE.fullmatch(result):
         raise WorkGraphError(f'{path}: 64-hex digest required')
     return result
-
 def _require_commit(value: JSONValue, path: str) -> str:
     result = _require_string(value, path)
     if not COMMIT_RE.fullmatch(result):
         raise WorkGraphError(f'{path}: 40-hex identity required')
     return result
-
 def _require_bool(value: JSONValue, path: str) -> bool:
     if type(value) is not bool:
         raise WorkGraphError(f'{path}: boolean required')
     return value
-
 def _require_exact_members(value: dict[str, JSONValue], expected: set[str], path: str) -> None:
     if set(value) != expected:
         raise WorkGraphError(f'{path}: exact members required')
-
 def _validate_product_result_v1(value: JSONValue, path: str, by_id: dict[str, dict[str, JSONValue]]) -> dict[str, JSONValue]:
     result = _require_object(value, path)
     if set(result) != {'product', 'disposition'}:
@@ -168,7 +150,6 @@ def _validate_product_result_v1(value: JSONValue, path: str, by_id: dict[str, di
     if kind not in PRODUCT_DISPOSITIONS:
         raise WorkGraphError(f'{path}.disposition: unknown disposition {kind}')
     return result
-
 def validate_product_authority_cli_path_v1(graph_bytes: bytes, graph_path: pathlib.Path, product_authority_path: pathlib.Path) -> None:
     """Bind the CLI's supplied authority file to the graph declaration."""
     decoded = decode_strict_json_bytes(graph_bytes, str(graph_path))
@@ -187,7 +168,6 @@ def validate_product_authority_cli_path_v1(graph_bytes: bytes, graph_path: pathl
         declared_path = graph_path.resolve().parent / declared_path
     if declared_path.resolve() != product_authority_path.resolve():
         raise WorkGraphError('qualified product authority: declared source path mismatch')
-
 def _validate_product_contract_v1(graph: dict[str, JSONValue], cells: list[dict[str, JSONValue]], by_id: dict[str, dict[str, JSONValue]], product_authority_bytes: bytes | None=None) -> dict[str, JSONValue] | None:
     topology_value = graph.get('integration_topology')
     topology = topology_value if type(topology_value) is dict else {}
@@ -312,7 +292,6 @@ def _validate_product_contract_v1(graph: dict[str, JSONValue], cells: list[dict[
         dispositions[product_commit] = disposition
     visiting_products: set[str] = set()
     visited_products: set[str] = set()
-
     def visit_product(commit: str) -> None:
         if commit in visiting_products:
             raise WorkGraphError(f'qualified product composition cycle includes {commit}')
@@ -372,7 +351,6 @@ def _validate_product_contract_v1(graph: dict[str, JSONValue], cells: list[dict[
             raise WorkGraphError('duplicate future consumer')
         future_consumers.append(item)
     return {'authority': source, 'source_cells': sorted(source_cells), 'non_cell_owners': non_cell_owners, 'join_owners': join_owners, 'bindings': bindings, 'commits': commits, 'dispositions': dispositions, 'composition_authorizations': authorizations, 'future_consumers': future_consumers}
-
 def _validate_preparation_v1(cell: dict[str, JSONValue], by_id: dict[str, dict[str, JSONValue]], groups: dict[str, JSONValue]) -> dict[str, JSONValue]:
     cell_id = str(cell['id'])
     value = _require_object(cell['preparation'], f'cell {cell_id} preparation')
@@ -472,7 +450,6 @@ def _validate_preparation_v1(cell: dict[str, JSONValue], by_id: dict[str, dict[s
     if activation != {'CURRENTNESS', 'DEPENDENCY_RESULTS', 'INTERFACE_ASSUMPTIONS', 'CAUSAL_RED'}:
         raise WorkGraphError(f'cell {cell_id}: incomplete activation revalidation')
     return value
-
 def _validate_graph(graph: dict[str, JSONValue], product_authority_bytes: bytes | None=None) -> list[dict[str, JSONValue]]:
     if graph.get('schema') != 'implementaudit.work-graph.v1':
         raise WorkGraphError('WORK_GRAPH.json: unsupported schema')
@@ -514,7 +491,6 @@ def _validate_graph(graph: dict[str, JSONValue], product_authority_bytes: bytes 
                 raise WorkGraphError(f'cell {cell_id}: unknown dependency {dep}')
     visiting: set[str] = set()
     visited: set[str] = set()
-
     def visit(cell_id: str) -> None:
         if cell_id in visiting:
             raise WorkGraphError(f'dependency cycle includes {cell_id}')
@@ -592,7 +568,6 @@ def _validate_graph(graph: dict[str, JSONValue], product_authority_bytes: bytes 
         if not hmac.compare_digest(digest, expected_digest):
             raise WorkGraphError('WORK_GRAPH.json: stale digest')
     return cells
-
 def summarize_blocked_v1(cells: list[dict[str, JSONValue]]) -> dict[str, JSONValue]:
     states = {str(cell['id']): str(cell['state']) for cell in cells}
     summary: dict[str, JSONValue] = {}
@@ -601,7 +576,6 @@ def summarize_blocked_v1(cells: list[dict[str, JSONValue]]) -> dict[str, JSONVal
             continue
         summary[str(cell['id'])] = sorted((str(dep) for dep in cell['deps'] if states[str(dep)] != 'DONE'))
     return summary
-
 def normalize_holds_v1(serialization_groups: JSONValue, kind: str) -> dict[str, JSONValue]:
     groups = _require_object(serialization_groups, '$.serialization_groups')
     if kind == 'writer':
@@ -611,7 +585,6 @@ def normalize_holds_v1(serialization_groups: JSONValue, kind: str) -> dict[str, 
     else:
         raise WorkGraphError(f'unknown hold kind: {kind}')
     return {group: sorted((str(member) for member in members)) for group, members in sorted(groups.items()) if selected(group)}
-
 def compile_preparation_frontier_v1(graph: dict[str, JSONValue], cells: list[dict[str, JSONValue]], graph_bytes: bytes) -> list[dict[str, JSONValue]]:
     graph_id = graph.get('graph_id')
     prepared = [cell for cell in cells if 'preparation' in cell]
@@ -630,7 +603,6 @@ def compile_preparation_frontier_v1(graph: dict[str, JSONValue], cells: list[dic
         record['record_sha256'] = hashlib.sha256(canonical_json_v1(record)).hexdigest()
         records.append(record)
     return sorted(records, key=lambda record: (-int(_require_object(record['rank'], 'rank')['terminal_unlock_value']), -int(_require_object(record['rank'], 'rank')['expected_reuse']), int(_require_object(record['rank'], 'rank')['cost']), int(_require_object(record['rank'], 'rank')['invalidation_risk']), str(record['cell_id'])))
-
 def validate_preparation_activation_v1(record: dict[str, JSONValue], *, current_receipt: str, current_graph_bytes: bytes, causal_red_passed: bool, current_product_authority_bytes: bytes | None=None) -> bool:
     """Fail closed unless every activation-time invalidator is re-observed."""
     if record.get('schema') != 'implementaudit.preparation-record.v1':
@@ -663,7 +635,6 @@ def validate_preparation_activation_v1(record: dict[str, JSONValue], *, current_
     if canonical_json_v1(current.get('graph')) != canonical_json_v1(record.get('graph')):
         raise WorkGraphError('preparation activation: exact graph binding changed')
     return True
-
 def compile_product_frontier_v1(graph: dict[str, JSONValue], cells: list[dict[str, JSONValue]], product_authority_bytes: bytes | None=None) -> dict[str, JSONValue] | None:
     by_id = {str(cell['id']): cell for cell in cells}
     contract = _validate_product_contract_v1(graph, cells, by_id, product_authority_bytes)
@@ -788,7 +759,6 @@ def compile_product_frontier_v1(graph: dict[str, JSONValue], cells: list[dict[st
     preparation_ids = [str(cell['id']) for cell in cells if 'preparation' in cell]
     summary = summarize_product_dispositions_v1([str(_require_object(entry['disposition'], 'disposition')['kind']) for entry in entries])
     return {'qualified_products': len(entries), 'current_products': len(entries) - counts['SUPERSEDED'] - counts['REJECTED'], 'integration_debt': counts['COMPOSED'] + counts['EXPLICITLY_DEFERRED_TO_NAMED_JOIN'], 'counts': counts, 'potentially_stranded': summary['potentially_stranded'], 'p0_execution_planning_escalation': summary['p0'], 'products': entries, 'composition_proposals': proposals, 'ready_preference': sorted(ready, key=lambda cell_id: (-target_counts.get(cell_id, 0), cell_id)), 'preparation_preference': sorted(preparation_ids, key=lambda cell_id: (-target_counts.get(cell_id, 0), cell_id))}
-
 def summarize_product_dispositions_v1(dispositions: list[str | None]) -> dict[str, JSONValue]:
     counts = {kind: 0 for kind in PRODUCT_DISPOSITIONS}
     stranded = 0
@@ -800,10 +770,8 @@ def summarize_product_dispositions_v1(dispositions: list[str | None]) -> dict[st
         else:
             raise WorkGraphError(f'product disposition {index}: unknown disposition {kind}')
     return {'total': len(dispositions), 'consumed': counts['CONSUMED'], 'composed': counts['COMPOSED'], 'integrated': counts['INTEGRATED'], 'superseded': counts['SUPERSEDED'], 'rejected': counts['REJECTED'], 'deferred': counts['EXPLICITLY_DEFERRED_TO_NAMED_JOIN'], 'potentially_stranded': stranded, 'p0': 'TRIGGERED' if stranded else 'NOT_TRIGGERED'}
-
 def _proximal_no_authority_v1() -> dict[str, JSONValue]:
     return {key: 'NONE' for key in ('closure', 'done', 'lifecycle_credit', 'merge', 'package', 'publication', 'release')}
-
 def _proximal_object_v1(value: JSONValue, path: str, fields: set[str], *, booleans: set[str]=frozenset(), digests: set[str]=frozenset()) -> dict[str, JSONValue]:
     result = _require_object(value, path)
     _require_exact_members(result, fields, path)
@@ -812,24 +780,20 @@ def _proximal_object_v1(value: JSONValue, path: str, fields: set[str], *, boolea
     for field in digests:
         _require_digest(result[field], f'{path}.{field}')
     return result
-
 def _proximal_candidate_v1(value: JSONValue, path: str) -> dict[str, JSONValue]:
     result = _proximal_object_v1(value, path, {'commit', 'tree', 'input_sha256', 'identity_frozen'}, booleans={'identity_frozen'}, digests={'input_sha256'})
     _require_commit(result['commit'], f'{path}.commit')
     _require_commit(result['tree'], f'{path}.tree')
     return result
-
 def _proximal_currentness_v1(value: JSONValue, path: str) -> dict[str, JSONValue]:
     result = _proximal_object_v1(value, path, {'receipt', 'current'}, booleans={'current'})
     receipt = _require_string(result['receipt'], f'{path}.receipt')
     if not RECEIPT_RE.fullmatch(receipt):
         raise WorkGraphError(f'{path}.receipt: continuity receipt required')
     return result
-
 def _proximal_digest_v1(value: dict[str, JSONValue]) -> dict[str, JSONValue]:
     value['digest'] = hashlib.sha256(canonical_json_v1(value)).hexdigest()
     return value
-
 def compile_proximal_schedule_v1(request_bytes: bytes) -> dict[str, JSONValue]:
     """Compile one transient, exact-identity proximal scheduling decision."""
     path = 'proximal scheduling request'
@@ -892,7 +856,6 @@ def compile_proximal_schedule_v1(request_bytes: bytes) -> dict[str, JSONValue]:
     if mode == 'SERIAL_EXECUTION' and reason == 'CONSEQUENCE_CONTROL':
         strategy = 'CONTAIN_AND_RECOVER'
     return _proximal_digest_v1({'schema': 'implementaudit.proximal-scheduling-projection.v1', 'request_sha256': hashlib.sha256(request_bytes).hexdigest(), 'candidate': candidate, 'currentness': currentness, 'minimum_recoverability_gate': gate, 'resilience_evidence_sha256': resilience['evidence_sha256'], 'proportionality': information, 'defensive_cost_basis': defensive_cost_basis, 'mode': mode, 'reason': reason, 'safety_strategy': strategy, 'lanes': lanes, 'authority': _proximal_no_authority_v1()})
-
 def _proximal_projection_v1(projection_bytes: bytes) -> dict[str, JSONValue]:
     path = 'proximal scheduling projection'
     fields = {'schema', 'request_sha256', 'candidate', 'currentness', 'minimum_recoverability_gate', 'resilience_evidence_sha256', 'proportionality', 'defensive_cost_basis', 'mode', 'reason', 'safety_strategy', 'lanes', 'authority', 'digest'}
@@ -923,7 +886,6 @@ def _proximal_projection_v1(projection_bytes: bytes) -> dict[str, JSONValue]:
     if not hmac.compare_digest(digest, hashlib.sha256(canonical_json_v1(unsigned)).hexdigest()):
         raise WorkGraphError(f'{path}: stale digest')
     return result
-
 def _proximal_action_context_v1(context_bytes: bytes) -> dict[str, JSONValue]:
     path = 'proximal action-selection context'
     result = _proximal_object_v1(decode_strict_json_bytes(context_bytes, path), path, {'schema', 'currentness', 'action_population', 'qualification'})
@@ -962,14 +924,12 @@ def _proximal_action_context_v1(context_bytes: bytes) -> dict[str, JSONValue]:
         raise WorkGraphError(f'{path}: NOT_REQUIRED cannot carry qualification')
     canonical_input = {'schema': result['schema'], 'currentness': currentness, 'action_population': {**population, 'actions': actions}, 'qualification': result['qualification']}
     return {**canonical_input, 'decision_sha256': hashlib.sha256(canonical_json_v1(canonical_input)).hexdigest(), 'applicable': applicable, 'applicability_reason': applicability_reason, 'target_effect_class': target_effect}
-
 def _rederive_proximal_projection_v1(request_bytes: bytes, projection_bytes: bytes) -> dict[str, JSONValue]:
     expected = compile_proximal_schedule_v1(request_bytes)
     projection = _proximal_projection_v1(projection_bytes)
     if not hmac.compare_digest(canonical_json_v1(expected), canonical_json_v1(projection)):
         raise WorkGraphError('proximal scheduling projection: request/projection mismatch')
     return projection
-
 def _proximal_evidence_applicability_v1(value: JSONValue, path: str) -> dict[str, JSONValue]:
     digest_fields = {'tested_product_input_sha256', 'source_dependency_slice_sha256', 'test_fixture_sha256', 'toolchain_environment_sha256', 'acceptance_contract_sha256'}
     result = _proximal_object_v1(value, path, digest_fields | {'authority_effect_class'}, digests=digest_fields)
@@ -977,7 +937,6 @@ def _proximal_evidence_applicability_v1(value: JSONValue, path: str) -> dict[str
     if authority_effect_class not in {'BOUNDED_CORRECTION', 'COMPONENT_ACCEPTANCE', 'INSTALL_CUTOVER', 'IRREVERSIBLE_HIGH_CONSEQUENCE_AUTHORITY_TRANSFER'}:
         raise WorkGraphError(f'{path}.authority_effect_class: unknown class')
     return result
-
 def _proximal_qualification_request_v1(value: JSONValue, path: str) -> dict[str, JSONValue]:
     result = _proximal_object_v1(value, path, {'change_set_sha256', 'source_dependency_slice_sha256', 'affected_contracts', 'applicability', 'prior_evidence', 'semantic_invalidation_radius', 'next_effect', 'reversible', 'blast_radius_bounded', 'object_class', 'meaningful_join', 'workflow_requested_qualification', 'preparation'}, booleans={'reversible', 'blast_radius_bounded'}, digests={'change_set_sha256', 'source_dependency_slice_sha256'})
     contracts = _require_string_array(result['affected_contracts'], f'{path}.affected_contracts')
@@ -1049,7 +1008,6 @@ def _proximal_qualification_request_v1(value: JSONValue, path: str) -> dict[str,
     preparation['prepared_artifact'] = prepared
     result['preparation'] = preparation
     return result
-
 def _proximal_evidence_dispositions_v1(prior: list[dict[str, JSONValue]], current: dict[str, JSONValue]) -> list[dict[str, JSONValue]]:
     """Revalidate buffered evidence without turning it into authority."""
     fields = ['tested_product_input_sha256', 'source_dependency_slice_sha256', 'test_fixture_sha256', 'toolchain_environment_sha256', 'acceptance_contract_sha256', 'authority_effect_class']
@@ -1065,7 +1023,6 @@ def _proximal_evidence_dispositions_v1(prior: list[dict[str, JSONValue]], curren
             disposition, reason = ('DISCARD', 'EVIDENCE_APPLICABILITY_CHANGED')
         dispositions.append({'evidence_sha256': item['evidence_sha256'], 'scope': item['scope'], 'disposition': disposition, 'reason': reason, 'changed_fields': changed, 'authority': _proximal_no_authority_v1()})
     return dispositions
-
 def _proximal_preparation_frontier_v1(request: dict[str, JSONValue]) -> dict[str, JSONValue]:
     preparation = request['preparation']
     states: list[str] = []
@@ -1078,7 +1035,6 @@ def _proximal_preparation_frontier_v1(request: dict[str, JSONValue]) -> dict[str
     if request['prior_evidence'] and preparation['consuming_join_available'] is not True:
         states.append('EVIDENCE_AVAILABLE_NOT_CONSUMABLE')
     return {'states': sorted(states), 'authority': _proximal_no_authority_v1(), 'reason': 'SAFE_PREPARATION_BEFORE_CONSUMING_JOIN' if preparation['consuming_join_available'] is not True else 'CONSUMING_JOIN_AVAILABLE_FOR_FRESH_APPLICABILITY_CHECK'}
-
 def derive_proximal_qualification_v1(value: JSONValue, path: str='proximal qualification') -> dict[str, JSONValue]:
     """Derive exact evidence depth for the next action, never lifecycle credit."""
     request = _proximal_qualification_request_v1(value, path)
@@ -1133,7 +1089,6 @@ def derive_proximal_qualification_v1(value: JSONValue, path: str='proximal quali
         broad_reason = None
         reuse_reason = None
     return {'change_set_sha256': request['change_set_sha256'], 'source_dependency_slice_sha256': request['source_dependency_slice_sha256'], 'affected_contracts': request['affected_contracts'], 'applicability_sha256': hashlib.sha256(canonical_json_v1(applicability)).hexdigest(), 'semantic_invalidation_radius': radius, 'next_effect': next_effect, 'object_class': object_class, 'meaningful_join': join, 'mode': mode, 'reason': reason, 'required_evidence': required, 'retained_evidence_sha256': retained, 'invalidated_evidence_sha256': invalidated, 'partial_rerun_evidence_sha256': partial_rerun, 'evidence_dispositions': dispositions, 'preparation_frontier': _proximal_preparation_frontier_v1(request), 'authority': _proximal_no_authority_v1(), 'broad_rerun_reason': broad_reason, 'reuse_reason': reuse_reason}
-
 def issue_proximal_advance_v1(context_bytes: bytes, request_bytes: bytes, projection_bytes: bytes) -> dict[str, JSONValue]:
     """Issue one no-lifecycle-authority token for an immediate decision."""
     context = _proximal_action_context_v1(context_bytes)
@@ -1148,7 +1103,6 @@ def issue_proximal_advance_v1(context_bytes: bytes, request_bytes: bytes, projec
     if projection['mode'] == 'STOP_RECONCILE':
         raise WorkGraphError('proximal advance: STOP projection forbids continuation')
     return _proximal_digest_v1({'schema': 'implementaudit.proximal-advance-token.v1', 'scope': 'ONE_IMMEDIATE_DECISION', 'decision_sha256': context['decision_sha256'], 'applicability_reason': context['applicability_reason'], 'request_sha256': projection['request_sha256'], 'projection_digest': projection['digest'], 'candidate': projection['candidate'], 'currentness': projection['currentness'], 'minimum_recoverability_gate': projection['minimum_recoverability_gate'], 'mode': projection['mode'], 'reason': projection['reason'], 'lanes': projection['lanes'], 'qualification': qualification, 'authority': _proximal_no_authority_v1()})
-
 def compile_proximal_action_selection_v1(context_bytes: bytes, request_bytes: bytes | None, projection_bytes: bytes | None, token_bytes: bytes | None) -> dict[str, JSONValue]:
     """Enforce the governor's transient proximal action-selection boundary."""
     context = _proximal_action_context_v1(context_bytes)
@@ -1166,7 +1120,6 @@ def compile_proximal_action_selection_v1(context_bytes: bytes, request_bytes: by
     if not hmac.compare_digest(canonical_json_v1(expected_token), token_bytes):
         raise WorkGraphError('proximal action selection: advance token is stale, reused, or forged')
     return _proximal_digest_v1({'schema': 'implementaudit.proximal-action-selection.v1', 'decision_sha256': context['decision_sha256'], 'applicable': True, 'decision': 'PROXIMAL_CLASSIFICATION_SATISFIED', 'applicability_reason': context['applicability_reason'], 'advance_allowed': True, 'currentness': context['currentness'], 'request_sha256': projection['request_sha256'], 'projection_digest': projection['digest'], 'mode': projection['mode'], 'reason': projection['reason'], 'lanes': projection['lanes'], 'qualification': expected_token['qualification'], 'authority': _proximal_no_authority_v1()})
-
 def _proximal_lane_v1(value: JSONValue, path: str) -> dict[str, JSONValue]:
     result = _proximal_object_v1(value, path, {'status', 'evidence_sha256'})
     status = _require_string(result['status'], f'{path}.status')
@@ -1178,7 +1131,6 @@ def _proximal_lane_v1(value: JSONValue, path: str) -> dict[str, JSONValue]:
     else:
         _require_digest(result['evidence_sha256'], f'{path}.evidence_sha256')
     return result
-
 def _proximal_contributors_v1(value: JSONValue, path: str) -> list[dict[str, JSONValue]]:
     if type(value) is not list:
         raise WorkGraphError(f'{path}: array required')
@@ -1193,7 +1145,6 @@ def _proximal_contributors_v1(value: JSONValue, path: str) -> list[dict[str, JSO
         seen.add(kind)
         result.append(contributor)
     return result
-
 def reconcile_proximal_results_v1(request_bytes: bytes, projection_bytes: bytes, results_bytes: bytes) -> dict[str, JSONValue]:
     """Reconcile distinct diagnostic/review evidence without merging authority."""
     projection = _rederive_proximal_projection_v1(request_bytes, projection_bytes)
@@ -1238,7 +1189,6 @@ def reconcile_proximal_results_v1(request_bytes: bytes, projection_bytes: bytes,
     else:
         disposition, andon, remaining = ('WAIT_FOR_OTHER_LANE', 'NONE', 'NONE')
     return _proximal_digest_v1({'schema': 'implementaudit.proximal-reconciliation.v1', 'projection_digest': projection['digest'], 'candidate': candidate, 'currentness': currentness, 'diagnostic': diagnostic, 'acceptance': acceptance, 'contributors': contributors, 'disposition': disposition, 'andon': andon, 'remaining_lane': remaining, 'authority': _proximal_no_authority_v1()})
-
 def compile_frontier_projection(graph_bytes: bytes, product_authority_bytes: bytes | None=None) -> dict[str, JSONValue]:
     decoded = decode_strict_json_bytes(graph_bytes, 'WORK_GRAPH.json')
     graph = _require_object(decoded, 'WORK_GRAPH.json')
@@ -1254,7 +1204,6 @@ def compile_frontier_projection(graph_bytes: bytes, product_authority_bytes: byt
         projection['product_frontier'] = products
     projection['digest'] = hashlib.sha256(canonical_json_v1(projection)).hexdigest()
     return projection
-
 def compile_native_a_g_v1(request_bytes: bytes) -> dict[str, JSONValue]:
     """Compile typed dependency, invalidation, and execution-owner facts.
 
@@ -1344,7 +1293,6 @@ def compile_native_a_g_v1(request_bytes: bytes) -> dict[str, JSONValue]:
         for path in cell['writes']:
             writers.setdefault(str(path), []).append(str(cell['id']))
     serialization_groups = {f'W_{path}': sorted(members) for path, members in sorted(writers.items()) if len(members) > 1}
-
     def boundary_groups(field: str, prefix: str) -> dict[str, list[str]]:
         groups: dict[str, list[str]] = {}
         for cell in cells:
@@ -1464,21 +1412,15 @@ def compile_native_a_g_v1(request_bytes: bytes) -> dict[str, JSONValue]:
             owner = 'CHILD_TASK'
         owner_projection.append({'id': item_id, 'owner': owner, 'authority': 'SOLE_GOVERNOR'})
     return {'schema': 'implementaudit.native-a-g.projection.v1', 'dependency': dependency_projection, 'conflicts': conflict_projection, 'schedule': schedule_projection, 'invalidation': invalidation_projection, 'execution_owner': owner_projection}
-
-
 # Earlier caller-fact interfaces gain no native authentication from the explicit interfaces below.
-
 NATIVE_FENCE = re.compile('(?m)^```implementaudit-work-graph\\r?\\n(.*?)\\r?\\n```[ \\t]*$', re.S)
 NATIVE_NODE_FIELDS = {'id', 'parent', 'kind', 'state', 'requires', 'optional', 'reads', 'writes', 'acceptance', 'resources', 'authority', 'effect', 'authorization', 'independence', 'resource_demand', 'rank', 'route_scopes', 'logical_delivery', 'future_consumer', 'invalidators', 'independent_results', 'context', 'done_evidence'}
-
 def _graph_hash(value):
     return hashlib.sha256(canonical_json_v1(value)).hexdigest()
-
 def _seal_graph(value):
     result = copy.deepcopy(value)
     result['digest'] = _graph_hash(result)
     return result
-
 def _check_graph_seal(value, schema):
     _require_object(value, schema)
     validate_identity_json_v1(value)
@@ -1508,12 +1450,10 @@ def _check_graph_seal(value, schema):
         _require_exact_members(binding, {'acquisition', 'controller', 'claim', 'receipt', 'epoch', 'candidate_head', 'candidate_tree', 'worktree_digest', 'continuity_helper_digest', 'source_digest', 'read_set', 'input_root_identity'}, 'native graph binding')
         if _replay_native_graph_v1(value) != value:
             raise WorkGraphError('native graph differs from source-derived projection')
-
 def _replay_native_graph_v1(graph, completion=None):
     # This is captured-data replay only. It cannot issue a native acquisition witness.
     replay = None if 'route_scope' not in graph else _RouteScopeObservation(graph['route_scope'], _CAPTURED_ROUTE_REPLAY_KEY, receiver_binding=graph.get('receiver_binding'))
     return _compile_native_documents_v1({k: v.encode('utf-8') for k, v in graph['source_documents'].items()}, {k: v for k, v in graph['binding'].items() if k != 'source_digest'}, _route_observation=replay, _completion=completion, _canonical_work_graph=None if 'canonical_work_graph' not in graph else graph['canonical_work_graph'].encode('utf-8'))
-
 def _native_strings(value, label):
     result = _require_string_array(value, label)
     if len(result) != len(set(result)):
@@ -1521,23 +1461,19 @@ def _native_strings(value, label):
     if any((not item.strip() or any((ord(c) < 32 for c in item)) for item in result)):
         raise WorkGraphError(f'{label}: non-empty printable strings required')
     return result
-
 def _native_name(value, label):
     value = _require_string(value, label)
     if not value.strip() or any((ord(c) < 32 for c in value)):
         raise WorkGraphError(f'{label}: non-empty printable string required')
     return value
-
 def _native_int(value, label, minimum=0):
     if type(value) is not int or not minimum <= value <= INT64_MAX:
         raise WorkGraphError(f'{label}: bounded integer >= {minimum} required')
     return value
-
 def _native_enum(value, choices, label):
     if type(value) is not str or value not in choices:
         raise WorkGraphError(f'{label}: unknown token')
     return value
-
 def _native_document(data, path, schema):
     try:
         text = data.decode('utf-8', 'strict')
@@ -1550,37 +1486,16 @@ def _native_document(data, path, schema):
     if obj.get('schema') != schema:
         raise WorkGraphError(f'{path}: unknown native metadata schema')
     return obj
-
-_NATIVE_STATIC_OWNER_SHA256 = 'bc4fbb2ed174b34c8ac853681d9b793988d876fa0b03145fcdadb769bec7c097'
-
-
-_NATIVE_STATIC_OWNER_BYTES = 421497
-
-
+_NATIVE_STATIC_OWNER_SHA256 = 'a3981bfac0c9a27e7d3e68089c13827bf99c65e01280b4a0f5bd3ddcc1e6ca6d'
+_NATIVE_STATIC_OWNER_BYTES = 422638
 NATIVE_SOURCE_MAX_ENTRIES = 1024
-
-
 NATIVE_SOURCE_MAX_FILES = 256
-
-
 NATIVE_SOURCE_MAX_FILE_BYTES = 256 * 1024
-
-
 NATIVE_SOURCE_MAX_TOTAL_BYTES = 4 * 1024 * 1024
-
-
 NATIVE_READ_MAX_ENTRIES = 4096
-
-
 NATIVE_READ_MAX_FILE_BYTES = 16 * 1024 * 1024
-
-
 NATIVE_READ_MAX_TOTAL_BYTES = 64 * 1024 * 1024
-
-
 NATIVE_STATIC_MAX_DEPTH = 16
-
-
 def _native_static_owner_module_v1():
     """Load exact source bytes, never execute an import-path reread."""
     import stat
@@ -1624,8 +1539,6 @@ def _native_static_owner_module_v1():
         return module, path, raw
     except (OSError, ImportError) as exc:
         raise WorkGraphError('native static source owner is unavailable or changed') from exc
-
-
 def _native_static_file_v1(owner, path, maximum, budget):
     import stat
     path = pathlib.Path(path).absolute()
@@ -1647,8 +1560,6 @@ def _native_static_file_v1(owner, path, maximum, budget):
         return raw, before.st_mode & 4095
     except (OSError, owner.OperationalEvidenceError) as exc:
         raise WorkGraphError('native static file custody or byte bound refused') from exc
-
-
 def _native_windows_directory_rows_v1(owner, kernel, handle, requested, budget):
     """Query FILE_ID_BOTH_DIR_INFO on the held object, never its pathname."""
     import ctypes
@@ -1727,8 +1638,6 @@ def _native_windows_directory_rows_v1(owner, kernel, handle, requested, budget):
                 raise OSError('native directory query offset bound refused')
             position += row.next_offset
     return sorted(rows)
-
-
 def _native_static_directory_v1(owner, path, budget):
     """Enumerate finitely while holding a non-alias directory chain."""
     import stat
@@ -1802,8 +1711,6 @@ def _native_static_directory_v1(owner, path, budget):
     finally:
         for handle in reversed(held):
             kernel.CloseHandle(handle) if kernel is not None else os.close(handle)
-
-
 _NATIVE_FIXED_GIT_READ_BOOTSTRAP = r'''
 import base64, hashlib, json, pathlib, sys, types
 request = json.loads(sys.stdin.buffer.read(2 * 1024 * 1024))
@@ -1826,8 +1733,6 @@ for command in commands:
     values.append(base64.b64encode(value).decode('ascii'))
 sys.stdout.write(json.dumps(values, separators=(',', ':')))
 '''
-
-
 def _native_continuity_host_v1():
     """Keep host-only primitives independent of optional route acquisition.
 
@@ -2142,8 +2047,8 @@ _NATIVE_COMBINED_CURRENT_PAIR_V1 = (
 _NATIVE_SIX_SOURCE_PAIR_V1 = (
     '50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383',
     'd8b046b5417dce13ed66a5ac5fffaf3d18fae40c97d42aef8b38470500d575a6')
-_NATIVE_CONTINUITY_TRANSPORT_SHA256 = '39fd9e9a2c9f07bbf10569e2811043e33b9097dcbd2126825e7e0c018f5ee2a3'
-_NATIVE_CONTINUITY_TRANSPORT_BYTES = 92708
+_NATIVE_CONTINUITY_TRANSPORT_SHA256 = 'a6ecc502ef72cdd280684353899f306a3d5dbd1a858c2ae9b39269e047d04760'
+_NATIVE_CONTINUITY_TRANSPORT_BYTES = 93973
 
 
 def _native_six_source_transport_v1(owner, claim_raw, validate_raw):
@@ -2463,6 +2368,7 @@ _NATIVE_ROUTE_PRODUCER_PROFILES_V1['5b6bb99bd4430e8b62883cc65a52d04a87c30a8fa7be
 _NATIVE_ROUTE_PRODUCER_PROFILES_V1['66140f18674686efbc87dbc92e4c9f3624637ec181280331d21461cc796d3919'] = 388043
 _NATIVE_ROUTE_PRODUCER_PROFILES_V1['c0a65ad074c2a157566390cda163d268d6230af707ad36bb13333ffa3cefb6a7'] = 388285
 _NATIVE_ROUTE_PRODUCER_PROFILES_V1['93cb1869e6800d1ea44d6e21dff8c814110856093723235b13a52ad9da6797b7'] = 388527
+_NATIVE_ROUTE_PRODUCER_PROFILES_V1['b998eb7c4cd96949e9f20a4e1340b4001fe4e0751225565775fdca1569563cab'] = 388769
 
 
 _NATIVE_ROUTE_OBSERVATION_KEY = object()

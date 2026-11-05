@@ -1621,6 +1621,27 @@ class CompositeSourceCases(unittest.TestCase):
                 finally:
                     session.close()
 
+    def test_prior_windows_load_binding_profile_has_exact_physical_members(self):
+        """Preserve the actual previous files; no native qualification transfer."""
+        import ast
+        nodes = ast.parse((ROOT / "scripts/work-graph-continuity-transport.py").read_bytes()).body
+        selected = [node for node in nodes if isinstance(node, ast.Assign)
+                    and len(node.targets) == 1 and isinstance(node.targets[0], ast.Subscript)
+                    and isinstance(node.targets[0].value, ast.Name)
+                    and node.targets[0].value.id == "SOURCE_PROFILES_V1"
+                    and ast.literal_eval(node.targets[0].slice) == "composite-20261105-r5-windows-load-binding-v1-core"]
+        self.assertEqual(len(selected), 1)
+        profile = ast.literal_eval(selected[0].value)
+        history = ROOT / "test-support/r5-h0-template-history/eb504b84-source/skills/implementaudit/scripts"
+        overrides = {"claim-run.sh", "claim-run-rotation.py"}
+        self.assertEqual({path.name for path in history.iterdir()}, overrides)
+        for name, size, digest, mode in profile:
+            path = (history if name in overrides else CORE) / name
+            raw = path.read_bytes()
+            self.assertEqual((len(raw), hashlib.sha256(raw).hexdigest()), (size, digest))
+        for name in overrides:
+            self.assertNotEqual((history / name).read_bytes(), (CORE / name).read_bytes())
+
     def test_prior_windows_capture_profile_has_exact_physical_members(self):
         """Actual copied file bytes; profile selection only, no native qualification."""
         import ast
@@ -1677,7 +1698,7 @@ class CompositeSourceCases(unittest.TestCase):
         previous = transport.SOURCE_PROFILES_V1['composite-20261029-dg18-native-resume-v1-core']
         self.assertEqual(transport.SOURCE_PROFILES_V1['composite-20261029-dg18-native-resume-v1-original14'][2][1:3],
                          (246657, '82ddcbb3cf476098fbcac57c0550d4240457688df2c4504c8ab8caea2c3367b1'))
-        profile = transport.SOURCE_PROFILES_V1['composite-20261105-r5-windows-load-binding-v1-core']
+        profile = transport.SOURCE_PROFILES_V1['composite-20261105-r5-h0-mechanical-template-v1-core']
         self.assertTrue(transport._windows_core_profile_v1(historical))
         self.assertTrue(transport._windows_core_profile_v1(previous))
         self.assertTrue(transport._windows_core_profile_v1(profile))
@@ -1709,9 +1730,15 @@ class CompositeSourceCases(unittest.TestCase):
         """Break caught: repaired helper bytes cannot reach a fixed accepting consumer."""
         transport = load("engineered_continuity_transport", ROOT / "scripts/work-graph-continuity-transport.py")
         owner = load("engineered_continuity_receiver", ROOT / "scripts/operational-evidence.py")
-        prefix = "composite-20261105-r5-windows-load-binding-v1-"
+        prefix = "composite-20261105-r5-h0-mechanical-template-v1-"
         previous = {name: rows for name, rows in transport.SOURCE_PROFILES_V1.items()
                     if not name.startswith(prefix)}
+        self.assertEqual(len(previous), 42)
+        self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
+                         separators=(",", ":")).encode()).hexdigest(),
+                         '130fe36bc1780d48a422d331e592fd4051e1994ce9849368fffdc74458d7cd94')
+        previous = {name: rows for name, rows in previous.items()
+                    if not name.startswith("composite-20261105-r5-windows-load-binding-v1-")}
         self.assertEqual(len(previous), 41)
         self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
                          separators=(",", ":")).encode()).hexdigest(),
@@ -1745,7 +1772,7 @@ class CompositeSourceCases(unittest.TestCase):
         self.assertEqual(hashlib.sha256(json.dumps(historical, sort_keys=True,
                          separators=(",", ":")).encode()).hexdigest(),
                          "50c356cb09ebd3bf3b5be64bab44ba966f758e0abe7f24b8d87c17ef2978dda6")
-        self.assertEqual(len(transport.SOURCE_PROFILES_V1), 42)
+        self.assertEqual(len(transport.SOURCE_PROFILES_V1), 43)
         for kind, directory in (("core", CORE), ("original14", PEER)):
             with self.subTest(kind=kind):
                 selected_name = prefix + kind if kind == "core" else "composite-20261104-dg17-dg18-custody-v1-original14"
@@ -1773,7 +1800,7 @@ class CompositeSourceCases(unittest.TestCase):
         import types
         owner = load("capture_receiver_shapes", ROOT / "scripts/operational-evidence.py")
         transport = load("capture_transport_shapes", ROOT / "scripts/work-graph-continuity-transport.py")
-        profile = transport.SOURCE_PROFILES_V1['composite-20261105-r5-windows-load-binding-v1-core']
+        profile = transport.SOURCE_PROFILES_V1['composite-20261105-r5-h0-mechanical-template-v1-core']
         pair = dict(claim_sha256=profile[0][2], validate_sha256=profile[1][2])
         source = ROOT / "scripts/work-graph-continuity-transport.py"
         raw = source.read_bytes()
@@ -2052,10 +2079,11 @@ else:
         fixture = load("composite_pending_fixture", ROOT / "tests/cognition-pending-durability.py")
         pins = fixture.source_pins(ROOT)
         selected = fixture.reservation_refusal_profile(pins)
-        self.assertEqual(selected["qualified_checkpoint"], 'source-sha256:5e10f2e36842c7f5dcfe5a131da43c502e9f36b0d1d727ca9bdb4412bde4c523')
+        self.assertEqual(selected["qualified_checkpoint"], 'source-sha256:5bb21eed89945a8da97857f980b1f85a06dc07df47b25475b9173f23e82ce8f8')
         self.assertEqual(selected["stored_json_refusal"], "PENDING_STATE_JSON")
         self.assertEqual(selected["nonfinite_counter_refusal"], "PENDING_STATE_JSON_CONSTANT")
         r3 = dict(pins)
+        r3[str(fixture.PEER / "compaction-result-observation.py")] = "15de2cb86378960163be08876876ff2473dc034704f6dad014d90a9bb7dc7156"
         r3[str(fixture.PEER / "compaction-audit-pending.py")] = "44f37242fed8e136b548172fdd8d95de270552d8c176e8563b5b4075ac059198"
         r3[str(fixture.PEER / "compaction-source-owner-codex-app.py")] = "8d6e51fcd82ab3d236c5b6707129228a73483fcb7700825c42b0fb797cef9ebf"
         self.assertEqual(fixture.reservation_refusal_profile(r3), {**selected,
