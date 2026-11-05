@@ -1,0 +1,33 @@
+{
+  "allocations": [
+    "fresh-isolated-subject-and-fixture-commit",
+    "fresh-controller",
+    "owned-native-binary-copy",
+    "one-loopback-emulated-provider",
+    "one-native-app-server",
+    "one-necessary-compact-resume",
+    "existing-external-host-store",
+    "existing-canonical-OPEN",
+    "seven-actual-MCP-occurrences",
+    "existing-live-reader-receiving",
+    "bounded-cleanup"
+  ],
+  "authentic_OR_authorized": false,
+  "author": "/root",
+  "authority": "Owner continuation sections 2,3,6,8,9; exact reviewed fresh H0 mechanical successor",
+  "automatic_retry": false,
+  "controller": "r5-h0-seven-occurrences-20261105-05",
+  "decision": "GO",
+  "expiry": "Original fixed host hold and execution clocks only; no extension or receipt transfer",
+  "host_request_sha256": "23a2e9059cde8520bf5757e192ebb4a6d8d6c5dccd41b2a947b8dea95f142ff5",
+  "input_custody_sha256": "18e7efcc0442d9b81ddadff7bee8fe3a47cc3bed8ebffdcd08c3beafcc5dd8fe",
+  "one_shot": true,
+  "original_acceptance": false,
+  "preparation_sha256": "1d8727e38b55b6a67f83bd7c824f61835acf21b6efb52dffe2d3aea307fde9c6",
+  "review_sha256": "6b04c7404c7271083f3ec21d0fd3d20b53b9e30a49bf823ab24a3963545b4a48",
+  "schema": "r5.h0-root-go.v1",
+  "scope": "One fresh05 subject only; existing prior83 archive and second pending observation remain untouched",
+  "source_commit": "481e529b691ed3d21169b07f376e357ae51f1f03",
+  "source_tree": "786b4bfaf39b5cc15ce9cf662a51d4518add4645",
+  "subject": "/home/runner/work/_temp/h0-held-05/private/subject"
+}

@@ -1,0 +1,8 @@
+{
+  "blocking_findings": [],
+  "decision": "PASS",
+  "host_request_sha256": "23a2e9059cde8520bf5757e192ebb4a6d8d6c5dccd41b2a947b8dea95f142ff5",
+  "preparation_sha256": "1d8727e38b55b6a67f83bd7c824f61835acf21b6efb52dffe2d3aea307fde9c6",
+  "reviewer": "/root/linux02_delta_review",
+  "schema": "r5.h0-independent-host-review.v1"
+}
