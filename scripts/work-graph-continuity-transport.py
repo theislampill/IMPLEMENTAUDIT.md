@@ -409,6 +409,17 @@ SOURCE_PROFILES_V1['composite-20261105-r5-windows-companion-capture-v1-core'] = 
     ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
     ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
 )
+# Exact R5 Windows internal load-binding successor; historical source profiles remain immutable.
+SOURCE_PROFILES_V1['composite-20261105-r5-windows-load-binding-v1-core'] = (
+    ('claim-run.sh', 32290, '58b2d0a257f90fcf50a87e9b4f31789bdf2bea1574d75ff55bcef7f80fd8e1bc', 420),
+    ('validate-run-root.sh', 114967, 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a', 420),
+    ('claim-run-rotation.py', 289555, '5563f6a8ccbdfdfeea25b6370a4fc7a94ca44f424187b6527d6103a9e56ba8bc', 420),
+    ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+)
 ORIGINAL14_SOURCE_PROFILES_V1 = tuple(rows for rows in SOURCE_PROFILES_V1.values() if rows[0][3] is None)
 ORIGINAL14_SOURCE_PROFILE_V1 = SOURCE_PROFILES_V1["r0039-original14-windows"]
 
@@ -502,10 +513,12 @@ _WINDOWS_R5_WINDOWS_INITIALIZATION_CORE8_PAIR_V1 = ('7320327b903714358647bdee550
 
 _WINDOWS_R5_WINDOWS_CAPTURE_CORE8_PAIR_V1 = ('dce0e6af8ce69e63283d0ed5ad1496779d5f2c1b90024c79228af5e22df75d4c', 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a')
 
+_WINDOWS_R5_WINDOWS_LOAD_BINDING_CORE8_PAIR_V1 = ('58b2d0a257f90fcf50a87e9b4f31789bdf2bea1574d75ff55bcef7f80fd8e1bc', 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a')
+
 def _windows_core_profile_v1(profile):
     return len(profile)==8 and tuple(row[2] for row in profile[:2]) in (
         _WINDOWS_CORE8_PAIR_V1, _WINDOWS_DG18_CORE8_PAIR_V1,
-        _WINDOWS_DG17_DG18_CUSTODY_CORE8_PAIR_V1, _WINDOWS_R4_CANARY_CORE8_PAIR_V1, _WINDOWS_R4_INITIALIZATION_CORE8_PAIR_V1, _WINDOWS_R5_WINDOWS_INITIALIZATION_CORE8_PAIR_V1, _WINDOWS_R5_WINDOWS_CAPTURE_CORE8_PAIR_V1)
+        _WINDOWS_DG17_DG18_CUSTODY_CORE8_PAIR_V1, _WINDOWS_R4_CANARY_CORE8_PAIR_V1, _WINDOWS_R4_INITIALIZATION_CORE8_PAIR_V1, _WINDOWS_R5_WINDOWS_INITIALIZATION_CORE8_PAIR_V1, _WINDOWS_R5_WINDOWS_CAPTURE_CORE8_PAIR_V1, _WINDOWS_R5_WINDOWS_LOAD_BINDING_CORE8_PAIR_V1)
 
 def _platform_source_profile_v1(profile):
     if os.name=='nt' and _windows_core_profile_v1(profile):

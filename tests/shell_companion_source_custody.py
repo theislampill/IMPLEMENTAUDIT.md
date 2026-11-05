@@ -671,5 +671,107 @@ class ShellCompanionSourceCustody(unittest.TestCase):
         self.assertNotEqual(self.invoke(args=['--require-current-continuity','post-write-failure']).returncode, 0)
 
 
+class CompanionLoadIdentityPredicate(unittest.TestCase):
+    """Synthetic metadata applied only to selected AST predicates; no native proof.
+
+    No filesystem stat call, UID, owner import, Windows process, controller or
+    publication is simulated. Actual runtime evidence belongs to the hosted lane.
+    """
+    BINDERS = ('_capture_claim_load_identity_v1', '_windows_custody')
+
+    def guard(self, binder, platform='win32', version=(3, 12, 10), os_name='nt', implementation='cpython'):
+        import ast
+        import copy
+        import types
+        tree = ast.parse((SOURCE / 'claim-run-rotation.py').read_bytes())
+        function = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == binder)
+        helpers = [copy.deepcopy(n) for n in tree.body if isinstance(n, ast.FunctionDef)
+                   and n.name in ('_claim_load_identity_v1', '_claim_load_cross_api_identity_v1',
+                                  '_claim_load_capture_unchanged_v1')]
+        local = [copy.deepcopy(n) for n in function.body if isinstance(n, ast.Assign)
+                 and len(n.targets) == 1 and isinstance(n.targets[0], ast.Name)
+                 and n.targets[0].id == 'identity' and isinstance(n.value, ast.Lambda)]
+        def metadata(term):
+            names = {n.id for n in ast.walk(term) if isinstance(n, ast.Name)}
+            return bool(names & {'identity', '_claim_load_cross_api_identity_v1',
+                                 '_claim_load_capture_unchanged_v1'})
+        candidates = []
+        for n in ast.walk(function):
+            if not (isinstance(n, ast.If) and len(n.body) == 1 and isinstance(n.body[0], ast.Raise)):
+                continue
+            terms = n.test.values if isinstance(n.test, ast.BoolOp) and isinstance(n.test.op, ast.Or) else [n.test]
+            selected = [copy.deepcopy(t) for t in terms if metadata(t)]
+            if selected:
+                test = selected[0] if len(selected) == 1 else ast.BoolOp(op=ast.Or(), values=selected)
+                names = {x.id for x in ast.walk(test) if isinstance(x, ast.Name)}
+                candidates.append(('terminal' if names & {'after', 'current'} else 'before_read', test, n.body))
+        self.assertEqual(sorted(name for name, _, _ in candidates), ['before_read', 'terminal'])
+        wrappers = []
+        for name, test, body in candidates:
+            wrapper = ast.parse('def ' + name + '(before, opened, after=None, current=None):\n    return True\n').body[0]
+            wrapper.body = copy.deepcopy(local) + [ast.If(test=test, body=copy.deepcopy(body), orelse=[])] + wrapper.body
+            wrappers.append(wrapper)
+        module = ast.fix_missing_locations(ast.Module(body=helpers + wrappers, type_ignores=[]))
+        namespace = dict(os=types.SimpleNamespace(name=os_name),
+                         sys=types.SimpleNamespace(platform=platform, version_info=version,
+                                                   implementation=types.SimpleNamespace(name=implementation)))
+        exec(compile(module, '<synthetic-selected-load-predicates>', 'exec'), namespace)
+        return namespace['before_read'], namespace['terminal']
+
+    def rows(self, split=True):
+        from types import SimpleNamespace
+        # Deliberately constructed integers, not a counterfeit native observation.
+        base = dict(st_dev=1, st_ino=2, st_mode=0o100644, st_nlink=1, st_size=10,
+                    st_ctime_ns=100, st_mtime_ns=200, st_birthtime_ns=100, st_file_attributes=32)
+        rows = [SimpleNamespace(**base) for _ in range(4)]
+        if split:
+            rows[1].st_ctime_ns = rows[2].st_ctime_ns = 200
+        return rows
+
+    def test_qualified_windows_split_is_accepted_by_each_binder(self):
+        for binder in self.BINDERS:
+            with self.subTest(binder=binder):
+                before_read, terminal = self.guard(binder)
+                rows = self.rows()
+                self.assertTrue(before_read(*rows[:2]))
+                self.assertTrue(terminal(*rows))
+                self.assertTrue(terminal(*self.rows(False)))
+
+    def test_each_common_or_same_api_field_mutation_is_refused(self):
+        for binder in self.BINDERS:
+            _, terminal = self.guard(binder)
+            for position in range(4):
+                for field in ('st_dev', 'st_ino', 'st_mode', 'st_nlink', 'st_size',
+                              'st_ctime_ns', 'st_mtime_ns', 'st_birthtime_ns', 'st_file_attributes'):
+                    rows = self.rows(); setattr(rows[position], field, getattr(rows[position], field) + 1)
+                    with self.subTest(binder=binder, position=position, field=field), self.assertRaises(ImportError):
+                        terminal(*rows)
+
+    def test_other_runtimes_keep_the_strict_chain(self):
+        contexts = [dict(os_name='posix', platform='linux'), dict(version=(3, 12, 9)),
+                    dict(version=(3, 12, 11)), dict(version=(3, 13, 0)),
+                    dict(platform='cygwin'), dict(implementation='pypy')]
+        for binder in self.BINDERS:
+            for context in contexts:
+                before_read, terminal = self.guard(binder, **context)
+                with self.subTest(binder=binder, context=context):
+                    self.assertTrue(terminal(*self.rows(False)))
+                    with self.assertRaises(ImportError): before_read(*self.rows()[:2])
+                    with self.assertRaises(ImportError): terminal(*self.rows())
+
+    def test_missing_or_wrong_type_common_metadata_fails_closed(self):
+        for binder in self.BINDERS:
+            _, terminal = self.guard(binder)
+            for position in range(4):
+                for field in ('st_birthtime_ns', 'st_file_attributes'):
+                    for value in (None, True, 1.5, '32'):
+                        rows = self.rows(); setattr(rows[position], field, value)
+                        with self.subTest(binder=binder, position=position, field=field, value=value), \
+                                self.assertRaisesRegex(ImportError, 'metadata is unavailable'):
+                            terminal(*rows)
+                    rows = self.rows(); delattr(rows[position], field)
+                    with self.assertRaisesRegex(ImportError, 'metadata is unavailable'): terminal(*rows)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

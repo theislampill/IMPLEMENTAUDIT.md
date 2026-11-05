@@ -22,6 +22,35 @@ import sys
 import time
 import types
 
+def _claim_load_identity_v1(info):
+    return (info.st_dev, info.st_ino, info.st_mode, info.st_nlink,
+            info.st_size, info.st_mtime_ns, info.st_ctime_ns)
+
+
+def _claim_load_cross_api_identity_v1(info):
+    # Same qualified path/descriptor distinction as the public shell capture.
+    # Preserve ctime in each same-API comparison; never erase a mutation check.
+    if (os.name == 'nt' and sys.platform == 'win32'
+            and sys.implementation.name == 'cpython'
+            and sys.version_info[:3] == (3, 12, 10)):
+        birthtime = getattr(info, 'st_birthtime_ns', None)
+        attributes = getattr(info, 'st_file_attributes', None)
+        if type(birthtime) is not int or type(attributes) is not int:
+            raise ImportError('Windows load identity metadata is unavailable')
+        return (info.st_dev, info.st_ino, info.st_mode, info.st_nlink,
+                info.st_size, info.st_mtime_ns, birthtime, attributes)
+    return _claim_load_identity_v1(info)
+
+
+def _claim_load_capture_unchanged_v1(before, opened, after, current):
+    return (_claim_load_identity_v1(before) == _claim_load_identity_v1(current)
+            and _claim_load_identity_v1(opened) == _claim_load_identity_v1(after)
+            and _claim_load_cross_api_identity_v1(before)
+                == _claim_load_cross_api_identity_v1(opened)
+                == _claim_load_cross_api_identity_v1(after)
+                == _claim_load_cross_api_identity_v1(current))
+
+
 # Bind the load snapshot to the actual executing module code, before any owner
 # read. A newly sampled disk hash alone must never relabel an older instance.
 def _capture_claim_load_identity_v1(executing_code):
@@ -30,19 +59,16 @@ def _capture_claim_load_identity_v1(executing_code):
     if (not stat.S_ISREG(before.st_mode) or before.st_nlink != 1
             or getattr(before, 'st_file_attributes', 0) & 0x400):
         raise ImportError('executing claim code has no ordinary physical source')
-    identity = lambda item: (item.st_dev, item.st_ino, item.st_mode, item.st_nlink,
-                             item.st_size, item.st_mtime_ns, item.st_ctime_ns)
     flags = (os.O_RDONLY | getattr(os, 'O_BINARY', 0) | getattr(os, 'O_NOFOLLOW', 0)
              | getattr(os, 'O_NONBLOCK', 0))
     with os.fdopen(os.open(path, flags), 'rb') as stream:
         opened = os.fstat(stream.fileno())
-        if identity(opened) != identity(before):
+        if _claim_load_cross_api_identity_v1(opened) != _claim_load_cross_api_identity_v1(before):
             raise ImportError('executing claim code source changed before load binding')
         raw = stream.read(512 * 1024 + 1)
         after = os.fstat(stream.fileno())
     current = os.lstat(path)
-    if (identity(before) != identity(opened) or identity(opened) != identity(after)
-            or identity(after) != identity(current) or len(raw) != before.st_size
+    if (not _claim_load_capture_unchanged_v1(before, opened, after, current) or len(raw) != before.st_size
             or len(raw) > 512 * 1024):
         raise ImportError('executing claim code source changed during load binding')
     compiled = compile(raw, executing_code.co_filename, 'exec', dont_inherit=True,
@@ -71,19 +97,16 @@ def _windows_custody():
     if (not stat.S_ISREG(before.st_mode) or before.st_nlink != 1
             or getattr(before, "st_file_attributes", 0) & 0x400):
         raise ImportError("canonical custody substrate is aliased or nonregular")
-    identity = lambda item: (item.st_dev, item.st_ino, item.st_mode, item.st_nlink,
-                             item.st_size, item.st_mtime_ns, item.st_ctime_ns)
     flags = (os.O_RDONLY | getattr(os, 'O_BINARY', 0) | getattr(os, 'O_NOFOLLOW', 0)
              | getattr(os, 'O_NONBLOCK', 0))
     with os.fdopen(os.open(path, flags), "rb") as stream:
         opened = os.fstat(stream.fileno())
-        if identity(opened) != identity(before):
+        if _claim_load_cross_api_identity_v1(opened) != _claim_load_cross_api_identity_v1(before):
             raise ImportError("canonical custody substrate source identity mismatch")
         raw = stream.read(36368)
         after = os.fstat(stream.fileno())
     current = os.lstat(path)
-    if (identity(before) != identity(opened) or identity(opened) != identity(after)
-            or identity(after) != identity(current)
+    if (not _claim_load_capture_unchanged_v1(before, opened, after, current)
             or len(raw) != 36367
             or hashlib.sha256(raw).hexdigest() != "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389"):
         raise ImportError("canonical custody substrate source identity mismatch")

@@ -1621,6 +1621,44 @@ class CompositeSourceCases(unittest.TestCase):
                 finally:
                     session.close()
 
+    def test_prior_windows_capture_profile_has_exact_physical_members(self):
+        """Actual copied file bytes; profile selection only, no native qualification."""
+        import ast
+        transport_source = ROOT / "scripts/work-graph-continuity-transport.py"
+        profile_name = "composite-20261105-r5-windows-companion-capture-v1-core"
+        declarations = [node for node in ast.parse(transport_source.read_bytes()).body
+                        if isinstance(node, ast.Assign) and len(node.targets) == 1
+                        and isinstance(node.targets[0], ast.Subscript)
+                        and isinstance(node.targets[0].value, ast.Name)
+                        and node.targets[0].value.id == "SOURCE_PROFILES_V1"
+                        and ast.literal_eval(node.targets[0].slice) == profile_name]
+        self.assertEqual(len(declarations), 1)
+        profile = ast.literal_eval(declarations[0].value)
+        history = ROOT / "test-support/r5-windows-load-binding-history/35bf982-source/skills/implementaudit/scripts"
+        overrides = {"claim-run.sh", "claim-run-rotation.py"}
+        self.assertEqual({path.name for path in history.iterdir()}, overrides)
+        self.assertEqual(profile[0][1:3],
+                         (32290, "dce0e6af8ce69e63283d0ed5ad1496779d5f2c1b90024c79228af5e22df75d4c"))
+        self.assertEqual(profile[2][1:3],
+                         (288439, "ce40c4410011e46b209df718207b58c15d18e60db1379e7b66b24f04616637f9"))
+        with tempfile.TemporaryDirectory(prefix="prior-windows-capture-source-") as temporary:
+            destination = Path(temporary)
+            for name, size, digest, mode in profile:
+                selected = (history if name in overrides else CORE) / name
+                raw = selected.read_bytes()
+                self.assertEqual((len(raw), hashlib.sha256(raw).hexdigest()), (size, digest))
+                target = destination / name
+                shutil.copyfile(selected, target)
+                target.chmod(mode)
+                self.assertEqual(target.read_bytes(), raw)
+            observed = tuple((name, len((destination / name).read_bytes()),
+                              hashlib.sha256((destination / name).read_bytes()).hexdigest(), mode)
+                             for name, _, _, mode in profile)
+            self.assertEqual(observed, profile)
+            self.assertEqual(len(observed), 8)
+        for name in overrides:
+            self.assertNotEqual((history / name).read_bytes(), (CORE / name).read_bytes())
+
     def test_retained_native_dependency_and_new_core_profiles_are_distinct(self):
         manifest = json.loads((ROOT / "source-peers/native-runtime/SOURCE_MANIFEST.json").read_bytes())
         retained = next(row for row in manifest["files"]
@@ -1639,7 +1677,7 @@ class CompositeSourceCases(unittest.TestCase):
         previous = transport.SOURCE_PROFILES_V1['composite-20261029-dg18-native-resume-v1-core']
         self.assertEqual(transport.SOURCE_PROFILES_V1['composite-20261029-dg18-native-resume-v1-original14'][2][1:3],
                          (246657, '82ddcbb3cf476098fbcac57c0550d4240457688df2c4504c8ab8caea2c3367b1'))
-        profile = transport.SOURCE_PROFILES_V1['composite-20261105-r5-windows-companion-capture-v1-core']
+        profile = transport.SOURCE_PROFILES_V1['composite-20261105-r5-windows-load-binding-v1-core']
         self.assertTrue(transport._windows_core_profile_v1(historical))
         self.assertTrue(transport._windows_core_profile_v1(previous))
         self.assertTrue(transport._windows_core_profile_v1(profile))
@@ -1671,9 +1709,15 @@ class CompositeSourceCases(unittest.TestCase):
         """Break caught: repaired helper bytes cannot reach a fixed accepting consumer."""
         transport = load("engineered_continuity_transport", ROOT / "scripts/work-graph-continuity-transport.py")
         owner = load("engineered_continuity_receiver", ROOT / "scripts/operational-evidence.py")
-        prefix = "composite-20261105-r5-windows-companion-capture-v1-"
+        prefix = "composite-20261105-r5-windows-load-binding-v1-"
         previous = {name: rows for name, rows in transport.SOURCE_PROFILES_V1.items()
                     if not name.startswith(prefix)}
+        self.assertEqual(len(previous), 41)
+        self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
+                         separators=(",", ":")).encode()).hexdigest(),
+                         'e2b85eb225fcaf5845711833b48ae39afa850ded317dff86f6ae756294662c4d')
+        previous = {name: rows for name, rows in previous.items()
+                    if not name.startswith("composite-20261105-r5-windows-companion-capture-v1-")}
         self.assertEqual(len(previous), 40)
         self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
                          separators=(",", ":")).encode()).hexdigest(),
@@ -1701,7 +1745,7 @@ class CompositeSourceCases(unittest.TestCase):
         self.assertEqual(hashlib.sha256(json.dumps(historical, sort_keys=True,
                          separators=(",", ":")).encode()).hexdigest(),
                          "50c356cb09ebd3bf3b5be64bab44ba966f758e0abe7f24b8d87c17ef2978dda6")
-        self.assertEqual(len(transport.SOURCE_PROFILES_V1), 41)
+        self.assertEqual(len(transport.SOURCE_PROFILES_V1), 42)
         for kind, directory in (("core", CORE), ("original14", PEER)):
             with self.subTest(kind=kind):
                 selected_name = prefix + kind if kind == "core" else "composite-20261104-dg17-dg18-custody-v1-original14"
@@ -1729,7 +1773,7 @@ class CompositeSourceCases(unittest.TestCase):
         import types
         owner = load("capture_receiver_shapes", ROOT / "scripts/operational-evidence.py")
         transport = load("capture_transport_shapes", ROOT / "scripts/work-graph-continuity-transport.py")
-        profile = transport.SOURCE_PROFILES_V1['composite-20261105-r5-windows-companion-capture-v1-core']
+        profile = transport.SOURCE_PROFILES_V1['composite-20261105-r5-windows-load-binding-v1-core']
         pair = dict(claim_sha256=profile[0][2], validate_sha256=profile[1][2])
         source = ROOT / "scripts/work-graph-continuity-transport.py"
         raw = source.read_bytes()

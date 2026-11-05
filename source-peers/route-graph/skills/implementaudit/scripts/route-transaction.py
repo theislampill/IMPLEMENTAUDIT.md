@@ -5686,6 +5686,8 @@ _R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (31280, '7320327b9037
 
 _R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (32290, 'dce0e6af8ce69e63283d0ed5ad1496779d5f2c1b90024c79228af5e22df75d4c'), 'claim-run-rotation.py': (288439, 'ce40c4410011e46b209df718207b58c15d18e60db1379e7b66b24f04616637f9')},)
 
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (32290, '58b2d0a257f90fcf50a87e9b4f31789bdf2bea1574d75ff55bcef7f80fd8e1bc'), 'claim-run-rotation.py': (289555, '5563f6a8ccbdfdfeea25b6370a4fc7a94ca44f424187b6527d6103a9e56ba8bc')},)
+
 def original14_retained_predecessor_v1(
     repo, token, fields, *, controller, claim, run_identity, generation,
     current_receipt, explicit_run_root,
