@@ -1,0 +1,279 @@
+name: R5 fresh Linux original14 nine-case bank episode
+
+on:
+  push:
+    branches:
+      - pro/dg16-r5-linux-native-episode-03-20261105
+    paths:
+      - .github/workflows/dg16-r5-linux-native-episode.yml
+      - qualification/dg16-r5-linux-native-episode/run.py
+      - qualification/dg16-r5-linux-native-episode/host_utility.py
+      - qualification/dg16-r5-linux-native-episode/SOURCE_MANIFEST.json
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dg16-r5-linux-native-episode-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  native-receiving-bank:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/pro/dg16-r5-linux-native-episode-03-20261105' &&
+      github.event.deleted == false &&
+      github.run_attempt == '1'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 18
+    steps:
+      - name: Check out the exact reviewed packet commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Check out the published exact bank source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 539aa846e37eab2dd527912d5e5eaa95f69d61cf
+          path: qualified-source
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Bind real host, exact source and absence of prior controller refs
+        id: preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-linux-native-episode/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'd4be0203f15951d2c02f7cf4facf720cf716559af069e20f7a75e68f9e52a1c0' ]]; then
+            echo 'DG16_LINUX_NATIVE_EPISODE {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step preflight \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-linux-native-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Claim and author the actual fresh task, then inspect and activate it
+        id: initialize
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-linux-native-episode/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'd4be0203f15951d2c02f7cf4facf720cf716559af069e20f7a75e68f9e52a1c0' ]]; then
+            echo 'DG16_LINUX_NATIVE_EPISODE {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step initialize \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-linux-native-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Read the freshly bound controller in the same checkout
+        id: discover
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-linux-native-episode/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'd4be0203f15951d2c02f7cf4facf720cf716559af069e20f7a75e68f9e52a1c0' ]]; then
+            echo 'DG16_LINUX_NATIVE_EPISODE {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step discover \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-linux-native-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Record the actual fresh hosted new-session boundary
+        id: invalidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-linux-native-episode/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'd4be0203f15951d2c02f7cf4facf720cf716559af069e20f7a75e68f9e52a1c0' ]]; then
+            echo 'DG16_LINUX_NATIVE_EPISODE {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step invalidate \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-linux-native-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Read STATE in one completed host action
+        id: read_state
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-linux-native-episode/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'd4be0203f15951d2c02f7cf4facf720cf716559af069e20f7a75e68f9e52a1c0' ]]; then
+            echo 'DG16_LINUX_NATIVE_EPISODE {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step read-state \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-linux-native-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Read ROADMAP in a separate completed host action
+        id: read_roadmap
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-linux-native-episode/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'd4be0203f15951d2c02f7cf4facf720cf716559af069e20f7a75e68f9e52a1c0' ]]; then
+            echo 'DG16_LINUX_NATIVE_EPISODE {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step read-roadmap \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-linux-native-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Request fresh G0001 continuity through the maintained owner
+        id: resume
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-linux-native-episode/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'd4be0203f15951d2c02f7cf4facf720cf716559af069e20f7a75e68f9e52a1c0' ]]; then
+            echo 'DG16_LINUX_NATIVE_EPISODE {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step resume \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-linux-native-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Verify the actual owner-issued resume receipt
+        id: verify
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-linux-native-episode/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'd4be0203f15951d2c02f7cf4facf720cf716559af069e20f7a75e68f9e52a1c0' ]]; then
+            echo 'DG16_LINUX_NATIVE_EPISODE {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step verify \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-linux-native-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Require current continuity through the maintained owner
+        id: require
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-linux-native-episode/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'd4be0203f15951d2c02f7cf4facf720cf716559af069e20f7a75e68f9e52a1c0' ]]; then
+            echo 'DG16_LINUX_NATIVE_EPISODE {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step require \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-linux-native-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Execute the unchanged nine-case native receiving bank once
+        id: bank
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-linux-native-episode/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'd4be0203f15951d2c02f7cf4facf720cf716559af069e20f7a75e68f9e52a1c0' ]]; then
+            echo 'DG16_LINUX_NATIVE_EPISODE {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step bank \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-linux-native-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Receive the bounded bank result while the same checkout is current
+        id: receive
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-linux-native-episode/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'd4be0203f15951d2c02f7cf4facf720cf716559af069e20f7a75e68f9e52a1c0' ]]; then
+            echo 'DG16_LINUX_NATIVE_EPISODE {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step receive \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-linux-native-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Retain sanitized evidence and closing currentness before teardown
+        id: finalize
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-linux-native-episode/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'd4be0203f15951d2c02f7cf4facf720cf716559af069e20f7a75e68f9e52a1c0' ]]; then
+            echo 'DG16_LINUX_NATIVE_EPISODE {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step finalize \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-linux-native-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Validate and emit the exact seven public records
+        id: emit
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-linux-native-episode/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'd4be0203f15951d2c02f7cf4facf720cf716559af069e20f7a75e68f9e52a1c0' ]]; then
+            echo 'DG16_LINUX_NATIVE_EPISODE {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --emit-public \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-linux-native-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Upload exactly the validated sanitized JSON population
+        if: always() && steps.emit.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg16-linux-native-episode-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/dg16-linux-native-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/RESULT.json
+            ${{ runner.temp }}/dg16-linux-native-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/HOST.json
+            ${{ runner.temp }}/dg16-linux-native-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/SOURCE.json
+            ${{ runner.temp }}/dg16-linux-native-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/PROBE.json
+            ${{ runner.temp }}/dg16-linux-native-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/CLEANUP.json
+            ${{ runner.temp }}/dg16-linux-native-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/FAILURE.json
+            ${{ runner.temp }}/dg16-linux-native-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/ARTIFACT_MANIFEST.json
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 7
+          compression-level: 6
