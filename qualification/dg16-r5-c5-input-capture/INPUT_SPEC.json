@@ -1,0 +1,611 @@
+{
+  "ancestry_diagnostics": {
+    "fixed_paths": {
+      "/usr/bin/git": "HOST_GIT",
+      "/usr/bin/python3.12": "HOST_PYTHON",
+      "/usr/lib": "PROVIDER_PARENT",
+      "/usr/lib/implementaudit-c5-r5-hosted-python312-03-v1/lib/python3.12/site-packages": "PROVIDER_SITE"
+    },
+    "limits": {
+      "checks": 4,
+      "components_per_check": 16,
+      "encoded_bytes": 16384
+    }
+  },
+  "authority": "NONE",
+  "catalog_transport": {
+    "per_part_decoded_bytes": 1048576,
+    "reason": "Complete custody metadata spread over four fixed files; original raw and encoded public byte limits unchanged",
+    "runtime_aggregate_decoded_bytes": 2097152,
+    "runtime_parts": 4
+  },
+  "external_effects": false,
+  "host_utility_scope": "CAPTURE_AND_OWNED_CHILD_CLEANUP_ONLY_NO_CONTEXT_OR_PRIMITIVE_BANK",
+  "host_utility_sha256": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c",
+  "new_provider_root": "/usr/lib/implementaudit-c5-r5-hosted-python312-03-v1",
+  "original_c5_started": false,
+  "profile_qualified": false,
+  "prospective_branch": "pro/dg16-r5-c5-input-capture-03-20261105",
+  "provider_allocation": "MUST_BE_ABSENT_CREATE_EXCLUSIVELY_AS_ACTUAL_ROOT_NO_CHOWN_NO_OVERWRITE",
+  "public_allowlist": [
+    "ARTIFACT_MANIFEST.json",
+    "DIFFERENCES.json",
+    "HOST.json",
+    "PROVIDER.json",
+    "RESULT.json",
+    "RUNTIME_A.json",
+    "RUNTIME_B.json",
+    "RUNTIME_C.json",
+    "RUNTIME_D.json",
+    "SETUP.json",
+    "SOURCE.json"
+  ],
+  "public_limits": {
+    "encoded_line_bytes": 262144,
+    "encoded_log_bytes": 1048576,
+    "file_bytes": 65536,
+    "total_bytes": 262144
+  },
+  "required_actual_observer": {
+    "egid": 0,
+    "euid": 0,
+    "gid": 0,
+    "uid": 0
+  },
+  "runner": "ubuntu-24.04",
+  "runtime_bounds": {
+    "depth": 40,
+    "entries": 4096,
+    "file_bytes": 33554432,
+    "mounted_bytes": 134217728,
+    "total_bytes": 134217728,
+    "unique_bytes": 134217728
+  },
+  "schema": "dg16.g1.c5-capture-preparation-spec.v1",
+  "selected_libraries": [
+    "libacl.so.1",
+    "libattr.so.1",
+    "libbrotlicommon.so.1",
+    "libbrotlidec.so.1",
+    "libbz2.so.1.0",
+    "libc.so.6",
+    "libcom_err.so.2",
+    "libcrypt.so.1",
+    "libcrypto.so.3",
+    "libcurl-gnutls.so.4",
+    "libdb-5.3.so",
+    "libexpat.so.1",
+    "libffi.so.8",
+    "libgmp.so.10",
+    "libgnutls.so.30",
+    "libgssapi_krb5.so.2",
+    "libhogweed.so.6",
+    "libidn2.so.0",
+    "libk5crypto.so.3",
+    "libkeyutils.so.1",
+    "libkrb5.so.3",
+    "libkrb5support.so.0",
+    "liblber.so.2",
+    "libldap.so.2",
+    "liblzma.so.5",
+    "libm.so.6",
+    "libncursesw.so.6",
+    "libnettle.so.8",
+    "libnghttp2.so.14",
+    "libp11-kit.so.0",
+    "libpanelw.so.6",
+    "libpcre2-8.so.0",
+    "libpsl.so.5",
+    "libreadline.so.8",
+    "libresolv.so.2",
+    "librtmp.so.1",
+    "libsasl2.so.2",
+    "libselinux.so.1",
+    "libsqlite3.so.0",
+    "libssh.so.4",
+    "libssl.so.3",
+    "libtasn1.so.6",
+    "libtinfo.so.6",
+    "libunistring.so.5",
+    "libz.so.1",
+    "libzstd.so.1"
+  ],
+  "selected_system_tools": [
+    "bash",
+    "dirname",
+    "git",
+    "grep",
+    "cat",
+    "rm",
+    "mktemp",
+    "head",
+    "sed",
+    "sort",
+    "uniq",
+    "cut",
+    "tr",
+    "wc",
+    "find",
+    "xargs",
+    "printf",
+    "test",
+    "sh",
+    "mkdir",
+    "rmdir",
+    "cp",
+    "mv",
+    "chmod",
+    "readlink",
+    "realpath",
+    "cmp",
+    "tail",
+    "basename",
+    "env",
+    "true",
+    "false",
+    "date",
+    "stat",
+    "awk",
+    "touch",
+    "python3.12"
+  ],
+  "source_commit": "35bf9823856eb4efe254b882954120480632230e",
+  "source_members": [
+    {
+      "bytes": 42146,
+      "member": "scripts/load-work-graph-c5-executor.py",
+      "sha256": "ca1647e90d766fb7035c4bdba06c2d7d6651ddca505b6ce98863e76ea8348e5d"
+    },
+    {
+      "bytes": 82051,
+      "member": "scripts/work-graph-c5-executor.py",
+      "sha256": "ac9a7ea7f364c235aa1192a715a4c33c712bcd249275eb8bdce7064702a4bf4d"
+    },
+    {
+      "bytes": 78790,
+      "member": "scripts/qualify-work-graph-c5-setup.py",
+      "sha256": "5caa2b1771c41b9c13328b44c72b45ff73d65832b6892cc6bc61cfb54bd6cbf1"
+    },
+    {
+      "bytes": 53362,
+      "member": "scripts/qualify-work-graph-prefix.py",
+      "sha256": "ff5dbdce5b4419268b0fc11c4659763ad68d40e32f18f721b6093a7dd269b7ab"
+    },
+    {
+      "bytes": 21214,
+      "member": "scripts/work-graph-c5-inputs.py",
+      "sha256": "dbe0eb5765a249b02f13f97c379a83da7b7a6c68ba2c8320100cd973381c2b6e"
+    },
+    {
+      "bytes": 19121,
+      "member": "scripts/work-graph-c5-provider-inputs.py",
+      "sha256": "34699698d49f10c854b6f831bf38b856adb84791bf848e26fc105a1f1687a776"
+    },
+    {
+      "bytes": 40531,
+      "member": "scripts/work-graph-c5-live-gate.py",
+      "sha256": "b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5"
+    },
+    {
+      "bytes": 87416,
+      "member": "scripts/repro-event-capture.py",
+      "sha256": "e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08"
+    },
+    {
+      "bytes": 13070,
+      "member": "tests/reproducible-release-asset.test.sh",
+      "sha256": "550a92a48989a2a9987b3d51c26a3198cf4828aad28fd3ffe8815fea6399019d"
+    },
+    {
+      "bytes": 45774,
+      "member": "scripts/package-contract.py",
+      "sha256": "ed7a1b3cc5d02660b6fef32a40a99d51e41ee3cf302a56548de8a4aca0c03960"
+    },
+    {
+      "bytes": 8135,
+      "member": "fixtures/work-graph-c5-inputs/genuine-r4-build-local-compression-execution-profile.json",
+      "sha256": "83cfa2de999dc79aaca5aa7973bfa56ec334a4698c42a4c5f4b0706c4c80c60a"
+    },
+    {
+      "bytes": 8394,
+      "member": "fixtures/work-graph-c5-inputs/execution-r4-build-local-compression-python312.json",
+      "sha256": "25c8348ef3f03bb9bb60c234ac6701cc35cf498902fcec4164868f9c48f1f70f"
+    },
+    {
+      "bytes": 9464,
+      "member": "fixtures/work-graph-c5-inputs/package-r4-owned-venv-python312.json",
+      "sha256": "c7d405ab460ecabf85ccb4ce13f6df97d0564a7aaa2cd0b6073478272e06bf17"
+    }
+  ],
+  "source_tree": "abe08aabc83de3b27c43e6acf28646fb089f0f34",
+  "status": "PROSPECTIVE_REQUIRES_EXACT_DELTA_REVIEW",
+  "system_python": "/usr/bin/python3.12",
+  "unchanged_old_git_directories": {
+    "/usr/share/git-core/templates": [
+      "branches",
+      "description",
+      "hooks",
+      "info"
+    ],
+    "/usr/share/git-core/templates/branches": [],
+    "/usr/share/git-core/templates/hooks": [
+      "applypatch-msg.sample",
+      "commit-msg.sample",
+      "fsmonitor-watchman.sample",
+      "post-update.sample",
+      "pre-applypatch.sample",
+      "pre-commit.sample",
+      "pre-merge-commit.sample",
+      "pre-push.sample",
+      "pre-rebase.sample",
+      "pre-receive.sample",
+      "prepare-commit-msg.sample",
+      "push-to-checkout.sample",
+      "sendemail-validate.sample",
+      "update.sample"
+    ],
+    "/usr/share/git-core/templates/info": [
+      "exclude"
+    ]
+  },
+  "unchanged_old_git_files": {
+    "/usr/bin/git-upload-pack": {
+      "bytes": 4066232,
+      "link": "git",
+      "mode": 493,
+      "resolved": "/usr/bin/git",
+      "sha256": "2a8c18fbf43da9f692d75474c72bea9dfd796c260b0f3dfe456376abc3bbd668"
+    },
+    "/usr/share/git-core/templates/description": {
+      "bytes": 73,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/share/git-core/templates/description",
+      "sha256": "85ab6c163d43a17ea9cf7788308bca1466f1b0a8d1cc92e26e9bf63da4062aee"
+    },
+    "/usr/share/git-core/templates/hooks/applypatch-msg.sample": {
+      "bytes": 478,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/applypatch-msg.sample",
+      "sha256": "0223497a0b8b033aa58a3a521b8629869386cf7ab0e2f101963d328aa62193f7"
+    },
+    "/usr/share/git-core/templates/hooks/commit-msg.sample": {
+      "bytes": 896,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/commit-msg.sample",
+      "sha256": "1f74d5e9292979b573ebd59741d46cb93ff391acdd083d340b94370753d92437"
+    },
+    "/usr/share/git-core/templates/hooks/fsmonitor-watchman.sample": {
+      "bytes": 4726,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/fsmonitor-watchman.sample",
+      "sha256": "e0549964e93897b519bd8e333c037e51fff0f88ba13e086a331592bf801fa1d0"
+    },
+    "/usr/share/git-core/templates/hooks/post-update.sample": {
+      "bytes": 189,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/post-update.sample",
+      "sha256": "81765af2daef323061dcbc5e61fc16481cb74b3bac9ad8a174b186523586f6c5"
+    },
+    "/usr/share/git-core/templates/hooks/pre-applypatch.sample": {
+      "bytes": 424,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/pre-applypatch.sample",
+      "sha256": "e15c5b469ea3e0a695bea6f2c82bcf8e62821074939ddd85b77e0007ff165475"
+    },
+    "/usr/share/git-core/templates/hooks/pre-commit.sample": {
+      "bytes": 1643,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/pre-commit.sample",
+      "sha256": "f9af7d95eb1231ecf2eba9770fedfa8d4797a12b02d7240e98d568201251244a"
+    },
+    "/usr/share/git-core/templates/hooks/pre-merge-commit.sample": {
+      "bytes": 416,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/pre-merge-commit.sample",
+      "sha256": "d3825a70337940ebbd0a5c072984e13245920cdf8898bd225c8d27a6dfc9cb53"
+    },
+    "/usr/share/git-core/templates/hooks/pre-push.sample": {
+      "bytes": 1374,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/pre-push.sample",
+      "sha256": "ecce9c7e04d3f5dd9d8ada81753dd1d549a9634b26770042b58dda00217d086a"
+    },
+    "/usr/share/git-core/templates/hooks/pre-rebase.sample": {
+      "bytes": 4898,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/pre-rebase.sample",
+      "sha256": "4febce867790052338076f4e66cc47efb14879d18097d1d61c8261859eaaa7b3"
+    },
+    "/usr/share/git-core/templates/hooks/pre-receive.sample": {
+      "bytes": 544,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/pre-receive.sample",
+      "sha256": "a4c3d2b9c7bb3fd8d1441c31bd4ee71a595d66b44fcf49ddb310252320169989"
+    },
+    "/usr/share/git-core/templates/hooks/prepare-commit-msg.sample": {
+      "bytes": 1492,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/prepare-commit-msg.sample",
+      "sha256": "e9ddcaa4189fddd25ed97fc8c789eca7b6ca16390b2392ae3276f0c8e1aa4619"
+    },
+    "/usr/share/git-core/templates/hooks/push-to-checkout.sample": {
+      "bytes": 2783,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/push-to-checkout.sample",
+      "sha256": "a53d0741798b287c6dd7afa64aee473f305e65d3f49463bb9d7408ec3b12bf5f"
+    },
+    "/usr/share/git-core/templates/hooks/sendemail-validate.sample": {
+      "bytes": 2308,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/sendemail-validate.sample",
+      "sha256": "44ebfc923dc5466bc009602f0ecf067b9c65459abfe8868ddc49b78e6ced7a92"
+    },
+    "/usr/share/git-core/templates/hooks/update.sample": {
+      "bytes": 3650,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/share/git-core/templates/hooks/update.sample",
+      "sha256": "8d5f2fa83e103cf08b57eaa67521df9194f45cbdbcb37da52ad586097a14d106"
+    },
+    "/usr/share/git-core/templates/info/exclude": {
+      "bytes": 240,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/share/git-core/templates/info/exclude",
+      "sha256": "6671fe83b7a07c8932ee89164d1f2793b2318058eb8b98dc5c06ee0a5a3b0ec1"
+    }
+  },
+  "unchanged_old_launcher": {
+    "bytes": 72160,
+    "mode": 493,
+    "sha256": "52231e1caf55bcbc667b269f49c63599a6f7db4767ae6a039580d0ff853db712"
+  },
+  "unchanged_old_provider_native_pins": {
+    "/lib/x86_64-linux-gnu/libgcc_s.so.1": {
+      "bytes": 183024,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+      "sha256": "d93224d2b0dab4247598be683adca02f5cf00586f99c187579cd7e92058fb7cb"
+    },
+    "/lib/x86_64-linux-gnu/libpthread.so.0": {
+      "bytes": 14408,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/x86_64-linux-gnu/libpthread.so.0",
+      "sha256": "4472cde19acc87a431ad1eefe9e86f8238dd1f26f8dac692cff7040474d9d085"
+    },
+    "/lib/x86_64-linux-gnu/libstdc++.so.6": {
+      "bytes": 2592224,
+      "link": "libstdc++.so.6.0.33",
+      "mode": 420,
+      "resolved": "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.33",
+      "sha256": "1fd75fe70354a416d75aef22bcae68c47bd25d20e2d0568c30b1a9838cf62f11"
+    }
+  },
+  "unchanged_old_provider_startup_pins": {
+    "/etc/ld.so.cache": {
+      "bytes": 34015,
+      "link": null,
+      "mode": 420,
+      "resolved": "/etc/ld.so.cache",
+      "sha256": "ff9c19ffbceb26e0ba9b3c6ce7cccf292ff8c240bff2a8f425aac61e3955a89d"
+    },
+    "/lib/x86_64-linux-gnu/libc.so.6": {
+      "bytes": 2125328,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+      "sha256": "511f825ee075610ac9c0f7f91e2c13de2000d0f7b859f6461137e809a0a009d0"
+    },
+    "/lib64/ld-linux-x86-64.so.2": {
+      "bytes": 236616,
+      "link": "../lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+      "mode": 493,
+      "resolved": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+      "sha256": "6222a16be7f2d458d6870efe6e715fc0c8d45766fb79cf7dcc3125538d703e28"
+    },
+    "/usr/bin/python3.12": {
+      "bytes": 8025024,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/bin/python3.12",
+      "sha256": "a92f0f95e883390c7256b2e441484aac06b1002dbe1d924141a77c8d82f96223"
+    },
+    "/usr/lib/python3.12/_sysconfigdata__linux_x86_64-linux-gnu.py": {
+      "bytes": 49505,
+      "link": "_sysconfigdata__x86_64-linux-gnu.py",
+      "mode": 420,
+      "resolved": "/usr/lib/python3.12/_sysconfigdata__x86_64-linux-gnu.py",
+      "sha256": "0ff9cca346181ea377005e068b90390017b34191307c3d9c51e42a6fd2b66240"
+    },
+    "/usr/lib/python3.12/posixpath.py": {
+      "bytes": 17623,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/python3.12/posixpath.py",
+      "sha256": "c443d7b8afad1717e7060ce49b3e04423058de56cd4246ee6bcc1ac962eb5c2b"
+    },
+    "/usr/lib/python3.12/site.py": {
+      "bytes": 23903,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/python3.12/site.py",
+      "sha256": "619436355cbe91c3b29681ab486ee63f5f2e0a7d6274dfae747bdb94e60bca55"
+    },
+    "/usr/lib/python3.12/sitecustomize.py": {
+      "bytes": 155,
+      "link": "/etc/python3.12/sitecustomize.py",
+      "mode": 420,
+      "resolved": "/etc/python3.12/sitecustomize.py",
+      "sha256": "43d81125d92376b1a69d53a71126a041cc9a18d8080e92dea0a2ae23be138b1e"
+    },
+    "/usr/lib/python3.12/sysconfig.py": {
+      "bytes": 32768,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/python3.12/sysconfig.py",
+      "sha256": "e21755a918f488db1bd21d23120ee36ad09382c553b79735a121ee1fbdbcc08d"
+    }
+  },
+  "unchanged_old_runtime_pins": {
+    "/lib/x86_64-linux-gnu/libc.so.6": {
+      "bytes": 2125328,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+      "sha256": "511f825ee075610ac9c0f7f91e2c13de2000d0f7b859f6461137e809a0a009d0"
+    },
+    "/lib64/ld-linux-x86-64.so.2": {
+      "bytes": 236616,
+      "link": "../lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+      "mode": 493,
+      "resolved": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+      "sha256": "6222a16be7f2d458d6870efe6e715fc0c8d45766fb79cf7dcc3125538d703e28"
+    },
+    "/usr/bin/python3.12": {
+      "bytes": 8025024,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/bin/python3.12",
+      "sha256": "a92f0f95e883390c7256b2e441484aac06b1002dbe1d924141a77c8d82f96223"
+    },
+    "/usr/lib/python3.12/_sysconfigdata__linux_x86_64-linux-gnu.py": {
+      "bytes": 49505,
+      "link": "_sysconfigdata__x86_64-linux-gnu.py",
+      "mode": 420,
+      "resolved": "/usr/lib/python3.12/_sysconfigdata__x86_64-linux-gnu.py",
+      "sha256": "0ff9cca346181ea377005e068b90390017b34191307c3d9c51e42a6fd2b66240"
+    },
+    "/usr/lib/python3.12/posixpath.py": {
+      "bytes": 17623,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/python3.12/posixpath.py",
+      "sha256": "c443d7b8afad1717e7060ce49b3e04423058de56cd4246ee6bcc1ac962eb5c2b"
+    },
+    "/usr/lib/python3.12/site.py": {
+      "bytes": 23903,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/python3.12/site.py",
+      "sha256": "619436355cbe91c3b29681ab486ee63f5f2e0a7d6274dfae747bdb94e60bca55"
+    },
+    "/usr/lib/python3.12/sitecustomize.py": {
+      "bytes": 155,
+      "link": "/etc/python3.12/sitecustomize.py",
+      "mode": 420,
+      "resolved": "/etc/python3.12/sitecustomize.py",
+      "sha256": "43d81125d92376b1a69d53a71126a041cc9a18d8080e92dea0a2ae23be138b1e"
+    },
+    "/usr/lib/python3.12/sysconfig.py": {
+      "bytes": 32768,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/python3.12/sysconfig.py",
+      "sha256": "e21755a918f488db1bd21d23120ee36ad09382c553b79735a121ee1fbdbcc08d"
+    },
+    "/usr/lib/python3/dist-packages/coloredlogs.pth": {
+      "bytes": 147,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/python3/dist-packages/coloredlogs.pth",
+      "sha256": "dda83a855986efa5cd87f0248b0199c0086eb0e8e7fece7d6741959c5ce39536"
+    }
+  },
+  "wheel": {
+    "bytes": 851127,
+    "members": [
+      {
+        "bytes": 7,
+        "mode": 420,
+        "name": "zopfli-0.2.3.post1.dist-info/top_level.txt",
+        "sha256": "f182c20df8726f9c46ae1c23d6240f12a669ecde01e1b036aa3eaeda1c13179b"
+      },
+      {
+        "bytes": 979,
+        "mode": 436,
+        "name": "zopfli-0.2.3.post1.dist-info/RECORD",
+        "sha256": "51d89a340a02739a1a28e53cc0bf50eb27474d362aff1e8808deac9838ad50a8"
+      },
+      {
+        "bytes": 1,
+        "mode": 420,
+        "name": "zopfli-0.2.3.post1.dist-info/zip-safe",
+        "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+      },
+      {
+        "bytes": 2932,
+        "mode": 420,
+        "name": "zopfli-0.2.3.post1.dist-info/METADATA",
+        "sha256": "fb1e96ee295e5ded044919419b8b0fcb1dae12e644a6e851dde792d404c92472"
+      },
+      {
+        "bytes": 11341,
+        "mode": 420,
+        "name": "zopfli-0.2.3.post1.dist-info/COPYING",
+        "sha256": "018b1cb87efdf7a04c2fcc13d57ed63f62149113fb207b27ea13430d64f13513"
+      },
+      {
+        "bytes": 151,
+        "mode": 420,
+        "name": "zopfli-0.2.3.post1.dist-info/WHEEL",
+        "sha256": "39582da99cdfcc85d7b729573fdd20c4267a08a042c0a6321ccf0fa4c1233753"
+      },
+      {
+        "bytes": 1147,
+        "mode": 420,
+        "name": "zopfli/__init__.py",
+        "sha256": "1ebcb1b823cd445c656d632bd4a45d18576534f094ee7cb1f854d9770292eb91"
+      },
+      {
+        "bytes": 311,
+        "mode": 420,
+        "name": "zopfli/gzip.py",
+        "sha256": "f5ee9ea1d81a500ea170683bba821cb068ee449a49ee3265561b290a2afe9a2e"
+      },
+      {
+        "bytes": 5175,
+        "mode": 420,
+        "name": "zopfli/png.py",
+        "sha256": "0c2656f21bfad8bbd929c503ea83653d375490d9f77a90649c471f3373991ac8"
+      },
+      {
+        "bytes": 2858240,
+        "mode": 493,
+        "name": "zopfli/zopfli.cpython-312-x86_64-linux-gnu.so",
+        "sha256": "eb7ca2b764ec61dee0cd250952d543754a2adb49d1930a748d522ddeca0d4693"
+      },
+      {
+        "bytes": 417,
+        "mode": 420,
+        "name": "zopfli/_version.py",
+        "sha256": "f5844fa812b2c9985fc238c72b1d94a56dfb7320113a33fc583c488ee9f07111"
+      },
+      {
+        "bytes": 297,
+        "mode": 420,
+        "name": "zopfli/zlib.py",
+        "sha256": "72751268a2f5f1f59c27e8014d337db15cb8534e0e3b7472e4a15c3541d1c2fe"
+      }
+    ],
+    "name": "zopfli-0.2.3.post1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+    "pypi_release": "https://pypi.org/project/zopfli/0.2.3.post1/",
+    "sha256": "9ba214f4f45bec195ee8559651154d3ac2932470b9d91c5715fc29c013349f8c",
+    "url": "https://files.pythonhosted.org/packages/ed/4d/7f6820af119c4fec6efaf007bffee7bc9052f695853a711a951be7afd26b/zopfli-0.2.3.post1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+  }
+}
