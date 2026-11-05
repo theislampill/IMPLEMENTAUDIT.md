@@ -19,7 +19,7 @@ if not isinstance(_CAPTURE, dict) or set(_CAPTURE) != {"prefix", "base", "source
 P, B, _CHECK = _CAPTURE["prefix"], _CAPTURE["base"], _CAPTURE["check"]
 SPEC = json.loads(_CAPTURE["sources"][FIXTURE][0])
 if (SPEC.get("schema") != "implementaudit.c5-provider-selection.v1"
-        or SPEC.get("profile") not in (PROFILE, "CURRENT_COMPOSITE_FIXED_PACKAGE_VENV_PYTHON312_DATA_ONLY_20261027_V1", "SOL_TASK_FIXED_PACKAGE_VENV_PYTHON312_DATA_ONLY_20261029_V1", "R4_OWNED_FIXED_PACKAGE_VENV_PYTHON312_DATA_ONLY_20261104_V1")):
+        or SPEC.get("profile") not in (PROFILE, "CURRENT_COMPOSITE_FIXED_PACKAGE_VENV_PYTHON312_DATA_ONLY_20261027_V1", "SOL_TASK_FIXED_PACKAGE_VENV_PYTHON312_DATA_ONLY_20261029_V1", "R4_OWNED_FIXED_PACKAGE_VENV_PYTHON312_DATA_ONLY_20261104_V1", 'R5_HOSTED_UBUNTU24_SINGLE_COPY_PYTHON312_DATA_ONLY_20261105_V1')):
     raise ValueError("unsupported fixed C5 provider selection")
 PROFILE = SPEC["profile"]
 VENV = Path(SPEC["provider_root"])
@@ -32,6 +32,80 @@ _SEARCH = ("/usr/lib/python3.12", "/usr/lib/python3.12/lib-dynload", SITE)
 _ABSENT = B._ABSENT + tuple(str(VENV / "bin" / name) for name in
     ("pyvenv.cfg", "python._pth", "python3._pth", "python3.12._pth")) + ("/etc/ld.so.preload",)
 _RECORD = "lib/python3.12/site-packages/zopfli-0.2.3.post1.dist-info/RECORD"
+
+
+# Only this prospective linked-image profile changes the counting unit.
+# Legacy prefix and C5 profiles keep their exact logical-file accounting.
+HOSTED_PROFILE = "R5_HOSTED_UBUNTU24_SINGLE_COPY_PYTHON312_DATA_ONLY_20261105_V1"
+HOSTED_RUNTIME_POLICY = dict(schema="implementaudit.c5-linked-runtime-budget.v1",
+    counting_unit="ONE_FILE_PER_CLOSED_RESOLVED_PATH", mounted_bytes=134217728,
+    unique_bytes=134217728, total_bytes=134217728, entries=4096, file_bytes=33554432, depth=40,
+    aliases="ALL_LOGICAL_SELECTORS_AND_COMPLETE_TOPOLOGY_RETAINED")
+
+
+def runtime_budget_v1(entries, bounds):
+    if PROFILE != HOSTED_PROFILE:
+        return P.runtime_budget(entries, bounds)
+    if SPEC.get("runtime_accounting") != HOSTED_RUNTIME_POLICY:
+        raise ValueError("C5 hosted runtime accounting policy is not selected")
+    for key in ("mounted_bytes", "unique_bytes", "total_bytes", "entries", "file_bytes", "depth"):
+        if bounds.get(key) != HOSTED_RUNTIME_POLICY[key]:
+            raise ValueError("C5 hosted runtime bound changed")
+    if len(entries) > bounds["entries"]:
+        raise ValueError("C5 hosted logical selector population exceeded")
+    canonical, unique = {}, {}
+    for name, row in entries.items():
+        target = row.get("resolved")
+        for path in (name, target):
+            if (type(path) is not str or not path.startswith("/") or path.startswith("//")
+                    or str(Path(path)) != path or ".." in Path(path).parts):
+                raise ValueError("C5 hosted runtime path is not canonical absolute")
+        size, digest, mode = (row.get(key) for key in ("bytes", "sha256", "mode"))
+        if (row.get("kind", "FILE") != "FILE" or type(size) is not int or not 0 <= size <= bounds["file_bytes"]
+                or type(digest) is not str or len(digest) != 64 or any(c not in "0123456789abcdef" for c in digest)
+                or type(mode) is not int or not 0 <= mode <= 0o777):
+            raise ValueError("C5 hosted runtime file descriptor differs")
+        if digest in unique and unique[digest] != size:
+            raise ValueError("C5 hosted runtime object length conflict")
+        unique[digest] = size
+        value = dict(bytes=size, sha256=digest, mode=mode)
+        if target in canonical and canonical[target] != value:
+            raise ValueError("C5 hosted resolved file bytes or mode conflict")
+        canonical[target] = value
+    totals = P.runtime_budget(canonical, bounds)
+    totals.update(entries=len(entries), canonical_files=len(canonical),
+        logical_bytes=sum(row["bytes"] for row in entries.values()),
+        accounting="CLOSED_RESOLVED_FILES_WITH_ALL_LOGICAL_SELECTORS_RETAINED")
+    return totals
+
+
+def _validate_hosted_file_alias(row, root, name, target, copied):
+    path = str(Path(root) / name)
+    wanted = str(Path(root) / "bin/python3.12")
+    alias = row.get("aliases", {}).get(path, {})
+    identity = alias.get("identity", ())
+    if (name not in ("bin/python", "bin/python3") or target != "python3.12"
+            or row.get("kind") != "FILE" or row.get("resolved") != wanted or row.get("link") != target
+            or alias.get("link") != target or len(identity) != 7 or not stat.S_ISLNK(identity[2])
+            or identity[3] != 1 or row.get("link_owner") != [0, 0]
+            or any(row.get(k) != copied.get(k) for k in ("bytes", "sha256", "mode", "uid", "gid"))):
+        raise ValueError("C5 hosted interpreter alias differs from its owned copy")
+
+
+def _capture_hosted_file_alias(root, name, target, copied, objects):
+    path = Path(root) / name
+    before = path.lstat()
+    row = B.capture_selector(path, objects)
+    if row.get("aliases", {}).get(str(path), {}).get("identity") != P.identity(before):
+        raise ValueError("C5 hosted alias changed before owner capture")
+    row["link_owner"] = [before.st_uid, before.st_gid]
+    _validate_hosted_file_alias(row, root, name, target, copied)
+    if os.listxattr(path, follow_symlinks=False):
+        raise ValueError("C5 hosted file alias has extended metadata")
+    after = path.lstat()
+    if (P.identity(before), before.st_uid, before.st_gid) != (P.identity(after), after.st_uid, after.st_gid):
+        raise ValueError("C5 hosted alias owner changed during capture")
+    return row
 
 
 def _directories(root):
@@ -47,6 +121,11 @@ def _directories(root):
             info = os.fstat(fd)
             if stat.S_IMODE(info.st_mode) != 0o755 or os.listxattr(fd):
                 raise ValueError("C5 provider directory metadata is unsupported")
+            if PROFILE == HOSTED_PROFILE:
+                if (info.st_uid, info.st_gid) != (0, 0) or any(
+                        value[3:] != [0, 0] or stat.S_IMODE(value[2]) & 0o022
+                        for value in observed["ancestors"].values()):
+                    raise ValueError("C5 hosted provider ancestry is not trusted")
             before = P.identity(info)
             names, total = {}, 0
             with os.scandir(fd) as entries:
@@ -85,6 +164,15 @@ def _capture_tree(root, objects):
             raise ValueError("C5 provider directory link changed")
         links[name] = row
     B.require_same(directories, _directories(root), "provider namespace")
+    if PROFILE == HOSTED_PROFILE:
+        file_aliases = {}
+        if SPEC.get("venv_file_aliases") != {"bin/python":"python3.12", "bin/python3":"python3.12"}:
+            raise ValueError("C5 hosted file alias population changed")
+        for name, target in SPEC["venv_file_aliases"].items():
+            row = _capture_hosted_file_alias(root, name, target, files["bin/python3.12"], objects)
+            file_aliases[name] = row
+        B.require_same(directories, _directories(root), "hosted provider namespace")
+        return dict(root=str(root), files=files, directories=directories, links=links, file_aliases=file_aliases)
     return dict(root=str(root), files=files, directories=directories, links=links)
 
 
@@ -192,6 +280,11 @@ def _startup(objects):
     for name in ("python", "python3", "python3.12"):
         path = str(VENV / "bin" / name)
         row = aliases[path]
+        if PROFILE == HOSTED_PROFILE and name != "python3.12":
+            copied = aliases[str(VENV / "bin/python3.12")]
+            row = _capture_hosted_file_alias(VENV, "bin/" + name, "python3.12", copied, objects)
+            aliases[path] = row
+            continue
         pin = SPEC["venv_files"]["bin/" + name]
         if row["kind"] != "FILE" or row["resolved"] != path or row["link"] is not None or any(row[k] != pin[k] for k in ("bytes", "sha256", "mode")):
             raise ValueError("C5 genuine copied interpreter differs")
@@ -200,7 +293,8 @@ def _startup(objects):
         row = aliases[name]
         if row["kind"] != "MISSING" and (row["kind"] != "FILE" or row["resolved"] != B.SPEC["python_target"] or row["sha256"] != system_pin["sha256"] or row["mode"] != 0o755):
             raise ValueError("C5 provider fallback interpreter selector changed")
-    absent = {name: B.capture_selector(name, objects) for name in _ABSENT}
+    selected_absent = _ABSENT + (tuple(B.SPEC["runtime_absences"]) if PROFILE == HOSTED_PROFILE else ())
+    absent = {name: B.capture_selector(name, objects) for name in selected_absent}
     if any(row["kind"] != "MISSING" for row in absent.values()):
         raise ValueError("C5 provider added bootstrap/loader selector requires separate closure")
     namespaces = {name: _namespace(name, objects) for name in _SEARCH}
@@ -223,6 +317,8 @@ def _startup(objects):
         selected_command="python", selected_path=str(VENV / "bin/python"), selected_target=str(VENV / "bin/python"),
         site_config="ACTUAL_PYVENV_CFG_SYSTEM_SITE_FALSE_NORMAL_SITE_NO_WRAPPER",
         normal_startup_executed=False, child_identity_qualified=False)
+    if PROFILE == HOSTED_PROFILE:
+        result["selected_target"] = str(VENV / "bin/python3.12")
     _validate_nss(result, objects)
     return result
 
@@ -281,7 +377,7 @@ def _runtime_inputs(objects):
         if row["kind"] != "FILE":
             raise ValueError("C5 required provider base runtime file is absent")
         files[name] = row
-        P.runtime_budget(files, P.RUNTIME_BOUNDS)
+        runtime_budget_v1(files, P.RUNTIME_BOUNDS)
     provider, startup = _provider_inputs(objects), _startup(objects)
     files.update({str(VENV / name): row for name, row in provider["installation"]["files"].items()})
     files.update(provider["native"])
@@ -291,7 +387,7 @@ def _runtime_inputs(objects):
         files.update({root + "/" + name: row for name, row in namespace["pth"].items()})
     if len(files) + len(directories) + len(provider["installation"]["directories"]) > P.RUNTIME_BOUNDS["entries"]:
         raise ValueError("C5 complete provider runtime population bound exceeded")
-    totals = P.runtime_budget(files, P.RUNTIME_BOUNDS)
+    totals = runtime_budget_v1(files, P.RUNTIME_BOUNDS)
     return dict(files=files, directories=directories, provider=provider, startup=startup, totals=totals,
         execution_image="NOT_CONSTRUCTED", bytecode="ACTUAL_STDLIB_AND_PROVIDER_CACHE_BYTES_INCLUDED")
 

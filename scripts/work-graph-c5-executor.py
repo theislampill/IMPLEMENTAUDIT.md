@@ -30,7 +30,9 @@ CORRESPONDENCE_PROFILE = 'FIXED_GENUINE_C5_SHARED_IMAGE_CORRESPONDENCE_20261031_
 R4_CORRESPONDENCE_PROFILE = 'FIXED_GENUINE_C5_SHARED_IMAGE_CORRESPONDENCE_R4_CURRENT_HOST_20261104_V1'
 R4_BUILD_CACHE_PROFILE = 'FIXED_GENUINE_C5_SHARED_IMAGE_CORRESPONDENCE_R4_BUILD_LOCAL_COMPRESSION_20261104_V1'
 R4_HOST_PROFILES = (R4_CORRESPONDENCE_PROFILE, R4_BUILD_CACHE_PROFILE)
-CORRESPONDENCE_PROFILES = (CORRESPONDENCE_PROFILE, *R4_HOST_PROFILES)
+R5_HOSTED_PROFILE = 'FIXED_GENUINE_C5_SHARED_IMAGE_R5_HOSTED_UBUNTU24_SINGLE_COPY_20261105_V1'
+UID0_HOST_PROFILES = (*R4_HOST_PROFILES, R5_HOSTED_PROFILE)
+CORRESPONDENCE_PROFILES = (CORRESPONDENCE_PROFILE, *UID0_HOST_PROFILES)
 CORRESPONDENCE_POLICY = dict(schema='implementaudit.c5-shared-image-pair.v1',
     profile='FINITE_C5_ROLE_CORRESPONDENCE_V1', runs=2,
     continuation='FIRST_COMPLETE_LIVE_PROFILE_AND_ACTUAL_ZERO_CHILD_EXIT_ONLY')
@@ -127,8 +129,10 @@ def fixed_task_entropy_device_v1(profile=CORRESPONDENCE_PROFILE):
     read-only filesystem flags do not imply character-device write confinement.
     """
     need(profile in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', *CORRESPONDENCE_PROFILES), 'C5 entropy profile is unknown')
-    uid = 0 if profile in R4_HOST_PROFILES else 65534
-    policy = 'C5_R4_FIXED_GIT_REAL_URANDOM_UID0_V1' if profile in R4_HOST_PROFILES else 'C5_TASK_FIXED_GIT_REAL_URANDOM_V1'
+    uid = 0 if profile in UID0_HOST_PROFILES else 65534
+    policy = ('C5_R5_HOSTED_FIXED_GIT_REAL_URANDOM_UID0_V1' if profile == R5_HOSTED_PROFILE
+              else 'C5_R4_FIXED_GIT_REAL_URANDOM_UID0_V1' if profile in R4_HOST_PROFILES
+              else 'C5_TASK_FIXED_GIT_REAL_URANDOM_V1')
     path = Path('/dev/urandom')
     before = path.lstat()
     need(path.resolve(strict=True) == path and stat.S_ISCHR(before.st_mode)
@@ -350,14 +354,17 @@ def task_kernel_entropy_v1(record,runtime):
     producers={Q.REPRO_CORRESPONDENCE_PRODUCER_SHA256}
     if PROFILE not in CORRESPONDENCE_PROFILES:
         producers.add('a27521758cc71e312052d7eaa7c8b488dbbe2dcc5089d6054be0923455763310')
-    entropy_policy = ('C5_R4_FIXED_GIT_REAL_URANDOM_UID0_V1' if PROFILE in R4_HOST_PROFILES
+    entropy_policy = ('C5_R5_HOSTED_FIXED_GIT_REAL_URANDOM_UID0_V1' if PROFILE == R5_HOSTED_PROFILE
+                      else 'C5_R4_FIXED_GIT_REAL_URANDOM_UID0_V1' if PROFILE in R4_HOST_PROFILES
                       else 'C5_TASK_FIXED_GIT_REAL_URANDOM_V1')
+    expected_git = ('824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235' if PROFILE == R5_HOSTED_PROFILE
+                    else '2a8c18fbf43da9f692d75474c72bea9dfd796c260b0f3dfe456376abc3bbd668')
     need(SPEC.get('kernel_entropy_policy') == entropy_policy
          and SPEC.get('original_index') == 48
          and SPEC.get('original_argv') == ['bash','tests/reproducible-release-asset.test.sh']
          and record['source']['state']['files']['tests/reproducible-release-asset.test.sh']['sha256'] in producers
          and runtime['files']['/usr/bin/git']['sha256']
-             == '2a8c18fbf43da9f692d75474c72bea9dfd796c260b0f3dfe456376abc3bbd668',
+             == expected_git,
          'C5 task entropy requires its exact closed program/Git policy')
     return fixed_task_entropy_device_v1(PROFILE)
 
@@ -615,7 +622,7 @@ def runtime_layout(runtime,topology):
     policy = SPEC['directory_mode_policy']
     expected_policy = ({'default':0o755,'exceptions':{'/home/agent':0o750}}
         if PROFILE in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', CORRESPONDENCE_PROFILE) else {'default':0o755,'exceptions':{}}
-        if PROFILE in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1', *R4_HOST_PROFILES)
+        if PROFILE in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1', *UID0_HOST_PROFILES)
         else {'default':0o755,'exceptions':{'/workspace':0o777,'/workspace/scratch':0o700}})
     need(policy == expected_policy,
          'C5 selected directory mode policy differs from its fixed profile')
@@ -901,7 +908,8 @@ class GenuineC5Session:
             need(name not in runtime['directories'], 'C5 clone directory duplicates an inherited runtime root')
             runtime['directories'][name] = dict(identity=row['observation']['identity'],
                 ancestors=row['observation']['ancestors'],names=row['names'])
-        totals = P.runtime_budget(runtime['files'],P.RUNTIME_BOUNDS)
+        totals = (D.runtime_budget_v1(runtime['files'],P.RUNTIME_BOUNDS) if PROFILE == R5_HOSTED_PROFILE
+                  else P.runtime_budget(runtime['files'],P.RUNTIME_BOUNDS))
         runtime['totals'] = totals
         topology = runtime_topology(runtime)
         layout = runtime_layout(runtime,topology)
@@ -982,7 +990,14 @@ class GenuineC5Session:
         execution_entries = dict(acquired['runtime']['files'])
         for name,(raw,mode) in support.items():
             execution_entries[name] = dict(bytes=len(raw),sha256=sha(raw),mode=mode)
-        image_totals = P.runtime_budget(execution_entries,P.RUNTIME_BOUNDS)
+        if PROFILE == R5_HOSTED_PROFILE:
+            for name in support:
+                execution_entries[name]['resolved'] = name
+            image_totals = D.runtime_budget_v1(execution_entries,P.RUNTIME_BOUNDS)
+            need(image_totals['canonical_files'] == len(layout['files']) + len(support),
+                 'C5 hosted budget differs from the actual mounted layout')
+        else:
+            image_totals = P.runtime_budget(execution_entries,P.RUNTIME_BOUNDS)
         need(len(execution_entries)+len(layout['directories'])+len(layout['links'])
              +int('kernel_entropy' in configuration) <= P.RUNTIME_BOUNDS['entries'],
              'C5 complete runtime support population exceeds inherited bound')
