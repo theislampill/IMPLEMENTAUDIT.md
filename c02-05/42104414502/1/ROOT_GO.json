@@ -1,0 +1,27 @@
+{
+  "allocation_authorized": [
+    "fresh-subject",
+    "fresh-controller",
+    "owned-binary-copy",
+    "one-native-app-server",
+    "one-loopback-emulated-provider",
+    "local-emulated-MCP",
+    "existing-host-store",
+    "controlled-C02",
+    "one-later-native-compaction-resume",
+    "independent-readback"
+  ],
+  "author": "/root",
+  "controller": "r5-c02-native-tail-20261105-05",
+  "decision": "GO",
+  "host_request_sha256": "8cc4ebbc433d7ba8284db7e4a927ddb5c8aaf8b7a5279ca0fdca64ebdf0a63c8",
+  "independent_review_sha256": "c97830666968c04f5c87d8093432cadb08b4b54cc194c2395359b3df2312a3d1",
+  "isolated_fixture_git_commit_authorized": true,
+  "one_shot": true,
+  "owned_binary": "/tmp/implementaudit-r5-c02-native-binary-20261105-05/codex",
+  "preparation_sha256": "3e46b6a517dc07d3e88ec207a3aa309999ba92ea2f7371fd7402662561758a46",
+  "schema": "implementaudit.r5.c02-native-tail-root-go.v1",
+  "source_commit": "35bf9823856eb4efe254b882954120480632230e",
+  "source_tree": "abe08aabc83de3b27c43e6acf28646fb089f0f34",
+  "subject": "/tmp/implementaudit-r5-c02-native-tail-20261105-05"
+}
