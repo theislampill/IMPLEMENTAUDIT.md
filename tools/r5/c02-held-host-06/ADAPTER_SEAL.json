@@ -1,11 +1,11 @@
 {
   "actual_host_packet_prepared": false,
   "actual_review_or_GO_created": false,
-  "author": "/root/h0_c02_or",
+  "adapter_functions_unchanged": true,
+  "author": "/root",
   "authority": "PREPARATION_ONLY",
   "corrected_findings": [
-    "F02",
-    "F03"
+    "ACTUAL_PREHOST_WORKFLOW_CONTEXT_FAILURE"
   ],
   "currentness_or_acceptance_claim": false,
   "files": [
@@ -16,35 +16,37 @@
       "sha256": "71ce5e7f87b671bf2e6b995e51fdbefdc83fff4460ecca61c25e90b29f0c7af0"
     },
     {
-      "bytes": 11547,
+      "bytes": 12253,
       "mode": 420,
       "name": "README.md",
-      "sha256": "67480fa641ba8bf8870a1af1a6e78ca0a6658a12701cda57da0f473d6d603c03"
+      "sha256": "b7ce996085f3c99bda508c13ab4cb8d5a96dfd4e85575744a301c254205f930e"
     },
     {
-      "bytes": 4710,
+      "bytes": 724,
       "mode": 420,
       "name": "STATIC_CHECK.json",
-      "sha256": "41fb9cfea3c4cdfb89437008191c9b8b45ddb60dd1665284528249d7cd9efb0d"
+      "sha256": "832a343db15f62de10a09abee2be4eff8011eb3e2dd7262c630621288b4aa65f"
     },
     {
-      "bytes": 38353,
+      "bytes": 38356,
       "mode": 420,
       "name": "held_control.py",
-      "sha256": "9f729b9a0d32a910d353a396a97030f862327f81e0d2654764b7502e04ec1d03"
+      "sha256": "ec4aba92606c871a5641283fdb68188f9d78f3d24737713188b59d0866fd4e82"
     },
     {
-      "bytes": 4886,
+      "bytes": 5220,
       "mode": 420,
       "name": "r5-c02-held.yml",
-      "sha256": "d10b9d30b436ac3c0df59348f5dccced7a1aa9eebe472e17c8110ed38bec55de"
+      "sha256": "017adfaccf54b821fde9822c654c9b37585449e3c94df2bab06f1deb9ff8f1fe"
     }
   ],
-  "predecessor_seal_sha256": "d2a7b2922c744bea926ce1dd8e40888dcabdce51b286155f6304bc6d4d18f82e",
+  "predecessor_seal_sha256": "72d9edafb8fd2b1c2afa129434dc97b59850cea342e5232b1dee7f873d3f9b3c",
+  "prior_failure_run": 42099547513,
   "product_native_model_or_controller_executed": false,
   "public_mutation": false,
   "review_findings_seal_sha256": "89d20b1e021fb78cf536dad0fd3eb23de12dbd6548b8a2e96510e7b78027f18f",
   "root07_trigger_preserved": true,
   "schema": "r5.c02-held-adapter-code.v1",
-  "status": "F02_F03_CORRECTION_PENDING_INDEPENDENT_DELTA_REVIEW"
+  "status": "FINAL_AUTHOR_REQUIRES_INDEPENDENT_DELTA_REVIEW",
+  "workflow_branch": "pro/dg16-dg18-r5-c02-held-09-20261105"
 }

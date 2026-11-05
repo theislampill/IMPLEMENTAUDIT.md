@@ -21,7 +21,7 @@ import urllib.request
 
 REPOSITORY = 'theislampill/IMPLEMENTAUDIT.md'
 REMOTE = 'https://github.com/' + REPOSITORY + '.git'
-WORKFLOW_BRANCH = 'pro/dg16-dg18-r5-c02-held-20261105'
+WORKFLOW_BRANCH = 'pro/dg16-dg18-r5-c02-held-09-20261105'
 CONTROL_BRANCH = 'pro/dg16-dg18-r5-c02-control-20261105'
 SOURCE_COMMIT = '35bf9823856eb4efe254b882954120480632230e'
 SOURCE_TREE = 'abe08aabc83de3b27c43e6acf28646fb089f0f34'
