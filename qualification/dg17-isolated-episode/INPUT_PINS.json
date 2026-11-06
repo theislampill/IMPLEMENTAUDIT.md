@@ -4,8 +4,8 @@
     "sha256": "ef9cbbe7c2c277c434139080d548f0cb868ee091fe79aa96633dcd46cc86a117"
   },
   "PUBLIC_RESULT_SCHEMA.json": {
-    "bytes": 41324,
-    "sha256": "0e22e6825fc7dad0b227fc964dfc4a45a8b8c5142c0b54260daa0ea4ddd308f5"
+    "bytes": 28425,
+    "sha256": "448f42dd462a5034abb31978ca045228bd0ffa308d59b74205b154bdab9b681b"
   },
   "SOURCE_INPUT_PINS.json": {
     "bytes": 2092,
@@ -15,29 +15,21 @@
     "bytes": 492188,
     "sha256": "ed6a601d3a66997218195202cb5513363b5410b98489762324095a9030c261b4"
   },
-  "STANDALONE_PACKAGE_MATRIX.json": {
-    "bytes": 11498,
-    "sha256": "687367382cf92717c87a5b838aaebf2a39e15e6b98ddf34baa40c0e2ff8d9b6f"
-  },
-  "activation_probe.py": {
-    "bytes": 52468,
-    "sha256": "2e8c14c80867af22240daef0ee9bf2b56bf9293035442e2b6d84ac315d4e481a"
-  },
   "catalogue_probe.py": {
     "bytes": 50831,
     "sha256": "9456e39cf3be3254b4c25c74716a1b87ba5f2accd6bf196db061e326c7a50277"
   },
-  "content_probe.py": {
-    "bytes": 46257,
-    "sha256": "50efdf8b5a5369b452897f9dc629fee9f15e8e2c0e5c589d192ee70527a66223"
+  "claude_body_probe.py": {
+    "bytes": 38146,
+    "sha256": "4c133fe8e6853c76bc4395de432d9f0d66a5c4bd816b9902ec1415666417b225"
   },
-  "content_protocol.py": {
-    "bytes": 22347,
-    "sha256": "f44976a86ef155d0b2bec26f6d1dd80610abfe010de6fd02da1f5ad3e3e32320"
+  "claude_body_transport.py": {
+    "bytes": 21952,
+    "sha256": "2f13bfef6105d89b6c1d13fed26412e0157b75089e9a3da374a178b2fec54edc"
   },
-  "content_transport.py": {
-    "bytes": 23008,
-    "sha256": "00160be92d38b2858860e239155d6e250c987d405793fecd87e35e8619ee9a2d"
+  "claude_probe.py": {
+    "bytes": 45501,
+    "sha256": "85dc12554adcf71a7b7fad6089645fb27adc2a01c1cba27c56fe38e842a12654"
   },
   "host_utility.py": {
     "bytes": 54556,
@@ -46,6 +38,10 @@
   "namespace_process_custody.py": {
     "bytes": 6825,
     "sha256": "6d2e049a8ddbc89e6213c4968d44e6e1483254d852d45480b90f01f960453630"
+  },
+  "native_transport.py": {
+    "bytes": 7925,
+    "sha256": "20192cf71daca4160b3117d8a61e8e029cf56d220bc0072b91dc2a8e3779a884"
   },
   "owned_resources.py": {
     "bytes": 1917,

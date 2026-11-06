@@ -34,6 +34,24 @@ TRANSPORT_SHA = '2f13bfef6105d89b6c1d13fed26412e0157b75089e9a3da374a178b2fec54ed
 RUN_SECONDS = 125
 NATIVE_SECONDS = 45
 PUBLIC_LIMIT = 32768
+STARTUP_PATHS = (
+    ('HOME_DOT_CLAUDE', 'home', '.claude'),
+    ('HOME_DOT_CLAUDE_JSON', 'home', '.claude.json'),
+    ('HOME_CONFIG_ANTHROPIC', 'home', '.config/anthropic'),
+    ('HOME_CONFIG_CLAUDE', 'home', '.config/claude'),
+    ('XDG_CONFIG_ANTHROPIC', 'xdg_config', 'anthropic'),
+    ('XDG_CONFIG_CLAUDE', 'xdg_config', 'claude'),
+    ('CONFIG_SETTINGS', 'config', 'settings.json'),
+    ('CONFIG_SETTINGS_LOCAL', 'config', 'settings.local.json'),
+    ('CONFIG_DOT_CREDENTIALS', 'config', '.credentials.json'),
+    ('CONFIG_CREDENTIALS', 'config', 'credentials.json'),
+    ('CONFIG_MANAGED_SETTINGS', 'config', 'managed-settings.json'),
+    ('CONFIG_MANAGED_MCP', 'config', 'managed-mcp.json'),
+    ('CONFIG_PLUGINS', 'config', 'plugins'),
+    ('CONFIG_SKILLS', 'config', 'skills'),
+    ('CONFIG_HOOKS', 'config', 'hooks'),
+    ('CONFIG_MCP', 'config', 'mcp.json'),
+    ('CONFIG_DOT_MCP', 'config', '.mcp.json'))
 
 class Refusal(RuntimeError):
     pass
@@ -92,6 +110,102 @@ def write_private(path, raw):
         stream.write(raw); stream.flush(); os.fsync(stream.fileno())
     need(file_identity(Path(path), max(1, len(raw))) == {'bytes': len(raw), 'sha256': sha(raw)},
          'PRIVATE_WRITE_READBACK_DIFFERS')
+
+def diagnostic_errno(exc):
+    return {errno.EACCES: 'EACCES', errno.EPERM: 'EPERM', errno.EIO: 'EIO',
+            errno.ENOTDIR: 'ENOTDIR', errno.ELOOP: 'ELOOP'}.get(exc.errno, 'OTHER')
+
+
+def diagnostic_kind(mode):
+    if stat.S_ISDIR(mode): return 'DIRECTORY'
+    if stat.S_ISREG(mode): return 'REGULAR'
+    if stat.S_ISLNK(mode): return 'SYMLINK'
+    return 'OTHER'
+
+
+def startup_paths_diagnostic(profile):
+    rows = []
+    for identifier, anchor, relative in STARTUP_PATHS:
+        path = profile['root']; parts = (anchor, *PurePosixPath(relative).parts)
+        present = None; kind = 'UNREADABLE'; error_code = None
+        # Check each intermediate entry with lstat before descending. No link
+        # target or arbitrary directory population is opened by this diagnostic.
+        for index in range(len(parts) + 1):
+            if index: path = path / parts[index - 1]
+            try:
+                info = path.lstat()
+            except OSError as exc:
+                if exc.errno == errno.ENOENT: present, kind = False, 'ABSENT'
+                else: error_code = diagnostic_errno(exc)
+                break
+            if index < len(parts):
+                if not stat.S_ISDIR(info.st_mode):
+                    kind = 'ANCESTOR_BLOCKED'; break
+            else:
+                present, kind = True, diagnostic_kind(info.st_mode)
+        rows.append({'id': identifier, 'present': present, 'kind': kind, 'error_code': error_code})
+    return {'schema': 'dg17.claude.body-startup-paths.v1', 'phase': 'NATIVE_STARTUP_AFTER',
+            'path_count': 17, 'rows': rows}
+
+
+def directory_refusal_diagnostic(path, root):
+    relative = path.relative_to(root).as_posix(); raw = relative.encode('utf-8', 'strict')
+    need(0 < len(raw) <= 4096 and not PurePosixPath(relative).is_absolute() and
+         all(part not in ('', '.', '..') for part in relative.split('/')), 'DIRECTORY_DIAGNOSTIC_PATH_REFUSED')
+    info = None; kind = 'UNREADABLE'; error_code = None; physical = None
+    try:
+        info = path.lstat(); kind = diagnostic_kind(info.st_mode)
+    except OSError as exc:
+        if exc.errno == errno.ENOENT: kind = 'ABSENT'
+        else: error_code = diagnostic_errno(exc)
+    if info is not None:
+        try: physical = path.resolve(strict=True) == path
+        except OSError as exc: error_code = diagnostic_errno(exc)
+    facts = {'status': 'PUBLIC_SAFE_FIRST_DIRECTORY_REFUSAL_ONLY', 'phase': 'PRIVATE_SEAL',
+        'relative_path_bytes': len(raw), 'relative_path_sha256': sha(raw), 'kind': kind,
+        'mode': stat.S_IMODE(info.st_mode) if info is not None else None,
+        'uid_matches_effective': info.st_uid == os.geteuid() if info is not None else None,
+        'gid_matches_effective': info.st_gid == os.getegid() if info is not None else None,
+        'owner_only_mode': not bool(info.st_mode & 0o077) if info is not None else None,
+        'physical_path': physical, 'error_code': error_code}
+    return {'relative_path': relative, 'facts': facts}
+
+
+def private_seal_rows(meta, root, directory_refused):
+    # Exact inherited traversal/limits/row order, with one observer at its
+    # existing directory refusal site. The observer never grants admission.
+    rows = []; total = 0; pending = [root]
+    while pending:
+        parent = pending.pop()
+        try:
+            with os.scandir(parent) as entries:
+                names = []
+                for entry in entries:
+                    names.append(entry.name)
+                    meta.need(len(names) <= 513, 'PRIVATE_SEAL_POPULATION_BOUND')
+            for name in sorted(names):
+                path = Path(parent) / name
+                if path == root / 'PRIVATE_EVIDENCE_SEAL.json':
+                    continue
+                relative = path.relative_to(root)
+                meta.need(len(relative.parts) <= 16 and len(rows) < 512, 'PRIVATE_SEAL_POPULATION_BOUND')
+                info = path.lstat()
+                meta.need(not stat.S_ISLNK(info.st_mode), 'PRIVATE_SEAL_LINK_REFUSED')
+                if stat.S_ISDIR(info.st_mode):
+                    try:
+                        meta.owned_directory(path)
+                    except meta.Refusal as exc:
+                        if str(exc) == 'PRIVATE_DIRECTORY_REFUSED': directory_refused(path, exc)
+                        raise
+                    rows.append({'path': relative.as_posix(), 'kind': 'DIRECTORY'}); pending.append(path)
+                else:
+                    identity = meta.file_identity(path, 8 * 1024 * 1024); total += identity['bytes']
+                    meta.need(total <= 32 * 1024 * 1024, 'PRIVATE_SEAL_BYTE_BOUND')
+                    rows.append({'path': relative.as_posix(), 'kind': 'REGULAR', **identity})
+        except OSError as exc:
+            raise meta.Refusal('PRIVATE_SEAL_ENUMERATION_REFUSED') from exc
+    return sorted(rows, key=lambda row: row['path'])
+
 
 def load_pinned_module(root, name, expected):
     path = root / (name + '.py')
@@ -218,6 +332,7 @@ def initial_result():
         'runtime_before': False, 'runtime_after': False, 'git_admission_unchanged': False,
         'archive_before': False, 'archive_after': False, 'package_before': False, 'package_after': False,
         'startup_before': False, 'startup_after': False, 'fresh_context_count': 0,
+        'startup_paths_after': None, 'private_directory_refusal': None, 'diagnostic_record_sha256': None,
         'native_sessions_started': 0, 'commands': [], 'body_delivery': None, 'native_observation': None,
         'cleanup': {'after_close': None, 'after_seal': None, 'private_evidence_seal_sha256': None,
                     'private_seal_unchanged': False, 'host_teardown_observed': False,
@@ -259,6 +374,7 @@ def run(args):
     meta = utility = admission = transport = source = private = result_path = pins = None
     runtime_before = git_before = matrix = package = provider = profile = profile_before = managed_before = None
     gate_home = git_home = None; subreaper = False; route_safe = False
+    directory_record = None
     deadline = time.monotonic() + RUN_SECONDS
     def failure(exc, where):
         kinds = tuple(x.Refusal for x in (meta, utility, admission, transport) if x is not None and hasattr(x, 'Refusal'))
@@ -271,6 +387,13 @@ def run(args):
     def observe(where, action):
         try: return action()
         except BaseException as exc: failure(exc, where); return None
+    def record_directory_refusal(path, exc):
+        nonlocal directory_record
+        # Preserve the original guard failure before any diagnostic error.
+        failure(exc, 'PRIVATE_SEAL')
+        if directory_record is None:
+            directory_record = observe('DIRECTORY_DIAGNOSTIC', lambda: directory_refusal_diagnostic(path, private))
+            if directory_record is not None: result['private_directory_refusal'] = directory_record['facts']
     try:
         root = Path(__file__).resolve(strict=True).parent
         meta = load_pinned_module(root, 'claude_probe', SUPPORT_SHA)
@@ -366,6 +489,7 @@ def run(args):
                 row['startup_after'] = observe('NATIVE_STARTUP_AFTER', lambda:
                     (meta.profile_readback(profile), meta.managed_and_ancestor_guard(admission, profile['cwd']))) == (profile_before, managed_before)
                 result['startup_after'] = row['startup_after']
+                result['startup_paths_after'] = observe('NATIVE_STARTUP_DIAGNOSTIC', lambda: startup_paths_diagnostic(profile))
                 need(row['source_after'] and store_after == git_before['source_store'] and row['runtime_after'] and
                      row['startup_after'], 'NATIVE_BOOKEND_REFUSED')
         if captured_error is not None: raise captured_error
@@ -450,15 +574,23 @@ def run(args):
         if private is not None:
             observe('COMMANDS_RETENTION', lambda: write_private(private / 'COMMANDS.json', canonical(records)))
             def seal_private():
-                rows = meta.seal_rows(private); path = private / 'PRIVATE_EVIDENCE_SEAL.json'
+                rows = private_seal_rows(meta, private, record_directory_refusal); path = private / 'PRIVATE_EVIDENCE_SEAL.json'
                 raw = canonical({'schema': 'dg17.claude.body-private-seal.v1', 'members': rows})
                 write_private(path, raw); result['cleanup']['private_evidence_seal_sha256'] = sha(raw)
-                need(meta.seal_rows(private) == rows and file_identity(path, len(raw)) == {'bytes': len(raw), 'sha256': sha(raw)},
+                need(private_seal_rows(meta, private, record_directory_refusal) == rows and file_identity(path, len(raw)) == {'bytes': len(raw), 'sha256': sha(raw)},
                      'PRIVATE_SEAL_CHANGED')
                 return True
             result['cleanup']['private_seal_unchanged'] = observe('PRIVATE_SEAL', seal_private) is True
         if subreaper:
             result['cleanup']['after_seal'] = observe('AFTER_SEAL', lambda: meta.quiescent(utility))
+        if result_path is not None:
+            def retain_diagnostics():
+                raw = canonical({'schema': 'dg17.claude.body-diagnostics.v1',
+                    'startup_paths_after': result['startup_paths_after'], 'directory_refusal': directory_record})
+                need(len(raw) <= 16384, 'DIAGNOSTIC_RECORD_BYTE_BOUND')
+                write_private(result_path.parent / 'CLAUDE_BODY_DIAGNOSTICS.json', raw)
+                return sha(raw)
+            result['diagnostic_record_sha256'] = observe('DIAGNOSTIC_RETENTION', retain_diagnostics)
         if meta is not None:
             result['commands'] = [meta.command_public(x) for x in records if x.get('name') == 'canonical-body']
         result['native_sessions_started'] = sum(x.get('process_started') is True for x in result['commands'])
@@ -476,6 +608,7 @@ def run(args):
 
 
 def main():
+    os.umask(0o077)
     parser = argparse.ArgumentParser()
     for name in ('source', 'episode', 'binary', 'controller', 'receipt', 'parent-netns',
                  'canonical-archive', 'package-matrix-pins'):
