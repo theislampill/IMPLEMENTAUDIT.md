@@ -14,19 +14,19 @@ TREE = 'ee316c27250ec422d35a1ea965182ebddf7a5da0'
 PARENT = '481e529b691ed3d21169b07f376e357ae51f1f03'
 MANIFEST_SHA = 'ed6a601d3a66997218195202cb5513363b5410b98489762324095a9030c261b4'
 UTILITY_SHA = '429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c'
-PINS_SHA = 'b6fb9c262025283b9f95c8328f32fe14984b293898ac38f6d645d456fef85ff8'
+PINS_SHA = '3efaa5b72df061d0fe91bc5f311022b570858f6cf49e03e15efd30099ac4a99d'
 CLAIM = 'skills/implementaudit/scripts/claim-run.sh'
 AUTHOR = 'fixtures/controller-initialization/author_checkpoint.py'
 DOCS = ('STATE.md', 'PROTOCOL.md', 'ROADMAP.md', 'THINKING.md', 'sidecars.md', 'tools.md', 'context.md', 'phases/phase-1.md')
-STEPS = ('prepare', 'initialize', 'discover', 'invalidate', 'read-state', 'read-roadmap', 'resume', 'verify', 'require', 'runtime', 'catalogue', 'receive')
-PUBLIC = ('RESULT.json', 'SOURCE.json', 'HOST.json', 'CURRENTNESS.json', 'PREDICATES.json', 'CATALOGUE.json', 'CLEANUP.json', 'FAILURE.json', 'ARTIFACT_MANIFEST.json')
-PURPOSE = 'Qualify only the frozen-source offline Codex catalogue and unchanged ordinary cleanup cycle in a constructed private filesystem view with an empty readonly system Git configuration; reference the already independently received seven-method component without replay or original acceptance.'
-NEXT = 'Run only the separately admitted private-view catalogue and cleanup cycle, bind the empty system Git config and original outside identities before/after, and verify prior-component source closure without rerunning its methods.'
-ARCHIVE_URL = 'https://github.com/openai/codex/releases/download/rust-v0.167.0-alpha.4/codex-x86_64-unknown-linux-musl.tar.gz'
-ARCHIVE_SHA = 'c4fd6fdeedf0ae78cc4d1d9dde4282c57a4a67c38319e3575b9a1e4d46c9ccc6'
-ARCHIVE_BYTES = 123815356
-BINARY_SHA = '57c94ea520df28beb76955316c5c48f672550fe42c6cff7003badb76e1ee10d8'
-BINARY_BYTES = 324012616
+STEPS = ('prepare', 'initialize', 'discover', 'invalidate', 'read-state', 'read-roadmap', 'resume', 'verify', 'require', 'runtime', 'claude', 'receive')
+PUBLIC = ('RESULT.json', 'SOURCE.json', 'HOST.json', 'CURRENTNESS.json', 'PREDICATES.json', 'CLAUDE.json', 'CLEANUP.json', 'FAILURE.json', 'ARTIFACT_MANIFEST.json')
+PURPOSE = 'Observe only the frozen-source Claude source-candidate metadata with exactly plugin validate, session plugin list and plugin details, under the inherited fresh controller, offline private filesystem view and owned capture/cleanup. Preserve prior independently received component references without replay or original acceptance.'
+NEXT = 'Receive the pinned Claude archive as data, run only the three separately admitted metadata commands, retain their separate recognition and custody results, and verify source, currentness, private seals and unchanged outside identities.'
+ARCHIVE_URL = 'https://github.com/anthropics/claude-code/releases/download/v2.1.318/claude-linux-x64.tar.gz'
+ARCHIVE_SHA = 'e6d426ca0c123f61fad58a361da0329f2a93cd206bc87040ed8d9576dd9eb583'
+ARCHIVE_BYTES = 155477886
+BINARY_SHA = '708c77b204db30086ff6f1ed34577bda03e1be74ced80557cbf7b54249ebf0bd'
+BINARY_BYTES = 337814032
 PREDICATE_SCOPE = {
     'direct_source_applicability': ['T06', 'T08', 'Y04', 'BINDING_POSITIVE'],
     'component_only': ['T12'],
@@ -93,71 +93,148 @@ def unique_object(pairs):
     for key, value in pairs:
         need(key not in result, 'CATALOGUE_DUPLICATE_KEY'); result[key] = value
     return result
-def receive_catalogue(state, packet, raw):
+def receive_claude(state, packet, raw):
     schema_raw = read(packet/'PUBLIC_RESULT_SCHEMA.json')
-    state['catalogue_validation'] = {'valid': False, 'schema_sha256': digest(schema_raw), 'result_sha256': digest(raw), 'result_bytes': len(raw)}
+    state['claude_validation'] = {'valid': False, 'schema_sha256': digest(schema_raw), 'result_sha256': digest(raw), 'result_bytes': len(raw)}
     value = json.loads(raw, object_pairs_hook=unique_object)
-    need(catalogue_schema_matches(value, json.loads(schema_raw)), 'CATALOGUE_RESULT_SCHEMA')
-    state['catalogue'] = value; state['catalogue_validation']['valid'] = True
-def catalogue_success(value, uid, gid):
-    flags = ('source_identity_verified', 'runtime_identity_verified', 'runtime_reported_version_matches', 'native_process_started', 'currentness_before', 'currentness_after')
-    if value.get('status') != 'OBSERVED_CATALOG_AND_PRESENT_CLEANUP' or not all(value.get(key) is True for key in flags): return False
-    if value.get('source_commit') != SOURCE or value.get('source_tree') != TREE or value.get('runtime_sha256') != BINARY_SHA or value.get('runtime_bytes') != BINARY_BYTES or value.get('runtime_version') != '0.167.0-alpha.4': return False
-    if value.get('failure') is not None or any(value.get(key) != 0 for key in ('unexpected_lifecycle_notification_count', 'unexpected_server_request_count', 'nonmetadata_outbound_count')): return False
-    if value.get('calls') != [{'method': method, 'status': 'OBSERVED'} for method in ('initialize', 'plugin/read', 'skills/list', 'hooks/list')]: return False
-    git = value.get('git_startup_admission') or {}
-    if git.get('profile') != 'LINUX_STANDARD_GIT_EMPTY_OR_SAFE_DIRECTORY_V1' or not all(git.get(key) is True for key in ('before_passed', 'after_passed', 'identities_unchanged', 'global_config_paths_absent', 'source_store_owned_physical', 'source_common_dir_matches', 'source_redirections_absent')): return False
-    counts = {'ABSENT': 0, 'EMPTY': 0, 'SAFE_DIRECTORY_WILDCARD': 1}
-    if git.get('system_config_state') not in counts or git.get('system_config_entries') != counts[git['system_config_state']] or git.get('includes_expanded') is not False or git.get('selected_helper_count') != 3 or not git.get('before_identity_sha256') or git.get('before_identity_sha256') != git.get('after_identity_sha256'): return False
-    if git['system_config_state'] == 'ABSENT':
-        if git.get('system_config_bytes') != 0 or git.get('system_config_sha256') is not None: return False
-    elif not git.get('system_config_sha256') or (git['system_config_state'] == 'SAFE_DIRECTORY_WILDCARD' and git.get('system_config_bytes', 0) <= 0): return False
-    if git.get('source_config_profile') != 'OWNED_CHECKOUT_CORE_ORIGIN_V1' or git.get('source_git_config_entries') not in (6, 7) or git.get('source_active_hook_count') != 0: return False
+    need(catalogue_schema_matches(value, json.loads(schema_raw, object_pairs_hook=unique_object)), 'CLAUDE_RESULT_SCHEMA')
+    state['claude'] = value
+    state['claude_validation']['valid'] = True
+def claude_success(value, uid, gid, receipt):
+    if type(value) is not dict: return False
+    flags = ('managed_policy_absent', 'currentness_before', 'currentness_after',
+             'consumed_source_before', 'consumed_source_after', 'runtime_before',
+             'runtime_after', 'git_admission_unchanged')
+    if value.get('status') != 'OBSERVED_SOURCE_CANDIDATE_METADATA_WITH_DETAILS_UNRECEIVED' or not all(value.get(k) is True for k in flags): return False
+    if value.get('schema') != 'dg17.claude.source-candidate.v1' or value.get('source_commit') != SOURCE or value.get('source_tree') != TREE: return False
+    if value.get('archive_bytes') != ARCHIVE_BYTES or value.get('archive_sha256') != ARCHIVE_SHA or value.get('runtime_bytes') != BINARY_BYTES or value.get('runtime_sha256') != BINARY_SHA or value.get('runtime_release_tag_declared') != 'v2.1.318': return False
+    if value.get('currentness_receipt_sha256') != digest((receipt+'\n').encode()) or value.get('failure') is not None or value.get('supplemental_failures') != []: return False
+    false_flags = ('runtime_version_self_reported', 'native_five_skill_inventory_received',
+                   'original_acceptance_awarded', 'persistent_installation_proven',
+                   'model_inference_proven', 'prompt_independent_routing_proven')
+    if not all(value.get(k) is False for k in false_flags) or value.get('parent_full_source_admission_required') is not True or value.get('independent_receiving') != 'NOT_PERFORMED': return False
+    if value.get('expected_source_skills') != ['implementaudit','audit-state','audit-assess','audit-implement','audit-andon'] or value.get('fresh_context_count') != 3 or value.get('product_commands_started') != 3 or value.get('planned_commands') != ['validate','list','details'] or value.get('unstarted_commands') != []: return False
     offline = value.get('offline') or {}
-    if offline.get('uid') != uid or offline.get('gid') != gid or offline.get('external_routes') != 0 or not all(offline.get(key) is True for key in ('verified', 'namespace_differs_from_parent', 'only_loopback', 'effective_permitted_ambient_capabilities_zero', 'no_new_privileges')): return False
-    catalog = value.get('catalog') or {}; skills = catalog.get('skills', [])
-    names = {'implementaudit', 'audit-state', 'audit-assess', 'audit-implement', 'audit-andon'}
-    if catalog.get('source_matches') is not True or catalog.get('five_exact_skill_paths') is not True or len(skills) != 5 or {row['name'] for row in skills} != names or catalog.get('other_skill_count') != 0: return False
-    if not all(row['path'] == 'skills/'+row['name']+'/SKILL.md' and row['path_matches_frozen_source'] is True for row in skills): return False
-    if value.get('configured_skills') is None or value.get('configured_hooks') is None: return False
+    if type(offline) is not dict or offline.get('uid') != uid or offline.get('gid') != gid or offline.get('external_routes') != 0 or not all(offline.get(k) is True for k in ('verified','namespace_differs_from_parent','only_loopback','effective_permitted_ambient_capabilities_zero','no_new_privileges')): return False
+    commands = value.get('commands')
+    if type(commands) is not list or not all(type(row) is dict for row in commands) or [row.get('name') for row in commands] != ['validate','list','details']: return False
+    for row in commands:
+        if not all(row.get(k) is True for k in ('process_started','streams_complete','pidfd_acquired','private_streams_retained','owned_cleanup_echild','source_before','source_after','runtime_before','runtime_after','startup_before','startup_after')): return False
+        if not all(row.get(k) is False for k in ('timeout','output_bound_exceeded','internal_failure','retention_failure')) or type(row.get('returncode')) is not int or row['returncode'] != 0: return False
+        if row.get('recognition_code') is not None or row.get('recognition_status') != ('TEXT_UNRECEIVED' if row['name'] == 'details' else 'RECEIVED_JSON'): return False
+        if any(type(row.get(k+'_bytes')) is not int or not 0 <= row[k+'_bytes'] <= 32768 or type(row.get(k+'_sha256')) is not str or re.fullmatch('[0-9a-f]{64}',row[k+'_sha256']) is None for k in ('stdout','stderr')): return False
+        if row.get('stderr_present') is not (row['stderr_bytes'] > 0): return False
+        if type(row.get('owned_reaped_status_count')) is not int or row['owned_reaped_status_count'] < 0 or type(row.get('owned_statuses_sha256')) is not str or re.fullmatch('[0-9a-f]{64}',row['owned_statuses_sha256']) is None: return False
+    validation = value.get('validation') or {}
+    if type(validation) is not dict or validation.get('status') != 'DOCUMENTED_OUTER_VALIDATION_OBSERVED' or validation.get('success') is not True or validation.get('strict') is not False or validation.get('target_matches_source') is not True or validation.get('error_count') != 0 or validation.get('manifest_semantics') != 'UNRECEIVED_OPAQUE_OBJECT' or validation.get('native_five_skill_inventory_received') is not False: return False
+    listed = value.get('plugin_list') or {}
+    if type(listed) is not dict or listed.get('status') != 'EXACT_SESSION_CANDIDATE_OBSERVED' or listed.get('id') != 'implementaudit@inline' or listed.get('version') != '0.4.0' or listed.get('scope') != 'session' or listed.get('enabled') is not True or listed.get('effective_path_matches_source') is not True or listed.get('plugin_count') != 1 or listed.get('load_error_count') != 0 or listed.get('native_five_skill_inventory_received') is not False: return False
+    details = value.get('details') or {}
+    if details != {'status':'TEXT_FORMAT_UNRECEIVED','exit_zero_observed':True,'native_five_skill_inventory_received':False}: return False
     cleanup = value.get('cleanup') or {}
-    if not all(cleanup.get(key) is True for key in ('close_returned', 'reader_joined', 'private_seal_unchanged')) or cleanup.get('parent_returncode') != 0 or cleanup.get('transport_remaining_owned_count') != 0 or cleanup.get('close_error_type') is not None or cleanup.get('containment') is not None: return False
-    for key in ('after_close', 'after_seal'):
-        snap = cleanup.get(key) or {}
-        if snap.get('full_session_scope_available') is not True or snap.get('launch_directory_empty') is not True or any(snap.get(field) != 0 for field in ('living_owned_processes', 'owned_zombies', 'uncertain_owned_candidates')): return False
+    if type(cleanup) is not dict or cleanup.get('private_seal_unchanged') is not True or cleanup.get('private_plaintext_policy') != 'RETAIN_UNTIL_HOST_TEARDOWN' or cleanup.get('host_teardown_observed') is not False: return False
+    if type(cleanup.get('private_evidence_seal_sha256')) is not str or re.fullmatch('[0-9a-f]{64}',cleanup['private_evidence_seal_sha256']) is None: return False
+    for key in ('after_close','after_seal'):
+        if cleanup.get(key) != {'no_owned_children_listed':True,'wait_echild':True,'verified':True}: return False
     return True
-def receive_private_seal(state, output):
-    root = output/'private/native-catalogue'; path = root/'PRIVATE_EVIDENCE_SEAL.json'; raw = read(path)
-    need(digest(raw) == state['catalogue']['private_evidence_seal_sha256'], 'CATALOGUE_PRIVATE_SEAL_BINDING')
-    declared = json.loads(raw); need(set(declared) == {'schema', 'files'} and declared['schema'] == 'dg17.t12.private-byte-seal.v1', 'CATALOGUE_PRIVATE_SEAL_SHAPE')
+
+def claude_capture_base_shape(row, name):
+    keys = {'name','process_started','returncode','timeout','output_bound_exceeded',
+            'pidfd_acquired','internal_failure','reason_code','stream_digest_scope',
+            'streams_complete','stdout_bytes','stderr_bytes','stdout_sha256','stderr_sha256',
+            'cleanup','private_streams_retained','retention_failure'}
+    if type(row) is not dict or set(row) != keys or row['name'] != name: return False
+    if not all(type(row[k]) is bool for k in ('process_started','timeout','output_bound_exceeded','pidfd_acquired','streams_complete','private_streams_retained','retention_failure')): return False
+    if type(row['returncode']) is not int or row['internal_failure'] is not None or type(row['reason_code']) is not str or not 1 <= len(row['reason_code']) <= 96 or row['stream_digest_scope'] != 'CAPTURED_BYTES_ONLY': return False
+    if any(type(row[k+'_bytes']) is not int or not 0 <= row[k+'_bytes'] <= 32768 or type(row[k+'_sha256']) is not str or re.fullmatch('[0-9a-f]{64}',row[k+'_sha256']) is None for k in ('stdout','stderr')): return False
+    cleanup = row['cleanup']
+    if type(cleanup) is not dict or set(cleanup) != {'echild','pidfd_signals','retained_status_count','retained_statuses_sha256','reaped_statuses','reaped_statuses_truncated'}: return False
+    if type(cleanup['echild']) is not bool or type(cleanup['reaped_statuses_truncated']) is not bool or any(type(cleanup[k]) is not int or cleanup[k] < 0 for k in ('pidfd_signals','retained_status_count')): return False
+    if type(cleanup['retained_statuses_sha256']) is not str or re.fullmatch('[0-9a-f]{64}',cleanup['retained_statuses_sha256']) is None: return False
+    statuses = cleanup['reaped_statuses']; count = cleanup['retained_status_count']
+    if type(statuses) is not list or len(statuses) != min(count,8) or cleanup['reaped_statuses_truncated'] is not (count > 8): return False
+    if any(type(item) is not dict or set(item) != {'pid','returncode'} or type(item['pid']) is not int or item['pid'] <= 0 or type(item['returncode']) is not int for item in statuses): return False
+    return True
+def receive_claude_private(state, output):
+    root = output/'private/claude-source-candidate'
+    root_info = root.lstat()
+    need(stat.S_ISDIR(root_info.st_mode) and root_info.st_uid == os.getuid() and not root_info.st_mode & 0o077 and root.resolve(strict=True) == root, 'CLAUDE_PRIVATE_ROOT')
+    path = root/'PRIVATE_EVIDENCE_SEAL.json'; seal_info = path.lstat()
+    need(stat.S_ISREG(seal_info.st_mode) and seal_info.st_uid == os.getuid() and not seal_info.st_mode & 0o077 and seal_info.st_nlink == 1, 'CLAUDE_PRIVATE_SEAL_OWNER')
+    raw = read(path,262144)
+    need(digest(raw) == state['claude']['cleanup']['private_evidence_seal_sha256'], 'CLAUDE_PRIVATE_SEAL_BINDING')
+    declared = json.loads(raw, object_pairs_hook=unique_object)
+    need(type(declared) is dict and set(declared) == {'schema','members'} and declared['schema'] == 'dg17.claude.private-seal.v1' and type(declared['members']) is list and len(declared['members']) <= 512, 'CLAUDE_PRIVATE_SEAL_SHAPE')
     population = []; pending = [root]
     try:
         while pending:
-            parent = pending.pop()
-            with os.scandir(parent) as stream:
+            directory = pending.pop()
+            with os.scandir(directory) as stream:
                 entries = list(stream)
             for entry in entries:
-                item = parent/entry.name
+                item = directory/entry.name
+                if item == path: continue
                 mode = item.lstat().st_mode
+                need(len(population) < 512 and len(item.relative_to(root).parts) <= 16, 'CLAUDE_PRIVATE_MEMBER_SHAPE')
                 population.append(item)
                 if stat.S_ISDIR(mode): pending.append(item)
     except OSError:
-        raise Refusal('CATALOGUE_PRIVATE_ENUMERATION_REFUSED') from None
-    observed = []
-    for item in sorted(population):
-        if item == path: continue
+        raise Refusal('CLAUDE_PRIVATE_ENUMERATION_REFUSED') from None
+    observed = []; total = 0
+    for item in sorted(population, key=lambda value: value.relative_to(root).as_posix()):
         info = item.lstat()
+        need(item.resolve(strict=True) == item and info.st_uid == os.getuid(), 'CLAUDE_PRIVATE_MEMBER_OWNER')
         if stat.S_ISREG(info.st_mode):
+            need(info.st_nlink == 1 and not info.st_mode & 0o022 and info.st_size <= 8388608, 'CLAUDE_PRIVATE_MEMBER_SHAPE')
             size, sha = stream_hash(item); after = item.lstat()
-            need((info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns, info.st_ctime_ns) == (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns), 'CATALOGUE_PRIVATE_MEMBER_CHANGED')
-            observed.append({'path': item.relative_to(root).as_posix(), 'bytes': size, 'sha256': sha})
-        elif not stat.S_ISDIR(info.st_mode): observed.append({'path': item.relative_to(root).as_posix(), 'kind': 'NONREGULAR'})
-    need(observed == declared['files'] and read(path) == raw, 'CATALOGUE_PRIVATE_SEAL_READBACK')
-    state['catalogue_validation']['private_seal_verified_after_child_reaping'] = True
-    state['catalogue_validation']['private_member_count'] = len(observed)
-    for name in ('gate-before.stdout', 'gate-after.stdout'):
-        need(read(root/name) == (state['receipt']+'\n').encode(), 'CATALOGUE_EXACT_RECEIPT_BINDING')
-    state['catalogue_validation']['same_receipt_private_readbacks_verified'] = True
+            identity = lambda x:(x.st_dev,x.st_ino,x.st_mode,x.st_uid,x.st_gid,x.st_nlink,x.st_size,x.st_mtime_ns,x.st_ctime_ns)
+            need(identity(info) == identity(after) and size == info.st_size, 'CLAUDE_PRIVATE_MEMBER_CHANGED')
+            total += size; need(total <= 33554432, 'CLAUDE_PRIVATE_TOTAL_BOUND')
+            observed.append({'path':item.relative_to(root).as_posix(),'kind':'REGULAR','bytes':size,'sha256':sha})
+        else:
+            need(stat.S_ISDIR(info.st_mode) and not info.st_mode & 0o077, 'CLAUDE_PRIVATE_NONREGULAR_OR_MODE')
+            observed.append({'path':item.relative_to(root).as_posix(),'kind':'DIRECTORY'})
+    need(observed == declared['members'] and read(path,262144) == raw, 'CLAUDE_PRIVATE_SEAL_READBACK')
+    state['claude_validation']['private_seal_verified_after_child_reaping'] = True
+    state['claude_validation']['private_member_count'] = len(observed)
+    for name in ('currentness-before','currentness-after'):
+        need(read(root/(name+'.stdout'),32768) == (state['receipt']+'\n').encode() and read(root/(name+'.stderr'),32768) == b'', 'CLAUDE_EXACT_RECEIPT_BINDING')
+    state['claude_validation']['same_receipt_private_readbacks_verified'] = True
+    git_before = json.loads(read(root/'GIT_ADMISSION_BEFORE.json',262144), object_pairs_hook=unique_object)
+    git_after = json.loads(read(root/'GIT_ADMISSION_AFTER.json',262144), object_pairs_hook=unique_object)
+    need(type(git_before) is dict and set(git_before) == {'resolver','git','libexec','helpers','system_config','home','source_store'} and git_before == git_after, 'CLAUDE_GIT_PRIVATE_BOOKENDS')
+    selected = git_before['git']; admitted = state['host']['tools']['git']
+    need(type(selected) is dict and selected.get('resolved') == '/usr/bin/git' and selected.get('sha256') == admitted['sha256'] and selected.get('bytes') == admitted['bytes'], 'CLAUDE_GIT_HOST_BINDING')
+    system = git_before['system_config']
+    need(type(system) is dict and system.get('present') is True and system.get('bytes') == 0 and system.get('sha256') == digest(b''), 'CLAUDE_EMPTY_SYSTEM_CONFIG_BINDING')
+    state['claude_validation']['git_private_bookends_verified'] = True
+    state['claude_validation']['git_admission_identity_sha256'] = digest(encoded(git_before))
+    records = json.loads(read(root/'COMMANDS.json',262144), object_pairs_hook=unique_object)
+    names = ['currentness-before','validate','list','details','currentness-after']
+    need(type(records) is list and len(records) == len(names) and all(type(row) is dict for row in records) and [row.get('name') for row in records] == names, 'CLAUDE_PRIVATE_COMMAND_POPULATION')
+    products = []; flags = ('source_before','source_after','runtime_before','runtime_after','startup_before','startup_after')
+    for name,row in zip(names,records):
+        captures = json.loads(read(root/(name+'.capture.json'),65536), object_pairs_hook=unique_object)
+        need(type(captures) is list and len(captures) == 1 and claude_capture_base_shape(captures[0],name), 'CLAUDE_PRIVATE_CAPTURE_REQUIRED_FIELDS')
+        base = captures[0]; extras = {'recognition_status','recognition_code',*flags} if name in ('validate','list','details') else set()
+        need(set(row) == set(base) | extras and claude_capture_base_shape({key:row[key] for key in base},name) and all(row[key] == value for key,value in base.items()), 'CLAUDE_PRIVATE_CAPTURE_BINDING')
+        if extras:
+            need(type(row['recognition_status']) is str and (row['recognition_code'] is None or type(row['recognition_code']) is str) and all(type(row[key]) is bool for key in flags), 'CLAUDE_PRIVATE_ENRICHMENT_SHAPE')
+        for stream in ('stdout','stderr'):
+            content = read(root/(name+'.'+stream),32768)
+            need(row[stream+'_bytes'] == len(content) and row[stream+'_sha256'] == digest(content), 'CLAUDE_PRIVATE_STREAM_BINDING')
+        need(row['process_started'] is True and row['returncode'] == 0 and row['streams_complete'] is True and row['timeout'] is False and row['output_bound_exceeded'] is False and row['pidfd_acquired'] is True and row['internal_failure'] is None and row['private_streams_retained'] is True and row['retention_failure'] is False and row['cleanup']['echild'] is True, 'CLAUDE_PRIVATE_CAPTURE_CUSTODY')
+        if extras:
+            public = {key:row[key] for key in ('name','returncode','stdout_bytes','stdout_sha256','stderr_bytes','stderr_sha256','recognition_status','recognition_code')}
+            for key in ('process_started','streams_complete','timeout','output_bound_exceeded','pidfd_acquired','private_streams_retained','retention_failure',*flags):
+                public[key] = row[key] is True
+            public.update(internal_failure=row['internal_failure'] is not None,stderr_present=row['stderr_bytes'] > 0,
+                          owned_cleanup_echild=row['cleanup']['echild'] is True,
+                          owned_reaped_status_count=row['cleanup']['retained_status_count'],
+                          owned_statuses_sha256=row['cleanup']['retained_statuses_sha256'])
+            products.append(public)
+    need(products == state['claude']['commands'], 'CLAUDE_PRIVATE_PUBLIC_COMMAND_BINDING')
+    state['claude_validation']['private_public_stream_and_command_bindings_verified'] = True
 def utility(packet):
     raw = read(packet/'host_utility.py'); need(digest(raw) == UTILITY_SHA, 'UTILITY_PIN')
     module = types.ModuleType('dg17_retained_host_utility'); module.__file__ = str(packet/'host_utility.py')
@@ -231,26 +308,38 @@ def current(state, source, output, u, label):
     state['currentness'].append({'role': label, 'receipt_sha256': digest(raw), 'same_source_cwd': True, 'verified': True})
     save(output/'private/episode.json', state)
 def acquire_runtime(output):
-    archive = output/'private/codex.tar.gz'; started = time.monotonic(); count = 0; h = hashlib.sha256()
-    with urllib.request.urlopen(ARCHIVE_URL, timeout=30) as response, archive.open('xb') as f:
+    archive = output/'private/claude.tar.gz'; started = time.monotonic(); count = 0; h = hashlib.sha256()
+    with urllib.request.urlopen(ARCHIVE_URL, timeout=30) as response, archive.open('xb') as stream:
         while True:
             chunk = response.read(1048576)
             if not chunk: break
             count += len(chunk); need(count <= ARCHIVE_BYTES and time.monotonic()-started < 180, 'ARCHIVE_BOUND')
-            h.update(chunk); f.write(chunk)
+            h.update(chunk); stream.write(chunk)
     need(count == ARCHIVE_BYTES and h.hexdigest() == ARCHIVE_SHA, 'ARCHIVE_PIN')
-    binary = output/'private/codex-input'
-    with tarfile.open(archive, 'r:gz') as tar:
+    binary = output/'private/claude-input'
+    with tarfile.open(archive,'r:gz') as tar:
         members = tar.getmembers()
-        need(len(members) == 1 and members[0].isreg() and members[0].name == 'codex-x86_64-unknown-linux-musl' and members[0].size == BINARY_BYTES, 'ARCHIVE_MEMBERS')
-        with tar.extractfile(members[0]) as inp, binary.open('xb') as out:
+        need(len(members) == 1, 'ARCHIVE_MEMBERS')
+        member = members[0]
+        need(member.isreg() and member.name == 'claude' and member.size == BINARY_BYTES and member.mode == 0o755 and member.linkname == '' and member.pax_headers == {}, 'ARCHIVE_MEMBER_IDENTITY')
+        count = 0
+        with tar.extractfile(member) as inp, binary.open('xb') as out:
             while True:
                 chunk = inp.read(1048576)
                 if not chunk: break
+                count += len(chunk); need(count <= BINARY_BYTES, 'ARCHIVE_BINARY_BOUND')
                 out.write(chunk)
-    need(stream_hash(binary) == (BINARY_BYTES, BINARY_SHA), 'BINARY_PIN')
-    os.chmod(binary, 0o700)
-    return {'archive_sha256': ARCHIVE_SHA, 'archive_bytes': ARCHIVE_BYTES, 'binary_sha256': BINARY_SHA, 'binary_bytes': BINARY_BYTES, 'version_subject': 'codex-cli 0.167.0-alpha.4', 'input_retained_until_host_teardown': True}
+    need(stream_hash(binary) == (BINARY_BYTES,BINARY_SHA), 'BINARY_PIN')
+    os.chmod(binary,0o700)
+    info = binary.lstat()
+    need(binary.resolve(strict=True) == binary and stat.S_ISREG(info.st_mode) and info.st_nlink == 1 and info.st_uid == os.getuid() and info.st_gid == os.getgid() and stat.S_IMODE(info.st_mode) == 0o700, 'BINARY_OWNED_PHYSICAL_FILE')
+    with binary.open('rb') as stream: header = stream.read(64)
+    need(len(header) == 64 and header[:6] == b'\x7fELF\x02\x01' and int.from_bytes(header[18:20],'little') == 62, 'BINARY_ELF_X64')
+    return {'archive_sha256':ARCHIVE_SHA,'archive_bytes':ARCHIVE_BYTES,'archive_member':'claude',
+            'binary_sha256':BINARY_SHA,'binary_bytes':BINARY_BYTES,'release_tag_declared':'v2.1.318',
+            'runtime_version_self_reported':False,'elf64_little_endian_x86_64':True,
+            'input_retained_until_host_teardown':True,
+            'parent_runtime_identity_horizon':'ACQUISITION_AND_RECEIVE_NOT_FINALIZATION'}
 
 def mount_role():
     path = Path('/usr/bin/mount').resolve(strict=True); info = path.lstat()
@@ -406,14 +495,14 @@ def prior_component(state, source, phase):
 def observe_capsule_failure(state, label, exc):
     state['failures'].append({'step':label,'exception_type':type(exc).__name__,
                               'message_sha256':digest(str(exc).encode()),'message_bytes':len(str(exc).encode())})
-def launch_catalogue(state, source, output, packet, u):
+def launch_claude(state, source, output, packet, u):
     need(digest(CAPSULE_SCRIPT.encode()) == CAPSULE_SCRIPT_SHA and digest(CAPSULE_CODE.encode()) == CAPSULE_CODE_SHA, 'CAPSULE_LITERAL_PIN')
     host = capsule_host_snapshot(state, u)
     netns = os.readlink('/proc/self/ns/net')
-    probe_args = ['--source',str(source),'--episode',str(output),'--binary',str(output/'private/codex-input'),
+    probe_args = ['--source',str(source),'--episode',str(output),'--binary',str(output/'private/claude-input'),
                   '--controller',state['controller'],'--receipt',state['receipt'],'--expected-uid',str(os.getuid()),
                   '--expected-gid',str(os.getgid()),'--parent-netns',netns]
-    child_argv = ['/usr/bin/python3','-I','-S','-B',str(packet/'catalogue_probe.py'),*probe_args]
+    child_argv = ['/usr/bin/python3','-I','-S','-B',str(packet/'claude_probe.py'),*probe_args]
     state['capsule_private'] = {'host_before':host,'child_argv_sha256':digest(encoded(child_argv))}
     state['capsule'] = {'profile':'PRIVATE_READONLY_TMPFS_AND_EMPTY_SYSTEM_GITCONFIG_V2','status':'PREPARED_NOT_OBSERVED',
                         'qualification_scope':'CONSTRUCTED_PRIVATE_VIEW_NOT_STOCK_INSTALLATION_PATH_QUALIFICATION',
@@ -429,9 +518,9 @@ def launch_catalogue(state, source, output, packet, u):
             '/usr/bin/bash','--noprofile','--norc','-c',CAPSULE_SCRIPT,'dg17-private-view',
             str(os.getuid()),str(os.getgid()),CAPSULE_CODE,
             str(output/'private/CAPSULE_ADMISSION.json'),str(output/'private/CAPSULE_RESULT.json'),
-            host['parent_mount_namespace'],str(packet/'catalogue_probe.py'),*probe_args]
+            host['parent_mount_namespace'],str(packet/'claude_probe.py'),*probe_args]
     failure = None
-    try: command(state, output, u, 'offline-native-catalogue', argv, seconds=180)
+    try: command(state, output, u, 'offline-claude-source-candidate', argv, seconds=180)
     except BaseException as exc: failure = exc
     for label, action in (('capsule-outside-after',lambda:capsule_recheck(state,u,'after-command')),
                           ('capsule-proof-after',lambda:receive_capsule(state,output))):
@@ -440,16 +529,18 @@ def launch_catalogue(state, source, output, packet, u):
             observe_capsule_failure(state,label,exc)
             if failure is None: failure = exc
     try:
-        if (output/'private/CATALOGUE_RESULT.json').exists():
-            receive_catalogue(state, packet, read(output/'private/CATALOGUE_RESULT.json', 65536))
+        if (output/'private/CLAUDE_RESULT.json').exists():
+            receive_claude(state, packet, read(output/'private/CLAUDE_RESULT.json', 32768))
             record = state['commands'][-1]
-            state['catalogue_validation']['captured_result_matches'] = False
-            if record.get('name') == 'offline-native-catalogue' and record.get('streams_complete') is True:
-                captured = json.loads(read(output/'private'/f'{len(state["commands"]):03d}-offline-native-catalogue.stdout', 32768), object_pairs_hook=unique_object)
-                need(catalogue_schema_matches(captured, json.loads(read(packet/'PUBLIC_RESULT_SCHEMA.json'))) and captured == state['catalogue'], 'CATALOGUE_CAPTURE_DIFFERS')
-                state['catalogue_validation']['captured_result_matches'] = True
+            state['claude_validation']['captured_result_matches'] = False
+            if record.get('name') == 'offline-claude-source-candidate' and record.get('streams_complete') is True:
+                captured_raw = read(output/'private'/f'{len(state["commands"]):03d}-offline-claude-source-candidate.stdout',32768)
+                need(captured_raw == read(output/'private/CLAUDE_RESULT.json',32768), 'CLAUDE_CAPTURE_DIFFERS')
+                captured = json.loads(captured_raw, object_pairs_hook=unique_object)
+                need(catalogue_schema_matches(captured, json.loads(read(packet/'PUBLIC_RESULT_SCHEMA.json'), object_pairs_hook=unique_object)) and captured == state['claude'], 'CLAUDE_CAPTURE_DIFFERS')
+                state['claude_validation']['captured_result_matches'] = True
     except BaseException as exc:
-        observe_capsule_failure(state,'catalogue-receiving',exc)
+        observe_capsule_failure(state,'claude-receiving',exc)
         if failure is None: failure = exc
     if failure is not None: raise failure
 
@@ -510,24 +601,20 @@ def execute(step, state, source, output, packet, u):
     elif step == 'require': current(state, source, output, u, 'initial-currentness')
     elif step == 'runtime':
         current(state, source, output, u, 'before-runtime-acquisition'); state['runtime'] = acquire_runtime(output)
-        version = command(state, output, u, 'codex-version', [str(output/'private/codex-input'), '--version']).decode().strip()
-        need(version == 'codex-cli 0.167.0-alpha.4', 'CODEX_VERSION'); state['runtime']['observed_version'] = version
         current(state, source, output, u, 'after-runtime-acquisition')
-    elif step == 'catalogue':
-        current(state, source, output, u, 'before-catalogue')
-        launch_catalogue(state, source, output, packet, u)
-        current(state, source, output, u, 'after-catalogue')
+    elif step == 'claude':
+        current(state, source, output, u, 'before-claude')
+        launch_claude(state, source, output, packet, u)
+        current(state, source, output, u, 'after-claude')
     elif step == 'receive':
         current(state, source, output, u, 'before-receiving')
         prior_component(state, source, 'receive')
         receive_capsule(state, output)
         capsule_recheck(state, u, 'receive')
-        need(state.get('catalogue_validation', {}).get('valid') is True and state['catalogue_validation'].get('captured_result_matches') is True and catalogue_success(state.get('catalogue', {}), os.getuid(), os.getgid()), 'CATALOGUE_NOT_RECEIVED')
-        git = state['catalogue']['git_startup_admission']; admitted = state['host']['tools']['git']
-        need(git['git_sha256'] == admitted['sha256'] and git['git_bytes'] == admitted['bytes'], 'CATALOGUE_GIT_BINDING')
-        need(stream_hash(output/'private/codex-input') == (BINARY_BYTES, BINARY_SHA), 'RECEIVED_RUNTIME_CHANGED')
-        receive_private_seal(state, output)
-        state['catalogue_validation']['semantic_receiving_passed'] = True
+        need(state.get('claude_validation', {}).get('valid') is True and state['claude_validation'].get('captured_result_matches') is True and claude_success(state.get('claude', {}),os.getuid(),os.getgid(),state['receipt']), 'CLAUDE_NOT_RECEIVED')
+        need(stream_hash(output/'private/claude-input') == (BINARY_BYTES,BINARY_SHA), 'RECEIVED_RUNTIME_CHANGED')
+        receive_claude_private(state,output)
+        state['claude_validation']['semantic_receiving_passed'] = True
         state['source_after'] = source_check(source, packet)
         need(state['source_after'] == state['source_before'] and canonical_hashes(source, state) == state['canonical_before'], 'FINAL_SOURCE_OR_STATE_DRIFT')
         current(state, source, output, u, 'after-receiving')
@@ -535,19 +622,19 @@ def execute(step, state, source, output, packet, u):
     else: raise Refusal('UNKNOWN_STEP')
 
 def export(state, output, packet):
-    if 'catalogue' in state:
+    if 'claude' in state:
         try:
-            need(catalogue_schema_matches(state['catalogue'], json.loads(read(packet/'PUBLIC_RESULT_SCHEMA.json'))), 'CATALOGUE_EXPORT_SCHEMA')
+            need(catalogue_schema_matches(state['claude'], json.loads(read(packet/'PUBLIC_RESULT_SCHEMA.json'))), 'CLAUDE_EXPORT_SCHEMA')
         except BaseException as exc:
-            state.pop('catalogue', None); state['failed'] = True; state['bounded_receiving_complete'] = False
+            state.pop('claude', None); state.setdefault('claude_validation',{})['valid'] = False; state['failed'] = True; state['bounded_receiving_complete'] = False
             state['failures'].append({'step': 'export', 'exception_type': type(exc).__name__, 'message_sha256': digest(str(exc).encode()), 'message_bytes': len(str(exc).encode())})
     docs = {
-        'RESULT.json': {'schema': 'dg17.isolated-hosted-result.v1', 'context': state['context'], 'completed': state['completed'], 'failed': state['failed'], 'bounded_receiving_complete': state.get('bounded_receiving_complete', False), 'catalogue_validation': state.get('catalogue_validation'), 'local_currentness_transfer': False, 'original_acceptance': False, 'whole_T12': False, 'whole_T14': False, 'new_original_awards': []},
+        'RESULT.json': {'schema': 'dg17.isolated-claude-hosted-result.v1', 'context': state['context'], 'completed': state['completed'], 'failed': state['failed'], 'bounded_receiving_complete': state.get('bounded_receiving_complete', False), 'claude_validation': state.get('claude_validation'), 'local_currentness_transfer': False, 'original_acceptance': False, 'whole_T12': False, 'whole_T14': False, 'new_original_awards': []},
         'SOURCE.json': {'before': state.get('source_before'), 'after': state.get('source_after'), 'canonical_unchanged': state.get('canonical_unchanged')},
         'HOST.json': {'host': state.get('host'), 'runtime': state.get('runtime'), 'capsule': state.get('capsule')},
         'CURRENTNESS.json': {'checks': state['currentness'], 'reads': state['reads'], 'local_or_future_transfer': False},
         'PREDICATES.json': state.get('predicates', {'status':'PRIOR_COMPONENT_NOT_REPLAYED','reference':PRIOR_COMPONENT,'fresh_execution':False,'fresh_method_count':0,'native_windows_qualification':False,'new_original_awards':[],'source_closure':{'prepare':False,'receive':False,'final':False}}),
-        'CATALOGUE.json': state.get('catalogue', {'status': 'NOT_COMPLETED'}),
+        'CLAUDE.json': state.get('claude', {'status': 'INVALID_RESULT_SCHEMA' if state.get('claude_validation',{}).get('valid') is False else 'NOT_COMPLETED'}),
         'CLEANUP.json': {'commands': state['commands'], 'active_step': state.get('active_step'), 'active_command': state.get('active_command'), 'all_recorded_commands_reaped': all(x.get('cleanup', {}).get('echild') is True for x in state['commands']), 'private_roots_retained_until_disposable_host_teardown': True},
         'FAILURE.json': {'failures': state['failures']}}
     files = {name: encoded(value) for name, value in docs.items()}; need(all(len(raw) <= 65536 for raw in files.values()) and sum(map(len, files.values())) <= 262144, 'PUBLIC_BOUND')
@@ -595,9 +682,9 @@ def main():
                 need(state['canonical_unchanged'] and state['source_after'] == state['source_before'], 'FINAL_SOURCE_OR_STATE_DRIFT')
                 prior_component(state, source, 'final')
                 if state.get('bounded_receiving_complete') is True:
-                    need(digest(read(output/'private/CATALOGUE_RESULT.json', 65536)) == state['catalogue_validation']['result_sha256'] and catalogue_success(state['catalogue'], os.getuid(), os.getgid()), 'FINAL_CATALOGUE_RESULT_DRIFT')
-                    receive_private_seal(state, output)
-                    state['catalogue_validation']['final_private_seal_verified'] = True
+                    need(digest(read(output/'private/CLAUDE_RESULT.json',32768)) == state['claude_validation']['result_sha256'] and claude_success(state['claude'],os.getuid(),os.getgid(),state['receipt']), 'FINAL_CLAUDE_RESULT_DRIFT')
+                    receive_claude_private(state,output)
+                    state['claude_validation']['final_private_seal_verified'] = True
             except BaseException as exc:
                 state['failed'] = True; state['bounded_receiving_complete'] = False; state['failures'].append({'step': 'finalize', 'exception_type': type(exc).__name__, 'message_sha256': digest(str(exc).encode()), 'message_bytes': len(str(exc).encode())})
         export(state, output, packet); save(output/'private/episode.json', state); return 1 if state['failed'] else 0

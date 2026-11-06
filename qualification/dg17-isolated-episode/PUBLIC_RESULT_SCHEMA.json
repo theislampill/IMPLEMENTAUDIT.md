@@ -1,879 +1,790 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "DG17 T12 public metadata and present cleanup projection",
-  "type": "object",
   "additionalProperties": false,
-  "required": [
-    "schema",
-    "status",
-    "source_commit",
-    "source_tree",
-    "runtime_version",
-    "runtime_sha256",
-    "runtime_bytes",
-    "selector",
-    "original_acceptance_awarded",
-    "independent_receiving",
-    "model_inference_proven",
-    "prompt_independent_routing_proven",
-    "native_process_started",
-    "startup_configuration",
-    "offline",
-    "currentness_before",
-    "currentness_after",
-    "unexpected_lifecycle_notification_count",
-    "unexpected_server_request_count",
-    "nonmetadata_outbound_count",
-    "calls",
-    "catalog",
-    "configured_skills",
-    "configured_hooks",
-    "cleanup",
-    "private_evidence_seal_sha256",
-    "failure",
-    "source_identity_verified",
-    "runtime_identity_verified",
-    "runtime_reported_version_matches",
-    "git_startup_admission"
-  ],
   "properties": {
-    "schema": {
-      "const": "dg17.t12.model-free-catalog-cleanup.v2"
+    "archive_bytes": {
+      "const": 155477886,
+      "type": "integer"
     },
-    "status": {
-      "type": "string",
-      "enum": [
-        "OBSERVED_CATALOG_AND_PRESENT_CLEANUP",
-        "INCOMPLETE_OR_FAILED"
-      ]
-    },
-    "source_commit": {
-      "const": "0d57929be5bd15682b4e9da2c0209d5dff307843"
-    },
-    "source_tree": {
-      "const": "ee316c27250ec422d35a1ea965182ebddf7a5da0"
-    },
-    "runtime_version": {
-      "const": "0.167.0-alpha.4"
-    },
-    "runtime_sha256": {
-      "const": "57c94ea520df28beb76955316c5c48f672550fe42c6cff7003badb76e1ee10d8"
-    },
-    "runtime_bytes": {
-      "const": 324012616
-    },
-    "selector": {
-      "const": ".claude-plugin/marketplace.json:implementaudit:./"
-    },
-    "original_acceptance_awarded": {
-      "const": false
-    },
-    "independent_receiving": {
-      "const": "NOT_PERFORMED"
-    },
-    "model_inference_proven": {
-      "const": false
-    },
-    "prompt_independent_routing_proven": {
-      "const": false
-    },
-    "native_process_started": {
-      "type": "boolean"
-    },
-    "startup_configuration": {
-      "const": [
-        "--strict-config",
-        "-c",
-        "features.plugins=true",
-        "-c",
-        "features.plugin_discovery_prefetch=false",
-        "-c",
-        "features.remote_plugin=false",
-        "-c",
-        "cli_auth_credentials_store=\"ephemeral\"",
-        "-c",
-        "mcp_oauth_credentials_store=\"file\"",
-        "-c",
-        "analytics.enabled=false",
-        "-c",
-        "feedback.enabled=false"
-      ]
-    },
-    "offline": {
-      "anyOf": [
-        {
-          "type": "null"
-        },
-        {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "verified",
-            "uid",
-            "gid",
-            "namespace_differs_from_parent",
-            "only_loopback",
-            "effective_permitted_ambient_capabilities_zero",
-            "no_new_privileges",
-            "external_routes"
-          ],
-          "properties": {
-            "verified": {
-              "const": true
-            },
-            "uid": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "gid": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "namespace_differs_from_parent": {
-              "const": true
-            },
-            "only_loopback": {
-              "const": true
-            },
-            "effective_permitted_ambient_capabilities_zero": {
-              "const": true
-            },
-            "no_new_privileges": {
-              "const": true
-            },
-            "external_routes": {
-              "const": 0
-            }
-          }
-        }
-      ]
-    },
-    "currentness_before": {
-      "type": "boolean"
-    },
-    "currentness_after": {
-      "type": "boolean"
-    },
-    "unexpected_lifecycle_notification_count": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "unexpected_server_request_count": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "nonmetadata_outbound_count": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "calls": {
-      "type": "array",
-      "maxItems": 4,
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "method",
-          "status"
-        ],
-        "properties": {
-          "method": {
-            "type": "string",
-            "enum": [
-              "initialize",
-              "plugin/read",
-              "skills/list",
-              "hooks/list"
-            ]
-          },
-          "status": {
-            "const": "OBSERVED"
-          }
-        }
-      }
-    },
-    "catalog": {
-      "anyOf": [
-        {
-          "type": "null"
-        },
-        {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "status",
-            "source_matches",
-            "installed",
-            "enabled",
-            "five_exact_skill_paths",
-            "skills",
-            "other_skill_count",
-            "declared_hook_count"
-          ],
-          "properties": {
-            "status": {
-              "const": "CATALOG_OBSERVED"
-            },
-            "source_matches": {
-              "const": true
-            },
-            "installed": {
-              "type": "boolean"
-            },
-            "enabled": {
-              "type": "boolean"
-            },
-            "five_exact_skill_paths": {
-              "type": "boolean"
-            },
-            "skills": {
-              "type": "array",
-              "maxItems": 32,
-              "items": {
-                "type": "object",
-                "additionalProperties": false,
-                "required": [
-                  "name",
-                  "path",
-                  "path_matches_frozen_source",
-                  "enabled",
-                  "plugin_attribution_matches"
-                ],
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "enum": [
-                      "implementaudit",
-                      "audit-state",
-                      "audit-assess",
-                      "audit-implement",
-                      "audit-andon"
-                    ]
-                  },
-                  "path": {
-                    "type": "string",
-                    "enum": [
-                      "skills/implementaudit/SKILL.md",
-                      "skills/audit-state/SKILL.md",
-                      "skills/audit-assess/SKILL.md",
-                      "skills/audit-implement/SKILL.md",
-                      "skills/audit-andon/SKILL.md"
-                    ]
-                  },
-                  "path_matches_frozen_source": {
-                    "type": "boolean"
-                  },
-                  "enabled": {
-                    "type": "boolean"
-                  },
-                  "plugin_attribution_matches": {
-                    "type": "boolean"
-                  }
-                }
-              }
-            },
-            "other_skill_count": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "declared_hook_count": {
-              "type": "integer",
-              "minimum": 0
-            }
-          }
-        }
-      ]
-    },
-    "configured_skills": {
-      "anyOf": [
-        {
-          "type": "null"
-        },
-        {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "status",
-            "skills",
-            "other_skill_count",
-            "error_count",
-            "thread_content_loaded"
-          ],
-          "properties": {
-            "status": {
-              "const": "CONFIGURED_SKILL_CATALOG_OBSERVED"
-            },
-            "skills": {
-              "type": "array",
-              "maxItems": 32,
-              "items": {
-                "type": "object",
-                "additionalProperties": false,
-                "required": [
-                  "name",
-                  "path",
-                  "path_matches_frozen_source",
-                  "enabled",
-                  "plugin_attribution_matches"
-                ],
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "enum": [
-                      "implementaudit",
-                      "audit-state",
-                      "audit-assess",
-                      "audit-implement",
-                      "audit-andon"
-                    ]
-                  },
-                  "path": {
-                    "type": "string",
-                    "enum": [
-                      "skills/implementaudit/SKILL.md",
-                      "skills/audit-state/SKILL.md",
-                      "skills/audit-assess/SKILL.md",
-                      "skills/audit-implement/SKILL.md",
-                      "skills/audit-andon/SKILL.md"
-                    ]
-                  },
-                  "path_matches_frozen_source": {
-                    "type": "boolean"
-                  },
-                  "enabled": {
-                    "type": "boolean"
-                  },
-                  "plugin_attribution_matches": {
-                    "type": "boolean"
-                  }
-                }
-              }
-            },
-            "other_skill_count": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "error_count": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "thread_content_loaded": {
-              "const": false
-            }
-          }
-        }
-      ]
-    },
-    "configured_hooks": {
-      "anyOf": [
-        {
-          "type": "null"
-        },
-        {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "status",
-            "hooks",
-            "error_count",
-            "warning_count",
-            "loaded_thread_hooks_observed",
-            "hook_delivery_exercised"
-          ],
-          "properties": {
-            "status": {
-              "const": "CONFIGURED_HOOK_CATALOG_OBSERVED"
-            },
-            "hooks": {
-              "type": "array",
-              "maxItems": 128,
-              "items": {
-                "type": "object",
-                "additionalProperties": false,
-                "required": [
-                  "event",
-                  "source",
-                  "trust",
-                  "sha256",
-                  "enabled",
-                  "managed",
-                  "candidate_plugin"
-                ],
-                "properties": {
-                  "event": {
-                    "type": "string",
-                    "enum": [
-                      "preModelRequest",
-                      "postModelRequest",
-                      "preToolUse",
-                      "permissionRequest",
-                      "postToolUse",
-                      "preCompact",
-                      "postCompact",
-                      "sessionStart",
-                      "sessionEnd",
-                      "userPromptSubmit",
-                      "subagentStart",
-                      "subagentStop",
-                      "stop",
-                      "interrupt"
-                    ]
-                  },
-                  "source": {
-                    "type": "string",
-                    "enum": [
-                      "system",
-                      "user",
-                      "project",
-                      "mdm",
-                      "sessionFlags",
-                      "plugin",
-                      "cloudRequirements",
-                      "cloudManagedConfig",
-                      "legacyManagedConfigFile",
-                      "legacyManagedConfigMdm",
-                      "unknown"
-                    ]
-                  },
-                  "trust": {
-                    "type": "string",
-                    "enum": [
-                      "managed",
-                      "untrusted",
-                      "trusted",
-                      "modified"
-                    ]
-                  },
-                  "sha256": {
-                    "type": "string",
-                    "pattern": "^[0-9a-f]{64}$"
-                  },
-                  "enabled": {
-                    "type": "boolean"
-                  },
-                  "managed": {
-                    "type": "boolean"
-                  },
-                  "candidate_plugin": {
-                    "type": "boolean"
-                  }
-                }
-              }
-            },
-            "error_count": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "warning_count": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "loaded_thread_hooks_observed": {
-              "const": false
-            },
-            "hook_delivery_exercised": {
-              "const": false
-            }
-          }
-        }
-      ]
+    "archive_sha256": {
+      "const": "e6d426ca0c123f61fad58a361da0329f2a93cd206bc87040ed8d9576dd9eb583",
+      "type": "string"
     },
     "cleanup": {
-      "type": "object",
       "additionalProperties": false,
-      "required": [
-        "close_returned",
-        "parent_returncode",
-        "reader_joined",
-        "transport_remaining_owned_count",
-        "after_close",
-        "after_seal",
-        "private_seal_unchanged",
-        "containment",
-        "close_error_type"
-      ],
       "properties": {
-        "close_returned": {
-          "type": "boolean"
-        },
-        "parent_returncode": {
-          "anyOf": [
-            {
-              "type": "null"
-            },
-            {
-              "type": "integer"
-            }
-          ]
-        },
-        "reader_joined": {
-          "type": "boolean"
-        },
-        "transport_remaining_owned_count": {
-          "anyOf": [
-            {
-              "type": "null"
-            },
-            {
-              "type": "integer",
-              "minimum": 0
-            }
-          ]
-        },
         "after_close": {
           "anyOf": [
             {
-              "type": "null"
-            },
-            {
-              "type": "object",
               "additionalProperties": false,
-              "required": [
-                "full_session_scope_available",
-                "living_owned_processes",
-                "owned_zombies",
-                "uncertain_owned_candidates",
-                "launch_directory_empty"
-              ],
               "properties": {
-                "full_session_scope_available": {
+                "no_owned_children_listed": {
                   "type": "boolean"
                 },
-                "living_owned_processes": {
-                  "type": "integer",
-                  "minimum": 0
+                "verified": {
+                  "type": "boolean"
                 },
-                "owned_zombies": {
-                  "type": "integer",
-                  "minimum": 0
-                },
-                "uncertain_owned_candidates": {
-                  "type": "integer",
-                  "minimum": 0
-                },
-                "launch_directory_empty": {
+                "wait_echild": {
                   "type": "boolean"
                 }
-              }
+              },
+              "required": [
+                "no_owned_children_listed",
+                "wait_echild",
+                "verified"
+              ],
+              "type": "object"
+            },
+            {
+              "type": "null"
             }
           ]
         },
         "after_seal": {
           "anyOf": [
             {
-              "type": "null"
-            },
-            {
-              "type": "object",
               "additionalProperties": false,
-              "required": [
-                "full_session_scope_available",
-                "living_owned_processes",
-                "owned_zombies",
-                "uncertain_owned_candidates",
-                "launch_directory_empty"
-              ],
               "properties": {
-                "full_session_scope_available": {
+                "no_owned_children_listed": {
                   "type": "boolean"
                 },
-                "living_owned_processes": {
-                  "type": "integer",
-                  "minimum": 0
+                "verified": {
+                  "type": "boolean"
                 },
-                "owned_zombies": {
-                  "type": "integer",
-                  "minimum": 0
-                },
-                "uncertain_owned_candidates": {
-                  "type": "integer",
-                  "minimum": 0
-                },
-                "launch_directory_empty": {
+                "wait_echild": {
                   "type": "boolean"
                 }
-              }
+              },
+              "required": [
+                "no_owned_children_listed",
+                "wait_echild",
+                "verified"
+              ],
+              "type": "object"
+            },
+            {
+              "type": "null"
             }
           ]
+        },
+        "host_teardown_observed": {
+          "const": false,
+          "type": "boolean"
+        },
+        "private_evidence_seal_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "private_plaintext_policy": {
+          "const": "RETAIN_UNTIL_HOST_TEARDOWN",
+          "type": "string"
         },
         "private_seal_unchanged": {
           "type": "boolean"
-        },
-        "containment": {
-          "anyOf": [
-            {
-              "type": "null"
-            },
-            {
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "status",
-                "signals_sent"
-              ],
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "enum": [
-                    "NO_LIVE_KNOWN_PARENT",
-                    "KNOWN_PARENT_REAPED",
-                    "KNOWN_PARENT_NOT_REAPED",
-                    "CONTAINMENT_REFUSED"
-                  ]
-                },
-                "signals_sent": {
-                  "type": "integer",
-                  "minimum": 0
-                }
-              }
-            }
-          ]
-        },
-        "close_error_type": {
-          "anyOf": [
-            {
-              "type": "null"
-            },
-            {
-              "type": "string",
-              "enum": [
-                "RuntimeError",
-                "TimeoutExpired",
-                "OSError",
-                "CustodyError",
-                "PermissionError",
-                "FileNotFoundError",
-                "ProcessLookupError",
-                "ValueError",
-                "Refusal",
-                "KeyboardInterrupt",
-                "Exception"
-              ]
-            }
-          ]
         }
-      }
+      },
+      "required": [
+        "private_evidence_seal_sha256",
+        "private_seal_unchanged",
+        "private_plaintext_policy",
+        "host_teardown_observed",
+        "after_close",
+        "after_seal"
+      ],
+      "type": "object"
     },
-    "private_evidence_seal_sha256": {
+    "commands": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "internal_failure": {
+            "type": "boolean"
+          },
+          "name": {
+            "enum": [
+              "validate",
+              "list",
+              "details"
+            ]
+          },
+          "output_bound_exceeded": {
+            "type": "boolean"
+          },
+          "owned_cleanup_echild": {
+            "type": "boolean"
+          },
+          "owned_reaped_status_count": {
+            "anyOf": [
+              {
+                "maximum": 4096,
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "owned_statuses_sha256": {
+            "anyOf": [
+              {
+                "pattern": "^[0-9a-f]{64}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "pidfd_acquired": {
+            "type": "boolean"
+          },
+          "private_streams_retained": {
+            "type": "boolean"
+          },
+          "process_started": {
+            "type": "boolean"
+          },
+          "recognition_code": {
+            "anyOf": [
+              {
+                "pattern": "^[A-Z][A-Z0-9_]{0,95}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "recognition_status": {
+            "enum": [
+              "NOT_ATTEMPTED",
+              "UNRECEIVED",
+              "RECEIVED_JSON",
+              "TEXT_UNRECEIVED"
+            ]
+          },
+          "retention_failure": {
+            "type": "boolean"
+          },
+          "returncode": {
+            "anyOf": [
+              {
+                "maximum": 255,
+                "minimum": -255,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "runtime_after": {
+            "type": "boolean"
+          },
+          "runtime_before": {
+            "type": "boolean"
+          },
+          "source_after": {
+            "type": "boolean"
+          },
+          "source_before": {
+            "type": "boolean"
+          },
+          "startup_after": {
+            "type": "boolean"
+          },
+          "startup_before": {
+            "type": "boolean"
+          },
+          "stderr_bytes": {
+            "anyOf": [
+              {
+                "maximum": 32768,
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "stderr_present": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "stderr_sha256": {
+            "anyOf": [
+              {
+                "pattern": "^[0-9a-f]{64}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "stdout_bytes": {
+            "anyOf": [
+              {
+                "maximum": 32768,
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "stdout_sha256": {
+            "anyOf": [
+              {
+                "pattern": "^[0-9a-f]{64}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "streams_complete": {
+            "type": "boolean"
+          },
+          "timeout": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name",
+          "returncode",
+          "stdout_bytes",
+          "stdout_sha256",
+          "stderr_bytes",
+          "stderr_sha256",
+          "recognition_status",
+          "recognition_code",
+          "internal_failure",
+          "stderr_present",
+          "owned_cleanup_echild",
+          "owned_reaped_status_count",
+          "owned_statuses_sha256",
+          "process_started",
+          "streams_complete",
+          "timeout",
+          "output_bound_exceeded",
+          "pidfd_acquired",
+          "private_streams_retained",
+          "retention_failure",
+          "source_before",
+          "source_after",
+          "runtime_before",
+          "runtime_after",
+          "startup_before",
+          "startup_after"
+        ],
+        "type": "object"
+      },
+      "maxItems": 3,
+      "type": "array"
+    },
+    "consumed_source_after": {
+      "type": "boolean"
+    },
+    "consumed_source_before": {
+      "type": "boolean"
+    },
+    "currentness_after": {
+      "type": "boolean"
+    },
+    "currentness_before": {
+      "type": "boolean"
+    },
+    "currentness_receipt_sha256": {
       "anyOf": [
         {
-          "type": "null"
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
         },
         {
-          "type": "string",
-          "pattern": "^[0-9a-f]{64}$"
+          "type": "null"
         }
       ]
+    },
+    "details": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "exit_zero_observed": {
+              "const": true,
+              "type": "boolean"
+            },
+            "native_five_skill_inventory_received": {
+              "const": false,
+              "type": "boolean"
+            },
+            "status": {
+              "const": "TEXT_FORMAT_UNRECEIVED",
+              "type": "string"
+            }
+          },
+          "required": [
+            "status",
+            "exit_zero_observed",
+            "native_five_skill_inventory_received"
+          ],
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "expected_source_skills": {
+      "items": {
+        "enum": [
+          "implementaudit",
+          "audit-state",
+          "audit-assess",
+          "audit-implement",
+          "audit-andon"
+        ]
+      },
+      "maxItems": 5,
+      "type": "array"
     },
     "failure": {
       "anyOf": [
         {
-          "type": "null"
-        },
-        {
-          "type": "object",
           "additionalProperties": false,
+          "properties": {
+            "code": {
+              "pattern": "^[A-Z][A-Z0-9_]{0,95}$",
+              "type": "string"
+            },
+            "exception_type": {
+              "enum": [
+                "Refusal",
+                "Exception"
+              ]
+            },
+            "phase": {
+              "pattern": "^[A-Za-z0-9_-]{1,64}$",
+              "type": "string"
+            }
+          },
           "required": [
             "phase",
             "code",
             "exception_type"
           ],
-          "properties": {
-            "phase": {
-              "type": "string",
-              "enum": [
-                "PRECONDITIONS",
-                "CURRENTNESS_BEFORE",
-                "NATIVE_CONSTRUCTOR",
-                "initialize",
-                "plugin/read",
-                "skills/list",
-                "hooks/list",
-                "COMPLETE",
-                "GIT_ADMISSION_BEFORE",
-                "GIT_ADMISSION_AFTER"
-              ]
-            },
-            "code": {
-              "type": "string",
-              "pattern": "^[A-Z][A-Z0-9_]{0,95}$"
-            },
-            "exception_type": {
-              "type": "string",
-              "enum": [
-                "Refusal",
-                "RuntimeError",
-                "TimeoutError",
-                "OSError",
-                "ValueError",
-                "KeyError",
-                "TypeError",
-                "EOFError",
-                "PermissionError",
-                "Empty",
-                "KeyboardInterrupt",
-                "SystemExit",
-                "FileNotFoundError",
-                "Exception"
-              ]
-            }
-          }
+          "type": "object"
+        },
+        {
+          "type": "null"
         }
       ]
     },
-    "source_identity_verified": {
+    "fresh_context_count": {
+      "maximum": 3,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "git_admission_unchanged": {
       "type": "boolean"
     },
-    "runtime_identity_verified": {
+    "independent_receiving": {
+      "const": "NOT_PERFORMED",
+      "type": "string"
+    },
+    "managed_policy_absent": {
       "type": "boolean"
     },
-    "runtime_reported_version_matches": {
+    "model_inference_proven": {
+      "const": false,
       "type": "boolean"
     },
-    "git_startup_admission": {
+    "native_five_skill_inventory_received": {
+      "const": false,
+      "type": "boolean"
+    },
+    "offline": {
       "anyOf": [
         {
-          "type": "null"
+          "additionalProperties": false,
+          "properties": {
+            "effective_permitted_ambient_capabilities_zero": {
+              "type": "boolean"
+            },
+            "external_routes": {
+              "maximum": 0,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "gid": {
+              "maximum": 2147483647,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "namespace_differs_from_parent": {
+              "type": "boolean"
+            },
+            "no_new_privileges": {
+              "type": "boolean"
+            },
+            "only_loopback": {
+              "type": "boolean"
+            },
+            "uid": {
+              "maximum": 2147483647,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "verified": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "verified",
+            "uid",
+            "gid",
+            "namespace_differs_from_parent",
+            "only_loopback",
+            "external_routes",
+            "effective_permitted_ambient_capabilities_zero",
+            "no_new_privileges"
+          ],
+          "type": "object"
         },
         {
-          "type": "object",
+          "type": "null"
+        }
+      ]
+    },
+    "original_acceptance_awarded": {
+      "const": false,
+      "type": "boolean"
+    },
+    "parent_full_source_admission_required": {
+      "const": true,
+      "type": "boolean"
+    },
+    "persistent_installation_proven": {
+      "const": false,
+      "type": "boolean"
+    },
+    "planned_commands": {
+      "items": {
+        "enum": [
+          "validate",
+          "list",
+          "details"
+        ]
+      },
+      "maxItems": 3,
+      "type": "array"
+    },
+    "plugin_list": {
+      "anyOf": [
+        {
           "additionalProperties": false,
-          "required": [
-            "profile",
-            "before_passed",
-            "after_passed",
-            "identities_unchanged",
-            "git_sha256",
-            "git_bytes",
-            "system_config_state",
-            "system_config_entries",
-            "system_config_bytes",
-            "system_config_sha256",
-            "global_config_paths_absent",
-            "includes_expanded",
-            "selected_helper_count",
-            "system_path_directory_count",
-            "before_identity_sha256",
-            "after_identity_sha256",
-            "source_store_owned_physical",
-            "source_common_dir_matches",
-            "source_config_profile",
-            "source_git_config_entries",
-            "source_git_config_sha256",
-            "source_active_hook_count",
-            "source_redirections_absent"
-          ],
           "properties": {
-            "profile": {
-              "const": "LINUX_STANDARD_GIT_EMPTY_OR_SAFE_DIRECTORY_V1"
-            },
-            "before_passed": {
-              "const": true
-            },
-            "after_passed": {
+            "effective_path_matches_source": {
+              "const": true,
               "type": "boolean"
             },
-            "identities_unchanged": {
+            "enabled": {
+              "const": true,
               "type": "boolean"
             },
-            "git_sha256": {
-              "type": "string",
-              "pattern": "^[0-9a-f]{64}$"
+            "id": {
+              "const": "implementaudit@inline",
+              "type": "string"
             },
-            "git_bytes": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 134217728
-            },
-            "system_config_state": {
-              "type": "string",
-              "enum": [
-                "ABSENT",
-                "EMPTY",
-                "SAFE_DIRECTORY_WILDCARD"
-              ]
-            },
-            "system_config_entries": {
-              "type": "integer",
-              "enum": [
-                0,
-                1
-              ]
-            },
-            "system_config_bytes": {
-              "type": "integer",
+            "load_error_count": {
+              "maximum": 0,
               "minimum": 0,
-              "maximum": 65536
+              "type": "integer"
             },
-            "system_config_sha256": {
-              "anyOf": [
-                {
-                  "type": "null"
-                },
-                {
-                  "type": "string",
-                  "pattern": "^[0-9a-f]{64}$"
-                }
-              ]
+            "native_five_skill_inventory_received": {
+              "const": false,
+              "type": "boolean"
             },
-            "global_config_paths_absent": {
-              "const": true
+            "note_count": {
+              "maximum": 256,
+              "minimum": 0,
+              "type": "integer"
             },
-            "includes_expanded": {
-              "const": false
-            },
-            "selected_helper_count": {
-              "const": 3
-            },
-            "system_path_directory_count": {
-              "type": "integer",
+            "plugin_count": {
+              "maximum": 1,
               "minimum": 1,
-              "maximum": 11
+              "type": "integer"
             },
-            "before_identity_sha256": {
-              "type": "string",
-              "pattern": "^[0-9a-f]{64}$"
+            "scope": {
+              "const": "session",
+              "type": "string"
             },
-            "after_identity_sha256": {
-              "anyOf": [
-                {
-                  "type": "null"
-                },
-                {
-                  "type": "string",
-                  "pattern": "^[0-9a-f]{64}$"
-                }
-              ]
+            "status": {
+              "const": "EXACT_SESSION_CANDIDATE_OBSERVED",
+              "type": "string"
             },
-            "source_store_owned_physical": {
-              "const": true
-            },
-            "source_common_dir_matches": {
-              "const": true
-            },
-            "source_config_profile": {
-              "const": "OWNED_CHECKOUT_CORE_ORIGIN_V1"
-            },
-            "source_git_config_entries": {
-              "type": "integer",
-              "enum": [
-                6,
-                7
-              ]
-            },
-            "source_git_config_sha256": {
-              "type": "string",
-              "pattern": "^[0-9a-f]{64}$"
-            },
-            "source_active_hook_count": {
-              "const": 0
-            },
-            "source_redirections_absent": {
-              "const": true
+            "version": {
+              "const": "0.4.0",
+              "type": "string"
             }
+          },
+          "required": [
+            "status",
+            "id",
+            "version",
+            "scope",
+            "enabled",
+            "effective_path_matches_source",
+            "plugin_count",
+            "load_error_count",
+            "note_count",
+            "native_five_skill_inventory_received"
+          ],
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "product_commands_started": {
+      "maximum": 3,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "prompt_independent_routing_proven": {
+      "const": false,
+      "type": "boolean"
+    },
+    "runtime_after": {
+      "type": "boolean"
+    },
+    "runtime_before": {
+      "type": "boolean"
+    },
+    "runtime_bytes": {
+      "const": 337814032,
+      "type": "integer"
+    },
+    "runtime_release_tag_declared": {
+      "const": "v2.1.318",
+      "type": "string"
+    },
+    "runtime_sha256": {
+      "const": "708c77b204db30086ff6f1ed34577bda03e1be74ced80557cbf7b54249ebf0bd",
+      "type": "string"
+    },
+    "runtime_version_self_reported": {
+      "const": false,
+      "type": "boolean"
+    },
+    "schema": {
+      "const": "dg17.claude.source-candidate.v1",
+      "type": "string"
+    },
+    "source_commit": {
+      "const": "0d57929be5bd15682b4e9da2c0209d5dff307843",
+      "type": "string"
+    },
+    "source_tree": {
+      "const": "ee316c27250ec422d35a1ea965182ebddf7a5da0",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "INCOMPLETE_OR_FAILED",
+        "OBSERVED_SOURCE_CANDIDATE_METADATA_WITH_DETAILS_UNRECEIVED"
+      ]
+    },
+    "supplemental_failures": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "pattern": "^[A-Z][A-Z0-9_]{0,95}$",
+            "type": "string"
+          },
+          "exception_type": {
+            "enum": [
+              "Refusal",
+              "Exception"
+            ]
+          },
+          "phase": {
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "type": "string"
           }
+        },
+        "required": [
+          "phase",
+          "code",
+          "exception_type"
+        ],
+        "type": "object"
+      },
+      "maxItems": 32,
+      "type": "array"
+    },
+    "unstarted_commands": {
+      "items": {
+        "enum": [
+          "validate",
+          "list",
+          "details"
+        ]
+      },
+      "maxItems": 3,
+      "type": "array"
+    },
+    "validation": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "advice_count": {
+              "maximum": 256,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "contents_count": {
+              "maximum": 256,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "diagnostic_count_scope": {
+              "const": "CONTENTS_ONLY_MANIFEST_OPAQUE",
+              "type": "string"
+            },
+            "error_count": {
+              "maximum": 0,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "manifest_is_null": {
+              "type": "boolean"
+            },
+            "manifest_json_sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "manifest_semantics": {
+              "const": "UNRECEIVED_OPAQUE_OBJECT",
+              "type": "string"
+            },
+            "native_five_skill_inventory_received": {
+              "const": false,
+              "type": "boolean"
+            },
+            "note_count": {
+              "maximum": 2048,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "status": {
+              "const": "DOCUMENTED_OUTER_VALIDATION_OBSERVED",
+              "type": "string"
+            },
+            "strict": {
+              "const": false,
+              "type": "boolean"
+            },
+            "success": {
+              "const": true,
+              "type": "boolean"
+            },
+            "target_matches_source": {
+              "const": true,
+              "type": "boolean"
+            },
+            "warning_count": {
+              "maximum": 2048,
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "status",
+            "success",
+            "strict",
+            "target_matches_source",
+            "error_count",
+            "warning_count",
+            "note_count",
+            "diagnostic_count_scope",
+            "contents_count",
+            "advice_count",
+            "manifest_semantics",
+            "manifest_is_null",
+            "manifest_json_sha256",
+            "native_five_skill_inventory_received"
+          ],
+          "type": "object"
+        },
+        {
+          "type": "null"
         }
       ]
     }
-  }
+  },
+  "required": [
+    "schema",
+    "status",
+    "source_commit",
+    "source_tree",
+    "archive_bytes",
+    "archive_sha256",
+    "runtime_bytes",
+    "runtime_sha256",
+    "runtime_release_tag_declared",
+    "runtime_version_self_reported",
+    "currentness_receipt_sha256",
+    "parent_full_source_admission_required",
+    "independent_receiving",
+    "expected_source_skills",
+    "fresh_context_count",
+    "product_commands_started",
+    "planned_commands",
+    "unstarted_commands",
+    "offline",
+    "commands",
+    "validation",
+    "plugin_list",
+    "details",
+    "cleanup",
+    "failure",
+    "supplemental_failures",
+    "managed_policy_absent",
+    "currentness_before",
+    "currentness_after",
+    "consumed_source_before",
+    "consumed_source_after",
+    "runtime_before",
+    "runtime_after",
+    "git_admission_unchanged",
+    "native_five_skill_inventory_received",
+    "original_acceptance_awarded",
+    "persistent_installation_proven",
+    "model_inference_proven",
+    "prompt_independent_routing_proven"
+  ],
+  "title": "NEW DG17 Claude child04 source-candidate closed projection",
+  "type": "object"
 }

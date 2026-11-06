@@ -1,0 +1,61 @@
+{
+  "expected_skills": [
+    "implementaudit",
+    "audit-state",
+    "audit-assess",
+    "audit-implement",
+    "audit-andon"
+  ],
+  "members": [
+    {
+      "bytes": 351,
+      "path": ".claude-plugin/marketplace.json",
+      "sha256": "baa07799a3061c8b99d286472e43ce1263655f4064447c07141d9503ab24b544"
+    },
+    {
+      "bytes": 217,
+      "path": ".claude-plugin/plugin.json",
+      "sha256": "858a0c4751581c08964d52bcd47bd04cc805e91abf672a6711a58acda34aaf70"
+    },
+    {
+      "bytes": 485,
+      "path": "CLAUDE.md",
+      "sha256": "53079e45a08bd51eab5865f6c4cc2d4ceb7ff602857711a2dcb980718a792716"
+    },
+    {
+      "bytes": 2812,
+      "path": "skills/audit-andon/SKILL.md",
+      "sha256": "d774154be7940f88e6402b9d7299f36792e0a636c9023f68fe88b062e2604ff9"
+    },
+    {
+      "bytes": 2039,
+      "path": "skills/audit-assess/SKILL.md",
+      "sha256": "6f5d5738b9efd5fa5d4c35868400220458a2f81179d4081fce508ef65c3f72e4"
+    },
+    {
+      "bytes": 5448,
+      "path": "skills/audit-implement/SKILL.md",
+      "sha256": "aaeb90c6fcded31064f4731cd19cb0e8dcb9e7a5c82a0db4de2f3eab17d978b2"
+    },
+    {
+      "bytes": 3858,
+      "path": "skills/audit-state/SKILL.md",
+      "sha256": "14caf13c42a49b335197fb24a632a9fb3ebc51b26947f311cde4a7e5b6b05a8d"
+    },
+    {
+      "bytes": 21257,
+      "path": "skills/implementaudit/SKILL.md",
+      "sha256": "4c8363c2235ba6c50675c93af7319aeb0caf57f020c4858eba1c28e76de4c6c5"
+    },
+    {
+      "bytes": 32290,
+      "path": "skills/implementaudit/scripts/claim-run.sh",
+      "sha256": "9bce5c887cd89c2d2991b84f1bf765787e7a6b75a2eba29a8433c3a6c05f73a3"
+    }
+  ],
+  "origin_manifest_sha256": "ed6a601d3a66997218195202cb5513363b5410b98489762324095a9030c261b4",
+  "schema": "dg17.claude04.new-source-input-pins.v1",
+  "scope": "Supplemental selected native metadata inputs; enclosing parent separately admits every frozen source member. This is a newly derived pin file, not the lost historical d1d1236f pin bytes.",
+  "source_commit": "0d57929be5bd15682b4e9da2c0209d5dff307843",
+  "source_tree": "ee316c27250ec422d35a1ea965182ebddf7a5da0"
+}
