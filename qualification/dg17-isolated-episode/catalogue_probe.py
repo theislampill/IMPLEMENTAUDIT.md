@@ -584,8 +584,16 @@ def load_transports(root):
 
 
 def selected_skill(row, source, plugin_id=None):
-    name = row.get("name")
-    if name not in SKILLS:
+    # Pinned Codex fb036d4e loader/namespace.rs qualifies plugin skill names.
+    native_name = row.get("name")
+    name = {
+        "implementaudit:implementaudit": "implementaudit",
+        "implementaudit:audit-state": "audit-state",
+        "implementaudit:audit-assess": "audit-assess",
+        "implementaudit:audit-implement": "audit-implement",
+        "implementaudit:audit-andon": "audit-andon",
+    }.get(native_name) if type(native_name) is str else None
+    if name is None:
         return None
     expected = source / "skills" / name / "SKILL.md"
     raw = row.get("path")
@@ -708,8 +716,22 @@ def independent_readback(native, modules):
 
 
 def private_seal_rows(root):
+    paths = []; pending = [root]
+    try:
+        while pending:
+            parent = pending.pop()
+            with os.scandir(parent) as stream:
+                entries = list(stream)
+            for entry in entries:
+                path = parent / entry.name
+                mode = path.lstat().st_mode
+                paths.append(path)
+                if stat.S_ISDIR(mode):
+                    pending.append(path)
+    except OSError:
+        raise Refusal("PRIVATE_SEAL_ENUMERATION_REFUSED") from None
     rows = []
-    for path in sorted(root.rglob("*")):
+    for path in sorted(paths):
         if path == root / "PRIVATE_EVIDENCE_SEAL.json":
             continue
         mode = path.lstat().st_mode

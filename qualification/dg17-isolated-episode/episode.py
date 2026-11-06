@@ -14,7 +14,7 @@ TREE = 'ee316c27250ec422d35a1ea965182ebddf7a5da0'
 PARENT = '481e529b691ed3d21169b07f376e357ae51f1f03'
 MANIFEST_SHA = 'ed6a601d3a66997218195202cb5513363b5410b98489762324095a9030c261b4'
 UTILITY_SHA = '429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c'
-PINS_SHA = 'ffbdea844b4e77e8ce7616712c0cda57a59995ab32efdf22f001fc41a61c5eaf'
+PINS_SHA = 'b6fb9c262025283b9f95c8328f32fe14984b293898ac38f6d645d456fef85ff8'
 CLAIM = 'skills/implementaudit/scripts/claim-run.sh'
 AUTHOR = 'fixtures/controller-initialization/author_checkpoint.py'
 DOCS = ('STATE.md', 'PROTOCOL.md', 'ROADMAP.md', 'THINKING.md', 'sidecars.md', 'tools.md', 'context.md', 'phases/phase-1.md')
@@ -130,8 +130,21 @@ def receive_private_seal(state, output):
     root = output/'private/native-catalogue'; path = root/'PRIVATE_EVIDENCE_SEAL.json'; raw = read(path)
     need(digest(raw) == state['catalogue']['private_evidence_seal_sha256'], 'CATALOGUE_PRIVATE_SEAL_BINDING')
     declared = json.loads(raw); need(set(declared) == {'schema', 'files'} and declared['schema'] == 'dg17.t12.private-byte-seal.v1', 'CATALOGUE_PRIVATE_SEAL_SHAPE')
+    population = []; pending = [root]
+    try:
+        while pending:
+            parent = pending.pop()
+            with os.scandir(parent) as stream:
+                entries = list(stream)
+            for entry in entries:
+                item = parent/entry.name
+                mode = item.lstat().st_mode
+                population.append(item)
+                if stat.S_ISDIR(mode): pending.append(item)
+    except OSError:
+        raise Refusal('CATALOGUE_PRIVATE_ENUMERATION_REFUSED') from None
     observed = []
-    for item in sorted(root.rglob('*')):
+    for item in sorted(population):
         if item == path: continue
         info = item.lstat()
         if stat.S_ISREG(info.st_mode):
@@ -169,13 +182,21 @@ def source_check(source, packet):
         need(size == row['bytes'] and sha == row['sha256'], 'SOURCE_BYTES')
         seen.add(row['path']); total += size
     need(len(seen) == 1755 and total == 165855954, 'SOURCE_POPULATION')
-    observed = set()
-    for parent, dirs, files in os.walk(source, followlinks=False):
-        here = Path(parent)
-        for name in list(dirs):
-            path = here/name; need(not path.is_symlink(), 'SOURCE_DIRECTORY_ALIAS')
-            if here == source and name in ('.git', '.IMPLEMENTAUDIT'): dirs.remove(name)
-        for name in files: observed.add((here/name).relative_to(source).as_posix())
+    observed = set(); pending = [source]
+    try:
+        while pending:
+            here = pending.pop()
+            with os.scandir(here) as stream:
+                entries = list(stream)
+            for entry in entries:
+                path = here/entry.name; mode = path.lstat().st_mode
+                need(not stat.S_ISLNK(mode), 'SOURCE_DIRECTORY_ALIAS')
+                if stat.S_ISDIR(mode):
+                    if here == source and entry.name in ('.git', '.IMPLEMENTAUDIT'): continue
+                    pending.append(path)
+                else: observed.add(path.relative_to(source).as_posix())
+    except OSError:
+        raise Refusal('SOURCE_ENUMERATION_REFUSED') from None
     need(observed == seen, 'SOURCE_EXTRA_OR_MISSING_MEMBER')
     return {'commit': SOURCE, 'tree': TREE, 'parent': PARENT, 'files': len(seen), 'bytes': total, 'all_manifest_members_match': True}
 def canonical_hashes(source, state):
