@@ -1,0 +1,108 @@
+{
+  "files": [
+    {
+      "bytes": 5444,
+      "mode": 420,
+      "path": ".github/workflows/dg18-isolated-c02-startup-20261106-03.yml",
+      "sha256": "77b71d19b53959cf9bfba7854b2ee0ebe2b734117634c2723a65e399f58defb2"
+    },
+    {
+      "bytes": 3270,
+      "mode": 420,
+      "path": "qualification/dg18-isolated-c02-startup-20261106-03/README.md",
+      "sha256": "02323f6a38c01fa02634f8f67593494ddb9e4a23cc8a3081c59a95cddc745232"
+    },
+    {
+      "bytes": 2125,
+      "mode": 420,
+      "path": "qualification/dg18-isolated-c02-startup-20261106-03/candidate/PINS.json",
+      "sha256": "7fa6af618e21388135f6ea9994244b4f108df3f4e9ff5a9e8f9acbe0f7572051"
+    },
+    {
+      "bytes": 269,
+      "mode": 420,
+      "path": "qualification/dg18-isolated-c02-startup-20261106-03/candidate/RECIPIENT.json",
+      "sha256": "4c6db988d6c449a60a6973cd221d292ee002ee323f9b882f16f9c26287a6d818"
+    },
+    {
+      "bytes": 10926,
+      "mode": 420,
+      "path": "qualification/dg18-isolated-c02-startup-20261106-03/candidate/deps/LICENSE",
+      "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc"
+    },
+    {
+      "bytes": 215730,
+      "mode": 420,
+      "path": "qualification/dg18-isolated-c02-startup-20261106-03/candidate/deps/ServerNotification.json",
+      "sha256": "cc06d031345c7f1f08f0ac8ccb42d889b3246fadada1aabdf4688027975efad7"
+    },
+    {
+      "bytes": 65043,
+      "mode": 420,
+      "path": "qualification/dg18-isolated-c02-startup-20261106-03/candidate/deps/app_server_lib.rs",
+      "sha256": "a44b0266619d6adda0c1e7135d5be18e6581cff44307e78097efecc5195f8b6c"
+    },
+    {
+      "bytes": 216027,
+      "mode": 420,
+      "path": "qualification/dg18-isolated-c02-startup-20261106-03/candidate/deps/core_config_mod.rs",
+      "sha256": "e027e9fb2e4cd101abdb3984768eef07d1d0ac7c8aa631989011cd17bda0c6df"
+    },
+    {
+      "bytes": 22957,
+      "mode": 420,
+      "path": "qualification/dg18-isolated-c02-startup-20261106-03/candidate/deps/guard_definitions.py",
+      "sha256": "e76c4aae445b439007964d8c5f642130fd56aa00d83568e5fc4c692dcd2e7a3e"
+    },
+    {
+      "bytes": 13376,
+      "mode": 420,
+      "path": "qualification/dg18-isolated-c02-startup-20261106-03/candidate/deps/sandboxing_bwrap.rs",
+      "sha256": "ec31c6bc4b844183ae3c6e5fcea5e97db95e6f26cfaeb4c9bedb37cdf01534ee"
+    },
+    {
+      "bytes": 4325,
+      "mode": 420,
+      "path": "qualification/dg18-isolated-c02-startup-20261106-03/candidate/deps/sandboxing_lib.rs",
+      "sha256": "ad4980e99953cab69cf1689c3b0d450160e1093071bf5ed0bf7199ecec5d34ca"
+    },
+    {
+      "bytes": 25429,
+      "mode": 420,
+      "path": "qualification/dg18-isolated-c02-startup-20261106-03/candidate/startup_diagnostic.py",
+      "sha256": "1095539db16346f27e55c7fb3b51668ac7586644c813788523996326105d5312"
+    },
+    {
+      "bytes": 28716,
+      "mode": 420,
+      "path": "qualification/dg18-isolated-c02-startup-20261106-03/candidate/startup_subject.py",
+      "sha256": "2517c86de9748061ba37d6efd31bd1cc41356e1ae86bc0aaa4222aa5d486f0aa"
+    },
+    {
+      "bytes": 22092,
+      "mode": 420,
+      "path": "qualification/dg18-isolated-c02-startup-20261106-03/candidate/warning_custody.py",
+      "sha256": "ccf8a3ffe9fab14ddf81341cd9589d2a0db4b4fba308223325b5b7906d9ee1c3"
+    },
+    {
+      "bytes": 39049,
+      "mode": 420,
+      "path": "qualification/dg18-isolated-c02-startup-20261106-03/hosted_adapter.py",
+      "sha256": "5e1754709f4aeb865ade055478a7069d9fe5dcbb681188b8a395126914cf77f7"
+    },
+    {
+      "bytes": 1507,
+      "mode": 420,
+      "path": "qualification/dg18-isolated-c02-startup-20261106-03/support/local_mcp_canary.py",
+      "sha256": "0733a8014e7e301e3c6afe36a2b61cfe31343efca6741beeadeb61128ff5aa24"
+    },
+    {
+      "bytes": 4052,
+      "mode": 420,
+      "path": "qualification/dg18-isolated-c02-startup-20261106-03/support/local_responses_canary.py",
+      "sha256": "e5280c1e2a3b0d35a414745770f4e62efb73a2a8ac01f1fa6635a26092af230d"
+    }
+  ],
+  "schema": "dg18.c02.startup-code-manifest.v1",
+  "source_scope": "35bf9823856eb4efe254b882954120480632230e"
+}

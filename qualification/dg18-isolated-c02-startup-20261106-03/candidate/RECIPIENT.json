@@ -1,0 +1,6 @@
+{
+  "public_key_hex": "97f5e32e56b43737526d19fc7fe78838e8ae54d6924ff5b7a4afaf0b2b697668",
+  "recipient_sha256": "c31b4dac73133adc8002c19c02fe40aebaf7966eedfac628a6c85ad275d45428",
+  "schema": "dg18.c02.warning-recipient.v1",
+  "suite": "X25519-HKDF-SHA256-AES256GCM"
+}
