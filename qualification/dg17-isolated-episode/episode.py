@@ -4,7 +4,7 @@
 Maintained claim/activation/continuity owners supply all custody authority.
 Command capture and child containment reuse the unchanged reviewed host utility.
 """
-import argparse, ctypes, errno, hashlib, json, os, platform, re, stat, sys, tarfile, time, types, urllib.request, tomllib
+import argparse, ctypes, errno, hashlib, json, os, platform, re, stat, sys, tarfile, time, types, urllib.request
 from pathlib import Path
 
 REPO = 'theislampill/IMPLEMENTAUDIT.md'
@@ -14,19 +14,19 @@ TREE = 'ee316c27250ec422d35a1ea965182ebddf7a5da0'
 PARENT = '481e529b691ed3d21169b07f376e357ae51f1f03'
 MANIFEST_SHA = 'ed6a601d3a66997218195202cb5513363b5410b98489762324095a9030c261b4'
 UTILITY_SHA = '429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c'
-PINS_SHA = '794b70423e19d607a64e827b59dd0401713afb13a90fd6bdc74593ef01628558'
+PINS_SHA = 'b40720c76942d03e4fa807c5888e065fafd4f7c6534e75c5dbd6ceacda192ffc'
 CLAIM = 'skills/implementaudit/scripts/claim-run.sh'
 AUTHOR = 'fixtures/controller-initialization/author_checkpoint.py'
 DOCS = ('STATE.md', 'PROTOCOL.md', 'ROADMAP.md', 'THINKING.md', 'sidecars.md', 'tools.md', 'context.md', 'phases/phase-1.md')
-STEPS = ('prepare', 'initialize', 'discover', 'invalidate', 'read-state', 'read-roadmap', 'resume', 'verify', 'require', 'runtime', 'activation', 'receive')
-PUBLIC = ('RESULT.json', 'SOURCE.json', 'HOST.json', 'CURRENTNESS.json', 'PREDICATES.json', 'ACTIVATION.json', 'CLEANUP.json', 'FAILURE.json', 'ARTIFACT_MANIFEST.json')
-PURPOSE = 'Observe exact local source-candidate plugin installation, enabling and cache-backed five-skill discovery through the separately admitted Codex version command and one app-server process with five fixed RPCs, under the inherited fresh controller, offline private view and unchanged cleanup owner. Preserve prior component receipts without replay or original awards.'
-NEXT = 'Acquire and receive the pinned Codex runtime as data, run the retained bounded version command, then initialize/plugin-install/plugin-read/skills-list/hooks-list only. Independently receive the full frozen source image/cache, sole enabled config, exact protocol, private metadata and cleanup. No thread, turn, provider, model, config-read, authentication or lifecycle trigger request.'
-ARCHIVE_URL = 'https://github.com/openai/codex/releases/download/rust-v0.167.0-alpha.4/codex-x86_64-unknown-linux-musl.tar.gz'
-ARCHIVE_SHA = 'c4fd6fdeedf0ae78cc4d1d9dde4282c57a4a67c38319e3575b9a1e4d46c9ccc6'
-ARCHIVE_BYTES = 123815356
-BINARY_SHA = '57c94ea520df28beb76955316c5c48f672550fe42c6cff7003badb76e1ee10d8'
-BINARY_BYTES = 324012616
+STEPS = ('prepare', 'initialize', 'discover', 'invalidate', 'read-state', 'read-roadmap', 'resume', 'verify', 'require', 'runtime', 'claude', 'receive')
+PUBLIC = ('RESULT.json', 'SOURCE.json', 'HOST.json', 'CURRENTNESS.json', 'PREDICATES.json', 'CLAUDE.json', 'CLEANUP.json', 'FAILURE.json', 'ARTIFACT_MANIFEST.json')
+PURPOSE = 'Observe only the frozen-source Claude source-candidate metadata with exactly plugin validate, session plugin list and plugin details, under the inherited fresh controller, offline private filesystem view and owned capture/cleanup. Preserve prior independently received component references without replay or original acceptance.'
+NEXT = 'Receive the pinned Claude archive as data, run only the three separately admitted metadata commands, retain their separate recognition and custody results, and verify source, currentness, private seals and unchanged outside identities.'
+ARCHIVE_URL = 'https://github.com/anthropics/claude-code/releases/download/v2.1.318/claude-linux-x64.tar.gz'
+ARCHIVE_SHA = 'e6d426ca0c123f61fad58a361da0329f2a93cd206bc87040ed8d9576dd9eb583'
+ARCHIVE_BYTES = 155477886
+BINARY_SHA = '708c77b204db30086ff6f1ed34577bda03e1be74ced80557cbf7b54249ebf0bd'
+BINARY_BYTES = 337814032
 PREDICATE_SCOPE = {
     'direct_source_applicability': ['T06', 'T08', 'Y04', 'BINDING_POSITIVE'],
     'component_only': ['T12'],
@@ -93,64 +93,198 @@ def unique_object(pairs):
     for key, value in pairs:
         need(key not in result, 'CATALOGUE_DUPLICATE_KEY'); result[key] = value
     return result
-def receive_activation(state, packet, raw):
+def receive_claude(state, packet, raw):
     schema_raw = read(packet/'PUBLIC_RESULT_SCHEMA.json')
-    state['activation_validation'] = {'valid': False, 'schema_sha256': digest(schema_raw), 'result_sha256': digest(raw), 'result_bytes': len(raw)}
+    state['claude_validation'] = {'valid': False, 'schema_sha256': digest(schema_raw), 'result_sha256': digest(raw), 'result_bytes': len(raw)}
     value = json.loads(raw, object_pairs_hook=unique_object)
-    need(catalogue_schema_matches(value, json.loads(schema_raw, object_pairs_hook=unique_object)), 'ACTIVATION_RESULT_SCHEMA')
-    state['activation'] = value
-    state['activation_validation']['valid'] = True
-def activation_success(value, uid, gid, receipt):
-    if type(value) is not dict:return False
-    flags=('source_identity_verified','source_after_verified','runtime_identity_verified','runtime_reported_version_matches',
-           'native_process_started','currentness_before','currentness_after','executable_route_sound')
-    if value.get('schema')!='dg17.t12.local-source-activation.v1' or value.get('status')!='OBSERVED_LOCAL_INSTALL_AND_CACHE_DISCOVERY' or not all(value.get(key) is True for key in flags):return False
-    if value.get('source_commit')!=SOURCE or value.get('source_tree')!=TREE or value.get('runtime_version')!='0.167.0-alpha.4' or value.get('runtime_bytes')!=BINARY_BYTES or value.get('runtime_sha256')!=BINARY_SHA:return False
-    if value.get('selector')!='.claude-plugin/marketplace.json:implementaudit:./' or value.get('plugin_id')!='implementaudit@implementaudit' or value.get('cache_relative_root')!='plugins/cache/implementaudit/implementaudit/0.4.0':return False
-    if value.get('failure') is not None or value.get('supplemental_failures')!=[] or type(value.get('additional_failure_count')) is not int or value['additional_failure_count']!=0:return False
-    ceilings=('original_acceptance_awarded','built_archive_binding_proven','canonical_git_marketplace_qualified',
-              'model_inference_proven','prompt_independent_routing_proven','thread_content_loaded','lifecycle_trigger_delivery_proven')
-    if not all(value.get(key) is False for key in ceilings) or value.get('independent_receiving')!='NOT_PERFORMED':return False
-    methods=('initialize','plugin/install','plugin/read','skills/list','hooks/list')
-    if value.get('calls')!=[{'method':method,'status':'OBSERVED'} for method in methods]:return False
-    offline=value.get('offline') or {}
-    if type(offline) is not dict or offline.get('uid')!=uid or offline.get('gid')!=gid or offline.get('external_routes')!=0 or not all(offline.get(key) is True for key in ('verified','namespace_differs_from_parent','only_loopback','effective_permitted_ambient_capabilities_zero','no_new_privileges')):return False
-    git=value.get('git_startup_admission') or {}
-    if type(git) is not dict or git.get('profile')!='LINUX_STANDARD_GIT_EMPTY_OR_SAFE_DIRECTORY_V1' or not all(git.get(key) is True for key in ('before_passed','after_passed','identities_unchanged','global_config_paths_absent','source_store_owned_physical','source_common_dir_matches','source_redirections_absent')):return False
-    if git.get('system_config_state')!='EMPTY' or git.get('system_config_entries')!=0 or git.get('system_config_bytes')!=0 or git.get('system_config_sha256')!=digest(b'') or git.get('includes_expanded') is not False or git.get('selected_helper_count')!=3:return False
-    if not git.get('before_identity_sha256') or git.get('before_identity_sha256')!=git.get('after_identity_sha256') or git.get('source_config_profile')!='OWNED_CHECKOUT_CORE_ORIGIN_V1' or git.get('source_git_config_entries') not in (6,7) or git.get('source_active_hook_count')!=0:return False
-    if value.get('install')!={'status':'LOCAL_INSTALL_RESPONSE_OBSERVED','auth_policy':'ON_INSTALL','apps_needing_auth_count':0}:return False
-    catalog=value.get('catalog') or {};effective=value.get('configured_skills') or {}
-    names={'implementaudit','audit-state','audit-assess','audit-implement','audit-andon'}
-    if catalog.get('status')!='SOURCE_CANDIDATE_INSTALLED_ENABLED' or catalog.get('id')!='implementaudit@implementaudit' or not all(catalog.get(key) is True for key in ('installed','enabled','source_image_path_bound','five_exact_skill_paths')) or any(catalog.get(key)!=0 for key in ('other_skill_count','declared_hook_count','declared_app_count','declared_mcp_count')):return False
-    if effective.get('status')!='CACHE_BACKED_ENABLED_SKILL_METADATA' or effective.get('other_skills_attributed_to_candidate') is not False or effective.get('error_count')!=0 or effective.get('thread_content_loaded') is not False:return False
-    for group,cached in ((catalog,False),(effective,True)):
-        rows=group.get('skills')
-        if type(rows) is not list or len(rows)!=5 or not all(type(row) is dict for row in rows) or {row.get('name') for row in rows}!=names:return False
-        if not all(row.get('path')=='skills/'+row['name']+'/SKILL.md' and row.get('enabled') is True and row.get('exact_selected_root') is True and row.get('plugin_attribution_matches') is cached for row in rows):return False
-    if value.get('configured_hooks')!={'status':'EMPTY_CONFIGURED_HOOK_METADATA','hook_count':0,'error_count':0,'warning_count':0,'loaded_thread_hooks_observed':False,'hook_delivery_exercised':False}:return False
-    notifications=value.get('notifications') or {}
-    if notifications.get('wire_complete') is not True or notifications.get('response_count')!=5 or any(notifications.get(key)!=0 for key in ('unknown_frames','server_requests','nonadmitted_outbound')):return False
-    if type(notifications.get('remote_control_payload_sha256')) is not list or len(notifications['remote_control_payload_sha256'])!=notifications.get('remote_control_disabled_count'):return False
-    payloads=value.get('payloads') or {}
-    if payloads.get('declared_full_payload_bytes')!=331711908 or not all(payloads.get(key) is True for key in ('source_image_unchanged','cache_unchanged','after_seal_unchanged')):return False
-    for before,after in (('source_image_before','source_image_after_close'),('native_cache_after_install','native_cache_after_close')):
-        row=payloads.get(before) or {}
-        if row!=payloads.get(after) or row.get('files')!=1755 or row.get('directories')!=418 or row.get('bytes')!=165855954 or row.get('manifest_sha256')!=MANIFEST_SHA or row.get('complete_exact_population') is not True:return False
-    config=value.get('config') or {}
-    if not all(config.get(key) is True for key in ('absent_before_install','unchanged','after_seal_unchanged')) or config.get('after_install')!=config.get('after_close'):return False
-    installed=config.get('after_install') or {}
-    if installed.get('profile')!='SOLE_LOCAL_PLUGIN_ENABLED_V1' or installed.get('enabled') is not True or installed.get('entry_count')!=1:return False
-    metadata=value.get('metadata') or {}
-    if metadata.get('unchanged') is not True or not metadata.get('seal_sha256') or metadata.get('per_file_bound')!=8388608 or metadata.get('aggregate_bound')!=33554432 or metadata.get('entry_bound')!=512:return False
-    cleanup=value.get('cleanup') or {}
-    if not all(cleanup.get(key) is True for key in ('close_returned','reader_joined','global_quiescence_after_close','global_quiescence_after_seal')) or type(cleanup.get('parent_returncode')) is not int or cleanup['parent_returncode']!=0 or cleanup.get('transport_remaining_owned_count')!=0 or cleanup.get('close_error_type') is not None or cleanup.get('containment') is not None:return False
+    need(catalogue_schema_matches(value, json.loads(schema_raw, object_pairs_hook=unique_object)), 'CLAUDE_RESULT_SCHEMA')
+    state['claude'] = value
+    state['claude_validation']['valid'] = True
+def claude_validation_observation(raw, source):
+    """Independently derive the child08 projections from complete private bytes."""
+    canonical = lambda value:(json.dumps(value,sort_keys=True,ensure_ascii=True,allow_nan=False,
+                                        separators=(',',':'))+'\n').encode('ascii')
+    shape = identity = None
+    try:
+        need(type(raw) is bytes and len(raw) <= 32768,'JSON_BYTE_BOUND_REFUSED')
+        def pairs(items):
+            result = {}
+            for key,value in items:
+                need(key not in result,'JSON_DUPLICATE_KEY_UNRECEIVED'); result[key] = value
+            return result
+        def nonfinite(unused): raise Refusal('JSON_NONFINITE_UNRECEIVED')
+        try:
+            value = json.loads(raw.decode('utf-8'),object_pairs_hook=pairs,parse_constant=nonfinite)
+        except (UnicodeError,ValueError,RecursionError):
+            raise Refusal('JSON_PARSE_UNRECEIVED') from None
+        queue = [(value,0)]; nodes = 0
+        while queue:
+            item,depth = queue.pop(); nodes += 1
+            need(nodes <= 2048 and depth <= 12,'JSON_COMPLEXITY_UNRECEIVED')
+            kind = type(item)
+            if kind is dict:
+                need(len(item) <= 128 and all(type(key) is str and len(key) <= 256 for key in item),
+                     'JSON_SHAPE_UNRECEIVED')
+                queue.extend((entry,depth+1) for entry in item.values())
+            elif kind is list:
+                need(len(item) <= 256,'JSON_SHAPE_UNRECEIVED')
+                queue.extend((entry,depth+1) for entry in item)
+            elif kind is str: need(len(item) <= 8192,'JSON_SHAPE_UNRECEIVED')
+            elif kind is int: need(abs(item) <= 2**53,'JSON_SHAPE_UNRECEIVED')
+            else: need(item is None or kind is bool,'JSON_SHAPE_UNRECEIVED')
+        names = ('success','strict','target','manifest','contents','advice','gatingHooks','directory')
+        kinds = {type(None):'NULL',bool:'BOOLEAN',int:'INTEGER',str:'STRING',list:'ARRAY',dict:'OBJECT'}
+        fields = {}
+        for name in names:
+            present = type(value) is dict and name in value
+            item = value[name] if present else None
+            fields[name] = {'present':present,'type':kinds[type(item)] if present else 'ABSENT',
+                            'count':len(item) if present and type(item) in (dict,list) else None}
+        unknown = sorted(key for key in value if key not in names) if type(value) is dict else None
+        shape = {'status':'PUBLIC_SAFE_TOP_LEVEL_SHAPE_ONLY','root_type':kinds[type(value)],
+                 'root_count':len(value) if type(value) in (dict,list) else None,
+                 'unknown_key_count':len(unknown) if unknown is not None else None,
+                 'unknown_key_names_sha256':digest(canonical(unknown)) if unknown is not None else None,
+                 'fields':fields}
+        record = value if type(value) is dict else {}
+        target = record.get('target')
+        target_raw = None
+        relation = 'NON_STRING_OR_ABSENT'
+        if type(target) is str:
+            try:
+                target_raw = target.encode('utf-8')
+            except UnicodeError:
+                relation = 'NON_UTF8_STRING'
+            else:
+                exact_targets = {
+                    str(source): 'EXACT_SOURCE_DIRECTORY',
+                    str(source/'.claude-plugin/marketplace.json'): 'EXACT_SELECTED_MARKETPLACE_MANIFEST',
+                    str(source/'.claude-plugin/plugin.json'): 'EXACT_PLUGIN_MANIFEST'}
+                relation = exact_targets.get(target, 'OTHER_STRING')
+        source_bound = relation in ('EXACT_SOURCE_DIRECTORY', 'EXACT_SELECTED_MARKETPLACE_MANIFEST')
+        identity = {'status': 'PUBLIC_SAFE_IDENTITY_AND_VERDICT_ONLY',
+                    'success_is_true': record.get('success') is True,
+                    'strict_is_false': record.get('strict') is False,
+                    'target_relation': relation,
+                    'target_bytes': len(target_raw) if target_raw is not None else None,
+                    'target_sha256': digest(target_raw) if target_raw is not None else None,
+                    'target_is_source_bound': source_bound}
+        required = set(names[:6])
+        need(type(value) is dict and required <= set(value) <= set(names) and
+             type(value['success']) is bool and type(value['strict']) is bool and
+             type(value['target']) is str and (value['manifest'] is None or type(value['manifest']) is dict) and
+             type(value['contents']) is list and type(value['advice']) is list and
+             ('directory' not in value or value['directory'] is None or type(value['directory']) is dict),
+             'VALIDATION_SHAPE_UNRECEIVED')
+        need(identity['success_is_true'] and identity['strict_is_false'] and source_bound,
+             'VALIDATION_IDENTITY_OR_VERDICT_REFUSED')
+        counts = {'errors':0,'warnings':0,'notes':0}
+        for item in value['contents']:
+            need(type(item) is dict and {'file',*counts} <= set(item) <= {'file',*counts,'gatingHooks'} and
+                 type(item['file']) is str and all(type(item[key]) is list and
+                 all(type(message) is str for message in item[key]) for key in counts),
+                 'VALIDATION_CONTENTS_UNRECEIVED')
+            need(item.get('gatingHooks',[]) == [],'UNEXPECTED_GATING_HOOKS_REFUSED')
+            for key in counts: counts[key] += len(item[key])
+        need(value.get('gatingHooks',[]) == [],'UNEXPECTED_GATING_HOOKS_REFUSED')
+        for item in value['advice']:
+            need(type(item) is dict and set(item) == {'file','message','installLine'} and
+                 all(type(item[key]) is str for key in item),'VALIDATION_ADVICE_UNRECEIVED')
+        need(counts['errors'] == 0,'VALIDATION_CONTENT_ERRORS_REFUSED')
+        directory_present = 'directory' in value
+        projection = {'status':'DOCUMENTED_OUTER_VALIDATION_OBSERVED','success':True,'strict':False,
+                      'target_matches_source_directory':relation == 'EXACT_SOURCE_DIRECTORY',
+                      'target_is_source_bound':True,'target_relation':relation,'error_count':counts['errors'],
+                      'warning_count':counts['warnings'],'note_count':counts['notes'],
+                      'diagnostic_count_scope':'CONTENTS_ONLY_MANIFEST_OPAQUE',
+                      'contents_count':len(value['contents']),'advice_count':len(value['advice']),
+                      'manifest_semantics':'UNRECEIVED_OPAQUE_OBJECT','manifest_is_null':value['manifest'] is None,
+                      'manifest_json_sha256':digest(canonical(value['manifest'])),
+                      'directory_state':'ABSENT' if not directory_present else 'NULL' if value['directory'] is None else 'OPAQUE_OBJECT',
+                      'directory_json_sha256':digest(canonical(value['directory'])) if directory_present else None,
+                      'directory_semantics':'UNRECEIVED_OPAQUE_METADATA','directory_validation_received':False,
+                      'native_five_skill_inventory_received':False}
+        return shape,identity,projection,None
+    except Refusal as exc:
+        return shape,identity,None,str(exc)
+
+def receive_claude_validation(state, source, output):
+    value = state['claude']; rows = [row for row in value['commands'] if row['name'] == 'validate']
+    need(len(rows) <= 1,'CLAUDE_VALIDATION_CAPTURE_POPULATION')
+    flags = state['claude_validation']
+    flags['validation_shape_private_binding_verified'] = False
+    flags['validation_identity_private_binding_verified'] = False
+    flags['validation_projection_private_binding_verified'] = False
+    if not rows or rows[0]['streams_complete'] is not True or rows[0]['returncode'] != 0:
+        need(value['validation_shape'] is None and value['validation_identity'] is None and value['validation'] is None,
+             'CLAUDE_VALIDATION_WITHOUT_COMPLETE_CAPTURE')
+        flags['private_validation_recognition'] = 'NOT_AVAILABLE'
+        return
+    row = rows[0]; raw = read(output/'private/claude-source-candidate/validate.stdout',32768)
+    need(len(raw) == row['stdout_bytes'] and digest(raw) == row['stdout_sha256'],
+         'CLAUDE_VALIDATION_PRIVATE_BYTES')
+    shape,identity,projection,code = claude_validation_observation(raw,source)
+    need(shape == value['validation_shape'] and identity == value['validation_identity'] and projection == value['validation'],
+         'CLAUDE_VALIDATION_PRIVATE_PROJECTION')
+    need(row['recognition_status'] == ('RECEIVED_JSON' if code is None else 'UNRECEIVED') and
+         row['recognition_code'] == code,'CLAUDE_VALIDATION_PRIVATE_RECOGNITION')
+    flags['validation_shape_private_binding_verified'] = True
+    flags['validation_identity_private_binding_verified'] = True
+    flags['validation_projection_private_binding_verified'] = True
+    flags['private_validation_recognition'] = 'RECEIVED_OUTER_VERDICT' if code is None else 'REFUSAL_CONFIRMED'
+
+def claude_success(value, uid, gid, receipt):
+    if type(value) is not dict: return False
+    flags = ('managed_policy_absent', 'currentness_before', 'currentness_after',
+             'consumed_source_before', 'consumed_source_after', 'runtime_before',
+             'runtime_after', 'git_admission_unchanged')
+    if value.get('status') != 'OBSERVED_SOURCE_CANDIDATE_METADATA_WITH_DETAILS_UNRECEIVED' or not all(value.get(k) is True for k in flags): return False
+    if value.get('schema') != 'dg17.claude.source-candidate.v1' or value.get('source_commit') != SOURCE or value.get('source_tree') != TREE: return False
+    if value.get('archive_bytes') != ARCHIVE_BYTES or value.get('archive_sha256') != ARCHIVE_SHA or value.get('runtime_bytes') != BINARY_BYTES or value.get('runtime_sha256') != BINARY_SHA or value.get('runtime_release_tag_declared') != 'v2.1.318': return False
+    if value.get('currentness_receipt_sha256') != digest((receipt+'\n').encode()) or value.get('failure') is not None or value.get('supplemental_failures') != []: return False
+    false_flags = ('runtime_version_self_reported', 'native_five_skill_inventory_received',
+                   'original_acceptance_awarded', 'persistent_installation_proven',
+                   'model_inference_proven', 'prompt_independent_routing_proven')
+    if not all(value.get(k) is False for k in false_flags) or value.get('parent_full_source_admission_required') is not True or value.get('independent_receiving') != 'NOT_PERFORMED': return False
+    if value.get('expected_source_skills') != ['implementaudit','audit-state','audit-assess','audit-implement','audit-andon'] or value.get('fresh_context_count') != 3 or value.get('product_commands_started') != 3 or value.get('planned_commands') != ['validate','list','details'] or value.get('unstarted_commands') != []: return False
+    offline = value.get('offline') or {}
+    if type(offline) is not dict or offline.get('uid') != uid or offline.get('gid') != gid or offline.get('external_routes') != 0 or not all(offline.get(k) is True for k in ('verified','namespace_differs_from_parent','only_loopback','effective_permitted_ambient_capabilities_zero','no_new_privileges')): return False
+    commands = value.get('commands')
+    if type(commands) is not list or not all(type(row) is dict for row in commands) or [row.get('name') for row in commands] != ['validate','list','details']: return False
+    for row in commands:
+        if not all(row.get(k) is True for k in ('process_started','streams_complete','pidfd_acquired','private_streams_retained','owned_cleanup_echild','source_before','source_after','runtime_before','runtime_after','startup_before','startup_after')): return False
+        if not all(row.get(k) is False for k in ('timeout','output_bound_exceeded','internal_failure','retention_failure')) or type(row.get('returncode')) is not int or row['returncode'] != 0: return False
+        if row.get('recognition_code') is not None or row.get('recognition_status') != ('TEXT_UNRECEIVED' if row['name'] == 'details' else 'RECEIVED_JSON'): return False
+        if any(type(row.get(k+'_bytes')) is not int or not 0 <= row[k+'_bytes'] <= 32768 or type(row.get(k+'_sha256')) is not str or re.fullmatch('[0-9a-f]{64}',row[k+'_sha256']) is None for k in ('stdout','stderr')): return False
+        if row.get('stderr_present') is not (row['stderr_bytes'] > 0): return False
+        if type(row.get('owned_reaped_status_count')) is not int or row['owned_reaped_status_count'] < 0 or type(row.get('owned_statuses_sha256')) is not str or re.fullmatch('[0-9a-f]{64}',row['owned_statuses_sha256']) is None: return False
+    validation = value.get('validation') or {}
+    if type(validation) is not dict or validation.get('status') != 'DOCUMENTED_OUTER_VALIDATION_OBSERVED' or validation.get('success') is not True or validation.get('strict') is not False or validation.get('target_is_source_bound') is not True or validation.get('error_count') != 0 or validation.get('manifest_semantics') != 'UNRECEIVED_OPAQUE_OBJECT' or validation.get('native_five_skill_inventory_received') is not False: return False
+    if validation.get('directory_semantics') != 'UNRECEIVED_OPAQUE_METADATA' or validation.get('directory_validation_received') is not False: return False
+    directory = validation.get('directory_state'); directory_sha = validation.get('directory_json_sha256')
+    if directory not in ('ABSENT','NULL','OPAQUE_OBJECT') or (directory == 'ABSENT' and directory_sha is not None) or (directory != 'ABSENT' and (type(directory_sha) is not str or re.fullmatch('[0-9a-f]{64}',directory_sha) is None)): return False
+    shape = value.get('validation_shape') or {}
+    if type(shape) is not dict or shape.get('status') != 'PUBLIC_SAFE_TOP_LEVEL_SHAPE_ONLY' or shape.get('root_type') != 'OBJECT' or shape.get('unknown_key_count') != 0: return False
+    identity = value.get('validation_identity') or {}
+    if type(identity) is not dict or identity.get('status') != 'PUBLIC_SAFE_IDENTITY_AND_VERDICT_ONLY': return False
+    if not all(identity.get(key) is True for key in ('success_is_true','strict_is_false','target_is_source_bound')): return False
+    relation = identity.get('target_relation')
+    if relation not in ('EXACT_SOURCE_DIRECTORY','EXACT_SELECTED_MARKETPLACE_MANIFEST') or validation.get('target_relation') != relation: return False
+    if validation.get('target_matches_source_directory') is not (relation == 'EXACT_SOURCE_DIRECTORY'): return False
+    if type(identity.get('target_bytes')) is not int or not 0 <= identity['target_bytes'] <= 32768: return False
+    if type(identity.get('target_sha256')) is not str or re.fullmatch('[0-9a-f]{64}',identity['target_sha256']) is None: return False
+    listed = value.get('plugin_list') or {}
+    if type(listed) is not dict or listed.get('status') != 'EXACT_SESSION_CANDIDATE_OBSERVED' or listed.get('id') != 'implementaudit@inline' or listed.get('version') != '0.4.0' or listed.get('scope') != 'session' or listed.get('enabled') is not True or listed.get('effective_path_matches_source') is not True or listed.get('plugin_count') != 1 or listed.get('load_error_count') != 0 or listed.get('native_five_skill_inventory_received') is not False: return False
+    details = value.get('details') or {}
+    if details != {'status':'TEXT_FORMAT_UNRECEIVED','exit_zero_observed':True,'native_five_skill_inventory_received':False}: return False
+    cleanup = value.get('cleanup') or {}
+    if type(cleanup) is not dict or cleanup.get('private_seal_unchanged') is not True or cleanup.get('private_plaintext_policy') != 'RETAIN_UNTIL_HOST_TEARDOWN' or cleanup.get('host_teardown_observed') is not False: return False
+    if type(cleanup.get('private_evidence_seal_sha256')) is not str or re.fullmatch('[0-9a-f]{64}',cleanup['private_evidence_seal_sha256']) is None: return False
     for key in ('after_close','after_seal'):
-        row=cleanup.get(key) or {}
-        if row.get('full_session_scope_available') is not True or row.get('launch_directory_empty') is not True or any(type(row.get(field)) is not int or row[field]!=0 for field in ('living_owned_processes','owned_zombies','uncertain_owned_candidates')):return False
+        if cleanup.get(key) != {'no_owned_children_listed':True,'wait_echild':True,'verified':True}: return False
     return True
 
-def activation_capture_base_shape(row, name):
+def claude_capture_base_shape(row, name):
     keys = {'name','process_started','returncode','timeout','output_bound_exceeded',
             'pidfd_acquired','internal_failure','reason_code','stream_digest_scope',
             'streams_complete','stdout_bytes','stderr_bytes','stdout_sha256','stderr_sha256',
@@ -167,420 +301,87 @@ def activation_capture_base_shape(row, name):
     if type(statuses) is not list or len(statuses) != min(count,8) or cleanup['reaped_statuses_truncated'] is not (count > 8): return False
     if any(type(item) is not dict or set(item) != {'pid','returncode'} or type(item['pid']) is not int or item['pid'] <= 0 or type(item['returncode']) is not int for item in statuses): return False
     return True
-def activation_identity(info):
-    return {'device':info.st_dev,'inode':info.st_ino,'mode':stat.S_IMODE(info.st_mode),
-            'uid':info.st_uid,'gid':info.st_gid,'links':info.st_nlink,'bytes':info.st_size,
-            'mtime_ns':info.st_mtime_ns,'ctime_ns':info.st_ctime_ns}
-
-def activation_directory(path, private=False):
-    info=path.lstat()
-    need(stat.S_ISDIR(info.st_mode) and path.is_absolute() and path.resolve(strict=True)==path and
-         info.st_uid==os.getuid() and info.st_gid==os.getgid() and not info.st_mode&0o022 and
-         (not private or stat.S_IMODE(info.st_mode)==0o700),'ACTIVATION_DIRECTORY_SHAPE')
-    return activation_identity(info)
-
-def activation_file(path, limit, collect=False):
-    before=path.lstat()
-    need(stat.S_ISREG(before.st_mode) and before.st_nlink==1 and before.st_uid==os.getuid() and
-         before.st_gid==os.getgid() and not before.st_mode&0o022 and
-         0<=before.st_size<=limit,'ACTIVATION_FILE_SHAPE')
-    fd=os.open(path,os.O_RDONLY|os.O_CLOEXEC|os.O_NOFOLLOW);total=0;hashed=hashlib.sha256();parts=[]
+def receive_claude_private(state, output, source):
+    root = output/'private/claude-source-candidate'
+    root_info = root.lstat()
+    need(stat.S_ISDIR(root_info.st_mode) and root_info.st_uid == os.getuid() and not root_info.st_mode & 0o077 and root.resolve(strict=True) == root, 'CLAUDE_PRIVATE_ROOT')
+    path = root/'PRIVATE_EVIDENCE_SEAL.json'; seal_info = path.lstat()
+    need(stat.S_ISREG(seal_info.st_mode) and seal_info.st_uid == os.getuid() and not seal_info.st_mode & 0o077 and seal_info.st_nlink == 1, 'CLAUDE_PRIVATE_SEAL_OWNER')
+    raw = read(path,262144)
+    need(digest(raw) == state['claude']['cleanup']['private_evidence_seal_sha256'], 'CLAUDE_PRIVATE_SEAL_BINDING')
+    declared = json.loads(raw, object_pairs_hook=unique_object)
+    need(type(declared) is dict and set(declared) == {'schema','members'} and declared['schema'] == 'dg17.claude.private-seal.v1' and type(declared['members']) is list and len(declared['members']) <= 512, 'CLAUDE_PRIVATE_SEAL_SHAPE')
+    population = []; pending = [root]
     try:
-        need(activation_identity(os.fstat(fd))==activation_identity(before),'ACTIVATION_FILE_OPEN_CHANGED')
-        while True:
-            chunk=os.read(fd,1048576)
-            if not chunk:break
-            total+=len(chunk);need(total<=before.st_size,'ACTIVATION_FILE_READ_BOUND');hashed.update(chunk)
-            if collect:parts.append(chunk)
-        need(total==before.st_size and activation_identity(os.fstat(fd))==activation_identity(before) and
-             activation_identity(path.lstat())==activation_identity(before),'ACTIVATION_FILE_CHANGED')
-    finally:os.close(fd)
-    return b''.join(parts),{'bytes':total,'sha256':hashed.hexdigest(),'identity':activation_identity(before)}
-
-def activation_frozen_snapshot(root, manifest, source=False):
-    expected={row['path']:row for row in manifest['members']}
-    expected_dirs={str(parent) for name in expected for parent in Path(name).parents if parent!=Path('.')}
-    need(len(expected)==1755 and len(expected_dirs)==418 and
-         sum(row['bytes'] for row in expected.values())==165855954,'ACTIVATION_MANIFEST_POPULATION')
-    root_row=activation_directory(root);population={};directories={};pending=[root]
-    while pending:
-        parent=pending.pop();observed=activation_directory(parent)
-        directories[parent]=observed
-        with os.scandir(parent) as stream:
-            entries=list(stream)
-        need(activation_identity(parent.lstat())==observed,'ACTIVATION_DIRECTORY_CHANGED')
-        for entry in entries:
-            item=parent/entry.name;info=item.lstat();relative=item.relative_to(root).as_posix()
-            if source and parent==root and entry.name in ('.git','.IMPLEMENTAUDIT'):
-                activation_directory(item);continue
-            need(relative not in population and len(population)<2173,'ACTIVATION_PAYLOAD_POPULATION_BOUND')
-            population[relative]=(item,info)
-            if stat.S_ISDIR(info.st_mode):pending.append(item)
-            else:need(stat.S_ISREG(info.st_mode),'ACTIVATION_PAYLOAD_NONREGULAR')
-    files={name for name,(path,info) in population.items() if stat.S_ISREG(info.st_mode)}
-    dirs=set(population)-files
-    need(files==set(expected) and dirs==expected_dirs,'ACTIVATION_PAYLOAD_EXACT_POPULATION')
-    rows=[]
-    for name in sorted(population):
-        item,info=population[name]
-        need(info.st_uid==os.getuid() and info.st_gid==os.getgid(),'ACTIVATION_PAYLOAD_OWNER')
-        if name in dirs:
-            need(stat.S_IMODE(info.st_mode)==0o755,'ACTIVATION_PAYLOAD_DIRECTORY_MODE')
-            rows.append({'path':name,'kind':'DIRECTORY','identity':activation_identity(info)})
-        else:
-            wanted=expected[name]
-            need(stat.S_IMODE(info.st_mode)==(0o755 if wanted['mode']=='100755' else 0o644),
-                 'ACTIVATION_PAYLOAD_MODE')
-            unused,observed=activation_file(item,wanted['bytes'])
-            need(observed['bytes']==wanted['bytes'] and observed['sha256']==wanted['sha256'] and
-                 observed['identity']==activation_identity(info),'ACTIVATION_PAYLOAD_BYTES')
-            rows.append({'path':name,'kind':'REGULAR',**observed})
-    need(activation_identity(root.lstat())==root_row and
-         all(activation_identity(path.lstat())==row for path,row in directories.items()),
-         'ACTIVATION_PAYLOAD_DIRECTORY_BOOKEND')
-    return {'root':root_row,'rows':rows}
-
-def activation_store_join(snapshot, independent):
-    need(type(snapshot) is dict and set(snapshot)=={'root','rows'} and type(snapshot['rows']) is list and
-         len(snapshot['rows'])<=65536,'ACTIVATION_STORE_SNAPSHOT')
-    fields={'device','inode','mode','uid','gid','links','bytes','mtime_ns','ctime_ns'}
-    def converted(row, kind):
-        need(type(row) is dict and set(row)==fields and all(type(value) is int for value in row.values()) and
-             row['uid']==os.getuid() and row['gid']==os.getgid() and 0<=row['mode']<=0o7777 and
-             not row['mode']&0o022,'ACTIVATION_STORE_IDENTITY')
-        value={('nlink' if name=='links' else name):item for name,item in row.items()}
-        value['mode']|=stat.S_IFDIR if kind=='DIRECTORY' else stat.S_IFREG
-        return value
-    rows=[];names=[];total=0;files=0
-    for row in snapshot['rows']:
-        need(type(row) is dict and row.get('kind') in ('REGULAR','DIRECTORY') and
-             set(row)==({'path','kind','identity','sha256'} if row['kind']=='REGULAR' else {'path','kind','identity'}),
-             'ACTIVATION_STORE_MEMBER_SHAPE')
-        name=row['path'];path=Path(name)
-        need(type(name) is str and path.as_posix()==name and not path.is_absolute() and
-             len(path.parts)<=32 and len(name)<=4096 and all(x not in ('','..','.') for x in path.parts),
-             'ACTIVATION_STORE_PATH')
-        converted_row={'path':name,'kind':row['kind'],'identity':converted(row['identity'],row['kind'])}
-        if row['kind']=='REGULAR':
-            need(re.fullmatch('[0-9a-f]{64}',row['sha256']) is not None and row['identity']['links']==1,
-                 'ACTIVATION_STORE_FILE')
-            converted_row['sha256']=row['sha256'];files+=1;total+=row['identity']['bytes']
-        rows.append(converted_row);names.append(name)
-    need(names==sorted(set(names)) and 0<=total<=536870912 and
-         len(rows)==independent['entries'] and files==independent['regular_files'] and total==independent['bytes'] and
-         digest(encoded({'root':converted(snapshot['root'],'DIRECTORY'),'members':rows}))==independent['population_sha256'],
-         'ACTIVATION_STORE_INDEPENDENT_BINDING')
-
-def activation_metadata_snapshot(private, home, cache):
-    rows=[];total=0
-    for owner,root in (('evidence',private),('native-home',home)):
-        activation_directory(root,True);pending=[root]
         while pending:
-            parent=pending.pop();before=activation_identity(parent.lstat())
-            with os.scandir(parent) as stream:
-                entries=list(stream)
-            need(activation_identity(parent.lstat())==before,'ACTIVATION_METADATA_DIRECTORY_CHANGED')
+            directory = pending.pop()
+            with os.scandir(directory) as stream:
+                entries = list(stream)
             for entry in entries:
-                item=parent/entry.name
-                if item==private/'PRIVATE_EVIDENCE_SEAL.json':continue
-                info=item.lstat();name=owner+'/'+item.relative_to(root).as_posix()
-                need(len(rows)<512 and len(Path(name).parts)<=18 and info.st_uid==os.getuid() and
-                     info.st_gid==os.getgid() and (not (stat.S_ISREG(info.st_mode) or stat.S_ISDIR(info.st_mode)) or
-                     not info.st_mode&0o022),'ACTIVATION_METADATA_POPULATION')
-                if item==cache:
-                    activation_directory(item)
-                    rows.append({'path':name,'kind':'EXACT_PAYLOAD_OWNER','identity':activation_identity(info)})
-                elif stat.S_ISDIR(info.st_mode):
-                    rows.append({'path':name,'kind':'DIRECTORY','identity':activation_identity(info)});pending.append(item)
-                elif stat.S_ISREG(info.st_mode):
-                    unused,observed=activation_file(item,8388608)
-                    total+=observed['bytes'];need(total<=33554432,'ACTIVATION_METADATA_TOTAL')
-                    rows.append({'path':name,'kind':'REGULAR',**observed})
-                else:
-                    rows.append({'path':name,'kind':'NONREGULAR','identity':activation_identity(info)})
-    return sorted(rows,key=lambda row:row['path'])
-
-def activation_expected_requests(image, neutral):
-    return [
-      {'id':1,'method':'initialize','params':{'clientInfo':{'name':'dg17_t12_activation','version':'1.0.0'},
-                                          'capabilities':{'experimentalApi':True}}},
-      {'method':'initialized'},
-      {'id':2,'method':'plugin/install','params':{'pluginName':'implementaudit','marketplacePath':str(image/'.claude-plugin/marketplace.json')}},
-      {'id':3,'method':'plugin/read','params':{'pluginName':'implementaudit','marketplacePath':str(image/'.claude-plugin/marketplace.json')}},
-      {'id':4,'method':'skills/list','params':{'cwds':[str(neutral)],'forceReload':True}},
-      {'id':5,'method':'hooks/list','params':{'cwds':[str(neutral)]}},
-    ]
-
-def activation_protocol_readback(raw, image, home, neutral, private, binary):
-    need(len(raw)<=8388608,'ACTIVATION_PROTOCOL_BOUND')
-    def reject_nonfinite(unused):raise Refusal('ACTIVATION_PROTOCOL_NONFINITE')
-    def parse(data):return json.loads(data,object_pairs_hook=unique_object,parse_constant=reject_nonfinite)
-    lines=raw.splitlines();need(1<=len(lines)<=64,'ACTIVATION_PROTOCOL_POPULATION')
-    records=[parse(line) for line in lines];outbound=[];responses={};starts=[];ends=[];notifications=[]
-    sent_ids=set();skills_changed=0;remote=[]
-    expected=activation_expected_requests(image,neutral)
-    for position,event in enumerate(records,1):
-        need(type(event) is dict and set(event)=={'sequence','monotonic_ns','direction','value'} and
-             type(event['sequence']) is int and event['sequence']==position and
-             type(event['monotonic_ns']) is int and event['monotonic_ns']>=0,'ACTIVATION_PROTOCOL_EVENT')
-        direction=event['direction'];value=event['value']
-        if direction=='send':
-            need(len(outbound)<len(expected) and value==expected[len(outbound)],'ACTIVATION_OUTBOUND_NOT_ADMITTED')
-            outbound.append(value)
-            if 'id' in value:sent_ids.add(value['id'])
-        elif direction=='recv_raw':
-            need(type(value) is str and len(value.encode())<=65536,'ACTIVATION_NATIVE_FRAME_BOUND')
-            message=parse(value);need(type(message) is dict,'ACTIVATION_NATIVE_FRAME_SHAPE')
-            if 'id' in message:
-                need(set(message)=={'id','result'} and type(message['id']) is int and
-                     message['id'] in sent_ids and message['id'] not in responses,'ACTIVATION_NATIVE_REQUEST_OR_RESPONSE')
-                responses[message['id']]=message['result']
-            else:
-                need(set(message)=={'method','params','emittedAtMs'} and type(message['emittedAtMs']) is int and 0<=message['emittedAtMs']<=9223372036854775807,'ACTIVATION_NOTIFICATION_SHAPE')
-                method=message['method'];params=message['params']
-                if method=='skills/changed':
-                    need(type(params) is dict and params=={},'ACTIVATION_SKILLS_CHANGED_SHAPE');skills_changed+=1
-                elif method=='remoteControl/status/changed':
-                    need(type(params) is dict and {'status','installationId','serverName'}<=set(params)<=
-                         {'status','installationId','serverName','environmentId'} and params['status']=='disabled' and
-                         params.get('environmentId') is None and all(type(params[x]) is str and
-                         1<=len(params[x].encode())<=256 for x in ('installationId','serverName')),
-                         'ACTIVATION_REMOTE_CONTROL_NOT_DISABLED')
-                    remote.append(digest(encoded(params)))
-                else:raise Refusal('ACTIVATION_UNADMITTED_NOTIFICATION')
-                need(skills_changed<=16 and len(remote)<=16,'ACTIVATION_NOTIFICATION_COUNT')
-        elif direction=='lifecycle':
-            need(type(value) is dict,'ACTIVATION_LIFECYCLE_SHAPE')
-            if value.get('event')=='started':starts.append(value)
-            elif value.get('event')=='terminated':ends.append(value)
-            else:raise Refusal('ACTIVATION_LIFECYCLE_NOT_ADMITTED')
-        else:raise Refusal('ACTIVATION_PROTOCOL_DIRECTION')
-    need(outbound==expected and set(responses)=={1,2,3,4,5} and len(starts)==len(ends)==1 and
-         records[0]['direction']==records[-1]['direction']=='lifecycle' and
-         records[0]['value']==starts[0] and records[-1]['value']==ends[0],'ACTIVATION_PROTOCOL_COMPLETE_POPULATION')
-    start=starts[0];end=ends[0]
-    extra=['--strict-config','-c','features.plugins=true','-c','features.plugin_discovery_prefetch=false',
-           '-c','features.remote_plugin=false','-c','cli_auth_credentials_store="ephemeral"',
-           '-c','mcp_oauth_credentials_store="file"','-c','analytics.enabled=false','-c','feedback.enabled=false']
-    need(set(start)=={'namespace_identity','event','pid','argv','cwd','home','environment_keys',
-                     'original_binary','binary_sha256','launch_copy_is_hardlink'} and
-         type(start['pid']) is int and start['pid']>0 and type(start['namespace_identity']) is dict and
-         start['argv']==[str(private/'transport/owned-binary/codex'),'app-server','--listen','stdio://',*extra] and
-         start['cwd']==str(neutral) and start['home']==str(home) and start['original_binary']==str(binary) and
-         start['binary_sha256']==BINARY_SHA and start['launch_copy_is_hardlink'] is False and
-         start['environment_keys']==['CODEX_HOME','HOME','LANG','PATH','PYTHONDONTWRITEBYTECODE','TMPDIR'],
-         'ACTIVATION_NATIVE_LAUNCH_BINDING')
-    need(set(end)=={'event','pid','returncode','reader_joined','escalations','residual_signal_attempts',
-                   'remaining_owned_processes','launch_directory_empty'} and end['pid']==start['pid'] and
-         type(end['returncode']) is int and end['returncode']==0 and end['reader_joined'] is True and
-         end['remaining_owned_processes']==[] and end['launch_directory_empty'] is True and
-         type(end['residual_signal_attempts']) is list and type(end['escalations']) is list and
-         all(item in ('SIGTERM_OWN_PROCESS_GROUP','SIGKILL_OWN_PROCESS_GROUP','SIGTERM_OWN_RESIDUALS_PIDFD',
-                      'SIGKILL_OWN_RESIDUALS_PIDFD') for item in end['escalations']),'ACTIVATION_NATIVE_CLOSE_BINDING')
-    return {'skills_changed_count':skills_changed,'remote_control_disabled_count':len(remote),
-            'remote_control_payload_sha256':remote,'unknown_frames':0,'server_requests':0,
-            'nonadmitted_outbound':0,'response_count':5,'wire_complete':True},responses
-
-def activation_rpc_projection(responses, image, home, cache, neutral, manifest):
-    methods=('initialize','plugin/install','plugin/read','skills/list','hooks/list')
-    need(type(responses) is dict and set(responses)==set(range(1,6)),'ACTIVATION_RPC_POPULATION')
-    init=responses[1]
-    need(type(init) is dict and set(init)=={'userAgent','codexHome','platformFamily','platformOs'} and
-         init['codexHome']==str(home) and init['platformFamily']=='unix' and init['platformOs']=='linux' and
-         type(init['userAgent']) is str and '0.167.0-alpha.4' in init['userAgent'] and
-         len(init['userAgent'])<=1024,'ACTIVATION_INITIALIZE_BINDING')
-    install=responses[2]
-    need(type(install) is dict and set(install)=={'authPolicy','appsNeedingAuth'} and
-         install['authPolicy']=='ON_INSTALL' and type(install['appsNeedingAuth']) is list and
-         install['appsNeedingAuth']==[],'ACTIVATION_INSTALL_TYPED_RESPONSE')
-    names=('implementaudit','audit-state','audit-assess','audit-implement','audit-andon')
-    expected={'implementaudit:'+name:name for name in names}
-    files={row['path']:row for row in manifest['members']}
-    def selected(item, root, cached):
-        need(type(item) is dict and type(item.get('name')) is str and type(item.get('enabled')) is bool,
-             'ACTIVATION_SKILL_ROW')
-        name=expected.get(item['name'])
-        if name is None:return None
-        relative='skills/'+name+'/SKILL.md'
-        need(item.get('path')==str(root/relative) and item['enabled'] is True and
-             (not cached or item.get('pluginId')=='implementaudit@implementaudit'),'ACTIVATION_SKILL_ROOT_OR_ATTRIBUTION')
-        return {'name':name,'path':relative,'sha256':files[relative]['sha256'],'enabled':True,
-                'exact_selected_root':True,'plugin_attribution_matches':cached}
-    detail=responses[3]
-    need(type(detail) is dict and set(detail)=={'plugin'} and type(detail['plugin']) is dict,'ACTIVATION_PLUGIN_READ')
-    detail=detail['plugin'];summary=detail.get('summary')
-    need(type(summary) is dict and summary.get('id')=='implementaudit@implementaudit' and
-         summary.get('name')=='implementaudit' and summary.get('installed') is True and
-         summary.get('enabled') is True and summary.get('authPolicy')=='ON_INSTALL' and
-         summary.get('source')=={'type':'local','path':str(image)} and
-         detail.get('marketplacePath')==str(image/'.claude-plugin/marketplace.json') and
-         detail.get('marketplaceName')=='implementaudit','ACTIVATION_LOCAL_PLUGIN_STATE')
-    need(all(type(detail.get(key)) is list and detail[key]==[] for key in ('apps','appTemplates','mcpServers','hooks')) and
-         type(detail.get('skills')) is list and len(detail['skills'])==5,'ACTIVATION_PLUGIN_COMPONENTS')
-    candidate=[selected(row,image,False) for row in detail['skills']]
-    need(all(row is not None for row in candidate) and {row['name'] for row in candidate}==set(names),
-         'ACTIVATION_CANDIDATE_FIVE_SKILLS')
-    effective=responses[4]
-    need(type(effective) is dict and set(effective)=={'data'} and type(effective['data']) is list and
-         len(effective['data'])==1,'ACTIVATION_EFFECTIVE_SKILLS')
-    effective=effective['data'][0]
-    need(type(effective) is dict and set(effective)=={'cwd','skills','errors'} and effective['cwd']==str(neutral) and
-         type(effective['skills']) is list and len(effective['skills'])<=128 and
-         type(effective['errors']) is list and effective['errors']==[],'ACTIVATION_EFFECTIVE_SKILL_SCOPE')
-    cached=[];other_count=0
-    for item in effective['skills']:
-        row=selected(item,cache,True)
-        if row is None:
-            need(item.get('pluginId')!='implementaudit@implementaudit' and type(item.get('path')) is str and
-                 not Path(item['path']).is_relative_to(cache),'ACTIVATION_UNATTRIBUTED_CACHE_MEMBER')
-            other_count+=1
-        else:cached.append(row)
-    need(len(cached)==5 and {row['name'] for row in cached}==set(names),'ACTIVATION_EFFECTIVE_FIVE_SKILLS')
-    hooks=responses[5]
-    need(type(hooks) is dict and set(hooks)=={'data'} and type(hooks['data']) is list and len(hooks['data'])==1,
-         'ACTIVATION_HOOKS_RESPONSE')
-    hooks=hooks['data'][0]
-    need(type(hooks) is dict and set(hooks)=={'cwd','hooks','errors','warnings'} and hooks['cwd']==str(neutral) and
-         all(type(hooks[key]) is list and hooks[key]==[] for key in ('hooks','errors','warnings')),
-         'ACTIVATION_HOOK_METADATA_SCOPE')
-    return {
-      'install':{'status':'LOCAL_INSTALL_RESPONSE_OBSERVED','auth_policy':'ON_INSTALL','apps_needing_auth_count':0},
-      'catalog':{'status':'SOURCE_CANDIDATE_INSTALLED_ENABLED','id':'implementaudit@implementaudit','installed':True,
-                 'enabled':True,'source_image_path_bound':True,'five_exact_skill_paths':True,
-                 'skills':sorted(candidate,key=lambda row:row['name']),'other_skill_count':0,
-                 'declared_hook_count':0,'declared_app_count':0,'declared_mcp_count':0},
-      'configured_skills':{'status':'CACHE_BACKED_ENABLED_SKILL_METADATA','skills':sorted(cached,key=lambda row:row['name']),
-                           'other_skill_count':other_count,'other_skills_attributed_to_candidate':False,
-                           'error_count':0,'thread_content_loaded':False},
-      'configured_hooks':{'status':'EMPTY_CONFIGURED_HOOK_METADATA','hook_count':0,'error_count':0,'warning_count':0,
-                          'loaded_thread_hooks_observed':False,'hook_delivery_exercised':False},
-    }
-
-def receive_activation_private(state, output, source):
-    packet=Path(__file__).absolute().parent
-    manifest_raw=read(packet/'SOURCE_MANIFEST.json')
-    need(digest(manifest_raw)==MANIFEST_SHA,'ACTIVATION_PARENT_MANIFEST_PIN')
-    manifest=json.loads(manifest_raw,object_pairs_hook=unique_object)
-    private=output/'private/native-activation';payloads=output/'payloads'
-    image=payloads/'source-image';home=payloads/'native-home';neutral=payloads/'neutral'
-    cache=home/'plugins/cache/implementaudit/implementaudit/0.4.0'
-    value=state['activation'];flags=state['activation_validation']
-    activation_directory(payloads,True);activation_directory(private,True)
-    with os.scandir(payloads) as stream:children=list(stream)
-    need({entry.name for entry in children}=={'source-image','native-home','neutral'},'ACTIVATION_PAYLOAD_OWNERS')
-    owners={}
-    for name,path in (('source-image',image),('native-home',home),('neutral',neutral)):
-        observed=activation_directory(path,name!='source-image')
-        owners[name]={key:observed[key] for key in ('device','inode','mode','uid','gid')}
-    with os.scandir(neutral) as stream:need(list(stream)==[],'ACTIVATION_NEUTRAL_NOT_EMPTY')
-    def private_json(name,limit=8388608):
-        raw,unused=activation_file(private/name,limit,True)
-        return json.loads(raw,object_pairs_hook=unique_object)
-    need(private_json('PAYLOAD_OWNERS_BEFORE.json')==owners,'ACTIVATION_OWNER_IDENTITY_CHANGED')
-    for root in (source,image,neutral):
-        for ancestor in (root,*root.parents):
-            for name in ('config.toml','hooks.json','managed_config.toml','requirements.toml'):
-                need(not os.path.lexists(ancestor/'.codex'/name),'ACTIVATION_UNREVIEWED_ANCESTOR_CONFIG')
-    for name in ('config.toml','managed_config.toml','requirements.toml','hooks.json'):
-        need(not os.path.lexists(Path('/etc/codex')/name),'ACTIVATION_UNREVIEWED_SYSTEM_CONFIG')
-    for name in ('auth.json','auth.json.tmp','managed_config.toml','requirements.toml','hooks.json','.gitconfig','.config/git/config'):
-        need(not os.path.lexists(home/name),'ACTIVATION_UNREVIEWED_NATIVE_HOME_LAYER')
-    for relative in ('plugin.json','.mcp.json','.app.json','hooks/hooks.json','commands','.codex-plugin/migrated-command-skills'):
-        need(not os.path.lexists(image/relative),'ACTIVATION_UNREVIEWED_PLUGIN_COMPONENT')
-    observed_source=activation_frozen_snapshot(source,manifest,True)
-    need(observed_source==private_json('SOURCE_BEFORE.json')==private_json('SOURCE_AFTER.json'),
-         'ACTIVATION_FULL_SOURCE_PRIVATE_BOOKENDS')
-    independent_store=currentness_store_snapshot(source,packet)
-    need(independent_store==state['currentness_store_before'],'ACTIVATION_PARENT_STORE_BASELINE_DRIFT')
-    store_before=private_json('SOURCE_STORE_BEFORE.json')
-    need(store_before==private_json('SOURCE_STORE_AFTER.json'),'ACTIVATION_STORE_PRIVATE_BOOKENDS')
-    activation_store_join(store_before,independent_store)
-    image_now=activation_frozen_snapshot(image,manifest)
-    cache_now=activation_frozen_snapshot(cache,manifest)
-    need(image_now==private_json('IMAGE_BEFORE.json')==private_json('IMAGE_AFTER_CLOSE.json') and
-         cache_now==private_json('CACHE_AFTER_INSTALL.json')==private_json('CACHE_AFTER_CLOSE.json'),
-         'ACTIVATION_FULL_PAYLOAD_BOOKENDS')
-    def summary(snapshot):
-        regular=[row for row in snapshot['rows'] if row['kind']=='REGULAR']
-        return {'files':len(regular),'directories':len(snapshot['rows'])-len(regular),
-                'bytes':sum(row['bytes'] for row in regular),'manifest_sha256':MANIFEST_SHA,
-                'physical_census_sha256':digest(encoded(snapshot)),'complete_exact_population':True}
-    need(value['payloads']['source_image_before']==value['payloads']['source_image_after_close']==summary(image_now) and
-         value['payloads']['native_cache_after_install']==value['payloads']['native_cache_after_close']==summary(cache_now),
-         'ACTIVATION_PUBLIC_PAYLOAD_BINDING')
-    config_raw,config_file=activation_file(home/'config.toml',4096,True)
-    configuration=tomllib.loads(config_raw.decode('utf-8'))
-    need(configuration=={'plugins':{'implementaudit@implementaudit':{'enabled':True}}} and
-         configuration['plugins']['implementaudit@implementaudit']['enabled'] is True and
-         config_file['identity']['mode'] in (0o600,0o644),'ACTIVATION_SOLE_ENABLED_CONFIGURATION')
-    config={'profile':'SOLE_LOCAL_PLUGIN_ENABLED_V1','bytes':config_file['bytes'],'sha256':config_file['sha256'],
-            'identity':config_file['identity'],'enabled':True,'entry_count':1}
-    need(config==private_json('CONFIG_AFTER_INSTALL.json')==private_json('CONFIG_AFTER_CLOSE.json') and
-         value['config']['after_install']==value['config']['after_close']=={key:item for key,item in config.items() if key!='identity'},
-         'ACTIVATION_CONFIG_PRIVATE_PUBLIC_BINDING')
-    flags['full_source_image_cache_config_independently_received']=True
-    git_before=private_json('GIT_ADMISSION_BEFORE.json');git_after=private_json('GIT_ADMISSION_AFTER.json')
-    need(type(git_before) is dict and set(git_before)=={'resolver','git','libexec','helpers','system_config','home','source_store'} and
-         git_before==git_after and git_before['source_store']==independent_store['guard'],
-         'ACTIVATION_GIT_PRIVATE_BOOKENDS')
-    selected=git_before['git'];admitted=state['host']['tools']['git'];system=git_before['system_config']
-    need(selected.get('resolved')=='/usr/bin/git' and selected.get('sha256')==admitted['sha256'] and
-         selected.get('bytes')==admitted['bytes'] and system.get('present') is True and
-         system.get('bytes')==0 and system.get('sha256')==digest(b'') and
-         value['git_startup_admission']['before_identity_sha256']==value['git_startup_admission']['after_identity_sha256']==digest(json.dumps(git_before,sort_keys=True,separators=(',',':')).encode()),
-         'ACTIVATION_GIT_PARENT_BINDING')
-    records=private_json('GATE_COMMANDS.json')
-    need(type(records) is list and len(records)==2,'ACTIVATION_GATE_POPULATION')
-    for name,row in zip(('gate-before','gate-after'),records):
-        need(activation_capture_base_shape(row,name),'ACTIVATION_GATE_CAPTURE_FIELDS')
-        captured=private_json(name+'.capture.json',65536)
-        need(type(captured) is list and captured==[row] and
-             row['process_started'] is True and type(row['returncode']) is int and row['returncode']==0 and
-             row['streams_complete'] is True and row['timeout'] is False and row['output_bound_exceeded'] is False and
-             row['pidfd_acquired'] is True and row['internal_failure'] is None and
-             row['private_streams_retained'] is True and row['retention_failure'] is False and
-             row['cleanup']['echild'] is True,'ACTIVATION_GATE_CUSTODY')
-        stdout,unused=activation_file(private/(name+'.stdout'),32768,True)
-        stderr,unused=activation_file(private/(name+'.stderr'),32768,True)
-        need(stdout==(state['receipt']+'\n').encode() and stderr==b'' and
-             row['stdout_bytes']==len(stdout) and row['stdout_sha256']==digest(stdout) and
-             row['stderr_bytes']==0 and row['stderr_sha256']==digest(b''),'ACTIVATION_GATE_RECEIPT_BINDING')
-    flags['same_receipt_private_readbacks_verified']=True
-    protocol_raw,unused=activation_file(private/'transport/protocol.jsonl',8388608,True)
-    notifications,responses=activation_protocol_readback(protocol_raw,image,home,neutral,private,output/'private/codex-input')
-    expected=activation_rpc_projection(responses,image,home,cache,neutral,manifest)
-    need(all(value[name]==projection for name,projection in expected.items()) and value['notifications']==notifications,
-         'ACTIVATION_RPC_PUBLIC_PROJECTION')
-    methods=('initialize','plugin/install','plugin/read','skills/list','hooks/list')
-    need(private_json('RPC_RESULTS.json')=={method:responses[index+1] for index,method in enumerate(methods)},
-         'ACTIVATION_RPC_MEMORY_WIRE_BINDING')
-    effects=private_json('transport/NATIVE_EXECUTABLE_EFFECTS.json')
-    launch=private/'transport/owned-binary'
-    with os.scandir(launch) as stream:need(list(stream)==[],'ACTIVATION_LAUNCH_DIRECTORY_NOT_EMPTY')
-    need(effects.get('original_binary')==str(output/'private/codex-input') and effects.get('original_sha256')==BINARY_SHA and
-         effects.get('launch_root')==str(launch) and effects.get('remaining_owned_processes')==[] and
-         effects.get('deleted_regular_files')==['codex'] and effects.get('files_after_cleanup')==[] and
-         effects.get('files_after_process_exit')==[{'path':'codex','mode':0o755,'bytes':BINARY_BYTES,'links':1,'kind':'file','sha256':BINARY_SHA}],
-         'ACTIVATION_UNCHANGED_CLEANUP_OWNER_BINDING')
-    before_resources=private_json('transport/RESOURCE_BEFORE.json')
-    need(before_resources.get('roots')=={str(home):[],str(private/'transport/owned-tmp'):[]},
-         'ACTIVATION_NATIVE_HOME_TMP_NOT_FRESH')
-    flags['exact_five_rpc_and_cleanup_owner_received']=True
-    seal_path=private/'PRIVATE_EVIDENCE_SEAL.json';seal_raw,seal_file=activation_file(seal_path,8388608,True)
-    need(seal_file['sha256']==value['metadata']['seal_sha256'],'ACTIVATION_METADATA_SEAL_BINDING')
-    declared=json.loads(seal_raw,object_pairs_hook=unique_object)
-    need(type(declared) is dict and set(declared)=={'schema','files','separate_payload_owners','full_payload_manifest_sha256'} and
-         declared['schema']=='dg17.activation.small-evidence-seal.v1' and
-         declared['separate_payload_owners']==['source-image','plugins/cache/implementaudit/implementaudit/0.4.0'] and
-         declared['full_payload_manifest_sha256']==MANIFEST_SHA,'ACTIVATION_METADATA_SEAL_SHAPE')
-    observed=activation_metadata_snapshot(private,home,cache)
-    regular=[row for row in observed if row['kind']=='REGULAR'];total=sum(row['bytes'] for row in regular)+len(seal_raw)
-    need(observed==declared['files'] and total<=33554432 and value['metadata']['files']==len(regular) and
-         value['metadata']['entries']==len(observed) and value['metadata']['bytes']==total and
-         activation_file(seal_path,8388608,True)[0]==seal_raw,'ACTIVATION_METADATA_INDEPENDENT_CENSUS')
-    flags['private_seal_verified_after_child_reaping']=True
-    flags['private_member_count']=len(observed)
-    flags['payload_files_independently_received']=3510
+                item = directory/entry.name
+                if item == path: continue
+                mode = item.lstat().st_mode
+                need(len(population) < 512 and len(item.relative_to(root).parts) <= 16, 'CLAUDE_PRIVATE_MEMBER_SHAPE')
+                population.append(item)
+                if stat.S_ISDIR(mode): pending.append(item)
+    except OSError:
+        raise Refusal('CLAUDE_PRIVATE_ENUMERATION_REFUSED') from None
+    observed = []; total = 0
+    for item in sorted(population, key=lambda value: value.relative_to(root).as_posix()):
+        info = item.lstat()
+        need(item.resolve(strict=True) == item and info.st_uid == os.getuid(), 'CLAUDE_PRIVATE_MEMBER_OWNER')
+        if stat.S_ISREG(info.st_mode):
+            need(info.st_nlink == 1 and not info.st_mode & 0o022 and info.st_size <= 8388608, 'CLAUDE_PRIVATE_MEMBER_SHAPE')
+            size, sha = stream_hash(item); after = item.lstat()
+            identity = lambda x:(x.st_dev,x.st_ino,x.st_mode,x.st_uid,x.st_gid,x.st_nlink,x.st_size,x.st_mtime_ns,x.st_ctime_ns)
+            need(identity(info) == identity(after) and size == info.st_size, 'CLAUDE_PRIVATE_MEMBER_CHANGED')
+            total += size; need(total <= 33554432, 'CLAUDE_PRIVATE_TOTAL_BOUND')
+            observed.append({'path':item.relative_to(root).as_posix(),'kind':'REGULAR','bytes':size,'sha256':sha})
+        else:
+            need(stat.S_ISDIR(info.st_mode) and not info.st_mode & 0o077, 'CLAUDE_PRIVATE_NONREGULAR_OR_MODE')
+            observed.append({'path':item.relative_to(root).as_posix(),'kind':'DIRECTORY'})
+    need(observed == declared['members'] and read(path,262144) == raw, 'CLAUDE_PRIVATE_SEAL_READBACK')
+    state['claude_validation']['private_seal_verified_after_child_reaping'] = True
+    state['claude_validation']['private_member_count'] = len(observed)
+    for name in ('currentness-before','currentness-after'):
+        need(read(root/(name+'.stdout'),32768) == (state['receipt']+'\n').encode() and read(root/(name+'.stderr'),32768) == b'', 'CLAUDE_EXACT_RECEIPT_BINDING')
+    state['claude_validation']['same_receipt_private_readbacks_verified'] = True
+    git_before = json.loads(read(root/'GIT_ADMISSION_BEFORE.json',262144), object_pairs_hook=unique_object)
+    git_after = json.loads(read(root/'GIT_ADMISSION_AFTER.json',262144), object_pairs_hook=unique_object)
+    need(type(git_before) is dict and set(git_before) == {'resolver','git','libexec','helpers','system_config','home','source_store'} and git_before == git_after, 'CLAUDE_GIT_PRIVATE_BOOKENDS')
+    selected = git_before['git']; admitted = state['host']['tools']['git']
+    need(type(selected) is dict and selected.get('resolved') == '/usr/bin/git' and selected.get('sha256') == admitted['sha256'] and selected.get('bytes') == admitted['bytes'], 'CLAUDE_GIT_HOST_BINDING')
+    system = git_before['system_config']
+    need(type(system) is dict and system.get('present') is True and system.get('bytes') == 0 and system.get('sha256') == digest(b''), 'CLAUDE_EMPTY_SYSTEM_CONFIG_BINDING')
+    state['claude_validation']['git_private_bookends_verified'] = True
+    state['claude_validation']['git_admission_identity_sha256'] = digest(encoded(git_before))
+    records = json.loads(read(root/'COMMANDS.json',262144), object_pairs_hook=unique_object)
+    names = ['currentness-before','validate','list','details','currentness-after']
+    need(type(records) is list and len(records) == len(names) and all(type(row) is dict for row in records) and [row.get('name') for row in records] == names, 'CLAUDE_PRIVATE_COMMAND_POPULATION')
+    products = []; flags = ('source_before','source_after','runtime_before','runtime_after','startup_before','startup_after')
+    for name,row in zip(names,records):
+        captures = json.loads(read(root/(name+'.capture.json'),65536), object_pairs_hook=unique_object)
+        need(type(captures) is list and len(captures) == 1 and claude_capture_base_shape(captures[0],name), 'CLAUDE_PRIVATE_CAPTURE_REQUIRED_FIELDS')
+        base = captures[0]; extras = {'recognition_status','recognition_code',*flags} if name in ('validate','list','details') else set()
+        need(set(row) == set(base) | extras and claude_capture_base_shape({key:row[key] for key in base},name) and all(row[key] == value for key,value in base.items()), 'CLAUDE_PRIVATE_CAPTURE_BINDING')
+        if extras:
+            need(type(row['recognition_status']) is str and (row['recognition_code'] is None or type(row['recognition_code']) is str) and all(type(row[key]) is bool for key in flags), 'CLAUDE_PRIVATE_ENRICHMENT_SHAPE')
+        for stream in ('stdout','stderr'):
+            content = read(root/(name+'.'+stream),32768)
+            need(row[stream+'_bytes'] == len(content) and row[stream+'_sha256'] == digest(content), 'CLAUDE_PRIVATE_STREAM_BINDING')
+        need(row['process_started'] is True and row['returncode'] == 0 and row['streams_complete'] is True and row['timeout'] is False and row['output_bound_exceeded'] is False and row['pidfd_acquired'] is True and row['internal_failure'] is None and row['private_streams_retained'] is True and row['retention_failure'] is False and row['cleanup']['echild'] is True, 'CLAUDE_PRIVATE_CAPTURE_CUSTODY')
+        if extras:
+            public = {key:row[key] for key in ('name','returncode','stdout_bytes','stdout_sha256','stderr_bytes','stderr_sha256','recognition_status','recognition_code')}
+            for key in ('process_started','streams_complete','timeout','output_bound_exceeded','pidfd_acquired','private_streams_retained','retention_failure',*flags):
+                public[key] = row[key] is True
+            public.update(internal_failure=row['internal_failure'] is not None,stderr_present=row['stderr_bytes'] > 0,
+                          owned_cleanup_echild=row['cleanup']['echild'] is True,
+                          owned_reaped_status_count=row['cleanup']['retained_status_count'],
+                          owned_statuses_sha256=row['cleanup']['retained_statuses_sha256'])
+            products.append(public)
+    need(products == state['claude']['commands'], 'CLAUDE_PRIVATE_PUBLIC_COMMAND_BINDING')
+    state['claude_validation']['private_public_stream_and_command_bindings_verified'] = True
+    receive_claude_validation(state,source,output)
 def utility(packet):
     raw = read(packet/'host_utility.py'); need(digest(raw) == UTILITY_SHA, 'UTILITY_PIN')
     module = types.ModuleType('dg17_retained_host_utility'); module.__file__ = str(packet/'host_utility.py')
@@ -713,8 +514,8 @@ def currentness_store_snapshot(source, packet):
 def currentness_admission(state, source, output, u, label):
     """Data-only re-entry gate. Failure containment is distinct from cleanup."""
     expected_steps = {'initial-currentness':'require','before-runtime-acquisition':'runtime',
-                      'after-runtime-acquisition':'runtime','before-activation':'activation',
-                      'after-activation':'activation','before-receiving':'receive',
+                      'after-runtime-acquisition':'runtime','before-claude':'claude',
+                      'after-claude':'claude','before-receiving':'receive',
                       'after-receiving':'receive','final-currentness':None}
     need(label in expected_steps and state.get('failed') is False and state.get('failures') == [] and
          state.get('active_command') is None and state.get('active_step') == expected_steps[label],
@@ -725,22 +526,22 @@ def currentness_admission(state, source, output, u, label):
          row.get('pidfd_acquired') is True and row.get('internal_failure') is None and
          row.get('streams_complete') is True and row.get('cleanup',{}).get('echild') is True
          for row in state['commands']), 'CURRENTNESS_PRIOR_CAPTURE_UNSOUND')
-    late = label in ('after-activation','before-receiving','after-receiving','final-currentness')
+    late = label in ('after-claude','before-receiving','after-receiving','final-currentness')
     if label == 'final-currentness':
         need(state.get('completed') == list(STEPS) and state.get('bounded_receiving_complete') is True,
              'FINAL_CURRENTNESS_INCOMPLETE_RECEIVING')
     packet = Path(__file__).absolute().parent
     if late:
-        need(any(row.get('name') == 'offline-native-activation' for row in state['commands']),
+        need(any(row.get('name') == 'offline-claude-source-candidate' for row in state['commands']),
              'CURRENTNESS_NATIVE_CAPTURE_MISSING')
-        need(state.get('activation_validation',{}).get('valid') is True and
-             state['activation_validation'].get('captured_result_matches') is True and
-             activation_success(state.get('activation',{}),os.getuid(),os.getgid(),state['receipt']),
+        need(state.get('claude_validation',{}).get('valid') is True and
+             state['claude_validation'].get('captured_result_matches') is True and
+             claude_success(state.get('claude',{}),os.getuid(),os.getgid(),state['receipt']),
              'CURRENTNESS_CHILD_ROUTE_UNSOUND')
-        raw = read(output/'private/ACTIVATION_RESULT.json',32768)
-        need(digest(raw) == state['activation_validation']['result_sha256'] and
-             json.loads(raw,object_pairs_hook=unique_object) == state['activation'], 'CURRENTNESS_CHILD_RESULT_CHANGED')
-        receive_activation_private(state,output,source)
+        raw = read(output/'private/CLAUDE_RESULT.json',32768)
+        need(digest(raw) == state['claude_validation']['result_sha256'] and
+             json.loads(raw,object_pairs_hook=unique_object) == state['claude'], 'CURRENTNESS_CHILD_RESULT_CHANGED')
+        receive_claude_private(state,output,source)
     observed = source_check(source,packet)
     need(observed == state.get('source_before') and
          canonical_hashes(source,state) == state.get('canonical_before'), 'CURRENTNESS_SOURCE_OR_STATE_DRIFT')
@@ -752,14 +553,14 @@ def currentness_admission(state, source, output, u, label):
     else:
         need(store == state.get('currentness_store_before'), 'CURRENTNESS_STORE_DRIFT')
     if late:
-        received_git = json.loads(read(output/'private/native-activation/GIT_ADMISSION_BEFORE.json',262144),
+        received_git = json.loads(read(output/'private/claude-source-candidate/GIT_ADMISSION_BEFORE.json',262144),
                                   object_pairs_hook=unique_object)
         need(store['guard'] == received_git.get('source_store'), 'CURRENTNESS_RECEIVED_STORE_DRIFT')
     for name in ('bash','env','git','python3'):
         path,observed_tool = u.trusted(name)
         need(path is not None and observed_tool == state['host']['tools'][name], 'CURRENTNESS_TOOL_CHANGED')
     if 'runtime' in state:
-        binary = output/'private/codex-input'; info = binary.lstat()
+        binary = output/'private/claude-input'; info = binary.lstat()
         need(binary.resolve(strict=True) == binary and stat.S_ISREG(info.st_mode) and
              info.st_uid == os.getuid() and info.st_nlink == 1 and stat.S_IMODE(info.st_mode) == 0o700 and
              stream_hash(binary) == (BINARY_BYTES,BINARY_SHA), 'CURRENTNESS_RUNTIME_CHANGED')
@@ -783,26 +584,38 @@ def current(state, source, output, u, label):
     state['currentness'].append({'role': label, 'receipt_sha256': digest(raw), 'same_source_cwd': True, 'verified': True, 'pre_execution_admission':admission})
     save(output/'private/episode.json', state)
 def acquire_runtime(output):
-    archive = output/'private/codex.tar.gz'; started = time.monotonic(); count = 0; h = hashlib.sha256()
-    with urllib.request.urlopen(ARCHIVE_URL, timeout=30) as response, archive.open('xb') as f:
+    archive = output/'private/claude.tar.gz'; started = time.monotonic(); count = 0; h = hashlib.sha256()
+    with urllib.request.urlopen(ARCHIVE_URL, timeout=30) as response, archive.open('xb') as stream:
         while True:
             chunk = response.read(1048576)
             if not chunk: break
             count += len(chunk); need(count <= ARCHIVE_BYTES and time.monotonic()-started < 180, 'ARCHIVE_BOUND')
-            h.update(chunk); f.write(chunk)
+            h.update(chunk); stream.write(chunk)
     need(count == ARCHIVE_BYTES and h.hexdigest() == ARCHIVE_SHA, 'ARCHIVE_PIN')
-    binary = output/'private/codex-input'
-    with tarfile.open(archive, 'r:gz') as tar:
+    binary = output/'private/claude-input'
+    with tarfile.open(archive,'r:gz') as tar:
         members = tar.getmembers()
-        need(len(members) == 1 and members[0].isreg() and members[0].name == 'codex-x86_64-unknown-linux-musl' and members[0].size == BINARY_BYTES, 'ARCHIVE_MEMBERS')
-        with tar.extractfile(members[0]) as inp, binary.open('xb') as out:
+        need(len(members) == 1, 'ARCHIVE_MEMBERS')
+        member = members[0]
+        need(member.isreg() and member.name == 'claude' and member.size == BINARY_BYTES and member.mode == 0o755 and member.linkname == '' and member.pax_headers == {}, 'ARCHIVE_MEMBER_IDENTITY')
+        count = 0
+        with tar.extractfile(member) as inp, binary.open('xb') as out:
             while True:
                 chunk = inp.read(1048576)
                 if not chunk: break
+                count += len(chunk); need(count <= BINARY_BYTES, 'ARCHIVE_BINARY_BOUND')
                 out.write(chunk)
-    need(stream_hash(binary) == (BINARY_BYTES, BINARY_SHA), 'BINARY_PIN')
-    os.chmod(binary, 0o700)
-    return {'archive_sha256': ARCHIVE_SHA, 'archive_bytes': ARCHIVE_BYTES, 'binary_sha256': BINARY_SHA, 'binary_bytes': BINARY_BYTES, 'version_subject': 'codex-cli 0.167.0-alpha.4', 'input_retained_until_host_teardown': True}
+    need(stream_hash(binary) == (BINARY_BYTES,BINARY_SHA), 'BINARY_PIN')
+    os.chmod(binary,0o700)
+    info = binary.lstat()
+    need(binary.resolve(strict=True) == binary and stat.S_ISREG(info.st_mode) and info.st_nlink == 1 and info.st_uid == os.getuid() and info.st_gid == os.getgid() and stat.S_IMODE(info.st_mode) == 0o700, 'BINARY_OWNED_PHYSICAL_FILE')
+    with binary.open('rb') as stream: header = stream.read(64)
+    need(len(header) == 64 and header[:6] == b'\x7fELF\x02\x01' and int.from_bytes(header[18:20],'little') == 62, 'BINARY_ELF_X64')
+    return {'archive_sha256':ARCHIVE_SHA,'archive_bytes':ARCHIVE_BYTES,'archive_member':'claude',
+            'binary_sha256':BINARY_SHA,'binary_bytes':BINARY_BYTES,'release_tag_declared':'v2.1.318',
+            'runtime_version_self_reported':False,'elf64_little_endian_x86_64':True,
+            'input_retained_until_host_teardown':True,
+            'parent_runtime_identity_horizon':'ACQUISITION_RECEIVE_AND_CURRENTNESS_ADMISSION'}
 
 def mount_role():
     path = Path('/usr/bin/mount').resolve(strict=True); info = path.lstat()
@@ -958,14 +771,14 @@ def prior_component(state, source, phase):
 def observe_capsule_failure(state, label, exc):
     state['failures'].append({'step':label,'exception_type':type(exc).__name__,
                               'message_sha256':digest(str(exc).encode()),'message_bytes':len(str(exc).encode())})
-def launch_activation(state, source, output, packet, u):
+def launch_claude(state, source, output, packet, u):
     need(digest(CAPSULE_SCRIPT.encode()) == CAPSULE_SCRIPT_SHA and digest(CAPSULE_CODE.encode()) == CAPSULE_CODE_SHA, 'CAPSULE_LITERAL_PIN')
     host = capsule_host_snapshot(state, u)
     netns = os.readlink('/proc/self/ns/net')
-    probe_args = ['--source',str(source),'--episode',str(output),'--binary',str(output/'private/codex-input'),
+    probe_args = ['--source',str(source),'--episode',str(output),'--binary',str(output/'private/claude-input'),
                   '--controller',state['controller'],'--receipt',state['receipt'],'--expected-uid',str(os.getuid()),
                   '--expected-gid',str(os.getgid()),'--parent-netns',netns]
-    child_argv = ['/usr/bin/python3','-I','-S','-B',str(packet/'activation_probe.py'),*probe_args]
+    child_argv = ['/usr/bin/python3','-I','-S','-B',str(packet/'claude_probe.py'),*probe_args]
     state['capsule_private'] = {'host_before':host,'child_argv_sha256':digest(encoded(child_argv))}
     state['capsule'] = {'profile':'PRIVATE_READONLY_TMPFS_AND_EMPTY_SYSTEM_GITCONFIG_V2','status':'PREPARED_NOT_OBSERVED',
                         'qualification_scope':'CONSTRUCTED_PRIVATE_VIEW_NOT_STOCK_INSTALLATION_PATH_QUALIFICATION',
@@ -981,9 +794,9 @@ def launch_activation(state, source, output, packet, u):
             '/usr/bin/bash','--noprofile','--norc','-c',CAPSULE_SCRIPT,'dg17-private-view',
             str(os.getuid()),str(os.getgid()),CAPSULE_CODE,
             str(output/'private/CAPSULE_ADMISSION.json'),str(output/'private/CAPSULE_RESULT.json'),
-            host['parent_mount_namespace'],str(packet/'activation_probe.py'),*probe_args]
+            host['parent_mount_namespace'],str(packet/'claude_probe.py'),*probe_args]
     failure = None
-    try: command(state, output, u, 'offline-native-activation', argv, seconds=180)
+    try: command(state, output, u, 'offline-claude-source-candidate', argv, seconds=180)
     except BaseException as exc: failure = exc
     for label, action in (('capsule-outside-after',lambda:capsule_recheck(state,u,'after-command')),
                           ('capsule-proof-after',lambda:receive_capsule(state,output))):
@@ -992,18 +805,19 @@ def launch_activation(state, source, output, packet, u):
             observe_capsule_failure(state,label,exc)
             if failure is None: failure = exc
     try:
-        if (output/'private/ACTIVATION_RESULT.json').exists():
-            receive_activation(state, packet, read(output/'private/ACTIVATION_RESULT.json', 32768))
+        if (output/'private/CLAUDE_RESULT.json').exists():
+            receive_claude(state, packet, read(output/'private/CLAUDE_RESULT.json', 32768))
             record = state['commands'][-1]
-            state['activation_validation']['captured_result_matches'] = False
-            if record.get('name') == 'offline-native-activation' and record.get('streams_complete') is True:
-                captured_raw = read(output/'private'/f'{len(state["commands"]):03d}-offline-native-activation.stdout',32768)
-                need(captured_raw == read(output/'private/ACTIVATION_RESULT.json',32768), 'ACTIVATION_CAPTURE_DIFFERS')
+            state['claude_validation']['captured_result_matches'] = False
+            if record.get('name') == 'offline-claude-source-candidate' and record.get('streams_complete') is True:
+                captured_raw = read(output/'private'/f'{len(state["commands"]):03d}-offline-claude-source-candidate.stdout',32768)
+                need(captured_raw == read(output/'private/CLAUDE_RESULT.json',32768), 'CLAUDE_CAPTURE_DIFFERS')
                 captured = json.loads(captured_raw, object_pairs_hook=unique_object)
-                need(catalogue_schema_matches(captured, json.loads(read(packet/'PUBLIC_RESULT_SCHEMA.json'), object_pairs_hook=unique_object)) and captured == state['activation'], 'ACTIVATION_CAPTURE_DIFFERS')
-                state['activation_validation']['captured_result_matches'] = True
+                need(catalogue_schema_matches(captured, json.loads(read(packet/'PUBLIC_RESULT_SCHEMA.json'), object_pairs_hook=unique_object)) and captured == state['claude'], 'CLAUDE_CAPTURE_DIFFERS')
+                state['claude_validation']['captured_result_matches'] = True
+                receive_claude_validation(state,source,output)
     except BaseException as exc:
-        observe_capsule_failure(state,'activation-receiving',exc)
+        observe_capsule_failure(state,'claude-receiving',exc)
         if failure is None: failure = exc
     if failure is not None: raise failure
 
@@ -1064,22 +878,20 @@ def execute(step, state, source, output, packet, u):
     elif step == 'require': current(state, source, output, u, 'initial-currentness')
     elif step == 'runtime':
         current(state, source, output, u, 'before-runtime-acquisition'); state['runtime'] = acquire_runtime(output)
-        version = command(state, output, u, 'codex-version', [str(output/'private/codex-input'), '--version']).decode().strip()
-        need(version == 'codex-cli 0.167.0-alpha.4', 'CODEX_VERSION'); state['runtime']['observed_version'] = version
         current(state, source, output, u, 'after-runtime-acquisition')
-    elif step == 'activation':
-        current(state, source, output, u, 'before-activation')
-        launch_activation(state, source, output, packet, u)
-        current(state, source, output, u, 'after-activation')
+    elif step == 'claude':
+        current(state, source, output, u, 'before-claude')
+        launch_claude(state, source, output, packet, u)
+        current(state, source, output, u, 'after-claude')
     elif step == 'receive':
         current(state, source, output, u, 'before-receiving')
         prior_component(state, source, 'receive')
         receive_capsule(state, output)
         capsule_recheck(state, u, 'receive')
-        need(state.get('activation_validation', {}).get('valid') is True and state['activation_validation'].get('captured_result_matches') is True and activation_success(state.get('activation', {}),os.getuid(),os.getgid(),state['receipt']), 'ACTIVATION_NOT_RECEIVED')
-        need(stream_hash(output/'private/codex-input') == (BINARY_BYTES,BINARY_SHA), 'RECEIVED_RUNTIME_CHANGED')
-        receive_activation_private(state,output,source)
-        state['activation_validation']['semantic_receiving_passed'] = True
+        need(state.get('claude_validation', {}).get('valid') is True and state['claude_validation'].get('captured_result_matches') is True and claude_success(state.get('claude', {}),os.getuid(),os.getgid(),state['receipt']), 'CLAUDE_NOT_RECEIVED')
+        need(stream_hash(output/'private/claude-input') == (BINARY_BYTES,BINARY_SHA), 'RECEIVED_RUNTIME_CHANGED')
+        receive_claude_private(state,output,source)
+        state['claude_validation']['semantic_receiving_passed'] = True
         state['source_after'] = source_check(source, packet)
         need(state['source_after'] == state['source_before'] and canonical_hashes(source, state) == state['canonical_before'], 'FINAL_SOURCE_OR_STATE_DRIFT')
         current(state, source, output, u, 'after-receiving')
@@ -1087,20 +899,20 @@ def execute(step, state, source, output, packet, u):
     else: raise Refusal('UNKNOWN_STEP')
 
 def export(state, output, packet):
-    if 'activation' in state:
+    if 'claude' in state:
         try:
-            need(catalogue_schema_matches(state['activation'], json.loads(read(packet/'PUBLIC_RESULT_SCHEMA.json'))), 'ACTIVATION_EXPORT_SCHEMA')
+            need(catalogue_schema_matches(state['claude'], json.loads(read(packet/'PUBLIC_RESULT_SCHEMA.json'))), 'CLAUDE_EXPORT_SCHEMA')
         except BaseException as exc:
-            state.pop('activation', None); state.setdefault('activation_validation',{})['valid'] = False; state['failed'] = True; state['bounded_receiving_complete'] = False
+            state.pop('claude', None); state.setdefault('claude_validation',{})['valid'] = False; state['failed'] = True; state['bounded_receiving_complete'] = False
             state['failures'].append({'step': 'export', 'exception_type': type(exc).__name__, 'message_sha256': digest(str(exc).encode()), 'message_bytes': len(str(exc).encode())})
     docs = {
-        'RESULT.json': {'schema': 'dg17.isolated-codex-activation-hosted-result.v1', 'context': state['context'], 'completed': state['completed'], 'failed': state['failed'], 'bounded_receiving_complete': state.get('bounded_receiving_complete', False), 'activation_validation': state.get('activation_validation'), 'local_currentness_transfer': False, 'original_acceptance': False, 'whole_T12': False, 'whole_T14': False, 'new_original_awards': []},
+        'RESULT.json': {'schema': 'dg17.isolated-claude-hosted-result.v1', 'context': state['context'], 'completed': state['completed'], 'failed': state['failed'], 'bounded_receiving_complete': state.get('bounded_receiving_complete', False), 'claude_validation': state.get('claude_validation'), 'local_currentness_transfer': False, 'original_acceptance': False, 'whole_T12': False, 'whole_T14': False, 'new_original_awards': []},
         'SOURCE.json': {'before': state.get('source_before'), 'after': state.get('source_after'), 'canonical_unchanged': state.get('canonical_unchanged')},
         'HOST.json': {'host': state.get('host'), 'runtime': state.get('runtime'), 'capsule': state.get('capsule')},
         'CURRENTNESS.json': {'checks': state['currentness'], 'reads': state['reads'], 'local_or_future_transfer': False},
         'PREDICATES.json': state.get('predicates', {'status':'PRIOR_COMPONENT_NOT_REPLAYED','reference':PRIOR_COMPONENT,'fresh_execution':False,'fresh_method_count':0,'native_windows_qualification':False,'new_original_awards':[],'source_closure':{'prepare':False,'receive':False,'final':False}}),
-        'ACTIVATION.json': state.get('activation', {'status': 'INVALID_RESULT_SCHEMA' if state.get('activation_validation',{}).get('valid') is False else 'NOT_COMPLETED'}),
-        'CLEANUP.json': {'commands': state['commands'], 'active_step': state.get('active_step'), 'active_command': state.get('active_command'), 'all_recorded_commands_reaped': all(x.get('cleanup', {}).get('echild') is True for x in state['commands']), 'private_roots_retained_until_disposable_host_teardown': True, 'declared_large_payload_owners_retained_until_disposable_host_teardown': True},
+        'CLAUDE.json': state.get('claude', {'status': 'INVALID_RESULT_SCHEMA' if state.get('claude_validation',{}).get('valid') is False else 'NOT_COMPLETED'}),
+        'CLEANUP.json': {'commands': state['commands'], 'active_step': state.get('active_step'), 'active_command': state.get('active_command'), 'all_recorded_commands_reaped': all(x.get('cleanup', {}).get('echild') is True for x in state['commands']), 'private_roots_retained_until_disposable_host_teardown': True},
         'FAILURE.json': {'failures': state['failures']}}
     files = {name: encoded(value) for name, value in docs.items()}; need(all(len(raw) <= 65536 for raw in files.values()) and sum(map(len, files.values())) <= 262144, 'PUBLIC_BOUND')
     files['ARTIFACT_MANIFEST.json'] = encoded({'schema': 'dg17.public-artifact-manifest.v1', 'members': [{'name': name, 'bytes': len(raw), 'sha256': digest(raw)} for name, raw in sorted(files.items())]})
@@ -1146,9 +958,9 @@ def main():
                 need(state['canonical_unchanged'] and state['source_after'] == state['source_before'], 'FINAL_SOURCE_OR_STATE_DRIFT')
                 prior_component(state, source, 'final')
                 if state.get('bounded_receiving_complete') is True:
-                    need(digest(read(output/'private/ACTIVATION_RESULT.json',32768)) == state['activation_validation']['result_sha256'] and activation_success(state['activation'],os.getuid(),os.getgid(),state['receipt']), 'FINAL_ACTIVATION_RESULT_DRIFT')
-                    receive_activation_private(state,output,source)
-                    state['activation_validation']['final_private_seal_verified'] = True
+                    need(digest(read(output/'private/CLAUDE_RESULT.json',32768)) == state['claude_validation']['result_sha256'] and claude_success(state['claude'],os.getuid(),os.getgid(),state['receipt']), 'FINAL_CLAUDE_RESULT_DRIFT')
+                    receive_claude_private(state,output,source)
+                    state['claude_validation']['final_private_seal_verified'] = True
                 current(state, source, output, u, 'final-currentness')
             except BaseException as exc:
                 state['failed'] = True; state['bounded_receiving_complete'] = False; state['failures'].append({'step': 'finalize', 'exception_type': type(exc).__name__, 'message_sha256': digest(str(exc).encode()), 'message_bytes': len(str(exc).encode())})

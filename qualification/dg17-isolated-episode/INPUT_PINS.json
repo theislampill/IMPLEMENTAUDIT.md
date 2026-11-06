@@ -1,19 +1,23 @@
 {
   "PUBLIC_RESULT_SCHEMA.json": {
-    "bytes": 36049,
-    "sha256": "3ffa3c2e95b0fd5d0280126e24d504b0469a1560b8bcdb972cb10de45523c806"
+    "bytes": 33617,
+    "sha256": "45a4a7456a914528ee9c6564a056a639822ad51963d602bad5841f69f39d144b"
+  },
+  "SOURCE_INPUT_PINS.json": {
+    "bytes": 2092,
+    "sha256": "d5e1e1e9abeeaa79500acc0c41f1555df4a1dc6e5a50259a94db8895500edaad"
   },
   "SOURCE_MANIFEST.json": {
     "bytes": 492188,
     "sha256": "ed6a601d3a66997218195202cb5513363b5410b98489762324095a9030c261b4"
   },
-  "activation_probe.py": {
-    "bytes": 52573,
-    "sha256": "fb63742c117e775492b5bc09661355e6449bd20bf02ca818137b9b6e52e926bd"
-  },
   "catalogue_probe.py": {
     "bytes": 50831,
     "sha256": "9456e39cf3be3254b4c25c74716a1b87ba5f2accd6bf196db061e326c7a50277"
+  },
+  "claude_probe.py": {
+    "bytes": 45501,
+    "sha256": "85dc12554adcf71a7b7fad6089645fb27adc2a01c1cba27c56fe38e842a12654"
   },
   "host_utility.py": {
     "bytes": 54556,
