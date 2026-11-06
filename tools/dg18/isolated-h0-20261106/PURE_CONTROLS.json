@@ -1,0 +1,997 @@
+{
+  "actual_host_tuple": "PENDING",
+  "all_positive_authorization_and_receipt_values": "INERT_GRAMMAR_FIXTURES_ONLY_NOT_REVIEW_GO_OR_NATIVE_PROOF",
+  "authority": "NONE",
+  "baseline_red": {
+    "cause": "closed_diagnostic_missing",
+    "failed_as_expected": 19,
+    "unchanged_behavior_passed": 2
+  },
+  "checked_runtime_code": {
+    "held_control.py": "a43a7f7610ab79864cd4e114f9d2451743b4e1707632ed210f52b7bed310c57e",
+    "host_io.py": "bca129b00142a61bbd12818d2756db8ca68e9dfe85308caf89d084084da6e5fc",
+    "host_utility.py": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c",
+    "live_receiver.py": "ace6f387d85fa9f6be50febd2d443d8aef26b4294b4eefdcc4d596912b7788a2",
+    "mechanical_driver.py": "fbcbd6af2042f64f18b422b273978d79ff7692f8b8eee9c137a6844400967975",
+    "native_driver.py": "6912c61868c275a663d69f3b37c87aa0a67a7921353215d8b5bb78ab7a08842b",
+    "native_transport.py": "60dd721c37a44d820fde02f66abe54f22587db5a6fad27547500bd9b70e39c26",
+    "provider.py": "d3bd454bafb6fe4bdc1d9c74168953161c522657c337791b52402b0bc10b88fc"
+  },
+  "independent_review": false,
+  "largest_public_result_bytes": 3484,
+  "native_execution": false,
+  "passed": 232,
+  "public_effects": false,
+  "public_result_limit": 4096,
+  "root_GO": "PENDING",
+  "schema": "dg18.h0-author-controls.v1",
+  "source_commit": "0d57929be5bd15682b4e9da2c0209d5dff307843",
+  "source_tree": "ee316c27250ec422d35a1ea965182ebddf7a5da0",
+  "status": "AUTHOR_CONTROLS_PASSED_PENDING_INDEPENDENT_REVIEW",
+  "suites": [
+    {
+      "checks": [
+        {
+          "name": "qualified_nonzero_owner_receipt_retains_reason_and_source_error",
+          "passed": true
+        },
+        {
+          "name": "unknown_private_owner_reason_is_closed_unknown",
+          "passed": true
+        },
+        {
+          "name": "unknown_uppercase_reason_requires_the_fixed_source_codebook",
+          "passed": true
+        },
+        {
+          "name": "zero_exit_invalid_result_remains_failure_without_owner_refusal_claim",
+          "passed": true
+        },
+        {
+          "name": "zero_exit_source_validation_failure_stays_unaccepted",
+          "passed": true
+        },
+        {
+          "name": "unqualified_malformed_framing",
+          "passed": true
+        },
+        {
+          "name": "unqualified_duplicate_output",
+          "passed": true
+        },
+        {
+          "name": "unqualified_foreign_output",
+          "passed": true
+        },
+        {
+          "name": "unqualified_bad_metadata",
+          "passed": true
+        },
+        {
+          "name": "unqualified_duplicate_receipt_key",
+          "passed": true
+        },
+        {
+          "name": "unqualified_retry_missing",
+          "passed": true
+        },
+        {
+          "name": "unqualified_repeated_call_id",
+          "passed": true
+        },
+        {
+          "name": "unqualified_receipt_selection_sha256",
+          "passed": true
+        },
+        {
+          "name": "unqualified_receipt_request_sha256",
+          "passed": true
+        },
+        {
+          "name": "unqualified_receipt_stdout_sha256",
+          "passed": true
+        },
+        {
+          "name": "unqualified_receipt_exit_code",
+          "passed": true
+        },
+        {
+          "name": "unqualified_receipt_operation",
+          "passed": true
+        },
+        {
+          "name": "distinct_exact_retry_binds_only_its_own_call_and_output",
+          "passed": true
+        },
+        {
+          "name": "successful_response_and_single_operation_unchanged",
+          "passed": true
+        },
+        {
+          "name": "diagnostic_sink_failure_cannot_replace_primary_exception",
+          "passed": true
+        },
+        {
+          "name": "owner_refusal_requires_exact_typed_authority_ceiling",
+          "passed": true
+        }
+      ],
+      "name": "DIAGNOSTIC_GREEN.json",
+      "passed": 21,
+      "total": 21
+    },
+    {
+      "checks": [
+        {
+          "name": "python_ast:held_control.py",
+          "passed": true
+        },
+        {
+          "name": "python_ast:host_io.py",
+          "passed": true
+        },
+        {
+          "name": "python_ast:host_utility.py",
+          "passed": true
+        },
+        {
+          "name": "python_ast:live_receiver.py",
+          "passed": true
+        },
+        {
+          "name": "python_ast:mechanical_driver.py",
+          "passed": true
+        },
+        {
+          "name": "python_ast:native_driver.py",
+          "passed": true
+        },
+        {
+          "name": "python_ast:native_transport.py",
+          "passed": true
+        },
+        {
+          "name": "python_ast:provider.py",
+          "passed": true
+        },
+        {
+          "name": "frozen_source_commit",
+          "passed": true
+        },
+        {
+          "name": "frozen_source_tree",
+          "passed": true
+        },
+        {
+          "name": "frozen_source_parent",
+          "passed": true
+        },
+        {
+          "name": "runtime_83_distinct_members",
+          "passed": true
+        },
+        {
+          "name": "runtime_exact_current_selected_paths",
+          "passed": true
+        },
+        {
+          "name": "unchanged_linux03_cleanup_utility",
+          "passed": true
+        },
+        {
+          "name": "fixed_public_populations",
+          "passed": true
+        },
+        {
+          "name": "all102inputs_and_exact_binary_ceiling",
+          "passed": true
+        },
+        {
+          "name": "unchanged_cleanup_bounds_in_plan",
+          "passed": true
+        },
+        {
+          "name": "selection_precedes_native0166_registration",
+          "passed": true
+        },
+        {
+          "name": "live_receiver_precedes_native_cleanup",
+          "passed": true
+        },
+        {
+          "name": "grant_precedes_every_allocation",
+          "passed": true
+        },
+        {
+          "name": "binary_fits_rlimit_without_enlarging_bound",
+          "passed": true
+        },
+        {
+          "name": "only_one_explicit_native_compaction",
+          "passed": true
+        },
+        {
+          "name": "archive_extraction_uses_original_held_identity",
+          "passed": true
+        },
+        {
+          "name": "hold_recensus_before_and_after_final_pure_check",
+          "passed": true
+        },
+        {
+          "name": "exact_preparation_positive_control",
+          "passed": true
+        },
+        {
+          "name": "exact_original_held_census_positive_control",
+          "passed": true
+        },
+        {
+          "name": "equal_bytes_replacement_is_new_inode",
+          "passed": true
+        },
+        {
+          "name": "equal_bytes_new_inode_prepared_refused",
+          "passed": true
+        },
+        {
+          "name": "equal_bytes_new_inode_held_refused",
+          "passed": true
+        },
+        {
+          "name": "equal_bytes_new_inode_before_reservation_refused",
+          "passed": true
+        },
+        {
+          "name": "refusal_precedes_exclusive_reservation",
+          "passed": true
+        },
+        {
+          "name": "prepared_equal_bytes_new_inode",
+          "passed": true
+        },
+        {
+          "name": "prepared_identity_not_only_bytes",
+          "passed": true
+        },
+        {
+          "name": "input_mode_change_refused",
+          "passed": true
+        },
+        {
+          "name": "same_target_invocation_replacement_detected",
+          "passed": true
+        },
+        {
+          "name": "symlinked_input_ancestor_refused",
+          "passed": true
+        },
+        {
+          "name": "duplicate_json_keys_refused",
+          "passed": true
+        },
+        {
+          "name": "nonfinite_json_refused",
+          "passed": true
+        },
+        {
+          "name": "exact_json_boolean_type",
+          "passed": true
+        },
+        {
+          "name": "pure_GO_scope_positive_control",
+          "passed": true
+        },
+        {
+          "name": "same_actual_grant_parser_positive_control",
+          "passed": true
+        },
+        {
+          "name": "control_refuses_author_review",
+          "passed": true
+        },
+        {
+          "name": "driver_refuses_author_review",
+          "passed": true
+        },
+        {
+          "name": "control_refuses_author_child_review",
+          "passed": true
+        },
+        {
+          "name": "driver_refuses_author_child_review",
+          "passed": true
+        },
+        {
+          "name": "control_refuses_historical_author_review",
+          "passed": true
+        },
+        {
+          "name": "driver_refuses_historical_author_review",
+          "passed": true
+        },
+        {
+          "name": "control_refuses_historical_author_child_review",
+          "passed": true
+        },
+        {
+          "name": "driver_refuses_historical_author_child_review",
+          "passed": true
+        },
+        {
+          "name": "control_refuses_root_is_not_independent_review",
+          "passed": true
+        },
+        {
+          "name": "driver_refuses_root_is_not_independent_review",
+          "passed": true
+        },
+        {
+          "name": "control_refuses_unselected_reviewer",
+          "passed": true
+        },
+        {
+          "name": "driver_refuses_unselected_reviewer",
+          "passed": true
+        },
+        {
+          "name": "control_refuses_selected_reviewer_child",
+          "passed": true
+        },
+        {
+          "name": "driver_refuses_selected_reviewer_child",
+          "passed": true
+        },
+        {
+          "name": "control_refuses_foreign_review_preparation",
+          "passed": true
+        },
+        {
+          "name": "driver_refuses_foreign_review_preparation",
+          "passed": true
+        },
+        {
+          "name": "control_refuses_numeric_one_shot",
+          "passed": true
+        },
+        {
+          "name": "driver_refuses_numeric_one_shot",
+          "passed": true
+        },
+        {
+          "name": "control_refuses_foreign_GO_source",
+          "passed": true
+        },
+        {
+          "name": "driver_refuses_foreign_GO_source",
+          "passed": true
+        },
+        {
+          "name": "control_refuses_foreign_GO_census",
+          "passed": true
+        },
+        {
+          "name": "driver_refuses_foreign_GO_census",
+          "passed": true
+        },
+        {
+          "name": "control_refuses_object_GO_preparation",
+          "passed": true
+        },
+        {
+          "name": "driver_refuses_object_GO_preparation",
+          "passed": true
+        },
+        {
+          "name": "control_authorization_exact_bytes",
+          "passed": true
+        },
+        {
+          "name": "pure_STOP_positive_control",
+          "passed": true
+        },
+        {
+          "name": "closed_control_shape",
+          "passed": true
+        },
+        {
+          "name": "actual_route_request_pure_grammar",
+          "passed": true
+        },
+        {
+          "name": "F01_exact_constructor_current_domains_have_no_invalidators",
+          "passed": true
+        },
+        {
+          "name": "F01_exact_constructor_mechanically_required",
+          "passed": true
+        },
+        {
+          "name": "F01_shared_initialization_next_action",
+          "passed": true
+        },
+        {
+          "name": "F01_wrong_boundary_digest_refuses",
+          "passed": true
+        },
+        {
+          "name": "F01_wrong_scope_digest_refuses",
+          "passed": true
+        },
+        {
+          "name": "F01_wrong_action_digest_refuses",
+          "passed": true
+        },
+        {
+          "name": "F01_actual_next_action_drift_still_stale",
+          "passed": true
+        },
+        {
+          "name": "F01_proof_and_capsule_separately_pinned",
+          "passed": true
+        },
+        {
+          "name": "actual_recovery_capsule_v2_pure_grammar",
+          "passed": true
+        },
+        {
+          "name": "actual_canonical_packet_pure_grammar",
+          "passed": true
+        },
+        {
+          "name": "fresh_boundary_exact_proof_identity",
+          "passed": true
+        },
+        {
+          "name": "invalidation_precedes_resume",
+          "passed": true
+        },
+        {
+          "name": "stale_capsule_schema_refused",
+          "passed": true
+        },
+        {
+          "name": "fixed_MCP_source_owner_configuration",
+          "passed": true
+        },
+        {
+          "name": "closed_loopback_provider_no_auth",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_84",
+          "passed": true
+        },
+        {
+          "name": "absent_request_has_no_positive_receipt",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_86",
+          "passed": true
+        },
+        {
+          "name": "summary_omits_malformed_preparation_object",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_88",
+          "passed": true
+        },
+        {
+          "name": "summary_omits_malformed_preparation_list",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_90",
+          "passed": true
+        },
+        {
+          "name": "summary_omits_malformed_preparation_uppercase",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_92",
+          "passed": true
+        },
+        {
+          "name": "summary_omits_malformed_preparation_wrong_length",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_94",
+          "passed": true
+        },
+        {
+          "name": "summary_omits_malformed_preparation_integer",
+          "passed": true
+        },
+        {
+          "name": "summary_request_replaced_equal_bytes",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_97",
+          "passed": true
+        },
+        {
+          "name": "summary_requires_original_private_request_identity",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_99",
+          "passed": true
+        },
+        {
+          "name": "receipt_without_cleanup_stays_unconfirmed",
+          "passed": true
+        },
+        {
+          "name": "private_commands_not_projected",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_102",
+          "passed": true
+        },
+        {
+          "name": "complete_receipt_retains_root_reconciliation_ceiling",
+          "passed": true
+        },
+        {
+          "name": "all_completed_milestones_fit_public_ceiling",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_105",
+          "passed": true
+        },
+        {
+          "name": "malformed_receipt_never_leaves_partial_predicates",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_107",
+          "passed": true
+        },
+        {
+          "name": "failed_stage_and_verified_prior_survive_cleanup",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_109",
+          "passed": true
+        },
+        {
+          "name": "unknown_failure_text_is_closed_category",
+          "passed": true
+        },
+        {
+          "name": "interrupted_progress_replace_refused",
+          "passed": true
+        },
+        {
+          "name": "interrupted_write_retains_last_complete_progress",
+          "passed": true
+        },
+        {
+          "name": "exact_push_first_attempt_and_ancestry_depth",
+          "passed": true
+        },
+        {
+          "name": "only_fixed_public_paths_no_private_upload",
+          "passed": true
+        },
+        {
+          "name": "no_credentials_to_driver_environment",
+          "passed": true
+        }
+      ],
+      "name": "INHERITED_CONTROLS.json",
+      "passed": 116,
+      "total": 116
+    },
+    {
+      "checks": [
+        {
+          "name": "all_mechanical_operations_predicates_arguments_and_association_unchanged",
+          "passed": true
+        },
+        {
+          "name": "operative_proof_detects_selected_call",
+          "passed": true
+        },
+        {
+          "name": "operative_proof_detects_command_response",
+          "passed": true
+        },
+        {
+          "name": "operative_proof_detects_retry_predicate",
+          "passed": true
+        },
+        {
+          "name": "exact_retained_bytes_provider.py",
+          "passed": true
+        },
+        {
+          "name": "exact_retained_bytes_native_transport.py",
+          "passed": true
+        },
+        {
+          "name": "exact_retained_bytes_live_receiver.py",
+          "passed": true
+        },
+        {
+          "name": "exact_retained_bytes_host_utility.py",
+          "passed": true
+        },
+        {
+          "name": "native_delta_unique_8",
+          "passed": true
+        },
+        {
+          "name": "native_delta_unique_9",
+          "passed": true
+        },
+        {
+          "name": "native_delta_unique_10",
+          "passed": true
+        },
+        {
+          "name": "native_delta_unique_11",
+          "passed": true
+        },
+        {
+          "name": "native_delta_unique_12",
+          "passed": true
+        },
+        {
+          "name": "native_driver_exact_except_diagnostic_fresh_identities_and_stricter_reviewer_gate",
+          "passed": true
+        },
+        {
+          "name": "exact_held_function_git",
+          "passed": true
+        },
+        {
+          "name": "exact_held_function_source_checkpoint",
+          "passed": true
+        },
+        {
+          "name": "exact_held_function_download",
+          "passed": true
+        },
+        {
+          "name": "exact_held_function_check",
+          "passed": true
+        },
+        {
+          "name": "exact_held_function_control_head",
+          "passed": true
+        },
+        {
+          "name": "exact_held_function_controls",
+          "passed": true
+        },
+        {
+          "name": "exact_held_function_execute_once",
+          "passed": true
+        },
+        {
+          "name": "exact_held_function_hold",
+          "passed": true
+        },
+        {
+          "name": "exact_held_function_main",
+          "passed": true
+        },
+        {
+          "name": "exact_io_function_pin",
+          "passed": true
+        },
+        {
+          "name": "exact_io_function_identity",
+          "passed": true
+        },
+        {
+          "name": "exact_io_function_ancestors",
+          "passed": true
+        },
+        {
+          "name": "exact_io_function_census",
+          "passed": true
+        },
+        {
+          "name": "exact_io_function_invocation",
+          "passed": true
+        },
+        {
+          "name": "exact_io_function_write",
+          "passed": true
+        },
+        {
+          "name": "exact_io_function_read",
+          "passed": true
+        },
+        {
+          "name": "exact_io_function_load",
+          "passed": true
+        },
+        {
+          "name": "exact_io_function_command",
+          "passed": true
+        },
+        {
+          "name": "exact_io_function_matches",
+          "passed": true
+        },
+        {
+          "name": "exact_io_function_parse",
+          "passed": true
+        },
+        {
+          "name": "exact_progress_save",
+          "passed": true
+        },
+        {
+          "name": "exact_progress_mark",
+          "passed": true
+        },
+        {
+          "name": "exact_progress_fail",
+          "passed": true
+        }
+      ],
+      "name": "OPERATIVE_PRESERVATION.json",
+      "passed": 37,
+      "total": 37
+    },
+    {
+      "checks": [
+        {
+          "name": "summary_ceiling_0",
+          "passed": true
+        },
+        {
+          "name": "all_milestones_receiving_cleanup_and_longest_known_diagnostic_fit_4096",
+          "passed": true
+        },
+        {
+          "name": "diagnostic_does_not_raise_public_authority",
+          "passed": true
+        },
+        {
+          "name": "primary_failure_and_diagnostic_survive_cleanup",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_4",
+          "passed": true
+        },
+        {
+          "name": "rejects_diagnostic_extra_private_field",
+          "passed": true
+        },
+        {
+          "name": "malformed_diagnostic_preserves_primary_extra_private_field",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_7",
+          "passed": true
+        },
+        {
+          "name": "rejects_diagnostic_private_owner_reason",
+          "passed": true
+        },
+        {
+          "name": "malformed_diagnostic_preserves_primary_private_owner_reason",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_10",
+          "passed": true
+        },
+        {
+          "name": "rejects_diagnostic_private_source_error",
+          "passed": true
+        },
+        {
+          "name": "malformed_diagnostic_preserves_primary_private_source_error",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_13",
+          "passed": true
+        },
+        {
+          "name": "rejects_diagnostic_private_source_site",
+          "passed": true
+        },
+        {
+          "name": "malformed_diagnostic_preserves_primary_private_source_site",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_16",
+          "passed": true
+        },
+        {
+          "name": "rejects_diagnostic_private_site",
+          "passed": true
+        },
+        {
+          "name": "malformed_diagnostic_preserves_primary_private_site",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_19",
+          "passed": true
+        },
+        {
+          "name": "rejects_diagnostic_bad_hash_shape",
+          "passed": true
+        },
+        {
+          "name": "malformed_diagnostic_preserves_primary_bad_hash_shape",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_22",
+          "passed": true
+        },
+        {
+          "name": "rejects_diagnostic_boolean_status",
+          "passed": true
+        },
+        {
+          "name": "malformed_diagnostic_preserves_primary_boolean_status",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_25",
+          "passed": true
+        },
+        {
+          "name": "rejects_diagnostic_foreign_failure_phase",
+          "passed": true
+        },
+        {
+          "name": "malformed_diagnostic_preserves_primary_foreign_failure_phase",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_28",
+          "passed": true
+        },
+        {
+          "name": "rejects_diagnostic_claimed_effect",
+          "passed": true
+        },
+        {
+          "name": "malformed_diagnostic_preserves_primary_claimed_effect",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_31",
+          "passed": true
+        },
+        {
+          "name": "rejects_diagnostic_claimed_authority",
+          "passed": true
+        },
+        {
+          "name": "malformed_diagnostic_preserves_primary_claimed_authority",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_34",
+          "passed": true
+        },
+        {
+          "name": "rejects_diagnostic_partial_unqualified_receipt",
+          "passed": true
+        },
+        {
+          "name": "malformed_diagnostic_preserves_primary_partial_unqualified_receipt",
+          "passed": true
+        },
+        {
+          "name": "observer_has_no_new_io_before_existing_failure_checkpoint",
+          "passed": true
+        },
+        {
+          "name": "later_observation_cannot_replace_first_diagnostic",
+          "passed": true
+        }
+      ],
+      "name": "PUBLIC_DIAGNOSTIC_CONTROLS.json",
+      "passed": 39,
+      "total": 39
+    },
+    {
+      "checks": [
+        {
+          "name": "only_new_exact_push_trigger",
+          "passed": true
+        },
+        {
+          "name": "new_concurrency_without_cancellation",
+          "passed": true
+        },
+        {
+          "name": "empty_workflow_permissions",
+          "passed": true
+        },
+        {
+          "name": "only_expected_repository_branch_push_first_attempt",
+          "passed": true
+        },
+        {
+          "name": "preserved_supported_host_job_watchdog",
+          "passed": true
+        },
+        {
+          "name": "all_step_work_paths_are_new",
+          "passed": true
+        },
+        {
+          "name": "exact_two_pinned_upload_actions",
+          "passed": true
+        },
+        {
+          "name": "new_preparation_artifact_namespace",
+          "passed": true
+        },
+        {
+          "name": "new_result_artifact_namespace",
+          "passed": true
+        },
+        {
+          "name": "exact_twelve_preparation_uploads",
+          "passed": true
+        },
+        {
+          "name": "only_one_closed_result_upload",
+          "passed": true
+        },
+        {
+          "name": "no_unreviewed_secret_or_raw_upload_reference",
+          "passed": true
+        },
+        {
+          "name": "actual_author_and_selected_actual_reviewer",
+          "passed": true
+        },
+        {
+          "name": "all_unselected_and_old_author_identities_refused",
+          "passed": true
+        },
+        {
+          "name": "fresh_controller_and_public_control_namespace",
+          "passed": true
+        },
+        {
+          "name": "actual_request_constructor_uses_fresh_control_path",
+          "passed": true
+        },
+        {
+          "name": "base_workflow_excludes_new_push_pages.yml",
+          "passed": true
+        },
+        {
+          "name": "base_workflow_excludes_new_push_validate.yml",
+          "passed": true
+        },
+        {
+          "name": "base_workflow_population_known",
+          "passed": true
+        }
+      ],
+      "name": "NAMESPACE_CONTROLS.json",
+      "passed": 19,
+      "total": 19
+    }
+  ],
+  "total": 232
+}
