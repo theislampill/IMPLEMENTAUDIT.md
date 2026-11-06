@@ -1,0 +1,33 @@
+{
+  "allocations": [
+    "fresh-isolated-subject-and-fixture-commit",
+    "fresh-controller",
+    "owned-native-binary-copy",
+    "one-loopback-emulated-provider",
+    "one-native-app-server",
+    "one-necessary-compact-resume",
+    "existing-external-host-store",
+    "existing-canonical-OPEN",
+    "seven-actual-MCP-occurrences",
+    "existing-live-reader-receiving",
+    "bounded-cleanup"
+  ],
+  "author": "/root",
+  "controller": "dg18-isolated-h0-20261106-04",
+  "decision": "GO",
+  "host_request_sha256": "3dcdd20259a2d5317d25459c621ba398c79e577b16b82646d37a5cf5ef2f6536",
+  "input_custody_sha256": "6ded2413fb66ab272e5a932a0cc7e96fbe21bf85994ceb87b6464455f9c2acff",
+  "issued_utc": "2026-11-06T19:06:06.384867+00:00",
+  "one_shot": true,
+  "preparation_sha256": "c9d42f7670b6300fd828f5d45b6962f8f78c8988517ffc78495bcacae274365a",
+  "private_runtime_admission_sha256": "704e6ccb67a01fd9dfbe481acd7071edd22159c23b2a0d84058efa09b695aeeb",
+  "review_sha256": "f2b4150369a4ca1ac8ee90db8091e2d249ffe9d69655a0ecca4d581ff0764ba8",
+  "run_attempt": "1",
+  "run_id": "42275499463",
+  "schema": "r5.h0-root-go.v1",
+  "scope": "One exact isolated instrumented H0 diagnostic episode; original watchdog30s and first refusal stop, cleanup required; no retry or shared adoption, authenticOR, original acceptance, or historical effect upgrade.",
+  "source_commit": "3e0f4b6d05eb086017ce721d40459fdbd68714dd",
+  "source_tree": "f8741d0293ce2fd1b4b2b2e9dfa1e28d153cd81a",
+  "subject": "/home/runner/work/_temp/dg18-isolated-h0-20261106-04/private/subject",
+  "workflow_commit": "25ca7e4ea76e269d5047b68ce3a778738bba8689"
+}
