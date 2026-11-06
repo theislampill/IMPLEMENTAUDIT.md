@@ -652,10 +652,66 @@ class CaptureRetentionTests(unittest.TestCase):
         self.assertFalse(fixture.workspace.exists())
         self.assertFalse(fixture.sinks["legacy"].exists())
 
+    def assert_repro_event_population(self, owner):
+        # Population-only controls use the real failed-event observation. The
+        # caller's verified_record and native custody gates remain separate.
+        with tempfile.TemporaryDirectory(prefix="r0035-repro-population-") as temporary:
+            directory = Path(temporary)
+            base = {"result.json", "mapping.json", "commands.bin", "stdout.log",
+                    "stderr.log", "exit-code.txt"}
+            for name in base:
+                (directory / name).touch()
+            record = dict(mode="legacy", repro_events=None)
+            owner._capture_population(directory, record)
+            binding = dict(output=str(directory / "repro-events"), source={}, mapping={})
+            with mock.patch.object(owner, "repro_event_binding", return_value=binding):
+                for code in (1, -15):
+                    observed = owner.observe_repro_events(directory, str(directory), {}, {}, {}, code,
+                                                         original_cwd=str(directory))
+                    self.assertIsNone(observed["record"])
+                    self.assertEqual(observed["coverage"], "UNQUALIFIED_PARTIAL_OR_FAILED_PROCESS")
+                    record["repro_events"] = observed
+                    owner._capture_population(directory, record)
+                    self.assertEqual(set(os.listdir(directory)), base)
+                    complete = dict(repro_events=observed, before={}, after={}, exit=code,
+                                    execution_context=dict(output=str(directory), cwd=str(directory)))
+                    owner.verify_repro_event_record(directory, complete, {})
+                    forged = copy.deepcopy(complete)
+                    forged["repro_events"]["coverage"] = "COMPLETE_FINITE_REPRO_CHILD_EVENTS"
+                    with self.assertRaises(owner.WG.WorkGraphError):
+                        owner.verify_repro_event_record(directory, forged, {})
+            for name in ("repro-events", "foreign.bin"):
+                (directory / name).touch()
+                with self.assertRaises(owner.WG.WorkGraphError):
+                    owner._capture_population(directory, record)
+                (directory / name).unlink()
+            (directory / "repro-events").symlink_to(directory / "absent-target")
+            with self.assertRaises(owner.WG.WorkGraphError):
+                owner._capture_population(directory, record)
+            (directory / "repro-events").unlink()
+            (directory / "stdout.log").unlink()
+            with self.assertRaises(owner.WG.WorkGraphError):
+                owner._capture_population(directory, record)
+            (directory / "stdout.log").touch()
+            for inner in ({"assessment": {"complete": False}}, {"assessment": {"complete": True}}):
+                record["repro_events"]["record"] = inner
+                with self.assertRaises(owner.WG.WorkGraphError):
+                    owner._capture_population(directory, record)
+                (directory / "repro-events").mkdir()
+                owner._capture_population(directory, record)
+                (directory / "repro-events").rmdir()
+            record["mode"] = "dag"
+            record["repro_events"]["record"] = None
+            with self.assertRaises(owner.WG.WorkGraphError):
+                owner._capture_population(directory, record)
+            (directory / "nodes.tsv").touch()
+            owner._capture_population(directory, record)
+
     def test_namespace_census_and_surviving_writer_refuse_sealing(self):
         # Each variant discriminates a different physical precondition of the
         # same refusal contract; none fabricates a wait status or process ID.
         occupied = self.fixture("occupied")
+        self.assert_repro_event_population(occupied.owner)
         occupied.sinks["legacy"].mkdir()
         foreign = occupied.sinks["legacy"] / "foreign"
         foreign.write_bytes(b"foreign destination stays intact\n")

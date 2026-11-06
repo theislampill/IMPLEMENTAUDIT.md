@@ -1586,9 +1586,14 @@ def _capture_population(path, record):
     for key, names in (("stdin", {"stdin.bin", "stdin.json"}),
                        ("dist_namespace", {"dist-before", "dist-after", "dist-namespace.json"}),
                        ("repro_artifacts", {"repro-assets", "repro-artifacts.json"}),
-                       ("portal_events", {"portal-events"}), ("repro_events", {"repro-events"})):
+                       ("portal_events", {"portal-events"})):
         if record.get(key) is not None:
             expected |= names
+    # verified_record has already bound this observation to the raw exit and
+    # physical event reader. A failed process may not have reached the family.
+    repro = record.get("repro_events")
+    if repro is not None and repro["record"] is not None:
+        expected.add("repro-events")
     if set(os.listdir(path)) != expected:
         raise WG.WorkGraphError("unexpected capture namespace members")
 
