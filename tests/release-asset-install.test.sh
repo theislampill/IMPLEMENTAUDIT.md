@@ -157,7 +157,8 @@ asset="$out_dir/IMPLEMENTAUDIT.skill"
 checksums="$out_dir/CHECKSUMS.txt"
 
 bash scripts/write-release-checksums.sh --check --all "$out_dir" "$checksums"
-bash scripts/install-codex-from-release.sh \
+env -u HOME -u CODEX_HOME bash scripts/install-codex-from-release.sh --help >/dev/null
+env -u HOME -u CODEX_HOME bash scripts/install-codex-from-release.sh \
   --asset "$asset" \
   --checksum "$checksums" \
   --codex-home "$codex_home"

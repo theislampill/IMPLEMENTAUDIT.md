@@ -44,7 +44,8 @@ checksum=""
 checksum_url=""
 tag=""
 repo="theislampill/IMPLEMENTAUDIT.md"
-codex_home="${CODEX_HOME:-$HOME/.codex}"
+codex_home=""
+codex_home_supplied="0"
 expected_version="0.4.0"
 allow_downgrade="0"
 
@@ -83,6 +84,7 @@ while [ "$#" -gt 0 ]; do
     --codex-home)
       [ "$#" -ge 2 ] || fail "--codex-home requires a path"
       codex_home="$2"
+      codex_home_supplied="1"
       shift 2
       ;;
     --version)
@@ -103,6 +105,10 @@ while [ "$#" -gt 0 ]; do
       ;;
   esac
 done
+
+if [ "$codex_home_supplied" = "0" ]; then
+  codex_home="${CODEX_HOME:-$HOME/.codex}"
+fi
 
 if [ -n "$tag" ]; then
   [ -z "$asset" ] || fail "use either --tag or --asset, not both"
