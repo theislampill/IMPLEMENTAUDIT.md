@@ -1,0 +1,21 @@
+{
+  "code_manifest_sha256": "5859c990f7ab14e0d85065ce5ac74a7fcce8736e6af112096975684caa660af8",
+  "decision": "GO",
+  "files": {
+    "INDEPENDENT_TECHNICAL_REVIEW.json": {
+      "bytes": 4706,
+      "sha256": "60008dc6c8fe30a108c80143cc2402efc3b795190446058b07664f034c9ab4b5"
+    },
+    "ROOT_GO.json": {
+      "bytes": 1507,
+      "sha256": "6599a5a5c351ef5ed5348f6a2c8e523bcb4819903eb5f977139231b666b0647b"
+    }
+  },
+  "preparation_sha256": "9af4308536dbed82b0e3832e3f0baabdb3ce8ff3a4dc271c611eba5efcd6973b",
+  "publisher": "/root",
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "run_attempt": "1",
+  "run_id": "42299622443",
+  "schema": "dg18.c02.startup-control.v2",
+  "workflow_commit": "7bef31f9d0a11b19d4c91eec671c25899f2048f7"
+}
