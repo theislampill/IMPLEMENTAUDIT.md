@@ -1,0 +1,12 @@
+{
+  "affected_component_groups": 8,
+  "authority": "NONE",
+  "baseline_red_discriminators": 4,
+  "composition_checks": "REQUIRED_BEFORE_OUTER_FREEZE",
+  "native_or_authentic_evidence": false,
+  "old34_18_replayed": false,
+  "original_acceptance": false,
+  "private_source_admission": false,
+  "schema": "dg18.h0-05-author-control-scope.v1",
+  "status": "EXACT_RESULTS_IN_OUTER_SEALED_PACKET"
+}
