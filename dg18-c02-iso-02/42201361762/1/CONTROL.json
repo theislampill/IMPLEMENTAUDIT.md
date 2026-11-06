@@ -1,0 +1,24 @@
+{
+  "code_bundle_sha256": "e595724ee31fbab8e4d0622b056b1f30e0697eac657c1d8e1fb3a244383d0273",
+  "decision": "GO",
+  "files": {
+    "INDEPENDENT_TECHNICAL_REVIEW.json": {
+      "bytes": 10320,
+      "sha256": "8b28732d5411fbc36f7625b605dc8440e06189950c6c8934a775ca883f25fc48"
+    },
+    "ROOT_GO.json": {
+      "bytes": 2948,
+      "sha256": "d124e1cf8f4a53b36989645a8c0192c2a6fe8b3fa6b32d3e28413c0c79d9910b"
+    }
+  },
+  "held_adapter_seal_sha256": "bc58f55adc7ae5fd0b4ab9a46fbaa08216e7e9abf18bd92597fa775df84f935f",
+  "input_manifest_sha256": "19688aec0ce514f9850f826b0af65267993433399dcc0686ee1bb44474d92334",
+  "preparation_sha256": "1465121fc51f877fba9889d8a75f6ee5e9d605065e9899b7a9cd4beb4e6a89f8",
+  "publisher": "/root",
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "request_sha256": "6d0402b75f66a22d4a49e9fac94b6074ed4886963e54b466470ca088d223f041",
+  "run_attempt": "1",
+  "run_id": "42201361762",
+  "schema": "implementaudit.r5.c02-held-control.v1",
+  "workflow_commit": "1262410d5f08391a78366f897b2e675f5d67e626"
+}
