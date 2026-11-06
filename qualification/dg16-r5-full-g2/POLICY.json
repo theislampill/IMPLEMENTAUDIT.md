@@ -1,0 +1,300 @@
+{
+  "author": "/root/linux02_delta_review",
+  "authority": "NONE",
+  "contract_basis": "R35-V03 / #209 v0.4.1 amendment: freeze full registry-derived property/input/node/JOIN/terminal/byte-normalization/evidence/invalidation equality; prove complete current whole-population and DAG correspondence; canonical route switch and retirement remain separate.",
+  "contract_inputs": {
+    "DG16_first_owner_steer": {
+      "bytes": 29735,
+      "sha256": "32837a2a2c24bc79d5ad12ecd8347248c46f80f13a2ad09abd86b4b57c52ba2e"
+    },
+    "governor_determination": {
+      "bytes": 57578,
+      "sha256": "6fd6b4b62dfff0ee91bbcdb4eaa62136463822e4c4b00ae3865f27b3f84eb94f"
+    },
+    "issue-209-comments.md": {
+      "bytes": 21174,
+      "sha256": "7590ff002ec57dbe4f8ec7655fd8ae89e4eae32aded34c2eee249e6ec1809594"
+    },
+    "issue-209.md": {
+      "bytes": 53296,
+      "sha256": "6605343572b2a3ad62c4b0392703ccfdea2b1280f50a669348734a6dca60d097"
+    }
+  },
+  "decision_sequence": [
+    "actual independent immutable code/policy review",
+    "actual root pre-run policy adoption",
+    "one full actual legacy/DAG operation with unchanged original raw receiving",
+    "separate-process full transitive correspondence receiving and proof",
+    "actual independent live proof review",
+    "separate root consumption control",
+    "same-private-census/source/runtime/currentness closing readback before teardown",
+    "root original criterion determination at supported scope; no automatic award"
+  ],
+  "full_applicability": {
+    "actual_registry_reassembly_and_physical_population_required": true,
+    "command_stream_sha256": "50a794c866dd2b35cf5f10875c409a8e2347ea13f9ea3fb188582fca7dc6fc28",
+    "counts_are_frozen_derivation_not_permanent_or_execution_claim": true,
+    "dag_trace_all_nodes_actual_terminal_pass_required": true,
+    "decision_needed": "NEW_PROSPECTIVE_APPLICABILITY_OF_UNCHANGED_COMPONENT_RELATION_TO_THIS_FULL_SUCCESSFUL_PAIR",
+    "failed_partial_nonverdict_missing_reordered_or_unknown_population_not_accepted": true,
+    "legacy_and_dag_success_required": true,
+    "legacy_per_node_execution_trace_available": false,
+    "mapped_nodes": 119,
+    "registered_tests": 91,
+    "registry_sha256": "65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878",
+    "same_live_original_owners_and_capture_plan_readers_required": true,
+    "source_report_slots": 110,
+    "source_selected_tests": 2057
+  },
+  "full_receiver_sha256": "d42132b0c84e89c7a767cdd3a5e68afe527907094be9756b613eb35db24492dd",
+  "inherited_finite_adoption": {
+    "approved_rules": [
+      {
+        "approved_rule": "Relate exactly one successful legacy run and one successful DAG run of the same frozen six-node/two-test registry. Interpret only their defined mode, command, actual argv, node observations and trace fields according to the maintained route predicates; keep exact registry, mapping, compiled command bytes, environment, candidate, execution context, exit and all other observations.",
+        "disposition": "ADOPT",
+        "limits": [
+          "No dedicated coherent whole-route/failed-prefix mutation in the supplied 25 cases",
+          "Does not cover canonical fail-fast equivalence, reordered full registry, or unknown future registries"
+        ],
+        "rule_id": "whole_route"
+      },
+      {
+        "approved_rule": "Permit unequal nonnegative integer elapsed_ms for correspondence of this successful finite observation only. Retain both raw durations; duration, deadline, throughput, resource-cost and watchdog predicates are evaluated outside this quotient and are never discharged by it.",
+        "disposition": "NARROW",
+        "limits": [
+          "No dedicated elapsed negative/type mutant is supplied",
+          "No timing/resource equivalence is demonstrated; does not meet C5 whole-pair 120 seconds or any aggregate CPU bound"
+        ],
+        "rule_id": "whole_elapsed"
+      },
+      {
+        "approved_rule": "Substitute only the exact received temporary-root/fixture/nested/profile operands derived from the pinned portal request and lifecycle records, at their existing closed-profile roles. Preserve relative suffixes, option spelling, repository/source roots, artifact role and all unmapped bytes. This relates declared allocation names only.",
+        "disposition": "NARROW",
+        "limits": [
+          "Ordinary argv/path mutants fail existing request/hash bindings; they do not prove a new arbitrary alias grammar safe",
+          "No coherent role-alias collision or broad path-rebasing test is supplied"
+        ],
+        "rule_id": "portal_allocation"
+      },
+      {
+        "approved_rule": "Compare only the validated declared portal process-reference graph modulo a one-to-one host-PID renaming in deterministic first occurrence, preserving repeated references, parent relationships, external-parent partition and UID. Treat namespace_pid and start_ticks as retained run-local observations excluded from this relation; do not assert a cross-namespace kernel identity equivalence.",
+        "disposition": "NARROW",
+        "limits": [
+          "No dedicated coherent PID/UID/namespace-collision mutation in the supplied adverse packet",
+          "Normalizer sets namespace_pid to the host-PID alias, so no namespace mapping, actual birth custody, liveness or OS identity claim is warranted"
+        ],
+        "rule_id": "portal_process"
+      },
+      {
+        "approved_rule": "Permit different device/inode/mtime/ctime observations between independent runs only after each raw portal checker window is internally unchanged. Preserve each artifact's kind, mode, size, byte digest, population and the complete before/after equality. No physical alias, hardlink or stable-object-across-events equivalence is claimed.",
+        "disposition": "NARROW",
+        "limits": [
+          "No coherent inode-sharing/alias-topology counterexample in supplied controls",
+          "Per-field constants remove cross-object inode/time relationships; they cannot establish them"
+        ],
+        "rule_id": "portal_physical"
+      },
+      {
+        "approved_rule": "Rename only the exact run and ordinal-derived generation labels of the closed49-event portal history after validating the original request binding, raw hash chain, order, expected exits and the actual last matching successful build consumed by each checker. Compare the preserved reference graph and all referent observations.",
+        "disposition": "ADOPT",
+        "limits": [
+          "No new lifetime or native run authority follows from equal renamed reference graphs"
+        ],
+        "rule_id": "portal_generation"
+      },
+      {
+        "approved_rule": "Exclude only the value bytes of the single top-level generated_at string in each docs-metadata.json occurrence. Require a complete timezone-aware ISO timestamp and exact bytes outside that string; preserve all semantic fields, including source hashes, commit, worktree state, package/release identity, page count and URLs.",
+        "disposition": "ADOPT",
+        "limits": [
+          "This is an explicit policy decision that generation-clock value is not part of this finite functional equivalence",
+          "Do not use normalized timestamps for release freshness, elapsed time or execution chronology; other retained size/window constraints still apply"
+        ],
+        "rule_id": "portal_metadata"
+      },
+      {
+        "approved_rule": "For a successful BUILD only, replace the verified complete allocation operand in the unique leading 'build-docs-portal: wrote ' line. Preserve every other byte, including remainder of stdout, all failed-operation output and all stderr.",
+        "disposition": "ADOPT",
+        "limits": [
+          "No independent coherently rebound portal-progress-line semantic mutant supplied; fixed grammar and exact residual byte comparison support only this narrow line form"
+        ],
+        "rule_id": "portal_stdout"
+      },
+      {
+        "approved_rule": "Require exactly19 ordered maintained reproduction roles on the same pinned producer/helper/candidate, each with profile-exact argv/cwd, source binding, stdin semantics, environment projection and exit. Normalize only the known received work-root operands; preserve all other command and artifact semantics.",
+        "disposition": "ADOPT",
+        "limits": [
+          "No proof of canonical tests outside these two registered tests",
+          "Imported declared consistency does not create prospective allocation custody or execution authentication"
+        ],
+        "rule_id": "repro_profile"
+      },
+      {
+        "approved_rule": "Rename only exact profile-derived run/event/generation identifiers and permit unequal nonnegative monotonic timestamps only after the maintained raw reader verifies the full inter-event order, event/process agreement, source/input/executable windows and generation handoffs. Compare only privately held outputs of the repaired bound loader, never arbitrary pre-parsed capsule dictionaries.",
+        "disposition": "NARROW",
+        "limits": [
+          "compare_capsules alone checks per-event start<=end, not the entire maintained temporal order; it is not a standalone accepting API",
+          "No elapsed-duration/resource/native birth-identity guarantee; current bindings address the tested after-validation substitutions only"
+        ],
+        "rule_id": "repro_identity_time"
+      },
+      {
+        "approved_rule": "Replace only the three exact complete known progress lines in each successful build and the corresponding six whole-run lines: two package-contract outputs and one checksum output for each lane. Keep line count, order, line framing and every other stdout/stderr byte exact.",
+        "disposition": "ADOPT",
+        "limits": [
+          "Most supplied stream mutants fail raw descriptor checks; no general log grammar equivalence is established"
+        ],
+        "rule_id": "repro_stdout"
+      },
+      {
+        "approved_rule": "Verify every original descriptor against raw bytes before substitution. Recompute the explicitly enumerated normalized artifact, stream and event/process descriptors; replace only validated request/previous-event/session/close references with structural tokens whose complete referents are separately compared. No digest field is independently ignored.",
+        "disposition": "NARROW",
+        "limits": [
+          "Implementation uses validated structural tokens for some hash references rather than literally hashing every normalized referent; adoption text must say so",
+          "No claim that generic hash recomputation or immutable authenticity is established for arbitrary records"
+        ],
+        "rule_id": "dependent_digests"
+      },
+      {
+        "approved_rule": "Keep a closed input grammar at the maintained raw receivers and normalizer. Reject duplicate/nonfinite JSON, unknown required schema members, missing/extra/reordered events and unsupported whole-result populations; preserve unmatched fields/bytes as differences rather than adding fallback normalization.",
+        "disposition": "ADOPT",
+        "limits": [
+          "Not every nested field has its own independent mutant; safety relies on the pinned maintained readers plus closed supported profile",
+          "Future schema expansion requires a new explicit decision, not automatic adoption"
+        ],
+        "rule_id": "unknown_fields"
+      }
+    ],
+    "global_scope_guards": [
+      "Root/original correspondence owner alone adopts or rejects this recommendation and appends its own dated scoped decision.",
+      "Effectivity begins at actual owner adoption. Applying a newly adopted relation to the older sealed pair is post-execution imported re-evaluation, not retroactive proof that normalization was frozen before those executions.",
+      "Approve only successful complete executions of this exact finite registry and pinned 49/19 profiles; a different candidate requires fresh explicit source applicability and held matching before/after bindings, not identity substitution.",
+      "Use repaired receiver SHA2562e4973ca429ad560b25bf71572714e13d6590939b06fa2171b0836176be79ee9 with exact maintained owner dependencies; do not use its preimage or compare_capsules with unreceived mutable dictionaries.",
+      "Keep immutable source archive, raw envelopes, original raw comparison and all failed/adverse predecessor records untouched.",
+      "Unknown, unsupported or unbound changes refuse; no weakening to acquire a green result.",
+      "Equality means the explicitly declared finite observed semantics modulo selected exceptions; it creates no execution authentication, live currentness, allocation custody, namespace capability or resource compliance.",
+      "Do not award full original R35-V03, full canonical equivalence, canonical conversion, retirement, whole-row/cell acceptance or R5 execution credit from this finite pair.",
+      "Equivalence, canonical route conversion and legacy retirement require separate owner decisions; keep legacy available."
+    ],
+    "historical_scope_unchanged": true,
+    "id": "DG16-G2-finite-normalization",
+    "proposal_sha256": "b447fc72de334fb042df3d00c411f63841936e93bb82f0b76ee805f2679d9fdb",
+    "retained_receiver_sha256": "2e4973ca429ad560b25bf71572714e13d6590939b06fa2171b0836176be79ee9",
+    "time_utc": "2026-11-05T01:24:09.829448+00:00"
+  },
+  "new_rules": [
+    {
+      "id": "unittest_report_diagnostic_elapsed",
+      "implementation": "full_output_relation.py:report_elapsed_relation",
+      "proposed_relation": "Exactly the source-derived ordered successful unittest report slots, including literal dynamically installed methods. Match report multiplicity, test identities/counts, verbosity, skip/expected-failure statuses, delimiter and framing before replacing only the three-decimal elapsed operand. Preserve raw durations and every outside byte; no emitter authentication, performance, resource or timeout claim."
+    },
+    {
+      "id": "repository_cost_diagnostic_elapsed",
+      "implementation": "full_stdout.py:cost",
+      "proposed_relation": "Only seconds in the five named constructed repository-cost metrics; finite and nonnegative, actual raw values retained. Preserve all counters and source/result fields, and independently recheck original counter assertions. The producer does not use these seconds for acceptance or a budget gate."
+    },
+    {
+      "id": "build_install_sourcepack_diagnostic_allocations",
+      "implementation": "full_stdout.py:build_paths",
+      "proposed_relation": "Five exact source-derived build root roles, their ten package and seventeen checksum progress operands, two actual install destination roles, and two source-pack output roles. Keep occurrence/order, suffixes, filenames, semantic digests, options and every other byte. Original tests consume and remove these temporary artifacts; persistent declared dist/repro outputs are separately received."
+    },
+    {
+      "id": "historical_composition_fixture_allocations",
+      "implementation": "full_stdout.py:composition",
+      "proposed_relation": "Only the received exact temporary historical-source and constructed-repository prefixes of the three source-owned continuity composition calls. Preserve the six historical member names/bytes/modes/hashes/seals, startup, status and all command ordering. No authentic host admission or currentness transfer."
+    },
+    {
+      "id": "turn_disposition_fixture_allocation",
+      "implementation": "full_stdout.py:turn_disposition",
+      "proposed_relation": "Only the single source-owned turn fixture prefix inside outputs of the exact sixty-nine ordered cases, constrained to that case or its copied skill component. Keep all diagnostics, relative suffixes, actual exits, authority fields, expected results and case population."
+    },
+    {
+      "id": "d48_transaction_diagnostic_role",
+      "implementation": "full_stdout.py:d48",
+      "proposed_relation": "Only the coupled source-generated run and claim allocation component in the unique two-row D48 result-prefix report. Require exact result.json then result.tmp roles, unchanged counters and completed/serialized equality; preserve the original effect-set assertions and all other output."
+    },
+    {
+      "id": "pending_declared_artifact_allocation",
+      "implementation": "pending_relation.py:normalize",
+      "proposed_relation": "The two explicitly published pending-fixture evidence roots are independent role names only after full original and retained no-follow censuses and report.json/stdout binding. Normalize only exact known command operands, the four constructed binding fields, one received transcript reference, exact scheduled crash operands and the one closed dangling-ancestor refusal endpoint. Unknown references refuse; all other raw artifact bytes remain meaningful."
+    },
+    {
+      "id": "pending_process_diagnostic_elapsed",
+      "implementation": "pending_relation.py:normalize",
+      "proposed_relation": "Only finite nonnegative elapsed_seconds in every fully bound source-owned process record. Keep raw durations, exact argv/action/exit/streams/preimages and source timeouts. No product bound or process timeout is discharged by the quotient."
+    },
+    {
+      "id": "pending_loader_within_call_physical_relation",
+      "implementation": "pending_relation.py:physical_projection",
+      "proposed_relation": "Compare each captured before/after namespace, kind, mode and raw-validated bytes/digest. Keep the full raw equality assertion for each original status/refusal window. Between independent fixtures, rename inode baselines and time baselines while preserving per-path within-call identity equality/change and timestamp equality/order. Reject inode aliases in each observed namespace. Retain all raw physical values; do not assert cross-call lifetime, birth identity or actual native authority."
+    },
+    {
+      "id": "pending_unpublished_atomic_candidate_allocation",
+      "implementation": "pending_relation.py:normalize",
+      "proposed_relation": "Rename exactly one before-replace pending tempfile suffix, preserving the complete file population and bytes. Tie it to the actual exit91 process preimage, exact revision/version successor with no other changes, and the following successful resume after-preimage. No missing, extra or unbound atomic residue is ignored."
+    },
+    {
+      "id": "declared_dependent_digest_rebinding",
+      "implementation": "full_relation.py:whole_projection;pending_relation.py:physical_projection",
+      "proposed_relation": "After raw receiving, recompute only whole stdout/stderr hashes and the known binding-file physical snapshot bytes/hash affected by the declared field relations. Stream copies are re-bound to actual raw records before their normalized replacements. Compare every referent. All inherited finite dependent-digest rules and limitations remain byte-identical and unchanged."
+    }
+  ],
+  "nonclaims": [
+    "G1",
+    "C5",
+    "G3",
+    "whole T14",
+    "authentic OR",
+    "original whole DG16 acceptance",
+    "canonical conversion",
+    "legacy retirement",
+    "all unexported internal state",
+    "emitter identity",
+    "resource or elapsed equivalence",
+    "historical receipt transfer"
+  ],
+  "observable_frontier": {
+    "basis": "The amendment requires evidence/output correspondence. The maintained raw consumers receive declared outputs and transitive capture references, not all fixture-internal state. Additional canonical evidence_dir references are explicitly acquired; unknown declarations refuse.",
+    "excluded_claim": "No equivalence obligation is invented for anonymous unexported fixture-internal scratch; original source assertions remain required and unchanged.",
+    "included": [
+      "complete canonical stdout/stderr/exit and all mapping/environment/currentness observations",
+      "original sealed capture/envelope and every retained referenced portal/repro/stdin/dist/release artifact",
+      "both final canonical pending reports and the complete two declared evidence namespaces per route"
+    ]
+  },
+  "receiver_inputs_sha256": "26248867833c88ba6fadf27c4b223d00012742ba28839da129680f5cd35b0f35",
+  "resource_policy": {
+    "closing_allocation_basis": "Preserve original 90-second finalization allocation plus a distinct 90-second mandatory post-review original-envelope/raw-census readback; both remain within the same 8400-second orchestration deadline.",
+    "closing_seconds": 180,
+    "combined_route_bytes_at_most_existing_capsule_total": true,
+    "declared_namespace_depth": 32,
+    "declared_namespace_entries": 4096,
+    "live_deadline_extension": false,
+    "live_review_seconds": 300,
+    "minimum_remaining_before_pair": 7980,
+    "orchestration_seconds": 8400,
+    "pair_seconds": 7200,
+    "private_declared_roles_combined_bytes_per_route": 67108864,
+    "private_declared_roles_file_bytes": 16777216,
+    "product_C5_120_seconds_changed": false,
+    "public_file_bytes": 65536,
+    "public_proof_bytes": 16384,
+    "public_review_request_bytes": 4096,
+    "public_total_bytes": 262144,
+    "public_total_scope": "CUMULATIVE_REVIEW_AND_FINAL_EXPORTED_JSON_ARTIFACT_PAYLOADS; count duplicated preview bytes again; publication code and control commits are separate bounded inputs, not output artifacts",
+    "raw_capsule_limits_changed": false,
+    "receiving_seconds": 300
+  },
+  "runtime_diagnostic_source": {
+    "bytes": 11383,
+    "mismatch": "CHEAP_REFUSAL_RETAIN_ACTUAL_HASH",
+    "module": "unittest.runner",
+    "origin": "Official CPython v3.14.4 reference; actual hosted module must be observed and match before either verifier.",
+    "python_version": "3.14.4",
+    "raw_source_and_physical_bookends_retained": true,
+    "sha256": "51780085229bd3547a2751e8d75ab1d8f391dd2c9c3ca1d011b54529348faeb4"
+  },
+  "schema": "dg16.full-correspondence-policy.proposed.v1",
+  "source_commit": "0d57929be5bd15682b4e9da2c0209d5dff307843",
+  "source_tree": "ee316c27250ec422d35a1ea965182ebddf7a5da0",
+  "status": "PROPOSED_REQUIRES_ACTUAL_PRE_RUN_ROOT_ADOPTION"
+}
