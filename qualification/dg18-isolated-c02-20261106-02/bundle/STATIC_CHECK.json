@@ -1,0 +1,43 @@
+{
+  "author": "/root/c02_diagnostic_engineering",
+  "authority": "NONE",
+  "automatic_retry": false,
+  "component_seal_sha256": "911e96c69d1478349cd7c443ad33ac5a02adb3b35a3cbe95290d700c6f3c4521",
+  "composition_author": "/root",
+  "cumulative_source_residual": {
+    "applicability_accepted": false,
+    "changed_source_members": 7,
+    "publication_parent": "0d57929be5bd15682b4e9da2c0209d5dff307843"
+  },
+  "expected_reviewer": "/root/c02_cold_review",
+  "input_population": 92,
+  "native_executed": false,
+  "native_slot": "At most one consequential DG18 native package; all prior attempts remain terminal and consumed.",
+  "native_source_commit": "35bf9823856eb4efe254b882954120480632230e",
+  "native_source_tree": "abe08aabc83de3b27c43e6acf28646fb089f0f34",
+  "old_grants_reused": false,
+  "original_acceptance": false,
+  "publication_parent": "0d57929be5bd15682b4e9da2c0209d5dff307843",
+  "review_or_GO_created": false,
+  "schema": "dg18.c02-isolated.author-status.v1",
+  "source_members": 81,
+  "source_scope_rule": "Fresh native35bf-scoped component; cumulative current0d C02 qualification remains open.",
+  "status": "COMPOSED_REQUIRES_INDEPENDENT_REVIEW_AND_HOST_ADMISSION",
+  "support_changes": [
+    {
+      "after_sha256": "35bd53929776cbbbb919a54e5e19d8f7f1a48e155e381b366622eedf974681cd",
+      "before_sha256": "d8b962ad96dea3ae3ef7b66016c00e79d73112783d1e3c77a3c86a73fbfa1a49",
+      "key": "retained/native_transport.py"
+    },
+    {
+      "after_sha256": "a0a27ea71b19d1311f0e7a06cf4400ff9e7fda23b358bfa775b2caf5b0c6f198",
+      "before_sha256": "383441a232f320ea402498c230d2900be66f47aa9ba8d509f33371aeb5a488c3",
+      "key": "owner-continuation"
+    },
+    {
+      "after_sha256": "0fac4960232acfa685865b34531717ad38722d74ceb5d5898eaf2caf17d3ca58",
+      "before_sha256": "276d87dce700ef63e37077e27163869b12d509119e023384dea21848996f51c5",
+      "key": "protocol-plan"
+    }
+  ]
+}

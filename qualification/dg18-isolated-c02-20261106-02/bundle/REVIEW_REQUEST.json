@@ -1,0 +1,26 @@
+{
+  "actual_review_pending": true,
+  "author": "/root/c02_diagnostic_engineering",
+  "composition_author": "/root",
+  "excluded_reviewers": [
+    "/root",
+    "/root/c02_diagnostic_engineering",
+    "/root/r5_c02_successor_prepare",
+    "/root/h0_c02_or"
+  ],
+  "execution_authorized": false,
+  "expected_reviewer": "/root/c02_cold_review",
+  "review_scope": [
+    "Exact unbound 26-file code packet, new namespaces and reviewer binding",
+    "Exact diagnostic v3 component seal and observation-only operative equivalence",
+    "All 81 native35bf source pins and the complete 92-input population",
+    "Seven-member current0d source residual remains unaccepted",
+    "Separate later review of actual host SEALED_PREPARATION.json, HOST_REQUEST.json and unchanged custody",
+    "Fresh exact root GO, one-shot fixture scope, no replay or automatic retry",
+    "No raw public evidence, credentials, authentic OR or original acceptance claim"
+  ],
+  "root_currentness_required_separately": true,
+  "schema": "r5.c02-06.prospective-review-request.v1",
+  "source_scope": "Fresh native35bf-scoped component only",
+  "status": "REQUESTED_NOT_PERFORMED"
+}
