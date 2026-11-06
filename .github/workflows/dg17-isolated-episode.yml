@@ -281,3 +281,181 @@ jobs:
             ${{ runner.temp }}/dg17-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/CLEANUP.json
             ${{ runner.temp }}/dg17-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/FAILURE.json
             ${{ runner.temp }}/dg17-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/ARTIFACT_MANIFEST.json
+
+  dg17-hostpath-metadata-only:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/pro/dg17-isolated-episode-01-20261106' &&
+      github.event.created == false && github.event.deleted == false &&
+      github.event.forced == false &&
+      github.event.before == '373bb36a65f3475bd648e9f5d23f8ad1f42b5f86' &&
+      github.run_attempt == '1'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Read fixed Git resolver path metadata only
+        shell: bash
+        run: |
+          set -euo pipefail
+          /usr/bin/python3 -I -S -B - <<'DG17_METADATA_ONLY'
+          """Read-only census of the fixed Git resolver ancestry on one actual hosted VM."""
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import stat
+          
+          REPO = "theislampill/IMPLEMENTAUDIT.md"
+          BRANCH = "refs/heads/pro/dg17-isolated-episode-01-20261106"
+          CANDIDATES = (
+              "/opt/homebrew/bin", "/usr/local/bin", "/opt/local/bin",
+              "/run/current-system/sw/bin", "/nix/var/nix/profiles/default/bin",
+              "/Library/Developer/CommandLineTools/usr/bin",
+              "/Applications/Xcode.app/Contents/Developer/usr/bin",
+              "/usr/bin", "/bin", "/usr/sbin", "/sbin",
+          )
+          TAIL = (
+              "/usr/bin/git", "/usr/lib/git-core", "/usr/lib/git-core/git",
+              "/usr/lib/git-core/git-remote-http", "/usr/lib/git-core/git-remote-https",
+              "/etc/gitconfig",
+          )
+          
+          
+          def classify(uid, mode):
+              if uid != 0:
+                  return "GIT_INSTALLATION_NOT_ROOT_OWNED"
+              if not stat.S_ISLNK(mode) and mode & 0o022:
+                  return "GIT_INSTALLATION_WRITABLE"
+              return None
+          
+          
+          def main():
+              env = os.environ
+              assert env.get("GITHUB_ACTIONS") == "true"
+              assert env.get("RUNNER_ENVIRONMENT") == "github-hosted"
+              assert env.get("GITHUB_REPOSITORY") == REPO
+              assert env.get("GITHUB_REF") == BRANCH
+              assert env.get("GITHUB_EVENT_NAME") == "push"
+              assert env.get("GITHUB_RUN_ATTEMPT") == "1"
+              assert os.getuid() == os.geteuid() > 0
+              assert os.getgid() == os.getegid() > 0
+              nodes, observations, walks = {}, [], []
+              first_rejection = None
+              visiting = set()
+          
+              def walk(path, role, depth=0):
+                  nonlocal first_rejection
+                  assert path.is_absolute() and ".." not in path.parts and depth <= 16
+                  if str(path) in visiting:
+                      walks.append({"role": role, "path": str(path), "error": "LINK_CYCLE"})
+                      return False
+                  visiting.add(str(path))
+                  trace = []
+                  present = True
+                  try:
+                      for item in (*reversed(path.parents), path):
+                          assert len(observations) < 512
+                          try:
+                              info = item.lstat()
+                          except FileNotFoundError:
+                              nodes.setdefault(str(item), {"present": False})
+                              trace.append(str(item))
+                              present = False
+                              break
+                          except OSError as exc:
+                              nodes.setdefault(str(item), {"present": None, "stat_error": type(exc).__name__,
+                                                            "errno": exc.errno})
+                              trace.append(str(item))
+                              walks.append({"role": role, "path": str(item),
+                                            "error": type(exc).__name__, "errno": exc.errno})
+                              present = False
+                              break
+                          row = {"present": True, "uid": info.st_uid, "gid": info.st_gid,
+                                 "mode": info.st_mode, "mode_octal": format(info.st_mode, "o"),
+                                 "device": info.st_dev, "inode": info.st_ino,
+                                 "kind": "directory" if stat.S_ISDIR(info.st_mode) else
+                                 "symlink" if stat.S_ISLNK(info.st_mode) else
+                                 "regular" if stat.S_ISREG(info.st_mode) else "other"}
+                          if stat.S_ISLNK(info.st_mode):
+                              row["link_target_sha256"] = hashlib.sha256(os.fsencode(os.readlink(item))).hexdigest()
+                          code = classify(info.st_uid, info.st_mode)
+                          row["root_field_refusal"] = code
+                          previous = nodes.get(str(item))
+                          observations.append({"path": str(item), "role": role,
+                                               "identity_changed": previous is not None and previous != row})
+                          nodes[str(item)] = row
+                          trace.append(str(item))
+                          if code and first_rejection is None:
+                              first_rejection = {"ordinal": len(observations), "role": role,
+                                                 "path": str(item), "code": code,
+                                                 "uid": info.st_uid, "gid": info.st_gid,
+                                                 "mode": info.st_mode, "mode_octal": format(info.st_mode, "o")}
+                          if stat.S_ISLNK(info.st_mode):
+                              try:
+                                  resolved = item.resolve(strict=True)
+                                  walk(resolved, role + ":link", depth + 1)
+                              except (OSError, RuntimeError) as exc:
+                                  walks.append({"role": role, "path": str(item), "error": type(exc).__name__})
+                      if present:
+                          try:
+                              resolved = path.resolve(strict=True)
+                              if resolved != path:
+                                  walk(resolved, role + ":canonical", depth + 1)
+                          except (OSError, RuntimeError) as exc:
+                              walks.append({"role": role, "path": str(path), "error": type(exc).__name__})
+                  finally:
+                      visiting.remove(str(path))
+                  walks.append({"role": role, "path": str(path), "present": present, "trace": trace})
+                  return present
+          
+              for index, raw in enumerate(CANDIDATES):
+                  path = Path(raw)
+                  present = walk(path, "resolver_" + str(index))
+                  if present:
+                      try:
+                          if path.is_dir():
+                              walk(path.resolve(strict=True) / "git", "candidate_git_" + str(index))
+                      except (OSError, RuntimeError) as exc:
+                          walks.append({"role": "candidate_git_" + str(index), "path": str(path),
+                                        "error": type(exc).__name__})
+              for index, raw in enumerate(TAIL):
+                  walk(Path(raw), "tail_" + str(index))
+              result = {
+                  "schema": "dg17.hosted-git-path-metadata-census.v1",
+                  "context": {key: env.get(key) for key in (
+                      "GITHUB_REPOSITORY", "GITHUB_REF", "GITHUB_SHA", "GITHUB_RUN_ID",
+                      "GITHUB_RUN_ATTEMPT", "GITHUB_EVENT_NAME", "RUNNER_ENVIRONMENT",
+                      "RUNNER_OS", "RUNNER_ARCH", "ImageOS", "ImageVersion")},
+                  "uid": os.getuid(), "gid": os.getgid(),
+                  "first_root_field_rejection_in_census_order": first_rejection,
+                  "nodes": nodes, "observations": observations, "walks": walks,
+                  "scope": "NEW_HOST_METADATA_ONLY_NOT_RECOVERED_PRIOR_HOST_METADATA",
+                  "reads_file_contents": False, "git_queries": 0, "target_tests": 0,
+                  "native_process_started": False, "permission_or_owner_changes": False,
+                  "sudo_used": False, "source_or_runtime_qualification": False,
+                  "original_acceptance": False,
+              }
+              raw = (json.dumps(result, indent=2, sort_keys=True) + "\n").encode()
+              assert len(raw) <= 65536
+              output = Path(env["RUNNER_TEMP"]) / ("dg17-hostpath-" + env["GITHUB_RUN_ID"] + "-a1")
+              output.mkdir(mode=0o700)
+              with (output / "HOST_PATH_CENSUS.json").open("xb") as stream:
+                  stream.write(raw)
+              print(json.dumps({"status": "READ_ONLY_HOST_METADATA_RETAINED",
+                                "first_root_field_rejection": first_rejection,
+                                "bytes": len(raw), "sha256": hashlib.sha256(raw).hexdigest(),
+                                "native_process_started": False, "original_acceptance": False}))
+          
+          
+          if __name__ == "__main__":
+              main()
+          DG17_METADATA_ONLY
+      - name: Retain bounded host path metadata
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-hostpath-${{ github.run_id }}-a1
+          if-no-files-found: error
+          retention-days: 7
+          path: ${{ runner.temp }}/dg17-hostpath-${{ github.run_id }}-a1/HOST_PATH_CENSUS.json
