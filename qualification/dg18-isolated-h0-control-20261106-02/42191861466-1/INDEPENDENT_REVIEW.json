@@ -1,0 +1,213 @@
+{
+  "authority": "NONE",
+  "binary_boundary": {
+    "archive_pin": {
+      "bytes": 172325449,
+      "category": "official-archive",
+      "key": "official-binary-archive",
+      "mode": 384,
+      "path": "/home/runner/work/_temp/dg18-isolated-h0-20261106-02/codex-official.tar.gz",
+      "sha256": "cbc00a26d3d0e2ceefc4be8891f8a81ef1e349b3b175bc0ae308762bc001fd93"
+    },
+    "binary_bytes": 319346888,
+    "binary_member": "package/vendor/x86_64-unknown-linux-musl/bin/codex",
+    "binary_sha256": "b8a11fedf24b2dfb59a70c9e52b030f9a508dcd49cd2dd0d41956f4c785156b8",
+    "native_binary_extracted_or_executed_by_reviewer": false,
+    "owned_binary": "/home/runner/work/_temp/dg18-isolated-h0-20261106-02/private/binary/codex"
+  },
+  "blocking_findings": [],
+  "candidate_author": "/root/h0_c02_diagnosis",
+  "candidate_binding": {
+    "author_tools_rehashed": 6,
+    "bundle_seal_sha256": "937076020829b396b24e32435b0d388441f2bfafcd6a149ded55d430f2ee0fcc",
+    "candidate_files_rehashed": 24,
+    "candidate_review_unchanged": true,
+    "external_evidence_rehashed": 9,
+    "frozen_seal_sha256": "3dd1f633b9b075ec61ad59f762fcafc8479c23ce8905b754b35558c0b3ace7cc",
+    "independent_candidate_review_seal_sha256": "bdde4351a3caadbbd75fa0bd1a5a02b3d8980de5b6d179517607029caf7cfd85",
+    "independent_candidate_review_sha256": "a97c0d3a6548eca498c57612275f41370865afd74c83a51228abaa87e8f0a816",
+    "prior_review_members_rehashed": 79,
+    "static_preparation_files_byte_identical": 8
+  },
+  "context_reused": false,
+  "control_branch": "pro/dg18-isolated-h0-control-20261106-02",
+  "control_path": "qualification/dg18-isolated-h0-control-20261106-02/42191861466-1",
+  "controller": "dg18-isolated-h0-20261106-02",
+  "created_at": "2026-11-06T09:05:52.070087+00:00",
+  "custody_evidence": {
+    "actual_exported_system_chains_inspected": 3,
+    "all_102_manifest_content_pins_inspected": true,
+    "direct_remote_physical_measurement_by_reviewer": false,
+    "local_host_identity_substituted": false,
+    "official_archive_bytes_independently_downloaded": false,
+    "official_archive_pin_compared_with_reviewed_constant": 1,
+    "private_aggregate_census_accessed": false,
+    "private_aggregate_census_recomputed": false,
+    "private_aggregate_enforcement": "Unchanged reviewed same-job host owner retains the full physical census and compares it at the prescribed effect-time gates. The public request exposes its exact digest. This review inspects that binding and the exported three-system metadata, not the unexported census bytes.",
+    "reviewed_public_code_pins_compared": 15,
+    "runtime_pins_compared_with_local_frozen_source": 83,
+    "system_content_bytes_independently_downloaded": false
+  },
+  "decision": "PASS",
+  "findings": [
+    {
+      "conclusion": "The root-retained artifact origin advertises the exact ZIP SHA256 and 49563-byte size for run 42191861466, job 127805566307 and artifact 13489734475. The job record reached the hold step after successful preparation. Twelve exact regular 100644 ZIP members, CRC-checked original bytes, extracted files, transport manifest, sealed ten inner members and request/manifest digests agree. Local extracted copies are read-only 0444 retention files; those local modes are not substituted for remote host metadata. Strict JSON parsing and syntax checks succeeded. No extra artifact member exists.",
+      "id": "AH1",
+      "result": "PASS",
+      "topic": "Actual transport and preparation"
+    },
+    {
+      "conclusion": "The actual request matches the allocated repository, run, first attempt, workflow commit, source commit/parent/tree, fresh subject/controller, fresh control namespace, ordered eleven allocations and unchanged 1500/900-second limits. Retained root-acquired commit readback has exactly source 0d579 as sole parent and workflow tree f77ac636. The public push run metadata agrees. Fresh branch absence and zero active/queued launch capacity are documented in root records.",
+      "id": "AH2",
+      "result": "PASS",
+      "topic": "Actual source, workflow and namespace binding"
+    },
+    {
+      "conclusion": "All 83 runtime rows match the frozen template and actual frozen source bytes, sizes, modes and Git blob identities. All 15 code rows match the exact reviewed public payload and bundle seal. The official archive row matches the reviewed archive pin. All three system rows match their exported custody metadata. Keys, paths and runtime destinations are unique and canonical; the input total is 189744418 bytes below 268435456.",
+      "id": "AH3",
+      "result": "PASS",
+      "topic": "All 102 declared content pins"
+    },
+    {
+      "conclusion": "Python resolves from /usr/bin/python3 through the recorded root-owned python3.12 symlink to /usr/bin/python3.12. Git and Bash resolve directly. All three exported executable identities are distinct regular single-link root-owned mode 0755 files, with matching content pins, sizes and final invocation-node identities. The complete root-owned ancestor metadata agrees across all three chains and has no group/world writable directories.",
+      "id": "AH4",
+      "result": "PASS",
+      "topic": "Exported system invocation and physical metadata"
+    },
+    {
+      "conclusion": "The request binds the exact private aggregate custody digest. The byte-identical reviewed host owner compares all 102 physical/content census rows around the pure preparation check and immediately before exclusive dispatch reservation, and rechecks the control head. The native driver repeats preparation custody checks. Future owned-binary creation remains gated by the exact archive physical identity, unique member, size, SHA256, mode 0500 and version checks. No future binary or native currentness is claimed as observed.",
+      "id": "AH5",
+      "result": "PASS",
+      "topic": "Custody enforcement and future binary boundary"
+    },
+    {
+      "conclusion": "The actual code and pins are exactly the independently reviewed v2 candidate. Original seven-occurrence mechanics, response validation, live receiving and cleanup remain unchanged. The v2 MCP_SERVER_REFUSAL alternative is an envelope-only observation with null child exit/stream hashes, owner NOT_APPLICABLE and effect UNCONFIRMED; post-subprocess failures and timeouts prevent any inference of no effects. Preparation declares native execution, currentness and authorization false. Review creates no external provider permission, original H0/AC05 acceptance, authentic OR, RETURN, JOIN or lifecycle authority.",
+      "id": "AH6",
+      "result": "PASS",
+      "topic": "Effects, diagnostics, cleanup and authority ceiling"
+    },
+    {
+      "conclusion": "The new run, workflow commit, bundle, preparation, manifest, custody digest, subject, controller, owned-binary path and workflow/control namespace differ from consumed predecessor run 42185094245. All four earlier review seals and every sealed member, as well as that historical host request, rehash unchanged. No historical remote subject was remeasured, old grant reused or previous cause inferred. Historical cause remains UNKNOWN and CURRENT_BIND effect remains UNCONFIRMED.",
+      "id": "AH7",
+      "result": "PASS",
+      "topic": "Fresh subject and immutable predecessor evidence"
+    }
+  ],
+  "formal_audit_assess": false,
+  "formal_route_receipt": null,
+  "historical_author": "/root/h0_c02_or",
+  "historical_boundary": {
+    "cause": "UNKNOWN",
+    "current_BIND_effect": "UNCONFIRMED",
+    "four_earlier_seals_and_all_members_unchanged": true,
+    "grant": "CONSUMED",
+    "old_remote_subject_remeasured": false,
+    "replay_authorized": false,
+    "run_id": "42185094245"
+  },
+  "host_request_sha256": "1fe4533848590612d8ad04b9ae1934864e3b09bde33fefb06bbe37acba6cefe0",
+  "identity_provenance": "self-report",
+  "input_custody_sha256": "288d28c666c313c2dc38fe499ef37366a6e3b466cd57b8d8e88fb22eac5d27ed",
+  "input_manifest_sha256": "2d8235aa0f573bceb779eecaa8ef58c3b6d3a2f7b3f2df1ce490343d450b9112",
+  "issuer": null,
+  "job_id": "127805566307",
+  "limitations": [
+    "Review is of exported public preparation evidence and exact reviewed code. All 102 content pins were inspected, while complete remote physical custody remains host-enforced and was not independently remeasured by the reviewer.",
+    "Run/job/artifact origin and publication records were acquired by root. The reviewer inspected retained records and independently verified packet bytes without calling GitHub.",
+    "Preparation metadata reports native execution and currentness false. This review supplies no native currentness, host-UID admission proof or borrowed local-root controller state.",
+    "No actual GO, control publication, native execution, owner-effect outcome, historical CURRENT_BIND diagnosis, original acceptance, public RETURN or JOIN is authored or established by this review."
+  ],
+  "owned_binary": "/home/runner/work/_temp/dg18-isolated-h0-20261106-02/private/binary/codex",
+  "preparation_artifact_id": "13489734475",
+  "preparation_sha256": "ff3309a02dfc82253e828735c6c5bc46563bea13c0c3781e97122ee0e91041ea",
+  "remaining_effect_time_gates": [
+    "Root separately authors the actual one-shot GO for this exact request, preparation, custody digest, subject/controller, source tuple and the hash of these original review bytes.",
+    "The existing 1500-second hold must remain unextended. Expiry, changed preparation/input custody, changed control head or a prior dispatch reservation must refuse execution.",
+    "Root retains max1 consequential native and max1 additional hosted scheduling. The unchanged host checks and maintained native admission/currentness guards must succeed on this actual host before their corresponding effects.",
+    "The seven-occurrence result, live original-reader receiving, final currentness and bounded cleanup remain future observations. This review does not assert their success."
+  ],
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "review_kind": "COMMISSION_AUTHORIZED_BOUNDED_INDEPENDENT_ACTUAL_HOST_TECHNICAL_REVIEW",
+  "reviewer": "/root/h0_cold_review",
+  "reviewer_authored_candidate": false,
+  "reviewer_continuity": "Same actual allocated independent reviewer as the preceding candidate review. That immutable disposition was inspected as requested evidence; no authoring-agent identity or borrowed review is used.",
+  "run_attempt": "1",
+  "run_id": "42191861466",
+  "schema": "r5.h0-independent-host-review.v1",
+  "scope": "The actual twelve-file public preparation for this first-attempt held job, all 102 declared input content pins, exported system custody metadata, the exact frozen candidate, and root-acquired publication/run transport records. Technical preparation review only; no native result or execution authorization is asserted.",
+  "source_commit": "0d57929be5bd15682b4e9da2c0209d5dff307843",
+  "source_parent": "481e529b691ed3d21169b07f376e357ae51f1f03",
+  "source_tree": "ee316c27250ec422d35a1ea965182ebddf7a5da0",
+  "subject": "/home/runner/work/_temp/dg18-isolated-h0-20261106-02/private/subject",
+  "system_inputs": [
+    {
+      "bytes": 8020928,
+      "direct_host_measurement_by_reviewer": false,
+      "gid": 0,
+      "invocation": "/usr/bin/python3",
+      "key": "system/python3",
+      "mode": 493,
+      "nlink": 1,
+      "nodes": 4,
+      "resolved": "/usr/bin/python3.12",
+      "sha256": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+      "uid": 0
+    },
+    {
+      "bytes": 4640352,
+      "direct_host_measurement_by_reviewer": false,
+      "gid": 0,
+      "invocation": "/usr/bin/git",
+      "key": "system/git",
+      "mode": 493,
+      "nlink": 1,
+      "nodes": 3,
+      "resolved": "/usr/bin/git",
+      "sha256": "824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235",
+      "uid": 0
+    },
+    {
+      "bytes": 1446024,
+      "direct_host_measurement_by_reviewer": false,
+      "gid": 0,
+      "invocation": "/usr/bin/bash",
+      "key": "system/bash",
+      "mode": 493,
+      "nlink": 1,
+      "nodes": 3,
+      "resolved": "/usr/bin/bash",
+      "sha256": "bc5945feb8bd26203ebfafea5ce1878bb2e32cb8fb50ab7ae395cfb1e1aaaef1",
+      "uid": 0
+    }
+  ],
+  "transport": {
+    "actual_job_observed_at_hold_step": true,
+    "archive_bytes": 49563,
+    "archive_sha256": "973adc7825b2731e8c781578cc5187488597485ced97b15bd30b5ca917fb32a5",
+    "artifact_advertised_digest_matches_zip": true,
+    "artifact_created_at": "2026-11-06T09:01:27Z",
+    "expanded_bytes": 168740,
+    "independent_network_fetch_by_reviewer": false,
+    "local_retained_copy_mode": 292,
+    "local_retention_modes_are_not_remote_host_metadata": true,
+    "member_count": 12,
+    "origin_provenance": "Root-provided artifact acquisition and retained public GitHub API records; independently rehashed and inspected by the reviewer.",
+    "original_zip_and_extracted_bytes_equal": true,
+    "original_zip_regular_mode": 33188
+  },
+  "verification": {
+    "aggregate_input_bytes": 189744418,
+    "aggregate_input_ceiling_bytes": 268435456,
+    "candidate_source_or_prior_review_modified": false,
+    "individual_input_pins_passed": 102,
+    "preparation_members": 12,
+    "reviewer_credentials_used": false,
+    "reviewer_external_writes": false,
+    "reviewer_git_mutations": false,
+    "reviewer_native_controller_provider_execution": false,
+    "supporting_verification_sha256": "ed762827c4d8da0e4d5a8289e28214b3d3e01d5ad587a15b189137cebba570ad",
+    "verification_groups_passed": 9
+  },
+  "workflow_commit": "52bbba4dd73815ad2f5f845672a60757bc5d8c89",
+  "workflow_tree": "f77ac636ea5d7f82b9ae51eb2ffed2e0dd9f50e2"
+}
