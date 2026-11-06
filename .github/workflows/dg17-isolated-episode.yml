@@ -1,4 +1,4 @@
-name: DG17 isolated Claude source-candidate metadata
+name: DG17 isolated Claude canonical body delivery
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
       github.ref == 'refs/heads/pro/dg17-isolated-episode-01-20261106' &&
       github.event.created == false && github.event.deleted == false &&
       github.event.forced == false &&
-      github.event.before == 'e92c38c4298eb31fc9738db4d61e651f77d49e9e' &&
+      github.event.before == '29da326a3734a8c774fd5e35f65d9afef30b9d02' &&
       github.run_attempt == '1'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
@@ -47,7 +47,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '1899730b8d89c9246cecc225a56fa9378fd71ec2f96134e6adf1bfb1877b4348' ]]; then
+          if [[ "$actual" != 'aad5004348ea4c1a351627f9fc2208c2d54884639ba9a168b3f10a6ba09551b4' ]]; then
             echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -63,7 +63,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '1899730b8d89c9246cecc225a56fa9378fd71ec2f96134e6adf1bfb1877b4348' ]]; then
+          if [[ "$actual" != 'aad5004348ea4c1a351627f9fc2208c2d54884639ba9a168b3f10a6ba09551b4' ]]; then
             echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -79,7 +79,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '1899730b8d89c9246cecc225a56fa9378fd71ec2f96134e6adf1bfb1877b4348' ]]; then
+          if [[ "$actual" != 'aad5004348ea4c1a351627f9fc2208c2d54884639ba9a168b3f10a6ba09551b4' ]]; then
             echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -95,7 +95,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '1899730b8d89c9246cecc225a56fa9378fd71ec2f96134e6adf1bfb1877b4348' ]]; then
+          if [[ "$actual" != 'aad5004348ea4c1a351627f9fc2208c2d54884639ba9a168b3f10a6ba09551b4' ]]; then
             echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -111,7 +111,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '1899730b8d89c9246cecc225a56fa9378fd71ec2f96134e6adf1bfb1877b4348' ]]; then
+          if [[ "$actual" != 'aad5004348ea4c1a351627f9fc2208c2d54884639ba9a168b3f10a6ba09551b4' ]]; then
             echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -127,7 +127,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '1899730b8d89c9246cecc225a56fa9378fd71ec2f96134e6adf1bfb1877b4348' ]]; then
+          if [[ "$actual" != 'aad5004348ea4c1a351627f9fc2208c2d54884639ba9a168b3f10a6ba09551b4' ]]; then
             echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -143,7 +143,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '1899730b8d89c9246cecc225a56fa9378fd71ec2f96134e6adf1bfb1877b4348' ]]; then
+          if [[ "$actual" != 'aad5004348ea4c1a351627f9fc2208c2d54884639ba9a168b3f10a6ba09551b4' ]]; then
             echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -159,7 +159,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '1899730b8d89c9246cecc225a56fa9378fd71ec2f96134e6adf1bfb1877b4348' ]]; then
+          if [[ "$actual" != 'aad5004348ea4c1a351627f9fc2208c2d54884639ba9a168b3f10a6ba09551b4' ]]; then
             echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -175,7 +175,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '1899730b8d89c9246cecc225a56fa9378fd71ec2f96134e6adf1bfb1877b4348' ]]; then
+          if [[ "$actual" != 'aad5004348ea4c1a351627f9fc2208c2d54884639ba9a168b3f10a6ba09551b4' ]]; then
             echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -191,7 +191,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '1899730b8d89c9246cecc225a56fa9378fd71ec2f96134e6adf1bfb1877b4348' ]]; then
+          if [[ "$actual" != 'aad5004348ea4c1a351627f9fc2208c2d54884639ba9a168b3f10a6ba09551b4' ]]; then
             echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -207,7 +207,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '1899730b8d89c9246cecc225a56fa9378fd71ec2f96134e6adf1bfb1877b4348' ]]; then
+          if [[ "$actual" != 'aad5004348ea4c1a351627f9fc2208c2d54884639ba9a168b3f10a6ba09551b4' ]]; then
             echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -223,7 +223,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '1899730b8d89c9246cecc225a56fa9378fd71ec2f96134e6adf1bfb1877b4348' ]]; then
+          if [[ "$actual" != 'aad5004348ea4c1a351627f9fc2208c2d54884639ba9a168b3f10a6ba09551b4' ]]; then
             echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -240,7 +240,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '1899730b8d89c9246cecc225a56fa9378fd71ec2f96134e6adf1bfb1877b4348' ]]; then
+          if [[ "$actual" != 'aad5004348ea4c1a351627f9fc2208c2d54884639ba9a168b3f10a6ba09551b4' ]]; then
             echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -261,7 +261,7 @@ jobs:
             ${{ runner.temp }}/dg17-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/HOST.json
             ${{ runner.temp }}/dg17-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/CURRENTNESS.json
             ${{ runner.temp }}/dg17-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/PREDICATES.json
-            ${{ runner.temp }}/dg17-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/CLAUDE.json
+            ${{ runner.temp }}/dg17-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/CLAUDE_BODY.json
             ${{ runner.temp }}/dg17-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/CLEANUP.json
             ${{ runner.temp }}/dg17-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/FAILURE.json
             ${{ runner.temp }}/dg17-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/ARTIFACT_MANIFEST.json

@@ -1,7 +1,11 @@
 {
+  "CANONICAL_PACKAGE_MATRIX.json": {
+    "bytes": 13391,
+    "sha256": "ef9cbbe7c2c277c434139080d548f0cb868ee091fe79aa96633dcd46cc86a117"
+  },
   "PUBLIC_RESULT_SCHEMA.json": {
-    "bytes": 33617,
-    "sha256": "45a4a7456a914528ee9c6564a056a639822ad51963d602bad5841f69f39d144b"
+    "bytes": 22029,
+    "sha256": "4e9d5e3fbdf249464bc3a7bdf58e44a8b4af0b4218629ecee8601b6a5821a46b"
   },
   "SOURCE_INPUT_PINS.json": {
     "bytes": 2092,
@@ -14,6 +18,14 @@
   "catalogue_probe.py": {
     "bytes": 50831,
     "sha256": "9456e39cf3be3254b4c25c74716a1b87ba5f2accd6bf196db061e326c7a50277"
+  },
+  "claude_body_probe.py": {
+    "bytes": 31002,
+    "sha256": "44fa7f133fc3e4f68ff47a352ad4153b690fa442213682a83c5bf194ed768703"
+  },
+  "claude_body_transport.py": {
+    "bytes": 21952,
+    "sha256": "2f13bfef6105d89b6c1d13fed26412e0157b75089e9a3da374a178b2fec54edc"
   },
   "claude_probe.py": {
     "bytes": 45501,
