@@ -1,0 +1,362 @@
+{
+  "IMPLEMENTAUDIT_INVENTORY.json": {
+    "bytes": 12702,
+    "mode": 420,
+    "sha256": "be090574dc086d5d70e992c641d1b632e83de5656343a8cba163c5f59a220ec6"
+  },
+  "IMPLEMENTAUDIT_PACKAGE.json": {
+    "bytes": 5028,
+    "mode": 420,
+    "sha256": "4d5db5bb9d5d686528d03d50b8ecf949909b753d0e572f25437fb324505ca5a5"
+  },
+  "SKILL.md": {
+    "bytes": 21257,
+    "mode": 420,
+    "sha256": "4c8363c2235ba6c50675c93af7319aeb0caf57f020c4858eba1c28e76de4c6c5"
+  },
+  "internal-procedures/audit-andon.md": {
+    "bytes": 2559,
+    "mode": 420,
+    "sha256": "bb723d4b45e313425dace87d3555be211a8e0e84dce8cd19f527fac0d0095693"
+  },
+  "internal-procedures/audit-assess.md": {
+    "bytes": 1761,
+    "mode": 420,
+    "sha256": "b79ceb0974025be85675fa896df3dbce596e971ae8f07e48cea4d66ca2bfd9b1"
+  },
+  "internal-procedures/audit-implement.md": {
+    "bytes": 5079,
+    "mode": 420,
+    "sha256": "c03f5ec57821c200140a58aaa3715a535dfa62676c5afb4d719020a133f3f015"
+  },
+  "internal-procedures/audit-state.md": {
+    "bytes": 3474,
+    "mode": 420,
+    "sha256": "dec229a4101d9fe8dfb2af4691d0e917c70de846b8f5429cc514ebe84cd686ae"
+  },
+  "references/audit-category-matrix.md": {
+    "bytes": 14156,
+    "mode": 420,
+    "sha256": "d67a3ef3fb6a484c8360b4c031da40b5329030b6bc0c3a5b99e56cc58b1bcf79"
+  },
+  "references/audit-playbook.md": {
+    "bytes": 23193,
+    "mode": 420,
+    "sha256": "efc6ecb9f0972f0606e4f2a5a3b6a01bb496090c08fa567120ebd2425ac1e0f8"
+  },
+  "references/canonical-state-ref-namespaces.json": {
+    "bytes": 3844,
+    "mode": 420,
+    "sha256": "c03764f0043240cc742ff5f6fce60ccdaceda5ee774e39750693fa6601c3d390"
+  },
+  "references/canonical-state-rotation.md": {
+    "bytes": 25561,
+    "mode": 420,
+    "sha256": "db72ee6b5cb7550ce02b232a29e2c8c72f8d6bf0d312e475ba4c0efaa01f2f6a"
+  },
+  "references/child-agents.md": {
+    "bytes": 18955,
+    "mode": 420,
+    "sha256": "eb418e296027d4cccc17218466e8ba78303ea356a5151b077214b473d19625bb"
+  },
+  "references/continuity.md": {
+    "bytes": 21266,
+    "mode": 420,
+    "sha256": "e5cb92461b39b70cabc333aea6c157c44d939e6727ef49d440a33a3c880d14e1"
+  },
+  "references/convergence-mode.md": {
+    "bytes": 8668,
+    "mode": 420,
+    "sha256": "ecef97598b378e0b34efe988da5237b15fd2af9052cd90d8b0ab857903088f69"
+  },
+  "references/goal-format.md": {
+    "bytes": 6895,
+    "mode": 420,
+    "sha256": "193d29e93bc590d355b5a2f28e8c12a1b9bc27689fb64e1a80c14cfda1190ef9"
+  },
+  "references/host-session-binding.md": {
+    "bytes": 21315,
+    "mode": 420,
+    "sha256": "10787ac1b2f80f4e0b1f4efc5d4ef7068b3f81f477e540c4aeb942eeae560ffa"
+  },
+  "references/identity-namespaces.json": {
+    "bytes": 1265,
+    "mode": 420,
+    "sha256": "d47300b2a29d8b5018619faa39076c662f5a639c608b5c3e63b36edcaacec5cb"
+  },
+  "references/issue-ready-work-orders.md": {
+    "bytes": 18210,
+    "mode": 420,
+    "sha256": "fc9bf75e9a4274af94b6df4ffc863eeae54dc096ea1422db5740b96030493b04"
+  },
+  "references/lean-operating-discipline.md": {
+    "bytes": 22319,
+    "mode": 420,
+    "sha256": "ccd53a446f1a69994d5df694d206b475e969910a579cd4882f09c81f3c88401a"
+  },
+  "references/phase-design.md": {
+    "bytes": 20396,
+    "mode": 420,
+    "sha256": "65756c5b90280795d20c5235f5c74359d2179befa408e72e26d12182344105a0"
+  },
+  "references/plan-lifecycle.md": {
+    "bytes": 32365,
+    "mode": 420,
+    "sha256": "1e283fec5f5b78b8a5ea5bbbfedfa452df516f8a5f5bbcfbb816f54603d5a6fa"
+  },
+  "references/planning-depth.md": {
+    "bytes": 20507,
+    "mode": 420,
+    "sha256": "73c074c86fc5fb2b49ae2611bb2e2b4d378a57448293a78ddb35500822d1e293"
+  },
+  "references/repo-state-comparison.md": {
+    "bytes": 50343,
+    "mode": 420,
+    "sha256": "e05daf50dea4480b11a6129355c21664fcab66fdd0fd93318313a0d8afc9b961"
+  },
+  "references/routing.md": {
+    "bytes": 14323,
+    "mode": 420,
+    "sha256": "3bcb44f11ec26370d4330f95d06a38c4267403a58757f818e69970cd9a026222"
+  },
+  "references/sidecars.md": {
+    "bytes": 5673,
+    "mode": 420,
+    "sha256": "6ee357d04dd0321c13fd56436a0efa30341423742afeb0e3669dab81929d38e7"
+  },
+  "references/terminology-integration.md": {
+    "bytes": 4877,
+    "mode": 420,
+    "sha256": "dc1022fa37731104bc094844c94d867095747f157c61046bbd4fc4c8f6afceb5"
+  },
+  "references/transcript-contract.md": {
+    "bytes": 30771,
+    "mode": 420,
+    "sha256": "a7bafb939d75f54ad442f113d08ccd60b28710a1f9c088ec40b6078dd1fd56cf"
+  },
+  "references/work-graph-contract.md": {
+    "bytes": 7038,
+    "mode": 420,
+    "sha256": "e7b8ab734743e15e453f40984868650b04ec1f850687785de855d39edce2bb9f"
+  },
+  "scripts/apply-observed-mutation.sh": {
+    "bytes": 115042,
+    "mode": 493,
+    "sha256": "0e893c6218c8105eb575630fa8fdad10ae3238b31f4fc08845b7ed540d67e590"
+  },
+  "scripts/canonical_custody.py": {
+    "bytes": 36367,
+    "mode": 493,
+    "sha256": "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389"
+  },
+  "scripts/canonical_hot_projection.py": {
+    "bytes": 93893,
+    "mode": 493,
+    "sha256": "10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f"
+  },
+  "scripts/canonical_rotation_inputs.py": {
+    "bytes": 27916,
+    "mode": 493,
+    "sha256": "dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76"
+  },
+  "scripts/check-authorization-binding.sh": {
+    "bytes": 17837,
+    "mode": 493,
+    "sha256": "ce41e7306b7b11f5dde4844fd753ec77965ec04f15f0d8dfef4e9684a7c9d2e3"
+  },
+  "scripts/check-closure-surface.sh": {
+    "bytes": 94842,
+    "mode": 493,
+    "sha256": "ba994fed1fb6c5d4688627bd31a577e7ce6fec5f6214fa3cc1093c9b70337ed7"
+  },
+  "scripts/check-duplication-parity.sh": {
+    "bytes": 5208,
+    "mode": 493,
+    "sha256": "b76e8f851f7849c28f631dbc00f400beb749c2ee13d73612b4bef15e246da9b7"
+  },
+  "scripts/check-evidence-anchor.sh": {
+    "bytes": 44602,
+    "mode": 493,
+    "sha256": "960d23f288d02ebd9f6a78c69a63e9db7c87d655178cf415d14a08f519dab735"
+  },
+  "scripts/check-handoff-packet.sh": {
+    "bytes": 18913,
+    "mode": 493,
+    "sha256": "0b7d67fa3529cf7f53417ef1acd54b7d29228139cabeef8717dc39c28abd6120"
+  },
+  "scripts/check-lesson-lift.sh": {
+    "bytes": 11417,
+    "mode": 493,
+    "sha256": "d73a873b63fe4efc7a5dadcc7b45043b68242c0afedbae6b5eb6cdf6a2630e9a"
+  },
+  "scripts/check-respec-impact-set.sh": {
+    "bytes": 6560,
+    "mode": 493,
+    "sha256": "313e8e4173139a10c79822f6a2cd6cb59925fd45a36c66c06649cc89566d9a38"
+  },
+  "scripts/claim-run-rotation.py": {
+    "bytes": 291624,
+    "mode": 493,
+    "sha256": "128dfe66ce656cd194d5fe1e55b245fecb1b4fd811dea87f75f8ace4a59a0487"
+  },
+  "scripts/claim-run.sh": {
+    "bytes": 32290,
+    "mode": 493,
+    "sha256": "9bce5c887cd89c2d2991b84f1bf765787e7a6b75a2eba29a8433c3a6c05f73a3"
+  },
+  "scripts/compile-work-graph.py": {
+    "bytes": 262144,
+    "mode": 493,
+    "sha256": "0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d"
+  },
+  "scripts/custody-append.sh": {
+    "bytes": 5668,
+    "mode": 493,
+    "sha256": "8cddcbd9891e29b368c928615915bf70a308be7ffb2515673419c30f163cc762"
+  },
+  "scripts/detect-env.sh": {
+    "bytes": 7221,
+    "mode": 493,
+    "sha256": "637f1141836e19dc610d45a3f97f8c7c31e263cc57e269811f8a81a6f4ddf516"
+  },
+  "scripts/detect-stack.sh": {
+    "bytes": 3601,
+    "mode": 493,
+    "sha256": "2cc0ec03f7c07272bd90ca437a0efd91e13852ca82ad2dabfe9c482f7f6b86f2"
+  },
+  "scripts/host-session-binding.py": {
+    "bytes": 58351,
+    "mode": 493,
+    "sha256": "8b4f91a51e2e2d45c4bd72b58fb1e115981903f8a752f95eb71cda64b106b6ef"
+  },
+  "scripts/host-stop-interlock.py": {
+    "bytes": 27873,
+    "mode": 493,
+    "sha256": "b9ac38ecbda0b372ead2b473f51bdce716cd1200b243bc92218508fab3afaa43"
+  },
+  "scripts/lane-survivor-inventory.sh": {
+    "bytes": 2459,
+    "mode": 493,
+    "sha256": "20386cd717f502c237abd47554dcf81bc91d968ae5789d9beb0349c2f3300d45"
+  },
+  "scripts/map-pin-chain.sh": {
+    "bytes": 2615,
+    "mode": 493,
+    "sha256": "d45838f0bc81ff43cf0d8b0728a02f88791bd9bcee92825da86d9ce2a2e4ea74"
+  },
+  "scripts/read-canonical-pair.py": {
+    "bytes": 27208,
+    "mode": 493,
+    "sha256": "c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8"
+  },
+  "scripts/repo-state.sh": {
+    "bytes": 22629,
+    "mode": 493,
+    "sha256": "b2220d0627c5e66d106bb3ce8a9daafb5310b87643b9281d63db5a5aa886df3b"
+  },
+  "scripts/resolve-durable-identity.py": {
+    "bytes": 6787,
+    "mode": 493,
+    "sha256": "cc61d49eb06af30db10ec34c586acc505d559b347fe63123ba17da7e079dd203"
+  },
+  "scripts/resolve-internal-skill.py": {
+    "bytes": 5178,
+    "mode": 493,
+    "sha256": "97ce587a295cfa0f13276a8dfccf63ca9f679352fdcf0d769a095eab5284b67d"
+  },
+  "scripts/rotate-canonical-state.py": {
+    "bytes": 129890,
+    "mode": 493,
+    "sha256": "7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678"
+  },
+  "scripts/summarize-repo.sh": {
+    "bytes": 7281,
+    "mode": 493,
+    "sha256": "4a0a70ed4c587bce6dde7de3f4094a35b5b69553f3250291850c0e824ecf241c"
+  },
+  "scripts/validate-audit-implement-return.py": {
+    "bytes": 13460,
+    "mode": 493,
+    "sha256": "170699fc3571640f67223f2a80fd9ba42ecc79b498f1f14c0292c53e5b599301"
+  },
+  "scripts/validate-audit-spec.sh": {
+    "bytes": 1673,
+    "mode": 493,
+    "sha256": "f0b88b4b2d2745eb2df1f339b5daaa1bf7d20a148b4ecccb3de7d9c0de0074d7"
+  },
+  "scripts/validate-phase.sh": {
+    "bytes": 45816,
+    "mode": 493,
+    "sha256": "07b2e04ba9aefffc572ac9cf60ecddf88654a26590aaa045dadf464da7bc7dab"
+  },
+  "scripts/validate-run-root.sh": {
+    "bytes": 114967,
+    "mode": 493,
+    "sha256": "d51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a"
+  },
+  "templates/PROTOCOL.md": {
+    "bytes": 73424,
+    "mode": 420,
+    "sha256": "4e006be6c32d995bdabf2f518735da814eee9311b4597e8b1cf44d304f1e80de"
+  },
+  "templates/ROADMAP.md": {
+    "bytes": 3512,
+    "mode": 420,
+    "sha256": "abdaec32627231b55b545849cbac3176f499f74359aeece9af0a2a866ad2543a"
+  },
+  "templates/STATE.md": {
+    "bytes": 10089,
+    "mode": 420,
+    "sha256": "ac756ae16ff6e6c9e4ca9ae467d13746f7ca76f33896c47f6f3f636e59d0543b"
+  },
+  "templates/THINKING.md": {
+    "bytes": 6380,
+    "mode": 420,
+    "sha256": "a3b8ebfdbecacab5d0c24effa565fd799a4eaaeaf5376fe45676132c455326ba"
+  },
+  "templates/child-agent-report.md": {
+    "bytes": 4461,
+    "mode": 420,
+    "sha256": "636112c2b68e6b20849df47afee20b55ee7d706a6074265dc23bb2e8f1344ff4"
+  },
+  "templates/context.md": {
+    "bytes": 740,
+    "mode": 420,
+    "sha256": "19e78a3e6a2e0961fa05d473dca64b723fff7a8fd55cb29080779450cd170f8a"
+  },
+  "templates/final-report.md": {
+    "bytes": 4250,
+    "mode": 420,
+    "sha256": "16fcf56ee68d88b710385dfa4ea57b47fa0f7061dfb812b51f4b9836d28648a9"
+  },
+  "templates/host-notes.md": {
+    "bytes": 785,
+    "mode": 420,
+    "sha256": "294b7b1b8e3e0d24e07dd78fc290f6deade54a4eb5078fd8b0d3cd37b6ab28b8"
+  },
+  "templates/phase-goal.txt": {
+    "bytes": 12501,
+    "mode": 420,
+    "sha256": "1b42247b1aa5cf0fbb2a2de91d3a3d6552087ed178503f3c230d9124f026fe49"
+  },
+  "templates/read-only-plan.md": {
+    "bytes": 3188,
+    "mode": 420,
+    "sha256": "755a122aea31e6118f148839771eeb4d53096b7806095d5b6b2e5086c53670a2"
+  },
+  "templates/respec-impact-set.md": {
+    "bytes": 1129,
+    "mode": 420,
+    "sha256": "e74faf421a4a6e9544669b25f4e3f503179e171ddb0d75aebbd1473e073f4e40"
+  },
+  "templates/sidecars.md": {
+    "bytes": 763,
+    "mode": 420,
+    "sha256": "6ad96c4a0638e62559d20d455d8f27404b3ea504bd68b49d1586440d7695e332"
+  },
+  "templates/tools.md": {
+    "bytes": 997,
+    "mode": 420,
+    "sha256": "904eeefc04ec64b865e6f42fecf8ad4f75077d35eef25279dbfd5d22ec2d046a"
+  }
+}
