@@ -1,0 +1,343 @@
+name: DG16 installed runtime 05
+
+on:
+  push:
+    branches:
+      - pro/dg16-r5-installed-runtime-05r3-20261106
+    paths:
+      - .github/workflows/dg16-installed-runtime05.yml
+      - qualification/dg16-installed-runtime05/**
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dg16-installed-runtime05-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  qualify-four-installed-layouts:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/pro/dg16-r5-installed-runtime-05r3-20261106' &&
+      github.event.deleted == false && github.event.created == true && github.run_attempt == '1'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 45
+    steps:
+      - name: Check out the exact reviewed qualification packet
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Check out the exact published product source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 0d57929be5bd15682b4e9da2c0209d5dff307843
+          path: qualified-source
+          fetch-depth: 2
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Bind source and provision only the pinned release dependency
+        id: prepare
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '92a8619cdf99a72a9cfdb5e9f84920889083b853d309ade7fe7450d1799f9c3c' ]]; then
+            echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step prepare \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-installed05-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Claim author inspect and activate the fresh parent task
+        id: initialize
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '92a8619cdf99a72a9cfdb5e9f84920889083b853d309ade7fe7450d1799f9c3c' ]]; then
+            echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step initialize \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-installed05-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Read parent STATE in one completed host action
+        id: read_state
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '92a8619cdf99a72a9cfdb5e9f84920889083b853d309ade7fe7450d1799f9c3c' ]]; then
+            echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step read-state \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-installed05-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Read parent ROADMAP in a separate completed host action
+        id: read_roadmap
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '92a8619cdf99a72a9cfdb5e9f84920889083b853d309ade7fe7450d1799f9c3c' ]]; then
+            echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step read-roadmap \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-installed05-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Obtain verify and require the actual first parent receipt
+        id: resume
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '92a8619cdf99a72a9cfdb5e9f84920889083b853d309ade7fe7450d1799f9c3c' ]]; then
+            echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step resume \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-installed05-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Build and receive both current release roles exactly once
+        id: build
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '92a8619cdf99a72a9cfdb5e9f84920889083b853d309ade7fe7450d1799f9c3c' ]]; then
+            echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step build \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-installed05-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Run the existing installers into four fresh isolated layouts
+        id: install
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '92a8619cdf99a72a9cfdb5e9f84920889083b853d309ade7fe7450d1799f9c3c' ]]; then
+            echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step install \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-installed05-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Qualify installed plugin-codex
+        id: qualify_plugin_codex
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '92a8619cdf99a72a9cfdb5e9f84920889083b853d309ade7fe7450d1799f9c3c' ]]; then
+            echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step qualify-plugin-codex \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-installed05-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Receive actual plugin-codex in a distinct process
+        id: receive_plugin_codex
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '92a8619cdf99a72a9cfdb5e9f84920889083b853d309ade7fe7450d1799f9c3c' ]]; then
+            echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step receive-plugin-codex \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-installed05-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Qualify installed plugin-claude
+        id: qualify_plugin_claude
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '92a8619cdf99a72a9cfdb5e9f84920889083b853d309ade7fe7450d1799f9c3c' ]]; then
+            echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step qualify-plugin-claude \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-installed05-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Receive actual plugin-claude in a distinct process
+        id: receive_plugin_claude
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '92a8619cdf99a72a9cfdb5e9f84920889083b853d309ade7fe7450d1799f9c3c' ]]; then
+            echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step receive-plugin-claude \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-installed05-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Qualify installed standalone-codex
+        id: qualify_standalone_codex
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '92a8619cdf99a72a9cfdb5e9f84920889083b853d309ade7fe7450d1799f9c3c' ]]; then
+            echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step qualify-standalone-codex \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-installed05-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Receive actual standalone-codex in a distinct process
+        id: receive_standalone_codex
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '92a8619cdf99a72a9cfdb5e9f84920889083b853d309ade7fe7450d1799f9c3c' ]]; then
+            echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step receive-standalone-codex \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-installed05-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Qualify installed standalone-claude
+        id: qualify_standalone_claude
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '92a8619cdf99a72a9cfdb5e9f84920889083b853d309ade7fe7450d1799f9c3c' ]]; then
+            echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step qualify-standalone-claude \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-installed05-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Receive actual standalone-claude in a distinct process
+        id: receive_standalone_claude
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '92a8619cdf99a72a9cfdb5e9f84920889083b853d309ade7fe7450d1799f9c3c' ]]; then
+            echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step receive-standalone-claude \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-installed05-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Recheck source tools parent and received subjects before teardown
+        id: finalize
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '92a8619cdf99a72a9cfdb5e9f84920889083b853d309ade7fe7450d1799f9c3c' ]]; then
+            echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step finalize \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-installed05-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Validate the complete closed public population before publication
+        id: emit
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '92a8619cdf99a72a9cfdb5e9f84920889083b853d309ade7fe7450d1799f9c3c' ]]; then
+            echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --emit-public \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-installed05-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          echo "eligible=true" >> "$GITHUB_OUTPUT"
+
+      - name: Upload only the validated fixed public file population
+        if: always() && steps.emit.outcome == 'success' && steps.emit.outputs.eligible == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg16-installed-runtime05-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/dg16-installed05-${{ github.run_id }}-${{ github.run_attempt }}/public/RESULT.json
+            ${{ runner.temp }}/dg16-installed05-${{ github.run_id }}-${{ github.run_attempt }}/public/HOST.json
+            ${{ runner.temp }}/dg16-installed05-${{ github.run_id }}-${{ github.run_attempt }}/public/SOURCE.json
+            ${{ runner.temp }}/dg16-installed05-${{ github.run_id }}-${{ github.run_attempt }}/public/PACKAGES.json
+            ${{ runner.temp }}/dg16-installed05-${{ github.run_id }}-${{ github.run_attempt }}/public/ROUTES.json
+            ${{ runner.temp }}/dg16-installed05-${{ github.run_id }}-${{ github.run_attempt }}/public/PHASES.json
+            ${{ runner.temp }}/dg16-installed05-${{ github.run_id }}-${{ github.run_attempt }}/public/FAILURE.json
+            ${{ runner.temp }}/dg16-installed05-${{ github.run_id }}-${{ github.run_attempt }}/public/CLEANUP.json
+            ${{ runner.temp }}/dg16-installed05-${{ github.run_id }}-${{ github.run_attempt }}/public/ARTIFACT_MANIFEST.json
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 7
+          compression-level: 6
