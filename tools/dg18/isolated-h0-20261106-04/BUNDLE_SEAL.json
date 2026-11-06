@@ -1,0 +1,110 @@
+{
+  "authority": "NONE",
+  "files": [
+    {
+      "bytes": 5112,
+      "mode": 420,
+      "name": "CONTROL_FORMAT.md",
+      "sha256": "5f592b20d8200e9b1e903490aeb358beadc4c77b36f35ad07a319b48f8f2230a"
+    },
+    {
+      "bytes": 33620,
+      "mode": 420,
+      "name": "INPUT_TEMPLATE.json",
+      "sha256": "b70a8e10f5b05654308002a0bd8fd830c27a063971ac3b7171a840251ecd827c"
+    },
+    {
+      "bytes": 6708,
+      "mode": 420,
+      "name": "PLAN.json",
+      "sha256": "dbfb00217be19b6dac091d63f362fbd8983800712cf16014fc966f92c1009bc8"
+    },
+    {
+      "bytes": 707,
+      "mode": 420,
+      "name": "PURE_CONTROLS.json",
+      "sha256": "7637808d796d6bacd615cde5f8e1f6343ec6acb58f7e4f9e5f1c8e0be8598952"
+    },
+    {
+      "bytes": 2334,
+      "mode": 420,
+      "name": "REPORT.md",
+      "sha256": "494e85f5484f692bc9453b47c7f5ec89248f0b7c63af63b1fa90383a23c4eba0"
+    },
+    {
+      "bytes": 13878,
+      "mode": 420,
+      "name": "compaction-prior-mcp.py",
+      "sha256": "e95eecbaef6a6d6c40d0ea4b8797073ff0b83b0990bf687cc97d227648250b46"
+    },
+    {
+      "bytes": 5637,
+      "mode": 420,
+      "name": "dg18-isolated-h0-20261106-04.yml",
+      "sha256": "7c8d920bc7eccee6b0b7b7093a29ff9607f4cdbc7289909ea217ce0300034e2c"
+    },
+    {
+      "bytes": 41385,
+      "mode": 420,
+      "name": "h0_owner_observation.py",
+      "sha256": "c36ea5a71e27799cfc0cc3cf7aaeb6fe027d5878ea773815bd0ac0928bdd4f9a"
+    },
+    {
+      "bytes": 8510,
+      "mode": 420,
+      "name": "h0_result_collection.py",
+      "sha256": "97ba4d888c850dd7a715d24382f7b24ae5338e6cc0febd81470c669a94ece66d"
+    },
+    {
+      "bytes": 25283,
+      "mode": 420,
+      "name": "held_control.py",
+      "sha256": "236e8a2759d6144291d6d8107413bac887f0db77a87d8216907ddbcadebb7d09"
+    },
+    {
+      "bytes": 43149,
+      "mode": 420,
+      "name": "host_io.py",
+      "sha256": "7507a2c96b38e6cbf0cc038eff916dcf62b384ad7c4cbd6d0d5e6d2610db9d96"
+    },
+    {
+      "bytes": 54556,
+      "mode": 420,
+      "name": "host_utility.py",
+      "sha256": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c"
+    },
+    {
+      "bytes": 8052,
+      "mode": 420,
+      "name": "live_receiver.py",
+      "sha256": "ace6f387d85fa9f6be50febd2d443d8aef26b4294b4eefdcc4d596912b7788a2"
+    },
+    {
+      "bytes": 18467,
+      "mode": 420,
+      "name": "mechanical_driver.py",
+      "sha256": "fc17dc237880539403b534df9d6932ab6636ef073f6954c8207aea64549f1df6"
+    },
+    {
+      "bytes": 27615,
+      "mode": 420,
+      "name": "native_driver.py",
+      "sha256": "f5f0460ac3259af630e13858cab65a29b04bfc09046a78950bbb5c94c3ed303f"
+    },
+    {
+      "bytes": 4500,
+      "mode": 420,
+      "name": "native_transport.py",
+      "sha256": "60dd721c37a44d820fde02f66abe54f22587db5a6fad27547500bd9b70e39c26"
+    },
+    {
+      "bytes": 4164,
+      "mode": 420,
+      "name": "provider.py",
+      "sha256": "d3bd454bafb6fe4bdc1d9c74168953161c522657c337791b52402b0bc10b88fc"
+    }
+  ],
+  "schema": "r5.h0-held-code-seal.v1",
+  "source_commit": "3e0f4b6d05eb086017ce721d40459fdbd68714dd",
+  "source_tree": "f8741d0293ce2fd1b4b2b2e9dfa1e28d153cd81a"
+}

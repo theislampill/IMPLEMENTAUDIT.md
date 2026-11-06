@@ -1,0 +1,19 @@
+{
+  "authority": "NONE",
+  "historical_author_controls": 34,
+  "historical_controls_rerun": false,
+  "historical_independent_controls": 18,
+  "new_scope": [
+    "composition_source_ancestry",
+    "namespace04_and_independence",
+    "84_runtime_104_input_15_preparation_populations",
+    "18_public_files_and_workflow_exports",
+    "actual_pure_preparation_readback_with_inert_archive_and_Git_lookup_fixtures",
+    "five_synthetic_validated_prefix_terminal_exports"
+  ],
+  "original_acceptance": false,
+  "private_source_admission": false,
+  "schema": "dg18.h0-04-public-author-control-scope.v1",
+  "status": "RESULTS_BOUND_IN_OUTER_SEALED_AUTHOR_PACKET",
+  "tests_are_native_or_authentic_evidence": false
+}

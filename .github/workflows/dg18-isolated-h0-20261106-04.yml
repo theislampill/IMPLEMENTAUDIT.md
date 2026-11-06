@@ -1,0 +1,121 @@
+name: DG18 isolated H0 observed owner follow-through 04
+
+on:
+  push:
+    branches: [pro/dg18-isolated-h0-20261106-04]
+    paths:
+      - .github/workflows/dg18-isolated-h0-20261106-04.yml
+      - tools/dg18/isolated-h0-20261106-04/**
+
+permissions: {}
+
+concurrency:
+  group: dg18-isolated-h0-20261106-04
+  cancel-in-progress: false
+
+jobs:
+  h0:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.ref == 'refs/heads/pro/dg18-isolated-h0-20261106-04' &&
+      github.event_name == 'push' &&
+      github.event.deleted == false &&
+      github.run_attempt == '1'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 70
+    steps:
+      - name: Acquire exact public workflow and source ancestry without credentials
+        env:
+          H0_WORK: ${{ runner.temp }}/dg18-isolated-h0-20261106-04
+        timeout-minutes: 5
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          [[ "$GITHUB_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test ! -e "$H0_WORK"
+          mkdir -m 0700 "$H0_WORK"
+          git_public=(/usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_TERMINAL_PROMPT=0 /usr/bin/git)
+          "${git_public[@]}" init --quiet "$H0_WORK/worker"
+          "${git_public[@]}" -C "$H0_WORK/worker" fetch --quiet --no-tags --depth=3 https://github.com/theislampill/IMPLEMENTAUDIT.md.git "$GITHUB_SHA"
+          (
+            umask 022
+            "${git_public[@]}" -C "$H0_WORK/worker" checkout --quiet --detach FETCH_HEAD
+          )
+          test "$("${git_public[@]}" -C "$H0_WORK/worker" rev-parse HEAD)" = "$GITHUB_SHA"
+
+      - name: Prepare exact public inputs without native allocation or currentness claims
+        env:
+          H0_WORK: ${{ runner.temp }}/dg18-isolated-h0-20261106-04
+        timeout-minutes: 12
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -I -B "$H0_WORK/worker/tools/dg18/isolated-h0-20261106-04/held_control.py" prepare --work "$H0_WORK" --run-id "$GITHUB_RUN_ID" --run-attempt "$GITHUB_RUN_ATTEMPT" --workflow-commit "$GITHUB_SHA"
+
+      - name: Publish only the fixed fifteen-file concrete host preparation
+        env:
+          H0_WORK: ${{ runner.temp }}/dg18-isolated-h0-20261106-04
+        timeout-minutes: 2
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: dg18-isolated-h0-preparation-20261106-04-${{ github.run_id }}-1
+          if-no-files-found: error
+          retention-days: 3
+          compression-level: 9
+          path: |
+            ${{ env.H0_WORK }}/public-preparation/compaction-prior-mcp.py
+            ${{ env.H0_WORK }}/public-preparation/h0_owner_observation.py
+            ${{ env.H0_WORK }}/public-preparation/h0_result_collection.py
+            ${{ env.H0_WORK }}/public-preparation/host_io.py
+            ${{ env.H0_WORK }}/public-preparation/native_driver.py
+            ${{ env.H0_WORK }}/public-preparation/live_receiver.py
+            ${{ env.H0_WORK }}/public-preparation/mechanical_driver.py
+            ${{ env.H0_WORK }}/public-preparation/native_transport.py
+            ${{ env.H0_WORK }}/public-preparation/provider.py
+            ${{ env.H0_WORK }}/public-preparation/INPUT_MANIFEST.json
+            ${{ env.H0_WORK }}/public-preparation/PLAN.json
+            ${{ env.H0_WORK }}/public-preparation/HOST_CHECK.json
+            ${{ env.H0_WORK }}/public-preparation/CONTROL_FORMAT.md
+            ${{ env.H0_WORK }}/public-preparation/SEALED_PREPARATION.json
+            ${{ env.H0_WORK }}/public-preparation/HOST_REQUEST.json
+
+      - name: Hold for actual independent review and root GO, then dispatch once
+        env:
+          H0_WORK: ${{ runner.temp }}/dg18-isolated-h0-20261106-04
+        timeout-minutes: 45
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -I -B "$H0_WORK/worker/tools/dg18/isolated-h0-20261106-04/held_control.py" hold --work "$H0_WORK"
+
+      - name: Retain only closed phases, failure codes and receiving predicates
+        env:
+          H0_WORK: ${{ runner.temp }}/dg18-isolated-h0-20261106-04
+        id: public_summary
+        if: always()
+        timeout-minutes: 1
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          test -f "$H0_WORK/worker/tools/dg18/isolated-h0-20261106-04/held_control.py"
+          /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -I -B "$H0_WORK/worker/tools/dg18/isolated-h0-20261106-04/held_control.py" public-summary --work "$H0_WORK"
+
+      - name: Publish only the validated public observation and complete journal prefixes
+        env:
+          H0_WORK: ${{ runner.temp }}/dg18-isolated-h0-20261106-04
+        if: always() && steps.public_summary.outcome == 'success'
+        timeout-minutes: 2
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: dg18-isolated-h0-public-result-20261106-04-${{ github.run_id }}-1
+          if-no-files-found: warn
+          retention-days: 3
+          path: |
+            ${{ env.H0_WORK }}/public-result/PUBLIC_RESULT.json
+            ${{ env.H0_WORK }}/public-result/H0_OWNER_OBSERVATIONS.json
+            ${{ env.H0_WORK }}/public-result/H0_JOURNAL_*.jsonl
