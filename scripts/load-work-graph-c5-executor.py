@@ -150,7 +150,17 @@ R5_HOSTED_PINS=types.MappingProxyType({'scripts/qualify-work-graph-prefix.py': '
 R5_HOSTED_ORIGINS=types.MappingProxyType({'base_logical_key': 'fixtures/work-graph-c5-inputs/system-python312.json', 'base_actual_member': 'fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-python312.json', 'provider_actual_member': 'fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-python312.json'})
 R5_HOSTED_PHYSICAL_HISTORY=types.MappingProxyType({'scripts/work-graph-c5-inputs.py': ('test-support/r5-c5-hosted-profile-history/source481e/scripts/work-graph-c5-inputs.py', 'dbe0eb5765a249b02f13f97c379a83da7b7a6c68ba2c8320100cd973381c2b6e'), 'scripts/work-graph-c5-provider-inputs.py': ('test-support/r5-c5-hosted-profile-history/source481e/scripts/work-graph-c5-provider-inputs.py', '34699698d49f10c854b6f831bf38b856adb84791bf848e26fc105a1f1687a776'), 'scripts/work-graph-c5-executor.py': ('test-support/r5-c5-hosted-profile-history/source481e/scripts/work-graph-c5-executor.py', 'ac9a7ea7f364c235aa1192a715a4c33c712bcd249275eb8bdce7064702a4bf4d')})
 
+# Exact qualifier-population repair successor. Historical tuples keep their
+# original bytes; this source revision changes no image or execution policy.
+R5_QUALIFIER_REPAIR_SOURCE_REVISION='R5_HOSTED_UBUNTU24_QUALIFIER_REPAIR_SOURCE_20261106_V2'
+R5_QUALIFIER_REPAIR_PINS=types.MappingProxyType(dict(R5_HOSTED_PINS,
+    **{QUALIFIER:'cff5376a90dbffdd18e762234c59b62285d8a26d35a916243a085bcf99c48b4c'}))
+
 def _selection(profile,source_revision=None):
+    if source_revision == R5_QUALIFIER_REPAIR_SOURCE_REVISION:
+        if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
+            raise ValueError('Unknown fixed R5 qualifier-repair source profile')
+        return R5_QUALIFIER_REPAIR_PINS,R5_HOSTED_BASE_SELECTION,R5_HOSTED_PROVIDER_SELECTION,R5_HOSTED_EXECUTION_SELECTION,R5_HOSTED_ORIGINS
     if source_revision == R5_HOSTED_SOURCE_REVISION:
         if type(profile) is not str or profile != R5_HOSTED_PROFILE:
             raise ValueError('Unknown fixed R5 hosted C5 source profile')
@@ -480,4 +490,14 @@ def create_r5_hosted_ubuntu24_correspondence_c5_session_v1(source_root,output,*,
     and measure the enclosing interval separately without relabeling it.
     """
     return _Engine(R5_HOSTED_PROFILE,source_revision=R5_HOSTED_SOURCE_REVISION).load().GenuineC5Session(
+        source_root,output,expected_source=expected_source)
+
+
+def create_r5_hosted_ubuntu24_qualifier_repair_c5_session_v2(source_root,output,*,expected_source):
+    """Select the exact repaired qualifier with unchanged hosted image limits.
+
+    This is a new source tuple, not historical acceptance or live custody.
+    Fresh complete operation and same-owner receiving remain mandatory.
+    """
+    return _Engine(R5_HOSTED_PROFILE,source_revision=R5_QUALIFIER_REPAIR_SOURCE_REVISION).load().GenuineC5Session(
         source_root,output,expected_source=expected_source)

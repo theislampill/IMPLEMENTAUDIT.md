@@ -87,6 +87,15 @@ def kernel_export_fixture(root, name, raw, ident='1'):
 
 
 class CompositeSourceCases(unittest.TestCase):
+    def c5_selected_source_fixture(self, mode):
+        """Explicit historical/current source data; no host or native receipt."""
+        temporary = tempfile.TemporaryDirectory(prefix="c5-selected-source-")
+        self.addCleanup(temporary.cleanup)
+        source = Path(temporary.name) / "source"
+        fixture = load("composite_c5_selected_source_fixture", ROOT / "tests/c5-selected-source-fixture.py")
+        fixture.materialize(ROOT, source, mode)
+        return source
+
     def test_c5_raw_export_oversize_refuses_before_kernel_open_work(self):
         """AppArmor raw_data open decompresses; advertised overflow must stop first."""
         owner = load('c5_export_preopen_bound', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
@@ -282,14 +291,15 @@ class CompositeSourceCases(unittest.TestCase):
         observer = load("hosted_current_reader_control", ROOT / "scripts/qualify-work-graph-c5-setup.py")
         receive = getattr(observer, "hosted_current_owner", None)
         self.assertTrue(callable(receive), "bounded hosted current-owner receiving is absent")
+        historical_source = self.c5_selected_source_fixture("HISTORICAL_HOSTED_READER")
         with mock.patch("subprocess.Popen", side_effect=AssertionError("reader dispatched a child")):
-            current = receive(ROOT)
+            current = receive(historical_source)
             self.assertEqual(current.PROFILE, "FIXED_GENUINE_C5_SHARED_IMAGE_CORRESPONDENCE_R4_BUILD_LOCAL_COMPRESSION_20261104_V1")
             self.assertEqual(hashlib.sha256(current.Q.LOADED_DRIVER).hexdigest(),
                              '8cc8342f025866ffaf8c98cc1dd33d7576416c2de39e9d444b9acfd546685a0b')
             self.assertEqual(hashlib.sha256(current.SOURCES['skills/implementaudit/scripts/compile-work-graph.py'][0]).hexdigest(),
                              '62c3b0fb95bbf006ef81e981a16325395e6165ae65c901f667de0e60bf74de3c')
-            loader = load("hosted_retained_r4_source", ROOT / "scripts/load-work-graph-c5-executor.py")
+            loader = load("hosted_retained_r4_source", historical_source / "scripts/load-work-graph-c5-executor.py")
             initialized = loader._Engine(loader.R4_BUILD_CACHE_PROFILE,
                                         source_revision=loader.R4_INITIALIZATION_SOURCE_REVISION).load()
             self.assertEqual(hashlib.sha256(initialized.SOURCES['skills/implementaudit/scripts/compile-work-graph.py'][0]).hexdigest(),
@@ -313,7 +323,7 @@ class CompositeSourceCases(unittest.TestCase):
         observer = load("hosted_pin_receiving_control", ROOT / "scripts/qualify-work-graph-c5-setup.py")
         receive = getattr(observer, "hosted_pin_receiving", None)
         self.assertTrue(callable(receive), "literal hosted pin receiving is absent")
-        original = load("hosted_pin_owner", ROOT / "scripts/load-work-graph-c5-executor.py")
+        original = load("hosted_pin_owner", self.c5_selected_source_fixture("R4_CURRENT") / "scripts/load-work-graph-c5-executor.py")
         base = original._Engine(original.CURRENT_PROFILE, source_revision=original.R4_COMPOSED_SOURCE_REVISION).load().B
         with tempfile.TemporaryDirectory(prefix="c5-hosted-pin-") as temporary:
             path = Path(temporary) / "input"
@@ -337,7 +347,7 @@ class CompositeSourceCases(unittest.TestCase):
         observer = load("hosted_nss_receiving_control", ROOT / "scripts/qualify-work-graph-c5-setup.py")
         receive = getattr(observer, "hosted_nss_receiving", None)
         self.assertTrue(callable(receive), "literal hosted NSS receiving is absent")
-        original = load("hosted_nss_owner", ROOT / "scripts/load-work-graph-c5-executor.py")
+        original = load("hosted_nss_owner", self.c5_selected_source_fixture("R4_CURRENT") / "scripts/load-work-graph-c5-executor.py")
         selected = original._Engine(original.CURRENT_PROFILE, source_revision=original.R4_COMPOSED_SOURCE_REVISION).load()
         # Explicit source-control data for the unchanged NSS parser, not a host receipt.
         objects = {}
@@ -541,7 +551,7 @@ class CompositeSourceCases(unittest.TestCase):
             self.assertTrue(result["clean"])
             self.assertTrue(result["complete_objects"])
             self.assertTrue(all(item["wait_reaped"] and item["owned_group_absent"] for item in result["commands"]))
-            original = load("hosted_source_namespace_owner", ROOT / "scripts/load-work-graph-c5-executor.py")
+            original = load("hosted_source_namespace_owner", self.c5_selected_source_fixture("R4_CURRENT") / "scripts/load-work-graph-c5-executor.py")
             owner = original._Engine(original.CURRENT_PROFILE, source_revision=original.R4_COMPOSED_SOURCE_REVISION).load()
             objects = {}
             captured = owner.B.complete_source(source, objects)
@@ -574,7 +584,8 @@ class CompositeSourceCases(unittest.TestCase):
         observer = load("hosted_input_report_control", ROOT / "scripts/qualify-work-graph-c5-setup.py")
         receive = getattr(observer, "receive_hosted_inputs", None)
         self.assertTrue(callable(receive), "hosted selected-input receiving is absent")
-        current = observer.hosted_current_owner(ROOT)
+        historical_source = self.c5_selected_source_fixture("HISTORICAL_HOSTED_READER")
+        current = observer.hosted_current_owner(historical_source)
         original = current.B.capture_selector
         def changed(name, objects, **kwargs):
             observed = original(name, objects, **kwargs)
@@ -1422,11 +1433,15 @@ class CompositeSourceCases(unittest.TestCase):
                 self.assertFalse(session.attempted)
             finally:
                 session.close()
-            # The existing explicit correspondence profile selects all six
-            # current producers. This is a source-contract positive only.
+            # The explicit current R5 tuple selects all six current producers.
+            # Its owner executes its own disposable source. The state below
+            # still compares actual ROOT producer/payload data; this is a
+            # source-contract positive only, not a native image qualification.
             current_output = Path(temporary) / "correspondence-evidence"
-            current = owner.create_r4_build_local_compression_correspondence_c5_session_v6(
-                ROOT, current_output, expected_source={"source_commit": "0" * 40, "source_tree": "1" * 40})
+            current_source = self.c5_selected_source_fixture("R5_CURRENT")
+            current_owner = load("current_c5_selected_r5_builder", current_source / "scripts/load-work-graph-c5-executor.py")
+            current = current_owner.create_r5_hosted_ubuntu24_qualifier_repair_c5_session_v2(
+                current_source, current_output, expected_source={"source_commit": "0" * 40, "source_tree": "1" * 40})
             try:
                 base = type(current).__init__.__globals__["B"]
                 state = {"files": {name: {"sha256": hashlib.sha256((ROOT / name).read_bytes()).hexdigest()}
@@ -1470,19 +1485,9 @@ class CompositeSourceCases(unittest.TestCase):
 
     @contextlib.contextmanager
     def correspondence_c5_source_copy(self):
-        """Current producer inputs; historical CURRENT helper stays separate."""
-        owner = load("correspondence_c5_copy_owner", ROOT / "scripts/load-work-graph-c5-executor.py")
-        selection = json.loads((ROOT / owner.R4_BUILD_CACHE_BASE_SELECTION).read_bytes())
-        members = {owner.LOADER, *owner.R5_WINDOWS_CAPTURE_PINS,
-                   *selection["programs"], *selection["payload_sources"]}
-        with tempfile.TemporaryDirectory(prefix="c5-correspondence-source-") as temporary:
-            root = Path(temporary) / "source"
-            root.mkdir()
-            for name in sorted(members):
-                target = root / name
-                target.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copyfile(ROOT / name, target)
-            yield root, Path(temporary) / "evidence"
+        """Current producer inputs under the separately explicit current R5 tuple."""
+        root = self.c5_selected_source_fixture("R5_CURRENT")
+        yield root, root.parent / "evidence"
 
 
     def test_current_c5_unknown_selection_refuses(self):
@@ -1497,7 +1502,7 @@ class CompositeSourceCases(unittest.TestCase):
     @unittest.skipUnless(os.name == "posix", "fixed C5 source loading")
     def test_current_c5_runtime_layout_refuses_private_mount_shadowing(self):
         """Break caught: a later private mount hides selected runtime bytes/aliases."""
-        owner = load("current_c5_layout", ROOT / "scripts/load-work-graph-c5-executor.py")
+        owner = load("current_c5_layout", self.c5_selected_source_fixture("R4_CURRENT") / "scripts/load-work-graph-c5-executor.py")
         selected = owner._Engine(owner.CURRENT_PROFILE, source_revision=owner.R4_COMPOSED_SOURCE_REVISION).load()
         def layout(logical, resolved=None, links=None):
             resolved = resolved or logical
@@ -1528,7 +1533,7 @@ class CompositeSourceCases(unittest.TestCase):
                          "fixed current provider data input absent; no provider-layout credit")
     def test_current_c5_actual_provider_layout_preserves_bytes_and_ancestry(self):
         """Break caught: the selected real provider is hidden or its alias/modes change."""
-        owner = load("current_c5_provider_layout", ROOT / "scripts/load-work-graph-c5-executor.py")
+        owner = load("current_c5_provider_layout", self.c5_selected_source_fixture("R4_CURRENT") / "scripts/load-work-graph-c5-executor.py")
         with mock.patch("subprocess.Popen", side_effect=AssertionError("provider layout dispatched a producer")):
             selected = owner._Engine(owner.CURRENT_PROFILE, source_revision=owner.R4_COMPOSED_SOURCE_REVISION).load()
             self.assertEqual(selected.D.VENV, Path("/opt/implementaudit-c5-current-python312-v1"))
@@ -1573,7 +1578,12 @@ class CompositeSourceCases(unittest.TestCase):
             with self.subTest(change=change), self.correspondence_c5_source_copy() as (root, output):
                 owner = load("drifted_current_c5", root / "scripts/load-work-graph-c5-executor.py")
                 with mock.patch("subprocess.Popen", side_effect=AssertionError("drifted input dispatched a producer")):
-                    session = owner.create_r5_windows_capture_source_correspondence_c5_session_v1(root, output,
+                    self.assertEqual(dict(owner.R5_QUALIFIER_REPAIR_PINS),
+                                     dict(owner.R5_HOSTED_PINS, **{owner.QUALIFIER:
+                                         "cff5376a90dbffdd18e762234c59b62285d8a26d35a916243a085bcf99c48b4c"}))
+                    self.assertEqual(owner.R5_HOSTED_PINS[owner.QUALIFIER],
+                                     "8cc8342f025866ffaf8c98cc1dd33d7576416c2de39e9d444b9acfd546685a0b")
+                    session = owner.create_r5_hosted_ubuntu24_qualifier_repair_c5_session_v2(root, output,
                         expected_source={"source_commit": "0" * 40, "source_tree": "1" * 40})
                     try:
                         base = type(session).__init__.__globals__["B"]
