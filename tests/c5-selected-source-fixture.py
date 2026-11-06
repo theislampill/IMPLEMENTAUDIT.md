@@ -12,7 +12,10 @@ import types
 
 LOADER = 'scripts/load-work-graph-c5-executor.py'
 QUALIFIER = 'scripts/qualify-work-graph-verifier.py'
-CURRENT_LOADER = (47435, '742942ee97ec43599a8ea829828575f7bc33a9d9a0948d73d3ff2a85c81e4d6d')
+COMPILER = 'skills/implementaudit/scripts/compile-work-graph.py'
+OLD_COMPILER = '3649a8dc856e29ce11b6daa5861351cc1c21bf9c7a9b4f5a2ddde12108d8581f'
+CURRENT_COMPILER = '0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d'
+CURRENT_LOADER = (48704, 'c62f034159d64d8b461cc0bec502b2f9ac07e05fa6b31f4c2eefc1a6f41696db')
 HISTORICAL_LOADER = (
     'test-support/r5-windows-capture-history/d2747b7-source/' + LOADER,
     39282, '042cf21f807ce52ac3522285458f1c0407415c1f0883370f1d73404abd9e97d1')
@@ -26,6 +29,8 @@ HISTORIES = ('R4_BUILD_CACHE_PHYSICAL_HISTORY', 'R4_INITIALIZATION_PHYSICAL_HIST
 # The production loader's historical pin table and refusal on current bytes stay
 # unchanged; no fallback searches the repository for a convenient matching hash.
 RETAINED = {
+    (COMPILER, OLD_COMPILER):
+        'test-support/r5-c5-source-history/source0d579/' + COMPILER,
     (QUALIFIER, OLD_QUALIFIER):
         'test-support/r5-c5-source-history/source0d579/' + QUALIFIER,
     ('scripts/work-graph-c5-inputs.py', 'dbe0eb5765a249b02f13f97c379a83da7b7a6c68ba2c8320100cd973381c2b6e'):
@@ -114,7 +119,13 @@ def selected_plan(owner, mode):
                 'R5_HOSTED_UBUNTU24_QUALIFIER_REPAIR_SOURCE_20261106_V2', 'current revision')
         require(dict(owner.R5_QUALIFIER_REPAIR_PINS) == dict(owner.R5_HOSTED_PINS, **{QUALIFIER: CURRENT_QUALIFIER})
                 and owner.R5_HOSTED_PINS[QUALIFIER] == OLD_QUALIFIER, 'current/historical qualifier distinction')
-        selections = [(owner.R5_HOSTED_PROFILE, owner.R5_QUALIFIER_REPAIR_SOURCE_REVISION)]
+        require(owner.R5_CONTINUITY_RECEIVER_SOURCE_REVISION ==
+                'R5_HOSTED_UBUNTU24_CONTINUITY_RECEIVER_SOURCE_20261106_V3', 'current receiver revision')
+        require(dict(owner.R5_CONTINUITY_RECEIVER_PINS) ==
+                dict(owner.R5_QUALIFIER_REPAIR_PINS, **{COMPILER: CURRENT_COMPILER})
+                and owner.R5_QUALIFIER_REPAIR_PINS[COMPILER] == OLD_COMPILER,
+                'current/historical compiler distinction')
+        selections = [(owner.R5_HOSTED_PROFILE, owner.R5_CONTINUITY_RECEIVER_SOURCE_REVISION)]
     plan = {}
     selected_base = None
     for profile, revision in selections:

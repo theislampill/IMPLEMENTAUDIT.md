@@ -2174,7 +2174,10 @@ def _native_check_continuity_closure_v1(value, repository, compiler_path, pair):
     helper_pair = (pair.get("claim_sha256"), pair.get("validate_sha256"))
     profiles = tuple(profile for profile in _NATIVE_CONTINUITY_SOURCE_PROFILES_V1
                      if (profile[0][2], profile[1][2]) == helper_pair)
-    if os.name == "nt" and helper_pair == ('dce0e6af8ce69e63283d0ed5ad1496779d5f2c1b90024c79228af5e22df75d4c', 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a'):
+    if os.name == "nt" and helper_pair in (
+        ('dce0e6af8ce69e63283d0ed5ad1496779d5f2c1b90024c79228af5e22df75d4c', 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a'),
+        ('9bce5c887cd89c2d2991b84f1bf765787e7a6b75a2eba29a8433c3a6c05f73a3', 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a'),
+    ):
         profiles = tuple(tuple((*row[:3], None) for row in profile) for profile in profiles)
     if not profiles:
         if value is not None or helper_pair not in _NATIVE_LEGACY_CONTINUITY_PAIRS_V1:

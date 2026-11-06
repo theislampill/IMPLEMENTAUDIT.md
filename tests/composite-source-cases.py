@@ -1440,7 +1440,7 @@ class CompositeSourceCases(unittest.TestCase):
             current_output = Path(temporary) / "correspondence-evidence"
             current_source = self.c5_selected_source_fixture("R5_CURRENT")
             current_owner = load("current_c5_selected_r5_builder", current_source / "scripts/load-work-graph-c5-executor.py")
-            current = current_owner.create_r5_hosted_ubuntu24_qualifier_repair_c5_session_v2(
+            current = current_owner.create_r5_hosted_ubuntu24_continuity_receiver_c5_session_v3(
                 current_source, current_output, expected_source={"source_commit": "0" * 40, "source_tree": "1" * 40})
             try:
                 base = type(current).__init__.__globals__["B"]
@@ -1583,7 +1583,10 @@ class CompositeSourceCases(unittest.TestCase):
                                          "cff5376a90dbffdd18e762234c59b62285d8a26d35a916243a085bcf99c48b4c"}))
                     self.assertEqual(owner.R5_HOSTED_PINS[owner.QUALIFIER],
                                      "8cc8342f025866ffaf8c98cc1dd33d7576416c2de39e9d444b9acfd546685a0b")
-                    session = owner.create_r5_hosted_ubuntu24_qualifier_repair_c5_session_v2(root, output,
+                    self.assertEqual(dict(owner.R5_CONTINUITY_RECEIVER_PINS),
+                                     dict(owner.R5_QUALIFIER_REPAIR_PINS, **{owner.COMPILER:
+                                         hashlib.sha256((root / owner.COMPILER).read_bytes()).hexdigest()}))
+                    session = owner.create_r5_hosted_ubuntu24_continuity_receiver_c5_session_v3(root, output,
                         expected_source={"source_commit": "0" * 40, "source_tree": "1" * 40})
                     try:
                         base = type(session).__init__.__globals__["B"]

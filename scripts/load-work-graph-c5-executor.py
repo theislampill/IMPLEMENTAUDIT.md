@@ -156,7 +156,16 @@ R5_QUALIFIER_REPAIR_SOURCE_REVISION='R5_HOSTED_UBUNTU24_QUALIFIER_REPAIR_SOURCE_
 R5_QUALIFIER_REPAIR_PINS=types.MappingProxyType(dict(R5_HOSTED_PINS,
     **{QUALIFIER:'cff5376a90dbffdd18e762234c59b62285d8a26d35a916243a085bcf99c48b4c'}))
 
+# Exact current continuity-receiver successor; historical selections remain fixed.
+R5_CONTINUITY_RECEIVER_SOURCE_REVISION='R5_HOSTED_UBUNTU24_CONTINUITY_RECEIVER_SOURCE_20261106_V3'
+R5_CONTINUITY_RECEIVER_PINS=types.MappingProxyType(dict(R5_QUALIFIER_REPAIR_PINS,
+    **{COMPILER:'0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d'}))
+
 def _selection(profile,source_revision=None):
+    if source_revision == R5_CONTINUITY_RECEIVER_SOURCE_REVISION:
+        if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
+            raise ValueError('Unknown fixed R5 continuity-receiver source profile')
+        return R5_CONTINUITY_RECEIVER_PINS,R5_HOSTED_BASE_SELECTION,R5_HOSTED_PROVIDER_SELECTION,R5_HOSTED_EXECUTION_SELECTION,R5_HOSTED_ORIGINS
     if source_revision == R5_QUALIFIER_REPAIR_SOURCE_REVISION:
         if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
             raise ValueError('Unknown fixed R5 qualifier-repair source profile')
@@ -500,4 +509,14 @@ def create_r5_hosted_ubuntu24_qualifier_repair_c5_session_v2(source_root,output,
     Fresh complete operation and same-owner receiving remain mandatory.
     """
     return _Engine(R5_HOSTED_PROFILE,source_revision=R5_QUALIFIER_REPAIR_SOURCE_REVISION).load().GenuineC5Session(
+        source_root,output,expected_source=expected_source)
+
+
+def create_r5_hosted_ubuntu24_continuity_receiver_c5_session_v3(source_root,output,*,expected_source):
+    """Select the exact current receiver-bound compiler and repaired qualifier.
+
+    Historical source tuples retain their own refusal behavior and evidence.
+    Fresh operation, image and same-owner receiving remain required.
+    """
+    return _Engine(R5_HOSTED_PROFILE,source_revision=R5_CONTINUITY_RECEIVER_SOURCE_REVISION).load().GenuineC5Session(
         source_root,output,expected_source=expected_source)
