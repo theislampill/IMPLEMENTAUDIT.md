@@ -14,7 +14,7 @@ TREE = 'ee316c27250ec422d35a1ea965182ebddf7a5da0'
 PARENT = '481e529b691ed3d21169b07f376e357ae51f1f03'
 MANIFEST_SHA = 'ed6a601d3a66997218195202cb5513363b5410b98489762324095a9030c261b4'
 UTILITY_SHA = '429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c'
-PINS_SHA = '3efaa5b72df061d0fe91bc5f311022b570858f6cf49e03e15efd30099ac4a99d'
+PINS_SHA = '92a78767756e6aa1f74145b6a3f3824d2f12349507c490ba34dd395b94908747'
 CLAIM = 'skills/implementaudit/scripts/claim-run.sh'
 AUTHOR = 'fixtures/controller-initialization/author_checkpoint.py'
 DOCS = ('STATE.md', 'PROTOCOL.md', 'ROADMAP.md', 'THINKING.md', 'sidecars.md', 'tools.md', 'context.md', 'phases/phase-1.md')
@@ -100,6 +100,113 @@ def receive_claude(state, packet, raw):
     need(catalogue_schema_matches(value, json.loads(schema_raw, object_pairs_hook=unique_object)), 'CLAUDE_RESULT_SCHEMA')
     state['claude'] = value
     state['claude_validation']['valid'] = True
+def claude_validation_observation(raw, source):
+    """Independently derive the child07 projections from complete private bytes."""
+    canonical = lambda value:(json.dumps(value,sort_keys=True,ensure_ascii=True,allow_nan=False,
+                                        separators=(',',':'))+'\n').encode('ascii')
+    shape = None
+    try:
+        need(type(raw) is bytes and len(raw) <= 32768,'JSON_BYTE_BOUND_REFUSED')
+        def pairs(items):
+            result = {}
+            for key,value in items:
+                need(key not in result,'JSON_DUPLICATE_KEY_UNRECEIVED'); result[key] = value
+            return result
+        def nonfinite(unused): raise Refusal('JSON_NONFINITE_UNRECEIVED')
+        try:
+            value = json.loads(raw.decode('utf-8'),object_pairs_hook=pairs,parse_constant=nonfinite)
+        except (UnicodeError,ValueError,RecursionError):
+            raise Refusal('JSON_PARSE_UNRECEIVED') from None
+        queue = [(value,0)]; nodes = 0
+        while queue:
+            item,depth = queue.pop(); nodes += 1
+            need(nodes <= 2048 and depth <= 12,'JSON_COMPLEXITY_UNRECEIVED')
+            kind = type(item)
+            if kind is dict:
+                need(len(item) <= 128 and all(type(key) is str and len(key) <= 256 for key in item),
+                     'JSON_SHAPE_UNRECEIVED')
+                queue.extend((entry,depth+1) for entry in item.values())
+            elif kind is list:
+                need(len(item) <= 256,'JSON_SHAPE_UNRECEIVED')
+                queue.extend((entry,depth+1) for entry in item)
+            elif kind is str: need(len(item) <= 8192,'JSON_SHAPE_UNRECEIVED')
+            elif kind is int: need(abs(item) <= 2**53,'JSON_SHAPE_UNRECEIVED')
+            else: need(item is None or kind is bool,'JSON_SHAPE_UNRECEIVED')
+        names = ('success','strict','target','manifest','contents','advice','gatingHooks','directory')
+        kinds = {type(None):'NULL',bool:'BOOLEAN',int:'INTEGER',str:'STRING',list:'ARRAY',dict:'OBJECT'}
+        fields = {}
+        for name in names:
+            present = type(value) is dict and name in value
+            item = value[name] if present else None
+            fields[name] = {'present':present,'type':kinds[type(item)] if present else 'ABSENT',
+                            'count':len(item) if present and type(item) in (dict,list) else None}
+        unknown = sorted(key for key in value if key not in names) if type(value) is dict else None
+        shape = {'status':'PUBLIC_SAFE_TOP_LEVEL_SHAPE_ONLY','root_type':kinds[type(value)],
+                 'root_count':len(value) if type(value) in (dict,list) else None,
+                 'unknown_key_count':len(unknown) if unknown is not None else None,
+                 'unknown_key_names_sha256':digest(canonical(unknown)) if unknown is not None else None,
+                 'fields':fields}
+        required = set(names[:6])
+        need(type(value) is dict and required <= set(value) <= set(names) and
+             type(value['success']) is bool and type(value['strict']) is bool and
+             type(value['target']) is str and (value['manifest'] is None or type(value['manifest']) is dict) and
+             type(value['contents']) is list and type(value['advice']) is list and
+             ('directory' not in value or value['directory'] is None or type(value['directory']) is dict),
+             'VALIDATION_SHAPE_UNRECEIVED')
+        need(value['success'] is True and value['strict'] is False and value['target'] == str(source),
+             'VALIDATION_IDENTITY_OR_VERDICT_REFUSED')
+        counts = {'errors':0,'warnings':0,'notes':0}
+        for item in value['contents']:
+            need(type(item) is dict and {'file',*counts} <= set(item) <= {'file',*counts,'gatingHooks'} and
+                 type(item['file']) is str and all(type(item[key]) is list and
+                 all(type(message) is str for message in item[key]) for key in counts),
+                 'VALIDATION_CONTENTS_UNRECEIVED')
+            need(item.get('gatingHooks',[]) == [],'UNEXPECTED_GATING_HOOKS_REFUSED')
+            for key in counts: counts[key] += len(item[key])
+        need(value.get('gatingHooks',[]) == [],'UNEXPECTED_GATING_HOOKS_REFUSED')
+        for item in value['advice']:
+            need(type(item) is dict and set(item) == {'file','message','installLine'} and
+                 all(type(item[key]) is str for key in item),'VALIDATION_ADVICE_UNRECEIVED')
+        need(counts['errors'] == 0,'VALIDATION_CONTENT_ERRORS_REFUSED')
+        directory_present = 'directory' in value
+        projection = {'status':'DOCUMENTED_OUTER_VALIDATION_OBSERVED','success':True,'strict':False,
+                      'target_matches_source':True,'error_count':counts['errors'],
+                      'warning_count':counts['warnings'],'note_count':counts['notes'],
+                      'diagnostic_count_scope':'CONTENTS_ONLY_MANIFEST_OPAQUE',
+                      'contents_count':len(value['contents']),'advice_count':len(value['advice']),
+                      'manifest_semantics':'UNRECEIVED_OPAQUE_OBJECT','manifest_is_null':value['manifest'] is None,
+                      'manifest_json_sha256':digest(canonical(value['manifest'])),
+                      'directory_state':'ABSENT' if not directory_present else 'NULL' if value['directory'] is None else 'OPAQUE_OBJECT',
+                      'directory_json_sha256':digest(canonical(value['directory'])) if directory_present else None,
+                      'directory_semantics':'UNRECEIVED_OPAQUE_METADATA','directory_validation_received':False,
+                      'native_five_skill_inventory_received':False}
+        return shape,projection,None
+    except Refusal as exc:
+        return shape,None,str(exc)
+
+def receive_claude_validation(state, source, output):
+    value = state['claude']; rows = [row for row in value['commands'] if row['name'] == 'validate']
+    need(len(rows) <= 1,'CLAUDE_VALIDATION_CAPTURE_POPULATION')
+    flags = state['claude_validation']
+    flags['validation_shape_private_binding_verified'] = False
+    flags['validation_projection_private_binding_verified'] = False
+    if not rows or rows[0]['streams_complete'] is not True or rows[0]['returncode'] != 0:
+        need(value['validation_shape'] is None and value['validation'] is None,
+             'CLAUDE_VALIDATION_WITHOUT_COMPLETE_CAPTURE')
+        flags['private_validation_recognition'] = 'NOT_AVAILABLE'
+        return
+    row = rows[0]; raw = read(output/'private/claude-source-candidate/validate.stdout',32768)
+    need(len(raw) == row['stdout_bytes'] and digest(raw) == row['stdout_sha256'],
+         'CLAUDE_VALIDATION_PRIVATE_BYTES')
+    shape,projection,code = claude_validation_observation(raw,source)
+    need(shape == value['validation_shape'] and projection == value['validation'],
+         'CLAUDE_VALIDATION_PRIVATE_PROJECTION')
+    need(row['recognition_status'] == ('RECEIVED_JSON' if code is None else 'UNRECEIVED') and
+         row['recognition_code'] == code,'CLAUDE_VALIDATION_PRIVATE_RECOGNITION')
+    flags['validation_shape_private_binding_verified'] = True
+    flags['validation_projection_private_binding_verified'] = True
+    flags['private_validation_recognition'] = 'RECEIVED_OUTER_VERDICT' if code is None else 'REFUSAL_CONFIRMED'
+
 def claude_success(value, uid, gid, receipt):
     if type(value) is not dict: return False
     flags = ('managed_policy_absent', 'currentness_before', 'currentness_after',
@@ -127,6 +234,11 @@ def claude_success(value, uid, gid, receipt):
         if type(row.get('owned_reaped_status_count')) is not int or row['owned_reaped_status_count'] < 0 or type(row.get('owned_statuses_sha256')) is not str or re.fullmatch('[0-9a-f]{64}',row['owned_statuses_sha256']) is None: return False
     validation = value.get('validation') or {}
     if type(validation) is not dict or validation.get('status') != 'DOCUMENTED_OUTER_VALIDATION_OBSERVED' or validation.get('success') is not True or validation.get('strict') is not False or validation.get('target_matches_source') is not True or validation.get('error_count') != 0 or validation.get('manifest_semantics') != 'UNRECEIVED_OPAQUE_OBJECT' or validation.get('native_five_skill_inventory_received') is not False: return False
+    if validation.get('directory_semantics') != 'UNRECEIVED_OPAQUE_METADATA' or validation.get('directory_validation_received') is not False: return False
+    directory = validation.get('directory_state'); directory_sha = validation.get('directory_json_sha256')
+    if directory not in ('ABSENT','NULL','OPAQUE_OBJECT') or (directory == 'ABSENT' and directory_sha is not None) or (directory != 'ABSENT' and (type(directory_sha) is not str or re.fullmatch('[0-9a-f]{64}',directory_sha) is None)): return False
+    shape = value.get('validation_shape') or {}
+    if type(shape) is not dict or shape.get('status') != 'PUBLIC_SAFE_TOP_LEVEL_SHAPE_ONLY' or shape.get('root_type') != 'OBJECT' or shape.get('unknown_key_count') != 0: return False
     listed = value.get('plugin_list') or {}
     if type(listed) is not dict or listed.get('status') != 'EXACT_SESSION_CANDIDATE_OBSERVED' or listed.get('id') != 'implementaudit@inline' or listed.get('version') != '0.4.0' or listed.get('scope') != 'session' or listed.get('enabled') is not True or listed.get('effective_path_matches_source') is not True or listed.get('plugin_count') != 1 or listed.get('load_error_count') != 0 or listed.get('native_five_skill_inventory_received') is not False: return False
     details = value.get('details') or {}
@@ -155,7 +267,7 @@ def claude_capture_base_shape(row, name):
     if type(statuses) is not list or len(statuses) != min(count,8) or cleanup['reaped_statuses_truncated'] is not (count > 8): return False
     if any(type(item) is not dict or set(item) != {'pid','returncode'} or type(item['pid']) is not int or item['pid'] <= 0 or type(item['returncode']) is not int for item in statuses): return False
     return True
-def receive_claude_private(state, output):
+def receive_claude_private(state, output, source):
     root = output/'private/claude-source-candidate'
     root_info = root.lstat()
     need(stat.S_ISDIR(root_info.st_mode) and root_info.st_uid == os.getuid() and not root_info.st_mode & 0o077 and root.resolve(strict=True) == root, 'CLAUDE_PRIVATE_ROOT')
@@ -235,6 +347,7 @@ def receive_claude_private(state, output):
             products.append(public)
     need(products == state['claude']['commands'], 'CLAUDE_PRIVATE_PUBLIC_COMMAND_BINDING')
     state['claude_validation']['private_public_stream_and_command_bindings_verified'] = True
+    receive_claude_validation(state,source,output)
 def utility(packet):
     raw = read(packet/'host_utility.py'); need(digest(raw) == UTILITY_SHA, 'UTILITY_PIN')
     module = types.ModuleType('dg17_retained_host_utility'); module.__file__ = str(packet/'host_utility.py')
@@ -301,11 +414,140 @@ def command(state, output, u, label, argv, seconds=60):
 def owner(state, source, output, u, label, *args):
     need(Path.cwd() == source, 'OWNER_CWD')
     return command(state, output, u, label, ['/usr/bin/bash', str(source/CLAIM), *args])
+def currentness_store_snapshot(source, packet):
+    """Data-only post-resume Git-store admission; no Git or custody subprocess."""
+    helper_raw = read(packet/'catalogue_probe.py')
+    need(digest(helper_raw) == '9456e39cf3be3254b4c25c74716a1b87ba5f2accd6bf196db061e326c7a50277',
+         'CURRENTNESS_STORE_HELPER_PIN')
+    helper = types.ModuleType('dg17_parent_source_store_admission')
+    helper.__file__ = str(packet/'catalogue_probe.py')
+    exec(compile(helper_raw,helper.__file__,'exec'),helper.__dict__)
+    guard = helper.source_store_guard(source)
+    root = source/'.git'; rows = []; pending = [root]; directories = []; total = 0; files = 0
+    def identity(info):
+        return {'device':info.st_dev,'inode':info.st_ino,'mode':info.st_mode,
+                'uid':info.st_uid,'gid':info.st_gid,'nlink':info.st_nlink,
+                'bytes':info.st_size,'mtime_ns':info.st_mtime_ns,'ctime_ns':info.st_ctime_ns}
+    root_identity = identity(root.lstat())
+    try:
+        while pending:
+            directory = pending.pop(); before = directory.lstat()
+            need(stat.S_ISDIR(before.st_mode) and before.st_uid == os.getuid() and
+                 not before.st_mode & 0o022 and directory.resolve(strict=True) == directory,
+                 'CURRENTNESS_STORE_DIRECTORY')
+            directories.append((directory,identity(before)))
+            with os.scandir(directory) as stream:
+                entries = list(stream)
+            need(identity(directory.lstat()) == identity(before), 'CURRENTNESS_STORE_CHANGED')
+            for entry in entries:
+                path = directory/entry.name; info = path.lstat(); relative = path.relative_to(root)
+                need(len(rows) < 65536 and len(relative.parts) <= 32 and len(relative.as_posix()) <= 4096 and
+                     info.st_uid == os.getuid() and not info.st_mode & 0o022 and
+                     (stat.S_ISDIR(info.st_mode) or (stat.S_ISREG(info.st_mode) and info.st_nlink == 1)),
+                     'CURRENTNESS_STORE_MEMBER')
+                row = {'path':relative.as_posix(),'identity':identity(info)}
+                if stat.S_ISDIR(info.st_mode):
+                    row['kind'] = 'DIRECTORY'; pending.append(path)
+                else:
+                    need(0 <= info.st_size <= 536870912 and total+info.st_size <= 536870912,
+                         'CURRENTNESS_STORE_BYTE_BOUND')
+                    fd = os.open(path,os.O_RDONLY|os.O_CLOEXEC|os.O_NOFOLLOW)
+                    try:
+                        need(identity(os.fstat(fd)) == identity(info), 'CURRENTNESS_STORE_OPEN_CHANGED')
+                        hashed = hashlib.sha256(); size = 0
+                        while True:
+                            chunk = os.read(fd,1048576)
+                            if not chunk: break
+                            size += len(chunk); need(size <= info.st_size, 'CURRENTNESS_STORE_READ_BOUND')
+                            hashed.update(chunk)
+                        need(size == info.st_size and identity(os.fstat(fd)) == identity(info) and
+                             identity(path.lstat()) == identity(info), 'CURRENTNESS_STORE_CHANGED')
+                    finally: os.close(fd)
+                    row.update(kind='REGULAR',sha256=hashed.hexdigest()); total += size; files += 1
+                rows.append(row)
+        need(all(identity(path.lstat()) == observed for path,observed in directories) and
+             identity(root.lstat()) == root_identity, 'CURRENTNESS_STORE_CHANGED')
+    except OSError:
+        raise Refusal('CURRENTNESS_STORE_ENUMERATION_OR_READ_REFUSED') from None
+    need(len(rows) == guard['entries_checked'] and
+         any(row['path'] == 'config' and row.get('sha256') == guard['config_sha256'] for row in rows) and
+         helper.source_store_guard(source) == guard, 'CURRENTNESS_STORE_GUARD_JOIN')
+    population = encoded({'root':root_identity,'members':sorted(rows,key=lambda row:row['path'])})
+    need(len(population) <= 33554432, 'CURRENTNESS_STORE_CENSUS_BOUND')
+    return {'profile':'POST_RESUME_PHYSICAL_GIT_STORE_V1','guard':guard,'entries':len(rows),
+            'regular_files':files,'bytes':total,'population_sha256':digest(population)}
+
+def currentness_admission(state, source, output, u, label):
+    """Data-only re-entry gate. Failure containment is distinct from cleanup."""
+    expected_steps = {'initial-currentness':'require','before-runtime-acquisition':'runtime',
+                      'after-runtime-acquisition':'runtime','before-claude':'claude',
+                      'after-claude':'claude','before-receiving':'receive',
+                      'after-receiving':'receive','final-currentness':None}
+    need(label in expected_steps and state.get('failed') is False and state.get('failures') == [] and
+         state.get('active_command') is None and state.get('active_step') == expected_steps[label],
+         'CURRENTNESS_UNSOUND_PRIOR_STATE')
+    need(type(state.get('commands')) is list and len(state['commands']) > 0 and all(type(row) is dict and
+         row.get('process_started') is True and type(row.get('returncode')) is int and row['returncode'] == 0 and
+         row.get('timeout') is False and row.get('output_bound_exceeded') is False and
+         row.get('pidfd_acquired') is True and row.get('internal_failure') is None and
+         row.get('streams_complete') is True and row.get('cleanup',{}).get('echild') is True
+         for row in state['commands']), 'CURRENTNESS_PRIOR_CAPTURE_UNSOUND')
+    late = label in ('after-claude','before-receiving','after-receiving','final-currentness')
+    if label == 'final-currentness':
+        need(state.get('completed') == list(STEPS) and state.get('bounded_receiving_complete') is True,
+             'FINAL_CURRENTNESS_INCOMPLETE_RECEIVING')
+    packet = Path(__file__).absolute().parent
+    if late:
+        need(any(row.get('name') == 'offline-claude-source-candidate' for row in state['commands']),
+             'CURRENTNESS_NATIVE_CAPTURE_MISSING')
+        need(state.get('claude_validation',{}).get('valid') is True and
+             state['claude_validation'].get('captured_result_matches') is True and
+             claude_success(state.get('claude',{}),os.getuid(),os.getgid(),state['receipt']),
+             'CURRENTNESS_CHILD_ROUTE_UNSOUND')
+        raw = read(output/'private/CLAUDE_RESULT.json',32768)
+        need(digest(raw) == state['claude_validation']['result_sha256'] and
+             json.loads(raw,object_pairs_hook=unique_object) == state['claude'], 'CURRENTNESS_CHILD_RESULT_CHANGED')
+        receive_claude_private(state,output,source)
+    observed = source_check(source,packet)
+    need(observed == state.get('source_before') and
+         canonical_hashes(source,state) == state.get('canonical_before'), 'CURRENTNESS_SOURCE_OR_STATE_DRIFT')
+    store = currentness_store_snapshot(source,packet)
+    if label == 'initial-currentness':
+        need('currentness_store_before' not in state and state.get('currentness') == [] and
+             state.get('completed') == list(STEPS[:STEPS.index('require')]), 'CURRENTNESS_STORE_BASELINE_SEQUENCE')
+        state['currentness_store_before'] = store
+    else:
+        need(store == state.get('currentness_store_before'), 'CURRENTNESS_STORE_DRIFT')
+    if late:
+        received_git = json.loads(read(output/'private/claude-source-candidate/GIT_ADMISSION_BEFORE.json',262144),
+                                  object_pairs_hook=unique_object)
+        need(store['guard'] == received_git.get('source_store'), 'CURRENTNESS_RECEIVED_STORE_DRIFT')
+    for name in ('bash','env','git','python3'):
+        path,observed_tool = u.trusted(name)
+        need(path is not None and observed_tool == state['host']['tools'][name], 'CURRENTNESS_TOOL_CHANGED')
+    if 'runtime' in state:
+        binary = output/'private/claude-input'; info = binary.lstat()
+        need(binary.resolve(strict=True) == binary and stat.S_ISREG(info.st_mode) and
+             info.st_uid == os.getuid() and info.st_nlink == 1 and stat.S_IMODE(info.st_mode) == 0o700 and
+             stream_hash(binary) == (BINARY_BYTES,BINARY_SHA), 'CURRENTNESS_RUNTIME_CHANGED')
+    need(u.children() == [], 'CURRENTNESS_OWNED_CHILDREN_REMAIN')
+    try:
+        os.waitpid(-1,os.WNOHANG|0x40000000)
+    except ChildProcessError:
+        return {'source_before_execution':True,'canonical_before_execution':True,
+                'tools_before_execution':True,'runtime_before_execution':'runtime' in state,
+                'child_private_binding_before_execution':late,'global_echild_before_execution':True,
+                'git_store_before_execution':True,'git_store_baseline_matches':True,
+                'git_store_entries':store['entries'],'git_store_bytes':store['bytes'],
+                'git_store_population_sha256':store['population_sha256']}
+    raise Refusal('CURRENTNESS_GLOBAL_ECHILD_UNCONFIRMED')
+
 def current(state, source, output, u, label):
     need(state.get('receipt') is not None, 'CURRENTNESS_NOT_ESTABLISHED')
+    admission = currentness_admission(state,source,output,u,label)
     raw = owner(state, source, output, u, label, '--require-current-continuity', state['controller'])
     need(raw == (state['receipt']+'\n').encode(), 'CURRENTNESS_RECEIPT_DIFFERS')
-    state['currentness'].append({'role': label, 'receipt_sha256': digest(raw), 'same_source_cwd': True, 'verified': True})
+    state['currentness'].append({'role': label, 'receipt_sha256': digest(raw), 'same_source_cwd': True, 'verified': True, 'pre_execution_admission':admission})
     save(output/'private/episode.json', state)
 def acquire_runtime(output):
     archive = output/'private/claude.tar.gz'; started = time.monotonic(); count = 0; h = hashlib.sha256()
@@ -339,7 +581,7 @@ def acquire_runtime(output):
             'binary_sha256':BINARY_SHA,'binary_bytes':BINARY_BYTES,'release_tag_declared':'v2.1.318',
             'runtime_version_self_reported':False,'elf64_little_endian_x86_64':True,
             'input_retained_until_host_teardown':True,
-            'parent_runtime_identity_horizon':'ACQUISITION_AND_RECEIVE_NOT_FINALIZATION'}
+            'parent_runtime_identity_horizon':'ACQUISITION_RECEIVE_AND_CURRENTNESS_ADMISSION'}
 
 def mount_role():
     path = Path('/usr/bin/mount').resolve(strict=True); info = path.lstat()
@@ -539,6 +781,7 @@ def launch_claude(state, source, output, packet, u):
                 captured = json.loads(captured_raw, object_pairs_hook=unique_object)
                 need(catalogue_schema_matches(captured, json.loads(read(packet/'PUBLIC_RESULT_SCHEMA.json'), object_pairs_hook=unique_object)) and captured == state['claude'], 'CLAUDE_CAPTURE_DIFFERS')
                 state['claude_validation']['captured_result_matches'] = True
+                receive_claude_validation(state,source,output)
     except BaseException as exc:
         observe_capsule_failure(state,'claude-receiving',exc)
         if failure is None: failure = exc
@@ -613,7 +856,7 @@ def execute(step, state, source, output, packet, u):
         capsule_recheck(state, u, 'receive')
         need(state.get('claude_validation', {}).get('valid') is True and state['claude_validation'].get('captured_result_matches') is True and claude_success(state.get('claude', {}),os.getuid(),os.getgid(),state['receipt']), 'CLAUDE_NOT_RECEIVED')
         need(stream_hash(output/'private/claude-input') == (BINARY_BYTES,BINARY_SHA), 'RECEIVED_RUNTIME_CHANGED')
-        receive_claude_private(state,output)
+        receive_claude_private(state,output,source)
         state['claude_validation']['semantic_receiving_passed'] = True
         state['source_after'] = source_check(source, packet)
         need(state['source_after'] == state['source_before'] and canonical_hashes(source, state) == state['canonical_before'], 'FINAL_SOURCE_OR_STATE_DRIFT')
@@ -674,17 +917,17 @@ def main():
             state['bounded_receiving_complete'] = False
             code = 'UNCERTAIN_PREDECESSOR' if state.get('active_step') is not None or state.get('active_command') is not None else 'INCOMPLETE_EPISODE'
             state['failures'].append({'step': 'finalize', 'exception_type': 'Refusal', 'message_sha256': digest(code.encode()), 'message_bytes': len(code)})
-        if state.get('receipt') and state.get('active_step') is None and state.get('active_command') is None and all(x.get('cleanup', {}).get('echild') is True for x in state['commands']):
+        if state.get('failed') is False and state.get('failures') == [] and state.get('bounded_receiving_complete') is True and state.get('completed') == list(STEPS) and state.get('receipt') and state.get('active_step') is None and state.get('active_command') is None and all(x.get('cleanup', {}).get('echild') is True for x in state['commands']):
             try:
-                current(state, source, output, u, 'final-currentness')
                 state['canonical_unchanged'] = canonical_hashes(source, state) == state['canonical_before']
                 state['source_after'] = source_check(source, packet)
                 need(state['canonical_unchanged'] and state['source_after'] == state['source_before'], 'FINAL_SOURCE_OR_STATE_DRIFT')
                 prior_component(state, source, 'final')
                 if state.get('bounded_receiving_complete') is True:
                     need(digest(read(output/'private/CLAUDE_RESULT.json',32768)) == state['claude_validation']['result_sha256'] and claude_success(state['claude'],os.getuid(),os.getgid(),state['receipt']), 'FINAL_CLAUDE_RESULT_DRIFT')
-                    receive_claude_private(state,output)
+                    receive_claude_private(state,output,source)
                     state['claude_validation']['final_private_seal_verified'] = True
+                current(state, source, output, u, 'final-currentness')
             except BaseException as exc:
                 state['failed'] = True; state['bounded_receiving_complete'] = False; state['failures'].append({'step': 'finalize', 'exception_type': type(exc).__name__, 'message_sha256': digest(str(exc).encode()), 'message_bytes': len(str(exc).encode())})
         export(state, output, packet); save(output/'private/episode.json', state); return 1 if state['failed'] else 0

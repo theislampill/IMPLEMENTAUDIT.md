@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""DG17 Claude child06 sequencing successor; prospective hosted execution only.
+"""DG17 Claude child07 bounded validation receiver successor; prospective hosted execution only.
 
 Exactly validate/list/details; no version/help/install/auth/session/model call.
 The enclosing separately reviewed parent owns actual source/controller/capsule/
@@ -116,14 +116,46 @@ def strict_json(raw):
     return json_bounds(value)
 
 
+def public_json_type(value):
+    if value is None:
+        return 'NULL'
+    kinds = {bool: 'BOOLEAN', int: 'INTEGER', str: 'STRING',
+             list: 'ARRAY', dict: 'OBJECT'}
+    need(type(value) in kinds, 'JSON_SHAPE_UNRECEIVED')
+    return kinds[type(value)]
+
+
+def validation_shape_projection(value):
+    # Called only after strict_json; no arbitrary key or value is projected.
+    known = ('success', 'strict', 'target', 'manifest', 'contents', 'advice',
+             'gatingHooks', 'directory')
+    is_object = type(value) is dict
+    fields = {}
+    for key in known:
+        present = is_object and key in value
+        item = value[key] if present else None
+        fields[key] = {'present': present,
+                       'type': public_json_type(item) if present else 'ABSENT',
+                       'count': len(item) if present and type(item) in (dict, list) else None}
+    unknown = sorted(set(value) - set(known)) if is_object else None
+    return {'status': 'PUBLIC_SAFE_TOP_LEVEL_SHAPE_ONLY',
+            'root_type': public_json_type(value),
+            'root_count': len(value) if type(value) in (dict, list) else None,
+            'unknown_key_count': len(unknown) if is_object else None,
+            'unknown_key_names_sha256': sha(canonical(unknown)) if is_object else None,
+            'fields': fields}
+
+
 def validation_projection(value, source):
     required = {'success', 'strict', 'target', 'manifest', 'contents', 'advice'}
     need(type(value) is dict and required <= set(value) and
-         set(value) <= required | {'gatingHooks'} and
+         set(value) <= required | {'gatingHooks', 'directory'} and
          type(value['success']) is bool and type(value['strict']) is bool and
          type(value['target']) is str and
          (value['manifest'] is None or type(value['manifest']) is dict) and
-         type(value['contents']) is list and type(value['advice']) is list,
+         type(value['contents']) is list and type(value['advice']) is list and
+         ('directory' not in value or value['directory'] is None or
+          type(value['directory']) is dict),
          'VALIDATION_SHAPE_UNRECEIVED')
     need(value['success'] is True and value['strict'] is False and
          value['target'] == str(source), 'VALIDATION_IDENTITY_OR_VERDICT_REFUSED')
@@ -149,6 +181,11 @@ def validation_projection(value, source):
             'manifest_semantics': 'UNRECEIVED_OPAQUE_OBJECT',
             'manifest_is_null': value['manifest'] is None,
             'manifest_json_sha256': sha(canonical(value['manifest'])),
+            'directory_state': ('ABSENT' if 'directory' not in value else
+                                'NULL' if value['directory'] is None else 'OPAQUE_OBJECT'),
+            'directory_json_sha256': sha(canonical(value['directory'])) if 'directory' in value else None,
+            'directory_semantics': 'UNRECEIVED_OPAQUE_METADATA',
+            'directory_validation_received': False,
             'native_five_skill_inventory_received': False}
 
 
@@ -491,7 +528,7 @@ def initial_result():
         'expected_source_skills': list(SKILLS), 'fresh_context_count': 0,
         'product_commands_started': 0, 'planned_commands': list(COMMANDS),
         'unstarted_commands': list(COMMANDS), 'offline': None, 'commands': [],
-        'validation': None, 'plugin_list': None, 'details': None,
+        'validation_shape': None, 'validation': None, 'plugin_list': None, 'details': None,
         'cleanup': {'private_evidence_seal_sha256': None, 'private_seal_unchanged': False,
                     'private_plaintext_policy': 'RETAIN_UNTIL_HOST_TEARDOWN',
                     'host_teardown_observed': False, 'after_close': None, 'after_seal': None},
@@ -611,7 +648,9 @@ def run(args):
                 phase = name + '_RECOGNITION'
                 try:
                     if name == 'validate':
-                        result['validation'] = validation_projection(strict_json(out), source)
+                        parsed_validation = strict_json(out)
+                        result['validation_shape'] = validation_shape_projection(parsed_validation)
+                        result['validation'] = validation_projection(parsed_validation, source)
                     elif name == 'list':
                         result['plugin_list'] = list_projection(strict_json(out), source)
                     else:

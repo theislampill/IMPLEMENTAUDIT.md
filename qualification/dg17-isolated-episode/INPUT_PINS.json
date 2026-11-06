@@ -1,7 +1,7 @@
 {
   "PUBLIC_RESULT_SCHEMA.json": {
-    "bytes": 19211,
-    "sha256": "213f11fd3261c27bf700a3927bdca763937c9cd72eac55abd0975b2d48548957"
+    "bytes": 31403,
+    "sha256": "7993fb39c9da5defd0573c34348789d3224d7e20f001a18685ae260422068ddc"
   },
   "SOURCE_INPUT_PINS.json": {
     "bytes": 2092,
@@ -16,8 +16,8 @@
     "sha256": "9456e39cf3be3254b4c25c74716a1b87ba5f2accd6bf196db061e326c7a50277"
   },
   "claude_probe.py": {
-    "bytes": 41638,
-    "sha256": "f7c11b267c62896b4da64ccd5ff751348168f57419e2c6c27d2263c8de00716a"
+    "bytes": 43694,
+    "sha256": "7a5856b909cafdf842ca260d4f584fc1846a94f258cc6519154cea1c11da0a77"
   },
   "host_utility.py": {
     "bytes": 54556,

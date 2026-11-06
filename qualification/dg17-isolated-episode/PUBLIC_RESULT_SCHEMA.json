@@ -673,6 +673,32 @@
               "const": "CONTENTS_ONLY_MANIFEST_OPAQUE",
               "type": "string"
             },
+            "directory_json_sha256": {
+              "anyOf": [
+                {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "directory_semantics": {
+              "const": "UNRECEIVED_OPAQUE_METADATA",
+              "type": "string"
+            },
+            "directory_state": {
+              "enum": [
+                "ABSENT",
+                "NULL",
+                "OPAQUE_OBJECT"
+              ]
+            },
+            "directory_validation_received": {
+              "const": false,
+              "type": "boolean"
+            },
             "error_count": {
               "maximum": 0,
               "minimum": 0,
@@ -734,7 +760,393 @@
             "manifest_semantics",
             "manifest_is_null",
             "manifest_json_sha256",
-            "native_five_skill_inventory_received"
+            "native_five_skill_inventory_received",
+            "directory_state",
+            "directory_json_sha256",
+            "directory_semantics",
+            "directory_validation_received"
+          ],
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "validation_shape": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "fields": {
+              "additionalProperties": false,
+              "properties": {
+                "advice": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "count": {
+                      "anyOf": [
+                        {
+                          "maximum": 256,
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "present": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "enum": [
+                        "ABSENT",
+                        "NULL",
+                        "BOOLEAN",
+                        "INTEGER",
+                        "STRING",
+                        "ARRAY",
+                        "OBJECT"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "present",
+                    "type",
+                    "count"
+                  ],
+                  "type": "object"
+                },
+                "contents": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "count": {
+                      "anyOf": [
+                        {
+                          "maximum": 256,
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "present": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "enum": [
+                        "ABSENT",
+                        "NULL",
+                        "BOOLEAN",
+                        "INTEGER",
+                        "STRING",
+                        "ARRAY",
+                        "OBJECT"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "present",
+                    "type",
+                    "count"
+                  ],
+                  "type": "object"
+                },
+                "directory": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "count": {
+                      "anyOf": [
+                        {
+                          "maximum": 256,
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "present": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "enum": [
+                        "ABSENT",
+                        "NULL",
+                        "BOOLEAN",
+                        "INTEGER",
+                        "STRING",
+                        "ARRAY",
+                        "OBJECT"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "present",
+                    "type",
+                    "count"
+                  ],
+                  "type": "object"
+                },
+                "gatingHooks": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "count": {
+                      "anyOf": [
+                        {
+                          "maximum": 256,
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "present": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "enum": [
+                        "ABSENT",
+                        "NULL",
+                        "BOOLEAN",
+                        "INTEGER",
+                        "STRING",
+                        "ARRAY",
+                        "OBJECT"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "present",
+                    "type",
+                    "count"
+                  ],
+                  "type": "object"
+                },
+                "manifest": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "count": {
+                      "anyOf": [
+                        {
+                          "maximum": 256,
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "present": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "enum": [
+                        "ABSENT",
+                        "NULL",
+                        "BOOLEAN",
+                        "INTEGER",
+                        "STRING",
+                        "ARRAY",
+                        "OBJECT"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "present",
+                    "type",
+                    "count"
+                  ],
+                  "type": "object"
+                },
+                "strict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "count": {
+                      "anyOf": [
+                        {
+                          "maximum": 256,
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "present": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "enum": [
+                        "ABSENT",
+                        "NULL",
+                        "BOOLEAN",
+                        "INTEGER",
+                        "STRING",
+                        "ARRAY",
+                        "OBJECT"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "present",
+                    "type",
+                    "count"
+                  ],
+                  "type": "object"
+                },
+                "success": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "count": {
+                      "anyOf": [
+                        {
+                          "maximum": 256,
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "present": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "enum": [
+                        "ABSENT",
+                        "NULL",
+                        "BOOLEAN",
+                        "INTEGER",
+                        "STRING",
+                        "ARRAY",
+                        "OBJECT"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "present",
+                    "type",
+                    "count"
+                  ],
+                  "type": "object"
+                },
+                "target": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "count": {
+                      "anyOf": [
+                        {
+                          "maximum": 256,
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "present": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "enum": [
+                        "ABSENT",
+                        "NULL",
+                        "BOOLEAN",
+                        "INTEGER",
+                        "STRING",
+                        "ARRAY",
+                        "OBJECT"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "present",
+                    "type",
+                    "count"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "success",
+                "strict",
+                "target",
+                "manifest",
+                "contents",
+                "advice",
+                "gatingHooks",
+                "directory"
+              ],
+              "type": "object"
+            },
+            "root_count": {
+              "anyOf": [
+                {
+                  "maximum": 256,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "root_type": {
+              "enum": [
+                "NULL",
+                "BOOLEAN",
+                "INTEGER",
+                "STRING",
+                "ARRAY",
+                "OBJECT"
+              ]
+            },
+            "status": {
+              "const": "PUBLIC_SAFE_TOP_LEVEL_SHAPE_ONLY",
+              "type": "string"
+            },
+            "unknown_key_count": {
+              "anyOf": [
+                {
+                  "maximum": 128,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "unknown_key_names_sha256": {
+              "anyOf": [
+                {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "root_type",
+            "root_count",
+            "unknown_key_count",
+            "unknown_key_names_sha256",
+            "fields"
           ],
           "type": "object"
         },
@@ -783,7 +1195,8 @@
     "original_acceptance_awarded",
     "persistent_installation_proven",
     "model_inference_proven",
-    "prompt_independent_routing_proven"
+    "prompt_independent_routing_proven",
+    "validation_shape"
   ],
   "title": "NEW DG17 Claude child04 source-candidate closed projection",
   "type": "object"
