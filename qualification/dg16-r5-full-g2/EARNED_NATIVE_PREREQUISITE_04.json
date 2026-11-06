@@ -1,0 +1,134 @@
+{
+  "G1": false,
+  "G3": false,
+  "T14": false,
+  "authority": "NONE",
+  "bank_command_cleanup_echild": true,
+  "capture_observation": {
+    "primary_returncode": 0,
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 2805,
+    "stdout_sha256": "3699df06b4f9f0dc2e99fccd6238c58d333d3d344337cd85b2f21291815f92b2",
+    "streams_complete": true
+  },
+  "currentness_after_bank": true,
+  "currentness_before_bank": true,
+  "full_G2": false,
+  "historical_source_commit": "481e529b691ed3d21169b07f376e357ae51f1f03",
+  "historical_source_tree": "786b4bfaf39b5cc15ce9cf662a51d4518add4645",
+  "host_prerequisite": {
+    "architecture": "x86_64",
+    "kernel": "7.0.0-1019-azure",
+    "os": {
+      "ID": "ubuntu",
+      "VERSION_ID": "26.04"
+    },
+    "python_version": [
+      3,
+      14,
+      4
+    ],
+    "tools": {
+      "bash": {
+        "available": true,
+        "bytes": 1540520,
+        "canonical": "/usr/bin/bash",
+        "requested": "/usr/bin/bash",
+        "root_owned_nonwritable_chain": true,
+        "setid_or_file_capabilities": false,
+        "sha256": "450c68376d14e5040d36cce58605c35b2211d244f3079297440dc9d602ee4994"
+      },
+      "bwrap": {
+        "available": true,
+        "bytes": 80424,
+        "canonical": "/usr/bin/bwrap",
+        "requested": "/usr/bin/bwrap",
+        "root_owned_nonwritable_chain": true,
+        "setid_or_file_capabilities": false,
+        "sha256": "a85b0ff8664c52ab923e0daf7e20cbc394272cd3831cc492ab144105d8091361"
+      },
+      "git": {
+        "available": true,
+        "bytes": 4771424,
+        "canonical": "/usr/bin/git",
+        "requested": "/usr/bin/git",
+        "root_owned_nonwritable_chain": true,
+        "setid_or_file_capabilities": false,
+        "sha256": "63acee09d55a44c7f4480f3a2c3fb79e7063deaf61df3f920b113ed38c0541e6"
+      },
+      "python3": {
+        "available": true,
+        "bytes": 7468968,
+        "canonical": "/usr/bin/python3.14",
+        "requested": "/usr/bin/python3",
+        "root_owned_nonwritable_chain": true,
+        "setid_or_file_capabilities": false,
+        "sha256": "be9a2a5eada8c89c1c399fdfb8397179e877c20d8db0739c802f726d4d0e69fd"
+      }
+    }
+  },
+  "job_id": "127582971279",
+  "native_receiving": {
+    "C5": false,
+    "G1": false,
+    "G3": false,
+    "authority": "NONE",
+    "bank_result_sha256": "5bba6105a50f5788e2cb75d05a3ac85f51a05a995240686f1d0addab0be0382e",
+    "currentness_sha256": "991d7a56798e8c86ed38c0fd157fc2e43b711291457c6abbc4136165523b15ce",
+    "eligible_delta": "EXACT_NATIVE_PREREQUISITE_ONLY_NO_ORIGINAL_AWARD",
+    "eligible_for_full_pair": true,
+    "full_G2": false,
+    "full_T14": false,
+    "original_acceptance": false,
+    "receipt_transfer_authority": false,
+    "requirement_sha256": "75903248fb077e0d6ba1d9a7dd2e9cfc045fbc155edf625b3b89c90da2737c8d",
+    "schema": "dg16.full-registry-native-receiving.v1",
+    "source_commit": "481e529b691ed3d21169b07f376e357ae51f1f03",
+    "source_tree": "786b4bfaf39b5cc15ce9cf662a51d4518add4645",
+    "status": "RECEIVED_AT_DECLARED_SCOPE",
+    "while_same_checkout_current": true
+  },
+  "new_controller_required": true,
+  "original_acceptance": false,
+  "overall_closing_currentness_verified_before_teardown": false,
+  "overall_job_disposition": "FAILED_AFTER_BANK_RECEIVING_BEFORE_ANY_ORIGINAL_VERIFIER_ATTEMPT",
+  "prospective_use": "Only an independently reviewed applicability predicate may reuse this qualification after exact source-closure and host-field readback; never inherit old live currentness.",
+  "public_receipt_bindings": {
+    "HOST.json": {
+      "bytes": 40599,
+      "sha256": "fc8444ca2070796063598426f9ffbf3f55354de4bc5eb0b6792af7353ed7bf2b"
+    },
+    "PROBE.json": {
+      "bytes": 12409,
+      "sha256": "7d035e90a4c2bd716f6fa7793c03d353cd520024de46fa161622745a197132bc"
+    },
+    "RESULT.json": {
+      "bytes": 1335,
+      "sha256": "364254c6297a5f32e718a55874ea0e750d3f73dd8071bff2a36f80bf6e032c6d"
+    }
+  },
+  "receipt_transfer_authority": false,
+  "run_id": "42123891532",
+  "schema": "dg16.native-bank-earned-prerequisite.v2",
+  "selected_source_commit": "0d57929be5bd15682b4e9da2c0209d5dff307843",
+  "selected_source_tree": "ee316c27250ec422d35a1ea965182ebddf7a5da0",
+  "source_closure_manifest": {
+    "bytes": 25325,
+    "path": "UNCHANGED_BANK_SOURCE_CLOSURE.json",
+    "sha256": "0e1283bdf245f5db09e33e1addc84f9c2cb7174d51e95aa07d123d986639e9a8"
+  },
+  "test_population": [
+    "test_actual_later_invalidation_prevents_return",
+    "test_derivative_snapshot_change_after_use_prevents_return",
+    "test_native_intake_later_boundary_prevents_return",
+    "test_native_intake_rejects_opaque_fixture_work_graph",
+    "test_native_intake_rejects_unowned_nested_record",
+    "test_native_intake_uses_current_original14_not_retired_root",
+    "test_protected_document_change_after_use_prevents_return",
+    "test_real_original14_documents_reach_unchanged_graph_parser",
+    "test_valid_original14_owner_does_not_supply_missing_graph_document"
+  ],
+  "tests_run": 9,
+  "workflow_commit": "fd3f7aa3158b4ee6ae0281f56e41b3c1a7e2a9df"
+}
