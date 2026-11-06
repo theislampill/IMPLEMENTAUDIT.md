@@ -1,0 +1,22 @@
+{
+  "decision": "GO",
+  "files": {
+    "INDEPENDENT_REVIEW.json": {
+      "bytes": 5984,
+      "sha256": "4e735fb384f7c6b5db44ade9febd5a61ac2555af783cd5eb9aa2bbc523ac9555"
+    },
+    "ROOT_GO.json": {
+      "bytes": 1585,
+      "sha256": "07337674158e08384dd93c8868498eaef77e9f672cf6f002fd1d7a6464677a0d"
+    }
+  },
+  "host_request_sha256": "f79bbb99b398f7c0bf3e40a2896e2c16b048538bea29c639810e569217ae5d6c",
+  "input_custody_sha256": "3c5b6b07b9a13c1df6828c1c7f5e6e24eac7e938da6cf371d4fa5d8e6727d588",
+  "preparation_sha256": "4bb8fa2c526bb2f2e38d2b02edc7d921f6843ce8b048d288c32b70e42b15751a",
+  "publisher": "/root",
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "run_attempt": "1",
+  "run_id": "42293322526",
+  "schema": "r5.h0-held-control.v1",
+  "workflow_commit": "faaa43e068bc758e28f1953d4204ce6aae1e543d"
+}
