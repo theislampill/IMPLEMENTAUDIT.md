@@ -8,8 +8,8 @@
     "sha256": "ed6a601d3a66997218195202cb5513363b5410b98489762324095a9030c261b4"
   },
   "activation_probe.py": {
-    "bytes": 52468,
-    "sha256": "2e8c14c80867af22240daef0ee9bf2b56bf9293035442e2b6d84ac315d4e481a"
+    "bytes": 52573,
+    "sha256": "fb63742c117e775492b5bc09661355e6449bd20bf02ca818137b9b6e52e926bd"
   },
   "catalogue_probe.py": {
     "bytes": 50831,

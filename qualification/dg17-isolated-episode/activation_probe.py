@@ -347,7 +347,7 @@ def protocol_projection(events,wanted,complete=False):
                      "SERVER_REQUEST_ERROR_OR_UNBOUND_RESPONSE")
                 responses[message["id"]]=message["result"]
             else:
-                need(set(message)=={"method","params"},"NOTIFICATION_SHAPE")
+                need(set(message)=={"method","params","emittedAtMs"} and type(message["emittedAtMs"]) is int and 0<=message["emittedAtMs"]<=9223372036854775807,"NOTIFICATION_SHAPE")
                 method=message["method"];params=message["params"]
                 if method=="skills/changed":
                     need(params=={} and type(params) is dict,"SKILLS_NOTIFICATION_SHAPE")

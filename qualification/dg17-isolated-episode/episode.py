@@ -14,7 +14,7 @@ TREE = 'ee316c27250ec422d35a1ea965182ebddf7a5da0'
 PARENT = '481e529b691ed3d21169b07f376e357ae51f1f03'
 MANIFEST_SHA = 'ed6a601d3a66997218195202cb5513363b5410b98489762324095a9030c261b4'
 UTILITY_SHA = '429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c'
-PINS_SHA = 'b52f5f088069bbac8f23884943bd355424fbd6c2f01abfef3153c0b53e8273b7'
+PINS_SHA = '794b70423e19d607a64e827b59dd0401713afb13a90fd6bdc74593ef01628558'
 CLAIM = 'skills/implementaudit/scripts/claim-run.sh'
 AUTHOR = 'fixtures/controller-initialization/author_checkpoint.py'
 DOCS = ('STATE.md', 'PROTOCOL.md', 'ROADMAP.md', 'THINKING.md', 'sidecars.md', 'tools.md', 'context.md', 'phases/phase-1.md')
@@ -336,7 +336,7 @@ def activation_protocol_readback(raw, image, home, neutral, private, binary):
                      message['id'] in sent_ids and message['id'] not in responses,'ACTIVATION_NATIVE_REQUEST_OR_RESPONSE')
                 responses[message['id']]=message['result']
             else:
-                need(set(message)=={'method','params'},'ACTIVATION_NOTIFICATION_SHAPE')
+                need(set(message)=={'method','params','emittedAtMs'} and type(message['emittedAtMs']) is int and 0<=message['emittedAtMs']<=9223372036854775807,'ACTIVATION_NOTIFICATION_SHAPE')
                 method=message['method'];params=message['params']
                 if method=='skills/changed':
                     need(type(params) is dict and params=={},'ACTIVATION_SKILLS_CHANGED_SHAPE');skills_changed+=1
