@@ -1,0 +1,30 @@
+{
+  "PUBLIC_RESULT_SCHEMA.json": {
+    "bytes": 23646,
+    "sha256": "e5d83255fe9325e28780701912a1ea59aeaeed54d5496737955bc4940e654900"
+  },
+  "SOURCE_MANIFEST.json": {
+    "bytes": 492188,
+    "sha256": "ed6a601d3a66997218195202cb5513363b5410b98489762324095a9030c261b4"
+  },
+  "catalogue_probe.py": {
+    "bytes": 49897,
+    "sha256": "525a10a749f681c5a0c27bee4e274cd8a37909684ff7c05fdc94c9be7838e139"
+  },
+  "host_utility.py": {
+    "bytes": 54556,
+    "sha256": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c"
+  },
+  "namespace_process_custody.py": {
+    "bytes": 6825,
+    "sha256": "6d2e049a8ddbc89e6213c4968d44e6e1483254d852d45480b90f01f960453630"
+  },
+  "native_transport.py": {
+    "bytes": 7925,
+    "sha256": "20192cf71daca4160b3117d8a61e8e029cf56d220bc0072b91dc2a8e3779a884"
+  },
+  "owned_resources.py": {
+    "bytes": 1917,
+    "sha256": "0b7d871aca378dc807bc33211d4b84a1b0baa45939c9c24ca54374c23468e33a"
+  }
+}

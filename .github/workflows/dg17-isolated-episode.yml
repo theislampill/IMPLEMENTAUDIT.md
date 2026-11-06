@@ -1,0 +1,280 @@
+name: DG17 isolated predicates and offline catalog cleanup
+
+on:
+  push:
+    branches:
+      - pro/dg17-isolated-episode-01-20261106
+    paths:
+      - .github/workflows/dg17-isolated-episode.yml
+      - qualification/dg17-isolated-episode/**
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dg17-isolated-episode-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  dg17-bounded:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/pro/dg17-isolated-episode-01-20261106' &&
+      github.event.created == true && github.event.deleted == false && github.run_attempt == '1'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out the exact reviewed episode
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: prepare
+        id: prepare
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '553fb9ca9a489dcc9ba893482112a23ecadcd8e15e992193cfb1a05ad6ab4a98' ]]; then
+            echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step prepare \
+            --source "$GITHUB_WORKSPACE/dg17-qualified-source" \
+            --output "$RUNNER_TEMP/dg17-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: initialize
+        id: initialize
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '553fb9ca9a489dcc9ba893482112a23ecadcd8e15e992193cfb1a05ad6ab4a98' ]]; then
+            echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step initialize \
+            --source "$GITHUB_WORKSPACE/dg17-qualified-source" \
+            --output "$RUNNER_TEMP/dg17-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: discover
+        id: discover
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '553fb9ca9a489dcc9ba893482112a23ecadcd8e15e992193cfb1a05ad6ab4a98' ]]; then
+            echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step discover \
+            --source "$GITHUB_WORKSPACE/dg17-qualified-source" \
+            --output "$RUNNER_TEMP/dg17-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: invalidate
+        id: invalidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '553fb9ca9a489dcc9ba893482112a23ecadcd8e15e992193cfb1a05ad6ab4a98' ]]; then
+            echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step invalidate \
+            --source "$GITHUB_WORKSPACE/dg17-qualified-source" \
+            --output "$RUNNER_TEMP/dg17-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: read-state
+        id: read_state
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '553fb9ca9a489dcc9ba893482112a23ecadcd8e15e992193cfb1a05ad6ab4a98' ]]; then
+            echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step read-state \
+            --source "$GITHUB_WORKSPACE/dg17-qualified-source" \
+            --output "$RUNNER_TEMP/dg17-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: read-roadmap
+        id: read_roadmap
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '553fb9ca9a489dcc9ba893482112a23ecadcd8e15e992193cfb1a05ad6ab4a98' ]]; then
+            echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step read-roadmap \
+            --source "$GITHUB_WORKSPACE/dg17-qualified-source" \
+            --output "$RUNNER_TEMP/dg17-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: resume
+        id: resume
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '553fb9ca9a489dcc9ba893482112a23ecadcd8e15e992193cfb1a05ad6ab4a98' ]]; then
+            echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step resume \
+            --source "$GITHUB_WORKSPACE/dg17-qualified-source" \
+            --output "$RUNNER_TEMP/dg17-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: verify
+        id: verify
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '553fb9ca9a489dcc9ba893482112a23ecadcd8e15e992193cfb1a05ad6ab4a98' ]]; then
+            echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step verify \
+            --source "$GITHUB_WORKSPACE/dg17-qualified-source" \
+            --output "$RUNNER_TEMP/dg17-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: require
+        id: require
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '553fb9ca9a489dcc9ba893482112a23ecadcd8e15e992193cfb1a05ad6ab4a98' ]]; then
+            echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step require \
+            --source "$GITHUB_WORKSPACE/dg17-qualified-source" \
+            --output "$RUNNER_TEMP/dg17-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: predicates
+        id: predicates
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '553fb9ca9a489dcc9ba893482112a23ecadcd8e15e992193cfb1a05ad6ab4a98' ]]; then
+            echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step predicates \
+            --source "$GITHUB_WORKSPACE/dg17-qualified-source" \
+            --output "$RUNNER_TEMP/dg17-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: runtime
+        id: runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '553fb9ca9a489dcc9ba893482112a23ecadcd8e15e992193cfb1a05ad6ab4a98' ]]; then
+            echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step runtime \
+            --source "$GITHUB_WORKSPACE/dg17-qualified-source" \
+            --output "$RUNNER_TEMP/dg17-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: catalogue
+        id: catalogue
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '553fb9ca9a489dcc9ba893482112a23ecadcd8e15e992193cfb1a05ad6ab4a98' ]]; then
+            echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step catalogue \
+            --source "$GITHUB_WORKSPACE/dg17-qualified-source" \
+            --output "$RUNNER_TEMP/dg17-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: receive
+        id: receive
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '553fb9ca9a489dcc9ba893482112a23ecadcd8e15e992193cfb1a05ad6ab4a98' ]]; then
+            echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step receive \
+            --source "$GITHUB_WORKSPACE/dg17-qualified-source" \
+            --output "$RUNNER_TEMP/dg17-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: finalize
+        id: finalize
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-isolated-episode/episode.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '553fb9ca9a489dcc9ba893482112a23ecadcd8e15e992193cfb1a05ad6ab4a98' ]]; then
+            echo 'DG17 {"status":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step finalize \
+            --source "$GITHUB_WORKSPACE/dg17-qualified-source" \
+            --output "$RUNNER_TEMP/dg17-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Retain only the closed public evidence projection
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-isolated-${{ github.run_id }}-a1
+          if-no-files-found: error
+          retention-days: 7
+          path: |
+            ${{ runner.temp }}/dg17-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/RESULT.json
+            ${{ runner.temp }}/dg17-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/SOURCE.json
+            ${{ runner.temp }}/dg17-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/HOST.json
+            ${{ runner.temp }}/dg17-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/CURRENTNESS.json
+            ${{ runner.temp }}/dg17-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/PREDICATES.json
+            ${{ runner.temp }}/dg17-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/CATALOGUE.json
+            ${{ runner.temp }}/dg17-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/CLEANUP.json
+            ${{ runner.temp }}/dg17-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/FAILURE.json
+            ${{ runner.temp }}/dg17-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/ARTIFACT_MANIFEST.json

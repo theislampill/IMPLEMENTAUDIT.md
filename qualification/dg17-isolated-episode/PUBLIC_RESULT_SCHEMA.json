@@ -1,0 +1,879 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DG17 T12 public metadata and present cleanup projection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "status",
+    "source_commit",
+    "source_tree",
+    "runtime_version",
+    "runtime_sha256",
+    "runtime_bytes",
+    "selector",
+    "original_acceptance_awarded",
+    "independent_receiving",
+    "model_inference_proven",
+    "prompt_independent_routing_proven",
+    "native_process_started",
+    "startup_configuration",
+    "offline",
+    "currentness_before",
+    "currentness_after",
+    "unexpected_lifecycle_notification_count",
+    "unexpected_server_request_count",
+    "nonmetadata_outbound_count",
+    "calls",
+    "catalog",
+    "configured_skills",
+    "configured_hooks",
+    "cleanup",
+    "private_evidence_seal_sha256",
+    "failure",
+    "source_identity_verified",
+    "runtime_identity_verified",
+    "runtime_reported_version_matches",
+    "git_startup_admission"
+  ],
+  "properties": {
+    "schema": {
+      "const": "dg17.t12.model-free-catalog-cleanup.v2"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "OBSERVED_CATALOG_AND_PRESENT_CLEANUP",
+        "INCOMPLETE_OR_FAILED"
+      ]
+    },
+    "source_commit": {
+      "const": "0d57929be5bd15682b4e9da2c0209d5dff307843"
+    },
+    "source_tree": {
+      "const": "ee316c27250ec422d35a1ea965182ebddf7a5da0"
+    },
+    "runtime_version": {
+      "const": "0.167.0-alpha.4"
+    },
+    "runtime_sha256": {
+      "const": "57c94ea520df28beb76955316c5c48f672550fe42c6cff7003badb76e1ee10d8"
+    },
+    "runtime_bytes": {
+      "const": 324012616
+    },
+    "selector": {
+      "const": ".claude-plugin/marketplace.json:implementaudit:./"
+    },
+    "original_acceptance_awarded": {
+      "const": false
+    },
+    "independent_receiving": {
+      "const": "NOT_PERFORMED"
+    },
+    "model_inference_proven": {
+      "const": false
+    },
+    "prompt_independent_routing_proven": {
+      "const": false
+    },
+    "native_process_started": {
+      "type": "boolean"
+    },
+    "startup_configuration": {
+      "const": [
+        "--strict-config",
+        "-c",
+        "features.plugins=true",
+        "-c",
+        "features.plugin_discovery_prefetch=false",
+        "-c",
+        "features.remote_plugin=false",
+        "-c",
+        "cli_auth_credentials_store=\"ephemeral\"",
+        "-c",
+        "mcp_oauth_credentials_store=\"file\"",
+        "-c",
+        "analytics.enabled=false",
+        "-c",
+        "feedback.enabled=false"
+      ]
+    },
+    "offline": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "verified",
+            "uid",
+            "gid",
+            "namespace_differs_from_parent",
+            "only_loopback",
+            "effective_permitted_ambient_capabilities_zero",
+            "no_new_privileges",
+            "external_routes"
+          ],
+          "properties": {
+            "verified": {
+              "const": true
+            },
+            "uid": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "gid": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "namespace_differs_from_parent": {
+              "const": true
+            },
+            "only_loopback": {
+              "const": true
+            },
+            "effective_permitted_ambient_capabilities_zero": {
+              "const": true
+            },
+            "no_new_privileges": {
+              "const": true
+            },
+            "external_routes": {
+              "const": 0
+            }
+          }
+        }
+      ]
+    },
+    "currentness_before": {
+      "type": "boolean"
+    },
+    "currentness_after": {
+      "type": "boolean"
+    },
+    "unexpected_lifecycle_notification_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "unexpected_server_request_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "nonmetadata_outbound_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "calls": {
+      "type": "array",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "method",
+          "status"
+        ],
+        "properties": {
+          "method": {
+            "type": "string",
+            "enum": [
+              "initialize",
+              "plugin/read",
+              "skills/list",
+              "hooks/list"
+            ]
+          },
+          "status": {
+            "const": "OBSERVED"
+          }
+        }
+      }
+    },
+    "catalog": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "source_matches",
+            "installed",
+            "enabled",
+            "five_exact_skill_paths",
+            "skills",
+            "other_skill_count",
+            "declared_hook_count"
+          ],
+          "properties": {
+            "status": {
+              "const": "CATALOG_OBSERVED"
+            },
+            "source_matches": {
+              "const": true
+            },
+            "installed": {
+              "type": "boolean"
+            },
+            "enabled": {
+              "type": "boolean"
+            },
+            "five_exact_skill_paths": {
+              "type": "boolean"
+            },
+            "skills": {
+              "type": "array",
+              "maxItems": 32,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "name",
+                  "path",
+                  "path_matches_frozen_source",
+                  "enabled",
+                  "plugin_attribution_matches"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "enum": [
+                      "implementaudit",
+                      "audit-state",
+                      "audit-assess",
+                      "audit-implement",
+                      "audit-andon"
+                    ]
+                  },
+                  "path": {
+                    "type": "string",
+                    "enum": [
+                      "skills/implementaudit/SKILL.md",
+                      "skills/audit-state/SKILL.md",
+                      "skills/audit-assess/SKILL.md",
+                      "skills/audit-implement/SKILL.md",
+                      "skills/audit-andon/SKILL.md"
+                    ]
+                  },
+                  "path_matches_frozen_source": {
+                    "type": "boolean"
+                  },
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "plugin_attribution_matches": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            },
+            "other_skill_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "declared_hook_count": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        }
+      ]
+    },
+    "configured_skills": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "skills",
+            "other_skill_count",
+            "error_count",
+            "thread_content_loaded"
+          ],
+          "properties": {
+            "status": {
+              "const": "CONFIGURED_SKILL_CATALOG_OBSERVED"
+            },
+            "skills": {
+              "type": "array",
+              "maxItems": 32,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "name",
+                  "path",
+                  "path_matches_frozen_source",
+                  "enabled",
+                  "plugin_attribution_matches"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "enum": [
+                      "implementaudit",
+                      "audit-state",
+                      "audit-assess",
+                      "audit-implement",
+                      "audit-andon"
+                    ]
+                  },
+                  "path": {
+                    "type": "string",
+                    "enum": [
+                      "skills/implementaudit/SKILL.md",
+                      "skills/audit-state/SKILL.md",
+                      "skills/audit-assess/SKILL.md",
+                      "skills/audit-implement/SKILL.md",
+                      "skills/audit-andon/SKILL.md"
+                    ]
+                  },
+                  "path_matches_frozen_source": {
+                    "type": "boolean"
+                  },
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "plugin_attribution_matches": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            },
+            "other_skill_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "error_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "thread_content_loaded": {
+              "const": false
+            }
+          }
+        }
+      ]
+    },
+    "configured_hooks": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "hooks",
+            "error_count",
+            "warning_count",
+            "loaded_thread_hooks_observed",
+            "hook_delivery_exercised"
+          ],
+          "properties": {
+            "status": {
+              "const": "CONFIGURED_HOOK_CATALOG_OBSERVED"
+            },
+            "hooks": {
+              "type": "array",
+              "maxItems": 128,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "event",
+                  "source",
+                  "trust",
+                  "sha256",
+                  "enabled",
+                  "managed",
+                  "candidate_plugin"
+                ],
+                "properties": {
+                  "event": {
+                    "type": "string",
+                    "enum": [
+                      "preModelRequest",
+                      "postModelRequest",
+                      "preToolUse",
+                      "permissionRequest",
+                      "postToolUse",
+                      "preCompact",
+                      "postCompact",
+                      "sessionStart",
+                      "sessionEnd",
+                      "userPromptSubmit",
+                      "subagentStart",
+                      "subagentStop",
+                      "stop",
+                      "interrupt"
+                    ]
+                  },
+                  "source": {
+                    "type": "string",
+                    "enum": [
+                      "system",
+                      "user",
+                      "project",
+                      "mdm",
+                      "sessionFlags",
+                      "plugin",
+                      "cloudRequirements",
+                      "cloudManagedConfig",
+                      "legacyManagedConfigFile",
+                      "legacyManagedConfigMdm",
+                      "unknown"
+                    ]
+                  },
+                  "trust": {
+                    "type": "string",
+                    "enum": [
+                      "managed",
+                      "untrusted",
+                      "trusted",
+                      "modified"
+                    ]
+                  },
+                  "sha256": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  },
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "managed": {
+                    "type": "boolean"
+                  },
+                  "candidate_plugin": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            },
+            "error_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "warning_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "loaded_thread_hooks_observed": {
+              "const": false
+            },
+            "hook_delivery_exercised": {
+              "const": false
+            }
+          }
+        }
+      ]
+    },
+    "cleanup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "close_returned",
+        "parent_returncode",
+        "reader_joined",
+        "transport_remaining_owned_count",
+        "after_close",
+        "after_seal",
+        "private_seal_unchanged",
+        "containment",
+        "close_error_type"
+      ],
+      "properties": {
+        "close_returned": {
+          "type": "boolean"
+        },
+        "parent_returncode": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "integer"
+            }
+          ]
+        },
+        "reader_joined": {
+          "type": "boolean"
+        },
+        "transport_remaining_owned_count": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "integer",
+              "minimum": 0
+            }
+          ]
+        },
+        "after_close": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "full_session_scope_available",
+                "living_owned_processes",
+                "owned_zombies",
+                "uncertain_owned_candidates",
+                "launch_directory_empty"
+              ],
+              "properties": {
+                "full_session_scope_available": {
+                  "type": "boolean"
+                },
+                "living_owned_processes": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "owned_zombies": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "uncertain_owned_candidates": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "launch_directory_empty": {
+                  "type": "boolean"
+                }
+              }
+            }
+          ]
+        },
+        "after_seal": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "full_session_scope_available",
+                "living_owned_processes",
+                "owned_zombies",
+                "uncertain_owned_candidates",
+                "launch_directory_empty"
+              ],
+              "properties": {
+                "full_session_scope_available": {
+                  "type": "boolean"
+                },
+                "living_owned_processes": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "owned_zombies": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "uncertain_owned_candidates": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "launch_directory_empty": {
+                  "type": "boolean"
+                }
+              }
+            }
+          ]
+        },
+        "private_seal_unchanged": {
+          "type": "boolean"
+        },
+        "containment": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "signals_sent"
+              ],
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "NO_LIVE_KNOWN_PARENT",
+                    "KNOWN_PARENT_REAPED",
+                    "KNOWN_PARENT_NOT_REAPED",
+                    "CONTAINMENT_REFUSED"
+                  ]
+                },
+                "signals_sent": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            }
+          ]
+        },
+        "close_error_type": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "enum": [
+                "RuntimeError",
+                "TimeoutExpired",
+                "OSError",
+                "CustodyError",
+                "PermissionError",
+                "FileNotFoundError",
+                "ProcessLookupError",
+                "ValueError",
+                "Refusal",
+                "KeyboardInterrupt",
+                "Exception"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "private_evidence_seal_sha256": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      ]
+    },
+    "failure": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "phase",
+            "code",
+            "exception_type"
+          ],
+          "properties": {
+            "phase": {
+              "type": "string",
+              "enum": [
+                "PRECONDITIONS",
+                "CURRENTNESS_BEFORE",
+                "NATIVE_CONSTRUCTOR",
+                "initialize",
+                "plugin/read",
+                "skills/list",
+                "hooks/list",
+                "COMPLETE",
+                "GIT_ADMISSION_BEFORE",
+                "GIT_ADMISSION_AFTER"
+              ]
+            },
+            "code": {
+              "type": "string",
+              "pattern": "^[A-Z][A-Z0-9_]{0,95}$"
+            },
+            "exception_type": {
+              "type": "string",
+              "enum": [
+                "Refusal",
+                "RuntimeError",
+                "TimeoutError",
+                "OSError",
+                "ValueError",
+                "KeyError",
+                "TypeError",
+                "EOFError",
+                "PermissionError",
+                "Empty",
+                "KeyboardInterrupt",
+                "SystemExit",
+                "FileNotFoundError",
+                "Exception"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "source_identity_verified": {
+      "type": "boolean"
+    },
+    "runtime_identity_verified": {
+      "type": "boolean"
+    },
+    "runtime_reported_version_matches": {
+      "type": "boolean"
+    },
+    "git_startup_admission": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "profile",
+            "before_passed",
+            "after_passed",
+            "identities_unchanged",
+            "git_sha256",
+            "git_bytes",
+            "system_config_state",
+            "system_config_entries",
+            "system_config_bytes",
+            "system_config_sha256",
+            "global_config_paths_absent",
+            "includes_expanded",
+            "selected_helper_count",
+            "system_path_directory_count",
+            "before_identity_sha256",
+            "after_identity_sha256",
+            "source_store_owned_physical",
+            "source_common_dir_matches",
+            "source_config_profile",
+            "source_git_config_entries",
+            "source_git_config_sha256",
+            "source_active_hook_count",
+            "source_redirections_absent"
+          ],
+          "properties": {
+            "profile": {
+              "const": "LINUX_STANDARD_GIT_EMPTY_OR_SAFE_DIRECTORY_V1"
+            },
+            "before_passed": {
+              "const": true
+            },
+            "after_passed": {
+              "type": "boolean"
+            },
+            "identities_unchanged": {
+              "type": "boolean"
+            },
+            "git_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "git_bytes": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 134217728
+            },
+            "system_config_state": {
+              "type": "string",
+              "enum": [
+                "ABSENT",
+                "EMPTY",
+                "SAFE_DIRECTORY_WILDCARD"
+              ]
+            },
+            "system_config_entries": {
+              "type": "integer",
+              "enum": [
+                0,
+                1
+              ]
+            },
+            "system_config_bytes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 65536
+            },
+            "system_config_sha256": {
+              "anyOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                }
+              ]
+            },
+            "global_config_paths_absent": {
+              "const": true
+            },
+            "includes_expanded": {
+              "const": false
+            },
+            "selected_helper_count": {
+              "const": 3
+            },
+            "system_path_directory_count": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 11
+            },
+            "before_identity_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "after_identity_sha256": {
+              "anyOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                }
+              ]
+            },
+            "source_store_owned_physical": {
+              "const": true
+            },
+            "source_common_dir_matches": {
+              "const": true
+            },
+            "source_config_profile": {
+              "const": "OWNED_CHECKOUT_CORE_ORIGIN_V1"
+            },
+            "source_git_config_entries": {
+              "type": "integer",
+              "enum": [
+                6,
+                7
+              ]
+            },
+            "source_git_config_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "source_active_hook_count": {
+              "const": 0
+            },
+            "source_redirections_absent": {
+              "const": true
+            }
+          }
+        }
+      ]
+    }
+  }
+}
