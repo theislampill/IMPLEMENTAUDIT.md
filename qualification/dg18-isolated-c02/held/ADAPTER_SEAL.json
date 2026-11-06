@@ -1,0 +1,39 @@
+{
+  "actual_review_or_GO_created": false,
+  "author": "/root/c02_diagnostic_engineering",
+  "authority": "PREPARATION_ONLY",
+  "composition_author": "/root",
+  "files": [
+    {
+      "bytes": 6029,
+      "mode": 420,
+      "name": "CONTROL_FORMAT.md",
+      "sha256": "ca9f7d1050c9ed0d567a6dbf146fed081726391209514201a8f2925173a9947a"
+    },
+    {
+      "bytes": 3924,
+      "mode": 420,
+      "name": "README.md",
+      "sha256": "8c1d3433f3cb441605ad36f4daa53a19526ac478073fe6e8fcabf0bdcde65b49"
+    },
+    {
+      "bytes": 1770,
+      "mode": 420,
+      "name": "STATIC_CHECK.json",
+      "sha256": "1dc858d09ab35611c33cd1c2a80f37b1ba7cc45bfd89e714c9ef89da6efe81e9"
+    },
+    {
+      "bytes": 5375,
+      "mode": 420,
+      "name": "dg18-isolated-c02.yml",
+      "sha256": "8289b7de690909f4b438da55d507d1ada033370101d2acde7356674cf0799613"
+    },
+    {
+      "bytes": 39012,
+      "mode": 420,
+      "name": "held_control.py",
+      "sha256": "2fe71646b77e08f9f0da8ee942e41791c06a8c45ff2683f58a416e07463b4640"
+    }
+  ],
+  "schema": "r5.c02-held-adapter-code.v1"
+}

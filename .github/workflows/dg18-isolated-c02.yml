@@ -1,0 +1,118 @@
+name: R5 C02 held fresh native tail
+
+on:
+  push:
+    branches: [pro/dg18-isolated-c02-20261106]
+    paths:
+      - .github/workflows/dg18-isolated-c02.yml
+      - qualification/dg18-isolated-c02/held/**
+      - qualification/dg18-isolated-c02/bundle/**
+
+# Public Git reads use no token. The artifact action receives only its ordinary
+# platform runtime credential; no credential is mapped into the adapter/driver.
+permissions: {}
+
+concurrency:
+  group: dg18-isolated-c02-native-tail
+  cancel-in-progress: false
+
+jobs:
+  c02:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.ref == 'refs/heads/pro/dg18-isolated-c02-20261106' &&
+      github.event_name == 'push' &&
+      github.event.deleted == false &&
+      github.run_attempt == '1'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 70
+    steps:
+      - name: Acquire the exact public workflow commit without credentials
+        env:
+          C02_WORK: ${{ runner.temp }}/dg18-isolated-c02
+        timeout-minutes: 5
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          [[ "$GITHUB_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test ! -e "$C02_WORK"
+          mkdir -m 0700 "$C02_WORK"
+          git_public=(/usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_TERMINAL_PROMPT=0 /usr/bin/git)
+          "${git_public[@]}" init --quiet "$C02_WORK/worker"
+          "${git_public[@]}" -C "$C02_WORK/worker" fetch --quiet --no-tags --depth=1 https://github.com/theislampill/IMPLEMENTAUDIT.md.git "$GITHUB_SHA"
+          (
+            umask 022
+            "${git_public[@]}" -C "$C02_WORK/worker" checkout --quiet --detach FETCH_HEAD
+          )
+          test "$("${git_public[@]}" -C "$C02_WORK/worker" rev-parse HEAD)" = "$GITHUB_SHA"
+
+      - name: Bind and seal code on this host without allocating a native subject
+        env:
+          C02_WORK: ${{ runner.temp }}/dg18-isolated-c02
+        timeout-minutes: 12
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -I -B "$C02_WORK/worker/qualification/dg18-isolated-c02/held/held_control.py" prepare --work "$C02_WORK" --run-id "$GITHUB_RUN_ID" --run-attempt "$GITHUB_RUN_ATTEMPT" --workflow-commit "$GITHUB_SHA"
+
+      - name: Publish only the fixed twelve-file preparation for actual review
+        env:
+          C02_WORK: ${{ runner.temp }}/dg18-isolated-c02
+        timeout-minutes: 2
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: dg18-isolated-c02-preparation-${{ github.run_id }}-1
+          if-no-files-found: error
+          retention-days: 3
+          compression-level: 9
+          path: |
+            ${{ env.C02_WORK }}/public-preparation/AUTHORIZATION_FORMATS.json
+            ${{ env.C02_WORK }}/public-preparation/DESIGN.md
+            ${{ env.C02_WORK }}/public-preparation/INPUT_MANIFEST.json
+            ${{ env.C02_WORK }}/public-preparation/PROTOCOL_PLAN.json
+            ${{ env.C02_WORK }}/public-preparation/PROSPECTIVE_INPUT_DELTA.json
+            ${{ env.C02_WORK }}/public-preparation/PUBLIC_SCOPE.md
+            ${{ env.C02_WORK }}/public-preparation/REVIEW_REQUEST.json
+            ${{ env.C02_WORK }}/public-preparation/VERIFICATION.json
+            ${{ env.C02_WORK }}/public-preparation/c02_native_tail.py
+            ${{ env.C02_WORK }}/public-preparation/receive_tail.py
+            ${{ env.C02_WORK }}/public-preparation/SEALED_PREPARATION.json
+            ${{ env.C02_WORK }}/public-preparation/HOST_REQUEST.json
+
+      - name: Hold this job for actual review and exact root GO, then dispatch once
+        env:
+          C02_WORK: ${{ runner.temp }}/dg18-isolated-c02
+        timeout-minutes: 45
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -I -B "$C02_WORK/worker/qualification/dg18-isolated-c02/held/held_control.py" hold --work "$C02_WORK"
+
+      - name: Create the allowlisted public result without copying raw evidence
+        env:
+          C02_WORK: ${{ runner.temp }}/dg18-isolated-c02
+        id: public_summary
+        if: always()
+        timeout-minutes: 1
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          test -f "$C02_WORK/worker/qualification/dg18-isolated-c02/held/held_control.py"
+          /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -I -B "$C02_WORK/worker/qualification/dg18-isolated-c02/held/held_control.py" public-summary --work "$C02_WORK"
+
+      - name: Publish only the allowlisted observation
+        env:
+          C02_WORK: ${{ runner.temp }}/dg18-isolated-c02
+        if: always() && steps.public_summary.outcome == 'success'
+        timeout-minutes: 2
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: dg18-isolated-c02-result-${{ github.run_id }}-1
+          if-no-files-found: warn
+          retention-days: 3
+          path: ${{ env.C02_WORK }}/public-result/PUBLIC_RESULT.json

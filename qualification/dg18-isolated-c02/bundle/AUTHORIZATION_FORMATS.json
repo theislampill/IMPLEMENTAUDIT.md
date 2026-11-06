@@ -1,0 +1,38 @@
+{
+  "additional_root_scope": "Any authorization must explicitly include the isolated fixture-only Git init/commit. No project repository commit, push, public mutation, credential use, or external model call is included.",
+  "authority": "NONE",
+  "no_go_or_pass_created": true,
+  "required_review": {
+    "blocking_findings": [],
+    "decision": "PASS_ONLY_IF_ACTUALLY_REVIEWED",
+    "preparation_sha256": "EXACT_FUTURE_GENERATED_SEAL_SHA256",
+    "reviewer": "/root/c02_cold_review",
+    "schema": "implementaudit.r5.c02-native-tail-independent-review.v1"
+  },
+  "required_root_go": {
+    "allocation_authorized": [
+      "fresh-subject",
+      "fresh-controller",
+      "owned-binary-copy",
+      "one-native-app-server",
+      "one-loopback-emulated-provider",
+      "local-emulated-MCP",
+      "existing-host-store",
+      "controlled-C02",
+      "one-later-native-compaction-resume",
+      "independent-readback"
+    ],
+    "author": "/root",
+    "controller": "dg18-isolated-c02-20261106-01",
+    "decision": "GO",
+    "independent_review_sha256": "EXACT_ACTUAL_REVIEW_SHA256",
+    "one_shot": true,
+    "owned_binary": "/tmp/dg18-isolated-c02-bin-20261106-01/codex",
+    "preparation_sha256": "EXACT_FUTURE_GENERATED_SEAL_SHA256",
+    "schema": "implementaudit.r5.c02-native-tail-root-go.v1",
+    "source_commit": "35bf9823856eb4efe254b882954120480632230e",
+    "source_tree": "abe08aabc83de3b27c43e6acf28646fb089f0f34",
+    "subject": "/tmp/dg18-isolated-c02-20261106-01"
+  },
+  "schema": "r5.c02-06.authorization-formats.v1"
+}

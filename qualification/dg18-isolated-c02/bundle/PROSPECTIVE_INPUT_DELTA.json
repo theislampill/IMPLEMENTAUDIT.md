@@ -1,0 +1,42 @@
+{
+  "author": "/root/c02_diagnostic_engineering",
+  "authority": "NONE",
+  "automatic_retry": false,
+  "component_seal_sha256": "17965cf1d0535a14be6f9aa91a4114504da6707521bc18c6aee28fd8709b31ca",
+  "composition_author": "/root",
+  "cumulative_source_residual": {
+    "applicability_accepted": false,
+    "changed_source_members": 7,
+    "publication_parent": "0d57929be5bd15682b4e9da2c0209d5dff307843"
+  },
+  "expected_reviewer": "/root/c02_cold_review",
+  "input_population": 92,
+  "native_executed": false,
+  "native_source_commit": "35bf9823856eb4efe254b882954120480632230e",
+  "native_source_tree": "abe08aabc83de3b27c43e6acf28646fb089f0f34",
+  "old_grants_reused": false,
+  "original_acceptance": false,
+  "publication_parent": "0d57929be5bd15682b4e9da2c0209d5dff307843",
+  "review_or_GO_created": false,
+  "schema": "dg18.c02-isolated.author-status.v1",
+  "source_members": 81,
+  "source_scope_rule": "Fresh native35bf-scoped component; cumulative current0d C02 qualification remains open.",
+  "status": "FROZEN_FOR_INDEPENDENT_TECHNICAL_REVIEW",
+  "support_changes": [
+    {
+      "after_sha256": "d8b962ad96dea3ae3ef7b66016c00e79d73112783d1e3c77a3c86a73fbfa1a49",
+      "before_sha256": "2d7e86617ee433cb304501cf3b041d74b33dea26bf8909a7e1102a441fb99b3d",
+      "key": "retained/native_transport.py"
+    },
+    {
+      "after_sha256": "383441a232f320ea402498c230d2900be66f47aa9ba8d509f33371aeb5a488c3",
+      "before_sha256": "685e7b6052a2bc0a6a79323b51c8b7f15afe718c7def962cfcf2124e4741293c",
+      "key": "owner-continuation"
+    },
+    {
+      "after_sha256": "276d87dce700ef63e37077e27163869b12d509119e023384dea21848996f51c5",
+      "before_sha256": "b95b328bd0ca48034507165814056295cd733d626c33e28fdc02c1dad8dee12e",
+      "key": "protocol-plan"
+    }
+  ]
+}
