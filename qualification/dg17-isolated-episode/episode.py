@@ -4,7 +4,7 @@
 Maintained claim/activation/continuity owners supply all custody authority.
 Command capture and child containment reuse the unchanged reviewed host utility.
 """
-import argparse, ctypes, hashlib, json, os, platform, re, stat, sys, tarfile, time, types, urllib.request
+import argparse, ctypes, errno, hashlib, json, os, platform, re, stat, sys, tarfile, time, types, urllib.request
 from pathlib import Path
 
 REPO = 'theislampill/IMPLEMENTAUDIT.md'
@@ -18,24 +18,15 @@ PINS_SHA = 'ffbdea844b4e77e8ce7616712c0cda57a59995ab32efdf22f001fc41a61c5eaf'
 CLAIM = 'skills/implementaudit/scripts/claim-run.sh'
 AUTHOR = 'fixtures/controller-initialization/author_checkpoint.py'
 DOCS = ('STATE.md', 'PROTOCOL.md', 'ROADMAP.md', 'THINKING.md', 'sidecars.md', 'tools.md', 'context.md', 'phases/phase-1.md')
-STEPS = ('prepare', 'initialize', 'discover', 'invalidate', 'read-state', 'read-roadmap', 'resume', 'verify', 'require', 'predicates', 'runtime', 'catalogue', 'receive')
+STEPS = ('prepare', 'initialize', 'discover', 'invalidate', 'read-state', 'read-roadmap', 'resume', 'verify', 'require', 'runtime', 'catalogue', 'receive')
 PUBLIC = ('RESULT.json', 'SOURCE.json', 'HOST.json', 'CURRENTNESS.json', 'PREDICATES.json', 'CATALOGUE.json', 'CLEANUP.json', 'FAILURE.json', 'ARTIFACT_MANIFEST.json')
-PURPOSE = 'Qualify seven selected claim identity predicate methods and one offline Codex catalog and ordinary cleanup cycle against the frozen DG17 subject; retain actual results without original acceptance.'
-NEXT = 'Run only the seven selected pure methods and the explicitly reviewed offline catalog cleanup cycle, receive bounded observations and preserve final source and live currentness evidence.'
+PURPOSE = 'Qualify only the frozen-source offline Codex catalogue and unchanged ordinary cleanup cycle in a constructed private filesystem view; reference the already independently received seven-method component without replay or original acceptance.'
+NEXT = 'Run only the separately admitted private-view catalogue and cleanup cycle, preserve actual before/after host and currentness observations, and verify prior-component source closure without rerunning its methods.'
 ARCHIVE_URL = 'https://github.com/openai/codex/releases/download/rust-v0.167.0-alpha.4/codex-x86_64-unknown-linux-musl.tar.gz'
 ARCHIVE_SHA = 'c4fd6fdeedf0ae78cc4d1d9dde4282c57a4a67c38319e3575b9a1e4d46c9ccc6'
 ARCHIVE_BYTES = 123815356
 BINARY_SHA = '57c94ea520df28beb76955316c5c48f672550fe42c6cff7003badb76e1ee10d8'
 BINARY_BYTES = 324012616
-EXPECTED_METHODS = {
-    'test_windows_api_difference_preserves_both_mutation_checks',
-    'test_unqualified_runtime_retains_strict_chain',
-    'test_required_windows_metadata_refuses_missing_and_wrong_types',
-    'test_qualified_windows_split_is_accepted_by_each_binder',
-    'test_each_common_or_same_api_field_mutation_is_refused',
-    'test_other_runtimes_keep_the_strict_chain',
-    'test_missing_or_wrong_type_common_metadata_fails_closed',
-}
 PREDICATE_SCOPE = {
     'direct_source_applicability': ['T06', 'T08', 'Y04', 'BINDING_POSITIVE'],
     'component_only': ['T12'],
@@ -43,6 +34,13 @@ PREDICATE_SCOPE = {
     'narrow_receiving_input_only': ['T14'],
     'ceiling': 'SYNTHETIC_IDENTITY_PREDICATES_ONLY_NO_NATIVE_OR_ORIGINAL_AWARD',
 }
+
+CAPSULE_TARGETS = ('/opt', '/usr/local/bin')
+CAPSULE_SCRIPT = 'set -eu\n[ "$EUID" -eq 0 ]\n[ "$#" -eq 23 ]\n[ -d /opt ] && [ ! -L /opt ]\n[ -d /usr/local/bin ] && [ ! -L /usr/local/bin ]\n/usr/bin/mount --internal-only --no-mtab -t tmpfs -o ro,nodev,nosuid,noexec,size=4096,uid=0,gid=0,mode=0755 tmpfs /opt\n/usr/bin/mount --internal-only --no-mtab -t tmpfs -o ro,nodev,nosuid,noexec,size=4096,uid=0,gid=0,mode=0755 tmpfs /usr/local/bin\nexec /usr/bin/setpriv --reuid "$1" --regid "$2" --clear-groups --no-new-privs /usr/bin/python3 -I -S -B -c "$3" "$1" "$2" "$4" "$5" "$6" "$7" "${@:8}"\n'
+CAPSULE_SCRIPT_SHA = 'e05faf4d0a37f0b2cebc47905ffa13a4fe92f60aaba3e0127e171653e68d74a2'
+CAPSULE_CODE = "import hashlib,json,os,re,stat,subprocess,sys\nTARGETS=('/opt','/usr/local/bin')\ndef need(ok,code):\n    if not ok: raise RuntimeError(code)\ndef encode(value):return (json.dumps(value,sort_keys=True,indent=2,allow_nan=False)+'\\n').encode()\ndef sha(raw):return hashlib.sha256(raw).hexdigest()\ndef parse_mounts(raw):\n    need(type(raw) is bytes and len(raw)<=1048576,'MOUNTINFO_BOUND')\n    lines=raw.decode('ascii').splitlines();need(1<=len(lines)<=4096,'MOUNTINFO_POPULATION')\n    rows={};private=True\n    for line in lines:\n        fields=line.split();need('-' in fields,'MOUNTINFO_SHAPE');split=fields.index('-')\n        need(split>=6 and len(fields)>=split+4,'MOUNTINFO_SHAPE')\n        if any(x.startswith(('shared:','master:','propagate_from:')) for x in fields[6:split]):private=False\n        if fields[4] not in TARGETS:continue\n        path=fields[4];need(path not in rows,'DUPLICATE_TARGET_MOUNT')\n        opts=fields[5].split(',');superopts=fields[split+3].split(',')\n        size=[x[5:] for x in superopts if x.startswith('size=')]\n        need(len(size)==1 and re.fullmatch(r'[0-9]+[kKmMgG]?',size[0]),'TMPFS_SIZE')\n        token=size[0];suffix=token[-1].lower();factor={'k':1024,'m':1048576,'g':1073741824}.get(suffix,1)\n        number=int(token[:-1]) if suffix in 'kmg' else int(token)\n        need(all(re.fullmatch(r'[0-9]{1,12}',fields[i]) for i in (0,1)),'MOUNT_ID')\n        rows[path]={'path':path,'mount_id':int(fields[0]),'parent_mount_id':int(fields[1]),'mount_root':fields[3],\n                    'filesystem':fields[split+1],'mount_source':fields[split+2],\n                    'readonly':'ro' in opts and 'rw' not in opts and 'ro' in superopts and 'rw' not in superopts,\n                    'nodev':'nodev' in opts,'nosuid':'nosuid' in opts,'noexec':'noexec' in opts,\n                    'size_bytes':number*factor,'mount_options_sha256':sha(fields[5].encode()),\n                    'super_options_sha256':sha(fields[split+3].encode())}\n    need(set(rows)==set(TARGETS),'TARGET_MOUNTS_MISSING')\n    return private,len(lines),[rows[path] for path in TARGETS]\ndef snapshot(uid,gid,parent):\n    namespace=os.readlink('/proc/self/ns/mnt')\n    raw=open('/proc/self/mountinfo','rb').read(1048577)\n    private,count,rows=parse_mounts(raw)\n    fields={}\n    for line in open('/proc/self/status',encoding='ascii'):\n        if ':' in line:\n            key,value=line.split(':',1);fields[key]=value.strip()\n    uids=[int(x) for x in fields['Uid'].split()];gids=[int(x) for x in fields['Gid'].split()]\n    caps={key:int(fields[key],16) for key in ('CapEff','CapPrm','CapAmb')}\n    for row in rows:\n        path=row['path'];info=os.lstat(path)\n        row.update(directory_uid=info.st_uid,directory_gid=info.st_gid,mode=stat.S_IMODE(info.st_mode),\n                   directory=stat.S_ISDIR(info.st_mode),symlink=stat.S_ISLNK(info.st_mode),\n                   entries=len(os.listdir(path)),device=info.st_dev,inode=info.st_ino)\n    result={'mount_namespace_sha256':sha(namespace.encode()),'namespace_distinct':namespace!=parent,\n            'private_propagation':private,'mountinfo_sha256':sha(raw),'mount_count':count,\n            'uids':uids,'gids':gids,'groups':os.getgroups(),'capabilities':caps,\n            'no_new_privileges':int(fields['NoNewPrivs']),'mounts':rows}\n    need(result['namespace_distinct'] and private and uids==[uid]*4 and gids==[gid]*4 and\n         not result['groups'] and all(v==0 for v in caps.values()) and result['no_new_privileges']==1,'PRIVILEGE_OR_NAMESPACE')\n    need(all(row['filesystem']=='tmpfs' and row['mount_source']=='tmpfs' and row['mount_root']=='/' and\n             row['mount_id']>0 and row['parent_mount_id']>0 and row['mount_id']!=row['parent_mount_id'] and\n             all(row[key] is True for key in ('readonly','nodev','nosuid','noexec','directory')) and\n             row['symlink'] is False and row['size_bytes']==4096 and row['directory_uid']==0 and\n             row['directory_gid']==0 and row['mode']==0o755 and row['entries']==0 for row in rows),'TARGET_VIEW')\n    return result\ndef write(path,value,uid):\n    parent=os.path.dirname(path);info=os.lstat(parent)\n    need(os.path.realpath(parent)==parent and stat.S_ISDIR(info.st_mode) and info.st_uid==uid,'PROOF_PARENT')\n    raw=encode(value);need(len(raw)<=16384,'PROOF_BOUND')\n    fd=os.open(path,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600)\n    with os.fdopen(fd,'wb') as stream:stream.write(raw);stream.flush();os.fsync(stream.fileno())\n    return sha(raw)\ndef run():\n    need(len(sys.argv)==23,'ARGUMENT_POPULATION')\n    uid=int(sys.argv[1]);gid=int(sys.argv[2]);before_path=sys.argv[3];result_path=sys.argv[4];parent=sys.argv[5]\n    need(uid>0 and gid>0 and re.fullmatch(r'mnt:\\[[0-9]+\\]',parent),'ARGUMENT_VALUE')\n    need(os.path.basename(before_path)=='CAPSULE_ADMISSION.json' and\n         os.path.basename(result_path)=='CAPSULE_RESULT.json' and\n         os.path.dirname(before_path)==os.path.dirname(result_path),'PROOF_PATHS')\n    argv=['/usr/bin/python3','-I','-S','-B',*sys.argv[6:]]\n    argv_sha=sha(encode(argv));before=snapshot(uid,gid,parent)\n    proof={'schema':'dg17.private-view-admission.v1','child_argv_sha256':argv_sha,'snapshot':before}\n    before_sha=write(before_path,proof,uid)\n    child_rc=None;after=None;failure=None\n    try:\n        child=subprocess.Popen(argv,stdin=subprocess.DEVNULL,close_fds=True)\n        child_rc=child.wait()\n    except BaseException:\n        failure='CHILD_START_OR_WAIT_REFUSED'\n    try:after=snapshot(uid,gid,parent)\n    except BaseException:\n        failure=failure or 'AFTER_VIEW_REFUSED'\n    result={'schema':'dg17.private-view-result.v1','before_sha256':before_sha,'child_argv_sha256':argv_sha,\n            'before':before,'after':after,'child_returncode':child_rc,'failure':failure}\n    write(result_path,result,uid)\n    return 0 if failure is None and child_rc==0 and before==after else 1\nif __name__=='__main__':\n    try:sys.exit(run())\n    except BaseException as exc:\n        if isinstance(exc,SystemExit):raise\n        sys.stderr.write('DG17_CAPSULE_ADMISSION_REFUSED\\n');sys.exit(1)\n"
+CAPSULE_CODE_SHA = '251897b19f07971dd61ddbd7291508f9e4b5e19b3a1a2c502cb5ca7a02ffc74d'
+PRIOR_COMPONENT = {'run_id': 42210454718, 'attempt': 1, 'artifact_id': 13497879213, 'artifact_sha256': '9a285ea3756238ac689669782b690a5aa05dfdbbe14a2c285694085ce3b70847', 'predicate_member_sha256': '9028d6711dc1e02b2babf6fc5e4e70974a99a3ed54b547d391ded3f8033af73a', 'source_commit': '0d57929be5bd15682b4e9da2c0209d5dff307843', 'source_tree': 'ee316c27250ec422d35a1ea965182ebddf7a5da0', 'test_path': 'tests/shell_companion_source_custody.py', 'test_source_sha256': '22ffd31ff45e1f439759c45bb5c67bde5e8390b69b54030833476e80aaee7f08', 'independent_receipt_sha256': '9ba49dfeb1ec8e7ac3c4fe122e5c89227340405fa729d48c0c651b8fa12bf07f', 'root_receipt_sha256': 'a63dc54e1812ddf4a57091360d09753fc3b0c9dae90d6cddd4bcc757bc550a64', 'scope': 'SYNTHETIC_IDENTITY_PREDICATES_ONLY_NO_NATIVE_OR_ORIGINAL_AWARD'}
 
 class Refusal(Exception): pass
 def need(test, code):
@@ -232,6 +230,183 @@ def acquire_runtime(output):
     need(stream_hash(binary) == (BINARY_BYTES, BINARY_SHA), 'BINARY_PIN')
     os.chmod(binary, 0o700)
     return {'archive_sha256': ARCHIVE_SHA, 'archive_bytes': ARCHIVE_BYTES, 'binary_sha256': BINARY_SHA, 'binary_bytes': BINARY_BYTES, 'version_subject': 'codex-cli 0.167.0-alpha.4', 'input_retained_until_host_teardown': True}
+
+def mount_role():
+    path = Path('/usr/bin/mount').resolve(strict=True); info = path.lstat()
+    need(stat.S_ISREG(info.st_mode) and os.access(path, os.X_OK) and stat.S_IMODE(info.st_mode) in (0o755, 0o4755), 'MOUNT_ROLE_MODE')
+    for node in (path, *path.parents):
+        value = node.lstat(); need(value.st_uid == 0 and not value.st_mode & 0o022, 'MOUNT_ROLE_ANCESTRY')
+    try: cap = os.getxattr(path, 'security.capability')
+    except OSError as exc:
+        need(exc.errno in (errno.ENODATA, errno.ENOTSUP), 'MOUNT_ROLE_CAPABILITY_UNKNOWN'); cap = b''
+    need(not cap, 'MOUNT_ROLE_FILE_CAPABILITY')
+    with path.open('rb') as stream: header = stream.read(64)
+    need(len(header) == 64 and header[:6] == b'\x7fELF\x02\x01' and int.from_bytes(header[18:20], 'little') == 62, 'MOUNT_ROLE_ELF_X64')
+    size, sha = stream_hash(path); after = path.lstat()
+    identity = lambda x: (x.st_dev,x.st_ino,x.st_uid,x.st_gid,x.st_mode,x.st_size,x.st_mtime_ns,x.st_ctime_ns)
+    need(identity(info) == identity(after), 'MOUNT_ROLE_CHANGED')
+    return {'canonical': str(path), 'bytes': size, 'sha256': sha, 'root_owned_nonwritable_chain': True,
+            'mode': oct(stat.S_IMODE(info.st_mode)), 'file_capabilities': False, 'elf64_little_endian_x86_64': True,
+            'device':info.st_dev,'inode':info.st_ino,'uid':info.st_uid,'gid':info.st_gid,
+            'mtime_ns':info.st_mtime_ns,'ctime_ns':info.st_ctime_ns,
+            'admitted_effect': 'ROOT_ONLY_INTERNAL_TMPFS_MOUNT_IN_PRIVATE_NAMESPACE'}
+def capsule_outside():
+    rows = {}
+    for name in ('/', '/usr', '/usr/local', '/opt', '/usr/local/bin'):
+        path = Path(name); info = path.lstat(); mode = stat.S_IMODE(info.st_mode)
+        need(path.resolve(strict=True) == path and stat.S_ISDIR(info.st_mode) and info.st_uid == 0 and info.st_gid == 0, 'CAPSULE_OUTSIDE_PHYSICAL_ROOT')
+        need(mode in (0o755, 0o777) if name in CAPSULE_TARGETS else not mode & 0o022, 'CAPSULE_OUTSIDE_MODE')
+        rows[name] = {'device': info.st_dev, 'inode': info.st_ino, 'uid': info.st_uid, 'gid': info.st_gid,
+                      'mode': mode, 'mtime_ns': info.st_mtime_ns, 'ctime_ns': info.st_ctime_ns}
+    return rows
+def capsule_host_snapshot(state, u):
+    tools = {}
+    for name in ('bash', 'unshare', 'setpriv', 'python3', 'env', 'timeout'):
+        path, observed = u.trusted(name)
+        need(path is not None and observed == state['host']['tools'][name], 'CAPSULE_ROOT_UTILITY_DRIFT')
+        info = Path(path).lstat()
+        tools[name] = {'admission': observed, 'device': info.st_dev, 'inode': info.st_ino,
+                       'mode': stat.S_IMODE(info.st_mode), 'uid': info.st_uid, 'gid': info.st_gid,
+                       'mtime_ns': info.st_mtime_ns, 'ctime_ns': info.st_ctime_ns}
+    observed = mount_role(); need(observed == state['host']['tools']['mount'], 'CAPSULE_MOUNT_TOOL_DRIFT')
+    tools['mount'] = observed
+    sudo = Path('/usr/bin/sudo').resolve(strict=True); info = sudo.lstat()
+    for node in (sudo, *sudo.parents):
+        item = node.lstat(); need(item.st_uid == 0 and not item.st_mode & 0o022, 'CAPSULE_SUDO_ANCESTRY')
+    need(stat.S_ISREG(info.st_mode) and stat.S_IMODE(info.st_mode) == 0o4755 and
+         stream_hash(sudo) == (state['host']['tools']['sudo']['bytes'], state['host']['tools']['sudo']['sha256']), 'CAPSULE_SUDO_DRIFT')
+    try: cap = os.getxattr(sudo, 'security.capability')
+    except OSError as exc:
+        need(exc.errno in (errno.ENODATA,errno.ENOTSUP), 'CAPSULE_SUDO_CAPABILITY_UNKNOWN'); cap = b''
+    need(not cap, 'CAPSULE_SUDO_FILE_CAPABILITY')
+    tools['sudo'] = {'device': info.st_dev, 'inode': info.st_ino, 'mode': stat.S_IMODE(info.st_mode),
+                     'uid': info.st_uid, 'gid': info.st_gid, 'mtime_ns': info.st_mtime_ns, 'ctime_ns': info.st_ctime_ns,
+                     'sha256': state['host']['tools']['sudo']['sha256']}
+    namespace = os.readlink('/proc/self/ns/mnt'); need(re.fullmatch(r'mnt:\[[0-9]+\]', namespace), 'PARENT_MOUNT_NAMESPACE')
+    return {'outside': capsule_outside(), 'root_tools': tools, 'parent_mount_namespace': namespace}
+def capsule_snapshot_valid(value, uid, gid, parent_namespace):
+    keys = {'mount_namespace_sha256', 'namespace_distinct', 'private_propagation', 'mountinfo_sha256', 'mount_count',
+            'uids', 'gids', 'groups', 'capabilities', 'no_new_privileges', 'mounts'}
+    if type(value) is not dict or set(value) != keys: return False
+    hexsha = lambda x: type(x) is str and re.fullmatch('[0-9a-f]{64}', x) is not None
+    if not all(hexsha(value[k]) for k in ('mount_namespace_sha256', 'mountinfo_sha256')): return False
+    if value['mount_namespace_sha256'] == digest(parent_namespace.encode()) or value['namespace_distinct'] is not True or value['private_propagation'] is not True: return False
+    if type(value['mount_count']) is not int or not 3 <= value['mount_count'] <= 4096: return False
+    for key, expected in (('uids', uid), ('gids', gid)):
+        if type(value[key]) is not list or len(value[key]) != 4 or not all(type(x) is int and x == expected for x in value[key]): return False
+    if value['groups'] != [] or type(value['groups']) is not list: return False
+    caps = value['capabilities']
+    if type(caps) is not dict or set(caps) != {'CapEff', 'CapPrm', 'CapAmb'} or not all(type(x) is int and x == 0 for x in caps.values()): return False
+    if type(value['no_new_privileges']) is not int or value['no_new_privileges'] != 1: return False
+    rows = value['mounts']
+    rowkeys = {'path','mount_id','parent_mount_id','mount_root','filesystem','mount_source','readonly','nodev','nosuid','noexec','size_bytes',
+               'mount_options_sha256','super_options_sha256','directory_uid','directory_gid','mode',
+               'directory','symlink','entries','device','inode'}
+    if type(rows) is not list or len(rows) != 2: return False
+    for path, row in zip(CAPSULE_TARGETS, rows):
+        if type(row) is not dict or set(row) != rowkeys or row['path'] != path: return False
+        if row['filesystem'] != 'tmpfs' or row['mount_source'] != 'tmpfs' or row['mount_root'] != '/': return False
+        if not all(type(row[k]) is int and row[k] > 0 for k in ('mount_id','parent_mount_id')) or row['mount_id'] == row['parent_mount_id']: return False
+        if not all(row[k] is True for k in ('readonly','nodev','nosuid','noexec','directory')) or row['symlink'] is not False: return False
+        for key, expected in (('size_bytes',4096),('directory_uid',0),('directory_gid',0),('mode',0o755),('entries',0)):
+            if type(row[key]) is not int or row[key] != expected: return False
+        if not all(type(row[k]) is int and row[k] > 0 for k in ('device','inode')): return False
+        if not all(hexsha(row[k]) for k in ('mount_options_sha256','super_options_sha256')): return False
+    if rows[0]['mount_id'] == rows[1]['mount_id']: return False
+    return True
+def capsule_recheck(state, u, phase):
+    before = state['capsule_private']['host_before']; after = capsule_host_snapshot(state, u)
+    equal = after == before
+    state['capsule']['outside_rechecks'][phase] = {'unchanged': equal, 'identity_sha256': digest(encoded(after))}
+    need(equal, 'CAPSULE_OUTSIDE_OR_UTILITY_CHANGED')
+def receive_capsule(state, output):
+    before_raw = read(output/'private/CAPSULE_ADMISSION.json', 16384)
+    before = json.loads(before_raw, object_pairs_hook=unique_object)
+    expected = state['capsule_private']['child_argv_sha256']; parent = state['capsule_private']['host_before']['parent_mount_namespace']
+    need(type(before) is dict and set(before) == {'schema','child_argv_sha256','snapshot'} and
+         before['schema'] == 'dg17.private-view-admission.v1' and before['child_argv_sha256'] == expected and
+         capsule_snapshot_valid(before['snapshot'], os.getuid(), os.getgid(), parent), 'CAPSULE_BEFORE_PROOF')
+    first_sha = digest(before_raw); previous = state['capsule'].get('admission_sha256')
+    need(previous is None or previous == first_sha, 'CAPSULE_BEFORE_PROOF_CHANGED')
+    state['capsule'].update(admission_sha256=first_sha, before=before['snapshot'], admitted_before=True)
+    raw = read(output/'private/CAPSULE_RESULT.json', 16384); value = json.loads(raw, object_pairs_hook=unique_object)
+    keys = {'schema','before_sha256','child_argv_sha256','before','after','child_returncode','failure'}
+    need(type(value) is dict and set(value) == keys and value['schema'] == 'dg17.private-view-result.v1' and
+         value['before_sha256'] == first_sha and value['child_argv_sha256'] == expected and value['before'] == before['snapshot'],
+         'CAPSULE_RESULT_BINDING')
+    after_ok = capsule_snapshot_valid(value['after'], os.getuid(), os.getgid(), parent)
+    rc = value['child_returncode']
+    need(type(rc) is int and -128 <= rc <= 255 and value['failure'] in (None,'CHILD_START_OR_WAIT_REFUSED','AFTER_VIEW_REFUSED'), 'CAPSULE_RESULT_VALUE')
+    result_sha = digest(raw); previous = state['capsule'].get('result_sha256')
+    need(previous is None or previous == result_sha, 'CAPSULE_RESULT_CHANGED')
+    state['capsule'].update(result_sha256=result_sha, child_returncode=rc,
+                            after=value['after'] if after_ok else None,
+                            before_after_equal=after_ok and value['before'] == value['after'])
+    need(after_ok and value['before'] == value['after'] and rc == 0 and value['failure'] is None, 'CAPSULE_AFTER_OR_CHILD_REFUSED')
+    state['capsule']['status'] = 'OBSERVED_PRIVATE_VIEW_BEFORE_AFTER'
+def prior_component(state, source, phase):
+    expected = {'status':'PRIOR_COMPONENT_NOT_REPLAYED','reference':PRIOR_COMPONENT,'fresh_execution':False,
+                'fresh_method_count':0,'native_windows_qualification':False,'new_original_awards':[],
+                'source_closure':{'prepare':False,'receive':False,'final':False}}
+    if 'predicates' not in state: state['predicates'] = expected
+    row = state['predicates']; closure = row.get('source_closure')
+    need(type(row) is dict and set(row) == set(expected) and type(closure) is dict and set(closure) == {'prepare','receive','final'} and
+         all(type(x) is bool for x in closure.values()) and {k:v for k,v in row.items() if k!='source_closure'} == {k:v for k,v in expected.items() if k!='source_closure'}, 'PRIOR_COMPONENT_REFERENCE')
+    closure[phase] = False
+    need(SOURCE == PRIOR_COMPONENT['source_commit'] and TREE == PRIOR_COMPONENT['source_tree'] and
+         state.get('source_before', {}).get('commit') == SOURCE and state['source_before'].get('tree') == TREE and
+         state['source_before'].get('all_manifest_members_match') is True and
+         digest(read(source/PRIOR_COMPONENT['test_path'])) == PRIOR_COMPONENT['test_source_sha256'], 'PRIOR_COMPONENT_SOURCE_CLOSURE')
+    closure[phase] = True
+def observe_capsule_failure(state, label, exc):
+    state['failures'].append({'step':label,'exception_type':type(exc).__name__,
+                              'message_sha256':digest(str(exc).encode()),'message_bytes':len(str(exc).encode())})
+def launch_catalogue(state, source, output, packet, u):
+    need(digest(CAPSULE_SCRIPT.encode()) == CAPSULE_SCRIPT_SHA and digest(CAPSULE_CODE.encode()) == CAPSULE_CODE_SHA, 'CAPSULE_LITERAL_PIN')
+    host = capsule_host_snapshot(state, u)
+    netns = os.readlink('/proc/self/ns/net')
+    probe_args = ['--source',str(source),'--episode',str(output),'--binary',str(output/'private/codex-input'),
+                  '--controller',state['controller'],'--receipt',state['receipt'],'--expected-uid',str(os.getuid()),
+                  '--expected-gid',str(os.getgid()),'--parent-netns',netns]
+    child_argv = ['/usr/bin/python3','-I','-S','-B',str(packet/'catalogue_probe.py'),*probe_args]
+    state['capsule_private'] = {'host_before':host,'child_argv_sha256':digest(encoded(child_argv))}
+    state['capsule'] = {'profile':'PRIVATE_READONLY_EMPTY_TMPFS_VIEW_V1','status':'PREPARED_NOT_OBSERVED',
+                        'qualification_scope':'CONSTRUCTED_PRIVATE_VIEW_NOT_STOCK_INSTALLATION_PATH_QUALIFICATION',
+                        'targets':list(CAPSULE_TARGETS),'root_watchdog_seconds':165,'root_kill_after_seconds':5,
+                        'root_script_sha256':CAPSULE_SCRIPT_SHA,'inline_code_sha256':CAPSULE_CODE_SHA,
+                        'outside_before_sha256':digest(encoded(host)),'outside_rechecks':{},
+                        'admitted_before':False,'before_after_equal':False,'admission_sha256':None,
+                        'result_sha256':None,'before':None,'after':None,'child_returncode':None}
+    save(output/'private/episode.json', state)
+    argv = ['/usr/bin/sudo','-n','/usr/bin/timeout','--signal=TERM','--kill-after=5s','165s',
+            '/usr/bin/unshare','--mount','--net','--propagation','private','--',
+            '/usr/bin/bash','--noprofile','--norc','-c',CAPSULE_SCRIPT,'dg17-private-view',
+            str(os.getuid()),str(os.getgid()),CAPSULE_CODE,
+            str(output/'private/CAPSULE_ADMISSION.json'),str(output/'private/CAPSULE_RESULT.json'),
+            host['parent_mount_namespace'],str(packet/'catalogue_probe.py'),*probe_args]
+    failure = None
+    try: command(state, output, u, 'offline-native-catalogue', argv, seconds=180)
+    except BaseException as exc: failure = exc
+    for label, action in (('capsule-outside-after',lambda:capsule_recheck(state,u,'after-command')),
+                          ('capsule-proof-after',lambda:receive_capsule(state,output))):
+        try: action()
+        except BaseException as exc:
+            observe_capsule_failure(state,label,exc)
+            if failure is None: failure = exc
+    try:
+        if (output/'private/CATALOGUE_RESULT.json').exists():
+            receive_catalogue(state, packet, read(output/'private/CATALOGUE_RESULT.json', 65536))
+            record = state['commands'][-1]
+            state['catalogue_validation']['captured_result_matches'] = False
+            if record.get('name') == 'offline-native-catalogue' and record.get('streams_complete') is True:
+                captured = json.loads(read(output/'private'/f'{len(state["commands"]):03d}-offline-native-catalogue.stdout', 32768), object_pairs_hook=unique_object)
+                need(catalogue_schema_matches(captured, json.loads(read(packet/'PUBLIC_RESULT_SCHEMA.json'))) and captured == state['catalogue'], 'CATALOGUE_CAPTURE_DIFFERS')
+                state['catalogue_validation']['captured_result_matches'] = True
+    except BaseException as exc:
+        observe_capsule_failure(state,'catalogue-receiving',exc)
+        if failure is None: failure = exc
+    if failure is not None: raise failure
+
 def execute(step, state, source, output, packet, u):
     if step == 'prepare':
         need(os.getuid() == os.geteuid() > 0 and os.getgid() == os.getegid() > 0, 'ORDINARY_RUNNER_IDENTITY')
@@ -246,16 +421,18 @@ def execute(step, state, source, output, packet, u):
         need(command(state, output, u, 'fresh-controller-refs', ['/usr/bin/git', 'for-each-ref', '--format=%(refname)', 'refs/implementaudit']) == b'', 'IMPORTED_CONTROLLER_REFS')
         need(not command(state, output, u, 'fresh-source-clean', ['/usr/bin/git', 'status', '--porcelain=v1', '--untracked-files=all']), 'SOURCE_DIRTY')
         tools = {}
-        for name in ('python3', 'git', 'bash', 'env', 'unshare', 'setpriv'):
+        for name in ('python3', 'git', 'bash', 'env', 'unshare', 'setpriv', 'timeout'):
             path, observed = u.trusted(name); need(path is not None, 'HOST_TOOL_'+name); tools[name] = observed
+        tools['mount'] = mount_role()
         sudo = Path('/usr/bin/sudo').resolve(strict=True)
         for path in (sudo, *sudo.parents):
             info = path.lstat(); need(info.st_uid == 0 and not info.st_mode & 0o022, 'SUDO_ANCESTRY')
         need(stat.S_IMODE(sudo.stat().st_mode) == 0o4755, 'SUDO_EXPECTED_SETUID_MODE')
         size, sha = stream_hash(sudo)
-        tools['sudo'] = {'canonical': str(sudo), 'bytes': size, 'sha256': sha, 'root_owned_nonwritable_chain': True, 'mode': '04755', 'admitted_effect': 'ONE_NEW_NETWORK_NAMESPACE_THEN_DROP_TO_ACTUAL_RUNNER_UID_AND_GID_WITH_NO_NEW_PRIVILEGES'}
+        tools['sudo'] = {'canonical': str(sudo), 'bytes': size, 'sha256': sha, 'root_owned_nonwritable_chain': True, 'mode': '04755', 'admitted_effect': 'ROOT_WATCHDOG_PRIVATE_MOUNT_AND_NETWORK_NAMESPACES_FIXED_READONLY_TMPFS_TARGETS_THEN_DROP_UID_GID_NO_NEW_PRIVILEGES'}
         state['host'] = {'platform': platform.system(), 'kernel': platform.release(), 'python': list(sys.version_info[:3]), 'uid': os.getuid(), 'gid': os.getgid(), 'tools': tools, 'provider_calls': 0}
         state['source_before'] = source_check(source, packet)
+        prior_component(state, source, 'prepare')
     elif step == 'initialize':
         raw = owner(state, source, output, u, 'fresh-claim', '--controller', state['controller'], 'dg17-isolated-native')
         run = raw.decode('ascii').strip(); need(re.fullmatch(r'\.IMPLEMENTAUDIT/runs/dg17-isolated-native-[A-Za-z0-9]{6}', run), 'RUN_ROOT')
@@ -285,22 +462,6 @@ def execute(step, state, source, output, packet, u):
     elif step == 'verify':
         need(owner(state, source, output, u, 'verify', '--verify-resume-receipt', state['receipt']) == (state['receipt']+'\n').encode(), 'VERIFY')
     elif step == 'require': current(state, source, output, u, 'initial-currentness')
-    elif step == 'predicates':
-        current(state, source, output, u, 'before-predicates')
-        start = len(state['commands']); failure = None
-        try:
-            command(state, output, u, 'seven-portable-methods', ['/usr/bin/python3', '-I', '-B', str(source/'tests/shell_companion_source_custody.py'), 'CompanionIdentityPredicate', 'CompanionLoadIdentityPredicate', '-v'])
-        except BaseException as exc: failure = exc
-        capture = state['commands'][start] if len(state['commands']) > start else None
-        stderr_path = output/'private'/f'{start+1:03d}-seven-portable-methods.stderr'
-        stderr = read(stderr_path, 32768).decode('utf-8') if stderr_path.exists() else ''
-        rows = re.findall(r'^(test_[a-zA-Z0-9_]+) \(([^\n]+)\) \.\.\. (ok|FAIL|ERROR|skipped[^\n]*)$', stderr, re.MULTILINE)
-        passed = failure is None and len(rows) == 7 and {r[0] for r in rows} == EXPECTED_METHODS and all(r[2] == 'ok' for r in rows) and bool(re.search(r'Ran 7 tests in [0-9.]+s\s+OK\s*$', stderr))
-        state['predicates'] = {'status': 'PASS_SEVEN_PORTABLE_METHODS' if passed else 'FAILED_OR_PARTIAL', 'methods': [{'method': x[0], 'identity': x[1], 'status': x[2]} for x in rows], 'test_source_sha256': digest(read(source/'tests/shell_companion_source_custody.py')), 'command': capture, 'source_applicability': PREDICATE_SCOPE, 'live_mechanical_receiving_complete': False, 'native_windows_qualification': False, 'new_original_awards': []}
-        if failure is not None: raise failure
-        need(passed, 'SEVEN_METHOD_RESULT')
-        current(state, source, output, u, 'after-predicates')
-        state['predicates']['live_mechanical_receiving_complete'] = True
     elif step == 'runtime':
         current(state, source, output, u, 'before-runtime-acquisition'); state['runtime'] = acquire_runtime(output)
         version = command(state, output, u, 'codex-version', [str(output/'private/codex-input'), '--version']).decode().strip()
@@ -308,22 +469,13 @@ def execute(step, state, source, output, packet, u):
         current(state, source, output, u, 'after-runtime-acquisition')
     elif step == 'catalogue':
         current(state, source, output, u, 'before-catalogue')
-        netns = os.readlink('/proc/self/ns/net')
-        try:
-            command(state, output, u, 'offline-native-catalogue', ['/usr/bin/sudo', '-n', '/usr/bin/unshare', '--net', '--', '/usr/bin/setpriv', '--reuid', str(os.getuid()), '--regid', str(os.getgid()), '--clear-groups', '--no-new-privs', '/usr/bin/python3', '-I', '-S', '-B', str(packet/'catalogue_probe.py'), '--source', str(source), '--episode', str(output), '--binary', str(output/'private/codex-input'), '--controller', state['controller'], '--receipt', state['receipt'], '--expected-uid', str(os.getuid()), '--expected-gid', str(os.getgid()), '--parent-netns', netns], seconds=180)
-        finally:
-            if (output/'private/CATALOGUE_RESULT.json').exists():
-                receive_catalogue(state, packet, read(output/'private/CATALOGUE_RESULT.json', 65536))
-                record = state['commands'][-1]
-                state['catalogue_validation']['captured_result_matches'] = False
-                if record.get('name') == 'offline-native-catalogue' and record.get('streams_complete') is True:
-                    captured = json.loads(read(output/'private'/f'{len(state["commands"]):03d}-offline-native-catalogue.stdout', 32768), object_pairs_hook=unique_object)
-                    need(catalogue_schema_matches(captured, json.loads(read(packet/'PUBLIC_RESULT_SCHEMA.json'))) and captured == state['catalogue'], 'CATALOGUE_CAPTURE_DIFFERS')
-                    state['catalogue_validation']['captured_result_matches'] = True
+        launch_catalogue(state, source, output, packet, u)
         current(state, source, output, u, 'after-catalogue')
     elif step == 'receive':
         current(state, source, output, u, 'before-receiving')
-        need(state.get('predicates', {}).get('status') == 'PASS_SEVEN_PORTABLE_METHODS', 'PREDICATES_NOT_RECEIVED')
+        prior_component(state, source, 'receive')
+        receive_capsule(state, output)
+        capsule_recheck(state, u, 'receive')
         need(state.get('catalogue_validation', {}).get('valid') is True and state['catalogue_validation'].get('captured_result_matches') is True and catalogue_success(state.get('catalogue', {}), os.getuid(), os.getgid()), 'CATALOGUE_NOT_RECEIVED')
         git = state['catalogue']['git_startup_admission']; admitted = state['host']['tools']['git']
         need(git['git_sha256'] == admitted['sha256'] and git['git_bytes'] == admitted['bytes'], 'CATALOGUE_GIT_BINDING')
@@ -346,9 +498,9 @@ def export(state, output, packet):
     docs = {
         'RESULT.json': {'schema': 'dg17.isolated-hosted-result.v1', 'context': state['context'], 'completed': state['completed'], 'failed': state['failed'], 'bounded_receiving_complete': state.get('bounded_receiving_complete', False), 'catalogue_validation': state.get('catalogue_validation'), 'local_currentness_transfer': False, 'original_acceptance': False, 'whole_T12': False, 'whole_T14': False, 'new_original_awards': []},
         'SOURCE.json': {'before': state.get('source_before'), 'after': state.get('source_after'), 'canonical_unchanged': state.get('canonical_unchanged')},
-        'HOST.json': {'host': state.get('host'), 'runtime': state.get('runtime')},
+        'HOST.json': {'host': state.get('host'), 'runtime': state.get('runtime'), 'capsule': state.get('capsule')},
         'CURRENTNESS.json': {'checks': state['currentness'], 'reads': state['reads'], 'local_or_future_transfer': False},
-        'PREDICATES.json': state.get('predicates', {'status': 'NOT_COMPLETED'}),
+        'PREDICATES.json': state.get('predicates', {'status':'PRIOR_COMPONENT_NOT_REPLAYED','reference':PRIOR_COMPONENT,'fresh_execution':False,'fresh_method_count':0,'native_windows_qualification':False,'new_original_awards':[],'source_closure':{'prepare':False,'receive':False,'final':False}}),
         'CATALOGUE.json': state.get('catalogue', {'status': 'NOT_COMPLETED'}),
         'CLEANUP.json': {'commands': state['commands'], 'active_step': state.get('active_step'), 'active_command': state.get('active_command'), 'all_recorded_commands_reaped': all(x.get('cleanup', {}).get('echild') is True for x in state['commands']), 'private_roots_retained_until_disposable_host_teardown': True},
         'FAILURE.json': {'failures': state['failures']}}
@@ -377,6 +529,13 @@ def main():
         need(state['context']['run_id'] == run_id and state['context']['workflow_commit'] == env['GITHUB_SHA'], 'EPISODE_IDENTITY')
     if source.exists(): os.chdir(source)
     if a.step == 'finalize':
+        if 'capsule_private' in state:
+            try:
+                capsule_recheck(state, u, 'final')
+                receive_capsule(state, output)
+            except BaseException as exc:
+                state['failed'] = True; state['bounded_receiving_complete'] = False
+                observe_capsule_failure(state, 'capsule-final', exc)
         if state.get('active_step') is not None or state.get('active_command') is not None or state['completed'] != list(STEPS) or not state.get('receipt') or not all(row.get('cleanup', {}).get('echild') is True for row in state['commands']) or state.get('bounded_receiving_complete') is not True:
             state['failed'] = True
             state['bounded_receiving_complete'] = False
@@ -388,6 +547,7 @@ def main():
                 state['canonical_unchanged'] = canonical_hashes(source, state) == state['canonical_before']
                 state['source_after'] = source_check(source, packet)
                 need(state['canonical_unchanged'] and state['source_after'] == state['source_before'], 'FINAL_SOURCE_OR_STATE_DRIFT')
+                prior_component(state, source, 'final')
                 if state.get('bounded_receiving_complete') is True:
                     need(digest(read(output/'private/CATALOGUE_RESULT.json', 65536)) == state['catalogue_validation']['result_sha256'] and catalogue_success(state['catalogue'], os.getuid(), os.getgid()), 'FINAL_CATALOGUE_RESULT_DRIFT')
                     receive_private_seal(state, output)
