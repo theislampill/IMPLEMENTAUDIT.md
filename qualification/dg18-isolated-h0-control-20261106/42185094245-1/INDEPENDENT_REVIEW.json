@@ -1,0 +1,191 @@
+{
+  "authority": "NONE",
+  "binary_boundary": {
+    "archive_pin": {
+      "bytes": 172325449,
+      "category": "official-archive",
+      "key": "official-binary-archive",
+      "mode": 384,
+      "path": "/home/runner/work/_temp/dg18-isolated-h0-20261106/codex-official.tar.gz",
+      "sha256": "cbc00a26d3d0e2ceefc4be8891f8a81ef1e349b3b175bc0ae308762bc001fd93"
+    },
+    "binary_bytes": 319346888,
+    "binary_member": "package/vendor/x86_64-unknown-linux-musl/bin/codex",
+    "binary_sha256": "b8a11fedf24b2dfb59a70c9e52b030f9a508dcd49cd2dd0d41956f4c785156b8",
+    "native_binary_extracted_or_executed_by_reviewer": false,
+    "owned_binary": "/home/runner/work/_temp/dg18-isolated-h0-20261106/private/binary/codex"
+  },
+  "blocking_findings": [],
+  "candidate_author": "/root/h0_c02_diagnosis",
+  "candidate_binding": {
+    "author_tools_rehashed": 9,
+    "bundle_seal_sha256": "cb3ebc5eac50397c8ead009cde50afcc78ea31f6bba3e412d600cad46ac0a23a",
+    "candidate_files_rehashed": 25,
+    "candidate_review_unchanged": true,
+    "frozen_seal_sha256": "2ade0d98832c0b6a68a84e592d4e180a11173d4559b58768788debfb71e62e3e",
+    "independent_candidate_review_seal_sha256": "9b599125631e65dfc8d3604f7da3685283babfd51ff319f4343a41f9bafa73c9",
+    "independent_candidate_review_sha256": "cda3070c237e8a78ca08752f6308aa65c0997dbd8518260ca8695f0bb71cb992",
+    "prior_review_members_rehashed": 34,
+    "static_preparation_files_byte_identical": 8
+  },
+  "context_reused": false,
+  "control_branch": "pro/dg18-isolated-h0-control-20261106",
+  "control_path": "qualification/dg18-isolated-h0-control-20261106/42185094245-1",
+  "controller": "dg18-isolated-h0-20261106-01",
+  "created_at": "2026-11-06T08:13:19.507310+00:00",
+  "custody_evidence": {
+    "actual_exported_system_chains_inspected": 3,
+    "all_102_manifest_content_pins_inspected": true,
+    "direct_remote_physical_measurement_by_reviewer": false,
+    "local_host_identity_substituted": false,
+    "official_archive_bytes_independently_downloaded": false,
+    "official_archive_pin_compared_with_reviewed_constant": 1,
+    "private_aggregate_census_accessed": false,
+    "private_aggregate_census_recomputed": false,
+    "private_aggregate_enforcement": "Unchanged reviewed same-job host owner retains the full physical census and compares it at the prescribed effect-time gates. The public request exposes its exact digest. This review inspects that binding and the exported three-system metadata, not the unexported census bytes.",
+    "reviewed_public_code_pins_compared": 15,
+    "runtime_pins_compared_with_local_frozen_source": 83,
+    "system_content_bytes_independently_downloaded": false
+  },
+  "decision": "PASS",
+  "findings": [
+    {
+      "conclusion": "The supplied archive digest and size, twelve exact regular 100644 ZIP members, CRC-checked original bytes, extracted files, transport manifest, sealed ten inner preparation members, request digest and input-manifest digest all agree. Strict JSON parsing and syntax checks succeeded. No additional artifact member is present.",
+      "id": "AH1",
+      "result": "PASS",
+      "topic": "Actual transport and preparation"
+    },
+    {
+      "conclusion": "The actual request matches the allocated repository, run, first attempt, workflow commit, source commit/parent/tree, fresh subject/controller, fresh control namespace, ordered eleven allocations and unchanged 1500/900-second limits. Retained root-acquired commit readback has exactly source 0d579 as sole parent and workflow tree 8355826. The public push run metadata agrees. Fresh branch absence and zero active/queued launch capacity are documented in root records.",
+      "id": "AH2",
+      "result": "PASS",
+      "topic": "Actual source, workflow and namespace binding"
+    },
+    {
+      "conclusion": "All 83 runtime rows match the frozen template and actual frozen source bytes, sizes, modes and Git blob identities. All 15 code rows match the exact reviewed public payload and bundle seal. The official archive row matches the reviewed archive pin. All three system rows match their exported custody metadata. Keys, paths and runtime destinations are unique and canonical; the input total is 189746840 bytes below 268435456.",
+      "id": "AH3",
+      "result": "PASS",
+      "topic": "All 102 declared content pins"
+    },
+    {
+      "conclusion": "Python resolves from /usr/bin/python3 through the recorded root-owned python3.12 symlink to /usr/bin/python3.12. Git and Bash resolve directly. All three exported executable identities are distinct regular single-link root-owned mode 0755 files, with matching content pins, sizes and final invocation-node identities. The complete root-owned ancestor metadata agrees across all three chains and has no group/world writable directories.",
+      "id": "AH4",
+      "result": "PASS",
+      "topic": "Exported system invocation and physical metadata"
+    },
+    {
+      "conclusion": "The request binds the exact private aggregate custody digest. The byte-identical reviewed host owner compares all 102 physical/content census rows around the pure preparation check and immediately before exclusive dispatch reservation, and rechecks the control head. The native driver repeats preparation custody checks. Future owned-binary creation remains gated by the exact archive physical identity, unique member, size, SHA256, mode 0500 and version checks. No future binary or native currentness is claimed as observed.",
+      "id": "AH5",
+      "result": "PASS",
+      "topic": "Custody enforcement and future binary boundary"
+    },
+    {
+      "conclusion": "The actual code and pins are the previously independently reviewed candidate. Original seven-occurrence mechanics, response validation, live receiving and cleanup remain unchanged, with closed envelope-only diagnostics. Preparation declares native execution, currentness and authorization false. Review creates no external provider permission, original H0/AC05 acceptance, authentic OR, RETURN, JOIN or lifecycle authority.",
+      "id": "AH6",
+      "result": "PASS",
+      "topic": "Effects, diagnostics, cleanup and authority ceiling"
+    }
+  ],
+  "formal_audit_assess": false,
+  "formal_route_receipt": null,
+  "historical_author": "/root/h0_c02_or",
+  "host_request_sha256": "0aa67239a22f9f45d00d6644717a866c41a5cbe352757ff2ed825a582f56c5cd",
+  "identity_provenance": "self-report",
+  "input_custody_sha256": "71f0d405d02b6d5fea6a8b99b141928ff15cf4a4d0e79b7e6ad9a8dfda32e789",
+  "input_manifest_sha256": "151327010021002d405e6e1d77e6ef490bf0498e6b0209d737b43c73b765d3ca",
+  "issuer": null,
+  "job_id": "127783439672",
+  "limitations": [
+    "Review is of exported public preparation evidence and exact reviewed code. All 102 content pins were inspected, while complete remote physical custody remains host-enforced and was not independently remeasured by the reviewer.",
+    "Run/job/artifact origin and publication records were acquired by root. The reviewer inspected retained records and independently verified packet bytes without calling GitHub.",
+    "Preparation metadata reports native execution and currentness false. This review supplies no native currentness, host-UID admission proof or borrowed local-root controller state.",
+    "No actual GO, control publication, native execution, owner-effect outcome, historical CURRENT_BIND diagnosis, original acceptance, public RETURN or JOIN is authored or established by this review."
+  ],
+  "owned_binary": "/home/runner/work/_temp/dg18-isolated-h0-20261106/private/binary/codex",
+  "preparation_artifact_id": "13487170930",
+  "preparation_sha256": "e61aec1527e6b819834b52d7c267f54b21061a7d791c0c312081d56a9dff2151",
+  "remaining_effect_time_gates": [
+    "Root separately authors the actual one-shot GO for this exact request, preparation, custody digest, subject/controller, source tuple and the hash of these original review bytes.",
+    "The existing 1500-second hold must remain unextended. Expiry, changed preparation/input custody, changed control head or a prior dispatch reservation must refuse execution.",
+    "Root retains max1 consequential native and max1 additional hosted scheduling. The unchanged host checks and maintained native admission/currentness guards must succeed on this actual host before their corresponding effects.",
+    "The seven-occurrence result, live original-reader receiving, final currentness and bounded cleanup remain future observations. This review does not assert their success."
+  ],
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "review_kind": "COMMISSION_AUTHORIZED_BOUNDED_INDEPENDENT_ACTUAL_HOST_TECHNICAL_REVIEW",
+  "reviewer": "/root/h0_cold_review",
+  "reviewer_authored_candidate": false,
+  "reviewer_continuity": "Same actual allocated independent reviewer as the preceding candidate review. That immutable disposition was inspected as requested evidence; no authoring-agent identity or borrowed review is used.",
+  "run_attempt": "1",
+  "run_id": "42185094245",
+  "schema": "r5.h0-independent-host-review.v1",
+  "scope": "The actual twelve-file public preparation for this first-attempt held job, all 102 declared input content pins, exported system custody metadata, the exact frozen candidate, and root-acquired publication/run transport records. Technical preparation review only; no native result or execution authorization is asserted.",
+  "source_commit": "0d57929be5bd15682b4e9da2c0209d5dff307843",
+  "source_parent": "481e529b691ed3d21169b07f376e357ae51f1f03",
+  "source_tree": "ee316c27250ec422d35a1ea965182ebddf7a5da0",
+  "subject": "/home/runner/work/_temp/dg18-isolated-h0-20261106/private/subject",
+  "system_inputs": [
+    {
+      "bytes": 8020928,
+      "direct_host_measurement_by_reviewer": false,
+      "gid": 0,
+      "invocation": "/usr/bin/python3",
+      "key": "system/python3",
+      "mode": 493,
+      "nlink": 1,
+      "nodes": 4,
+      "resolved": "/usr/bin/python3.12",
+      "sha256": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+      "uid": 0
+    },
+    {
+      "bytes": 4640352,
+      "direct_host_measurement_by_reviewer": false,
+      "gid": 0,
+      "invocation": "/usr/bin/git",
+      "key": "system/git",
+      "mode": 493,
+      "nlink": 1,
+      "nodes": 3,
+      "resolved": "/usr/bin/git",
+      "sha256": "824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235",
+      "uid": 0
+    },
+    {
+      "bytes": 1446024,
+      "direct_host_measurement_by_reviewer": false,
+      "gid": 0,
+      "invocation": "/usr/bin/bash",
+      "key": "system/bash",
+      "mode": 493,
+      "nlink": 1,
+      "nodes": 3,
+      "resolved": "/usr/bin/bash",
+      "sha256": "bc5945feb8bd26203ebfafea5ce1878bb2e32cb8fb50ab7ae395cfb1e1aaaef1",
+      "uid": 0
+    }
+  ],
+  "transport": {
+    "archive_bytes": 48115,
+    "archive_sha256": "3ea302afad12f252affab8ae17e84e96ed42e2d1115bc3ea585bf0e13ad88782",
+    "expanded_bytes": 162836,
+    "independent_network_fetch_by_reviewer": false,
+    "member_count": 12,
+    "origin_provenance": "Root-provided artifact acquisition and retained public GitHub API records; independently rehashed and inspected by the reviewer.",
+    "original_zip_and_extracted_bytes_equal": true
+  },
+  "verification": {
+    "aggregate_input_bytes": 189746840,
+    "aggregate_input_ceiling_bytes": 268435456,
+    "candidate_source_or_prior_review_modified": false,
+    "individual_input_pins_passed": 102,
+    "preparation_members": 12,
+    "reviewer_credentials_used": false,
+    "reviewer_external_writes": false,
+    "reviewer_git_mutations": false,
+    "reviewer_native_controller_provider_execution": false,
+    "supporting_verification_sha256": "dad4e4ed06a2be62e4bbf16830a92b2666fed7a18fd56d591d2e4552c53d1d9d",
+    "verification_groups_passed": 7
+  },
+  "workflow_commit": "e2c097005a5d8b02d670bff20f9fba71000d975f",
+  "workflow_tree": "8355826bc21a8d28e7002e1604777f5ca0484611"
+}
