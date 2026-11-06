@@ -1,0 +1,94 @@
+{
+  "actual_host_tuple": "PENDING_NOT_ALLOCATED",
+  "author": "/root/h0_c02_diagnosis",
+  "authority": "NONE",
+  "before_dispatch": [
+    "Read exact reviewed public code and source on a new Ubuntu24.04 job; no native subject allocation.",
+    "Fetch and stream-hash exact official 0.166 archive. Bind all83runtime inputs, archive, three system executables with invocation chains, and15public code/seal/workflow files.",
+    "Bind original physical identity, content digest, mode and ancestor chain of all102inputs to HOST_REQUEST via input_custody_sha256; seal12public preparation files.",
+    "Retain same job/files for at most1500seconds. Receive actual independent host review and separately authored root GO from fixed public control branch.",
+    "Recheck all input bytes and physical identity before and after the final pure preparation check; re-read the same control commit; check again immediately before exclusive reservation."
+  ],
+  "ceilings": {
+    "control_file_bytes": 65536,
+    "execution_seconds": 900,
+    "hold_seconds": 1500,
+    "input_members": 102,
+    "input_total_bytes": 268435456,
+    "job_minutes": 70,
+    "native_protocol_bytes": 33554432,
+    "native_requests": 8192,
+    "native_stderr_bytes": 8388608,
+    "outer_children_text_bytes": 160,
+    "outer_cleanup_seconds": 4,
+    "outer_live_children": 8,
+    "outer_stderr_bytes": 32768,
+    "outer_stdout_bytes": 32768,
+    "outer_terminal_wait_statuses": 4096,
+    "prepare_minutes": 12,
+    "provider_request_bytes": 2097152,
+    "provider_requests": 32,
+    "provider_response_bytes": 2097152,
+    "public_summary_bytes": 4096,
+    "runtime_members": 83,
+    "selected_reader_record_bytes": 262144,
+    "selected_reader_records": 64,
+    "selected_reader_total_bytes": 2097152,
+    "single_file_bytes": 319346888
+  },
+  "control_branch": "pro/dg18-isolated-h0-control-20261106-02",
+  "diagnostic_scope": "Pinned MCP-server refusal text is distinct from a child-owner receipt. Closed qualification stages explain unqualified cached envelopes; all effects remain UNCONFIRMED.",
+  "historical_source_admission_seal_sha256": "f4d984a93f10d6339acaf9490e3c16e7dd742b57df3a4cbd535c4fc65e3d424d",
+  "one_shot_execution": [
+    "Allocate one isolated fixture commit and fresh controller; actual initializer, activation, resume, verify and require.",
+    "Copy exact official binary to owned500mode path, validate version; one closed loopback emulated Responses provider and one native app-server; no external model invocation.",
+    "Create one root thread. Actual seed, one necessary compact and resumed turn supply the same-session completed-resumed pending scope.",
+    "Bind actual host-store activation and fixed mechanical selection before source registration. Invalidate real continuity at the actual boundary; read STATE then ROADMAP; resume/verify/require the new epoch.",
+    "Use existing route decide/open with exact actual proof and capsule; consume only the fresh source capsule once; keep old archive and pending untouched.",
+    "Actual native child spawn and seven MCP operations: priorLOAD, priorDELIVER, priororiginalBIND, distinct completed exactBINDretry, later preparation revision, currentLOAD/DELIVER/BIND.",
+    "Use original R selected-occurrence export. Distinct receiving process invokes original R again with source/canonical/process custody live, proves exact seven classes and pending remains unconsumed.",
+    "Final currentness and input fence before close; owned pidfd shutdown and unchanged Linux03 outer subreaper cleanup. No retry or original acceptance."
+  ],
+  "predecessor": {
+    "GO": "CONSUMED",
+    "exact_cause": "UNKNOWN",
+    "reader_completed": false,
+    "replay": false,
+    "run_id": "42185094245"
+  },
+  "private_output": [
+    "Fresh controller/run files and Git refs",
+    "Native transport/source records and child messages",
+    "Command arguments/stdout/stderr and traceback",
+    "Full mechanical result, original reader export, source pins and pending state"
+  ],
+  "public_output": [
+    "Fixed12preparation files containing only reviewed code and fresh input/host binding metadata.",
+    "One closed PUBLIC_RESULT.json containing phases/completed milestones, bounded diagnostic enums/status/hashes, receiving predicates and cleanup state; no messages or paths."
+  ],
+  "qualification_limits": {
+    "authentic_OR": false,
+    "formal_governor_decision": false,
+    "independent_cognition": false,
+    "local_native_or_controller_execution": false,
+    "new_join": false,
+    "new_return": false,
+    "new_subject_boundary_count": 1,
+    "old_44_controls_not_rerun": true,
+    "old_83_archive_entries_reused_as_history": true,
+    "old_pending_consumed": false,
+    "original_acceptance": false
+  },
+  "review_status": "PENDING_ACTUAL_INDEPENDENT_REVIEW",
+  "runtime_closure": {
+    "all_exact_bytes_sizes_modes": true,
+    "historical_source": "481e529b691ed3d21169b07f376e357ae51f1f03",
+    "members": 83,
+    "selected_current_source": "0d57929be5bd15682b4e9da2c0209d5dff307843"
+  },
+  "schema": "r5.h0-held-plan.v1",
+  "source_commit": "0d57929be5bd15682b4e9da2c0209d5dff307843",
+  "source_parent": "481e529b691ed3d21169b07f376e357ae51f1f03",
+  "source_tree": "ee316c27250ec422d35a1ea965182ebddf7a5da0",
+  "workflow_branch": "pro/dg18-isolated-h0-20261106-02"
+}

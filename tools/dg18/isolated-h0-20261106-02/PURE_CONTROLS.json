@@ -1,0 +1,644 @@
+{
+  "actual_host_tuple": "PENDING",
+  "all_positive_authorization_and_receipt_values": "INERT_GRAMMAR_FIXTURES_ONLY_NOT_REVIEW_GO_OR_NATIVE_PROOF",
+  "authority": "NONE",
+  "baseline_red": {
+    "actual_source_handler_fixtures": 9,
+    "causes": [
+      "SUPPORTED_REFUSAL_CLASSIFICATION_LOST",
+      "QUALIFICATION_STAGE_MISSING_OR_WRONG"
+    ],
+    "failed_as_expected": 20,
+    "native_reconstruction": false
+  },
+  "checked_runtime_code": {
+    "INPUT_TEMPLATE.json": "9cf48894dc042cce0b0808ec61140ec33eb90200df5beb80d1c4ce6df33c1a28",
+    "held_control.py": "be010bc4b3ec64e582e397debbc1abd2bce189b26df47fea6b71a9aea97385d3",
+    "host_io.py": "832af3c1ebcfbb356970602c39d33bc7d81eb3b75d2c28355ebdcaf572d55114",
+    "host_utility.py": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c",
+    "live_receiver.py": "ace6f387d85fa9f6be50febd2d443d8aef26b4294b4eefdcc4d596912b7788a2",
+    "mechanical_driver.py": "fbcbd6af2042f64f18b422b273978d79ff7692f8b8eee9c137a6844400967975",
+    "native_driver.py": "2a178742d5e08972cea4aad930b8d87e9c587b82b340002d439d430eb731b50f",
+    "native_transport.py": "60dd721c37a44d820fde02f66abe54f22587db5a6fad27547500bd9b70e39c26",
+    "provider.py": "d3bd454bafb6fe4bdc1d9c74168953161c522657c337791b52402b0bc10b88fc"
+  },
+  "independent_review": false,
+  "largest_public_result_bytes": 3612,
+  "native_execution": false,
+  "passed": 142,
+  "predecessor_cause": "UNKNOWN",
+  "public_effects": false,
+  "public_result_limit": 4096,
+  "root_GO": "PENDING",
+  "schema": "dg18.h0-v2-author-controls.v1",
+  "source_commit": "0d57929be5bd15682b4e9da2c0209d5dff307843",
+  "source_tree": "ee316c27250ec422d35a1ea965182ebddf7a5da0",
+  "status": "AUTHOR_CONTROLS_PASSED_PENDING_INDEPENDENT_REVIEW",
+  "suites": [
+    {
+      "checks": [
+        {
+          "name": "actual_source_handler_known_guard_is_distinct_from_owner_receipt",
+          "passed": true
+        },
+        {
+          "name": "actual_source_post_subprocess_output_bound_keeps_effect_unknown",
+          "passed": true
+        },
+        {
+          "name": "actual_source_post_subprocess_utf8_decode_keeps_effect_unknown",
+          "passed": true
+        },
+        {
+          "name": "actual_source_handler_private_reason",
+          "passed": true
+        },
+        {
+          "name": "actual_source_handler_unknown_uppercase",
+          "passed": true
+        },
+        {
+          "name": "actual_source_handler_subprocess_timeout",
+          "passed": true
+        },
+        {
+          "name": "actual_source_handler_long_private_reason",
+          "passed": true
+        },
+        {
+          "name": "actual_source_handler_unknown_exception_type",
+          "passed": true
+        },
+        {
+          "name": "actual_source_handler_known_reason_with_newline",
+          "passed": true
+        },
+        {
+          "name": "malformed_other_text",
+          "passed": true
+        },
+        {
+          "name": "malformed_missing_separator",
+          "passed": true
+        },
+        {
+          "name": "malformed_invalid_type",
+          "passed": true
+        },
+        {
+          "name": "malformed_overlong_body",
+          "passed": true
+        },
+        {
+          "name": "malformed_json_string_not_refusal_text",
+          "passed": true
+        },
+        {
+          "name": "cached_envelope_guard_duplicate_call_id",
+          "passed": true
+        },
+        {
+          "name": "cached_envelope_guard_duplicate_output",
+          "passed": true
+        },
+        {
+          "name": "cached_envelope_guard_foreign_output",
+          "passed": true
+        },
+        {
+          "name": "cached_envelope_guard_bad_metadata",
+          "passed": true
+        },
+        {
+          "name": "cached_envelope_guard_bad_framing",
+          "passed": true
+        },
+        {
+          "name": "cached_envelope_guard_copied_receipt_in_wrong_call",
+          "passed": true
+        }
+      ],
+      "name": "ACTUAL_SOURCE_GREEN.json",
+      "passed": 20,
+      "total": 20
+    },
+    {
+      "checks": [
+        {
+          "name": "qualified_nonzero_owner_receipt_retains_reason_and_source_error",
+          "passed": true
+        },
+        {
+          "name": "unknown_private_owner_reason_is_closed_unknown",
+          "passed": true
+        },
+        {
+          "name": "unknown_uppercase_reason_requires_the_fixed_source_codebook",
+          "passed": true
+        },
+        {
+          "name": "zero_exit_invalid_result_remains_failure_without_owner_refusal_claim",
+          "passed": true
+        },
+        {
+          "name": "zero_exit_source_validation_failure_stays_unaccepted",
+          "passed": true
+        },
+        {
+          "name": "unqualified_malformed_framing",
+          "passed": true
+        },
+        {
+          "name": "unqualified_duplicate_output",
+          "passed": true
+        },
+        {
+          "name": "unqualified_foreign_output",
+          "passed": true
+        },
+        {
+          "name": "unqualified_bad_metadata",
+          "passed": true
+        },
+        {
+          "name": "unqualified_duplicate_receipt_key",
+          "passed": true
+        },
+        {
+          "name": "unqualified_retry_missing",
+          "passed": true
+        },
+        {
+          "name": "unqualified_repeated_call_id",
+          "passed": true
+        },
+        {
+          "name": "unqualified_receipt_selection_sha256",
+          "passed": true
+        },
+        {
+          "name": "unqualified_receipt_request_sha256",
+          "passed": true
+        },
+        {
+          "name": "unqualified_receipt_stdout_sha256",
+          "passed": true
+        },
+        {
+          "name": "unqualified_receipt_exit_code",
+          "passed": true
+        },
+        {
+          "name": "unqualified_receipt_operation",
+          "passed": true
+        },
+        {
+          "name": "distinct_exact_retry_binds_only_its_own_call_and_output",
+          "passed": true
+        },
+        {
+          "name": "successful_response_and_single_operation_unchanged",
+          "passed": true
+        },
+        {
+          "name": "diagnostic_sink_failure_cannot_replace_primary_exception",
+          "passed": true
+        },
+        {
+          "name": "owner_refusal_requires_exact_typed_authority_ceiling",
+          "passed": true
+        }
+      ],
+      "name": "EXISTING_DIAGNOSTIC_CONTROLS.json",
+      "passed": 21,
+      "total": 21
+    },
+    {
+      "checks": [
+        {
+          "name": "summary_ceiling_0",
+          "passed": true
+        },
+        {
+          "name": "owner_diagnostic_all_milestones_receiving_cleanup_fit_4096",
+          "passed": true
+        },
+        {
+          "name": "owner_diagnostic_keeps_observation_and_original_acceptance_ceiling",
+          "passed": true
+        },
+        {
+          "name": "owner_primary_failure_survives_cleanup",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_4",
+          "passed": true
+        },
+        {
+          "name": "server_diagnostic_all_milestones_receiving_cleanup_fit_4096",
+          "passed": true
+        },
+        {
+          "name": "server_diagnostic_keeps_observation_and_original_acceptance_ceiling",
+          "passed": true
+        },
+        {
+          "name": "server_primary_failure_survives_cleanup",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_8",
+          "passed": true
+        },
+        {
+          "name": "unqualified_diagnostic_all_milestones_receiving_cleanup_fit_4096",
+          "passed": true
+        },
+        {
+          "name": "unqualified_diagnostic_keeps_observation_and_original_acceptance_ceiling",
+          "passed": true
+        },
+        {
+          "name": "unqualified_primary_failure_survives_cleanup",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_12",
+          "passed": true
+        },
+        {
+          "name": "server_extra_private_field_omitted_without_private_text",
+          "passed": true
+        },
+        {
+          "name": "server_extra_private_field_primary_failure_retained",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_15",
+          "passed": true
+        },
+        {
+          "name": "server_private_reason_omitted_without_private_text",
+          "passed": true
+        },
+        {
+          "name": "server_private_reason_primary_failure_retained",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_18",
+          "passed": true
+        },
+        {
+          "name": "server_private_type_omitted_without_private_text",
+          "passed": true
+        },
+        {
+          "name": "server_private_type_primary_failure_retained",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_21",
+          "passed": true
+        },
+        {
+          "name": "server_malformed_text_hash_omitted_without_private_text",
+          "passed": true
+        },
+        {
+          "name": "server_malformed_text_hash_primary_failure_retained",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_24",
+          "passed": true
+        },
+        {
+          "name": "server_owner_exit_claim_omitted_without_private_text",
+          "passed": true
+        },
+        {
+          "name": "server_owner_exit_claim_primary_failure_retained",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_27",
+          "passed": true
+        },
+        {
+          "name": "server_owner_reason_claim_omitted_without_private_text",
+          "passed": true
+        },
+        {
+          "name": "server_owner_reason_claim_primary_failure_retained",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_30",
+          "passed": true
+        },
+        {
+          "name": "server_stdout_claim_omitted_without_private_text",
+          "passed": true
+        },
+        {
+          "name": "server_stdout_claim_primary_failure_retained",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_33",
+          "passed": true
+        },
+        {
+          "name": "server_stderr_claim_omitted_without_private_text",
+          "passed": true
+        },
+        {
+          "name": "server_stderr_claim_primary_failure_retained",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_36",
+          "passed": true
+        },
+        {
+          "name": "server_no_effect_claim_omitted_without_private_text",
+          "passed": true
+        },
+        {
+          "name": "server_no_effect_claim_primary_failure_retained",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_39",
+          "passed": true
+        },
+        {
+          "name": "server_acceptance_claim_omitted_without_private_text",
+          "passed": true
+        },
+        {
+          "name": "server_acceptance_claim_primary_failure_retained",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_42",
+          "passed": true
+        },
+        {
+          "name": "server_unfinished_envelope_omitted_without_private_text",
+          "passed": true
+        },
+        {
+          "name": "server_unfinished_envelope_primary_failure_retained",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_45",
+          "passed": true
+        },
+        {
+          "name": "server_foreign_primary_phase_omitted_without_private_text",
+          "passed": true
+        },
+        {
+          "name": "server_foreign_primary_phase_primary_failure_retained",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_48",
+          "passed": true
+        },
+        {
+          "name": "unqualified_partial_call_hash_omitted_without_private_text",
+          "passed": true
+        },
+        {
+          "name": "unqualified_partial_call_hash_primary_failure_retained",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_51",
+          "passed": true
+        },
+        {
+          "name": "unqualified_partial_text_hash_omitted_without_private_text",
+          "passed": true
+        },
+        {
+          "name": "unqualified_partial_text_hash_primary_failure_retained",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_54",
+          "passed": true
+        },
+        {
+          "name": "unqualified_server_reason_omitted_without_private_text",
+          "passed": true
+        },
+        {
+          "name": "unqualified_server_reason_primary_failure_retained",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_57",
+          "passed": true
+        },
+        {
+          "name": "unqualified_complete_claim_omitted_without_private_text",
+          "passed": true
+        },
+        {
+          "name": "unqualified_complete_claim_primary_failure_retained",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_60",
+          "passed": true
+        },
+        {
+          "name": "unqualified_private_stage_omitted_without_private_text",
+          "passed": true
+        },
+        {
+          "name": "unqualified_private_stage_primary_failure_retained",
+          "passed": true
+        },
+        {
+          "name": "summary_ceiling_63",
+          "passed": true
+        },
+        {
+          "name": "owner_server_reason_cross_claim_omitted_without_private_text",
+          "passed": true
+        },
+        {
+          "name": "owner_server_reason_cross_claim_primary_failure_retained",
+          "passed": true
+        }
+      ],
+      "name": "PUBLIC_DIAGNOSTIC_CONTROLS.json",
+      "passed": 66,
+      "total": 66
+    },
+    {
+      "checks": [
+        {
+          "name": "byte_identical_mechanical_driver.py",
+          "passed": true
+        },
+        {
+          "name": "byte_identical_live_receiver.py",
+          "passed": true
+        },
+        {
+          "name": "byte_identical_native_transport.py",
+          "passed": true
+        },
+        {
+          "name": "byte_identical_provider.py",
+          "passed": true
+        },
+        {
+          "name": "byte_identical_host_utility.py",
+          "passed": true
+        },
+        {
+          "name": "byte_identical_INPUT_TEMPLATE.json",
+          "passed": true
+        },
+        {
+          "name": "only_fresh_identity_literals_native_driver.py",
+          "passed": true
+        },
+        {
+          "name": "only_fresh_identity_literals_held_control.py",
+          "passed": true
+        },
+        {
+          "name": "only_one_added_pure_observer_helper",
+          "passed": true
+        },
+        {
+          "name": "all_other_host_helpers_and_Progress_exact_AST",
+          "passed": true
+        },
+        {
+          "name": "existing_projection_guards_order_receipt_logic_and_catch_exact_AST",
+          "passed": true
+        },
+        {
+          "name": "only_declared_namespace_and_diagnostic_constants_differ",
+          "passed": true
+        },
+        {
+          "name": "new_helper_only_pure_text_enum_and_hash_operations",
+          "passed": true
+        },
+        {
+          "name": "changed_observer_functions_add_no_io_or_effect_call",
+          "passed": true
+        },
+        {
+          "name": "runtime_83_exact_bytes_sizes_modes_unchanged",
+          "passed": true
+        },
+        {
+          "name": "all_runtime_and_cleanup_ceilings_unchanged",
+          "passed": true
+        }
+      ],
+      "name": "OPERATIVE_EQUIVALENCE.json",
+      "passed": 16,
+      "total": 16
+    },
+    {
+      "checks": [
+        {
+          "name": "only_new_exact_push_trigger",
+          "passed": true
+        },
+        {
+          "name": "new_concurrency_without_cancellation",
+          "passed": true
+        },
+        {
+          "name": "empty_workflow_permissions",
+          "passed": true
+        },
+        {
+          "name": "only_expected_repository_branch_push_first_attempt",
+          "passed": true
+        },
+        {
+          "name": "preserved_supported_host_job_watchdog",
+          "passed": true
+        },
+        {
+          "name": "all_step_work_paths_are_new",
+          "passed": true
+        },
+        {
+          "name": "exact_two_pinned_upload_actions",
+          "passed": true
+        },
+        {
+          "name": "new_preparation_artifact_namespace",
+          "passed": true
+        },
+        {
+          "name": "new_result_artifact_namespace",
+          "passed": true
+        },
+        {
+          "name": "exact_twelve_preparation_uploads",
+          "passed": true
+        },
+        {
+          "name": "only_one_closed_result_upload",
+          "passed": true
+        },
+        {
+          "name": "no_unreviewed_secret_or_raw_upload_reference",
+          "passed": true
+        },
+        {
+          "name": "actual_author_and_selected_actual_reviewer",
+          "passed": true
+        },
+        {
+          "name": "all_unselected_and_old_author_identities_refused",
+          "passed": true
+        },
+        {
+          "name": "fresh_controller_and_public_control_namespace",
+          "passed": true
+        },
+        {
+          "name": "actual_request_constructor_uses_fresh_control_path",
+          "passed": true
+        },
+        {
+          "name": "base_workflow_excludes_new_push_pages.yml",
+          "passed": true
+        },
+        {
+          "name": "base_workflow_excludes_new_push_validate.yml",
+          "passed": true
+        },
+        {
+          "name": "base_workflow_population_known",
+          "passed": true
+        }
+      ],
+      "name": "NAMESPACE_CONTROLS.json",
+      "passed": 19,
+      "total": 19
+    }
+  ],
+  "total": 142,
+  "unaffected_v1_evidence": "Historical frozen v1 author controls retained at their original scope; not repeated or re-awarded."
+}

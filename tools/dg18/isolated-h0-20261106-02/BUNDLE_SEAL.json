@@ -1,0 +1,92 @@
+{
+  "authority": "NONE",
+  "files": [
+    {
+      "bytes": 5498,
+      "mode": 420,
+      "name": "CONTROL_FORMAT.md",
+      "sha256": "8bb58bae9f1b2a92bd0ebafffdda203ebb5665600f498fa02d6f1e7465e3fffd"
+    },
+    {
+      "bytes": 34059,
+      "mode": 420,
+      "name": "INPUT_TEMPLATE.json",
+      "sha256": "9cf48894dc042cce0b0808ec61140ec33eb90200df5beb80d1c4ce6df33c1a28"
+    },
+    {
+      "bytes": 5304,
+      "mode": 420,
+      "name": "PLAN.json",
+      "sha256": "7203be067147bf4786f5e82edb454126ab476a5d99c1c0e0035e60df1dd1115f"
+    },
+    {
+      "bytes": 17931,
+      "mode": 420,
+      "name": "PURE_CONTROLS.json",
+      "sha256": "cf8b38b7fd243a2a0f685d1d724ba25f54b5588f743321f8a2ef8cd3d1dbf8d4"
+    },
+    {
+      "bytes": 2661,
+      "mode": 420,
+      "name": "REPORT.md",
+      "sha256": "c4ed31237d0977d71d02589d5483f369992f27c78f369407f21deba259210e03"
+    },
+    {
+      "bytes": 5221,
+      "mode": 420,
+      "name": "dg18-isolated-h0-20261106-02.yml",
+      "sha256": "5ad5738f3453b9131bf07acd47792ac1390ceca5879f4c6f916b7a4378ee9ade"
+    },
+    {
+      "bytes": 24384,
+      "mode": 420,
+      "name": "held_control.py",
+      "sha256": "be010bc4b3ec64e582e397debbc1abd2bce189b26df47fea6b71a9aea97385d3"
+    },
+    {
+      "bytes": 43018,
+      "mode": 420,
+      "name": "host_io.py",
+      "sha256": "832af3c1ebcfbb356970602c39d33bc7d81eb3b75d2c28355ebdcaf572d55114"
+    },
+    {
+      "bytes": 54556,
+      "mode": 420,
+      "name": "host_utility.py",
+      "sha256": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c"
+    },
+    {
+      "bytes": 8052,
+      "mode": 420,
+      "name": "live_receiver.py",
+      "sha256": "ace6f387d85fa9f6be50febd2d443d8aef26b4294b4eefdcc4d596912b7788a2"
+    },
+    {
+      "bytes": 17035,
+      "mode": 420,
+      "name": "mechanical_driver.py",
+      "sha256": "fbcbd6af2042f64f18b422b273978d79ff7692f8b8eee9c137a6844400967975"
+    },
+    {
+      "bytes": 27211,
+      "mode": 420,
+      "name": "native_driver.py",
+      "sha256": "2a178742d5e08972cea4aad930b8d87e9c587b82b340002d439d430eb731b50f"
+    },
+    {
+      "bytes": 4500,
+      "mode": 420,
+      "name": "native_transport.py",
+      "sha256": "60dd721c37a44d820fde02f66abe54f22587db5a6fad27547500bd9b70e39c26"
+    },
+    {
+      "bytes": 4164,
+      "mode": 420,
+      "name": "provider.py",
+      "sha256": "d3bd454bafb6fe4bdc1d9c74168953161c522657c337791b52402b0bc10b88fc"
+    }
+  ],
+  "schema": "r5.h0-held-code-seal.v1",
+  "source_commit": "0d57929be5bd15682b4e9da2c0209d5dff307843",
+  "source_tree": "ee316c27250ec422d35a1ea965182ebddf7a5da0"
+}

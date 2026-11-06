@@ -1,0 +1,756 @@
+{
+  "runtime": [
+    {
+      "bytes": 9420,
+      "category": "source-runtime",
+      "destination": "fixtures/controller-initialization/author_checkpoint.py",
+      "key": "runtime/fixtures/controller-initialization/author_checkpoint.py",
+      "mode": 420,
+      "sha256": "8ca871eaf6a182b4be9191cae61b71998a2c84afcf23216d13129e48ebf029cf",
+      "source_relative": "fixtures/controller-initialization/author_checkpoint.py"
+    },
+    {
+      "bytes": 2812,
+      "category": "source-runtime",
+      "destination": "skills/audit-andon/SKILL.md",
+      "key": "runtime/skills/audit-andon/SKILL.md",
+      "mode": 420,
+      "sha256": "d774154be7940f88e6402b9d7299f36792e0a636c9023f68fe88b062e2604ff9",
+      "source_relative": "skills/audit-andon/SKILL.md"
+    },
+    {
+      "bytes": 2039,
+      "category": "source-runtime",
+      "destination": "skills/audit-assess/SKILL.md",
+      "key": "runtime/skills/audit-assess/SKILL.md",
+      "mode": 420,
+      "sha256": "6f5d5738b9efd5fa5d4c35868400220458a2f81179d4081fce508ef65c3f72e4",
+      "source_relative": "skills/audit-assess/SKILL.md"
+    },
+    {
+      "bytes": 5448,
+      "category": "source-runtime",
+      "destination": "skills/audit-implement/SKILL.md",
+      "key": "runtime/skills/audit-implement/SKILL.md",
+      "mode": 420,
+      "sha256": "aaeb90c6fcded31064f4731cd19cb0e8dcb9e7a5c82a0db4de2f3eab17d978b2",
+      "source_relative": "skills/audit-implement/SKILL.md"
+    },
+    {
+      "bytes": 3858,
+      "category": "source-runtime",
+      "destination": "skills/audit-state/SKILL.md",
+      "key": "runtime/skills/audit-state/SKILL.md",
+      "mode": 420,
+      "sha256": "14caf13c42a49b335197fb24a632a9fb3ebc51b26947f311cde4a7e5b6b05a8d",
+      "source_relative": "skills/audit-state/SKILL.md"
+    },
+    {
+      "bytes": 21257,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/SKILL.md",
+      "key": "runtime/skills/implementaudit/SKILL.md",
+      "mode": 420,
+      "sha256": "4c8363c2235ba6c50675c93af7319aeb0caf57f020c4858eba1c28e76de4c6c5",
+      "source_relative": "skills/implementaudit/SKILL.md"
+    },
+    {
+      "bytes": 14156,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/references/audit-category-matrix.md",
+      "key": "runtime/skills/implementaudit/references/audit-category-matrix.md",
+      "mode": 420,
+      "sha256": "d67a3ef3fb6a484c8360b4c031da40b5329030b6bc0c3a5b99e56cc58b1bcf79",
+      "source_relative": "skills/implementaudit/references/audit-category-matrix.md"
+    },
+    {
+      "bytes": 23193,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/references/audit-playbook.md",
+      "key": "runtime/skills/implementaudit/references/audit-playbook.md",
+      "mode": 420,
+      "sha256": "efc6ecb9f0972f0606e4f2a5a3b6a01bb496090c08fa567120ebd2425ac1e0f8",
+      "source_relative": "skills/implementaudit/references/audit-playbook.md"
+    },
+    {
+      "bytes": 3844,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/references/canonical-state-ref-namespaces.json",
+      "key": "runtime/skills/implementaudit/references/canonical-state-ref-namespaces.json",
+      "mode": 420,
+      "sha256": "c03764f0043240cc742ff5f6fce60ccdaceda5ee774e39750693fa6601c3d390",
+      "source_relative": "skills/implementaudit/references/canonical-state-ref-namespaces.json"
+    },
+    {
+      "bytes": 25561,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/references/canonical-state-rotation.md",
+      "key": "runtime/skills/implementaudit/references/canonical-state-rotation.md",
+      "mode": 420,
+      "sha256": "db72ee6b5cb7550ce02b232a29e2c8c72f8d6bf0d312e475ba4c0efaa01f2f6a",
+      "source_relative": "skills/implementaudit/references/canonical-state-rotation.md"
+    },
+    {
+      "bytes": 18955,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/references/child-agents.md",
+      "key": "runtime/skills/implementaudit/references/child-agents.md",
+      "mode": 420,
+      "sha256": "eb418e296027d4cccc17218466e8ba78303ea356a5151b077214b473d19625bb",
+      "source_relative": "skills/implementaudit/references/child-agents.md"
+    },
+    {
+      "bytes": 21266,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/references/continuity.md",
+      "key": "runtime/skills/implementaudit/references/continuity.md",
+      "mode": 420,
+      "sha256": "e5cb92461b39b70cabc333aea6c157c44d939e6727ef49d440a33a3c880d14e1",
+      "source_relative": "skills/implementaudit/references/continuity.md"
+    },
+    {
+      "bytes": 8668,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/references/convergence-mode.md",
+      "key": "runtime/skills/implementaudit/references/convergence-mode.md",
+      "mode": 420,
+      "sha256": "ecef97598b378e0b34efe988da5237b15fd2af9052cd90d8b0ab857903088f69",
+      "source_relative": "skills/implementaudit/references/convergence-mode.md"
+    },
+    {
+      "bytes": 6895,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/references/goal-format.md",
+      "key": "runtime/skills/implementaudit/references/goal-format.md",
+      "mode": 420,
+      "sha256": "193d29e93bc590d355b5a2f28e8c12a1b9bc27689fb64e1a80c14cfda1190ef9",
+      "source_relative": "skills/implementaudit/references/goal-format.md"
+    },
+    {
+      "bytes": 21315,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/references/host-session-binding.md",
+      "key": "runtime/skills/implementaudit/references/host-session-binding.md",
+      "mode": 420,
+      "sha256": "10787ac1b2f80f4e0b1f4efc5d4ef7068b3f81f477e540c4aeb942eeae560ffa",
+      "source_relative": "skills/implementaudit/references/host-session-binding.md"
+    },
+    {
+      "bytes": 1265,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/references/identity-namespaces.json",
+      "key": "runtime/skills/implementaudit/references/identity-namespaces.json",
+      "mode": 420,
+      "sha256": "d47300b2a29d8b5018619faa39076c662f5a639c608b5c3e63b36edcaacec5cb",
+      "source_relative": "skills/implementaudit/references/identity-namespaces.json"
+    },
+    {
+      "bytes": 18210,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/references/issue-ready-work-orders.md",
+      "key": "runtime/skills/implementaudit/references/issue-ready-work-orders.md",
+      "mode": 420,
+      "sha256": "fc9bf75e9a4274af94b6df4ffc863eeae54dc096ea1422db5740b96030493b04",
+      "source_relative": "skills/implementaudit/references/issue-ready-work-orders.md"
+    },
+    {
+      "bytes": 22319,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/references/lean-operating-discipline.md",
+      "key": "runtime/skills/implementaudit/references/lean-operating-discipline.md",
+      "mode": 420,
+      "sha256": "ccd53a446f1a69994d5df694d206b475e969910a579cd4882f09c81f3c88401a",
+      "source_relative": "skills/implementaudit/references/lean-operating-discipline.md"
+    },
+    {
+      "bytes": 20396,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/references/phase-design.md",
+      "key": "runtime/skills/implementaudit/references/phase-design.md",
+      "mode": 420,
+      "sha256": "65756c5b90280795d20c5235f5c74359d2179befa408e72e26d12182344105a0",
+      "source_relative": "skills/implementaudit/references/phase-design.md"
+    },
+    {
+      "bytes": 32365,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/references/plan-lifecycle.md",
+      "key": "runtime/skills/implementaudit/references/plan-lifecycle.md",
+      "mode": 420,
+      "sha256": "1e283fec5f5b78b8a5ea5bbbfedfa452df516f8a5f5bbcfbb816f54603d5a6fa",
+      "source_relative": "skills/implementaudit/references/plan-lifecycle.md"
+    },
+    {
+      "bytes": 20507,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/references/planning-depth.md",
+      "key": "runtime/skills/implementaudit/references/planning-depth.md",
+      "mode": 420,
+      "sha256": "73c074c86fc5fb2b49ae2611bb2e2b4d378a57448293a78ddb35500822d1e293",
+      "source_relative": "skills/implementaudit/references/planning-depth.md"
+    },
+    {
+      "bytes": 50343,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/references/repo-state-comparison.md",
+      "key": "runtime/skills/implementaudit/references/repo-state-comparison.md",
+      "mode": 420,
+      "sha256": "e05daf50dea4480b11a6129355c21664fcab66fdd0fd93318313a0d8afc9b961",
+      "source_relative": "skills/implementaudit/references/repo-state-comparison.md"
+    },
+    {
+      "bytes": 24980,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/references/route-obligations.md",
+      "key": "runtime/skills/implementaudit/references/route-obligations.md",
+      "mode": 420,
+      "sha256": "df06bba9d2b6861171e03486a516a1e911d427c679d6757a02f41730d39f16ba",
+      "source_relative": "source-peers/native-runtime/skills/implementaudit/references/route-obligations.md"
+    },
+    {
+      "bytes": 14323,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/references/routing.md",
+      "key": "runtime/skills/implementaudit/references/routing.md",
+      "mode": 420,
+      "sha256": "3bcb44f11ec26370d4330f95d06a38c4267403a58757f818e69970cd9a026222",
+      "source_relative": "skills/implementaudit/references/routing.md"
+    },
+    {
+      "bytes": 5673,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/references/sidecars.md",
+      "key": "runtime/skills/implementaudit/references/sidecars.md",
+      "mode": 420,
+      "sha256": "6ee357d04dd0321c13fd56436a0efa30341423742afeb0e3669dab81929d38e7",
+      "source_relative": "skills/implementaudit/references/sidecars.md"
+    },
+    {
+      "bytes": 4877,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/references/terminology-integration.md",
+      "key": "runtime/skills/implementaudit/references/terminology-integration.md",
+      "mode": 420,
+      "sha256": "dc1022fa37731104bc094844c94d867095747f157c61046bbd4fc4c8f6afceb5",
+      "source_relative": "skills/implementaudit/references/terminology-integration.md"
+    },
+    {
+      "bytes": 30771,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/references/transcript-contract.md",
+      "key": "runtime/skills/implementaudit/references/transcript-contract.md",
+      "mode": 420,
+      "sha256": "a7bafb939d75f54ad442f113d08ccd60b28710a1f9c088ec40b6078dd1fd56cf",
+      "source_relative": "skills/implementaudit/references/transcript-contract.md"
+    },
+    {
+      "bytes": 7038,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/references/work-graph-contract.md",
+      "key": "runtime/skills/implementaudit/references/work-graph-contract.md",
+      "mode": 420,
+      "sha256": "e7b8ab734743e15e453f40984868650b04ec1f850687785de855d39edce2bb9f",
+      "source_relative": "skills/implementaudit/references/work-graph-contract.md"
+    },
+    {
+      "bytes": 115042,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/apply-observed-mutation.sh",
+      "key": "runtime/skills/implementaudit/scripts/apply-observed-mutation.sh",
+      "mode": 493,
+      "sha256": "0e893c6218c8105eb575630fa8fdad10ae3238b31f4fc08845b7ed540d67e590",
+      "source_relative": "skills/implementaudit/scripts/apply-observed-mutation.sh"
+    },
+    {
+      "bytes": 10273,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/bounded_file_custody.py",
+      "key": "runtime/skills/implementaudit/scripts/bounded_file_custody.py",
+      "mode": 420,
+      "sha256": "0b3d1f461be76f67e9eab96b102879074971530a1dcfb69410cd47522b05ebde",
+      "source_relative": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_file_custody.py"
+    },
+    {
+      "bytes": 20749,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/bounded_native_reader.py",
+      "key": "runtime/skills/implementaudit/scripts/bounded_native_reader.py",
+      "mode": 420,
+      "sha256": "1f72979eb39138d999843c127893c8dbeba97cc8c5546b19c3725758011df5a6",
+      "source_relative": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_native_reader.py"
+    },
+    {
+      "bytes": 83394,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/bounded_source_owner.py",
+      "key": "runtime/skills/implementaudit/scripts/bounded_source_owner.py",
+      "mode": 420,
+      "sha256": "bb6cfe1f4da62625cd6578f23102242ad35b0a6b1068a54da991ceec8a94da4e",
+      "source_relative": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_source_owner.py"
+    },
+    {
+      "bytes": 36367,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/canonical_custody.py",
+      "key": "runtime/skills/implementaudit/scripts/canonical_custody.py",
+      "mode": 493,
+      "sha256": "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389",
+      "source_relative": "skills/implementaudit/scripts/canonical_custody.py"
+    },
+    {
+      "bytes": 93893,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/canonical_hot_projection.py",
+      "key": "runtime/skills/implementaudit/scripts/canonical_hot_projection.py",
+      "mode": 493,
+      "sha256": "10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f",
+      "source_relative": "skills/implementaudit/scripts/canonical_hot_projection.py"
+    },
+    {
+      "bytes": 27916,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/canonical_rotation_inputs.py",
+      "key": "runtime/skills/implementaudit/scripts/canonical_rotation_inputs.py",
+      "mode": 420,
+      "sha256": "dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76",
+      "source_relative": "skills/implementaudit/scripts/canonical_rotation_inputs.py"
+    },
+    {
+      "bytes": 17837,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/check-authorization-binding.sh",
+      "key": "runtime/skills/implementaudit/scripts/check-authorization-binding.sh",
+      "mode": 420,
+      "sha256": "ce41e7306b7b11f5dde4844fd753ec77965ec04f15f0d8dfef4e9684a7c9d2e3",
+      "source_relative": "skills/implementaudit/scripts/check-authorization-binding.sh"
+    },
+    {
+      "bytes": 94842,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/check-closure-surface.sh",
+      "key": "runtime/skills/implementaudit/scripts/check-closure-surface.sh",
+      "mode": 420,
+      "sha256": "ba994fed1fb6c5d4688627bd31a577e7ce6fec5f6214fa3cc1093c9b70337ed7",
+      "source_relative": "skills/implementaudit/scripts/check-closure-surface.sh"
+    },
+    {
+      "bytes": 5208,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/check-duplication-parity.sh",
+      "key": "runtime/skills/implementaudit/scripts/check-duplication-parity.sh",
+      "mode": 493,
+      "sha256": "b76e8f851f7849c28f631dbc00f400beb749c2ee13d73612b4bef15e246da9b7",
+      "source_relative": "skills/implementaudit/scripts/check-duplication-parity.sh"
+    },
+    {
+      "bytes": 44602,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/check-evidence-anchor.sh",
+      "key": "runtime/skills/implementaudit/scripts/check-evidence-anchor.sh",
+      "mode": 420,
+      "sha256": "960d23f288d02ebd9f6a78c69a63e9db7c87d655178cf415d14a08f519dab735",
+      "source_relative": "skills/implementaudit/scripts/check-evidence-anchor.sh"
+    },
+    {
+      "bytes": 18913,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/check-handoff-packet.sh",
+      "key": "runtime/skills/implementaudit/scripts/check-handoff-packet.sh",
+      "mode": 420,
+      "sha256": "0b7d67fa3529cf7f53417ef1acd54b7d29228139cabeef8717dc39c28abd6120",
+      "source_relative": "skills/implementaudit/scripts/check-handoff-packet.sh"
+    },
+    {
+      "bytes": 11417,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/check-lesson-lift.sh",
+      "key": "runtime/skills/implementaudit/scripts/check-lesson-lift.sh",
+      "mode": 420,
+      "sha256": "d73a873b63fe4efc7a5dadcc7b45043b68242c0afedbae6b5eb6cdf6a2630e9a",
+      "source_relative": "skills/implementaudit/scripts/check-lesson-lift.sh"
+    },
+    {
+      "bytes": 6560,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/check-respec-impact-set.sh",
+      "key": "runtime/skills/implementaudit/scripts/check-respec-impact-set.sh",
+      "mode": 420,
+      "sha256": "313e8e4173139a10c79822f6a2cd6cb59925fd45a36c66c06649cc89566d9a38",
+      "source_relative": "skills/implementaudit/scripts/check-respec-impact-set.sh"
+    },
+    {
+      "bytes": 291624,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/claim-run-rotation.py",
+      "key": "runtime/skills/implementaudit/scripts/claim-run-rotation.py",
+      "mode": 420,
+      "sha256": "128dfe66ce656cd194d5fe1e55b245fecb1b4fd811dea87f75f8ace4a59a0487",
+      "source_relative": "skills/implementaudit/scripts/claim-run-rotation.py"
+    },
+    {
+      "bytes": 32290,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/claim-run.sh",
+      "key": "runtime/skills/implementaudit/scripts/claim-run.sh",
+      "mode": 420,
+      "sha256": "9bce5c887cd89c2d2991b84f1bf765787e7a6b75a2eba29a8433c3a6c05f73a3",
+      "source_relative": "skills/implementaudit/scripts/claim-run.sh"
+    },
+    {
+      "bytes": 1563,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/codex-recovery-native-reader.py",
+      "key": "runtime/skills/implementaudit/scripts/codex-recovery-native-reader.py",
+      "mode": 420,
+      "sha256": "a6cb50e4926b106400864755599c096ab0b7236e7d5368184dbde9117fb35d06",
+      "source_relative": "source-peers/native-runtime/skills/implementaudit/scripts/codex-recovery-native-reader.py"
+    },
+    {
+      "bytes": 67827,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/compaction-audit-pending.py",
+      "key": "runtime/skills/implementaudit/scripts/compaction-audit-pending.py",
+      "mode": 420,
+      "sha256": "729f7eb108b30647bf62e19d71be4cd10e41486af020a6dc69b8aa6295d8aee5",
+      "source_relative": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-audit-pending.py"
+    },
+    {
+      "bytes": 12108,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/compaction-prior-mcp.py",
+      "key": "runtime/skills/implementaudit/scripts/compaction-prior-mcp.py",
+      "mode": 420,
+      "sha256": "66c730b3c199ad47c714cc2fb6d520ce4678872d949483fdd6bf951c2f54268c",
+      "source_relative": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-prior-mcp.py"
+    },
+    {
+      "bytes": 13416,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/compaction-prior-protocol.py",
+      "key": "runtime/skills/implementaudit/scripts/compaction-prior-protocol.py",
+      "mode": 420,
+      "sha256": "4c7100bc6e80a84801dbef38132782462440f7d7229ae084ae6f948e98a6057d",
+      "source_relative": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-prior-protocol.py"
+    },
+    {
+      "bytes": 161350,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/compaction-result-observation.py",
+      "key": "runtime/skills/implementaudit/scripts/compaction-result-observation.py",
+      "mode": 420,
+      "sha256": "a68145e62a0a81dfb02fc48f72cefaf3740e499bf6b85bd70f5d30cc64a038c1",
+      "source_relative": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-result-observation.py"
+    },
+    {
+      "bytes": 185531,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
+      "key": "runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
+      "mode": 420,
+      "sha256": "5bb21eed89945a8da97857f980b1f85a06dc07df47b25475b9173f23e82ce8f8",
+      "source_relative": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py"
+    },
+    {
+      "bytes": 262144,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/compile-work-graph.py",
+      "key": "runtime/skills/implementaudit/scripts/compile-work-graph.py",
+      "mode": 493,
+      "sha256": "3649a8dc856e29ce11b6daa5861351cc1c21bf9c7a9b4f5a2ddde12108d8581f",
+      "source_relative": "skills/implementaudit/scripts/compile-work-graph.py"
+    },
+    {
+      "bytes": 5668,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/custody-append.sh",
+      "key": "runtime/skills/implementaudit/scripts/custody-append.sh",
+      "mode": 420,
+      "sha256": "8cddcbd9891e29b368c928615915bf70a308be7ffb2515673419c30f163cc762",
+      "source_relative": "skills/implementaudit/scripts/custody-append.sh"
+    },
+    {
+      "bytes": 7221,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/detect-env.sh",
+      "key": "runtime/skills/implementaudit/scripts/detect-env.sh",
+      "mode": 493,
+      "sha256": "637f1141836e19dc610d45a3f97f8c7c31e263cc57e269811f8a81a6f4ddf516",
+      "source_relative": "skills/implementaudit/scripts/detect-env.sh"
+    },
+    {
+      "bytes": 3601,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/detect-stack.sh",
+      "key": "runtime/skills/implementaudit/scripts/detect-stack.sh",
+      "mode": 493,
+      "sha256": "2cc0ec03f7c07272bd90ca437a0efd91e13852ca82ad2dabfe9c482f7f6b86f2",
+      "source_relative": "skills/implementaudit/scripts/detect-stack.sh"
+    },
+    {
+      "bytes": 58351,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/host-session-binding.py",
+      "key": "runtime/skills/implementaudit/scripts/host-session-binding.py",
+      "mode": 493,
+      "sha256": "8b4f91a51e2e2d45c4bd72b58fb1e115981903f8a752f95eb71cda64b106b6ef",
+      "source_relative": "skills/implementaudit/scripts/host-session-binding.py"
+    },
+    {
+      "bytes": 27873,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/host-stop-interlock.py",
+      "key": "runtime/skills/implementaudit/scripts/host-stop-interlock.py",
+      "mode": 493,
+      "sha256": "b9ac38ecbda0b372ead2b473f51bdce716cd1200b243bc92218508fab3afaa43",
+      "source_relative": "skills/implementaudit/scripts/host-stop-interlock.py"
+    },
+    {
+      "bytes": 2459,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/lane-survivor-inventory.sh",
+      "key": "runtime/skills/implementaudit/scripts/lane-survivor-inventory.sh",
+      "mode": 493,
+      "sha256": "20386cd717f502c237abd47554dcf81bc91d968ae5789d9beb0349c2f3300d45",
+      "source_relative": "skills/implementaudit/scripts/lane-survivor-inventory.sh"
+    },
+    {
+      "bytes": 2615,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/map-pin-chain.sh",
+      "key": "runtime/skills/implementaudit/scripts/map-pin-chain.sh",
+      "mode": 493,
+      "sha256": "d45838f0bc81ff43cf0d8b0728a02f88791bd9bcee92825da86d9ce2a2e4ea74",
+      "source_relative": "skills/implementaudit/scripts/map-pin-chain.sh"
+    },
+    {
+      "bytes": 27208,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/read-canonical-pair.py",
+      "key": "runtime/skills/implementaudit/scripts/read-canonical-pair.py",
+      "mode": 493,
+      "sha256": "c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8",
+      "source_relative": "skills/implementaudit/scripts/read-canonical-pair.py"
+    },
+    {
+      "bytes": 22629,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/repo-state.sh",
+      "key": "runtime/skills/implementaudit/scripts/repo-state.sh",
+      "mode": 420,
+      "sha256": "b2220d0627c5e66d106bb3ce8a9daafb5310b87643b9281d63db5a5aa886df3b",
+      "source_relative": "skills/implementaudit/scripts/repo-state.sh"
+    },
+    {
+      "bytes": 6787,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/resolve-durable-identity.py",
+      "key": "runtime/skills/implementaudit/scripts/resolve-durable-identity.py",
+      "mode": 420,
+      "sha256": "cc61d49eb06af30db10ec34c586acc505d559b347fe63123ba17da7e079dd203",
+      "source_relative": "skills/implementaudit/scripts/resolve-durable-identity.py"
+    },
+    {
+      "bytes": 5178,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/resolve-internal-skill.py",
+      "key": "runtime/skills/implementaudit/scripts/resolve-internal-skill.py",
+      "mode": 420,
+      "sha256": "97ce587a295cfa0f13276a8dfccf63ca9f679352fdcf0d769a095eab5284b67d",
+      "source_relative": "skills/implementaudit/scripts/resolve-internal-skill.py"
+    },
+    {
+      "bytes": 129890,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/rotate-canonical-state.py",
+      "key": "runtime/skills/implementaudit/scripts/rotate-canonical-state.py",
+      "mode": 493,
+      "sha256": "7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678",
+      "source_relative": "skills/implementaudit/scripts/rotate-canonical-state.py"
+    },
+    {
+      "bytes": 388769,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/route-transaction.py",
+      "key": "runtime/skills/implementaudit/scripts/route-transaction.py",
+      "mode": 493,
+      "sha256": "b998eb7c4cd96949e9f20a4e1340b4001fe4e0751225565775fdca1569563cab",
+      "source_relative": "source-peers/route-graph/skills/implementaudit/scripts/route-transaction.py"
+    },
+    {
+      "bytes": 5191,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/route_request_policy.py",
+      "key": "runtime/skills/implementaudit/scripts/route_request_policy.py",
+      "mode": 493,
+      "sha256": "ea69123930803e428630b51565b6c7f58d079262f3feda34d95c31f0fdd6375f",
+      "source_relative": "source-peers/route-graph/skills/implementaudit/scripts/route_request_policy.py"
+    },
+    {
+      "bytes": 7281,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/summarize-repo.sh",
+      "key": "runtime/skills/implementaudit/scripts/summarize-repo.sh",
+      "mode": 493,
+      "sha256": "4a0a70ed4c587bce6dde7de3f4094a35b5b69553f3250291850c0e824ecf241c",
+      "source_relative": "skills/implementaudit/scripts/summarize-repo.sh"
+    },
+    {
+      "bytes": 13460,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/validate-audit-implement-return.py",
+      "key": "runtime/skills/implementaudit/scripts/validate-audit-implement-return.py",
+      "mode": 493,
+      "sha256": "170699fc3571640f67223f2a80fd9ba42ecc79b498f1f14c0292c53e5b599301",
+      "source_relative": "skills/implementaudit/scripts/validate-audit-implement-return.py"
+    },
+    {
+      "bytes": 1673,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/validate-audit-spec.sh",
+      "key": "runtime/skills/implementaudit/scripts/validate-audit-spec.sh",
+      "mode": 420,
+      "sha256": "f0b88b4b2d2745eb2df1f339b5daaa1bf7d20a148b4ecccb3de7d9c0de0074d7",
+      "source_relative": "skills/implementaudit/scripts/validate-audit-spec.sh"
+    },
+    {
+      "bytes": 45816,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/validate-phase.sh",
+      "key": "runtime/skills/implementaudit/scripts/validate-phase.sh",
+      "mode": 493,
+      "sha256": "07b2e04ba9aefffc572ac9cf60ecddf88654a26590aaa045dadf464da7bc7dab",
+      "source_relative": "skills/implementaudit/scripts/validate-phase.sh"
+    },
+    {
+      "bytes": 114967,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/scripts/validate-run-root.sh",
+      "key": "runtime/skills/implementaudit/scripts/validate-run-root.sh",
+      "mode": 420,
+      "sha256": "d51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a",
+      "source_relative": "skills/implementaudit/scripts/validate-run-root.sh"
+    },
+    {
+      "bytes": 73424,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/templates/PROTOCOL.md",
+      "key": "runtime/skills/implementaudit/templates/PROTOCOL.md",
+      "mode": 420,
+      "sha256": "4e006be6c32d995bdabf2f518735da814eee9311b4597e8b1cf44d304f1e80de",
+      "source_relative": "skills/implementaudit/templates/PROTOCOL.md"
+    },
+    {
+      "bytes": 3512,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/templates/ROADMAP.md",
+      "key": "runtime/skills/implementaudit/templates/ROADMAP.md",
+      "mode": 420,
+      "sha256": "abdaec32627231b55b545849cbac3176f499f74359aeece9af0a2a866ad2543a",
+      "source_relative": "skills/implementaudit/templates/ROADMAP.md"
+    },
+    {
+      "bytes": 10089,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/templates/STATE.md",
+      "key": "runtime/skills/implementaudit/templates/STATE.md",
+      "mode": 420,
+      "sha256": "ac756ae16ff6e6c9e4ca9ae467d13746f7ca76f33896c47f6f3f636e59d0543b",
+      "source_relative": "skills/implementaudit/templates/STATE.md"
+    },
+    {
+      "bytes": 6380,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/templates/THINKING.md",
+      "key": "runtime/skills/implementaudit/templates/THINKING.md",
+      "mode": 420,
+      "sha256": "a3b8ebfdbecacab5d0c24effa565fd799a4eaaeaf5376fe45676132c455326ba",
+      "source_relative": "skills/implementaudit/templates/THINKING.md"
+    },
+    {
+      "bytes": 4461,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/templates/child-agent-report.md",
+      "key": "runtime/skills/implementaudit/templates/child-agent-report.md",
+      "mode": 420,
+      "sha256": "636112c2b68e6b20849df47afee20b55ee7d706a6074265dc23bb2e8f1344ff4",
+      "source_relative": "skills/implementaudit/templates/child-agent-report.md"
+    },
+    {
+      "bytes": 740,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/templates/context.md",
+      "key": "runtime/skills/implementaudit/templates/context.md",
+      "mode": 420,
+      "sha256": "19e78a3e6a2e0961fa05d473dca64b723fff7a8fd55cb29080779450cd170f8a",
+      "source_relative": "skills/implementaudit/templates/context.md"
+    },
+    {
+      "bytes": 4250,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/templates/final-report.md",
+      "key": "runtime/skills/implementaudit/templates/final-report.md",
+      "mode": 420,
+      "sha256": "16fcf56ee68d88b710385dfa4ea57b47fa0f7061dfb812b51f4b9836d28648a9",
+      "source_relative": "skills/implementaudit/templates/final-report.md"
+    },
+    {
+      "bytes": 785,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/templates/host-notes.md",
+      "key": "runtime/skills/implementaudit/templates/host-notes.md",
+      "mode": 420,
+      "sha256": "294b7b1b8e3e0d24e07dd78fc290f6deade54a4eb5078fd8b0d3cd37b6ab28b8",
+      "source_relative": "skills/implementaudit/templates/host-notes.md"
+    },
+    {
+      "bytes": 12501,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/templates/phase-goal.txt",
+      "key": "runtime/skills/implementaudit/templates/phase-goal.txt",
+      "mode": 420,
+      "sha256": "1b42247b1aa5cf0fbb2a2de91d3a3d6552087ed178503f3c230d9124f026fe49",
+      "source_relative": "skills/implementaudit/templates/phase-goal.txt"
+    },
+    {
+      "bytes": 3188,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/templates/read-only-plan.md",
+      "key": "runtime/skills/implementaudit/templates/read-only-plan.md",
+      "mode": 420,
+      "sha256": "755a122aea31e6118f148839771eeb4d53096b7806095d5b6b2e5086c53670a2",
+      "source_relative": "skills/implementaudit/templates/read-only-plan.md"
+    },
+    {
+      "bytes": 1129,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/templates/respec-impact-set.md",
+      "key": "runtime/skills/implementaudit/templates/respec-impact-set.md",
+      "mode": 420,
+      "sha256": "e74faf421a4a6e9544669b25f4e3f503179e171ddb0d75aebbd1473e073f4e40",
+      "source_relative": "skills/implementaudit/templates/respec-impact-set.md"
+    },
+    {
+      "bytes": 763,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/templates/sidecars.md",
+      "key": "runtime/skills/implementaudit/templates/sidecars.md",
+      "mode": 420,
+      "sha256": "6ad96c4a0638e62559d20d455d8f27404b3ea504bd68b49d1586440d7695e332",
+      "source_relative": "skills/implementaudit/templates/sidecars.md"
+    },
+    {
+      "bytes": 997,
+      "category": "source-runtime",
+      "destination": "skills/implementaudit/templates/tools.md",
+      "key": "runtime/skills/implementaudit/templates/tools.md",
+      "mode": 420,
+      "sha256": "904eeefc04ec64b865e6f42fecf8ad4f75077d35eef25279dbfd5d22ec2d046a",
+      "source_relative": "skills/implementaudit/templates/tools.md"
+    }
+  ],
+  "runtime_count": 83,
+  "schema": "r5.h0-input-template.v1",
+  "source_commit": "0d57929be5bd15682b4e9da2c0209d5dff307843",
+  "source_parent": "481e529b691ed3d21169b07f376e357ae51f1f03",
+  "source_tree": "ee316c27250ec422d35a1ea965182ebddf7a5da0"
+}
