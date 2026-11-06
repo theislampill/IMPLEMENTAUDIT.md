@@ -1,0 +1,49 @@
+{
+  "members": [
+    {
+      "bytes": 10495,
+      "git_blob_oid": "c631cdabb4bee584dce76a68d27b00065d068a44",
+      "mode": "100644",
+      "path": ".github/workflows/dg18-isolated-windows12.yml",
+      "sha256": "92cc8d73adc3cf4d28eeb77063d99a0243857389883b314eed022178db749f02"
+    },
+    {
+      "bytes": 28000,
+      "git_blob_oid": "bb2cecfef3b8c1c8dce12548d70fba32200dba5e",
+      "mode": "100644",
+      "path": "qualification/dg18-isolated-windows12/SOURCE_MANIFEST.json",
+      "sha256": "c45268bda9879ad04a961565e6bb57ddf0ab197a17e4324da63d367b94ac8b64"
+    },
+    {
+      "bytes": 10,
+      "git_blob_oid": "758da925b4f110a802e4d5301116093a7fdaf7ef",
+      "mode": "100644",
+      "path": "qualification/dg18-isolated-windows12/entitlement-reference.txt",
+      "sha256": "67098b2c6e963437820881c3dd61669910e5ea3cf497690f24904537ff4e2c52"
+    },
+    {
+      "bytes": 48665,
+      "git_blob_oid": "eda96f18137746cbff8e0cf6c63e5f2056c46c94",
+      "mode": "100644",
+      "path": "qualification/dg18-isolated-windows12/held_admission.py",
+      "sha256": "a8f9dda36508fd4426f30eb1a983b9ca6e97d5dddb125218a702266ddcb2e059"
+    },
+    {
+      "bytes": 34229,
+      "git_blob_oid": "9456c5a19be4430cda8f6df3b23fe85113636cc8",
+      "mode": "100644",
+      "path": "qualification/dg18-isolated-windows12/native_checks.py",
+      "sha256": "add9bce3a9d1128680eed274e65abcd6a442eabf15fd8a8382b198b25765fcd9"
+    },
+    {
+      "bytes": 185117,
+      "git_blob_oid": "2d3956d99d9421416498360f91c1527d41896821",
+      "mode": "100644",
+      "path": "qualification/dg18-isolated-windows12/prepare_and_execute.py",
+      "sha256": "97b03a3595d594ea5ba204089ac5bd08100cfc22f8bc85b247e6303978e014c6"
+    }
+  ],
+  "schema": "dg18.windows12.code-manifest.v1",
+  "source_commit": "8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b",
+  "source_tree": "0da374609f7fea2463a2926f3603b976620bd10e"
+}
