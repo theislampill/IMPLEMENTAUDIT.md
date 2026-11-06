@@ -21,7 +21,10 @@ jobs:
       github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
       github.event_name == 'push' &&
       github.ref == 'refs/heads/pro/dg17-isolated-episode-01-20261106' &&
-      github.event.created == true && github.event.deleted == false && github.run_attempt == '1'
+      github.event.created == false && github.event.deleted == false &&
+      github.event.forced == false &&
+      github.event.before == 'b970a64548a1fd44b20ca1ca7063ab3f17daa4db' &&
+      github.run_attempt == '1'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
