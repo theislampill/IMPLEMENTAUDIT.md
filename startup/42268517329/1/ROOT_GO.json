@@ -1,0 +1,31 @@
+{
+  "allocation_authorized": [
+    "fresh-git-fixture",
+    "fresh-private-home",
+    "owned-pinned-binary",
+    "one-native-app-server",
+    "one-unarmed-loopback-provider",
+    "configured-owned-MCP-only-if-native-startup-invokes-it",
+    "one-initialize-request",
+    "bounded-private-capture",
+    "same-host-closed-extractor",
+    "owned-process-cleanup"
+  ],
+  "author": "/root",
+  "automatic_retry": false,
+  "binary_sha256": "b8a11fedf24b2dfb59a70c9e52b030f9a508dcd49cd2dd0d41956f4c785156b8",
+  "code_manifest_sha256": "562ab817689733d95faf1410e9b040c4a7e66d2c7d1e7d6ce57cfc3f7a077b80",
+  "decision": "GO",
+  "independent_review_sha256": "21940bd8a6e2ef1fab5d78700753d193a01c087503fc61b2d86529c5482b1f30",
+  "model_turn_authorized": false,
+  "nonce": "b02fbcfe73ea21b690b090d085968b361dab5873a9ba9f79b1d9941ecbc25f82",
+  "one_shot": true,
+  "preparation_sha256": "c86b605b6a6e5826761f8e21f01f5f4f493b7c11f4a399c4c507fb2610fd3fc4",
+  "product_currentness_claimed": false,
+  "protected_tail_authorized": false,
+  "reservation_checked": true,
+  "run_id": "42268517329",
+  "schema": "dg18.c02.startup-root-go.v1",
+  "source_scope": "35bf9823856eb4efe254b882954120480632230e",
+  "workflow_commit": "3838f4ca8137279b64b5421492bd341eb2ffac89"
+}
