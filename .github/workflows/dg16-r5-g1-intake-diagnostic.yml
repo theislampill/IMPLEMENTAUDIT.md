@@ -1,0 +1,241 @@
+name: DG16 R5 single intake launcher-capture diagnostic 07r1
+'on':
+  push:
+    branches:
+    - pro/dg16-r5-g1-intake-diagnostic-07r1-20261106
+    paths:
+    - .github/workflows/dg16-r5-g1-intake-diagnostic.yml
+    - qualification/dg16-r5-g1-intake-diagnostic/DIAGNOSTIC_PROFILE.json
+    - qualification/dg16-r5-g1-intake-diagnostic/ORIGINAL_SCOPE.json
+    - qualification/dg16-r5-g1-intake-diagnostic/SOURCE_MANIFEST.json
+    - qualification/dg16-r5-g1-intake-diagnostic/checkpoint_author.py
+    - qualification/dg16-r5-g1-intake-diagnostic/diagnostic_case.py
+    - qualification/dg16-r5-g1-intake-diagnostic/host_utility.py
+    - qualification/dg16-r5-g1-intake-diagnostic/launcher_observer.py
+    - qualification/dg16-r5-g1-intake-diagnostic/nss_configuration.py
+    - qualification/dg16-r5-g1-intake-diagnostic/nss_preflight.py
+    - qualification/dg16-r5-g1-intake-diagnostic/policy_observer.py
+    - qualification/dg16-r5-g1-intake-diagnostic/run.py
+    - qualification/dg16-r5-g1-intake-diagnostic/source_admission.py
+    - qualification/dg16-r5-g1-intake-diagnostic/source_store.py
+permissions:
+  contents: read
+concurrency:
+  group: dg16-g1-intake-diagnostic-02r1-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  diagnose:
+    if: github.repository == 'theislampill/IMPLEMENTAUDIT.md' && github.event_name == 'push' && github.ref == 'refs/heads/pro/dg16-r5-g1-intake-diagnostic-07r1-20261106'
+      && github.event.deleted == false && github.run_attempt == '1'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+    - name: Check out exact reviewed episode packet
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        ref: ${{ github.sha }}
+        path: packet
+        fetch-depth: 1
+        persist-credentials: false
+        set-safe-directory: false
+        submodules: false
+        lfs: false
+    - name: Compile and admit exact source before established host prerequisites
+      shell: bash
+      run: "set -euo pipefail\nadapter=\"$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-intake-diagnostic/run.py\"\nactual=\"$(/usr/bin/sha256sum\
+        \ \"$adapter\")\"\ntest \"${actual%% *}\" = 'bde354d19ce67e0b5c725c3ae0321f51c2b1c0c1b2d4fd125ba6c3c4823f00da'\ntest \"$GITHUB_RUN_ATTEMPT\"\
+        \ = 1\n# Fresh actual UID0 allocation; only the non-secret job identity is admitted.\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8\
+        \ LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"\
+        $GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\"\
+        \ GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"\
+        $ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$adapter\" --step prepare \\\n  --source \"$GITHUB_WORKSPACE/qualified-g1-intake-source\"\
+        \ \\\n  --output \"$RUNNER_TEMP/dg16-g1-intake-diagnostic-$GITHUB_RUN_ID-1\"\n"
+    - name: Initialize the comparable fresh parent checkpoint
+      shell: bash
+      run: "set -euo pipefail\nadapter=\"$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-intake-diagnostic/run.py\"\nactual=\"$(/usr/bin/sha256sum\
+        \ \"$adapter\")\"\ntest \"${actual%% *}\" = 'bde354d19ce67e0b5c725c3ae0321f51c2b1c0c1b2d4fd125ba6c3c4823f00da'\ntest \"$GITHUB_RUN_ATTEMPT\"\
+        \ = 1\n# Fresh actual UID0 allocation; only the non-secret job identity is admitted.\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8\
+        \ LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"\
+        $GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\"\
+        \ GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"\
+        $ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$adapter\" --step initialize \\\n  --source \"$GITHUB_WORKSPACE/qualified-g1-intake-source\"\
+        \ \\\n  --output \"$RUNNER_TEMP/dg16-g1-intake-diagnostic-$GITHUB_RUN_ID-1\"\n"
+    - name: Discover the fresh parent controller
+      shell: bash
+      run: "set -euo pipefail\nadapter=\"$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-intake-diagnostic/run.py\"\nactual=\"$(/usr/bin/sha256sum\
+        \ \"$adapter\")\"\ntest \"${actual%% *}\" = 'bde354d19ce67e0b5c725c3ae0321f51c2b1c0c1b2d4fd125ba6c3c4823f00da'\ntest \"$GITHUB_RUN_ATTEMPT\"\
+        \ = 1\n# Fresh actual UID0 allocation; only the non-secret job identity is admitted.\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8\
+        \ LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"\
+        $GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\"\
+        \ GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"\
+        $ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$adapter\" --step discover \\\n  --source \"$GITHUB_WORKSPACE/qualified-g1-intake-source\"\
+        \ \\\n  --output \"$RUNNER_TEMP/dg16-g1-intake-diagnostic-$GITHUB_RUN_ID-1\"\n"
+    - name: Invalidate the new hosted boundary
+      shell: bash
+      run: "set -euo pipefail\nadapter=\"$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-intake-diagnostic/run.py\"\nactual=\"$(/usr/bin/sha256sum\
+        \ \"$adapter\")\"\ntest \"${actual%% *}\" = 'bde354d19ce67e0b5c725c3ae0321f51c2b1c0c1b2d4fd125ba6c3c4823f00da'\ntest \"$GITHUB_RUN_ATTEMPT\"\
+        \ = 1\n# Fresh actual UID0 allocation; only the non-secret job identity is admitted.\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8\
+        \ LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"\
+        $GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\"\
+        \ GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"\
+        $ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$adapter\" --step invalidate \\\n  --source \"$GITHUB_WORKSPACE/qualified-g1-intake-source\"\
+        \ \\\n  --output \"$RUNNER_TEMP/dg16-g1-intake-diagnostic-$GITHUB_RUN_ID-1\"\n"
+    - name: Read canonical STATE separately
+      shell: bash
+      run: "set -euo pipefail\nadapter=\"$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-intake-diagnostic/run.py\"\nactual=\"$(/usr/bin/sha256sum\
+        \ \"$adapter\")\"\ntest \"${actual%% *}\" = 'bde354d19ce67e0b5c725c3ae0321f51c2b1c0c1b2d4fd125ba6c3c4823f00da'\ntest \"$GITHUB_RUN_ATTEMPT\"\
+        \ = 1\n# Fresh actual UID0 allocation; only the non-secret job identity is admitted.\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8\
+        \ LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"\
+        $GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\"\
+        \ GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"\
+        $ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$adapter\" --step read-state \\\n  --source \"$GITHUB_WORKSPACE/qualified-g1-intake-source\"\
+        \ \\\n  --output \"$RUNNER_TEMP/dg16-g1-intake-diagnostic-$GITHUB_RUN_ID-1\"\n"
+    - name: Read canonical ROADMAP separately
+      shell: bash
+      run: "set -euo pipefail\nadapter=\"$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-intake-diagnostic/run.py\"\nactual=\"$(/usr/bin/sha256sum\
+        \ \"$adapter\")\"\ntest \"${actual%% *}\" = 'bde354d19ce67e0b5c725c3ae0321f51c2b1c0c1b2d4fd125ba6c3c4823f00da'\ntest \"$GITHUB_RUN_ATTEMPT\"\
+        \ = 1\n# Fresh actual UID0 allocation; only the non-secret job identity is admitted.\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8\
+        \ LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"\
+        $GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\"\
+        \ GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"\
+        $ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$adapter\" --step read-roadmap \\\n  --source \"$GITHUB_WORKSPACE/qualified-g1-intake-source\"\
+        \ \\\n  --output \"$RUNNER_TEMP/dg16-g1-intake-diagnostic-$GITHUB_RUN_ID-1\"\n"
+    - name: Resume the fresh parent through the unchanged owner
+      shell: bash
+      run: "set -euo pipefail\nadapter=\"$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-intake-diagnostic/run.py\"\nactual=\"$(/usr/bin/sha256sum\
+        \ \"$adapter\")\"\ntest \"${actual%% *}\" = 'bde354d19ce67e0b5c725c3ae0321f51c2b1c0c1b2d4fd125ba6c3c4823f00da'\ntest \"$GITHUB_RUN_ATTEMPT\"\
+        \ = 1\n# Fresh actual UID0 allocation; only the non-secret job identity is admitted.\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8\
+        \ LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"\
+        $GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\"\
+        \ GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"\
+        $ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$adapter\" --step resume \\\n  --source \"$GITHUB_WORKSPACE/qualified-g1-intake-source\"\
+        \ \\\n  --output \"$RUNNER_TEMP/dg16-g1-intake-diagnostic-$GITHUB_RUN_ID-1\"\n"
+    - name: Verify the actual parent receipt
+      shell: bash
+      run: "set -euo pipefail\nadapter=\"$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-intake-diagnostic/run.py\"\nactual=\"$(/usr/bin/sha256sum\
+        \ \"$adapter\")\"\ntest \"${actual%% *}\" = 'bde354d19ce67e0b5c725c3ae0321f51c2b1c0c1b2d4fd125ba6c3c4823f00da'\ntest \"$GITHUB_RUN_ATTEMPT\"\
+        \ = 1\n# Fresh actual UID0 allocation; only the non-secret job identity is admitted.\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8\
+        \ LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"\
+        $GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\"\
+        \ GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"\
+        $ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$adapter\" --step verify \\\n  --source \"$GITHUB_WORKSPACE/qualified-g1-intake-source\"\
+        \ \\\n  --output \"$RUNNER_TEMP/dg16-g1-intake-diagnostic-$GITHUB_RUN_ID-1\"\n"
+    - name: Require initial parent currentness
+      shell: bash
+      run: "set -euo pipefail\nadapter=\"$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-intake-diagnostic/run.py\"\nactual=\"$(/usr/bin/sha256sum\
+        \ \"$adapter\")\"\ntest \"${actual%% *}\" = 'bde354d19ce67e0b5c725c3ae0321f51c2b1c0c1b2d4fd125ba6c3c4823f00da'\ntest \"$GITHUB_RUN_ATTEMPT\"\
+        \ = 1\n# Fresh actual UID0 allocation; only the non-secret job identity is admitted.\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8\
+        \ LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"\
+        $GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\"\
+        \ GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"\
+        $ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$adapter\" --step require \\\n  --source \"$GITHUB_WORKSPACE/qualified-g1-intake-source\"\
+        \ \\\n  --output \"$RUNNER_TEMP/dg16-g1-intake-diagnostic-$GITHUB_RUN_ID-1\"\n"
+    - name: Observe the existing NSS admission
+      shell: bash
+      run: "set -euo pipefail\nadapter=\"$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-intake-diagnostic/run.py\"\nactual=\"$(/usr/bin/sha256sum\
+        \ \"$adapter\")\"\ntest \"${actual%% *}\" = 'bde354d19ce67e0b5c725c3ae0321f51c2b1c0c1b2d4fd125ba6c3c4823f00da'\ntest \"$GITHUB_RUN_ATTEMPT\"\
+        \ = 1\n# Fresh actual UID0 allocation; only the non-secret job identity is admitted.\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8\
+        \ LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"\
+        $GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\"\
+        \ GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"\
+        $ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$adapter\" --step input-preflight \\\n  --source \"$GITHUB_WORKSPACE/qualified-g1-intake-source\"\
+        \ \\\n  --output \"$RUNNER_TEMP/dg16-g1-intake-diagnostic-$GITHUB_RUN_ID-1\"\n"
+    - name: Run exactly one positive native intake case and observe parent currentness
+      shell: bash
+      run: "set -euo pipefail\nadapter=\"$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-intake-diagnostic/run.py\"\nactual=\"$(/usr/bin/sha256sum\
+        \ \"$adapter\")\"\ntest \"${actual%% *}\" = 'bde354d19ce67e0b5c725c3ae0321f51c2b1c0c1b2d4fd125ba6c3c4823f00da'\ntest \"$GITHUB_RUN_ATTEMPT\"\
+        \ = 1\n# Fresh actual UID0 allocation; only the non-secret job identity is admitted.\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8\
+        \ LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"\
+        $GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\"\
+        \ GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"\
+        $ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$adapter\" --step positive-case \\\n  --source \"$GITHUB_WORKSPACE/qualified-g1-intake-source\"\
+        \ \\\n  --output \"$RUNNER_TEMP/dg16-g1-intake-diagnostic-$GITHUB_RUN_ID-1\"\n"
+    - name: Finalize actual custody from the selected source
+      if: always()
+      shell: bash
+      run: "set -euo pipefail\nadapter=\"$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-intake-diagnostic/run.py\"\nactual=\"$(/usr/bin/sha256sum\
+        \ \"$adapter\")\"\ntest \"${actual%% *}\" = 'bde354d19ce67e0b5c725c3ae0321f51c2b1c0c1b2d4fd125ba6c3c4823f00da'\ntest \"$GITHUB_RUN_ATTEMPT\"\
+        \ = 1\n# Fresh actual UID0 allocation; only the non-secret job identity is admitted.\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8\
+        \ LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"\
+        $GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\"\
+        \ GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"\
+        $ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$adapter\" --step finalize \\\n  --source \"$GITHUB_WORKSPACE/qualified-g1-intake-source\"\
+        \ \\\n  --output \"$RUNNER_TEMP/dg16-g1-intake-diagnostic-$GITHUB_RUN_ID-1\"\n"
+    - name: Validate all public bytes before emission
+      if: always()
+      shell: bash
+      run: "set -euo pipefail\nadapter=\"$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-intake-diagnostic/run.py\"\nactual=\"$(/usr/bin/sha256sum\
+        \ \"$adapter\")\"\ntest \"${actual%% *}\" = 'bde354d19ce67e0b5c725c3ae0321f51c2b1c0c1b2d4fd125ba6c3c4823f00da'\ntest \"$GITHUB_RUN_ATTEMPT\"\
+        \ = 1\n# Fresh actual UID0 allocation; only the non-secret job identity is admitted.\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8\
+        \ LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"\
+        $GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\"\
+        \ GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"\
+        $ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$adapter\" --emit-public \\\n  --source \"$GITHUB_WORKSPACE/qualified-g1-intake-source\"\
+        \ \\\n  --output \"$RUNNER_TEMP/dg16-g1-intake-diagnostic-$GITHUB_RUN_ID-1\"\n"
+    - name: Retain closed fallback observations if export refused
+      if: always()
+      shell: bash
+      run: "set -euo pipefail\nadapter=\"$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-intake-diagnostic/run.py\"\nactual=\"$(/usr/bin/sha256sum\
+        \ \"$adapter\")\"\ntest \"${actual%% *}\" = 'bde354d19ce67e0b5c725c3ae0321f51c2b1c0c1b2d4fd125ba6c3c4823f00da'\ntest \"$GITHUB_RUN_ATTEMPT\"\
+        \ = 1\n# Fresh actual UID0 allocation; only the non-secret job identity is admitted.\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8\
+        \ LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"\
+        $GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\"\
+        \ GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"\
+        $ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$adapter\" --emit-failure \\\n  --source \"$GITHUB_WORKSPACE/qualified-g1-intake-source\"\
+        \ \\\n  --output \"$RUNNER_TEMP/dg16-g1-intake-diagnostic-$GITHUB_RUN_ID-1\"\n"
+    - name: Observe validated diagnostic eligibility
+      id: diagnostic_public
+      if: always()
+      shell: bash
+      run: "set -euo pipefail\nmarker=\"$RUNNER_TEMP/dg16-g1-intake-diagnostic-$GITHUB_RUN_ID-1/PUBLIC_ELIGIBLE\"\nif test -f \"$marker\" && test\
+        \ \"$(cat \"$marker\")\" = true; then\n  echo 'eligible=true' >> \"$GITHUB_OUTPUT\"\nelse\n  echo 'eligible=false' >> \"$GITHUB_OUTPUT\"\
+        \nfi\n"
+    - name: Retain only validated diagnostic files
+      if: always() && steps.diagnostic_public.outputs.eligible == 'true'
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: dg16-g1-intake-diagnostic-${{ github.run_id }}-1
+        if-no-files-found: error
+        retention-days: 3
+        compression-level: 9
+        path: '${{ runner.temp }}/dg16-g1-intake-diagnostic-${{ github.run_id }}-1/public/RESULT.json
+
+          ${{ runner.temp }}/dg16-g1-intake-diagnostic-${{ github.run_id }}-1/public/HOST.json
+
+          ${{ runner.temp }}/dg16-g1-intake-diagnostic-${{ github.run_id }}-1/public/SOURCE.json
+
+          ${{ runner.temp }}/dg16-g1-intake-diagnostic-${{ github.run_id }}-1/public/SOURCE_ADMISSION.json
+
+          ${{ runner.temp }}/dg16-g1-intake-diagnostic-${{ github.run_id }}-1/public/DIAGNOSTIC.json
+
+          ${{ runner.temp }}/dg16-g1-intake-diagnostic-${{ github.run_id }}-1/public/CURRENTNESS.json
+
+          ${{ runner.temp }}/dg16-g1-intake-diagnostic-${{ github.run_id }}-1/public/NSS.json
+
+          ${{ runner.temp }}/dg16-g1-intake-diagnostic-${{ github.run_id }}-1/public/CLEANUP.json
+
+          ${{ runner.temp }}/dg16-g1-intake-diagnostic-${{ github.run_id }}-1/public/FAILURE.json
+
+          ${{ runner.temp }}/dg16-g1-intake-diagnostic-${{ github.run_id }}-1/public/ARTIFACT_MANIFEST.json
+
+          '
+    - name: Observe validated fallback eligibility
+      id: fallback_public
+      if: always()
+      shell: bash
+      run: "set -euo pipefail\nmarker=\"$RUNNER_TEMP/dg16-g1-intake-diagnostic-$GITHUB_RUN_ID-1/FAILURE_ELIGIBLE\"\nif test -f \"$marker\" &&\
+        \ test \"$(cat \"$marker\")\" = true; then\n  echo 'eligible=true' >> \"$GITHUB_OUTPUT\"\nelse\n  echo 'eligible=false' >> \"$GITHUB_OUTPUT\"\
+        \nfi\n"
+    - name: Retain only validated fallback files
+      if: always() && steps.fallback_public.outputs.eligible == 'true'
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: dg16-g1-intake-fallback-${{ github.run_id }}-1
+        if-no-files-found: error
+        retention-days: 3
+        compression-level: 9
+        path: '${{ runner.temp }}/dg16-g1-intake-diagnostic-${{ github.run_id }}-1/public-failure/RETENTION_FAILURE.json
+
+          ${{ runner.temp }}/dg16-g1-intake-diagnostic-${{ github.run_id }}-1/public-failure/ARTIFACT_MANIFEST.json
+
+          '
