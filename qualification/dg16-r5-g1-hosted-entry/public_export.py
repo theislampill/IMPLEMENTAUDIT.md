@@ -1,0 +1,216 @@
+"""Fixed public-only transport staging outside the private root island.
+
+Only completed existing core validators or exact fixed carrier exports supply
+bytes. This file never traverses/copies a private directory or changes an
+existing ancestor's ownership/mode. Final whole-tree receiving binds this file.
+"""
+import base64,hashlib,json,os,re,stat,sys,types
+from pathlib import Path
+BRANCH = 'pro/dg16-r5-g1-original-g3-current-03-20261107'
+CORE_RUN_SHA256 = 'd4200af75862c3602f07d9a383a4e36c8de0c4e4083e0bd4cde3599ce96d4d58'
+PHASES={
+ 'root-request':('public-request','ROOT_REQUEST_ELIGIBLE',('ROOT_REQUEST.json','SCOPE_RECEIVING.json','G1_RECEIVING.json','ARTIFACT_MANIFEST.json')),
+ 'final-request':('public-final-request','FINAL_REQUEST_ELIGIBLE',('FINAL_REQUEST.json','INDEPENDENT_PROOF_RECEIPT.json','ARTIFACT_MANIFEST.json')),
+ 'terminal':('public','PUBLIC_ELIGIBLE',('RESULT.json','HOST.json','SOURCE.json','OPERATION.json','G3.json','NSS.json','CLEANUP.json','FAILURE.json','ARTIFACT_MANIFEST.json')),
+ 'failure':('public-failure','FAILURE_ELIGIBLE',('RETENTION_FAILURE.json','ARTIFACT_MANIFEST.json'))}
+
+def need(v,c):
+ if not v:raise ValueError(c)
+
+def parse(raw):
+ def pairs(rows):
+  v={}
+  for k,x in rows:need(k not in v,'DUPLICATE_KEY');v[k]=x
+  return v
+ return json.loads(raw.decode('utf8'),object_pairs_hook=pairs,parse_constant=lambda _:need(False,'NONFINITE'))
+
+def stamp(s):return (s.st_dev,s.st_ino,s.st_mode,s.st_nlink,s.st_size,s.st_mtime_ns,s.st_ctime_ns,s.st_uid,s.st_gid)
+
+def read(path,limit):
+ before=path.lstat();need(stat.S_ISREG(before.st_mode) and before.st_nlink==1 and 0<=before.st_size<=limit,'PUBLIC_FILE_SHAPE')
+ fd=os.open(path,os.O_RDONLY|os.O_NOFOLLOW|os.O_CLOEXEC)
+ try:
+  need(stamp(os.fstat(fd))==stamp(before) and not os.listxattr(fd),'PUBLIC_OPEN_CHANGED')
+  body=os.pread(fd,limit+1,0)
+  need(len(body)==before.st_size and stamp(os.fstat(fd))==stamp(before) and stamp(path.lstat())==stamp(before),'PUBLIC_CLOSING_CHANGED')
+  return body
+ finally:os.close(fd)
+
+def context():
+ e=os.environ;run=e.get('GITHUB_RUN_ID','')
+ need(type(BRANCH) is str and e.get('GITHUB_ACTIONS')=='true' and e.get('GITHUB_REPOSITORY')=='theislampill/IMPLEMENTAUDIT.md'
+      and e.get('GITHUB_EVENT_NAME')=='push' and e.get('GITHUB_REF')=='refs/heads/'+BRANCH
+      and e.get('GITHUB_RUN_ATTEMPT')=='1' and re.fullmatch('[1-9][0-9]{0,19}',run),'EXPORT_CONTEXT')
+ parent=Path(e['RUNNER_TEMP']);need(parent.is_absolute() and parent.resolve(strict=True)==parent,'EXPORT_PARENT')
+ return run,parent
+
+def stream_files(phase,raw):
+ limit=131072 if phase=='tools' else 32768;need(len(raw)<=limit,'EXPORT_STREAM_BOUND');v=parse(raw);precore_stream(phase,v)
+ need(type(v) is dict and set(v)=={'schema','authority','result','files_base64','original_awards'} and v['authority']=='NONE' and v['original_awards']==[],'EXPORT_STREAM_FIELDS')
+ names={'HOST_TOOL_OBSERVATION.json'} if phase=='tools' else {'REQUEST.json','RECIPIENT.pem'}
+ need(v['schema']==('dg16.host-tool-observation-public-export.v1' if phase=='tools' else 'dg16.core-private-recipient-public-export.v1')
+      and type(v['files_base64']) is dict and set(v['files_base64'])==names and type(v['result']) is dict,'EXPORT_STREAM_SCHEMA')
+ need(v['result'].get('status')==('OBSERVED' if phase=='tools' else 'REQUEST_READY'),'EXPORT_STREAM_NOT_READY')
+ if phase=='tools':need(v['result'].get('command_executed') is False and v['result'].get('crypto_capability_claim') is False,'EXPORT_OBSERVATION_SCOPE')
+ result={}
+ for name,text in v['files_base64'].items():
+  need(type(text) is str,'EXPORT_BASE64_TYPE');body=base64.b64decode(text,validate=True)
+  need(0<len(body)<=(65536 if phase=='tools' else 8192),'EXPORT_BODY_BOUND');result[name]=body
+ return result
+
+def stage(parent,run,phase,files):
+ need(phase in (*PHASES,'tools','recipient') and type(run) is str and re.fullmatch('[1-9][0-9]{0,19}',run),'EXPORT_FIXED_DESTINATION')
+ need(type(files) is dict and files and all('/' not in n and re.fullmatch(r'[A-Z_]+\.(json|pem)',n) for n in files),'EXPORT_NAME')
+ need(sum(map(len,files.values()))<=4*1024**2,'EXPORT_TOTAL_BOUND')
+ root=parent/('dg16-g1-public-'+run+'-a1')
+ try:os.mkdir(root,0o755)
+ except FileExistsError:pass
+ st=root.lstat();need(stat.S_ISDIR(st.st_mode) and not root.is_symlink() and stat.S_IMODE(st.st_mode)==0o755 and st.st_uid==os.geteuid() and st.st_gid==os.getegid(),'EXPORT_ROOT_CUSTODY')
+ fd=os.open(root,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW|os.O_CLOEXEC)
+ try:
+  need(stamp(os.fstat(fd))==stamp(st),'EXPORT_ROOT_CHANGED')
+  os.mkdir(phase,0o755,dir_fd=fd);phase_fd=os.open(phase,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW|os.O_CLOEXEC,dir_fd=fd)
+  try:
+   for name,body in sorted(files.items()):
+    out=os.open(name,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW|os.O_CLOEXEC,0o644,dir_fd=phase_fd)
+    try:
+     offset=0
+     while offset<len(body):
+      n=os.write(out,body[offset:]);need(n>0,'EXPORT_WRITE_PROGRESS');offset+=n
+     os.fchmod(out,0o644);os.fsync(out)
+    finally:os.close(out)
+   os.fsync(phase_fd)
+   need({p.name for p in (root/phase).iterdir()}==set(files),'EXPORT_POPULATION')
+   for name,body in files.items():need(read(root/phase/name,1024**2)==body,'EXPORT_READBACK')
+  finally:os.close(phase_fd)
+ finally:os.close(fd)
+
+def failure_files(core,output,context):
+ # Use the existing closed projection and validator directly. Core preparation
+ # may never have created output, so failure receiving must not require a new
+ # private/core directory merely to retain an unknown-state observation.
+ marker=output/'PUBLIC_ELIGIBLE'
+ if marker.exists() and core.read_regular(marker,5)==b'true\n':return None
+ raw=core.canonical(core.failure_observation(output,context))
+ files={'RETENTION_FAILURE.json':raw,'ARTIFACT_MANIFEST.json':core.canonical(dict(schema='dg16.g1-hosted-failure-artifacts.v1',
+  members=[dict(name='RETENTION_FAILURE.json',bytes=len(raw),sha256=core.digest(raw))]))}
+ core.validate_failure_files(files)
+ need(core.canonical(core.failure_observation(output,context))==raw,'FALLBACK_CLOSING_READBACK_REFUSED')
+ core.validate_failure_files(files)
+ return files
+
+def core_files(phase,run):
+ need(os.getuid()==os.geteuid()==0 and type(CORE_RUN_SHA256) is str and re.fullmatch('[0-9a-f]{64}',CORE_RUN_SHA256),'EXPORT_CORE_AUTHORITY')
+ packet=Path('/dg16-g1-'+run)/'packet';path=packet/'run.py';raw=read(path,1024**2)
+ need(hashlib.sha256(raw).hexdigest()==CORE_RUN_SHA256,'EXPORT_CORE_PIN')
+ core=types.ModuleType('exact_public_export_core');core.__file__=str(path);exec(compile(raw,str(path),'exec'),core.__dict__)
+ source=packet.parent/'source';output=packet.parent/'output';ctx=core.host_context(output,source)
+ if phase=='failure':
+  files=failure_files(core,output,ctx)
+  need(read(path,1024**2)==raw,'EXPORT_CORE_CLOSING_CHANGED')
+  return files
+ if phase=='root-request':core.emit_root_request(output)
+ elif phase=='final-request':core.emit_root_request(output,final=True)
+ elif phase=='terminal':core.emit_public(output)
+ else:need(False,'EXPORT_PHASE')
+ directory,marker,names=PHASES[phase]
+ need(core.read_regular(output/marker,5)==b'true\n','EXPORT_ELIGIBILITY_REQUIRED')
+ files={name:core.read_regular(output/directory/name,1024**2) for name in names}
+ need({p.name for p in (output/directory).iterdir()}==set(names),'EXPORT_CORE_POPULATION')
+ need(read(path,1024**2)==raw,'EXPORT_CORE_CLOSING_CHANGED')
+ return files
+
+def main():
+ need(sys.flags.isolated==1 and sys.dont_write_bytecode and len(sys.argv)==2 and os.getuid()==os.geteuid()==os.getgid()==os.getegid()==0,'FIXED_EXPORT_ENTRY')
+ os.umask(0o022)
+ phase=sys.argv[1];need(phase in (*PHASES,'tools','recipient'),'EXPORT_PHASE');run,parent=context()
+ files=stream_files(phase,sys.stdin.buffer.read(131073)) if phase in ('tools','recipient') else core_files(phase,run)
+ if files is not None:stage(parent,run,phase,files)
+ print(json.dumps(dict(schema='dg16.fixed-public-staging-result.v1',authority='NONE',phase=phase,exported=files is not None,original_awards=[])),flush=True)
+ return 0
+
+
+# Exact pure closed refusal projection; external whole-tree bound.
+"""Pure, closed pre-core refusal projection; inlined into external entry bodies.
+
+Only exact declared ValueError literals are public. No exception stringification,
+OS-cause inference, path, traceback or private bytes. Null carrier_result means
+unobserved, never no effects or successful cleanup. No authority is conferred.
+"""
+import json
+import re
+
+PRECORE_CODES = {'BOOTSTRAP': ['ACL_ABSENCE_NOT_OBSERVED', 'ACL_PRESENT', 'BOOTSTRAP_ADMISSION_PIN', 'BOOTSTRAP_ADMISSION_SCOPE', 'BOOTSTRAP_BODY_CHANGED', 'BOOTSTRAP_CLOSING_CUSTODY', 'BOOTSTRAP_CONTEXT', 'BOOTSTRAP_EXTERNAL_PINS', 'BOOTSTRAP_FILE_CUSTODY', 'BOOTSTRAP_FINAL_CURRENT_JOIN', 'BOOTSTRAP_FIXED_CHECKOUT', 'BOOTSTRAP_FIXED_ENTRY', 'BOOTSTRAP_OPEN_CHANGED', 'BOOTSTRAP_PLACEMENT_PIN', 'BOOTSTRAP_SOURCE_CLOSING_CHANGED', 'BOOTSTRAP_WORKFLOW_CURRENTNESS', 'DIRECTORY_CHANGED', 'DIRECTORY_CUSTODY', 'DUPLICATE_KEY', 'FIXED_PACKET_REQUIRED', 'FIXED_ROOT_CONTEXT', 'NONFINITE_JSON', 'ORDINARY_PUBLIC_BODY_REQUIRED', 'PRIVATE_INPUT_DIRECTORY_CHANGED', 'PUBLIC_BODY_CLOSING_CHANGED', 'PUBLIC_BODY_OPEN_CHANGED', 'PUBLIC_BODY_PIN', 'PUBLIC_CENSUS_INCOMPLETE', 'PUBLIC_CURRENT_BODY_CHANGED', 'PUBLIC_DIRECTORY_CHANGED', 'PUBLIC_DIRECTORY_POPULATION', 'PUBLIC_ENTRY_BOUND', 'PUBLIC_FILE_POPULATION_CUSTODY', 'PUBLIC_INSTALL_READBACK', 'PUBLIC_MANIFEST_BOUND', 'PUBLIC_MANIFEST_CORE_CARRIER_REQUIRED', 'PUBLIC_MANIFEST_POPULATION', 'PUBLIC_MANIFEST_SCHEMA', 'PUBLIC_MEMBER_DESCRIPTOR', 'PUBLIC_MEMBER_PATH', 'PUBLIC_TOTAL_BOUND', 'RECEIPT_READBACK', 'ROOT_CREDENTIALS_REQUIRED', 'RUNTIME_CHILD_REPLACED', 'RUNTIME_MANIFEST_BINDING', 'RUNTIME_MANIFEST_CUSTODY', 'RUNTIME_PACKET_REPLACED', 'RUNTIME_PARENT_REPLACED', 'RUNTIME_RECEIPT_BINDING', 'RUNTIME_RECEIPT_CUSTODY', 'SOURCE_OUTPUT_MUST_BE_ABSENT', 'STAGING_ANCESTOR_ALIAS', 'WRITE_PROGRESS'], 'PUBLIC_EXPORT': ['DUPLICATE_KEY', 'EXPORT_BASE64_TYPE', 'EXPORT_BODY_BOUND', 'EXPORT_CONTEXT', 'EXPORT_CORE_AUTHORITY', 'EXPORT_CORE_CLOSING_CHANGED', 'EXPORT_CORE_PIN', 'EXPORT_CORE_POPULATION', 'EXPORT_ELIGIBILITY_REQUIRED', 'EXPORT_FIXED_DESTINATION', 'EXPORT_NAME', 'EXPORT_OBSERVATION_SCOPE', 'EXPORT_PARENT', 'EXPORT_PHASE', 'EXPORT_POPULATION', 'EXPORT_READBACK', 'EXPORT_ROOT_CHANGED', 'EXPORT_ROOT_CUSTODY', 'EXPORT_STREAM_BOUND', 'EXPORT_STREAM_FIELDS', 'EXPORT_STREAM_NOT_READY', 'EXPORT_STREAM_SCHEMA', 'EXPORT_TOTAL_BOUND', 'EXPORT_WRITE_PROGRESS', 'FIXED_EXPORT_ENTRY', 'NONFINITE', 'PUBLIC_CLOSING_CHANGED', 'PUBLIC_FILE_SHAPE', 'PUBLIC_OPEN_CHANGED'], 'HOST_TOOL_OBSERVATION': ['ACL_ABSENCE_NOT_OBSERVED', 'ACL_PRESENT', 'BOOTSTRAP_ADMISSION_PIN', 'BOOTSTRAP_ADMISSION_SCOPE', 'BOOTSTRAP_CLOSING_CUSTODY', 'BOOTSTRAP_FINAL_CURRENT_JOIN', 'DIRECTORY_CHANGED', 'DIRECTORY_CUSTODY', 'DUPLICATE_KEY', 'ENTRY_COMMON_PIN', 'ENTRY_COMMON_SHAPE', 'EXTERNAL_BINDING_REQUIRED', 'EXTERNAL_BOOTSTRAP_RECEIPT_BINDING', 'EXTERNAL_CORE_RETURN', 'EXTERNAL_CORE_RUN_CHANGED', 'EXTERNAL_ENTRY_UNRESOLVED', 'EXTERNAL_ISOLATED_INTERPRETER_REQUIRED', 'EXTERNAL_LOADER_BINDING', 'EXTERNAL_LOADER_BODY_CHANGED', 'EXTERNAL_LOADER_FILE_CUSTODY', 'EXTERNAL_LOADER_OPEN_CHANGED', 'EXTERNAL_PLACEMENT_BODY_CHANGED', 'EXTERNAL_PLACEMENT_RECEIPT_REQUIRED', 'EXTERNAL_PUBLIC_EXPORT_BOUND', 'EXTERNAL_PUBLIC_REQUEST_BOUND', 'EXTERNAL_PUBLIC_REQUEST_DIGEST', 'EXTERNAL_PUBLIC_REQUEST_MEMBERS', 'EXTERNAL_PUBLIC_REQUEST_REFUSAL', 'EXTERNAL_PUBLIC_REQUEST_SHAPE', 'EXTERNAL_PUBLIC_RESULT', 'EXTERNAL_READ_ONLY_TOOL_PHASE', 'EXTERNAL_RUN_ID', 'EXTERNAL_TOOL_CONTEXT_CHANGED', 'EXTERNAL_TOOL_EXPORT_BOUND', 'EXTERNAL_TOOL_OBSERVATION_BOUND', 'EXTERNAL_TOOL_OBSERVATION_SHAPE', 'FIXED_ISOLATED_ENTRY_ONLY', 'FIXED_PACKET_REQUIRED', 'FIXED_ROOT_CONTEXT', 'HOST_TOOLS_DEFERRED_DECLARATION', 'HOST_TOOLS_SEPARATE_CONTROL_ANCESTRY', 'HOST_TOOLS_SEPARATE_RESERVED_REF', 'HOST_TOOL_ACTUAL_ALLOCATION_BOUND', 'HOST_TOOL_ACTUAL_ROOT_HOST_REQUIRED', 'HOST_TOOL_ADOPTION_DEADLINE', 'HOST_TOOL_ADOPTION_EXACT_JOIN', 'HOST_TOOL_ADOPTION_TERMINAL_CONJUNCTION', 'HOST_TOOL_ARTIFACT_BODY', 'HOST_TOOL_ARTIFACT_BOUND', 'HOST_TOOL_ARTIFACT_CRC', 'HOST_TOOL_ARTIFACT_POPULATION', 'HOST_TOOL_BOOT_ID', 'HOST_TOOL_CONTROL_BODY', 'HOST_TOOL_CONTROL_CURRENTNESS', 'HOST_TOOL_CONTROL_FRESH_PARENT', 'HOST_TOOL_CONTROL_TREE', 'HOST_TOOL_CURRENT_READBACK_CHANGED', 'HOST_TOOL_DIRECTORY_CUSTODY', 'HOST_TOOL_EXTERNAL_MANIFEST_ANCHOR_REQUIRED', 'HOST_TOOL_FIXED_CURRENTNESS_PHASE', 'HOST_TOOL_FIXED_OPERATION', 'HOST_TOOL_FIXED_TIME_SCOPE', 'HOST_TOOL_OBSERVATION_CLOSING', 'HOST_TOOL_OBSERVATION_CURRENT_BODY', 'HOST_TOOL_OBSERVATION_DEADLINE', 'HOST_TOOL_OBSERVATION_TERMINAL_JOIN', 'HOST_TOOL_PROSPECTIVE_ALLOCATION', 'HOST_TOOL_PROVIDER_DEADLINE', 'HOST_TOOL_READY_ACTUAL_RETAINED_BODIES', 'HOST_TOOL_READY_CHANGED', 'HOST_TOOL_READY_EXACT_JOIN', 'HOST_TOOL_RECORD_SCOPE', 'HOST_TOOL_REF_SCOPE', 'HOST_TOOL_RETAINED_CURRENTNESS_CHANGED', 'HOST_TOOL_ROOT_ACTUAL_ARTIFACT', 'HOST_TOOL_ROOT_ARTIFACT_BINDING', 'HOST_TOOL_ROOT_ARTIFACT_JOIN', 'HOST_TOOL_ROOT_FILE_CUSTODY', 'HOST_TOOL_ROOT_HOST_IDENTITY', 'HOST_TOOL_ROOT_LIVE_JOB', 'HOST_TOOL_ROOT_LIVE_RUN', 'HOST_TOOL_ROOT_METADATA_AGGREGATE', 'HOST_TOOL_ROOT_OBSERVATION_SCHEMA', 'HOST_TOOL_ROOT_PHYSICAL_ANCESTRY', 'HOST_TOOL_ROOT_PHYSICAL_BODY', 'HOST_TOOL_ROOT_REPOSITORY_ID', 'HOST_TOOL_ROOT_SINGLE_JOB', 'HOST_TOOL_SAME_SESSION', 'HOST_TOOL_UNKNOWN_MEMBER', 'NONFINITE_JSON', 'ORDINARY_PUBLIC_BODY_REQUIRED', 'PRIVATE_INPUT_DIRECTORY_CHANGED', 'PUBLIC_BODY_CLOSING_CHANGED', 'PUBLIC_BODY_OPEN_CHANGED', 'PUBLIC_BODY_PIN', 'PUBLIC_CENSUS_INCOMPLETE', 'PUBLIC_CURRENT_BODY_CHANGED', 'PUBLIC_DIRECTORY_CHANGED', 'PUBLIC_DIRECTORY_POPULATION', 'PUBLIC_ENTRY_BOUND', 'PUBLIC_FILE_POPULATION_CUSTODY', 'PUBLIC_INSTALL_READBACK', 'PUBLIC_MANIFEST_BOUND', 'PUBLIC_MANIFEST_CORE_CARRIER_REQUIRED', 'PUBLIC_MANIFEST_POPULATION', 'PUBLIC_MANIFEST_SCHEMA', 'PUBLIC_MEMBER_DESCRIPTOR', 'PUBLIC_MEMBER_PATH', 'PUBLIC_TOTAL_BOUND', 'RECEIPT_READBACK', 'ROOT_CREDENTIALS_REQUIRED', 'RUNTIME_CHILD_REPLACED', 'RUNTIME_MANIFEST_BINDING', 'RUNTIME_MANIFEST_CUSTODY', 'RUNTIME_PACKET_REPLACED', 'RUNTIME_PARENT_REPLACED', 'RUNTIME_RECEIPT_BINDING', 'RUNTIME_RECEIPT_CUSTODY', 'SOURCE_OUTPUT_MUST_BE_ABSENT', 'STAGING_ANCESTOR_ALIAS', 'WRITE_PROGRESS'], 'HOST_TOOL_ADOPTION': ['ACL_ABSENCE_NOT_OBSERVED', 'ACL_PRESENT', 'BOOTSTRAP_ADMISSION_PIN', 'BOOTSTRAP_ADMISSION_SCOPE', 'BOOTSTRAP_CLOSING_CUSTODY', 'BOOTSTRAP_FINAL_CURRENT_JOIN', 'DIRECTORY_CHANGED', 'DIRECTORY_CUSTODY', 'DUPLICATE_KEY', 'ENTRY_COMMON_PIN', 'ENTRY_COMMON_SHAPE', 'EXTERNAL_BINDING_REQUIRED', 'EXTERNAL_BOOTSTRAP_RECEIPT_BINDING', 'EXTERNAL_CORE_RETURN', 'EXTERNAL_CORE_RUN_CHANGED', 'EXTERNAL_ENTRY_UNRESOLVED', 'EXTERNAL_ISOLATED_INTERPRETER_REQUIRED', 'EXTERNAL_LOADER_BINDING', 'EXTERNAL_LOADER_BODY_CHANGED', 'EXTERNAL_LOADER_FILE_CUSTODY', 'EXTERNAL_LOADER_OPEN_CHANGED', 'EXTERNAL_PLACEMENT_BODY_CHANGED', 'EXTERNAL_PLACEMENT_RECEIPT_REQUIRED', 'EXTERNAL_PUBLIC_EXPORT_BOUND', 'EXTERNAL_PUBLIC_REQUEST_BOUND', 'EXTERNAL_PUBLIC_REQUEST_DIGEST', 'EXTERNAL_PUBLIC_REQUEST_MEMBERS', 'EXTERNAL_PUBLIC_REQUEST_REFUSAL', 'EXTERNAL_PUBLIC_REQUEST_SHAPE', 'EXTERNAL_PUBLIC_RESULT', 'EXTERNAL_READ_ONLY_TOOL_PHASE', 'EXTERNAL_RUN_ID', 'EXTERNAL_TOOL_CONTEXT_CHANGED', 'EXTERNAL_TOOL_EXPORT_BOUND', 'EXTERNAL_TOOL_OBSERVATION_BOUND', 'EXTERNAL_TOOL_OBSERVATION_SHAPE', 'FIXED_ISOLATED_ENTRY_ONLY', 'FIXED_PACKET_REQUIRED', 'FIXED_ROOT_CONTEXT', 'HOST_TOOLS_DEFERRED_DECLARATION', 'HOST_TOOLS_SEPARATE_CONTROL_ANCESTRY', 'HOST_TOOLS_SEPARATE_RESERVED_REF', 'HOST_TOOL_ACTUAL_ALLOCATION_BOUND', 'HOST_TOOL_ACTUAL_ROOT_HOST_REQUIRED', 'HOST_TOOL_ADOPTION_DEADLINE', 'HOST_TOOL_ADOPTION_EXACT_JOIN', 'HOST_TOOL_ADOPTION_TERMINAL_CONJUNCTION', 'HOST_TOOL_ARTIFACT_BODY', 'HOST_TOOL_ARTIFACT_BOUND', 'HOST_TOOL_ARTIFACT_CRC', 'HOST_TOOL_ARTIFACT_POPULATION', 'HOST_TOOL_BOOT_ID', 'HOST_TOOL_CONTROL_BODY', 'HOST_TOOL_CONTROL_CURRENTNESS', 'HOST_TOOL_CONTROL_FRESH_PARENT', 'HOST_TOOL_CONTROL_TREE', 'HOST_TOOL_CURRENT_READBACK_CHANGED', 'HOST_TOOL_DIRECTORY_CUSTODY', 'HOST_TOOL_EXTERNAL_MANIFEST_ANCHOR_REQUIRED', 'HOST_TOOL_FIXED_CURRENTNESS_PHASE', 'HOST_TOOL_FIXED_OPERATION', 'HOST_TOOL_FIXED_TIME_SCOPE', 'HOST_TOOL_OBSERVATION_CLOSING', 'HOST_TOOL_OBSERVATION_CURRENT_BODY', 'HOST_TOOL_OBSERVATION_DEADLINE', 'HOST_TOOL_OBSERVATION_TERMINAL_JOIN', 'HOST_TOOL_PROSPECTIVE_ALLOCATION', 'HOST_TOOL_PROVIDER_DEADLINE', 'HOST_TOOL_READY_ACTUAL_RETAINED_BODIES', 'HOST_TOOL_READY_CHANGED', 'HOST_TOOL_READY_EXACT_JOIN', 'HOST_TOOL_RECORD_SCOPE', 'HOST_TOOL_REF_SCOPE', 'HOST_TOOL_RETAINED_CURRENTNESS_CHANGED', 'HOST_TOOL_ROOT_ACTUAL_ARTIFACT', 'HOST_TOOL_ROOT_ARTIFACT_BINDING', 'HOST_TOOL_ROOT_ARTIFACT_JOIN', 'HOST_TOOL_ROOT_FILE_CUSTODY', 'HOST_TOOL_ROOT_HOST_IDENTITY', 'HOST_TOOL_ROOT_LIVE_JOB', 'HOST_TOOL_ROOT_LIVE_RUN', 'HOST_TOOL_ROOT_METADATA_AGGREGATE', 'HOST_TOOL_ROOT_OBSERVATION_SCHEMA', 'HOST_TOOL_ROOT_PHYSICAL_ANCESTRY', 'HOST_TOOL_ROOT_PHYSICAL_BODY', 'HOST_TOOL_ROOT_REPOSITORY_ID', 'HOST_TOOL_ROOT_SINGLE_JOB', 'HOST_TOOL_SAME_SESSION', 'HOST_TOOL_UNKNOWN_MEMBER', 'NONFINITE_JSON', 'ORDINARY_PUBLIC_BODY_REQUIRED', 'PRIVATE_INPUT_DIRECTORY_CHANGED', 'PUBLIC_BODY_CLOSING_CHANGED', 'PUBLIC_BODY_OPEN_CHANGED', 'PUBLIC_BODY_PIN', 'PUBLIC_CENSUS_INCOMPLETE', 'PUBLIC_CURRENT_BODY_CHANGED', 'PUBLIC_DIRECTORY_CHANGED', 'PUBLIC_DIRECTORY_POPULATION', 'PUBLIC_ENTRY_BOUND', 'PUBLIC_FILE_POPULATION_CUSTODY', 'PUBLIC_INSTALL_READBACK', 'PUBLIC_MANIFEST_BOUND', 'PUBLIC_MANIFEST_CORE_CARRIER_REQUIRED', 'PUBLIC_MANIFEST_POPULATION', 'PUBLIC_MANIFEST_SCHEMA', 'PUBLIC_MEMBER_DESCRIPTOR', 'PUBLIC_MEMBER_PATH', 'PUBLIC_TOTAL_BOUND', 'RECEIPT_READBACK', 'ROOT_CREDENTIALS_REQUIRED', 'RUNTIME_CHILD_REPLACED', 'RUNTIME_MANIFEST_BINDING', 'RUNTIME_MANIFEST_CUSTODY', 'RUNTIME_PACKET_REPLACED', 'RUNTIME_PARENT_REPLACED', 'RUNTIME_RECEIPT_BINDING', 'RUNTIME_RECEIPT_CUSTODY', 'SOURCE_OUTPUT_MUST_BE_ABSENT', 'STAGING_ANCESTOR_ALIAS', 'WRITE_PROGRESS'], 'RECIPIENT_REQUEST': ['ACL_ABSENCE_NOT_OBSERVED', 'ACL_PRESENT', 'BOOTSTRAP_ADMISSION_PIN', 'BOOTSTRAP_ADMISSION_SCOPE', 'BOOTSTRAP_CLOSING_CUSTODY', 'BOOTSTRAP_FINAL_CURRENT_JOIN', 'DIRECTORY_CHANGED', 'DIRECTORY_CUSTODY', 'DUPLICATE_KEY', 'ENTRY_COMMON_PIN', 'ENTRY_COMMON_SHAPE', 'EXTERNAL_BINDING_REQUIRED', 'EXTERNAL_BOOTSTRAP_RECEIPT_BINDING', 'EXTERNAL_CORE_RETURN', 'EXTERNAL_CORE_RUN_CHANGED', 'EXTERNAL_ENTRY_UNRESOLVED', 'EXTERNAL_ISOLATED_INTERPRETER_REQUIRED', 'EXTERNAL_LOADER_BINDING', 'EXTERNAL_LOADER_BODY_CHANGED', 'EXTERNAL_LOADER_FILE_CUSTODY', 'EXTERNAL_LOADER_OPEN_CHANGED', 'EXTERNAL_PLACEMENT_BODY_CHANGED', 'EXTERNAL_PLACEMENT_RECEIPT_REQUIRED', 'EXTERNAL_PUBLIC_EXPORT_BOUND', 'EXTERNAL_PUBLIC_REQUEST_BOUND', 'EXTERNAL_PUBLIC_REQUEST_DIGEST', 'EXTERNAL_PUBLIC_REQUEST_MEMBERS', 'EXTERNAL_PUBLIC_REQUEST_REFUSAL', 'EXTERNAL_PUBLIC_REQUEST_SHAPE', 'EXTERNAL_PUBLIC_RESULT', 'EXTERNAL_READ_ONLY_TOOL_PHASE', 'EXTERNAL_RUN_ID', 'EXTERNAL_TOOL_CONTEXT_CHANGED', 'EXTERNAL_TOOL_EXPORT_BOUND', 'EXTERNAL_TOOL_OBSERVATION_BOUND', 'EXTERNAL_TOOL_OBSERVATION_SHAPE', 'FIXED_ISOLATED_ENTRY_ONLY', 'FIXED_PACKET_REQUIRED', 'FIXED_ROOT_CONTEXT', 'NONFINITE_JSON', 'ORDINARY_PUBLIC_BODY_REQUIRED', 'PRIVATE_INPUT_DIRECTORY_CHANGED', 'PUBLIC_BODY_CLOSING_CHANGED', 'PUBLIC_BODY_OPEN_CHANGED', 'PUBLIC_BODY_PIN', 'PUBLIC_CENSUS_INCOMPLETE', 'PUBLIC_CURRENT_BODY_CHANGED', 'PUBLIC_DIRECTORY_CHANGED', 'PUBLIC_DIRECTORY_POPULATION', 'PUBLIC_ENTRY_BOUND', 'PUBLIC_FILE_POPULATION_CUSTODY', 'PUBLIC_INSTALL_READBACK', 'PUBLIC_MANIFEST_BOUND', 'PUBLIC_MANIFEST_CORE_CARRIER_REQUIRED', 'PUBLIC_MANIFEST_POPULATION', 'PUBLIC_MANIFEST_SCHEMA', 'PUBLIC_MEMBER_DESCRIPTOR', 'PUBLIC_MEMBER_PATH', 'PUBLIC_TOTAL_BOUND', 'RECEIPT_READBACK', 'ROOT_CREDENTIALS_REQUIRED', 'RUNTIME_CHILD_REPLACED', 'RUNTIME_MANIFEST_BINDING', 'RUNTIME_MANIFEST_CUSTODY', 'RUNTIME_PACKET_REPLACED', 'RUNTIME_PARENT_REPLACED', 'RUNTIME_RECEIPT_BINDING', 'RUNTIME_RECEIPT_CUSTODY', 'SOURCE_OUTPUT_MUST_BE_ABSENT', 'STAGING_ANCESTOR_ALIAS', 'WRITE_PROGRESS'], 'PRIVATE_INPUT_RECEIVE': ['ACL_ABSENCE_NOT_OBSERVED', 'ACL_PRESENT', 'BOOTSTRAP_ADMISSION_PIN', 'BOOTSTRAP_ADMISSION_SCOPE', 'BOOTSTRAP_CLOSING_CUSTODY', 'BOOTSTRAP_FINAL_CURRENT_JOIN', 'DIRECTORY_CHANGED', 'DIRECTORY_CUSTODY', 'DUPLICATE_KEY', 'ENTRY_COMMON_PIN', 'ENTRY_COMMON_SHAPE', 'EXTERNAL_BINDING_REQUIRED', 'EXTERNAL_BOOTSTRAP_RECEIPT_BINDING', 'EXTERNAL_CORE_RETURN', 'EXTERNAL_CORE_RUN_CHANGED', 'EXTERNAL_ENTRY_UNRESOLVED', 'EXTERNAL_ISOLATED_INTERPRETER_REQUIRED', 'EXTERNAL_LOADER_BINDING', 'EXTERNAL_LOADER_BODY_CHANGED', 'EXTERNAL_LOADER_FILE_CUSTODY', 'EXTERNAL_LOADER_OPEN_CHANGED', 'EXTERNAL_PLACEMENT_BODY_CHANGED', 'EXTERNAL_PLACEMENT_RECEIPT_REQUIRED', 'EXTERNAL_PUBLIC_EXPORT_BOUND', 'EXTERNAL_PUBLIC_REQUEST_BOUND', 'EXTERNAL_PUBLIC_REQUEST_DIGEST', 'EXTERNAL_PUBLIC_REQUEST_MEMBERS', 'EXTERNAL_PUBLIC_REQUEST_REFUSAL', 'EXTERNAL_PUBLIC_REQUEST_SHAPE', 'EXTERNAL_PUBLIC_RESULT', 'EXTERNAL_READ_ONLY_TOOL_PHASE', 'EXTERNAL_RUN_ID', 'EXTERNAL_TOOL_CONTEXT_CHANGED', 'EXTERNAL_TOOL_EXPORT_BOUND', 'EXTERNAL_TOOL_OBSERVATION_BOUND', 'EXTERNAL_TOOL_OBSERVATION_SHAPE', 'FIXED_ISOLATED_ENTRY_ONLY', 'FIXED_PACKET_REQUIRED', 'FIXED_ROOT_CONTEXT', 'NONFINITE_JSON', 'ORDINARY_PUBLIC_BODY_REQUIRED', 'PRIVATE_INPUT_DIRECTORY_CHANGED', 'PUBLIC_BODY_CLOSING_CHANGED', 'PUBLIC_BODY_OPEN_CHANGED', 'PUBLIC_BODY_PIN', 'PUBLIC_CENSUS_INCOMPLETE', 'PUBLIC_CURRENT_BODY_CHANGED', 'PUBLIC_DIRECTORY_CHANGED', 'PUBLIC_DIRECTORY_POPULATION', 'PUBLIC_ENTRY_BOUND', 'PUBLIC_FILE_POPULATION_CUSTODY', 'PUBLIC_INSTALL_READBACK', 'PUBLIC_MANIFEST_BOUND', 'PUBLIC_MANIFEST_CORE_CARRIER_REQUIRED', 'PUBLIC_MANIFEST_POPULATION', 'PUBLIC_MANIFEST_SCHEMA', 'PUBLIC_MEMBER_DESCRIPTOR', 'PUBLIC_MEMBER_PATH', 'PUBLIC_TOTAL_BOUND', 'RECEIPT_READBACK', 'ROOT_CREDENTIALS_REQUIRED', 'RUNTIME_CHILD_REPLACED', 'RUNTIME_MANIFEST_BINDING', 'RUNTIME_MANIFEST_CUSTODY', 'RUNTIME_PACKET_REPLACED', 'RUNTIME_PARENT_REPLACED', 'RUNTIME_RECEIPT_BINDING', 'RUNTIME_RECEIPT_CUSTODY', 'SOURCE_OUTPUT_MUST_BE_ABSENT', 'STAGING_ANCESTOR_ALIAS', 'WRITE_PROGRESS'], 'CORE_PREPARE': ['ACL_ABSENCE_NOT_OBSERVED', 'ACL_PRESENT', 'BOOTSTRAP_ADMISSION_PIN', 'BOOTSTRAP_ADMISSION_SCOPE', 'BOOTSTRAP_CLOSING_CUSTODY', 'BOOTSTRAP_FINAL_CURRENT_JOIN', 'DIRECTORY_CHANGED', 'DIRECTORY_CUSTODY', 'DUPLICATE_KEY', 'ENTRY_COMMON_PIN', 'ENTRY_COMMON_SHAPE', 'EXTERNAL_BINDING_REQUIRED', 'EXTERNAL_BOOTSTRAP_RECEIPT_BINDING', 'EXTERNAL_CORE_RETURN', 'EXTERNAL_CORE_RUN_CHANGED', 'EXTERNAL_ENTRY_UNRESOLVED', 'EXTERNAL_ISOLATED_INTERPRETER_REQUIRED', 'EXTERNAL_LOADER_BINDING', 'EXTERNAL_LOADER_BODY_CHANGED', 'EXTERNAL_LOADER_FILE_CUSTODY', 'EXTERNAL_LOADER_OPEN_CHANGED', 'EXTERNAL_PLACEMENT_BODY_CHANGED', 'EXTERNAL_PLACEMENT_RECEIPT_REQUIRED', 'EXTERNAL_PUBLIC_EXPORT_BOUND', 'EXTERNAL_PUBLIC_REQUEST_BOUND', 'EXTERNAL_PUBLIC_REQUEST_DIGEST', 'EXTERNAL_PUBLIC_REQUEST_MEMBERS', 'EXTERNAL_PUBLIC_REQUEST_REFUSAL', 'EXTERNAL_PUBLIC_REQUEST_SHAPE', 'EXTERNAL_PUBLIC_RESULT', 'EXTERNAL_READ_ONLY_TOOL_PHASE', 'EXTERNAL_RUN_ID', 'EXTERNAL_TOOL_CONTEXT_CHANGED', 'EXTERNAL_TOOL_EXPORT_BOUND', 'EXTERNAL_TOOL_OBSERVATION_BOUND', 'EXTERNAL_TOOL_OBSERVATION_SHAPE', 'FIXED_ISOLATED_ENTRY_ONLY', 'FIXED_PACKET_REQUIRED', 'FIXED_ROOT_CONTEXT', 'NONFINITE_JSON', 'ORDINARY_PUBLIC_BODY_REQUIRED', 'PRIVATE_INPUT_DIRECTORY_CHANGED', 'PUBLIC_BODY_CLOSING_CHANGED', 'PUBLIC_BODY_OPEN_CHANGED', 'PUBLIC_BODY_PIN', 'PUBLIC_CENSUS_INCOMPLETE', 'PUBLIC_CURRENT_BODY_CHANGED', 'PUBLIC_DIRECTORY_CHANGED', 'PUBLIC_DIRECTORY_POPULATION', 'PUBLIC_ENTRY_BOUND', 'PUBLIC_FILE_POPULATION_CUSTODY', 'PUBLIC_INSTALL_READBACK', 'PUBLIC_MANIFEST_BOUND', 'PUBLIC_MANIFEST_CORE_CARRIER_REQUIRED', 'PUBLIC_MANIFEST_POPULATION', 'PUBLIC_MANIFEST_SCHEMA', 'PUBLIC_MEMBER_DESCRIPTOR', 'PUBLIC_MEMBER_PATH', 'PUBLIC_TOTAL_BOUND', 'RECEIPT_READBACK', 'ROOT_CREDENTIALS_REQUIRED', 'RUNTIME_CHILD_REPLACED', 'RUNTIME_MANIFEST_BINDING', 'RUNTIME_MANIFEST_CUSTODY', 'RUNTIME_PACKET_REPLACED', 'RUNTIME_PARENT_REPLACED', 'RUNTIME_RECEIPT_BINDING', 'RUNTIME_RECEIPT_CUSTODY', 'SOURCE_OUTPUT_MUST_BE_ABSENT', 'STAGING_ANCESTOR_ALIAS', 'WRITE_PROGRESS']}
+CARRIER_REFUSAL_CODES = ('PRE_ENTRY_REFUSED','CMS_AUTHENTICATION_REFUSED','INPUT_RECEIVING_REFUSED','CONTROL_REFUSED','CURRENTNESS_REFUSED','CLEANUP_REFUSED','INTERRUPTED','TOOL_OR_CAPTURE_REFUSED','DEADLINE_EXPIRED','RESERVATION_REFUSED')
+
+class PrecoreRefusal(Exception):
+    def __init__(self, record):
+        self.record = record
+
+
+def precore_need(ok):
+    if not ok:
+        raise ValueError('INVALID_PRECORE_REFUSAL')
+
+
+def carrier_refusal(value):
+    precore_need(type(value) is dict and set(value)=={'schema','authority','status','code','request_sha256','authenticated','staged','cleanup_complete','elapsed_ns','original_awards'})
+    precore_need(value['schema']=='dg16.core-private-carrier-result.v1' and value['authority']=='NONE' and value['status']=='REFUSED' and value['original_awards']==[])
+    precore_need(type(value['code']) is str and value['code'] in CARRIER_REFUSAL_CODES)
+    precore_need(type(value['elapsed_ns']) is int and 0<=value['elapsed_ns']<=10**16)
+    precore_need(all(type(value[n]) is bool for n in ('authenticated','staged','cleanup_complete')))
+    pin=value['request_sha256']
+    precore_need(pin is None or (type(pin) is str and re.fullmatch('[0-9a-f]{64}',pin) is not None))
+    return value
+
+
+def precore_record(phase,code,carrier_result=None):
+    return dict(schema='dg16.precore-refusal.v1',authority='NONE',status='REFUSED',phase=phase,code=code,carrier_result=carrier_result,original_awards=[])
+
+
+def precore_validate(value,phase):
+    precore_need(type(value) is dict and set(value)=={'schema','authority','status','phase','code','carrier_result','original_awards'})
+    precore_need(value['schema']=='dg16.precore-refusal.v1' and value['authority']=='NONE' and value['status']=='REFUSED' and value['phase']==phase and phase in PRECORE_CODES and value['original_awards']==[])
+    result=value['carrier_result'];code=value['code']
+    precore_need(type(code) is str)
+    if result is None:
+        precore_need(code=='UNKNOWN_EXCEPTION' or code in PRECORE_CODES[phase])
+    else:
+        precore_need(phase in ('RECIPIENT_REQUEST','PRIVATE_INPUT_RECEIVE') and carrier_refusal(result)['code']==code)
+    return value
+
+
+def precore_exception(phase,exc):
+    code='UNKNOWN_EXCEPTION'
+    # No str(exc), repr(exc), arbitrary subclass attributes or exception chains.
+    if type(exc) is ValueError and len(exc.args)==1 and type(exc.args[0]) is str and exc.args[0] in PRECORE_CODES[phase]:
+        code=exc.args[0]
+    return precore_record(phase,code)
+
+
+def precore_emit(value):
+    # Bound every emitted record, including preserved carrier data.
+    precore_validate(value,value.get('phase') if type(value) is dict else None)
+    raw=json.dumps(value,sort_keys=True,separators=(',',':'))
+    precore_need(len(raw.encode('utf8'))<=4096)
+    print(raw,flush=True)
+
+
+def precore_stream(phase,value):
+    """Raise only closed evidence. Existing success parsing remains the caller's."""
+    expected={'tools':'HOST_TOOL_OBSERVATION','recipient':'RECIPIENT_REQUEST'}[phase]
+    if type(value) is dict and value.get('schema')=='dg16.precore-refusal.v1':
+        raise PrecoreRefusal(precore_validate(value,expected))
+    if phase=='recipient' and type(value) is dict and type(value.get('result')) is dict and value['result'].get('status')=='REFUSED':
+        precore_need(set(value)=={'schema','authority','result','files_base64','original_awards'} and value['schema']=='dg16.core-private-recipient-public-export.v1' and value['authority']=='NONE' and value['original_awards']==[] and type(value['files_base64']) is dict and value['files_base64']=={})
+        result=carrier_refusal(value['result'])
+        raise PrecoreRefusal(precore_record(expected,result['code'],result))
+
+if __name__=='__main__':
+ try:raise SystemExit(main())
+ except PrecoreRefusal as exc:
+  try:precore_emit(precore_validate(exc.record,exc.record.get('phase')))
+  except Exception:precore_emit(precore_record('PUBLIC_EXPORT','UNKNOWN_EXCEPTION'))
+  raise SystemExit(1)
+ except Exception as exc:
+  precore_emit(precore_exception('PUBLIC_EXPORT',exc));raise SystemExit(1)
