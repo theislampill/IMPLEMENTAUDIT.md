@@ -1,0 +1,90 @@
+name: DG18 Windows16 finite owned-fixture kernel sharing observation
+
+on:
+  push:
+    branches:
+      - pro/dg18-isolated-windows16-kernel-20261107
+    paths:
+      - .github/workflows/dg18-isolated-windows16-kernel.yml
+      - qualification/dg18-isolated-windows16-kernel-20261107/**
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dg18-isolated-windows16-kernel-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  finite-fixture-observation:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/pro/dg18-isolated-windows16-kernel-20261107' &&
+      github.run_attempt == '1'
+    runs-on: windows-2022
+    timeout-minutes: 5
+    steps:
+      - name: Check out exact reviewed diagnostic packet
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        env:
+          GIT_CONFIG_COUNT: '1'
+          GIT_CONFIG_KEY_0: core.autocrlf
+          GIT_CONFIG_VALUE_0: 'false'
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Select physical CPython 3.12.10 x64
+        id: python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.10'
+          architecture: x64
+
+      - name: Observe ten fixed opens on fresh owned fixtures
+        id: observation
+        shell: pwsh
+        env:
+          DG18_PHYSICAL_PYTHON: ${{ steps.python.outputs.python-path }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $packet = Join-Path $env:GITHUB_WORKSPACE 'packet/qualification/dg18-isolated-windows16-kernel-20261107'
+          $observer = Join-Path $packet 'observe.py'
+          $wrapper = Join-Path $packet 'windows15_held_admission.py'
+          if ((Get-FileHash -Algorithm SHA256 $observer).Hash.ToLowerInvariant() -ne '728d045a670eba2306a495acbce5f9009a0fa2b0af0e6e4a084959fbb77e81d1') { throw 'Reviewed observer differs' }
+          if ((Get-FileHash -Algorithm SHA256 $wrapper).Hash.ToLowerInvariant() -ne '7f433c84bf77701be37365d03ce1073111353eee08bac7a1fefb17adbff3656d') { throw 'Reviewed API wrapper differs' }
+          & $env:DG18_PHYSICAL_PYTHON -I -X utf8 -B $observer observe
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Validate exact closed observation after process completion
+        id: receiving
+        if: always() && steps.observation.outcome == 'success'
+        shell: pwsh
+        env:
+          DG18_PHYSICAL_PYTHON: ${{ steps.python.outputs.python-path }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $packet = Join-Path $env:GITHUB_WORKSPACE 'packet/qualification/dg18-isolated-windows16-kernel-20261107'
+          $observer = Join-Path $packet 'observe.py'
+          $wrapper = Join-Path $packet 'windows15_held_admission.py'
+          if ((Get-FileHash -Algorithm SHA256 $observer).Hash.ToLowerInvariant() -ne '728d045a670eba2306a495acbce5f9009a0fa2b0af0e6e4a084959fbb77e81d1') { throw 'Reviewed observer differs' }
+          if ((Get-FileHash -Algorithm SHA256 $wrapper).Hash.ToLowerInvariant() -ne '7f433c84bf77701be37365d03ce1073111353eee08bac7a1fefb17adbff3656d') { throw 'Reviewed API wrapper differs' }
+          & $env:DG18_PHYSICAL_PYTHON -I -X utf8 -B $observer validate
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Retain only the validated closed fixture observation
+        if: always() && steps.observation.outcome == 'success' && steps.receiving.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg18-iw16-kernel-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/dg18-iw16-kernel-${{ github.run_id }}-${{ github.run_attempt }}/RESULT.json
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 7
+          compression-level: 6
