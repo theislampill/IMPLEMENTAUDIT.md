@@ -515,13 +515,82 @@ def command_argv(binary, package, profile, transport, session_id):
 
 
 def empty_native_plugin_diagnostic(reason):
-    return {'schema': 'dg17.claude.native-plugin-identity-diagnostic.v1',
+    return {'schema': 'dg17.claude.native-plugin-identity-diagnostic.v2',
         'status': 'UNRECEIVED', 'reason': reason, 'raw_stdout_bytes': None,
         'raw_stdout_sha256': None, 'expected_context_sha256': None, 'event_count': None,
         'pre_plugin_envelope_received': False, 'plugins_present': None, 'plugins_type': None,
         'plugins_canonical_bytes': None, 'plugins_canonical_sha256': None,
-        'list_length': None, 'singleton': None, 'original_equality': None,
+        'list_length': None, 'singleton': None, 'original_equality': None, 'array_profile': None,
         'body_acceptance_from_diagnostics': False}
+
+
+def native_plugin_array_profile(plugins, expected_plugin):
+    """Count every element of a codec-admitted array using fixed literal labels.
+
+    Name labels classify strings only; they confer no origin or admission.
+    Path comparison is lexical string work and never observes a reported path.
+    """
+    type_labels = {type(None): 'NULL', bool: 'BOOLEAN', int: 'INTEGER', float: 'FLOAT',
+                   str: 'STRING', list: 'ARRAY', dict: 'OBJECT'}
+    name_labels = {
+        'implementaudit': 'MANIFEST_NAME_EXACT',
+        'implementaudit@inline': 'MANIFEST_NAME_INLINE',
+        'cc-plugin-agents-md': 'DOCUMENTED_1_BARE',
+        'cc-plugin-agents-md@builtin': 'DOCUMENTED_1_BUILTIN_ID',
+        'cc-plugin-diff': 'DOCUMENTED_2_BARE',
+        'cc-plugin-diff@builtin': 'DOCUMENTED_2_BUILTIN_ID',
+        'cc-plugin-plugin-authoring': 'DOCUMENTED_3_BARE',
+        'cc-plugin-plugin-authoring@builtin': 'DOCUMENTED_3_BUILTIN_ID',
+        'cc-plugin-sec-default': 'DOCUMENTED_4_BARE',
+        'cc-plugin-sec-default@builtin': 'DOCUMENTED_4_BUILTIN_ID',
+        'cc-plugin-telemetry': 'DOCUMENTED_5_BARE',
+        'cc-plugin-telemetry@builtin': 'DOCUMENTED_5_BUILTIN_ID',
+        'cc-plugin-you-should-know': 'DOCUMENTED_6_BARE',
+        'cc-plugin-you-should-know@builtin': 'DOCUMENTED_6_BUILTIN_ID'}
+    profile = {'complete': True, 'element_count': len(plugins),
+        'type_counts': dict.fromkeys(('NULL', 'BOOLEAN', 'INTEGER', 'FLOAT', 'STRING', 'ARRAY', 'OBJECT'), 0),
+        'object_keyset_counts': dict.fromkeys(('EXACT_NAME_PATH', 'OTHER_OBJECT'), 0),
+        'object_name_counts': dict.fromkeys(('MISSING', 'NON_STRING', 'MANIFEST_NAME_EXACT',
+            'MANIFEST_NAME_INLINE', 'DOCUMENTED_1_BARE', 'DOCUMENTED_1_BUILTIN_ID',
+            'DOCUMENTED_2_BARE', 'DOCUMENTED_2_BUILTIN_ID', 'DOCUMENTED_3_BARE',
+            'DOCUMENTED_3_BUILTIN_ID', 'DOCUMENTED_4_BARE', 'DOCUMENTED_4_BUILTIN_ID',
+            'DOCUMENTED_5_BARE', 'DOCUMENTED_5_BUILTIN_ID', 'DOCUMENTED_6_BARE',
+            'DOCUMENTED_6_BUILTIN_ID', 'OTHER_STRING'), 0),
+        'object_path_counts': dict.fromkeys(('MISSING', 'NON_STRING', 'EXACT_EXPECTED', 'LEXICAL_ONLY', 'OTHER_STRING'), 0),
+        'record_counts': dict.fromkeys(('EXACT_EXPECTED_RECORD', 'INLINE_NAME_EXACT_PATH_RECORD', 'OTHER_ELEMENT'), 0)}
+    expected_record = {'name': 'implementaudit', 'path': expected_plugin}
+    inline_record = {'name': 'implementaudit@inline', 'path': expected_plugin}
+    for item in plugins:
+        profile['type_counts'][type_labels[type(item)]] += 1
+        if type(item) is dict:
+            keyset = 'EXACT_NAME_PATH' if set(item) == {'name', 'path'} else 'OTHER_OBJECT'
+            profile['object_keyset_counts'][keyset] += 1
+            if 'name' not in item:
+                name = 'MISSING'
+            elif type(item['name']) is not str:
+                name = 'NON_STRING'
+            else:
+                name = name_labels.get(item['name'], 'OTHER_STRING')
+            profile['object_name_counts'][name] += 1
+            if 'path' not in item:
+                path = 'MISSING'
+            elif type(item['path']) is not str:
+                path = 'NON_STRING'
+            elif item['path'] == expected_plugin:
+                path = 'EXACT_EXPECTED'
+            elif posixpath.normpath(item['path']) == posixpath.normpath(expected_plugin):
+                path = 'LEXICAL_ONLY'
+            else:
+                path = 'OTHER_STRING'
+            profile['object_path_counts'][path] += 1
+        if type(item) is dict and item == expected_record:
+            record = 'EXACT_EXPECTED_RECORD'
+        elif type(item) is dict and item == inline_record:
+            record = 'INLINE_NAME_EXACT_PATH_RECORD'
+        else:
+            record = 'OTHER_ELEMENT'
+        profile['record_counts'][record] += 1
+    return profile
 
 
 def native_plugin_identity_diagnostic(raw, context, custody_received, transport):
@@ -619,6 +688,7 @@ def native_plugin_identity_diagnostic(raw, context, custody_received, transport)
             result['plugins_canonical_bytes'] = len(value_raw); result['plugins_canonical_sha256'] = sha(value_raw)
         if type(plugins) is list:
             result['list_length'] = len(plugins)
+            result['array_profile'] = native_plugin_array_profile(plugins, context['plugin'])
             if len(plugins) == 1:
                 item = plugins[0]; item_raw = canonical(item)
                 if len(item_raw) > 196609: return refused('PUBLIC_BOUND_REFUSED')
