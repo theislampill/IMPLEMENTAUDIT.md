@@ -1,0 +1,3694 @@
+{
+  "files": [
+    {
+      "bytes": 59860,
+      "path": "hosted_adapter.py",
+      "role": "ADAPTER",
+      "sha256": "6633bf9b083e1b473612ee95ff5664393cc759317888ce1cd52f12f5b069bd2e"
+    },
+    {
+      "bytes": 12115,
+      "path": "bwrap_host.py",
+      "role": "BWRAP_HOST",
+      "sha256": "f2a034aaf317983920ebe3508c40a39b24a4389e5249da53800d96fcc6fa1d08"
+    },
+    {
+      "bytes": 16755,
+      "path": "signed_distro_setup.py",
+      "role": "SIGNED_DISTRO_SETUP",
+      "sha256": "e3cd5b3d1a65da3380decd9e6c1d7d3dd792d7c6f0bb9a4e39a61a772b78d626"
+    },
+    {
+      "bytes": 21167,
+      "path": "apt_transaction_guard.py",
+      "role": "APT_TRANSACTION_GUARD",
+      "sha256": "e713b657a1f88d7129991073ecf638ca409e3f3f238a30e2b47e0f1b4acd8cb5"
+    },
+    {
+      "bytes": 22092,
+      "path": "candidate/warning_custody.py",
+      "role": "WARNING_CUSTODY",
+      "sha256": "bdbaec3929f2d71eb09fd30555e407cd074f2d0e88e5a714484585ef78e1d74c"
+    }
+  ],
+  "functions": [
+    {
+      "first_line": 27,
+      "function": "_load_host_dependency",
+      "last_line": 35,
+      "lookup": [
+        "_load_host_dependency"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 74,
+      "function": "need",
+      "last_line": 76,
+      "lookup": [
+        "need"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 79,
+      "function": "encode",
+      "last_line": 80,
+      "lookup": [
+        "encode"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 83,
+      "function": "sha",
+      "last_line": 84,
+      "lookup": [
+        "sha"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 87,
+      "function": "parse",
+      "last_line": 95,
+      "lookup": [
+        "parse"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 88,
+      "function": "parse.<locals>.unique",
+      "last_line": 93,
+      "lookup": [
+        "parse"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 98,
+      "function": "ident",
+      "last_line": 100,
+      "lookup": [
+        "ident"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 103,
+      "function": "regular",
+      "last_line": 125,
+      "lookup": [
+        "regular"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 128,
+      "function": "write_new",
+      "last_line": 134,
+      "lookup": [
+        "write_new"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 137,
+      "function": "private_dir",
+      "last_line": 143,
+      "lookup": [
+        "private_dir"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 146,
+      "function": "git",
+      "last_line": 153,
+      "lookup": [
+        "git"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 156,
+      "function": "system_binding",
+      "last_line": 173,
+      "lookup": [
+        "system_binding"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 176,
+      "function": "immutable_code_binding",
+      "last_line": 199,
+      "lookup": [
+        "immutable_code_binding"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 202,
+      "function": "code_binding",
+      "last_line": 205,
+      "lookup": [
+        "code_binding"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 208,
+      "function": "download_binary",
+      "last_line": 250,
+      "lookup": [
+        "download_binary"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 253,
+      "function": "prepare",
+      "last_line": 306,
+      "lookup": [
+        "prepare"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 309,
+      "function": "control_head",
+      "last_line": 314,
+      "lookup": [
+        "control_head"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 317,
+      "function": "read_control",
+      "last_line": 337,
+      "lookup": [
+        "read_control"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 340,
+      "function": "validate_control",
+      "last_line": 380,
+      "lookup": [
+        "validate_control"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 383,
+      "function": "verify_held",
+      "last_line": 401,
+      "lookup": [
+        "verify_held"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 404,
+      "function": "require_unexpired",
+      "last_line": 410,
+      "lookup": [
+        "require_unexpired"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 413,
+      "function": "modules",
+      "last_line": 417,
+      "lookup": [
+        "modules"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 420,
+      "function": "config_bytes",
+      "last_line": 428,
+      "lookup": [
+        "config_bytes"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 431,
+      "function": "root_cleanup",
+      "last_line": 470,
+      "lookup": [
+        "root_cleanup"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 473,
+      "function": "execute",
+      "last_line": 557,
+      "lookup": [
+        "execute"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 560,
+      "function": "validate_result",
+      "last_line": 582,
+      "lookup": [
+        "validate_result"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 585,
+      "function": "hold",
+      "last_line": 601,
+      "lookup": [
+        "hold"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 604,
+      "function": "public_result",
+      "last_line": 629,
+      "lookup": [
+        "public_result"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 632,
+      "function": "custody_module",
+      "last_line": 638,
+      "lookup": [
+        "custody_module"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 641,
+      "function": "custody_binding",
+      "last_line": 647,
+      "lookup": [
+        "custody_binding"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 650,
+      "function": "public_custody",
+      "last_line": 678,
+      "lookup": [
+        "public_custody"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 681,
+      "function": "workflow_identity",
+      "last_line": 684,
+      "lookup": [
+        "workflow_identity"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 687,
+      "function": "preparation_identity",
+      "last_line": 689,
+      "lookup": [
+        "preparation_identity"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 713,
+      "function": "build_failure_codebook",
+      "last_line": 776,
+      "lookup": [
+        "build_failure_codebook"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 726,
+      "function": "build_failure_codebook.<locals>.visit",
+      "last_line": 771,
+      "lookup": [
+        "build_failure_codebook"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 779,
+      "function": "load_failure_codebook",
+      "last_line": 793,
+      "lookup": [
+        "load_failure_codebook"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 796,
+      "function": "failure_code_key",
+      "last_line": 820,
+      "lookup": [
+        "failure_code_key"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 800,
+      "function": "failure_code_key.<locals>.constant",
+      "last_line": 815,
+      "lookup": [
+        "failure_code_key"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 823,
+      "function": "failure_compiled_functions",
+      "last_line": 834,
+      "lookup": [
+        "failure_compiled_functions"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 826,
+      "function": "failure_compiled_functions.<locals>.walk",
+      "last_line": 832,
+      "lookup": [
+        "failure_compiled_functions"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 837,
+      "function": "failure_frame_registry",
+      "last_line": 873,
+      "lookup": [
+        "failure_frame_registry"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 876,
+      "function": "unknown_failure_diagnostic",
+      "last_line": 879,
+      "lookup": [
+        "unknown_failure_diagnostic"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 882,
+      "function": "failure_phase",
+      "last_line": 887,
+      "lookup": [
+        "failure_phase"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 890,
+      "function": "failure_refusal_sites",
+      "last_line": 893,
+      "lookup": [
+        "failure_refusal_sites"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 896,
+      "function": "project_failure_diagnostic",
+      "last_line": 950,
+      "lookup": [
+        "project_failure_diagnostic"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 953,
+      "function": "validate_failure_diagnostic",
+      "last_line": 994,
+      "lookup": [
+        "validate_failure_diagnostic"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 997,
+      "function": "record_failure",
+      "last_line": 1027,
+      "lookup": [
+        "record_failure"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 1030,
+      "function": "validate_failure",
+      "last_line": 1055,
+      "lookup": [
+        "validate_failure"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 1058,
+      "function": "main",
+      "last_line": 1090,
+      "lookup": [
+        "main"
+      ],
+      "role": "ADAPTER"
+    },
+    {
+      "first_line": 31,
+      "function": "need",
+      "last_line": 33,
+      "lookup": [
+        "need"
+      ],
+      "role": "BWRAP_HOST"
+    },
+    {
+      "first_line": 36,
+      "function": "encoded",
+      "last_line": 37,
+      "lookup": [
+        "encoded"
+      ],
+      "role": "BWRAP_HOST"
+    },
+    {
+      "first_line": 40,
+      "function": "sha",
+      "last_line": 41,
+      "lookup": [
+        "sha"
+      ],
+      "role": "BWRAP_HOST"
+    },
+    {
+      "first_line": 44,
+      "function": "identity",
+      "last_line": 46,
+      "lookup": [
+        "identity"
+      ],
+      "role": "BWRAP_HOST"
+    },
+    {
+      "first_line": 49,
+      "function": "group_absent",
+      "last_line": 54,
+      "lookup": [
+        "group_absent"
+      ],
+      "role": "BWRAP_HOST"
+    },
+    {
+      "first_line": 57,
+      "function": "close_owned",
+      "last_line": 71,
+      "lookup": [
+        "close_owned"
+      ],
+      "role": "BWRAP_HOST"
+    },
+    {
+      "first_line": 74,
+      "function": "run_bounded",
+      "last_line": 118,
+      "lookup": [
+        "run_bounded"
+      ],
+      "role": "BWRAP_HOST"
+    },
+    {
+      "first_line": 121,
+      "function": "checked",
+      "last_line": 125,
+      "lookup": [
+        "checked"
+      ],
+      "role": "BWRAP_HOST"
+    },
+    {
+      "first_line": 128,
+      "function": "protected_chain",
+      "last_line": 146,
+      "lookup": [
+        "protected_chain"
+      ],
+      "role": "BWRAP_HOST"
+    },
+    {
+      "first_line": 149,
+      "function": "recheck_chain",
+      "last_line": 154,
+      "lookup": [
+        "recheck_chain"
+      ],
+      "role": "BWRAP_HOST"
+    },
+    {
+      "first_line": 157,
+      "function": "protected_directory",
+      "last_line": 161,
+      "lookup": [
+        "protected_directory"
+      ],
+      "role": "BWRAP_HOST"
+    },
+    {
+      "first_line": 164,
+      "function": "protected_file",
+      "last_line": 190,
+      "lookup": [
+        "protected_file"
+      ],
+      "role": "BWRAP_HOST"
+    },
+    {
+      "first_line": 193,
+      "function": "parse_ldd",
+      "last_line": 206,
+      "lookup": [
+        "parse_ldd"
+      ],
+      "role": "BWRAP_HOST"
+    },
+    {
+      "first_line": 209,
+      "function": "parse_package",
+      "last_line": 214,
+      "lookup": [
+        "parse_package"
+      ],
+      "role": "BWRAP_HOST"
+    },
+    {
+      "first_line": 217,
+      "function": "os_release",
+      "last_line": 224,
+      "lookup": [
+        "os_release"
+      ],
+      "role": "BWRAP_HOST"
+    },
+    {
+      "first_line": 227,
+      "function": "inspect_binding",
+      "last_line": 246,
+      "lookup": [
+        "inspect_binding"
+      ],
+      "role": "BWRAP_HOST"
+    },
+    {
+      "first_line": 249,
+      "function": "same_binding",
+      "last_line": 250,
+      "lookup": [
+        "same_binding"
+      ],
+      "role": "BWRAP_HOST"
+    },
+    {
+      "first_line": 253,
+      "function": "accept_probe",
+      "last_line": 260,
+      "lookup": [
+        "accept_probe"
+      ],
+      "role": "BWRAP_HOST"
+    },
+    {
+      "first_line": 263,
+      "function": "namespace_probe",
+      "last_line": 268,
+      "lookup": [
+        "namespace_probe"
+      ],
+      "role": "BWRAP_HOST"
+    },
+    {
+      "first_line": 271,
+      "function": "prepare",
+      "last_line": 275,
+      "lookup": [
+        "prepare"
+      ],
+      "role": "BWRAP_HOST"
+    },
+    {
+      "first_line": 278,
+      "function": "recheck",
+      "last_line": 285,
+      "lookup": [
+        "recheck"
+      ],
+      "role": "BWRAP_HOST"
+    },
+    {
+      "first_line": 19,
+      "function": "_load_transaction_guard",
+      "last_line": 27,
+      "lookup": [
+        "_load_transaction_guard"
+      ],
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "first_line": 49,
+      "function": "parse_candidate",
+      "last_line": 52,
+      "lookup": [
+        "parse_candidate"
+      ],
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "first_line": 55,
+      "function": "validate_simulation",
+      "last_line": 62,
+      "lookup": [
+        "validate_simulation"
+      ],
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "first_line": 65,
+      "function": "apt_argv",
+      "last_line": 74,
+      "lookup": [
+        "apt_argv"
+      ],
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "first_line": 77,
+      "function": "write_new",
+      "last_line": 82,
+      "lookup": [
+        "write_new"
+      ],
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "first_line": 85,
+      "function": "require_same_cleanup_tool",
+      "last_line": 99,
+      "lookup": [
+        "require_same_cleanup_tool"
+      ],
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "first_line": 102,
+      "function": "transaction_request",
+      "last_line": 131,
+      "lookup": [
+        "transaction_request"
+      ],
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "first_line": 134,
+      "function": "receive_transaction",
+      "last_line": 161,
+      "lookup": [
+        "receive_transaction"
+      ],
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "first_line": 164,
+      "function": "install_if_missing",
+      "last_line": 282,
+      "lookup": [
+        "install_if_missing"
+      ],
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "first_line": 204,
+      "function": "install_if_missing.<locals>.run",
+      "last_line": 228,
+      "lookup": [
+        "install_if_missing"
+      ],
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "first_line": 39,
+      "function": "need",
+      "last_line": 41,
+      "lookup": [
+        "need"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 44,
+      "function": "encoded",
+      "last_line": 45,
+      "lookup": [
+        "encoded"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 48,
+      "function": "sha",
+      "last_line": 49,
+      "lookup": [
+        "sha"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 52,
+      "function": "identity",
+      "last_line": 54,
+      "lookup": [
+        "identity"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 57,
+      "function": "read_regular",
+      "last_line": 77,
+      "lookup": [
+        "read_regular"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 80,
+      "function": "protected_ancestry",
+      "last_line": 87,
+      "lookup": [
+        "protected_ancestry"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 90,
+      "function": "package_records",
+      "last_line": 119,
+      "lookup": [
+        "package_records"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 122,
+      "function": "read_snapshot",
+      "last_line": 136,
+      "lookup": [
+        "read_snapshot"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 139,
+      "function": "require_supported_apt",
+      "last_line": 146,
+      "lookup": [
+        "require_supported_apt"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 149,
+      "function": "dpkg_configuration",
+      "last_line": 183,
+      "lookup": [
+        "dpkg_configuration"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 153,
+      "function": "dpkg_configuration.<locals>.fragments",
+      "last_line": 160,
+      "lookup": [
+        "dpkg_configuration"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 186,
+      "function": "decode_config",
+      "last_line": 188,
+      "lookup": [
+        "decode_config"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 191,
+      "function": "validate_protocol",
+      "last_line": 224,
+      "lookup": [
+        "validate_protocol"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 227,
+      "function": "proc_record",
+      "last_line": 231,
+      "lookup": [
+        "proc_record"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 234,
+      "function": "lock_owner",
+      "last_line": 251,
+      "lookup": [
+        "lock_owner"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 254,
+      "function": "check_tool_bindings",
+      "last_line": 268,
+      "lookup": [
+        "check_tool_bindings"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 271,
+      "function": "custody",
+      "last_line": 298,
+      "lookup": [
+        "custody"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 301,
+      "function": "reconcile",
+      "last_line": 310,
+      "lookup": [
+        "reconcile"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 313,
+      "function": "write_receipt",
+      "last_line": 318,
+      "lookup": [
+        "write_receipt"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 321,
+      "function": "load_receipt",
+      "last_line": 323,
+      "lookup": [
+        "load_receipt"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 326,
+      "function": "run_gate",
+      "last_line": 367,
+      "lookup": [
+        "run_gate"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 370,
+      "function": "bootstrap_command",
+      "last_line": 384,
+      "lookup": [
+        "bootstrap_command"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 387,
+      "function": "bound_request",
+      "last_line": 392,
+      "lookup": [
+        "bound_request"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 395,
+      "function": "install_config",
+      "last_line": 402,
+      "lookup": [
+        "install_config"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 405,
+      "function": "main",
+      "last_line": 422,
+      "lookup": [
+        "main"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 408,
+      "function": "main.<locals>.timeout",
+      "last_line": 409,
+      "lookup": [
+        "main"
+      ],
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "first_line": 46,
+      "function": "CustodyRefusal.__init__",
+      "last_line": 49,
+      "lookup": [
+        "CustodyRefusal",
+        "__init__"
+      ],
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "first_line": 51,
+      "function": "closed_preflight_failure",
+      "last_line": 55,
+      "lookup": [
+        "closed_preflight_failure"
+      ],
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "first_line": 57,
+      "function": "need",
+      "last_line": 59,
+      "lookup": [
+        "need"
+      ],
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "first_line": 61,
+      "function": "sha",
+      "last_line": 62,
+      "lookup": [
+        "sha"
+      ],
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "first_line": 64,
+      "function": "canonical",
+      "last_line": 65,
+      "lookup": [
+        "canonical"
+      ],
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "first_line": 67,
+      "function": "digest",
+      "last_line": 68,
+      "lookup": [
+        "digest"
+      ],
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "first_line": 70,
+      "function": "parse",
+      "last_line": 83,
+      "lookup": [
+        "parse"
+      ],
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "first_line": 72,
+      "function": "parse.<locals>.pairs",
+      "last_line": 77,
+      "lookup": [
+        "parse"
+      ],
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "first_line": 78,
+      "function": "parse.<locals>.bad",
+      "last_line": 79,
+      "lookup": [
+        "parse"
+      ],
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "first_line": 85,
+      "function": "primitives",
+      "last_line": 99,
+      "lookup": [
+        "primitives"
+      ],
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "first_line": 101,
+      "function": "public_bytes",
+      "last_line": 102,
+      "lookup": [
+        "public_bytes"
+      ],
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "first_line": 104,
+      "function": "system_file",
+      "last_line": 129,
+      "lookup": [
+        "system_file"
+      ],
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "first_line": 131,
+      "function": "openssl_map_paths",
+      "last_line": 168,
+      "lookup": [
+        "openssl_map_paths"
+      ],
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "first_line": 171,
+      "function": "dependency_manifest",
+      "last_line": 244,
+      "lookup": [
+        "dependency_manifest"
+      ],
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "first_line": 189,
+      "function": "dependency_manifest.<locals>.append_file",
+      "last_line": 202,
+      "lookup": [
+        "dependency_manifest"
+      ],
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "first_line": 246,
+      "function": "load_recipient",
+      "last_line": 270,
+      "lookup": [
+        "load_recipient"
+      ],
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "first_line": 272,
+      "function": "preflight",
+      "last_line": 277,
+      "lookup": [
+        "preflight"
+      ],
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "first_line": 279,
+      "function": "projection",
+      "last_line": 292,
+      "lookup": [
+        "projection"
+      ],
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "first_line": 294,
+      "function": "select_frame",
+      "last_line": 308,
+      "lookup": [
+        "select_frame"
+      ],
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "first_line": 310,
+      "function": "metadata",
+      "last_line": 320,
+      "lookup": [
+        "metadata"
+      ],
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "first_line": 322,
+      "function": "encrypt_frame",
+      "last_line": 343,
+      "lookup": [
+        "encrypt_frame"
+      ],
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "first_line": 345,
+      "function": "validate_envelope",
+      "last_line": 362,
+      "lookup": [
+        "validate_envelope"
+      ],
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "first_line": 364,
+      "function": "decrypt_envelope",
+      "last_line": 386,
+      "lookup": [
+        "decrypt_envelope"
+      ],
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "first_line": 388,
+      "function": "initial_status",
+      "last_line": 392,
+      "lookup": [
+        "initial_status"
+      ],
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "first_line": 394,
+      "function": "validate_status",
+      "last_line": 406,
+      "lookup": [
+        "validate_status"
+      ],
+      "role": "WARNING_CUSTODY"
+    }
+  ],
+  "literal_refusal_sites": [
+    {
+      "code": "DUPLICATE_JSON_KEY",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 91,
+      "function": "parse.<locals>.unique",
+      "last_line": 91,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "INPUT_PATH",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 105,
+      "function": "regular",
+      "last_line": 105,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "INPUT_SYMLINK",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 107,
+      "function": "regular",
+      "last_line": 107,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "INPUT_REGULAR_BOUND",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 109,
+      "function": "regular",
+      "last_line": 110,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "INPUT_CHANGED",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 114,
+      "function": "regular",
+      "last_line": 114,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "INPUT_SIZE",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 120,
+      "function": "regular",
+      "last_line": 120,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "INPUT_CHANGED",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 124,
+      "function": "regular",
+      "last_line": 124,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "WORK_PATH",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 138,
+      "function": "private_dir",
+      "last_line": 138,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "WORK_SYMLINK",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 140,
+      "function": "private_dir",
+      "last_line": 140,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "PRIVATE_DIRECTORY",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 142,
+      "function": "private_dir",
+      "last_line": 143,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "GIT_OUTPUT_BOUND",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 149,
+      "function": "git",
+      "last_line": 149,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "GIT_READ_OR_FIXTURE_FAILED",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 152,
+      "function": "git",
+      "last_line": 152,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "SYSTEM_LINK_BOUND",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 169,
+      "function": "system_binding",
+      "last_line": 169,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "SYSTEM_RESOLUTION",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 170,
+      "function": "system_binding",
+      "last_line": 170,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "SYSTEM_OWNER_MODE",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 172,
+      "function": "system_binding",
+      "last_line": 172,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "CODE_MANIFEST",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 180,
+      "function": "immutable_code_binding",
+      "last_line": 182,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "CODE_MEMBER",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 185,
+      "function": "immutable_code_binding",
+      "last_line": 185,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "CODE_MEMBER_PATH",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 187,
+      "function": "immutable_code_binding",
+      "last_line": 189,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "CODE_PIN",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 192,
+      "function": "immutable_code_binding",
+      "last_line": 193,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "CODE_POPULATION",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 196,
+      "function": "immutable_code_binding",
+      "last_line": 196,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "ADAPTER_LOCATION",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 197,
+      "function": "immutable_code_binding",
+      "last_line": 197,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "ARCHIVE_REDIRECT",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 213,
+      "function": "download_binary",
+      "last_line": 213,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "ARCHIVE_DEADLINE",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 215,
+      "function": "download_binary",
+      "last_line": 215,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "ARCHIVE_SIZE",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 220,
+      "function": "download_binary",
+      "last_line": 220,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "ARCHIVE_PIN",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 224,
+      "function": "download_binary",
+      "last_line": 224,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "ARCHIVE_MEMBER_BOUND",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 230,
+      "function": "download_binary",
+      "last_line": 230,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "BINARY_MEMBER",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 233,
+      "function": "download_binary",
+      "last_line": 233,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "BINARY_MEMBER",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 236,
+      "function": "download_binary",
+      "last_line": 236,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "BINARY_SIZE",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 244,
+      "function": "download_binary",
+      "last_line": 244,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "BINARY_PIN",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 247,
+      "function": "download_binary",
+      "last_line": 247,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "BINARY_MISSING",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 248,
+      "function": "download_binary",
+      "last_line": 248,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "WORKFLOW_IDENTITY",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 255,
+      "function": "prepare",
+      "last_line": 256,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "CHECKOUT_CHANGED",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 259,
+      "function": "prepare",
+      "last_line": 260,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "PREPARATION_PUBLIC_BOUND",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 296,
+      "function": "prepare",
+      "last_line": 296,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "CONTROL_REF",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 313,
+      "function": "control_head",
+      "last_line": 313,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "CONTROL_ENTRY",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 326,
+      "function": "read_control",
+      "last_line": 326,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "CONTROL_POPULATION",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 328,
+      "function": "read_control",
+      "last_line": 328,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "CONTROL_SIZE",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 333,
+      "function": "read_control",
+      "last_line": 333,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "CONTROL_SIZE_CHANGED",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 335,
+      "function": "read_control",
+      "last_line": 335,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "CONTROL_BINDING",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 345,
+      "function": "validate_control",
+      "last_line": 346,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "CONTROL_DECISION",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 347,
+      "function": "validate_control",
+      "last_line": 347,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "STOP_POPULATION",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 349,
+      "function": "validate_control",
+      "last_line": 349,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "GO_POPULATION",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 351,
+      "function": "validate_control",
+      "last_line": 352,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "CONTROL_PIN",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 354,
+      "function": "validate_control",
+      "last_line": 354,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "REVIEW_SCOPE",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 364,
+      "function": "validate_control",
+      "last_line": 365,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "GO_SCOPE",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 378,
+      "function": "validate_control",
+      "last_line": 379,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "HELD_BINDING_OR_EXPIRY",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 384,
+      "function": "verify_held",
+      "last_line": 386,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "HELD_CODE_CHANGED",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 387,
+      "function": "verify_held",
+      "last_line": 387,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "HELD_BWRAP_CHANGED",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 389,
+      "function": "verify_held",
+      "last_line": 391,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "HELD_BINARY_CHANGED",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 392,
+      "function": "verify_held",
+      "last_line": 392,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "PUBLIC_PREP_CHANGED",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 393,
+      "function": "verify_held",
+      "last_line": 393,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "PUBLIC_CRYPTO_CHANGED",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 394,
+      "function": "verify_held",
+      "last_line": 395,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "SUBJECT_CHANGED",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 396,
+      "function": "verify_held",
+      "last_line": 397,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "HOME_CHANGED",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 398,
+      "function": "verify_held",
+      "last_line": 398,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "HELD_BINDING_OR_EXPIRY",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 407,
+      "function": "require_unexpired",
+      "last_line": 410,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "CONTROL_MOVED",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 476,
+      "function": "execute",
+      "last_line": 476,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "RESULT_SCHEMA",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 565,
+      "function": "validate_result",
+      "last_line": 566,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "RESULT_BINDING",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 568,
+      "function": "validate_result",
+      "last_line": 568,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "RESULT_BOOL",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 570,
+      "function": "validate_result",
+      "last_line": 570,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "RESULT_AUTHORITY",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 573,
+      "function": "validate_result",
+      "last_line": 573,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "RESULT_ENUM",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 574,
+      "function": "validate_result",
+      "last_line": 575,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "RESULT_COUNT",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 577,
+      "function": "validate_result",
+      "last_line": 577,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "RESULT_PUBLIC_BOUND",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 581,
+      "function": "validate_result",
+      "last_line": 581,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "OWNER_STOP",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 598,
+      "function": "hold",
+      "last_line": 598,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "HOLD_EXPIRED",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 601,
+      "function": "hold",
+      "last_line": 601,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "RESULT_PREPARATION_BINDING",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 613,
+      "function": "public_result",
+      "last_line": 613,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "RESULT_PREPARATION_CHANGED",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 616,
+      "function": "public_result",
+      "last_line": 616,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "FAILURE_PREPARATION_CHANGED",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 623,
+      "function": "public_result",
+      "last_line": 624,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "FAILURE_PREPARATION_UNEXPECTED",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 626,
+      "function": "public_result",
+      "last_line": 626,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "CUSTODY_MODULE_LOCATION",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 637,
+      "function": "custody_module",
+      "last_line": 637,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "CUSTODY_EFFECT_BOUNDARY",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 659,
+      "function": "public_custody",
+      "last_line": 661,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "CUSTODY_DEPENDENCY_CHANGED",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 663,
+      "function": "public_custody",
+      "last_line": 664,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "CUSTODY_PREPARATION_CHANGED",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 666,
+      "function": "public_custody",
+      "last_line": 666,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "CUSTODY_NONCE",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 668,
+      "function": "public_custody",
+      "last_line": 668,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "CUSTODY_ARTIFACT_CHANGED",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 672,
+      "function": "public_custody",
+      "last_line": 672,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "CUSTODY_ORDINAL_CHANGED",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 675,
+      "function": "public_custody",
+      "last_line": 675,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "RESULT_WORKFLOW_IDENTITY",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 682,
+      "function": "workflow_identity",
+      "last_line": 683,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "RESULT_PREPARATION_SCHEMA",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 688,
+      "function": "preparation_identity",
+      "last_line": 688,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_SOURCE_ROLES",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 715,
+      "function": "build_failure_codebook",
+      "last_line": 715,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_SOURCE_BOUND",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 721,
+      "function": "build_failure_codebook",
+      "last_line": 721,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_LINE_BOUND",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 723,
+      "function": "build_failure_codebook",
+      "last_line": 723,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_PREPARE_SHAPE",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 748,
+      "function": "build_failure_codebook.<locals>.visit",
+      "last_line": 748,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_PREPARE_ABSENT",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 773,
+      "function": "build_failure_codebook",
+      "last_line": 773,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_SOURCE_PIN",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 785,
+      "function": "load_failure_codebook",
+      "last_line": 785,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_SOURCES_BOUND",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 787,
+      "function": "load_failure_codebook",
+      "last_line": 787,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_CODEBOOK_PIN",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 790,
+      "function": "load_failure_codebook",
+      "last_line": 790,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_CODEBOOK_SHAPE",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 792,
+      "function": "load_failure_codebook",
+      "last_line": 792,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_CODE_SHAPE",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 798,
+      "function": "failure_code_key",
+      "last_line": 798,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_CONSTANT_SHAPE",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 815,
+      "function": "failure_code_key.<locals>.constant",
+      "last_line": 815,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_AMBIGUOUS_FUNCTION",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 830,
+      "function": "failure_compiled_functions.<locals>.walk",
+      "last_line": 830,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_SCHEMA",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 954,
+      "function": "validate_failure_diagnostic",
+      "last_line": 954,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_SCHEMA",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 955,
+      "function": "validate_failure_diagnostic",
+      "last_line": 955,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_UNQUALIFIED",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 959,
+      "function": "validate_failure_diagnostic",
+      "last_line": 959,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_BINDING",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 963,
+      "function": "validate_failure_diagnostic",
+      "last_line": 963,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_ENUM",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 964,
+      "function": "validate_failure_diagnostic",
+      "last_line": 965,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_FRAME_BOUND",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 966,
+      "function": "validate_failure_diagnostic",
+      "last_line": 966,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_UNKNOWN",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 968,
+      "function": "validate_failure_diagnostic",
+      "last_line": 969,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_STATUS",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 971,
+      "function": "validate_failure_diagnostic",
+      "last_line": 973,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_FRAME_SHAPE",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 977,
+      "function": "validate_failure_diagnostic",
+      "last_line": 980,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_FRAME_SITE",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 983,
+      "function": "validate_failure_diagnostic",
+      "last_line": 983,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_EXECUTABLE_SITE",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 987,
+      "function": "validate_failure_diagnostic",
+      "last_line": 987,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_PHASE",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 988,
+      "function": "validate_failure_diagnostic",
+      "last_line": 988,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_EXCEPTION_ENUM",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 990,
+      "function": "validate_failure_diagnostic",
+      "last_line": 990,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_REFUSAL_SITE",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 992,
+      "function": "validate_failure_diagnostic",
+      "last_line": 992,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "DIAGNOSTIC_REFUSAL_ENUM",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 994,
+      "function": "validate_failure_diagnostic",
+      "last_line": 994,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "FAILURE_CODE_CHANGED",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 1005,
+      "function": "record_failure",
+      "last_line": 1005,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "FAILURE_CONTEXT_CHANGED",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 1009,
+      "function": "record_failure",
+      "last_line": 1009,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "FAILURE_CONTEXT_UNAVAILABLE",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 1011,
+      "function": "record_failure",
+      "last_line": 1011,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "ADAPTER_FAILURE_SCHEMA",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 1034,
+      "function": "validate_failure",
+      "last_line": 1034,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "ADAPTER_FAILURE_BINDING",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 1035,
+      "function": "validate_failure",
+      "last_line": 1036,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "ADAPTER_FAILURE_SCOPE",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 1037,
+      "function": "validate_failure",
+      "last_line": 1039,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "ADAPTER_FAILURE_CRYPTO_ENUM",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 1042,
+      "function": "validate_failure",
+      "last_line": 1043,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "ADAPTER_FAILURE_ENUM",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 1045,
+      "function": "validate_failure",
+      "last_line": 1046,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "ADAPTER_FAILURE_CONTEXT",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 1048,
+      "function": "validate_failure",
+      "last_line": 1048,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "ADAPTER_FAILURE_CONTEXT",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 1050,
+      "function": "validate_failure",
+      "last_line": 1051,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "ADAPTER_FAILURE_PUBLIC_BOUND",
+      "exception_type": "ADAPTER_REFUSAL",
+      "first_line": 1054,
+      "function": "validate_failure",
+      "last_line": 1054,
+      "role": "ADAPTER"
+    },
+    {
+      "code": "HOST_ARGV",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 76,
+      "function": "run_bounded",
+      "last_line": 76,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "HOST_COMMAND_REFUSED",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 123,
+      "function": "checked",
+      "last_line": 124,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_NONROOT_REQUIRED",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 130,
+      "function": "protected_chain",
+      "last_line": 130,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_SYSTEM_PATH",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 132,
+      "function": "protected_chain",
+      "last_line": 132,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_SYSTEM_PATH",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 134,
+      "function": "protected_chain",
+      "last_line": 135,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_PATH_OWNER",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 141,
+      "function": "protected_chain",
+      "last_line": 141,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_PATH_MUTABLE",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 143,
+      "function": "protected_chain",
+      "last_line": 144,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_ANCESTOR_RACE",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 152,
+      "function": "recheck_chain",
+      "last_line": 154,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_SEARCH_DIRECTORY_SHAPE",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 159,
+      "function": "protected_directory",
+      "last_line": 159,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_FILE_SHAPE",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 172,
+      "function": "protected_file",
+      "last_line": 173,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_NOT_EXECUTABLE",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 174,
+      "function": "protected_file",
+      "last_line": 175,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_FILE_RACE",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 179,
+      "function": "protected_file",
+      "last_line": 179,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_FILE_BOUND",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 182,
+      "function": "protected_file",
+      "last_line": 182,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_FILE_RACE",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 184,
+      "function": "protected_file",
+      "last_line": 185,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_DEPENDENCY_BOUND",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 194,
+      "function": "parse_ldd",
+      "last_line": 194,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_DEPENDENCY_UNRESOLVED",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 203,
+      "function": "parse_ldd",
+      "last_line": 203,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_DEPENDENCY_POPULATION",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 205,
+      "function": "parse_ldd",
+      "last_line": 205,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_PACKAGE_OWNER",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 210,
+      "function": "parse_package",
+      "last_line": 210,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_PACKAGE_NOT_INSTALLED",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 212,
+      "function": "parse_package",
+      "last_line": 212,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_OS_CHANGED",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 220,
+      "function": "os_release",
+      "last_line": 220,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_HOST_OS",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 222,
+      "function": "os_release",
+      "last_line": 223,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_EARLIER_PATH_ENTRY",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 230,
+      "function": "inspect_binding",
+      "last_line": 230,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_ALIAS_MISMATCH",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 231,
+      "function": "inspect_binding",
+      "last_line": 231,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_EARLIER_PATH_ENTRY",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 245,
+      "function": "inspect_binding",
+      "last_line": 245,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_BINDING_CHANGED",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 250,
+      "function": "same_binding",
+      "last_line": 250,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_NAMESPACE_NOT_AFFIRMATIVE",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 254,
+      "function": "accept_probe",
+      "last_line": 255,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_BINDING_DIGEST",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 279,
+      "function": "recheck",
+      "last_line": 279,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "BWRAP_PREPARATION_NOT_AFFIRMATIVE",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 280,
+      "function": "recheck",
+      "last_line": 281,
+      "role": "BWRAP_HOST"
+    },
+    {
+      "code": "APT_CANDIDATE",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 51,
+      "function": "parse_candidate",
+      "last_line": 51,
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "code": "APT_VERSION",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 56,
+      "function": "validate_simulation",
+      "last_line": 56,
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "code": "APT_TRANSACTION_NOT_SINGLE_NEW_PACKAGE",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 60,
+      "function": "validate_simulation",
+      "last_line": 61,
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "code": "APT_OPERATION",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 66,
+      "function": "apt_argv",
+      "last_line": 66,
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "code": "APT_VERSION",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 72,
+      "function": "apt_argv",
+      "last_line": 72,
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "code": "APT_CLEANUP_TOOL_CHAIN",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 94,
+      "function": "require_same_cleanup_tool",
+      "last_line": 94,
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "code": "APT_GATE_RECEIPT_JOIN",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 138,
+      "function": "receive_transaction",
+      "last_line": 145,
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "code": "APT_GATE_RECEIPT_EFFECTS",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 148,
+      "function": "receive_transaction",
+      "last_line": 150,
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "code": "APT_GATE_RECEIVING_STATE_CHANGED",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 154,
+      "function": "receive_transaction",
+      "last_line": 156,
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "code": "APT_EXISTING_PACKAGE_INCONSISTENT",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 180,
+      "function": "install_if_missing",
+      "last_line": 181,
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "code": "APT_INPUT_CHANGED",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 205,
+      "function": "install_if_missing.<locals>.run",
+      "last_line": 205,
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "code": "APT_INSTALL_CONFIG_CHANGED",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 208,
+      "function": "install_if_missing.<locals>.run",
+      "last_line": 209,
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "code": "APT_COMMAND_REFUSED",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 226,
+      "function": "install_if_missing.<locals>.run",
+      "last_line": 227,
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "code": "APT_PRESTATE_CHANGED",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 239,
+      "function": "install_if_missing",
+      "last_line": 240,
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "code": "APT_GATE_REQUEST_BOUND",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 243,
+      "function": "install_if_missing",
+      "last_line": 243,
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "code": "APT_INSTALLED_VERSION",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 253,
+      "function": "install_if_missing",
+      "last_line": 253,
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "code": "APT_CLEANUP_IDENTITY",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 273,
+      "function": "install_if_missing",
+      "last_line": 275,
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "code": "APT_CLEANUP_UNKNOWN",
+      "exception_type": "BWRAP_REFUSAL",
+      "first_line": 280,
+      "function": "install_if_missing",
+      "last_line": 280,
+      "role": "SIGNED_DISTRO_SETUP"
+    },
+    {
+      "code": "APT_GATE_FILE_SHAPE",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 61,
+      "function": "read_regular",
+      "last_line": 62,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_FILE_OWNER",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 63,
+      "function": "read_regular",
+      "last_line": 63,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_FILE_RACE",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 66,
+      "function": "read_regular",
+      "last_line": 66,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_FILE_BOUND",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 70,
+      "function": "read_regular",
+      "last_line": 70,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_FILE_RACE",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 71,
+      "function": "read_regular",
+      "last_line": 72,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_FILE_DIGEST",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 76,
+      "function": "read_regular",
+      "last_line": 76,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_PATH",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 82,
+      "function": "protected_ancestry",
+      "last_line": 82,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_PROTECTED_PATH",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 85,
+      "function": "protected_ancestry",
+      "last_line": 87,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_STATUS_BOUND",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 92,
+      "function": "package_records",
+      "last_line": 93,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_STATUS_CONTINUATION",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 99,
+      "function": "package_records",
+      "last_line": 99,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_STATUS_FIELD",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 102,
+      "function": "package_records",
+      "last_line": 102,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_STATUS_DUPLICATE_FIELD",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 104,
+      "function": "package_records",
+      "last_line": 105,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_STATUS_IDENTITY",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 109,
+      "function": "package_records",
+      "last_line": 111,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_UNCLEAN_PACKAGE_STATE",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 112,
+      "function": "package_records",
+      "last_line": 114,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_STATUS_DUPLICATE_PACKAGE",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 116,
+      "function": "package_records",
+      "last_line": 116,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_EMPTY_PACKAGE_STATE",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 118,
+      "function": "package_records",
+      "last_line": 118,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_PENDING_DPKG_UPDATES",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 126,
+      "function": "read_snapshot",
+      "last_line": 127,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_PENDING_TRIGGERS",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 131,
+      "function": "read_snapshot",
+      "last_line": 131,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_PENDING_DPKG_UPDATES",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 134,
+      "function": "read_snapshot",
+      "last_line": 134,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_UNQUALIFIED_APT_VERSION",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 142,
+      "function": "require_supported_apt",
+      "last_line": 144,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_BUBBLEWRAP_PRESENT",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 145,
+      "function": "require_supported_apt",
+      "last_line": 145,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_DPKG_CONFIG_DIRECTORY",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 155,
+      "function": "dpkg_configuration.<locals>.fragments",
+      "last_line": 156,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_DPKG_CONFIG_OPTION",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 169,
+      "function": "dpkg_configuration",
+      "last_line": 171,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_DPKG_CONFIG_POPULATION_CHANGED",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 174,
+      "function": "dpkg_configuration",
+      "last_line": 174,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_DPKG_CONFIG_CHANGED_DURING_CAPTURE",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 180,
+      "function": "dpkg_configuration",
+      "last_line": 181,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_DPKG_CONFIG_POPULATION_CHANGED",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 182,
+      "function": "dpkg_configuration",
+      "last_line": 182,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_PROTOCOL_ESCAPE",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 187,
+      "function": "decode_config",
+      "last_line": 187,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_PROTOCOL_BOUND",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 192,
+      "function": "validate_protocol",
+      "last_line": 193,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_PROTOCOL_VERSION",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 195,
+      "function": "validate_protocol",
+      "last_line": 195,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_PROTOCOL_CONFIG",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 199,
+      "function": "validate_protocol",
+      "last_line": 199,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_EFFECTIVE_CONFIG",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 203,
+      "function": "validate_protocol",
+      "last_line": 203,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_EXTRA_HOOK_OR_OVERRIDE",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 206,
+      "function": "validate_protocol",
+      "last_line": 208,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_HOOK_POPULATION",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 209,
+      "function": "validate_protocol",
+      "last_line": 210,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_HOOK_POPULATION",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 211,
+      "function": "validate_protocol",
+      "last_line": 213,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_TRANSACTION_POPULATION",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 215,
+      "function": "validate_protocol",
+      "last_line": 215,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_TRANSACTION_IDENTITY",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 217,
+      "function": "validate_protocol",
+      "last_line": 218,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_TRANSACTION_ACTION",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 220,
+      "function": "validate_protocol",
+      "last_line": 222,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_PROC_STAT",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 230,
+      "function": "proc_record",
+      "last_line": 230,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_LOCK_ABI",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 236,
+      "function": "lock_owner",
+      "last_line": 236,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_LOCK_FILE_SHAPE",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 238,
+      "function": "lock_owner",
+      "last_line": 238,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_LOCK_FILE_CHANGED",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 241,
+      "function": "lock_owner",
+      "last_line": 241,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_LOCK_FILE_CHANGED",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 244,
+      "function": "lock_owner",
+      "last_line": 245,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_FRONTEND_LOCK_NOT_HELD",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 249,
+      "function": "lock_owner",
+      "last_line": 250,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_TOOL_PATH_CHANGED",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 257,
+      "function": "check_tool_bindings",
+      "last_line": 257,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_TOOL_BINDING_CHANGED",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 265,
+      "function": "check_tool_bindings",
+      "last_line": 267,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_FRONTEND_CUSTODY",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 272,
+      "function": "custody",
+      "last_line": 273,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_LOCK_OWNER_NOT_ANCESTOR",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 283,
+      "function": "custody",
+      "last_line": 283,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_LOCK_OWNER_NOT_ANCESTOR",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 285,
+      "function": "custody",
+      "last_line": 285,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_APT_PROCESS_IDENTITY",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 287,
+      "function": "custody",
+      "last_line": 288,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_APT_PROCESS_BINARY",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 292,
+      "function": "custody",
+      "last_line": 292,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_APT_PROCESS_ARGV",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 294,
+      "function": "custody",
+      "last_line": 295,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_DPKG_CONFIG_CHANGED",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 296,
+      "function": "custody",
+      "last_line": 296,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_LOCK_CUSTODY_CHANGED",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 297,
+      "function": "custody",
+      "last_line": 297,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_ACTUAL_EFFECT_POPULATION",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 304,
+      "function": "reconcile",
+      "last_line": 305,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_ACTUAL_EFFECT_VERSION",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 307,
+      "function": "reconcile",
+      "last_line": 308,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_REQUEST",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 327,
+      "function": "run_gate",
+      "last_line": 328,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_WORKSPACE_CUSTODY",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 331,
+      "function": "run_gate",
+      "last_line": 333,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_CONFIG_INPUT_CHANGED",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 334,
+      "function": "run_gate",
+      "last_line": 337,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_INSTALL_CONFIG_CHANGED",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 340,
+      "function": "run_gate",
+      "last_line": 341,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_FULL_PRESTATE_CHANGED",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 345,
+      "function": "run_gate",
+      "last_line": 345,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_PRE_RECEIPT",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 356,
+      "function": "run_gate",
+      "last_line": 359,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_FINAL_CUSTODY_CHANGED",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 364,
+      "function": "run_gate",
+      "last_line": 365,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_COMMAND_VALUE",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 373,
+      "function": "bootstrap_command",
+      "last_line": 373,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_CONFIG_QUOTING",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 383,
+      "function": "bootstrap_command",
+      "last_line": 383,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_ARGUMENTS",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 406,
+      "function": "main",
+      "last_line": 407,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_TIMEOUT",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 409,
+      "function": "main.<locals>.timeout",
+      "last_line": 409,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_REQUEST_PATH",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 415,
+      "function": "main",
+      "last_line": 415,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "APT_GATE_INFO_FD",
+      "exception_type": "APT_REFUSAL",
+      "first_line": 418,
+      "function": "main",
+      "last_line": 418,
+      "role": "APT_TRANSACTION_GUARD"
+    },
+    {
+      "code": "CUSTODY_JSON_BOUND",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 71,
+      "function": "parse",
+      "last_line": 71,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CUSTODY_DUPLICATE_KEY",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 75,
+      "function": "parse.<locals>.pairs",
+      "last_line": 75,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CUSTODY_NONFINITE",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 79,
+      "function": "parse.<locals>.bad",
+      "last_line": 79,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CUSTODY_JSON_REFUSED",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 83,
+      "function": "parse",
+      "last_line": 83,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_VERSION_REFUSED",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 93,
+      "function": "primitives",
+      "last_line": 94,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_UNAVAILABLE",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 99,
+      "function": "primitives",
+      "last_line": 99,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_SYSTEM_LOCATION",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 107,
+      "function": "system_file",
+      "last_line": 108,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_SYSTEM_OWNERSHIP",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 111,
+      "function": "system_file",
+      "last_line": 112,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_MEMBER_BOUND",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 114,
+      "function": "system_file",
+      "last_line": 115,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_MEMBER_CHANGED",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 120,
+      "function": "system_file",
+      "last_line": 120,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_MEMBER_BOUND",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 124,
+      "function": "system_file",
+      "last_line": 124,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_MEMBER_CHANGED",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 125,
+      "function": "system_file",
+      "last_line": 126,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_MEMBER_UNREADABLE",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 168,
+      "function": "openssl_map_paths",
+      "last_line": 168,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_SELF_TEST",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 181,
+      "function": "dependency_manifest",
+      "last_line": 181,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_SELF_TEST",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 184,
+      "function": "dependency_manifest",
+      "last_line": 184,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_BACKEND_VERSION",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 186,
+      "function": "dependency_manifest",
+      "last_line": 187,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_POPULATION",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 192,
+      "function": "dependency_manifest.<locals>.append_file",
+      "last_line": 192,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_TOTAL_BOUND",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 194,
+      "function": "dependency_manifest.<locals>.append_file",
+      "last_line": 194,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_MEMBER_CHANGED",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 196,
+      "function": "dependency_manifest.<locals>.append_file",
+      "last_line": 196,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_TOTAL_BOUND",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 197,
+      "function": "dependency_manifest.<locals>.append_file",
+      "last_line": 197,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_MEMBER_UNREADABLE",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 202,
+      "function": "dependency_manifest.<locals>.append_file",
+      "last_line": 202,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_MODULE_NAME",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 207,
+      "function": "dependency_manifest",
+      "last_line": 207,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_MODULE_PROXY",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 213,
+      "function": "dependency_manifest",
+      "last_line": 213,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_EMBEDDED_MODULE",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 216,
+      "function": "dependency_manifest",
+      "last_line": 216,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_IMPORT_LOADER",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 219,
+      "function": "dependency_manifest",
+      "last_line": 220,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_MAPS_BOUND",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 229,
+      "function": "dependency_manifest",
+      "last_line": 229,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_LIBRARY_BOUND",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 231,
+      "function": "dependency_manifest",
+      "last_line": 231,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_POPULATION",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 234,
+      "function": "dependency_manifest",
+      "last_line": 234,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_TOTAL_BOUND",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 235,
+      "function": "dependency_manifest",
+      "last_line": 235,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_MANIFEST_BOUND",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 239,
+      "function": "dependency_manifest",
+      "last_line": 239,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_DEPENDENCY_REFUSED",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 244,
+      "function": "dependency_manifest",
+      "last_line": 244,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "RECIPIENT_FILE_BOUND",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 249,
+      "function": "load_recipient",
+      "last_line": 249,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "RECIPIENT_CHANGED",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 253,
+      "function": "load_recipient",
+      "last_line": 253,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "RECIPIENT_CHANGED",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 255,
+      "function": "load_recipient",
+      "last_line": 255,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "RECIPIENT_DESCRIPTOR",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 259,
+      "function": "load_recipient",
+      "last_line": 262,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "RECIPIENT_PIN",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 264,
+      "function": "load_recipient",
+      "last_line": 264,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "RECIPIENT_KEY_REFUSED",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 269,
+      "function": "load_recipient",
+      "last_line": 269,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CUSTODY_REQUEST_BINDING",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 273,
+      "function": "preflight",
+      "last_line": 274,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_PREIMAGE_CHANGED",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 276,
+      "function": "preflight",
+      "last_line": 277,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "WARNING_FRAME_BOUND",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 282,
+      "function": "projection",
+      "last_line": 282,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "WARNING_METHOD",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 284,
+      "function": "projection",
+      "last_line": 284,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "OTHER_WARNING_REQUIRED",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 290,
+      "function": "projection",
+      "last_line": 291,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CAPTURE_BOUND",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 298,
+      "function": "select_frame",
+      "last_line": 298,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CAPTURE_TERMINAL",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 299,
+      "function": "select_frame",
+      "last_line": 300,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CAPTURE_INCOMPLETE",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 302,
+      "function": "select_frame",
+      "last_line": 302,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CAPTURE_PROJECTION_CHANGED",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 305,
+      "function": "select_frame",
+      "last_line": 305,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CAPTURE_REFUSED",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 308,
+      "function": "select_frame",
+      "last_line": 308,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "ENVELOPE_METADATA",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 311,
+      "function": "metadata",
+      "last_line": 313,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "RECIPIENT_KEY_BOUND",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 325,
+      "function": "encrypt_frame",
+      "last_line": 325,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CRYPTO_PREIMAGE_CHANGED",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 326,
+      "function": "encrypt_frame",
+      "last_line": 327,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "PLAINTEXT_FRAME_BOUND",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 336,
+      "function": "encrypt_frame",
+      "last_line": 336,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CIPHERTEXT_BOUND",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 338,
+      "function": "encrypt_frame",
+      "last_line": 338,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "ENVELOPE_BOUND",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 340,
+      "function": "encrypt_frame",
+      "last_line": 340,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "ENCRYPTION_REFUSED",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 343,
+      "function": "encrypt_frame",
+      "last_line": 343,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "EXPECTED_BINDING",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 347,
+      "function": "validate_envelope",
+      "last_line": 348,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "ENVELOPE_TYPE",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 350,
+      "function": "validate_envelope",
+      "last_line": 350,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "ENVELOPE_BINDING",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 353,
+      "function": "validate_envelope",
+      "last_line": 354,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CIPHERTEXT_TEXT_BOUND",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 355,
+      "function": "validate_envelope",
+      "last_line": 355,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "CIPHERTEXT_BOUND",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 357,
+      "function": "validate_envelope",
+      "last_line": 358,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "ENVELOPE_CANONICAL",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 359,
+      "function": "validate_envelope",
+      "last_line": 359,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "ENVELOPE_REFUSED",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 362,
+      "function": "validate_envelope",
+      "last_line": 362,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "ENVELOPE_BOUND",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 367,
+      "function": "decrypt_envelope",
+      "last_line": 367,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "ARTIFACT_BINDING",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 368,
+      "function": "decrypt_envelope",
+      "last_line": 368,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "PRIVATE_KEY_BOUND",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 371,
+      "function": "decrypt_envelope",
+      "last_line": 371,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "RECIPIENT_BINDING",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 374,
+      "function": "decrypt_envelope",
+      "last_line": 374,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "PLAINTEXT_SIZE",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 379,
+      "function": "decrypt_envelope",
+      "last_line": 379,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "PLAINTEXT_FRAMING",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 381,
+      "function": "decrypt_envelope",
+      "last_line": 381,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "PRIVATE_RECEIVING_REFUSED",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 386,
+      "function": "decrypt_envelope",
+      "last_line": 386,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "STATUS_BINDING",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 389,
+      "function": "initial_status",
+      "last_line": 389,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "STATUS_KEYS",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 395,
+      "function": "validate_status",
+      "last_line": 396,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "STATUS_CONSTANTS",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 397,
+      "function": "validate_status",
+      "last_line": 400,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "STATUS_COUNT",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 401,
+      "function": "validate_status",
+      "last_line": 401,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "STATUS_SEALED",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 403,
+      "function": "validate_status",
+      "last_line": 403,
+      "role": "WARNING_CUSTODY"
+    },
+    {
+      "code": "STATUS_NOT_SEALED",
+      "exception_type": "CUSTODY_REFUSAL",
+      "first_line": 405,
+      "function": "validate_status",
+      "last_line": 405,
+      "role": "WARNING_CUSTODY"
+    }
+  ],
+  "prepare_source_phases": [
+    {
+      "first_line": 253,
+      "last_line": 256,
+      "phase": "ENTRY_VALIDATION"
+    },
+    {
+      "first_line": 257,
+      "last_line": 257,
+      "phase": "CODE_AND_CRYPTO_BINDING"
+    },
+    {
+      "first_line": 258,
+      "last_line": 262,
+      "phase": "CHECKOUT_VALIDATION"
+    },
+    {
+      "first_line": 263,
+      "last_line": 263,
+      "phase": "SYSTEM_PACKAGE_SETUP"
+    },
+    {
+      "first_line": 264,
+      "last_line": 264,
+      "phase": "BWRAP_ADMISSION"
+    },
+    {
+      "first_line": 265,
+      "last_line": 265,
+      "phase": "BINARY_ACQUISITION"
+    },
+    {
+      "first_line": 266,
+      "last_line": 275,
+      "phase": "SUBJECT_FIXTURE"
+    },
+    {
+      "first_line": 276,
+      "last_line": 306,
+      "phase": "PREPARATION_PUBLICATION"
+    }
+  ],
+  "schema": "dg18.c02.startup-failure-codebook.v1",
+  "source_scope": "35bf9823856eb4efe254b882954120480632230e"
+}
