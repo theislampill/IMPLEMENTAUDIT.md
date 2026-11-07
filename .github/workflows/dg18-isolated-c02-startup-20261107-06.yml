@@ -1,0 +1,107 @@
+name: DG18 isolated C02 startup diagnostic 06
+on:
+  push:
+    branches: [pro/dg18-isolated-c02-startup-20261107-06]
+    paths:
+      - .github/workflows/dg18-isolated-c02-startup-20261107-06.yml
+      - qualification/dg18-isolated-c02-startup-20261107-06/**
+permissions: {}
+concurrency:
+  group: dg18-isolated-c02-startup-20261107-06
+  cancel-in-progress: false
+jobs:
+  startup:
+    if: github.repository == 'theislampill/IMPLEMENTAUDIT.md' && github.ref == 'refs/heads/pro/dg18-isolated-c02-startup-20261107-06' && github.event_name == 'push' && github.event.deleted == false && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      DG18_CODE: ${{ github.sha }}
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Fetch exact public code without credentials
+        shell: bash
+        env:
+          DG18_WORK: ${{ runner.temp }}/dg18-c02-startup-20261107-06
+        run: |
+          set -euo pipefail
+          umask 077
+          mkdir -m 700 "$DG18_WORK"
+          mkdir -m 700 "$DG18_WORK/worker"
+          /usr/bin/env -i PATH=/usr/bin:/bin LANG=C GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_GLOBAL=/dev/null GIT_TERMINAL_PROMPT=0 /usr/bin/git -C "$DG18_WORK/worker" -c init.templateDir= init -q
+          /usr/bin/env -i PATH=/usr/bin:/bin LANG=C GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_GLOBAL=/dev/null GIT_TERMINAL_PROMPT=0 /usr/bin/git -C "$DG18_WORK/worker" fetch --quiet --no-tags --depth=1 https://github.com/theislampill/IMPLEMENTAUDIT.md.git "$DG18_CODE"
+          umask 022
+          /usr/bin/env -i PATH=/usr/bin:/bin LANG=C GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_GLOBAL=/dev/null GIT_TERMINAL_PROMPT=0 /usr/bin/git -C "$DG18_WORK/worker" -c core.hooksPath=/dev/null checkout --quiet --detach FETCH_HEAD
+      - name: Prepare fresh private startup subject without native execution
+        id: preparation
+        shell: bash
+        env:
+          DG18_WORK: ${{ runner.temp }}/dg18-c02-startup-20261107-06
+        run: |
+          /usr/bin/python3 -I -B "$DG18_WORK/worker/qualification/dg18-isolated-c02-startup-20261107-06/hosted_adapter.py" prepare --work "$DG18_WORK" --run-id "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT" --commit "$DG18_CODE"
+      - name: Export only fixed preparation
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg18-c02-startup-preparation-${{ github.run_id }}-1
+          path: ${{ runner.temp }}/dg18-c02-startup-20261107-06/public-preparation/PREPARATION.json
+          if-no-files-found: error
+          retention-days: 7
+          include-hidden-files: false
+      - name: Export exact crypto dependency identities for actual host review
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg18-c02-startup-crypto-dependencies-${{ github.run_id }}-1
+          path: ${{ runner.temp }}/dg18-c02-startup-20261107-06/public-preparation/CRYPTO_DEPENDENCIES.json
+          if-no-files-found: error
+          retention-days: 7
+          include-hidden-files: false
+      - name: Export exact bwrap dependency identities for actual host review
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg18-c02-startup-bwrap-dependencies-${{ github.run_id }}-1
+          path: ${{ runner.temp }}/dg18-c02-startup-20261107-06/public-preparation/BWRAP_DEPENDENCIES.json
+          if-no-files-found: error
+          retention-days: 7
+          include-hidden-files: false
+      - name: Await actual independent review and distinct root admission
+        id: held
+        shell: bash
+        env:
+          DG18_WORK: ${{ runner.temp }}/dg18-c02-startup-20261107-06
+        run: |
+          /usr/bin/python3 -I -B "$DG18_WORK/worker/qualification/dg18-isolated-c02-startup-20261107-06/hosted_adapter.py" hold --work "$DG18_WORK"
+      - name: Validate finite result independently of worker exit status
+        id: result_gate
+        if: always()
+        continue-on-error: true
+        shell: bash
+        env:
+          DG18_WORK: ${{ runner.temp }}/dg18-c02-startup-20261107-06
+        run: |
+          /usr/bin/python3 -I -B "$DG18_WORK/worker/qualification/dg18-isolated-c02-startup-20261107-06/hosted_adapter.py" public-result --work "$DG18_WORK" --run-id "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT" --commit "$DG18_CODE"
+      - name: Export only validated finite result
+        if: always() && steps.result_gate.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg18-c02-startup-result-${{ github.run_id }}-1
+          path: ${{ runner.temp }}/dg18-c02-startup-20261107-06/public-result/PUBLIC_RESULT.json
+          if-no-files-found: error
+          retention-days: 7
+          include-hidden-files: false
+      - name: Validate one request-bound encrypted OTHER warning separately
+        id: custody_gate
+        if: always() && steps.result_gate.outcome == 'success'
+        continue-on-error: true
+        shell: bash
+        env:
+          DG18_WORK: ${{ runner.temp }}/dg18-c02-startup-20261107-06
+        run: |
+          /usr/bin/python3 -I -B "$DG18_WORK/worker/qualification/dg18-isolated-c02-startup-20261107-06/hosted_adapter.py" public-custody --work "$DG18_WORK"
+      - name: Export only the validated encrypted warning envelope when present
+        if: always() && steps.custody_gate.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg18-c02-startup-encrypted-warning-${{ github.run_id }}-1
+          path: ${{ runner.temp }}/dg18-c02-startup-20261107-06/public-custody/WARNING.enc.json
+          if-no-files-found: ignore
+          retention-days: 7
+          include-hidden-files: false
