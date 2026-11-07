@@ -1,0 +1,419 @@
+name: R5 full current correspondence and live independent receiving
+
+on:
+  push:
+    branches:
+      - pro/dg16-r5-full-g2-current-01-20261106
+    paths:
+      - .github/workflows/dg16-r5-full-g2.yml
+      - qualification/dg16-r5-full-g2/CAPTURE_DIAGNOSTIC_CATALOG.json
+      - qualification/dg16-r5-full-g2/EARNED_NATIVE_PREREQUISITE_04.json
+      - qualification/dg16-r5-full-g2/NATIVE_SOURCE_APPLICABILITY.json
+      - qualification/dg16-r5-full-g2/OUTPUT_ROLES.json
+      - qualification/dg16-r5-full-g2/POLICY.json
+      - qualification/dg16-r5-full-g2/RELATION_INPUTS.json
+      - qualification/dg16-r5-full-g2/REPORT_SLOTS.json
+      - qualification/dg16-r5-full-g2/SOURCE_MANIFEST.json
+      - qualification/dg16-r5-full-g2/UNCHANGED_BANK_SOURCE_CLOSURE.json
+      - qualification/dg16-r5-full-g2/capture_evidence.py
+      - qualification/dg16-r5-full-g2/checkout_prepare.py
+      - qualification/dg16-r5-full-g2/evidence_io.py
+      - qualification/dg16-r5-full-g2/finite_relation.py
+      - qualification/dg16-r5-full-g2/full_evidence.py
+      - qualification/dg16-r5-full-g2/full_output_relation.py
+      - qualification/dg16-r5-full-g2/full_relation.py
+      - qualification/dg16-r5-full-g2/full_stdout.py
+      - qualification/dg16-r5-full-g2/host_utility.py
+      - qualification/dg16-r5-full-g2/live_control.py
+      - qualification/dg16-r5-full-g2/native_admission.py
+      - qualification/dg16-r5-full-g2/native_integration.py
+      - qualification/dg16-r5-full-g2/native_prerequisite.py
+      - qualification/dg16-r5-full-g2/native_probe.py
+      - qualification/dg16-r5-full-g2/native_profile.py
+      - qualification/dg16-r5-full-g2/pair_diagnostics.py
+      - qualification/dg16-r5-full-g2/pair_driver.py
+      - qualification/dg16-r5-full-g2/pending_relation.py
+      - qualification/dg16-r5-full-g2/policy_control.py
+      - qualification/dg16-r5-full-g2/run.py
+      - qualification/dg16-r5-full-g2-decisions/INDEPENDENT_COLD_REVIEW.json
+      - qualification/dg16-r5-full-g2-decisions/ROOT_POLICY_ADOPTION.json
+      - qualification/dg16-r5-full-g2-decisions/NATIVE_INDEPENDENT_REVIEW.json
+      - qualification/dg16-r5-full-g2-decisions/ROOT_NATIVE_APPLICABILITY_ADOPTION.json
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dg16-r5-full-g2-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  full-registry-raw-pair:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/pro/dg16-r5-full-g2-current-01-20261106' &&
+      github.event.deleted == false && github.event.created == true && github.run_attempt == '1'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 150
+    steps:
+      - name: Check out the exact reviewed packet
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Check out the exact reviewed cumulative DG16 source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 7e2b00b3a2a16fc6033a5eabe4fc795f6249366f
+          path: qualified-source
+          fetch-depth: 2
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Provision the ordinary release dependency and verifier tools
+        id: provision
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'cc5686eaac81e8c3d21eb965dad4114ee935192e321c672e26d359fd8fadb7d7' ]]; then
+            echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step provision \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Bind source and observed native prerequisite requirements
+        id: preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'cc5686eaac81e8c3d21eb965dad4114ee935192e321c672e26d359fd8fadb7d7' ]]; then
+            echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step preflight \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Claim author inspect and activate the actual fresh task
+        id: initialize
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'cc5686eaac81e8c3d21eb965dad4114ee935192e321c672e26d359fd8fadb7d7' ]]; then
+            echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step initialize \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Discover its controller in the operation checkout
+        id: discover
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'cc5686eaac81e8c3d21eb965dad4114ee935192e321c672e26d359fd8fadb7d7' ]]; then
+            echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step discover \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Record the actual fresh hosted new-session boundary
+        id: invalidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'cc5686eaac81e8c3d21eb965dad4114ee935192e321c672e26d359fd8fadb7d7' ]]; then
+            echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step invalidate \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Read STATE in one completed host action
+        id: read_state
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'cc5686eaac81e8c3d21eb965dad4114ee935192e321c672e26d359fd8fadb7d7' ]]; then
+            echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step read-state \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Read ROADMAP in a separate completed host action
+        id: read_roadmap
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'cc5686eaac81e8c3d21eb965dad4114ee935192e321c672e26d359fd8fadb7d7' ]]; then
+            echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step read-roadmap \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Request the fresh G0001 continuity receipt
+        id: resume
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'cc5686eaac81e8c3d21eb965dad4114ee935192e321c672e26d359fd8fadb7d7' ]]; then
+            echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step resume \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Verify the owner-issued resume receipt
+        id: verify
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'cc5686eaac81e8c3d21eb965dad4114ee935192e321c672e26d359fd8fadb7d7' ]]; then
+            echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step verify \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Require current continuity before the full operation
+        id: require
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'cc5686eaac81e8c3d21eb965dad4114ee935192e321c672e26d359fd8fadb7d7' ]]; then
+            echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step require \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Qualify five changed native predicates with the two maintained cases
+        id: native_bank
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'cc5686eaac81e8c3d21eb965dad4114ee935192e321c672e26d359fd8fadb7d7' ]]; then
+            echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step native-bank \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Receive both actual current native cases under same-job custody
+        id: native_receive
+        if: always() && steps.require.outcome == 'success' && steps.native_bank.outcome != 'skipped' && steps.native_bank.outcome != 'cancelled'
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'cc5686eaac81e8c3d21eb965dad4114ee935192e321c672e26d359fd8fadb7d7' ]]; then
+            echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step native-receive \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Execute the complete current registry legacy then DAG once
+        id: pair
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'cc5686eaac81e8c3d21eb965dad4114ee935192e321c672e26d359fd8fadb7d7' ]]; then
+            echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step pair \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Independently re-read actual sealed captures in the live job
+        id: receive
+        if: always() && steps.require.outcome == 'success' && steps.pair.outcome != 'skipped' && steps.pair.outcome != 'cancelled'
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'cc5686eaac81e8c3d21eb965dad4114ee935192e321c672e26d359fd8fadb7d7' ]]; then
+            echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step receive \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Prepare the exact actual full correspondence proof for live independent review
+        id: prepare_review
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          [[ "$actual" == 'cc5686eaac81e8c3d21eb965dad4114ee935192e321c672e26d359fd8fadb7d7' ]] || exit 1
+          /usr/bin/python3 -I -S -B "$adapter" --step prepare-review \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Validate all nine public review files before upload
+        id: emit_review
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          [[ "$actual" == 'cc5686eaac81e8c3d21eb965dad4114ee935192e321c672e26d359fd8fadb7d7' ]] || exit 1
+          /usr/bin/python3 -I -S -B "$adapter" --emit-review \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Upload the actual bounded live review packet
+        id: review_upload
+        if: success() && steps.emit_review.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg16-full-correspondence-review-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/dg16-full-g2-episode-${{ github.run_id }}-${{ github.run_attempt }}/review/REQUEST.json
+            ${{ runner.temp }}/dg16-full-g2-episode-${{ github.run_id }}-${{ github.run_attempt }}/review/PROOF.json
+            ${{ runner.temp }}/dg16-full-g2-episode-${{ github.run_id }}-${{ github.run_attempt }}/review/public/RESULT.json
+            ${{ runner.temp }}/dg16-full-g2-episode-${{ github.run_id }}-${{ github.run_attempt }}/review/public/HOST.json
+            ${{ runner.temp }}/dg16-full-g2-episode-${{ github.run_id }}-${{ github.run_attempt }}/review/public/SOURCE.json
+            ${{ runner.temp }}/dg16-full-g2-episode-${{ github.run_id }}-${{ github.run_attempt }}/review/public/PROBE.json
+            ${{ runner.temp }}/dg16-full-g2-episode-${{ github.run_id }}-${{ github.run_attempt }}/review/public/CLEANUP.json
+            ${{ runner.temp }}/dg16-full-g2-episode-${{ github.run_id }}-${{ github.run_attempt }}/review/public/FAILURE.json
+            ${{ runner.temp }}/dg16-full-g2-episode-${{ github.run_id }}-${{ github.run_attempt }}/review/public/ARTIFACT_MANIFEST.json
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 7
+          compression-level: 6
+
+      - name: Await actual independent review and separate root consumption within the fixed hold
+        id: hold
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          [[ "$actual" == 'cc5686eaac81e8c3d21eb965dad4114ee935192e321c672e26d359fd8fadb7d7' ]] || exit 1
+          /usr/bin/python3 -I -S -B "$adapter" --step hold \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Re-read original private custody and currentness after actual review before teardown
+        id: finalize
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'cc5686eaac81e8c3d21eb965dad4114ee935192e321c672e26d359fd8fadb7d7' ]]; then
+            echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --step finalize \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Validate all public files and encoded caps before the first line
+        id: emit
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'cc5686eaac81e8c3d21eb965dad4114ee935192e321c672e26d359fd8fadb7d7' ]]; then
+            echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter" --emit-public \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          echo "eligible=true" >> "$GITHUB_OUTPUT"
+
+      - name: Upload exactly the validated closed public population
+        if: always() && steps.emit.outcome == 'success' && steps.emit.outputs.eligible == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg16-full-registry-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/dg16-full-g2-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/RESULT.json
+            ${{ runner.temp }}/dg16-full-g2-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/HOST.json
+            ${{ runner.temp }}/dg16-full-g2-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/SOURCE.json
+            ${{ runner.temp }}/dg16-full-g2-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/PROBE.json
+            ${{ runner.temp }}/dg16-full-g2-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/CLEANUP.json
+            ${{ runner.temp }}/dg16-full-g2-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/FAILURE.json
+            ${{ runner.temp }}/dg16-full-g2-episode-${{ github.run_id }}-${{ github.run_attempt }}/public/ARTIFACT_MANIFEST.json
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 7
+          compression-level: 6
