@@ -21,7 +21,7 @@
   },
   "claude_body_probe.py": {
     "bytes": 71309,
-    "sha256": "3a5fd4146c46d4b42c49dfce41c5dfb627e5583fbbf003257e2ee4b4a0d0067b"
+    "sha256": "28fdd86008a05b9ec88b9b56b60b77fa0b898765dbb7386865646987ce6de44c"
   },
   "claude_body_transport.py": {
     "bytes": 21952,
@@ -29,7 +29,7 @@
   },
   "claude_probe.py": {
     "bytes": 45501,
-    "sha256": "85dc12554adcf71a7b7fad6089645fb27adc2a01c1cba27c56fe38e842a12654"
+    "sha256": "6b0303d6689a260177d40a4ed495963d33e6a0f98367140d69063846192eff70"
   },
   "host_utility.py": {
     "bytes": 54556,
