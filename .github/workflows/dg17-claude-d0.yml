@@ -1,0 +1,117 @@
+name: DG17 Claude D0 bounded data operation
+on:
+  push:
+    branches: [pro/dg17-isolated-episode-01-20261106]
+    paths:
+      - .github/workflows/dg17-claude-d0.yml
+      - qualification/dg17-claude-d0/**
+permissions:
+  contents: read
+concurrency:
+  group: dg17-claude-d0-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  d0_census:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/pro/dg17-isolated-episode-01-20261106' &&
+      github.event.created == false && github.event.deleted == false &&
+      github.event.forced == false && github.event.before == '569b16227688e56f8f666a9fd8771bf0f265b41f' &&
+      github.run_attempt == '1'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 5
+    steps:
+      - name: Obtain the exact execution source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+      - name: Admit and execute the bounded data envelope
+        id: data
+        shell: python -I -S -B {0}
+        env:
+          D0_EVENT_BEFORE: ${{ github.event.before }}
+          D0_EVENT_CREATED: ${{ toJSON(github.event.created) }}
+          D0_EVENT_DELETED: ${{ toJSON(github.event.deleted) }}
+          D0_EVENT_FORCED: ${{ toJSON(github.event.forced) }}
+        run: |
+          import hashlib, os, stat, sys, types
+          code = 2
+          diagnostic = False
+          held = []
+          fd = None
+          try:
+              path = os.environ['GITHUB_WORKSPACE'] + '/packet/qualification/dg17-claude-d0/envelope'
+              assert path.startswith('/')
+              parts = path.split('/')[1:]
+              assert all(x and x not in ('.', '..') for x in parts)
+              fd = os.open('/', os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              held.append(fd)
+              assert os.fstat(fd).st_uid == 0 and not os.fstat(fd).st_mode & 0o022
+              def ident(s):
+                  return tuple(getattr(s,n) for n in ('st_dev','st_ino','st_mode','st_uid','st_gid','st_nlink','st_size','st_mtime_ns','st_ctime_ns'))
+              links = []
+              for part in parts:
+                  before = os.stat(part,dir_fd=fd,follow_symlinks=False)
+                  assert stat.S_ISDIR(before.st_mode) and before.st_uid in (0,os.geteuid()) and not before.st_mode & 0o022
+                  child = os.open(part,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW,dir_fd=fd)
+                  held.append(child)
+                  assert ident(before) == ident(os.fstat(child))
+                  links.append((fd,part,child,ident(before)[:6]))
+                  fd = child
+              before = os.stat('bootstrap.py',dir_fd=fd,follow_symlinks=False)
+              assert stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and before.st_uid == os.geteuid() and not before.st_mode & 0o022 and before.st_size == 9406
+              source = os.open('bootstrap.py',os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK,dir_fd=fd)
+              held.append(source)
+              assert ident(before) == ident(os.fstat(source))
+              raw = b''
+              for _ in range(18):
+                  part = os.read(source,65536)
+                  if not part: break
+                  raw += part
+                  assert len(raw) <= 1048576
+              else: raise ValueError('SOURCE_BOUND')
+              assert len(raw) == 9406 and hashlib.sha256(raw).hexdigest() == 'e12d6202f6fc74ce296e59475de1c9246a17ffa3f7492d9a3ceeb18d91839fc1'
+              assert ident(before) == ident(os.fstat(source)) == ident(os.stat('bootstrap.py',dir_fd=fd,follow_symlinks=False))
+              module = types.ModuleType('admitted_bootstrap')
+              exec(compile(raw,'<admitted_bootstrap>','exec'),module.__dict__)
+              code, diagnostic = module.main(dict(os.environ),'pro/dg17-isolated-episode-01-20261106','569b16227688e56f8f666a9fd8771bf0f265b41f')
+              for parent,name,child,identity in links:
+                  assert ident(os.stat(name,dir_fd=parent,follow_symlinks=False))[:6] == ident(os.fstat(child))[:6] == identity
+              assert ident(before) == ident(os.fstat(source)) == ident(os.stat('bootstrap.py',dir_fd=fd,follow_symlinks=False))
+          except BaseException:
+              code = 2
+              diagnostic = False
+          finally:
+              for handle in reversed(held): os.close(handle)
+          if diagnostic:
+              try:
+                  output = os.open(os.environ['GITHUB_OUTPUT'],os.O_WRONLY|os.O_APPEND|os.O_NOFOLLOW|os.O_NONBLOCK)
+                  try:
+                      info = os.fstat(output)
+                      assert stat.S_ISREG(info.st_mode) and info.st_nlink == 1 and info.st_uid == os.geteuid() and not info.st_mode & 0o022
+                      flag = b'diagnostic_ready=true\n'
+                      assert os.write(output,flag) == len(flag)
+                      os.fsync(output)
+                  finally: os.close(output)
+              except BaseException:
+                  code = 2
+          print('D0 {"status":"EXPORT_VALIDATED"}' if code == 0 else 'D0 {"status":"INCOMPLETE_OR_REFUSED"}')
+          sys.exit(code)
+      - name: Upload only the validated public population
+        if: always() && steps.data.outputs.diagnostic_ready == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-claude-d0-${{ github.run_id }}-a1
+          if-no-files-found: error
+          retention-days: 7
+          path: |
+            ${{ runner.temp }}/dg17-d0-${{ github.run_id }}-1/public/HOSTED_CENSUS_RESULT.json
+            ${{ runner.temp }}/dg17-d0-${{ github.run_id }}-1/public/D0_RECEIVING.json
+            ${{ runner.temp }}/dg17-d0-${{ github.run_id }}-1/public/D0_ENVELOPE.json

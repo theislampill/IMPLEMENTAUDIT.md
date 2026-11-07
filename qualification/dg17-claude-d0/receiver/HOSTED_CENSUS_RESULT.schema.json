@@ -1,0 +1,334 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "body_content_published": {
+      "const": false
+    },
+    "failure": {
+      "anyOf": [
+        {
+          "maxLength": 96,
+          "minLength": 1,
+          "pattern": "^[A-Z][A-Z0-9_]{0,95}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "native_processes_started": {
+      "const": 0
+    },
+    "private_receipt_sha256": {
+      "anyOf": [
+        {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "rows": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "alias_hops": {
+            "maximum": 8,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "before_after_equal": {
+            "type": "boolean"
+          },
+          "bytes": {
+            "anyOf": [
+              {
+                "maximum": 8388608,
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "canonical_identity_sha256": {
+            "anyOf": [
+              {
+                "maxLength": 64,
+                "minLength": 64,
+                "pattern": "^[0-9a-f]{64}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "dev": {
+            "anyOf": [
+              {
+                "maximum": 18446744073709551615,
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "elf_class": {
+            "anyOf": [
+              {
+                "enum": [
+                  32,
+                  64
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "elf_endian": {
+            "anyOf": [
+              {
+                "enum": [
+                  "LITTLE",
+                  "BIG"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "elf_machine": {
+            "anyOf": [
+              {
+                "maximum": 65535,
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "errno": {
+            "anyOf": [
+              {
+                "maximum": 4095,
+                "minimum": 1,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error_code": {
+            "anyOf": [
+              {
+                "maxLength": 96,
+                "minLength": 1,
+                "pattern": "^[A-Z][A-Z0-9_]{0,95}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "file_capabilities_absent": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "fixed_id": {
+            "enum": [
+              "USR_BIN_BASH",
+              "BIN_BASH",
+              "USR_BIN_PYTHON3",
+              "BIN_PYTHON3",
+              "ETC_PROFILE",
+              "ETC_BASH_BASHRC",
+              "ETC_BASH_BASH_LOGOUT",
+              "ETC_PROFILE_D",
+              "USR_BIN_ZSH",
+              "BIN_ZSH",
+              "USR_LOCAL_BIN_BASH",
+              "USR_LOCAL_BIN_ZSH",
+              "OPT_HOMEBREW_BIN_BASH",
+              "OPT_HOMEBREW_BIN_ZSH"
+            ]
+          },
+          "gid": {
+            "anyOf": [
+              {
+                "maximum": 4294967295,
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "ino": {
+            "anyOf": [
+              {
+                "maximum": 18446744073709551615,
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "kind": {
+            "enum": [
+              "ABSENT",
+              "REGULAR",
+              "DIRECTORY",
+              "SYMLINK",
+              "OTHER",
+              "UNKNOWN"
+            ]
+          },
+          "mode": {
+            "anyOf": [
+              {
+                "maximum": 65535,
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "nlink": {
+            "anyOf": [
+              {
+                "maximum": 18446744073709551615,
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "physical_ancestry_received": {
+            "type": "boolean"
+          },
+          "present": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "sha256": {
+            "anyOf": [
+              {
+                "maxLength": 64,
+                "minLength": 64,
+                "pattern": "^[0-9a-f]{64}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "uid": {
+            "anyOf": [
+              {
+                "maximum": 4294967295,
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "fixed_id",
+          "present",
+          "kind",
+          "uid",
+          "gid",
+          "mode",
+          "nlink",
+          "dev",
+          "ino",
+          "bytes",
+          "sha256",
+          "elf_class",
+          "elf_endian",
+          "elf_machine",
+          "file_capabilities_absent",
+          "physical_ancestry_received",
+          "canonical_identity_sha256",
+          "alias_hops",
+          "before_after_equal",
+          "error_code",
+          "errno"
+        ],
+        "type": "object"
+      },
+      "maxItems": 14,
+      "type": "array"
+    },
+    "schema": {
+      "const": "dg17.claude.routing.fixed-host-census.v1"
+    },
+    "source_effect_authority": {
+      "const": "NONE"
+    },
+    "startup_semantics_accepted": {
+      "const": false
+    },
+    "status": {
+      "enum": [
+        "RECEIVED_FIXED_HOST_INPUTS",
+        "INCOMPLETE_OR_REFUSED"
+      ]
+    },
+    "target_commands_started": {
+      "const": 0
+    }
+  },
+  "required": [
+    "schema",
+    "status",
+    "rows",
+    "private_receipt_sha256",
+    "body_content_published",
+    "startup_semantics_accepted",
+    "native_processes_started",
+    "target_commands_started",
+    "source_effect_authority",
+    "failure"
+  ],
+  "type": "object"
+}
