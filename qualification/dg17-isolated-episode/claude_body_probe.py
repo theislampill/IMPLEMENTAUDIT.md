@@ -261,7 +261,7 @@ def config_plugins_snapshot(profile):
     return before
 
 
-def config_plugins_projection(snapshot):
+def config_plugins_projection(snapshot, capture_received, provider_received, admission_quiescence):
     root = snapshot['root']; info = root['identity'] if root is not None else None
     complete = snapshot['complete'] is True; stable = snapshot['stable'] is True
     empty = None
@@ -270,11 +270,41 @@ def config_plugins_projection(snapshot):
             empty = True
         elif root is not None and root['kind'] == 'DIRECTORY':
             empty = len(snapshot['entries']) == 0
-    admitted = (complete and stable and ((snapshot['status'] == 'COMPLETE_ABSENT' and root is None and
-        snapshot['entries'] == []) or (snapshot['status'] == 'COMPLETE_PRESENT' and
-        root is not None and root['kind'] == 'DIRECTORY' and root['physical_path'] is True and
-        stat.S_IMODE(info['mode']) == 0o700 and info['uid'] == os.geteuid() and
-        info['gid'] == os.getegid() and empty is True)))
+    custody = (capture_received is True and provider_received is True and
+        type(admission_quiescence) is dict and set(admission_quiescence) ==
+        {'no_owned_children_listed', 'wait_echild', 'verified'} and
+        all(value is True for value in admission_quiescence.values()))
+    physical = (complete and stable and snapshot['error_code'] is None and
+        snapshot['status'] == 'COMPLETE_ABSENT' and root is None and snapshot['entries'] == [])
+    if (complete and stable and snapshot['error_code'] is None and
+            snapshot['status'] == 'COMPLETE_PRESENT' and root is not None and
+            root['kind'] == 'DIRECTORY' and root['physical_path'] is True and
+            stat.S_ISDIR(info['mode']) and stat.S_IMODE(info['mode']) == 0o700 and
+            info['uid'] == os.geteuid() and info['gid'] == os.getegid()):
+        physical = len(snapshot['entries']) <= 16
+        seen = {(info['device'], info['inode'])}; paths = []; total = 0
+        for row in snapshot['entries']:
+            identity = row['identity']; relative = row['relative_path']
+            parts = relative.split('/'); raw = relative.encode('utf-8', 'strict')
+            pair = (identity['device'], identity['inode'])
+            eligible = (0 < len(raw) <= 256 and len(parts) <= 8 and
+                all(part not in ('', '.', '..') and '\x00' not in part for part in parts) and
+                pair not in seen and identity['uid'] == os.geteuid() and
+                identity['gid'] == os.getegid())
+            if row['kind'] == 'DIRECTORY':
+                eligible = eligible and stat.S_ISDIR(identity['mode']) and stat.S_IMODE(identity['mode']) == 0o700
+            elif row['kind'] == 'REGULAR':
+                eligible = (eligible and stat.S_ISREG(identity['mode']) and
+                    stat.S_IMODE(identity['mode']) == 0o600 and identity['nlink'] == 1 and
+                    0 <= identity['size'] <= 8 * 1024 * 1024)
+                total += identity['size']
+            else:
+                eligible = False
+            physical = physical and eligible
+            seen.add(pair); paths.append(relative)
+        physical = (physical and paths == sorted(paths) and len(paths) == len(set(paths)) and
+                    total <= 32 * 1024 * 1024)
+    admitted = physical and custody
     rows = []
     for row in snapshot['entries']:
         raw = row['relative_path'].encode('utf-8', 'strict'); identity = row['identity']
@@ -283,7 +313,7 @@ def config_plugins_projection(snapshot):
             'uid_matches_effective': identity['uid'] == os.geteuid(),
             'gid_matches_effective': identity['gid'] == os.getegid(),
             'regular_file_bytes': identity['size'] if row['kind'] == 'REGULAR' else None})
-    return {'schema': 'dg17.claude.config-plugins-observation.v1', 'path_id': 'CONFIG_PLUGINS',
+    return {'schema': 'dg17.claude.config-plugins-observation.v2', 'path_id': 'CONFIG_PLUGINS',
         'status': snapshot['status'], 'kind': root['kind'] if root is not None else None,
         'mode': stat.S_IMODE(info['mode']) if info is not None else None,
         'uid_matches_effective': info['uid'] == os.geteuid() if info is not None else None,
@@ -294,7 +324,8 @@ def config_plugins_projection(snapshot):
         'empty': empty, 'profile_admitted': admitted}
 
 
-def post_native_profile_readback(meta, profile, expected_plugins):
+def post_native_profile_readback(meta, profile, expected_plugins, capture_received,
+                                 provider_received, admission_quiescence):
     """Original profile identities/configs and 16 absences plus one closed output."""
     rows = {key: meta.owned_directory(path) for key, path in profile.items()
             if key not in ('settings', 'mcp')}
@@ -305,11 +336,13 @@ def post_native_profile_readback(meta, profile, expected_plugins):
     for identifier, anchor, relative in STARTUP_PATHS:
         if identifier != 'CONFIG_PLUGINS':
             need(not os.path.lexists(profile[anchor] / relative), 'UNREVIEWED_FRESH_CONTEXT_STARTUP_LAYER')
-    need(expected_plugins is not None and config_plugins_projection(expected_plugins)['profile_admitted'],
+    need(expected_plugins is not None and config_plugins_projection(expected_plugins,
+         capture_received, provider_received, admission_quiescence)['profile_admitted'],
          'UNREVIEWED_FRESH_CONTEXT_STARTUP_LAYER')
     observed = config_plugins_snapshot(profile)
     need(canonical(observed) == canonical(expected_plugins) and
-         config_plugins_projection(observed)['profile_admitted'], 'CONFIG_PLUGINS_PROFILE_CHANGED')
+         config_plugins_projection(observed, capture_received, provider_received,
+                                   admission_quiescence)['profile_admitted'], 'CONFIG_PLUGINS_PROFILE_CHANGED')
     return rows
 
 
@@ -498,9 +531,10 @@ def initial_result():
         'archive_before': False, 'archive_after': False, 'package_before': False, 'package_after': False,
         'startup_before': False, 'startup_after': False, 'fresh_context_count': 0,
         'startup_paths_after': None, 'private_directory_refusal': None, 'diagnostic_record_sha256': None,
-        'config_plugins_profile': {'schema': 'dg17.claude.body-config-plugins.v1',
+        'config_plugins_profile': {'schema': 'dg17.claude.body-config-plugins.v2',
             'before_absent': False, 'before_record_sha256': None, 'after_record_sha256': None,
-            'after': None, 'closing_unchanged': False, 'final_unchanged': False},
+            'after': None, 'closing_unchanged': False, 'final_unchanged': False,
+            'profile': 'OPAQUE_POST_NATIVE_PLUGIN_OUTPUT_V1', 'admission_quiescence': None},
         'native_sessions_started': 0, 'commands': [], 'body_delivery': None, 'native_observation': None,
         'cleanup': {'after_close': None, 'after_seal': None, 'private_evidence_seal_sha256': None,
                     'private_seal_unchanged': False, 'host_teardown_observed': False,
@@ -514,7 +548,13 @@ def initial_result():
 
 def complete_result(value, records, meta):
     plugins = value['config_plugins_profile']
-    if not (plugins['before_absent'] is True and plugins['before_record_sha256'] is not None and
+    quiescence = plugins['admission_quiescence']
+    if not (plugins['schema'] == 'dg17.claude.body-config-plugins.v2' and
+            plugins['profile'] == 'OPAQUE_POST_NATIVE_PLUGIN_OUTPUT_V1' and
+            type(quiescence) is dict and set(quiescence) ==
+            {'no_owned_children_listed', 'wait_echild', 'verified'} and
+            all(item is True for item in quiescence.values()) and
+            plugins['before_absent'] is True and plugins['before_record_sha256'] is not None and
             plugins['after_record_sha256'] is not None and plugins['after'] is not None and
             plugins['after']['profile_admitted'] is True and
             plugins['after_record_sha256'] == plugins['after']['population_sha256'] and
@@ -536,6 +576,7 @@ def complete_result(value, records, meta):
             return False
     provider = value['provider_custody']
     if not (provider and provider['verified'] is True and provider['failure'] is None and
+            provider['all_owned_sockets_closed'] is True and provider['thread_joined'] is True and
             provider['supplemental_failures'] == [] and provider['semantic_request_count'] == 1 and
             provider['semantic_response_complete'] is True): return False
     return (value['body_delivery'] is not None and value['native_observation'] is not None and
@@ -550,6 +591,7 @@ def run(args):
     runtime_before = git_before = matrix = package = provider = profile = profile_before = managed_before = None
     gate_home = git_home = None; subreaper = False; route_safe = False
     directory_record = None; plugins_before = plugins_after = None
+    plugins_capture_received = plugins_provider_received = False
     deadline = time.monotonic() + RUN_SECONDS
     def failure(exc, where):
         kinds = tuple(x.Refusal for x in (meta, utility, admission, transport) if x is not None and hasattr(x, 'Refusal'))
@@ -660,6 +702,25 @@ def run(args):
                      'PROVIDER_RECORD_READBACK_DIFFERS')
                 return sha(raw)
             result['provider_record_sha256'] = observe('PROVIDER_RETENTION', retain_provider_record)
+            # This is a fresh data-only custody observation after the sole native
+            # capture and provider close, before any output-profile admission.
+            result['config_plugins_profile']['admission_quiescence'] = observe(
+                'POST_NATIVE_OUTPUT_CUSTODY', lambda: meta.quiescent(utility))
+            plugins_capture_received = (captured_error is None and
+                [x.get('name') for x in records] == ['currentness-before', 'canonical-body'] and
+                all(meta.received_capture(x) for x in records))
+            custody = result['provider_custody']
+            plugins_provider_received = (type(custody) is dict and custody.get('verified') is True and
+                custody.get('all_owned_sockets_closed') is True and custody.get('thread_joined') is True and
+                custody.get('failure') is None and custody.get('supplemental_failures') == [] and
+                result['provider_record_sha256'] is not None)
+            quiescence = result['config_plugins_profile']['admission_quiescence']
+            if not (plugins_capture_received and plugins_provider_received and
+                    type(quiescence) is dict and set(quiescence) ==
+                    {'no_owned_children_listed', 'wait_echild', 'verified'} and
+                    all(item is True for item in quiescence.values())):
+                route_safe = False
+                failure(Refusal('POST_NATIVE_OUTPUT_CUSTODY_UNVERIFIED'), 'POST_NATIVE_OUTPUT_ADMISSION')
             if len(records) == start + 1:
                 row = records[-1]
                 row.update(recognition_status='NOT_ATTEMPTED', recognition_code=None,
@@ -671,7 +732,8 @@ def run(args):
                     file_identity(Path(args.binary), meta.BINARY_BYTES, executable=True)) == runtime_before
                 plugins_after = observe('CONFIG_PLUGINS_AFTER', lambda: config_plugins_snapshot(profile))
                 if plugins_after is not None:
-                    result['config_plugins_profile']['after'] = config_plugins_projection(plugins_after)
+                    result['config_plugins_profile']['after'] = config_plugins_projection(plugins_after,
+                        plugins_capture_received, plugins_provider_received, quiescence)
                     def retain_plugins_after():
                         raw = canonical(plugins_after)
                         need(len(raw) <= 65536, 'CONFIG_PLUGINS_SNAPSHOT_BYTE_BOUND')
@@ -680,7 +742,8 @@ def run(args):
                     result['config_plugins_profile']['after_record_sha256'] = observe(
                         'CONFIG_PLUGINS_RETENTION', retain_plugins_after)
                 row['startup_after'] = observe('NATIVE_STARTUP_AFTER', lambda:
-                    (post_native_profile_readback(meta, profile, plugins_after),
+                    (post_native_profile_readback(meta, profile, plugins_after, plugins_capture_received,
+                        plugins_provider_received, quiescence),
                      meta.managed_and_ancestor_guard(admission, profile['cwd']))) == (profile_before, managed_before)
                 result['startup_after'] = row['startup_after']
                 result['startup_paths_after'] = observe('NATIVE_STARTUP_DIAGNOSTIC', lambda: startup_paths_diagnostic(profile))
@@ -737,7 +800,8 @@ def run(args):
                 package_census(package, matrix)
                 need(file_identity(Path(args.canonical_archive), PACKAGE_BYTES) == {'bytes': PACKAGE_BYTES, 'sha256': PACKAGE_SHA},
                      'CLOSING_ARCHIVE_CHANGED')
-                need(post_native_profile_readback(meta, profile, plugins_after) == profile_before and
+                need(post_native_profile_readback(meta, profile, plugins_after, plugins_capture_received,
+                     plugins_provider_received, result['config_plugins_profile']['admission_quiescence']) == profile_before and
                      meta.managed_and_ancestor_guard(admission, profile['cwd']) == managed_before and
                      admission.offline_guard(args) == result['offline'], 'CLOSING_STARTUP_OR_NAMESPACE_CHANGED')
                 need(meta.quiescent(utility)['verified'] is True, 'CLOSING_GIT_QUIESCENCE_REFUSED')
@@ -781,7 +845,8 @@ def run(args):
         if profile is not None and plugins_after is not None and result['cleanup']['after_seal'] is not None and \
                 result['cleanup']['after_seal']['verified'] is True:
             def final_startup_readback():
-                need(post_native_profile_readback(meta, profile, plugins_after) == profile_before and
+                need(post_native_profile_readback(meta, profile, plugins_after, plugins_capture_received,
+                     plugins_provider_received, result['config_plugins_profile']['admission_quiescence']) == profile_before and
                      meta.managed_and_ancestor_guard(admission, profile['cwd']) == managed_before,
                      'FINAL_STARTUP_PROFILE_CHANGED')
                 return True
