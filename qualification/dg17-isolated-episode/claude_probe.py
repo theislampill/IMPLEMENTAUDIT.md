@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""DG17 Claude child08 exact validation target successor; prospective hosted execution only.
+"""DG17 Claude child12 nullable warning-code recognition; prospective hosted execution only.
 
 Exactly validate/list/details; no version/help/install/auth/session/model call.
 The enclosing separately reviewed parent owns actual source/controller/capsule/
@@ -146,6 +146,76 @@ def validation_shape_projection(value):
             'fields': fields}
 
 
+def validation_contents_shape_projection(value):
+    # Called only after strict_json. Export fixed structure/counts/key digests,
+    # never arbitrary names, paths, messages, scalar values or raw bodies.
+    known = ('file', 'errors', 'warnings', 'notes', 'gatingHooks', 'type')
+    required = frozenset(('file', 'errors', 'warnings', 'notes'))
+    types = ('NULL', 'BOOLEAN', 'INTEGER', 'STRING', 'ARRAY', 'OBJECT')
+    row_limit, element_limit, object_limit = 4, 16, 4
+
+    def field(row, key):
+        present = type(row) is dict and key in row
+        item = row[key] if present else None
+        return {'present': present,
+                'type': public_json_type(item) if present else 'ABSENT',
+                'count': len(item) if present and type(item) in (list, dict) else None}
+
+    def diagnostic(item, warning_members):
+        is_array = type(item) is list
+        selected = item[:element_limit] if is_array else []
+        counts = {key: 0 for key in types}
+        objects = 0; shapes = []
+        for index, element in enumerate(selected):
+            counts[public_json_type(element)] += 1
+            if type(element) is dict:
+                objects += 1
+                if len(shapes) < object_limit:
+                    shape = {'index': index, 'key_count': len(element),
+                             'key_names_sha256': sha(canonical(sorted(element)))}
+                    if warning_members:
+                        shape['fields'] = {
+                            key: {'present': key in element,
+                                  'type': public_json_type(element[key])
+                                          if key in element else 'ABSENT'}
+                            for key in ('code', 'message', 'path')}
+                    shapes.append(shape)
+        shapes_complete = objects <= object_limit
+        return {'is_array': is_array, 'total_count': len(item) if is_array else None,
+                'examined_count': len(selected),
+                'complete': (not is_array or len(item) <= element_limit) and shapes_complete,
+                'type_counts': counts, 'object_shapes': shapes,
+                'objects_examined': objects, 'object_shapes_complete': shapes_complete}
+
+    present = type(value) is dict and 'contents' in value
+    contents = value['contents'] if present else None
+    selected = contents[:row_limit] if type(contents) is list else []
+    rows = []; arrays_complete = True
+    for index, row in enumerate(selected):
+        is_object = type(row) is dict
+        arrays = {key: diagnostic(row.get(key) if is_object else None, key == 'warnings')
+                  for key in ('errors', 'warnings', 'notes')}
+        arrays_complete = arrays_complete and all(item['complete'] for item in arrays.values())
+        rows.append({'index': index, 'type': public_json_type(row),
+                     'key_count': len(row) if is_object else None,
+                     'required_missing_count': len(required - set(row)) if is_object else None,
+                     'unknown_key_count': len(set(row) - set(known)) if is_object else None,
+                     'key_names_sha256': sha(canonical(sorted(row))) if is_object else None,
+                     'fields': {key: field(row, key) for key in known},
+                     'diagnostics': arrays})
+    rows_complete = type(contents) is not list or len(contents) <= row_limit
+    result = {'status': 'PUBLIC_SAFE_CONTENTS_SHAPE_ONLY',
+              'contents_present': present,
+              'contents_type': public_json_type(contents) if present else 'ABSENT',
+              'contents_count': len(contents) if present and type(contents) in (list, dict) else None,
+              'row_limit': row_limit, 'element_limit': element_limit, 'object_shape_limit': object_limit,
+              'rows_examined': len(rows), 'rows_complete': rows_complete,
+              'element_arrays_complete': arrays_complete,
+              'complete': rows_complete and arrays_complete, 'rows': rows}
+    need(len(canonical(result)) <= 16384, 'JSON_COMPLEXITY_UNRECEIVED')
+    return result
+
+
 def validation_identity_projection(value, source):
     # Diagnostics precede acceptance; no returned path is resolved or exported.
     is_object = type(value) is dict
@@ -192,9 +262,15 @@ def validation_projection(value, source):
     errors = warnings = notes = 0
     for row in value['contents']:
         need(type(row) is dict and {'file', 'errors', 'warnings', 'notes'} <= set(row) and
-             set(row) <= {'file', 'errors', 'warnings', 'notes', 'gatingHooks'} and
-             type(row['file']) is str and all(type(row[k]) is list and
-             all(type(v) is str for v in row[k]) for k in ('errors', 'warnings', 'notes')),
+             set(row) <= {'file', 'errors', 'warnings', 'notes', 'gatingHooks', 'type'} and
+             type(row['file']) is str and ('type' not in row or type(row['type']) is str) and
+             all(type(row[k]) is list for k in ('errors', 'warnings', 'notes')) and
+             all(type(v) is str for k in ('errors', 'notes') for v in row[k]) and
+             all(type(v) is str or (type(v) is dict and
+                 set(v) == {'code', 'message', 'path'} and
+                 (v['code'] is None or type(v['code']) is str) and
+                 all(type(v[k]) is str for k in ('message', 'path')))
+                 for v in row['warnings']),
              'VALIDATION_CONTENTS_UNRECEIVED')
         need(row.get('gatingHooks', []) == [], 'UNEXPECTED_GATING_HOOKS_REFUSED')
         errors += len(row['errors']); warnings += len(row['warnings']); notes += len(row['notes'])
@@ -561,7 +637,7 @@ def initial_result():
         'expected_source_skills': list(SKILLS), 'fresh_context_count': 0,
         'product_commands_started': 0, 'planned_commands': list(COMMANDS),
         'unstarted_commands': list(COMMANDS), 'offline': None, 'commands': [],
-        'validation_shape': None, 'validation_identity': None,
+        'validation_shape': None, 'validation_identity': None, 'validation_contents_shape': None,
         'validation': None, 'plugin_list': None, 'details': None,
         'cleanup': {'private_evidence_seal_sha256': None, 'private_seal_unchanged': False,
                     'private_plaintext_policy': 'RETAIN_UNTIL_HOST_TEARDOWN',
@@ -685,6 +761,7 @@ def run(args):
                         parsed_validation = strict_json(out)
                         result['validation_shape'] = validation_shape_projection(parsed_validation)
                         result['validation_identity'] = validation_identity_projection(parsed_validation, source)
+                        result['validation_contents_shape'] = validation_contents_shape_projection(parsed_validation)
                         result['validation'] = validation_projection(parsed_validation, source)
                     elif name == 'list':
                         result['plugin_list'] = list_projection(strict_json(out), source)
