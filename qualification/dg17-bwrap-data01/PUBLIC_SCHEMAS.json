@@ -1,0 +1,590 @@
+{
+  "CAPTURE.json": {
+    "additionalProperties": false,
+    "properties": {
+      "capture_invoked": {
+        "type": "boolean"
+      },
+      "cleanup_echild": {
+        "type": "boolean"
+      },
+      "complete_record_received": {
+        "type": "boolean"
+      },
+      "complete_success_record_received": {
+        "type": "boolean"
+      },
+      "control_tools": {
+        "additionalProperties": false,
+        "properties": {
+          "after_sha256": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "pattern": "[0-9a-f]{64}",
+                "type": "string"
+              }
+            ]
+          },
+          "before_sha256": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "pattern": "[0-9a-f]{64}",
+                "type": "string"
+              }
+            ]
+          },
+          "unchanged": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "before_sha256",
+          "after_sha256",
+          "unchanged"
+        ],
+        "type": "object"
+      },
+      "input_bindings": {
+        "additionalProperties": false,
+        "properties": {
+          "after_retained": {
+            "type": "boolean"
+          },
+          "after_sha256": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "pattern": "[0-9a-f]{64}",
+                "type": "string"
+              }
+            ]
+          },
+          "before_retained": {
+            "type": "boolean"
+          },
+          "before_sha256": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "pattern": "[0-9a-f]{64}",
+                "type": "string"
+              }
+            ]
+          },
+          "manifest_sha256": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "pattern": "[0-9a-f]{64}",
+                "type": "string"
+              }
+            ]
+          },
+          "unchanged": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "manifest_sha256",
+          "before_sha256",
+          "after_sha256",
+          "before_retained",
+          "after_retained",
+          "unchanged"
+        ],
+        "type": "object"
+      },
+      "no_owned_children_and_wait_echild": {
+        "type": "boolean"
+      },
+      "output_bound_exceeded": {
+        "type": "boolean"
+      },
+      "pidfd_acquired": {
+        "type": "boolean"
+      },
+      "pidfd_signals": {
+        "anyOf": [
+          {
+            "type": "null"
+          },
+          {
+            "maximum": 4096,
+            "minimum": 0,
+            "type": "integer"
+          }
+        ]
+      },
+      "private_record_bytes": {
+        "anyOf": [
+          {
+            "type": "null"
+          },
+          {
+            "maximum": 131072,
+            "minimum": 0,
+            "type": "integer"
+          }
+        ]
+      },
+      "private_record_retained": {
+        "type": "boolean"
+      },
+      "private_record_sha256": {
+        "anyOf": [
+          {
+            "type": "null"
+          },
+          {
+            "pattern": "[0-9a-f]{64}",
+            "type": "string"
+          }
+        ]
+      },
+      "private_streams_retained": {
+        "type": "boolean"
+      },
+      "process_started": {
+        "anyOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "boolean"
+          }
+        ]
+      },
+      "record_count": {
+        "maximum": 1,
+        "minimum": 0,
+        "type": "integer"
+      },
+      "retained_status_count": {
+        "anyOf": [
+          {
+            "type": "null"
+          },
+          {
+            "maximum": 4096,
+            "minimum": 0,
+            "type": "integer"
+          }
+        ]
+      },
+      "retained_statuses_sha256": {
+        "anyOf": [
+          {
+            "type": "null"
+          },
+          {
+            "pattern": "[0-9a-f]{64}",
+            "type": "string"
+          }
+        ]
+      },
+      "retention_failure": {
+        "type": "boolean"
+      },
+      "returncode": {
+        "anyOf": [
+          {
+            "type": "null"
+          },
+          {
+            "maximum": 255,
+            "minimum": -255,
+            "type": "integer"
+          }
+        ]
+      },
+      "schema": {
+        "const": "dg17.bwrap.data-capture.v1"
+      },
+      "start_failure_record_received": {
+        "type": "boolean"
+      },
+      "stderr_bytes": {
+        "maximum": 32768,
+        "minimum": 0,
+        "type": "integer"
+      },
+      "stderr_sha256": {
+        "pattern": "[0-9a-f]{64}",
+        "type": "string"
+      },
+      "stdout_bytes": {
+        "maximum": 32768,
+        "minimum": 0,
+        "type": "integer"
+      },
+      "stdout_sha256": {
+        "pattern": "[0-9a-f]{64}",
+        "type": "string"
+      },
+      "streams_complete": {
+        "type": "boolean"
+      },
+      "timeout": {
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "schema",
+      "record_count",
+      "capture_invoked",
+      "start_failure_record_received",
+      "complete_record_received",
+      "complete_success_record_received",
+      "process_started",
+      "returncode",
+      "streams_complete",
+      "pidfd_acquired",
+      "timeout",
+      "output_bound_exceeded",
+      "private_streams_retained",
+      "retention_failure",
+      "private_record_retained",
+      "private_record_bytes",
+      "private_record_sha256",
+      "stdout_bytes",
+      "stdout_sha256",
+      "stderr_bytes",
+      "stderr_sha256",
+      "cleanup_echild",
+      "no_owned_children_and_wait_echild",
+      "pidfd_signals",
+      "retained_status_count",
+      "retained_statuses_sha256",
+      "input_bindings",
+      "control_tools"
+    ],
+    "type": "object"
+  },
+  "RESULT.json": {
+    "additionalProperties": false,
+    "properties": {
+      "authority": {
+        "additionalProperties": false,
+        "properties": {
+          "bwrap_executed": {
+            "const": false
+          },
+          "currentness": {
+            "const": false
+          },
+          "native_content": {
+            "const": false
+          },
+          "original_acceptance": {
+            "const": false
+          },
+          "package_installation": {
+            "const": false
+          },
+          "sysctl_or_security_policy_write": {
+            "const": false
+          },
+          "system_file_created": {
+            "const": false
+          }
+        },
+        "required": [
+          "package_installation",
+          "bwrap_executed",
+          "system_file_created",
+          "sysctl_or_security_policy_write",
+          "currentness",
+          "native_content",
+          "original_acceptance"
+        ],
+        "type": "object"
+      },
+      "capture": {
+        "additionalProperties": false,
+        "properties": {
+          "received": {
+            "type": "boolean"
+          },
+          "record_sha256": {
+            "pattern": "[0-9a-f]{64}",
+            "type": "string"
+          },
+          "success_received": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "received",
+          "success_received",
+          "record_sha256"
+        ],
+        "type": "object"
+      },
+      "cleanup": {
+        "additionalProperties": false,
+        "properties": {
+          "host_teardown_observed": {
+            "const": false
+          },
+          "no_owned_children": {
+            "type": "boolean"
+          },
+          "wait_echild": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "no_owned_children",
+          "wait_echild",
+          "host_teardown_observed"
+        ],
+        "type": "object"
+      },
+      "context": {
+        "additionalProperties": false,
+        "properties": {
+          "attempt": {
+            "const": 1
+          },
+          "branch": {
+            "const": "pro/dg17-isolated-episode-01-20261106"
+          },
+          "repository": {
+            "const": "theislampill/IMPLEMENTAUDIT.md"
+          },
+          "run_id": {
+            "pattern": "[0-9]{1,20}",
+            "type": "string"
+          },
+          "workflow_commit": {
+            "pattern": "[0-9a-f]{40}",
+            "type": "string"
+          }
+        },
+        "required": [
+          "repository",
+          "branch",
+          "run_id",
+          "attempt",
+          "workflow_commit"
+        ],
+        "type": "object"
+      },
+      "expected_package": {
+        "additionalProperties": false,
+        "properties": {
+          "bytes": {
+            "const": 50436
+          },
+          "filename": {
+            "const": "bubblewrap_0.9.0-1ubuntu0.3_amd64.deb"
+          },
+          "sha256": {
+            "const": "2461f1beee9cb04c8942739fe1a2b37e7b7c2a3d518f0779dc75f9245baa3094"
+          }
+        },
+        "required": [
+          "filename",
+          "bytes",
+          "sha256"
+        ],
+        "type": "object"
+      },
+      "failure": {
+        "anyOf": [
+          {
+            "type": "null"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "pattern": "[A-Z][A-Z0-9_]{0,63}",
+                "type": "string"
+              },
+              "errno": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "maximum": 4096,
+                    "minimum": 0,
+                    "type": "integer"
+                  }
+                ]
+              },
+              "exception_type": {
+                "enum": [
+                  "Refusal",
+                  "HTTPError",
+                  "URLError",
+                  "TimeoutError",
+                  "OSError",
+                  "PermissionError",
+                  "FileNotFoundError",
+                  "SSLError",
+                  "RuntimeError",
+                  "ValueError",
+                  "OTHER"
+                ]
+              },
+              "phase": {
+                "enum": [
+                  "INPUT_BEFORE",
+                  "HOST_ADMISSION",
+                  "WORKER_CAPTURE",
+                  "WORKER_RECEIVING",
+                  "BODY_READBACK",
+                  "INPUT_AFTER",
+                  "HTTP_OPEN",
+                  "HTTP_HEADERS",
+                  "HTTP_BODY",
+                  "WORKER_INPUT_AFTER",
+                  "WORKER_RESULT_WRITE",
+                  "PUBLIC_EXPORT"
+                ]
+              }
+            },
+            "required": [
+              "phase",
+              "code",
+              "exception_type",
+              "errno"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "inner_receiving": {
+        "const": "UNRECEIVED_NO_DECODE_PERFORMED"
+      },
+      "observed_package": {
+        "additionalProperties": false,
+        "properties": {
+          "bytes": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "maximum": 50436,
+                "minimum": 0,
+                "type": "integer"
+              }
+            ]
+          },
+          "retained": {
+            "type": "boolean"
+          },
+          "sha256": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "pattern": "[0-9a-f]{64}",
+                "type": "string"
+              }
+            ]
+          },
+          "verified": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "bytes",
+          "sha256",
+          "verified",
+          "retained"
+        ],
+        "type": "object"
+      },
+      "operation": {
+        "const": "ONE_PINNED_UBUNTU_BWRAP_DEB_DATA_ACQUISITION"
+      },
+      "request": {
+        "additionalProperties": false,
+        "properties": {
+          "complete": {
+            "type": "boolean"
+          },
+          "observation_received": {
+            "type": "boolean"
+          },
+          "redirects_followed": {
+            "const": 0
+          },
+          "started": {
+            "type": "boolean"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "maximum": 599,
+                "minimum": 100,
+                "type": "integer"
+              }
+            ]
+          },
+          "unstarted_proven": {
+            "type": "boolean"
+          },
+          "url_sha256": {
+            "pattern": "[0-9a-f]{64}",
+            "type": "string"
+          }
+        },
+        "required": [
+          "url_sha256",
+          "observation_received",
+          "started",
+          "unstarted_proven",
+          "status",
+          "complete",
+          "redirects_followed"
+        ],
+        "type": "object"
+      },
+      "schema": {
+        "const": "dg17.bwrap.package-data.v1"
+      },
+      "status": {
+        "enum": [
+          "RAW_PACKAGE_BYTES_RECEIVED_INNER_UNRECEIVED",
+          "FAILED_OR_UNRECEIVED"
+        ]
+      }
+    },
+    "required": [
+      "schema",
+      "operation",
+      "status",
+      "context",
+      "expected_package",
+      "observed_package",
+      "request",
+      "capture",
+      "cleanup",
+      "failure",
+      "inner_receiving",
+      "authority"
+    ],
+    "type": "object"
+  }
+}

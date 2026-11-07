@@ -1,0 +1,27 @@
+{
+  "members": [
+    {
+      "bytes": 13597,
+      "path": "PUBLIC_SCHEMAS.json",
+      "sha256": "947e676c12a18d32bdb05017033adf2fac51a23299cf8a420591dd6718179128"
+    },
+    {
+      "bytes": 37915,
+      "path": "acquire.py",
+      "sha256": "04937d168228e081dc809212a0087c8fa953e47f75bd2d1cd631e073a53e96e0"
+    },
+    {
+      "bytes": 54556,
+      "path": "host_utility.py",
+      "sha256": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c"
+    }
+  ],
+  "operation": "ONE_PINNED_UBUNTU_BWRAP_DEB_DATA_ACQUISITION",
+  "package": {
+    "bytes": 50436,
+    "filename": "bubblewrap_0.9.0-1ubuntu0.3_amd64.deb",
+    "sha256": "2461f1beee9cb04c8942739fe1a2b37e7b7c2a3d518f0779dc75f9245baa3094",
+    "url": "https://archive.ubuntu.com/ubuntu/pool/main/b/bubblewrap/bubblewrap_0.9.0-1ubuntu0.3_amd64.deb"
+  },
+  "schema": "dg17.bwrap.data-inputs.v1"
+}
