@@ -13,8 +13,8 @@ CONTROL_TREE="ee316c27250ec422d35a1ea965182ebddf7a5da0"
 PACKAGE_COMMIT="8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b"
 PACKAGE_TREE="0da374609f7fea2463a2926f3603b976620bd10e"
 PINS={
- "activation_probe.py":"2e8c14c80867af22240daef0ee9bf2b56bf9293035442e2b6d84ac315d4e481a",
- "catalogue_probe.py":"9456e39cf3be3254b4c25c74716a1b87ba5f2accd6bf196db061e326c7a50277",
+ "activation_probe.py":"52d0951ff73a8c0de48280025fe6778ac818ea01937aed4d9b8eef8c52b96787",
+ "catalogue_probe.py":"b6e13ead54247adfe181ba9e4ea1739bbceb336d89fba0c6aee111462699b551",
  "host_utility.py":"429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c",
  "owned_resources.py":"0b7d871aca378dc807bc33211d4b84a1b0baa45939c9c24ca54374c23468e33a",
  "namespace_process_custody.py":"6d2e049a8ddbc89e6213c4968d44e6e1483254d852d45480b90f01f960453630",

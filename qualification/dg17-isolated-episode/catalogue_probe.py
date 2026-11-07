@@ -291,9 +291,65 @@ def admit_system_config_query(returncode, stdout, stderr, file_present):
     return "ABSENT", 0
 
 
+def observe_owned_leaf(path, expected_parent=None):
+    """None means exact leaf ENOENT; a stat record means present; errors refuse.
+
+    Bind every physical ancestor and the owned, non-group/world-writable parent
+    before and after a no-follow lookup relative to that parent's descriptor.
+    The selected workspace/Git parent need not have private-home mode. These
+    observations do not make a later path-based subprocess race-free.
+    """
+    path = Path(path)
+    need(path.is_absolute() and ".." not in path.parts and path.name not in {"", ".", ".."},
+         "OWNED_LEAF_PATH_UNADMITTED")
+    parent = path.parent
+
+    def identity(info):
+        return {"device": info.st_dev, "inode": info.st_ino, "uid": info.st_uid,
+                "gid": info.st_gid, "mode": info.st_mode}
+
+    def ancestry():
+        rows = {}
+        for item in (*reversed(parent.parents), parent):
+            info = os.stat(item, follow_symlinks=False)
+            need(stat.S_ISDIR(info.st_mode), "OWNED_LEAF_ANCESTOR_NOT_PHYSICAL")
+            rows[str(item)] = identity(info)
+        current = rows[str(parent)]
+        need(current["uid"] == os.geteuid() and current["gid"] == os.getegid() and
+             not current["mode"] & 0o022, "OWNED_LEAF_PARENT_UNADMITTED")
+        return rows
+
+    fd = None
+    try:
+        before = ancestry()
+        parent_row = before[str(parent)]
+        if expected_parent is not None:
+            need(parent_row == expected_parent, "OWNED_LEAF_ADMITTED_PARENT_CHANGED")
+        fd = os.open(parent, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        need(identity(os.fstat(fd)) == parent_row and ancestry() == before,
+             "OWNED_LEAF_PARENT_CHANGED_BEFORE_LOOKUP")
+        try:
+            observed = os.stat(path.name, dir_fd=fd, follow_symlinks=False)
+        except OSError as exc:
+            if exc.errno != errno.ENOENT:
+                raise
+            observed = None
+        need(identity(os.fstat(fd)) == parent_row and ancestry() == before,
+             "OWNED_LEAF_PARENT_CHANGED_AFTER_LOOKUP")
+        return observed
+    except OSError as exc:
+        raise Refusal("OWNED_LEAF_OBSERVATION_UNREADABLE") from exc
+    finally:
+        if fd is not None:
+            os.close(fd)
+
+
 def git_home_guard(home, before):
-    need(home.is_dir() and not home.is_symlink(), "GIT_HOME_UNADMITTED")
-    info = home.stat()
+    try:
+        info = home.lstat()
+    except OSError as exc:
+        raise Refusal("GIT_HOME_OBSERVATION_UNREADABLE") from exc
+    need(stat.S_ISDIR(info.st_mode), "GIT_HOME_UNADMITTED")
     need(info.st_uid == os.geteuid() and not info.st_mode & 0o077,
          "GIT_HOME_NOT_PRIVATE")
     if before:
@@ -392,11 +448,25 @@ def source_store_guard(source):
                   (stat.S_ISREG(info.st_mode) and info.st_nlink == 1)),
                  "GIT_SOURCE_STORE_ALIAS_OR_MODE_UNADMITTED")
     hooks = git_dir / "hooks"
-    if hooks.exists():
-        need(hooks.is_dir() and not hooks.is_symlink(), "GIT_SOURCE_HOOKS_UNADMITTED")
+    hook_info = observe_owned_leaf(hooks, roots["git_dir"])
+    if hook_info is not None:
+        need(stat.S_ISDIR(hook_info.st_mode) and hook_info.st_uid == os.geteuid() and
+             not hook_info.st_mode & 0o022, "GIT_SOURCE_HOOKS_UNADMITTED")
+        hook_entries = 0
         for path in hooks.iterdir():
-            need(path.is_file() and not path.is_symlink() and path.name.endswith(".sample"),
-                 "GIT_SOURCE_ACTIVE_HOOK_PRESENT")
+            info = path.lstat()
+            hook_entries += 1
+            need(hook_entries <= 65536, "GIT_SOURCE_STORE_CENSUS_LIMIT")
+            need(stat.S_ISREG(info.st_mode) and info.st_uid == os.geteuid() and
+                 not info.st_mode & 0o022 and info.st_nlink == 1 and
+                 path.name.endswith(".sample"), "GIT_SOURCE_ACTIVE_HOOK_PRESENT")
+        after = observe_owned_leaf(hooks, roots["git_dir"])
+        fields = ("st_dev", "st_ino", "st_uid", "st_gid", "st_mode", "st_nlink",
+                  "st_mtime_ns", "st_ctime_ns")
+        need(after is not None and
+             tuple(getattr(after, key) for key in fields) ==
+             tuple(getattr(hook_info, key) for key in fields),
+             "GIT_SOURCE_HOOKS_CHANGED_DURING_CENSUS")
     return {"profile": "OWNED_CHECKOUT_CORE_ORIGIN_V1", "roots": roots,
             "config_entries": config_entries, "config_sha256": sha(config_data),
             "entries_checked": entries, "active_hook_count": 0,
