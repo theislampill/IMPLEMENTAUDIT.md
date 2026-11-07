@@ -966,7 +966,8 @@ class _CaptureChildren:
                   "WNOHANG", "pidfd_open", "waitstatus_to_exitcode", "fork", "pipe2",
                   "O_CLOEXEC", "CLD_EXITED", "CLD_KILLED", "CLD_DUMPED")
         if (sys.platform != "linux" or any(not hasattr(os, name) for name in needed) or
-                not hasattr(signal, "pidfd_send_signal") or threading.current_thread() is not threading.main_thread()):
+                any(not hasattr(signal, name) for name in ("pidfd_send_signal", "pthread_sigmask", "sigwait")) or
+                threading.current_thread() is not threading.main_thread()):
             raise WG.WorkGraphError("capture retention requires a Linux main-thread child/pidfd owner")
         self.pid = os.getpid()
         self.status = dict(owner_pid=self.pid, primary_pid=None, primary_exit=None,
@@ -1064,45 +1065,67 @@ class _CaptureChildren:
 
     def quiescent(self):
         self._assert_owner()
-        if self.primary_fd is not None and self.status["primary_exit"] is None and not self.primary_wait_missing:
-            try:
-                primary = os.waitid(os.P_PIDFD, self.primary_fd, os.WEXITED | os.WNOHANG | self.WALL)
-            except ChildProcessError:
-                self.primary_wait_missing = True
-            else:
-                if primary is None:
-                    self.status["quiescence"] = "LIVE_CHILDREN"
-                    return False
-                self._primary_terminal(primary)
         while True:
+            # The acquired descriptor is the primary's only consuming owner.
+            # Collect it before checking an adopted-status capacity refusal.
+            if self.primary_fd is not None and self.status["primary_exit"] is None and not self.primary_wait_missing:
+                try:
+                    primary = os.waitid(os.P_PIDFD, self.primary_fd, os.WEXITED | os.WNOHANG | self.WALL)
+                except ChildProcessError:
+                    self.primary_wait_missing = True
+                else:
+                    if primary is not None:
+                        self._primary_terminal(primary)
             try:
-                pid, status = os.waitpid(-1, os.WNOHANG | self.WALL)
+                state = os.waitid(os.P_ALL, 0, os.WEXITED | os.WNOHANG | os.WNOWAIT | self.WALL)
             except ChildProcessError:
                 self.status["quiescence"] = "ECHILD_ALL_CHILDREN"
                 return True
-            if pid == 0:
+            if state is None:
                 self.status["quiescence"] = "LIVE_CHILDREN"
                 return False
-            if not (os.WIFEXITED(status) or os.WIFSIGNALED(status)):
-                raise WG.WorkGraphError("capture child wait returned a nonterminal status")
+            if state.si_pid == self.status["primary_pid"]:
+                if self.primary_fd is None or self.primary_wait_missing or self.status["primary_exit"] is not None:
+                    raise WG.WorkGraphError("capture primary wait ownership changed")
+                continue  # It terminated after the first nonblocking pidfd wait.
             if len(self.status["other_child_exits"]) >= 4096:
                 raise WG.WorkGraphError("capture adopted-child status bound exceeded")
-            self.status["other_child_exits"].append(dict(pid=pid, exit=os.waitstatus_to_exitcode(status)))
+            # WNOWAIT keeps the terminal child owned while acquiring a stable
+            # descriptor. Discovery never consumes or signals a live child.
+            expected = (state.si_pid, state.si_uid, state.si_code, state.si_status)
+            self._terminal_exit(state)
+            fd = os.pidfd_open(state.si_pid, 0)
+            try:
+                observed = os.waitid(os.P_PIDFD, fd, os.WEXITED | os.WNOHANG | os.WNOWAIT | self.WALL)
+                if observed is None or (observed.si_pid, observed.si_uid, observed.si_code, observed.si_status) != expected:
+                    raise WG.WorkGraphError("capture adopted-child terminal identity changed")
+                consumed = os.waitid(os.P_PIDFD, fd, os.WEXITED | os.WNOHANG | self.WALL)
+                if consumed is None:
+                    raise WG.WorkGraphError("capture adopted-child terminal status unavailable")
+                # Keep the actual consumed result even if its final join fails.
+                self.status["other_child_exits"].append(dict(pid=consumed.si_pid, exit=self._terminal_exit(consumed)))
+                if (consumed.si_pid, consumed.si_uid, consumed.si_code, consumed.si_status) != expected:
+                    raise WG.WorkGraphError("capture adopted-child consumed identity changed")
+            finally:
+                os.close(fd)
 
     def require_quiescent(self):
         if not self.quiescent():
             self.status["live_children_refused"] = True
             raise WG.WorkGraphError("capture sealing refused: live owned descendants remain")
 
-    def _primary_terminal(self, state):
-        if state.si_pid != self.status["primary_pid"]:
-            raise WG.WorkGraphError("capture primary pidfd wait identity changed")
+    @staticmethod
+    def _terminal_exit(state):
         if state.si_code == os.CLD_EXITED:
-            code = state.si_status
-        elif state.si_code in (os.CLD_KILLED, os.CLD_DUMPED):
-            code = -state.si_status
-        else:
-            raise WG.WorkGraphError("capture primary terminal wait status unavailable")
+            return state.si_status
+        if state.si_code in (os.CLD_KILLED, os.CLD_DUMPED):
+            return -state.si_status
+        raise WG.WorkGraphError("capture terminal child wait status unavailable")
+
+    def _primary_terminal(self, state):
+        if state.si_pid != self.status["primary_pid"] or self.status["primary_exit"] is not None:
+            raise WG.WorkGraphError("capture primary pidfd wait identity changed")
+        code = self._terminal_exit(state)
         self.status["primary_exit"] = code
         return code
 
@@ -1111,6 +1134,7 @@ class _CaptureChildren:
         if dict(os.environ) != base_environment:
             raise WG.WorkGraphError("capture currentness: actual base environment changed at dispatch")
         descriptors = []
+        previous_mask = None
         def pipe():
             pair = os.pipe2(os.O_CLOEXEC)
             descriptors.extend(pair)
@@ -1181,6 +1205,10 @@ class _CaptureChildren:
                 os.WEXITED | os.WNOHANG | os.WNOWAIT | self.WALL)
             if initial is not None:
                 raise WG.WorkGraphError("capture primary terminated before dispatch acquisition")
+            # Only this parent changes its mask, after fork and stable child
+            # acquisition. The gated child retains the original inherited mask.
+            # No SIGCHLD handler or wakeup-FD policy is installed or changed.
+            previous_mask = signal.pthread_sigmask(signal.SIG_BLOCK, {signal.SIGCHLD})
             if dict(os.environ) != base_environment:
                 raise WG.WorkGraphError("capture currentness: actual base environment changed before child release")
             if os.write(gate_write, b"R") != 1:
@@ -1203,15 +1231,27 @@ class _CaptureChildren:
                 except BrokenPipeError:
                     pass
             close(input_write)
-            # This actual kernel terminal status belongs to the acquired task
-            # descriptor. ECHILD never becomes a synthetic exit 0.
-            return self._primary_terminal(os.waitid(os.P_PIDFD, self.primary_fd, os.WEXITED | self.WALL))
+            # Drain in the normal owner thread while the primary runs. A
+            # blocked SIGCHLD stays pending between drain and sigwait, so an
+            # exit in that interval cannot become a missed notification.
+            while self.status["primary_exit"] is None:
+                self.quiescent()
+                if self.primary_wait_missing:
+                    raise WG.WorkGraphError("capture primary terminal wait status unavailable")
+                if self.status["primary_exit"] is None:
+                    if signal.sigwait({signal.SIGCHLD}) != signal.SIGCHLD:
+                        raise WG.WorkGraphError("capture child notification differs")
+            return self.status["primary_exit"]
         except ChildProcessError as exc:
             self.primary_wait_missing = True
             raise WG.WorkGraphError("capture primary terminal wait status unavailable") from exc
         finally:
-            for fd in tuple(descriptors):
-                close(fd)
+            try:
+                for fd in tuple(descriptors):
+                    close(fd)
+            finally:
+                if previous_mask is not None:
+                    signal.pthread_sigmask(signal.SIG_SETMASK, previous_mask)
 
     def _signal_owned_child(self, fd):
         try:
