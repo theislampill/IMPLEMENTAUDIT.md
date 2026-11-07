@@ -1,0 +1,140 @@
+{
+  "admission_profile": "PHYSICAL_SYSTEM_HELPERS_ONLY_V1",
+  "collector": {
+    "derived_sha256": "53d96bd851d1104caaab472f74f8319f6503772b9c83cb250d1d7b03dd8700c8",
+    "name": "content_system_helpers",
+    "only_added_text": "            if not (path == requested and stat.S_ISREG(link_info.st_mode)):\n                remember_policy_refusal(state, name, canonical, link_info.st_mode, path == requested)\n",
+    "original_recovered_by_removing_exact_insertion": true,
+    "original_sha256": "82cbdd0716eefa4618134e4cbbbd0db4e6371e4fd7e35ae5412ded9415235217"
+  },
+  "exact_copies": [
+    {
+      "bytes": 31,
+      "definition": "Refusal",
+      "origin_file": "episode.py",
+      "sha256": "36cf3916fcbf0b01634a8ad8b67457bfaa10bf0b5eb7c653b900c720acce2e54",
+      "status": "EXACT_TEXT_COPY"
+    },
+    {
+      "bytes": 59,
+      "definition": "need",
+      "origin_file": "episode.py",
+      "sha256": "405b3582bc255b39481b6c3f15ca6c192fe3760db9d9be5c5ddb16256479a040",
+      "status": "EXACT_TEXT_COPY"
+    },
+    {
+      "bytes": 56,
+      "definition": "digest",
+      "origin_file": "episode.py",
+      "sha256": "502dba8f6f5eb96a4f95e6c251e4aef33e0dda40145021f0beefcc2d638aa19b",
+      "status": "EXACT_TEXT_COPY"
+    },
+    {
+      "bytes": 104,
+      "definition": "encoded",
+      "origin_file": "episode.py",
+      "sha256": "c754cb03eaaa664a685d8f1678e1f8d2ed5b216385c4905b6dc812deac9d86c7",
+      "status": "EXACT_TEXT_COPY"
+    },
+    {
+      "bytes": 1984,
+      "definition": "catalogue_schema_matches",
+      "origin_file": "episode.py",
+      "sha256": "2941c389ca296a211dbec0d16bc600751aab3d87fb0bfc9b0b2e0ef3599f20e6",
+      "status": "EXACT_TEXT_COPY"
+    },
+    {
+      "bytes": 266,
+      "definition": "content_fs_identity",
+      "origin_file": "episode.py",
+      "sha256": "3bd592afe39aba636a7dbcee7de95ca9cba20c21310f8a404d7d057abf3af551",
+      "status": "EXACT_TEXT_COPY"
+    },
+    {
+      "bytes": 1340,
+      "definition": "content_helper_refusal_observation",
+      "origin_file": "episode.py",
+      "sha256": "c8f0584520664ad8b84313f84d6e8283e095b1981a5f2ecd1a18ab67bb0f2431",
+      "status": "EXACT_TEXT_COPY"
+    },
+    {
+      "bytes": 80,
+      "definition": "require",
+      "origin_file": "host_utility.py",
+      "sha256": "9cff71fcf3c6c63dd2267a91476a90be5182393d1dd6212abc690f540f38fa16",
+      "status": "EXACT_TEXT_COPY"
+    },
+    {
+      "bytes": 57,
+      "definition": "sha",
+      "origin_file": "host_utility.py",
+      "sha256": "2f1541faf4c4ebe2f74c17d4b666982327a0f1e144708a531c92f08669705d57",
+      "status": "EXACT_TEXT_COPY"
+    },
+    {
+      "bytes": 603,
+      "definition": "checked_file",
+      "origin_file": "host_utility.py",
+      "sha256": "cb90c93ff761c425bc08c1e732e16a062859be1a9c051a4e118f94ecdedc370b",
+      "status": "EXACT_TEXT_COPY"
+    },
+    {
+      "bytes": 1268,
+      "definition": "trusted",
+      "origin_file": "host_utility.py",
+      "sha256": "760df01bf23f68946feb72a6b165f16afe61319c317f8d8a786366c915e04657",
+      "status": "EXACT_TEXT_COPY"
+    }
+  ],
+  "native_owners": "No original module entrypoint, controller, runtime, native, plugin, socket, network or subprocess definition is included.",
+  "origin_commit": "45d7911b16a071a9d78276ec22f1f13726585f71",
+  "origin_files": [
+    {
+      "bytes": 169443,
+      "path": "qualification/dg17-isolated-episode/episode.py",
+      "sha256": "cdb413e1d639f3dadd04543d7ffcf854114edb488fc742d1077ebe0ab52a6191"
+    },
+    {
+      "bytes": 54556,
+      "path": "qualification/dg17-isolated-episode/host_utility.py",
+      "sha256": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c"
+    }
+  ],
+  "origin_tree": "232d58a9ffb57a5eceb814174eeaab36230658cc",
+  "partial_snapshot": "The complete snapshot is returned only after every original guard. Any refusal leaves it null.",
+  "projection": "Only metadata from existing name/canonical/link_info and the unchanged alias predicate; no new filesystem or program observation.",
+  "schema": "dg17.host04.source-derivation.v1",
+  "terminal_correction": {
+    "affected_functions": {
+      "diagnostic_census": {
+        "after_sha256": "b4527bbbb77fc4364f5bd0912394d4ab8ecebcf1ca792b0c760859c047f35bf0",
+        "before_sha256": "11208988914040168f6161ab6f9851bc2feaabb31b7b80a2a090edcce3e4753a"
+      },
+      "main": {
+        "after_sha256": "ea6fbd86c5e37a511221fa22e33ae3c90923df02b4c2165f2c418032f6a0f84a",
+        "before_sha256": "ddd9eb3d732dd872e3d1250eb2bb242a5b1921a42fcf427457e8d4e7173f363f"
+      },
+      "run_diagnostic": {
+        "after_sha256": "8888cebdc961d0e2b965b12406c1f806b8c694d6899ba550faaff7caff7e6321",
+        "before_sha256": "9197ac06e6ee5d271fb72d0cffccb24b7636851492704c0310b350fd237fa5b3"
+      }
+    },
+    "base_entrypoint_sha256": "c34f10c26405d945d819198a07e38267ca36bd766613108fb35d632b6ddeb22d",
+    "base_predecessor": "51e6479a563a2d243a7fcfc9af7e61353f6edeb3",
+    "channel": "One best-effort existing stderr line, including prefix and LF at most1024bytes; no tenth JSON/file/observation/process or renewed budget.",
+    "external_numeric_process_outcome_required": true,
+    "finding": "H04-S01",
+    "generic_step_failure_or_self_marker_sufficient": false,
+    "new_functions": {
+      "emit_terminal": "9c98c67fb07ea501b195dd998027001384f01d9d58934e9da98f3055fda332b8",
+      "latch_original_refusal": "04944328eb41914cf42fb1d5fd2ce514a3e99e97f5f25c05ca3a9fe1fa9abd23",
+      "terminal_line": "c0ef94824c7af37de2fc9134eca0e4cbecbecb66d5f9109f995b6b49f4bc61d4"
+    },
+    "original_collector_and_eight_field_projection_unchanged": true,
+    "public_schema_and_nine_JSON_unchanged": true,
+    "root_selection_sha256": "cf2a3852b52845380c1b5169a9b3357f93b68dc74845465dcdd2817bc198f230",
+    "terminal_schema": "dg17.host04.terminal.v1",
+    "terminal_scope": "BEST_EFFORT_RECORD_NOT_PROCESS_OUTCOME"
+  },
+  "whole_original_module_execution": false
+}

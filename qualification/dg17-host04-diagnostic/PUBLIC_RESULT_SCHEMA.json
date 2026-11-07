@@ -1,0 +1,540 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "ARTIFACT_MANIFEST.json": {
+      "additionalProperties": false,
+      "properties": {
+        "diagnostic_status": {
+          "enum": [
+            "COMPLETE",
+            "FAILED"
+          ],
+          "type": "string"
+        },
+        "files": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "bytes": {
+                "maximum": 65536,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "name": {
+                "enum": [
+                  "RESULT.json",
+                  "SOURCE.json",
+                  "HOST.json",
+                  "CURRENTNESS.json",
+                  "PREDICATES.json",
+                  "CONTENT.json",
+                  "CLEANUP.json",
+                  "FAILURE.json"
+                ],
+                "type": "string"
+              },
+              "sha256": {
+                "pattern": "^[0-9a-f]{64}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "bytes",
+              "sha256"
+            ],
+            "type": "object"
+          },
+          "maxItems": 8,
+          "type": "array"
+        },
+        "run_attempt": {
+          "const": 1,
+          "type": "integer"
+        },
+        "run_id": {
+          "pattern": "^[1-9][0-9]{0,19}$",
+          "type": "string"
+        },
+        "schema": {
+          "const": "dg17.host04.public-packet.v1",
+          "type": "string"
+        },
+        "scope": {
+          "const": "PACKET_INTEGRITY_ONLY_NOT_PROVIDER_TRANSPORT",
+          "type": "string"
+        },
+        "source_commit": {
+          "pattern": "^[0-9a-f]{40}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema",
+        "scope",
+        "run_id",
+        "run_attempt",
+        "source_commit",
+        "diagnostic_status",
+        "files"
+      ],
+      "type": "object"
+    },
+    "CLEANUP.json": {
+      "additionalProperties": false,
+      "properties": {
+        "child_resources_created": {
+          "const": false,
+          "type": "boolean"
+        },
+        "native_cleanup_executed": {
+          "const": false,
+          "type": "boolean"
+        },
+        "scope": {
+          "const": "NO_CHILD_OR_NATIVE_OPERATION",
+          "type": "string"
+        }
+      },
+      "required": [
+        "scope",
+        "child_resources_created",
+        "native_cleanup_executed"
+      ],
+      "type": "object"
+    },
+    "CONTENT.json": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "const": "NOT_RUN_DIAGNOSTIC_ONLY",
+          "type": "string"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "type": "object"
+    },
+    "CURRENTNESS.json": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "const": "NOT_RUN_DIAGNOSTIC_ONLY",
+          "type": "string"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "type": "object"
+    },
+    "FAILURE.json": {
+      "additionalProperties": false,
+      "properties": {
+        "errno": {
+          "anyOf": [
+            {
+              "const": null,
+              "type": "null"
+            },
+            {
+              "maximum": 4096,
+              "minimum": 0,
+              "type": "integer"
+            }
+          ]
+        },
+        "kind": {
+          "anyOf": [
+            {
+              "const": null,
+              "type": "null"
+            },
+            {
+              "enum": [
+                "ORIGINAL_HELPER_REFUSAL",
+                "OS_ERROR",
+                "UNEXPECTED_EXCEPTION"
+              ],
+              "type": "string"
+            }
+          ]
+        },
+        "original_refusal_code": {
+          "anyOf": [
+            {
+              "const": null,
+              "type": "null"
+            },
+            {
+              "enum": [
+                "CONTENT_BIN_ALIAS_PROFILE",
+                "CONTENT_SYSTEM_ANCESTRY",
+                "CONTENT_SYSTEM_HELPER_REFUSED",
+                "CONTENT_PYTHON_CANONICAL_PROFILE",
+                "CONTENT_PYTHON_ALIAS_PROFILE",
+                "CONTENT_SYSTEM_HELPER_ALIAS",
+                "CONTENT_SYSTEM_HELPER_SHAPE",
+                "CONTENT_SYSTEM_HELPER_OPEN_DRIFT",
+                "CONTENT_SYSTEM_HELPER_ELF",
+                "CONTENT_SYSTEM_HELPER_READ_BOUND",
+                "CONTENT_SYSTEM_HELPER_DRIFT",
+                "CONTENT_SYSTEM_HELPER_IDENTITY_JOIN",
+                "CONTENT_BIN_ALIAS_DRIFT"
+              ],
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "original_refusal_code",
+        "errno"
+      ],
+      "type": "object"
+    },
+    "HOST.json": {
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "dg17.host04.helper-observation.v1",
+          "type": "string"
+        },
+        "system_helper_policy_refusal": {
+          "anyOf": [
+            {
+              "const": null,
+              "type": "null"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "admission_completed": {
+                  "const": false,
+                  "type": "boolean"
+                },
+                "canonical_literal_class": {
+                  "enum": [
+                    "REQUESTED_ROLE_PATH",
+                    "USR_LIB_CARGO_COREUTILS_ROLE_LITERAL",
+                    "OTHER_PATH"
+                  ],
+                  "type": "string"
+                },
+                "canonical_relation": {
+                  "enum": [
+                    "SAME_AS_REQUESTED",
+                    "DIFFERENT_FROM_REQUESTED"
+                  ],
+                  "type": "string"
+                },
+                "helper_id": {
+                  "enum": [
+                    "bash",
+                    "cat",
+                    "bwrap",
+                    "true",
+                    "env"
+                  ],
+                  "type": "string"
+                },
+                "policy_code": {
+                  "const": "CONTENT_SYSTEM_HELPER_ALIAS",
+                  "type": "string"
+                },
+                "requested_kind": {
+                  "enum": [
+                    "REGULAR",
+                    "SYMLINK",
+                    "OTHER"
+                  ],
+                  "type": "string"
+                },
+                "schema": {
+                  "const": "dg17.codex.system-helper-policy-refusal.v1",
+                  "type": "string"
+                },
+                "scope": {
+                  "const": "FIRST_LOCAL_ALIAS_REFUSAL_ONLY",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "schema",
+                "scope",
+                "helper_id",
+                "policy_code",
+                "requested_kind",
+                "canonical_relation",
+                "canonical_literal_class",
+                "admission_completed"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        "system_helper_refusal": {
+          "anyOf": [
+            {
+              "const": null,
+              "type": "null"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "helper_id": {
+                  "anyOf": [
+                    {
+                      "const": null,
+                      "type": "null"
+                    },
+                    {
+                      "enum": [
+                        "bash",
+                        "cat",
+                        "bwrap",
+                        "true",
+                        "python3",
+                        "env"
+                      ],
+                      "type": "string"
+                    }
+                  ]
+                },
+                "inherited_code": {
+                  "anyOf": [
+                    {
+                      "const": null,
+                      "type": "null"
+                    },
+                    {
+                      "enum": [
+                        "TOOL_NOT_EXECUTABLE",
+                        "TOOL_CUSTODY_REFUSED",
+                        "PRIVILEGED_TOOL_REFUSED",
+                        "TOOL_CAPABILITY_UNKNOWN",
+                        "FILE_SHAPE_REFUSED",
+                        "FILE_CHANGED",
+                        "TOOL_OS_REFUSAL"
+                      ],
+                      "type": "string"
+                    }
+                  ]
+                },
+                "inherited_errno": {
+                  "anyOf": [
+                    {
+                      "const": null,
+                      "type": "null"
+                    },
+                    {
+                      "maximum": 4096,
+                      "minimum": 0,
+                      "type": "integer"
+                    }
+                  ]
+                },
+                "inherited_refusal_received": {
+                  "type": "boolean"
+                },
+                "schema": {
+                  "const": "dg17.codex.system-helper-refusal.v1",
+                  "type": "string"
+                },
+                "scope": {
+                  "const": "FIRST_HELPER_REFUSAL_ONLY",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "schema",
+                "scope",
+                "helper_id",
+                "inherited_refusal_received",
+                "inherited_code",
+                "inherited_errno"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        "system_helpers": {
+          "anyOf": [
+            {
+              "const": null,
+              "type": "null"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "count": {
+                  "const": 6,
+                  "type": "integer"
+                },
+                "profile": {
+                  "const": "PHYSICAL_SYSTEM_HELPERS_ONLY_V1",
+                  "type": "string"
+                },
+                "sha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "profile",
+                "count",
+                "sha256"
+              ],
+              "type": "object"
+            }
+          ]
+        }
+      },
+      "required": [
+        "schema",
+        "system_helpers",
+        "system_helper_refusal",
+        "system_helper_policy_refusal"
+      ],
+      "type": "object"
+    },
+    "PREDICATES.json": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "const": "NOT_RUN_DIAGNOSTIC_ONLY",
+          "type": "string"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "type": "object"
+    },
+    "RESULT.json": {
+      "additionalProperties": false,
+      "properties": {
+        "diagnostic_status": {
+          "enum": [
+            "COMPLETE",
+            "FAILED"
+          ],
+          "type": "string"
+        },
+        "exit_code": {
+          "maximum": 2,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "helper_admission": {
+          "enum": [
+            "ADMITTED",
+            "REFUSED",
+            "UNKNOWN"
+          ],
+          "type": "string"
+        },
+        "native_route_qualified": {
+          "const": false,
+          "type": "boolean"
+        },
+        "original_acceptance": {
+          "const": false,
+          "type": "boolean"
+        },
+        "predecessor": {
+          "pattern": "^[0-9a-f]{40}$",
+          "type": "string"
+        },
+        "run_attempt": {
+          "const": 1,
+          "type": "integer"
+        },
+        "run_id": {
+          "pattern": "^[1-9][0-9]{0,19}$",
+          "type": "string"
+        },
+        "schema": {
+          "const": "dg17.host04.diagnostic-result.v1",
+          "type": "string"
+        },
+        "scope": {
+          "const": "FIXED_HELPER_DIAGNOSTIC_ONLY",
+          "type": "string"
+        },
+        "source_commit": {
+          "pattern": "^[0-9a-f]{40}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema",
+        "scope",
+        "diagnostic_status",
+        "helper_admission",
+        "exit_code",
+        "original_acceptance",
+        "native_route_qualified",
+        "run_id",
+        "run_attempt",
+        "source_commit",
+        "predecessor"
+      ],
+      "type": "object"
+    },
+    "SOURCE.json": {
+      "additionalProperties": false,
+      "properties": {
+        "entrypoint_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "input_pins_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "schema": {
+          "const": "dg17.host04.source-binding-receipt.v1",
+          "type": "string"
+        },
+        "source_binding_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "source_bytes_received": {
+          "const": true,
+          "type": "boolean"
+        },
+        "source_commit": {
+          "pattern": "^[0-9a-f]{40}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema",
+        "input_pins_sha256",
+        "source_binding_sha256",
+        "entrypoint_sha256",
+        "source_bytes_received",
+        "source_commit"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "RESULT.json",
+    "SOURCE.json",
+    "HOST.json",
+    "CURRENTNESS.json",
+    "PREDICATES.json",
+    "CONTENT.json",
+    "CLEANUP.json",
+    "FAILURE.json",
+    "ARTIFACT_MANIFEST.json"
+  ],
+  "title": "DG17 Host04 fixed helper diagnostic public packet; structure only",
+  "type": "object"
+}

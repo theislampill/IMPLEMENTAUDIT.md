@@ -1,0 +1,85 @@
+name: DG17 Host04 fixed helper diagnostic
+
+on:
+  push:
+    branches:
+      - pro/dg17-isolated-episode-01-20261106
+    paths:
+      - .github/workflows/dg17-host04-diagnostic.yml
+      - qualification/dg17-host04-diagnostic/**
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dg17-host04-diagnostic-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  dg17-host04-diagnostic:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/pro/dg17-isolated-episode-01-20261106' &&
+      github.event.created == false && github.event.deleted == false &&
+      github.event.forced == false &&
+      github.event.before == '51e6479a563a2d243a7fcfc9af7e61353f6edeb3' &&
+      github.run_attempt == '1'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 5
+    steps:
+      - name: Acquire the exact diagnostic source separately
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: diagnostic-packet
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Verify the pinned entrypoint before census
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/diagnostic-packet/qualification/dg17-host04-diagnostic/diagnostic.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '919bab1512f159cc251e62377e79226e483f6421ee846e6cf0f8f053978a7dc2' ]]; then
+            echo 'DG17_HOST04_SOURCE_REFUSED'
+            exit 2
+          fi
+
+      - name: Run only the fixed read-only diagnostic
+        id: census
+        shell: bash
+        env:
+          DG17_ENTRY_SHA256: 919bab1512f159cc251e62377e79226e483f6421ee846e6cf0f8f053978a7dc2
+          DG17_EVENT_BEFORE: ${{ github.event.before }}
+          DG17_EVENT_CREATED: ${{ toJSON(github.event.created) }}
+          DG17_EVENT_DELETED: ${{ toJSON(github.event.deleted) }}
+          DG17_EVENT_FORCED: ${{ toJSON(github.event.forced) }}
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/diagnostic-packet/qualification/dg17-host04-diagnostic/diagnostic.py"
+          exec /usr/bin/python3 -I -S -B "$adapter" --census \
+            "$RUNNER_TEMP/dg17-host04-$GITHUB_RUN_ID-a1"
+
+      - name: Transport only the closed diagnostic packet separately
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-host04-diagnostic-${{ github.run_id }}-a1
+          if-no-files-found: error
+          retention-days: 7
+          path: |
+            ${{ runner.temp }}/dg17-host04-${{ github.run_id }}-a1/public/RESULT.json
+            ${{ runner.temp }}/dg17-host04-${{ github.run_id }}-a1/public/SOURCE.json
+            ${{ runner.temp }}/dg17-host04-${{ github.run_id }}-a1/public/HOST.json
+            ${{ runner.temp }}/dg17-host04-${{ github.run_id }}-a1/public/CURRENTNESS.json
+            ${{ runner.temp }}/dg17-host04-${{ github.run_id }}-a1/public/PREDICATES.json
+            ${{ runner.temp }}/dg17-host04-${{ github.run_id }}-a1/public/CONTENT.json
+            ${{ runner.temp }}/dg17-host04-${{ github.run_id }}-a1/public/CLEANUP.json
+            ${{ runner.temp }}/dg17-host04-${{ github.run_id }}-a1/public/FAILURE.json
+            ${{ runner.temp }}/dg17-host04-${{ github.run_id }}-a1/public/ARTIFACT_MANIFEST.json
