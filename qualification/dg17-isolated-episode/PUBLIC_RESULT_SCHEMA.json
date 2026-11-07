@@ -1154,6 +1154,121 @@
             }
           ]
         },
+        "joint_profile": {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "reason": {
+                  "type": "null"
+                },
+                "rows": {
+                  "items": {
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "maximum": 196609,
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        {
+                          "pattern": "^[0-9a-f]{64}$",
+                          "type": "string"
+                        },
+                        {
+                          "enum": [
+                            "ABSENT",
+                            "ARRAY",
+                            "BOOLEAN",
+                            "DOCUMENTED_1_BARE",
+                            "DOCUMENTED_1_BUILTIN_ID",
+                            "DOCUMENTED_2_BARE",
+                            "DOCUMENTED_2_BUILTIN_ID",
+                            "DOCUMENTED_3_BARE",
+                            "DOCUMENTED_3_BUILTIN_ID",
+                            "DOCUMENTED_4_BARE",
+                            "DOCUMENTED_4_BUILTIN_ID",
+                            "DOCUMENTED_5_BARE",
+                            "DOCUMENTED_5_BUILTIN_ID",
+                            "DOCUMENTED_6_BARE",
+                            "DOCUMENTED_6_BUILTIN_ID",
+                            "EXACT_EXPECTED",
+                            "FLOAT",
+                            "INTEGER",
+                            "LEXICAL_ONLY",
+                            "MANIFEST_NAME_EXACT",
+                            "MANIFEST_NAME_INLINE",
+                            "MISSING",
+                            "NAME_PATH_ONLY",
+                            "NAME_PATH_SOURCE",
+                            "NAME_PATH_SOURCE_VERSION",
+                            "NAME_PATH_VERSION",
+                            "NON_STRING",
+                            "NULL",
+                            "OBJECT",
+                            "OTHER",
+                            "OTHER_STRING",
+                            "STRING"
+                          ]
+                        }
+                      ]
+                    },
+                    "maxItems": 11,
+                    "type": "array"
+                  },
+                  "maxItems": 4,
+                  "type": "array"
+                },
+                "schema": {
+                  "const": "dg17.claude.plugin-joint-shape.v1"
+                },
+                "status": {
+                  "const": "COMPLETE"
+                }
+              },
+              "required": [
+                "schema",
+                "status",
+                "reason",
+                "rows"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "reason": {
+                  "enum": [
+                    "ENVELOPE_UNAVAILABLE",
+                    "NON_ARRAY",
+                    "ROW_LIMIT",
+                    "ENCODING_REFUSED",
+                    "OUTPUT_BOUND"
+                  ]
+                },
+                "rows": {
+                  "type": "null"
+                },
+                "schema": {
+                  "const": "dg17.claude.plugin-joint-shape.v1"
+                },
+                "status": {
+                  "const": "UNAVAILABLE"
+                }
+              },
+              "required": [
+                "schema",
+                "status",
+                "reason",
+                "rows"
+              ],
+              "type": "object"
+            }
+          ]
+        },
         "list_length": {
           "anyOf": [
             {
@@ -1287,7 +1402,7 @@
           ]
         },
         "schema": {
-          "const": "dg17.claude.native-plugin-identity-diagnostic.v2"
+          "const": "dg17.claude.native-plugin-identity-diagnostic.v3"
         },
         "singleton": {
           "anyOf": [
@@ -1546,7 +1661,8 @@
         "singleton",
         "original_equality",
         "body_acceptance_from_diagnostics",
-        "array_profile"
+        "array_profile",
+        "joint_profile"
       ],
       "title": "Bounded native plugin identity diagnostic; no native acceptance",
       "type": "object"

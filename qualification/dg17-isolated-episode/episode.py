@@ -14,7 +14,7 @@ TREE = 'ee316c27250ec422d35a1ea965182ebddf7a5da0'
 PARENT = '481e529b691ed3d21169b07f376e357ae51f1f03'
 MANIFEST_SHA = 'ed6a601d3a66997218195202cb5513363b5410b98489762324095a9030c261b4'
 UTILITY_SHA = '429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c'
-PINS_SHA = '6139fa14a9c4459f89d1439b06e05f83cd3592d897408b94455e59260f5f2a06'
+PINS_SHA = 'a7a429a7c7728de89c2466dce8eff092689ff4adf4bc086809619eb22fbb495c'
 CLAIM = 'skills/implementaudit/scripts/claim-run.sh'
 AUTHOR = 'fixtures/controller-initialization/author_checkpoint.py'
 DOCS = ('STATE.md', 'PROTOCOL.md', 'ROADMAP.md', 'THINKING.md', 'sidecars.md', 'tools.md', 'context.md', 'phases/phase-1.md')
@@ -1278,7 +1278,220 @@ capture/provider owners are explicit immutable dependencies.
 """
 import posixpath
 
-PLUGIN_DIAGNOSTIC_SCHEMA = 'dg17.claude.native-plugin-identity-diagnostic.v2'
+# Body08 parent helpers derived before producer authorship; pure data only.
+PLUGIN_JOINT_SCHEMA = 'dg17.claude.plugin-joint-shape.v1'
+PLUGIN_JOINT_V2_SCHEMA = 'dg17.claude.native-plugin-identity-diagnostic.v2'
+PLUGIN_JOINT_V3_SCHEMA = 'dg17.claude.native-plugin-identity-diagnostic.v3'
+PLUGIN_JOINT_ROW_CAP = 4
+PLUGIN_JOINT_COUNT_BOUND = 196609
+PLUGIN_JOINT_DIAGNOSTIC_BOUND = 4096
+PLUGIN_JOINT_TYPE_LABELS = ('NULL', 'BOOLEAN', 'INTEGER', 'FLOAT', 'STRING', 'ARRAY', 'OBJECT')
+PLUGIN_JOINT_FIELD_TYPES = ('ABSENT',) + PLUGIN_JOINT_TYPE_LABELS
+PLUGIN_JOINT_NAME_LITERALS = {'implementaudit': 'MANIFEST_NAME_EXACT', 'implementaudit@inline': 'MANIFEST_NAME_INLINE', 'cc-plugin-agents-md': 'DOCUMENTED_1_BARE', 'cc-plugin-agents-md@builtin': 'DOCUMENTED_1_BUILTIN_ID', 'cc-plugin-diff': 'DOCUMENTED_2_BARE', 'cc-plugin-diff@builtin': 'DOCUMENTED_2_BUILTIN_ID', 'cc-plugin-plugin-authoring': 'DOCUMENTED_3_BARE', 'cc-plugin-plugin-authoring@builtin': 'DOCUMENTED_3_BUILTIN_ID', 'cc-plugin-sec-default': 'DOCUMENTED_4_BARE', 'cc-plugin-sec-default@builtin': 'DOCUMENTED_4_BUILTIN_ID', 'cc-plugin-telemetry': 'DOCUMENTED_5_BARE', 'cc-plugin-telemetry@builtin': 'DOCUMENTED_5_BUILTIN_ID', 'cc-plugin-you-should-know': 'DOCUMENTED_6_BARE', 'cc-plugin-you-should-know@builtin': 'DOCUMENTED_6_BUILTIN_ID'}
+PLUGIN_JOINT_NAME_LABELS = ('MISSING', 'NON_STRING', *PLUGIN_JOINT_NAME_LITERALS.values(), 'OTHER_STRING')
+PLUGIN_JOINT_PATH_LABELS = ('MISSING', 'NON_STRING', 'EXACT_EXPECTED', 'LEXICAL_ONLY', 'OTHER_STRING')
+PLUGIN_JOINT_KEYSETS = {'NAME_PATH_ONLY': frozenset(('name', 'path')), 'NAME_PATH_SOURCE': frozenset(('name', 'path', 'source')), 'NAME_PATH_VERSION': frozenset(('name', 'path', 'version')), 'NAME_PATH_SOURCE_VERSION': frozenset(('name', 'path', 'source', 'version'))}
+PLUGIN_JOINT_KEY_SHAPES = (*PLUGIN_JOINT_KEYSETS, 'OTHER')
+PLUGIN_JOINT_KNOWN_KEYS = frozenset(('name', 'path', 'source', 'version'))
+PLUGIN_JOINT_REASONS = ('ENVELOPE_UNAVAILABLE', 'NON_ARRAY', 'ROW_LIMIT', 'ENCODING_REFUSED', 'OUTPUT_BOUND')
+PLUGIN_JOINT_BASE_FIELDS = frozenset(('schema', 'status', 'reason', 'raw_stdout_bytes', 'raw_stdout_sha256', 'expected_context_sha256', 'event_count', 'pre_plugin_envelope_received', 'plugins_present', 'plugins_type', 'plugins_canonical_bytes', 'plugins_canonical_sha256', 'list_length', 'singleton', 'array_profile', 'original_equality', 'body_acceptance_from_diagnostics'))
+
+class PluginJointRefusal(ValueError):
+    """No valid bounded result can be supplied without changing legacy fields."""
+
+def plugin_joint_json_bytes(value):
+    """Selected commitment codec: compact ASCII JSON, NO terminal LF."""
+    return json.dumps(value, sort_keys=True, ensure_ascii=True, allow_nan=False, separators=(',', ':')).encode('ascii')
+
+def plugin_joint_wire_bytes(value):
+    """Existing diagnostic/whole-child codec: compact ASCII JSON plus LF."""
+    return plugin_joint_json_bytes(value) + b'\n'
+
+def plugin_joint_sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+def plugin_joint_type(value):
+    types = {type(None): 'NULL', bool: 'BOOLEAN', int: 'INTEGER', float: 'FLOAT', str: 'STRING', list: 'ARRAY', dict: 'OBJECT'}
+    if type(value) not in types:
+        raise PluginJointRefusal('NON_JSON_TYPE')
+    if type(value) is float and (not math.isfinite(value)):
+        raise PluginJointRefusal('NONFINITE_JSON')
+    return types[type(value)]
+
+def plugin_joint_json_shape(value):
+    """Check exact JSON types and finite work, without new Unicode normalization.
+
+This does not replace the unchanged raw codec. In particular the caller owns
+its existing string-value UTF8 check, duplicate-key refusal and envelope proof.
+Canonical commitments preserve admitted escaped keys, including surrogate keys.
+"""
+    pending = [(value, 0)]
+    count = 0
+    while pending:
+        current, depth = pending.pop()
+        count += 1
+        if count > 32768 or depth > 32:
+            raise PluginJointRefusal('JSON_COMPLEXITY')
+        kind = plugin_joint_type(current)
+        if kind == 'OBJECT':
+            if len(current) > 1024 or any((type(k) is not str or len(k) > 1024 for k in current)):
+                raise PluginJointRefusal('OBJECT_SHAPE')
+            pending.extend(((v, depth + 1) for v in current.values()))
+        elif kind == 'ARRAY':
+            if len(current) > 4096:
+                raise PluginJointRefusal('ARRAY_SHAPE')
+            pending.extend(((v, depth + 1) for v in current))
+
+def plugin_joint_unavailable(reason):
+    if reason not in PLUGIN_JOINT_REASONS:
+        raise PluginJointRefusal('UNKNOWN_REASON')
+    return {'schema': PLUGIN_JOINT_SCHEMA, 'status': 'UNAVAILABLE', 'reason': reason, 'rows': None}
+
+def plugin_joint_derive(plugins, expected_plugin, *, envelope_available):
+    """Derive every selected row from already admitted parent-owned values.
+
+Unavailable precedence is contractual. The availability boolean is a local
+parent precondition, never a producer-supplied custody or acceptance assertion.
+"""
+    if envelope_available is not True or type(expected_plugin) is not str or (not expected_plugin.startswith('/')) or ('\x00' in expected_plugin):
+        return plugin_joint_unavailable('ENVELOPE_UNAVAILABLE')
+    if type(plugins) is not list:
+        return plugin_joint_unavailable('NON_ARRAY')
+    if len(plugins) > PLUGIN_JOINT_ROW_CAP:
+        return plugin_joint_unavailable('ROW_LIMIT')
+    try:
+        plugin_joint_json_shape(plugins)
+        if len(plugin_joint_wire_bytes(plugins)) > PLUGIN_JOINT_COUNT_BOUND:
+            raise PluginJointRefusal('CANONICAL_PLUGIN_BOUND')
+        rows = []
+        for element in plugins:
+            kind = plugin_joint_type(element)
+            if kind != 'OBJECT':
+                rows.append([kind] + [None] * 10)
+                continue
+            keys = set(element)
+            if 'name' not in element:
+                name = 'MISSING'
+            elif type(element['name']) is not str:
+                name = 'NON_STRING'
+            else:
+                name = PLUGIN_JOINT_NAME_LITERALS.get(element['name'], 'OTHER_STRING')
+            if 'path' not in element:
+                path = 'MISSING'
+            elif type(element['path']) is not str:
+                path = 'NON_STRING'
+            elif element['path'] == expected_plugin:
+                path = 'EXACT_EXPECTED'
+            elif posixpath.normpath(element['path']) == posixpath.normpath(expected_plugin):
+                path = 'LEXICAL_ONLY'
+            else:
+                path = 'OTHER_STRING'
+            if name == 'OTHER_STRING':
+                encoded_name = plugin_joint_json_bytes(element['name'])
+                name_bytes, name_sha = (len(encoded_name), plugin_joint_sha(encoded_name))
+            else:
+                name_bytes = name_sha = None
+            key_sha = plugin_joint_sha(plugin_joint_json_bytes(sorted(element)))
+            shape = next((label for label, fixed in PLUGIN_JOINT_KEYSETS.items() if keys == fixed), 'OTHER')
+            source_type = 'ABSENT' if 'source' not in element else plugin_joint_type(element['source'])
+            version_type = 'ABSENT' if 'version' not in element else plugin_joint_type(element['version'])
+            rows.append([kind, name, path, name_bytes, name_sha, len(element), key_sha, shape, source_type, version_type, len(keys - PLUGIN_JOINT_KNOWN_KEYS)])
+        result = {'schema': PLUGIN_JOINT_SCHEMA, 'status': 'COMPLETE', 'reason': None, 'rows': rows}
+        if not plugin_joint_valid(result):
+            raise PluginJointRefusal('DERIVED_WIRE_UNREPRESENTABLE')
+        return result
+    except (ValueError, TypeError, UnicodeError, OverflowError, RecursionError):
+        return plugin_joint_unavailable('ENCODING_REFUSED')
+
+def plugin_joint_count_shape(value):
+    return type(value) is int and 0 <= value <= PLUGIN_JOINT_COUNT_BOUND
+
+def plugin_joint_hash_shape(value):
+    return type(value) is str and re.fullmatch('[0-9a-f]{64}', value) is not None
+
+def plugin_joint_valid(value):
+    """Mandatory exact tuple owner; generic schema validation is insufficient."""
+    if type(value) is not dict or set(value) != {'schema', 'status', 'reason', 'rows'}:
+        return False
+    if type(value['schema']) is not str or value['schema'] != PLUGIN_JOINT_SCHEMA or type(value['status']) is not str:
+        return False
+    if value['status'] == 'UNAVAILABLE':
+        return type(value['reason']) is str and value['reason'] in PLUGIN_JOINT_REASONS and (value['rows'] is None)
+    if value['status'] != 'COMPLETE' or value['reason'] is not None or type(value['rows']) is not list or (len(value['rows']) > PLUGIN_JOINT_ROW_CAP):
+        return False
+    for row in value['rows']:
+        if type(row) is not list or len(row) != 11 or type(row[0]) is not str or (row[0] not in PLUGIN_JOINT_TYPE_LABELS):
+            return False
+        if row[0] != 'OBJECT':
+            if any((x is not None for x in row[1:])):
+                return False
+            continue
+        if type(row[1]) is not str or row[1] not in PLUGIN_JOINT_NAME_LABELS or type(row[2]) is not str or (row[2] not in PLUGIN_JOINT_PATH_LABELS):
+            return False
+        if row[1] == 'OTHER_STRING':
+            if not plugin_joint_count_shape(row[3]) or row[3] < 2 or (not plugin_joint_hash_shape(row[4])):
+                return False
+        elif row[3] is not None or row[4] is not None:
+            return False
+        if not plugin_joint_count_shape(row[5]) or row[5] > 1024 or (not plugin_joint_hash_shape(row[6])) or (type(row[7]) is not str) or (row[7] not in PLUGIN_JOINT_KEY_SHAPES):
+            return False
+        if any((type(x) is not str or x not in PLUGIN_JOINT_FIELD_TYPES for x in row[8:10])) or not plugin_joint_count_shape(row[10]):
+            return False
+        known_present = (row[1] != 'MISSING') + (row[2] != 'MISSING') + (row[8] != 'ABSENT') + (row[9] != 'ABSENT')
+        if row[5] != known_present + row[10]:
+            return False
+        keys = set()
+        if row[1] != 'MISSING':
+            keys.add('name')
+        if row[2] != 'MISSING':
+            keys.add('path')
+        if row[8] != 'ABSENT':
+            keys.add('source')
+        if row[9] != 'ABSENT':
+            keys.add('version')
+        expected_shape = next((label for label, fixed in PLUGIN_JOINT_KEYSETS.items() if row[10] == 0 and keys == fixed), 'OTHER')
+        if row[7] != expected_shape:
+            return False
+        if row[10] == 0 and row[6] != plugin_joint_sha(plugin_joint_json_bytes(sorted(keys))):
+            return False
+    return True
+
+def plugin_joint_add(base_v2, plugins, expected_plugin, *, envelope_available):
+    """Preserve every legacy value, add selected wire, and apply total size guard.
+
+The caller retains the original base schema/envelope and private receiving.
+This model is not an alternative way to admit an arbitrary base record.
+"""
+    if type(base_v2) is not dict or set(base_v2) != PLUGIN_JOINT_BASE_FIELDS or base_v2.get('schema') != PLUGIN_JOINT_V2_SCHEMA:
+        raise PluginJointRefusal('BASE_DIAGNOSTIC_SHAPE')
+    plugin_joint_json_shape(base_v2)
+    base_raw = plugin_joint_wire_bytes(base_v2)
+    if len(base_raw) > PLUGIN_JOINT_DIAGNOSTIC_BOUND:
+        raise PluginJointRefusal('UNCHANGED_BASE_DIAGNOSTIC_UNREPRESENTABLE')
+    result = json.loads(base_raw)
+    result['schema'] = PLUGIN_JOINT_V3_SCHEMA
+    available = envelope_available is True and base_v2.get('pre_plugin_envelope_received') is True
+    result['joint_profile'] = plugin_joint_derive(plugins, expected_plugin, envelope_available=available)
+    if len(plugin_joint_wire_bytes(result)) > PLUGIN_JOINT_DIAGNOSTIC_BOUND:
+        if result['joint_profile']['status'] == 'COMPLETE':
+            result['joint_profile'] = plugin_joint_unavailable('OUTPUT_BOUND')
+        if len(plugin_joint_wire_bytes(result)) > PLUGIN_JOINT_DIAGNOSTIC_BOUND:
+            raise PluginJointRefusal('UNCHANGED_BASE_DIAGNOSTIC_UNREPRESENTABLE')
+    return result
+
+def plugin_joint_projection_shape(value):
+    """Exact joint/total bound; full old schema and raw receiving remain separate."""
+    if (type(value) is not dict or set(value) != PLUGIN_JOINT_BASE_FIELDS | {'joint_profile'} or
+            value.get('schema') != PLUGIN_JOINT_V3_SCHEMA or
+            not plugin_joint_valid(value.get('joint_profile'))):
+        return False
+    try:
+        return len(body_canonical(value)) <= 4096
+    except (ValueError, TypeError, UnicodeError, OverflowError, RecursionError):
+        return False
+
+
+PLUGIN_DIAGNOSTIC_SCHEMA = 'dg17.claude.native-plugin-identity-diagnostic.v3'
 PLUGIN_DIAGNOSTIC_NAME = 'implementaudit'
 PLUGIN_DIAGNOSTIC_INLINE_NAME = 'implementaudit@inline'
 # Prospective literal discriminators only. A matching name neither establishes
@@ -1319,6 +1532,7 @@ def plugin_diagnostic_empty(reason='NOT_ATTEMPTED'):
         'plugins_present': None, 'plugins_type': None, 'plugins_canonical_bytes': None,
         'plugins_canonical_sha256': None, 'list_length': None, 'singleton': None,
         'array_profile': None,
+        'joint_profile': plugin_joint_unavailable('ENVELOPE_UNAVAILABLE'),
         'original_equality': None, 'body_acceptance_from_diagnostics': False}
 
 
@@ -1487,14 +1701,19 @@ def plugin_diagnostic_projection(raw, session, cwd, plugin, model=PLUGIN_DIAGNOS
         result['original_equality'] = init.get('plugins') == [{'name':'implementaudit','path':plugin}]
         result.update(status='RECEIVED_PRE_PLUGIN_DIAGNOSTIC', reason=None)
         reason = 'PUBLIC_BOUND_REFUSED'
-        need(len(body_canonical(result)) <= 4096, 'PLUGIN_DIAGNOSTIC_PUBLIC_BOUND')
-        return result
+        # Preserve the exact old v2 bound before adding any joint fields.
+        base_v2 = {key: result[key] for key in PLUGIN_JOINT_BASE_FIELDS}
+        base_v2['schema'] = PLUGIN_JOINT_V2_SCHEMA
+        need(len(body_canonical(base_v2)) <= 4096, 'PLUGIN_DIAGNOSTIC_PUBLIC_BOUND')
     except BaseException:
         # Partial observations never masquerade as a complete field projection.
         refused = plugin_diagnostic_empty(reason if reason in PLUGIN_DIAGNOSTIC_REASONS else 'JSON_UNRECEIVED')
         for key in ('raw_stdout_bytes','raw_stdout_sha256','expected_context_sha256','event_count'):
             refused[key] = result[key]
         return refused
+    # Extension-only refusal must not reset or hide the old received fields.
+    # This call is deliberately outside the old raw/envelope refusal boundary.
+    return plugin_joint_add(base_v2, init.get('plugins'), plugin, envelope_available=True)
 
 
 def plugin_diagnostic_bookends(public):
@@ -1618,6 +1837,7 @@ def receive_native_plugin_diagnostic(state, output, phase, utility):
         projected = plugin_diagnostic_projection(stdout,session,str(cwd),str(plugin),PLUGIN_DIAGNOSTIC_MODEL)
         expected = public.get('native_plugin_identity_diagnostic')
         need(type(expected) is dict and len(body_canonical(expected)) <= 4096 and
+             plugin_joint_projection_shape(expected) and plugin_joint_projection_shape(projected) and
              body_canonical(projected) == body_canonical(expected), 'PLUGIN_DIAGNOSTIC_PROJECTION_DIFFERS')
         result.update(raw_stdout_received=True,projection_recomputed=True,public_projection_bound=True,
             raw_stdout_bytes=len(stdout),raw_stdout_sha256=digest(stdout),
@@ -1694,6 +1914,7 @@ def receive_claude(state, packet, raw):
                                   'result_sha256':digest(raw),'result_bytes':len(raw)}
     value = body_json(raw,32768)
     need(catalogue_schema_matches(value,body_json(schema_raw,131072)), 'CLAUDE_BODY_RESULT_SCHEMA')
+    need(plugin_joint_projection_shape(value.get('native_plugin_identity_diagnostic')), 'CLAUDE_BODY_RESULT_SCHEMA')
     state['claude'] = value
     state['claude_validation']['valid'] = True
 
@@ -2308,6 +2529,7 @@ def launch_claude(state, source, output, packet, u):
                 need(captured_raw == read(output/'private/CLAUDE_BODY_RESULT.json',32768), 'CLAUDE_CAPTURE_DIFFERS')
                 captured = json.loads(captured_raw, object_pairs_hook=unique_object)
                 need(catalogue_schema_matches(captured, json.loads(read(packet/'PUBLIC_RESULT_SCHEMA.json'), object_pairs_hook=unique_object)) and captured == state['claude'], 'CLAUDE_CAPTURE_DIFFERS')
+                need(plugin_joint_projection_shape(captured.get('native_plugin_identity_diagnostic')), 'CLAUDE_CAPTURE_DIFFERS')
                 state['claude_validation']['captured_result_matches'] = True
                 state['claude_validation']['child_success_claimed'] = claude_success(state['claude'],os.getuid(),os.getgid(),state['receipt'])
                 receive_body_diagnostics(state, output, 'AFTER_COMMAND')
@@ -2462,6 +2684,7 @@ def export(state, output, packet):
     if 'claude' in state:
         try:
             need(catalogue_schema_matches(state['claude'], json.loads(read(packet/'PUBLIC_RESULT_SCHEMA.json'))), 'CLAUDE_EXPORT_SCHEMA')
+            need(plugin_joint_projection_shape(state['claude'].get('native_plugin_identity_diagnostic')), 'CLAUDE_EXPORT_SCHEMA')
         except BaseException as exc:
             state.pop('claude', None); state.setdefault('claude_validation',{})['valid'] = False; state['failed'] = True; state['bounded_receiving_complete'] = False
             state['failures'].append({'step': 'export', 'exception_type': type(exc).__name__, 'message_sha256': digest(str(exc).encode()), 'message_bytes': len(str(exc).encode())})

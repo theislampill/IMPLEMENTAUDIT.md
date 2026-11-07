@@ -514,7 +514,7 @@ def command_argv(binary, package, profile, transport, session_id):
         '--session-id', session_id, '--model', transport.MODEL_SELECTOR, prompt]
 
 
-def empty_native_plugin_diagnostic(reason):
+def native_plugin_diagnostic_v2_empty(reason):
     return {'schema': 'dg17.claude.native-plugin-identity-diagnostic.v2',
         'status': 'UNRECEIVED', 'reason': reason, 'raw_stdout_bytes': None,
         'raw_stdout_sha256': None, 'expected_context_sha256': None, 'event_count': None,
@@ -522,6 +522,147 @@ def empty_native_plugin_diagnostic(reason):
         'plugins_canonical_bytes': None, 'plugins_canonical_sha256': None,
         'list_length': None, 'singleton': None, 'original_equality': None, 'array_profile': None,
         'body_acceptance_from_diagnostics': False}
+
+def native_plugin_joint_bytes(value):
+    """New commitments deliberately omit the old diagnostic codec's final LF."""
+    return json.dumps(value, sort_keys=True, ensure_ascii=True, allow_nan=False,
+                      separators=(',', ':')).encode('ascii')
+
+def native_plugin_joint_unavailable(reason):
+    return {'schema': 'dg17.claude.plugin-joint-shape.v1', 'status': 'UNAVAILABLE',
+            'reason': reason, 'rows': None}
+
+def native_plugin_joint_valid(value):
+    """Exact positional receiving; the compatible generic schema is insufficient."""
+    if type(value) is not dict or set(value) != {'schema', 'status', 'reason', 'rows'}:
+        return False
+    if (type(value['schema']) is not str or type(value['status']) is not str or
+            value['schema'] != 'dg17.claude.plugin-joint-shape.v1'):
+        return False
+    if value['status'] == 'UNAVAILABLE':
+        return (type(value['reason']) is str and value['reason'] in
+            ('ENVELOPE_UNAVAILABLE', 'NON_ARRAY', 'ROW_LIMIT', 'ENCODING_REFUSED', 'OUTPUT_BOUND')
+            and value['rows'] is None)
+    if value['status'] != 'COMPLETE' or value['reason'] is not None or type(value['rows']) is not list or len(value['rows']) > 4:
+        return False
+    types = ('NULL', 'BOOLEAN', 'INTEGER', 'FLOAT', 'STRING', 'ARRAY', 'OBJECT')
+    names = ('MISSING', 'NON_STRING', 'MANIFEST_NAME_EXACT', 'MANIFEST_NAME_INLINE',
+        'DOCUMENTED_1_BARE', 'DOCUMENTED_1_BUILTIN_ID', 'DOCUMENTED_2_BARE', 'DOCUMENTED_2_BUILTIN_ID',
+        'DOCUMENTED_3_BARE', 'DOCUMENTED_3_BUILTIN_ID', 'DOCUMENTED_4_BARE', 'DOCUMENTED_4_BUILTIN_ID',
+        'DOCUMENTED_5_BARE', 'DOCUMENTED_5_BUILTIN_ID', 'DOCUMENTED_6_BARE', 'DOCUMENTED_6_BUILTIN_ID', 'OTHER_STRING')
+    paths = ('MISSING', 'NON_STRING', 'EXACT_EXPECTED', 'LEXICAL_ONLY', 'OTHER_STRING')
+    fixed = {'NAME_PATH_ONLY': {'name', 'path'}, 'NAME_PATH_SOURCE': {'name', 'path', 'source'},
+             'NAME_PATH_VERSION': {'name', 'path', 'version'},
+             'NAME_PATH_SOURCE_VERSION': {'name', 'path', 'source', 'version'}}
+    def count(v): return type(v) is int and 0 <= v <= 196609
+    def hash_value(v): return type(v) is str and re.fullmatch(r'[0-9a-f]{64}', v) is not None
+    for row in value['rows']:
+        if type(row) is not list or len(row) != 11 or type(row[0]) is not str or row[0] not in types:
+            return False
+        if row[0] != 'OBJECT':
+            if any(v is not None for v in row[1:]): return False
+            continue
+        if type(row[1]) is not str or row[1] not in names or type(row[2]) is not str or row[2] not in paths:
+            return False
+        if row[1] == 'OTHER_STRING':
+            if not count(row[3]) or row[3] < 2 or not hash_value(row[4]): return False
+        elif row[3] is not None or row[4] is not None:
+            return False
+        if not count(row[5]) or row[5] > 1024 or not hash_value(row[6]) or type(row[7]) is not str:
+            return False
+        if any(type(v) is not str or v not in ('ABSENT',) + types for v in row[8:10]) or not count(row[10]):
+            return False
+        keys = set()
+        for present, key in ((row[1] != 'MISSING', 'name'), (row[2] != 'MISSING', 'path'),
+                             (row[8] != 'ABSENT', 'source'), (row[9] != 'ABSENT', 'version')):
+            if present: keys.add(key)
+        if row[5] != len(keys) + row[10]: return False
+        shape = next((name for name, keyset in fixed.items() if row[10] == 0 and keyset == keys), 'OTHER')
+        if row[7] != shape: return False
+        if row[10] == 0 and row[6] != hashlib.sha256(native_plugin_joint_bytes(sorted(keys))).hexdigest():
+            return False
+    return True
+
+def native_plugin_joint_profile(plugins, expected_plugin):
+    """Project at most four complete admitted elements; no lookup of reported data."""
+    if type(plugins) is not list:
+        return native_plugin_joint_unavailable('NON_ARRAY')
+    if len(plugins) > 4:
+        return native_plugin_joint_unavailable('ROW_LIMIT')
+    try:
+        types = {type(None): 'NULL', bool: 'BOOLEAN', int: 'INTEGER', float: 'FLOAT',
+                 str: 'STRING', list: 'ARRAY', dict: 'OBJECT'}
+        # Defensive finite JSON shape only; the unchanged caller owns raw admission.
+        pending = [(plugins, 0)]; visited = 0
+        while pending:
+            current, depth = pending.pop(); visited += 1
+            if type(current) not in types or depth > 32 or visited > 32768:
+                raise ValueError('JOINT_JSON_SHAPE')
+            if type(current) is dict:
+                if len(current) > 1024 or any(type(key) is not str or len(key) > 1024 for key in current):
+                    raise ValueError('JOINT_JSON_OBJECT')
+                pending.extend((item, depth + 1) for item in current.values())
+            elif type(current) is list:
+                if len(current) > 4096: raise ValueError('JOINT_JSON_ARRAY')
+                pending.extend((item, depth + 1) for item in current)
+        if len(native_plugin_joint_bytes(plugins)) + 1 > 196609:
+            raise ValueError('JOINT_PLUGIN_BOUND')
+        names = {'implementaudit': 'MANIFEST_NAME_EXACT', 'implementaudit@inline': 'MANIFEST_NAME_INLINE',
+            'cc-plugin-agents-md': 'DOCUMENTED_1_BARE', 'cc-plugin-agents-md@builtin': 'DOCUMENTED_1_BUILTIN_ID',
+            'cc-plugin-diff': 'DOCUMENTED_2_BARE', 'cc-plugin-diff@builtin': 'DOCUMENTED_2_BUILTIN_ID',
+            'cc-plugin-plugin-authoring': 'DOCUMENTED_3_BARE', 'cc-plugin-plugin-authoring@builtin': 'DOCUMENTED_3_BUILTIN_ID',
+            'cc-plugin-sec-default': 'DOCUMENTED_4_BARE', 'cc-plugin-sec-default@builtin': 'DOCUMENTED_4_BUILTIN_ID',
+            'cc-plugin-telemetry': 'DOCUMENTED_5_BARE', 'cc-plugin-telemetry@builtin': 'DOCUMENTED_5_BUILTIN_ID',
+            'cc-plugin-you-should-know': 'DOCUMENTED_6_BARE', 'cc-plugin-you-should-know@builtin': 'DOCUMENTED_6_BUILTIN_ID'}
+        fixed = {'NAME_PATH_ONLY': {'name', 'path'}, 'NAME_PATH_SOURCE': {'name', 'path', 'source'},
+                 'NAME_PATH_VERSION': {'name', 'path', 'version'},
+                 'NAME_PATH_SOURCE_VERSION': {'name', 'path', 'source', 'version'}}
+        rows = []
+        for item in plugins:
+            kind = types[type(item)]
+            if kind != 'OBJECT':
+                rows.append([kind] + [None] * 10)
+                continue
+            name = ('MISSING' if 'name' not in item else 'NON_STRING' if type(item['name']) is not str
+                    else names.get(item['name'], 'OTHER_STRING'))
+            path = ('MISSING' if 'path' not in item else 'NON_STRING' if type(item['path']) is not str
+                    else 'EXACT_EXPECTED' if item['path'] == expected_plugin
+                    else 'LEXICAL_ONLY' if posixpath.normpath(item['path']) == posixpath.normpath(expected_plugin)
+                    else 'OTHER_STRING')
+            name_raw = native_plugin_joint_bytes(item['name']) if name == 'OTHER_STRING' else None
+            keys = set(item)
+            key_hash = hashlib.sha256(native_plugin_joint_bytes(sorted(keys))).hexdigest()
+            shape = next((label for label, keyset in fixed.items() if keys == keyset), 'OTHER')
+            rows.append([kind, name, path, len(name_raw) if name_raw is not None else None,
+                hashlib.sha256(name_raw).hexdigest() if name_raw is not None else None,
+                len(keys), key_hash, shape,
+                types[type(item['source'])] if 'source' in item else 'ABSENT',
+                types[type(item['version'])] if 'version' in item else 'ABSENT',
+                len(keys - {'name', 'path', 'source', 'version'})])
+        result = {'schema': 'dg17.claude.plugin-joint-shape.v1', 'status': 'COMPLETE', 'reason': None, 'rows': rows}
+        if not native_plugin_joint_valid(result): raise ValueError('JOINT_REPRESENTATION')
+        return result
+    except (ValueError, TypeError, KeyError, UnicodeError, OverflowError, RecursionError):
+        return native_plugin_joint_unavailable('ENCODING_REFUSED')
+
+def native_plugin_joint_finish(base, plugins, expected_plugin):
+    """Retain the exact old projection; only new complete rows may fall back."""
+    if type(base) is not dict or base.get('schema') != 'dg17.claude.native-plugin-identity-diagnostic.v2':
+        raise Refusal('PLUGIN_DIAGNOSTIC_BASE_SCHEMA')
+    result = dict(base)
+    result['schema'] = 'dg17.claude.native-plugin-identity-diagnostic.v3'
+    result['joint_profile'] = (native_plugin_joint_profile(plugins, expected_plugin)
+        if base.get('pre_plugin_envelope_received') is True
+        else native_plugin_joint_unavailable('ENVELOPE_UNAVAILABLE'))
+    if len(native_plugin_joint_bytes(result)) + 1 > 4096 and result['joint_profile']['status'] == 'COMPLETE':
+        result['joint_profile'] = native_plugin_joint_unavailable('OUTPUT_BOUND')
+    if not native_plugin_joint_valid(result['joint_profile']) or len(native_plugin_joint_bytes(result)) + 1 > 4096:
+        raise Refusal('PLUGIN_DIAGNOSTIC_JOINT_BOUND')
+    return result
+
+def empty_native_plugin_diagnostic(reason):
+    # Keep the original values and refusal reason; v3 adds only unavailable rows.
+    return native_plugin_joint_finish(native_plugin_diagnostic_v2_empty(reason), None, None)
 
 
 def native_plugin_array_profile(plugins, expected_plugin):
@@ -595,7 +736,7 @@ def native_plugin_array_profile(plugins, expected_plugin):
 
 def native_plugin_identity_diagnostic(raw, context, custody_received, transport):
     """Pure bounded projection; never opens a reported path or accepts a plugin."""
-    result = empty_native_plugin_diagnostic('NOT_ATTEMPTED')
+    result = native_plugin_diagnostic_v2_empty('NOT_ATTEMPTED')
     def refused(reason):
         empty = empty_native_plugin_diagnostic(reason)
         for key in ('raw_stdout_bytes', 'raw_stdout_sha256', 'expected_context_sha256', 'event_count'):
@@ -704,7 +845,7 @@ def native_plugin_identity_diagnostic(raw, context, custody_received, transport)
         return refused('JSON_STRING_ENCODING')
     except (ValueError, TypeError, KeyError, RecursionError):
         return refused('JSON_UNRECEIVED')
-    return result
+    return native_plugin_joint_finish(result, plugins, context['plugin'])
 
 
 def initial_result():
