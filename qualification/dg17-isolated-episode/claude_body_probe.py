@@ -148,6 +148,171 @@ def startup_paths_diagnostic(profile):
             'path_count': 17, 'rows': rows}
 
 
+def config_plugins_identity(info):
+    values = {'device': info.st_dev, 'inode': info.st_ino, 'uid': info.st_uid,
+        'gid': info.st_gid, 'mode': info.st_mode, 'nlink': info.st_nlink,
+        'size': info.st_size, 'mtime_ns': info.st_mtime_ns, 'ctime_ns': info.st_ctime_ns}
+    need(all(type(values[key]) is int and 0 <= values[key] <= 18446744073709551615
+             for key in ('device', 'inode', 'uid', 'gid', 'mode', 'nlink', 'size')) and
+         all(type(values[key]) is int and -9223372036854775808 <= values[key] <= 9223372036854775807
+             for key in ('mtime_ns', 'ctime_ns')), 'CONFIG_PLUGINS_METADATA_BOUND')
+    return values
+
+
+def config_plugins_snapshot(profile):
+    """Two bounded no-follow metadata censuses; never open a file's contents."""
+    base = profile['root']; config = profile['config']
+    need(base.is_absolute() and config == base / 'config' and
+         all(part not in ('.', '..') for part in base.parts), 'CONFIG_PLUGINS_PROFILE_PATH')
+    flags = os.O_RDONLY | os.O_CLOEXEC | os.O_DIRECTORY | os.O_NOFOLLOW
+    def once():
+        result = {'schema': 'dg17.claude.config-plugins-snapshot.v1', 'path_id': 'CONFIG_PLUGINS',
+            'status': 'UNREADABLE', 'root': None, 'entries': [], 'error_code': None,
+            'complete': False, 'stable': False}
+        held = []; anchors = []
+        def opened(name, parent=None):
+            fd = os.open(name, flags) if parent is None else os.open(name, flags, dir_fd=parent)
+            held.append(fd); return fd
+        def same(first, second):
+            need(config_plugins_identity(first) == config_plugins_identity(second), 'CONFIG_PLUGINS_CHANGED')
+        def owned(info):
+            need(info.st_uid == os.geteuid() and info.st_gid == os.getegid(), 'CONFIG_PLUGINS_ANCESTOR_BLOCKED')
+        def anchor_bookend():
+            for parent, name, fd, before in anchors:
+                same(before, os.fstat(fd))
+                same(before, os.lstat(name, dir_fd=parent))
+        def walk(fd, parts):
+            before = os.fstat(fd); owned(before)
+            names = []
+            with os.scandir(fd) as entries:
+                for entry in entries:
+                    names.append(entry.name)
+                    need(len(names) <= 16, 'CONFIG_PLUGINS_CENSUS_BOUND')
+            need(len(names) == len(set(names)), 'CONFIG_PLUGINS_CHANGED')
+            for name in sorted(names):
+                relative = '/'.join((*parts, name))
+                try: path_bytes = relative.encode('utf-8', 'strict')
+                except UnicodeError as exc: raise Refusal('CONFIG_PLUGINS_CENSUS_BOUND') from exc
+                need(type(name) is str and name not in ('', '.', '..') and '/' not in name and
+                     '\x00' not in name and len(parts) + 1 <= 8 and 0 < len(path_bytes) <= 256 and
+                     len(result['entries']) < 16, 'CONFIG_PLUGINS_CENSUS_BOUND')
+                info = os.lstat(name, dir_fd=fd); kind = diagnostic_kind(info.st_mode)
+                result['entries'].append({'relative_path': relative, 'kind': kind,
+                                          'identity': config_plugins_identity(info)})
+                if stat.S_ISDIR(info.st_mode):
+                    owned(info)
+                    child = opened(name, fd)
+                    same(info, os.fstat(child)); walk(child, (*parts, name))
+                    same(info, os.lstat(name, dir_fd=fd))
+                else:
+                    same(info, os.lstat(name, dir_fd=fd))
+            same(before, os.fstat(fd))
+        try:
+            current = opened('/'); path = Path('/')
+            for component in config.parts[1:]:
+                before = os.lstat(component, dir_fd=current)
+                need(stat.S_ISDIR(before.st_mode), 'CONFIG_PLUGINS_ANCESTOR_BLOCKED')
+                child = opened(component, current); same(before, os.fstat(child))
+                path = path / component; parent = current; current = child
+                if path in (base, config):
+                    owned(before)
+                    need(not before.st_mode & 0o077, 'CONFIG_PLUGINS_ANCESTOR_BLOCKED')
+                    anchors.append((parent, component, child, before))
+            need(len(anchors) == 2, 'CONFIG_PLUGINS_ANCESTOR_BLOCKED')
+            try: before = os.lstat('plugins', dir_fd=current)
+            except OSError as exc:
+                if exc.errno != errno.ENOENT: raise
+                anchor_bookend()
+                result.update(status='COMPLETE_ABSENT', complete=True)
+                return result
+            kind = diagnostic_kind(before.st_mode)
+            result['root'] = {'kind': kind, 'identity': config_plugins_identity(before),
+                              'physical_path': kind != 'SYMLINK'}
+            if stat.S_ISDIR(before.st_mode):
+                owned(before)
+                directory = opened('plugins', current); same(before, os.fstat(directory))
+                walk(directory, ()); same(before, os.fstat(directory))
+            same(before, os.lstat('plugins', dir_fd=current)); anchor_bookend()
+            result.update(status='COMPLETE_PRESENT', complete=True)
+        except Refusal as exc:
+            result['status'] = ('BOUND_EXCEEDED' if str(exc) in
+                ('CONFIG_PLUGINS_CENSUS_BOUND', 'CONFIG_PLUGINS_METADATA_BOUND') else
+                'ANCESTOR_BLOCKED' if str(exc) == 'CONFIG_PLUGINS_ANCESTOR_BLOCKED' else 'CHANGED')
+        except OSError as exc:
+            result['status'] = 'CHANGED' if exc.errno == errno.ENOENT else 'UNREADABLE'
+            result['error_code'] = None if exc.errno == errno.ENOENT else diagnostic_errno(exc)
+        finally:
+            for fd in reversed(held):
+                try: os.close(fd)
+                except OSError as exc:
+                    result.update(status='UNREADABLE', complete=False, stable=False)
+                    if result['error_code'] is None: result['error_code'] = diagnostic_errno(exc)
+            result['entries'] = sorted(result['entries'], key=lambda row: row['relative_path'])
+        return result
+    before = once()
+    if not before['complete']: return before
+    after = once()
+    if not after['complete']: return after
+    if canonical(before) != canonical(after):
+        before.update(status='CHANGED', complete=False)
+        return before
+    before['stable'] = True
+    need(len(canonical(before)) <= 65536, 'CONFIG_PLUGINS_SNAPSHOT_BYTE_BOUND')
+    return before
+
+
+def config_plugins_projection(snapshot):
+    root = snapshot['root']; info = root['identity'] if root is not None else None
+    complete = snapshot['complete'] is True; stable = snapshot['stable'] is True
+    empty = None
+    if complete and stable:
+        if snapshot['status'] == 'COMPLETE_ABSENT' and root is None and snapshot['entries'] == []:
+            empty = True
+        elif root is not None and root['kind'] == 'DIRECTORY':
+            empty = len(snapshot['entries']) == 0
+    admitted = (complete and stable and ((snapshot['status'] == 'COMPLETE_ABSENT' and root is None and
+        snapshot['entries'] == []) or (snapshot['status'] == 'COMPLETE_PRESENT' and
+        root is not None and root['kind'] == 'DIRECTORY' and root['physical_path'] is True and
+        stat.S_IMODE(info['mode']) == 0o700 and info['uid'] == os.geteuid() and
+        info['gid'] == os.getegid() and empty is True)))
+    rows = []
+    for row in snapshot['entries']:
+        raw = row['relative_path'].encode('utf-8', 'strict'); identity = row['identity']
+        rows.append({'relative_path_bytes': len(raw), 'relative_path_sha256': sha(raw),
+            'kind': row['kind'], 'mode': stat.S_IMODE(identity['mode']),
+            'uid_matches_effective': identity['uid'] == os.geteuid(),
+            'gid_matches_effective': identity['gid'] == os.getegid(),
+            'regular_file_bytes': identity['size'] if row['kind'] == 'REGULAR' else None})
+    return {'schema': 'dg17.claude.config-plugins-observation.v1', 'path_id': 'CONFIG_PLUGINS',
+        'status': snapshot['status'], 'kind': root['kind'] if root is not None else None,
+        'mode': stat.S_IMODE(info['mode']) if info is not None else None,
+        'uid_matches_effective': info['uid'] == os.geteuid() if info is not None else None,
+        'gid_matches_effective': info['gid'] == os.getegid() if info is not None else None,
+        'physical_path': root['physical_path'] if root is not None else None,
+        'complete': complete, 'stable': stable, 'entry_count': len(rows), 'entries': rows,
+        'error_code': snapshot['error_code'], 'population_sha256': sha(canonical(snapshot)),
+        'empty': empty, 'profile_admitted': admitted}
+
+
+def post_native_profile_readback(meta, profile, expected_plugins):
+    """Original profile identities/configs and 16 absences plus one closed output."""
+    rows = {key: meta.owned_directory(path) for key, path in profile.items()
+            if key not in ('settings', 'mcp')}
+    for key, value in (('settings', meta.SETTINGS), ('mcp', meta.MCP_CONFIG)):
+        raw = meta.canonical(value)
+        need(meta.file_identity(profile[key], len(raw)) == {'bytes': len(raw), 'sha256': sha(raw)},
+             'SELECTED_STARTUP_CONFIG_CHANGED')
+    for identifier, anchor, relative in STARTUP_PATHS:
+        if identifier != 'CONFIG_PLUGINS':
+            need(not os.path.lexists(profile[anchor] / relative), 'UNREVIEWED_FRESH_CONTEXT_STARTUP_LAYER')
+    need(expected_plugins is not None and config_plugins_projection(expected_plugins)['profile_admitted'],
+         'UNREVIEWED_FRESH_CONTEXT_STARTUP_LAYER')
+    observed = config_plugins_snapshot(profile)
+    need(canonical(observed) == canonical(expected_plugins) and
+         config_plugins_projection(observed)['profile_admitted'], 'CONFIG_PLUGINS_PROFILE_CHANGED')
+    return rows
+
+
 def directory_refusal_diagnostic(path, root):
     relative = path.relative_to(root).as_posix(); raw = relative.encode('utf-8', 'strict')
     need(0 < len(raw) <= 4096 and not PurePosixPath(relative).is_absolute() and
@@ -333,6 +498,9 @@ def initial_result():
         'archive_before': False, 'archive_after': False, 'package_before': False, 'package_after': False,
         'startup_before': False, 'startup_after': False, 'fresh_context_count': 0,
         'startup_paths_after': None, 'private_directory_refusal': None, 'diagnostic_record_sha256': None,
+        'config_plugins_profile': {'schema': 'dg17.claude.body-config-plugins.v1',
+            'before_absent': False, 'before_record_sha256': None, 'after_record_sha256': None,
+            'after': None, 'closing_unchanged': False, 'final_unchanged': False},
         'native_sessions_started': 0, 'commands': [], 'body_delivery': None, 'native_observation': None,
         'cleanup': {'after_close': None, 'after_seal': None, 'private_evidence_seal_sha256': None,
                     'private_seal_unchanged': False, 'host_teardown_observed': False,
@@ -345,6 +513,13 @@ def initial_result():
 
 
 def complete_result(value, records, meta):
+    plugins = value['config_plugins_profile']
+    if not (plugins['before_absent'] is True and plugins['before_record_sha256'] is not None and
+            plugins['after_record_sha256'] is not None and plugins['after'] is not None and
+            plugins['after']['profile_admitted'] is True and
+            plugins['after_record_sha256'] == plugins['after']['population_sha256'] and
+            plugins['closing_unchanged'] is True and plugins['final_unchanged'] is True):
+        return False
     flags = ('currentness_before', 'currentness_after', 'control_source_before', 'control_source_after',
              'runtime_before', 'runtime_after', 'git_admission_unchanged', 'archive_before', 'archive_after',
              'package_before', 'package_after', 'startup_before', 'startup_after')
@@ -374,7 +549,7 @@ def run(args):
     meta = utility = admission = transport = source = private = result_path = pins = None
     runtime_before = git_before = matrix = package = provider = profile = profile_before = managed_before = None
     gate_home = git_home = None; subreaper = False; route_safe = False
-    directory_record = None
+    directory_record = None; plugins_before = plugins_after = None
     deadline = time.monotonic() + RUN_SECONDS
     def failure(exc, where):
         kinds = tuple(x.Refusal for x in (meta, utility, admission, transport) if x is not None and hasattr(x, 'Refusal'))
@@ -443,6 +618,14 @@ def run(args):
         phase = 'NATIVE_ADMISSION'
         profile, profile_before, managed_before = meta.fresh_profile(private, 'canonical-body', admission)
         result['fresh_context_count'] = 1; result['startup_before'] = True
+        plugins_before = config_plugins_snapshot(profile)
+        need(plugins_before['status'] == 'COMPLETE_ABSENT' and plugins_before['complete'] is True and
+             plugins_before['stable'] is True and plugins_before['root'] is None and
+             plugins_before['entries'] == [], 'UNREVIEWED_FRESH_CONTEXT_STARTUP_LAYER')
+        raw = canonical(plugins_before); need(len(raw) <= 65536, 'CONFIG_PLUGINS_SNAPSHOT_BYTE_BOUND')
+        write_private(private / 'CONFIG_PLUGINS_BEFORE.json', raw)
+        result['config_plugins_profile']['before_absent'] = True
+        result['config_plugins_profile']['before_record_sha256'] = sha(raw)
         need(admission.source_store_guard(source) == git_before['source_store'], 'SOURCE_STORE_BEFORE_COMMAND_CHANGED')
         meta.source_inputs(source, pins); package_census(package, matrix)
         need(file_identity(Path(args.binary), meta.BINARY_BYTES, executable=True) == runtime_before,
@@ -486,8 +669,19 @@ def run(args):
                 store_after = observe('NATIVE_STORE_AFTER', lambda: admission.source_store_guard(source))
                 row['runtime_after'] = observe('NATIVE_RUNTIME_AFTER', lambda:
                     file_identity(Path(args.binary), meta.BINARY_BYTES, executable=True)) == runtime_before
+                plugins_after = observe('CONFIG_PLUGINS_AFTER', lambda: config_plugins_snapshot(profile))
+                if plugins_after is not None:
+                    result['config_plugins_profile']['after'] = config_plugins_projection(plugins_after)
+                    def retain_plugins_after():
+                        raw = canonical(plugins_after)
+                        need(len(raw) <= 65536, 'CONFIG_PLUGINS_SNAPSHOT_BYTE_BOUND')
+                        write_private(private / 'CONFIG_PLUGINS_AFTER.json', raw)
+                        return sha(raw)
+                    result['config_plugins_profile']['after_record_sha256'] = observe(
+                        'CONFIG_PLUGINS_RETENTION', retain_plugins_after)
                 row['startup_after'] = observe('NATIVE_STARTUP_AFTER', lambda:
-                    (meta.profile_readback(profile), meta.managed_and_ancestor_guard(admission, profile['cwd']))) == (profile_before, managed_before)
+                    (post_native_profile_readback(meta, profile, plugins_after),
+                     meta.managed_and_ancestor_guard(admission, profile['cwd']))) == (profile_before, managed_before)
                 result['startup_after'] = row['startup_after']
                 result['startup_paths_after'] = observe('NATIVE_STARTUP_DIAGNOSTIC', lambda: startup_paths_diagnostic(profile))
                 need(row['source_after'] and store_after == git_before['source_store'] and row['runtime_after'] and
@@ -543,12 +737,13 @@ def run(args):
                 package_census(package, matrix)
                 need(file_identity(Path(args.canonical_archive), PACKAGE_BYTES) == {'bytes': PACKAGE_BYTES, 'sha256': PACKAGE_SHA},
                      'CLOSING_ARCHIVE_CHANGED')
-                need(meta.profile_readback(profile) == profile_before and
+                need(post_native_profile_readback(meta, profile, plugins_after) == profile_before and
                      meta.managed_and_ancestor_guard(admission, profile['cwd']) == managed_before and
                      admission.offline_guard(args) == result['offline'], 'CLOSING_STARTUP_OR_NAMESPACE_CHANGED')
                 need(meta.quiescent(utility)['verified'] is True, 'CLOSING_GIT_QUIESCENCE_REFUSED')
                 need(admission.git_startup_guard(git_home, False, source)[0] == git_before, 'CLOSING_GIT_ADMISSION_CHANGED')
                 need(meta.quiescent(utility)['verified'] is True, 'CLOSING_QUIESCENCE_REFUSED')
+                result['config_plugins_profile']['closing_unchanged'] = True
                 return True
             if observe('CURRENTNESS_AFTER_ADMISSION', closing_admission) is True:
                 after = observe('CURRENTNESS_AFTER', lambda: meta.currentness(args, source, gate_home,
@@ -583,6 +778,15 @@ def run(args):
             result['cleanup']['private_seal_unchanged'] = observe('PRIVATE_SEAL', seal_private) is True
         if subreaper:
             result['cleanup']['after_seal'] = observe('AFTER_SEAL', lambda: meta.quiescent(utility))
+        if profile is not None and plugins_after is not None and result['cleanup']['after_seal'] is not None and \
+                result['cleanup']['after_seal']['verified'] is True:
+            def final_startup_readback():
+                need(post_native_profile_readback(meta, profile, plugins_after) == profile_before and
+                     meta.managed_and_ancestor_guard(admission, profile['cwd']) == managed_before,
+                     'FINAL_STARTUP_PROFILE_CHANGED')
+                return True
+            result['config_plugins_profile']['final_unchanged'] = observe(
+                'FINAL_STARTUP_READBACK', final_startup_readback) is True
         if result_path is not None:
             def retain_diagnostics():
                 raw = canonical({'schema': 'dg17.claude.body-diagnostics.v1',
@@ -598,6 +802,7 @@ def run(args):
             if result['failure'] is None: failure(Refusal('REQUIRED_EVIDENCE_INCOMPLETE'), 'FINALIZATION')
         else:
             result['status'] = 'OBSERVED_CANONICAL_GOVERNOR_BODY_AND_ADVERTISED_ENTRIES'
+        need(len(canonical(result['config_plugins_profile'])) <= 8192, 'CONFIG_PLUGINS_PUBLIC_BYTE_BOUND')
         raw = canonical(result); need(len(raw) <= PUBLIC_LIMIT, 'PUBLIC_RESULT_BYTE_BOUND')
         if result_path is not None:
             try: write_private(result_path, raw)

@@ -1,1108 +1,646 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
-    "additional_failure_count": {
-      "maximum": 2147483647,
-      "minimum": 0,
-      "type": "integer"
+    "archive_after": {
+      "type": "boolean"
     },
-    "cases": {
-      "items": {
-        "additionalProperties": false,
-        "properties": {
-          "archive_bytes": {
-            "enum": [
-              584974,
-              580372
-            ]
-          },
-          "archive_sha256": {
-            "pattern": "^[0-9a-f]{64}$",
-            "type": "string"
-          },
-          "arg0_aliases_closed": {
-            "type": "boolean"
-          },
-          "arg0_aliases_exact": {
-            "type": "boolean"
-          },
-          "builtin_read_response_complete": {
-            "type": "boolean"
-          },
-          "builtin_read_response_started": {
-            "type": "boolean"
-          },
-          "builtin_reads": {
-            "maximum": 1,
-            "minimum": 0,
-            "type": "integer"
-          },
-          "capture": {
-            "anyOf": [
-              {
-                "type": "null"
-              },
-              {
-                "additionalProperties": false,
-                "properties": {
-                  "cleanup": {
-                    "additionalProperties": false,
-                    "properties": {
-                      "echild": {
-                        "type": "boolean"
-                      },
-                      "pidfd_signals": {
-                        "maximum": 4096,
-                        "minimum": 0,
-                        "type": "integer"
-                      },
-                      "reaped_statuses": {
-                        "items": {
-                          "additionalProperties": false,
-                          "properties": {
-                            "pid": {
-                              "maximum": 2147483647,
-                              "minimum": 0,
-                              "type": "integer"
-                            },
-                            "returncode": {
-                              "maximum": 255,
-                              "minimum": -255,
-                              "type": "integer"
-                            }
-                          },
-                          "required": [
-                            "pid",
-                            "returncode"
-                          ],
-                          "type": "object"
-                        },
-                        "maxItems": 8,
-                        "type": "array"
-                      },
-                      "reaped_statuses_truncated": {
-                        "type": "boolean"
-                      },
-                      "retained_status_count": {
-                        "maximum": 4096,
-                        "minimum": 0,
-                        "type": "integer"
-                      },
-                      "retained_statuses_sha256": {
-                        "pattern": "^[0-9a-f]{64}$",
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "echild",
-                      "pidfd_signals",
-                      "retained_status_count",
-                      "retained_statuses_sha256",
-                      "reaped_statuses",
-                      "reaped_statuses_truncated"
-                    ],
-                    "type": "object"
-                  },
-                  "internal_failure": {
-                    "type": "boolean"
-                  },
-                  "name": {
-                    "const": "native-content"
-                  },
-                  "output_bound_exceeded": {
-                    "type": "boolean"
-                  },
-                  "pidfd_acquired": {
-                    "type": "boolean"
-                  },
-                  "private_streams_retained": {
-                    "type": "boolean"
-                  },
-                  "process_started": {
-                    "type": "boolean"
-                  },
-                  "reason_code": {
-                    "pattern": "^[A-Z][A-Z0-9_]{0,95}$",
-                    "type": "string"
-                  },
-                  "retention_failure": {
-                    "type": "boolean"
-                  },
-                  "returncode": {
-                    "anyOf": [
-                      {
-                        "type": "null"
-                      },
-                      {
-                        "maximum": 255,
-                        "minimum": -255,
-                        "type": "integer"
-                      }
-                    ]
-                  },
-                  "stderr_bytes": {
-                    "maximum": 131072,
-                    "minimum": 0,
-                    "type": "integer"
-                  },
-                  "stderr_sha256": {
-                    "pattern": "^[0-9a-f]{64}$",
-                    "type": "string"
-                  },
-                  "stdout_bytes": {
-                    "maximum": 2097152,
-                    "minimum": 0,
-                    "type": "integer"
-                  },
-                  "stdout_sha256": {
-                    "pattern": "^[0-9a-f]{64}$",
-                    "type": "string"
-                  },
-                  "stream_digest_scope": {
-                    "const": "CAPTURED_BYTES_ONLY"
-                  },
-                  "streams_complete": {
-                    "type": "boolean"
-                  },
-                  "timeout": {
-                    "type": "boolean"
-                  }
-                },
-                "required": [
-                  "name",
-                  "process_started",
-                  "returncode",
-                  "timeout",
-                  "output_bound_exceeded",
-                  "pidfd_acquired",
-                  "internal_failure",
-                  "reason_code",
-                  "stream_digest_scope",
-                  "streams_complete",
-                  "stdout_bytes",
-                  "stderr_bytes",
-                  "stdout_sha256",
-                  "stderr_sha256",
-                  "cleanup",
-                  "private_streams_retained",
-                  "retention_failure"
-                ],
-                "type": "object"
-              }
-            ]
-          },
-          "catalog": {
-            "anyOf": [
-              {
-                "type": "null"
-              },
-              {
-                "additionalProperties": false,
-                "properties": {
-                  "declared_app_count": {
-                    "const": 0
-                  },
-                  "declared_hook_count": {
-                    "const": 0
-                  },
-                  "declared_mcp_count": {
-                    "const": 0
-                  },
-                  "enabled": {
-                    "const": true
-                  },
-                  "five_exact_skill_paths": {
-                    "const": true
-                  },
-                  "id": {
-                    "const": "implementaudit@implementaudit"
-                  },
-                  "installed": {
-                    "const": true
-                  },
-                  "other_skill_count": {
-                    "const": 0
-                  },
-                  "skills": {
-                    "items": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "enabled": {
-                          "const": true
-                        },
-                        "exact_selected_root": {
-                          "const": true
-                        },
-                        "name": {
-                          "enum": [
-                            "implementaudit",
-                            "audit-state",
-                            "audit-assess",
-                            "audit-implement",
-                            "audit-andon"
-                          ]
-                        },
-                        "path": {
-                          "enum": [
-                            "skills/implementaudit/SKILL.md",
-                            "skills/audit-state/SKILL.md",
-                            "skills/audit-assess/SKILL.md",
-                            "skills/audit-implement/SKILL.md",
-                            "skills/audit-andon/SKILL.md"
-                          ]
-                        },
-                        "plugin_attribution_matches": {
-                          "const": false
-                        },
-                        "sha256": {
-                          "pattern": "^[0-9a-f]{64}$",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "name",
-                        "path",
-                        "sha256",
-                        "enabled",
-                        "exact_selected_root",
-                        "plugin_attribution_matches"
-                      ],
-                      "type": "object"
-                    },
-                    "maxItems": 5,
-                    "type": "array"
-                  },
-                  "source_image_path_bound": {
-                    "const": true
-                  },
-                  "status": {
-                    "const": "SOURCE_CANDIDATE_INSTALLED_ENABLED"
-                  }
-                },
-                "required": [
-                  "status",
-                  "id",
-                  "installed",
-                  "enabled",
-                  "source_image_path_bound",
-                  "five_exact_skill_paths",
-                  "skills",
-                  "other_skill_count",
-                  "declared_hook_count",
-                  "declared_app_count",
-                  "declared_mcp_count"
-                ],
-                "type": "object"
-              }
-            ]
-          },
-          "config_unchanged": {
-            "type": "boolean"
-          },
-          "failure": {
-            "anyOf": [
-              {
-                "type": "null"
-              },
-              {
-                "additionalProperties": false,
-                "properties": {
-                  "code": {
-                    "pattern": "^[A-Z][A-Z0-9_]{0,95}$",
-                    "type": "string"
-                  },
-                  "exception_type": {
-                    "enum": [
-                      "Refusal",
-                      "OSError",
-                      "TimeoutError",
-                      "ValueError",
-                      "PermissionError",
-                      "FileNotFoundError",
-                      "CustodyError",
-                      "OtherError"
-                    ]
-                  },
-                  "phase": {
-                    "pattern": "^[A-Z][A-Z0-9_]{0,95}$",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "phase",
-                  "code",
-                  "exception_type"
-                ],
-                "type": "object"
-              }
-            ]
-          },
-          "family": {
-            "enum": [
-              "canonical",
-              "standalone"
-            ]
-          },
-          "full_body_request": {
-            "anyOf": [
-              {
-                "type": "null"
-              },
-              {
-                "additionalProperties": false,
-                "properties": {
-                  "body_end_utf8": {
-                    "maximum": 65536,
-                    "minimum": 0,
-                    "type": "integer"
-                  },
-                  "body_offset_utf8": {
-                    "maximum": 4096,
-                    "minimum": 0,
-                    "type": "integer"
-                  },
-                  "configured_output_tokens": {
-                    "const": 16384
-                  },
-                  "exact_fixed_arguments": {
-                    "const": true
-                  },
-                  "full_governor_bytes": {
-                    "const": 21257
-                  },
-                  "full_governor_received": {
-                    "const": true
-                  },
-                  "full_governor_sha256": {
-                    "const": "4c8363c2235ba6c50675c93af7319aeb0caf57f020c4858eba1c28e76de4c6c5"
-                  },
-                  "live_session_returned": {
-                    "const": false
-                  },
-                  "matching_call_id": {
-                    "const": true
-                  },
-                  "ordinal": {
-                    "const": 2
-                  },
-                  "request_bytes": {
-                    "maximum": 2097152,
-                    "minimum": 0,
-                    "type": "integer"
-                  },
-                  "request_sha256": {
-                    "pattern": "^[0-9a-f]{64}$",
-                    "type": "string"
-                  },
-                  "requested_output_tokens": {
-                    "const": 8192
-                  },
-                  "terminal_exit_zero": {
-                    "const": true
-                  },
-                  "tool_output_bytes": {
-                    "maximum": 65536,
-                    "minimum": 0,
-                    "type": "integer"
-                  },
-                  "tool_output_sha256": {
-                    "pattern": "^[0-9a-f]{64}$",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "ordinal",
-                  "request_bytes",
-                  "request_sha256",
-                  "matching_call_id",
-                  "exact_fixed_arguments",
-                  "terminal_exit_zero",
-                  "live_session_returned",
-                  "full_governor_received",
-                  "full_governor_bytes",
-                  "full_governor_sha256",
-                  "tool_output_bytes",
-                  "tool_output_sha256",
-                  "body_offset_utf8",
-                  "body_end_utf8",
-                  "requested_output_tokens",
-                  "configured_output_tokens"
-                ],
-                "type": "object"
-              }
-            ]
-          },
-          "helper_bookends_unchanged": {
-            "type": "boolean"
-          },
-          "hooks": {
-            "anyOf": [
-              {
-                "type": "null"
-              },
-              {
-                "additionalProperties": false,
-                "properties": {
-                  "error_count": {
-                    "const": 0
-                  },
-                  "hook_count": {
-                    "const": 0
-                  },
-                  "hook_delivery_exercised": {
-                    "const": false
-                  },
-                  "loaded_thread_hooks_observed": {
-                    "const": false
-                  },
-                  "status": {
-                    "const": "EMPTY_CONFIGURED_HOOK_METADATA"
-                  },
-                  "warning_count": {
-                    "const": 0
-                  }
-                },
-                "required": [
-                  "status",
-                  "hook_count",
-                  "error_count",
-                  "warning_count",
-                  "loaded_thread_hooks_observed",
-                  "hook_delivery_exercised"
-                ],
-                "type": "object"
-              }
-            ]
-          },
-          "matrix_sha256": {
-            "pattern": "^[0-9a-f]{64}$",
-            "type": "string"
-          },
-          "native_builtin_completed_count": {
-            "maximum": 1024,
-            "minimum": 0,
-            "type": "integer"
-          },
-          "native_builtin_started_count": {
-            "maximum": 1024,
-            "minimum": 0,
-            "type": "integer"
-          },
-          "native_protocol": {
-            "anyOf": [
-              {
-                "type": "null"
-              },
-              {
-                "additionalProperties": false,
-                "properties": {
-                  "command": {
-                    "additionalProperties": false,
-                    "properties": {
-                      "aggregate_full_body_matches": {
-                        "type": "boolean"
-                      },
-                      "aggregate_present": {
-                        "type": "boolean"
-                      },
-                      "command_argv_matches": {
-                        "const": true
-                      },
-                      "command_id_matches": {
-                        "const": true
-                      },
-                      "completed": {
-                        "const": true
-                      },
-                      "cwd_matches": {
-                        "const": true
-                      },
-                      "exit_code": {
-                        "const": 0
-                      }
-                    },
-                    "required": [
-                      "command_id_matches",
-                      "command_argv_matches",
-                      "cwd_matches",
-                      "completed",
-                      "exit_code",
-                      "aggregate_present",
-                      "aggregate_full_body_matches"
-                    ],
-                    "type": "object"
-                  },
-                  "fixed_ack_observed": {
-                    "const": true
-                  },
-                  "notification_count": {
-                    "maximum": 1024,
-                    "minimum": 0,
-                    "type": "integer"
-                  },
-                  "notification_methods": {
-                    "items": {
-                      "enum": [
-                        "skills/changed",
-                        "remoteControl/status/changed",
-                        "warning",
-                        "thread/started",
-                        "thread/status/changed",
-                        "thread/tokenUsage/updated",
-                        "turn/started",
-                        "turn/completed",
-                        "item/started",
-                        "item/completed",
-                        "item/commandExecution/outputDelta",
-                        "item/agentMessage/delta"
-                      ]
-                    },
-                    "maxItems": 12,
-                    "type": "array"
-                  },
-                  "response_count": {
-                    "maximum": 7,
-                    "minimum": 0,
-                    "type": "integer"
-                  },
-                  "server_requests": {
-                    "const": 0
-                  },
-                  "terminal_command_count": {
-                    "const": 1
-                  },
-                  "turn_completed_count": {
-                    "const": 1
-                  },
-                  "unknown_frames": {
-                    "const": 0
-                  },
-                  "warning_count": {
-                    "const": 1
-                  },
-                  "warning_messages_sha256": {
-                    "pattern": "^[0-9a-f]{64}$",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "response_count",
-                  "notification_count",
-                  "notification_methods",
-                  "warning_count",
-                  "warning_messages_sha256",
-                  "terminal_command_count",
-                  "turn_completed_count",
-                  "fixed_ack_observed",
-                  "unknown_frames",
-                  "server_requests",
-                  "command"
-                ],
-                "type": "object"
-              }
-            ]
-          },
-          "native_started": {
-            "type": "boolean"
-          },
-          "package_after": {
-            "anyOf": [
-              {
-                "type": "null"
-              },
-              {
-                "additionalProperties": false,
-                "properties": {
-                  "bytes": {
-                    "enum": [
-                      2087351,
-                      2092025
-                    ]
-                  },
-                  "complete_matrix_matches": {
-                    "const": true
-                  },
-                  "family": {
-                    "enum": [
-                      "canonical",
-                      "standalone"
-                    ]
-                  },
-                  "files": {
-                    "enum": [
-                      72,
-                      75
-                    ]
-                  },
-                  "matrix_sha256": {
-                    "pattern": "^[0-9a-f]{64}$",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "family",
-                  "files",
-                  "bytes",
-                  "matrix_sha256",
-                  "complete_matrix_matches"
-                ],
-                "type": "object"
-              }
-            ]
-          },
-          "package_before": {
-            "anyOf": [
-              {
-                "type": "null"
-              },
-              {
-                "additionalProperties": false,
-                "properties": {
-                  "bytes": {
-                    "enum": [
-                      2087351,
-                      2092025
-                    ]
-                  },
-                  "complete_matrix_matches": {
-                    "const": true
-                  },
-                  "family": {
-                    "enum": [
-                      "canonical",
-                      "standalone"
-                    ]
-                  },
-                  "files": {
-                    "enum": [
-                      72,
-                      75
-                    ]
-                  },
-                  "matrix_sha256": {
-                    "pattern": "^[0-9a-f]{64}$",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "family",
-                  "files",
-                  "bytes",
-                  "matrix_sha256",
-                  "complete_matrix_matches"
-                ],
-                "type": "object"
-              }
-            ]
-          },
-          "package_unchanged": {
-            "type": "boolean"
-          },
-          "provider": {
-            "anyOf": [
-              {
-                "type": "null"
-              },
-              {
-                "additionalProperties": false,
-                "properties": {
-                  "accepted_sockets": {
-                    "maximum": 2,
-                    "minimum": 0,
-                    "type": "integer"
-                  },
-                  "listener_closed": {
-                    "type": "boolean"
-                  },
-                  "responses_fully_sent": {
-                    "type": "boolean"
-                  },
-                  "semantic_requests": {
-                    "maximum": 2,
-                    "minimum": 0,
-                    "type": "integer"
-                  },
-                  "thread_joined": {
-                    "type": "boolean"
-                  }
-                },
-                "required": [
-                  "accepted_sockets",
-                  "semantic_requests",
-                  "listener_closed",
-                  "thread_joined",
-                  "responses_fully_sent"
-                ],
-                "type": "object"
-              }
-            ]
-          },
-          "rpc_frames_attempted": {
-            "maximum": 7,
-            "minimum": 0,
-            "type": "integer"
-          },
-          "rpc_frames_complete": {
-            "maximum": 7,
-            "minimum": 0,
-            "type": "integer"
-          },
-          "rpc_methods": {
-            "items": {
-              "enum": [
-                "initialize",
-                "plugin/install",
-                "plugin/read",
-                "skills/list",
-                "hooks/list",
-                "thread/start",
-                "turn/start"
-              ]
+    "archive_before": {
+      "type": "boolean"
+    },
+    "authentic_inference_proven": {
+      "const": false,
+      "type": "boolean"
+    },
+    "body_delivery": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "body_bytes": {
+              "const": 20431,
+              "type": "integer"
             },
-            "maxItems": 7,
-            "type": "array"
+            "body_sha256": {
+              "const": "5304232e5361d608d3754efca1c15ab73bf300c5bd8f9f70e0785ba7431c0e47",
+              "type": "string"
+            },
+            "content_index": {
+              "maximum": 4095,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "content_was_string": {
+              "type": "boolean"
+            },
+            "message_index": {
+              "maximum": 4095,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "normalization": {
+              "const": "REMOVE_YAML_FRONTMATTER_AND_TRIM_EDGE_LF_ONLY",
+              "type": "string"
+            },
+            "source_file_bytes": {
+              "const": 21257,
+              "type": "integer"
+            },
+            "source_file_sha256": {
+              "const": "4c8363c2235ba6c50675c93af7319aeb0caf57f020c4858eba1c28e76de4c6c5",
+              "type": "string"
+            },
+            "status": {
+              "const": "EXACT_CLIENT_USER_MESSAGE_BODY_OBSERVED",
+              "type": "string"
+            },
+            "utf8_end": {
+              "maximum": 2097152,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "utf8_start": {
+              "maximum": 2097152,
+              "minimum": 0,
+              "type": "integer"
+            }
           },
-          "runtime_reported_version_matches": {
-            "type": "boolean"
-          },
-          "runtime_scope": {
-            "anyOf": [
-              {
-                "type": "null"
-              },
-              {
-                "additionalProperties": false,
-                "properties": {
-                  "full_session_scope_available": {
-                    "type": "boolean"
-                  },
-                  "launch_directory_empty": {
-                    "type": "boolean"
-                  },
-                  "living_owned_processes": {
-                    "maximum": 2147483647,
-                    "minimum": 0,
-                    "type": "integer"
-                  },
-                  "owned_zombies": {
-                    "maximum": 2147483647,
-                    "minimum": 0,
-                    "type": "integer"
-                  },
-                  "uncertain_owned_candidates": {
-                    "maximum": 2147483647,
-                    "minimum": 0,
-                    "type": "integer"
-                  }
-                },
-                "required": [
-                  "full_session_scope_available",
-                  "living_owned_processes",
-                  "owned_zombies",
-                  "uncertain_owned_candidates",
-                  "launch_directory_empty"
-                ],
-                "type": "object"
-              }
-            ]
-          },
-          "skills": {
-            "anyOf": [
-              {
-                "type": "null"
-              },
-              {
-                "additionalProperties": false,
-                "properties": {
-                  "other_entries_sha256": {
-                    "pattern": "^[0-9a-f]{64}$",
-                    "type": "string"
-                  },
-                  "other_entry_count": {
-                    "maximum": 128,
-                    "minimum": 0,
-                    "type": "integer"
-                  },
-                  "selected_count": {
-                    "enum": [
-                      1,
-                      5
-                    ]
-                  },
-                  "selected_enabled": {
-                    "const": true
-                  },
-                  "selected_entries": {
-                    "items": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "enabled": {
-                          "const": true
-                        },
-                        "logical_name": {
-                          "enum": [
-                            "implementaudit",
-                            "audit-state",
-                            "audit-assess",
-                            "audit-implement",
-                            "audit-andon"
-                          ]
-                        },
-                        "name": {
-                          "enum": [
-                            "implementaudit",
-                            "implementaudit:implementaudit",
-                            "implementaudit:audit-state",
-                            "implementaudit:audit-assess",
-                            "implementaudit:audit-implement",
-                            "implementaudit:audit-andon"
-                          ]
-                        },
-                        "relative_path": {
-                          "enum": [
-                            "SKILL.md",
-                            "skills/implementaudit/SKILL.md",
-                            "skills/audit-state/SKILL.md",
-                            "skills/audit-assess/SKILL.md",
-                            "skills/audit-implement/SKILL.md",
-                            "skills/audit-andon/SKILL.md"
-                          ]
-                        },
-                        "sha256": {
-                          "pattern": "^[0-9a-f]{64}$",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "name",
-                        "logical_name",
-                        "relative_path",
-                        "sha256",
-                        "enabled"
-                      ],
-                      "type": "object"
-                    },
-                    "maxItems": 5,
-                    "type": "array"
-                  }
-                },
-                "required": [
-                  "selected_entries",
-                  "selected_count",
-                  "other_entry_count",
-                  "other_entries_sha256",
-                  "selected_enabled"
-                ],
-                "type": "object"
-              }
-            ]
-          },
-          "status": {
-            "enum": [
-              "FAILED_OR_PARTIAL",
-              "FULL_GOVERNOR_NATIVE_RETURN_OBSERVED"
-            ]
-          },
-          "typed_request": {
-            "anyOf": [
-              {
-                "type": "null"
-              },
-              {
-                "additionalProperties": false,
-                "properties": {
-                  "advertised_tool_count": {
-                    "maximum": 128,
-                    "minimum": 0,
-                    "type": "integer"
-                  },
-                  "advertised_tools_sha256": {
-                    "pattern": "^[0-9a-f]{64}$",
-                    "type": "string"
-                  },
-                  "exec_advertisement_sha256": {
-                    "pattern": "^[0-9a-f]{64}$",
-                    "type": "string"
-                  },
-                  "exec_command_advertised": {
-                    "const": true
-                  },
-                  "exec_profile_exact": {
-                    "const": true
-                  },
-                  "full_body_present_initially": {
-                    "const": false
-                  },
-                  "ordinal": {
-                    "const": 1
-                  },
-                  "raw_prefix_bytes": {
-                    "const": 8000
-                  },
-                  "raw_prefix_sha256": {
-                    "const": "3c89161abdc251c3973122ed1d0e0e52b582e144b8d9f50148246972e2f1d791"
-                  },
-                  "request_bytes": {
-                    "maximum": 2097152,
-                    "minimum": 0,
-                    "type": "integer"
-                  },
-                  "request_sha256": {
-                    "pattern": "^[0-9a-f]{64}$",
-                    "type": "string"
-                  },
-                  "typed_fragment_bytes": {
-                    "maximum": 10000,
-                    "minimum": 0,
-                    "type": "integer"
-                  },
-                  "typed_fragment_exact": {
-                    "const": true
-                  },
-                  "typed_fragment_sha256": {
-                    "pattern": "^[0-9a-f]{64}$",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "ordinal",
-                  "request_bytes",
-                  "request_sha256",
-                  "exec_command_advertised",
-                  "exec_profile_exact",
-                  "advertised_tool_count",
-                  "advertised_tools_sha256",
-                  "exec_advertisement_sha256",
-                  "typed_fragment_exact",
-                  "typed_fragment_bytes",
-                  "typed_fragment_sha256",
-                  "raw_prefix_bytes",
-                  "raw_prefix_sha256",
-                  "full_body_present_initially"
-                ],
-                "type": "object"
-              }
-            ]
-          }
+          "required": [
+            "status",
+            "source_file_bytes",
+            "source_file_sha256",
+            "normalization",
+            "message_index",
+            "content_index",
+            "content_was_string",
+            "utf8_start",
+            "utf8_end",
+            "body_bytes",
+            "body_sha256"
+          ],
+          "type": "object"
         },
-        "required": [
-          "family",
-          "status",
-          "archive_bytes",
-          "archive_sha256",
-          "matrix_sha256",
-          "native_started",
-          "runtime_reported_version_matches",
-          "rpc_methods",
-          "rpc_frames_attempted",
-          "rpc_frames_complete",
-          "builtin_reads",
-          "builtin_read_response_started",
-          "builtin_read_response_complete",
-          "native_builtin_started_count",
-          "native_builtin_completed_count",
-          "package_before",
-          "package_after",
-          "package_unchanged",
-          "helper_bookends_unchanged",
-          "arg0_aliases_exact",
-          "arg0_aliases_closed",
-          "config_unchanged",
-          "catalog",
-          "skills",
-          "hooks",
-          "typed_request",
-          "full_body_request",
-          "native_protocol",
-          "provider",
-          "capture",
-          "runtime_scope",
-          "failure"
-        ],
-        "type": "object"
-      },
-      "maxItems": 2,
-      "type": "array"
+        {
+          "type": "null"
+        }
+      ]
     },
     "cleanup": {
       "additionalProperties": false,
       "properties": {
-        "all_native_closed": {
-          "type": "boolean"
-        },
-        "all_provider_closed": {
-          "type": "boolean"
-        },
-        "global_echild_after_close": {
-          "type": "boolean"
-        },
-        "global_echild_after_seal": {
-          "type": "boolean"
-        },
-        "host_teardown_observed": {
-          "const": false
-        },
-        "private_plaintext_policy": {
-          "const": "RETAIN_UNTIL_HOST_TEARDOWN"
-        },
-        "private_seal_sha256": {
+        "after_close": {
           "anyOf": [
             {
-              "type": "null"
+              "additionalProperties": false,
+              "properties": {
+                "no_owned_children_listed": {
+                  "type": "boolean"
+                },
+                "verified": {
+                  "type": "boolean"
+                },
+                "wait_echild": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "no_owned_children_listed",
+                "wait_echild",
+                "verified"
+              ],
+              "type": "object"
             },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "after_seal": {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "no_owned_children_listed": {
+                  "type": "boolean"
+                },
+                "verified": {
+                  "type": "boolean"
+                },
+                "wait_echild": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "no_owned_children_listed",
+                "wait_echild",
+                "verified"
+              ],
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "host_teardown_observed": {
+          "const": false,
+          "type": "boolean"
+        },
+        "private_evidence_seal_sha256": {
+          "anyOf": [
             {
               "pattern": "^[0-9a-f]{64}$",
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
+        },
+        "private_plaintext_policy": {
+          "const": "RETAIN_UNTIL_HOST_TEARDOWN",
+          "type": "string"
         },
         "private_seal_unchanged": {
           "type": "boolean"
-        },
-        "runtime_copy_files_retained": {
-          "anyOf": [
-            {
-              "type": "null"
-            },
-            {
-              "maximum": 2,
-              "minimum": 0,
-              "type": "integer"
-            }
-          ]
-        },
-        "runtime_owner_sha256": {
-          "anyOf": [
-            {
-              "type": "null"
-            },
-            {
-              "pattern": "^[0-9a-f]{64}$",
-              "type": "string"
-            }
-          ]
         }
       },
       "required": [
-        "all_native_closed",
-        "all_provider_closed",
-        "global_echild_after_close",
-        "global_echild_after_seal",
-        "runtime_copy_files_retained",
-        "runtime_owner_sha256",
-        "private_seal_sha256",
+        "private_evidence_seal_sha256",
         "private_seal_unchanged",
         "private_plaintext_policy",
-        "host_teardown_observed"
+        "host_teardown_observed",
+        "after_close",
+        "after_seal"
       ],
       "type": "object"
     },
+    "commands": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "internal_failure": {
+            "type": "boolean"
+          },
+          "name": {
+            "const": "canonical-body",
+            "type": "string"
+          },
+          "output_bound_exceeded": {
+            "type": "boolean"
+          },
+          "owned_cleanup_echild": {
+            "type": "boolean"
+          },
+          "owned_reaped_status_count": {
+            "anyOf": [
+              {
+                "maximum": 4096,
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "owned_statuses_sha256": {
+            "anyOf": [
+              {
+                "pattern": "^[0-9a-f]{64}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "pidfd_acquired": {
+            "type": "boolean"
+          },
+          "private_streams_retained": {
+            "type": "boolean"
+          },
+          "process_started": {
+            "type": "boolean"
+          },
+          "recognition_code": {
+            "anyOf": [
+              {
+                "pattern": "^[A-Z][A-Z0-9_]{0,95}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "recognition_status": {
+            "enum": [
+              "NOT_ATTEMPTED",
+              "UNRECEIVED",
+              "BODY_AND_ENTRIES_RECEIVED"
+            ]
+          },
+          "retention_failure": {
+            "type": "boolean"
+          },
+          "returncode": {
+            "anyOf": [
+              {
+                "maximum": 255,
+                "minimum": -255,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "runtime_after": {
+            "type": "boolean"
+          },
+          "runtime_before": {
+            "type": "boolean"
+          },
+          "source_after": {
+            "type": "boolean"
+          },
+          "source_before": {
+            "type": "boolean"
+          },
+          "startup_after": {
+            "type": "boolean"
+          },
+          "startup_before": {
+            "type": "boolean"
+          },
+          "stderr_bytes": {
+            "anyOf": [
+              {
+                "maximum": 32768,
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "stderr_present": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "stderr_sha256": {
+            "anyOf": [
+              {
+                "pattern": "^[0-9a-f]{64}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "stdout_bytes": {
+            "anyOf": [
+              {
+                "maximum": 32768,
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "stdout_sha256": {
+            "anyOf": [
+              {
+                "pattern": "^[0-9a-f]{64}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "streams_complete": {
+            "type": "boolean"
+          },
+          "timeout": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name",
+          "returncode",
+          "stdout_bytes",
+          "stdout_sha256",
+          "stderr_bytes",
+          "stderr_sha256",
+          "recognition_status",
+          "recognition_code",
+          "internal_failure",
+          "stderr_present",
+          "owned_cleanup_echild",
+          "owned_reaped_status_count",
+          "owned_statuses_sha256",
+          "process_started",
+          "streams_complete",
+          "timeout",
+          "output_bound_exceeded",
+          "pidfd_acquired",
+          "private_streams_retained",
+          "retention_failure",
+          "source_before",
+          "source_after",
+          "runtime_before",
+          "runtime_after",
+          "startup_before",
+          "startup_after"
+        ],
+        "type": "object"
+      },
+      "maxItems": 1,
+      "type": "array"
+    },
+    "config_plugins_profile": {
+      "additionalProperties": false,
+      "properties": {
+        "after": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "complete": {
+                  "type": "boolean"
+                },
+                "empty": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "boolean"
+                    }
+                  ]
+                },
+                "entries": {
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "gid_matches_effective": {
+                        "type": "boolean"
+                      },
+                      "kind": {
+                        "enum": [
+                          "DIRECTORY",
+                          "REGULAR",
+                          "SYMLINK",
+                          "OTHER"
+                        ]
+                      },
+                      "mode": {
+                        "maximum": 4095,
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      "regular_file_bytes": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "maximum": 18446744073709551615,
+                            "minimum": 0,
+                            "type": "integer"
+                          }
+                        ]
+                      },
+                      "relative_path_bytes": {
+                        "maximum": 256,
+                        "minimum": 1,
+                        "type": "integer"
+                      },
+                      "relative_path_sha256": {
+                        "pattern": "\\A[0-9a-f]{64}\\Z",
+                        "type": "string"
+                      },
+                      "uid_matches_effective": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "relative_path_bytes",
+                      "relative_path_sha256",
+                      "kind",
+                      "mode",
+                      "uid_matches_effective",
+                      "gid_matches_effective",
+                      "regular_file_bytes"
+                    ],
+                    "type": "object"
+                  },
+                  "maxItems": 16,
+                  "type": "array"
+                },
+                "entry_count": {
+                  "maximum": 16,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "error_code": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "enum": [
+                        "EACCES",
+                        "EPERM",
+                        "EIO",
+                        "ENOTDIR",
+                        "ELOOP",
+                        "OTHER"
+                      ]
+                    }
+                  ]
+                },
+                "gid_matches_effective": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "boolean"
+                    }
+                  ]
+                },
+                "kind": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "enum": [
+                        "DIRECTORY",
+                        "REGULAR",
+                        "SYMLINK",
+                        "OTHER"
+                      ]
+                    }
+                  ]
+                },
+                "mode": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "maximum": 4095,
+                      "minimum": 0,
+                      "type": "integer"
+                    }
+                  ]
+                },
+                "path_id": {
+                  "const": "CONFIG_PLUGINS"
+                },
+                "physical_path": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "boolean"
+                    }
+                  ]
+                },
+                "population_sha256": {
+                  "pattern": "\\A[0-9a-f]{64}\\Z",
+                  "type": "string"
+                },
+                "profile_admitted": {
+                  "type": "boolean"
+                },
+                "schema": {
+                  "const": "dg17.claude.config-plugins-observation.v1"
+                },
+                "stable": {
+                  "type": "boolean"
+                },
+                "status": {
+                  "enum": [
+                    "COMPLETE_ABSENT",
+                    "COMPLETE_PRESENT",
+                    "UNREADABLE",
+                    "ANCESTOR_BLOCKED",
+                    "BOUND_EXCEEDED",
+                    "CHANGED"
+                  ]
+                },
+                "uid_matches_effective": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "boolean"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "schema",
+                "path_id",
+                "status",
+                "kind",
+                "mode",
+                "uid_matches_effective",
+                "gid_matches_effective",
+                "physical_path",
+                "complete",
+                "stable",
+                "entry_count",
+                "entries",
+                "error_code",
+                "population_sha256",
+                "empty",
+                "profile_admitted"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        "after_record_sha256": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "pattern": "\\A[0-9a-f]{64}\\Z",
+              "type": "string"
+            }
+          ]
+        },
+        "before_absent": {
+          "type": "boolean"
+        },
+        "before_record_sha256": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "pattern": "\\A[0-9a-f]{64}\\Z",
+              "type": "string"
+            }
+          ]
+        },
+        "closing_unchanged": {
+          "type": "boolean"
+        },
+        "final_unchanged": {
+          "type": "boolean"
+        },
+        "schema": {
+          "const": "dg17.claude.body-config-plugins.v1"
+        }
+      },
+      "required": [
+        "schema",
+        "before_absent",
+        "before_record_sha256",
+        "after_record_sha256",
+        "after",
+        "closing_unchanged",
+        "final_unchanged"
+      ],
+      "type": "object"
+    },
+    "control_source_after": {
+      "type": "boolean"
+    },
+    "control_source_before": {
+      "type": "boolean"
+    },
     "control_source_commit": {
-      "const": "0d57929be5bd15682b4e9da2c0209d5dff307843"
+      "const": "0d57929be5bd15682b4e9da2c0209d5dff307843",
+      "type": "string"
     },
     "control_source_tree": {
-      "const": "ee316c27250ec422d35a1ea965182ebddf7a5da0"
+      "const": "ee316c27250ec422d35a1ea965182ebddf7a5da0",
+      "type": "string"
     },
     "currentness_after": {
       "type": "boolean"
@@ -1113,37 +651,37 @@
     "currentness_receipt_sha256": {
       "anyOf": [
         {
-          "type": "null"
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
         },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "desktop_qualification": {
+      "const": false,
+      "type": "boolean"
+    },
+    "diagnostic_record_sha256": {
+      "anyOf": [
         {
           "pattern": "^[0-9a-f]{64}$",
           "type": "string"
+        },
+        {
+          "type": "null"
         }
       ]
     },
     "failure": {
       "anyOf": [
         {
-          "type": "null"
-        },
-        {
           "additionalProperties": false,
           "properties": {
             "code": {
               "pattern": "^[A-Z][A-Z0-9_]{0,95}$",
               "type": "string"
-            },
-            "exception_type": {
-              "enum": [
-                "Refusal",
-                "OSError",
-                "TimeoutError",
-                "ValueError",
-                "PermissionError",
-                "FileNotFoundError",
-                "CustodyError",
-                "OtherError"
-              ]
             },
             "phase": {
               "pattern": "^[A-Z][A-Z0-9_]{0,95}$",
@@ -1152,44 +690,151 @@
           },
           "required": [
             "phase",
-            "code",
-            "exception_type"
+            "code"
           ],
           "type": "object"
+        },
+        {
+          "type": "null"
         }
       ]
     },
-    "git_unchanged": {
+    "fresh_context_count": {
+      "maximum": 1,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "genuine_child_route_received": {
+      "const": false,
       "type": "boolean"
     },
-    "governed_child_routing_proven": {
-      "const": false
+    "git_admission_unchanged": {
+      "type": "boolean"
     },
     "independent_receiving": {
-      "const": "NOT_PERFORMED"
+      "const": "NOT_PERFORMED",
+      "type": "string"
     },
-    "internal_procedure_loading_proven": {
-      "const": false
+    "layout": {
+      "const": "CANONICAL_PLUGIN",
+      "type": "string"
     },
-    "model_inference_proven": {
-      "const": false
+    "native_all_five_full_bodies_received": {
+      "const": false,
+      "type": "boolean"
     },
-    "native_internal_helper_count": {
-      "const": "UNESTABLISHED"
+    "native_observation": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "canonical_advertised_entries_exact": {
+              "type": "boolean"
+            },
+            "child_events": {
+              "const": 0,
+              "type": "integer"
+            },
+            "event_count": {
+              "maximum": 128,
+              "minimum": 1,
+              "type": "integer"
+            },
+            "expected_names_observed": {
+              "items": {
+                "enum": [
+                  "implementaudit:implementaudit",
+                  "implementaudit:audit-state",
+                  "implementaudit:audit-assess",
+                  "implementaudit:audit-implement",
+                  "implementaudit:audit-andon"
+                ]
+              },
+              "maxItems": 5,
+              "type": "array"
+            },
+            "native_tool_calls": {
+              "const": 0,
+              "type": "integer"
+            },
+            "other_skill_count": {
+              "maximum": 128,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "other_skill_names_sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "plugin_path_matches_effective": {
+              "const": true,
+              "type": "boolean"
+            },
+            "runtime_version_label_matches": {
+              "type": "boolean"
+            },
+            "session_id_sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "status": {
+              "const": "NATIVE_INIT_AND_TERMINAL_RECEIVED",
+              "type": "string"
+            },
+            "terminal_success": {
+              "const": true,
+              "type": "boolean"
+            },
+            "unexpected_package_entry_count": {
+              "maximum": 128,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "unexpected_package_names_sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "status",
+            "event_count",
+            "session_id_sha256",
+            "plugin_path_matches_effective",
+            "canonical_advertised_entries_exact",
+            "expected_names_observed",
+            "unexpected_package_entry_count",
+            "unexpected_package_names_sha256",
+            "other_skill_count",
+            "other_skill_names_sha256",
+            "native_tool_calls",
+            "child_events",
+            "terminal_success",
+            "runtime_version_label_matches"
+          ],
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "native_sessions_started": {
+      "maximum": 1,
+      "minimum": 0,
+      "type": "integer"
     },
     "offline": {
       "anyOf": [
         {
-          "type": "null"
-        },
-        {
           "additionalProperties": false,
           "properties": {
             "effective_permitted_ambient_capabilities_zero": {
-              "const": true
+              "type": "boolean"
             },
             "external_routes": {
-              "const": 0
+              "maximum": 0,
+              "minimum": 0,
+              "type": "integer"
             },
             "gid": {
               "maximum": 2147483647,
@@ -1197,13 +842,13 @@
               "type": "integer"
             },
             "namespace_differs_from_parent": {
-              "const": true
+              "type": "boolean"
             },
             "no_new_privileges": {
-              "const": true
+              "type": "boolean"
             },
             "only_loopback": {
-              "const": true
+              "type": "boolean"
             },
             "uid": {
               "maximum": 2147483647,
@@ -1211,7 +856,7 @@
               "type": "integer"
             },
             "verified": {
-              "const": true
+              "type": "boolean"
             }
           },
           "required": [
@@ -1220,73 +865,425 @@
             "gid",
             "namespace_differs_from_parent",
             "only_loopback",
+            "external_routes",
             "effective_permitted_ambient_capabilities_zero",
-            "no_new_privileges",
-            "external_routes"
+            "no_new_privileges"
           ],
           "type": "object"
+        },
+        {
+          "type": "null"
         }
       ]
     },
     "original_acceptance_awarded": {
-      "const": false
+      "const": false,
+      "type": "boolean"
+    },
+    "package_after": {
+      "type": "boolean"
+    },
+    "package_archive_bytes": {
+      "const": 584974,
+      "type": "integer"
+    },
+    "package_archive_sha256": {
+      "const": "18bb9d7dcb876f7c6be4340bec10dbc77f091227c24504dcecdb0b7d9853f458",
+      "type": "string"
+    },
+    "package_before": {
+      "type": "boolean"
+    },
+    "package_matrix_sha256": {
+      "const": "ef9cbbe7c2c277c434139080d548f0cb868ee091fe79aa96633dcd46cc86a117",
+      "type": "string"
     },
     "package_source_commit": {
-      "const": "8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b"
+      "const": "8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b",
+      "type": "string"
     },
     "package_source_tree": {
-      "const": "0da374609f7fea2463a2926f3603b976620bd10e"
+      "const": "0da374609f7fea2463a2926f3603b976620bd10e",
+      "type": "string"
     },
-    "parent_full_source_admission_required": {
-      "const": true
+    "parent_independent_receiving_required": {
+      "const": true,
+      "type": "boolean"
     },
-    "persistent_real_home_installation_proven": {
-      "const": false
+    "persistent_installation_proven": {
+      "const": false,
+      "type": "boolean"
     },
-    "planned_families": {
-      "const": [
-        "canonical",
-        "standalone"
+    "private_directory_refusal": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "error_code": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "EACCES",
+                    "EPERM",
+                    "EIO",
+                    "ENOTDIR",
+                    "ELOOP",
+                    "OTHER"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "gid_matches_effective": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "kind": {
+              "enum": [
+                "DIRECTORY",
+                "REGULAR",
+                "SYMLINK",
+                "OTHER",
+                "ABSENT",
+                "UNREADABLE"
+              ],
+              "type": "string"
+            },
+            "mode": {
+              "anyOf": [
+                {
+                  "maximum": 4095,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "owner_only_mode": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "phase": {
+              "const": "PRIVATE_SEAL"
+            },
+            "physical_path": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "relative_path_bytes": {
+              "maximum": 4096,
+              "minimum": 1,
+              "type": "integer"
+            },
+            "relative_path_sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "status": {
+              "const": "PUBLIC_SAFE_FIRST_DIRECTORY_REFUSAL_ONLY"
+            },
+            "uid_matches_effective": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "phase",
+            "relative_path_bytes",
+            "relative_path_sha256",
+            "kind",
+            "mode",
+            "uid_matches_effective",
+            "gid_matches_effective",
+            "owner_only_mode",
+            "physical_path",
+            "error_code"
+          ],
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
       ]
     },
-    "requested_builtin_reads": {
-      "maximum": 2,
-      "minimum": 0,
-      "type": "integer"
+    "provider_custody": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "all_owned_sockets_closed": {
+              "type": "boolean"
+            },
+            "captured_request_bytes": {
+              "maximum": 4194304,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "failure": {
+              "anyOf": [
+                {
+                  "pattern": "^[A-Z][A-Z0-9_]{0,95}$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "request_count": {
+              "maximum": 16,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "semantic_request_count": {
+              "maximum": 16,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "semantic_request_index": {
+              "anyOf": [
+                {
+                  "maximum": 16,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "semantic_response_complete": {
+              "type": "boolean"
+            },
+            "started": {
+              "type": "boolean"
+            },
+            "supplemental_failures": {
+              "items": {
+                "pattern": "^[A-Z][A-Z0-9_]{0,95}$",
+                "type": "string"
+              },
+              "maxItems": 8,
+              "type": "array"
+            },
+            "thread_joined": {
+              "type": "boolean"
+            },
+            "verified": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "started",
+            "thread_joined",
+            "all_owned_sockets_closed",
+            "verified",
+            "request_count",
+            "semantic_request_count",
+            "captured_request_bytes",
+            "semantic_response_complete",
+            "failure",
+            "supplemental_failures",
+            "semantic_request_index"
+          ],
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ]
     },
-    "requested_rpc_count": {
-      "maximum": 12,
-      "minimum": 0,
-      "type": "integer"
+    "provider_record_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
     },
     "runtime_after": {
       "type": "boolean"
+    },
+    "runtime_archive_bytes": {
+      "const": 155477886,
+      "type": "integer"
+    },
+    "runtime_archive_sha256": {
+      "const": "e6d426ca0c123f61fad58a361da0329f2a93cd206bc87040ed8d9576dd9eb583",
+      "type": "string"
     },
     "runtime_before": {
       "type": "boolean"
     },
     "runtime_bytes": {
-      "const": 324012616
+      "const": 337814032,
+      "type": "integer"
     },
-    "runtime_release_declared": {
-      "const": "0.167.0-alpha.4"
+    "runtime_release_tag_declared": {
+      "const": "v2.1.318",
+      "type": "string"
     },
     "runtime_sha256": {
-      "const": "57c94ea520df28beb76955316c5c48f672550fe42c6cff7003badb76e1ee10d8"
+      "const": "708c77b204db30086ff6f1ed34577bda03e1be74ced80557cbf7b54249ebf0bd",
+      "type": "string"
     },
     "schema": {
-      "const": "dg17.codex.package-content.v1"
+      "const": "dg17.claude.canonical-body.v1",
+      "type": "string"
     },
-    "source_after": {
+    "scripted_provider": {
+      "const": true,
       "type": "boolean"
     },
-    "source_before": {
+    "startup_after": {
       "type": "boolean"
+    },
+    "startup_before": {
+      "type": "boolean"
+    },
+    "startup_paths_after": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "path_count": {
+              "const": 17
+            },
+            "phase": {
+              "const": "NATIVE_STARTUP_AFTER"
+            },
+            "rows": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "error_code": {
+                    "anyOf": [
+                      {
+                        "enum": [
+                          "EACCES",
+                          "EPERM",
+                          "EIO",
+                          "ENOTDIR",
+                          "ELOOP",
+                          "OTHER"
+                        ],
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "id": {
+                    "enum": [
+                      "HOME_DOT_CLAUDE",
+                      "HOME_DOT_CLAUDE_JSON",
+                      "HOME_CONFIG_ANTHROPIC",
+                      "HOME_CONFIG_CLAUDE",
+                      "XDG_CONFIG_ANTHROPIC",
+                      "XDG_CONFIG_CLAUDE",
+                      "CONFIG_SETTINGS",
+                      "CONFIG_SETTINGS_LOCAL",
+                      "CONFIG_DOT_CREDENTIALS",
+                      "CONFIG_CREDENTIALS",
+                      "CONFIG_MANAGED_SETTINGS",
+                      "CONFIG_MANAGED_MCP",
+                      "CONFIG_PLUGINS",
+                      "CONFIG_SKILLS",
+                      "CONFIG_HOOKS",
+                      "CONFIG_MCP",
+                      "CONFIG_DOT_MCP"
+                    ],
+                    "type": "string"
+                  },
+                  "kind": {
+                    "enum": [
+                      "ABSENT",
+                      "REGULAR",
+                      "DIRECTORY",
+                      "SYMLINK",
+                      "OTHER",
+                      "UNREADABLE",
+                      "ANCESTOR_BLOCKED"
+                    ],
+                    "type": "string"
+                  },
+                  "present": {
+                    "anyOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "id",
+                  "present",
+                  "kind",
+                  "error_code"
+                ],
+                "type": "object"
+              },
+              "maxItems": 17,
+              "type": "array"
+            },
+            "schema": {
+              "const": "dg17.claude.body-startup-paths.v1"
+            }
+          },
+          "required": [
+            "schema",
+            "phase",
+            "path_count",
+            "rows"
+          ],
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ]
     },
     "status": {
       "enum": [
-        "OBSERVED_TWO_FAMILY_FULL_GOVERNOR_CONTENT",
-        "FAILED_OR_UNRECEIVED"
+        "INCOMPLETE_OR_FAILED",
+        "OBSERVED_CANONICAL_GOVERNOR_BODY_AND_ADVERTISED_ENTRIES"
       ]
     },
     "supplemental_failures": {
@@ -1297,18 +1294,6 @@
             "pattern": "^[A-Z][A-Z0-9_]{0,95}$",
             "type": "string"
           },
-          "exception_type": {
-            "enum": [
-              "Refusal",
-              "OSError",
-              "TimeoutError",
-              "ValueError",
-              "PermissionError",
-              "FileNotFoundError",
-              "CustodyError",
-              "OtherError"
-            ]
-          },
           "phase": {
             "pattern": "^[A-Z][A-Z0-9_]{0,95}$",
             "type": "string"
@@ -1316,23 +1301,16 @@
         },
         "required": [
           "phase",
-          "code",
-          "exception_type"
+          "code"
         ],
         "type": "object"
       },
-      "maxItems": 8,
+      "maxItems": 16,
       "type": "array"
     },
-    "unstarted_families": {
-      "items": {
-        "enum": [
-          "canonical",
-          "standalone"
-        ]
-      },
-      "maxItems": 2,
-      "type": "array"
+    "upstream_forwarding": {
+      "const": false,
+      "type": "boolean"
     }
   },
   "required": [
@@ -1342,36 +1320,55 @@
     "control_source_tree",
     "package_source_commit",
     "package_source_tree",
-    "runtime_release_declared",
+    "package_archive_bytes",
+    "package_archive_sha256",
+    "package_matrix_sha256",
+    "layout",
+    "runtime_release_tag_declared",
     "runtime_bytes",
     "runtime_sha256",
-    "parent_full_source_admission_required",
-    "source_before",
-    "source_after",
-    "runtime_before",
-    "runtime_after",
+    "runtime_archive_bytes",
+    "runtime_archive_sha256",
     "currentness_before",
     "currentness_after",
-    "currentness_receipt_sha256",
-    "git_unchanged",
+    "control_source_before",
+    "control_source_after",
+    "runtime_before",
+    "runtime_after",
+    "git_admission_unchanged",
+    "archive_before",
+    "archive_after",
+    "package_before",
+    "package_after",
+    "startup_before",
+    "startup_after",
+    "fresh_context_count",
+    "native_sessions_started",
+    "scripted_provider",
+    "upstream_forwarding",
+    "authentic_inference_proven",
+    "native_all_five_full_bodies_received",
+    "genuine_child_route_received",
+    "persistent_installation_proven",
+    "desktop_qualification",
+    "parent_independent_receiving_required",
+    "independent_receiving",
+    "original_acceptance_awarded",
     "offline",
-    "cases",
-    "planned_families",
-    "unstarted_families",
-    "requested_rpc_count",
-    "requested_builtin_reads",
-    "native_internal_helper_count",
+    "currentness_receipt_sha256",
+    "provider_record_sha256",
+    "provider_custody",
+    "commands",
+    "body_delivery",
+    "native_observation",
     "cleanup",
     "failure",
     "supplemental_failures",
-    "additional_failure_count",
-    "independent_receiving",
-    "model_inference_proven",
-    "governed_child_routing_proven",
-    "internal_procedure_loading_proven",
-    "persistent_real_home_installation_proven",
-    "original_acceptance_awarded"
+    "startup_paths_after",
+    "private_directory_refusal",
+    "diagnostic_record_sha256",
+    "config_plugins_profile"
   ],
-  "title": "DG17 selected Codex two-family package-content observation",
+  "title": "DG17 canonical Claude native governor-body delivery result",
   "type": "object"
 }
