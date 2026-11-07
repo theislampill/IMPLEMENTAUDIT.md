@@ -15,13 +15,14 @@ QUALIFIER = 'scripts/qualify-work-graph-verifier.py'
 COMPILER = 'skills/implementaudit/scripts/compile-work-graph.py'
 OLD_COMPILER = '3649a8dc856e29ce11b6daa5861351cc1c21bf9c7a9b4f5a2ddde12108d8581f'
 CURRENT_COMPILER = '0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d'
-CURRENT_LOADER = (48704, 'c62f034159d64d8b461cc0bec502b2f9ac07e05fa6b31f4c2eefc1a6f41696db')
+CURRENT_LOADER = (49927, '2989ba6cb8da6f52f9a2f94f27d141a931a0bffb8ebd03172091b170646d8017')
 HISTORICAL_LOADER = (
     'test-support/r5-windows-capture-history/d2747b7-source/' + LOADER,
     39282, '042cf21f807ce52ac3522285458f1c0407415c1f0883370f1d73404abd9e97d1')
 OLD_QUALIFIER = '8cc8342f025866ffaf8c98cc1dd33d7576416c2de39e9d444b9acfd546685a0b'
-CURRENT_QUALIFIER = 'cff5376a90dbffdd18e762234c59b62285d8a26d35a916243a085bcf99c48b4c'
-MODES = ('HISTORICAL_HOSTED_READER', 'R4_CURRENT', 'R5_CURRENT')
+RETAINED_V3_QUALIFIER = 'cff5376a90dbffdd18e762234c59b62285d8a26d35a916243a085bcf99c48b4c'
+CURRENT_QUALIFIER = '79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b'
+MODES = ('HISTORICAL_HOSTED_READER', 'R4_CURRENT', 'R5_RETAINED_V3', 'R5_CURRENT_V4')
 HISTORIES = ('R4_BUILD_CACHE_PHYSICAL_HISTORY', 'R4_INITIALIZATION_PHYSICAL_HISTORY',
     'R5_WINDOWS_INITIALIZATION_PHYSICAL_HISTORY', 'R5_WINDOWS_CAPTURE_PHYSICAL_HISTORY',
     'R5_HOSTED_PHYSICAL_HISTORY')
@@ -117,7 +118,7 @@ def selected_plan(owner, mode):
     else:
         require(owner.R5_QUALIFIER_REPAIR_SOURCE_REVISION ==
                 'R5_HOSTED_UBUNTU24_QUALIFIER_REPAIR_SOURCE_20261106_V2', 'current revision')
-        require(dict(owner.R5_QUALIFIER_REPAIR_PINS) == dict(owner.R5_HOSTED_PINS, **{QUALIFIER: CURRENT_QUALIFIER})
+        require(dict(owner.R5_QUALIFIER_REPAIR_PINS) == dict(owner.R5_HOSTED_PINS, **{QUALIFIER: RETAINED_V3_QUALIFIER})
                 and owner.R5_HOSTED_PINS[QUALIFIER] == OLD_QUALIFIER, 'current/historical qualifier distinction')
         require(owner.R5_CONTINUITY_RECEIVER_SOURCE_REVISION ==
                 'R5_HOSTED_UBUNTU24_CONTINUITY_RECEIVER_SOURCE_20261106_V3', 'current receiver revision')
@@ -125,13 +126,21 @@ def selected_plan(owner, mode):
                 dict(owner.R5_QUALIFIER_REPAIR_PINS, **{COMPILER: CURRENT_COMPILER})
                 and owner.R5_QUALIFIER_REPAIR_PINS[COMPILER] == OLD_COMPILER,
                 'current/historical compiler distinction')
-        selections = [(owner.R5_HOSTED_PROFILE, owner.R5_CONTINUITY_RECEIVER_SOURCE_REVISION)]
+        require(owner.R5_INNER_CAPTURE_SOURCE_REVISION ==
+                'R5_HOSTED_UBUNTU24_INNER_CAPTURE_SOURCE_20261107_V4', 'current inner-capture revision')
+        require(dict(owner.R5_INNER_CAPTURE_PINS) ==
+                dict(owner.R5_CONTINUITY_RECEIVER_PINS, **{QUALIFIER: CURRENT_QUALIFIER}),
+                'current/retained V3 owner distinction')
+        revision = (owner.R5_INNER_CAPTURE_SOURCE_REVISION if mode == 'R5_CURRENT_V4'
+                    else owner.R5_CONTINUITY_RECEIVER_SOURCE_REVISION)
+        selections = [(owner.R5_HOSTED_PROFILE, revision)]
     plan = {}
     selected_base = None
     for profile, revision in selections:
         pins, base, _, _, _ = owner._selection(profile, revision)
         require(len(pins) == 12 and pins[QUALIFIER] ==
-                (CURRENT_QUALIFIER if mode == 'R5_CURRENT' else OLD_QUALIFIER), 'selected tuple')
+                (CURRENT_QUALIFIER if mode == 'R5_CURRENT_V4' else
+                 RETAINED_V3_QUALIFIER if mode == 'R5_RETAINED_V3' else OLD_QUALIFIER), 'selected tuple')
         selected_base = base
         for name, pin in pins.items():
             physical = physical_member(owner, name, pin, profile, revision)
@@ -151,7 +160,7 @@ def write_plan(source, destination, mode, owner, loader_raw, loader_permissions)
     buffers = {LOADER: (loader_raw, loader_permissions)}
     for name, row in plan.items():
         buffers[name] = read_member(source, row['source'], row['sha256'])
-    if mode == 'R5_CURRENT':
+    if mode in ('R5_RETAINED_V3', 'R5_CURRENT_V4'):
         selection = json.loads(buffers[base][0])
         members = set(selection['programs']) | set(selection['payload_sources'])
         require(len(members) <= 96, 'producer/payload member bound')

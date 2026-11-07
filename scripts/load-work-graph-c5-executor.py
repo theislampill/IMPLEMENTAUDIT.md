@@ -161,7 +161,16 @@ R5_CONTINUITY_RECEIVER_SOURCE_REVISION='R5_HOSTED_UBUNTU24_CONTINUITY_RECEIVER_S
 R5_CONTINUITY_RECEIVER_PINS=types.MappingProxyType(dict(R5_QUALIFIER_REPAIR_PINS,
     **{COMPILER:'0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d'}))
 
+# Exact inner-capture owner successor; all earlier revision tuples stay fixed.
+R5_INNER_CAPTURE_SOURCE_REVISION='R5_HOSTED_UBUNTU24_INNER_CAPTURE_SOURCE_20261107_V4'
+R5_INNER_CAPTURE_PINS=types.MappingProxyType(dict(R5_CONTINUITY_RECEIVER_PINS,
+    **{QUALIFIER:'79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b'}))
+
 def _selection(profile,source_revision=None):
+    if source_revision == R5_INNER_CAPTURE_SOURCE_REVISION:
+        if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
+            raise ValueError('Unknown fixed R5 inner-capture source profile')
+        return R5_INNER_CAPTURE_PINS,R5_HOSTED_BASE_SELECTION,R5_HOSTED_PROVIDER_SELECTION,R5_HOSTED_EXECUTION_SELECTION,R5_HOSTED_ORIGINS
     if source_revision == R5_CONTINUITY_RECEIVER_SOURCE_REVISION:
         if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
             raise ValueError('Unknown fixed R5 continuity-receiver source profile')
@@ -519,4 +528,14 @@ def create_r5_hosted_ubuntu24_continuity_receiver_c5_session_v3(source_root,outp
     Fresh operation, image and same-owner receiving remain required.
     """
     return _Engine(R5_HOSTED_PROFILE,source_revision=R5_CONTINUITY_RECEIVER_SOURCE_REVISION).load().GenuineC5Session(
+        source_root,output,expected_source=expected_source)
+
+
+def create_r5_hosted_ubuntu24_inner_capture_c5_session_v4(source_root,output,*,expected_source):
+    """Select the exact inner-capture owner; earlier source revisions stay fixed.
+
+    No image, resource, privilege, currentness or receiving guard changes.
+    Fresh original operation and same-owner receiving remain required.
+    """
+    return _Engine(R5_HOSTED_PROFILE,source_revision=R5_INNER_CAPTURE_SOURCE_REVISION).load().GenuineC5Session(
         source_root,output,expected_source=expected_source)

@@ -1438,9 +1438,9 @@ class CompositeSourceCases(unittest.TestCase):
             # still compares actual ROOT producer/payload data; this is a
             # source-contract positive only, not a native image qualification.
             current_output = Path(temporary) / "correspondence-evidence"
-            current_source = self.c5_selected_source_fixture("R5_CURRENT")
+            current_source = self.c5_selected_source_fixture("R5_CURRENT_V4")
             current_owner = load("current_c5_selected_r5_builder", current_source / "scripts/load-work-graph-c5-executor.py")
-            current = current_owner.create_r5_hosted_ubuntu24_continuity_receiver_c5_session_v3(
+            current = current_owner.create_r5_hosted_ubuntu24_inner_capture_c5_session_v4(
                 current_source, current_output, expected_source={"source_commit": "0" * 40, "source_tree": "1" * 40})
             try:
                 base = type(current).__init__.__globals__["B"]
@@ -1486,7 +1486,7 @@ class CompositeSourceCases(unittest.TestCase):
     @contextlib.contextmanager
     def correspondence_c5_source_copy(self):
         """Current producer inputs under the separately explicit current R5 tuple."""
-        root = self.c5_selected_source_fixture("R5_CURRENT")
+        root = self.c5_selected_source_fixture("R5_CURRENT_V4")
         yield root, root.parent / "evidence"
 
 
@@ -1586,7 +1586,10 @@ class CompositeSourceCases(unittest.TestCase):
                     self.assertEqual(dict(owner.R5_CONTINUITY_RECEIVER_PINS),
                                      dict(owner.R5_QUALIFIER_REPAIR_PINS, **{owner.COMPILER:
                                          hashlib.sha256((root / owner.COMPILER).read_bytes()).hexdigest()}))
-                    session = owner.create_r5_hosted_ubuntu24_continuity_receiver_c5_session_v3(root, output,
+                    self.assertEqual(dict(owner.R5_INNER_CAPTURE_PINS),
+                                     dict(owner.R5_CONTINUITY_RECEIVER_PINS, **{owner.QUALIFIER:
+                                         "79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b"}))
+                    session = owner.create_r5_hosted_ubuntu24_inner_capture_c5_session_v4(root, output,
                         expected_source={"source_commit": "0" * 40, "source_tree": "1" * 40})
                     try:
                         base = type(session).__init__.__globals__["B"]
