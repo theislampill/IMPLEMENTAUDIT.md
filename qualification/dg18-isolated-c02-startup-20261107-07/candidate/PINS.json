@@ -1,0 +1,57 @@
+{
+  "authority": "NONE",
+  "diagnosis_seal_sha256": "8b0b8217b0eb7b9ba7f64e202f1a49a5f3c461e9cbc41fefd4185a8ce248a09d",
+  "files": [
+    {
+      "bytes": 22957,
+      "name": "guard_definitions.py",
+      "sha256": "e76c4aae445b439007964d8c5f642130fd56aa00d83568e5fc4c692dcd2e7a3e"
+    },
+    {
+      "bytes": 215730,
+      "name": "ServerNotification.json",
+      "sha256": "cc06d031345c7f1f08f0ac8ccb42d889b3246fadada1aabdf4688027975efad7"
+    },
+    {
+      "bytes": 65043,
+      "name": "app_server_lib.rs",
+      "sha256": "a44b0266619d6adda0c1e7135d5be18e6581cff44307e78097efecc5195f8b6c"
+    },
+    {
+      "bytes": 216027,
+      "name": "core_config_mod.rs",
+      "sha256": "e027e9fb2e4cd101abdb3984768eef07d1d0ac7c8aa631989011cd17bda0c6df"
+    },
+    {
+      "bytes": 10926,
+      "name": "LICENSE",
+      "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc"
+    },
+    {
+      "bytes": 4325,
+      "name": "sandboxing_lib.rs",
+      "sha256": "ad4980e99953cab69cf1689c3b0d450160e1093071bf5ed0bf7199ecec5d34ca"
+    },
+    {
+      "bytes": 13376,
+      "name": "sandboxing_bwrap.rs",
+      "sha256": "ec31c6bc4b844183ae3c6e5fcea5e97db95e6f26cfaeb4c9bedb37cdf01534ee"
+    }
+  ],
+  "guard_source_commit": "35bf9823856eb4efe254b882954120480632230e",
+  "guard_source_sha256": "5e10f2e36842c7f5dcfe5a131da43c502e9f36b0d1d727ca9bdb4412bde4c523",
+  "native_version": "codex-cli 0.166.0",
+  "official_distribution": {
+    "archive_bytes": 172325449,
+    "archive_sha256": "cbc00a26d3d0e2ceefc4be8891f8a81ef1e349b3b175bc0ae308762bc001fd93",
+    "member": "package/vendor/x86_64-unknown-linux-musl/bin/codex",
+    "member_bytes": 319346888,
+    "member_sha256": "b8a11fedf24b2dfb59a70c9e52b030f9a508dcd49cd2dd0d41956f4c785156b8",
+    "native_executed_by_author": false,
+    "verification_owner": "ROOT_HOST_PREPARATION"
+  },
+  "recipient_public_key_sha256": "44ebd3403a81e99516a5f742a0886c018c444c982cce6e40d47110362f1543e4",
+  "schema": "dg18.c02.startup-diagnostic-pins.v2",
+  "upstream_commit": "6ff1e1ca3b30fc8b914720681fcf5fe62e95f856",
+  "warning_custody_suite": "X25519-HKDF-SHA256-AES256GCM"
+}
