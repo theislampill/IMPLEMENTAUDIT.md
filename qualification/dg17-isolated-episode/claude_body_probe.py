@@ -14,6 +14,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path, PurePosixPath
+import posixpath
 import re
 import signal
 import stat
@@ -513,6 +514,129 @@ def command_argv(binary, package, profile, transport, session_id):
         '--session-id', session_id, '--model', transport.MODEL_SELECTOR, prompt]
 
 
+def empty_native_plugin_diagnostic(reason):
+    return {'schema': 'dg17.claude.native-plugin-identity-diagnostic.v1',
+        'status': 'UNRECEIVED', 'reason': reason, 'raw_stdout_bytes': None,
+        'raw_stdout_sha256': None, 'expected_context_sha256': None, 'event_count': None,
+        'pre_plugin_envelope_received': False, 'plugins_present': None, 'plugins_type': None,
+        'plugins_canonical_bytes': None, 'plugins_canonical_sha256': None,
+        'list_length': None, 'singleton': None, 'original_equality': None,
+        'body_acceptance_from_diagnostics': False}
+
+
+def native_plugin_identity_diagnostic(raw, context, custody_received, transport):
+    """Pure bounded projection; never opens a reported path or accepts a plugin."""
+    result = empty_native_plugin_diagnostic('NOT_ATTEMPTED')
+    def refused(reason):
+        empty = empty_native_plugin_diagnostic(reason)
+        for key in ('raw_stdout_bytes', 'raw_stdout_sha256', 'expected_context_sha256', 'event_count'):
+            empty[key] = result[key]
+        return empty
+    if custody_received is not True:
+        return refused('CUSTODY_OR_BOOKEND_UNRECEIVED')
+    if not (type(context) is dict and set(context) == {'session_id', 'cwd', 'plugin', 'model'} and
+            all(type(value) is str for value in context.values()) and
+            re.fullmatch(r'[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}',
+                         context['session_id']) is not None and context['model'] == 'claude-sonnet-4-6' and
+            all(posixpath.isabs(context[key]) and '\x00' not in context[key] for key in ('cwd', 'plugin'))):
+        return refused('EXPECTED_CONTEXT_UNRECEIVED')
+    try:
+        for value in context.values(): value.encode('utf-8', errors='strict')
+        result['expected_context_sha256'] = sha(canonical(context))
+    except (ValueError, UnicodeError, TypeError):
+        return refused('EXPECTED_CONTEXT_UNRECEIVED')
+    if not (type(raw) is bytes and 0 < len(raw) <= 32768):
+        return refused('INPUT_BYTE_BOUND')
+    result['raw_stdout_bytes'] = len(raw); result['raw_stdout_sha256'] = sha(raw)
+    lines = raw.splitlines()
+    if not (0 < len(lines) <= 128 and all(lines)):
+        return refused('EVENT_POPULATION_BOUND')
+    result['event_count'] = len(lines)
+    try:
+        events = [transport.strict_json(line, 32768) for line in lines]
+    except transport.Refusal as exc:
+        return refused({'PROTOCOL_DUPLICATE_JSON_KEY': 'JSON_DUPLICATE_KEY',
+            'PROTOCOL_JSON_ARRAY_BOUND': 'JSON_ARRAY_BOUND',
+            'PROTOCOL_JSON_COMPLEXITY_BOUND': 'JSON_COMPLEXITY',
+            'PROTOCOL_JSON_OBJECT_BOUND': 'JSON_OBJECT_BOUND',
+            'PROTOCOL_JSON_STRING_BOUND': 'JSON_STRING_ENCODING',
+            'PROTOCOL_JSON_TYPE_REFUSED': 'JSON_TYPE_UNRECEIVED',
+            'PROTOCOL_JSON_UNRECEIVED': 'JSON_UNRECEIVED',
+            'PROTOCOL_NONFINITE_JSON': 'JSON_NONFINITE'}.get(str(exc), 'JSON_UNRECEIVED'))
+    except UnicodeError:
+        return refused('JSON_STRING_ENCODING')
+    except (ValueError, TypeError, RecursionError):
+        return refused('JSON_UNRECEIVED')
+    if not all(type(event) is dict and event.get('type') in ('system', 'user', 'assistant', 'result') for event in events):
+        return refused('EVENT_TYPE_UNRECEIVED')
+    if not all(event.get('session_id') == context['session_id'] for event in events):
+        return refused('SESSION_DIFFERS')
+    if any(event.get('parent_tool_use_id') is not None for event in events):
+        return refused('CHILD_EVENT_UNRECEIVED')
+    inits = [(index, event) for index, event in enumerate(events)
+             if event.get('type') == 'system' and event.get('subtype') == 'init']
+    terminal = [index for index, event in enumerate(events) if event.get('type') == 'result']
+    if not (len(inits) == len(terminal) == 1 and inits[0][0] < terminal[0] == len(events) - 1):
+        return refused('INIT_RESULT_ORDER_UNRECEIVED')
+    init = inits[0][1]
+    if not (init.get('cwd') == context['cwd'] and init.get('model') == context['model']):
+        return refused('CONFIG_IDENTITY_DIFFERS')
+    tools = init.get('tools')
+    if not (type(tools) is list and all(type(value) is str for value in tools) and
+            len(tools) == len(set(tools)) and 'Skill' in tools and
+            all(value in ('Skill', 'EndConversation') for value in tools)):
+        return refused('TOOL_SURFACE_DIFFERS')
+    if not (init.get('mcp_servers') == [] and init.get('mcp_server_errors', []) == [] and
+            init.get('plugin_errors', []) == []):
+        return refused('MCP_OR_PLUGIN_ERROR_PRESENT')
+    def kind(value):
+        return {type(None): 'NULL', bool: 'BOOLEAN', int: 'INTEGER', float: 'FLOAT',
+                str: 'STRING', list: 'ARRAY', dict: 'OBJECT'}[type(value)]
+    def named(item, field, expected):
+        present = field in item; value = item.get(field)
+        row = {'present': present, 'type': kind(value) if present else 'MISSING',
+               'utf8_bytes': None, 'utf8_sha256': None, 'equals_expected': None}
+        if type(value) is str and present:
+            raw_string = value.encode('utf-8', errors='strict')
+            row.update(utf8_bytes=len(raw_string), utf8_sha256=sha(raw_string), equals_expected=value == expected)
+        if field == 'name':
+            row['name_relation'] = ('MISSING' if not present else 'NON_STRING' if type(value) is not str else
+                'MANIFEST_NAME_EXACT' if value == 'implementaudit' else
+                'MANIFEST_NAME_WITH_LITERAL_INLINE_SUFFIX' if value == 'implementaudit@inline' else 'OTHER_STRING')
+        else:
+            row['lexical_normalization_equals_expected'] = (
+                posixpath.normpath(value) == posixpath.normpath(expected) if present and type(value) is str else None)
+        return row
+    present = 'plugins' in init; plugins = init.get('plugins')
+    result.update(status='RECEIVED_PRE_PLUGIN_DIAGNOSTIC', reason=None,
+        pre_plugin_envelope_received=True, plugins_present=present,
+        plugins_type=kind(plugins) if present else 'MISSING',
+        original_equality=plugins == [{'name': 'implementaudit', 'path': context['plugin']}])
+    try:
+        if present:
+            value_raw = canonical(plugins)
+            if len(value_raw) > 196609: return refused('PUBLIC_BOUND_REFUSED')
+            result['plugins_canonical_bytes'] = len(value_raw); result['plugins_canonical_sha256'] = sha(value_raw)
+        if type(plugins) is list:
+            result['list_length'] = len(plugins)
+            if len(plugins) == 1:
+                item = plugins[0]; item_raw = canonical(item)
+                if len(item_raw) > 196609: return refused('PUBLIC_BOUND_REFUSED')
+                one = {'type': kind(item), 'canonical_bytes': len(item_raw), 'canonical_sha256': sha(item_raw),
+                       'key_count': None, 'keyset_sha256': None, 'exact_name_path_keys': None, 'name': None, 'path': None}
+                if type(item) is dict:
+                    one.update(key_count=len(item), keyset_sha256=sha(canonical(sorted(item))),
+                        exact_name_path_keys=set(item) == {'name', 'path'},
+                        name=named(item, 'name', 'implementaudit'), path=named(item, 'path', context['plugin']))
+                result['singleton'] = one
+        if len(canonical(result)) > 4096: return refused('PUBLIC_BOUND_REFUSED')
+    except UnicodeError:
+        return refused('JSON_STRING_ENCODING')
+    except (ValueError, TypeError, KeyError, RecursionError):
+        return refused('JSON_UNRECEIVED')
+    return result
+
+
 def initial_result():
     return {'schema': 'dg17.claude.canonical-body.v1', 'status': 'INCOMPLETE_OR_FAILED',
         'control_source_commit': CONTROL_COMMIT, 'control_source_tree': CONTROL_TREE,
@@ -536,6 +660,7 @@ def initial_result():
             'after': None, 'closing_unchanged': False, 'final_unchanged': False,
             'profile': 'OPAQUE_POST_NATIVE_PLUGIN_OUTPUT_V1', 'admission_quiescence': None},
         'native_sessions_started': 0, 'commands': [], 'body_delivery': None, 'native_observation': None,
+        'native_plugin_identity_diagnostic': empty_native_plugin_diagnostic('NOT_ATTEMPTED'),
         'cleanup': {'after_close': None, 'after_seal': None, 'private_evidence_seal_sha256': None,
                     'private_seal_unchanged': False, 'host_teardown_observed': False,
                     'private_plaintext_policy': 'RETAIN_UNTIL_HOST_TEARDOWN'},
@@ -547,6 +672,11 @@ def initial_result():
 
 
 def complete_result(value, records, meta):
+    diagnostic = value['native_plugin_identity_diagnostic']
+    if not (diagnostic['status'] == 'RECEIVED_PRE_PLUGIN_DIAGNOSTIC' and diagnostic['reason'] is None and
+            diagnostic['pre_plugin_envelope_received'] is True and diagnostic['original_equality'] is True and
+            diagnostic['body_acceptance_from_diagnostics'] is False):
+        return False
     plugins = value['config_plugins_profile']
     quiescence = plugins['admission_quiescence']
     if not (plugins['schema'] == 'dg17.claude.body-config-plugins.v2' and
@@ -591,6 +721,7 @@ def run(args):
     runtime_before = git_before = matrix = package = provider = profile = profile_before = managed_before = None
     gate_home = git_home = None; subreaper = False; route_safe = False
     directory_record = None; plugins_before = plugins_after = None
+    out = session_id = store_after = None
     plugins_capture_received = plugins_provider_received = False
     deadline = time.monotonic() + RUN_SECONDS
     def failure(exc, where):
@@ -852,6 +983,49 @@ def run(args):
                 return True
             result['config_plugins_profile']['final_unchanged'] = observe(
                 'FINAL_STARTUP_READBACK', final_startup_readback) is True
+        # This new diagnostic is passive and follows the original outcome and
+        # existing final bookends. It never repairs route_safe or re-enters a gate.
+        diagnostic_custody = False
+        if meta is not None and transport is not None and utility is not None and subreaper:
+            try:
+                names = [row.get('name') for row in records]
+                good_names = names in (['currentness-before', 'canonical-body'],
+                    ['currentness-before', 'canonical-body', 'currentness-after'])
+                body = records[1] if good_names else {}
+                flags = ('currentness_before', 'control_source_before', 'control_source_after',
+                    'runtime_before', 'runtime_after', 'archive_before', 'archive_after',
+                    'package_before', 'package_after', 'startup_before', 'startup_after')
+                custody = result['provider_custody']; plugin_profile = result['config_plugins_profile']
+                def sound_quiescence(value):
+                    return (type(value) is dict and set(value) ==
+                        {'no_owned_children_listed', 'wait_echild', 'verified'} and
+                        all(item is True for item in value.values()))
+                diagnostic_custody = (plugins_capture_received and plugins_provider_received and good_names and
+                    all(meta.received_capture(row, enriched=row['name'] == 'canonical-body') for row in records) and
+                    all(body[key] is True for key in meta.ENRICHMENT_FIELDS - {'recognition_status', 'recognition_code'}) and
+                    all(result[key] is True for key in flags) and
+                    git_before is not None and store_after == git_before['source_store'] and
+                    type(out) is bytes and len(out) == body['stdout_bytes'] and sha(out) == body['stdout_sha256'] and
+                    type(custody) is dict and custody['verified'] is True and custody['failure'] is None and
+                    custody['supplemental_failures'] == [] and custody['all_owned_sockets_closed'] is True and
+                    custody['thread_joined'] is True and type(custody['semantic_request_count']) is int and
+                    custody['semantic_request_count'] == 1 and
+                    custody['semantic_response_complete'] is True and result['provider_record_sha256'] is not None and
+                    plugin_profile['before_absent'] is True and plugin_profile['after'] is not None and
+                    plugin_profile['after']['profile_admitted'] is True and plugin_profile['final_unchanged'] is True and
+                    sound_quiescence(plugin_profile['admission_quiescence']) and
+                    all(sound_quiescence(result['cleanup'][key]) for key in ('after_close', 'after_seal')))
+                if diagnostic_custody:
+                    diagnostic_custody = sound_quiescence(meta.quiescent(utility))
+            except BaseException:
+                diagnostic_custody = False
+        try:
+            expected_context = ({'session_id': session_id, 'cwd': str(profile['cwd']),
+                'plugin': str(package), 'model': 'claude-sonnet-4-6'} if profile is not None and package is not None else None)
+            result['native_plugin_identity_diagnostic'] = native_plugin_identity_diagnostic(
+                out, expected_context, diagnostic_custody, transport)
+        except BaseException:
+            result['native_plugin_identity_diagnostic'] = empty_native_plugin_diagnostic('JSON_UNRECEIVED')
         if result_path is not None:
             def retain_diagnostics():
                 raw = canonical({'schema': 'dg17.claude.body-diagnostics.v1',

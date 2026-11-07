@@ -4,8 +4,8 @@
     "sha256": "ef9cbbe7c2c277c434139080d548f0cb868ee091fe79aa96633dcd46cc86a117"
   },
   "PUBLIC_RESULT_SCHEMA.json": {
-    "bytes": 36738,
-    "sha256": "1938fb117f9f150d1de29847f6fcb05e8bd7575b46d331b709929aca915087b8"
+    "bytes": 49161,
+    "sha256": "5c16663d306d9b4914ddc3b9c30b0a96e65705365380a23c37d2b63068550c5a"
   },
   "SOURCE_INPUT_PINS.json": {
     "bytes": 2092,
@@ -20,8 +20,8 @@
     "sha256": "9456e39cf3be3254b4c25c74716a1b87ba5f2accd6bf196db061e326c7a50277"
   },
   "claude_body_probe.py": {
-    "bytes": 55760,
-    "sha256": "83e79662c47a0136c2783dca45582f6b3459bd1609c81ab792239072e236e25d"
+    "bytes": 67365,
+    "sha256": "f1f014905305df45a141a093c362bb50c5013097ac31319ebe68cd847d758108"
   },
   "claude_body_transport.py": {
     "bytes": 21952,

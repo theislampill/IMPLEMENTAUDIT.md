@@ -14,7 +14,7 @@ TREE = 'ee316c27250ec422d35a1ea965182ebddf7a5da0'
 PARENT = '481e529b691ed3d21169b07f376e357ae51f1f03'
 MANIFEST_SHA = 'ed6a601d3a66997218195202cb5513363b5410b98489762324095a9030c261b4'
 UTILITY_SHA = '429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c'
-PINS_SHA = '5c4563bb7b136ef6feca2bc94cc7f8bb691c944d0a3cc5b80180810fbd72aa1e'
+PINS_SHA = '7a55658da0c83b75a0ea121be5fb88dcb75e33061a85c6c0dd803d16d9b1bc6f'
 CLAIM = 'skills/implementaudit/scripts/claim-run.sh'
 AUTHOR = 'fixtures/controller-initialization/author_checkpoint.py'
 DOCS = ('STATE.md', 'PROTOCOL.md', 'ROADMAP.md', 'THINKING.md', 'sidecars.md', 'tools.md', 'context.md', 'phases/phase-1.md')
@@ -1269,6 +1269,355 @@ def body_plugins_child_success(value):
         after.get('population_sha256') == profile['after_record_sha256'])
 
 
+"""Prospective parent diagnostic owners, derived before changed child code.
+
+Composed later into the exact reviewed parent namespace. This file has no
+entrypoint, imports no child projector, starts no process and writes no private
+or public file. Existing parent parsers, file readers, invocation and complete
+capture/provider owners are explicit immutable dependencies.
+"""
+import posixpath
+
+PLUGIN_DIAGNOSTIC_SCHEMA = 'dg17.claude.native-plugin-identity-diagnostic.v1'
+PLUGIN_DIAGNOSTIC_NAME = 'implementaudit'
+PLUGIN_DIAGNOSTIC_INLINE_NAME = 'implementaudit@inline'
+PLUGIN_DIAGNOSTIC_MODEL = 'claude-sonnet-4-6'
+PLUGIN_DIAGNOSTIC_CANONICAL_BOUND = 196609
+PLUGIN_DIAGNOSTIC_REASONS = frozenset((
+    'NOT_ATTEMPTED', 'CUSTODY_OR_BOOKEND_UNRECEIVED', 'EXPECTED_CONTEXT_UNRECEIVED',
+    'INPUT_BYTE_BOUND', 'EVENT_POPULATION_BOUND', 'JSON_UNRECEIVED',
+    'JSON_DUPLICATE_KEY', 'JSON_NONFINITE', 'JSON_COMPLEXITY', 'JSON_OBJECT_BOUND',
+    'JSON_ARRAY_BOUND', 'JSON_STRING_ENCODING', 'JSON_TYPE_UNRECEIVED',
+    'EVENT_TYPE_UNRECEIVED', 'SESSION_DIFFERS', 'CHILD_EVENT_UNRECEIVED',
+    'INIT_RESULT_ORDER_UNRECEIVED', 'CONFIG_IDENTITY_DIFFERS', 'TOOL_SURFACE_DIFFERS',
+    'MCP_OR_PLUGIN_ERROR_PRESENT', 'PUBLIC_BOUND_REFUSED'))
+
+
+def plugin_diagnostic_empty(reason='NOT_ATTEMPTED'):
+    need(reason in PLUGIN_DIAGNOSTIC_REASONS, 'PLUGIN_DIAGNOSTIC_REASON')
+    return {'schema': PLUGIN_DIAGNOSTIC_SCHEMA, 'status': 'UNRECEIVED', 'reason': reason,
+        'raw_stdout_bytes': None, 'raw_stdout_sha256': None, 'expected_context_sha256': None,
+        'event_count': None, 'pre_plugin_envelope_received': False,
+        'plugins_present': None, 'plugins_type': None, 'plugins_canonical_bytes': None,
+        'plugins_canonical_sha256': None, 'list_length': None, 'singleton': None,
+        'original_equality': None, 'body_acceptance_from_diagnostics': False}
+
+
+def plugin_diagnostic_type(value):
+    types = {type(None): 'NULL', bool: 'BOOLEAN', int: 'INTEGER', float: 'FLOAT',
+             str: 'STRING', list: 'ARRAY', dict: 'OBJECT'}
+    need(type(value) in types, 'PLUGIN_DIAGNOSTIC_TYPE')
+    return types[type(value)]
+
+
+def plugin_diagnostic_named_field(item, key, expected, name_field=False):
+    present = key in item
+    result = {'present': present, 'type': plugin_diagnostic_type(item[key]) if present else 'MISSING',
+        'utf8_bytes': None, 'utf8_sha256': None, 'equals_expected': None}
+    if name_field:
+        result['name_relation'] = 'MISSING' if not present else 'NON_STRING'
+    else:
+        result['lexical_normalization_equals_expected'] = None
+    if present and type(item[key]) is str:
+        raw = item[key].encode('utf-8', errors='strict')
+        need(len(raw) <= 32768, 'PLUGIN_DIAGNOSTIC_STRING_BOUND')
+        result.update(utf8_bytes=len(raw), utf8_sha256=digest(raw), equals_expected=item[key] == expected)
+        if name_field:
+            result['name_relation'] = ('MANIFEST_NAME_EXACT' if item[key] == PLUGIN_DIAGNOSTIC_NAME else
+                'MANIFEST_NAME_WITH_LITERAL_INLINE_SUFFIX' if item[key] == PLUGIN_DIAGNOSTIC_INLINE_NAME else 'OTHER_STRING')
+        else:
+            # Pure POSIX lexical data operation: no filesystem lookup, cwd join,
+            # expanduser, symlink resolution, path fallback or acceptance change.
+            result['lexical_normalization_equals_expected'] = (
+                posixpath.normpath(item[key]) == posixpath.normpath(expected))
+    return result
+
+
+def plugin_diagnostic_projection(raw, session, cwd, plugin, model=PLUGIN_DIAGNOSTIC_MODEL):
+    """Complete pre-plugin envelope and plugin data only; never native acceptance."""
+    result = plugin_diagnostic_empty()
+    reason = 'EXPECTED_CONTEXT_UNRECEIVED'
+    try:
+        need(type(session) is str and re.fullmatch(
+            r'[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}', session) is not None and
+            type(cwd) is str and cwd.startswith('/') and '\x00' not in cwd and
+            type(plugin) is str and plugin.startswith('/') and '\x00' not in plugin and
+            type(model) is str and model == PLUGIN_DIAGNOSTIC_MODEL, 'PLUGIN_DIAGNOSTIC_CONTEXT')
+        cwd.encode('utf-8', errors='strict'); plugin.encode('utf-8', errors='strict')
+        result['expected_context_sha256'] = digest(body_canonical({
+            'session_id': session, 'cwd': cwd, 'plugin': plugin, 'model': model}))
+        reason = 'INPUT_BYTE_BOUND'
+        need(type(raw) is bytes and 0 < len(raw) <= 32768, 'PLUGIN_DIAGNOSTIC_INPUT')
+        result.update(raw_stdout_bytes=len(raw), raw_stdout_sha256=digest(raw))
+        lines = raw.splitlines(); reason = 'EVENT_POPULATION_BOUND'
+        need(1 <= len(lines) <= 128 and all(lines), 'PLUGIN_DIAGNOSTIC_EVENTS')
+        result['event_count'] = len(lines)
+        events = []
+        for line in lines:
+            reason = 'JSON_UNRECEIVED'
+            try:
+                events.append(body_json(line, 32768))
+            except BaseException as exc:
+                mapped = {'CATALOGUE_DUPLICATE_KEY': 'JSON_DUPLICATE_KEY',
+                    'BODY_JSON_NONFINITE': 'JSON_NONFINITE', 'BODY_JSON_COMPLEXITY': 'JSON_COMPLEXITY',
+                    'BODY_JSON_OBJECT_BOUND': 'JSON_OBJECT_BOUND', 'BODY_JSON_ARRAY_BOUND': 'JSON_ARRAY_BOUND',
+                    'BODY_JSON_STRING_BOUND': 'JSON_STRING_ENCODING', 'BODY_JSON_TYPE': 'JSON_TYPE_UNRECEIVED'}
+                if isinstance(exc, Refusal): reason = mapped.get(str(exc), 'JSON_UNRECEIVED')
+                elif isinstance(exc, UnicodeError): reason = 'JSON_STRING_ENCODING'
+                raise
+        reason = 'EVENT_TYPE_UNRECEIVED'
+        need(all(type(event) is dict and event.get('type') in ('system','user','assistant','result')
+                 for event in events), 'PLUGIN_DIAGNOSTIC_EVENT_TYPE')
+        reason = 'SESSION_DIFFERS'
+        need(all(event.get('session_id') == session for event in events), 'PLUGIN_DIAGNOSTIC_SESSION')
+        reason = 'CHILD_EVENT_UNRECEIVED'
+        need(all(event.get('parent_tool_use_id') is None for event in events), 'PLUGIN_DIAGNOSTIC_CHILD')
+        inits = [(index,event) for index,event in enumerate(events)
+                 if event.get('type') == 'system' and event.get('subtype') == 'init']
+        results = [(index,event) for index,event in enumerate(events) if event.get('type') == 'result']
+        reason = 'INIT_RESULT_ORDER_UNRECEIVED'
+        need(len(inits) == 1 and len(results) == 1 and
+             inits[0][0] < results[0][0] == len(events)-1, 'PLUGIN_DIAGNOSTIC_ORDER')
+        init = inits[0][1]; reason = 'CONFIG_IDENTITY_DIFFERS'
+        need(init.get('cwd') == cwd and init.get('model') == model, 'PLUGIN_DIAGNOSTIC_CONFIG')
+        tools = init.get('tools'); reason = 'TOOL_SURFACE_DIFFERS'
+        need(type(tools) is list and all(type(item) is str for item in tools) and
+             len(tools) == len(set(tools)) and 'Skill' in tools and
+             all(item in ('Skill','EndConversation') for item in tools), 'PLUGIN_DIAGNOSTIC_TOOLS')
+        reason = 'MCP_OR_PLUGIN_ERROR_PRESENT'
+        need(init.get('mcp_servers') == [] and init.get('mcp_server_errors',[]) == [] and
+             init.get('plugin_errors',[]) == [], 'PLUGIN_DIAGNOSTIC_STARTUP')
+
+        # Exactly the pre-plugin predicates of frozen native_projection above.
+        # Skills, system subtype handling, user/assistant blocks and terminal ACK
+        # remain later native predicates; this owner neither runs nor bypasses them.
+        result['pre_plugin_envelope_received'] = True
+        present = 'plugins' in init
+        result['plugins_present'] = present
+        result['plugins_type'] = plugin_diagnostic_type(init['plugins']) if present else 'MISSING'
+        if present:
+            value = init['plugins']; canonical = body_canonical(value)
+            reason = 'PUBLIC_BOUND_REFUSED'
+            need(len(canonical) <= PLUGIN_DIAGNOSTIC_CANONICAL_BOUND, 'PLUGIN_DIAGNOSTIC_VALUE_BOUND')
+            result.update(plugins_canonical_bytes=len(canonical), plugins_canonical_sha256=digest(canonical))
+            if type(value) is list:
+                result['list_length'] = len(value)
+                if len(value) == 1:
+                    item = value[0]; encoded_item = body_canonical(item)
+                    need(len(encoded_item) <= PLUGIN_DIAGNOSTIC_CANONICAL_BOUND, 'PLUGIN_DIAGNOSTIC_VALUE_BOUND')
+                    observed = {'type': plugin_diagnostic_type(item), 'canonical_bytes': len(encoded_item),
+                        'canonical_sha256': digest(encoded_item), 'key_count': None, 'keyset_sha256': None,
+                        'exact_name_path_keys': None, 'name': None, 'path': None}
+                    if type(item) is dict:
+                        observed.update(key_count=len(item), keyset_sha256=digest(body_canonical(sorted(item))),
+                            exact_name_path_keys=set(item) == {'name','path'},
+                            name=plugin_diagnostic_named_field(item, 'name', PLUGIN_DIAGNOSTIC_NAME, True),
+                            path=plugin_diagnostic_named_field(item, 'path', plugin))
+                    result['singleton'] = observed
+        result['original_equality'] = init.get('plugins') == [{'name':'implementaudit','path':plugin}]
+        result.update(status='RECEIVED_PRE_PLUGIN_DIAGNOSTIC', reason=None)
+        reason = 'PUBLIC_BOUND_REFUSED'
+        need(len(body_canonical(result)) <= 4096, 'PLUGIN_DIAGNOSTIC_PUBLIC_BOUND')
+        return result
+    except BaseException:
+        # Partial observations never masquerade as a complete field projection.
+        refused = plugin_diagnostic_empty(reason if reason in PLUGIN_DIAGNOSTIC_REASONS else 'JSON_UNRECEIVED')
+        for key in ('raw_stdout_bytes','raw_stdout_sha256','expected_context_sha256','event_count'):
+            refused[key] = result[key]
+        return refused
+
+
+def plugin_diagnostic_bookends(public):
+    """Require existing source-bound facts; do not manufacture historical cuts."""
+    need(type(public) is dict and all(public.get(key) is True for key in (
+        'control_source_before','control_source_after','runtime_before','runtime_after',
+        'archive_before','archive_after','package_before','package_after','startup_before','startup_after')),
+        'PLUGIN_DIAGNOSTIC_BOOKENDS')
+    commands = public.get('commands')
+    need(type(commands) is list and len(commands) == 1 and type(commands[0]) is dict,
+        'PLUGIN_DIAGNOSTIC_BOOKENDS')
+    need(all(commands[0].get(key) is True for key in (
+        'source_before','source_after','runtime_before','runtime_after','startup_before','startup_after')),
+        'PLUGIN_DIAGNOSTIC_BOOKENDS')
+    custody = public.get('provider_custody')
+    need(type(custody) is dict and all(custody.get(key) is True for key in (
+        'started','thread_joined','all_owned_sockets_closed','verified','semantic_response_complete')) and
+        custody.get('failure') is None and custody.get('supplemental_failures') == [] and
+        type(custody.get('request_count')) is int and 1 <= custody['request_count'] <= 16 and
+        type(custody.get('semantic_request_count')) is int and custody['semantic_request_count'] == 1 and
+        type(custody.get('semantic_request_index')) is int and 1 <= custody['semantic_request_index'] <= custody['request_count'] and
+        type(custody.get('captured_request_bytes')) is int and 1 <= custody['captured_request_bytes'] <= 4194304,
+        'PLUGIN_DIAGNOSTIC_PROVIDER_COMPLETENESS')
+
+
+def plugin_diagnostic_failure_snapshot(state):
+    public = state.get('claude')
+    public = public if type(public) is dict else {}
+    return body_canonical({'failed':state.get('failed'), 'failure':state.get('failure'),
+        'failures':state.get('failures'), 'claude_failure':public.get('failure'),
+        'claude_supplemental':public.get('supplemental_failures')})
+
+
+def plugin_diagnostic_public_binding(state, output):
+    """Reopen complete fixed outer streams; rc1 is valid failure-time evidence."""
+    rows = [(index+1,row) for index,row in enumerate(state.get('commands',[]))
+            if type(row) is dict and row.get('name') == 'loopback-claude-canonical-body']
+    need(len(rows) == 1, 'PLUGIN_DIAGNOSTIC_OUTER_CAPTURE')
+    ordinal,capture = rows[0]
+    need(body_diagnostic_capture_shape(capture) and all(capture[key] is True for key in
+        ('process_started','streams_complete','pidfd_acquired')) and
+        capture['timeout'] is False and capture['output_bound_exceeded'] is False and
+        capture['internal_failure'] is None and capture['cleanup']['echild'] is True,
+        'PLUGIN_DIAGNOSTIC_OUTER_CAPTURE')
+    body_diagnostic_anchor(output); body_diagnostic_anchor(output/'private')
+    population = {}; streams = {}
+    for suffix in ('stdout','stderr'):
+        path=output/'private'/f'{ordinal:03d}-loopback-claude-canonical-body.{suffix}'
+        before=body_plugins_identity(path.lstat()); pin=body_diagnostic_file(path,32768)
+        raw=read(path,32768)
+        need(pin == {'bytes':len(raw),'sha256':digest(raw)} and
+             capture[suffix+'_bytes'] == len(raw) and capture[suffix+'_sha256'] == digest(raw) and
+             body_plugins_identity(path.lstat()) == before, 'PLUGIN_DIAGNOSTIC_OUTER_CAPTURE')
+        population[suffix]={'identity':before,**pin}; streams[suffix]=raw
+    path=output/'private/CLAUDE_BODY_RESULT.json'
+    before=body_plugins_identity(path.lstat()); pin=body_diagnostic_file(path,32768,0o600); raw=read(path,32768)
+    need(raw == streams['stdout'] and pin == {'bytes':len(raw),'sha256':digest(raw)} and
+         digest(raw) == state['claude_validation']['result_sha256'] and
+         body_canonical(body_json(raw,32768)) == body_canonical(state['claude']) and
+         body_plugins_identity(path.lstat()) == before, 'PLUGIN_DIAGNOSTIC_OUTER_CAPTURE')
+    population['public_result']={'identity':before,**pin}
+    return population
+
+
+def receive_native_plugin_diagnostic(state, output, phase, utility):
+    """Same-job failure-time receiving; changes only its diagnostic validation row."""
+    need(phase in ('AFTER_COMMAND','FINAL'), 'PLUGIN_DIAGNOSTIC_PARENT_PHASE')
+    validation = state.setdefault('claude_validation', {})
+    previous = validation.get('native_plugin_diagnostic_receiving', {})
+    phases = {key:previous.get('verified_phases', {}).get(key) is True for key in ('AFTER_COMMAND','FINAL')}
+    result = {'schema':'dg17.claude.body-parent-native-plugin-diagnostic.v1', 'status':'UNRECEIVED',
+        'reason':None, 'latest_phase':phase, 'verified_phases':phases,
+        'fresh_parent_no_children':False, 'fresh_parent_echild':False,
+        'outer_capture_bound':False, 'complete_native_capture_bound':False, 'provider_custody_bound':False,
+        'source_runtime_startup_package_bookends_received':False, 'invocation_context_bound':False,
+        'raw_stdout_received':False, 'projection_recomputed':False, 'public_projection_bound':False,
+        'matches_initial_readback':False, 'raw_stdout_bytes':None, 'raw_stdout_sha256':None,
+        'expected_context_sha256':None, 'projection_sha256':None, 'snapshot_sha256':None,
+        'projection_status':None, 'projection_reason':None,
+        'producer_custody_scope':'SOURCE_BOUND_RETAINED_PRODUCER_CUT_NOT_PARENT_HISTORICAL_OBSERVATION',
+        'body_acceptance_from_diagnostics':False}
+    validation['native_plugin_diagnostic_receiving'] = result
+    first_failure = plugin_diagnostic_failure_snapshot(state)
+    try:
+        need(validation.get('valid') is True and validation.get('captured_result_matches') is True and
+             state.get('active_command') is None and body_plugins_receiving_success(state,phase),
+             'PLUGIN_DIAGNOSTIC_PARENT_PREMISES')
+        need(utility.children() == [], 'PLUGIN_DIAGNOSTIC_PARENT_QUIESCENCE')
+        body_diagnostic_quiescence()
+        result.update(fresh_parent_no_children=True, fresh_parent_echild=True)
+        outer_population = plugin_diagnostic_public_binding(state,output)
+        result['outer_capture_bound'] = True
+        public = state['claude']; plugin_diagnostic_bookends(public)
+        root = output/'private/claude-canonical-body'; body_diagnostic_anchor(root)
+        admission = body_plugins_admission_receiving(root,public,state['receipt'])
+        need(admission.get('status') == 'RECEIVED' and all(admission.get(key) is True for key in (
+            'native_capture_bound','provider_custody_bound','producer_quiescence_received','verified')),
+            'PLUGIN_DIAGNOSTIC_ADMISSION_EVIDENCE')
+        result.update(complete_native_capture_bound=True,provider_custody_bound=True,
+            source_runtime_startup_package_bookends_received=True)
+        population = {}
+        def stable_private(name, maximum):
+            path = root/name; identity = body_plugins_identity(path.lstat())
+            need(identity['gid'] == os.getegid(), 'PLUGIN_DIAGNOSTIC_PRIVATE_IDENTITY')
+            pin = body_diagnostic_file(path,maximum,0o600); raw = read(path,maximum)
+            need(pin == {'bytes':len(raw),'sha256':digest(raw)} and identity == body_plugins_identity(path.lstat()),
+                'PLUGIN_DIAGNOSTIC_PRIVATE_IDENTITY')
+            population[name] = {'identity':identity,'bytes':len(raw),'sha256':digest(raw)}
+            return raw
+        invocation_raw = stable_private('NATIVE_INVOCATION.json',65536)
+        invocation = body_json(invocation_raw,65536)
+        session,cwd,plugin = body_invocation_receiving(root,output)
+        need(invocation_raw == read(root/'NATIVE_INVOCATION.json',65536) and
+             type(invocation) is dict and invocation.get('session_id') == session,
+             'PLUGIN_DIAGNOSTIC_INVOCATION_CHANGED')
+        result['invocation_context_bound'] = True
+        stdout = stable_private('canonical-body.stdout',32768)
+        command = public['commands'][0]
+        need(type(command.get('stdout_bytes')) is int and len(stdout) == command['stdout_bytes'] and
+             digest(stdout) == command.get('stdout_sha256'), 'PLUGIN_DIAGNOSTIC_STDOUT_CAPTURE_DIFFERS')
+        projected = plugin_diagnostic_projection(stdout,session,str(cwd),str(plugin),PLUGIN_DIAGNOSTIC_MODEL)
+        expected = public.get('native_plugin_identity_diagnostic')
+        need(type(expected) is dict and len(body_canonical(expected)) <= 4096 and
+             body_canonical(projected) == body_canonical(expected), 'PLUGIN_DIAGNOSTIC_PROJECTION_DIFFERS')
+        result.update(raw_stdout_received=True,projection_recomputed=True,public_projection_bound=True,
+            raw_stdout_bytes=len(stdout),raw_stdout_sha256=digest(stdout),
+            expected_context_sha256=projected['expected_context_sha256'],
+            projection_sha256=digest(body_canonical(projected)),projection_status=projected['status'],
+            projection_reason=projected['reason'])
+        # Fresh reopen/readback at each receiving phase, plus within-phase bookends.
+        for name,row in population.items():
+            path=root/name
+            need(body_plugins_identity(path.lstat()) == row['identity'] and
+                 body_diagnostic_file(path,row['bytes'],0o600) == {'bytes':row['bytes'],'sha256':row['sha256']} and
+                 digest(read(path,row['bytes'])) == row['sha256'], 'PLUGIN_DIAGNOSTIC_PRIVATE_CHANGED')
+        need(body_invocation_receiving(root,output) == (session,cwd,plugin), 'PLUGIN_DIAGNOSTIC_INVOCATION_CHANGED')
+        need(body_plugins_admission_receiving(root,public,state['receipt']) == admission,
+             'PLUGIN_DIAGNOSTIC_ADMISSION_CHANGED')
+        need(plugin_diagnostic_public_binding(state,output) == outer_population,
+             'PLUGIN_DIAGNOSTIC_OUTER_CAPTURE')
+        plugin_diagnostic_bookends(public)
+        need(utility.children() == [], 'PLUGIN_DIAGNOSTIC_PARENT_QUIESCENCE')
+        body_diagnostic_quiescence()
+        snapshot = digest(body_canonical({'population':population,'outer_population':outer_population,'admission':admission,
+            'projection':projected,'context_sha256':projected['expected_context_sha256']}))
+        baseline = state.get('native_plugin_diagnostic_baseline_sha256')
+        if baseline is None:
+            need(phase == 'AFTER_COMMAND', 'PLUGIN_DIAGNOSTIC_FIRST_PHASE_MISSING')
+            state['native_plugin_diagnostic_baseline_sha256'] = snapshot
+        else:
+            need(baseline == snapshot, 'PLUGIN_DIAGNOSTIC_CHANGED_SINCE_FIRST')
+        phases[phase] = True
+        result.update(status=('RECEIVED_DIAGNOSTIC' if projected['status'] == 'RECEIVED_PRE_PLUGIN_DIAGNOSTIC'
+            else 'RECEIVED_UPSTREAM_REFUSAL'), matches_initial_readback=True,snapshot_sha256=snapshot)
+    except BaseException as exc:
+        allowed = {'PLUGIN_DIAGNOSTIC_PARENT_PREMISES','PLUGIN_DIAGNOSTIC_PARENT_QUIESCENCE',
+            'PLUGIN_DIAGNOSTIC_OUTER_CAPTURE',
+            'PLUGIN_DIAGNOSTIC_BOOKENDS','PLUGIN_DIAGNOSTIC_PROVIDER_COMPLETENESS',
+            'PLUGIN_DIAGNOSTIC_ADMISSION_EVIDENCE','PLUGIN_DIAGNOSTIC_PRIVATE_IDENTITY',
+            'PLUGIN_DIAGNOSTIC_INVOCATION_CHANGED','PLUGIN_DIAGNOSTIC_STDOUT_CAPTURE_DIFFERS',
+            'PLUGIN_DIAGNOSTIC_PROJECTION_DIFFERS','PLUGIN_DIAGNOSTIC_PRIVATE_CHANGED',
+            'PLUGIN_DIAGNOSTIC_ADMISSION_CHANGED','PLUGIN_DIAGNOSTIC_FIRST_PHASE_MISSING',
+            'PLUGIN_DIAGNOSTIC_CHANGED_SINCE_FIRST'}
+        result['reason'] = str(exc) if isinstance(exc,Refusal) and str(exc) in allowed else 'PRIVATE_EVIDENCE_UNAVAILABLE'
+    # The function neither changes recognition/failure nor calls a late executable
+    # gate. This assertion detects accidental future mutation of those owner fields.
+    need(plugin_diagnostic_failure_snapshot(state) == first_failure,
+        'PLUGIN_DIAGNOSTIC_FAILURE_PRECEDENCE_CHANGED')
+    return result
+
+
+PLUGIN_DIAGNOSTIC_PARENT_SCHEMA = json.loads('{"$schema":"https://json-schema.org/draft/2020-12/schema","additionalProperties":false,"properties":{"body_acceptance_from_diagnostics":{"const":false},"complete_native_capture_bound":{"type":"boolean"},"expected_context_sha256":{"anyOf":[{"pattern":"\\\\A[0-9a-f]{64}\\\\Z","type":"string"},{"type":"null"}]},"fresh_parent_echild":{"type":"boolean"},"fresh_parent_no_children":{"type":"boolean"},"invocation_context_bound":{"type":"boolean"},"latest_phase":{"enum":["AFTER_COMMAND","FINAL"]},"matches_initial_readback":{"type":"boolean"},"outer_capture_bound":{"type":"boolean"},"producer_custody_scope":{"const":"SOURCE_BOUND_RETAINED_PRODUCER_CUT_NOT_PARENT_HISTORICAL_OBSERVATION"},"projection_reason":{"anyOf":[{"enum":["CHILD_EVENT_UNRECEIVED","CONFIG_IDENTITY_DIFFERS","CUSTODY_OR_BOOKEND_UNRECEIVED","EVENT_POPULATION_BOUND","EVENT_TYPE_UNRECEIVED","EXPECTED_CONTEXT_UNRECEIVED","INIT_RESULT_ORDER_UNRECEIVED","INPUT_BYTE_BOUND","JSON_ARRAY_BOUND","JSON_COMPLEXITY","JSON_DUPLICATE_KEY","JSON_NONFINITE","JSON_OBJECT_BOUND","JSON_STRING_ENCODING","JSON_TYPE_UNRECEIVED","JSON_UNRECEIVED","MCP_OR_PLUGIN_ERROR_PRESENT","NOT_ATTEMPTED","PUBLIC_BOUND_REFUSED","SESSION_DIFFERS","TOOL_SURFACE_DIFFERS"]},{"type":"null"}]},"projection_recomputed":{"type":"boolean"},"projection_sha256":{"anyOf":[{"pattern":"\\\\A[0-9a-f]{64}\\\\Z","type":"string"},{"type":"null"}]},"projection_status":{"anyOf":[{"enum":["UNRECEIVED","RECEIVED_PRE_PLUGIN_DIAGNOSTIC"]},{"type":"null"}]},"provider_custody_bound":{"type":"boolean"},"public_projection_bound":{"type":"boolean"},"raw_stdout_bytes":{"anyOf":[{"maximum":32768,"minimum":0,"type":"integer"},{"type":"null"}]},"raw_stdout_received":{"type":"boolean"},"raw_stdout_sha256":{"anyOf":[{"pattern":"\\\\A[0-9a-f]{64}\\\\Z","type":"string"},{"type":"null"}]},"reason":{"anyOf":[{"enum":["PLUGIN_DIAGNOSTIC_PARENT_PREMISES","PLUGIN_DIAGNOSTIC_PARENT_QUIESCENCE","PLUGIN_DIAGNOSTIC_OUTER_CAPTURE","PLUGIN_DIAGNOSTIC_BOOKENDS","PLUGIN_DIAGNOSTIC_PROVIDER_COMPLETENESS","PLUGIN_DIAGNOSTIC_ADMISSION_EVIDENCE","PLUGIN_DIAGNOSTIC_PRIVATE_IDENTITY","PLUGIN_DIAGNOSTIC_INVOCATION_CHANGED","PLUGIN_DIAGNOSTIC_STDOUT_CAPTURE_DIFFERS","PLUGIN_DIAGNOSTIC_PROJECTION_DIFFERS","PLUGIN_DIAGNOSTIC_PRIVATE_CHANGED","PLUGIN_DIAGNOSTIC_ADMISSION_CHANGED","PLUGIN_DIAGNOSTIC_FIRST_PHASE_MISSING","PLUGIN_DIAGNOSTIC_CHANGED_SINCE_FIRST","PRIVATE_EVIDENCE_UNAVAILABLE"]},{"type":"null"}]},"schema":{"const":"dg17.claude.body-parent-native-plugin-diagnostic.v1"},"snapshot_sha256":{"anyOf":[{"pattern":"\\\\A[0-9a-f]{64}\\\\Z","type":"string"},{"type":"null"}]},"source_runtime_startup_package_bookends_received":{"type":"boolean"},"status":{"enum":["UNRECEIVED","RECEIVED_DIAGNOSTIC","RECEIVED_UPSTREAM_REFUSAL"]},"verified_phases":{"additionalProperties":false,"properties":{"AFTER_COMMAND":{"type":"boolean"},"FINAL":{"type":"boolean"}},"required":["AFTER_COMMAND","FINAL"],"type":"object"}},"required":["schema","status","reason","latest_phase","verified_phases","fresh_parent_no_children","fresh_parent_echild","outer_capture_bound","complete_native_capture_bound","provider_custody_bound","source_runtime_startup_package_bookends_received","invocation_context_bound","raw_stdout_received","projection_recomputed","public_projection_bound","matches_initial_readback","raw_stdout_bytes","raw_stdout_sha256","expected_context_sha256","projection_sha256","snapshot_sha256","projection_status","projection_reason","producer_custody_scope","body_acceptance_from_diagnostics"],"title":"Same-job parent receiving of native plugin diagnostics only","type":"object"}')
+
+
+def native_plugin_parent_success(state, phase):
+    value = state.get('claude_validation',{}).get('native_plugin_diagnostic_receiving')
+    if not catalogue_schema_matches(value,PLUGIN_DIAGNOSTIC_PARENT_SCHEMA): return False
+    return (value.get('status') == 'RECEIVED_DIAGNOSTIC' and value.get('reason') is None and
+        value.get('latest_phase') == phase and value.get('verified_phases',{}).get(phase) is True and
+        value.get('projection_status') == 'RECEIVED_PRE_PLUGIN_DIAGNOSTIC' and value.get('projection_reason') is None and
+        all(value.get(key) is True for key in ('fresh_parent_no_children','fresh_parent_echild',
+            'outer_capture_bound','complete_native_capture_bound','provider_custody_bound',
+            'source_runtime_startup_package_bookends_received','invocation_context_bound',
+            'raw_stdout_received','projection_recomputed','public_projection_bound','matches_initial_readback')))
+
+
+def native_plugin_child_success(value):
+    diag = value.get('native_plugin_identity_diagnostic')
+    return (type(diag) is dict and diag.get('schema') == PLUGIN_DIAGNOSTIC_SCHEMA and
+        diag.get('status') == 'RECEIVED_PRE_PLUGIN_DIAGNOSTIC' and diag.get('reason') is None and
+        diag.get('pre_plugin_envelope_received') is True and diag.get('original_equality') is True and
+        diag.get('body_acceptance_from_diagnostics') is False)
+
 def receive_claude(state, packet, raw):
     schema_raw = read(packet/'PUBLIC_RESULT_SCHEMA.json')
     state['claude_validation'] = {'valid':False,'schema_sha256':digest(schema_raw),
@@ -1327,6 +1676,7 @@ def claude_success(value, uid, gid, receipt):
         body.get('source_file_bytes') != 21257 or body.get('source_file_sha256') != BODY_GOVERNOR_SHA or
         body.get('body_bytes') != 20431 or body.get('body_sha256') != BODY_RENDERED_SHA): return False
     if not body_plugins_child_success(value): return False
+    if not native_plugin_child_success(value): return False
     cleanup = value.get('cleanup')
     if type(cleanup) is not dict or cleanup.get('private_seal_unchanged') is not True or cleanup.get('host_teardown_observed') is not False or cleanup.get('private_plaintext_policy') != 'RETAIN_UNTIL_HOST_TEARDOWN': return False
     if type(cleanup.get('private_evidence_seal_sha256')) is not str or re.fullmatch('[0-9a-f]{64}',cleanup['private_evidence_seal_sha256']) is None: return False
@@ -1892,11 +2242,13 @@ def launch_claude(state, source, output, packet, u):
                 state['claude_validation']['child_success_claimed'] = claude_success(state['claude'],os.getuid(),os.getgid(),state['receipt'])
                 receive_body_diagnostics(state, output, 'AFTER_COMMAND')
                 receive_body_plugins(state, output, 'AFTER_COMMAND')
+                receive_native_plugin_diagnostic(state, output, 'AFTER_COMMAND', u)
     except BaseException as exc:
         observe_capsule_failure(state,'claude-receiving',exc)
         if failure is None: failure = exc
     if failure is not None: raise failure
     need(body_plugins_receiving_success(state,'AFTER_COMMAND'),'BODY_PLUGINS_SUCCESS_PREMISES')
+    need(native_plugin_parent_success(state,'AFTER_COMMAND'),'NATIVE_PLUGIN_DIAGNOSTIC_SUCCESS_PREMISES')
 
 def execute(step, state, source, output, packet, u):
     if step == 'prepare':
@@ -1976,6 +2328,10 @@ def execute(step, state, source, output, packet, u):
     else: raise Refusal('UNKNOWN_STEP')
 
 def export(state, output, packet):
+    diagnostic_receipt = state.get('claude_validation',{}).get('native_plugin_diagnostic_receiving')
+    if diagnostic_receipt is not None:
+        need(catalogue_schema_matches(diagnostic_receipt,PLUGIN_DIAGNOSTIC_PARENT_SCHEMA),
+             'NATIVE_PLUGIN_DIAGNOSTIC_PUBLIC_SCHEMA')
     if 'claude' in state:
         try:
             need(catalogue_schema_matches(state['claude'], json.loads(read(packet/'PUBLIC_RESULT_SCHEMA.json'))), 'CLAUDE_EXPORT_SCHEMA')
@@ -2026,6 +2382,7 @@ def main():
         if state.get('claude_validation', {}).get('valid') is True and state['claude_validation'].get('captured_result_matches') is True:
             receive_body_diagnostics(state, output, 'FINAL')
             receive_body_plugins(state, output, 'FINAL')
+            receive_native_plugin_diagnostic(state, output, 'FINAL', u)
             if state.get('failed') is False and not body_plugins_receiving_success(state,'FINAL'):
                 state['failed'] = True; state['bounded_receiving_complete'] = False
                 code = 'BODY_PLUGINS_FINAL_UNRECEIVED'
@@ -2036,6 +2393,11 @@ def main():
                 code = 'BODY_DIAGNOSTIC_FINAL_UNRECEIVED'
                 state['failures'].append({'step':'diagnostic-final', 'exception_type':'Refusal',
                                           'message_sha256':digest(code.encode()), 'message_bytes':len(code)})
+            if state.get('failed') is False and not native_plugin_parent_success(state,'FINAL'):
+                state['failed'] = True; state['bounded_receiving_complete'] = False
+                code = 'NATIVE_PLUGIN_DIAGNOSTIC_FINAL_UNRECEIVED'
+                state['failures'].append({'step':'native-plugin-diagnostic-final','exception_type':'Refusal',
+                    'message_sha256':digest(code.encode()),'message_bytes':len(code)})
         if state.get('active_step') is not None or state.get('active_command') is not None or state['completed'] != list(STEPS) or not state.get('receipt') or not all(row.get('cleanup', {}).get('echild') is True for row in state['commands']) or state.get('bounded_receiving_complete') is not True:
             state['failed'] = True
             state['bounded_receiving_complete'] = False

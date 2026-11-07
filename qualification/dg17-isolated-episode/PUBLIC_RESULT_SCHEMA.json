@@ -850,6 +850,432 @@
         }
       ]
     },
+    "native_plugin_identity_diagnostic": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "body_acceptance_from_diagnostics": {
+          "const": false
+        },
+        "event_count": {
+          "anyOf": [
+            {
+              "maximum": 128,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expected_context_sha256": {
+          "anyOf": [
+            {
+              "pattern": "\\A[0-9a-f]{64}\\Z",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "list_length": {
+          "anyOf": [
+            {
+              "maximum": 4096,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "original_equality": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "plugins_canonical_bytes": {
+          "anyOf": [
+            {
+              "maximum": 196609,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "plugins_canonical_sha256": {
+          "anyOf": [
+            {
+              "pattern": "\\A[0-9a-f]{64}\\Z",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "plugins_present": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "plugins_type": {
+          "anyOf": [
+            {
+              "enum": [
+                "MISSING",
+                "NULL",
+                "BOOLEAN",
+                "INTEGER",
+                "FLOAT",
+                "STRING",
+                "ARRAY",
+                "OBJECT"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "pre_plugin_envelope_received": {
+          "type": "boolean"
+        },
+        "raw_stdout_bytes": {
+          "anyOf": [
+            {
+              "maximum": 32768,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "raw_stdout_sha256": {
+          "anyOf": [
+            {
+              "pattern": "\\A[0-9a-f]{64}\\Z",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "enum": [
+                "CHILD_EVENT_UNRECEIVED",
+                "CONFIG_IDENTITY_DIFFERS",
+                "CUSTODY_OR_BOOKEND_UNRECEIVED",
+                "EVENT_POPULATION_BOUND",
+                "EVENT_TYPE_UNRECEIVED",
+                "EXPECTED_CONTEXT_UNRECEIVED",
+                "INIT_RESULT_ORDER_UNRECEIVED",
+                "INPUT_BYTE_BOUND",
+                "JSON_ARRAY_BOUND",
+                "JSON_COMPLEXITY",
+                "JSON_DUPLICATE_KEY",
+                "JSON_NONFINITE",
+                "JSON_OBJECT_BOUND",
+                "JSON_STRING_ENCODING",
+                "JSON_TYPE_UNRECEIVED",
+                "JSON_UNRECEIVED",
+                "MCP_OR_PLUGIN_ERROR_PRESENT",
+                "NOT_ATTEMPTED",
+                "PUBLIC_BOUND_REFUSED",
+                "SESSION_DIFFERS",
+                "TOOL_SURFACE_DIFFERS"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "schema": {
+          "const": "dg17.claude.native-plugin-identity-diagnostic.v1"
+        },
+        "singleton": {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "canonical_bytes": {
+                  "maximum": 196609,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "canonical_sha256": {
+                  "pattern": "\\A[0-9a-f]{64}\\Z",
+                  "type": "string"
+                },
+                "exact_name_path_keys": {
+                  "anyOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "key_count": {
+                  "anyOf": [
+                    {
+                      "maximum": 1024,
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "keyset_sha256": {
+                  "anyOf": [
+                    {
+                      "pattern": "\\A[0-9a-f]{64}\\Z",
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "name": {
+                  "anyOf": [
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "equals_expected": {
+                          "anyOf": [
+                            {
+                              "type": "boolean"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "name_relation": {
+                          "enum": [
+                            "MISSING",
+                            "NON_STRING",
+                            "MANIFEST_NAME_EXACT",
+                            "MANIFEST_NAME_WITH_LITERAL_INLINE_SUFFIX",
+                            "OTHER_STRING"
+                          ]
+                        },
+                        "present": {
+                          "type": "boolean"
+                        },
+                        "type": {
+                          "enum": [
+                            "MISSING",
+                            "NULL",
+                            "BOOLEAN",
+                            "INTEGER",
+                            "FLOAT",
+                            "STRING",
+                            "ARRAY",
+                            "OBJECT"
+                          ]
+                        },
+                        "utf8_bytes": {
+                          "anyOf": [
+                            {
+                              "maximum": 32768,
+                              "minimum": 0,
+                              "type": "integer"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "utf8_sha256": {
+                          "anyOf": [
+                            {
+                              "pattern": "\\A[0-9a-f]{64}\\Z",
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "present",
+                        "type",
+                        "utf8_bytes",
+                        "utf8_sha256",
+                        "equals_expected",
+                        "name_relation"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "path": {
+                  "anyOf": [
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "equals_expected": {
+                          "anyOf": [
+                            {
+                              "type": "boolean"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "lexical_normalization_equals_expected": {
+                          "anyOf": [
+                            {
+                              "type": "boolean"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "present": {
+                          "type": "boolean"
+                        },
+                        "type": {
+                          "enum": [
+                            "MISSING",
+                            "NULL",
+                            "BOOLEAN",
+                            "INTEGER",
+                            "FLOAT",
+                            "STRING",
+                            "ARRAY",
+                            "OBJECT"
+                          ]
+                        },
+                        "utf8_bytes": {
+                          "anyOf": [
+                            {
+                              "maximum": 32768,
+                              "minimum": 0,
+                              "type": "integer"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "utf8_sha256": {
+                          "anyOf": [
+                            {
+                              "pattern": "\\A[0-9a-f]{64}\\Z",
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "present",
+                        "type",
+                        "utf8_bytes",
+                        "utf8_sha256",
+                        "equals_expected",
+                        "lexical_normalization_equals_expected"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "type": {
+                  "enum": [
+                    "NULL",
+                    "BOOLEAN",
+                    "INTEGER",
+                    "FLOAT",
+                    "STRING",
+                    "ARRAY",
+                    "OBJECT"
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "canonical_bytes",
+                "canonical_sha256",
+                "key_count",
+                "keyset_sha256",
+                "exact_name_path_keys",
+                "name",
+                "path"
+              ],
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "UNRECEIVED",
+            "RECEIVED_PRE_PLUGIN_DIAGNOSTIC"
+          ]
+        }
+      },
+      "required": [
+        "schema",
+        "status",
+        "reason",
+        "raw_stdout_bytes",
+        "raw_stdout_sha256",
+        "expected_context_sha256",
+        "event_count",
+        "pre_plugin_envelope_received",
+        "plugins_present",
+        "plugins_type",
+        "plugins_canonical_bytes",
+        "plugins_canonical_sha256",
+        "list_length",
+        "singleton",
+        "original_equality",
+        "body_acceptance_from_diagnostics"
+      ],
+      "title": "Bounded native plugin identity diagnostic; no native acceptance",
+      "type": "object"
+    },
     "native_sessions_started": {
       "maximum": 1,
       "minimum": 0,
@@ -1399,7 +1825,8 @@
     "startup_paths_after",
     "private_directory_refusal",
     "diagnostic_record_sha256",
-    "config_plugins_profile"
+    "config_plugins_profile",
+    "native_plugin_identity_diagnostic"
   ],
   "title": "DG17 canonical Claude native governor-body delivery result",
   "type": "object"
