@@ -1,0 +1,332 @@
+name: DG16 bounded G2 tool observation
+on:
+  push:
+    branches:
+      - pro/dg16-g2-tool-observation-01-20261108
+permissions: {}
+jobs:
+  observe:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.ref == 'refs/heads/pro/dg16-g2-tool-observation-01-20261108' &&
+      github.event.created == true && github.event.deleted == false &&
+      github.run_attempt == '1'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 3
+    steps:
+      - name: Read the host profile and check three tool identities once
+        shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+        run: |
+          exec /usr/bin/timeout --kill-after=2s 55s /usr/bin/python3 -I -S -B - <<'DG16_PY'
+          import errno, hashlib, json, os, re, signal, stat, sys
+          from pathlib import Path
+          from types import SimpleNamespace
+          def utility_api():
+              def sha(raw):
+                  return hashlib.sha256(raw).hexdigest()
+
+              class Refusal(Exception):
+                  pass
+
+              def require(condition, code):
+                  if not condition:
+                      raise Refusal(code)
+
+              def checked_file(path, maximum=64*1024*1024, single_link=True):
+                  path = Path(path)
+                  before = path.lstat()
+                  require(stat.S_ISREG(before.st_mode) and (not single_link or before.st_nlink == 1)
+                          and before.st_size <= maximum, 'FILE_SHAPE_REFUSED')
+                  with path.open('rb') as stream:
+                      raw = stream.read(maximum+1)
+                  after = path.lstat()
+                  require((before.st_dev,before.st_ino,before.st_size,before.st_mtime_ns,before.st_ctime_ns)==
+                          (after.st_dev,after.st_ino,after.st_size,after.st_mtime_ns,after.st_ctime_ns) and len(raw)<=maximum, 'FILE_CHANGED')
+                  return raw
+
+              def trusted(name):
+                  requested = Path('/usr/bin')/name
+                  try:
+                      path = requested.resolve(strict=True)
+                      require(path.is_file() and os.access(path,os.X_OK), 'TOOL_NOT_EXECUTABLE')
+                      for item in (path,*path.parents):
+                          info = item.lstat()
+                          require(info.st_uid==0 and not info.st_mode & 0o022, 'TOOL_CUSTODY_REFUSED')
+                      info = path.stat()
+                      require(not info.st_mode & 0o6000, 'PRIVILEGED_TOOL_REFUSED')
+                      try: cap = os.getxattr(path,'security.capability')
+                      except OSError as exc:
+                          require(exc.errno in (errno.ENODATA,errno.ENOTSUP), 'TOOL_CAPABILITY_UNKNOWN')
+                          cap = b''
+                      require(not cap, 'PRIVILEGED_TOOL_REFUSED')
+                      raw = checked_file(path, single_link=False)
+                      return str(path), {'available':True,'requested':'/usr/bin/'+name,'canonical':str(path),
+                                         'bytes':len(raw),'sha256':sha(raw),'root_owned_nonwritable_chain':True,
+                                         'setid_or_file_capabilities':False}
+                  except (OSError,Refusal) as exc:
+                      code=str(exc) if isinstance(exc,Refusal) else 'TOOL_OS_REFUSAL'
+                      return None, {'available':False,'requested':'/usr/bin/'+name,'code':code,
+                                    'errno':getattr(exc,'errno',None)}
+
+              def token(value, maximum=80):
+                  require(type(value) is str and re.fullmatch(r'[A-Za-z0-9_.:+~/=-]{1,'+str(maximum)+'}', value), 'UNSAFE_IDENTITY_TOKEN')
+                  return value
+              return SimpleNamespace(checked_file=checked_file, trusted=trusted, token=token)
+          def evidence_api():
+              class Refusal(ValueError):
+                  pass
+
+              def need(value, code):
+                  if not value:
+                      raise Refusal(code)
+              return SimpleNamespace(need=need)
+          def profile_api(E):
+              OS = {'ID': 'ubuntu', 'VERSION_ID': '26.04'}
+
+              VERSION = [3, 14, 4]
+
+              TOOLS = ('bash', 'bwrap', 'git', 'python3')
+
+              PYTHON = '/usr/bin/python3.14'
+
+              HOST_FIELDS = ('os', 'architecture', 'kernel', 'python_version', 'tools')
+
+              MATCH_FIELDS = ('os', 'architecture', 'kernel', 'python_version',
+                              'tools.bash', 'tools.bwrap', 'tools.git', 'tools.python3')
+
+              need = E.need
+
+              def credentials():
+                  uid, euid, suid = os.getresuid()
+                  gid, egid, sgid = os.getresgid()
+                  return dict(uid=uid, euid=euid, suid=suid, gid=gid, egid=egid, sgid=sgid)
+
+              def validate_credentials(value):
+                  need(type(value) is dict and set(value) == {'uid', 'euid', 'suid', 'gid', 'egid', 'sgid'}
+                       and all(type(v) is int and 0 <= v < 2**32 for v in value.values())
+                       and value['uid'] == value['euid'] == value['suid'] != 0
+                       and value['gid'] == value['egid'] == value['sgid'], 'G2_NATIVE_NONROOT_CREDENTIALS_REQUIRED')
+                  return value
+
+              def validate_host(host):
+                  keys = {'os', 'architecture', 'kernel', 'uid', 'python_version', 'image_os',
+                          'image_version', 'tools', 'boot_identity_sha256', 'credentials'}
+                  need(type(host) is dict and set(host) == keys and host['os'] == OS
+                       and host['architecture'] == 'x86_64' and host['python_version'] == VERSION,
+                       'G2_NATIVE_ORDINARY_HOST_PROFILE')
+                  creds = validate_credentials(host['credentials'])
+                  need(type(host['uid']) is int and host['uid'] == creds['euid'], 'G2_NATIVE_CALLER_IDENTITY')
+                  for name in ('kernel', 'image_os', 'image_version'):
+                      need(type(host[name]) is str and re.fullmatch(r'[A-Za-z0-9_.:+~/=-]{1,80}', host[name]),
+                           'G2_NATIVE_HOST_FACT_SHAPE')
+                  need(type(host['boot_identity_sha256']) is str and re.fullmatch('[0-9a-f]{64}', host['boot_identity_sha256']),
+                       'G2_NATIVE_BOOT_IDENTITY')
+                  need(type(host['tools']) is dict and set(host['tools']) == set(TOOLS), 'G2_NATIVE_TOOL_POPULATION')
+                  for name in TOOLS:
+                      row = host['tools'][name]
+                      need(type(row) is dict and set(row) == {'available', 'requested', 'canonical', 'bytes', 'sha256',
+                           'root_owned_nonwritable_chain', 'setid_or_file_capabilities'} and row['available'] is True
+                           and row['requested'] == '/usr/bin/' + name and type(row['canonical']) is str
+                           and row['canonical'].startswith('/usr/') and Path(row['canonical']).is_absolute()
+                           and '..' not in Path(row['canonical']).parts
+                           and type(row['bytes']) is int and 0 < row['bytes'] <= 64 * 1024**2
+                           and type(row['sha256']) is str and re.fullmatch('[0-9a-f]{64}', row['sha256'])
+                           and row['root_owned_nonwritable_chain'] is True and row['setid_or_file_capabilities'] is False,
+                           'G2_NATIVE_TRUSTED_TOOL_FACT_REQUIRED')
+                  need(host['tools']['python3']['canonical'] == PYTHON, 'G2_NATIVE_SYSTEM_INTERPRETER_REQUIRED')
+                  return {key: host[key] for key in HOST_FIELDS}
+
+              def compare_historical(host, historical):
+                  observed = validate_host(host)
+                  need(type(historical) is dict and set(historical) == set(HOST_FIELDS), 'G2_NATIVE_HISTORICAL_PROFILE_SHAPE')
+                  matches = {key: observed[key] == historical[key] for key in HOST_FIELDS if key != 'tools'}
+                  matches.update({'tools.' + name: observed['tools'][name] == historical['tools'][name] for name in TOOLS})
+                  need(set(matches) == set(MATCH_FIELDS), 'G2_NATIVE_HOST_MATCH_POPULATION')
+                  return matches
+              return SimpleNamespace(credentials=credentials, validate_host=validate_host, compare_historical=compare_historical)
+          def inventory_api(profile):
+              def load_native(_utility):
+                  return SimpleNamespace(P=profile)
+              class Refusal(Exception): pass
+
+              class Deadline(Exception): pass
+
+              def need(value, code):
+                  if not value: raise Refusal(code)
+
+              def digest(raw): return hashlib.sha256(raw).hexdigest()
+
+              def inventory(u):
+                  need(sys.platform=='linux' and os.name=='posix' and os.geteuid()!=0 and os.uname().machine=='x86_64','HOST_IDENTITY_REFUSED')
+                  release={}
+                  for line in u.checked_file(Path('/etc/os-release').resolve(),16384).decode().splitlines():
+                      if '=' in line:
+                          k,v=line.split('=',1)
+                          if k in ('ID','VERSION_ID'):release[k]=u.token(v.strip('"'),32)
+                  need(release=={'ID':'ubuntu','VERSION_ID':'26.04'},'OS_IMAGE_REFUSED')
+                  paths={};facts={}
+                  for name in ('bwrap','bash','python3','git'):
+                      paths[name],facts[name]=u.trusted(name);need(paths[name] is not None,'TRUSTED_TOOL_UNAVAILABLE')
+                  need(Path(sys.executable).resolve()==Path(paths['python3']),'INTERPRETER_IDENTITY_REFUSED')
+                  host={'os':release,'architecture':'x86_64','kernel':u.token(os.uname().release),'uid':os.geteuid(),
+                    'python_version':list(sys.version_info[:3]),'image_os':u.token(os.environ.get('ImageOS','')),
+                    'image_version':u.token(os.environ.get('ImageVersion','')),'tools':facts,
+                    'boot_identity_sha256':digest(u.checked_file(Path('/proc/sys/kernel/random/boot_id'),128))}
+                  native=load_native(u)
+                  host['credentials']=native.P.credentials()
+                  native.P.validate_host(host)
+                  return paths,host
+              return SimpleNamespace(inventory=inventory, Deadline=Deadline)
+          def protocol_api():
+              class Refusal(ValueError):pass
+
+              def need(value,code):
+                  if not value:raise Refusal(code)
+
+              def integer(n,lo,hi):return type(n) is int and lo<=n<=hi
+
+              def exact(value,keys):need(type(value) is dict and set(value)==set(keys.split()),'FIELDS')
+              return SimpleNamespace(integer=integer, exact=exact)
+          def observer_api():
+              def need(ok,code):
+                  if not ok:raise ValueError(code)
+
+              TOOL_NAMES=('env','openssl','python3')
+
+              TOOL_REFUSALS=('TOOL_NOT_EXECUTABLE','TOOL_CUSTODY_REFUSED','PRIVILEGED_TOOL_REFUSED',
+                  'TOOL_CAPABILITY_UNKNOWN','FILE_SHAPE_REFUSED','FILE_CHANGED','TOOL_OS_REFUSAL','UNKNOWN_UTILITY_REFUSAL')
+
+              TOOL_CHECKS=('NOT_ENTERED','TRUSTED_LOOKUP','CANONICAL_PATH','DESCRIPTOR','COMPLETE')
+
+              TOOL_RESULTS=('NOT_ENTERED','IN_PROGRESS','PASSED','TRUST_REFUSED','PATH_REFUSED',
+                  'UNEXPECTED_EXCEPTION','UNEXPECTED_INTERRUPT')
+
+              def neutral_tool_check():
+                  return dict(tool=None,check='NOT_ENTERED',result='NOT_ENTERED',refusal=None,errno=None,canonical_equal=None)
+
+              def validate_tool_check(value,P):
+                  P.exact(value,'tool check result refusal errno canonical_equal')
+                  need(value['tool'] is None or value['tool'] in TOOL_NAMES,'TOOL_DIAGNOSTIC_TOOL')
+                  need(value['check'] in TOOL_CHECKS and value['result'] in TOOL_RESULTS,'TOOL_DIAGNOSTIC_STATE')
+                  need(value['errno'] is None or P.integer(value['errno'],0,4096),'TOOL_DIAGNOSTIC_ERRNO')
+                  need(value['canonical_equal'] is None or type(value['canonical_equal']) is bool,'TOOL_DIAGNOSTIC_EQUALITY')
+                  result=value['result'];check=value['check']
+                  if result=='NOT_ENTERED':
+                      need(value==neutral_tool_check(),'TOOL_DIAGNOSTIC_NOT_ENTERED')
+                  else:
+                      need(value['tool'] in TOOL_NAMES and check!='NOT_ENTERED','TOOL_DIAGNOSTIC_TOOL_JOIN')
+                      if result=='TRUST_REFUSED':
+                          need(check=='TRUSTED_LOOKUP' and value['refusal'] in TOOL_REFUSALS
+                            and value['canonical_equal'] is None,'TOOL_DIAGNOSTIC_TRUST_JOIN')
+                      elif result=='PATH_REFUSED':
+                          need(check=='CANONICAL_PATH' and value['refusal']=='PROTECTED_HOST_TOOL_PATH'
+                            and value['canonical_equal'] is False and value['errno'] is None,'TOOL_DIAGNOSTIC_PATH_JOIN')
+                      else:
+                          need(value['refusal'] is None and value['errno'] is None,'TOOL_DIAGNOSTIC_NO_UNBOUNDED_REASON')
+                          if result=='PASSED':
+                              need(check=='COMPLETE' and value['tool']=='python3' and value['canonical_equal'] is True,
+                                'TOOL_DIAGNOSTIC_COMPLETE_JOIN')
+                          else:
+                              need(check in ('TRUSTED_LOOKUP','CANONICAL_PATH','DESCRIPTOR'),'TOOL_DIAGNOSTIC_EXCEPTION_JOIN')
+
+              def observe_tools(u,tools,diagnostic,deadline_type):
+                  observed={};pins={}
+                  for name in TOOL_NAMES:
+                      diagnostic.update(tool=name,check='TRUSTED_LOOKUP',result='IN_PROGRESS',refusal=None,errno=None,canonical_equal=None)
+                      try:
+                          path,fact=u.trusted(name)
+                          if path is None:
+                              code=fact.get('code') if type(fact) is dict else None
+                              number=fact.get('errno') if type(fact) is dict else None
+                              diagnostic.update(result='TRUST_REFUSED',refusal=code if code in TOOL_REFUSALS else 'UNKNOWN_UTILITY_REFUSAL',
+                                  errno=number if type(number) is int and 0<=number<=4096 else None)
+                          need(path is not None,'PROTECTED_HOST_TOOL_UNAVAILABLE')
+                          diagnostic['check']='CANONICAL_PATH'
+                          diagnostic['canonical_equal']=path==('/usr/bin/'+name if name!='python3' else tools['python3'])
+                          if not diagnostic['canonical_equal']:
+                              diagnostic.update(result='PATH_REFUSED',refusal='PROTECTED_HOST_TOOL_PATH')
+                          need(diagnostic['canonical_equal'],'PROTECTED_HOST_TOOL_PATH')
+                          diagnostic['check']='DESCRIPTOR'
+                          observed[name]=fact;pins[path]={k:fact[k] for k in ('bytes','sha256')}
+                      except BaseException as exc:
+                          if diagnostic['result']=='IN_PROGRESS':
+                              interrupted=isinstance(exc,(KeyboardInterrupt,SystemExit)) or (
+                                  isinstance(deadline_type,type) and issubclass(deadline_type,BaseException) and isinstance(exc,deadline_type))
+                              diagnostic['result']='UNEXPECTED_INTERRUPT' if interrupted else 'UNEXPECTED_EXCEPTION'
+                          raise
+                  diagnostic.update(check='COMPLETE',result='PASSED')
+                  return observed,pins
+              return SimpleNamespace(observe_tools=observe_tools, neutral_tool_check=neutral_tool_check, validate_tool_check=validate_tool_check)
+          HISTORICAL_PROFILE = {'architecture': 'x86_64', 'kernel': '7.0.0-1019-azure', 'os': {'ID': 'ubuntu', 'VERSION_ID': '26.04'}, 'python_version': [3, 14, 4], 'tools': {'bash': {'available': True, 'bytes': 1540520, 'canonical': '/usr/bin/bash', 'requested': '/usr/bin/bash', 'root_owned_nonwritable_chain': True, 'setid_or_file_capabilities': False, 'sha256': '450c68376d14e5040d36cce58605c35b2211d244f3079297440dc9d602ee4994'}, 'bwrap': {'available': True, 'bytes': 80424, 'canonical': '/usr/bin/bwrap', 'requested': '/usr/bin/bwrap', 'root_owned_nonwritable_chain': True, 'setid_or_file_capabilities': False, 'sha256': 'a85b0ff8664c52ab923e0daf7e20cbc394272cd3831cc492ab144105d8091361'}, 'git': {'available': True, 'bytes': 4771424, 'canonical': '/usr/bin/git', 'requested': '/usr/bin/git', 'root_owned_nonwritable_chain': True, 'setid_or_file_capabilities': False, 'sha256': '63acee09d55a44c7f4480f3a2c3fb79e7063deaf61df3f920b113ed38c0541e6'}, 'python3': {'available': True, 'bytes': 7468968, 'canonical': '/usr/bin/python3.14', 'requested': '/usr/bin/python3', 'root_owned_nonwritable_chain': True, 'setid_or_file_capabilities': False, 'sha256': 'be9a2a5eada8c89c1c399fdfb8397179e877c20d8db0739c802f726d4d0e69fd'}}}
+          EXPECTED_REF = 'refs/heads/pro/dg16-g2-tool-observation-01-20261108'
+
+
+          def main():
+              run_id = os.environ.get('GITHUB_RUN_ID', '')
+              head = os.environ.get('GITHUB_SHA', '')
+              if (os.environ.get('GITHUB_REPOSITORY') != 'theislampill/IMPLEMENTAUDIT.md'
+                      or os.environ.get('GITHUB_EVENT_NAME') != 'push'
+                      or os.environ.get('GITHUB_REF') != EXPECTED_REF
+                      or os.environ.get('GITHUB_RUN_ATTEMPT') != '1'
+                      or not re.fullmatch('[1-9][0-9]{0,19}', run_id)
+                      or not re.fullmatch('[0-9a-f]{40}', head)):
+                  return 5
+
+              profile = profile_api(evidence_api())
+              runner = inventory_api(profile)
+              utility = utility_api()
+              observer = observer_api()
+              protocol = protocol_api()
+              diagnostic = observer.neutral_tool_check()
+              result = dict(scope='fresh_tool_lookup_only', run_id=run_id, head=head, attempt=1,
+                            stage='HOST_INVENTORY', status='UNOBSERVED', host_matches=None,
+                            image_version=None, refusal_code=None, tool_check=diagnostic, original_acceptance=False)
+
+              def deadline(signum, frame):
+                  raise runner.Deadline()
+
+              signal.signal(signal.SIGALRM, deadline)
+              signal.alarm(45)
+              try:
+                  tools, host = runner.inventory(utility)
+                  result['image_version'] = host['image_version']
+                  result['stage'] = 'HOST_COMPARISON'
+                  matches = profile.compare_historical(host, HISTORICAL_PROFILE)
+                  result['host_matches'] = matches
+                  if not all(matches.values()):
+                      result['status'] = 'HOST_PROFILE_DIFFERS'
+                      return 3
+                  result['stage'] = 'TOOL_LOOP'
+                  observer.observe_tools(utility, tools, diagnostic, runner.Deadline)
+                  result['status'] = 'TOOLS_PASSED'
+                  return 0
+              except runner.Deadline:
+                  result['status'] = 'DEADLINE'
+                  return 4
+              except (KeyboardInterrupt, SystemExit):
+                  result['status'] = 'INTERRUPTED'
+                  return 4
+              except Exception as exc:
+                  result['status'] = 'REFUSED_OR_EXCEPTION'
+                  safe_codes = ('HOST_IDENTITY_REFUSED','OS_IMAGE_REFUSED','TRUSTED_TOOL_UNAVAILABLE',
+                                'INTERPRETER_IDENTITY_REFUSED','G2_NATIVE_ORDINARY_HOST_PROFILE',
+                                'G2_NATIVE_NONROOT_CREDENTIALS_REQUIRED','G2_NATIVE_CALLER_IDENTITY',
+                                'G2_NATIVE_HOST_FACT_SHAPE','G2_NATIVE_BOOT_IDENTITY','G2_NATIVE_TOOL_POPULATION',
+                                'G2_NATIVE_TRUSTED_TOOL_FACT_REQUIRED','G2_NATIVE_SYSTEM_INTERPRETER_REQUIRED',
+                                'PROTECTED_HOST_TOOL_UNAVAILABLE','PROTECTED_HOST_TOOL_PATH')
+                  if len(exc.args) == 1 and type(exc.args[0]) is str and exc.args[0] in safe_codes:
+                      result['refusal_code'] = exc.args[0]
+                  return 2
+              finally:
+                  signal.alarm(0)
+                  observer.validate_tool_check(diagnostic, protocol)
+                  body = json.dumps(result, sort_keys=True, separators=(',', ':'), allow_nan=False)
+                  line = 'DG16_TOOL_OBSERVATION ' + body
+                  if len((line+'\n').encode()) > 2048:
+                      raise ValueError('PUBLIC_RESULT_SIZE')
+                  print(line, flush=True)
+
+
+          if __name__ == '__main__':
+              sys.exit(main())
+          DG16_PY
