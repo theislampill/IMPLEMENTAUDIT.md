@@ -1,0 +1,39 @@
+{
+  "files": {
+    "OUTPUT_ROLES.json": {
+      "bytes": 19210,
+      "sha256": "8529e0f89737bd4388b838968961cfde3d23f44b19d61eb98a19a6df92307e6c"
+    },
+    "REPORT_SLOTS.json": {
+      "bytes": 831762,
+      "sha256": "f3ab7c60f30df6316c2306f70124479e4cedebcff91743b52b6ae85ec38f4ade"
+    },
+    "SOURCE_MANIFEST.json": {
+      "bytes": 493324,
+      "sha256": "840f6c66afb0f0a50cdbf4b9dc11241ac1d1c83e4ca88d7d3436d0baccb532e8"
+    },
+    "finite_relation.py": {
+      "bytes": 39925,
+      "sha256": "2e4973ca429ad560b25bf71572714e13d6590939b06fa2171b0836176be79ee9"
+    },
+    "full_evidence.py": {
+      "bytes": 14027,
+      "sha256": "e8820d7418e36f8745423985d0c5a6fdfa8c473a000d72838e0b18b6df9214ee"
+    },
+    "full_output_relation.py": {
+      "bytes": 5580,
+      "sha256": "b907f2a3165cb8815b175fa4b239b1201dc378d929af5044f76971ef2b19f5a4"
+    },
+    "full_stdout.py": {
+      "bytes": 13158,
+      "sha256": "fc97581971b37ebd6620d5dc5144e26c4a6e35303ba2868f658f21acb3198f88"
+    },
+    "pending_relation.py": {
+      "bytes": 23704,
+      "sha256": "948b4b21d1f08f0a64a7fe6f104a6ca2e51affd481e38172e05c45ea59dfa1b3"
+    }
+  },
+  "schema": "dg16.full-relation-inputs.v1",
+  "source_commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+  "source_tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e"
+}

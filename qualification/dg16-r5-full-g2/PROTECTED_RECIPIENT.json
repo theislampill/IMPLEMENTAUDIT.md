@@ -1,0 +1,72 @@
+{
+  "actor": "/root",
+  "automatic_retry": false,
+  "branch": "pro/dg16-r5-full-g2-current-03-20261107",
+  "component_code_manifest_sha256": "9d54e10f1c6d056d43801b8457f909030498704a766b17998abbc9c4525c28f3",
+  "component_review": {
+    "independent_seal": {
+      "bytes": 17125,
+      "sha256": "a04b62ff8b2e0e315d0fb7af5ffee37a4d257e9aa507cd628bcd9ccaea3e295d"
+    },
+    "root_receiving": {
+      "bytes": 2139,
+      "sha256": "fd2563ada8f1efd3ee189f26295c151e43e3f11393cd81aee5ee0be25df037da"
+    }
+  },
+  "component_review_seal_sha256": "a04b62ff8b2e0e315d0fb7af5ffee37a4d257e9aa507cd628bcd9ccaea3e295d",
+  "component_seal_sha256": "e99a60d5790355ae39c0e4bbc4567add87e702775ade8f5655e2f3ef56bd9602",
+  "control_branch": "pro/dg16-r5-full-g2-current-control-03-20261107",
+  "effect_grant": false,
+  "enrollment_root_receiving": {
+    "bytes": 2622,
+    "sha256": "02bf425912f391bb975adffe13cd3321d5183a53d096ef763c141d27d64a9a6c"
+  },
+  "host_gate": "MAXIMUM_OPAQUE_PLAINTEXT_ENCRYPTION_BEFORE_EITHER_MAINTAINED_LEG",
+  "maximum_capacity_qualified": true,
+  "original_awards": [],
+  "private_key_on_host": false,
+  "qualifications": {
+    "maximum": {
+      "independent_seal": {
+        "bytes": 41115,
+        "sha256": "1e6c01bec5398ce960f76a1f20bccd75a99c518b5a6b8d3a0dcf24689eea786f"
+      },
+      "result": {
+        "bytes": 2307,
+        "sha256": "814cd1a0cbb6aa2afdbd90a8cb6ebb4399d4d93bfcaca4c05809b5415b6b6546"
+      },
+      "root_receiving": {
+        "bytes": 8230,
+        "sha256": "1b21c5b2631f36f0a009046dafcd9eafe8f12bfb26ec7f79e433d33ba7666c16"
+      }
+    },
+    "small": {
+      "independent_seal": {
+        "bytes": 24690,
+        "sha256": "cdc597a7c68597f5f8643dec237c00419e06513d7d11ea9a77dd585646e3cb4f"
+      },
+      "result": {
+        "bytes": 3686,
+        "sha256": "e62f9127ef6b8c0e8a849a54bb23e98a831a5c2266e070ee2355c75c0275fe20"
+      },
+      "root_receiving": {
+        "bytes": 3727,
+        "sha256": "5609d984bc3a776a9ac1cba6ca3a500ee3a554baf95462ba10ee9bf1d3f32701"
+      }
+    }
+  },
+  "recipient": {
+    "bytes": 1464,
+    "sha256": "5adbbeaf63e38116dcba9eb58af76b0fa056808649f9aa144e3f14dee838f4b8"
+  },
+  "root_receiving": {
+    "bytes": 8230,
+    "sha256": "1b21c5b2631f36f0a009046dafcd9eafe8f12bfb26ec7f79e433d33ba7666c16"
+  },
+  "schema": "dg16.protected-full-g2-public-recipient-adoption.v1",
+  "session": "52e9b813fb80",
+  "small_authenticated_qualified": true,
+  "source_commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+  "source_tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+  "status": "ACTUAL_RECIPIENT_AND_QUALIFIED_PROFILE_SELECTED"
+}
