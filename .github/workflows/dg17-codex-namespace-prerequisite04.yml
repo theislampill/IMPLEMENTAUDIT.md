@@ -1,0 +1,79 @@
+name: DG17 isolated namespace prerequisite diagnostic NONVERDICT
+
+on:
+  push:
+    branches:
+      - pro/dg17-isolated-episode-01-20261106
+    paths:
+      - .github/workflows/dg17-codex-namespace-prerequisite04.yml
+      - qualification/dg17-codex-namespace-prerequisite04/**
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dg17-namespace-prerequisite-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  dg17-bounded:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/pro/dg17-isolated-episode-01-20261106' &&
+      github.event.created == false && github.event.deleted == false &&
+      github.event.forced == false &&
+      github.event.before == '5b144385995ac10c240d90774434cc884ecfd166' &&
+      github.run_attempt == '1'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out the exact reviewed diagnostic
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Provision the exact physical bubblewrap helper
+        id: host_preparation
+        timeout-minutes: 2
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-codex-host-preparation02/prepare.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '03afcc3f26311249459d019d15dd55fd835e99b9cc2b6f3ff9f748cf44436488' ]]; then
+            echo 'DG17 {"status":"HOST_PREPARATION_SOURCE_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter"
+
+      - name: Observe the exact namespace prerequisite
+        id: namespace_prerequisite
+        timeout-minutes: 2
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-codex-namespace-prerequisite04/diagnostic.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != 'b185e43c61dc865f77013d53632438498fac2535a890b6b8ab0f590e81c76c16' ]]; then
+            echo 'DG17_NAMESPACE_CALLER_REFUSED'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter"
+
+      - name: Retain only the closed namespace diagnostic
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-namespace-${{ github.run_id }}-a1
+          if-no-files-found: error
+          retention-days: 7
+          path: ${{ runner.temp }}/dg17-namespace-${{ github.run_id }}-a1/public/RESULT.json

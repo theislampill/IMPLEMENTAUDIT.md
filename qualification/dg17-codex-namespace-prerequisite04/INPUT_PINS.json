@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "bytes": 96217,
+      "path": "qualification/dg17-codex-host-preparation02/BWRAP_INPUT.b64",
+      "sha256": "06cf45cd324bdaab73c9f38def8288af80bdd395bf926c2a08c10e2a28625f65"
+    },
+    {
+      "bytes": 38173,
+      "path": "qualification/dg17-codex-host-preparation02/prepare.py",
+      "sha256": "03afcc3f26311249459d019d15dd55fd835e99b9cc2b6f3ff9f748cf44436488"
+    },
+    {
+      "bytes": 33456,
+      "path": "qualification/dg17-codex-namespace-prerequisite04/worker.py",
+      "sha256": "ea9c111934a87fe9fd5d8f56fbf5f0bc20904c9c39efb794ce9732c78889a475"
+    },
+    {
+      "bytes": 240991,
+      "path": "qualification/dg17-codex-routing/episode.py",
+      "sha256": "4dc7aacb793e1d65ed1fa51335800fbfaa7c9af777369877f2828113006a8466"
+    },
+    {
+      "bytes": 54556,
+      "path": "qualification/dg17-codex-routing/host_utility.py",
+      "sha256": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c"
+    }
+  ],
+  "schema": "dg17.namespace-prerequisite.inputs.v1"
+}
