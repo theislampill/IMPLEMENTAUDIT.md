@@ -1,1 +1,0 @@
-tools: git, bash

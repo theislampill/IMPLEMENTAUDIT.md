@@ -1,4 +1,0 @@
-action: commit-and-push
-binds: diff_scope,timeout_s
-diff_scope: eval-only
-timeout_s: 1..1800

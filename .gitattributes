@@ -1,3 +1,0 @@
-*.sh text eol=lf
-docs/research/genealogy/**/corpus/** whitespace=-trailing-space
-docs/research/genealogy/method/source-prompts/** whitespace=-trailing-space
