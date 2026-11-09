@@ -107,7 +107,7 @@ for label, replacement in (
     governor.write_text(text.replace(route, replacement), encoding="utf-8", newline="")
     check(label, "active planner route")
 run_root_edge = route.split("\n\n")[-1]
-assert run_root_edge.startswith("Claim with `scripts/claim-run.sh <task>`, author canonical templates, then")
+assert run_root_edge.startswith("Run `scripts/claim-run.sh <task>`, initialize from canonical templates, then")
 governor.write_text(text.replace(run_root_edge, "<!--\n" + run_root_edge + "\n-->"),
                    encoding="utf-8", newline="")
 check("inert-run-root-edge-with-stage-owner-retained", "active planner route")

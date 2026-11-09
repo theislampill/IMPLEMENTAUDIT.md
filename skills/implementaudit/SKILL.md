@@ -268,7 +268,7 @@ content refuses those actions. Verify selected-source/package/inventory identity
 before using the progressive owner. Ordinary direct work stays on the Execution
 Spine without a new reference read, model call, graph, or worksheet.
 
-Claim with `scripts/claim-run.sh <task>`, author canonical templates, then
+Run `scripts/claim-run.sh <task>`, initialize from canonical templates, then
 `scripts/validate-run-root.sh <root>`; invalid roots are Andon, not dispatchable.
 For `--controller`, follow pending activation in `references/continuity.md`.
 

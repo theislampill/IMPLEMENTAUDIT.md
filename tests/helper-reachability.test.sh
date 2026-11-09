@@ -126,7 +126,7 @@ record = {'argv': argv, 'returncode': result.returncode,
           'stdout_sha256': hashlib.sha256(result.stdout).hexdigest(), 'stderr_sha256': hashlib.sha256(result.stderr).hexdigest()}
 (out / (name + '.json')).write_text(json.dumps(record, indent=2) + '\n')
 if name == 'current':
-    assert result.returncode == 0 and b'HELPER_REACHABILITY_CENSUS=PASS' in result.stdout and b'modes=25/25' in result.stdout, record
+    assert result.returncode == 0 and b'HELPER_REACHABILITY_CENSUS=PASS' in result.stdout and b'modes=27/27' in result.stdout, record
 else:
     pattern = ('missing mode applicability rows: apply-observed-mutation.sh --batch-apply' if name == 'missing-route'
                else 'mode applicability not implemented: apply-observed-mutation.sh --batch-apply')
@@ -143,14 +143,14 @@ if [ "${1:-}" = --ordered-replacement-modes ]; then
 fi
 
 positive_output="$(bash "$checker" --repo-root "$repo_root")"
-grep -Eq 'HELPER_REACHABILITY=PASS population=([0-9]+) examined=\1 modes=25/25 enumeration=package-contract.artifact_payload_entries full_path_sets=equal projections=2' \
+grep -Eq 'HELPER_REACHABILITY=PASS population=([0-9]+) examined=\1 modes=27/27 enumeration=package-contract.artifact_payload_entries full_path_sets=equal projections=2' \
   <<<"$positive_output" || {
     printf 'helper-reachability.test: live positive census did not prove complete full-path equality\n%s\n' "$positive_output" >&2
     exit 1
 }
 
 census_output="$(bash "$checker" --census-only --repo-root "$repo_root")"
-grep -Eq 'HELPER_REACHABILITY_CENSUS=PASS population=([0-9]+) examined=\1 modes=25/25 enumeration=package-contract.artifact_payload_entries full_path_sets=equal projections=2' \
+grep -Eq 'HELPER_REACHABILITY_CENSUS=PASS population=([0-9]+) examined=\1 modes=27/27 enumeration=package-contract.artifact_payload_entries full_path_sets=equal projections=2' \
   <<<"$census_output" || {
     printf 'helper-reachability.test: census-only result was not distinctly nonterminal\n%s\n' "$census_output" >&2
     exit 1
@@ -190,7 +190,7 @@ governor = candidate / "skills/implementaudit/SKILL.md"
 owner = candidate / "skills/implementaudit/references/plan-lifecycle.md"
 assert "### Stage 5 - Write" in owner.read_text(encoding="utf-8")
 text = governor.read_text(encoding="utf-8")
-start = text.index("When a run root is needed, claim it with")
+start = text.index("Run `scripts/claim-run.sh <task>`, initialize from canonical templates, then")
 ending = "not dispatchable.\n"
 end = text.index(ending, start) + len(ending)
 governor.write_text(text[:start] + text[end:], encoding="utf-8")
@@ -528,7 +528,7 @@ p.write_text(text.replace("--resolve-retained-continuity-predecessor", "--not-re
 PYMODE
 expect_fail R39-HISTORY-FALSE 'mode applicability not implemented: claim-run.sh --resolve-retained-continuity-predecessor' "$false_history_mode"
 
-printf 'helper-reachability.test: retained controls passed (dynamic full-path census + modes 25/25 + native-input, nonterminal-yield, ordered-replacement and historical-link controls)\n'
+printf 'helper-reachability.test: retained controls passed (dynamic full-path census + modes 27/27 + native-input, nonterminal-yield, ordered-replacement and historical-link controls)\n'
 
 python -I -B "$repo_root/tests/helper-reachability-successor.py" "$repo_root" "$BASH"
 python -I -B "$repo_root/tests/helper-reachability-custody.py" "$repo_root" "$BASH"

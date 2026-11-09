@@ -422,7 +422,7 @@ def captured_shell_companion(helper, content):
     raw = projection_payloads["standalone_compatibility"]["scripts/" + helper]
     return (constants == {"expected_bytes": len(raw), "expected_sha256": hashlib.sha256(raw).hexdigest()}
             and hashlib.sha256(json.dumps(tokens, separators=(",", ":")).encode()).hexdigest()
-            == "048778ca98ed97c78dc6f1d0d78425dc18d985b6823cc777af7c30eeb537ec7a")
+            == "1c84dae644ae6f186ca918da11d98a8230a9051450d505891a97f3b438038464")
 
 
 def caller_invokes(helper, content):
