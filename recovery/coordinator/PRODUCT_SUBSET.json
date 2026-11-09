@@ -1,0 +1,105 @@
+{
+  "commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+  "members": [
+    {
+      "bytes": 268686,
+      "git_blob": "137b11f0024badd616591a8084071a8aacfc29c6",
+      "git_mode": "100644",
+      "path": "scripts/qualify-work-graph-verifier.py",
+      "sha256": "79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b"
+    },
+    {
+      "bytes": 53362,
+      "git_blob": "f0605bcc38d14bc4882db066bb7983e6345e2bc2",
+      "git_mode": "100644",
+      "path": "scripts/qualify-work-graph-prefix.py",
+      "sha256": "ff5dbdce5b4419268b0fc11c4659763ad68d40e32f18f721b6093a7dd269b7ab"
+    },
+    {
+      "bytes": 49927,
+      "git_blob": "bbc8b4749ede8e3a389dcbd29cc0fbdd92186fc1",
+      "git_mode": "100644",
+      "path": "scripts/load-work-graph-c5-executor.py",
+      "sha256": "2989ba6cb8da6f52f9a2f94f27d141a931a0bffb8ebd03172091b170646d8017"
+    },
+    {
+      "bytes": 83099,
+      "git_blob": "41a71377614edad7a2977a884e765b7345fcf9ef",
+      "git_mode": "100644",
+      "path": "scripts/work-graph-c5-executor.py",
+      "sha256": "d9b9ad23eefaa62bb273970232dc5669ab40d465c6f9d5bf5f83b7048e8df1d8"
+    },
+    {
+      "bytes": 21275,
+      "git_blob": "347f9631d15ffbe06f1d0e7c07707e7cfb5a0a80",
+      "git_mode": "100644",
+      "path": "scripts/work-graph-c5-inputs.py",
+      "sha256": "2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a"
+    },
+    {
+      "bytes": 24898,
+      "git_blob": "13447cfb385e2b06822c5787f335161566355803",
+      "git_mode": "100644",
+      "path": "scripts/work-graph-c5-provider-inputs.py",
+      "sha256": "e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f"
+    },
+    {
+      "bytes": 15631,
+      "git_blob": "8a1e1b0a8e50a3ed725346c9361dd965d9cae383",
+      "git_mode": "100644",
+      "path": "scripts/run-work-graph-verifier.sh",
+      "sha256": "45e569b491d90b84929623b1966b03c7abc0b2c57f739c6b8fe23a58baab3ea9"
+    },
+    {
+      "bytes": 43846,
+      "git_blob": "e6a33828ee58d3aa36e8fbffefcb1186d1d948c5",
+      "git_mode": "100755",
+      "path": "scripts/verify-package.sh",
+      "sha256": "65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878"
+    },
+    {
+      "bytes": 10390,
+      "git_blob": "c8b287380ceda1227ae948ba95a0462e03cb0528",
+      "git_mode": "100644",
+      "path": "tests/c5-selected-source-fixture.py",
+      "sha256": "207a29c33806bb613b2436f420d2adc99e32045cfd234bb2a643d309d153950b"
+    },
+    {
+      "bytes": 164145,
+      "git_blob": "930504e580686546e734e0963834560dbbd1003e",
+      "git_mode": "100644",
+      "path": "tests/composite-source-cases.py",
+      "sha256": "bf322d185c905ff0c7b5c35228b89daf81d6a800e489bc3c0a0315ca9bd59e53"
+    },
+    {
+      "bytes": 25255,
+      "git_blob": "a4fe8e39249a7e1e1942fb1bc62f3070c8f4a85e",
+      "git_mode": "100644",
+      "path": "tests/scarce-resource-rehearsal-contract.test.sh",
+      "sha256": "f5f8e5a17c19715b030f12887226ee3435499331019f93429f9a7962b8e8ea30"
+    },
+    {
+      "bytes": 20134,
+      "git_blob": "0ed9f1ab06b8b068ce8ee2eb167bfa564c5ec9fa",
+      "git_mode": "100644",
+      "path": "tests/R000B-R001E-review-heldouts.test.sh",
+      "sha256": "a54b8585099eb5e6a8b814c41fc954b3ae7496d9fa35119cfe79c84aa11be9af"
+    },
+    {
+      "bytes": 291624,
+      "git_blob": "5e8bbfb48043f25e169ce588f4a098ecdba43390",
+      "git_mode": "100644",
+      "path": "skills/implementaudit/scripts/claim-run-rotation.py",
+      "sha256": "128dfe66ce656cd194d5fe1e55b245fecb1b4fd811dea87f75f8ace4a59a0487"
+    },
+    {
+      "bytes": 32290,
+      "git_blob": "c67ab52f656f865faec0b6111086a79718aa183d",
+      "git_mode": "100644",
+      "path": "skills/implementaudit/scripts/claim-run.sh",
+      "sha256": "9bce5c887cd89c2d2991b84f1bf765787e7a6b75a2eba29a8433c3a6c05f73a3"
+    }
+  ],
+  "scope": "Exact offline source for the current lock/legacy hypotheses. Use the public Git acquisition helper for the complete maintained tree.",
+  "tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e"
+}

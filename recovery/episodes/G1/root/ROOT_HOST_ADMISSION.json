@@ -1,0 +1,21 @@
+{
+  "utc": "2026-11-09T09:47:46.979121+00:00",
+  "issuer": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "admit_one_host": true,
+  "commit": "f9ba187e8f5520956f0f16cf13c0a706e8360b96",
+  "tree": "8390375505282e602759c7976b6bca82a44d5737",
+  "branch": "pro/dg16-g1-original-g3-04-20261109",
+  "retry": false,
+  "source_handoff": "353593079f92e55178b8c0043bb7c4a94c6bc3cdc7a671ed33061f17b920d60a",
+  "independent_source_and_effect_review": "78abaaff01ae22e00682937517afffdcbfb6af6d3ba1c645afa532ae0a74b5eb",
+  "pre_push_sha256": "365cc33c676fcd43af37ed72adafcd5e1096266b5b92b2ce0219d164f90b6f96",
+  "source_controls": "installed on Ubuntu/agent; exact tool/recipient/G3 acquisition, current file-by-path readback, per-frame deadline and sender binary peer paths received",
+  "independent_g3_reviewer": "/root/dg16_original_contract_receive",
+  "decision": "One create-only non-force host push, original fixed-budget episode; one sender and original timed controls only after actual per-role admission. No automatic retry.",
+  "protected_boundaries": [
+    "No main or PR255/issue operations",
+    "Preserve failed/UNKNOWN and private inputs",
+    "No standing independent/Root PASS"
+  ],
+  "resource_ceiling_minutes": 75
+}

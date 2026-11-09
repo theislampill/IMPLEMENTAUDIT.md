@@ -1,0 +1,33 @@
+{
+  "actual_actor": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "branches_checked": [
+    [
+      "pro/dg16-r5-full-g2-direct-host-01-20261109",
+      {
+        "http": 404
+      },
+      0
+    ],
+    [
+      "pro/dg16-r5-full-g2-direct-control-01-20261109",
+      {
+        "http": 404
+      },
+      0
+    ]
+  ],
+  "current_private_custody": "UNKNOWN",
+  "decision": "SELECT_QUALIFIED_DIRECT_HOST_ENCRYPTION_SOURCE_AND_EXISTING_PUBLIC_CERTIFICATE_FOR_FRESH_G2_COMPOSITION",
+  "effect_granted": false,
+  "new_original_awards": [],
+  "policy_native_reviews_and_public_receiver_bindings": "Pending exact composed inputs and separate actual decisions",
+  "root_decision_sha256": "2e196b17ee1d6b8957e13d80d34ee5969a891889502b7393aaa6d5120aacf479",
+  "runtime_or_credential_transfer": false,
+  "same_host_production_gate": "REQUIRED_ON_ACTUAL_PRODUCTION_JOB_BEFORE_EITHER_MAINTAINED_LEG",
+  "schema": "astra.dg16.actual-direct-host-source-adoption.v1",
+  "selection_only": true,
+  "source_review_sha256": "09f5c52bed06b74c824be72772dae3ce998744e1b025e010c26f0ce0cc0c471b",
+  "structural_manifest_sha256": "5060221660443a3eb0d233717b7dd647016acf2969336d279631ac79594a08d3",
+  "structural_output_members": 61,
+  "utc": "2026-11-09T05:09:01.931783+00:00"
+}

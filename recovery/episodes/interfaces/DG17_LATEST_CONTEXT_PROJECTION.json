@@ -1,0 +1,34 @@
+{
+  "schema": "dg17.latest-public-context-projection.v1",
+  "kind": "BOUNDED_PROVENANCE_PROJECTION_NOT_ORIGINAL_TRANSCRIPT",
+  "source_tool": "codex-app read_thread; read-only; includeOutputs=false",
+  "thread_id": "6af165a2-d3e8-83ea-9b99-9182a654615f",
+  "thread_title": "Execute DG17 Continuation",
+  "completed_response_id": "c12e11b7-989f-5840-9814-ccb21a3e0c66",
+  "later_owner_commission_turn": "62bdd41c-1436-4ef2-ad40-f7cb85ca757d",
+  "latest_owner_error_report_turn": "6e25f123-ed4e-4ff5-a108-a3f9389335d5",
+  "observed_completed_response": {
+    "reported_progress": 100,
+    "packet02_bodies": 20,
+    "packet02_bytes": 1356110,
+    "original14_bodies_unchanged": true,
+    "scope": "Source/data composition received; not native/original acceptance",
+    "publication04": "STOPPED_NONREUSABLE; rejection origin/provider dispatch remains unknown; no recovered candidate commit in inspected response"
+  },
+  "latest_requested_work": [
+    "Adapt one selected native consumer to packet02's complete index/population/owner/manifests, with distinct review and separate root receiving. Preserve original14 substantive native-context duty.",
+    "Reconcile uncertain publication04 tree, actually known commit, ref, runs and effects before a still-needed authorized write. Approval delivery remains unproved; do not repeat the unchanged write as a probe or evade denial.",
+    "Preserve T11/Y15/T15 and existing T05 classifications. Native content/routing, applicable Desktop, original acceptance and adoption remain distinct.",
+    "Receive Astra's typed actual DG16 common result. G2's failed pair plus bounded native/maximum positives do not establish fullG2/T14. Do not duplicate DG16's producer."
+  ],
+  "DG16_results_supplied_by_this_export": [
+    "G2/root/ROOT_TERMINAL_DECISION.json",
+    "G2/independent/RECEIPT.json",
+    "G1/root/ROOT_TERMINAL_DECISION.json",
+    "G1/independent/TERMINAL_RECEIVING.json"
+  ],
+  "currentness_limit": "A later DG18 owner statement says DG17 advanced beyond100. The exact later progress body was not recovered here;100 is only the last completed response directly inspected, not asserted current.",
+  "resource_limit": "Thread idle/active status, dated terminal jobs and old no-held fields are not actual current resource releases or grants.",
+  "loss": "Original message bodies, transcripts, tool outputs and attachments omitted. Later progress/checkpoint bodies remain unverified locators until received.",
+  "messages_sent_or_owner_changes": 0
+}

@@ -1,0 +1,11 @@
+{
+  "archive": "DG16_PRO_RECOVERY_20261109.zip",
+  "bytes": 4343738,
+  "manifest_sha256": "3bb6deb783a38bd42aee327547bc977c5afaa44a5db75c491e833e59ea99645d",
+  "members": 518,
+  "payload_bytes": 15460227,
+  "recovered_logical_paths": 397,
+  "sha256": "a338cd6497949dd11e79e2eb870b790a9ee54a4d88ba0dee304911c8530c0c51",
+  "supplement_files": 4,
+  "unresolved_declared_public_dependencies": 0
+}

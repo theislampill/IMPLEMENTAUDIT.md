@@ -1,0 +1,17 @@
+{
+  "status": "RED_MISSING_WITNESSED_COUNTERMEASURE",
+  "baseline_sha256": "b4c9013c0c665df6c2e66c609f93d5a08c2e12905a7663d3d144419b64b69865",
+  "candidate_sha256": "b4c9013c0c665df6c2e66c609f93d5a08c2e12905a7663d3d144419b64b69865",
+  "cases": [
+    {
+      "case": "fetch-command-local-foreground-required",
+      "passed": false
+    },
+    {
+      "case": "all-other-AST-including-detach-and-finalizer-unchanged",
+      "passed": true
+    }
+  ],
+  "actual_Git_or_native_or_hosted_effects": 0,
+  "whole_cell_or_original_awards": []
+}

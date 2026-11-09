@@ -1,0 +1,18 @@
+{
+  "schema": "dg16.sol-public-immutable-source-anchors.v1",
+  "repository": "https://github.com/theislampill/IMPLEMENTAUDIT.md",
+  "product": {
+    "commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+    "tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+    "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/tree/7e2b00b3a2a16fc6033a5eabe4fc795f6249366f"
+  },
+  "historical_g1_04": {
+    "commit": "f9ba187e8f5520956f0f16cf13c0a706e8360b96",
+    "tree": "8390375505282e602759c7976b6bca82a44d5737"
+  },
+  "historical_g2_01": {
+    "commit": "7f618adc702912f760d87f68fe9c94cc419e844c",
+    "tree": "27bb6432546c2d0b3fb7df09f0845c3d1303bccd"
+  },
+  "scope": "Previously Root-received public immutable references; no network/provider verification performed for packaging. Public product dependencies resolve at exact commit/path; never substitute default branch."
+}

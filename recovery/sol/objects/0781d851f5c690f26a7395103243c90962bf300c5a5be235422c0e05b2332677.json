@@ -1,0 +1,43 @@
+{
+  "schema": "dg16.control-supported-file-parent-independent-receiving.v1",
+  "status": "PASS_SOURCE_ONLY",
+  "utc": "2026-11-09T09:26:03.503948+00:00",
+  "files": {
+    "control_process_v5.py": {
+      "bytes": 19240,
+      "sha256": "1f78c843e942720fc0ed5ef909975dbdd9fd4595b287053bbe3384ffa265cdff"
+    },
+    "control_callback_v6.js": {
+      "bytes": 16959,
+      "sha256": "7760fd14ba8c4cf3fbc3f139fc6f3fd4c0df4821a3e26e1766bbce4c08180734"
+    },
+    "control_readback.py": {
+      "bytes": 6009,
+      "sha256": "7e7d26fa8dd41eec57ac47c9280b7f2107e9df0e509fe608f4d9c4c080c5a649"
+    },
+    "SUCCESSOR_FINAL.json": {
+      "bytes": 7550,
+      "sha256": "c617c5b2dd30f656f0102311c7bcbf6701d17988318064df27b90c6b681ceb5e"
+    },
+    "REVISE_RECEIVING.json": {
+      "bytes": 2243,
+      "sha256": "9d7248601da1de74b06398d63f5b0603697f00c559df9f5581b000d44386549d"
+    }
+  },
+  "shared_decoder_sha256": "ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1",
+  "reviewer": "Sol primary; independent of worker source author",
+  "checks": [
+    "Fulladapter read; preservedR378validation/receiving/context/body/fullpopulation/1MiBcap/regularleaf/SHA/GitID/parent/closing and explicittoolsfreshsingleleaf",
+    "Comparedcallbackv6diffagainstexactpreviouslyreceived94e1v4; retainReturned+returned_outcomedescriptor/custody method and guard remain",
+    "Pythonv5 retainsactualsafeoutcome beforepost-retain45sframequalification inBOTHloops; no nextintent onlatewrite/read",
+    "Actual seven Python methods and15JSinertcases+2G3referenceplans passed; newpublicBase64tool arguments bind actualpublishedcommit/exactpath/encoding",
+    "Required v2config/admission joins exactadapter/shareddecoder/readtransport/maximum45; noRootissuanceornewauthority"
+  ],
+  "retained_failures": [
+    "Initialcontrolv4/v5sourcecandidateREVISE: lost94e1late-returnhandler; missingpost-retainframecheck; oldfiles/receiptsretained",
+    "Parent firstNodeinvocation fromumbrellacwd exit1 missing relativepurehelper; actualprescribedcontrolcwd exit0. No product/sourcefix inferred from cwd correction"
+  ],
+  "actual_runtime_qualification": false,
+  "actual_Sol_protected_effects": 0,
+  "whole_cell_or_issue_acceptances": []
+}

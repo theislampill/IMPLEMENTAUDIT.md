@@ -1,0 +1,50 @@
+{
+  "schema": "dg16.sol-owner-stop-checkpoint.v1",
+  "state": "SOURCE_ENGINEERING_STOPPED_BY_OWNER; PUBLIC_HANDOFF_ONLY",
+  "actual_current05_point": {
+    "functional_fetch_patch_written": false,
+    "current05_inputs_written": false,
+    "prepare_executed": false,
+    "bind_carrier_executed": false,
+    "finish_executed": false,
+    "produced_current05_commit": null,
+    "reviewed_current05_candidate": null,
+    "partial_public_files": [
+      "check_current05_fetch.py",
+      "CURRENT05_FETCH_RED.json",
+      "PRE_CANDIDATE_INTERFACES.json"
+    ],
+    "verified_source_bases": {
+      "run_sha256": "b4c9013c0c665df6c2e66c609f93d5a08c2e12905a7663d3d144419b64b69865",
+      "operation_sha256": "0c67470c1138f7e200a5d7e9c8e4cedfe3c56d6dc8ae86f123fdeeadd32cdc43"
+    },
+    "selection_sha256": "aac7a08587e5fb5151345730d0a001228676c09652adb2ade27eddc866636e65",
+    "core_role_index_sha256": "816b7bfe544cff1edb83540919e91b7409df8792fdc28a50a186896c8fa379af",
+    "intended_unperformed_change": "Command-local -c maintenance.autoDetach=false only on hosted source-preparation fetch; retain ordinary detach and Root finalizer cwd fix. No mutation, generator run or further check occurred after owner stop."
+  },
+  "actual_g1_04": {
+    "run": 42596136449,
+    "job": 129089113853,
+    "attempt": 1,
+    "status": "UNQUALIFIED_BEFORE_PRODUCER",
+    "namespace": "Exact52B namespace refusal; ATTRIBUTED PROVIDER,2272 names,one lock,others0,flags0",
+    "historical_lock_name_owner": "UNPROVEN",
+    "original_pair": "NOT_STARTED",
+    "G3": "SKIPPED",
+    "final_currentness": "REFUSED; Root separately repaired prospective finalizer cwd source"
+  },
+  "actual_g2_01": {
+    "run": 42579780645,
+    "job": 129035519895,
+    "attempt": 1,
+    "status": "FAILED",
+    "legacy_nodes": 119,
+    "legacy_tests": 91,
+    "legacy_node_status": "UNSETTLED",
+    "causal_scope": "Legacy verifier returned1; stale artifact-capture phase did not prove collector bug; inner cause UNKNOWN.",
+    "diagnostic": "No-I/O LEGACY_EXIT_STATUS successor88afb accepted at diagnostic source scope only; no complete native repair claimed."
+  },
+  "scope_ceiling": "Current core/L04-separate G3 contract cannot accept R35-L04 inside this episode or whole G3 from its own rows. Separate applicable Root receiving/composition remains Root-owned; this is not a retraction of an external accepted receipt.",
+  "root_authority": "Astra retains source integration, sole PR255/publication and DAG acceptance. The human will launch one Pro successor; no Pro delivery/receipt, new source lease, native custody or effect authority is asserted.",
+  "whole_cell_or_issue_awards": []
+}

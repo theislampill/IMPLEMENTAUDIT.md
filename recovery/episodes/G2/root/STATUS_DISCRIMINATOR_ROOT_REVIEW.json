@@ -1,0 +1,58 @@
+{
+  "decision": "DEFER_INTEGRATION_STATUS_ONLY_CANDIDATE_REQUIRES_REVISION",
+  "root": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "origin_run": 42579780645,
+  "scope": "Review of the proposed G2 label change. No verifier, native host, artifact acquisition, or hosted operation executed.",
+  "driver": "ba8298adf2d3050c15a532058fa8fcd681ce7c809f8978a9369a1eb4b7f2b412",
+  "diagnostics": "e8678a356d8ff9ad710907c71aeeb9dcfb3624fd4f563df6bfaaed9942795671",
+  "producer_qualification": "299369d4893969070036f4f9592d053b5b33c4aad9f06747e68ffa5262510067",
+  "bounded_control": "Executed the exact AST of the legacy nonzero guard from published and proposed source. Injected a single OSError(28) only on opening EXECUTE_PROGRESS.next in a private, temporary fixture. No original bank execution.",
+  "observed": {
+    "published": {
+      "first_exception": "RuntimeError",
+      "message": "complete legacy verifier returned 1",
+      "added_write_reached": false
+    },
+    "candidate": {
+      "first_exception": "OSError",
+      "message": "[Errno 28] synthetic write refusal",
+      "added_write_reached": true
+    }
+  },
+  "consequence": "A new fallible progress write precedes the deliberate legacy RuntimeError. A storage error can mask the existing primary failure. This control is prospective and does not diagnose the hosted verifier exit.",
+  "remedy": "If retained, set the diagnostic phase in memory and use the existing failure-recording path. Give an actual original failing test or viable G1 controls precedence over transitive rebinding of this label.",
+  "new_awards": [],
+  "successor_review": {
+    "decision": "RECEIVE_REVISED_DIAGNOSTIC_AT_SOURCE_SCOPE",
+    "driver": "88afb3bf7d598c52afbaf3708d3e63ddb647768da6ce604cabc2d6d500f265be",
+    "diagnostics": "e8678a356d8ff9ad710907c71aeeb9dcfb3624fd4f563df6bfaaed9942795671",
+    "actual_guard_controls": [
+      {
+        "mode": "legacy",
+        "code": 1,
+        "added_file_opens": 0,
+        "primary_error": "RuntimeError",
+        "phase": "LEGACY_EXIT_STATUS"
+      },
+      {
+        "mode": "legacy",
+        "code": 0,
+        "added_file_opens": 0,
+        "primary_error": null,
+        "phase": "LEGACY_DECLARED_ARTIFACT_CAPTURE"
+      },
+      {
+        "mode": "dag",
+        "code": 1,
+        "added_file_opens": 0,
+        "primary_error": null,
+        "phase": "DAG_DECLARED_ARTIFACT_CAPTURE"
+      }
+    ],
+    "existing_failure_handler_readback": true,
+    "published": false,
+    "original_gate_discharged": false,
+    "host_rerun_required_for_this_review": false,
+    "integration": "Deferred. Reuse with a future justified source change."
+  }
+}

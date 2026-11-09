@@ -1,0 +1,25 @@
+{
+  "schema": "dg16.public-custody-release.v1",
+  "issued_at_utc": "2026-11-09T11:38:50.682Z",
+  "issuing_coordinator": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "released_engineering_coordinator": "01a1953f-c449-72b0-9514-333b090b6dce",
+  "on_delivery": "Astra releases continuous DG16 engineering and isolated candidate integration. Sol's source release received; his latest observed turn 01a1bfdc-51ef-71a2-a488-4c4f2e11eaf3 completed and the native thread was idle. All three Sol child actors reported completed. There is no active G1/G2 host slot.",
+  "sol_scope_digest": "71256af0be5e394baeb35c97138a1307efe40f2c301b20686394e6050b5b5b63",
+  "new_dg16_owner": "One owner-designated ChatGPT Pro DG16 successor, identity to be recorded in its authentic receiving turn",
+  "successor_intake": "PENDING_OWNER_LAUNCH_AND_INDEPENDENT_RECEIVING",
+  "first_new_working_branch": "pro/dg16-pro-successor-20261109",
+  "working_branch_precondition": "Absent at cutoff; any unexpected owner/ref requires reconciliation before write. Default initial source base 7e2b00b3a2a16fc6033a5eabe4fc795f6249366f. This release creates no working branch.",
+  "archival_branch": "handoff/dg16-pro-recovery-20261109",
+  "grants_transferred": [],
+  "permissions": [
+    "DG16 source engineering, local integration, exact candidate/review preparation and returns",
+    "One isolated DG16 source writer after actual acceptance of custody",
+    "Coordinate genuine original accepting operations subject to fresh source, producer, admission, independence, time and resource gates"
+  ],
+  "reserved": [
+    "Astra sole PR255 writer and authoritative whole-DAG acceptance",
+    "Human exact-candidate mainline adoption; protected operations as originally reserved",
+    "DG17/DG18 separate Pro engineering; original issue writers and CE consumers as assigned"
+  ],
+  "final_holds": "Sol is already HOLD. Astra enters HOLD on independently verified public handoff publication. No polling or continuing DG16 attempts from either coordinator."
+}

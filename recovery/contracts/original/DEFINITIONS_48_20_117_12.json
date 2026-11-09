@@ -1,0 +1,1729 @@
+{
+  "schema": "dg16.original-definition-working-inputs.v1",
+  "authority": "NONE",
+  "original48": [
+    {
+      "id": "R35-H01",
+      "requirement_exact": "Preserve H's exact qualified commit/tree, 104/104 scope, initial 108-vs-104 assertion and three deep-Windows-path failures. Historical acceptance neither becomes successor equivalence nor gets revoked by reopening.",
+      "original_scope_and_binding_exact": "HIST; applicability comparison, not replay. [H, E]"
+    },
+    {
+      "id": "R35-P01",
+      "requirement_exact": "Bind live base/head/tree/dirty state, full issue/amendments, authority, donor lineage and concurrent-writer census. Distinguish local reconstruction from real Git/native identity. Preserve accepted #235–#243 work and custody failures.",
+      "original_scope_and_binding_exact": "P; task writer. Missing native controller evidence is a named gate, not permission to mint it. [B, E]"
+    },
+    {
+      "id": "R35-P02",
+      "requirement_exact": "Bind each change to existing semantic owner, actual gap, smallest change, discriminator and rollback. Preserve a failing semantic preimage; absence of a proposed file/test/registry edge is not runtime RED. Retain one compiler and original stable case/event identities.",
+      "original_scope_and_binding_exact": "P; R0035. Shared owner hunks stay separate. [B, N, E]"
+    },
+    {
+      "id": "R35-N01",
+      "requirement_exact": "Derive the native population from bound STATE/ROADMAP, controller/epoch/receipt where available, plan/phase/task specifications and stable node identities. Counterexample: an additional ready/dependent/conflicting native obligation leaves supplied scalar counts unchanged but must change the compiled graph/disposition.",
+      "original_scope_and_binding_exact": "P for constructed acquisition/derivation controls; NATIVE for genuine preimage acquisition. R0038 may supply facts, never native or compiler authority. [N, E]"
+    },
+    {
+      "id": "R35-N02",
+      "requirement_exact": "Exhaustive census fails closed on missing, duplicate, unknown, stale or contradictory native state; do not omit it or relabel it BLOCKED to close arithmetic. Unknown owner/schema must be explicit. Include blank/missing native source and conflicting-source controls.",
+      "original_scope_and_binding_exact": "P; R0035/compiler. [B, N]"
+    },
+    {
+      "id": "R35-N03",
+      "requirement_exact": "One normalized versioned schema binds dependency/JOIN edges, semantic read/write/acceptance/resource/authority sets, effect/reversibility/authorization, node/result vocabulary, candidate/tree/worktree and external-effect identity. Preserve integer/canonical-JSON and schema compatibility.",
+      "original_scope_and_binding_exact": "P; R0035 graph contract; caller assertions do not authenticate facts. [B, N, E]"
+    },
+    {
+      "id": "R35-N04",
+      "requirement_exact": "Input, graph, dependencies, writer/resources, dispatch, result and invalidators remain traceable by exact identity. Source/schema/registry/dependency/writer/resource/evidence/currentness changes invalidate affected use. Reused labels with changed bytes are rejected.",
+      "original_scope_and_binding_exact": "P; R0035 consumes existing currentness/fencing owners. [N; original H01]"
+    },
+    {
+      "id": "R35-N05",
+      "requirement_exact": "Zero/one/fewer-than-three cells, one ready cell, strict chain, limited host/ceiling, unknown independence/authority, irreversible effects or unfavorable coordination value preserve serial/no-compiler cheap paths. Serial consumption still rechecks drift and currentness; cheap path never waives a consequential JOIN.",
+      "original_scope_and_binding_exact": "P; R0022 ancestry and R0035 composition. No mandatory graph artifact, agent count or utilization target. [B, N, E]"
+    },
+    {
+      "id": "R35-D01",
+      "requirement_exact": "Closed native population satisfies exactly one DONE/ACTIVE/READY/BLOCKED membership per cell. A correct scalar equation over an incomplete native census is still invalid. Completion of one cell preserves independently active work.",
+      "original_scope_and_binding_exact": "P; R0035 with R0022. Original N08/H02. [B, N]"
+    },
+    {
+      "id": "R35-D02",
+      "requirement_exact": "READY derives from actual predecessor, JOIN, authority, write/acceptance/resource, independence, reversibility and currentness closure. Pair identical nodes with one live prerequisite open/closed; only the permitted arm becomes eligible.",
+      "original_scope_and_binding_exact": "P; R0035. [B]"
+    },
+    {
+      "id": "R35-D03",
+      "requirement_exact": "Capacity uses actual host/operator roster, occupied ACTIVE work, `0` versus absent versus positive ceiling, rollback margin and value. Dispatch stays bounded, without erasing safe useful work or forcing maximum occupancy. New three-lane authoring permission is not runtime policy.",
+      "original_scope_and_binding_exact": "P; graph selection consumes real evidence; NATIVE if actual host capacity is claimed. Original N07/B01/B02. [B, E, L]"
+    },
+    {
+      "id": "R35-D04",
+      "requirement_exact": "Shared semantic owner/acceptance/resource/effect serializes even across distinct files or lane names. Genuinely independent preimages can overlap; a shared eventual product alone does not create a hard edge.",
+      "original_scope_and_binding_exact": "P; R0035 decisions. Actual safe delegated execution is R0036/host integration. Original P02/N03. [B, L]"
+    },
+    {
+      "id": "R35-D05",
+      "requirement_exact": "Every consequential JOIN binds consumer, exact required cell/lane set, result schema/statuses, dispatch/consumption graph identity, source/evidence/candidate, independence, sole writer and recompute trigger. Missing/duplicate/unknown/stale/falsely terminal inputs cannot satisfy it. Optional omission must have been declared before dispatch with explicit evidence ceiling.",
+      "original_scope_and_binding_exact": "P; R0035 JOIN, R0036 lane-envelope interface. Original N01/A01/A02. [B, N]"
+    },
+    {
+      "id": "R35-D06",
+      "requirement_exact": "Parent normalizes terminal, nonterminal, PARTIAL, UNKNOWN, NONVERDICT, transport failure and contradictory success envelopes. All required results settle; arrival order, subprocess exit or PASS-like prose cannot create an accepted result. Correlated/common-source duplicates do not create independence.",
+      "original_scope_and_binding_exact": "P; R0035 consumes existing R0031/R0036 vocabulary. Original N05/N06. [B, N]"
+    },
+    {
+      "id": "R35-D07",
+      "requirement_exact": "Before consequential consumption, reread current affected live owner/source, reconcile authority, fence stale results, recompute dependencies/JOIN/conflicts/capacity/eligibility, consume via sole current writer, then expose new frontier. Test graph change during JOIN and suppressed recomputation.",
+      "original_scope_and_binding_exact": "P semantics plus I/NATIVE for actual governor intake/consumption. Original N02/N04/H01. [B, N]"
+    },
+    {
+      "id": "R35-D08",
+      "requirement_exact": "Material completion/blockage/drift/authorization/resource/continuity events trigger reconsideration; an unchanged event/reminder does not redispatch accepted work. L4/interruption fences affected results without inferring other ACTIVE=0; partial useful results retain original scope and residuals.",
+      "original_scope_and_binding_exact": "P; R0035 interfaces with governor/R0037, not loop ownership. Original B03/H02/H03/H04. [B, L]"
+    },
+    {
+      "id": "R35-D09",
+      "requirement_exact": "Conflict and retry admission recognize logical-delivery identity and pending/unknown effects across transaction IDs. Matching route-independent labels cannot authorize a duplicate send/effect. Independent unrelated effects/read-only work stay available; no global mutex.",
+      "original_scope_and_binding_exact": "P for discriminator/graph consumer, I/NATIVE for R0030 effect and R003A attribution inputs. [B reconciliation; current triad TC03]"
+    },
+    {
+      "id": "R35-D10",
+      "requirement_exact": "Context-aware placement uses actual locality, governor/child context cost and return-compression usefulness; effect-capability admission is enforceable at the actual executor. Prompt-only read-only is not containment. Keep missing physical admission/overlap evidence explicit.",
+      "original_scope_and_binding_exact": "R0035 placement; I with R0036/host effect owners; NATIVE for physical containment and overlap. [B reconciliation]"
+    },
+    {
+      "id": "R35-D11",
+      "requirement_exact": "Sole governor, exact four child skills, one child per derivation/return/re-derivation, unique direct `audit-andon`, and L1–L5 authority survive. A skill, child result, clean JOIN, direct cord pull or correct lane cannot grant READY, authority, PASS or closure.",
+      "original_scope_and_binding_exact": "P no-regression; I if any shared owner changes. Original A01/A02/A03. [B, A]"
+    },
+    {
+      "id": "R35-V01",
+      "requirement_exact": "Derive the complete live verifier obligation population from actual canonical source/registry, including prelude/inline checks and final/build/currentness semantics. No fixed 104 or later observed count; new/removed/reordered obligations rebuild mapping.",
+      "original_scope_and_binding_exact": "P mapping; central registry I. [N; actual verify-package]"
+    },
+    {
+      "id": "R35-V02",
+      "requirement_exact": "Every property/obligation maps exactly once to one node or composed JOIN with input identity, dependency/order, environment/toolchain, writer/resource constraint, stdout/stderr/exit normalization, evidence output/layer and invalidator. Coverage must not be inferred from the number of test files.",
+      "original_scope_and_binding_exact": "P compiler-specific map; consumer acceptance I. [N]"
+    },
+    {
+      "id": "R35-V03",
+      "requirement_exact": "Run legacy and DAG on the same exact identified candidate and complete mapped population; retain raw outputs and compare exact accepted normalization/evidence/currentness semantics. A passing subset, changed candidate, or overlay-only result has a lower explicit scope.",
+      "original_scope_and_binding_exact": "P executable qualification; I if mapping needs reserved hooks. [N, E]"
+    },
+    {
+      "id": "R35-V04",
+      "requirement_exact": "Missing/duplicate/unknown/reordered/stale/falsely settled obligations fail closed. Include nonzero, partial/nonverdict and interrupted cases; preserve legacy fail-fast observables when translating to all-settled results. A test asserting only zero exit or matched population counts is insufficient.",
+      "original_scope_and_binding_exact": "P controls with fixed oracle/normalization; I for canonical semantics acceptance. [N]"
+    },
+    {
+      "id": "R35-V05",
+      "requirement_exact": "Selective invalidation reruns the affected valid dependency/consumer scope exactly, preserving unaffected qualified evidence without stale/common-cause reuse. Graph/schema/registry drift rebuilds/requalifies the map conservatively; it does not justify an unexplained perpetual whole-graph rerun.",
+      "original_scope_and_binding_exact": "P; R0035 mapping with R0032 acceptance. [N, E]"
+    },
+    {
+      "id": "R35-V06",
+      "requirement_exact": "Held-out topology, concurrent graph change during JOIN, interrupted node, duplicate evidence, common source, shared semantic writer, unknown owner/schema, undeclared order and global-state coupling alter the outcome correctly. Record environment/resource isolation instead of assuming it from separate process IDs.",
+      "original_scope_and_binding_exact": "P qualification; NATIVE only for claimed host behavior. [N]"
+    },
+    {
+      "id": "R35-V07",
+      "requirement_exact": "Preserve legacy route until equivalence passes; separately review/switch/read back canonical local/CI/package/install/public consumers; only then consider retirement under R0022/R0032 with rollback and remaining-consumer accounting. Before switch rollback invalidates DAG receipts; after switch drift restores a qualified route and affected verification.",
+      "original_scope_and_binding_exact": "P prepares exact patches; I/REVIEW/OWNER perform conversion; OWNER performs retirement. Neither is authorized now. [N, E]"
+    },
+    {
+      "id": "R35-R01",
+      "requirement_exact": "Consume current R0033 obligation and blocking-scope facts. A node consuming/mutating that scope is not READY, cannot dispatch or satisfy JOIN; a mechanically independent node that meets ordinary predicates remains eligible.",
+      "original_scope_and_binding_exact": "P mapping; R0033 owns obligation/scope; R0038 projection only. [R]"
+    },
+    {
+      "id": "R35-R02",
+      "requirement_exact": "Changed obligation state/generation, binding generation, continuity generation, scope or satisfaction receipt forces affected recomputation. A stale satisfaction receipt cannot unblock. Pair current/stale receipt with the same node.",
+      "original_scope_and_binding_exact": "P consumer; I/NATIVE for authentic producer/currentness. [R, E]"
+    },
+    {
+      "id": "R35-R03",
+      "requirement_exact": "An interlock requires all nine prerequisites: stable current node/graph; exact R003A host session/object; delegated R0036 executor/task mapping; current route facts; current dependency/authority/writer/resources; bounded authorized effect class; exact covered PreToolUse path; trusted enabled hook with qualified failure semantics; deterministic predicate immune to target definition.",
+      "original_scope_and_binding_exact": "P comparator only if admitted owner/failure exists; I/NATIVE for missing prerequisite. Do not silently default any field to current/trusted. [R, E]"
+    },
+    {
+      "id": "R35-R04",
+      "requirement_exact": "For the qualified bound action, matching current request may allow; stale graph/binding/route generation, foreign task/executor, changed custody, wrong effect class, open currentness/authority or contradictory mapping denies. Preserve allowed pure bounded reads, currentness, route begin/return/complete support, safe containment, independent out-of-scope action.",
+      "original_scope_and_binding_exact": "P comparator/control; NATIVE prevention only after covered trusted hook qualification. [R]"
+    },
+    {
+      "id": "R35-R05",
+      "requirement_exact": "Unbound arbitrary tools stay outside this conditional interlock. Unsupported host path or disabled/untrusted/timed-out hook is unavailable, not prevention. Ordinary serial/no-DAG work keeps cheap path. Target files/tool prose/child outputs cannot redefine policy or run target-authored policy commands.",
+      "original_scope_and_binding_exact": "P boundary controls; NATIVE activation/coverage. [R]"
+    },
+    {
+      "id": "R35-R06",
+      "requirement_exact": "Neither pre-event allow nor post-event observation establishes intended world effect, dependency satisfaction, authority, mutation permission, currentness, route satisfaction, JOIN, PASS or closure. PostToolUse cannot cure a failed/missing precondition.",
+      "original_scope_and_binding_exact": "P/R0035 boundary plus R0038 observation interface. [R]"
+    },
+    {
+      "id": "R35-R07",
+      "requirement_exact": "Interlock rollback removes only admitted adapter/route edge while preserving unchanged graph/lane/obligation/governor checks. Retirement considers coverage, exact mapping, equivalent host-native enforcement and protected-effect cost. No generic hook broker/currentness system/firewall.",
+      "original_scope_and_binding_exact": "P prepares; I/OWNER effects. [R, E]"
+    },
+    {
+      "id": "R35-L01",
+      "requirement_exact": "At accepted material RETURN/JOIN or re-derivation, traverse applicable ancestry to an explicitly named same-campaign root and reconsider applicable siblings/future prerequisites at every ancestor. Bind consuming event, original JOIN scope, source/input, actual next consumer/dependency, effect/authority, status and reconsideration trigger.",
+      "original_scope_and_binding_exact": "P recursive compiler/selector; I/NATIVE actual event/native campaign. [L]"
+    },
+    {
+      "id": "R35-L02",
+      "requirement_exact": "Completed comparison inputs retain an independently useful preparation successor whenever its actual prerequisites are satisfied. Represent receiving selection, material assessment, admission, source writing and external effects as separate edges. Block the exact effect, not the future graph or disjoint comparison sharing an eventual R0037 product.",
+      "original_scope_and_binding_exact": "P R0035 decisions; I with actual consumers. [L, R]"
+    },
+    {
+      "id": "R35-L03",
+      "requirement_exact": "Preserve INWARD decomposition, OUTWARD sibling progress, FORWARD future prerequisite preparation, BACKWARD accepted partial/full JOIN, reconciliation/re-derivation and immediate reconsideration. Keep accepted scope/residuals and pending output's bounded future consumer/accepting condition; no unbounded preparation queue.",
+      "original_scope_and_binding_exact": "P; R0037 owns loop semantics; R0036 execution. [L, E]"
+    },
+    {
+      "id": "R35-L04",
+      "requirement_exact": "Held-out positive has completed comparison inputs, genuinely blocked admission/effect, independent useful preparation with met actual prerequisites, and an ancestor future qualification/JOIN prerequisite. Show actual selected bounded work and a consumed decision-changing return while the blocked effect remains blocked.",
+      "original_scope_and_binding_exact": "P simulated/portable test consumer can qualify its declared scope; NATIVE remains for one natural material campaign transition. [L, E]"
+    },
+    {
+      "id": "R35-L05",
+      "requirement_exact": "Matched negative keeps identical source-consistency facts but has no dispatch and no valid edge-specific deferral; it fails despite checker-clean input. Further negatives keep direction labels while omitting an ancestor/sibling; blank root/scope; substitute stale/mixed event; count correlated returns; blanket-block prep; claim whole parent from partial JOIN.",
+      "original_scope_and_binding_exact": "P controls with fixed behavior oracle; no historical miss gains retroactive credit. [L]"
+    },
+    {
+      "id": "R35-L06",
+      "requirement_exact": "Preserve valid shared-writer, unknown-independence, missing-input, real-capacity, authority and exact-boundary blocks. Unchanged event yields no redispatch. Scope mandatory compaction handling to its actual boundary without erasing lawful independent work.",
+      "original_scope_and_binding_exact": "P graph selection; I with governor/currentness owner. [L]"
+    },
+    {
+      "id": "R35-L07",
+      "requirement_exact": "Triad relation graph is guarded evidence, not cells or precedence. TC07 distinguishes reachable exit, soundness, deadlock freedom and inevitable completion using actual joint config/resources/peers/environment/observation scope/progress witness; pairwise greens/circular rely do not prove global liveness. TC06 preserves supported consumers/in-flight descendants/recovery obligations until discharge or accepted transfer.",
+      "original_scope_and_binding_exact": "P scoped graph guard; R0037/R0039/R0022/R0032 receiving/retirement owners as applicable; stronger native/global claim remains unproved. [L; current TC06/TC07 rows]"
+    },
+    {
+      "id": "R35-Q01",
+      "requirement_exact": "Retain original `R53-DAG-*` positive/negative/boundary/adjacent/held-out coverage and actual failing predecessors. Changed evaluators, schemas, expected answers or pins require independent property justification; test output labels must be derived from facts. Model-facing missions omit protected answers/property labels and fix oracle before execution.",
+      "original_scope_and_binding_exact": "P plus REVIEW for changed oracle justification. [B, E]"
+    },
+    {
+      "id": "R35-Q02",
+      "requirement_exact": "Run applicable focused baseline/regression controls, then actual canonical `bash scripts/verify-package.sh` on the exact candidate when runnable. Distinguish runtime RED, acceptance-artifact RED, missing evidence and harness/policy/transport failure. Inspect retained completed operations before deciding a rerun is necessary.",
+      "original_scope_and_binding_exact": "P qualification; no invented option or guessed PASS marker. [B, E, A]"
+    },
+    {
+      "id": "R35-Q03",
+      "requirement_exact": "Shared governor/child/continuity/host/effect owners, central registry/workflows, builders/installers/manifests, helper applicability/load maps and public portal/index remain unmodified in the independent published slice. Deliver necessary exact integration patches and qualify a separately identified disposable overlay where lawful.",
+      "original_scope_and_binding_exact": "I; graph-specific source/schema/fixtures stay together under R0035. New test registry obligation must remain visible. [E]"
+    },
+    {
+      "id": "R35-Q04",
+      "requirement_exact": "Shipped bytes trigger actual package/inventory/helper-dispatch coverage and isolated copy parity, Windows/POSIX path applicability, exact cost and retirement trigger. Preserve runtime 0.4.0, release v0.4.0.0, both 327,680-byte caps, 2,000-byte headroom and bootstrap budgets. A shipped but unreachable helper cannot claim governor integration.",
+      "original_scope_and_binding_exact": "P build/copy only; I integration/package writer; NATIVE discovery/activation separately. [N, E, A]"
+    },
+    {
+      "id": "R35-Q05",
+      "requirement_exact": "Source→generated→built→packaged→isolated-installed→discovered/routed/native→hosted/public remain separate evidence legs. Test-only change can mark package leg not triggered; changed packaged runtime cannot. Missing native host is an exact pending gate, not promotion of POSIX output.",
+      "original_scope_and_binding_exact": "P / I / NATIVE by claimed layer. [B, N, R, E]"
+    },
+    {
+      "id": "R35-Q06",
+      "requirement_exact": "One bounded governed live run corroborates at least two independent cells, required JOIN, shared-writer or stale-result boundary, parent normalization and recomputation at exact source/package/host identity. Separately preserve L's natural-transition requirement unless the same actual run satisfies both complete shapes.",
+      "original_scope_and_binding_exact": "NATIVE; portable simulation is qualified only as simulation. [B F5/terminal acceptance, L, E]"
+    },
+    {
+      "id": "R35-Q07",
+      "requirement_exact": "Rigorous self-review plus genuine fresh independent exact-tree cold review with no authoring-context reuse; retain PASS/GAP-REVISE/BLOCKED/OWNER DECISION and review scope. This contract review does not satisfy that gate. CI evidence binds real PR/merge candidate, head/base/tree/run/attempt/job and terminal artifacts.",
+      "original_scope_and_binding_exact": "P self-review; REVIEW exact final candidate; published CI if available. [B, E]"
+    },
+    {
+      "id": "R35-Q08",
+      "requirement_exact": "Return complete criterion statuses (satisfied at scope, inherited/applicable, integration, private input, native, review, reserved authority), pinned interface/patches, narrow missing input, commands/statuses/failures, portable bundle/patch verified on base, manifest/bytes/hashes/CRC, exact branch/worktree/rollback and ready draft PR metadata. No campaign mutation, source adoption, release/certification or denominator credit.",
+      "original_scope_and_binding_exact": "P deliverable; non-closing draft publication only if genuinely supported; OWNER merge/certification/closure later. [E]"
+    }
+  ],
+  "original20": [
+    {
+      "id": "R53-DAG-P01-CLOSED-JOINED-COMMIT",
+      "case_class": "positive",
+      "setup_exact": "Current closed population; two independent READY preimages; complete named JOIN; one semantic writer",
+      "observation_exact": "Bounded dispatch, complete normalized JOIN, sole-writer commit, then new frontier",
+      "criterion_ids": [
+        "R35-D01",
+        "R35-D05",
+        "R35-D07"
+      ]
+    },
+    {
+      "id": "R53-DAG-P02-DISJOINT-CONCURRENT",
+      "case_class": "positive",
+      "setup_exact": "Disjoint read/write/acceptance/resource/authority sets with one later composed consumer",
+      "observation_exact": "Concurrent execution allowed; consumer remains blocked until named JOIN",
+      "criterion_ids": [
+        "R35-D04"
+      ]
+    },
+    {
+      "id": "R53-DAG-N01-OMITTED-REQUIRED-JOIN",
+      "case_class": "negative",
+      "setup_exact": "Correct READY/cardinality and terminal lane results except one required result absent",
+      "observation_exact": "JOIN unsatisfied; dependent conclusion and mutation blocked",
+      "criterion_ids": [
+        "R35-D05"
+      ]
+    },
+    {
+      "id": "R53-DAG-N02-STALE-AFTER-GRAPH-DRIFT",
+      "case_class": "negative",
+      "setup_exact": "Result produced under graph/evidence version A; consumption attempted under B",
+      "observation_exact": "Result fenced/rejected; occurrence preserved; affected frontier recomputed",
+      "criterion_ids": [
+        "R35-N04",
+        "R35-D07"
+      ]
+    },
+    {
+      "id": "R53-DAG-N03-DUPLICATE-SEMANTIC-WRITER",
+      "case_class": "negative",
+      "setup_exact": "Two lane/file identities, one semantic owner and overlapping acceptance",
+      "observation_exact": "Serialize before dispatch/commit; no first-arrival authority",
+      "criterion_ids": [
+        "R35-D04"
+      ]
+    },
+    {
+      "id": "R53-DAG-N04-NO-POST-JOIN-RECOMPUTE",
+      "case_class": "negative",
+      "setup_exact": "Complete valid JOIN followed by direct consumption of old frontier",
+      "observation_exact": "Hold with `RECOMPUTE_REQUIRED` or equivalent exact disposition",
+      "criterion_ids": [
+        "R35-D07"
+      ]
+    },
+    {
+      "id": "R53-DAG-N05-SUCCESS-ENVELOPE-NONVERDICT",
+      "case_class": "negative",
+      "setup_exact": "Transport success with partial/non-verdict/error metadata",
+      "observation_exact": "Normalize as nonterminal; cannot satisfy JOIN or coverage",
+      "criterion_ids": [
+        "R35-D06"
+      ]
+    },
+    {
+      "id": "R53-DAG-N06-CORRELATED-COUNT-INFLATION",
+      "case_class": "negative",
+      "setup_exact": "Required cardinality met by duplicate/common-source evidence",
+      "observation_exact": "Independence claim rejected or evidence ceiling reduced; no count-based PASS",
+      "criterion_ids": [
+        "R35-D06"
+      ]
+    },
+    {
+      "id": "R53-DAG-N07-UNBOUNDED-FANOUT",
+      "case_class": "negative",
+      "setup_exact": "READY exceeds free capacity or a positive operator ceiling",
+      "observation_exact": "Dispatch bounded by current occupancy and ceiling; no silent cell drop",
+      "criterion_ids": [
+        "R35-D03"
+      ]
+    },
+    {
+      "id": "R53-DAG-N08-UNKNOWN-LAUNDERED-BLOCKED",
+      "case_class": "negative",
+      "setup_exact": "One UNKNOWN cell relabeled BLOCKED to close the population",
+      "observation_exact": "Mutation negative fails; original state requires reacquire/serialize",
+      "criterion_ids": [
+        "R35-N02",
+        "R35-D01"
+      ]
+    },
+    {
+      "id": "R53-DAG-B01-ZERO-CEILING",
+      "case_class": "boundary",
+      "setup_exact": "Current READY cells with operator ceiling zero",
+      "observation_exact": "Recompute allowed; dispatch remains zero",
+      "criterion_ids": [
+        "R35-D03"
+      ]
+    },
+    {
+      "id": "R53-DAG-B02-ONE-CELL-CHEAP-PATH",
+      "case_class": "boundary",
+      "setup_exact": "One READY cell, no consequential JOIN/conflict",
+      "observation_exact": "Serial direct execution; no mandatory queue/dashboard/agent",
+      "criterion_ids": [
+        "R35-N05"
+      ]
+    },
+    {
+      "id": "R53-DAG-B03-L4-INTERRUPT",
+      "case_class": "boundary",
+      "setup_exact": "L4 Andon occurs while a lane is active",
+      "observation_exact": "L4 stops/registers/contains; affected result is fenced; governor recomputes; no child authority",
+      "criterion_ids": [
+        "R35-D08"
+      ]
+    },
+    {
+      "id": "R53-DAG-A01-AGENT-CORRECT-DAG-WRONG",
+      "case_class": "adjacent",
+      "setup_exact": "Lane prompt/result fully satisfies R0036, but parent omits required JOIN",
+      "observation_exact": "R0036 can pass while R0035 fails",
+      "criterion_ids": [
+        "R35-D05",
+        "R35-D11"
+      ]
+    },
+    {
+      "id": "R53-DAG-A02-DAG-CORRECT-AGENT-WRONG",
+      "case_class": "adjacent",
+      "setup_exact": "Graph is correct, but a warranted lane silently drops or returns generic prose",
+      "observation_exact": "R0035 scheduling cannot promote defective R0036 execution",
+      "criterion_ids": [
+        "R35-D05",
+        "R35-D11"
+      ]
+    },
+    {
+      "id": "R53-DAG-A03-INTERNAL-CHILD-PASS-LIKE",
+      "case_class": "adjacent",
+      "setup_exact": "Internal child returns PASS-like or closure-shaped prose",
+      "observation_exact": "Reject authority/closure; result returns to governor and cannot satisfy JOIN alone",
+      "criterion_ids": [
+        "R35-D11"
+      ]
+    },
+    {
+      "id": "R53-DAG-H01-SAME-LABEL-DIFFERENT-DIGEST",
+      "case_class": "held-out",
+      "setup_exact": "Cell/lane labels reused with changed graph/source/evidence bytes",
+      "observation_exact": "Identity substitution rejected",
+      "criterion_ids": [
+        "R35-N04"
+      ]
+    },
+    {
+      "id": "R53-DAG-H02-COMPLETION-PRESERVES-ACTIVE",
+      "case_class": "held-out",
+      "setup_exact": "One cell completes while another remains ACTIVE",
+      "observation_exact": "Recompute from observed census; do not infer all ACTIVE work vanished",
+      "criterion_ids": [
+        "R35-D01",
+        "R35-D08"
+      ]
+    },
+    {
+      "id": "R53-DAG-H03-REMINDER-NO-REDISPATCH",
+      "case_class": "held-out",
+      "setup_exact": "No material evidence/state/topology change",
+      "observation_exact": "No redispatch and no new acceptance credit",
+      "criterion_ids": [
+        "R35-D08"
+      ]
+    },
+    {
+      "id": "R53-DAG-H04-FINAL-COMPOSED-PARTIAL",
+      "case_class": "held-out",
+      "setup_exact": "Useful increment completes while whole-target JOIN remains blocked",
+      "observation_exact": "Preserve partial evidence; do not claim target acceptance",
+      "criterion_ids": [
+        "R35-D08"
+      ]
+    }
+  ],
+  "terminal12": [
+    {
+      "id": "T01",
+      "requirement_exact": "Current repository root, branch, commit, tree, full dirty state, controller, issue/body/comment identity and authority are mechanically re-anchored; the e60/W04 identities above remain historical only."
+    },
+    {
+      "id": "T02",
+      "requirement_exact": "The current owner/source map is exact, and one semantic writer owns the DAG/ JOIN contract. Generated/package/public surfaces point back to that owner."
+    },
+    {
+      "id": "T03",
+      "requirement_exact": "Final topology remains exactly four child skills—`audit-state`, `audit-assess`, `audit-implement`, `audit-andon`—under the sole `/implementaudit` governor; audit-andon uniquely supports direct entry while remaining non-authoritative and never becoming a DAG node or peer governor."
+    },
+    {
+      "id": "T04",
+      "requirement_exact": "`SOURCE_RUNTIME_DELTA_REQUIRED` and `ACCEPTANCE_TEST_DELTA_REQUIRED` have evidence-backed terminal values. No runtime RED was manufactured from a new RXX, missing file or absent registration."
+    },
+    {
+      "id": "T05",
+      "requirement_exact": "The complete R0035 positive, negative, boundary, adjacent and held-out family passes, and mutation controls prove required JOIN, graph/result currentness, single-writer serialization, normalization, recomputation, bounded dispatch, common-dependency and cheap-path predicates."
+    },
+    {
+      "id": "T06",
+      "requirement_exact": "Existing action-selection, fanout, internal topology/routing, currentness, authority/effect, nested-loop and closure gates affected by the actual delta pass without weakened expectations or erased failures."
+    },
+    {
+      "id": "T07",
+      "requirement_exact": "If packaged runtime bytes changed, exact source→generated→built→packaged→ isolated-installed parity, version/inventory, route and applicable host evidence pass. If they did not change, the package/installed leg is recorded as not triggered rather than falsely claimed."
+    },
+    {
+      "id": "T08",
+      "requirement_exact": "One bounded governed live execution corroborates independent dispatch, required JOIN, a stale-result or shared-writer boundary, parent normalization and post-transition recomputation at the exact candidate identity."
+    },
+    {
+      "id": "T09",
+      "requirement_exact": "Fresh independent exact-tree cold review passes with no authoring-context reuse, hosted CI passes where applicable, and every failed/non-verdict predecessor remains visible with its correct evidence ceiling."
+    },
+    {
+      "id": "T10",
+      "requirement_exact": "Package, installed, hosted, public and cross-repository claims stop at the weakest proved leg; no source or local command receipt is promoted."
+    },
+    {
+      "id": "T11",
+      "requirement_exact": "Any separately authorized R0035 issue body and implementation evidence comment are independently read back by exact identity/bytes/state after publication."
+    },
+    {
+      "id": "T12",
+      "requirement_exact": "Manual issue closure occurs only after the evidence comment/readback and all accepted-RXX evidence joins before C08. Issue creation, PR merge, auto-close, elapsed time or a PASS-like child result is not terminal acceptance."
+    }
+  ],
+  "original117": {
+    "registry_sha256": "77f26397b276fa1b6e494558d1796cb4c43d14b1e1a6755e68f542cdc4c37698",
+    "nodes": [
+      {
+        "index": 0,
+        "id": "PRELUDE",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 1,
+        "id": "COMMAND:scripts/generate-readme-diagrams.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 2,
+        "id": "COMMAND:scripts/verify-readme-diagrams-rendered.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 3,
+        "id": "COMMAND:scripts/check-readme-toc.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 4,
+        "id": "COMMAND:scripts/check-audit-retention.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 5,
+        "id": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 6,
+        "id": "COMMAND:scripts/check-planner-stages.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 7,
+        "id": "COMMAND:scripts/check-marker-order.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 8,
+        "id": "COMMAND:scripts/check-routing.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 9,
+        "id": "COMMAND:scripts/check-audit-object-routing-contract.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 10,
+        "id": "COMMAND:scripts/check-capability-parity-contract.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 11,
+        "id": "COMMAND:scripts/check-dogfood-bootstrap-contract.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 12,
+        "id": "COMMAND:scripts/check-safeguard-restoration.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 13,
+        "id": "COMMAND:scripts/check-native-integration.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 14,
+        "id": "COMMAND:scripts/check-sidecar-boundaries.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 15,
+        "id": "COMMAND:scripts/check-public-claim-boundaries.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 16,
+        "id": "COMMAND:scripts/check-package-shape-claims.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 17,
+        "id": "COMMAND:scripts/check-package-contract.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 18,
+        "id": "COMMAND:scripts/check-plan-quality-contract.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 19,
+        "id": "COMMAND:scripts/check-skill-layout-contract.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 20,
+        "id": "COMMAND:scripts/check-skill-bootstrap-budget.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 21,
+        "id": "COMMAND:scripts/check-lean-discipline.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 22,
+        "id": "COMMAND:scripts/check-terminology-integration.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 23,
+        "id": "COMMAND:scripts/check-added-lines-clean.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 24,
+        "id": "COMMAND:tests/lean-discipline.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 25,
+        "id": "COMMAND:tests/andon-class-contract.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 26,
+        "id": "COMMAND:tests/continuity-contract.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 27,
+        "id": "COMMAND:tests/interruption-durability.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 28,
+        "id": "COMMAND:tests/lesson-lift-contract.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 29,
+        "id": "COMMAND:tests/handoff-packet-contract.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 30,
+        "id": "COMMAND:tests/closure-surface-contract.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 31,
+        "id": "COMMAND:tests/authorization-binding-contract.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 32,
+        "id": "COMMAND:tests/host-session-binding-hardening.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 33,
+        "id": "COMMAND:tests/host-session-binding.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 34,
+        "id": "COMMAND:tests/host-session-terminal.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 35,
+        "id": "COMMAND:tests/scarce-resource-rehearsal-contract.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 36,
+        "id": "COMMAND:tests/R000B-R001E-review-heldouts.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 37,
+        "id": "COMMAND:tests/durable-identity-contract.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 38,
+        "id": "COMMAND:tests/convergence-mode-contract.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 39,
+        "id": "COMMAND:tests/andon-escalation-judgment.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 40,
+        "id": "COMMAND:tests/background-chain-contract.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 41,
+        "id": "COMMAND:tests/evidence-anchoring.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 42,
+        "id": "COMMAND:tests/verification-window-contract.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 43,
+        "id": "COMMAND:tests/observation-bound-mutation-integrity.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 44,
+        "id": "COMMAND:tests/respec-impact-set-contract.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 45,
+        "id": "COMMAND:tests/marker-order.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 46,
+        "id": "COMMAND:tests/planner-stages.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 47,
+        "id": "COMMAND:tests/release-asset.test.sh:0",
+        "scope": "ACCEPTED_FIRST_RELEASE_NODE_PROFILE_AT_RECORDED_SOURCE_NOT_WHOLE_ROUTE",
+        "evidence_refs": [
+          "population",
+          "first_node"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 48,
+        "id": "COMMAND:tests/reproducible-release-asset.test.sh:0",
+        "scope": "ACCEPTED_INDEX48_19ROLE_SIXARTIFACT_OCCURRENCE; FRESH_PAIR_G1_PENDING",
+        "evidence_refs": [
+          "population",
+          "index48",
+          "acquisition",
+          "combined"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 49,
+        "id": "COMMAND:tests/release-asset-install.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 50,
+        "id": "COMMAND:tests/release-asset-install-claude.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 51,
+        "id": "COMMAND:tests/plugin-release-asset.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 52,
+        "id": "COMMAND:tests/plugin-install.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 53,
+        "id": "COMMAND:tests/install-copy-smoke.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 54,
+        "id": "COMMAND:tests/routing.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 55,
+        "id": "COMMAND:tests/repo-state.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 56,
+        "id": "COMMAND:tests/commit-message-contract.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 57,
+        "id": "COMMAND:tests/audit-spec.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 58,
+        "id": "COMMAND:tests/audit-retention.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 59,
+        "id": "COMMAND:tests/agents-bootstrap-budget.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 60,
+        "id": "COMMAND:tests/added-lines-clean.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 61,
+        "id": "COMMAND:tests/claim-run.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 62,
+        "id": "COMMAND:tests/continuity.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 63,
+        "id": "COMMAND:tests/canonical-state-rotation.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 64,
+        "id": "COMMAND:tests/phase-validation.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 65,
+        "id": "COMMAND:tests/acceptance-instrument-discipline.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 66,
+        "id": "COMMAND:tests/lossless-evidence-capture.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 67,
+        "id": "COMMAND:tests/census-discipline.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 68,
+        "id": "COMMAND:tests/sidecars.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 69,
+        "id": "COMMAND:tests/capability-ledger.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 70,
+        "id": "COMMAND:tests/audit-object-routing.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 71,
+        "id": "COMMAND:tests/audit-object-plan-lifecycle.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 72,
+        "id": "COMMAND:tests/issues-deferred-gate.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 73,
+        "id": "COMMAND:tests/audit-object-routing-contract.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 74,
+        "id": "COMMAND:tests/native-integration.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 75,
+        "id": "COMMAND:tests/package-shape-claims.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 76,
+        "id": "COMMAND:tests/package-contract.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 77,
+        "id": "COMMAND:tests/internal-skill-topology.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 78,
+        "id": "COMMAND:tests/internal-skill-routing.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 79,
+        "id": "COMMAND:tests/terminology-integration.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 80,
+        "id": "COMMAND:tests/read-only-plans-lane.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 81,
+        "id": "COMMAND:tests/source-evidence-pack-runnable.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 82,
+        "id": "COMMAND:tests/dogfood-bootstrap-contract.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 83,
+        "id": "COMMAND:tests/safeguard-restoration.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 84,
+        "id": "COMMAND:tests/plan-quality-contract.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 85,
+        "id": "COMMAND:tests/installed-payload-self-contained.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 86,
+        "id": "COMMAND:tests/skill-layout-contract.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 87,
+        "id": "COMMAND:tests/e2e-mini-audit-loop.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 88,
+        "id": "COMMAND:tests/skill-bootstrap-budget.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 89,
+        "id": "COMMAND:tests/source-evidence-pack.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 90,
+        "id": "COMMAND:tests/action-selection-contract.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 91,
+        "id": "COMMAND:tests/fanout-coverage-contract.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 92,
+        "id": "COMMAND:tests/work-graph-compiler.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 93,
+        "id": "COMMAND:tests/native-work-graph.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 94,
+        "id": "COMMAND:tests/work-graph-verifier.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 95,
+        "id": "COMMAND:tests/cold-review-contract.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 96,
+        "id": "COMMAND:tests/claim-boundary-proof-levels.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 97,
+        "id": "COMMAND:tests/no-terminal-cap.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 98,
+        "id": "COMMAND:tests/eval-harness.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 99,
+        "id": "COMMAND:tests/payload-path-hygiene.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 100,
+        "id": "COMMAND:tests/helper-reachability.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 101,
+        "id": "COMMAND:tests/issue-ready-work-orders.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 102,
+        "id": "COMMAND:tests/summarize-repo.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 103,
+        "id": "COMMAND:tests/shipped-scripts-smoke.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 104,
+        "id": "COMMAND:tests/run-root-validation.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 105,
+        "id": "COMMAND:tests/custody-append.test.sh:0",
+        "scope": "FINITE_CUSTODY_APPEND_SOURCE_AVAILABLE; EXACT_RETAINED_QUALIFICATION_APPLICABILITY_REQUIRED",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 106,
+        "id": "COMMAND:tests/docs-portal.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 107,
+        "id": "COMMAND:tests/genealogy-corpus.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 108,
+        "id": "COMMAND:tests/r0044-reconstruction.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 109,
+        "id": "COMMAND:tests/r0043-reconstruction.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 110,
+        "id": "COMMAND:tests/operational-evidence-contract.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 111,
+        "id": "COMMAND:tests/operational-evidence-portable.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 112,
+        "id": "COMMAND:scripts/check-validation-registry.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 113,
+        "id": "COMMAND:tests/validation-registry.test.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 114,
+        "id": "COMMAND:scripts/build-release-asset.sh:0",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 115,
+        "id": "FINAL_DIFF",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      },
+      {
+        "index": 116,
+        "id": "TERMINAL",
+        "scope": "EXACT_REGISTRY_SOURCE_MAPPING_NOT_EXECUTION",
+        "evidence_refs": [
+          "population"
+        ],
+        "replay_required": false
+      }
+    ],
+    "node_count": 117,
+    "historical_tests": 89,
+    "full_composed_correspondence": "G2: for each node bind actual dynamic reads/writes/environment/effects/dependencies/currentness from qualified retained evidence. Structural partition is not dynamic equivalence; no replay implied."
+  },
+  "composed119": {
+    "registry_sha256": "65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878",
+    "tests_independently_counted": 91,
+    "original_observation_nodes": 119,
+    "scope": "STRUCTURAL_SOURCE_POPULATION_ONLY; no current dynamic119 qualification.",
+    "nodes_independently_derived": 119,
+    "node_ids": [
+      "PRELUDE",
+      "COMMAND:scripts/generate-readme-diagrams.sh:0",
+      "COMMAND:scripts/verify-readme-diagrams-rendered.sh:0",
+      "COMMAND:scripts/check-readme-toc.sh:0",
+      "COMMAND:scripts/check-audit-retention.sh:0",
+      "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "COMMAND:scripts/check-planner-stages.sh:0",
+      "COMMAND:scripts/check-marker-order.sh:0",
+      "COMMAND:scripts/check-routing.sh:0",
+      "COMMAND:scripts/check-audit-object-routing-contract.sh:0",
+      "COMMAND:scripts/check-capability-parity-contract.sh:0",
+      "COMMAND:scripts/check-dogfood-bootstrap-contract.sh:0",
+      "COMMAND:scripts/check-safeguard-restoration.sh:0",
+      "COMMAND:scripts/check-native-integration.sh:0",
+      "COMMAND:scripts/check-sidecar-boundaries.sh:0",
+      "COMMAND:scripts/check-public-claim-boundaries.sh:0",
+      "COMMAND:scripts/check-package-shape-claims.sh:0",
+      "COMMAND:scripts/check-package-contract.sh:0",
+      "COMMAND:scripts/check-plan-quality-contract.sh:0",
+      "COMMAND:scripts/check-skill-layout-contract.sh:0",
+      "COMMAND:scripts/check-skill-bootstrap-budget.sh:0",
+      "COMMAND:scripts/check-lean-discipline.sh:0",
+      "COMMAND:scripts/check-terminology-integration.sh:0",
+      "COMMAND:scripts/check-added-lines-clean.sh:0",
+      "COMMAND:tests/lean-discipline.test.sh:0",
+      "COMMAND:tests/andon-class-contract.test.sh:0",
+      "COMMAND:tests/continuity-contract.test.sh:0",
+      "COMMAND:tests/interruption-durability.test.sh:0",
+      "COMMAND:tests/lesson-lift-contract.test.sh:0",
+      "COMMAND:tests/handoff-packet-contract.test.sh:0",
+      "COMMAND:tests/closure-surface-contract.test.sh:0",
+      "COMMAND:tests/authorization-binding-contract.test.sh:0",
+      "COMMAND:tests/host-session-binding-hardening.test.sh:0",
+      "COMMAND:tests/host-session-binding.test.sh:0",
+      "COMMAND:tests/host-session-terminal.test.sh:0",
+      "COMMAND:tests/scarce-resource-rehearsal-contract.test.sh:0",
+      "COMMAND:tests/R000B-R001E-review-heldouts.test.sh:0",
+      "COMMAND:tests/durable-identity-contract.test.sh:0",
+      "COMMAND:tests/convergence-mode-contract.test.sh:0",
+      "COMMAND:tests/andon-escalation-judgment.test.sh:0",
+      "COMMAND:tests/background-chain-contract.test.sh:0",
+      "COMMAND:tests/evidence-anchoring.test.sh:0",
+      "COMMAND:tests/verification-window-contract.test.sh:0",
+      "COMMAND:tests/observation-bound-mutation-integrity.test.sh:0",
+      "COMMAND:tests/respec-impact-set-contract.test.sh:0",
+      "COMMAND:tests/marker-order.test.sh:0",
+      "COMMAND:tests/planner-stages.test.sh:0",
+      "COMMAND:tests/release-asset.test.sh:0",
+      "COMMAND:tests/reproducible-release-asset.test.sh:0",
+      "COMMAND:tests/release-asset-install.test.sh:0",
+      "COMMAND:tests/release-asset-install-claude.test.sh:0",
+      "COMMAND:tests/plugin-release-asset.test.sh:0",
+      "COMMAND:tests/plugin-install.test.sh:0",
+      "COMMAND:tests/install-copy-smoke.test.sh:0",
+      "COMMAND:tests/routing.test.sh:0",
+      "COMMAND:tests/repo-state.test.sh:0",
+      "COMMAND:tests/commit-message-contract.test.sh:0",
+      "COMMAND:tests/audit-spec.test.sh:0",
+      "COMMAND:tests/audit-retention.test.sh:0",
+      "COMMAND:tests/agents-bootstrap-budget.test.sh:0",
+      "COMMAND:tests/added-lines-clean.test.sh:0",
+      "COMMAND:tests/claim-run.test.sh:0",
+      "COMMAND:tests/continuity.test.sh:0",
+      "COMMAND:tests/canonical-state-rotation.test.sh:0",
+      "COMMAND:tests/composite-source.test.sh:0",
+      "COMMAND:tests/phase-validation.test.sh:0",
+      "COMMAND:tests/acceptance-instrument-discipline.test.sh:0",
+      "COMMAND:tests/lossless-evidence-capture.test.sh:0",
+      "COMMAND:tests/census-discipline.test.sh:0",
+      "COMMAND:tests/sidecars.test.sh:0",
+      "COMMAND:tests/capability-ledger.test.sh:0",
+      "COMMAND:tests/audit-object-routing.test.sh:0",
+      "COMMAND:tests/audit-object-plan-lifecycle.test.sh:0",
+      "COMMAND:tests/issues-deferred-gate.test.sh:0",
+      "COMMAND:tests/audit-object-routing-contract.test.sh:0",
+      "COMMAND:tests/native-integration.test.sh:0",
+      "COMMAND:tests/package-shape-claims.test.sh:0",
+      "COMMAND:tests/package-contract.test.sh:0",
+      "COMMAND:tests/internal-skill-topology.test.sh:0",
+      "COMMAND:tests/internal-skill-routing.test.sh:0",
+      "COMMAND:tests/terminology-integration.test.sh:0",
+      "COMMAND:tests/read-only-plans-lane.test.sh:0",
+      "COMMAND:tests/source-evidence-pack-runnable.test.sh:0",
+      "COMMAND:tests/dogfood-bootstrap-contract.test.sh:0",
+      "COMMAND:tests/safeguard-restoration.test.sh:0",
+      "COMMAND:tests/plan-quality-contract.test.sh:0",
+      "COMMAND:tests/installed-payload-self-contained.test.sh:0",
+      "COMMAND:tests/skill-layout-contract.test.sh:0",
+      "COMMAND:tests/e2e-mini-audit-loop.test.sh:0",
+      "COMMAND:tests/skill-bootstrap-budget.test.sh:0",
+      "COMMAND:tests/source-evidence-pack.test.sh:0",
+      "COMMAND:tests/action-selection-contract.test.sh:0",
+      "COMMAND:tests/distributed-runtime-contract.test.sh:0",
+      "COMMAND:tests/fanout-coverage-contract.test.sh:0",
+      "COMMAND:tests/work-graph-compiler.test.sh:0",
+      "COMMAND:tests/native-work-graph.test.sh:0",
+      "COMMAND:tests/work-graph-verifier.test.sh:0",
+      "COMMAND:tests/cold-review-contract.test.sh:0",
+      "COMMAND:tests/claim-boundary-proof-levels.test.sh:0",
+      "COMMAND:tests/no-terminal-cap.test.sh:0",
+      "COMMAND:tests/eval-harness.test.sh:0",
+      "COMMAND:tests/payload-path-hygiene.test.sh:0",
+      "COMMAND:tests/helper-reachability.test.sh:0",
+      "COMMAND:tests/issue-ready-work-orders.test.sh:0",
+      "COMMAND:tests/summarize-repo.test.sh:0",
+      "COMMAND:tests/shipped-scripts-smoke.test.sh:0",
+      "COMMAND:tests/run-root-validation.test.sh:0",
+      "COMMAND:tests/custody-append.test.sh:0",
+      "COMMAND:tests/docs-portal.test.sh:0",
+      "COMMAND:tests/genealogy-corpus.test.sh:0",
+      "COMMAND:tests/r0044-reconstruction.test.sh:0",
+      "COMMAND:tests/r0043-reconstruction.test.sh:0",
+      "COMMAND:tests/operational-evidence-contract.test.sh:0",
+      "COMMAND:tests/operational-evidence-portable.test.sh:0",
+      "COMMAND:scripts/check-validation-registry.sh:0",
+      "COMMAND:tests/validation-registry.test.sh:0",
+      "COMMAND:scripts/build-release-asset.sh:0",
+      "FINAL_DIFF",
+      "TERMINAL"
+    ],
+    "derivation": "Read exact compiler3665-3742 grammar; independently partition current registry at its unique prelude boundary without importing/executing compiler or any shell. Preserve ordered command occurrences, FINAL_DIFF and TERMINAL. Original117 independently matches retained original node IDs."
+  },
+  "preserved_rawFAIL": [
+    "environment",
+    "child environment",
+    "stdout",
+    "stderr",
+    "declared reproduction artifacts",
+    "distribution namespace",
+    "portal events",
+    "reproduction events"
+  ],
+  "preserved_preprogram_refusals": [
+    {
+      "path": "plans/succession-20261101/DG16_FIRST_PAIR_ROOT_RECEIVING.json",
+      "bytes": 1768,
+      "sha256": "6de1233af9100e3a23e79f26134aeb2e0505efef6245424b3048ff916623f47b"
+    },
+    {
+      "path": "original-certification-resumption-20261031/dg16-corrected-pair-2e0126-20261101/FIRST_REFUSAL_RECEIVING.json",
+      "bytes": 4222,
+      "sha256": "a1f464490c8ae7edf4f9ae49680dfa6fd8a174bc0863467f7ab40562354a44d1"
+    },
+    {
+      "path": "original-certification-resumption-20261031/dg16-closed-git-pair-2e0126-20261101/FIRST_REFUSAL_RECEIVING.json",
+      "bytes": 3300,
+      "sha256": "222317d0173c1be074becd33b3908224c283c3c17c891fa8fe68edd8d64a9a4a"
+    }
+  ],
+  "binding_comments": [
+    {
+      "id": 5312882718,
+      "created_at": "2026-08-17T07:02:14Z",
+      "body_sha256": "ef4c6fc72a195c242e8ab3e06c05f81304d3252e9c80d76cd51e065b2f26433d"
+    },
+    {
+      "id": 5314412493,
+      "created_at": "2026-08-17T09:43:06Z",
+      "body_sha256": "20987a03b8a145174dd31fe6662f54f5bc5a924a6a8d9ead9fa80b016aef2b8e"
+    },
+    {
+      "id": 5349213181,
+      "created_at": "2026-08-19T23:25:22Z",
+      "body_sha256": "ed16779818ec1a80a8ec6fec4b0a05df178aebb94b7ad7adda541d3f1e570ecf"
+    },
+    {
+      "id": 5638756153,
+      "created_at": "2026-09-11T18:09:58Z",
+      "body_sha256": "ea83965dfcdbc0d0311a24d9ddbe95b63f665cedf5c3b46d471839476dd53a12"
+    }
+  ],
+  "scope": "Definitions and exact registry mapping only, not fresh original execution or current row dispositions. Current-map and later Root decisions must be received separately."
+}

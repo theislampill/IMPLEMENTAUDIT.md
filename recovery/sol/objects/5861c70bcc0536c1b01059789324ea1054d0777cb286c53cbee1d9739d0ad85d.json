@@ -1,0 +1,82 @@
+{
+  "schema": "dg16.single-lock-corrected-successor-independent-receiving.v1",
+  "status": "PASS_SOURCE_DIAGNOSTIC_ONLY",
+  "source": {
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\original-host-failure-01\\candidate-v2\\operation.py",
+    "bytes": 24202,
+    "sha256": "0c67470c1138f7e200a5d7e9c8e4cedfe3c56d6dc8ae86f123fdeeadd32cdc43"
+  },
+  "public_exporter": {
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\original-host-failure-01\\candidate-v2\\run.py",
+    "bytes": 158720,
+    "sha256": "d04ebf2fa1b3f085c77996fb87464280eb75154d1fd691fb5c4e612eef7a61bd"
+  },
+  "closed_finding": "G1-SINGLE-LOCK-BOUND-1",
+  "exact_delta": "Only pre-single_lock commit check len(encoded)>262144 returns existing WORK_BOUND UNAVAILABLE; no partial namespace/count/path commitment. Existing public cap unchanged; no new lifecycle/guard/timing/owner behavior.",
+  "controls": {
+    "command": "python -I -B check_single_lock.py candidate-v2/operation.py candidate-v2/run.py independent-source-review/SUCCESSOR_CONTROL_OUTPUT.json",
+    "actual_exit_code": 0,
+    "actual_cases": 12,
+    "actual_passed": 12,
+    "boundaries": [
+      "262144 UTF8bytes ATTRIBUTED/accepted",
+      "262145 UTF8bytes UNAVAILABLE/WORK_BOUND/no partial commitment",
+      "280005 UTF8bytes original independent counterexample UNAVAILABLE/WORK_BOUND/no partial commitment"
+    ],
+    "historical_v1_and_nine_file_transport": "Inherited exact same run.py d04 tested in PURE_CONTROLS: actualv1 byte-identical, full public9/Base64/ZIP/manifest pure roundtrip; not repeated.",
+    "fixture_scope": "Actual unchanged maintained guard and provider/executor function AST; sourcecapture and producercontract recording fixtures. No real source acquisition/runtime/owner."
+  },
+  "author_red_receipts": [
+    {
+      "source": {
+        "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\original-host-failure-01\\RED_BOUNDARY_CURRENT.json",
+        "bytes": 2715,
+        "sha256": "eebef2a7f4e96aa191dc66303e40571b700bddbfa01dd23280d2194d86050528"
+      },
+      "status": "RED_MISSING_SINGLE_LOCK_DISCRIMINATOR",
+      "cases": 12,
+      "passed": 10
+    },
+    {
+      "source": {
+        "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\original-host-failure-01\\RED_ORIGINAL_FINAL_HARNESS.json",
+        "bytes": 2763,
+        "sha256": "33d35b6bae5076afb0958369e0de1c5d59de77fd5e48a983302b8230e977d583"
+      },
+      "status": "RED_MISSING_SINGLE_LOCK_DISCRIMINATOR",
+      "cases": 12,
+      "passed": 0
+    },
+    {
+      "source": {
+        "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\original-host-failure-01\\RED_SINGLE_LOCK.json",
+        "bytes": 2406,
+        "sha256": "36ec7048bfc2d605158518568fe9d6db32579ba92cf73a153795bcfb729162f3"
+      },
+      "status": "RED_MISSING_SINGLE_LOCK_DISCRIMINATOR",
+      "cases": 9,
+      "passed": 0
+    }
+  ],
+  "prior_revise": {
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\original-host-failure-01\\independent-source-review\\FINAL.json",
+    "bytes": 3054,
+    "sha256": "56b5827e0458f15a0f5ebd64ca7601f375a77aeec9d37a090a16ef632e9206ee"
+  },
+  "prior_counterexample": {
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\original-host-failure-01\\independent-source-review\\BOUND_COUNTEREXAMPLE.json",
+    "bytes": 754,
+    "sha256": "a058f4ce4f96c795d07436893f54be5f3428f62ff1b47b4ec97d23899c63e79c"
+  },
+  "prior_pure_controls": {
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\original-host-failure-01\\independent-source-review\\PURE_CONTROLS.json",
+    "bytes": 1043,
+    "sha256": "61ee0e5e97d29ca13585157956b77d1e35024af5e2abfae66f3b3543be48688a"
+  },
+  "actual_effects": 0,
+  "production_source_mutations_by_reviewer": 0,
+  "original_filename": "UNKNOWN",
+  "original_owner": "UNKNOWN",
+  "original_acceptance": false,
+  "next": "Root may receive this prospective diagnostic source seam for exact fresh composition/pin closure and separate current admission. This is not a guard/source-producer repair and cannot backfill historicalv1 or identify actual original lock. No new native observation or rerun is authorized by this receipt."
+}

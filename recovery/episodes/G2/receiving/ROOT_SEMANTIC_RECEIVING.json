@@ -1,0 +1,217 @@
+{
+  "authority": "NONE",
+  "binding_sha256": "a0750feb79bbbe00c20b852bb179989a8dce89669130effbb6a8433774f0b6e9",
+  "composition_seal_sha256": "7a202870742c3462a558960f8dbf1f73c938be877bd6e4654dcad85232f606bf",
+  "files": {
+    "ARTIFACT_MANIFEST.json": {
+      "bytes": 942,
+      "sha256": "d4565d8b0a1701ef3a0bab713ac94b38dfb2db4cb43cc3dec7919440db03a593"
+    },
+    "CLEANUP.json": {
+      "bytes": 499,
+      "sha256": "f15f92398a716cc32b1999c5acd7bc9d6250b7a16910aaf0d1c79857971faaec"
+    },
+    "FAILURE.json": {
+      "bytes": 13040,
+      "sha256": "b63dea180a24c0f9869c676a952e15209c1c506c8156d781c9b67588d2add4f6"
+    },
+    "HOST.json": {
+      "bytes": 41712,
+      "sha256": "3e97492da25a223d7c4a40eeb1711a77565e2311b922b9788b6c418517abd083"
+    },
+    "PROBE.json": {
+      "bytes": 35883,
+      "sha256": "9e35a92ccb18546017641af9cb8034bda8bf2785bb9dcc1586c13fa0c796e188"
+    },
+    "RESULT.json": {
+      "bytes": 1534,
+      "sha256": "c647a9fc873851900d7b0b5c3a2d9af9f670baa7ddc8c225e175462f03e91f0f"
+    },
+    "SOURCE.json": {
+      "bytes": 589,
+      "sha256": "9731dce0504300e1c96fb0ef29e86eb908d70f8ef6c01d9aa75ce929b2a62fe2"
+    }
+  },
+  "kind": "terminal",
+  "launch_readiness": false,
+  "metadata": {
+    "archive": {
+      "bytes": 16572,
+      "sha256": "6b869e5e7543703e7f70def6119d4f7a7ce1aa0a9868ee7f0d11ba41542d1f31"
+    },
+    "artifact_id": 13656518464,
+    "metadata_sha256": {
+      "artifact": "70b41cdbdf6d56b4a97ddf5b8d20a0a5a5b470bae0ca5b5d40d19f41463d9bdf",
+      "commit": "3452b7cc27f0ca96fca36062593b7c8381f48745b82cd7f41c2cadc92dc04cb9",
+      "run": "be994a27f1500bbc558c9f0f64966d6c39f45441fed50c58d1b8a4c233724934"
+    },
+    "run_attempt": 1,
+    "run_id": "42579780645",
+    "scope": "PROVIDED_METADATA_BINDINGS; acquisition authenticity is independently received",
+    "workflow_commit": "7f618adc702912f760d87f68fe9c94cc419e844c"
+  },
+  "original_acceptance": false,
+  "public": {
+    "captures": {
+      "authority": "NONE",
+      "count": 43,
+      "internal_failures": 0,
+      "positive_custody_required": false,
+      "unstarted": 0
+    },
+    "failure_present": true,
+    "native": {
+      "actual_cases": 2,
+      "authority": "NONE",
+      "eligible_summary": true,
+      "fresh_currentness_or_native_authority": false,
+      "original_awards": [],
+      "private_body_authenticity": "REQUIRES_ACTUAL_BOUND_HOST_AND_INDEPENDENT_RECEIVING",
+      "projection_sha256": "731a323266f6c3145b7f9153841f321399bd1cc42b9886dd3c34ef58cc6e4633",
+      "schema": "dg16.current-native-public-data-receiving.v1",
+      "status": "RECEIVED_CURRENT_CHANGED_NATIVE_PREDICATES"
+    },
+    "protected": {
+      "capability": {
+        "authority": "NONE",
+        "ciphertext": {
+          "bytes": 268501653,
+          "sha256": "f63738957ae26413d49d92bbf36c0e198a8febe108b5945ba1558cdc57b5aa27"
+        },
+        "command_capture": {
+          "bytes": 1243,
+          "sha256": "50da6d5607138e58d3cd65a60949a8523c60742e6b5d6f87e2eb73d82e393984"
+        },
+        "component_seal_sha256": "9401f5b38a105b459301105b1f9dccb4badb908f5f92c30a35f7a551a5ef0786",
+        "context_sha256": "cfd0d4bac737ea23f56f07ba0b00a8c87d925d17f08a1f4b0a0bb139de87fcd2",
+        "crypto_child_custody": "ECHILD",
+        "maximum_plaintext_bytes": 268501016,
+        "memory_bytes": 1073741824,
+        "opaque_plaintext": {
+          "bytes": 268501016,
+          "sha256": "d268f3c43531bd62ac6bc7ec24bf2247d4e17fb4b94a3b804f8131fdc62008eb"
+        },
+        "original_acceptance": false,
+        "owner_record": {
+          "bytes": 1277,
+          "sha256": "8e219fad1e15172e5c1d0cf3751670bdb552cd0320d13d6c0d5ee65e4e0f4622"
+        },
+        "recipient_sha256": "5adbbeaf63e38116dcba9eb58af76b0fa056808649f9aa144e3f14dee838f4b8",
+        "remaining_pair_budget_ms": 8277829,
+        "schema": "dg16.protected-host-capability.direct-openssl.v1",
+        "scope": "SAME_HOST_DIRECT_OPENSSL_MAXIMUM_OPAQUE_PLAINTEXT_ENCRYPTION_ONLY",
+        "status": "OBSERVED_MAXIMUM_ENCRYPTION_WITH_COMPLETE_CUSTODY",
+        "synthetic_files_removed": true,
+        "tool_check": {
+          "canonical_equal": true,
+          "check": "COMPLETE",
+          "errno": null,
+          "refusal": null,
+          "result": "PASSED",
+          "tool": "python3"
+        },
+        "tools": {
+          "openssl": {
+            "bytes": 1128032,
+            "sha256": "b82312087f662b01397b15d537ee792b7dadcf99339a1ff7b31499500f443c03"
+          },
+          "python3": {
+            "bytes": 7468968,
+            "sha256": "be9a2a5eada8c89c1c399fdfb8397179e877c20d8db0739c802f726d4d0e69fd"
+          }
+        }
+      },
+      "retention": {
+        "artifact_role": "dg16-g2-failed-streams-42579780645-a1",
+        "authority": "NONE",
+        "ciphertext": {
+          "bytes": 16929,
+          "sha256": "231046871101654e0e87b916e85a1a25918afe536812d43636ac01c9bcbb4a76"
+        },
+        "crypto_child_custody": "ECHILD",
+        "custody_scope": "ENCRYPTED_DIAGNOSTIC_COPY_NOT_LIVE_ACCEPTANCE_CUSTODY",
+        "envelope": {
+          "bytes": 1124,
+          "sha256": "8ffac0d22d0475fed7f5f86d83534533ec1a2c660276f5a13cc707755c127bd3"
+        },
+        "original_acceptance": false,
+        "outcome": "RETURNED_NONZERO",
+        "provider_upload_confirmed": false,
+        "reason": null,
+        "recipient_sha256": "5adbbeaf63e38116dcba9eb58af76b0fa056808649f9aa144e3f14dee838f4b8",
+        "schema": "dg16.protected-stream-public-status.v1",
+        "status": "ENCRYPTED_LOCAL_NOT_PROVIDER_RECEIVED"
+      }
+    },
+    "public_bytes": 94199,
+    "supplement_present": true,
+    "terminal_status": "UNQUALIFIED_OR_INCOMPLETE",
+    "transport_lines": 7
+  },
+  "review_issued": false,
+  "root_consumption_issued": false,
+  "schema": "dg16.current-full-g2.data-only-receiving-observation.v1",
+  "status": "FORMAT_AND_BINDINGS_CHECKED_REQUIRES_ACTUAL_INDEPENDENT_ASSESSMENT",
+  "terminal_log_join": {
+    "all_seven_exact": true,
+    "authority": "NONE",
+    "currentness_or_award": false,
+    "encoded_bytes_including_CRLF": 103919,
+    "log": {
+      "bytes": 151457,
+      "sha256": "198e2e98fc13a1f3603983beff7cc556faefb811a4b120368fee4203496ee7fd"
+    },
+    "members": [
+      {
+        "bytes": 942,
+        "log_line": 471,
+        "name": "ARTIFACT_MANIFEST.json",
+        "sha256": "d4565d8b0a1701ef3a0bab713ac94b38dfb2db4cb43cc3dec7919440db03a593",
+        "timestamp": "2026-11-09T07:35:05.3864919Z"
+      },
+      {
+        "bytes": 499,
+        "log_line": 472,
+        "name": "CLEANUP.json",
+        "sha256": "f15f92398a716cc32b1999c5acd7bc9d6250b7a16910aaf0d1c79857971faaec",
+        "timestamp": "2026-11-09T07:35:05.3868403Z"
+      },
+      {
+        "bytes": 13040,
+        "log_line": 473,
+        "name": "FAILURE.json",
+        "sha256": "b63dea180a24c0f9869c676a952e15209c1c506c8156d781c9b67588d2add4f6",
+        "timestamp": "2026-11-09T07:35:05.3890217Z"
+      },
+      {
+        "bytes": 41712,
+        "log_line": 474,
+        "name": "HOST.json",
+        "sha256": "3e97492da25a223d7c4a40eeb1711a77565e2311b922b9788b6c418517abd083",
+        "timestamp": "2026-11-09T07:35:05.3976413Z"
+      },
+      {
+        "bytes": 35883,
+        "log_line": 475,
+        "name": "PROBE.json",
+        "sha256": "9e35a92ccb18546017641af9cb8034bda8bf2785bb9dcc1586c13fa0c796e188",
+        "timestamp": "2026-11-09T07:35:05.4096912Z"
+      },
+      {
+        "bytes": 1534,
+        "log_line": 476,
+        "name": "RESULT.json",
+        "sha256": "c647a9fc873851900d7b0b5c3a2d9af9f670baa7ddc8c225e175462f03e91f0f",
+        "timestamp": "2026-11-09T07:35:05.4151575Z"
+      },
+      {
+        "bytes": 589,
+        "log_line": 477,
+        "name": "SOURCE.json",
+        "sha256": "9731dce0504300e1c96fb0ef29e86eb908d70f8ef6c01d9aa75ce929b2a62fe2",
+        "timestamp": "2026-11-09T07:35:05.4155739Z"
+      }
+    ],
+    "schema": "dg16.terminal-artifact-log-byte-join.v1"
+  }
+}

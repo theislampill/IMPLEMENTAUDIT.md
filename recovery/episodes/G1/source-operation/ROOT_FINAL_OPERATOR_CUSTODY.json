@@ -1,0 +1,86 @@
+{
+  "files": {
+    "actual_input_producer": {
+      "bytes": 15463,
+      "name": "root_pipeline_inputs_v2.py",
+      "sha256": "3f647d62a05a494895ab0fe0c710d5a65baebca126ce3854180e701a8da91cdf"
+    },
+    "binary_and_producer_independent_receiving": {
+      "bytes": 4796,
+      "name": "FINAL.json",
+      "sha256": "4845080a8d8c8b83aff4377c593fe28040d4b1bd9e2658f3c1074fa6ca4921ce"
+    },
+    "binary_callback": {
+      "bytes": 20863,
+      "name": "binary_driver_v3.js",
+      "sha256": "83f25246bbcc8f6cc5535c45a1b11b7905481eea82ef0cf65a5b1f7f5646288d"
+    },
+    "binary_final_delta_independent_receiving": {
+      "bytes": 3502,
+      "name": "FINAL.json",
+      "sha256": "968c7336ca9c137ab2e6e481c35553eef7467929b17fc185f8ee209be455754a"
+    },
+    "binary_python": {
+      "bytes": 20593,
+      "name": "binary_publish_v3.py",
+      "sha256": "7f71f5928be04d194cdb1a19c04e6b5865173f9c488c13e0c91309a0aa6a5978"
+    },
+    "common_decoder": {
+      "bytes": 4997,
+      "name": "file_readback.py",
+      "sha256": "ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1"
+    },
+    "control_adapter": {
+      "bytes": 6009,
+      "name": "control_readback.py",
+      "sha256": "7e7d26fa8dd41eec57ac47c9280b7f2107e9df0e509fe608f4d9c4c080c5a649"
+    },
+    "control_author_receipt": {
+      "bytes": 7550,
+      "name": "SUCCESSOR_FINAL.json",
+      "sha256": "c617c5b2dd30f656f0102311c7bcbf6701d17988318064df27b90c6b681ceb5e"
+    },
+    "control_callback": {
+      "bytes": 16959,
+      "name": "control_callback_v6.js",
+      "sha256": "7760fd14ba8c4cf3fbc3f139fc6f3fd4c0df4821a3e26e1766bbce4c08180734"
+    },
+    "control_independent_receiving": {
+      "bytes": 2260,
+      "name": "PARENT_SUCCESSOR_RECEIVING.json",
+      "sha256": "0781d851f5c690f26a7395103243c90962bf300c5a5be235422c0e05b2332677"
+    },
+    "control_python": {
+      "bytes": 19240,
+      "name": "control_process_v5.py",
+      "sha256": "1f78c843e942720fc0ed5ef909975dbdd9fd4595b287053bbe3384ffa265cdff"
+    },
+    "control_retained_revise": {
+      "bytes": 2243,
+      "name": "REVISE_RECEIVING.json",
+      "sha256": "9d7248601da1de74b06398d63f5b0603697f00c559df9f5581b000d44386549d"
+    },
+    "decoder_independent_receiving": {
+      "bytes": 1302,
+      "name": "PARENT_DECODER_RECEIVING.json",
+      "sha256": "3f80d6d70dcde371603ca65d079b0cf6f9eac83c2afe0332631503b12a56bb90"
+    },
+    "recipe": {
+      "bytes": 16822,
+      "name": "ROOT_LIVE_SENDER_RECIPE.md",
+      "sha256": "8bc8e2cd6869a69e1a117ebd851a2915f76b3a130a6efbe706934a4a231fecfb"
+    },
+    "successor_addendum": {
+      "bytes": 5101,
+      "name": "READBACK_SUCCESSOR_ADDENDUM.md",
+      "sha256": "59026e9c69d913246e3c44d3b00629020726b3d0b7881a1bcd6db2378498c60c"
+    }
+  },
+  "grants_issued": 0,
+  "host_published": false,
+  "native_delivery_received": true,
+  "producer": "01a1953f-c449-72b0-9514-333b090b6dce",
+  "root": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "source_handoff": "353593079f92e55178b8c0043bb7c4a94c6bc3cdc7a671ed33061f17b920d60a",
+  "source_received": true
+}

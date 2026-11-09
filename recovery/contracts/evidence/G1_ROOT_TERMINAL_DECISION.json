@@ -1,0 +1,143 @@
+{
+  "accepted_count": 17,
+  "decision": "RECEIVE_GENUINE_INPUT_TRANSFER_AND_SCOPED_NATIVE_PREREQUISITES; ORIGINAL_C5_G1_AND_G3_UNACCEPTED",
+  "issuer": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "job": 129089113853,
+  "native_rows": [
+    {
+      "diagnostic_bytes": 282,
+      "diagnostic_sha256": "55cb5486c1149316b390eea2b88c42d4f9b156b7c9478ee84c9de9e69acf2095",
+      "outcome": "PASS",
+      "test": "test_native_intake_uses_current_original14_not_retired_root"
+    },
+    {
+      "diagnostic_bytes": 262,
+      "diagnostic_sha256": "5c68256090f4c10e494ccd8ed119177b03250b2d4696206e221633ad84d46d49",
+      "outcome": "PASS",
+      "test": "test_native_intake_later_boundary_prevents_return"
+    }
+  ],
+  "next": "Diagnose the observed provider namespace/lock condition before any proposed source change. No lock deletion or guard weakening, and no rerun.",
+  "next_owner": "Sol High, reactivated turn 01a1bfc2-2f97-7931-be7e-102be28d551e",
+  "original": {
+    "G3_request": false,
+    "counts": {
+      "original48_dispatches": null,
+      "retained_artifacts": null,
+      "validated_actual_events": null
+    },
+    "elapsed_ns": 1492635385,
+    "failures": [
+      {
+        "code": "UNCLASSIFIED_EXCEPTION",
+        "errno": null,
+        "exception_type": "ValueError",
+        "message_bytes": 52,
+        "message_sha256": "8e56eb5e639121819ae1670b9724d68b16f770a1b86535a01aba9301d79fc419",
+        "step": "g1"
+      },
+      {
+        "code": "CURRENTNESS_REFUSED",
+        "errno": null,
+        "exception_type": "Refusal",
+        "message_bytes": 19,
+        "message_sha256": "ed16ff133328a1500fbaab32553addc1034ffcb5f706bed57b4d5e7319c5e35a",
+        "step": "finalize"
+      }
+    ],
+    "namespace": {
+      "binding": {
+        "bytes": 649,
+        "sha256": "1b84359528555e35626919871f06456e02cb79845e5090f537d57ff8d979d900"
+      },
+      "observation": {
+        "counts": {
+          "lock": 1,
+          "module": 0,
+          "nested": 0,
+          "promisor": 0,
+          "replace": 0,
+          "worktree": 0
+        },
+        "flags": 0,
+        "guard_sha256": "4f25634792b55b26e94e30a6d5b8fb2d96b5b2f99fc584db85e016ace3621cba",
+        "matched_frames": 1,
+        "namespace_count": 2272,
+        "namespace_sha256": "24d3d5433089f609a2677ed7f83c0c3c2b95924168f9a898f0d351fbfe382c19",
+        "phase": "MAINTAINED_INPUT_ACQUISITION_BEFORE_SELECTION",
+        "prefix_sha256": "ff5dbdce5b4419268b0fc11c4659763ad68d40e32f18f721b6093a7dd269b7ab",
+        "reason": "COMPLETE",
+        "refusal_bytes": 52,
+        "refusal_sha256": "8e56eb5e639121819ae1670b9724d68b16f770a1b86535a01aba9301d79fc419",
+        "route": "PROVIDER",
+        "schema": "dg16.git-namespace-diagnostic.v1",
+        "status": "ATTRIBUTED"
+      },
+      "scope": "CONDITIONS_PRESENT_IN_THE_CAPTURED_NAMESPACE_NOT_SHORT_CIRCUIT_HISTORY_OR_NATIVE_AUTHORITY"
+    },
+    "phase": "MAINTAINED_INPUT_ACQUISITION_BEFORE_SELECTION",
+    "producer_invoked": false
+  },
+  "original_awards": [],
+  "resource_lease": "RELEASED_AFTER_TERMINAL",
+  "run": {
+    "conclusion": "failure",
+    "head_branch": "pro/dg16-g1-original-g3-04-20261109",
+    "head_sha": "f9ba187e8f5520956f0f16cf13c0a706e8360b96",
+    "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/42596136449",
+    "id": 42596136449,
+    "run_attempt": 1,
+    "status": "completed"
+  },
+  "schema": "dg16.root-original-g1-terminal.v1",
+  "terminal": {
+    "archive_sha256": "28ef2877d8d5c42ff5300568cc601074b48378e609275aeea3455ac12fa3dec6",
+    "children_reaped": true,
+    "independent_receipt_sha256": "229edced1b66fa30a9197638564f64aff526b46e5beea4b2cf076eebb0d0a82e",
+    "native_terminal_readback": {
+      "completion_receipt_matches_disk": true,
+      "decoded_records": 22,
+      "exit": 0,
+      "session": 22404
+    },
+    "no_repeat_acquisition": true,
+    "outer_result": {
+      "code": "ROOT_PROVIDER_ROLE_REFUSED_OR_UNKNOWN_NO_REPLAY",
+      "custody": {
+        "automatic_retry": false,
+        "cleanup_failed": false,
+        "exit_code": 0,
+        "launch_attempted": true,
+        "session_id": 22404,
+        "status": "TERMINAL_REFUSED",
+        "terminal": true
+      },
+      "exit": 0,
+      "phase": "terminal",
+      "process_session": 22404,
+      "session": "/home/agent/dg16-g1-current04-operators/public-receiver-02/sessions/r42596136449-terminal",
+      "status": "REFUSED_OR_UNKNOWN_NO_REPLAY",
+      "terminal": true
+    },
+    "policy_disposition": "OWNED_POLICY_RETAINED_UNTIL_VM_DISPOSAL_NO_UNLOAD_OR_UNLINK",
+    "vm_disposal_proved": false
+  },
+  "total": 32,
+  "transfer": {
+    "cipher_bytes": 338315,
+    "cipher_readbacks": 6,
+    "cipher_writes": 5,
+    "refs": {
+      "pro/dg16-g1-carrier-control-04-20261109": "f14906583c07065a97221c739d221f4fbaa7e2b4",
+      "pro/dg16-g1-g3-control-04-20261109": "ea61b498d6cffd4747966e7dd716abd3b3cffc1f",
+      "pro/dg16-g1-original-g3-04-20261109": "f9ba187e8f5520956f0f16cf13c0a706e8360b96",
+      "pro/dg16-g1-tools-control-04-20261109": "a92481fb7d94d62240e3af85f608dde412fd3c32"
+    },
+    "sender_exited": 0,
+    "sender_fetches": 18,
+    "tools_readbacks": 5,
+    "tools_writes": 3
+  },
+  "utc": "2026-11-09T10:07:01.542590+00:00",
+  "whole_DG16": false
+}

@@ -1,0 +1,16 @@
+{
+  "schema": "dg16.guarded-port-handoff-extract.v1",
+  "authority": "NONE",
+  "guarded_edges": {
+    "CE015": "Sole DG16 shared-source writer; no native/effect transfer.",
+    "CE029": "Only the selected authentic native JOIN case that consumes it.",
+    "CE030": "Current completion/history/currentness/frontier at actual consumption.",
+    "CE034": "Only actual effect-bearing use; no generic grant.",
+    "CE049_CE050_CE051": "Only materially affected selected source/package/receiver inputs; no all-three barrier.",
+    "CE057": "Exact CURRENT_RUN_TURN_INTERFACE; no whole DG17/Stop prerequisite.",
+    "CE059": "DG22 consumes exact COMMON_ADOPTION receiving, not whole triad acceptance.",
+    "CE075_CE076_CE077": "Separate DG28 original, issue-relevant adoption and owner-approval/certification receiving."
+  },
+  "conditional_downstream_obligations": [],
+  "limits": "Keep original DAG guards and actual consumed-source applicability; these are not blanket new edges or whole sibling prerequisites."
+}

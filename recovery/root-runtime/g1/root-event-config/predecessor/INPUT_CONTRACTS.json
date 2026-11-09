@@ -1,0 +1,101 @@
+{
+  "schema": "dg16.g1-root-event-input-contracts.v1",
+  "authority": "NONE",
+  "actual_admission_issued": false,
+  "fixed_subject": {
+    "workflow_commit": "f9ba187e8f5520956f0f16cf13c0a706e8360b96",
+    "workflow_branch": "pro/dg16-g1-original-g3-04-20261109",
+    "public_receiver_root": "/home/agent/dg16-g1-current04-operators/public-receiver-02",
+    "receiving_and_issuer": "Actual native Root invocation plus exact input/source provenance; JSON matching is not authentication."
+  },
+  "descriptor": "Exactly {path:absolute_path,sha256:64lowerhex}; complete original bytes and declared bounds must match.",
+  "role_input": {
+    "schema": "dg16.g1-root-role-issuance-input.v1",
+    "fields": {
+      "phase": "tools|recipient|g3_initial|g3_final|terminal|failure",
+      "context": "Exactly repository,branch,workflow_commit,workflow_path,run_id,run_attempt,job_name; genuine actual f9ba event",
+      "window_opened_unix_ms": "Actual preexisting Root role-window beginning; never reset",
+      "deadline_unix_ms": "Actual original expiry, >now and <=window_opened+600000",
+      "provider_readback": "Descriptor of provider input below",
+      "shell_title": "Actual received native shell title for pinned WindowsRoleIO, no default/escape",
+      "initial_session": "Actual initial G3 session path only for g3_final, otherwise null",
+      "actual_root_decision": "Descriptor of exact original first Root decision only for g3_final, otherwise null"
+    }
+  },
+  "provider_input": {
+    "schema": "dg16.g1-root-provider-readback-inputs.v1",
+    "fields": {
+      "context": "Exact same actual job context",
+      "observed_unix_ms": "Actual readback cutoff within original existing role window",
+      "results": "Exactly run,attempt,jobs,workflow -> full original supported-result descriptors",
+      "authentication_receiving": "Descriptor of actual safe Root/native provider receiving, authenticated separately; do not pass a synthetic fixture"
+    }
+  },
+  "control_input": {
+    "schema": "dg16.g1-root-control-issuance-input.v1",
+    "fields": {
+      "artifact_session": "Actual successful tools/g3_initial/g3_final receiver Session under receiver-root/sessions",
+      "decision": "Descriptor of exact Root-issued decision body, validated by original requirements/validate_control; no row/default judgment synthesized",
+      "parent_sha": "Actual current 40hex control ref commit; must match parent_ref_result",
+      "parent_ref_result": "Descriptor of full original current supported GET result for the exact control ref",
+      "window_opened_unix_ms": "Original Root control window opening",
+      "deadline_unix_ms": "Unextended original expiry; additionally <=G3 request expiry or tools body expiry",
+      "shell_title": "Actual received pinned WindowsRoleIO shell title",
+      "initial_session": "For g3_final actual initial G3 Session, otherwise null",
+      "initial_body": "For g3_final exact original first Root decision descriptor, otherwise null",
+      "initial_publication": "For g3_final actual successful initial control receive_control receipt descriptor, otherwise null"
+    }
+  },
+  "G3_semantics": {
+    "owner": "dg16_original_contract_receive and actual Root",
+    "initial": "CONSUME_COMPONENT_RETURNS_ONLY; two returns; original_awards0; no original-row demand",
+    "final": "Exact decision body from authenticated independent/live receiving. No L04 acceptance; preserve natural RLGWO residual. L07 retains global-liveness and retirement/transfer residuals. G3 cannot be fully ACCEPTED under this current04 subject.",
+    "validation": "Existing real receiver.validate_control/publication_plan, plus actual original-contract Root semantic receiving. No second decision contract."
+  },
+  "issued_outputs": {
+    "role": [
+      "CONTEXT.json",
+      "ROLE_ADMISSION.json",
+      "ROLE_CONFIGURATION.json",
+      "WINDOWS_SELECTION.json",
+      "PROVIDER_BINDING.json"
+    ],
+    "control": [
+      "DECISION.json",
+      "PARENT_REF_RESULT.json",
+      "CONTROL_ADMISSION.json",
+      "CONTROL_CONFIGURATION.json",
+      "TRUSTED_PUBLICATION_PLAN.json",
+      "TRUSTED_PLAN_DESCRIPTOR.json",
+      "WINDOWS_SELECTION.json"
+    ],
+    "commit": [
+      "ISSUANCE_READBACK.json",
+      "zero-byte ISSUANCE_COMMITTED"
+    ]
+  },
+  "limits": {
+    "context": 16384,
+    "configuration": 65536,
+    "admission": 65536,
+    "Root_decision": 16384,
+    "initial_Root_decision": 8192,
+    "trusted_callback_plan": 262144,
+    "original_provider_result": 4194304
+  },
+  "prohibited_here": [
+    "Actual issue-* invocation",
+    "Provider or control tool call",
+    "Host publication",
+    "Crypto/key/decryption",
+    "Native receiving or new controller"
+  ],
+  "tools_decision_input": {
+    "schema": "dg16.g1-root-tools-decision-input.v1",
+    "fields": {
+      "artifact_session": "Actual successful tools Session path",
+      "issued_unix_ms": "Explicit actual Root issuance time",
+      "expires_unix_ms": "Explicit existing adoption expiry; real owner validates unchanged bounds"
+    }
+  }
+}

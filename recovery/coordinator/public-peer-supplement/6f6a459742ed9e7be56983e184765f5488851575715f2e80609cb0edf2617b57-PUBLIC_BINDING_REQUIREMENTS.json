@@ -1,0 +1,18 @@
+{
+  "actual_inputs_supplied": false,
+  "authority": "NONE",
+  "effect_grant": false,
+  "issuer_thread": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "private_binding_emitted": false,
+  "provenance": "Root must authenticate fresh issuer/path/decision/reviewer provenance outside matching JSON; this API performs no physical acquisition or authentication.",
+  "remaining_consumer_gates": "Unchanged public_receiver.verified recomputes native admission and checks exact composition/policy/source seals. Unchanged require_final_review requires later sealed exact independent PASS in Root effect admission.",
+  "required_inputs": [
+    "Exact frozen structural public_receiver/admission_gate/native_public and binding template bytes",
+    "Parent-selected complete public byte map: actual host adoption/recipient, bridge BOUND, run FINAL source true",
+    "Actual Root public-only runtime with fresh/current physical workspace/output/source receiving and exact host-adoption descriptor",
+    "Actual public binding: fresh candidate/composition paths/seals/tree and all native/policy/review/adoption digests",
+    "Actual candidate composition, policy gate, native gate and four exact public decision bodies",
+    "Actual Root distinct-review selection and separately authenticated current source author identity"
+  ],
+  "schema": "dg16.public-only-final-binding-requirements.v1"
+}

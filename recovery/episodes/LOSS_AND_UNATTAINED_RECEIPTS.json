@@ -1,0 +1,20 @@
+{
+  "schema": "dg16.public-pro-handoff.loss-register.v1",
+  "original_public_archive_members_lost": 0,
+  "exact_archive_and_member_bytes": "Both public archives and all16 public members copied unchanged; original internal manifests and independent-receiving digests match.",
+  "projection_losses": [
+    {"output": "owner/INTEGRATION_AND_ENGINEERING_LEASE_PROJECTION.json", "source": "DG16_INTEGRATION_RECEIPT_AND_SOL_LEASE.json, exact descriptor recorded in projection and copy readback", "loss": "Verbatim user/assistant message bodies omitted; actual record/turn/message identities, owner/lease/effect facts preserved. No raw transcript exported."},
+    {"output": "interfaces/N1_PRESERVED_DUTY.json", "source": "Exact durable progress129 body SHA67e4fec5737b6955548ca902e29187e84249832e34431aa78660447d3c628f11", "loss": "Only N1 exact preserved state, boundary and proper-owner duty selected. Full progress and unrelated metadata omitted; latest134 continuation confirmation is contextual rather than raw-body receiving."},
+    {"output": "interfaces/DG17_LATEST_CONTEXT_PROJECTION.json", "source": "Existing Execute DG17 Continuation chat via read_thread; exact thread/message/turn IDs recorded", "loss": "No raw original transcript, tool arguments/outputs or attachments copied. Later current progress body unreceived; no invented message hash or current-version claim."},
+    {"output": "interfaces/DG18_LATEST_REQUESTS_AND_OBLIGATIONS.json", "source": "Existing Progress Readback Files chat via read_thread; exact thread/message/turn IDs recorded", "loss": "No raw original transcript or private/signed metadata. Progress134/checkpoint/original owner-input request bodies not recovered; report/locator identities preserved without byte-receiving claims."}
+  ],
+  "deliberately_excluded": [
+    "Encrypted INPUTS.cms/failed streams, all private payloads/keys and any raw credentialed/signed-download metadata; descriptive byte/hash receipts alone retained",
+    "Raw workflow job/infrastructure logs and original native tool/chat transcripts; Root log-join receipt attributed to Root",
+    "Unrelated historical DG18 checkpoint payloads and unverified Library bodies"
+  ],
+  "remaining_missing_receipts": "See EPISODE_INDEX.unattained and each interface projection. Availability here does not assert DG17/DG18 acknowledgment or functional receiving.",
+  "resource_and_custody_ceiling": "Named Root host-slot release differs from old episode reservations, actual sibling availability, private custody, teardown and VM destruction. No fresh authority supplied.",
+  "readback_incidents": "One export orchestration call had a JavaScript parse error before any shell execution or writes. Later exact copy/readback completed; no original episode, source operation or evidence was replayed. Initial DG18 thread ID and overlarge read_thread preview arguments were corrected before reading data; no messages sent.",
+  "projection_is_not_original_evidence": true
+}

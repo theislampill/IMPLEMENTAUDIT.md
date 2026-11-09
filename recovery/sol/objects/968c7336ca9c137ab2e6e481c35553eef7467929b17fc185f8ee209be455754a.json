@@ -1,0 +1,65 @@
+{
+  "schema": "dg16.binary-driver-v3-independent-delta-review.v1",
+  "status": "PASS_SOURCE_DELTA_ONLY",
+  "source": {
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\binary\\binary_driver_v3.js",
+    "bytes": 20863,
+    "sha256": "83f25246bbcc8f6cc5535c45a1b11b7905481eea82ef0cf65a5b1f7f5646288d"
+  },
+  "base": {
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\binary\\binary_driver_v2.js",
+    "bytes": 20729,
+    "sha256": "445c1e7ffb393b32d5846eab2dc0fa68b0a96cd0bb8ed310dd2316be989c3d34"
+  },
+  "blocking_findings": [],
+  "production_delta_verified_exact": true,
+  "delta": "Only after retainReturned succeeds, mark local retained acknowledgement and require captured frameEnd and existing grant still current before any stage advancement. Failed await retains NOT_YET_PROVED. No new deadline/grace/effect or argument/read route change.",
+  "controls": {
+    "command": "node test_binary_driver_v3.js",
+    "cwd": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\binary",
+    "exit_code": 0,
+    "inert_cases": 14,
+    "happy_writes": 5,
+    "happy_reads": 6,
+    "frames": 11,
+    "chunks": 14,
+    "late_first_outcome": {
+      "fake_calls": 1,
+      "frames": 1,
+      "descriptor_preserved": true,
+      "local_receiving": "RETAINED_ACKNOWLEDGEMENT",
+      "no_second_call": true
+    },
+    "extinct_first_outcome": {
+      "fake_calls": 1,
+      "frames": 0,
+      "descriptor_preserved": true,
+      "local_receiving": "NOT_YET_PROVED",
+      "no_second_call": true
+    }
+  },
+  "command_history": "Initial invocation from repository root failed MODULE_NOT_FOUND before executing any test. Corrected source cwd executed the sole authorized14-case suite successfully; no other suite repeated.",
+  "unchanged_sources": [
+    {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\binary\\binary_publish_v3.py",
+      "bytes": 20593,
+      "sha256": "7f71f5928be04d194cdb1a19c04e6b5865173f9c488c13e0c91309a0aa6a5978"
+    },
+    {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-orchestration\\root_pipeline_inputs_v2.py",
+      "bytes": 15463,
+      "sha256": "3f647d62a05a494895ab0fe0c710d5a65baebca126ce3854180e701a8da91cdf"
+    }
+  ],
+  "actual_effects": 0,
+  "source_mutations_by_reviewer": 0,
+  "Root_runtime_qualified": false,
+  "original_acceptance": false,
+  "independence": "Independent primary-authored driver delta; does not independently review shared decoder authored by reviewer.",
+  "prior_receipt_preserved": {
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\binary\\independent-review\\FINAL.json",
+    "bytes": 4796,
+    "sha256": "4845080a8d8c8b83aff4377c593fe28040d4b1bd9e2658f3c1074fa6ca4921ce"
+  },
+  "next": "Root selects exact binary_driver_v3.js instead of v2; separately receives/installs exact source/dependencies and authenticates actual plan/purpose/config/v2admission/runtime. No source pass supplies authority."
+}

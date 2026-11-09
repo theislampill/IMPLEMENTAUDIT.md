@@ -1,0 +1,333 @@
+{
+  "schema": "dg16.current04.independent-terminal-advisory.v1",
+  "authority": "NONE",
+  "status": "FAILED_ORIGINAL_EPISODE_RECEIVED_AT_PUBLIC_TERMINAL_SCOPE",
+  "root_final_decision_issued": false,
+  "identity": {
+    "repository": "theislampill/IMPLEMENTAUDIT.md",
+    "run_id": "42596136449",
+    "attempt": 1,
+    "job_id": 129089113853,
+    "artifact_id": 13664486900,
+    "branch": "pro/dg16-g1-original-g3-04-20261109",
+    "host_commit": "f9ba187e8f5520956f0f16cf13c0a706e8360b96",
+    "product_commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+    "product_tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+    "source_phase": "7a391c1c74329b1298349a85d3df25013707d0eb09044cf8583b3ea8bc9a038c",
+    "run_and_job": "completed/failure",
+    "branch_runs_in_retained_readback": 1
+  },
+  "inputs": [
+    {
+      "bytes": 10333,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\original-host-01\\TERMINAL_PROVIDER_READBACK.json",
+      "sha256": "985d5f55b4633016d114c37620490200ccf25956575380c808fc37a1400e5668"
+    },
+    {
+      "bytes": 7954,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\original-host-01\\CURRENT_terminal.json",
+      "sha256": "897b2d062a6ca7afe65fe35eb0783e41632a612de7216990d51d0692b854404f"
+    },
+    {
+      "bytes": 163,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\original-host-01\\JOB.json",
+      "sha256": "70ca0dcf718e129a3d914a665944e8fe239cdd342936ab7064be1c0d97b8e304"
+    },
+    {
+      "bytes": 1217,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\original-host-01\\ROOT_HOST_ADMISSION.json",
+      "sha256": "a2e3203cc693456ddd61d44a0c957daf8023e528d29dec28c71996f0262e4bac"
+    },
+    {
+      "bytes": 10612,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\original-host-01\\public-terminal\\ARTIFACT.zip",
+      "sha256": "28ef2877d8d5c42ff5300568cc601074b48378e609275aeea3455ac12fa3dec6"
+    },
+    {
+      "bytes": 32747,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\original-host-01\\public-terminal\\RECEIVING.json",
+      "sha256": "25924886192de5683aecd683b23e291bdf84361863374d222e78ca0d9fc98746"
+    },
+    {
+      "bytes": 596,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\original-host-01\\public-terminal\\ROOT_DURABLE_READBACK.json",
+      "sha256": "6f5ca3903caf168808a7de0d478b424fe1ccf094155e4dc8e5283aa71ca683d3"
+    },
+    {
+      "bytes": 1581,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\original-host-01\\public-terminal\\BODY_GET_OUTCOME.json",
+      "sha256": "5512d5e1f38050f7f327067c8994900d6d5391becc56f61719d8896d7741674d"
+    },
+    {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/original-host-01/ROLE_terminal_REFUSAL.json",
+      "bytes": 428,
+      "sha256": "b7afa5a43895ad784c6a3bd13d836761058766379319ae3a6e396fd550c084df"
+    }
+  ],
+  "members": {
+    "ARTIFACT_MANIFEST.json": {
+      "bytes": 944,
+      "sha256": "8d75c3d26b518a0ee400b72c44b9c63ed8b6a9787bf66cb26fca43b41906a289"
+    },
+    "CLEANUP.json": {
+      "bytes": 790,
+      "sha256": "3a222f437794fd86779e239128707712ac58965d70e7e283075ae00b8defebc1"
+    },
+    "FAILURE.json": {
+      "bytes": 451,
+      "sha256": "4b74618f5d22911e07e006ffe79ded99490274198ee37691338b6d621d72972d"
+    },
+    "G3.json": {
+      "bytes": 1009,
+      "sha256": "1a5f4b83998597a215dde254d962c4b8137b27a02d5d4cc0f5c8b43ff700ba02"
+    },
+    "HOST.json": {
+      "bytes": 17162,
+      "sha256": "68fd8d87065588f2c622792c5d1983ccc698b79cdb9a27fdcb69fd8c19fc351e"
+    },
+    "NSS.json": {
+      "bytes": 2700,
+      "sha256": "aca84913e2fc4b239c3d9f29e458feff2179d3948d59be0c4efeb7a1fd54da6b"
+    },
+    "OPERATION.json": {
+      "bytes": 3746,
+      "sha256": "ab545fe4b3b3aaee407297c188d9f8c5698a0c276cd2426e220638e3bb11c0e6"
+    },
+    "RESULT.json": {
+      "bytes": 1034,
+      "sha256": "3d23048f782aeed3ae3e28dc773b361241bba197f03abbbfe0ed5aafde1e70c0"
+    },
+    "SOURCE.json": {
+      "bytes": 1046,
+      "sha256": "d25030a79a5949a18c99970b932871d98a9cd24aa18f093849cb1bb467bb761d"
+    }
+  },
+  "data_checks": {
+    "result": "PASS_AT_LOCAL_RETAINED_DATA_SCOPE",
+    "checks": "archive/member/manifest/duplicate names/durable bytes/receiver pin/result-source-context/run-attempt-branch-job-artifact/host command flags",
+    "archive_sha256": "28ef2877d8d5c42ff5300568cc601074b48378e609275aeea3455ac12fa3dec6",
+    "body_get_attempts": 1,
+    "original_consumer_or_native_execution_in_this_review": 0,
+    "provider_or_private_acquisition_in_this_review": 0,
+    "provenance_limit": "Retained metadata, Root readback and archive are internally exact. Live provider authentication and actual tool-history authenticity remain Root custody facts; neither local hashes nor advisory labels independently authenticate the provider."
+  },
+  "received_positive_scope": [
+    {
+      "scope": "Actual retained public transport and exact product/host/run/attempt/job/artifact identity",
+      "disposition": "RECEIVABLE_AT_DECLARED_SCOPE",
+      "evidence": [
+        "RESULT.json",
+        "SOURCE.json",
+        "ARTIFACT_MANIFEST.json",
+        "Root durable readback",
+        "retained completed hosted metadata"
+      ]
+    },
+    {
+      "scope": "Private intake/prepare and native prerequisites reached in this actual job",
+      "disposition": "RECEIVABLE_AS_AUTHENTICATED_HOST_COMPONENT_TESTIMONY",
+      "completed_steps": [
+        "prepare",
+        "initialize",
+        "discover",
+        "invalidate",
+        "read-state",
+        "read-roadmap",
+        "resume",
+        "verify",
+        "require",
+        "input-preflight",
+        "native-bank",
+        "prerequisites"
+      ],
+      "evidence": [
+        "RESULT.json",
+        "OPERATION.json",
+        "hosted steps 9-21"
+      ],
+      "limit": "Private inputs and native raw bodies were not reacquired. This is not a full raw independent remeasurement."
+    },
+    {
+      "scope": "Two maintained changed native cases, current receiver binding and host",
+      "disposition": "RECEIVABLE_AT_TWO_CONSTRUCTED_ORIGINAL14_CONTROLS_SCOPE",
+      "tests": [
+        {
+          "diagnostic_bytes": 282,
+          "diagnostic_sha256": "55cb5486c1149316b390eea2b88c42d4f9b156b7c9478ee84c9de9e69acf2095",
+          "outcome": "PASS",
+          "test": "test_native_intake_uses_current_original14_not_retired_root"
+        },
+        {
+          "diagnostic_bytes": 262,
+          "diagnostic_sha256": "5c68256090f4c10e494ccd8ed119177b03250b2d4696206e221633ad84d46d49",
+          "outcome": "PASS",
+          "test": "test_native_intake_later_boundary_prevents_return"
+        }
+      ],
+      "receiving_sha256": "10af7da046e2c27bf6b39860ed9f18ce8ea4f643f2c3fe6cc0369505ff387c9f",
+      "five_maintained_predicates": [
+        "fixed_receiver_identity",
+        "wrong_receiver_refusal",
+        "current_native_intake",
+        "later_invalidation_refusal",
+        "host_and_diagnosed_intake"
+      ],
+      "retained_source_members": 87,
+      "changed_members": 2,
+      "limit": "Original native_prerequisite owner validates actual bodies/currentness and issues bounded receipt; exported evidence shows receipt digest and two PASS rows. Not the original campaign, original48 pair, or new whole-row award."
+    },
+    {
+      "scope": "Host descriptor and source/cleanup component observations",
+      "disposition": "RECEIVABLE_AT_RECORDED_SCOPE",
+      "host": "Ubuntu24/x86_64/kernel7.0.0-1017-azure/Python3.12.3 uid/gid/euid/egid0",
+      "host_commands": {
+        "0": 56,
+        "1": 1
+      },
+      "all_57_commands": {
+        "streams_complete": true,
+        "owned_children_reaped": true,
+        "timed_out": false,
+        "output_bound_exceeded": false
+      },
+      "descriptor": "Adapter and descendants only: soft1024->4096; hard1048576 unchanged. Not a host-wide limit or 8128-profile acceptance.",
+      "source_census": {
+        "bytes": 251684291,
+        "entries": 2231,
+        "files": 1790
+      },
+      "source_before_after_match": true,
+      "source_runtime_unchanged": true,
+      "limit": "Complete source census differs in scope from expected tracked payload; it is not a selected acquisition key or complete selected runtime capture."
+    }
+  ],
+  "unearned_frontier": {
+    "C5_original_pair": "NOT_RECEIVED; original producer owner was not invoked",
+    "G1_original19_pair": "NOT_RECEIVED; no actual two-dispatch/38-event/12-artifact raw pair receiving",
+    "G3": "NOT_RECEIVED; AUTHORED only; no request/consume/decision/native frontier update",
+    "full_G2": "NOT_DISPATCHED_IN_THIS_HOST",
+    "whole_DG16": "NOT_AWARDED",
+    "new_original_rows": [],
+    "targeted_Q06_L01_L07": {
+      "R35-Q06": "NO_NEW_ACCEPTANCE_FROM_THIS_EPISODE",
+      "R35-L01": "NO_NEW_ACCEPTANCE_FROM_THIS_EPISODE",
+      "R35-L02": "NO_NEW_ACCEPTANCE_FROM_THIS_EPISODE",
+      "R35-L03": "NO_NEW_ACCEPTANCE_FROM_THIS_EPISODE",
+      "R35-L04": "NO_NEW_ACCEPTANCE_FROM_THIS_EPISODE",
+      "R35-L05": "NO_NEW_ACCEPTANCE_FROM_THIS_EPISODE",
+      "R35-L06": "NO_NEW_ACCEPTANCE_FROM_THIS_EPISODE",
+      "R35-L07": "NO_NEW_ACCEPTANCE_FROM_THIS_EPISODE"
+    },
+    "historical_scope": "All previously qualified historical evidence and all prior FAIL/UNKNOWN remain unchanged; no revocation or automatic transfer."
+  },
+  "failure": {
+    "phase": "MAINTAINED_INPUT_ACQUISITION_BEFORE_SELECTION",
+    "actual_operation_started": true,
+    "producer_owner_invoked": false,
+    "child_terminal_confirmed": true,
+    "raw_receiving_complete": false,
+    "separate_step_receiving_complete": false,
+    "selected_acquisition_key": null,
+    "selected_source_totals": "UNOBSERVED/null",
+    "selected_runtime_totals": "UNOBSERVED/null",
+    "producer_counts": {
+      "original48_dispatches": null,
+      "retained_artifacts": null,
+      "validated_actual_events": null
+    },
+    "counts_limit": "Null counts are unmeasured, not measured zeros.",
+    "records": [
+      {
+        "code": "UNCLASSIFIED_EXCEPTION",
+        "errno": null,
+        "exception_type": "ValueError",
+        "message_bytes": 52,
+        "message_sha256": "8e56eb5e639121819ae1670b9724d68b16f770a1b86535a01aba9301d79fc419",
+        "step": "g1"
+      },
+      {
+        "code": "CURRENTNESS_REFUSED",
+        "errno": null,
+        "exception_type": "Refusal",
+        "message_bytes": 19,
+        "message_sha256": "ed16ff133328a1500fbaab32553addc1034ffcb5f706bed57b4d5e7319c5e35a",
+        "step": "finalize"
+      }
+    ],
+    "namespace_observation": {
+      "counts": {
+        "lock": 1,
+        "module": 0,
+        "nested": 0,
+        "promisor": 0,
+        "replace": 0,
+        "worktree": 0
+      },
+      "flags": 0,
+      "guard_sha256": "4f25634792b55b26e94e30a6d5b8fb2d96b5b2f99fc584db85e016ace3621cba",
+      "matched_frames": 1,
+      "namespace_count": 2272,
+      "namespace_sha256": "24d3d5433089f609a2677ed7f83c0c3c2b95924168f9a898f0d351fbfe382c19",
+      "phase": "MAINTAINED_INPUT_ACQUISITION_BEFORE_SELECTION",
+      "prefix_sha256": "ff5dbdce5b4419268b0fc11c4659763ad68d40e32f18f721b6093a7dd269b7ab",
+      "reason": "COMPLETE",
+      "refusal_bytes": 52,
+      "refusal_sha256": "8e56eb5e639121819ae1670b9724d68b16f770a1b86535a01aba9301d79fc419",
+      "route": "PROVIDER",
+      "schema": "dg16.git-namespace-diagnostic.v1",
+      "status": "ATTRIBUTED"
+    },
+    "cause_ceiling": "One captured lock-class condition and matched refusal digest at the provider namespace guard are attributed. Public diagnostic explicitly does not establish short-circuit history, exact offending pathname, repair, or native authority. No private raw error inference; no duplicated source investigation."
+  },
+  "timing": {
+    "hosted_native_bank_step": "09:57:59-09:59:59 UTC; prerequisite cases, not the original C5 pair",
+    "core_result_elapsed_ns": 158365625307,
+    "failed_operation_enclosing_elapsed_ns": 1492635385,
+    "failed_operation_adapter_elapsed_ns": 1499458478,
+    "original_pair_closing_record": null,
+    "limit": "Pre-producer failure elapsed is not original-pair cost acceptance. Hosted whole-job wall interval and separate core elapsed do not establish the original120s gate."
+  },
+  "cleanup": {
+    "all_step_children_reaped": true,
+    "prior_step_children_unknown": false,
+    "interrupted_step": "NONE_OBSERVED",
+    "source_runtime_unchanged": true,
+    "policy_finalized": true,
+    "policy_disposition": "OWNED_POLICY_RETAINED_UNTIL_VM_DISPOSAL_NO_UNLOAD_OR_UNLINK",
+    "NSS": "Only passwd row configured/read back as files-only; group files+systemd remains unqualified diagnostic. Configured file retained until VM disposal.",
+    "private_outputs_uploaded": false,
+    "finalize_failure": "CURRENTNESS_REFUSED preserved",
+    "VM_disposal": "NOT_PROVED_BY_PUBLIC_TERMINAL_OR_COMPLETED_JOB",
+    "limit": "Do not infer unload, restoration, full-host absence, VM destruction, post-job currentness or zero cleanup-error count from these bounded records."
+  },
+  "recommendation": "Root may receive the failed original episode and listed transport/intake/native-prerequisite/host/cleanup component facts. Award no original C5 pair, G1 gate, G3 row or whole DG16 from this episode. Preserve terminal, prior failures and UNKNOWN. Sol owns source diagnosis; do not replay under this consumed host grant.",
+  "stop": "HOLD_NO_REPLAY_OR_SOURCE_INVESTIGATION",
+  "prior_terminal_role": "Original ROLE_terminal_REFUSAL remains REFUSED_OR_UNKNOWN_NO_REPLAY even though Root separately retained/recomputed the actual public terminal. This advisory does not erase or retry that carrier outcome.",
+  "consumer_scope_sources": [
+    {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/sender-route/current04-public-receiver/candidate-02/author/receiver.py",
+      "bytes": 60530,
+      "sha256": "378846f9cfd5f60ce3e3b48adb3c2e3c7cf94a701ed9aee46e5ba3072f4fc122"
+    },
+    {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/sender-route/current04-public-receiver/candidate-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/run.py",
+      "bytes": 152895,
+      "sha256": "7acd7a301dfb61191c862fca6132b70226b8f1734cab6c46b071e6356ba78af0"
+    },
+    {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/sender-route/current04-public-receiver/candidate-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/native_prerequisite.py",
+      "bytes": 18541,
+      "sha256": "d9687977ead33faa926bc8c7b0a18907c7a05b7072d86183b3bad1aca7dff510"
+    },
+    {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/sender-route/current04-public-receiver/candidate-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/g3_receiving.py",
+      "bytes": 118286,
+      "sha256": "15f65bc76ae990a215dafc30240c7bd8485748ca38d4adc35a99e3331c7d3342"
+    },
+    {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/sender-route/current04-public-receiver/candidate-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/ORIGINAL_SCOPE.json",
+      "bytes": 5524,
+      "sha256": "3671b6a45b5f9572b61b4ee24fd9a8ee5c82494a9d9d51f09479085c2913af6b"
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "recorded_utc": "2026-11-02T06:58:08.330910+00:00",
+  "run": {
+    "id": 41403118577,
+    "run_attempt": 1,
+    "event": "pull_request",
+    "workflow_id": 290094242,
+    "head_sha": "123089d1f1b9cc3650a2fba8260d322741c53070",
+    "status": "completed",
+    "conclusion": "failure",
+    "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/41403118577",
+    "created_at": "2026-11-02T06:56:49Z",
+    "updated_at": "2026-11-02T06:57:09Z"
+  },
+  "job": {
+    "id": 125139076049,
+    "run_id": 41403118577,
+    "run_attempt": 1,
+    "status": "completed",
+    "conclusion": "failure",
+    "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/41403118577/job/125139076049",
+    "runner_name": "GitHub Actions 1000005117",
+    "started_at": "2026-11-02T06:56:51Z",
+    "completed_at": "2026-11-02T06:57:08Z"
+  },
+  "steps": [
+    {
+      "number": 1,
+      "name": "Set up job",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-02T06:56:52Z",
+      "completed_at": "2026-11-02T06:56:53Z"
+    },
+    {
+      "number": 2,
+      "name": "Check out repository",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-02T06:56:53Z",
+      "completed_at": "2026-11-02T06:56:57Z"
+    },
+    {
+      "number": 3,
+      "name": "Observe the C5 setup prerequisite",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-02T06:56:57Z",
+      "completed_at": "2026-11-02T06:56:58Z"
+    },
+    {
+      "number": 4,
+      "name": "Provision the scoped hosted bwrap AppArmor prerequisite",
+      "status": "completed",
+      "conclusion": "failure",
+      "started_at": "2026-11-02T06:56:58Z",
+      "completed_at": "2026-11-02T06:56:58Z"
+    },
+    {
+      "number": 5,
+      "name": "Receive the C5 current input prerequisites",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-02T06:56:58Z",
+      "completed_at": "2026-11-02T06:57:05Z"
+    },
+    {
+      "number": 6,
+      "name": "Observe the ordinary continuity transport prerequisite",
+      "status": "completed",
+      "conclusion": "failure",
+      "started_at": "2026-11-02T06:57:05Z",
+      "completed_at": "2026-11-02T06:57:06Z"
+    },
+    {
+      "number": 7,
+      "name": "Install validation dependencies",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-11-02T06:57:06Z",
+      "completed_at": "2026-11-02T06:57:06Z"
+    },
+    {
+      "number": 8,
+      "name": "Validate whitespace",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-11-02T06:57:06Z",
+      "completed_at": "2026-11-02T06:57:06Z"
+    },
+    {
+      "number": 9,
+      "name": "Validate package-owner JSON",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-11-02T06:57:06Z",
+      "completed_at": "2026-11-02T06:57:06Z"
+    },
+    {
+      "number": 10,
+      "name": "Verify package contract",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-11-02T06:57:06Z",
+      "completed_at": "2026-11-02T06:57:06Z"
+    },
+    {
+      "number": 11,
+      "name": "Observe retained job-owned bwrap AppArmor prerequisite",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-02T06:57:06Z",
+      "completed_at": "2026-11-02T06:57:06Z"
+    },
+    {
+      "number": 22,
+      "name": "Post Check out repository",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-02T06:57:06Z",
+      "completed_at": "2026-11-02T06:57:06Z"
+    },
+    {
+      "number": 23,
+      "name": "Complete job",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-02T06:57:06Z",
+      "completed_at": "2026-11-02T06:57:06Z"
+    }
+  ],
+  "metadata_only_log_evidence": [
+    "2026-11-02T06:56:52.9030100Z Current runner version: '2.338.2'",
+    "2026-11-02T06:56:57.1301370Z \u001b[36;1mprintf 'C5 launcher provision exit: %s\\n' \"$provision_status\"\u001b[0m",
+    "2026-11-02T06:56:57.1303096Z \u001b[36;1mprintf 'C5 setup observation instrument exit: %s\\n' \"$setup_status\"\u001b[0m",
+    "2026-11-02T06:56:58.3395700Z C5 launcher provision exit: 0",
+    "2026-11-02T06:56:58.4075408Z C5 setup observation instrument exit: 0",
+    "2026-11-02T06:56:58.5116791Z     raise ValueError(_bwrap_policy_refusal('unresolved compiled attachment: ' + str(exc)[:256],",
+    "2026-11-02T06:56:58.5118089Z ValueError: unresolved compiled attachment: hosted bwrap policy read bound exceeded; kernel_record_metadata={\"guard\": \"compiled_attachment\", \"name\": \"tcpdump\"}",
+    "2026-11-02T06:56:58.5237949Z ##[group]Run sudo /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --receive-hosted-prerequisites \"$GITHUB_SHA\"",
+    "2026-11-02T06:56:58.5238678Z \u001b[36;1msudo /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --receive-hosted-prerequisites \"$GITHUB_SHA\"\u001b[0m",
+    "2026-11-02T06:57:06.1577037Z continuity transport host refusal: {\"refusal_code\": \"CONTINUITY_TRANSPORT_NAMESPACE_REFUSED\", \"returncode\": 1, \"stderr\": \"bwrap: loopback: Failed RTM_NEWADDR: Operation not permitted\\n\", \"stderr_truncated\": false}",
+    "2026-11-02T06:57:06.1597487Z AssertionError: UNSUPPORTED: CONTINUITY_TRANSPORT_NAMESPACE_REFUSED",
+    "2026-11-02T06:57:06.2339829Z {\"scope\": \"EPHEMERAL_CI_BWRAP_POLICY_OBSERVATION_ONLY\", \"status\": \"NO_OWNED_POLICY_OBSERVED\", \"kernel_policy_unloaded\": false, \"receipt_unlinked\": false, \"retained_until\": \"EPHEMERAL_VM_DISPOSAL\", \"observation_limit\": \"SNAPSHOT_ONLY_NOT_LAUNCH_EXCLUSION\"}"
+  ],
+  "received_log_sha256": "fa8a7976414cd356d53932e66cb07668f9a53ec72eaf9cecea8040185184e85b",
+  "received_log_bytes": 58621,
+  "actual_merge_checkout_seen_in_log": true,
+  "outcome_flags": {
+    "tcpdump": true,
+    "hosted bwrap policy read bound exceeded": true,
+    "CONTINUITY_TRANSPORT_NAMESPACE_REFUSED": true,
+    "Failed RTM_NEWADDR": true,
+    "NO_OWNED_POLICY_OBSERVED": true,
+    "ACTIVE_POLICY_AND_RECEIPT_RETAINED": false,
+    "verify-package: ok": false,
+    "UNQUALIFIED": true
+  },
+  "candidate_run_census": [
+    {
+      "id": 41403118577,
+      "event": "pull_request",
+      "attempt": 1,
+      "conclusion": "failure"
+    }
+  ],
+  "manual_dispatches": 0,
+  "reruns_requested": 0,
+  "no_raw_policy_data_retained": true
+}

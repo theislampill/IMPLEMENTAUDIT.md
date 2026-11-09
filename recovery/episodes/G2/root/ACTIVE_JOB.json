@@ -1,0 +1,75 @@
+{
+  "run": {
+    "attempt": 1,
+    "conclusion": "",
+    "createdAt": "2026-11-09T07:30:36Z",
+    "databaseId": 42579780645,
+    "headSha": "7f618adc702912f760d87f68fe9c94cc419e844c",
+    "status": "in_progress",
+    "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/42579780645",
+    "workflowName": "R5 full current registry raw pair and same-job receiving"
+  },
+  "job_id": 129035519895,
+  "actual_root": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "turn": "01a1bf10-00d5-7a31-a177-dd3e45d7cde0",
+  "owner": "Astra receives through terminal, Sol continues G1",
+  "configuration": {
+    "live": {
+      "authority": "NONE",
+      "configuration": {
+        "bytes": 2164,
+        "sha256": "7de4d38ecb96eae37e1c776adf3a44d9f764841923bc0747c39d7a5ecba815f0"
+      },
+      "configuration_path": "/home/agent/dg16-g2-current04-public-20261109/root-operation-driver-01/live.configuration.json",
+      "context": {
+        "branch": "pro/dg16-r5-full-g2-direct-host-01-20261109",
+        "job_name": "full-registry-raw-pair",
+        "repository": "theislampill/IMPLEMENTAUDIT.md",
+        "run_attempt": 1,
+        "run_id": "42579780645",
+        "source_commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+        "source_tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+        "workflow_commit": "7f618adc702912f760d87f68fe9c94cc419e844c",
+        "workflow_path": ".github/workflows/dg16-r5-full-g2.yml"
+      },
+      "live_admission_issued": false,
+      "required_admission_addition": {
+        "configuration_sha256": "7de4d38ecb96eae37e1c776adf3a44d9f764841923bc0747c39d7a5ecba815f0"
+      },
+      "role": "live",
+      "status": "EXACT_CONFIGURATION_CREATED_REQUIRES_NATIVE_ROOT_ADMISSION",
+      "turn_id": "01a1bf10-00d5-7a31-a177-dd3e45d7cde0"
+    },
+    "terminal": {
+      "authority": "NONE",
+      "configuration": {
+        "bytes": 2180,
+        "sha256": "7dfaa0643161d10affb7ab196984a7ede9908b97bd85382a4a0b1a244fc0e1a8"
+      },
+      "configuration_path": "/home/agent/dg16-g2-current04-public-20261109/root-operation-driver-01/terminal.configuration.json",
+      "context": {
+        "branch": "pro/dg16-r5-full-g2-direct-host-01-20261109",
+        "job_name": "full-registry-raw-pair",
+        "repository": "theislampill/IMPLEMENTAUDIT.md",
+        "run_attempt": 1,
+        "run_id": "42579780645",
+        "source_commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+        "source_tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+        "workflow_commit": "7f618adc702912f760d87f68fe9c94cc419e844c",
+        "workflow_path": ".github/workflows/dg16-r5-full-g2.yml"
+      },
+      "live_admission_issued": false,
+      "required_admission_addition": {
+        "configuration_sha256": "7dfaa0643161d10affb7ab196984a7ede9908b97bd85382a4a0b1a244fc0e1a8"
+      },
+      "role": "terminal",
+      "status": "EXACT_CONFIGURATION_CREATED_REQUIRES_NATIVE_ROOT_ADMISSION",
+      "turn_id": "01a1bf10-00d5-7a31-a177-dd3e45d7cde0"
+    }
+  },
+  "branch": "pro/dg16-r5-full-g2-direct-host-01-20261109",
+  "control": "pro/dg16-r5-full-g2-direct-control-01-20261109",
+  "state_at_creation": "ONE_NEW_JOB_IN_PROGRESS",
+  "reviewer": "/root/dg16_bounded_andon",
+  "host_publication_replay": false
+}

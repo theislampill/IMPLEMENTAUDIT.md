@@ -1,0 +1,82 @@
+{
+  "actor": "/root",
+  "all_member_hashes_modes_populations_verified": true,
+  "author_seal_sha256": "a8771b3332f49045c4a3e998f05cb4272fec245ba4151f56babc3c0e5690d689",
+  "created": "2026-11-07T01:36:20.403083+00:00",
+  "effect_grant": false,
+  "embedded_evidence_exact_actual_retained_bodies": {
+    "PACKAGE_BODY_ENTRY_RECEIVING.json": {
+      "bytes": 151974,
+      "path": "/workspace/scratch/6746ee3422fa/successor/g1-current-source-package-bridge/inputs/PACKAGE_BODY_ENTRY_RECEIVING.json",
+      "sha256": "eccd313aca6583fa16647ae1d8a0ca977d69e84f488aeeba2f6e8f3100173813"
+    },
+    "PACKAGE_DEPENDENCY_COMPARISON.json": {
+      "bytes": 23303,
+      "path": "/workspace/scratch/6746ee3422fa/successor/g1-current-source-package-bridge/evidence/PACKAGE_DEPENDENCY_COMPARISON.json",
+      "sha256": "f053d812d02a3b9ecd86a6122d9903f2f6f1484a399beaeac9a96760c32a3e74"
+    },
+    "ROOT_SOURCE_RECEIVING.json": {
+      "bytes": 2483,
+      "path": "/workspace/scratch/6746ee3422fa/successor/coordinator/loader-v4-source-current/ROOT_SOURCE_FINAL_RECEIVING.json",
+      "sha256": "5b4a222314b1045d666db455dbfc125ff218e8da519a6100e46aaf6378143c7f"
+    },
+    "SOURCE_DELTA.json": {
+      "bytes": 3946,
+      "path": "/workspace/scratch/6746ee3422fa/successor/g1-current-source-package-bridge/evidence/SOURCE_DELTA.json",
+      "sha256": "4bd35656d1ef1f01a078eb8ee9be976f63016989edfd7bd7868b5b0939f0665a"
+    }
+  },
+  "exact_public_component_request": {
+    "bytes": 6110,
+    "path": "/workspace/scratch/6746ee3422fa/successor/g1-current-source-package-bridge/PUBLIC_COMPONENT_REQUEST.json",
+    "sha256": "3dd05c2767bf68be95f9d20926f4d41fbda1a1e30865637d86704b5262643b31"
+  },
+  "four_roles": {
+    "PACKAGE_BODY_RECEIVING.json": {
+      "bytes": 9744,
+      "path": "/workspace/scratch/6746ee3422fa/successor/g1-current-source-package-bridge/private-inputs/PACKAGE_BODY_RECEIVING.json",
+      "sha256": "8c592c76967ae2d95101af86ca25ab3bd4d09acdad486afbb976d61e7e5a7811"
+    },
+    "PACKAGE_ROOT_RECEIVING.json": {
+      "bytes": 928,
+      "path": "/workspace/scratch/6746ee3422fa/successor/g1-current-source-package-bridge/private-inputs/PACKAGE_ROOT_RECEIVING.json",
+      "sha256": "0edff0f3d8bd6f5520ef72d4e91daba54a6b0033e85b94f041f448c2951d6691"
+    },
+    "PACKAGE_TERMINAL_RECEIVING.json": {
+      "bytes": 4531,
+      "path": "/workspace/scratch/6746ee3422fa/successor/g1-current-source-package-bridge/private-inputs/PACKAGE_TERMINAL_RECEIVING.json",
+      "sha256": "e213b8843f03741c48776277f9e1db8c78ea1d3f7609875ce32bcd94e5ed5b89"
+    },
+    "SOURCE_ACQUISITION.json": {
+      "bytes": 198602,
+      "path": "/workspace/scratch/6746ee3422fa/successor/g1-current-source-package-bridge/private-inputs/SOURCE_ACQUISITION.json",
+      "sha256": "8c3b2ddace7802d91308121f2d3f2b8f236fd5d443dcd2237164e20665cd3319"
+    }
+  },
+  "independent_review_seal_sha256": "18f55cf61202239175104783c4f6b50df551a33923231c5f2a61d299b5280e0f",
+  "independent_reviewer": "/root/g1_cold_review",
+  "inspection_instrument_reconciliation": {
+    "corrected": "Read actual string entries and joined exact UTF8 bytes and declared descriptors to retained files above.",
+    "initial_preview": "Assumed evidence_bodies entries were objects; actual schema stores exact UTF8 text. Read-only preview raised AttributeError; no product or evidence mutation."
+  },
+  "launch_ready": false,
+  "original_awards": [],
+  "report_findings_final_readiness_read": true,
+  "review_final_sha256": "aa1ccdd159fcab1a1cddc70683adc6bdf123d562920e730d9e7ff3bb46536871",
+  "schema": "dg16.current-source-package-bridge-root-receiving.v1",
+  "scope": "Exact received7e2-to-retained8ee4 package relation,79package dependencies,80C5inputs separately,2actualarchives147entries; no installed-route replay or archive relabeling.",
+  "source_acquisition_adopted": {
+    "bytes": 198602,
+    "path": "/workspace/scratch/6746ee3422fa/successor/g1-current-source-package-bridge/private-inputs/SOURCE_ACQUISITION.json",
+    "sha256": "8c3b2ddace7802d91308121f2d3f2b8f236fd5d443dcd2237164e20665cd3319"
+  },
+  "source_scope": {
+    "bytes": 166407881,
+    "commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+    "files": 1759,
+    "tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e"
+  },
+  "status": "ACTUAL_INDEPENDENT_REVIEW_RECEIVED_AND_EXACT_SOURCE_ACQUISITION_ROLE_ADOPTED",
+  "subsequent_launch_gap": "G1-FINAL-MANIFEST-01; final launcher correction and whole-host composition review required. This adoption grants no launch.",
+  "trust_boundary": "Only these exact adopted evidence bodies and corresponding immutable public/scope pins; not a generic authenticator of rewritten historical records."
+}

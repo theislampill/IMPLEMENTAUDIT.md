@@ -1,0 +1,491 @@
+{
+  "schema": "dg16.l04.exact-window2-range-receiving.v1",
+  "recorded_utc": "2026-11-09T00:01:22.937Z",
+  "receiver": "/root/dg16_original_contract_receive",
+  "disposition": "RECEIVE_EXISTING_HISTORICAL_NATURAL_BEHAVIOR_CASE_AT_ORIGINAL_SCOPE",
+  "recommendation": "Remove the missing-comparison-body and missing-window2-journal-range objections. Receive the real bounded natural positive and retained omission negative at their historical scope. Root may consume this as original L04 case evidence without a new natural-cycle run. Current selected-source application and any complete-row award require an explicit scope binding; this receipt grants no new native/currentness, Q06, whole-DG16 or ledger credit.",
+  "journal": {
+    "compressed_path": "C:/Users/theis/.codex/sessions/2026/09/10/rollout-2026-09-10T20-25-14-01a08dda-ae12-77c1-ad91-da3653b285da.jsonl.zst",
+    "compressed_bytes": 43269249,
+    "compressed_sha256": "c7a0146c29c6b55e82125da0ecbaa158e3030a612f6053e907fa5991e9aa4fb2",
+    "stable_size_and_mtime_during_receiving": true,
+    "decompressor": "node:zlib createZstdDecompress",
+    "uncompressed_prefix_examined_bytes": 18500000,
+    "offset_basis": "Exact bytes of the decompressed original JSONL stream, including recorded record terminators; no text normalization.",
+    "contents_exposed": false,
+    "full_decompressed_stream_hash_claimed": false
+  },
+  "window2": {
+    "path": "C:/workspace/ai/improveimplementaudit/plans/thread9-triad-owner-andon-20260908/successor-reacquisition-20260909/thread9-2-auto-loom-natural-cycle-window-2.json",
+    "bytes": 41213,
+    "sha256": "9786fa1d05939d03f67b2769c2a3b9588fb04ebae8088caa417ffa21f0fe09e1",
+    "referenced_dispatch_records": 13,
+    "referenced_delivered_message_records": 26,
+    "all39_ranges_match": true,
+    "range_columns": [
+      "category",
+      "index",
+      "offset",
+      "bytes",
+      "sha256",
+      "matched"
+    ],
+    "ranges": [
+      [
+        "dispatch",
+        0,
+        15513374,
+        4014,
+        "4e74ea32f35cdd2455ec94993cb5de96e27067a0f98550d8eae1a24a0edc8637",
+        true
+      ],
+      [
+        "dispatch",
+        1,
+        15520036,
+        3758,
+        "1bde22b295c300a15028fed43e5bec0006bcbadd2dc092277e006ce8084d92e7",
+        true
+      ],
+      [
+        "dispatch",
+        2,
+        15526437,
+        3758,
+        "02ba2a6e38d4bba72d39ca85a244b1cebe14ffeb9c403ec4897bc73d5e9c9bc5",
+        true
+      ],
+      [
+        "dispatch",
+        3,
+        15532837,
+        3676,
+        "e0f37de6265b2c576e229441635648e94b3a2e8639ff2aef717fcb266430e826",
+        true
+      ],
+      [
+        "dispatch",
+        4,
+        15544869,
+        4888,
+        "bc822c89e8c35149cd255e9e0d283487d53342fbbe5518444ffe3d30fd19411e",
+        true
+      ],
+      [
+        "dispatch",
+        5,
+        15565957,
+        4229,
+        "67cb64661e30bbb1d3f8ba2c5395971443975e3d8fa808ca3ecc5f413e788517",
+        true
+      ],
+      [
+        "delivered_message",
+        0,
+        15581249,
+        1755,
+        "7b58293921ef2742afc8dd2e318e75f1c8585f9571f7b2750a3a6eb647a90a99",
+        true
+      ],
+      [
+        "delivered_message",
+        1,
+        15583137,
+        1667,
+        "a152f30a7e572a2873058407ee8051faa76341d1cc6266162b6f1d91c5c8a98e",
+        true
+      ],
+      [
+        "delivered_message",
+        2,
+        15584937,
+        1667,
+        "6fab23632fd608e7bb2fe8deef09e61250a9b9cf5d9b28c2205c78a5aa22e0d9",
+        true
+      ],
+      [
+        "dispatch",
+        6,
+        15612384,
+        1816,
+        "d8e247f9c66a9971a42596124595ada1a38f265e78626e99469f806a5ecf2bc9",
+        true
+      ],
+      [
+        "delivered_message",
+        3,
+        15616973,
+        1663,
+        "fd892eee7370682de680c95e46624ef4760bcc19ead5518b65530bd7a4fdb50a",
+        true
+      ],
+      [
+        "dispatch",
+        7,
+        15642805,
+        5064,
+        "839f1feacbd70663a451205f04ab1aeefbd4aacb824235a7f74fcc542da2281a",
+        true
+      ],
+      [
+        "delivered_message",
+        4,
+        15659063,
+        1564,
+        "8a2bd65dc3a918c06f456f62ef47606bf82cf455a66a8e9ece6c084f8491f59a",
+        true
+      ],
+      [
+        "delivered_message",
+        5,
+        15728941,
+        1733,
+        "eb9ae4c01d878c8c7fc58692bbe1bcb253aaee834c5ef462212a0fb170190323",
+        true
+      ],
+      [
+        "delivered_message",
+        6,
+        15743921,
+        2065,
+        "5ad9aba2d956f5aa412a54c2e06680021e6c3684f3a67d71a25d60f659116dcb",
+        true
+      ],
+      [
+        "delivered_message",
+        7,
+        15748194,
+        1623,
+        "7c56190e552ff361f663d8763b45ec61a26bc2826d6ac2ca5da1d90b49b33872",
+        true
+      ],
+      [
+        "dispatch",
+        8,
+        15775415,
+        4738,
+        "c3621135cedfa834d103d1598f8400572b06196d913f9cfaa2f749addb15ff59",
+        true
+      ],
+      [
+        "delivered_message",
+        8,
+        15916843,
+        2107,
+        "88a479fea53a1612d7bacb1b3e3a61a74b636adb7ede2ca579b4be5ad0809765",
+        true
+      ],
+      [
+        "delivered_message",
+        9,
+        15919083,
+        2216,
+        "363fc315205c495ce0b5f1c33678d2ede37e2a0096e89fe51973cf8b58471d42",
+        true
+      ],
+      [
+        "delivered_message",
+        10,
+        15925186,
+        1499,
+        "5d720eb82579e929d38493b829c8d974e2588e3723b7ce4000727c0813b82cb3",
+        true
+      ],
+      [
+        "delivered_message",
+        11,
+        15943387,
+        1495,
+        "29db307c2fd98387f2c88cc5d9705b291895231055d1eac680b19dc15367f7b5",
+        true
+      ],
+      [
+        "delivered_message",
+        12,
+        16208869,
+        1557,
+        "d3fe2dd989353e672e8fb17ce7de49e5de43ade28e88badb3c9cf24b5c7520b1",
+        true
+      ],
+      [
+        "delivered_message",
+        13,
+        16290944,
+        1755,
+        "e0c7762c23d9f58619103ec3e8050da750e1b9b980ac6fa50962f96c96adac74",
+        true
+      ],
+      [
+        "delivered_message",
+        14,
+        16354658,
+        1385,
+        "a2e32c9765f174bdf753a4003a1ba0190f003f6b668514c7a63ee3b0c0531100",
+        true
+      ],
+      [
+        "delivered_message",
+        15,
+        16362358,
+        1796,
+        "09b6ba557a63124f1d060b29c28364911a1d72bc9fb49aeb8638b66998513f20",
+        true
+      ],
+      [
+        "delivered_message",
+        16,
+        16370977,
+        1656,
+        "9fcacec51ca799dc62d776da67878900bbf5cf88cda916745ca369252e7fb7b2",
+        true
+      ],
+      [
+        "delivered_message",
+        17,
+        16501266,
+        1321,
+        "50453fea29bff7ba2f2cb6f032d895012372793a24ea29355237ba6de08b2d76",
+        true
+      ],
+      [
+        "delivered_message",
+        18,
+        16541722,
+        1852,
+        "2864125f5deab91bd318baeb1ec7b461a6e31a8f9f41fa3382ffd0130ef54748",
+        true
+      ],
+      [
+        "dispatch",
+        9,
+        16543574,
+        3693,
+        "2442faa4a516ba40aa1d3e29fb1de715d9c3596d150e4e1436210b4c1bc38d40",
+        true
+      ],
+      [
+        "delivered_message",
+        19,
+        16608620,
+        1759,
+        "e8955af1e4f1f71e9dadeaec40afc7bb50a2e523da7b781f5889c8316281cf8a",
+        true
+      ],
+      [
+        "delivered_message",
+        20,
+        16692884,
+        1519,
+        "0cc1e9f55a42e4995e0c3011fa37c7b6c0facfcb91fb4b7f092820bb124315c7",
+        true
+      ],
+      [
+        "delivered_message",
+        21,
+        16694536,
+        1714,
+        "b1d01b6e99c9ee798246facbf39c088521867a164f3812dd6b508891307946b5",
+        true
+      ],
+      [
+        "dispatch",
+        10,
+        16913313,
+        4065,
+        "fd8641ad9d74fe8c63f8332765e2a79a83948e475cf16878605a4eba8e7b351e",
+        true
+      ],
+      [
+        "dispatch",
+        11,
+        16931836,
+        5040,
+        "9e9ab6d2a683a0d5d45f9c914f9552ce43449fb76c563b05ed45ea89cd6989f6",
+        true
+      ],
+      [
+        "delivered_message",
+        22,
+        16946622,
+        1585,
+        "a693ea375338f1154806a649bb39148cc010142d7de23288dc6110ac42628290",
+        true
+      ],
+      [
+        "delivered_message",
+        23,
+        17075564,
+        2587,
+        "ce575a327463d5e491740ec3614ee734eb28e7f2d13f2b535bb9f43e2e73a6fe",
+        true
+      ],
+      [
+        "delivered_message",
+        24,
+        17090108,
+        1376,
+        "cb00518c9014b4d12d58edb54aed42347fb04970e82edc529ecaadaab2e33777",
+        true
+      ],
+      [
+        "dispatch",
+        12,
+        17116059,
+        4814,
+        "f6c757354acf5cad8f887cb14fcfa3105317604f7bc0e447f5298a112002fdc5",
+        true
+      ],
+      [
+        "delivered_message",
+        25,
+        17131281,
+        2075,
+        "bbdd39b6756b7df9c24b662bfcd72abeb9627982119a983da21d942588e168b8",
+        true
+      ]
+    ],
+    "original_scope": "Natural owner-authorized RLGWO correction cycle and concurrent source/native preparation; the retained PARTIAL label concerns exhaustive campaign/native-successor claims and is not promoted."
+  },
+  "requirements": {
+    "original_row": "R35-L04",
+    "original_comment": 5638756153,
+    "November7_recovery_archive": "C:/Users/theis/Downloads/DG16_RECOVERED_CONTINUATION_20261107.zip",
+    "amendment_member": "RECOVERED/WORKSPACE/successor/acceptance-audit/ISSUE209_COMMENT_5638756153.md",
+    "amendment_bytes": 6231,
+    "amendment_sha256": "ea83965dfcdbc0d0311a24d9ddbe95b63f665cedf5c3b46d471839476dd53a12",
+    "request_member": "REFERENCE/DG16_NATURAL_INPUT_REQUEST_20261106.json",
+    "request_sha256": "3bd1748fd790e44141cda6609c3e3b1d935705ddb65fe538a6d12dfef005edb4",
+    "shape_application": {
+      "completed_comparison_inputs": "RECEIVED: census123025B/5cbbc680 and correspondence83579B/ad7f5754 with actual prior scoped JOINs.",
+      "blocked_admission_effect": "RECEIVED: exact source/selection/phase/currentness and actual receiving/rights remained unearned; advisory preparation had separate owner authorization. The subsequent census JOIN preserves authoritative disposition NOT_PERFORMED_GATED and no external effect.",
+      "independent_useful_preparation": "RECEIVED: BWP/AMA/CROSS separately owned comparison returns and one shared R0037 composer; source consistency was not used as proof of dispatch.",
+      "ancestor_and_future_JOIN": "RECEIVED: existing receiving-successor ancestry -> v041-campaign RLGWO receiving/admission -> material-census; shared composition consumed only exact required joined inputs and the later census consumed the composition.",
+      "actual_selected_work_and_consumed_return": "RECEIVED: exact original dispatch/message records match; BWP JOIN07:57:30, shared composition JOIN08:08:50, later census JOIN08:26:43. Artifacts contain real scope corrections rather than dispatch counts alone."
+    }
+  },
+  "trace": {
+    "completed_ancestry_pin_matches": true,
+    "comparison_join_accepted": true,
+    "bwp_join_accepted": true,
+    "composition_join_accepted": true,
+    "subsequent_census_join_accepted": true,
+    "subsequent_census_consumes_exact_composition": true,
+    "same_campaign_consumers": [
+      "v041-campaign/material-census",
+      "v041-campaign/RLGWO-receiving-admission",
+      "v041-campaign/RLGWO-receiving-admission",
+      "v041-campaign/material-census"
+    ],
+    "blocked_effect_remained_blocked": true,
+    "prior_composition_input_receiving": "30/30 exact input-index files verified in the preceding bounded receiving; no replay or new qualification."
+  },
+  "matched_negative": {
+    "disposition": "RECEIVE_ACTUAL_HISTORICAL_OMISSION_AND_ACCEPTED_DIAGNOSTIC_AT_THEIR_SCOPES",
+    "negative_frontier": {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/thread9-triad-owner-andon-20260908/successor-reacquisition-20260909/thread9-2-post-compaction-audit-state-02/FRONTIER_AT_OPEN.snapshot.json",
+      "bytes": 1962130,
+      "sha256": "b8a9b4f43d9f10b9d74fe3237e9a6eeaf835dd755a8fe21d08ad2fc49aefdebd",
+      "ready_empty": true,
+      "comparison_prerequisites_already_complete": true,
+      "later_boundary_does_not_explain_earlier_omission": true
+    },
+    "source_input_pins_checked": 7,
+    "source_input_pins_matched": 7,
+    "accepted_andon_report": {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/thread9-triad-owner-andon-20260908/successor-reacquisition-20260909/thread9-2-rlgwo-starvation-andon-01/REPORT.md",
+      "bytes": 9736,
+      "sha256": "091f0a15b9b0b446cc5c9490a9378c57bba6e4fcdb4a13e82328adb6a7f94aae"
+    },
+    "accepted_andon_join": {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/thread9-triad-owner-andon-20260908/successor-reacquisition-20260909/thread9-2-rlgwo-starvation-andon-01/JOIN.json",
+      "bytes": 1717,
+      "sha256": "b9f552b34b59e011f42f7bda916c0b76ba4c8d8534aee63882431b09e5d67b39"
+    },
+    "exact_parent_readback_ranges": [
+      {
+        "offset": 16381622,
+        "bytes": 1477,
+        "sha256": "5d8d1b63f0353a67ab76e48b58be86ad15e1f9094a80640396e95d96cbdaec41"
+      },
+      {
+        "offset": 16465575,
+        "bytes": 28561,
+        "sha256": "40bc8e8fafb27f7ebaa4da9a7838d778a7bdbef13fdfa495d074c70ba5f0cc93"
+      }
+    ],
+    "checker_discriminator": "The accepted bounded diagnostic distinguishes supplied consistency from actual scheduling. The no-action version can remain consistency-clean while the real omission is retained as a conformance failure; falsely blocking an eligible edge is separately refused.",
+    "limit": "The verified parent journal records the Root readback/acceptance of the child diagnostic. This receipt does not relabel that record as the original child-local checker execution or rerun the control. No retroactive credit is assigned to the historical miss."
+  },
+  "current_source_applicability": {
+    "current_decision_path": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/DECISION.md",
+    "current_decision_sha256": "0b88eb80d44d6f322f2aa2a972b921ff649ae9e3a503d503f2f9d98c554766e7",
+    "selected_product": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+    "direct_requirement_applicability": "The recovered case supplies the actual natural comparison/preparation/consumption shape explicitly requested by L04. It is a distinct route from the new full-G2 comparison and from Q06; neither is made an implicit prerequisite to reading this case.",
+    "historical_source_and_runtime_scope_preserved": true,
+    "current_source_code_or_installed_host_equivalence_claimed": false,
+    "current_row_award_created": false,
+    "smallest_remaining_accepting_operation": "Root binds this exact historical case, same-campaign ancestry, negative scope and unchanged original requirement into the selected current original-48/L04 receiving record. If the current consumer requires a source/code/host relation beyond this behavioral case, identify and qualify only that concrete relation. Do not invent another natural run merely to replace the now-recovered journal, flip the old partial G3 scope, or repeat G1/G2/Q06."
+  },
+  "source_references": {
+    "completed_ancestry": {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/thread9-triad-owner-andon-20260908/successor-reacquisition-20260909/thread9-2-rlgwo-receiving-successor-01/SUCCESSOR.json",
+      "bytes": 62022,
+      "sha256": "4d1a1859d475d2e5f4bb83629d97ecdba978dc84983223510e2ae53f44ff0966"
+    },
+    "comparison_join": {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/thread9-triad-owner-andon-20260908/successor-reacquisition-20260909/thread9-2-current-carrier-correspondence-join-01.json",
+      "bytes": 1710,
+      "sha256": "42768df84f80cfb525476aa8b6a4ea1af19827e1c355a6fbc345f6c105af93e2"
+    },
+    "bwp_join": {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/thread9-triad-owner-andon-20260908/successor-reacquisition-20260909/thread9-2-bwp-disposition-preparation-join-01.json",
+      "bytes": 2027,
+      "sha256": "fdf2f88668aa67fce957b90acad5536e4faf947f56bd6a3af4d51f1eefc34997"
+    },
+    "composition_join": {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/thread9-triad-owner-andon-20260908/successor-reacquisition-20260909/thread9-2-shared-r0037-composition-join-01.json",
+      "bytes": 1767,
+      "sha256": "a90983db3e4ed9db0a21078b4dc2d45c4c4793a6df411e5ddc99df777aaf8719"
+    },
+    "subsequent_census_join": {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/thread9-triad-owner-andon-20260908/successor-reacquisition-20260909/thread9-2-rlgwo-census-input-successor-02-join.json",
+      "bytes": 1718,
+      "sha256": "1cf624da7bae8c68d8f0810b7d7fb8a287049aa97abbe0666243d55dfbe59b6c"
+    },
+    "subsequent_census": {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/thread9-triad-owner-andon-20260908/successor-reacquisition-20260909/thread9-2-rlgwo-census-input-preparation-02/ADDENDUM.json",
+      "bytes": 19822,
+      "sha256": "25b2c68afdc1d32f135db4bb36c32901a51d675294c2116c15d68a04faee6389"
+    },
+    "subsequent_input_manifest": {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/thread9-triad-owner-andon-20260908/successor-reacquisition-20260909/thread9-2-rlgwo-census-input-preparation-02/MANIFEST.json",
+      "bytes": 9592,
+      "sha256": "e5670d60b4ef250e41480a183a936dee4134acfe68b52f9803254711ca487e4c"
+    },
+    "subsequent_frontier": {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/thread9-triad-owner-andon-20260908/successor-reacquisition-20260909/PREPARATION_FRONTIER.json",
+      "bytes": 2038090,
+      "sha256": "1feebd44cc33a4ca9630bb9f4576fef98546ddd7d9d3ceecea1de09388176ebe"
+    },
+    "current_source_decision": {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/DECISION.md",
+      "bytes": 12860,
+      "sha256": "0b88eb80d44d6f322f2aa2a972b921ff649ae9e3a503d503f2f9d98c554766e7"
+    }
+  },
+  "limits": [
+    "No complete recursive-campaign, global liveness, native-successor, currentness/epoch, source adoption, whole-row or whole-cell PASS from the window2 label or source-consistency diagnostic.",
+    "The stronger indexed window6 remains an independent bounded historical cycle, not a reason to merge two different episodes or borrow its PASS label.",
+    "Existing grants, scopes, future qualification/currentness predicates and all historical failures remain distinct."
+  ],
+  "effects": {
+    "journal_contents_printed": false,
+    "workflow_or_native_execution": 0,
+    "Git_operations": 0,
+    "reruns": 0,
+    "other_chat_messages": 0,
+    "new_agents": 0,
+    "ledger_edits": 0,
+    "only_written_receipt": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/l04-receiving/WINDOW2_EXACT_RANGE_RECEIVING.json"
+  }
+}

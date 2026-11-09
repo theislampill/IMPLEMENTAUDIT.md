@@ -1,0 +1,296 @@
+{
+  "schema": "dg16.q04-q05.bounded-package-receiving.v1",
+  "recorded_utc": "2026-11-09T04:41:35.711Z",
+  "receiver": "/root/dg16_original_contract_receive",
+  "scope": [
+    "R35-Q04",
+    "R35-Q05"
+  ],
+  "product": {
+    "commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+    "tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+    "retained_package_producer": "8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b",
+    "retained_package_tree": "0da374609f7fea2463a2926f3603b976620bd10e"
+  },
+  "decision": "RECEIVE_CURRENT_APPLICABILITY_OF_EARNED_PACKAGE_INSTALLED_SUBSET; NEITHER_FULL_ROW_ACCEPTANCE_RECOMMENDED_FROM_THIS_PACKET",
+  "original_predicates": [
+    {
+      "id": "R35-Q04",
+      "text": "Shipped bytes trigger actual package/inventory/helper-dispatch coverage and isolated copy parity, Windows/POSIX path applicability, exact cost and retirement trigger. Preserve runtime 0.4.0, release v0.4.0.0, both 327,680-byte caps, 2,000-byte headroom and bootstrap budgets. A shipped but unreachable helper cannot claim governor integration.",
+      "scope": "P build/copy only; I integration/package writer; NATIVE discovery/activation separately. [N, E, A]",
+      "mandatory_consumer": "M5"
+    },
+    {
+      "id": "R35-Q05",
+      "text": "Source→generated→built→packaged→isolated-installed→discovered/routed/native→hosted/public remain separate evidence legs. Test-only change can mark package leg not triggered; changed packaged runtime cannot. Missing native host is an exact pending gate, not promotion of POSIX output.",
+      "scope": "P / I / NATIVE by claimed layer. [B, N, R, E]",
+      "mandatory_consumer": "M5"
+    }
+  ],
+  "superseded_old_map_fields": "The old map stated four routes unstarted. The later actual42232703790 receipt supersedes that field at exact8ee4 installed scope. It is not a reason to replay those routes.",
+  "received": {
+    "run": 42232703790,
+    "attempt": 1,
+    "job": 127942338030,
+    "workflow_commit": "9493cb25ec976aebb056191ec4eafa086d6b44d6",
+    "status": "PASS; independently received and Root accepted at recorded subset",
+    "interval_seconds": 65.360187076,
+    "interval": "FIRST_ADAPTER_BOOTSTRAP_THROUGH_FINAL_BOOKENDS_AND_OWNED_CHILD_CLEANUP; checkout/artifact transport excluded, no elapsed subtraction",
+    "commands": 225,
+    "phases": 16,
+    "roles": [
+      {
+        "bytes": 584974,
+        "cap_bytes": 589824,
+        "complete_inventory_and_source_parity": true,
+        "expanded_bytes": 2092025,
+        "inventory_members": 74,
+        "member_bytes_modes_sha256": "ef9cbbe7c2c277c434139080d548f0cb868ee091fe79aa96633dcd46cc86a117",
+        "members": 75,
+        "name": "IMPLEMENTAUDIT.plugin.zip",
+        "reserve_bytes": 2000,
+        "role": "canonical_plugin",
+        "sha256": "18bb9d7dcb876f7c6be4340bec10dbc77f091227c24504dcecdb0b7d9853f458"
+      },
+      {
+        "bytes": 580372,
+        "cap_bytes": 589824,
+        "complete_inventory_and_source_parity": true,
+        "expanded_bytes": 2087351,
+        "inventory_members": 71,
+        "member_bytes_modes_sha256": "687367382cf92717c87a5b838aaebf2a39e15e6b98ddf34baa40c0e2ff8d9b6f",
+        "members": 72,
+        "name": "IMPLEMENTAUDIT.skill",
+        "reserve_bytes": 2000,
+        "role": "standalone_compatibility",
+        "sha256": "b6fd05b9f1c0b26fe6a193b47e8f6487f3a161e51824670ca0a520772b307413"
+      }
+    ],
+    "routes": [
+      {
+        "route": "plugin-codex",
+        "status": "RECEIVED",
+        "first_normal_resume_verified": true,
+        "distinct_receiver_process": true,
+        "closing_currentness": true,
+        "installed_manifest_sha256": "ef9cbbe7c2c277c434139080d548f0cb868ee091fe79aa96633dcd46cc86a117"
+      },
+      {
+        "route": "plugin-claude",
+        "status": "RECEIVED",
+        "first_normal_resume_verified": true,
+        "distinct_receiver_process": true,
+        "closing_currentness": true,
+        "installed_manifest_sha256": "ef9cbbe7c2c277c434139080d548f0cb868ee091fe79aa96633dcd46cc86a117"
+      },
+      {
+        "route": "standalone-codex",
+        "status": "RECEIVED",
+        "first_normal_resume_verified": true,
+        "distinct_receiver_process": true,
+        "closing_currentness": true,
+        "installed_manifest_sha256": "687367382cf92717c87a5b838aaebf2a39e15e6b98ddf34baa40c0e2ff8d9b6f"
+      },
+      {
+        "route": "standalone-claude",
+        "status": "RECEIVED",
+        "first_normal_resume_verified": true,
+        "distinct_receiver_process": true,
+        "closing_currentness": true,
+        "installed_manifest_sha256": "687367382cf92717c87a5b838aaebf2a39e15e6b98ddf34baa40c0e2ff8d9b6f"
+      }
+    ],
+    "raw_package_bodies": "Later reproduced exact8ee4 archives were independently opened/CRC/population/source/mode checked and Root accepted; not merely hash-only public descriptors.",
+    "independence": "Installed subject receiving DISTINCT_SAME_SUBJECT_PROCESS_ONLY; later raw archive body receiving uses separate agent context. Neither is native application discovery/activation."
+  },
+  "budget": {
+    "runtime": "0.4.0",
+    "release_family": "v0.4.0.0",
+    "revision": 4,
+    "cap_per_role": 589824,
+    "reserve_per_role": 2000,
+    "usable_per_role": 587824,
+    "actual_plugin_bytes": 584974,
+    "plugin_usable_headroom": 2850,
+    "actual_standalone_bytes": 580372,
+    "standalone_usable_headroom": 7452,
+    "approval_member": "RECOVERED/WORKSPACE/source-current/package/budgets/pr255-v4-owner-approval.md",
+    "approval_sha256": "e4af32dc219e8c041d62170b960cdb465f0cdfebdb7e414d0f45b7726cc31488",
+    "old_327680_wording": "Preserved superseded history, not the current acceptance cap."
+  },
+  "four_path_applicability": {
+    "changed_paths": [
+      {
+        "path": "scripts/load-work-graph-c5-executor.py",
+        "retained_sha256": "c62f034159d64d8b461cc0bec502b2f9ac07e05fa6b31f4c2eefc1a6f41696db",
+        "current_sha256": "2989ba6cb8da6f52f9a2f94f27d141a931a0bffb8ebd03172091b170646d8017",
+        "mode": "100644"
+      },
+      {
+        "path": "scripts/qualify-work-graph-verifier.py",
+        "retained_sha256": "cff5376a90dbffdd18e762234c59b62285d8a26d35a916243a085bcf99c48b4c",
+        "current_sha256": "79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b",
+        "mode": "100644"
+      },
+      {
+        "path": "tests/c5-selected-source-fixture.py",
+        "retained_sha256": "c5816b9e0e2b4753c0bad9d1d38ba05573005fda3b801cc7d7a4653ded272ce2",
+        "current_sha256": "207a29c33806bb613b2436f420d2adc99e32045cfd234bb2a643d309d153950b",
+        "mode": "100644"
+      },
+      {
+        "path": "tests/composite-source-cases.py",
+        "retained_sha256": "97cc25b363453401211373f54eb7892ac97d2d371fa231e10509302604a7e5c3",
+        "current_sha256": "bf322d185c905ff0c7b5c35228b89daf81d6a800e489bc3c0a0315ca9bd59e53",
+        "mode": "100644"
+      }
+    ],
+    "unchanged_tracked_leaves": 1755,
+    "closed_package_dependencies": 79,
+    "all_package_dependencies_identical": "Existing independently reviewed/root-received bridge proves complete package-source projection and six explicit producer inputs unchanged; no changed path intersects that closure.",
+    "package_leg": "NOT_TRIGGERED_FOR_THIS_CLOSED_QUALIFICATION_SOURCE_DELTA",
+    "interpretation": "No newly built7e2b artifact is claimed or required merely because these four repo-only qualification/test leaves changed. Exact8ee4 inventory/source.commit stays8ee4; no archive relabel or implicit native/code qualification transfer.",
+    "distinguish": "The separate80-file C5 producer population and original operations are not replaced by the79 package dependency closure.",
+    "source_role_root_adopted": true,
+    "adoption_receipt_sha256": "203f5a2d451fe455ab073fe4a6c912e238338df0c8103f54c58f90d76e276513"
+  },
+  "row_dispositions": {
+    "R35-Q04": {
+      "full_acceptance_recommended": false,
+      "received": "Current-to-retained package dependency relation; actual two roles/inventories/budget and all four Linux installed initialization/currentness/readback chains; exact declared cost interval.",
+      "remaining": "Required package/reproducibility/installer-negative/rollback/helper-dispatch/bootstrap conjunction has no complete receiving at the current applicable dependency/host scope in these inspected inputs. Exact Windows/POSIX path, cost/retirement and native claims require only their actually triggered consumers; no unclaimed GUI/Windows campaign is added."
+    },
+    "R35-Q05": {
+      "full_acceptance_recommended": false,
+      "received": "Layer conservation and positive source/build/package/isolated-installed scope are supported; current qualification-only delta has a closed NOT_TRIGGERED new-package leg. No installed POSIX result is promoted to native discovery, Windows or public release.",
+      "remaining": "For a full original row, finish or lawfully inherit the applicable M5 qualification conjunction, retaining explicit per-layer claimed/nontriggered/pending decisions. These positive descriptors and correct scope labels alone do not supply missing negative/rollback/helper/bootstrap evidence."
+    }
+  },
+  "exact_remaining_consumer": {
+    "name": "Applicable package/reproducibility/install-negative/rollback/helper/bootstrap controls from the canonical scripts/verify-package.sh consumer",
+    "relation_to_G2": "The already commissioned successful current canonical G2/Q02 leg can supply the same controls once; wholeG2 numerical completion is not an all-of prerequisite to scheduling or receiving these rows.",
+    "actual_installed_adapter_limit": "install_all invoked each existing installer once into a fresh route. It did not inject installer-negative/rollback cases or execute the canonical registry.",
+    "historical_reuse_limit": "Qualified historical controls remain reusable only after complete consumed-dependency and host/transaction applicability is bound. The inspected older APPLICABILITY.json is source0d57929b/ee316c, with74 package inputs and F01/F02 failure-path scope; the79-member8ee4→7e2 bridge does not itself complete every earlier negative-control and platform relation.",
+    "specific_referenced_body_not_received_here": {
+      "role": "Retained Q02/Q04/Q05 applicability analysis",
+      "expected_bytes": 11171,
+      "sha256": "ee1eb6c6695b579a0e9c579f53acf6baf851235e647904edf38cd94d1e832e03",
+      "original_locator": "/workspace/scratch/14a519ffa057/delta/lanes/dg16-q02-q04-q05-applicability/REPORT.md",
+      "availability": "Named exact descriptor is in actual INPUT_BINDINGS; this report body was not indexed in the inspected recovery archive. No claim of absence from every custodian/archive."
+    }
+  },
+  "decision_changing_inputs": [
+    {
+      "owner": "Existing package/control evidence custodian and independent receiver; Root accepts exact applicability",
+      "input": "Supply the exact retained applicability report and its required raw/result/subject dependency bindings, then establish the current consumed helper/installer/transaction and host/path applicability, with explicit legitimate nontriggers. If it closes every required item, reuse it without new execution."
+    },
+    {
+      "owner": "Sol existing G2/canonical engineering and actual independent terminal receiver",
+      "input": "When already admitted and actually completed, provide the current canonical consumer outputs/exit/cleanup and original package-control dispositions sufficient for these rows. Reuse that occurrence; no separate duplicate package or installed campaign is requested."
+    },
+    {
+      "owner": "Root original-row acceptance owner",
+      "input": "After the applicable conjunction is independently received, issue exact Q04/Q05 original-row decisions, keeping actual archive producer8ee4, product7e2b and all native/hosted/public limits distinct."
+    }
+  ],
+  "not_required": [
+    "Repeat successful two-role/four-Linux-route operation",
+    "New7e2b build solely to relabel unchanged payload",
+    "G1 success",
+    "All full-G2/Q02 or wholeDG16 acceptance as a blanket scheduling barrier",
+    "Unclaimed Windows/native-GUI activation",
+    "Whole DG21/DG22 or unrelated sibling qualification"
+  ],
+  "evidence": {
+    "archive": "C:/Users/theis/Downloads/DG16_RECOVERED_CONTINUATION_20261107.zip",
+    "archive_read_mode": "Central directory plus exact bounded members only; no extraction or archived program execution",
+    "original_map": {
+      "member": "RECOVERED/WORKSPACE/evidence-v26/work/dg16-original-conjunction-current/ORIGINAL48_CURRENT_MAP.json",
+      "bytes": 81901,
+      "sha256": "2128ad1092e194176f84bac358e460c6a46e5a01acfad863bbe564d61b54479f"
+    },
+    "selected_members": [
+      {
+        "member": "RECOVERED/WORKSPACE/evidence-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/RECEIPT.json",
+        "bytes": 9147,
+        "sha256": "355e5b5a346f42d7917076e947e4ac31b32f8735900d950cb99943529a064897"
+      },
+      {
+        "member": "RECOVERED/WORKSPACE/evidence-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/terminal/PACKAGES.json",
+        "bytes": 1413,
+        "sha256": "49d6ef585f86c6be02208cbe61c1e38e9001c0049a4d29a187e80c5bc983545e"
+      },
+      {
+        "member": "RECOVERED/WORKSPACE/evidence-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/terminal/ROUTES.json",
+        "bytes": 4090,
+        "sha256": "13ea56d1953317cc884f09afcbef130123f9ed72fb42f7824f056ba1588e5384"
+      },
+      {
+        "member": "RECOVERED/WORKSPACE/evidence-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/terminal/CLEANUP.json",
+        "bytes": 403,
+        "sha256": "b03566055b551a47dcc81a4c986fda5b64e6a89326735269a06312c6b6fb7887"
+      },
+      {
+        "member": "RECOVERED/WORKSPACE/successor/coordinator/OWNER_FORWARD_V4_SHARED_SOURCE_20261107.json",
+        "bytes": 1666,
+        "sha256": "d2d019581648ea677962d31c0684918338a8a2328fdc23195af6fa0094adaa82"
+      },
+      {
+        "member": "RECOVERED/WORKSPACE/successor/coordinator/G1_CURRENT_SOURCE_PACKAGE_BRIDGE_ROOT_RECEIVING.json",
+        "bytes": 4660,
+        "sha256": "203f5a2d451fe455ab073fe4a6c912e238338df0c8103f54c58f90d76e276513"
+      },
+      {
+        "member": "RECOVERED/WORKSPACE/successor/coordinator/g1-final-private-inputs/PACKAGE_BODY_RECEIVING.json",
+        "bytes": 9744,
+        "sha256": "8c592c76967ae2d95101af86ca25ab3bd4d09acdad486afbb976d61e7e5a7811"
+      },
+      {
+        "member": "RECOVERED/WORKSPACE/successor/coordinator/g1-final-private-inputs/PACKAGE_ROOT_RECEIVING.json",
+        "bytes": 928,
+        "sha256": "0edff0f3d8bd6f5520ef72d4e91daba54a6b0033e85b94f041f448c2951d6691"
+      },
+      {
+        "member": "RECOVERED/WORKSPACE/successor/coordinator/g1-final-private-inputs/PACKAGE_TERMINAL_RECEIVING.json",
+        "bytes": 4531,
+        "sha256": "e213b8843f03741c48776277f9e1db8c78ea1d3f7609875ce32bcd94e5ed5b89"
+      },
+      {
+        "member": "RECOVERED/WORKSPACE/successor/g1-current-source-package-bridge/evidence/SOURCE_DELTA.json",
+        "bytes": 3946,
+        "sha256": "4bd35656d1ef1f01a078eb8ee9be976f63016989edfd7bd7868b5b0939f0665a"
+      },
+      {
+        "member": "RECOVERED/WORKSPACE/successor/g1-current-source-package-bridge/evidence/PACKAGE_DEPENDENCY_COMPARISON.json",
+        "bytes": 23303,
+        "sha256": "f053d812d02a3b9ecd86a6122d9903f2f6f1484a399beaeac9a96760c32a3e74"
+      },
+      {
+        "member": "RECOVERED/WORKSPACE/evidence-v26/work/source-package/installed-runtime05r1/evidence/APPLICABILITY.json",
+        "bytes": 28507,
+        "sha256": "d0630f33942503245e390467e7a1ba498d4c4b98bdc4d0e669c5355804883373"
+      },
+      {
+        "member": "RECOVERED/WORKSPACE/successor/g1-current-source-package-bridge-review/READINESS.json",
+        "bytes": 3706,
+        "sha256": "5547f8f9bcaba45717b6baf7c08c4f724a502a05f245f63b8938964c923d5651"
+      },
+      {
+        "member": "RECOVERED/WORKSPACE/evidence-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/INPUT_BINDINGS.json",
+        "bytes": 2191,
+        "sha256": "5f35cafbfe8c8e4c570269eda641f40ded9ea939519131fbc708869969fd7f10"
+      }
+    ]
+  },
+  "effects": {
+    "builds": 0,
+    "packages_executed": 0,
+    "installed_routes_replayed": 0,
+    "native_or_hosted_campaigns": 0,
+    "chat_contacts": 0,
+    "G1_G2_work_taken_over": false,
+    "ledger_or_historical_writes": 0,
+    "only_output": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/package-receiving/Q04_Q05_ADVISORY_RECEIVING.json"
+  },
+  "stop": "Exact remaining consumer identified. No further census or campaign is initiated."
+}

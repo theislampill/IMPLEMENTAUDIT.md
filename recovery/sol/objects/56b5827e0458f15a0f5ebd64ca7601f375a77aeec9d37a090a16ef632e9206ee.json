@@ -1,0 +1,51 @@
+{
+  "schema": "dg16.single-lock-independent-source-review.v1",
+  "status": "REVISE",
+  "source": [
+    {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\original-host-failure-01\\candidate\\operation.py",
+      "bytes": 24104,
+      "sha256": "47ba3a2f839def4902fd991c1c02dc50bcd7dfe32dbc0e918ac02828464b1a56"
+    },
+    {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\original-host-failure-01\\candidate\\run.py",
+      "bytes": 158720,
+      "sha256": "d04ebf2fa1b3f085c77996fb87464280eb75154d1fd691fb5c4e612eef7a61bd"
+    }
+  ],
+  "baseline": [
+    {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-finish-01\\finish\\tree\\qualification\\dg16-r5-g1-hosted-episode\\operation.py",
+      "bytes": 23009,
+      "sha256": "458ce32d996272a4049034bc372cea61b8870a6f76d6a30f3e819093b57c774d"
+    },
+    {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-finish-01\\finish\\tree\\qualification\\dg16-r5-g1-hosted-episode\\run.py",
+      "bytes": 152895,
+      "sha256": "7acd7a301dfb61191c862fca6132b70226b8f1734cab6c46b071e6356ba78af0"
+    }
+  ],
+  "finding": {
+    "id": "G1-SINGLE-LOCK-BOUND-1",
+    "operation_line": 277,
+    "public_validator_line": 1094,
+    "condition": "Synthetic70000 high-plane Unicode codepoints plus.lock; namespace4, work280160<1048576.",
+    "observed": "Observer ATTRIBUTED/COMPLETE/path_bytes280005/795-byte row; exact public validator rejects NAMESPACE_SINGLE_LOCK_OBSERVATION because cap262144.",
+    "required": "Before committing single_lock, enforce the existing public UTF8 byte cap and emit existing WORK_BOUND UNAVAILABLE without partial counts/path commitment; no cap expansion."
+  },
+  "positive_controls": {
+    "exact_changes": "Only operation namespace_neutral/namespace_observation; run public validator preserved renamed-v1 body plus v2 dispatcher. qualify and exception/cancellation/cleanup owners unchanged.",
+    "historical_v1_output_exact": true,
+    "full_public_projection9": true,
+    "base64_and_zip_roundtrip": true,
+    "malformed_typed_refusals": 12,
+    "unavailable_shape_no_partial": true,
+    "interrupt_objects_preserved": true
+  },
+  "author_control_scope": "Initial originalRED0/9 and candidateGREEN9/9 demonstrate missing/provided ASCII discriminator only. Independent Unicode bound counterexample invalidates whole candidate readiness; no claim native/owner execution.",
+  "actual_original_lock_filename": "UNKNOWN",
+  "actual_original_lock_owner": "UNKNOWN",
+  "actual_effects": 0,
+  "original_acceptance": false,
+  "next": "Review separate corrected narrow successor. Any future observation is a new Root-composed/admitted effect; historical diagnostic v1 must never be backfilled or treated as owner proof."
+}

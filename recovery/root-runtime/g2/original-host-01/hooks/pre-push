@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+IFS=' ' read -r localref localsha remoteref remotesha
+test "$localsha" = 7f618adc702912f760d87f68fe9c94cc419e844c
+test "$remoteref" = refs/heads/pro/dg16-r5-full-g2-direct-host-01-20261109
+test "$remotesha" = 0000000000000000000000000000000000000000
+if read -r another; then exit 1; fi

@@ -1,0 +1,99 @@
+{
+  "decision": "REVISE_ACTUAL_ROOT_BLOB_RECEIVING_BEFORE_HOST_LAUNCH",
+  "utc": "2026-11-09T09:08:59.057Z",
+  "caller": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "source_handoff": "d8673f3015ab5815e750a8492e7c48cf31ff4861dc23bbc11fad706b31f0e214",
+  "subject": {
+    "text": "public committed package/implementaudit-package.json",
+    "binary": "public committed genealogy DRF reliability packet ZIP, 343118 bytes; no protected episode data"
+  },
+  "results": [
+    {
+      "sha": "eee4eac2dc581a8a8b924966d36cbbb1acd2e133",
+      "tool": "github_fetch",
+      "isError": false,
+      "wrapper_keys": [
+        "content",
+        "title",
+        "modified_date",
+        "url",
+        "display_url",
+        "display_title",
+        "structuredContent"
+      ],
+      "content_type": "string",
+      "content_length": 5028,
+      "inner_keys": [
+        "schema_version",
+        "logical_package",
+        "package_name",
+        "description",
+        "publisher",
+        "marketplace",
+        "runtime_version",
+        "release_family",
+        "public_governor",
+        "public_entrypoint",
+        "required_skills",
+        "internal_skills"
+      ],
+      "encoding": null,
+      "git_identity_matches": false,
+      "value_has_base64_body": false
+    },
+    {
+      "sha": "750f32f7602b00a2c4f074c6c0632d0da7795b16",
+      "tool": "github_fetch",
+      "isError": true,
+      "wrapper_keys": [
+        "error",
+        "error_code"
+      ],
+      "content_type": "undefined",
+      "refusal": [
+        "HTTPError: 400: GitHub Fetch only accepts UTF-8 text. (Response: None)"
+      ]
+    },
+    {
+      "sha": "eee4eac2dc581a8a8b924966d36cbbb1acd2e133",
+      "tool": "github_fetch_blob",
+      "isError": false,
+      "keys": [
+        "content"
+      ],
+      "content_type": "string",
+      "content_size": 5028,
+      "encoding": null,
+      "git_identity_matches": false,
+      "inner_keys": [
+        "schema_version",
+        "logical_package",
+        "package_name",
+        "description",
+        "publisher",
+        "marketplace",
+        "runtime_version",
+        "release_family"
+      ],
+      "inner_git_encoding": null
+    },
+    {
+      "sha": "750f32f7602b00a2c4f074c6c0632d0da7795b16",
+      "tool": "github_fetch_blob",
+      "isError": true,
+      "keys": [
+        "error",
+        "error_code"
+      ],
+      "content_type": "undefined",
+      "encoding": null,
+      "git_identity_matches": false,
+      "refusal": [
+        "UnicodeDecodeError: 'utf-8' codec can't decode byte 0x95 in position 14: invalid start byte"
+      ]
+    }
+  ],
+  "expected_by_frozen_source": "provider_reader.blob requires a raw Git Data envelope with encoding base64, content and matching Git blob SHA. G1 Root control and binary closing after native writes use that validator.",
+  "scope": "Read-only, current authenticated tool observations on public preexisting objects. No real grant, publication, original trial, private inputs or acquired private binary.",
+  "next": "Select and qualify a correct prospective byte-preserving source. Do not claim success from a created SHA or a text decoding, or defer the mismatch to after a real ref update."
+}

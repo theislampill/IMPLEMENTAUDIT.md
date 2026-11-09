@@ -1,0 +1,121 @@
+{
+  "schema": "dg16.pro-handoff.six-group-milestone-matrix.v1",
+  "authority": "NONE",
+  "status": "STAGED_PUBLIC_CONTRACT_INPUTS_ONLY_NOT_TRANSFER_OR_ACCEPTANCE",
+  "cutoff": "Owner selected HAND OFF TO PRO on 2026-11-09; this packet assembles existing retained evidence only.",
+  "selected_product": {
+    "commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+    "tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+    "parent": "ea61b498d6cffd4747966e7dd716abd3b3cffc1f",
+    "source_manifest": "source/SOURCE_MANIFEST_7e2b.json"
+  },
+  "populations": {
+    "original_requirements": 48,
+    "original_cases": 20,
+    "original_verifier_nodes": 117,
+    "original_test_families": 89,
+    "terminal_clauses": 12,
+    "current_composed_nodes": 119,
+    "current_test_families": 91,
+    "definition_file": "original/DEFINITIONS_48_20_117_12.json",
+    "original_registry_sha256": "77f26397b276fa1b6e494558d1796cb4c43d14b1e1a6755e68f542cdc4c37698",
+    "current_registry_sha256": "65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878",
+    "registry_source_match": "Both exact selected7e Git blobs match source manifest and the retained independent population map; no execution credit follows."
+  },
+  "groups": [
+    {
+      "id": 1,
+      "heading": "main contained G1/C5 (with source/denominators)",
+      "implemented": "Maintained finite owner/profile and current04 hosted composition exist; current05 fetch/final-cwd corrections are locally source-qualified alternatives only. Original4096 descriptors, producer120s/CPU90, runtime128MiB and complete-source256MiB guards retained.",
+      "executed": "Fresh current04 run42596136449/attempt1/job129089113853 failed before selection. Genuine intake and two changed native prerequisite cases ran; producer_owner_invoked=false, all producer counts null/unmeasured. Earlier node48 19-role/six-artifact qualification stays at its recorded scope.",
+      "independently_received": "G1 independent terminal and Root decision received exact archive28ef2877… and failed operation. Root separately received local functional fetch correction; exact secondary cwd correction independently reviewed.",
+      "original_scope_earned": "Genuine input transfer and bounded same-job native prerequisites; no fresh original C5/G1 two-dispatch pair,38events/12artifacts or whole DG16 award.",
+      "unresolved": "Current05 is not a replacement hosted success; primary historical lock identity/cause remains unproved by original terminal. Do not delete/ignore locks, prune inputs, relax fixed bounds or reuse consumed grants. Pro must receive final source composition/custody and choose the next separately authorized action.",
+      "evidence": [
+        "evidence/G1_ROOT_TERMINAL_DECISION.json",
+        "evidence/G1_INDEPENDENT_TERMINAL.json",
+        "evidence/G1_LOCAL_FETCH_CORRECTION.json",
+        "evidence/G1_FINAL_CURRENTNESS_SOURCE_REVIEW.json"
+      ]
+    },
+    {
+      "id": 2,
+      "heading": "complete G2 comparison + applicable canonical verification",
+      "implemented": "Canonical legacy/DAG consumer and complete current119/91 mapping, with original117/89 preserved. Source/qualification instrumentation is not correspondence execution.",
+      "executed": "Fresh G2 run42579780645/attempt1/job129035519895 ran one legacy verifier, exit1 after118.970s. DAG verifier and raw comparison did not execute; zero node verdicts settled. Two native prerequisites and same-host maximum encrypt check passed at recorded scopes.",
+      "independently_received": "Actual failed public terminal independently received and Root accepted as failure; preserved exception matches explicit nonzero guard, not evidence of an artifact collector cause.",
+      "original_scope_earned": "No full G2/V03/Q02 correspondence or canonical-verifier PASS. Same-host encrypt result is its own bounded predicate. All eight original raw comparator FAIL categories remain, as do preprogram refusals/UNKNOWN.",
+      "unresolved": "Sol's retained first-failure source work must be received at its actual scope. Applicable package/installer/negative/rollback/helper/bootstrap controls may come from the already selected canonical consumer once; do not impose a second whole bank or rerun accepted cases. Conversion/retirement remain conditional separate decisions.",
+      "evidence": [
+        "evidence/G2_ROOT_TERMINAL_DECISION.json",
+        "evidence/G2_INDEPENDENT_TERMINAL.json",
+        "original/HISTORICAL_RAW_COMPARISON.json",
+        "source/selected7e2b/scripts/verify-package.sh"
+      ]
+    },
+    {
+      "id": 3,
+      "heading": "actual G3 consumption and both root decisions",
+      "implemented": "Current04 original request/proof schemas, receiver02, timed callbacks and data-only Root intake helper are prepared. Initial control consumes exact component returns with awards0; final body requires actual independent/source-applicability review.",
+      "executed": "Current04 stopped before preparation/receiving; G3 remained AUTHORED only. No initial/final request, Root component-consumption decision, consumed return/frontier transition or final original decision occurred.",
+      "independently_received": "Only preparation/source and failed terminal observations; no future verdict issued. Frozen schemas and exact callback receiving are reusable at source scope after actual-caller rebind.",
+      "original_scope_earned": "No new Q06/L01-L07/T08 live conjunction from this episode. Historical L04 row acceptance belongs to group4; current04's closed L04-in-episode residual is not flipped.",
+      "unresolved": "A genuine future occurrence must provide exact initial/final exported packets, authenticated host/provider/source custody, actual independent/source-applicability review and both original Root decisions within unchanged clocks. Shared control interval<=600s, first hold<=300s, proof<=30s and final reserve>=60s; no completed live end-to-end timing proves fit. Private raw bodies are not in the public final archive.",
+      "evidence": [
+        "evidence/G1_ROOT_TERMINAL_DECISION.json",
+        "source/CURRENT04_ORIGINAL_SCOPE.json"
+      ],
+      "pointer": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/root-live-g3/PREPARATION.json"
+    },
+    {
+      "id": 4,
+      "heading": "accepted material-transition witness",
+      "implemented": "Existing actual September11 window2 material transition and exact original L04 requirement recovered; no new source feature or campaign required to replace it.",
+      "executed": "Completed comparison inputs; blocked authoritative admission; distinct useful preparation and shared composition; actual return JOIN07:57:30, composition JOIN08:08:50, subsequent material-census consumer JOIN08:26:43. Blocked disposition remains NOT_PERFORMED_GATED.",
+      "independently_received": "39 exact dispatch/delivery ranges, two matched negative readbacks and30 indexed inputs verified against decompressed journal with exact offsets/hashes; Root accepted exact R35-L04 behavioral witness.",
+      "original_scope_earned": "R35-L04 original held-out natural behavioral witness accepted for selected7e original48 accounting. Historical actor/runtime scope preserved; this is not a claim selected November code ran in September.",
+      "unresolved": "Q06, other L rows, current compiler/native/currentness, fullG2/G3, packages/CI and whole-cell acceptance remain separate. Raw history is deliberately not delivered; safe receipts preserve exact immutable locators/hashes.",
+      "evidence": [
+        "evidence/L04_ROOT_DECISION.json",
+        "evidence/L04_EXACT_RANGE_RECEIVING.json"
+      ]
+    },
+    {
+      "id": 5,
+      "heading": "received packages and Linux install routes",
+      "implemented": "Exact8ee4 two-role source/build/package projection and79-dependency bridge to7e are received; all four changed7e paths lie outside this package dependency closure. New package leg is NOT_TRIGGERED for that qualification-only delta.",
+      "executed": "Run42232703790/attempt1/job127942338030 succeeded. Canonical plugin584974B/75members and standalone580372B/72members; plugin/standalone x Codex/Claude four Linux isolated install/initialization/normal-resume/currentness routes received.",
+      "independently_received": "Actual archive bodies and complete populations/source/modes independently received; all four installed routes and later current-source bridge Root received. Package RECEIPT/PACKAGES/ROUTES/CLEANUP and dependency comparison included.",
+      "original_scope_earned": "Q04/Q05 package and isolated-installed positive subset; not full rows, Windows/native-app activation or public release. Actual65.360187076s interval is adapter bootstrap through final bookends/owned cleanup, excluding checkout/transport without subtraction.",
+      "unresolved": "Finish or inherit applicable negative/rollback/helper-dispatch/bootstrap/reproducibility conjunction with exact dependencies/host/transaction relation. Named ee1eb6c6… applicability report body remained unavailable in inspected recovery; not universal absence. Preserve both original327680 wording and admitted v4 cap589824/reserve2000/usable587824; runtime0.4.0/releasev0.4.0.0 unchanged.",
+      "evidence": [
+        "evidence/PACKAGE_APPLICABILITY.json",
+        "evidence/package/RECEIPT.json",
+        "evidence/package/PACKAGES.json",
+        "evidence/package/ROUTES.json",
+        "evidence/package/PACKAGE_DEPENDENCY_COMPARISON.json",
+        "original/pr255-v4-owner-approval.md"
+      ]
+    },
+    {
+      "id": 6,
+      "heading": "final exact-source review/applicable CI/complete original disposition/delivery",
+      "implemented": "Original48/20/117/12 working definitions, full issue209 and four binding comments, Nov7/prior owner continuations and conditional operations are recoverable here. Exact selected7e audit spec and both registries included as data.",
+      "executed": "Retained PR255 CI run41403118577 on123089d1 failed; its canonical package verifier was skipped. Current selected7e G1/G2 job failures are not successful applicable CI or original cold-review conjunction. No new effect was run for this handoff.",
+      "independently_received": "Scoped source/terminal/package/L04 reviews retained. No complete original48 cold exact-source acceptance or closure is manufactured by this assembly. PR255 metadata is dated retained readback: open/draft/unmerged, head123089d1/basee78f7c.",
+      "original_scope_earned": "Earned historical/scoped predicates remain; whole DG16 open and retained whole-DAG count17/32. Q07/Q08 and T09-T12 still require their exact applicable conjunction. Source/public/package/installed/adoption/certification/#209 closure remain distinct.",
+      "unresolved": "Pro must independently receive exact final candidate, complete every original-row disposition, preserve inherited/nontriggered/conditional predicates and obtain applicable CI/cold/delivery readbacks. Issue body/comment publication and manual closure need separate authority and exact post-effect readback. No mandatory mainline/CI/sibling gate beyond original applicability is added.",
+      "evidence": [
+        "original/issue-209.md",
+        "original/issue-209-comments.json",
+        "original/ORIGINAL48_CURRENT_MAP_NOV06.json",
+        "original/DEFINITIONS_48_20_117_12.json",
+        "evidence/RETAINED_PR255_CI_FAILURE.json",
+        "evidence/RETAINED_PR255_READBACK.json"
+      ]
+    }
+  ],
+  "overlay_rule": "Nov06 current map is preserved byteexact; later Root L04 decision and Nov09 failed G1/G2 decisions are separate explicit overlays, not silent edits. Original definitions retain old wording and owner amendments separately.",
+  "excluded": "No original archive, histories/journal contents, plaintext/cipher diagnostic bags, keys, real grants, native state, source checkout or automatic execution is delivered.",
+  "done_when": "Public inputs, exact selection provenance and six headings verified; return to Root for aggregate handoff and HOLD."
+}

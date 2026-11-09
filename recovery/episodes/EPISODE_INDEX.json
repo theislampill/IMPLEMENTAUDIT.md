@@ -1,0 +1,52 @@
+{
+  "schema": "dg16.public-pro-handoff.episode-index.v1",
+  "scope": "Verified public data export only; no engineering, continuation, publication, transfer, new currentness or authority",
+  "global_accepted_cells": 17,
+  "total_cells": 32,
+  "whole_DG16": false,
+  "product": {"commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f", "tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e"},
+  "G1": {
+    "run": 42596136449, "job": 129089113853, "attempt": 1,
+    "head": "f9ba187e8f5520956f0f16cf13c0a706e8360b96",
+    "archive": {"bytes": 10612, "sha256": "28ef2877d8d5c42ff5300568cc601074b48378e609275aeea3455ac12fa3dec6"},
+    "public_members": 9,
+    "lifecycle": "COMPLETED_FAILURE; ROOT_TERMINAL_RECEIVED; RESOURCE_LEASE_RELEASED_AFTER_TERMINAL",
+    "Root_decision": "G1/root/ROOT_TERMINAL_DECISION.json",
+    "independent_receiving": "G1/independent/TERMINAL_RECEIVING.json",
+    "positive_scope": "One sender exited0 with18 calls; tools3writes/5readbacks and cipher5writes/6readbacks;338315B encrypted transfer received without exporting body; two changed native cases PASS at their exact scope",
+    "failure": "Maintained input acquisition before selection; producer not invoked; original counts null/unmeasured; original G1/C5 pair and G3 decisions not earned",
+    "cleanup_limit": "Recorded children reaped; terminal role exit0/complete disk receipt independently received despite preserved outer callback refusal. Owned policy retained until VM disposal with no unload/unlink; disposal unproved."
+  },
+  "G2": {
+    "run": 42579780645, "job": 129035519895, "attempt": 1,
+    "head": "7f618adc702912f760d87f68fe9c94cc419e844c",
+    "archive": {"bytes": 16572, "sha256": "6b869e5e7543703e7f70def6119d4f7a7ce1aa0a9868ee7f0d11ba41542d1f31"},
+    "public_members": 7,
+    "lifecycle": "COMPLETED_FAILURE; ROOT_TERMINAL_RECEIVED; ROOT_HOST_SLOT_RELEASED",
+    "Root_decision": "G2/root/ROOT_TERMINAL_DECISION.json",
+    "independent_receiving": "G2/independent/RECEIPT.json",
+    "positive_scope": "Two current native cases/five predicates and same-host maximum268501016B plaintext/268501653B ciphertext observed;43 host commands bounded/ECHILD",
+    "failure": "Legacy exit1/118970ms;119 nodes UNSETTLED; DAG and live proof unexecuted; fullG2/T14 unaccepted. Underlying verifier cause unresolved by terminal evidence.",
+    "log_join": "Root matched seven members to original151457B public job log SHA198e2e98fc13a1f3603983beff7cc556faefb811a4b120368fee4203496ee7fd in RAM. Log not persisted or independently rerun here; all seven reported digests match actual archive members.",
+    "cleanup_limit": "Recorded source/runtime unchanged and children reaped; native post-pair closing qualification false; encrypted failure listing only, no private recovery."
+  },
+  "historical_episodes": "Recovered old Pro current03 originals retain run42438847724/job128603527611/commit4707bd39 identity and consumed-trigger scope. Earlier G1run42432664333 and old resource/teardown states remain historical. New Root terminal decisions do not create missing old-episode terminal/resource receipts.",
+  "source_operation_chronology": "Dated prelaunch source-operation records saying host_published=false or grants0 are historical snapshots. The later actual Root terminal decisions govern the named episodes. Old grants are spent/nonreusable.",
+  "owner_state": "Owner projection preserves Astra integration and Sol bounded engineering at the dated recorded boundary. This export changes no owner, grants Pro no authority and establishes no successor receiving/transfer.",
+  "interface_inputs": ["interfaces/DG18-requested-current03-originals/", "interfaces/DG18_LATEST_REQUESTS_AND_OBLIGATIONS.json", "interfaces/DG17_LATEST_CONTEXT_PROJECTION.json", "interfaces/N1_PRESERVED_DUTY.json"],
+  "unattained": [
+    "Original G1/C5 complete pair and actual final G3 decisions",
+    "Original G2 complete legacy/DAG correspondence, live independent review/root consumption and closing",
+    "Any N1 witness/consumption/currentness/epoch",
+    "Current134 raw DG18 body/request/receiving and later DG17 raw progress as specified in interface projections",
+    "Missing old-episode terminal/resource/owner dispositions; no inference from later releases",
+    "Provider VM disposal or ongoing private custody from terminal artifacts alone",
+    "New Pro acceptance/ownership transfer/receiving acknowledgment"
+  ],
+  "source_seal_limit": "Source-operation seal records are reference evidence; this episode subset does not supply every sealed implementation member or a relocated qualified runtime.",
+  "data_classes": {"EXACT_PUBLIC_BYTES": "Source bytes copied and read back unchanged", "BOUNDED_PROVENANCE_PROJECTION": "New source-selected facts; losses and source identity explicit; not original evidence"},
+  "no_cipher_or_private_bodies": true,
+  "no_raw_original_transcripts": true,
+  "effects": "Only this staging subtree written. No tests, messages, owner changes, provider/native/repository/publication effects.",
+  "terminal": "RETURN_THEN_HOLD"
+}

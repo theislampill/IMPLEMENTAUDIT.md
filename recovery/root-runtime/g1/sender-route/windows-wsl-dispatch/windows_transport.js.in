@@ -1,0 +1,14 @@
+const TRANSPORT_CHUNK_BYTES = 8192;
+const OP_EXPIRES_UNIX_MS = null;
+function psLiteral(s){
+ need(typeof s==='string' && !/[\u0000\r\n]/.test(s),'NON_LITERAL_HELPER_ARGUMENT');
+ return "'"+s.replaceAll("'","''")+"'";
+}
+function wslCommand(python,loader,path,pin,action,...args){
+ need(python==='/usr/bin/python3' && path.startsWith('/') && /^[0-9a-f]{64}$/.test(pin),'WSL_SENDER_BINDING');
+ const tokens=['C:\\Windows\\System32\\wsl.exe','--distribution','Ubuntu','--user','agent','--cd','/','--exec',
+  python,'-I','-B','-c',loader,path,pin,action,...args];
+ const cmd="$PSNativeCommandArgumentPassing='Standard'; & "+tokens.map(psLiteral).join(' ')+"; exit $LASTEXITCODE";
+ need(cmd.length<=18000,'WINDOWS_COMMAND_BOUND');
+ return cmd;
+}

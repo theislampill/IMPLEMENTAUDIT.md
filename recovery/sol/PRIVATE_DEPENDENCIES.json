@@ -1,0 +1,111 @@
+{
+  "schema": "dg16.sol-private-dependency-metadata-only.v1",
+  "bodies_included": false,
+  "dependencies": [
+    {
+      "logical_role": "g1.current05.private-inputs/SOURCE_ACQUISITION.json",
+      "bytes": 198602,
+      "sha256": "8c3b2ddace7802d91308121f2d3f2b8f236fd5d443dcd2237164e20665cd3319",
+      "status": "BODY_OMITTED",
+      "fresh_custody": "Root must deliver/receive this exact source role under an explicit successor lease; never synthesize a PASS or reuse a historical effect grant."
+    },
+    {
+      "logical_role": "g1.current05.private-inputs/PACKAGE_ROOT_RECEIVING.json",
+      "bytes": 928,
+      "sha256": "0edff0f3d8bd6f5520ef72d4e91daba54a6b0033e85b94f041f448c2951d6691",
+      "status": "BODY_OMITTED",
+      "fresh_custody": "Root must deliver/receive this exact source role under an explicit successor lease; never synthesize a PASS or reuse a historical effect grant."
+    },
+    {
+      "logical_role": "g1.current05.private-inputs/PACKAGE_BODY_RECEIVING.json",
+      "bytes": 9744,
+      "sha256": "8c592c76967ae2d95101af86ca25ab3bd4d09acdad486afbb976d61e7e5a7811",
+      "status": "BODY_OMITTED",
+      "fresh_custody": "Root must deliver/receive this exact source role under an explicit successor lease; never synthesize a PASS or reuse a historical effect grant."
+    },
+    {
+      "logical_role": "g1.current05.private-inputs/PACKAGE_TERMINAL_RECEIVING.json",
+      "bytes": 4531,
+      "sha256": "e213b8843f03741c48776277f9e1db8c78ea1d3f7609875ce32bcd94e5ed5b89",
+      "status": "BODY_OMITTED",
+      "fresh_custody": "Root must deliver/receive this exact source role under an explicit successor lease; never synthesize a PASS or reuse a historical effect grant."
+    },
+    {
+      "logical_role": "g1.current05.private-inputs/placement/ACCESS09_DIAGNOSTIC.json",
+      "bytes": 29107,
+      "sha256": "5a56b0705e77314c587020dda0d45522a68bf5c93d4187281971b13cea4f95ae",
+      "status": "BODY_OMITTED",
+      "fresh_custody": "Root must deliver/receive this exact source role under an explicit successor lease; never synthesize a PASS or reuse a historical effect grant."
+    },
+    {
+      "logical_role": "g1.current05.private-inputs/placement/ACCESS09_FINAL.json",
+      "bytes": 5113,
+      "sha256": "61d6afe0d5cb5bca26c435c4529788816161d484714ec3e89148d24186b945c1",
+      "status": "BODY_OMITTED",
+      "fresh_custody": "Root must deliver/receive this exact source role under an explicit successor lease; never synthesize a PASS or reuse a historical effect grant."
+    },
+    {
+      "logical_role": "g1.current05.private-inputs/placement/ACCESS09_ROOT_RECEIVING.json",
+      "bytes": 1961,
+      "sha256": "40ce62326d8e9b759a5db150bf41a99dc77c05580342989aa33e06df2b0bedd3",
+      "status": "BODY_OMITTED",
+      "fresh_custody": "Root must deliver/receive this exact source role under an explicit successor lease; never synthesize a PASS or reuse a historical effect grant."
+    },
+    {
+      "logical_role": "g1.current05.private-inputs/COMPOSITION_NATIVE_APPLICABILITY_ADOPTION.json",
+      "bytes": 627,
+      "sha256": "4cc88b1e0125d23d5a6e0975e3613fea62e5258c76e6d6dcf208cbdb356eb85d",
+      "status": "BODY_OMITTED",
+      "fresh_custody": "Root must deliver/receive this exact source role under an explicit successor lease; never synthesize a PASS or reuse a historical effect grant."
+    },
+    {
+      "logical_role": "g1.current05.private-inputs/COMPOSITION_PLACEMENT_EVIDENCE_INDEX.json",
+      "bytes": 512,
+      "sha256": "c415420af84ac8c06372c38a3939bbce38018e68fb3dc431f1caa038f7e0ad5f",
+      "status": "BODY_OMITTED",
+      "fresh_custody": "Root must deliver/receive this exact source role under an explicit successor lease; never synthesize a PASS or reuse a historical effect grant."
+    },
+    {
+      "logical_role": "g1.current05.private-inputs/COMPOSITION_PLACEMENT_RECEIVING.json",
+      "bytes": 886,
+      "sha256": "9bd8967a43dfb29682ea84c39c402d28d3d31aab720cf7dbd29b8e1fb02e3b1a",
+      "status": "BODY_OMITTED",
+      "fresh_custody": "Root must deliver/receive this exact source role under an explicit successor lease; never synthesize a PASS or reuse a historical effect grant."
+    },
+    {
+      "logical_role": "g1.current05.private-inputs/COMPOSITION_ROOT_ADMISSION.json",
+      "bytes": 749,
+      "sha256": "870113fdf352d468bd147aaa2e624fec4eb915d4e1932b185624416147be6f90",
+      "status": "BODY_OMITTED",
+      "fresh_custody": "Root must deliver/receive this exact source role under an explicit successor lease; never synthesize a PASS or reuse a historical effect grant."
+    },
+    {
+      "logical_role": "g2.root-received-source-binding/BINDING.json",
+      "bytes": 8412,
+      "sha256": "a0750feb79bbbe00c20b852bb179989a8dce89669130effbb6a8433774f0b6e9",
+      "status": "BODY_OMITTED",
+      "fresh_custody": "Root-controlled source/configuration receipt; code is public but this packet conveys no historical or fresh Root authority."
+    },
+    {
+      "logical_role": "g2.root-received-source-binding/SUCCESSOR_RUNTIME_BINDING.json",
+      "bytes": 943,
+      "sha256": "8f8b04026a9a29cbc84841c857ba1d07e717bdcf7e8283c5ee20eb433d9dd5e5",
+      "status": "BODY_OMITTED",
+      "fresh_custody": "Root-controlled source/configuration receipt; code is public but this packet conveys no historical or fresh Root authority."
+    },
+    {
+      "logical_role": "g2.root-received-source-binding/FINAL_REVIEW_SELECTION.json",
+      "bytes": 950,
+      "sha256": "ce82709ecc99ff8186f47bc4a51db0d0f9878b64ea8dd9a659754e77cd2c02a9",
+      "status": "BODY_OMITTED",
+      "fresh_custody": "Root-controlled source/configuration receipt; code is public but this packet conveys no historical or fresh Root authority."
+    }
+  ],
+  "further_fresh_inputs": [
+    "Actual current05 carrier and bootstrap SourceRoot decisions",
+    "Per-run current tools/recipient/request/source/operation/admission",
+    "Actual G3 independent producer and Root initial/final decisions within their original windows",
+    "Actual private inputs/key custody and native tool history source/cursor; no raw data or credentials are supplied"
+  ],
+  "rule": "Exact metadata identifies a missing dependency, not a grant or independent receiving."
+}

@@ -1,0 +1,16 @@
+{
+  "actual_root": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "utc": "2026-11-09T06:23:42.354652+00:00",
+  "decision": "ACCEPT_EXACT_SENDER_CLI_SOURCE_AND_STATIC_FRESH_UBUNTU_PREFLIGHT",
+  "cli_source_review": "f95129a0d04b3b379067f45c56db0feac95202ddf34266cdee0f275f3d8387f6",
+  "root_preflight": "2de955e11273ae00d237ccfcf91a45de0b16a051bf0a9c5d25bbba416f5ece07",
+  "current_source_hashes": {
+    "assemble_actual": "4201abd63171b53d271fe282d114cdc6ec1de982ec8eafdd218ccab90a5ec39f",
+    "late_sender_v2": "97408df8058e6c8c8bab754ed8f9df8edf3f930ac4f47dd466c16eda9732f3cb",
+    "reader": "378846f9cfd5f60ce3e3b48adb3c2e3c7cf94a701ed9aee46e5ba3072f4fc122",
+    "corrected_slots": "f2c72a67c2f4b5b712965f2e335981d23108ee29af7df436a125928478da366e"
+  },
+  "current04_original_host_job_started": false,
+  "new_original_awards": [],
+  "remaining": "Complete actual public role I/O and control handling, late recipient/nonce/input bodies and actual runtime receiving when the authorized host episode exists."
+}

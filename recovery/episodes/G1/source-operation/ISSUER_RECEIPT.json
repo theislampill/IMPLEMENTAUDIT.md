@@ -1,0 +1,117 @@
+{
+  "utc": "2026-11-09T05:01:54.370073+00:00",
+  "issuer_logical": "R5_ROOT_GOVERNOR",
+  "actual_issuer": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "authority": "Owner transferred DG16 shared integration to Astra and authorized continuing ordinary DG16 work. This is genuine prospective root issuance for the selected core episode. Publication requires exact subsequent whole-tree/reviewer, live-role and resource receiving under the same governor.",
+  "decision": "ISSUE_FOUR_ACTUAL_CORE_ROLE_BODIES_AND_FRESH_SELECTION_FOR_G1_CURRENT04_SOURCE_COMPOSITION",
+  "selection": {
+    "bytes": 907,
+    "sha256": "ce45e1b7fac1b1150bff37517223754dba2f6e38e59ac6679fdd5ec73ea2d01d"
+  },
+  "roles": {
+    "COMPOSITION_PLACEMENT_EVIDENCE_INDEX.json": {
+      "bytes": 512,
+      "sha256": "c415420af84ac8c06372c38a3939bbce38018e68fb3dc431f1caa038f7e0ad5f"
+    },
+    "COMPOSITION_NATIVE_APPLICABILITY_ADOPTION.json": {
+      "bytes": 627,
+      "sha256": "4cc88b1e0125d23d5a6e0975e3613fea62e5258c76e6d6dcf208cbdb356eb85d"
+    },
+    "COMPOSITION_PLACEMENT_RECEIVING.json": {
+      "bytes": 886,
+      "sha256": "9bd8967a43dfb29682ea84c39c402d28d3d31aab720cf7dbd29b8e1fb02e3b1a"
+    },
+    "COMPOSITION_ROOT_ADMISSION.json": {
+      "bytes": 749,
+      "sha256": "b39c9be5fbf20b32b8687f9605e84e0b12ea42418e7a2b7c1e81feddc01faafc"
+    }
+  },
+  "seven_retained": {
+    "SOURCE_ACQUISITION.json": {
+      "bytes": 198602,
+      "sha256": "8c3b2ddace7802d91308121f2d3f2b8f236fd5d443dcd2237164e20665cd3319"
+    },
+    "PACKAGE_ROOT_RECEIVING.json": {
+      "bytes": 928,
+      "sha256": "0edff0f3d8bd6f5520ef72d4e91daba54a6b0033e85b94f041f448c2951d6691"
+    },
+    "PACKAGE_BODY_RECEIVING.json": {
+      "bytes": 9744,
+      "sha256": "8c592c76967ae2d95101af86ca25ab3bd4d09acdad486afbb976d61e7e5a7811"
+    },
+    "PACKAGE_TERMINAL_RECEIVING.json": {
+      "bytes": 4531,
+      "sha256": "e213b8843f03741c48776277f9e1db8c78ea1d3f7609875ce32bcd94e5ed5b89"
+    },
+    "placement/ACCESS09_DIAGNOSTIC.json": {
+      "bytes": 29107,
+      "sha256": "5a56b0705e77314c587020dda0d45522a68bf5c93d4187281971b13cea4f95ae"
+    },
+    "placement/ACCESS09_FINAL.json": {
+      "bytes": 5113,
+      "sha256": "61d6afe0d5cb5bca26c435c4529788816161d484714ec3e89148d24186b945c1"
+    },
+    "placement/ACCESS09_ROOT_RECEIVING.json": {
+      "bytes": 1961,
+      "sha256": "40ce62326d8e9b759a5db150bf41a99dc77c05580342989aa33e06df2b0bedd3"
+    }
+  },
+  "source": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+  "tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+  "ref_observations": [
+    [
+      "pro/dg16-g1-original-g3-04-20261109",
+      {
+        "http": 404
+      },
+      0
+    ],
+    [
+      "pro/dg16-g1-g3-control-04-20261109",
+      {
+        "http": 404
+      },
+      0
+    ],
+    [
+      "pro/dg16-g1-carrier-control-04-20261109",
+      {
+        "http": 404
+      },
+      0
+    ],
+    [
+      "pro/dg16-g1-tools-control-04-20261109",
+      {
+        "http": 404
+      },
+      0
+    ]
+  ],
+  "control_parents": [
+    "ea61b498d6cffd4747966e7dd716abd3b3cffc1f",
+    "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f"
+  ],
+  "local_sender": "Existing Ubuntu WSL2 nonroot 1000:1000, verified fixed env and openssl only. Actual private file, dispatcher and nonce/recipient readbacks remain late. Prior Pro descriptors are not used.",
+  "sender_metadata": {
+    "bytes": 3811,
+    "sha256": "30f82035515a16e3e88bba456a79c8d2638c317ae266d238eaee883f222e48ce"
+  },
+  "linux_changed": [
+    "scripts/operational-evidence.py",
+    "skills/implementaudit/scripts/compile-work-graph.py"
+  ],
+  "original_native_transfer": false,
+  "core_native_bank_to_execute_fresh": true,
+  "whole_assembly_received": false,
+  "publication": false,
+  "live_controls_issued": false,
+  "resource_reserved": false,
+  "carrier_admission_issued": false,
+  "bootstrap_admission_issued": false,
+  "known_limits": [
+    "G1 host Ubuntu 24.04; fresh deferred host-tool observation/adoption. Separate G2 host is Ubuntu 26.04.",
+    "Placement I0 only. Workspace failure cause unknown. R35-L04 has its separate case decision.",
+    "Late sender, provider acquisition, exact independent and root live decisions still required. No historical recipient, ciphertext or decision is reused."
+  ]
+}

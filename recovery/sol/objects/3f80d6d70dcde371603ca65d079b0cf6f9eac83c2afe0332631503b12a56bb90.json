@@ -1,0 +1,25 @@
+{
+  "status": "INDEPENDENT_PARENT_SOURCE_RECEIVING",
+  "source": {
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\file_readback.py",
+    "bytes": 4997,
+    "sha256": "ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1"
+  },
+  "actual_root_observation_scope": "Root-attributed public preexisting immutable fixtures; Sol made no provider call",
+  "checks": [
+    "Exact4argAPI; expectedbytes/consumermaximum,SHA256,GitblobID",
+    "FullactualwrappernoisError/truncated/partial; originalrepresentationretainedbyconsumer",
+    "ActualRootheldURL/title/encoding/shajoin; strictcanonicalbase64CRLFonly",
+    "Parentreadfullsource; independent7inertcontrolsPASS; noRootpacketorprivatecipherread"
+  ],
+  "actual_Root_receipts": {
+    "SUPPORTED_BASE64_FILE_RECEIVING.json": "696cee1d3e51ccbaf5390513e74a520ad6576a967d1a639a3b5f6cf43cd1ad93",
+    "BASE64_ROUTE_METADATA.json": "5b250fa2bab9ee7b0acace4b4f0bb4cbd7bca9d999ab7859d06978b8aa935d48"
+  },
+  "limitations": [
+    "NoRootphysicalinstallation/runtimequalificationbySol",
+    "Noactualpublication/nativeorwholecellaward"
+  ],
+  "new_actual_Sol_effects": 0,
+  "utc": "2026-11-09T09:20:05.458814+00:00"
+}

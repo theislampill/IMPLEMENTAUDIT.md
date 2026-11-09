@@ -1,0 +1,82 @@
+{
+  "files": [
+    {
+      "file": "package/implementaudit-package.json",
+      "id": "exec-56690212-9390-4d6c-adac-da4f7a53b499",
+      "structured_keys": [
+        "content",
+        "encoding",
+        "sha",
+        "display_url",
+        "display_title"
+      ],
+      "retained": {
+        "display_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/7e2b00b3a2a16fc6033a5eabe4fc795f6249366f/package/implementaudit-package.json",
+        "display_title": "implementaudit-package.json",
+        "encoding": "base64",
+        "sha": "eee4eac2dc581a8a8b924966d36cbbb1acd2e133"
+      },
+      "nested_metadata": {}
+    },
+    {
+      "file": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/packet/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_FROZEN_PACKET.zip",
+      "id": "exec-3a15cfc6-2eb5-40b6-bb6c-01ee70c355cd",
+      "structured_keys": [
+        "content",
+        "encoding",
+        "sha",
+        "display_url",
+        "display_title"
+      ],
+      "retained": {
+        "display_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/7e2b00b3a2a16fc6033a5eabe4fc795f6249366f/docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/packet/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_FROZEN_PACKET.zip",
+        "display_title": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_FROZEN_PACKET.zip",
+        "encoding": "base64",
+        "sha": "750f32f7602b00a2c4f074c6c0632d0da7795b16"
+      },
+      "nested_metadata": {}
+    }
+  ],
+  "tree": {
+    "oid": "d2c81871c449289f293b2546cce8aaca7e289d1e",
+    "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/trees/d2c81871c449289f293b2546cce8aaca7e289d1e?recursive=1",
+    "isError": false,
+    "keys": [
+      "content",
+      "title",
+      "modified_date",
+      "url",
+      "display_url",
+      "display_title",
+      "structuredContent"
+    ],
+    "body": {
+      "sha": "d2c81871c449289f293b2546cce8aaca7e289d1e",
+      "truncated": false,
+      "leaves": [
+        [
+          "pages.yml",
+          "100644",
+          "blob",
+          1072
+        ],
+        [
+          "validate.yml",
+          "100644",
+          "blob",
+          2817
+        ]
+      ]
+    }
+  },
+  "commit": {
+    "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/ea61b498d6cffd4747966e7dd716abd3b3cffc1f",
+    "sha": "ea61b498d6cffd4747966e7dd716abd3b3cffc1f",
+    "tree": "5586e8d4f197dabf1194edbc6b9f7fe17a4cca07",
+    "parents": [
+      "8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b"
+    ],
+    "isError": false
+  },
+  "ref": "See waiting-refs/g3.READBACK.json for exact ref object at ea61b498d6cffd4747966e7dd716abd3b3cffc1f"
+}

@@ -1,0 +1,1622 @@
+{
+  "schema": "dg16.sol-public-source-index.v1",
+  "archive_prefix": "recovery/sol/",
+  "members": [
+    {
+      "logical_path": "g1/generator/source/author/bootstrap_entry.py",
+      "archive_path": "recovery/sol/objects/466f12eda94b637c5a7335b39dcd42456d7e5e245553c7f155efcf0669888f8b.py",
+      "bytes": 3448,
+      "sha256": "466f12eda94b637c5a7335b39dcd42456d7e5e245553c7f155efcf0669888f8b",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\author\\bootstrap_entry.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/author/compose.py",
+      "archive_path": "recovery/sol/objects/59b007f8e1c979adaffa502a1651b06ff0652bdc5dc1399a77320516f9c6e800.py",
+      "bytes": 17923,
+      "sha256": "59b007f8e1c979adaffa502a1651b06ff0652bdc5dc1399a77320516f9c6e800",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\author\\compose.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/author/precore_projection.py",
+      "archive_path": "recovery/sol/objects/07613d2dad8a7fef9d8d27f552cc06b20d3a5131a50627c54047b19450759d89.py",
+      "bytes": 19632,
+      "sha256": "07613d2dad8a7fef9d8d27f552cc06b20d3a5131a50627c54047b19450759d89",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\author\\precore_projection.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/author/public_export.py",
+      "archive_path": "recovery/sol/objects/30f0844663ad4380c85a151151a0b35fc945ed54e63de8cbb1e31eb8f0375b59.py",
+      "bytes": 8159,
+      "sha256": "30f0844663ad4380c85a151151a0b35fc945ed54e63de8cbb1e31eb8f0375b59",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\author\\public_export.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/author/publication.py",
+      "archive_path": "recovery/sol/objects/279b812cbd414d84cb2e179c8601212e396fb81e5c8dff81d346aafa2d99cb2a.py",
+      "bytes": 3126,
+      "sha256": "279b812cbd414d84cb2e179c8601212e396fb81e5c8dff81d346aafa2d99cb2a",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\author\\publication.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/author/refusal_render.py",
+      "archive_path": "recovery/sol/objects/cc528d9b5dee24a48aa16c9b2e26e0e07184b782e7d3c58732776c07c34c313f.py",
+      "bytes": 1631,
+      "sha256": "cc528d9b5dee24a48aa16c9b2e26e0e07184b782e7d3c58732776c07c34c313f",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\author\\refusal_render.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/author/sender_assembly.py",
+      "archive_path": "recovery/sol/objects/604922c0ee2091d2698e97915cda1636e98036389ad6302f4f976d93f43d6884.py",
+      "bytes": 9221,
+      "sha256": "604922c0ee2091d2698e97915cda1636e98036389ad6302f4f976d93f43d6884",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\author\\sender_assembly.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/author/workflow.py",
+      "archive_path": "recovery/sol/objects/2c4348240873c9c7d816574044d6a10331805da14695438bfd5a3299da61c470.py",
+      "bytes": 7465,
+      "sha256": "2c4348240873c9c7d816574044d6a10331805da14695438bfd5a3299da61c470",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\author\\workflow.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/inputs/TEMPLATE_INDEX.json",
+      "archive_path": "recovery/sol/objects/794223557462f723a160c76339547aa6bedc3e6c56caa0bb897ca6bf32e0a204.json",
+      "bytes": 5155,
+      "sha256": "794223557462f723a160c76339547aa6bedc3e6c56caa0bb897ca6bf32e0a204",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\inputs\\TEMPLATE_INDEX.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/adapter/integration/core_prepare_entry.py",
+      "archive_path": "recovery/sol/objects/9cc838f5dde26e8ef8ee9734d1f566fc71bcbe41f148aac51072fd362911a029.py",
+      "bytes": 1739,
+      "sha256": "9cc838f5dde26e8ef8ee9734d1f566fc71bcbe41f148aac51072fd362911a029",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\adapter\\integration\\core_prepare_entry.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/adapter/integration/entry_common.py",
+      "archive_path": "recovery/sol/objects/5d8fc0f0a25b80f611536a15da882b71047d760a2e42120abdcf12f1cc1f578d.py",
+      "bytes": 9652,
+      "sha256": "5d8fc0f0a25b80f611536a15da882b71047d760a2e42120abdcf12f1cc1f578d",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\adapter\\integration\\entry_common.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/adapter/integration/host_receive_entry.py",
+      "archive_path": "recovery/sol/objects/a4359863fb7e6e27a09ae588ced26b186a93b1e293fc2b668d2d876b848cc441.py",
+      "bytes": 1699,
+      "sha256": "a4359863fb7e6e27a09ae588ced26b186a93b1e293fc2b668d2d876b848cc441",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\adapter\\integration\\host_receive_entry.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/adapter/integration/host_request_entry.py",
+      "archive_path": "recovery/sol/objects/88bbd38cc57b788048aa9bd28ceb314dce1048f6b886b73c913faf2fcd8838e5.py",
+      "bytes": 1711,
+      "sha256": "88bbd38cc57b788048aa9bd28ceb314dce1048f6b886b73c913faf2fcd8838e5",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\adapter\\integration\\host_request_entry.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/adapter/integration/host_tool_adopt_entry.py",
+      "archive_path": "recovery/sol/objects/69e021b6b89c15e108a9ef2e8999b952ae111b270b71edad864317fd2e50e939.py",
+      "bytes": 1699,
+      "sha256": "69e021b6b89c15e108a9ef2e8999b952ae111b270b71edad864317fd2e50e939",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\adapter\\integration\\host_tool_adopt_entry.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/adapter/integration/host_tool_observe_entry.py",
+      "archive_path": "recovery/sol/objects/2ea40d01432ef65023dd7d3049f75cf6d420e6d3e08764f02ed1a4a3bcdd610e.py",
+      "bytes": 1735,
+      "sha256": "2ea40d01432ef65023dd7d3049f75cf6d420e6d3e08764f02ed1a4a3bcdd610e",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\adapter\\integration\\host_tool_observe_entry.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/adapter/integration/root_sender_entry.py",
+      "archive_path": "recovery/sol/objects/213f64c08460efedaa03555d9f3f73e5bb9c90221bb984de7d9838a513b3b085.py",
+      "bytes": 5946,
+      "sha256": "213f64c08460efedaa03555d9f3f73e5bb9c90221bb984de7d9838a513b3b085",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\adapter\\integration\\root_sender_entry.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/adapter/src/bundle_codec.py",
+      "archive_path": "recovery/sol/objects/81b4494e8940f9f4a70d7359f689c099caa1a152aa6afd71008183fb2b5fd2aa.py",
+      "bytes": 4404,
+      "sha256": "81b4494e8940f9f4a70d7359f689c099caa1a152aa6afd71008183fb2b5fd2aa",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\adapter\\src\\bundle_codec.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/adapter/src/carrier.py",
+      "archive_path": "recovery/sol/objects/8abaec881996c34f79ccb83616e59b4a601504e137d1165b64dc1430823e6dba.py",
+      "bytes": 42835,
+      "sha256": "8abaec881996c34f79ccb83616e59b4a601504e137d1165b64dc1430823e6dba",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\adapter\\src\\carrier.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/adapter/src/CARRIER_COMPOSITION.json",
+      "archive_path": "recovery/sol/objects/91766bdeb4566a24f17d90c50086b9b56a289cc5c30279ef88af2e3065b1a6f7.json",
+      "bytes": 1552,
+      "sha256": "91766bdeb4566a24f17d90c50086b9b56a289cc5c30279ef88af2e3065b1a6f7",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\adapter\\src\\CARRIER_COMPOSITION.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/adapter/src/carrier_io.py",
+      "archive_path": "recovery/sol/objects/779461deb44bf0192a4253c9a257926e23b6ab73cf5da602d0dc86a31e90d274.py",
+      "bytes": 15576,
+      "sha256": "779461deb44bf0192a4253c9a257926e23b6ab73cf5da602d0dc86a31e90d274",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\adapter\\src\\carrier_io.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/adapter/src/carrier_loader.py",
+      "archive_path": "recovery/sol/objects/f816f336899af6e690e83d4f88ace046bc48a0ebe00eaf1402153097f884dc29.py",
+      "bytes": 4677,
+      "sha256": "f816f336899af6e690e83d4f88ace046bc48a0ebe00eaf1402153097f884dc29",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\adapter\\src\\carrier_loader.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/adapter/src/carrier_policy.py",
+      "archive_path": "recovery/sol/objects/0ca420c30aa9e7176657fc6457001ecf7b3e347dde16091b4af924e6b3f09b14.py",
+      "bytes": 13471,
+      "sha256": "0ca420c30aa9e7176657fc6457001ecf7b3e347dde16091b4af924e6b3f09b14",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\adapter\\src\\carrier_policy.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/adapter/src/host_tools.py",
+      "archive_path": "recovery/sol/objects/876aeb6af4c5c40bc234409c60ee3d6d73421c28fbd73ef07ab212a11b501e5c.py",
+      "bytes": 26922,
+      "sha256": "876aeb6af4c5c40bc234409c60ee3d6d73421c28fbd73ef07ab212a11b501e5c",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\adapter\\src\\host_tools.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/adapter/src/maintained/COMPILER.py",
+      "archive_path": "recovery/sol/objects/0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d.py",
+      "bytes": 262144,
+      "sha256": "0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\adapter\\src\\maintained\\COMPILER.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/adapter/src/maintained/QUALIFIER.py",
+      "archive_path": "recovery/sol/objects/79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b.py",
+      "bytes": 268686,
+      "sha256": "79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\adapter\\src\\maintained\\QUALIFIER.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/adapter/src/PRO_SENDER_COMPOSITION.json",
+      "archive_path": "recovery/sol/objects/c24f268c71b4e558f34f03fce8cac0eacffd030df4fb5fc7d46b680e72b9479c.json",
+      "bytes": 402,
+      "sha256": "c24f268c71b4e558f34f03fce8cac0eacffd030df4fb5fc7d46b680e72b9479c",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\adapter\\src\\PRO_SENDER_COMPOSITION.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/adapter/src/provider_reader.py",
+      "archive_path": "recovery/sol/objects/9d1a2624796f98127214d990acbfe72e0d6f2b7a603d739ace39678e44d66726.py",
+      "bytes": 19139,
+      "sha256": "9d1a2624796f98127214d990acbfe72e0d6f2b7a603d739ace39678e44d66726",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\adapter\\src\\provider_reader.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/adapter/src/sender_capture.py",
+      "archive_path": "recovery/sol/objects/232bfdfc2ad7edbbce125110518ac2ce60fc5044b00614d6b4c472c2054e783e.py",
+      "bytes": 16748,
+      "sha256": "232bfdfc2ad7edbbce125110518ac2ce60fc5044b00614d6b4c472c2054e783e",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\adapter\\src\\sender_capture.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/adapter/src/sender_policy.py",
+      "archive_path": "recovery/sol/objects/8cf06304d36c169f6ea786df99d447680a146e49ef80866cca2431bb95d67906.py",
+      "bytes": 4705,
+      "sha256": "8cf06304d36c169f6ea786df99d447680a146e49ef80866cca2431bb95d67906",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\adapter\\src\\sender_policy.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/adapter/src/tool_broker.py",
+      "archive_path": "recovery/sol/objects/1157d3466630218093ace25ea1704c15653092b5f0aa62ff5c3254ad25afebd9.py",
+      "bytes": 19693,
+      "sha256": "1157d3466630218093ace25ea1704c15653092b5f0aa62ff5c3254ad25afebd9",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\adapter\\src\\tool_broker.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/core/ADVERSE_APPLICABILITY.json",
+      "archive_path": "recovery/sol/objects/58e2f229417c3fb1801cc432727009c3772352ca619b1c6bc96299cd605fb504.json",
+      "bytes": 3848,
+      "sha256": "58e2f229417c3fb1801cc432727009c3772352ca619b1c6bc96299cd605fb504",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\core\\ADVERSE_APPLICABILITY.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/core/evidence_io.py",
+      "archive_path": "recovery/sol/objects/c2f8d718c8acd3a223d494239e6bc19d4a90e3d5c66f49cdac8f701ce4807075.py",
+      "bytes": 6321,
+      "sha256": "c2f8d718c8acd3a223d494239e6bc19d4a90e3d5c66f49cdac8f701ce4807075",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\core\\evidence_io.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/core/g3_receiving.py",
+      "archive_path": "recovery/sol/objects/ebef68ac881efef3c465595ce36d28ded84bbd82c9482602e7ef086ced2ca3c6.py",
+      "bytes": 118305,
+      "sha256": "ebef68ac881efef3c465595ce36d28ded84bbd82c9482602e7ef086ced2ca3c6",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\core\\g3_receiving.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/core/HOST_COMPOSITION.json",
+      "archive_path": "recovery/sol/objects/8253461d93453088744f16f0381aa8b2da0926497e0b6cfa9a6e01710b3a41d3.json",
+      "bytes": 1050,
+      "sha256": "8253461d93453088744f16f0381aa8b2da0926497e0b6cfa9a6e01710b3a41d3",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\core\\HOST_COMPOSITION.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/core/host_composition.py",
+      "archive_path": "recovery/sol/objects/de79ed067dd11c103d7dbaabeb25a9e23d73f6e43bb55869253d1eee4ef76110.py",
+      "bytes": 9432,
+      "sha256": "de79ed067dd11c103d7dbaabeb25a9e23d73f6e43bb55869253d1eee4ef76110",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\core\\host_composition.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/core/host_utility.py",
+      "archive_path": "recovery/sol/objects/429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c.py",
+      "bytes": 54556,
+      "sha256": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\core\\host_utility.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/core/input_setup.py",
+      "archive_path": "recovery/sol/objects/d19b3109285bfb2995411c504a123240e5b0e40ae8c0f002f931a97f8fd8cb3f.py",
+      "bytes": 11747,
+      "sha256": "d19b3109285bfb2995411c504a123240e5b0e40ae8c0f002f931a97f8fd8cb3f",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\core\\input_setup.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/core/native_prerequisite.py",
+      "archive_path": "recovery/sol/objects/d9687977ead33faa926bc8c7b0a18907c7a05b7072d86183b3bad1aca7dff510.py",
+      "bytes": 18541,
+      "sha256": "d9687977ead33faa926bc8c7b0a18907c7a05b7072d86183b3bad1aca7dff510",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\core\\native_prerequisite.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/core/native_probe.py",
+      "archive_path": "recovery/sol/objects/cbccecb0cf89a58c44f4ddbb8023196f44d5d0fd0fb68fea7fd2c6a17206d426.py",
+      "bytes": 13799,
+      "sha256": "cbccecb0cf89a58c44f4ddbb8023196f44d5d0fd0fb68fea7fd2c6a17206d426",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\core\\native_probe.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/core/NATIVE_SOURCE_APPLICABILITY.json",
+      "archive_path": "recovery/sol/objects/513ef21e27e5e41d10044f953bdc20c292dbbcccd7211ba7dc7e7d3a8d6e6438.json",
+      "bytes": 39297,
+      "sha256": "513ef21e27e5e41d10044f953bdc20c292dbbcccd7211ba7dc7e7d3a8d6e6438",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\core\\NATIVE_SOURCE_APPLICABILITY.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/core/natural_inputs.py",
+      "archive_path": "recovery/sol/objects/028ba849cc9f01143641613cb30d042bf4deeb0d021bb724ee86fc88415a7eb8.py",
+      "bytes": 6028,
+      "sha256": "028ba849cc9f01143641613cb30d042bf4deeb0d021bb724ee86fc88415a7eb8",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\core\\natural_inputs.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/core/nss_configuration.py",
+      "archive_path": "recovery/sol/objects/7243b9a13f9597059d57f22e1cfd4b344a7fd0cee930e9f9d032eee6e9e42270.py",
+      "bytes": 14718,
+      "sha256": "7243b9a13f9597059d57f22e1cfd4b344a7fd0cee930e9f9d032eee6e9e42270",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\core\\nss_configuration.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/core/operation.py",
+      "archive_path": "recovery/sol/objects/eeb18ea6ce602287483bf4e4ec81a9bbd2c481e85bd506ff5ec3f26e1b8e65c2.py",
+      "bytes": 15246,
+      "sha256": "eeb18ea6ce602287483bf4e4ec81a9bbd2c481e85bd506ff5ec3f26e1b8e65c2",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\core\\operation.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/core/ORIGINAL_SCOPE.json",
+      "archive_path": "recovery/sol/objects/3671b6a45b5f9572b61b4ee24fd9a8ee5c82494a9d9d51f09479085c2913af6b.json",
+      "bytes": 5524,
+      "sha256": "3671b6a45b5f9572b61b4ee24fd9a8ee5c82494a9d9d51f09479085c2913af6b",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\core\\ORIGINAL_SCOPE.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/core/proof_consumer.py",
+      "archive_path": "recovery/sol/objects/53275d8fb0b0c78db86e697d833401348e0dd8ce503f813e13870267d0ef906c.py",
+      "bytes": 62980,
+      "sha256": "53275d8fb0b0c78db86e697d833401348e0dd8ce503f813e13870267d0ef906c",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\core\\proof_consumer.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/core/provider_layout.py",
+      "archive_path": "recovery/sol/objects/0ef5ddd7562906552b88cb7638d9a6d1fffd3fdd906ec407c3c56dc2c88dc112.py",
+      "bytes": 4752,
+      "sha256": "0ef5ddd7562906552b88cb7638d9a6d1fffd3fdd906ec407c3c56dc2c88dc112",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\core\\provider_layout.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/core/PROVIDER_SETUP.json",
+      "archive_path": "recovery/sol/objects/f0b0b3a4c0dda6705e6ac335fd8d501f718a9fbee23cb3b4450ddede5a57746d.json",
+      "bytes": 2963,
+      "sha256": "f0b0b3a4c0dda6705e6ac335fd8d501f718a9fbee23cb3b4450ddede5a57746d",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\core\\PROVIDER_SETUP.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/core/root_placement.py",
+      "archive_path": "recovery/sol/objects/a9cec22fbd3424b882147abe3083e7abb46b4e130c346ae883667b3bd7b048c8.py",
+      "bytes": 16789,
+      "sha256": "a9cec22fbd3424b882147abe3083e7abb46b4e130c346ae883667b3bd7b048c8",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\core\\root_placement.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/core/run.py",
+      "archive_path": "recovery/sol/objects/9f69165c396a771a46796984dcb10f840bb4326181c538387f8e021d1f06869d.py",
+      "bytes": 147991,
+      "sha256": "9f69165c396a771a46796984dcb10f840bb4326181c538387f8e021d1f06869d",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\core\\run.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/core/SOURCE_MANIFEST.json",
+      "archive_path": "recovery/sol/objects/ef20f1e8bd4cb50e21a3008d53f8442b10efab4affad824e321a75a9675fbbc0.json",
+      "bytes": 493409,
+      "sha256": "ef20f1e8bd4cb50e21a3008d53f8442b10efab4affad824e321a75a9675fbbc0",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\core\\SOURCE_MANIFEST.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/generator/source/templates/core/source_store.py",
+      "archive_path": "recovery/sol/objects/100e01f0a5d0d86dad38e17bcae0cd43b3b092bcf4936531780e9e4ebca7a1e5.py",
+      "bytes": 6898,
+      "sha256": "100e01f0a5d0d86dad38e17bcae0cd43b3b092bcf4936531780e9e4ebca7a1e5",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\received\\source\\templates\\core\\source_store.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/current05-wip/prepare_current04.py",
+      "archive_path": "recovery/sol/objects/89071bc3c52590e88701897baae94b5f4cf789860c5de274f2c708264abb8428.py",
+      "bytes": 9113,
+      "sha256": "89071bc3c52590e88701897baae94b5f4cf789860c5de274f2c708264abb8428",
+      "category": "HISTORICAL_PRODUCER_OR_PARTIAL_SOURCE_CONTROL",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\prepare_current04.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/current05-wip/phase_current04.py",
+      "archive_path": "recovery/sol/objects/18d76f4d9f1e8ddf6953bf21bcf1b57462f11274e40022382b1f3b23675082c0.py",
+      "bytes": 8550,
+      "sha256": "18d76f4d9f1e8ddf6953bf21bcf1b57462f11274e40022382b1f3b23675082c0",
+      "category": "HISTORICAL_PRODUCER_OR_PARTIAL_SOURCE_CONTROL",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\phase_current04.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/current05-wip/check_current05_fetch.py",
+      "archive_path": "recovery/sol/objects/ea33a4f314c207a96fe87b5eb125d79746c8ee96aa15b0c8d16289d12240b6b0.py",
+      "bytes": 1885,
+      "sha256": "ea33a4f314c207a96fe87b5eb125d79746c8ee96aa15b0c8d16289d12240b6b0",
+      "category": "HISTORICAL_PRODUCER_OR_PARTIAL_SOURCE_CONTROL",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\check_current05_fetch.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/current05-wip/CURRENT05_FETCH_RED.json",
+      "archive_path": "recovery/sol/objects/a742a79a753c66d4e79e7f79a9a57255776e27dd548c4c7a56654df905c34aed.json",
+      "bytes": 552,
+      "sha256": "a742a79a753c66d4e79e7f79a9a57255776e27dd548c4c7a56654df905c34aed",
+      "category": "HISTORICAL_PRODUCER_OR_PARTIAL_SOURCE_CONTROL",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\CURRENT05_FETCH_RED.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/current05-wip/base-run-b4c9013c.py",
+      "archive_path": "recovery/sol/objects/b4c9013c0c665df6c2e66c609f93d5a08c2e12905a7663d3d144419b64b69865.py",
+      "bytes": 158761,
+      "sha256": "b4c9013c0c665df6c2e66c609f93d5a08c2e12905a7663d3d144419b64b69865",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\original-host-01\\root-lock-and-currentness\\run.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/current05-wip/operation-v2.py",
+      "archive_path": "recovery/sol/objects/0c67470c1138f7e200a5d7e9c8e4cedfe3c56d6dc8ae86f123fdeeadd32cdc43.py",
+      "bytes": 24202,
+      "sha256": "0c67470c1138f7e200a5d7e9c8e4cedfe3c56d6dc8ae86f123fdeeadd32cdc43",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\original-host-failure-01\\candidate-v2\\operation.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/current05-wip/SELECTION.json",
+      "archive_path": "recovery/sol/objects/aac7a08587e5fb5151345730d0a001228676c09652adb2ade27eddc866636e65.json",
+      "bytes": 907,
+      "sha256": "aac7a08587e5fb5151345730d0a001228676c09652adb2ade27eddc866636e65",
+      "category": "PUBLIC_SELECTION_METADATA",
+      "origin": "plans\\astra-successor-reconciliation-20261108\\g1-current05-issuer\\SELECTION.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/current05-wip/ROOT_CORE_ROLES_INDEX.json",
+      "archive_path": "recovery/sol/objects/816b7bfe544cff1edb83540919e91b7409df8792fdc28a50a186896c8fa379af.json",
+      "bytes": 1430,
+      "sha256": "816b7bfe544cff1edb83540919e91b7409df8792fdc28a50a186896c8fa379af",
+      "category": "PUBLIC_INDEX_NOT_ROLE_BODIES",
+      "origin": "plans\\astra-successor-reconciliation-20261108\\g1-current05-issuer\\ROOT_CORE_ROLES.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/current05-wip/PRE_CANDIDATE_INTERFACES.json",
+      "archive_path": "recovery/sol/objects/5ba334550c8aeea5915a7b8e120f7a419c8740b81c33732d36d9b421da688903.json",
+      "bytes": 6358,
+      "sha256": "5ba334550c8aeea5915a7b8e120f7a419c8740b81c33732d36d9b421da688903",
+      "category": "PUBLIC_REVIEW_RECEIPT",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current05-review\\PRE_CANDIDATE_INTERFACES.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/operator/windows_role_io.js",
+      "archive_path": "recovery/sol/objects/0bfbe734edcf52a59fc9f4ceb0acbeda2b15991a9ca000def8a28bea3a5c1106.js",
+      "bytes": 13266,
+      "sha256": "0bfbe734edcf52a59fc9f4ceb0acbeda2b15991a9ca000def8a28bea3a5c1106",
+      "category": "FROZEN_PUBLIC_OPERATOR_SOURCE_HISTORICAL_BINDINGS_REQUIRE_FRESH_CUSTODY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\windows_role_io.js",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/operator/provider_slots.js",
+      "archive_path": "recovery/sol/objects/3b92c9b555823fc6853d324f018e6e62eb39908160df0de677f9a7c5021a5fc0.js",
+      "bytes": 5450,
+      "sha256": "3b92c9b555823fc6853d324f018e6e62eb39908160df0de677f9a7c5021a5fc0",
+      "category": "FROZEN_PUBLIC_OPERATOR_SOURCE_HISTORICAL_BINDINGS_REQUIRE_FRESH_CUSTODY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\provider_slots.js",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/operator/role_process_v4.py",
+      "archive_path": "recovery/sol/objects/cd9e9f34a8e1897b9adccb3bdc98ab0ee62fe1ce7099d50af32d9c940cd606a0.py",
+      "bytes": 13166,
+      "sha256": "cd9e9f34a8e1897b9adccb3bdc98ab0ee62fe1ce7099d50af32d9c940cd606a0",
+      "category": "FROZEN_PUBLIC_OPERATOR_SOURCE_HISTORICAL_BINDINGS_REQUIRE_FRESH_CUSTODY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\framed-operator\\role_process_v4.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/operator/control_process_v3.py",
+      "archive_path": "recovery/sol/objects/c381d6faa55513ee1a3e368ec9f5d7c2867e704ca0b2ab0dae18187b36ba8f43.py",
+      "bytes": 17756,
+      "sha256": "c381d6faa55513ee1a3e368ec9f5d7c2867e704ca0b2ab0dae18187b36ba8f43",
+      "category": "FROZEN_PUBLIC_OPERATOR_SOURCE_HISTORICAL_BINDINGS_REQUIRE_FRESH_CUSTODY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\control-driver\\control_process_v3.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/operator/control_process_v5.py",
+      "archive_path": "recovery/sol/objects/1f78c843e942720fc0ed5ef909975dbdd9fd4595b287053bbe3384ffa265cdff.py",
+      "bytes": 19240,
+      "sha256": "1f78c843e942720fc0ed5ef909975dbdd9fd4595b287053bbe3384ffa265cdff",
+      "category": "FROZEN_PUBLIC_OPERATOR_SOURCE_HISTORICAL_BINDINGS_REQUIRE_FRESH_CUSTODY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\control_process_v5.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/operator/control_readback.py",
+      "archive_path": "recovery/sol/objects/7e7d26fa8dd41eec57ac47c9280b7f2107e9df0e509fe608f4d9c4c080c5a649.py",
+      "bytes": 6009,
+      "sha256": "7e7d26fa8dd41eec57ac47c9280b7f2107e9df0e509fe608f4d9c4c080c5a649",
+      "category": "FROZEN_PUBLIC_OPERATOR_SOURCE_HISTORICAL_BINDINGS_REQUIRE_FRESH_CUSTODY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\control_readback.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/operator/control_callback_v6.js",
+      "archive_path": "recovery/sol/objects/7760fd14ba8c4cf3fbc3f139fc6f3fd4c0df4821a3e26e1766bbce4c08180734.js",
+      "bytes": 16959,
+      "sha256": "7760fd14ba8c4cf3fbc3f139fc6f3fd4c0df4821a3e26e1766bbce4c08180734",
+      "category": "FROZEN_PUBLIC_OPERATOR_SOURCE_HISTORICAL_BINDINGS_REQUIRE_FRESH_CUSTODY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\control_callback_v6.js",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/operator/file_readback.py",
+      "archive_path": "recovery/sol/objects/ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1.py",
+      "bytes": 4997,
+      "sha256": "ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1",
+      "category": "FROZEN_PUBLIC_OPERATOR_SOURCE_HISTORICAL_BINDINGS_REQUIRE_FRESH_CUSTODY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\file_readback.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/operator/binary_publish_v3.py",
+      "archive_path": "recovery/sol/objects/7f71f5928be04d194cdb1a19c04e6b5865173f9c488c13e0c91309a0aa6a5978.py",
+      "bytes": 20593,
+      "sha256": "7f71f5928be04d194cdb1a19c04e6b5865173f9c488c13e0c91309a0aa6a5978",
+      "category": "FROZEN_PUBLIC_OPERATOR_SOURCE_HISTORICAL_BINDINGS_REQUIRE_FRESH_CUSTODY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\binary\\binary_publish_v3.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/operator/binary_driver_v3.js",
+      "archive_path": "recovery/sol/objects/83f25246bbcc8f6cc5535c45a1b11b7905481eea82ef0cf65a5b1f7f5646288d.js",
+      "bytes": 20863,
+      "sha256": "83f25246bbcc8f6cc5535c45a1b11b7905481eea82ef0cf65a5b1f7f5646288d",
+      "category": "FROZEN_PUBLIC_OPERATOR_SOURCE_HISTORICAL_BINDINGS_REQUIRE_FRESH_CUSTODY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\binary\\binary_driver_v3.js",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/operator/root_sha256_utf8.js",
+      "archive_path": "recovery/sol/objects/940f5bbdad40ddb15a532cb7c2d49897b140d4284eb35437bbae1dcfa1606aef.js",
+      "bytes": 2026,
+      "sha256": "940f5bbdad40ddb15a532cb7c2d49897b140d4284eb35437bbae1dcfa1606aef",
+      "category": "FROZEN_PUBLIC_OPERATOR_SOURCE_HISTORICAL_BINDINGS_REQUIRE_FRESH_CUSTODY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\binary-publication\\root_sha256_utf8.js",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/operator/root_pipeline_inputs_v2.py",
+      "archive_path": "recovery/sol/objects/3f647d62a05a494895ab0fe0c710d5a65baebca126ce3854180e701a8da91cdf.py",
+      "bytes": 15463,
+      "sha256": "3f647d62a05a494895ab0fe0c710d5a65baebca126ce3854180e701a8da91cdf",
+      "category": "FROZEN_PUBLIC_OPERATOR_SOURCE_HISTORICAL_BINDINGS_REQUIRE_FRESH_CUSTODY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-orchestration\\root_pipeline_inputs_v2.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/assemble_actual.py",
+      "archive_path": "recovery/sol/objects/4201abd63171b53d271fe282d114cdc6ec1de982ec8eafdd218ccab90a5ec39f.py",
+      "bytes": 9671,
+      "sha256": "4201abd63171b53d271fe282d114cdc6ec1de982ec8eafdd218ccab90a5ec39f",
+      "category": "FROZEN_PUBLIC_OPERATOR_SOURCE_HISTORICAL_BINDINGS_REQUIRE_FRESH_CUSTODY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\assemble_actual.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/late_sender_current04_v2.py",
+      "archive_path": "recovery/sol/objects/97408df8058e6c8c8bab754ed8f9df8edf3f930ac4f47dd466c16eda9732f3cb.py",
+      "bytes": 10770,
+      "sha256": "97408df8058e6c8c8bab754ed8f9df8edf3f930ac4f47dd466c16eda9732f3cb",
+      "category": "FROZEN_PUBLIC_OPERATOR_SOURCE_HISTORICAL_BINDINGS_REQUIRE_FRESH_CUSTODY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\late_sender_current04_v2.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/AUTHOR_SOURCE_INDEX.json",
+      "archive_path": "recovery/sol/objects/14c6e9552d55bbc3d3b53ad51f7ae4f01278a1f06e0948030021a3512fb36897.json",
+      "bytes": 6209,
+      "sha256": "14c6e9552d55bbc3d3b53ad51f7ae4f01278a1f06e0948030021a3512fb36897",
+      "category": "FROZEN_PUBLIC_OPERATOR_SOURCE_HISTORICAL_BINDINGS_REQUIRE_FRESH_CUSTODY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\AUTHOR_SOURCE_INDEX.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g2/operator/newcandidate-v2.py",
+      "archive_path": "recovery/sol/objects/2b481d09dd7501fa7c22a3f9cb98c3c088293322cdaf26b2e8e35b5a64c59d32.py",
+      "bytes": 20526,
+      "sha256": "2b481d09dd7501fa7c22a3f9cb98c3c088293322cdaf26b2e8e35b5a64c59d32",
+      "category": "FROZEN_PUBLIC_OPERATOR_SOURCE_HISTORICAL_BINDINGS_REQUIRE_FRESH_CUSTODY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\public-operator-source\\newcandidate-v2.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g2/operator/root_operator.py",
+      "archive_path": "recovery/sol/objects/e1e26ff790e4db5fbbfa9f56c460c9eb4e3ac3b91796a89423f6c895701731b0.py",
+      "bytes": 13936,
+      "sha256": "e1e26ff790e4db5fbbfa9f56c460c9eb4e3ac3b91796a89423f6c895701731b0",
+      "category": "FROZEN_PUBLIC_OPERATOR_SOURCE_HISTORICAL_BINDINGS_REQUIRE_FRESH_CUSTODY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\public-operator-source\\operational\\root_operator.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g2/operator/concrete_root_bridge.py",
+      "archive_path": "recovery/sol/objects/cb9dab7c3920b7dbea359c22552501d2a434a1ef37883939eee0e7a2d1b4064f.py",
+      "bytes": 12405,
+      "sha256": "cb9dab7c3920b7dbea359c22552501d2a434a1ef37883939eee0e7a2d1b4064f",
+      "category": "FROZEN_PUBLIC_OPERATOR_SOURCE_HISTORICAL_BINDINGS_REQUIRE_FRESH_CUSTODY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\public-operator-source\\operational\\concrete_root_bridge.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g2/discriminator/pair_driver_noio_v2.py",
+      "archive_path": "recovery/sol/objects/88afb3bf7d598c52afbaf3708d3e63ddb647768da6ce604cabc2d6d500f265be.py",
+      "bytes": 45108,
+      "sha256": "88afb3bf7d598c52afbaf3708d3e63ddb647768da6ce604cabc2d6d500f265be",
+      "category": "FROZEN_PUBLIC_OPERATOR_SOURCE_HISTORICAL_BINDINGS_REQUIRE_FRESH_CUSTODY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\original-host-diagnostic-01\\candidate-status-discriminator\\pair_driver_noio_v2.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/author/compose.py",
+      "archive_path": "recovery/sol/objects/59b007f8e1c979adaffa502a1651b06ff0652bdc5dc1399a77320516f9c6e800.py",
+      "bytes": 17923,
+      "sha256": "59b007f8e1c979adaffa502a1651b06ff0652bdc5dc1399a77320516f9c6e800",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\author\\compose.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/author/sender_assembly.py",
+      "archive_path": "recovery/sol/objects/604922c0ee2091d2698e97915cda1636e98036389ad6302f4f976d93f43d6884.py",
+      "bytes": 9221,
+      "sha256": "604922c0ee2091d2698e97915cda1636e98036389ad6302f4f976d93f43d6884",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\author\\sender_assembly.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/author/workflow.py",
+      "archive_path": "recovery/sol/objects/2c4348240873c9c7d816574044d6a10331805da14695438bfd5a3299da61c470.py",
+      "bytes": 7465,
+      "sha256": "2c4348240873c9c7d816574044d6a10331805da14695438bfd5a3299da61c470",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\author\\workflow.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/inputs/TEMPLATE_INDEX.json",
+      "archive_path": "recovery/sol/objects/794223557462f723a160c76339547aa6bedc3e6c56caa0bb897ca6bf32e0a204.json",
+      "bytes": 5155,
+      "sha256": "794223557462f723a160c76339547aa6bedc3e6c56caa0bb897ca6bf32e0a204",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\inputs\\TEMPLATE_INDEX.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/adapter/integration/core_prepare_entry.py",
+      "archive_path": "recovery/sol/objects/9cc838f5dde26e8ef8ee9734d1f566fc71bcbe41f148aac51072fd362911a029.py",
+      "bytes": 1739,
+      "sha256": "9cc838f5dde26e8ef8ee9734d1f566fc71bcbe41f148aac51072fd362911a029",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\integration\\core_prepare_entry.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/adapter/integration/entry_common.py",
+      "archive_path": "recovery/sol/objects/5d8fc0f0a25b80f611536a15da882b71047d760a2e42120abdcf12f1cc1f578d.py",
+      "bytes": 9652,
+      "sha256": "5d8fc0f0a25b80f611536a15da882b71047d760a2e42120abdcf12f1cc1f578d",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\integration\\entry_common.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/adapter/integration/host_receive_entry.py",
+      "archive_path": "recovery/sol/objects/a4359863fb7e6e27a09ae588ced26b186a93b1e293fc2b668d2d876b848cc441.py",
+      "bytes": 1699,
+      "sha256": "a4359863fb7e6e27a09ae588ced26b186a93b1e293fc2b668d2d876b848cc441",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\integration\\host_receive_entry.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/adapter/integration/host_request_entry.py",
+      "archive_path": "recovery/sol/objects/88bbd38cc57b788048aa9bd28ceb314dce1048f6b886b73c913faf2fcd8838e5.py",
+      "bytes": 1711,
+      "sha256": "88bbd38cc57b788048aa9bd28ceb314dce1048f6b886b73c913faf2fcd8838e5",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\integration\\host_request_entry.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/adapter/integration/host_tool_adopt_entry.py",
+      "archive_path": "recovery/sol/objects/69e021b6b89c15e108a9ef2e8999b952ae111b270b71edad864317fd2e50e939.py",
+      "bytes": 1699,
+      "sha256": "69e021b6b89c15e108a9ef2e8999b952ae111b270b71edad864317fd2e50e939",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\integration\\host_tool_adopt_entry.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/adapter/integration/host_tool_observe_entry.py",
+      "archive_path": "recovery/sol/objects/2ea40d01432ef65023dd7d3049f75cf6d420e6d3e08764f02ed1a4a3bcdd610e.py",
+      "bytes": 1735,
+      "sha256": "2ea40d01432ef65023dd7d3049f75cf6d420e6d3e08764f02ed1a4a3bcdd610e",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\integration\\host_tool_observe_entry.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/adapter/integration/root_sender_entry.py",
+      "archive_path": "recovery/sol/objects/213f64c08460efedaa03555d9f3f73e5bb9c90221bb984de7d9838a513b3b085.py",
+      "bytes": 5946,
+      "sha256": "213f64c08460efedaa03555d9f3f73e5bb9c90221bb984de7d9838a513b3b085",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\integration\\root_sender_entry.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/adapter/src/CARRIER_COMPOSITION.json",
+      "archive_path": "recovery/sol/objects/91766bdeb4566a24f17d90c50086b9b56a289cc5c30279ef88af2e3065b1a6f7.json",
+      "bytes": 1552,
+      "sha256": "91766bdeb4566a24f17d90c50086b9b56a289cc5c30279ef88af2e3065b1a6f7",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\CARRIER_COMPOSITION.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/adapter/src/PRO_SENDER_COMPOSITION.json",
+      "archive_path": "recovery/sol/objects/c24f268c71b4e558f34f03fce8cac0eacffd030df4fb5fc7d46b680e72b9479c.json",
+      "bytes": 402,
+      "sha256": "c24f268c71b4e558f34f03fce8cac0eacffd030df4fb5fc7d46b680e72b9479c",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\PRO_SENDER_COMPOSITION.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/adapter/src/bundle_codec.py",
+      "archive_path": "recovery/sol/objects/81b4494e8940f9f4a70d7359f689c099caa1a152aa6afd71008183fb2b5fd2aa.py",
+      "bytes": 4404,
+      "sha256": "81b4494e8940f9f4a70d7359f689c099caa1a152aa6afd71008183fb2b5fd2aa",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\bundle_codec.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/adapter/src/carrier.py",
+      "archive_path": "recovery/sol/objects/8abaec881996c34f79ccb83616e59b4a601504e137d1165b64dc1430823e6dba.py",
+      "bytes": 42835,
+      "sha256": "8abaec881996c34f79ccb83616e59b4a601504e137d1165b64dc1430823e6dba",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\carrier.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/adapter/src/carrier_io.py",
+      "archive_path": "recovery/sol/objects/779461deb44bf0192a4253c9a257926e23b6ab73cf5da602d0dc86a31e90d274.py",
+      "bytes": 15576,
+      "sha256": "779461deb44bf0192a4253c9a257926e23b6ab73cf5da602d0dc86a31e90d274",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\carrier_io.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/adapter/src/carrier_loader.py",
+      "archive_path": "recovery/sol/objects/f816f336899af6e690e83d4f88ace046bc48a0ebe00eaf1402153097f884dc29.py",
+      "bytes": 4677,
+      "sha256": "f816f336899af6e690e83d4f88ace046bc48a0ebe00eaf1402153097f884dc29",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\carrier_loader.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/adapter/src/carrier_policy.py",
+      "archive_path": "recovery/sol/objects/0ca420c30aa9e7176657fc6457001ecf7b3e347dde16091b4af924e6b3f09b14.py",
+      "bytes": 13471,
+      "sha256": "0ca420c30aa9e7176657fc6457001ecf7b3e347dde16091b4af924e6b3f09b14",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\carrier_policy.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/adapter/src/host_tools.py",
+      "archive_path": "recovery/sol/objects/876aeb6af4c5c40bc234409c60ee3d6d73421c28fbd73ef07ab212a11b501e5c.py",
+      "bytes": 26922,
+      "sha256": "876aeb6af4c5c40bc234409c60ee3d6d73421c28fbd73ef07ab212a11b501e5c",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\host_tools.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/adapter/src/maintained/COMPILER.py",
+      "archive_path": "recovery/sol/objects/0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d.py",
+      "bytes": 262144,
+      "sha256": "0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\maintained\\COMPILER.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/adapter/src/maintained/QUALIFIER.py",
+      "archive_path": "recovery/sol/objects/79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b.py",
+      "bytes": 268686,
+      "sha256": "79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\maintained\\QUALIFIER.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/adapter/src/provider_reader.py",
+      "archive_path": "recovery/sol/objects/9d1a2624796f98127214d990acbfe72e0d6f2b7a603d739ace39678e44d66726.py",
+      "bytes": 19139,
+      "sha256": "9d1a2624796f98127214d990acbfe72e0d6f2b7a603d739ace39678e44d66726",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\provider_reader.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/adapter/src/sender_capture.py",
+      "archive_path": "recovery/sol/objects/232bfdfc2ad7edbbce125110518ac2ce60fc5044b00614d6b4c472c2054e783e.py",
+      "bytes": 16748,
+      "sha256": "232bfdfc2ad7edbbce125110518ac2ce60fc5044b00614d6b4c472c2054e783e",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\sender_capture.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/adapter/src/sender_policy.py",
+      "archive_path": "recovery/sol/objects/8cf06304d36c169f6ea786df99d447680a146e49ef80866cca2431bb95d67906.py",
+      "bytes": 4705,
+      "sha256": "8cf06304d36c169f6ea786df99d447680a146e49ef80866cca2431bb95d67906",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\sender_policy.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/adapter/src/tool_broker.py",
+      "archive_path": "recovery/sol/objects/1157d3466630218093ace25ea1704c15653092b5f0aa62ff5c3254ad25afebd9.py",
+      "bytes": 19693,
+      "sha256": "1157d3466630218093ace25ea1704c15653092b5f0aa62ff5c3254ad25afebd9",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\tool_broker.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/core/ADVERSE_APPLICABILITY.json",
+      "archive_path": "recovery/sol/objects/58e2f229417c3fb1801cc432727009c3772352ca619b1c6bc96299cd605fb504.json",
+      "bytes": 3848,
+      "sha256": "58e2f229417c3fb1801cc432727009c3772352ca619b1c6bc96299cd605fb504",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\ADVERSE_APPLICABILITY.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/core/HOST_COMPOSITION.json",
+      "archive_path": "recovery/sol/objects/8253461d93453088744f16f0381aa8b2da0926497e0b6cfa9a6e01710b3a41d3.json",
+      "bytes": 1050,
+      "sha256": "8253461d93453088744f16f0381aa8b2da0926497e0b6cfa9a6e01710b3a41d3",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\HOST_COMPOSITION.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/core/NATIVE_SOURCE_APPLICABILITY.json",
+      "archive_path": "recovery/sol/objects/513ef21e27e5e41d10044f953bdc20c292dbbcccd7211ba7dc7e7d3a8d6e6438.json",
+      "bytes": 39297,
+      "sha256": "513ef21e27e5e41d10044f953bdc20c292dbbcccd7211ba7dc7e7d3a8d6e6438",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\NATIVE_SOURCE_APPLICABILITY.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/core/ORIGINAL_SCOPE.json",
+      "archive_path": "recovery/sol/objects/3671b6a45b5f9572b61b4ee24fd9a8ee5c82494a9d9d51f09479085c2913af6b.json",
+      "bytes": 5524,
+      "sha256": "3671b6a45b5f9572b61b4ee24fd9a8ee5c82494a9d9d51f09479085c2913af6b",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\ORIGINAL_SCOPE.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/core/PROVIDER_SETUP.json",
+      "archive_path": "recovery/sol/objects/f0b0b3a4c0dda6705e6ac335fd8d501f718a9fbee23cb3b4450ddede5a57746d.json",
+      "bytes": 2963,
+      "sha256": "f0b0b3a4c0dda6705e6ac335fd8d501f718a9fbee23cb3b4450ddede5a57746d",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\PROVIDER_SETUP.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/core/SOURCE_MANIFEST.json",
+      "archive_path": "recovery/sol/objects/ef20f1e8bd4cb50e21a3008d53f8442b10efab4affad824e321a75a9675fbbc0.json",
+      "bytes": 493409,
+      "sha256": "ef20f1e8bd4cb50e21a3008d53f8442b10efab4affad824e321a75a9675fbbc0",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\SOURCE_MANIFEST.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/core/evidence_io.py",
+      "archive_path": "recovery/sol/objects/c2f8d718c8acd3a223d494239e6bc19d4a90e3d5c66f49cdac8f701ce4807075.py",
+      "bytes": 6321,
+      "sha256": "c2f8d718c8acd3a223d494239e6bc19d4a90e3d5c66f49cdac8f701ce4807075",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\evidence_io.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/core/g3_receiving.py",
+      "archive_path": "recovery/sol/objects/ebef68ac881efef3c465595ce36d28ded84bbd82c9482602e7ef086ced2ca3c6.py",
+      "bytes": 118305,
+      "sha256": "ebef68ac881efef3c465595ce36d28ded84bbd82c9482602e7ef086ced2ca3c6",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\g3_receiving.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/core/host_composition.py",
+      "archive_path": "recovery/sol/objects/de79ed067dd11c103d7dbaabeb25a9e23d73f6e43bb55869253d1eee4ef76110.py",
+      "bytes": 9432,
+      "sha256": "de79ed067dd11c103d7dbaabeb25a9e23d73f6e43bb55869253d1eee4ef76110",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\host_composition.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/core/host_utility.py",
+      "archive_path": "recovery/sol/objects/429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c.py",
+      "bytes": 54556,
+      "sha256": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\host_utility.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/core/input_setup.py",
+      "archive_path": "recovery/sol/objects/d19b3109285bfb2995411c504a123240e5b0e40ae8c0f002f931a97f8fd8cb3f.py",
+      "bytes": 11747,
+      "sha256": "d19b3109285bfb2995411c504a123240e5b0e40ae8c0f002f931a97f8fd8cb3f",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\input_setup.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/core/native_prerequisite.py",
+      "archive_path": "recovery/sol/objects/d9687977ead33faa926bc8c7b0a18907c7a05b7072d86183b3bad1aca7dff510.py",
+      "bytes": 18541,
+      "sha256": "d9687977ead33faa926bc8c7b0a18907c7a05b7072d86183b3bad1aca7dff510",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\native_prerequisite.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/core/native_probe.py",
+      "archive_path": "recovery/sol/objects/cbccecb0cf89a58c44f4ddbb8023196f44d5d0fd0fb68fea7fd2c6a17206d426.py",
+      "bytes": 13799,
+      "sha256": "cbccecb0cf89a58c44f4ddbb8023196f44d5d0fd0fb68fea7fd2c6a17206d426",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\native_probe.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/core/natural_inputs.py",
+      "archive_path": "recovery/sol/objects/028ba849cc9f01143641613cb30d042bf4deeb0d021bb724ee86fc88415a7eb8.py",
+      "bytes": 6028,
+      "sha256": "028ba849cc9f01143641613cb30d042bf4deeb0d021bb724ee86fc88415a7eb8",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\natural_inputs.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/core/nss_configuration.py",
+      "archive_path": "recovery/sol/objects/7243b9a13f9597059d57f22e1cfd4b344a7fd0cee930e9f9d032eee6e9e42270.py",
+      "bytes": 14718,
+      "sha256": "7243b9a13f9597059d57f22e1cfd4b344a7fd0cee930e9f9d032eee6e9e42270",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\nss_configuration.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/core/operation.py",
+      "archive_path": "recovery/sol/objects/eeb18ea6ce602287483bf4e4ec81a9bbd2c481e85bd506ff5ec3f26e1b8e65c2.py",
+      "bytes": 15246,
+      "sha256": "eeb18ea6ce602287483bf4e4ec81a9bbd2c481e85bd506ff5ec3f26e1b8e65c2",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\operation.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/core/proof_consumer.py",
+      "archive_path": "recovery/sol/objects/53275d8fb0b0c78db86e697d833401348e0dd8ce503f813e13870267d0ef906c.py",
+      "bytes": 62980,
+      "sha256": "53275d8fb0b0c78db86e697d833401348e0dd8ce503f813e13870267d0ef906c",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\proof_consumer.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/core/provider_layout.py",
+      "archive_path": "recovery/sol/objects/0ef5ddd7562906552b88cb7638d9a6d1fffd3fdd906ec407c3c56dc2c88dc112.py",
+      "bytes": 4752,
+      "sha256": "0ef5ddd7562906552b88cb7638d9a6d1fffd3fdd906ec407c3c56dc2c88dc112",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\provider_layout.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/core/root_placement.py",
+      "archive_path": "recovery/sol/objects/a9cec22fbd3424b882147abe3083e7abb46b4e130c346ae883667b3bd7b048c8.py",
+      "bytes": 16789,
+      "sha256": "a9cec22fbd3424b882147abe3083e7abb46b4e130c346ae883667b3bd7b048c8",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\root_placement.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/core/run.py",
+      "archive_path": "recovery/sol/objects/9f69165c396a771a46796984dcb10f840bb4326181c538387f8e021d1f06869d.py",
+      "bytes": 147991,
+      "sha256": "9f69165c396a771a46796984dcb10f840bb4326181c538387f8e021d1f06869d",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\run.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/templates/core/source_store.py",
+      "archive_path": "recovery/sol/objects/100e01f0a5d0d86dad38e17bcae0cd43b3b092bcf4936531780e9e4ebca7a1e5.py",
+      "bytes": 6898,
+      "sha256": "100e01f0a5d0d86dad38e17bcae0cd43b3b092bcf4936531780e9e4ebca7a1e5",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\source_store.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/late-assembly/stage/source-support/root_tool_broker.py",
+      "archive_path": "recovery/sol/objects/827d4c32a2d5be3d48bdc370fdfe3df763cb7b8792421092294e3e9c65c5fbed.py",
+      "bytes": 21952,
+      "sha256": "827d4c32a2d5be3d48bdc370fdfe3df763cb7b8792421092294e3e9c65c5fbed",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\root_tool_broker.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g2/receiver-source/admission_gate.py",
+      "archive_path": "recovery/sol/objects/4bbb432df0c76334719600793412ae4425b0dfd3b7c4b3892bea10b9b5854481.py",
+      "bytes": 5310,
+      "sha256": "4bbb432df0c76334719600793412ae4425b0dfd3b7c4b3892bea10b9b5854481",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\actual-host-source-01\\receiver\\admission_gate.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g2/receiver-source/BINDING_TEMPLATE.json",
+      "archive_path": "recovery/sol/objects/4195738a16220a89fa91665b50ede5e98ca616a52ea07c1f446769283f22655f.json",
+      "bytes": 4771,
+      "sha256": "4195738a16220a89fa91665b50ede5e98ca616a52ea07c1f446769283f22655f",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\actual-host-source-01\\receiver\\BINDING_TEMPLATE.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g2/receiver-source/native_public.py",
+      "archive_path": "recovery/sol/objects/84f4779c69c53e9cb0691bf14c5e6757bc02f1fa1c3b8129060489ebf81164bc.py",
+      "bytes": 14502,
+      "sha256": "84f4779c69c53e9cb0691bf14c5e6757bc02f1fa1c3b8129060489ebf81164bc",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\actual-host-source-01\\receiver\\native_public.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g2/receiver-source/prepare_live_control.py",
+      "archive_path": "recovery/sol/objects/93ae48d79b76c6775179a500107c90d24173a2fbc189182c6543a07e87a31b4f.py",
+      "bytes": 9372,
+      "sha256": "93ae48d79b76c6775179a500107c90d24173a2fbc189182c6543a07e87a31b4f",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\actual-host-source-01\\receiver\\prepare_live_control.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g2/receiver-source/private_receive.py",
+      "archive_path": "recovery/sol/objects/fd715869108b9365db7be881a24f473884a08e34131a040bb5634b6cea0cb428.py",
+      "bytes": 12778,
+      "sha256": "fd715869108b9365db7be881a24f473884a08e34131a040bb5634b6cea0cb428",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\actual-host-source-01\\receiver\\private_receive.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g2/receiver-source/public_receiver.py",
+      "archive_path": "recovery/sol/objects/6731aa0e20f7414326d0c93ef258dd1bd84d38cd900b01a4101ff6007bb4ecbe.py",
+      "bytes": 25606,
+      "sha256": "6731aa0e20f7414326d0c93ef258dd1bd84d38cd900b01a4101ff6007bb4ecbe",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\actual-host-source-01\\receiver\\public_receiver.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g2/receiver-source/resolve_body.py",
+      "archive_path": "recovery/sol/objects/a78b22f9e9ad221ee2a3372154b403948b88cc0a9d62e9f45ba3983b8d3d6463.py",
+      "bytes": 8693,
+      "sha256": "a78b22f9e9ad221ee2a3372154b403948b88cc0a9d62e9f45ba3983b8d3d6463",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\actual-host-source-01\\receiver\\resolve_body.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g2/receiver-source/root_acquire.py",
+      "archive_path": "recovery/sol/objects/c4eca6f66708215aac994faa9fef1e253466f8898f17a4a612b4e0ec0d1d5c23.py",
+      "bytes": 20704,
+      "sha256": "c4eca6f66708215aac994faa9fef1e253466f8898f17a4a612b4e0ec0d1d5c23",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\actual-host-source-01\\receiver\\root_acquire.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g2/receiver-source/ROOT_BINDING_TEMPLATE.json",
+      "archive_path": "recovery/sol/objects/de9b0c1d6bc3d7dddb329342dd17b2026411fc45387ceafa8d7f959f987de0da.json",
+      "bytes": 2315,
+      "sha256": "de9b0c1d6bc3d7dddb329342dd17b2026411fc45387ceafa8d7f959f987de0da",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\actual-host-source-01\\receiver\\ROOT_BINDING_TEMPLATE.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g2/receiver-source/root_common.py",
+      "archive_path": "recovery/sol/objects/f4e2f07b78d4f9acd13f75882ee5faea411a904485a5fbb1c103b49c063615b8.py",
+      "bytes": 8494,
+      "sha256": "f4e2f07b78d4f9acd13f75882ee5faea411a904485a5fbb1c103b49c063615b8",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\actual-host-source-01\\receiver\\root_common.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g2/bound-public-receiver-source/admission_gate.py",
+      "archive_path": "recovery/sol/objects/cd925fca87b8e0d4b223918064a3a2e73c10a244bc7eb004f247826439bb3d61.py",
+      "bytes": 5872,
+      "sha256": "cd925fca87b8e0d4b223918064a3a2e73c10a244bc7eb004f247826439bb3d61",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\final-public-binding-01\\admission_gate.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g2/bound-public-receiver-source/native_public.py",
+      "archive_path": "recovery/sol/objects/84f4779c69c53e9cb0691bf14c5e6757bc02f1fa1c3b8129060489ebf81164bc.py",
+      "bytes": 14502,
+      "sha256": "84f4779c69c53e9cb0691bf14c5e6757bc02f1fa1c3b8129060489ebf81164bc",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\final-public-binding-01\\native_public.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g2/bound-public-receiver-source/public_receiver.py",
+      "archive_path": "recovery/sol/objects/6839ac3a5d2f123711b86d92f93c55a00e7dd4b016ddfee3fbc16b97af0748e0.py",
+      "bytes": 26387,
+      "sha256": "6839ac3a5d2f123711b86d92f93c55a00e7dd4b016ddfee3fbc16b97af0748e0",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\final-public-binding-01\\public_receiver.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/reviews/control-author-successor.json",
+      "archive_path": "recovery/sol/objects/c617c5b2dd30f656f0102311c7bcbf6701d17988318064df27b90c6b681ceb5e.json",
+      "bytes": 7550,
+      "sha256": "c617c5b2dd30f656f0102311c7bcbf6701d17988318064df27b90c6b681ceb5e",
+      "category": "PUBLIC_SCOPED_RECEIPT_NOT_RAW_LOG_OR_TOOL_HISTORY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\SUCCESSOR_FINAL.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/reviews/control-independent.json",
+      "archive_path": "recovery/sol/objects/0781d851f5c690f26a7395103243c90962bf300c5a5be235422c0e05b2332677.json",
+      "bytes": 2260,
+      "sha256": "0781d851f5c690f26a7395103243c90962bf300c5a5be235422c0e05b2332677",
+      "category": "PUBLIC_SCOPED_RECEIPT_NOT_RAW_LOG_OR_TOOL_HISTORY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\PARENT_SUCCESSOR_RECEIVING.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/reviews/control-retained-revise.json",
+      "archive_path": "recovery/sol/objects/9d7248601da1de74b06398d63f5b0603697f00c559df9f5581b000d44386549d.json",
+      "bytes": 2243,
+      "sha256": "9d7248601da1de74b06398d63f5b0603697f00c559df9f5581b000d44386549d",
+      "category": "PUBLIC_SCOPED_RECEIPT_NOT_RAW_LOG_OR_TOOL_HISTORY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\REVISE_RECEIVING.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/reviews/decoder-independent.json",
+      "archive_path": "recovery/sol/objects/3f80d6d70dcde371603ca65d079b0cf6f9eac83c2afe0332631503b12a56bb90.json",
+      "bytes": 1302,
+      "sha256": "3f80d6d70dcde371603ca65d079b0cf6f9eac83c2afe0332631503b12a56bb90",
+      "category": "PUBLIC_SCOPED_RECEIPT_NOT_RAW_LOG_OR_TOOL_HISTORY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\PARENT_DECODER_RECEIVING.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/reviews/binary-independent.json",
+      "archive_path": "recovery/sol/objects/4845080a8d8c8b83aff4377c593fe28040d4b1bd9e2658f3c1074fa6ca4921ce.json",
+      "bytes": 4796,
+      "sha256": "4845080a8d8c8b83aff4377c593fe28040d4b1bd9e2658f3c1074fa6ca4921ce",
+      "category": "PUBLIC_SCOPED_RECEIPT_NOT_RAW_LOG_OR_TOOL_HISTORY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\binary\\independent-review\\FINAL.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/reviews/binary-final-delta-independent.json",
+      "archive_path": "recovery/sol/objects/968c7336ca9c137ab2e6e481c35553eef7467929b17fc185f8ee209be455754a.json",
+      "bytes": 3502,
+      "sha256": "968c7336ca9c137ab2e6e481c35553eef7467929b17fc185f8ee209be455754a",
+      "category": "PUBLIC_SCOPED_RECEIPT_NOT_RAW_LOG_OR_TOOL_HISTORY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\binary\\independent-review-v3\\FINAL.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/reviews/original04-public-terminal-independent.json",
+      "archive_path": "recovery/sol/objects/1f98fbaa41f0710c8e907c4f6be8fea64bf5f32047cbd20e89d427c6642a5b39.json",
+      "bytes": 3897,
+      "sha256": "1f98fbaa41f0710c8e907c4f6be8fea64bf5f32047cbd20e89d427c6642a5b39",
+      "category": "PUBLIC_SCOPED_RECEIPT_NOT_RAW_LOG_OR_TOOL_HISTORY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\original-host-failure-01\\independent-receiving\\RECEIVING.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/reviews/lock-owner-analysis.json",
+      "archive_path": "recovery/sol/objects/60a5ff0236e303d27da3ba7c73cccfbc2fce7e6270c4d29801db6d62dc8efc97.json",
+      "bytes": 3084,
+      "sha256": "60a5ff0236e303d27da3ba7c73cccfbc2fce7e6270c4d29801db6d62dc8efc97",
+      "category": "PUBLIC_SCOPED_RECEIPT_NOT_RAW_LOG_OR_TOOL_HISTORY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\original-host-failure-01\\lock-owner-analysis\\FINAL.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/reviews/diagnostic-independent-successor.json",
+      "archive_path": "recovery/sol/objects/5861c70bcc0536c1b01059789324ea1054d0777cb286c53cbee1d9739d0ad85d.json",
+      "bytes": 4729,
+      "sha256": "5861c70bcc0536c1b01059789324ea1054d0777cb286c53cbee1d9739d0ad85d",
+      "category": "PUBLIC_SCOPED_RECEIPT_NOT_RAW_LOG_OR_TOOL_HISTORY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\original-host-failure-01\\independent-source-review\\SUCCESSOR_RECEIVING.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g1/reviews/diagnostic-initial-revise.json",
+      "archive_path": "recovery/sol/objects/56b5827e0458f15a0f5ebd64ca7601f375a77aeec9d37a090a16ef632e9206ee.json",
+      "bytes": 3054,
+      "sha256": "56b5827e0458f15a0f5ebd64ca7601f375a77aeec9d37a090a16ef632e9206ee",
+      "category": "PUBLIC_SCOPED_RECEIPT_NOT_RAW_LOG_OR_TOOL_HISTORY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\original-host-failure-01\\independent-source-review\\FINAL.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g2/reviews/operator-independent.json",
+      "archive_path": "recovery/sol/objects/52e5ec90d89944f58ec7ec67d4a1e0b7041cd164e3bb289c522b60b5143dde53.json",
+      "bytes": 3692,
+      "sha256": "52e5ec90d89944f58ec7ec67d4a1e0b7041cd164e3bb289c522b60b5143dde53",
+      "category": "PUBLIC_SCOPED_RECEIPT_NOT_RAW_LOG_OR_TOOL_HISTORY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\public-operator-source\\v2-independent-review\\FINAL.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g2/reviews/concrete-bridge-independent.json",
+      "archive_path": "recovery/sol/objects/5af4e41a81ebb756c31c41931eb8367380780134c127105e5eb6127615a1837e.json",
+      "bytes": 4967,
+      "sha256": "5af4e41a81ebb756c31c41931eb8367380780134c127105e5eb6127615a1837e",
+      "category": "PUBLIC_SCOPED_RECEIPT_NOT_RAW_LOG_OR_TOOL_HISTORY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\public-operator-source\\operational\\concrete-independent-review\\FINAL.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g2/reviews/first-terminal-independent.json",
+      "archive_path": "recovery/sol/objects/aedfb7c4ed2f999c6b132be5bc034af2ebf39332e43c0467c0ca2538dd6d08c3.json",
+      "bytes": 10926,
+      "sha256": "aedfb7c4ed2f999c6b132be5bc034af2ebf39332e43c0467c0ca2538dd6d08c3",
+      "category": "PUBLIC_SCOPED_RECEIPT_NOT_RAW_LOG_OR_TOOL_HISTORY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\original-host-diagnostic-01\\independent-terminal-receiving\\RECEIPT.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g2/evidence/FIRST_OUTCOME_DISPOSITION.json",
+      "archive_path": "recovery/sol/objects/6892a9908f44775abea327251d0a54ca2e2cca346e434535cd5a3cd936703375.json",
+      "bytes": 3139,
+      "sha256": "6892a9908f44775abea327251d0a54ca2e2cca346e434535cd5a3cd936703375",
+      "category": "PUBLIC_SCOPED_RECEIPT_NOT_RAW_LOG_OR_TOOL_HISTORY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\original-host-diagnostic-01\\FIRST_OUTCOME_DISPOSITION.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "g2/evidence/LEGACY_SUCCESSOR_SOURCE_SCOPE.json",
+      "archive_path": "recovery/sol/objects/588bd433d5260cec8dee4af02b33f952861b0c76bf247f47d44365ab9af257eb.json",
+      "bytes": 1910,
+      "sha256": "588bd433d5260cec8dee4af02b33f952861b0c76bf247f47d44365ab9af257eb",
+      "category": "PUBLIC_SCOPED_RECEIPT_NOT_RAW_LOG_OR_TOOL_HISTORY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\original-host-diagnostic-01\\LEGACY_SUCCESSOR_SOURCE_SCOPE.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "git-fixture/source/package_probe.py",
+      "archive_path": "recovery/sol/objects/4c5d6554d6f326af35cbc3919c7c8e584ef94ef6be77e528a280bd17b0a7e043.py",
+      "bytes": 7244,
+      "sha256": "4c5d6554d6f326af35cbc3919c7c8e584ef94ef6be77e528a280bd17b0a7e043",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\git256-package-probe-01\\package_probe.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "git-fixture/source/tiny_git_probe.py",
+      "archive_path": "recovery/sol/objects/a2dcd35d4367d643669db4eb5ba088432574582c2eb2561fd52e5649287d5e6d.py",
+      "bytes": 8452,
+      "sha256": "a2dcd35d4367d643669db4eb5ba088432574582c2eb2561fd52e5649287d5e6d",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\git256-package-probe-01\\tiny_git_probe.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "git-fixture/source/tiny_git_probe_v2.py",
+      "archive_path": "recovery/sol/objects/4b3201ac7a7f1d6ef29ddbbe88bdd8fa523f85b891a7495caa1ce912aa28fe37.py",
+      "bytes": 8574,
+      "sha256": "4b3201ac7a7f1d6ef29ddbbe88bdd8fa523f85b891a7495caa1ce912aa28fe37",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\git256-package-probe-01\\tiny_git_probe_v2.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "git-fixture/source/public_repo_probe.py",
+      "archive_path": "recovery/sol/objects/85e3a2d37f4e7afc6cbab44dbf3422dfdc5f0ff26ee7c636c69a855c86c71164.py",
+      "bytes": 10485,
+      "sha256": "85e3a2d37f4e7afc6cbab44dbf3422dfdc5f0ff26ee7c636c69a855c86c71164",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\git256-package-probe-01\\public_repo_probe.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "git-fixture/source/public_repo_probe_v2.py",
+      "archive_path": "recovery/sol/objects/9b93c03a1fc68e806157a5760d495e6d41686b22947a3f8a364f00a9a2747e06.py",
+      "bytes": 11544,
+      "sha256": "9b93c03a1fc68e806157a5760d495e6d41686b22947a3f8a364f00a9a2747e06",
+      "category": "PUBLIC_SOURCE",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\git256-package-probe-01\\public_repo_probe_v2.py",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "git-fixture/reviews/tiny-source-revise.json",
+      "archive_path": "recovery/sol/objects/d6fafd9970f7a359ed2c3fcb6ed7841b7adeb225b58c0ce34391053dc649dc38.json",
+      "bytes": 3743,
+      "sha256": "d6fafd9970f7a359ed2c3fcb6ed7841b7adeb225b58c0ce34391053dc649dc38",
+      "category": "PUBLIC_SCOPED_RECEIPT_NOT_RAW_LOG_OR_TOOL_HISTORY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\git256-package-probe-01\\independent-review\\FINAL.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "git-fixture/reviews/tiny-source-successor.json",
+      "archive_path": "recovery/sol/objects/adbcd6cbb42672799763f84cbff270d00fa463b7d5edd3f23c0253eb967d6ba5.json",
+      "bytes": 2709,
+      "sha256": "adbcd6cbb42672799763f84cbff270d00fa463b7d5edd3f23c0253eb967d6ba5",
+      "category": "PUBLIC_SCOPED_RECEIPT_NOT_RAW_LOG_OR_TOOL_HISTORY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\git256-package-probe-01\\independent-review\\SUCCESSOR_RECEIVING.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "git-fixture/reviews/tiny-actual-independent.json",
+      "archive_path": "recovery/sol/objects/53a608c5265ac0e4fc7c285d594dfedb065ef9d8d601e5da1a771f2d395e7e47.json",
+      "bytes": 4008,
+      "sha256": "53a608c5265ac0e4fc7c285d594dfedb065ef9d8d601e5da1a771f2d395e7e47",
+      "category": "PUBLIC_SCOPED_RECEIPT_NOT_RAW_LOG_OR_TOOL_HISTORY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\git256-package-probe-01\\independent-actual-receiving\\RECEIVING.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "git-fixture/reviews/public-source-revise.json",
+      "archive_path": "recovery/sol/objects/e18bd849569f4f07e974198e5cc00e8ecb950a443573afc0012ffe60585f9ff1.json",
+      "bytes": 4091,
+      "sha256": "e18bd849569f4f07e974198e5cc00e8ecb950a443573afc0012ffe60585f9ff1",
+      "category": "PUBLIC_SCOPED_RECEIPT_NOT_RAW_LOG_OR_TOOL_HISTORY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\git256-package-probe-01\\independent-public-source-review\\FINAL.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "git-fixture/reviews/public-source-successor.json",
+      "archive_path": "recovery/sol/objects/f57c7f82098eed8d85c0a8e9b673568aadb8ff3ac19d7d88dae9469e78610265.json",
+      "bytes": 3337,
+      "sha256": "f57c7f82098eed8d85c0a8e9b673568aadb8ff3ac19d7d88dae9469e78610265",
+      "category": "PUBLIC_SCOPED_RECEIPT_NOT_RAW_LOG_OR_TOOL_HISTORY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\git256-package-probe-01\\independent-public-source-review\\SUCCESSOR_RECEIVING.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "git-fixture/reviews/public-actual-independent.json",
+      "archive_path": "recovery/sol/objects/b91a90df197643f1f6a1162d308f2bb52cdba58320099878ab7367746fa043ee.json",
+      "bytes": 3922,
+      "sha256": "b91a90df197643f1f6a1162d308f2bb52cdba58320099878ab7367746fa043ee",
+      "category": "PUBLIC_SCOPED_RECEIPT_NOT_RAW_LOG_OR_TOOL_HISTORY",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\git256-package-probe-01\\independent-public-actual-receiving\\RECEIVING.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "git-fixture/evidence/TINY_PROBE_RECEIVING.json",
+      "archive_path": "recovery/sol/objects/ace3527e00ba9d7656346476f473166829b115671b458a3e1a27bddbebb9e556.json",
+      "bytes": 26063,
+      "sha256": "ace3527e00ba9d7656346476f473166829b115671b458a3e1a27bddbebb9e556",
+      "category": "DERIVED_PUBLIC_PROJECTION",
+      "origin": "Allowlisted projection of retained public structured receipt",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "git-fixture/evidence/PUBLIC_PROBE_RECEIVING.json",
+      "archive_path": "recovery/sol/objects/38ecafeada45a2b992a7015a7f3887580756f1ee9304dfd08bbb33e98383ff4c.json",
+      "bytes": 18010,
+      "sha256": "38ecafeada45a2b992a7015a7f3887580756f1ee9304dfd08bbb33e98383ff4c",
+      "category": "DERIVED_PUBLIC_PROJECTION",
+      "origin": "Allowlisted projection of retained public structured receipt",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "git-fixture/evidence/PACKAGE_PUBLIC_PROVENANCE.json",
+      "archive_path": "recovery/sol/objects/d9a12b163c1ffe19227694a3c71d5aad165efaec95be14c775eb9b9745f1edda.json",
+      "bytes": 1254,
+      "sha256": "d9a12b163c1ffe19227694a3c71d5aad165efaec95be14c775eb9b9745f1edda",
+      "category": "DERIVED_PUBLIC_PROJECTION",
+      "origin": "Allowlisted projection of retained public structured receipt",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "git-fixture/evidence/FIXTURE_TERMINAL_CUSTODY.json",
+      "archive_path": "recovery/sol/objects/bccb1a77706a74cabeed05d705e96a8a906c88e4a664f00cc84f0970e81fdad9.json",
+      "bytes": 68,
+      "sha256": "bccb1a77706a74cabeed05d705e96a8a906c88e4a664f00cc84f0970e81fdad9",
+      "category": "PUBLIC_OWNED_RESOURCE_RECEIPT",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\git256-package-probe-01\\FIXTURE_TERMINAL_CUSTODY.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    },
+    {
+      "logical_path": "git-fixture/evidence/PACKAGE_ROUTE_HISTORY.json",
+      "archive_path": "recovery/sol/objects/da015adb2fbadfe6a71f7366a882e8afde346b6fec6963fb05bf229b7adfb726.json",
+      "bytes": 883,
+      "sha256": "da015adb2fbadfe6a71f7366a882e8afde346b6fec6963fb05bf229b7adfb726",
+      "category": "PUBLIC_SCOPED_HISTORY_SUMMARY_NOT_RAW_LOG",
+      "origin": "plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\git256-package-probe-01\\PACKAGE_ROUTE_HISTORY.json",
+      "authority": "REFERENCE_BYTES_ONLY_NO_EFFECT_GRANT"
+    }
+  ],
+  "external_public_dependencies": [
+    {
+      "logical_role": "g1.root.receiver",
+      "sha256": "378846f9cfd5f60ce3e3b48adb3c2e3c7cf94a701ed9aee46e5ba3072f4fc122",
+      "status": "EXPECTED_ROOT_COMPONENT_SOURCE_OR_PUBLIC_EPISODE",
+      "archive_component": "recovery/root-runtime",
+      "archive_path": "Resolve through Root DEPENDENCIES.json by exact SHA; no duplicate bytes supplied here."
+    },
+    {
+      "logical_role": "g1.root.resolve_artifact",
+      "sha256": "b2ac1130149d9878a3a00c7d8ba214743920a1aede38cb6b75699e14a2d03530",
+      "status": "EXPECTED_ROOT_COMPONENT_SOURCE_OR_PUBLIC_EPISODE",
+      "archive_component": "recovery/root-runtime",
+      "archive_path": "Resolve through Root DEPENDENCIES.json by exact SHA; no duplicate bytes supplied here."
+    },
+    {
+      "logical_role": "g1.root.recipient_issuer",
+      "sha256": "b21469b2ee92a7dd3cf59f09d5e006c6fe143b0b38f1581a588411e748a43053",
+      "status": "EXPECTED_ROOT_COMPONENT_SOURCE_OR_PUBLIC_EPISODE",
+      "archive_component": "recovery/root-runtime",
+      "archive_path": "Resolve through Root DEPENDENCIES.json by exact SHA; no duplicate bytes supplied here."
+    },
+    {
+      "logical_role": "g1.root.bind_dispatcher",
+      "sha256": "d83c761dbc666d78856cf2d52ced4db2b6b8d373742deef4938b2d4b6434938f",
+      "status": "EXPECTED_ROOT_COMPONENT_SOURCE_OR_PUBLIC_EPISODE",
+      "archive_component": "recovery/root-runtime",
+      "archive_path": "Resolve through Root DEPENDENCIES.json by exact SHA; no duplicate bytes supplied here."
+    },
+    {
+      "logical_role": "g1.root.dispatcher_entry",
+      "sha256": "0bde14158b8505b89f6492ee96f8b5e9f42c9c09341da3cc49201efd0dec80b7",
+      "status": "EXPECTED_ROOT_COMPONENT_SOURCE_OR_PUBLIC_EPISODE",
+      "archive_component": "recovery/root-runtime",
+      "archive_path": "Resolve through Root DEPENDENCIES.json by exact SHA; no duplicate bytes supplied here."
+    },
+    {
+      "logical_role": "g1.root.dispatch_js",
+      "sha256": "ed48969832fc789dcc8ed3a238f355c43b3908c82b61ba9f835684c56e1a7c68",
+      "status": "EXPECTED_ROOT_COMPONENT_SOURCE_OR_PUBLIC_EPISODE",
+      "archive_component": "recovery/root-runtime",
+      "archive_path": "Resolve through Root DEPENDENCIES.json by exact SHA; no duplicate bytes supplied here."
+    },
+    {
+      "logical_role": "g2.root.native_history_SOURCE_ONLY",
+      "sha256": "71b4538d41501c017d2282f799dfbd3ad8e3435c9409c40633ed156d18529bd1",
+      "status": "EXPECTED_ROOT_COMPONENT_SOURCE_OR_PUBLIC_EPISODE",
+      "archive_component": "recovery/root-runtime",
+      "archive_path": "Resolve through Root DEPENDENCIES.json by exact SHA; no duplicate bytes supplied here."
+    },
+    {
+      "logical_role": "g2.root.public_receiver_installation_receipt",
+      "sha256": "23fcaf940f2b51d321731d56fbdd217adf032a033a9cdbaca340607d468c5239",
+      "status": "EXPECTED_ROOT_COMPONENT_SOURCE_OR_PUBLIC_EPISODE",
+      "archive_component": "recovery/root-runtime",
+      "archive_path": "Resolve through Root DEPENDENCIES.json by exact SHA; no duplicate bytes supplied here."
+    },
+    {
+      "logical_role": "g2.root.public_receiver_source_seal",
+      "sha256": "2f86492f085eae40ab35530fe1d59773116841c120b5a9bd50421e5bdf02275d",
+      "status": "EXPECTED_ROOT_COMPONENT_SOURCE_OR_PUBLIC_EPISODE",
+      "archive_component": "recovery/root-runtime",
+      "archive_path": "Resolve through Root DEPENDENCIES.json by exact SHA; no duplicate bytes supplied here."
+    },
+    {
+      "logical_role": "root.fetch_countermeasure_receiving",
+      "sha256": "0957ab3a5f31fecf923a64b03570d479d676f5255a5c29ed7bf2c65599fa85d9",
+      "status": "EXPECTED_ROOT_COMPONENT_SOURCE_OR_PUBLIC_EPISODE",
+      "archive_component": "recovery/root-runtime",
+      "archive_path": "Resolve through Root DEPENDENCIES.json by exact SHA; no duplicate bytes supplied here."
+    },
+    {
+      "logical_role": "episodes.g1.original04.public_archive",
+      "sha256": "28ef2877d8d5c42ff5300568cc601074b48378e609275aeea3455ac12fa3dec6",
+      "status": "EXPECTED_ROOT_COMPONENT_SOURCE_OR_PUBLIC_EPISODE",
+      "archive_component": "recovery/episodes",
+      "archive_path": "Resolve through Root DEPENDENCIES.json by exact SHA; no duplicate bytes supplied here."
+    },
+    {
+      "logical_role": "episodes.g2.original01.public_archive",
+      "sha256": "6b869e5e7543703e7f70def6119d4f7a7ce1aa0a9868ee7f0d11ba41542d1f31",
+      "status": "EXPECTED_ROOT_COMPONENT_SOURCE_OR_PUBLIC_EPISODE",
+      "archive_component": "recovery/episodes",
+      "archive_path": "Resolve through Root DEPENDENCIES.json by exact SHA; no duplicate bytes supplied here."
+    }
+  ]
+}

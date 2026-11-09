@@ -1,0 +1,63 @@
+{
+  "actual_component_review_received": false,
+  "actual_maximum_qualification_received": false,
+  "authority": "NONE",
+  "branch": "pro/dg16-r5-full-g2-direct-host-01-20261109",
+  "component_index_sha256": "9d54e10f1c6d056d43801b8457f909030498704a766b17998abbc9c4525c28f3",
+  "component_members": {
+    "CAPTURE_DIAGNOSTIC_CATALOG.json": {
+      "bytes": 670575,
+      "sha256": "76382066ebf8077f04b47c0f1912527d7e92568845bc87855ab61006e5e52cdd"
+    },
+    "bound_child.py": {
+      "bytes": 1433,
+      "sha256": "df154b3cf1b8e70485ebf3900dbc7d1955b893765e4dc7ab0ef8d27fd7a38c0f"
+    },
+    "capture_evidence.py": {
+      "bytes": 49224,
+      "sha256": "6171dce59df2dac0ab1618352cd9dffb6a9a071497c690bbc40d5c1097635aee"
+    },
+    "fs_carrier.py": {
+      "bytes": 21303,
+      "sha256": "a6eeaba52927e084194249feee364e9cad567bff09b2771cbd4da44f8111daf4"
+    },
+    "fs_command.py": {
+      "bytes": 6160,
+      "sha256": "cd6aae49b89fc3bc0da0a4c95bf903255f801eb2d8c811e5aaa52acd7299929c"
+    },
+    "fs_io.py": {
+      "bytes": 8395,
+      "sha256": "42563b4b9848baf1e68086e3867cbcdcbd26b21bd28509a0b228d39bba6a71d0"
+    },
+    "fs_protocol.py": {
+      "bytes": 11788,
+      "sha256": "b44eedcc53a94fae84370241b6c5928b3bf34821e9e05ce8fb8dc516c800d541"
+    },
+    "fs_runner.py": {
+      "bytes": 12305,
+      "sha256": "b51f231146372c6e6fb9552fc29e71e4e951ab5561cf7632b95856c17e89ff97"
+    },
+    "fs_transport.py": {
+      "bytes": 3651,
+      "sha256": "ce1e627021e531843d869f35c34001ef7e7f13b4ad09f18d55d58fed13431081"
+    },
+    "full_g2_hooks.py": {
+      "bytes": 8458,
+      "sha256": "7628608fa2e6c083fd26b7c6ec9d588d60959c5baa5100ca34f15be14afe7107"
+    }
+  },
+  "component_seal_sha256": "e99a60d5790355ae39c0e4bbc4567add87e702775ade8f5655e2f3ef56bd9602",
+  "effect_grant": false,
+  "final_tree": null,
+  "original_awards": [],
+  "public_receiver_binding": null,
+  "public_recipient_adoption": null,
+  "recipient": null,
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "schema": "dg16.protected-full-root-receiver-binding.v1",
+  "session": null,
+  "source_commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+  "source_tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+  "successor_runtime_binding": null,
+  "workflow_sha256": "4e8a9e196f3c057dcd0d2ad782dba4395cc5f890a06a568c2478194a5a1b8368"
+}

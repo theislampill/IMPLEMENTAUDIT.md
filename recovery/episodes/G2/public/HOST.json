@@ -1,0 +1,1177 @@
+{
+  "architecture": "x86_64",
+  "boot_identity_sha256": "81c1c778bfa8496cee99f0a8ad322785c69a89ea31209f307d9006534348ce92",
+  "commands": [
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "provision-source-identity",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 82,
+      "stdout_sha256": "791cda2b36b6437342ef95e3bc92fc271dd5c061e1ace18666340c2c904756ae",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "provision-ordinary-apt-index",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [
+          {
+            "pid": 2629,
+            "returncode": 0
+          },
+          {
+            "pid": 2637,
+            "returncode": 0
+          },
+          {
+            "pid": 2828,
+            "returncode": 0
+          }
+        ],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 3,
+        "retained_statuses_sha256": "b9bcda9780a9463fe98c151483f4c4729c99588643980ab40e48ba0861bbd341"
+      },
+      "internal_failure": null,
+      "name": "provision-ordinary-apt-prerequisites",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "STDERR_PRESENT_UNCLASSIFIED",
+      "returncode": 0,
+      "stderr_bytes": 308,
+      "stderr_sha256": "18bce92f9d611f9a465ad6d7b33dcab4270a04b84bb9db691c437c798a607784",
+      "stdout_bytes": 5442,
+      "stdout_sha256": "f66a680e0844ca2106f28aab60234028676a3f9b94489d0c04a16226a02e02e0",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "provision-ordinary-create-venv",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "provision-ordinary-install-release-dependency",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "provision-ordinary-release-dependency-readback",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 134,
+      "stdout_sha256": "1e065a3db5798cf7f9dc7fec63dea2db9428df5063a692bc764a76e25cb25b90",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "preflight-source-identity",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 82,
+      "stdout_sha256": "791cda2b36b6437342ef95e3bc92fc271dd5c061e1ace18666340c2c904756ae",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "preflight-index-clean",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "preflight-tracked-clean",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "preflight-no-imported-controller-refs",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "initialize-source-identity",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 82,
+      "stdout_sha256": "791cda2b36b6437342ef95e3bc92fc271dd5c061e1ace18666340c2c904756ae",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [
+          {
+            "pid": 3090,
+            "returncode": 0
+          }
+        ],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 1,
+        "retained_statuses_sha256": "211853224883e825eeef1043061fb74ab4fd1076cca99c83504b158110505e67"
+      },
+      "internal_failure": null,
+      "name": "initialize-fresh-claim",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "STDERR_PRESENT_UNCLASSIFIED",
+      "returncode": 0,
+      "stderr_bytes": 217,
+      "stderr_sha256": "f648d67591e9ef5b13682788f68812bb1358dfe68864b70a563734d6431a6541",
+      "stdout_bytes": 50,
+      "stdout_sha256": "1ef3f5834a9bb6454b9376c9dd1528293a463971189e71faf433db41a0ca9110",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "initialize-author-real-task",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 681,
+      "stdout_sha256": "ff2bdb5f89802716b585235a684e6c3cc290184f10e929d3fd11672a6fc924ee",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [
+          {
+            "pid": 3189,
+            "returncode": 0
+          }
+        ],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 1,
+        "retained_statuses_sha256": "7a23a476c0e9ac503306d1da920e796eba19c6907fb6f08707ff99bfbe880709"
+      },
+      "internal_failure": null,
+      "name": "initialize-inspect-initialization",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 620,
+      "stdout_sha256": "7ba2f80b1caf78cb5ffacd5a50a9aa77da64f28aacce94572224cfe942dc1ead",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [
+          {
+            "pid": 3234,
+            "returncode": 0
+          }
+        ],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 1,
+        "retained_statuses_sha256": "875d23b4b9a48833fdf1e8cf94df2208b95424606fec1f180bfc8d267c0be0ea"
+      },
+      "internal_failure": null,
+      "name": "initialize-activate-initialization",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 1808,
+      "stdout_sha256": "2d873f7e5debe713cf833dbd4c2af1ae302f313a7016ea040a47b803001bc17b",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "discover-source-identity",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 82,
+      "stdout_sha256": "791cda2b36b6437342ef95e3bc92fc271dd5c061e1ace18666340c2c904756ae",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "discover-discover-controller",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 251,
+      "stdout_sha256": "656e1e53949b5a5ed1ae883503209e29bde75fa3e2e969798303e09906607018",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "invalidate-source-identity",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 82,
+      "stdout_sha256": "791cda2b36b6437342ef95e3bc92fc271dd5c061e1ace18666340c2c904756ae",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [
+          {
+            "pid": 3549,
+            "returncode": 0
+          },
+          {
+            "pid": 3643,
+            "returncode": 0
+          }
+        ],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 2,
+        "retained_statuses_sha256": "526a8e3fbbdaaed46152645fb166f6b437450090d92a879214e730e8616ed97f"
+      },
+      "internal_failure": null,
+      "name": "invalidate-invalidate-new-session",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 112,
+      "stdout_sha256": "77130c3df7f83b5fe093a6021bdd59c6a49b733353e61ce11ddeffa437fd057a",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "read-state-source-identity",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 82,
+      "stdout_sha256": "791cda2b36b6437342ef95e3bc92fc271dd5c061e1ace18666340c2c904756ae",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "read-roadmap-source-identity",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 82,
+      "stdout_sha256": "791cda2b36b6437342ef95e3bc92fc271dd5c061e1ace18666340c2c904756ae",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "resume-source-identity",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 82,
+      "stdout_sha256": "791cda2b36b6437342ef95e3bc92fc271dd5c061e1ace18666340c2c904756ae",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [
+          {
+            "pid": 3679,
+            "returncode": 0
+          }
+        ],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 1,
+        "retained_statuses_sha256": "5880e5cf82e37f2eef05052a0dd6d403784ad8cdd80add12c54c2dc55a2c8b52"
+      },
+      "internal_failure": null,
+      "name": "resume-resume-new-session",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 113,
+      "stdout_sha256": "7d8de948c87917d9e93a1377f49298bc7cf4dea80db5e57eceae6dee50b2d46f",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "verify-source-identity",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 82,
+      "stdout_sha256": "791cda2b36b6437342ef95e3bc92fc271dd5c061e1ace18666340c2c904756ae",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [
+          {
+            "pid": 3775,
+            "returncode": 0
+          }
+        ],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 1,
+        "retained_statuses_sha256": "4e7258a7fd2532653a67c40600eaba319a9a451840feadb6455bf292eba2dd10"
+      },
+      "internal_failure": null,
+      "name": "verify-verify-resume",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 113,
+      "stdout_sha256": "7d8de948c87917d9e93a1377f49298bc7cf4dea80db5e57eceae6dee50b2d46f",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "require-source-identity",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 82,
+      "stdout_sha256": "791cda2b36b6437342ef95e3bc92fc271dd5c061e1ace18666340c2c904756ae",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [
+          {
+            "pid": 3869,
+            "returncode": 0
+          }
+        ],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 1,
+        "retained_statuses_sha256": "5c74736a07294a34e595b134c8053a9f6333d6933f01a2e0db6dc23265b99ca8"
+      },
+      "internal_failure": null,
+      "name": "require-initial-require-currentness",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 113,
+      "stdout_sha256": "7d8de948c87917d9e93a1377f49298bc7cf4dea80db5e57eceae6dee50b2d46f",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "pair-source-identity",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 82,
+      "stdout_sha256": "791cda2b36b6437342ef95e3bc92fc271dd5c061e1ace18666340c2c904756ae",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "pair-index-clean",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "pair-tracked-clean",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [
+          {
+            "pid": 62097,
+            "returncode": 0
+          }
+        ],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 1,
+        "retained_statuses_sha256": "0393db1b4f1cf233aff61820d357f9e054a263dee4f4326792fa7d67a82a6710"
+      },
+      "internal_failure": null,
+      "name": "pair-before-pair-currentness",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 113,
+      "stdout_sha256": "7d8de948c87917d9e93a1377f49298bc7cf4dea80db5e57eceae6dee50b2d46f",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "pair-complete-current-registry-pair",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "COMMAND_NONZERO_UNCLASSIFIED",
+      "returncode": 1,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 98,
+      "stdout_sha256": "a6535d9c4d76987c5c403c79c5b2f33d72fd5d47a9d6f94f9eb4a3c605d02eb8",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [
+          {
+            "pid": 116010,
+            "returncode": 0
+          }
+        ],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 1,
+        "retained_statuses_sha256": "d9e26fe7ee5aa1a43a2a7283e9abbaa1ba0438c219f19e0002315e00dde2c64d"
+      },
+      "internal_failure": null,
+      "name": "pair-after-pair-currentness",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 113,
+      "stdout_sha256": "7d8de948c87917d9e93a1377f49298bc7cf4dea80db5e57eceae6dee50b2d46f",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "receive-source-identity",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 82,
+      "stdout_sha256": "791cda2b36b6437342ef95e3bc92fc271dd5c061e1ace18666340c2c904756ae",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "receive-index-clean",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "receive-tracked-clean",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [
+          {
+            "pid": 116113,
+            "returncode": 0
+          }
+        ],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 1,
+        "retained_statuses_sha256": "ab56de64a4d9929f09b495f00c72db1112559abb2712c6e76ade82f410902e08"
+      },
+      "internal_failure": null,
+      "name": "receive-before-receive-currentness",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 113,
+      "stdout_sha256": "7d8de948c87917d9e93a1377f49298bc7cf4dea80db5e57eceae6dee50b2d46f",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "receive-separate-maintained-sealed-receiving",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "COMMAND_NONZERO_UNCLASSIFIED",
+      "returncode": 1,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 88,
+      "stdout_sha256": "20e212c17bf08f5be8091aa3b0fe30673530a060d2a733a591a7e08d0f6c0af9",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [
+          {
+            "pid": 116243,
+            "returncode": 0
+          }
+        ],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 1,
+        "retained_statuses_sha256": "671bda294915fc6bef622dbf8b372c9b5961f9e0157130b5e299c5a3b73ce0a1"
+      },
+      "internal_failure": null,
+      "name": "receive-after-receive-currentness",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 113,
+      "stdout_sha256": "7d8de948c87917d9e93a1377f49298bc7cf4dea80db5e57eceae6dee50b2d46f",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "finalize-source-identity",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 82,
+      "stdout_sha256": "791cda2b36b6437342ef95e3bc92fc271dd5c061e1ace18666340c2c904756ae",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "finalize-index-clean",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "finalize-tracked-clean",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [
+          {
+            "pid": 116347,
+            "returncode": 0
+          }
+        ],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 1,
+        "retained_statuses_sha256": "7ca4d603c50f66ae2d893e655675ca6e695d551989a069bd475fe797172a9f4d"
+      },
+      "internal_failure": null,
+      "name": "finalize-live-closing-currentness",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 113,
+      "stdout_sha256": "7d8de948c87917d9e93a1377f49298bc7cf4dea80db5e57eceae6dee50b2d46f",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    }
+  ],
+  "credentials": {
+    "egid": 1001,
+    "euid": 1001,
+    "gid": 1001,
+    "sgid": 1001,
+    "suid": 1001,
+    "uid": 1001
+  },
+  "image_os": "ubuntu26",
+  "image_version": "20261101.186.1",
+  "kernel": "7.0.0-1019-azure",
+  "latest_observed_host_sha256": "1d755f6bec5cd8ba40fee9ee1c0f98d9244ae64869d4255ce7c45a3f0bec4dbd",
+  "opening_host_sha256": "1d755f6bec5cd8ba40fee9ee1c0f98d9244ae64869d4255ce7c45a3f0bec4dbd",
+  "os": {
+    "ID": "ubuntu",
+    "VERSION_ID": "26.04"
+  },
+  "python_version": [
+    3,
+    14,
+    4
+  ],
+  "schema": "dg16.full-registry-episode-host.v1",
+  "tools": {
+    "bash": {
+      "available": true,
+      "bytes": 1540520,
+      "canonical": "/usr/bin/bash",
+      "requested": "/usr/bin/bash",
+      "root_owned_nonwritable_chain": true,
+      "setid_or_file_capabilities": false,
+      "sha256": "450c68376d14e5040d36cce58605c35b2211d244f3079297440dc9d602ee4994"
+    },
+    "bwrap": {
+      "available": true,
+      "bytes": 80424,
+      "canonical": "/usr/bin/bwrap",
+      "requested": "/usr/bin/bwrap",
+      "root_owned_nonwritable_chain": true,
+      "setid_or_file_capabilities": false,
+      "sha256": "a85b0ff8664c52ab923e0daf7e20cbc394272cd3831cc492ab144105d8091361"
+    },
+    "git": {
+      "available": true,
+      "bytes": 4771424,
+      "canonical": "/usr/bin/git",
+      "requested": "/usr/bin/git",
+      "root_owned_nonwritable_chain": true,
+      "setid_or_file_capabilities": false,
+      "sha256": "63acee09d55a44c7f4480f3a2c3fb79e7063deaf61df3f920b113ed38c0541e6"
+    },
+    "python3": {
+      "available": true,
+      "bytes": 7468968,
+      "canonical": "/usr/bin/python3.14",
+      "requested": "/usr/bin/python3",
+      "root_owned_nonwritable_chain": true,
+      "setid_or_file_capabilities": false,
+      "sha256": "be9a2a5eada8c89c1c399fdfb8397179e877c20d8db0739c802f726d4d0e69fd"
+    }
+  },
+  "uid": 1001
+}

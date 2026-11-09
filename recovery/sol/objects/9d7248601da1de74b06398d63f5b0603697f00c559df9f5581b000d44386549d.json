@@ -1,0 +1,45 @@
+{
+  "actual_effects": 0,
+  "correction_units": [
+    "control_process_v5.py",
+    "control_callback_v6.js"
+  ],
+  "decision": "REVISE",
+  "findings": [
+    {
+      "code": "WRONG_CALLBACK_ANCESTRY_LOST_RETURNED_OUTCOME",
+      "detail": "Derived from fe86 callbackv3, calls io.retain and omits received94e1 receipt-only late-result/outcome/custody path.",
+      "source": "control_callback_v5.js"
+    },
+    {
+      "code": "FRAME_EXPIRY_CHECK_MISSING_AFTER_RETENTION",
+      "detail": "After retaining safe actual wrapper, checks only overall grant/currentness; frame-expired outcome could qualify and emit next call while grant remains.",
+      "source": "control_process_v4.py"
+    }
+  ],
+  "prior_pins": [
+    {
+      "bytes": 19084,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\control_process_v4.py",
+      "sha256": "e6bc769584fa8c90a00afb446e3fcd825fcc7d6a6ef85e568c672089878c508f"
+    },
+    {
+      "bytes": 15344,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\control_callback_v5.js",
+      "sha256": "81baa77d892fb16ccb3903b4fad92b6a4f11bba3ab5e303151d047d4e8009c0a"
+    },
+    {
+      "bytes": 8789,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\FINAL.json",
+      "sha256": "1645303a8ee1c01060ec1e504ba40da960994bb71db7104a7d1ddf7d58ff6ad2"
+    },
+    {
+      "bytes": 6400,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\MANIFEST.json",
+      "sha256": "10a406891314ddb12398ac2f318eead91e7668421057cb069db42a72a0292ea1"
+    }
+  ],
+  "reviewer": "Parent primary independent actual source review",
+  "schema": "dg16.control-file-readback-prior-candidate-revise.v1",
+  "scope": "Frozen initial Pythonv4/callbackv5 affected source; prior receipts preserved, no retroactive acceptance"
+}

@@ -1,0 +1,273 @@
+{
+  "utc": "2026-11-09T07:36:08.052081+00:00",
+  "run": {
+    "id": 42579780645,
+    "run_attempt": 1,
+    "head_sha": "7f618adc702912f760d87f68fe9c94cc419e844c",
+    "head_branch": "pro/dg16-r5-full-g2-direct-host-01-20261109",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "failure",
+    "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/42579780645"
+  },
+  "job": {
+    "id": 129035519895,
+    "name": "full-registry-raw-pair",
+    "started_at": "2026-11-09T07:30:38Z",
+    "completed_at": "2026-11-09T07:35:10Z",
+    "status": "completed",
+    "conclusion": "failure",
+    "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/42579780645/job/129035519895",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-09T07:30:39Z",
+        "completed_at": "2026-11-09T07:30:40Z"
+      },
+      {
+        "name": "Check out the exact reviewed packet",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-09T07:30:40Z",
+        "completed_at": "2026-11-09T07:30:43Z"
+      },
+      {
+        "name": "Check out the exact reviewed cumulative DG16 source",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-09T07:30:43Z",
+        "completed_at": "2026-11-09T07:30:46Z"
+      },
+      {
+        "name": "Provision the ordinary release dependency and verifier tools",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-09T07:30:46Z",
+        "completed_at": "2026-11-09T07:31:04Z"
+      },
+      {
+        "name": "Bind source and observed native prerequisite requirements",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-09T07:31:04Z",
+        "completed_at": "2026-11-09T07:31:06Z"
+      },
+      {
+        "name": "Claim author inspect and activate the actual fresh task",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-09T07:31:06Z",
+        "completed_at": "2026-11-09T07:31:08Z"
+      },
+      {
+        "name": "Discover its controller in the operation checkout",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-09T07:31:08Z",
+        "completed_at": "2026-11-09T07:31:09Z"
+      },
+      {
+        "name": "Record the actual fresh hosted new-session boundary",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-09T07:31:09Z",
+        "completed_at": "2026-11-09T07:31:10Z"
+      },
+      {
+        "name": "Read STATE in one completed host action",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-09T07:31:10Z",
+        "completed_at": "2026-11-09T07:31:11Z"
+      },
+      {
+        "name": "Read ROADMAP in a separate completed host action",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-09T07:31:11Z",
+        "completed_at": "2026-11-09T07:31:12Z"
+      },
+      {
+        "name": "Request the fresh G0001 continuity receipt",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-09T07:31:12Z",
+        "completed_at": "2026-11-09T07:31:13Z"
+      },
+      {
+        "name": "Verify the owner-issued resume receipt",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-09T07:31:13Z",
+        "completed_at": "2026-11-09T07:31:14Z"
+      },
+      {
+        "name": "Require current continuity before the full operation",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13,
+        "started_at": "2026-11-09T07:31:14Z",
+        "completed_at": "2026-11-09T07:31:15Z"
+      },
+      {
+        "name": "Qualify five changed native predicates with the two maintained cases",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 14,
+        "started_at": "2026-11-09T07:31:15Z",
+        "completed_at": "2026-11-09T07:32:39Z"
+      },
+      {
+        "name": "Receive both actual current native cases under same-job custody",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 15,
+        "started_at": "2026-11-09T07:32:39Z",
+        "completed_at": "2026-11-09T07:32:42Z"
+      },
+      {
+        "name": "Execute the complete current registry legacy then DAG once",
+        "status": "completed",
+        "conclusion": "failure",
+        "number": 16,
+        "started_at": "2026-11-09T07:32:42Z",
+        "completed_at": "2026-11-09T07:34:55Z"
+      },
+      {
+        "name": "Independently re-read actual sealed captures in the live job",
+        "status": "completed",
+        "conclusion": "failure",
+        "number": 17,
+        "started_at": "2026-11-09T07:34:55Z",
+        "completed_at": "2026-11-09T07:34:59Z"
+      },
+      {
+        "name": "Prepare the exact actual full correspondence proof for live independent review",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 18,
+        "started_at": "2026-11-09T07:34:59Z",
+        "completed_at": "2026-11-09T07:34:59Z"
+      },
+      {
+        "name": "Validate all nine public review files before upload",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 19,
+        "started_at": "2026-11-09T07:34:59Z",
+        "completed_at": "2026-11-09T07:34:59Z"
+      },
+      {
+        "name": "Upload the actual bounded live review packet",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 20,
+        "started_at": "2026-11-09T07:34:59Z",
+        "completed_at": "2026-11-09T07:34:59Z"
+      },
+      {
+        "name": "Await actual independent review and separate root consumption within the fixed hold",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 21,
+        "started_at": "2026-11-09T07:34:59Z",
+        "completed_at": "2026-11-09T07:34:59Z"
+      },
+      {
+        "name": "Re-read original private custody and currentness after actual review before teardown",
+        "status": "completed",
+        "conclusion": "failure",
+        "number": 22,
+        "started_at": "2026-11-09T07:34:59Z",
+        "completed_at": "2026-11-09T07:35:04Z"
+      },
+      {
+        "name": "Validate all public files and encoded caps before the first line",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 23,
+        "started_at": "2026-11-09T07:35:04Z",
+        "completed_at": "2026-11-09T07:35:05Z"
+      },
+      {
+        "name": "Upload exactly the validated closed public population",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 24,
+        "started_at": "2026-11-09T07:35:05Z",
+        "completed_at": "2026-11-09T07:35:06Z"
+      },
+      {
+        "name": "Read back separate encrypted diagnostic eligibility",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 25,
+        "started_at": "2026-11-09T07:35:06Z",
+        "completed_at": "2026-11-09T07:35:06Z"
+      },
+      {
+        "name": "Upload only the separately eligible encrypted failed-stream role",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 26,
+        "started_at": "2026-11-09T07:35:06Z",
+        "completed_at": "2026-11-09T07:35:07Z"
+      },
+      {
+        "name": "Post Check out the exact reviewed cumulative DG16 source",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 51,
+        "started_at": "2026-11-09T07:35:07Z",
+        "completed_at": "2026-11-09T07:35:07Z"
+      },
+      {
+        "name": "Post Check out the exact reviewed packet",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 52,
+        "started_at": "2026-11-09T07:35:07Z",
+        "completed_at": "2026-11-09T07:35:08Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 53,
+        "started_at": "2026-11-09T07:35:08Z",
+        "completed_at": "2026-11-09T07:35:08Z"
+      }
+    ]
+  },
+  "archive_metadata": [
+    {
+      "name": "dg16-full-registry-42579780645-1",
+      "id": 13656518464,
+      "digest": "sha256:6b869e5e7543703e7f70def6119d4f7a7ce1aa0a9868ee7f0d11ba41542d1f31",
+      "size_in_bytes": 16572,
+      "expired": false
+    },
+    {
+      "name": "dg16-g2-failed-streams-42579780645-a1",
+      "id": 13656488570,
+      "digest": "sha256:c2d590aab6a0f382435b7b6c40b205904a387eb9234845d3159f47b3c9b85aee",
+      "size_in_bytes": 18337,
+      "expired": false
+    }
+  ],
+  "branch_runs": 1
+}

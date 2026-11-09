@@ -1,0 +1,246 @@
+{
+  "schema": "dg16.original-G2-independent-terminal-public-receiving.v1",
+  "reviewer": "/root/dg16_g1_design_review_20261108",
+  "review_completion": "COMPLETE",
+  "disposition": "ACCEPT_SCOPED_PUBLIC_TERMINAL_EVIDENCE_PRESERVE_ORIGINAL_FAILURE",
+  "identity": {
+    "context": {
+      "branch": "pro/dg16-r5-full-g2-direct-host-01-20261109",
+      "job_name": "full-registry-raw-pair",
+      "repository": "theislampill/IMPLEMENTAUDIT.md",
+      "run_attempt": 1,
+      "run_id": "42579780645",
+      "source_commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+      "source_tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+      "workflow_commit": "7f618adc702912f760d87f68fe9c94cc419e844c",
+      "workflow_path": ".github/workflows/dg16-r5-full-g2.yml"
+    },
+    "job_id": 129035519895,
+    "artifact_id": 13656518464,
+    "archive": {
+      "bytes": 16572,
+      "sha256": "6b869e5e7543703e7f70def6119d4f7a7ce1aa0a9868ee7f0d11ba41542d1f31"
+    }
+  },
+  "independent_checks": {
+    "qualified_pure_receiver": "Actual frozen6839 decode_zip and metadata_bindings executed successfully in this task",
+    "qualified_transport": "Exact429c6b host_utility transport_lines executed successfully:7canonical documents/manifest/envelopes within original limits",
+    "public_files": {
+      "RESULT.json": {
+        "bytes": 1534,
+        "sha256": "c647a9fc873851900d7b0b5c3a2d9af9f670baa7ddc8c225e175462f03e91f0f"
+      },
+      "HOST.json": {
+        "bytes": 41712,
+        "sha256": "3e97492da25a223d7c4a40eeb1711a77565e2311b922b9788b6c418517abd083"
+      },
+      "SOURCE.json": {
+        "bytes": 589,
+        "sha256": "9731dce0504300e1c96fb0ef29e86eb908d70f8ef6c01d9aa75ce929b2a62fe2"
+      },
+      "PROBE.json": {
+        "bytes": 35883,
+        "sha256": "9e35a92ccb18546017641af9cb8034bda8bf2785bb9dcc1586c13fa0c796e188"
+      },
+      "CLEANUP.json": {
+        "bytes": 499,
+        "sha256": "f15f92398a716cc32b1999c5acd7bc9d6250b7a16910aaf0d1c79857971faaec"
+      },
+      "FAILURE.json": {
+        "bytes": 13040,
+        "sha256": "b63dea180a24c0f9869c676a952e15209c1c506c8156d781c9b67588d2add4f6"
+      },
+      "ARTIFACT_MANIFEST.json": {
+        "bytes": 942,
+        "sha256": "d4565d8b0a1701ef3a0bab713ac94b38dfb2db4cb43cc3dec7919440db03a593"
+      }
+    },
+    "public_bytes": 94199,
+    "metadata_commit_parent_tree_artifact_run_attempt_joins": true,
+    "source_adapter_utility_pair_policy_inputs_manifest_backpins": true,
+    "toolhistory_scope": "Actual Root native acquisition receipt context/order/descriptors received. Raw native tool histories not independently read/authenticated by Sol; no signed download history accessed."
+  },
+  "Root_attributed_columns": {
+    "qualified_full_semantic_receiving": {
+      "bytes": 7913,
+      "sha256": "99e622a3ab3409136f98f6fdb314e3cb62ac8d19a7b48941688a2eb86f94e3a8"
+    },
+    "raw_log_byte_join": {
+      "all_seven_exact": true,
+      "authority": "NONE",
+      "currentness_or_award": false,
+      "encoded_bytes_including_CRLF": 103919,
+      "log": {
+        "bytes": 151457,
+        "sha256": "198e2e98fc13a1f3603983beff7cc556faefb811a4b120368fee4203496ee7fd"
+      },
+      "members": [
+        {
+          "bytes": 942,
+          "log_line": 471,
+          "name": "ARTIFACT_MANIFEST.json",
+          "sha256": "d4565d8b0a1701ef3a0bab713ac94b38dfb2db4cb43cc3dec7919440db03a593",
+          "timestamp": "2026-11-09T07:35:05.3864919Z"
+        },
+        {
+          "bytes": 499,
+          "log_line": 472,
+          "name": "CLEANUP.json",
+          "sha256": "f15f92398a716cc32b1999c5acd7bc9d6250b7a16910aaf0d1c79857971faaec",
+          "timestamp": "2026-11-09T07:35:05.3868403Z"
+        },
+        {
+          "bytes": 13040,
+          "log_line": 473,
+          "name": "FAILURE.json",
+          "sha256": "b63dea180a24c0f9869c676a952e15209c1c506c8156d781c9b67588d2add4f6",
+          "timestamp": "2026-11-09T07:35:05.3890217Z"
+        },
+        {
+          "bytes": 41712,
+          "log_line": 474,
+          "name": "HOST.json",
+          "sha256": "3e97492da25a223d7c4a40eeb1711a77565e2311b922b9788b6c418517abd083",
+          "timestamp": "2026-11-09T07:35:05.3976413Z"
+        },
+        {
+          "bytes": 35883,
+          "log_line": 475,
+          "name": "PROBE.json",
+          "sha256": "9e35a92ccb18546017641af9cb8034bda8bf2785bb9dcc1586c13fa0c796e188",
+          "timestamp": "2026-11-09T07:35:05.4096912Z"
+        },
+        {
+          "bytes": 1534,
+          "log_line": 476,
+          "name": "RESULT.json",
+          "sha256": "c647a9fc873851900d7b0b5c3a2d9af9f670baa7ddc8c225e175462f03e91f0f",
+          "timestamp": "2026-11-09T07:35:05.4151575Z"
+        },
+        {
+          "bytes": 589,
+          "log_line": 477,
+          "name": "SOURCE.json",
+          "sha256": "9731dce0504300e1c96fb0ef29e86eb908d70f8ef6c01d9aa75ce929b2a62fe2",
+          "timestamp": "2026-11-09T07:35:05.4155739Z"
+        }
+      ],
+      "schema": "dg16.terminal-artifact-log-byte-join.v1"
+    },
+    "raw_log_scope": "Root streamed151457B/198e2e98fc13a1f3603983beff7cc556faefb811a4b120368fee4203496ee7fd directly once into actual installed qualified consumer. Sol has no raw log file, did not independently read/join it and did not reacquire/reconstruct it.",
+    "Root_semantic_native_protected_capture_validation": "Bound to identical7public files; not a Sol native/private verifier replay"
+  },
+  "positive_component_observations": {
+    "changed_native": {
+      "actual_reported_case_count": 2,
+      "tests": [
+        {
+          "diagnostic_bytes": 282,
+          "diagnostic_sha256": "f9b9aaad15445e9e9e28533585585f5a9ea5a81bc67bf7ce4a8eb6ffd1a08a3b",
+          "outcome": "PASS",
+          "test": "test_native_intake_uses_current_original14_not_retired_root",
+          "tests_run": 1
+        },
+        {
+          "diagnostic_bytes": 262,
+          "diagnostic_sha256": "1246239554ddc77b54546d289dffa0246078676c20188efe59e93897f97345d1",
+          "outcome": "PASS",
+          "test": "test_native_intake_later_boundary_prevents_return",
+          "tests_run": 1
+        }
+      ],
+      "expected_predicate_count": 5,
+      "profile": "DG16_G2_SELECTED_ORDINARY_UBUNTU26_PY314_CURRENT_NATIVE_V2",
+      "receiving_status": "RECEIVED_CURRENT_CHANGED_NATIVE_PREDICATES",
+      "while_same_checkout_current": true,
+      "historical_nine_case_receipt_transferred": false,
+      "closing_currentness_verified_before_teardown": false,
+      "scope": "Exact current changed-native prerequisite public observation; summary alone proves no native operation or transferred/current authority"
+    },
+    "same_host_maximum": {
+      "status": "OBSERVED_MAXIMUM_ENCRYPTION_WITH_COMPLETE_CUSTODY",
+      "scope": "SAME_HOST_DIRECT_OPENSSL_MAXIMUM_OPAQUE_PLAINTEXT_ENCRYPTION_ONLY",
+      "opaque_plaintext": {
+        "bytes": 268501016,
+        "sha256": "d268f3c43531bd62ac6bc7ec24bf2247d4e17fb4b94a3b804f8131fdc62008eb"
+      },
+      "ciphertext_descriptor_only": {
+        "bytes": 268501653,
+        "sha256": "f63738957ae26413d49d92bbf36c0e198a8febe108b5945ba1558cdc57b5aa27"
+      },
+      "crypto_child_custody": "ECHILD",
+      "synthetic_files_removed": true,
+      "private_authenticated_interoperability_received": false
+    },
+    "captures": {
+      "count": 43,
+      "origin": "Root qualified43capture public-record validation, not43independent qualification tests"
+    }
+  },
+  "preserved_failed_original": {
+    "provider_run_and_job_conclusion": "failure",
+    "status": "UNQUALIFIED_OR_INCOMPLETE",
+    "legacy_exit": 1,
+    "legacy_elapsed_ms": 118970,
+    "registered_nodes": 119,
+    "registered_tests": 91,
+    "node_results": "All119public nodes UNSETTLED/nonterminal; whole-process trace only. No per-test pass/fail/skip reconstruction.",
+    "DAG_leg": "ABSENT_FROM_OPERATION_RECORD",
+    "raw_relation": null,
+    "live_proof_and_review": "ABSENT; provider live-proof/upload/hold steps skipped",
+    "receiving_status": "RECEIVED_PARTIAL_FAILED_OPERATION",
+    "phase_label": "LEGACY_DECLARED_ARTIFACT_CAPTURE",
+    "exception": "RuntimeError",
+    "private_message_descriptor": {
+      "bytes": 35,
+      "sha256": "7c867969f2c76556c7548ff7d493c3cd3faf3c73b014ec8a825a230960d0b1ce"
+    },
+    "cause_limit": "Unsealed phase label is progress attribution, not proof of artifact collector defect. Nonzero legacy process/reduction is preserved; source-line697 causal engineering reported separately is not independently adjudicated here."
+  },
+  "source_and_cleanup": {
+    "source": {
+      "after": {
+        "all_members_match": true,
+        "file_count": 1759,
+        "manifest_sha256": "840f6c66afb0f0a50cdbf4b9dc11241ac1d1c83e4ca88d7d3436d0baccb532e8",
+        "total_bytes": 166407881
+      },
+      "before": {
+        "all_members_match": true,
+        "file_count": 1759,
+        "manifest_sha256": "840f6c66afb0f0a50cdbf4b9dc11241ac1d1c83e4ca88d7d3436d0baccb532e8",
+        "total_bytes": 166407881
+      },
+      "commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+      "schema": "dg16.full-registry-episode-source.v1",
+      "tracked_source_mutations": false,
+      "tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e"
+    },
+    "cleanup": {
+      "all_step_children_reaped": true,
+      "encrypted_diagnostic_copy": "ENCRYPTED_LOCAL_NOT_PROVIDER_RECEIVED",
+      "private_outputs_uploaded": false,
+      "private_outputs_uploaded_scope": "PLAINTEXT_PRIVATE_CAPTURE_BYTES",
+      "private_retention": "ORIGINAL_RAW_LIVE_JOB_ONLY; separate encrypted diagnostic copy requires provider receiving; no acceptance custody transfer",
+      "runtime_unchanged_after_initialization": true,
+      "schema": "dg16.full-registry-episode-cleanup.v1",
+      "source_unchanged": true
+    },
+    "scope": "Historical same-live-job bookends only; job is completed. No present currentness/native authority/custody transfer implied."
+  },
+  "limits": [
+    "No encrypted failed-stream/cipher body, key, private H0, raw private streams or plaintext diagnostics read.",
+    "No new log/provider acquisition, network, job/retry/control/native/verifier or source mutation.",
+    "Qualified pure byte/metadata checks succeeded. One attempted summary extraction used absent live_review as a required key; corrected to get(None), without changing source/data or gates.",
+    "Root-supplied actual provenance is separate from matching JSON; full semantic/log columns explicitly attributed."
+  ],
+  "next_owner_operation": "Parent/Root retain actual failed ancestry and correlate nonzero legacy reduction/source cause before any separately authorized correction/observation. Do not weaken guards, invent test outcomes or award whole G2/DAG/DG16.",
+  "authority": "NONE",
+  "original_G2_DAG_DG16_awards": [],
+  "terminal": {
+    "state": "COMPLETE_NO_RUNNING_WORK",
+    "writes": "Only this private receipt and manifest",
+    "genuine_tool_network_native_WSL_crypto_key_Root_effects": 0,
+    "new_workers": 0
+  }
+}

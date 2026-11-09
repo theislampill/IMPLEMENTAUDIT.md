@@ -1,0 +1,76 @@
+{
+  "utc": "2026-11-09T09:11:30.146Z",
+  "observations": [
+    {
+      "args": {
+        "repository_full_name": "theislampill/IMPLEMENTAUDIT.md",
+        "ref": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+        "path": "package/implementaudit-package.json",
+        "encoding": "base64"
+      },
+      "expected_oid": "eee4eac2dc581a8a8b924966d36cbbb1acd2e133",
+      "expected_bytes": 5028,
+      "isError": false,
+      "wire_bytes": 7298,
+      "structured_keys": [
+        "content",
+        "encoding",
+        "sha",
+        "display_url",
+        "display_title"
+      ],
+      "meta_keys": [],
+      "content_blocks": [
+        {
+          "type": "text",
+          "chars": 17
+        }
+      ],
+      "results": [
+        {
+          "field": "structuredContent.content",
+          "bytes": 5028,
+          "sha256": "4d5db5bb9d5d686528d03d50b8ecf949909b753d0e572f25437fb324505ca5a5",
+          "git_oid": "eee4eac2dc581a8a8b924966d36cbbb1acd2e133",
+          "matches": true
+        }
+      ]
+    },
+    {
+      "args": {
+        "repository_full_name": "theislampill/IMPLEMENTAUDIT.md",
+        "ref": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+        "path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/packet/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_FROZEN_PACKET.zip",
+        "encoding": "base64"
+      },
+      "expected_oid": "750f32f7602b00a2c4f074c6c0632d0da7795b16",
+      "expected_bytes": 343118,
+      "isError": false,
+      "wire_bytes": 473275,
+      "structured_keys": [
+        "content",
+        "encoding",
+        "sha",
+        "display_url",
+        "display_title"
+      ],
+      "meta_keys": [],
+      "content_blocks": [
+        {
+          "type": "text",
+          "chars": 17
+        }
+      ],
+      "results": [
+        {
+          "field": "structuredContent.content",
+          "bytes": 343118,
+          "sha256": "bd38d2079a1d33768d49533e959971973a11dd6562ccfd950f4b6138667f1422",
+          "git_oid": "750f32f7602b00a2c4f074c6c0632d0da7795b16",
+          "matches": true
+        }
+      ]
+    }
+  ],
+  "scope": "Real first-party path-at-immutable-commit, base64 transport, public fixtures only; fresh original closing must still be executed"
+}

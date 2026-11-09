@@ -1,0 +1,154 @@
+{
+  "schema": "dg16.prospective-root-file-readback-and-frame-source-handoff.v1",
+  "utc": "2026-11-09T09:27:27.611453+00:00",
+  "producer": "01a1953f-c449-72b0-9514-333b090b6dce",
+  "actual_root_receiver": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "source_decision": "READY_FOR_ROOT_SOURCE_ADOPTION_AND_RUNTIME_RECEIVING_ONLY",
+  "files": {
+    "common_decoder": {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\file_readback.py",
+      "bytes": 4997,
+      "sha256": "ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1"
+    },
+    "control_python": {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\control_process_v5.py",
+      "bytes": 19240,
+      "sha256": "1f78c843e942720fc0ed5ef909975dbdd9fd4595b287053bbe3384ffa265cdff"
+    },
+    "control_adapter": {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\control_readback.py",
+      "bytes": 6009,
+      "sha256": "7e7d26fa8dd41eec57ac47c9280b7f2107e9df0e509fe608f4d9c4c080c5a649"
+    },
+    "control_callback": {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\control_callback_v6.js",
+      "bytes": 16959,
+      "sha256": "7760fd14ba8c4cf3fbc3f139fc6f3fd4c0df4821a3e26e1766bbce4c08180734"
+    },
+    "binary_python": {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\binary\\binary_publish_v3.py",
+      "bytes": 20593,
+      "sha256": "7f71f5928be04d194cdb1a19c04e6b5865173f9c488c13e0c91309a0aa6a5978"
+    },
+    "binary_callback": {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\binary\\binary_driver_v3.js",
+      "bytes": 20863,
+      "sha256": "83f25246bbcc8f6cc5535c45a1b11b7905481eea82ef0cf65a5b1f7f5646288d"
+    },
+    "actual_input_producer": {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-orchestration\\root_pipeline_inputs_v2.py",
+      "bytes": 15463,
+      "sha256": "3f647d62a05a494895ab0fe0c710d5a65baebca126ce3854180e701a8da91cdf"
+    },
+    "recipe": {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-orchestration\\ROOT_LIVE_SENDER_RECIPE.md",
+      "bytes": 16822,
+      "sha256": "8bc8e2cd6869a69e1a117ebd851a2915f76b3a130a6efbe706934a4a231fecfb"
+    },
+    "successor_addendum": {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-orchestration\\READBACK_SUCCESSOR_ADDENDUM.md",
+      "bytes": 5101,
+      "sha256": "59026e9c69d913246e3c44d3b00629020726b3d0b7881a1bcd6db2378498c60c"
+    },
+    "decoder_independent_receiving": {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\PARENT_DECODER_RECEIVING.json",
+      "bytes": 1302,
+      "sha256": "3f80d6d70dcde371603ca65d079b0cf6f9eac83c2afe0332631503b12a56bb90"
+    },
+    "control_independent_receiving": {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\PARENT_SUCCESSOR_RECEIVING.json",
+      "bytes": 2260,
+      "sha256": "0781d851f5c690f26a7395103243c90962bf300c5a5be235422c0e05b2332677"
+    },
+    "control_author_receipt": {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\SUCCESSOR_FINAL.json",
+      "bytes": 7550,
+      "sha256": "c617c5b2dd30f656f0102311c7bcbf6701d17988318064df27b90c6b681ceb5e"
+    },
+    "control_retained_revise": {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\REVISE_RECEIVING.json",
+      "bytes": 2243,
+      "sha256": "9d7248601da1de74b06398d63f5b0603697f00c559df9f5581b000d44386549d"
+    },
+    "binary_and_producer_independent_receiving": {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\binary\\independent-review\\FINAL.json",
+      "bytes": 4796,
+      "sha256": "4845080a8d8c8b83aff4377c593fe28040d4b1bd9e2658f3c1074fa6ca4921ce"
+    },
+    "binary_final_delta_independent_receiving": {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\binary\\independent-review-v3\\FINAL.json",
+      "bytes": 3502,
+      "sha256": "968c7336ca9c137ab2e6e481c35553eef7467929b17fc185f8ee209be455754a"
+    }
+  },
+  "actual_Root_held_fixture_receipts": {
+    "ACTUAL_PROVIDER_BLOB_READBACK.json": {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\root-final-operators-01\\ACTUAL_PROVIDER_BLOB_READBACK.json",
+      "sha256": "cf0a621a47c871e1e5e60264ca113d5d1c4b5ab0283f193ebd907122eec9f545"
+    },
+    "SUPPORTED_BASE64_FILE_RECEIVING.json": {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\root-final-operators-01\\SUPPORTED_BASE64_FILE_RECEIVING.json",
+      "sha256": "696cee1d3e51ccbaf5390513e74a520ad6576a967d1a639a3b5f6cf43cd1ad93"
+    },
+    "BASE64_ROUTE_METADATA.json": {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\root-final-operators-01\\BASE64_ROUTE_METADATA.json",
+      "sha256": "5b250fa2bab9ee7b0acace4b4f0bb4cbd7bca9d999ab7859d06978b8aa935d48"
+    }
+  },
+  "actual_change": [
+    "Actual immutable published-commit file-by-path Base64 readback; decoded length/SHA256/GitblobID plus unchanged exact ref/commit/soleparent/tree/closing semantics",
+    "Original full firstparty wrappers retained; no manufactured Git Data response or native identity",
+    "Original45s per-frame bound inside original grant; durable deadlines/remaining-time wait, bounded8192chunks and pre-native/post-return checks",
+    "Safe late outcome retained before qualification; extinctframe descriptor/custody/UNKNOWNlocalreceiving, no nextcall/retry",
+    "Actual newv2 config/admission source bindings, unchanged issuer/assembler/18call dispatcher/host/product/contracts"
+  ],
+  "controls": {
+    "common_decoder": "7 inert Python methods; parent-independent source review",
+    "control": "7 Python methods +15 inert JavaScript cases +2 G3 tree reference plans; parent-independent source review",
+    "binary": "5 Python methods +12 initial JS cases; independent worker review",
+    "binary_final": "14 JS cases including two late/extinct outcome controls; independent narrow delta review",
+    "producer": "7 inert Python controls; independent worker review",
+    "actual_public_provider_fixtures": "Root-owned earlier2 immutable fixtures and metadata shapes; no Sol provider call or repeated GET",
+    "physical_8192": "Root-owned already received19.776s/480000B fixture; not rerun by Sol"
+  },
+  "installation": {
+    "Root_selected_operator_directory": "/home/agent/dg16-g1-current04-operators/root-final-operators-01",
+    "new_python_peers": [
+      "binary_publish_v3.py",
+      "control_process_v5.py",
+      "control_readback.py",
+      "file_readback.py"
+    ],
+    "existing_binary_journal_dependency": "control_process_v3.py SHA c381d6faa55513ee1a3e368ec9f5d7c2867e704ca0b2ab0dae18187b36ba8f43 remains binary Journal/guard dependency",
+    "source_installed_by_Sol": false,
+    "source_adopted_by_Root": "REQUIRES_ACTUAL_ROOT_RECEIVING"
+  },
+  "Root_next": [
+    "Independently receive/adopt exact sources and source/currentness/rights; install new exact peers under existing Root custody",
+    "Use corrected source-only recipe with producer v2 and selected new callbacks; genuinely issue new v2 admissions/configs from actual current inputs",
+    "Consume already received public fixture/8192 evidence only at its scope; perform genuinely missing newsource/runtime receiving without replaying spent operations",
+    "Reconcile separate existing hosted/native approvals before any real original operation; source receipt does not grant them",
+    "Root owns actual sender/provider/G3 proof-consumer/original acceptance and publication decisions"
+  ],
+  "custody": {
+    "Sol_workers": "Both existing engineering actors terminal at actual collaboration.list_agents readback",
+    "Sol_owned_live_effects": 0,
+    "Sol_new_protected_effects": 0,
+    "Sol_new_provider_calls": 0,
+    "Root_actual_host_provider_issuer_custody": "Root explicitly confirmed and retained in native message; no transfer back to Sol",
+    "new_Sol_dispatch": "NONE while Root receives/executes; reactivate only by actual owner/Root instruction"
+  },
+  "original_DG16": {
+    "status": "NOT_ACCEPTED_FROM_THIS_SOURCE_WORK",
+    "original_G2": "run42579780645/job129035519895/attempt1 FAILED; original legacy119 nodes/91 tests UNSETTLED, cause UNKNOWN; no rerun or regrade",
+    "remaining": [
+      "Actual admissible original G1 same-child execution pair",
+      "Actual original G3 independent complete-pair/source applicability, proof consumer and final Root decisions",
+      "Original G2 legacy cause/complete native predicates and governed JOIN"
+    ],
+    "whole_cell_or_issue_awards": []
+  },
+  "historical_failures": "All original host/resource/security refusals/UNKNOWNs and sourceREVISE candidates retained; no retrocredit",
+  "formal_limit": "No new native currentness/epoch or governed acceptance/JOIN is asserted by this source task.",
+  "native_delivery": "Separate actual native message and receipt required; this file does not self-attest delivery or Root source acceptance"
+}

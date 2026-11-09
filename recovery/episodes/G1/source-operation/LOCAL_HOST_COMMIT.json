@@ -1,0 +1,12 @@
+{
+  "utc": "2026-11-09T05:58:09+00:00",
+  "git_store": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\root-episode-store.git",
+  "commit": "f9ba187e8f5520956f0f16cf13c0a706e8360b96",
+  "tree": "8390375505282e602759c7976b6bca82a44d5737",
+  "sole_parent": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+  "changed": 49,
+  "branch": "pro/dg16-g1-original-g3-04-20261109",
+  "local_git_objects_verified": true,
+  "remote_ref_created": false,
+  "host_job_admitted": false
+}

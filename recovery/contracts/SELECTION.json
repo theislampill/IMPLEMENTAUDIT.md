@@ -1,0 +1,560 @@
+{
+  "schema": "dg16.pro-handoff.public-contract-selection.v1",
+  "authority": "NONE",
+  "scope": "Only staging/contracts; existing public data and explicit safe public members, no effect or custody transfer",
+  "files": [
+    {
+      "path": "original/issue-209.md",
+      "bytes": 53296,
+      "sha256": "6605343572b2a3ad62c4b0392703ccfdea2b1280f50a669348734a6dca60d097",
+      "selection": {
+        "type": "exact-local-public-copy",
+        "source": "C:/workspace/ai/improveimplementaudit/plans/resumption-20261031/historical/dag/acceptance/contracts/issue-209.md",
+        "role": "complete public issue contract"
+      }
+    },
+    {
+      "path": "original/issue-209-comments.json",
+      "bytes": 31611,
+      "sha256": "98a08af52a729ff27a22a88bcf4500f4aa53206cf16086ba0e60446ee9f5e4dd",
+      "selection": {
+        "type": "exact-local-public-copy",
+        "source": "C:/workspace/ai/improveimplementaudit/plans/resumption-20261031/historical/dag/acceptance/contracts/issue-209-comments.json",
+        "role": "all four binding public comments"
+      }
+    },
+    {
+      "path": "original/issue-209-comments.md",
+      "bytes": 21387,
+      "sha256": "d4e6d7ec0ee2b4866e26a0ba23ce149ec71517c407529c68586e5de0bc807edf",
+      "selection": {
+        "type": "exact-local-public-copy",
+        "source": "C:/workspace/ai/improveimplementaudit/plans/resumption-20261031/historical/dag/acceptance/contracts/issue-209-comments.md",
+        "role": "readable complete binding comments"
+      }
+    },
+    {
+      "path": "original/R0035_209_CRITERIA_INDEX.md",
+      "bytes": 18760,
+      "sha256": "314e772874b2490aefcd20826d82cf1d093d2a64ecc673b90f9e28461e431948",
+      "selection": {
+        "type": "exact-local-public-copy",
+        "source": "C:/workspace/ai/improveimplementaudit/dg15-dg16-sol-evidence-20261028/original48/R0035_209_CRITERIA_INDEX.md",
+        "role": "authentic original48 public index"
+      }
+    },
+    {
+      "path": "original/ORIGINAL20_CASES.json",
+      "bytes": 3906,
+      "sha256": "e630dc51875ec0b21bf02cc577bb2732e38613d1e15d6b733a650ed1db5b0b03",
+      "selection": {
+        "type": "exact-local-public-copy",
+        "source": "C:/workspace/ai/improveimplementaudit/dg15-dg16-sol-evidence-20261028/ORIGINAL20_CASES.json",
+        "role": "original20 exact cases"
+      }
+    },
+    {
+      "path": "original/HISTORICAL_RAW_COMPARISON.json",
+      "bytes": 597,
+      "sha256": "a50033090e7b9250be4295acc9bdd3c799446fa84f4da10d375e6d850024c1be",
+      "selection": {
+        "type": "exact-local-public-copy",
+        "source": "C:/workspace/ai/improveimplementaudit/dg15-dg16-sol-evidence-20261028/HISTORICAL_RAW_COMPARISON.json",
+        "role": "preserved raw FAIL correspondence"
+      }
+    },
+    {
+      "path": "evidence/L04_ROOT_DECISION.json",
+      "bytes": 4085,
+      "sha256": "db2558884b23be987401834b96f8f4d2df597e734cc1d9d761e1e54ccd125327",
+      "selection": {
+        "type": "exact-local-public-copy",
+        "source": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/l04-receiving/ASTRA_ORIGINAL48_L04_DECISION.json",
+        "role": "accepted original behavioral witness"
+      }
+    },
+    {
+      "path": "evidence/L04_EXACT_RANGE_RECEIVING.json",
+      "bytes": 18685,
+      "sha256": "f62864833a22cde71ca6398480b50a97f3a665b446502b4dab4022c178ad978b",
+      "selection": {
+        "type": "exact-local-public-copy",
+        "source": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/l04-receiving/WINDOW2_EXACT_RANGE_RECEIVING.json",
+        "role": "bounded independent range/hash receiving; contains no history bodies"
+      }
+    },
+    {
+      "path": "evidence/PACKAGE_APPLICABILITY.json",
+      "bytes": 16673,
+      "sha256": "183df421b133c07672ccefbd6aa434e7a79a4e30ad9a935b51e0ddcc060ad5d7",
+      "selection": {
+        "type": "exact-local-public-copy",
+        "source": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/package-receiving/Q04_Q05_ADVISORY_RECEIVING.json",
+        "role": "earned subset and missing conjunction"
+      }
+    },
+    {
+      "path": "evidence/G1_ROOT_TERMINAL_DECISION.json",
+      "bytes": 5233,
+      "sha256": "2c0e85d3bf973014f74e33ae8d5aa2be0453d3cde92f59b10b33fc1f49857f07",
+      "selection": {
+        "type": "exact-local-public-copy",
+        "source": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/original-host-01/ROOT_TERMINAL_DECISION.json",
+        "role": "failed current04 root receiving"
+      }
+    },
+    {
+      "path": "evidence/G1_INDEPENDENT_TERMINAL.json",
+      "bytes": 15919,
+      "sha256": "229edced1b66fa30a9197638564f64aff526b46e5beea4b2cf076eebb0d0a82e",
+      "selection": {
+        "type": "exact-local-public-copy",
+        "source": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/original-host-01/independent-terminal/TERMINAL_RECEIVING.json",
+        "role": "independent failed episode scope"
+      }
+    },
+    {
+      "path": "evidence/G2_ROOT_TERMINAL_DECISION.json",
+      "bytes": 3064,
+      "sha256": "29a4dacd4efa4122357115704f9d41aa1e48be5bd7267ea7c4c2b84e2f2cf074",
+      "selection": {
+        "type": "exact-local-public-copy",
+        "source": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g2-production-issuer-01/original-host-01/ROOT_TERMINAL_DECISION.json",
+        "role": "failed latest G2 root receiving"
+      }
+    },
+    {
+      "path": "evidence/G2_INDEPENDENT_TERMINAL.json",
+      "bytes": 14303,
+      "sha256": "dd589d71c2ca330359d8269b67b919600a1fec2de0bdc7bb4717115d40713098",
+      "selection": {
+        "type": "exact-local-public-copy",
+        "source": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g2-production-issuer-01/original-host-01/independent-terminal/RECEIPT.json",
+        "role": "independent failed G2 scope"
+      }
+    },
+    {
+      "path": "evidence/G1_LOCAL_FETCH_CORRECTION.json",
+      "bytes": 3060,
+      "sha256": "0957ab3a5f31fecf923a64b03570d479d676f5255a5c29ed7bf2c65599fa85d9",
+      "selection": {
+        "type": "exact-local-public-copy",
+        "source": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current05-issuer/ROOT_FETCH_COUNTERMEASURE_RECEIVING.json",
+        "role": "local functional scope only; no hosted success"
+      }
+    },
+    {
+      "path": "evidence/G1_FINAL_CURRENTNESS_SOURCE_REVIEW.json",
+      "bytes": 9617,
+      "sha256": "d9891110ec1d3746719ae62a05b3e2ffc44635d204720792ba67d091dda9dd11",
+      "selection": {
+        "type": "exact-local-public-copy",
+        "source": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/original-host-01/root-lock-and-currentness/independent/REVIEW.json",
+        "role": "exact secondary cwd source correction"
+      }
+    },
+    {
+      "path": "evidence/RETAINED_PR255_CI_FAILURE.json",
+      "bytes": 6639,
+      "sha256": "09db651580e183bfa41df3f85b3aebb33f32c8483aaaa0a95fcd735d7a36d799",
+      "selection": {
+        "type": "exact-local-public-copy",
+        "source": "C:/workspace/ai/improveimplementaudit/plans/pro5-root-20261102/CI_TERMINAL_RECEIVING.json",
+        "role": "dated PR123 source CI failure, not selected7e success"
+      }
+    },
+    {
+      "path": "evidence/RETAINED_PR255_READBACK.json",
+      "bytes": 1160,
+      "sha256": "a594f4b758d8f5a8fe098900afcf1f5b8f96bc6759d5570d88891152fcd7c3a6",
+      "selection": {
+        "type": "exact-local-public-copy",
+        "source": "C:/workspace/ai/improveimplementaudit/plans/pro10-root-20261102/wave/DG25/payload/live/PR255_CURRENT_READBACK.json",
+        "role": "dated delivery metadata cutoff, not live refresh"
+      }
+    },
+    {
+      "path": "source/SOURCE_MANIFEST_7e2b.json",
+      "bytes": 493409,
+      "sha256": "ef20f1e8bd4cb50e21a3008d53f8442b10efab4affad824e321a75a9675fbbc0",
+      "selection": {
+        "type": "exact-local-public-copy",
+        "source": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/sender-route/current04-public-receiver/candidate-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/SOURCE_MANIFEST.json",
+        "role": "exact selected product manifest"
+      }
+    },
+    {
+      "path": "original/DG16_CELL_AND_EDGES.json",
+      "bytes": 13295,
+      "sha256": "9d01dd690e8952b7f8ae220743f9af483540ee0abfeba557f2a03d2a57990035",
+      "selection": {
+        "type": "explicit-public-data-projection",
+        "sources": [
+          "C:/workspace/ai/improveimplementaudit/plans/resumption-20261031/historical/dag/closure-dag.json"
+        ],
+        "role": "exact cell+related edge extraction"
+      }
+    },
+    {
+      "path": "original/DEFINITIONS_48_20_117_12.json",
+      "bytes": 73488,
+      "sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "selection": {
+        "type": "explicit-public-data-projection",
+        "sources": [
+          "C:/workspace/ai/improveimplementaudit/plans/succession-20261101/dg16-whole-cell-receiving/ORIGINAL_DG16_ROWMAP.json"
+        ],
+        "role": "all original definitions and separate current denominator"
+      }
+    },
+    {
+      "path": "original/ORIGINAL48_CURRENT_MAP_NOV06.json",
+      "bytes": 81901,
+      "sha256": "2128ad1092e194176f84bac358e460c6a46e5a01acfad863bbe564d61b54479f",
+      "selection": {
+        "type": "exact-allowlisted-public-JSON-member",
+        "container": "C:/Users/theis/Downloads/DG16_RECOVERED_CONTINUATION_20261107.zip",
+        "member": "RECOVERED/WORKSPACE/evidence-v26/work/dg16-original-conjunction-current/ORIGINAL48_CURRENT_MAP.json",
+        "expected_member_hash_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\package-receiving\\Q04_Q05_ADVISORY_RECEIVING.json",
+        "role": "original map or published package/source relation receipt; container not delivered"
+      }
+    },
+    {
+      "path": "evidence/package/RECEIPT.json",
+      "bytes": 9147,
+      "sha256": "355e5b5a346f42d7917076e947e4ac31b32f8735900d950cb99943529a064897",
+      "selection": {
+        "type": "exact-allowlisted-public-JSON-member",
+        "container": "C:/Users/theis/Downloads/DG16_RECOVERED_CONTINUATION_20261107.zip",
+        "member": "RECOVERED/WORKSPACE/evidence-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/RECEIPT.json",
+        "expected_member_hash_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\package-receiving\\Q04_Q05_ADVISORY_RECEIVING.json",
+        "role": "original map or published package/source relation receipt; container not delivered"
+      }
+    },
+    {
+      "path": "evidence/package/PACKAGES.json",
+      "bytes": 1413,
+      "sha256": "49d6ef585f86c6be02208cbe61c1e38e9001c0049a4d29a187e80c5bc983545e",
+      "selection": {
+        "type": "exact-allowlisted-public-JSON-member",
+        "container": "C:/Users/theis/Downloads/DG16_RECOVERED_CONTINUATION_20261107.zip",
+        "member": "RECOVERED/WORKSPACE/evidence-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/terminal/PACKAGES.json",
+        "expected_member_hash_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\package-receiving\\Q04_Q05_ADVISORY_RECEIVING.json",
+        "role": "original map or published package/source relation receipt; container not delivered"
+      }
+    },
+    {
+      "path": "evidence/package/ROUTES.json",
+      "bytes": 4090,
+      "sha256": "13ea56d1953317cc884f09afcbef130123f9ed72fb42f7824f056ba1588e5384",
+      "selection": {
+        "type": "exact-allowlisted-public-JSON-member",
+        "container": "C:/Users/theis/Downloads/DG16_RECOVERED_CONTINUATION_20261107.zip",
+        "member": "RECOVERED/WORKSPACE/evidence-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/terminal/ROUTES.json",
+        "expected_member_hash_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\package-receiving\\Q04_Q05_ADVISORY_RECEIVING.json",
+        "role": "original map or published package/source relation receipt; container not delivered"
+      }
+    },
+    {
+      "path": "evidence/package/CLEANUP.json",
+      "bytes": 403,
+      "sha256": "b03566055b551a47dcc81a4c986fda5b64e6a89326735269a06312c6b6fb7887",
+      "selection": {
+        "type": "exact-allowlisted-public-JSON-member",
+        "container": "C:/Users/theis/Downloads/DG16_RECOVERED_CONTINUATION_20261107.zip",
+        "member": "RECOVERED/WORKSPACE/evidence-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/terminal/CLEANUP.json",
+        "expected_member_hash_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\package-receiving\\Q04_Q05_ADVISORY_RECEIVING.json",
+        "role": "original map or published package/source relation receipt; container not delivered"
+      }
+    },
+    {
+      "path": "evidence/package/G1_CURRENT_SOURCE_PACKAGE_BRIDGE_ROOT_RECEIVING.json",
+      "bytes": 4660,
+      "sha256": "203f5a2d451fe455ab073fe4a6c912e238338df0c8103f54c58f90d76e276513",
+      "selection": {
+        "type": "exact-allowlisted-public-JSON-member",
+        "container": "C:/Users/theis/Downloads/DG16_RECOVERED_CONTINUATION_20261107.zip",
+        "member": "RECOVERED/WORKSPACE/successor/coordinator/G1_CURRENT_SOURCE_PACKAGE_BRIDGE_ROOT_RECEIVING.json",
+        "expected_member_hash_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\package-receiving\\Q04_Q05_ADVISORY_RECEIVING.json",
+        "role": "original map or published package/source relation receipt; container not delivered"
+      }
+    },
+    {
+      "path": "evidence/package/SOURCE_DELTA.json",
+      "bytes": 3946,
+      "sha256": "4bd35656d1ef1f01a078eb8ee9be976f63016989edfd7bd7868b5b0939f0665a",
+      "selection": {
+        "type": "exact-allowlisted-public-JSON-member",
+        "container": "C:/Users/theis/Downloads/DG16_RECOVERED_CONTINUATION_20261107.zip",
+        "member": "RECOVERED/WORKSPACE/successor/g1-current-source-package-bridge/evidence/SOURCE_DELTA.json",
+        "expected_member_hash_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\package-receiving\\Q04_Q05_ADVISORY_RECEIVING.json",
+        "role": "original map or published package/source relation receipt; container not delivered"
+      }
+    },
+    {
+      "path": "evidence/package/PACKAGE_DEPENDENCY_COMPARISON.json",
+      "bytes": 23303,
+      "sha256": "f053d812d02a3b9ecd86a6122d9903f2f6f1484a399beaeac9a96760c32a3e74",
+      "selection": {
+        "type": "exact-allowlisted-public-JSON-member",
+        "container": "C:/Users/theis/Downloads/DG16_RECOVERED_CONTINUATION_20261107.zip",
+        "member": "RECOVERED/WORKSPACE/successor/g1-current-source-package-bridge/evidence/PACKAGE_DEPENDENCY_COMPARISON.json",
+        "expected_member_hash_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\package-receiving\\Q04_Q05_ADVISORY_RECEIVING.json",
+        "role": "original map or published package/source relation receipt; container not delivered"
+      }
+    },
+    {
+      "path": "evidence/package/INPUT_BINDINGS.json",
+      "bytes": 2191,
+      "sha256": "5f35cafbfe8c8e4c570269eda641f40ded9ea939519131fbc708869969fd7f10",
+      "selection": {
+        "type": "exact-allowlisted-public-JSON-member",
+        "container": "C:/Users/theis/Downloads/DG16_RECOVERED_CONTINUATION_20261107.zip",
+        "member": "RECOVERED/WORKSPACE/evidence-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/INPUT_BINDINGS.json",
+        "expected_member_hash_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\package-receiving\\Q04_Q05_ADVISORY_RECEIVING.json",
+        "role": "original map or published package/source relation receipt; container not delivered"
+      }
+    },
+    {
+      "path": "source/selected7e2b/docs/maintenance/R0035-AUDIT-SPEC.md",
+      "bytes": 10436,
+      "sha256": "ec86a53d43116e32ec697b82a236db7bacffa8595a18b675215719b0f715632f",
+      "selection": {
+        "type": "exact-local-immutable-public-Git-blob",
+        "store": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\root-episode-store.git",
+        "commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+        "source_path": "docs/maintenance/R0035-AUDIT-SPEC.md",
+        "git_blob": "cee0ec4440cce9569496a2d122ddaa29aba387e4",
+        "mode": "100644",
+        "source_manifest": "source/SOURCE_MANIFEST_7e2b.json",
+        "role": "DATA_ONLY source contract/registry; never executed"
+      }
+    },
+    {
+      "path": "source/selected7e2b/scripts/verify-package.sh",
+      "bytes": 43846,
+      "sha256": "65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878",
+      "selection": {
+        "type": "exact-local-immutable-public-Git-blob",
+        "store": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\root-episode-store.git",
+        "commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+        "source_path": "scripts/verify-package.sh",
+        "git_blob": "e6a33828ee58d3aa36e8fbffefcb1186d1d948c5",
+        "mode": "100755",
+        "source_manifest": "source/SOURCE_MANIFEST_7e2b.json",
+        "role": "DATA_ONLY source contract/registry; never executed"
+      }
+    },
+    {
+      "path": "source/selected7e2b/test-support/work-graph-registry/original117/verify-package.sh",
+      "bytes": 43362,
+      "sha256": "77f26397b276fa1b6e494558d1796cb4c43d14b1e1a6755e68f542cdc4c37698",
+      "selection": {
+        "type": "exact-local-immutable-public-Git-blob",
+        "store": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\root-episode-store.git",
+        "commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+        "source_path": "test-support/work-graph-registry/original117/verify-package.sh",
+        "git_blob": "ba76bb07c7dcd98d9047bd7109b905a81661d70a",
+        "mode": "100644",
+        "source_manifest": "source/SOURCE_MANIFEST_7e2b.json",
+        "role": "DATA_ONLY source contract/registry; never executed"
+      }
+    },
+    {
+      "path": "original/OWNER_CONTINUATION_NOV07.md",
+      "bytes": 21200,
+      "sha256": "183171a2c360d25a397b4e448c2f210d2d9618017a00e7921fbe483b145e0420",
+      "selection": {
+        "type": "exact-allowlisted-public-owner-contract-member",
+        "container": "C:/Users/theis/Downloads/DG16_RECOVERED_CONTINUATION_20261107.zip",
+        "member": "OWNER_CONTINUATION.md",
+        "prior_expected_sha256": null,
+        "role": "received public continuation/binding amendment; not new authority or native grant"
+      }
+    },
+    {
+      "path": "original/PRIOR_OWNER_CONTINUATION.md",
+      "bytes": 26278,
+      "sha256": "a9cf2d385c55f75c3549a2aa792e2e2c44549f74e6cf283057cdc26fa499d8a6",
+      "selection": {
+        "type": "exact-allowlisted-public-owner-contract-member",
+        "container": "C:/Users/theis/Downloads/DG16_RECOVERED_CONTINUATION_20261107.zip",
+        "member": "REFERENCE/PRIOR_OWNER_CONTINUATION.md",
+        "prior_expected_sha256": "a9cf2d385c55f75c3549a2aa792e2e2c44549f74e6cf283057cdc26fa499d8a6",
+        "role": "received public continuation/binding amendment; not new authority or native grant"
+      }
+    },
+    {
+      "path": "original/pr255-v4-owner-approval.md",
+      "bytes": 1881,
+      "sha256": "e4af32dc219e8c041d62170b960cdb465f0cdfebdb7e414d0f45b7726cc31488",
+      "selection": {
+        "type": "exact-allowlisted-public-owner-contract-member",
+        "container": "C:/Users/theis/Downloads/DG16_RECOVERED_CONTINUATION_20261107.zip",
+        "member": "RECOVERED/WORKSPACE/source-current/package/budgets/pr255-v4-owner-approval.md",
+        "prior_expected_sha256": "e4af32dc219e8c041d62170b960cdb465f0cdfebdb7e414d0f45b7726cc31488",
+        "role": "received public continuation/binding amendment; not new authority or native grant"
+      }
+    },
+    {
+      "path": "source/CURRENT04_ORIGINAL_SCOPE.json",
+      "bytes": 5524,
+      "sha256": "3671b6a45b5f9572b61b4ee24fd9a8ee5c82494a9d9d51f09479085c2913af6b",
+      "selection": {
+        "type": "exact-local-public-copy",
+        "source": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/sender-route/current04-public-receiver/candidate-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/ORIGINAL_SCOPE.json",
+        "role": "closed current04 component scope; historical acceptedL04 separate"
+      }
+    },
+    {
+      "path": "original/CONDITIONAL_PORTS.json",
+      "bytes": 1010,
+      "sha256": "816b86a0ba0507e6141c2213eaaa5b86c8218adad41a6cbddf0a84a82b92754c",
+      "selection": {
+        "type": "explicit-public-data-projection",
+        "sources": [
+          "C:/workspace/ai/improveimplementaudit/plans/resumption-20261031/historical/dag/closure-dag.json",
+          "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/sender-route/current04-public-receiver/candidate-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/ORIGINAL_SCOPE.json"
+        ],
+        "role": "guarded actual-consumer applicability"
+      }
+    },
+    {
+      "path": "SIX_GROUP_MILESTONES.json",
+      "bytes": 12054,
+      "sha256": "0a4a87d3e68f39d57bb1f3b8c47809b267a2fb45c197e6de10400b8b69b25e3d",
+      "selection": {
+        "type": "explicit-public-data-projection",
+        "sources": [
+          {
+            "path": "evidence/L04_ROOT_DECISION.json",
+            "sha256": "db2558884b23be987401834b96f8f4d2df597e734cc1d9d761e1e54ccd125327"
+          },
+          {
+            "path": "evidence/L04_EXACT_RANGE_RECEIVING.json",
+            "sha256": "f62864833a22cde71ca6398480b50a97f3a665b446502b4dab4022c178ad978b"
+          },
+          {
+            "path": "evidence/PACKAGE_APPLICABILITY.json",
+            "sha256": "183df421b133c07672ccefbd6aa434e7a79a4e30ad9a935b51e0ddcc060ad5d7"
+          },
+          {
+            "path": "evidence/G1_ROOT_TERMINAL_DECISION.json",
+            "sha256": "2c0e85d3bf973014f74e33ae8d5aa2be0453d3cde92f59b10b33fc1f49857f07"
+          },
+          {
+            "path": "evidence/G1_INDEPENDENT_TERMINAL.json",
+            "sha256": "229edced1b66fa30a9197638564f64aff526b46e5beea4b2cf076eebb0d0a82e"
+          },
+          {
+            "path": "evidence/G2_ROOT_TERMINAL_DECISION.json",
+            "sha256": "29a4dacd4efa4122357115704f9d41aa1e48be5bd7267ea7c4c2b84e2f2cf074"
+          },
+          {
+            "path": "evidence/G2_INDEPENDENT_TERMINAL.json",
+            "sha256": "dd589d71c2ca330359d8269b67b919600a1fec2de0bdc7bb4717115d40713098"
+          },
+          {
+            "path": "evidence/G1_LOCAL_FETCH_CORRECTION.json",
+            "sha256": "0957ab3a5f31fecf923a64b03570d479d676f5255a5c29ed7bf2c65599fa85d9"
+          },
+          {
+            "path": "evidence/G1_FINAL_CURRENTNESS_SOURCE_REVIEW.json",
+            "sha256": "d9891110ec1d3746719ae62a05b3e2ffc44635d204720792ba67d091dda9dd11"
+          },
+          {
+            "path": "evidence/RETAINED_PR255_CI_FAILURE.json",
+            "sha256": "09db651580e183bfa41df3f85b3aebb33f32c8483aaaa0a95fcd735d7a36d799"
+          },
+          {
+            "path": "evidence/RETAINED_PR255_READBACK.json",
+            "sha256": "a594f4b758d8f5a8fe098900afcf1f5b8f96bc6759d5570d88891152fcd7c3a6"
+          },
+          {
+            "path": "evidence/package/RECEIPT.json",
+            "sha256": "355e5b5a346f42d7917076e947e4ac31b32f8735900d950cb99943529a064897"
+          },
+          {
+            "path": "evidence/package/PACKAGES.json",
+            "sha256": "49d6ef585f86c6be02208cbe61c1e38e9001c0049a4d29a187e80c5bc983545e"
+          },
+          {
+            "path": "evidence/package/ROUTES.json",
+            "sha256": "13ea56d1953317cc884f09afcbef130123f9ed72fb42f7824f056ba1588e5384"
+          },
+          {
+            "path": "evidence/package/CLEANUP.json",
+            "sha256": "b03566055b551a47dcc81a4c986fda5b64e6a89326735269a06312c6b6fb7887"
+          },
+          {
+            "path": "evidence/package/G1_CURRENT_SOURCE_PACKAGE_BRIDGE_ROOT_RECEIVING.json",
+            "sha256": "203f5a2d451fe455ab073fe4a6c912e238338df0c8103f54c58f90d76e276513"
+          },
+          {
+            "path": "evidence/package/SOURCE_DELTA.json",
+            "sha256": "4bd35656d1ef1f01a078eb8ee9be976f63016989edfd7bd7868b5b0939f0665a"
+          },
+          {
+            "path": "evidence/package/PACKAGE_DEPENDENCY_COMPARISON.json",
+            "sha256": "f053d812d02a3b9ecd86a6122d9903f2f6f1484a399beaeac9a96760c32a3e74"
+          },
+          {
+            "path": "evidence/package/INPUT_BINDINGS.json",
+            "sha256": "5f35cafbfe8c8e4c570269eda641f40ded9ea939519131fbc708869969fd7f10"
+          }
+        ],
+        "role": "owner-ordered presentation only; no new verdict or gate"
+      }
+    },
+    {
+      "path": "evidence/DELIVERY_RETAINED_CUTOFF.json",
+      "bytes": 1032,
+      "sha256": "b06805f80c36c161f4b338c94b9fc0b153c340e0694519fe4934906912afd8a7",
+      "selection": {
+        "type": "explicit-public-data-projection",
+        "sources": [
+          "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/../READBACK.json"
+        ],
+        "role": "DG16-only projection of later retained delivery cutoff"
+      }
+    },
+    {
+      "path": "IMMUTABLE_SOURCE_POINTERS.json",
+      "bytes": 5072,
+      "sha256": "229805b99e316162aa7d2c72fb9aad83616aba8de238a03d1e53e7db903d493c",
+      "selection": {
+        "type": "explicit-public-data-projection",
+        "sources": [
+          "C:/workspace/ai/improveimplementaudit/plans/dg16-acceptance-20261029/INDEX48_ROOT_RECEIVING.json",
+          "C:/workspace/ai/improveimplementaudit/plans/dg09-acceptance-20261028/DG09_ROOT_ACCEPTANCE.json",
+          "C:/workspace/ai/improveimplementaudit/plans/dg14-acceptance-20261029/DG14_ROOT_ACCEPTANCE.json",
+          "C:/workspace/ai/improveimplementaudit/plans/succession-20261101/dg16-whole-cell-receiving/ORIGINAL_DG16_ROWMAP.json",
+          "C:/workspace/ai/improveimplementaudit/plans/succession-20261101/dg16-whole-cell-receiving/EXACT_DYNAMIC_RECEIVING_MATRIX.json",
+          "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/root-live-g3/PREPARATION.json",
+          "C:/workspace/ai/improveimplementaudit/plans/sol-dg16-staged-execution-20261108/g1-current03-recovered/current04-late-sender/FINAL_CALLBACK_HANDOFF.json",
+          "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/sender-route/current04-public-receiver/candidate-02/author/receiver.py",
+          "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/sender-route/current04-public-receiver/candidate-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/g3_receiving.py",
+          "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/sender-route/current04-public-receiver/candidate-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/proof_consumer.py"
+        ],
+        "role": "exact admissible source locators without huge copies"
+      }
+    },
+    {
+      "path": "README.md",
+      "bytes": 5476,
+      "sha256": "699b7fb5b4652e1e1d164382d73a112dc4b83f20f93276b389530280b43a1cee",
+      "selection": {
+        "type": "handoff-navigation-and-scope-summary",
+        "role": "plain owner-ordered six-group overview; no authority"
+      }
+    }
+  ],
+  "excluded": [
+    "all original enclosing archives",
+    "native history/journal bodies",
+    "decrypted/plaintext/cipher diagnostic bags",
+    "keys/grants/live native state",
+    "whole source checkout"
+  ],
+  "selection_limits": "Source paths and member hashes identify exact origins. Complete enclosing recovery ZIP is not delivered or newly whole-file hashed; only named member bodies were read/CRC/hash checked. Top Nov7 owner continuation has a current exact selected hash; prior continuation and cap approval additionally matched prior independently received pins."
+}

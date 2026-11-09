@@ -1,0 +1,127 @@
+{
+  "actor": "/root",
+  "attempt": 1,
+  "job_id": 128603527611,
+  "member_bytes": 182302,
+  "member_count": 22,
+  "members": {
+    "coordinator/BOUNDARY_17_RECONCILIATION.json": {
+      "bytes": 1457,
+      "mode": 420,
+      "sha256": "b1c18c0df4f2307d6a19bf807eb49a1d46e5c5760bb642b10a7b47b031b23d8a"
+    },
+    "coordinator/DG16_SUCCESSOR_PROGRESS_20261107.json": {
+      "bytes": 101984,
+      "mode": 384,
+      "sha256": "7c9ca7d38bfd4d6969e3a02cb5a5e7a4459957055de5321d52ea6399ac0ccc8b"
+    },
+    "coordinator/G2_CURRENT03_PRELAUNCH_CHECKPOINT_SAVE.json": {
+      "bytes": 899,
+      "mode": 420,
+      "sha256": "136821538a569f6602449c139d29aa44ee1eabebf91be5ac9581120d22f7e28f"
+    },
+    "coordinator/PROGRESS_SAVE_VERSION25.json": {
+      "bytes": 845,
+      "mode": 420,
+      "sha256": "84f02d2bd9ee3f3ddef8624e367f1192b740dea430d1d18f211a5d0f1ea09c5e"
+    },
+    "coordinator/g2-current03-host-admission/ARTIFACTS_FIRST_OBSERVATION.json": {
+      "bytes": 784,
+      "mode": 420,
+      "sha256": "e7a2716cb4eac0285551e98cfb2b9b6f0175d035f8489dc7fa5fedfcca526567"
+    },
+    "coordinator/g2-current03-host-admission/ARTIFACTS_OBSERVATION_02.json": {
+      "bytes": 784,
+      "mode": 420,
+      "sha256": "e7a2716cb4eac0285551e98cfb2b9b6f0175d035f8489dc7fa5fedfcca526567"
+    },
+    "coordinator/g2-current03-host-admission/CONTROL_REF_AFTER_TRIGGER.json": {
+      "bytes": 629,
+      "mode": 420,
+      "sha256": "929fdc37b1bd92a54d1a68b22cde5c9ceb70e2eab86f02af7b921970af5aac8b"
+    },
+    "coordinator/g2-current03-host-admission/CONTROL_REF_BOUNDARY17.json": {
+      "bytes": 629,
+      "mode": 420,
+      "sha256": "929fdc37b1bd92a54d1a68b22cde5c9ceb70e2eab86f02af7b921970af5aac8b"
+    },
+    "coordinator/g2-current03-host-admission/HOST_BRANCH_INTENT.json": {
+      "bytes": 1457,
+      "mode": 384,
+      "sha256": "d2e64c700c3063ed9334e04af34817955f3c655f8e78d01281f6f0e8ad0cc6ab"
+    },
+    "coordinator/g2-current03-host-admission/HOST_BRANCH_RESULT.json": {
+      "bytes": 382,
+      "mode": 420,
+      "sha256": "13c7beea87582589786133e8f7a555f3949c37d64a245057a8ecbe5350f4d1ff"
+    },
+    "coordinator/g2-current03-host-admission/HOST_EPISODE_ADMISSION.json": {
+      "bytes": 3219,
+      "mode": 420,
+      "sha256": "27a54b299c1e27fbc9e49273a6e957c1a22a01154c40ba2959476a1920547c3c"
+    },
+    "coordinator/g2-current03-host-admission/HOST_REF_AFTER_TRIGGER.json": {
+      "bytes": 1814,
+      "mode": 420,
+      "sha256": "41e272f42d8a217d628b8ad511d1e16c2f21761004e0c85551ecd37cb0b6d2d9"
+    },
+    "coordinator/g2-current03-host-admission/HOST_REF_BOUNDARY17.json": {
+      "bytes": 629,
+      "mode": 420,
+      "sha256": "929fdc37b1bd92a54d1a68b22cde5c9ceb70e2eab86f02af7b921970af5aac8b"
+    },
+    "coordinator/g2-current03-host-admission/HOST_TRIGGER_ROOT_RECEIVING.json": {
+      "bytes": 3025,
+      "mode": 384,
+      "sha256": "aa50afc7ca3376f24959651aa852edf0d44c5b6d096a68832f17c9783e3fba87"
+    },
+    "coordinator/g2-current03-host-admission/JOBS_FIRST_OBSERVATION.json": {
+      "bytes": 12711,
+      "mode": 420,
+      "sha256": "7452c51bb0369471fd274ead0a5f15d204b27dc8c7ad5eb6f657131816134769"
+    },
+    "coordinator/g2-current03-host-admission/JOBS_OBSERVATION_02.json": {
+      "bytes": 13691,
+      "mode": 420,
+      "sha256": "743fe33656bc8fbfa4a23e0cf57568f7d253a4a2cc4b79a87750244dfd1a7410"
+    },
+    "coordinator/g2-current03-host-admission/PRELAUNCH_ROOT_RECEIVING.json": {
+      "bytes": 2135,
+      "mode": 420,
+      "sha256": "e3c4ee3e874e6b81dcc7df190df36a0bd29e65b9e50687a8f9b22d2594ac8261"
+    },
+    "coordinator/g2-current03-host-admission/PRIVATE_CUSTODY_METADATA.json": {
+      "bytes": 2541,
+      "mode": 420,
+      "sha256": "75179847c4ecf8900084b69f2ac2a86c9186eae7d6ec9db5f12621822034cf9d"
+    },
+    "coordinator/g2-current03-host-admission/RECEIVING_PATH_PREPARATION.json": {
+      "bytes": 1657,
+      "mode": 420,
+      "sha256": "88d8d7671ab5c40c30bb2d8b738e87eec169678a9fecc0cbef7dbe701fac50b6"
+    },
+    "coordinator/g2-current03-host-admission/RUNS_AFTER_TRIGGER.json": {
+      "bytes": 29728,
+      "mode": 420,
+      "sha256": "6e634e15f873277c02583e5bea3c5ecf735dd694c87f33c089bdeb94cf2f3416"
+    },
+    "coordinator/g2-current03-host-admission/RUNS_BOUNDARY17.json": {
+      "bytes": 858,
+      "mode": 420,
+      "sha256": "1d4398c777521cd44c2d906d64d2407d92d7cf472e5c085bd3ce3323a18d78f3"
+    },
+    "g2-protected-full-actual-receiving-current03/CONTEXT.json": {
+      "bytes": 444,
+      "mode": 384,
+      "sha256": "b2c5129b8e688888005da97b03a11bf8e544e67b2f5aac08b403d36204f7d1be"
+    }
+  },
+  "observed_at": "2026-11-08T02:33:10.902414+00:00",
+  "original_awards": [],
+  "private_bodies": false,
+  "required_prelaunch_checkpoint": "libfile_6bd6740b7f94819181df66c075fe19de",
+  "run_id": "42438847724",
+  "schema": "dg16.current03-g2-actual-host-trigger-checkpoint.v1",
+  "scope": "Exact consumed single branch admission and received ref/run/context; actual host active; no native/live acceptance",
+  "sibling_state_changed": false
+}

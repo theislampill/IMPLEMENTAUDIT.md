@@ -1,0 +1,32 @@
+{
+  "schema": "dg16.successor-boundary-reconciliation.v1",
+  "boundary": 17,
+  "actor": "/root",
+  "session": "52e9b813fb80",
+  "observed_at": "2026-11-08T02:30:31.364Z",
+  "event": "host-reported-compaction-and-connection-interruption",
+  "skill": "/home/agent/.codex/skills/remote-skills/skill-6a85962852788191bb717a1a61592b58/SKILL.md",
+  "controller_discovery": {
+    "tool_chunk": "9aa23f",
+    "exit_code": 1,
+    "message": "claim-run.sh: ambiguous controller population: 0"
+  },
+  "ordered_reads": [
+    {
+      "path": "FRESH_ROUTE_RECONCILIATION.json",
+      "tool_chunk": "ae62a2"
+    },
+    {
+      "path": "G1_R3_COMPOSITION_PLAN.md",
+      "tool_chunk": "dceb47"
+    }
+  ],
+  "continuity_receipt": null,
+  "local_native_currentness": false,
+  "supported_route": "Current user DG16-only successor commission and restored owner fresh route: isolated source/evidence engineering; separately admitted supported hosted bootstrap establishes its own actual native continuity before native effects.",
+  "G2_frontier": "Exact tree and commit received; original host admission unconsumed and current at this read; fresh host/control refs absent and complete matching-run population empty.",
+  "G1_frontier": "Actual current03 failure received; exact export-only repair independently reviewed and root adopted for future binding; no retry.",
+  "siblings_state_changed": false,
+  "original_awards": [],
+  "no_historical_identity_or_grant_replay": true
+}

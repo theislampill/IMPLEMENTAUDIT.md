@@ -1,0 +1,86 @@
+{
+  "schema": "dg16.admissible-retained-source-pointers.v1",
+  "authority": "NONE",
+  "local": [
+    {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/dg16-acceptance-20261029/INDEX48_ROOT_RECEIVING.json",
+      "bytes": 2117,
+      "sha256": "df174508b7966b6f619d47d956b65eef659fe3e0cfbe1e659ef9f0061b242908",
+      "scope": "existing retained source/receiving; reuse only declared applicability, not automatic present authority"
+    },
+    {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/dg09-acceptance-20261028/DG09_ROOT_ACCEPTANCE.json",
+      "bytes": 5505,
+      "sha256": "7b79ed361a43b369f84006cc95904225221591a55b8fd0952ca107d51f5a607e",
+      "scope": "existing retained source/receiving; reuse only declared applicability, not automatic present authority"
+    },
+    {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/dg14-acceptance-20261029/DG14_ROOT_ACCEPTANCE.json",
+      "bytes": 8301,
+      "sha256": "454d5f459b3523ab7a6e04f403f5834f57c7bd7202c6b60ce559b2289ccd8c21",
+      "scope": "existing retained source/receiving; reuse only declared applicability, not automatic present authority"
+    },
+    {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/succession-20261101/dg16-whole-cell-receiving/ORIGINAL_DG16_ROWMAP.json",
+      "bytes": 137809,
+      "sha256": "0df9f370851ffcd7f783e030231ca2aef643b9a3e892050253923966ef4f9c72",
+      "scope": "existing retained source/receiving; reuse only declared applicability, not automatic present authority"
+    },
+    {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/succession-20261101/dg16-whole-cell-receiving/EXACT_DYNAMIC_RECEIVING_MATRIX.json",
+      "bytes": 324906,
+      "sha256": "5021c71c13f87bba8fd48c1934f8ebe22ec4db849e62b055ded434f880ad7832",
+      "scope": "existing retained source/receiving; reuse only declared applicability, not automatic present authority"
+    },
+    {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/root-live-g3/PREPARATION.json",
+      "bytes": 6007,
+      "sha256": "4146674a70d49b19993c4eca135a197d7c14c74ad5be7575855e7577a6d8b517",
+      "scope": "existing retained source/receiving; reuse only declared applicability, not automatic present authority"
+    },
+    {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/sol-dg16-staged-execution-20261108/g1-current03-recovered/current04-late-sender/FINAL_CALLBACK_HANDOFF.json",
+      "bytes": 6848,
+      "sha256": "d8673f3015ab5815e750a8492e7c48cf31ff4861dc23bbc11fad706b31f0e214",
+      "scope": "existing retained source/receiving; reuse only declared applicability, not automatic present authority"
+    },
+    {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/sender-route/current04-public-receiver/candidate-02/author/receiver.py",
+      "bytes": 60530,
+      "sha256": "378846f9cfd5f60ce3e3b48adb3c2e3c7cf94a701ed9aee46e5ba3072f4fc122",
+      "scope": "existing retained source/receiving; reuse only declared applicability, not automatic present authority"
+    },
+    {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/sender-route/current04-public-receiver/candidate-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/g3_receiving.py",
+      "bytes": 118286,
+      "sha256": "15f65bc76ae990a215dafc30240c7bd8485748ca38d4adc35a99e3331c7d3342",
+      "scope": "existing retained source/receiving; reuse only declared applicability, not automatic present authority"
+    },
+    {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/sender-route/current04-public-receiver/candidate-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/proof_consumer.py",
+      "bytes": 62980,
+      "sha256": "53275d8fb0b0c78db86e697d833401348e0dd8ce503f813e13870267d0ef906c",
+      "scope": "existing retained source/receiving; reuse only declared applicability, not automatic present authority"
+    }
+  ],
+  "public_immutable": [
+    {
+      "commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+      "tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+      "manifest": "source/SOURCE_MANIFEST_7e2b.json",
+      "store": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/root-episode-store.git"
+    },
+    {
+      "commit": "f9ba187e8f5520956f0f16cf13c0a706e8360b96",
+      "tree": "8390375505282e602759c7976b6bca82a44d5737",
+      "role": "consumed current04 hosted source only; failed terminal retained; current05 source is a separate candidate"
+    }
+  ],
+  "not_delivered": [
+    "raw native journals/history contents",
+    "old full source/diagnostic archives",
+    "private decrypted or cipher bags",
+    "keys or fresh grants"
+  ],
+  "limits": "Pointers identify retained inputs; qualified receipts stay at their actual producer/source/consumer/environment/authority scopes. No source import or historical/native replay is requested."
+}

@@ -1,0 +1,27 @@
+{
+  "scope": "Active original G1 job; Root retains custody to terminal.",
+  "run": 42596136449,
+  "job": 129089113853,
+  "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/42596136449/job/129089113853",
+  "workflow_commit": "f9ba187e8f5520956f0f16cf13c0a706e8360b96",
+  "attempt": 1,
+  "source_handoff": "353593079f92e55178b8c0043bb7c4a94c6bc3cdc7a671ed33061f17b920d60a",
+  "tools_control": "a92481fb7d94d62240e3af85f608dde412fd3c32",
+  "sender": {
+    "status": "PAYLOAD_READY",
+    "exit": 0,
+    "ds": true,
+    "reads": 18,
+    "custody": 91729,
+    "problem": null
+  },
+  "binary_control": "f14906583c07065a97221c739d221f4fbaa7e2b4",
+  "receiver_qualified": {
+    "tool_observation": true,
+    "request": true,
+    "binary_full_byte_readback": true,
+    "host_private_inputs_step_succeeded": true
+  },
+  "spent_operation": "One sender, 18 metadata calls. One tools commit, one binary-control commit. Do not repeat.",
+  "remaining": "Actual core C5, G3 requests if produced, terminal cleanup and independent receiving. No future result is asserted."
+}

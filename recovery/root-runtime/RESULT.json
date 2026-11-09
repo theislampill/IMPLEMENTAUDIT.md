@@ -1,0 +1,28 @@
+{
+  "schema": "dg16.pro-root-runtime-handoff-result.v1",
+  "authority": "NONE",
+  "state": "SOURCE_PACKAGE_STAGED_FOR_ROOT_FINAL_RECONCILIATION_HOLD",
+  "primary_index": "SOURCE_DEPENDENCY_INDEX.json",
+  "primary_index_descriptor": {
+    "bytes": 149480,
+    "sha256": "4891b68d38656c537fef12ebf11b98eb6fc78d84317a0db286ee87478fe1e0df"
+  },
+  "copied_public_source_files": 134,
+  "exact_public_receiver02_files": 71,
+  "copied_public_source_bytes": 5006446,
+  "external_Sol_installation_destinations": 81,
+  "external_resolution_at_component_cutoff": {
+    "resolved": 28,
+    "Root_final_join_required": 53,
+    "locally_unavailable_source_bytes": []
+  },
+  "Root_final_closure": "Owner acknowledged zero-unresolved-public-SHA final join and declared fresh extraction/layout verification; no closure receipt fabricated by this component.",
+  "private_input_cert_key_cipher_live_grant_history_or_return_bodies_included": false,
+  "actual_effects_or_experiments": 0,
+  "new_engineering": 0,
+  "source_algorithms_modified": 0,
+  "final_runtime_ready_or_original_accepted": false,
+  "Pro_duties": "Read FRESH_BINDING.md / PEER_SCOPES.md / NONPORTABLE_DUTIES.json; actual custody, source/environment/provenance, permissions, fresh private material/event/approvals/reviews and original clocks remain required. Possible hosted route needs lawful qualified owner, no fake native evidence.",
+  "completed": "Explicit public source copies+byte readback, complete dependency destinations/hash catalog, immutable public Git refs, actual Root correction variants and fresh-binding/nonportable procedures.",
+  "next_valid_owner": "Root final ZIP reconciliation, transfer receiving and explicit Pro continuation; no more experiments/effects from this worker."
+}

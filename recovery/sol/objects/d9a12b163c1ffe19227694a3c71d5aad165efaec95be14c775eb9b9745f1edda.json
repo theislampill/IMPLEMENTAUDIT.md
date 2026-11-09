@@ -1,0 +1,32 @@
+{
+  "ppa": "https://ppa.launchpadcontent.net/git-core/ppa/ubuntu/",
+  "published_signing_fingerprint": "F911AB184317630C59970973E363C90F8F1B6217",
+  "signature_verified": true,
+  "inrelease_sha256": "243a43fbaf8d9782ee33568524ecd661e80725af10f62275f6392b67e636105d",
+  "packages_sha256": "c5b707a3f3b3faeffeedfeab841fc728f8c1f7e5fba85db6bd560bde752bf6d6",
+  "package": {
+    "Package": "git",
+    "Version": "1:2.56.0-0ppa1~ubuntu24.04.2",
+    "Architecture": "amd64",
+    "Filename": "pool/main/g/git/git_2.56.0-0ppa1~ubuntu24.04.2_amd64.deb",
+    "Size": "7773244",
+    "SHA256": "8681013502ef3b3ab4131c94e43ca89dd133934d0f5dc143cd456a7896b0ba81"
+  },
+  "executable": {
+    "path": "/home/agent/sol-git256-package-probe-20261109-01/package/usr/bin/git",
+    "bytes": 4640352,
+    "sha256": "824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235",
+    "matches_original_host_sha256": true
+  },
+  "version": {
+    "returncode": 0,
+    "stdout": "git version 2.56.0\n",
+    "stderr": ""
+  },
+  "distro_git": {
+    "path": "/usr/bin/git",
+    "sha256": "eb54b535467e0975c1284d4c4d08eea779aeb248a5d34b02e2ee171382e22201"
+  },
+  "installed": false,
+  "original_receipt_sha256": "6a44d1c96240e04d853e90f754a9633ca3f61fd97919e0e7fd5714f77bd20d65"
+}

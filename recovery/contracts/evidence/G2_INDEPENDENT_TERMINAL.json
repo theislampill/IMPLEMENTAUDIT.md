@@ -1,0 +1,364 @@
+{
+  "authority": "NONE",
+  "cleanup": {
+    "all43_actual_streams_complete_no_timeout_no_overflow_no_internal_failure_and_echild": true,
+    "host_command_records": 43,
+    "host_opening_latest_equal": true,
+    "limits": "Historical exported observations only; native closing flag remains false; not restored live private custody or whole-episode acceptance",
+    "nonzero_commands": [
+      "pair-complete-current-registry-pair",
+      "receive-separate-maintained-sealed-receiving"
+    ],
+    "public_cleanup": {
+      "all_step_children_reaped": true,
+      "encrypted_diagnostic_copy": "ENCRYPTED_LOCAL_NOT_PROVIDER_RECEIVED",
+      "private_outputs_uploaded": false,
+      "private_outputs_uploaded_scope": "PLAINTEXT_PRIVATE_CAPTURE_BYTES",
+      "private_retention": "ORIGINAL_RAW_LIVE_JOB_ONLY; separate encrypted diagnostic copy requires provider receiving; no acceptance custody transfer",
+      "runtime_unchanged_after_initialization": true,
+      "schema": "dg16.full-registry-episode-cleanup.v1",
+      "source_unchanged": true
+    },
+    "source_before_after": {
+      "after": {
+        "all_members_match": true,
+        "file_count": 1759,
+        "manifest_sha256": "840f6c66afb0f0a50cdbf4b9dc11241ac1d1c83e4ca88d7d3436d0baccb532e8",
+        "total_bytes": 166407881
+      },
+      "before": {
+        "all_members_match": true,
+        "file_count": 1759,
+        "manifest_sha256": "840f6c66afb0f0a50cdbf4b9dc11241ac1d1c83e4ca88d7d3436d0baccb532e8",
+        "total_bytes": 166407881
+      },
+      "commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+      "schema": "dg16.full-registry-episode-source.v1",
+      "tracked_source_mutations": false,
+      "tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e"
+    }
+  },
+  "decision": "TERMINAL_RECEIVED_G2_REFUSED_NO_LIVE_PROOF",
+  "effects": {
+    "native_or_original_rerun": 0,
+    "network": 0,
+    "only_write": "original-host-01/independent-terminal/RECEIPT.json",
+    "private_recovery": 0,
+    "provider_or_publication": 0,
+    "source_debugging_or_mutation": 0
+  },
+  "encrypted_diagnostics": {
+    "cipher_archive_acquired_or_decrypted_by_reviewer": false,
+    "later_provider_listed_cipher_role": {
+      "digest": "sha256:c2d590aab6a0f382435b7b6c40b205904a387eb9234845d3159f47b3c9b85aee",
+      "expired": false,
+      "id": 13656488570,
+      "name": "dg16-g2-failed-streams-42579780645-a1",
+      "size_in_bytes": 18337
+    },
+    "local_projection": "ENCRYPTED_LOCAL_NOT_PROVIDER_RECEIVED",
+    "local_provider_upload_confirmed": false,
+    "private_or_cipher_received": false,
+    "scope": "Later listing/upload success is bounded availability, not authenticated recovered private evidence or acceptance custody"
+  },
+  "independent_validation": {
+    "actual_decode_and_inspect": "PASS_DATA_ONLY_FENCED; resulting semantic observation exactly equals Root receipt apart from separately attributed log join",
+    "actual_native_tool_history_reopened": false,
+    "archive": {
+      "bytes": 16572,
+      "sha256": "6b869e5e7543703e7f70def6119d4f7a7ce1aa0a9868ee7f0d11ba41542d1f31"
+    },
+    "canonical_public_members": {
+      "ARTIFACT_MANIFEST.json": {
+        "bytes": 942,
+        "sha256": "d4565d8b0a1701ef3a0bab713ac94b38dfb2db4cb43cc3dec7919440db03a593"
+      },
+      "CLEANUP.json": {
+        "bytes": 499,
+        "sha256": "f15f92398a716cc32b1999c5acd7bc9d6250b7a16910aaf0d1c79857971faaec"
+      },
+      "FAILURE.json": {
+        "bytes": 13040,
+        "sha256": "b63dea180a24c0f9869c676a952e15209c1c506c8156d781c9b67588d2add4f6"
+      },
+      "HOST.json": {
+        "bytes": 41712,
+        "sha256": "3e97492da25a223d7c4a40eeb1711a77565e2311b922b9788b6c418517abd083"
+      },
+      "PROBE.json": {
+        "bytes": 35883,
+        "sha256": "9e35a92ccb18546017641af9cb8034bda8bf2785bb9dcc1586c13fa0c796e188"
+      },
+      "RESULT.json": {
+        "bytes": 1534,
+        "sha256": "c647a9fc873851900d7b0b5c3a2d9af9f670baa7ddc8c225e175462f03e91f0f"
+      },
+      "SOURCE.json": {
+        "bytes": 589,
+        "sha256": "9731dce0504300e1c96fb0ef29e86eb908d70f8ef6c01d9aa75ce929b2a62fe2"
+      }
+    },
+    "consumer_sha256": "6839ac3a5d2f123711b86d92f93c55a00e7dd4b016ddfee3fbc16b97af0748e0",
+    "mcp_ordinals": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      8,
+      9
+    ],
+    "metadata_archive_digest_tree_parent_and_run_bindings": "MATCH",
+    "provider_authenticity_scope": "Actual Root assignment/acquisition receiving; public ordinal descriptors independently joined, not reauthentication from JSON labels",
+    "provider_ordinals": 10,
+    "public_bytes": 94199,
+    "separate_owned_http_body_ordinal": 7
+  },
+  "inputs": {
+    "ARTIFACT.zip": {
+      "bytes": 16572,
+      "sha256": "6b869e5e7543703e7f70def6119d4f7a7ce1aa0a9868ee7f0d11ba41542d1f31"
+    },
+    "PROVIDER_RECEIVING.json": {
+      "bytes": 7970,
+      "sha256": "01183963d9f93a24dbe9b175b02698fb8d0ec1fb91ba9803b6753f4ff6a40263"
+    },
+    "PUBLIC_METADATA.json": {
+      "bytes": 798,
+      "sha256": "5c6f11f6c0a7e87bf068726c637cf3942417abfe6249dfc6742637264f5990cb"
+    },
+    "ROOT_SEMANTIC_RECEIVING.json": {
+      "bytes": 7913,
+      "sha256": "99e622a3ab3409136f98f6fdb314e3cb62ac8d19a7b48941688a2eb86f94e3a8"
+    },
+    "TERMINAL_PROVIDER_READBACK.json": {
+      "bytes": 9044,
+      "sha256": "d7b37b95080be75f094a7f894011ee2f8b6aa3c93918dc2f1079266bc1132232"
+    }
+  },
+  "log_join": {
+    "all_seven_exact": true,
+    "basis": "Root computed on complete original public job log in RAM; parent explicitly selected receipt receiving without another download",
+    "encoded_bytes_including_CRLF": 103919,
+    "member_digests_independently_match_archive": true,
+    "original_log_lines": [
+      471,
+      472,
+      473,
+      474,
+      475,
+      476,
+      477
+    ],
+    "owner": "Root Astra",
+    "raw_log": {
+      "bytes": 151457,
+      "sha256": "198e2e98fc13a1f3603983beff7cc556faefb811a4b120368fee4203496ee7fd"
+    },
+    "raw_log_persisted_or_join_rerun_by_reviewer": false
+  },
+  "next": "Sol owns source engineering; Root retains exact failed episode and bounded positives. No retry, live review or whole-cell acceptance follows.",
+  "original_awards": [],
+  "provider_semantics": {
+    "branch_runs_at_received_cutoff": 1,
+    "cipher_upload_step26": "success",
+    "completed_native_steps": [
+      14,
+      15
+    ],
+    "continue_on_error_or_upload_success_is_g2_pass": false,
+    "failed_steps": [
+      {
+        "conclusion": "failure",
+        "name": "Execute the complete current registry legacy then DAG once",
+        "number": 16
+      },
+      {
+        "conclusion": "failure",
+        "name": "Independently re-read actual sealed captures in the live job",
+        "number": 17
+      },
+      {
+        "conclusion": "failure",
+        "name": "Re-read original private custody and currentness after actual review before teardown",
+        "number": 22
+      }
+    ],
+    "job_conclusion": "failure",
+    "public_upload_step24": "success",
+    "run_conclusion": "failure",
+    "unexecuted_live_steps": [
+      {
+        "conclusion": "skipped",
+        "name": "Prepare the exact actual full correspondence proof for live independent review",
+        "number": 18
+      },
+      {
+        "conclusion": "skipped",
+        "name": "Validate all nine public review files before upload",
+        "number": 19
+      },
+      {
+        "conclusion": "skipped",
+        "name": "Upload the actual bounded live review packet",
+        "number": 20
+      },
+      {
+        "conclusion": "skipped",
+        "name": "Await actual independent review and separate root consumption within the fixed hold",
+        "number": 21
+      }
+    ]
+  },
+  "qualifying_edges": {
+    "CE015": "No authority transfer adjudicated",
+    "CE029": "No authentic original governed live JOIN established by this terminal receipt",
+    "CE030_CE034_CE057": "No new independent interface/effect/current-turn receipt awarded; accepted prior evidence remains separate",
+    "CE049": "This receiving changes no consumed shipped/source interface; no new invalidation action",
+    "CE075_DG16_to_DG28": "NOT_SATISFIED: requires R0035 full original acceptance",
+    "bounded_reusable_inputs": [
+      "exact current native prerequisite projection",
+      "same-host maximum encryption observation",
+      "failed legacy whole-process/custody diagnostic",
+      "public terminal archive and Root-owned seven-file log join"
+    ],
+    "edge_basis": "plans/resumption-20261031/historical/dag/closure-dag.json DG16 incident edges only",
+    "newly_satisfied_whole_edges": []
+  },
+  "refused_or_unexecuted": {
+    "C5": false,
+    "G1": false,
+    "G3": false,
+    "dag_leg": "UNEXECUTED",
+    "finalization": "EPISODE_INCOMPLETE",
+    "full_G2": false,
+    "full_T14": false,
+    "full_correspondence_proof": "NOT_PRODUCED",
+    "independent_live_review": "NOT_PERFORMED",
+    "live_request_archive_review_hold": "UNEXECUTED",
+    "pair": "FULL_PAIR_INCOMPLETE_OR_FAILED",
+    "post_review_same_private_census_closing": "NOT_QUALIFIED",
+    "raw_relation": null,
+    "root_live_consumption": "NOT_PERFORMED",
+    "separate_receiving": "FULL_PAIR_NOT_COMPLETELY_RECEIVED; RECEIVED_PARTIAL_FAILED_OPERATION"
+  },
+  "reusable_bounded_observations": {
+    "legacy": {
+      "attempts": 1,
+      "capture_after_owner_equals_after_streams": true,
+      "causal_frontier": "LEGACY_DECLARED_ARTIFACT_CAPTURE after LEGACY_CAPTURE; actual RuntimeError descriptor only, no source root cause inferred",
+      "diagnostic_complete": false,
+      "diagnostic_phase": "DIAGNOSTIC_REFUSED",
+      "elapsed_ms": 118970,
+      "exit": 1,
+      "graph_digest": "ab56202b34ac12efa78f67bcb8b76f26c2b07378e52606778284bef7302f9ef3",
+      "legacy_primary_exit": 1,
+      "maintained_seal_sidecar_custody": {
+        "flag_restored": true,
+        "live_children_refused": false,
+        "other_child_exit_count": 62,
+        "owned_pidfd_signals": 0,
+        "primary_exit": 1,
+        "quiescence": "ECHILD_ALL_CHILDREN"
+      },
+      "mapped_nodes": 119,
+      "mode": "legacy",
+      "node_outcomes": {
+        "UNSETTLED": 119
+      },
+      "registered_tests": 91,
+      "registration_complete": true,
+      "registry_sha256": "65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878",
+      "repro_wrapper": "PRESENT_INNER_ABSENT",
+      "scope": "Whole-process failed operation only; emitter matches or complete registration prove no individual node PASS",
+      "source_and_runtime_diagnostic_unknowns": {
+        "currentness_unchanged": null,
+        "ordinary_runtime_unchanged": null,
+        "preseal_equals_after_owner": null,
+        "source_status_unchanged": null
+      }
+    },
+    "native": {
+      "body_receiving_sha256": "c6bb3e2eaea49e8e0f9e632daa22a0875bd88af7d3dbee61807d09d8316fe0c5",
+      "case_count": 2,
+      "closing_currentness_verified_before_teardown": false,
+      "currentness_before_after_bank": true,
+      "historical_nine_case_bank_transferred": false,
+      "native_command_records": {
+        "all_recorded_cleanup_echild": true,
+        "bytes": 14554,
+        "count": 16,
+        "scope": "EXACT_COMMAND_RECORDS_RETAINED_JOB_PRIVATE",
+        "sha256": "bcc105a7895c3a26a7b272e12b1788bfb44eca8ed9ff06aa2b40acffd55ac5b5"
+      },
+      "native_result_sha256": "a049a363cbc9fe1f3d6a9d7128b7b05a08236c9759370eeef520e6b390b95ee9",
+      "predicates": [
+        "fixed_receiver_identity",
+        "wrong_receiver_refusal",
+        "current_native_intake",
+        "later_invalidation_refusal",
+        "ordinary_host_source_currentness_custody"
+      ],
+      "profile": "DG16_G2_SELECTED_ORDINARY_UBUNTU26_PY314_CURRENT_NATIVE_V2",
+      "qualified_for_pair_at_receiving": true,
+      "raw_result": {
+        "bytes": 21992,
+        "sha256": "a72ff11270ab436f8bdf56fd37956040a491c7d45993185b1a61136c578ed6f1"
+      },
+      "scope": "Historical same-job exact current changed prerequisite delta; public projection validated, private raw bodies not recovered; no future currentness or transfer",
+      "tests": [
+        {
+          "diagnostic_bytes": 282,
+          "diagnostic_sha256": "f9b9aaad15445e9e9e28533585585f5a9ea5a81bc67bf7ce4a8eb6ffd1a08a3b",
+          "outcome": "PASS",
+          "test": "test_native_intake_uses_current_original14_not_retired_root",
+          "tests_run": 1
+        },
+        {
+          "diagnostic_bytes": 262,
+          "diagnostic_sha256": "1246239554ddc77b54546d289dffa0246078676c20188efe59e93897f97345d1",
+          "outcome": "PASS",
+          "test": "test_native_intake_later_boundary_prevents_return",
+          "tests_run": 1
+        }
+      ],
+      "whole_native_or_original_award": false
+    },
+    "same_host_maximum": {
+      "ciphertext": {
+        "bytes": 268501653,
+        "sha256": "f63738957ae26413d49d92bbf36c0e198a8febe108b5945ba1558cdc57b5aa27"
+      },
+      "command_capture": {
+        "bytes": 1243,
+        "sha256": "50da6d5607138e58d3cd65a60949a8523c60742e6b5d6f87e2eb73d82e393984"
+      },
+      "component_seal_sha256": "9401f5b38a105b459301105b1f9dccb4badb908f5f92c30a35f7a551a5ef0786",
+      "crypto_child_custody": "ECHILD",
+      "maximum_plaintext_bytes": 268501016,
+      "owner_record": {
+        "bytes": 1277,
+        "sha256": "8e219fad1e15172e5c1d0cf3751670bdb552cd0320d13d6c0d5ee65e4e0f4622"
+      },
+      "recipient_sha256": "5adbbeaf63e38116dcba9eb58af76b0fa056808649f9aa144e3f14dee838f4b8",
+      "reuse_limit": "Historical exact source/host/component/recipient observation only; no future timing guarantee, plaintext recovery, private authenticated interoperability or original acceptance",
+      "scope": "SAME_HOST_DIRECT_OPENSSL_MAXIMUM_OPAQUE_PLAINTEXT_ENCRYPTION_ONLY",
+      "status": "OBSERVED_MAXIMUM_ENCRYPTION_WITH_COMPLETE_CUSTODY",
+      "synthetic_files_removed": true
+    }
+  },
+  "reviewer": "/root/dg16_bounded_andon",
+  "schema": "dg16.actual-g2-terminal-independent-receiving.v1",
+  "subject": {
+    "attempt": 1,
+    "final_tree": "27bb6432546c2d0b3fb7df09f0845c3d1303bccd",
+    "job": 129035519895,
+    "run": 42579780645,
+    "source_commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+    "source_tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+    "workflow_commit": "7f618adc702912f760d87f68fe9c94cc419e844c"
+  },
+  "utc": "2026-11-09T07:46:54.730063+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "dg16.pro-handoff.public-contract-data-verification.v1",
+  "authority": "NONE",
+  "result": "PASS_AT_STAGED_PUBLIC_DATA_SCOPE",
+  "checked_files": 42,
+  "byte_and_SHA256_closing_readback": true,
+  "JSON_parse": true,
+  "exact_binding_comment_hashes": 4,
+  "original_definitions": {
+    "requirements": 48,
+    "cases": 20,
+    "nodes": 117,
+    "terminal_clauses": 12
+  },
+  "current_registry": {
+    "nodes": 119,
+    "tests": 91,
+    "scope": "retained independent derivation reused after exact selected-source registry hash match; no execution"
+  },
+  "owner_ordered_milestone_groups": 6,
+  "allowlisted_recovery_members": 12,
+  "selected_public_Git_source_blobs": 3,
+  "source_manifest_bytes_SHA256_Git_blob_matches": true,
+  "full_original_archives_or_history_or_private_bags_delivered": false,
+  "original_tests_or_campaigns_executed": 0,
+  "external_calls": 0,
+  "source_or_ledger_or_ref_edits": 0,
+  "native_currentness_or_custody_transfer_issued": false,
+  "limits": "Data assembly only. No new original acceptance, runtime qualification, host observation, live provider refresh or effect grant. Prior failures/UNKNOWN remain; Root receives aggregate handoff and Pro independently accepts."
+}

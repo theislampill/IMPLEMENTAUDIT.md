@@ -1,0 +1,36 @@
+{
+  "actor": "/root",
+  "actual_host_objects_already_received": "2ba7c8379e3ddce38508a0c0cc09565321cf64b0 / 6e3f90c97a572b5e1a3b3517033055aa21f097a4",
+  "actual_transport_capability_qualified": false,
+  "combined_ready": false,
+  "component_closed": [
+    "G1ROOT-CREDENTIAL-F01",
+    "G1ROOT-TRANSPORT-I02"
+  ],
+  "effect_grant": false,
+  "external_blockers": [
+    "G1ROOT-INDEPENDENT-F02"
+  ],
+  "full_read": [
+    "REPORT.md",
+    "FINAL.json",
+    "READINESS.json",
+    "FINDINGS.json"
+  ],
+  "host_launch_ready": false,
+  "independent_final_sha256": "e53bd0f55b09514d3a9f6981d084e72e7fb1cf0c8b901d0db630f7e6d13150df",
+  "independent_readiness_sha256": "ea8bd716b17cf548c80f27f90af8eafd72d61b781c4f14b717a76ea07deae46f",
+  "independent_review_seal_sha256": "0be91fde825ad7c05f0a2b7c4be5cd9d0d779d174c422b6cb0bd2f5e99cb6bbe",
+  "next": "Receive distinct G3 consumer and exact material host/receiver population composition; reuse this root-only transport review at unchanged scope.",
+  "observed_at": "2026-11-07T04:40:21.459041+00:00",
+  "original_awards": [],
+  "physical_complete_readback": {
+    "bytes": 7448559,
+    "directories_including_root": 53,
+    "hashes_modes_links_population_bookends": "PASS",
+    "members": 824
+  },
+  "schema": "dg16.root-receiver-r1-review-root-receiving.v1",
+  "status": "ACCEPT_EXACT_ROOT_TRANSPORT_COMPONENT_REVIEW",
+  "subject_seal_sha256": "d2842ee8ec45f9d19c3a1c5ec97816135fac2926682213097a7a205547ad62cd"
+}

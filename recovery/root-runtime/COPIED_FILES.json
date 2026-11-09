@@ -1,0 +1,1079 @@
+{
+  "schema": "dg16.pro-root-runtime-copied-public-files.v1",
+  "authority": "NONE",
+  "files": [
+    {
+      "path": "g1/public-receiver-02/phase/PHASE.json",
+      "bytes": 9198,
+      "sha256": "7a391c1c74329b1298349a85d3df25013707d0eb09044cf8583b3ea8bc9a038c",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\PHASE.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/BOOTSTRAP_ADMISSION_REQUIREMENTS.json",
+      "bytes": 652,
+      "sha256": "dbe65a0748834c2639b932ba322eb19c44479738b74864bede67eff1a23f3ee0",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\BOOTSTRAP_ADMISSION_REQUIREMENTS.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/CARRIER_ADMISSION_REQUIREMENTS.json",
+      "bytes": 1367,
+      "sha256": "09aa61ffc71783db8f6bcbf57060632e89ff186e4573f938088b8bb96116e4b8",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\CARRIER_ADMISSION_REQUIREMENTS.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/COMPOSITION_RESULT.json",
+      "bytes": 658,
+      "sha256": "c15ae652d4c51cf5a999d28bee4debfac5a0e43b7a1b80bcb6f7517e07281bef",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\COMPOSITION_RESULT.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/INPUT_INDEX.json",
+      "bytes": 1397,
+      "sha256": "968a06392bbf4473184a4936f084c4d9789520bc63d8fd79fdb77be9fd566bd2",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\INPUT_INDEX.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/PUBLIC_PACKET_MANIFEST.json",
+      "bytes": 4886,
+      "sha256": "7c55fca176558dcbb216857e79550933b8f750ab9278ea3ece34b72098d2b5f8",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\PUBLIC_PACKET_MANIFEST.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/SELECTION.json",
+      "bytes": 907,
+      "sha256": "ce45e1b7fac1b1150bff37517223754dba2f6e38e59ac6679fdd5ec73ea2d01d",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\SELECTION.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/publication/CreateCommit.json",
+      "bytes": 176,
+      "sha256": "c65f9b5e960b86bfb0942705824727ff2d08653e3b5882a2d77b10558a65ee2c",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\publication\\CreateCommit.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/publication/CreateTree.json",
+      "bytes": 1521270,
+      "sha256": "873fb5ce95dc31e2555af27fbae99f778a1de8f25af49fed657af59c0e8564c9",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\publication\\CreateTree.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/publication/EXPECTED_PUBLIC_TREE.json",
+      "bytes": 416841,
+      "sha256": "7bf46075f043c2048e9618be8c2fc1bf5099161424e076b631dec367a8d5ff52",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\publication\\EXPECTED_PUBLIC_TREE.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/publication/PUBLICATION_RECONSTRUCTION.json",
+      "bytes": 978,
+      "sha256": "616f1a7576bc595bb5e4bce2565651bf420fb10ae0584bb20685e4c351697597",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\publication\\PUBLICATION_RECONSTRUCTION.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/.github/workflows/dg16-r5-g1-hosted-episode.yml",
+      "bytes": 35377,
+      "sha256": "19c2c163918aeb88b4b72c4ddf7e3653695301bf47f88387e438cb81e9f87d84",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\.github\\workflows\\dg16-r5-g1-hosted-episode.yml",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/BOOTSTRAP_ADMISSION.json",
+      "bytes": 470,
+      "sha256": "3d47ff0eca73d2d373fb0237938e5660b79b709f71f073bb08dc010755e5dd9b",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-entry\\BOOTSTRAP_ADMISSION.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/PUBLIC_PACKET_MANIFEST.json",
+      "bytes": 4886,
+      "sha256": "7c55fca176558dcbb216857e79550933b8f750ab9278ea3ece34b72098d2b5f8",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-entry\\PUBLIC_PACKET_MANIFEST.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/bootstrap_entry.py",
+      "bytes": 23331,
+      "sha256": "ea33476c10ccd526c9c6e25193cb0ee5ec8183d7700a710d99ea9e2acae7a7ec",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-entry\\bootstrap_entry.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/core_prepare_entry.py",
+      "bytes": 21294,
+      "sha256": "3a5928da1b587062932652540d85852a688703c3f2bbd8a4e6ea4f9170bf1da5",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-entry\\core_prepare_entry.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/entry_common.py",
+      "bytes": 9786,
+      "sha256": "73dd91e305f46b2fa40168206fcdde2d13f093f294ef2a989961d9d7383033f5",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-entry\\entry_common.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/host_receive_entry.py",
+      "bytes": 21263,
+      "sha256": "f39a32bed007ebce675f66f8eb6261922113bd8a523bb0b298350c7febdae6dd",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-entry\\host_receive_entry.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/host_request_entry.py",
+      "bytes": 21271,
+      "sha256": "1d697a12f6e3f58bd31cb94823ae6add1bb9805b2db21ccc389ad0abee1c22db",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-entry\\host_request_entry.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/host_tool_adopt_entry.py",
+      "bytes": 21260,
+      "sha256": "d03b21e7fb0f0110a321226420dfa77bc9900a65b1c1be9faa87a871ce9940c3",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-entry\\host_tool_adopt_entry.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/host_tool_observe_entry.py",
+      "bytes": 21299,
+      "sha256": "e5db209821391dcd43b4c52f9812553e80cef7d5e2c9ecc343e447a1d20be4b8",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-entry\\host_tool_observe_entry.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/public_export.py",
+      "bytes": 28125,
+      "sha256": "40358d82d7146101cdaa667f7b7d3f5406dbffebef900e7fd2eb6e617bbf74f2",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-entry\\public_export.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/ADVERSE_APPLICABILITY.json",
+      "bytes": 3848,
+      "sha256": "58e2f229417c3fb1801cc432727009c3772352ca619b1c6bc96299cd605fb504",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\ADVERSE_APPLICABILITY.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/HOST_COMPOSITION.json",
+      "bytes": 1621,
+      "sha256": "de8132ea8b0eefeaef88013a9aace29ab445ac22e11e772d84e00295e7f052d6",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\HOST_COMPOSITION.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/INDEPENDENT_PROOF_PINS.json",
+      "bytes": 732,
+      "sha256": "7d6a96af1362df9a02efab58b6db3e658a1670b8c97881a8038df0eb96b79ae8",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\INDEPENDENT_PROOF_PINS.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/NATIVE_SOURCE_APPLICABILITY.json",
+      "bytes": 39297,
+      "sha256": "513ef21e27e5e41d10044f953bdc20c292dbbcccd7211ba7dc7e7d3a8d6e6438",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\NATIVE_SOURCE_APPLICABILITY.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/ORIGINAL_SCOPE.json",
+      "bytes": 5524,
+      "sha256": "3671b6a45b5f9572b61b4ee24fd9a8ee5c82494a9d9d51f09479085c2913af6b",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\ORIGINAL_SCOPE.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/PROVIDER_SETUP.json",
+      "bytes": 2963,
+      "sha256": "f0b0b3a4c0dda6705e6ac335fd8d501f718a9fbee23cb3b4450ddede5a57746d",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\PROVIDER_SETUP.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/SOURCE_MANIFEST.json",
+      "bytes": 493409,
+      "sha256": "ef20f1e8bd4cb50e21a3008d53f8442b10efab4affad824e321a75a9675fbbc0",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\SOURCE_MANIFEST.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/CARRIER_ADMISSION.json",
+      "bytes": 1187,
+      "sha256": "643d37a7f1515f14e6514eaa2640602891848cf70213a9e69be56475cc9f7095",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\carrier\\CARRIER_ADMISSION.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/CARRIER_COMPOSITION.json",
+      "bytes": 2211,
+      "sha256": "8f5a5f63fd810b92e7d0cb53dd80cb34c4fdf75e8622b09de7d77adc7fd82f12",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\carrier\\CARRIER_COMPOSITION.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/INPUT_INDEX.json",
+      "bytes": 1397,
+      "sha256": "968a06392bbf4473184a4936f084c4d9789520bc63d8fd79fdb77be9fd566bd2",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\carrier\\INPUT_INDEX.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/PRO_SENDER_COMPOSITION.json",
+      "bytes": 478,
+      "sha256": "40a03483d59d30335b0531e9d4a152bf88b37c0f54e03417e9ce94b891c6a500",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\carrier\\PRO_SENDER_COMPOSITION.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/bundle_codec.py",
+      "bytes": 4404,
+      "sha256": "81b4494e8940f9f4a70d7359f689c099caa1a152aa6afd71008183fb2b5fd2aa",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\carrier\\bundle_codec.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/carrier.py",
+      "bytes": 42835,
+      "sha256": "8abaec881996c34f79ccb83616e59b4a601504e137d1165b64dc1430823e6dba",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\carrier\\carrier.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/carrier_io.py",
+      "bytes": 15576,
+      "sha256": "779461deb44bf0192a4253c9a257926e23b6ab73cf5da602d0dc86a31e90d274",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\carrier\\carrier_io.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/carrier_loader.py",
+      "bytes": 4677,
+      "sha256": "5b178e5b94ebe3ef739698ce4d32049de438a2ef5c6e24d49a879ad995ed2f88",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\carrier\\carrier_loader.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/carrier_policy.py",
+      "bytes": 13481,
+      "sha256": "6136346972951f6a9d738087b5004a1d08cb1b2a6cbe352b2ad93bfa76a3707e",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\carrier\\carrier_policy.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/host_tools.py",
+      "bytes": 26922,
+      "sha256": "876aeb6af4c5c40bc234409c60ee3d6d73421c28fbd73ef07ab212a11b501e5c",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\carrier\\host_tools.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/maintained/COMPILER.py",
+      "bytes": 262144,
+      "sha256": "0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\carrier\\maintained\\COMPILER.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/maintained/QUALIFIER.py",
+      "bytes": 268686,
+      "sha256": "79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\carrier\\maintained\\QUALIFIER.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/provider_reader.py",
+      "bytes": 19139,
+      "sha256": "9d1a2624796f98127214d990acbfe72e0d6f2b7a603d739ace39678e44d66726",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\carrier\\provider_reader.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/sender_capture.py",
+      "bytes": 16748,
+      "sha256": "232bfdfc2ad7edbbce125110518ac2ce60fc5044b00614d6b4c472c2054e783e",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\carrier\\sender_capture.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/sender_policy.py",
+      "bytes": 4707,
+      "sha256": "2826b3a2293e9840f6a5c3627d53c2a7295aa336da70e96444df14ec937c0303",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\carrier\\sender_policy.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/tool_broker.py",
+      "bytes": 19693,
+      "sha256": "1157d3466630218093ace25ea1704c15653092b5f0aa62ff5c3254ad25afebd9",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\carrier\\tool_broker.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/evidence_io.py",
+      "bytes": 6321,
+      "sha256": "c2f8d718c8acd3a223d494239e6bc19d4a90e3d5c66f49cdac8f701ce4807075",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\evidence_io.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/g3_receiving.py",
+      "bytes": 118286,
+      "sha256": "15f65bc76ae990a215dafc30240c7bd8485748ca38d4adc35a99e3331c7d3342",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\g3_receiving.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/host_composition.py",
+      "bytes": 9434,
+      "sha256": "28a992e01902f6358820321625441897bbda6e571de8f5a865c7b39d8c10ffe3",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\host_composition.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/host_utility.py",
+      "bytes": 54556,
+      "sha256": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\host_utility.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/input_setup.py",
+      "bytes": 11747,
+      "sha256": "d19b3109285bfb2995411c504a123240e5b0e40ae8c0f002f931a97f8fd8cb3f",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\input_setup.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/native_prerequisite.py",
+      "bytes": 18541,
+      "sha256": "d9687977ead33faa926bc8c7b0a18907c7a05b7072d86183b3bad1aca7dff510",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\native_prerequisite.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/native_probe.py",
+      "bytes": 13799,
+      "sha256": "cbccecb0cf89a58c44f4ddbb8023196f44d5d0fd0fb68fea7fd2c6a17206d426",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\native_probe.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/natural_inputs.py",
+      "bytes": 6028,
+      "sha256": "028ba849cc9f01143641613cb30d042bf4deeb0d021bb724ee86fc88415a7eb8",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\natural_inputs.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/nss_configuration.py",
+      "bytes": 14718,
+      "sha256": "7243b9a13f9597059d57f22e1cfd4b344a7fd0cee930e9f9d032eee6e9e42270",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\nss_configuration.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/operation.py",
+      "bytes": 23009,
+      "sha256": "458ce32d996272a4049034bc372cea61b8870a6f76d6a30f3e819093b57c774d",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\operation.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/proof_consumer.py",
+      "bytes": 62980,
+      "sha256": "53275d8fb0b0c78db86e697d833401348e0dd8ce503f813e13870267d0ef906c",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\proof_consumer.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/provider_layout.py",
+      "bytes": 4752,
+      "sha256": "0ef5ddd7562906552b88cb7638d9a6d1fffd3fdd906ec407c3c56dc2c88dc112",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\provider_layout.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/root_placement.py",
+      "bytes": 16789,
+      "sha256": "a9cec22fbd3424b882147abe3083e7abb46b4e130c346ae883667b3bd7b048c8",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\root_placement.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/run.py",
+      "bytes": 152895,
+      "sha256": "7acd7a301dfb61191c862fca6132b70226b8f1734cab6c46b071e6356ba78af0",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\run.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/source_store.py",
+      "bytes": 6898,
+      "sha256": "100e01f0a5d0d86dad38e17bcae0cd43b3b092bcf4936531780e9e4ebca7a1e5",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\phase\\tree\\qualification\\dg16-r5-g1-hosted-episode\\source_store.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/evidence/root_transport_review_receiving.json",
+      "bytes": 1453,
+      "sha256": "a3d059362b2b83ed960efd6fc4c76133f634f31f2f2c5135c8c1f92ea4adb2b4",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\evidence\\root_transport_review_receiving.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/evidence/export_review.json",
+      "bytes": 3194,
+      "sha256": "47527512ef2cfaddc249304a8cab5266c82a89326cd2fd7d3730861ba8a74f0b",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\evidence\\export_review.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/evidence/host_review.json",
+      "bytes": 4855,
+      "sha256": "716bbb9f96c276f189b0381124e1ee28ddccc672931bc9f7bf0077b897a58d44",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\evidence\\host_review.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/evidence/export_adoption.json",
+      "bytes": 1966,
+      "sha256": "1a79212827b5b648f529fd447697f17ceaf44a97a3563dd0c03bd22f083edde1",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\evidence\\export_adoption.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/evidence/root_offline_receiving.json",
+      "bytes": 2628,
+      "sha256": "a19e4b9e04b73e6ce91dd2e753ebbb2256faafa1f9cdf34c4602e5c2b9ee2fbe",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\evidence\\root_offline_receiving.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/author/tool_broker.py",
+      "bytes": 21952,
+      "sha256": "827d4c32a2d5be3d48bdc370fdfe3df763cb7b8792421092294e3e9c65c5fbed",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\author\\tool_broker.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/author/precore_projection_snapshot.py",
+      "bytes": 19632,
+      "sha256": "07613d2dad8a7fef9d8d27f552cc06b20d3a5131a50627c54047b19450759d89",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\author\\precore_projection_snapshot.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/author/physical_io.py",
+      "bytes": 4249,
+      "sha256": "aab6a00ab9fc24fa368d3168140bab0a46c4f1e094937c3ecf120496180791bc",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\author\\physical_io.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/SOURCES.json",
+      "bytes": 1306,
+      "sha256": "b1cb09fc936b44a387272686a344497e044aa775311538b50567dbbcf321f187",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\SOURCES.json",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/author/receiver.py",
+      "bytes": 60530,
+      "sha256": "378846f9cfd5f60ce3e3b48adb3c2e3c7cf94a701ed9aee46e5ba3072f4fc122",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\author\\receiver.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/public-receiver-02/author/resolve_artifact.py",
+      "bytes": 11390,
+      "sha256": "b2ac1130149d9878a3a00c7d8ba214743920a1aede38cb6b75699e14a2d03530",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\candidate-02\\author\\resolve_artifact.py",
+      "kind": "EXACT_71_PUBLIC_RECEIVER_SOURCE",
+      "note": "Immutable current04 public source/data only; no future admission or native authority."
+    },
+    {
+      "path": "g1/original-host-01/host.py",
+      "bytes": 5418,
+      "sha256": "5ef1f06d3e2d66308a66ec079bd978b749289d695ff4087713a22a4dda1a4e74",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\original-host-01\\host.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": "Historical event-bound source; consumed identifiers/grants/paths must not be replayed."
+    },
+    {
+      "path": "g1/original-host-01/observe.py",
+      "bytes": 2485,
+      "sha256": "824033bbde51f427e650f39c67ae9ce3d91ebc1190f4f82cb035cf84a4e99e94",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\original-host-01\\observe.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": "Historical event-bound source; consumed identifiers/grants/paths must not be replayed."
+    },
+    {
+      "path": "g1/original-host-01/phase.py",
+      "bytes": 8364,
+      "sha256": "1b86005e72b2cb7a441036c99a03a1256951ec1baee6aaf7ffb36302590ef40a",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\original-host-01\\phase.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": "Historical event-bound source; consumed identifiers/grants/paths must not be replayed."
+    },
+    {
+      "path": "g1/original-host-01/sender.py",
+      "bytes": 6853,
+      "sha256": "71e83b3c6527ecc4c5ff3ec1c111368cdc7308df26390eb81215d6c5cbaf0419",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\original-host-01\\sender.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": "Historical event-bound source; consumed identifiers/grants/paths must not be replayed."
+    },
+    {
+      "path": "g1/original-host-01/root_runtime.js",
+      "bytes": 4394,
+      "sha256": "4ba0afe029b24a5e73a9c846d4d6a5759a2efab10af5d40f3705e4d2a4f3ac2a",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\original-host-01\\root_runtime.js",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": "Historical event-bound source; consumed identifiers/grants/paths must not be replayed."
+    },
+    {
+      "path": "g1/original-host-01/sender_runtime.js",
+      "bytes": 3623,
+      "sha256": "158a9441cacf1e3161a93dffac382991c0e3e02d6ef444bd1c316464ff1aa798",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\original-host-01\\sender_runtime.js",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": "Historical event-bound source; consumed identifiers/grants/paths must not be replayed."
+    },
+    {
+      "path": "g1/original-host-01/g1_event_config_corrected.py",
+      "bytes": 23640,
+      "sha256": "af5925d5106209fcc26c26b28c48d960573038b2364f532acbda1c8d7bdf9229",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\original-host-01\\g1_event_config_corrected.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": "Historical event-bound source; consumed identifiers/grants/paths must not be replayed."
+    },
+    {
+      "path": "g1/original-host-01/root_live_sender_call_received.py",
+      "bytes": 25048,
+      "sha256": "04b8f27d63f0f87d3f65f33333f4b985b3086a5e3338c09e8913be1669bc52c6",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\original-host-01\\root_live_sender_call_received.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": "Historical event-bound source; consumed identifiers/grants/paths must not be replayed."
+    },
+    {
+      "path": "g1/original-host-01/hooks/pre-push",
+      "bytes": 296,
+      "sha256": "365cc33c676fcd43af37ed72adafcd5e1096266b5b92b2ce0219d164f90b6f96",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\original-host-01\\hooks\\pre-push",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": "Historical event-bound source; consumed identifiers/grants/paths must not be replayed."
+    },
+    {
+      "path": "g1/original-host-01/root-lock-and-currentness/run.py",
+      "bytes": 158761,
+      "sha256": "b4c9013c0c665df6c2e66c609f93d5a08c2e12905a7663d3d144419b64b69865",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\original-host-01\\root-lock-and-currentness\\run.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": "Historical event-bound source; consumed identifiers/grants/paths must not be replayed."
+    },
+    {
+      "path": "g1/original-host-01/root-lock-and-currentness/check_final_context.py",
+      "bytes": 4960,
+      "sha256": "d407ff2b1dea3c458e95864e5cdb1242db70513a0f07619e0b2034ca61eae18a",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\original-host-01\\root-lock-and-currentness\\check_final_context.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": "Historical event-bound source; consumed identifiers/grants/paths must not be replayed."
+    },
+    {
+      "path": "g1/original-host-01/root-lock-and-currentness/DISCOVERY_EXCERPT.py",
+      "bytes": 104,
+      "sha256": "48e257c4ebd9d809c2772b6516c06c6ba9fe11aca2d405169c82602c5a138360",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\original-host-01\\root-lock-and-currentness\\DISCOVERY_EXCERPT.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": "Historical event-bound source; consumed identifiers/grants/paths must not be replayed."
+    },
+    {
+      "path": "g1/root-live-sender-call/root_live_sender_call.py",
+      "bytes": 24151,
+      "sha256": "3faea34b6095f3e79a333b452cc8ae2f5a44219b2dde4446677c2d40ef916e54",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\root-live-sender-call\\root_live_sender_call.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": ""
+    },
+    {
+      "path": "g1/root-live-sender-call/READ_FIRST.md",
+      "bytes": 10148,
+      "sha256": "46f15c016fc0ea1973cfa222284d7ea3714698ffac905e55ef8e16498100e5dc",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\root-live-sender-call\\READ_FIRST.md",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": ""
+    },
+    {
+      "path": "g1/root-live-g3/actual_packet.py",
+      "bytes": 9522,
+      "sha256": "a12cdc5581a8b1add2b6ac82ed04ca626335388f44fc4e0baf66f50634b769ae",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\root-live-g3\\actual_packet.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": "Mechanical original-owner public validation; not independent semantic receiving."
+    },
+    {
+      "path": "g1/root-live-g3/README.md",
+      "bytes": 6886,
+      "sha256": "e3ea6b36370788245116b7642163c57c3d8cba3a23464b6e97fed9de239a8652",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\root-live-g3\\README.md",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": "Mechanical original-owner public validation; not independent semantic receiving."
+    },
+    {
+      "path": "g1/root-event-config/predecessor/g1_event_config.py",
+      "bytes": 17559,
+      "sha256": "d0d17c0e42b484d7328a8a620c99ed0638a03426cd787b795aa88d0814557a26",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\root-event-config\\g1_event_config.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": ""
+    },
+    {
+      "path": "g1/root-event-config/predecessor/README.md",
+      "bytes": 7167,
+      "sha256": "6caac199b2aa63af87d53986c0ab1a58d9b5ff186449dbf4bab1a1eadfce8e06",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\root-event-config\\README.md",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": ""
+    },
+    {
+      "path": "g1/root-event-config/predecessor/INPUT_CONTRACTS.json",
+      "bytes": 5134,
+      "sha256": "676ad0225f5684af9e036ed910e2f089abdb3b2a6cc884674abba1425abf9f30",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\root-event-config\\INPUT_CONTRACTS.json",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": ""
+    },
+    {
+      "path": "g1/root-event-config/successor-02/g1_event_config.py",
+      "bytes": 23634,
+      "sha256": "2c35134f65ea5354ca50cb8e7767196e3b5ce45d13d6833c2bb8140286873eaa",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\root-event-config\\successor-02\\g1_event_config.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": ""
+    },
+    {
+      "path": "g1/root-event-config/successor-02/README.md",
+      "bytes": 7001,
+      "sha256": "652dc42601c09f0dc85e4ca25e16983503621af7b79dbffb5bd19097539c9f8d",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\root-event-config\\successor-02\\README.md",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": ""
+    },
+    {
+      "path": "g1/sender-route/root-recipient-issuer/issue_recipient_inputs.py",
+      "bytes": 8841,
+      "sha256": "b21469b2ee92a7dd3cf59f09d5e006c6fe143b0b38f1581a588411e748a43053",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\root-recipient-issuer\\issue_recipient_inputs.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": ""
+    },
+    {
+      "path": "g1/sender-route/windows-wsl-dispatch-02/dispatch.js",
+      "bytes": 6696,
+      "sha256": "ed48969832fc789dcc8ed3a238f355c43b3908c82b61ba9f835684c56e1a7c68",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\windows-wsl-dispatch-02\\dispatch.js",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": ""
+    },
+    {
+      "path": "g1/sender-route/windows-wsl-dispatch-02/dispatcher_entry.py",
+      "bytes": 18314,
+      "sha256": "0bde14158b8505b89f6492ee96f8b5e9f42c9c09341da3cc49201efd0dec80b7",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\windows-wsl-dispatch-02\\dispatcher_entry.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": ""
+    },
+    {
+      "path": "g1/sender-route/windows-wsl-dispatch-02/bind_dispatcher.py",
+      "bytes": 8498,
+      "sha256": "d83c761dbc666d78856cf2d52ced4db2b6b8d373742deef4938b2d4b6434938f",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\windows-wsl-dispatch-02\\bind_dispatcher.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": ""
+    },
+    {
+      "path": "g1/sender-route/windows-wsl-dispatch-02/compose.py",
+      "bytes": 2271,
+      "sha256": "b259a2fddc656a06a71e7e4f14ce9dd82c6ea2ee4dafddc43a452a8fc69bd1f9",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\windows-wsl-dispatch-02\\compose.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": ""
+    },
+    {
+      "path": "g1/sender-route/windows-wsl-dispatch-02/check_acquisition.py",
+      "bytes": 3588,
+      "sha256": "202aecf0d4da7d4487341901ee6c73abc5535d5e5beeaadefb46b7f727c01bbf",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\windows-wsl-dispatch-02\\check_acquisition.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": ""
+    },
+    {
+      "path": "g1/sender-route/windows-wsl-dispatch/dispatch.js",
+      "bytes": 6594,
+      "sha256": "85305bf51dbff8b7104561937f0f0ce5113e9f3c441f1cb51b751b31d60fa4f2",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\windows-wsl-dispatch\\dispatch.js",
+      "kind": "HISTORICAL_ROOT_TRANSPORT_BUILDER_DEPENDENCY",
+      "note": ""
+    },
+    {
+      "path": "g1/sender-route/windows-wsl-dispatch/bind_dispatcher.py",
+      "bytes": 8484,
+      "sha256": "b9c9f870cf2361a0abf1dd7090b5a4c6688a4f74891c6f7990ec3f28cada767a",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\windows-wsl-dispatch\\bind_dispatcher.py",
+      "kind": "HISTORICAL_ROOT_TRANSPORT_BUILDER_DEPENDENCY",
+      "note": ""
+    },
+    {
+      "path": "g1/sender-route/windows-wsl-dispatch/compose.py",
+      "bytes": 2826,
+      "sha256": "c25a4d603356c48a9a33437b789dde2ff85646ddc3c805ec87541186a9ccb09f",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\windows-wsl-dispatch\\compose.py",
+      "kind": "HISTORICAL_ROOT_TRANSPORT_BUILDER_DEPENDENCY",
+      "note": ""
+    },
+    {
+      "path": "g1/sender-route/windows-wsl-dispatch/windows_transport.js.in",
+      "bytes": 740,
+      "sha256": "8d80f5ea32607458f1cf4d7d7138382d19c742781b998462df307a16f93d6b09",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\windows-wsl-dispatch\\windows_transport.js.in",
+      "kind": "HISTORICAL_ROOT_TRANSPORT_BUILDER_DEPENDENCY",
+      "note": ""
+    },
+    {
+      "path": "g1/sender-route/recovered-g1-g3-root-binding-r2/author/dispatch.js",
+      "bytes": 5454,
+      "sha256": "bfea7536f8da1af842efb67fb55ae82276e04c4e231ac00204e36646cb7ca7af",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\recovered-g1-g3-root-binding-r2\\author\\dispatch.js",
+      "kind": "HISTORICAL_REVIEWED_ROOT_TEMPLATE",
+      "note": ""
+    },
+    {
+      "path": "g1/sender-route/recovered-g1-g3-root-binding-r2/author/bind_dispatcher.py",
+      "bytes": 8095,
+      "sha256": "c980ac89c1d54a33efb4d5c273238759c39a5930eb00c3f3aad73ccd5d9136c2",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\recovered-g1-g3-root-binding-r2\\author\\bind_dispatcher.py",
+      "kind": "HISTORICAL_REVIEWED_ROOT_TEMPLATE",
+      "note": ""
+    },
+    {
+      "path": "g1/sender-route/recovered-g1-g3-root-binding-r2/author/dispatcher_entry.py",
+      "bytes": 18300,
+      "sha256": "1251cc8d2d93fa0f7894f310955fee1369a1275f96531e5b5b8bdbd1895fb762",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\recovered-g1-g3-root-binding-r2\\author\\dispatcher_entry.py",
+      "kind": "HISTORICAL_REVIEWED_ROOT_TEMPLATE",
+      "note": ""
+    },
+    {
+      "path": "g1/receiver-binding/final_bind.py",
+      "bytes": 12951,
+      "sha256": "568314b3ab4355b53abdc5f6fa0f3f3494f550f9114ba29c038166f072bd11c9",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\final_bind.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": ""
+    },
+    {
+      "path": "g1/receiver-binding/physical_io.py",
+      "bytes": 4249,
+      "sha256": "aab6a00ab9fc24fa368d3168140bab0a46c4f1e094937c3ecf120496180791bc",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\physical_io.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": ""
+    },
+    {
+      "path": "g1/receiver-binding/baseline/receiver.py",
+      "bytes": 55268,
+      "sha256": "0298666f31eae09b15aa941a74929794a35a96fd45499e550f254634ec8363a4",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\baseline\\receiver.py",
+      "kind": "HISTORICAL_RECEIVER_BINDER_SOURCE_DEPENDENCY",
+      "note": ""
+    },
+    {
+      "path": "g1/receiver-binding/baseline/tool_broker.py",
+      "bytes": 21952,
+      "sha256": "827d4c32a2d5be3d48bdc370fdfe3df763cb7b8792421092294e3e9c65c5fbed",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\baseline\\tool_broker.py",
+      "kind": "HISTORICAL_RECEIVER_BINDER_SOURCE_DEPENDENCY",
+      "note": ""
+    },
+    {
+      "path": "g1/receiver-binding/baseline/precore_projection_snapshot.py",
+      "bytes": 19632,
+      "sha256": "07613d2dad8a7fef9d8d27f552cc06b20d3a5131a50627c54047b19450759d89",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\baseline\\precore_projection_snapshot.py",
+      "kind": "HISTORICAL_RECEIVER_BINDER_SOURCE_DEPENDENCY",
+      "note": ""
+    },
+    {
+      "path": "g1/receiver-binding/baseline/resolve_artifact.py",
+      "bytes": 11388,
+      "sha256": "d58cdefdc3f4ebb3a34e1343bf5d326135b28d639f0f40bba5c62c4575c60fae",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\sender-route\\current04-public-receiver\\baseline\\resolve_artifact.py",
+      "kind": "HISTORICAL_RECEIVER_BINDER_SOURCE_DEPENDENCY",
+      "note": ""
+    },
+    {
+      "path": "g2/root-operation-driver/event_driver.js",
+      "bytes": 12904,
+      "sha256": "bcf7af47446b271d6838e2c65978a0f781538cf8a5bcb467b8d2388d806ef3c6",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g2-production-issuer-01\\root-operation-driver\\event_driver.js",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": ""
+    },
+    {
+      "path": "g2/root-operation-driver/codex_callbacks.js",
+      "bytes": 4716,
+      "sha256": "077eee70120814f84835665da97e1986771e5cdca8bd0d723be0e5ac67419521",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g2-production-issuer-01\\root-operation-driver\\codex_callbacks.js",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": ""
+    },
+    {
+      "path": "g2/root-operation-driver/operator_setup.py",
+      "bytes": 12681,
+      "sha256": "900aa7d4e7682f146923c5de2a304fdada482717da61cc2149551962b05d1ef3",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g2-production-issuer-01\\root-operation-driver\\operator_setup.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": ""
+    },
+    {
+      "path": "g2/root-operation-driver/record_transport.py",
+      "bytes": 6293,
+      "sha256": "ab5aabfd284bbac45a85ae7f8232afbb0335448f0c3abe5160218452282ac545",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g2-production-issuer-01\\root-operation-driver\\record_transport.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": ""
+    },
+    {
+      "path": "g2/root-operation-driver/test_record_transport.py",
+      "bytes": 3098,
+      "sha256": "a7628141d44260be5cc1dbb03512b51cb3d609983644decd447e9591d6dbbac4",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g2-production-issuer-01\\root-operation-driver\\test_record_transport.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": ""
+    },
+    {
+      "path": "g2/root-operation-driver/Install-Driver.ps1",
+      "bytes": 554,
+      "sha256": "9ffd6730c25abce386276d35cc61342ee021ccd5d4a79aecbed8f2ae52332b40",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g2-production-issuer-01\\root-operation-driver\\Install-Driver.ps1",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": ""
+    },
+    {
+      "path": "g2/root-operation-driver/INSTALL_MANIFEST.json",
+      "bytes": 2935,
+      "sha256": "44e7d782744617505bc6a6c6c1c6a5679b8e8639ee517f788b78cfef77bffb27",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g2-production-issuer-01\\root-operation-driver\\INSTALL_MANIFEST.json",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": ""
+    },
+    {
+      "path": "g2/root-operation-driver/README.md",
+      "bytes": 5741,
+      "sha256": "27444c5dd0333a82c1476531da6b6874dc051f66dc23d5d45c92a04f22ce83e9",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g2-production-issuer-01\\root-operation-driver\\README.md",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": ""
+    },
+    {
+      "path": "g2/native-history-bridge/root_native_history.py",
+      "bytes": 4584,
+      "sha256": "71b4538d41501c017d2282f799dfbd3ad8e3435c9409c40633ed156d18529bd1",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g2-production-issuer-01\\native-history-bridge\\root_native_history.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": "Source only. Old Root private ledger/header unavailable to Pro; never reuse as new identity evidence."
+    },
+    {
+      "path": "g2/original-host-01/issue_role.py",
+      "bytes": 2987,
+      "sha256": "a91b22c6ee25354f39160c4d83d0f2020430c14d41bbb6b5296c22a27ef7e782",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g2-production-issuer-01\\original-host-01\\issue_role.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": "Historical event-bound source, not a live grant or invocation."
+    },
+    {
+      "path": "g2/original-host-01/publish_received_control.js",
+      "bytes": 3668,
+      "sha256": "e509fa38e558145e507ff64f695f97a56dc1243ab45ed2f76caf7e0e37c63cda",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g2-production-issuer-01\\original-host-01\\publish_received_control.js",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": "Historical event-bound source, not a live grant or invocation."
+    },
+    {
+      "path": "g2/original-host-01/receive_public_terminal.py",
+      "bytes": 2176,
+      "sha256": "e77329498d5094376c3bad134d335faff3875043d3a26c6ec80d3643671d32b3",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g2-production-issuer-01\\original-host-01\\receive_public_terminal.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": "Historical event-bound source, not a live grant or invocation."
+    },
+    {
+      "path": "g2/original-host-01/receive_role.js",
+      "bytes": 2856,
+      "sha256": "13f2257b599189a9b625fa9f3d78f17b265e29cd3c89d623bdaa0bf726f30fac",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g2-production-issuer-01\\original-host-01\\receive_role.js",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": "Historical event-bound source, not a live grant or invocation."
+    },
+    {
+      "path": "g2/original-host-01/hooks/pre-push",
+      "bytes": 304,
+      "sha256": "8ff1d80d16c1bdab7811d24995e4943c0b34888cc19e23bc06571ce12269570a",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g2-production-issuer-01\\original-host-01\\hooks\\pre-push",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": "Historical event-bound source, not a live grant or invocation."
+    },
+    {
+      "path": "g2/root-live-control-source-02/prepare_live_control.py",
+      "bytes": 9983,
+      "sha256": "d6b5e430cbdd6ac8fc4bdf6814b35919878d1bf5813227f7d238c6e8ebce2a67",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g2-production-issuer-01\\root-live-control-source-02\\prepare_live_control.py",
+      "kind": "ROOT_LOCAL_SOURCE_CORRECTION",
+      "note": ""
+    },
+    {
+      "path": "g2/root-live-control-source-02/EXPECTED_LEAVES.json",
+      "bytes": 254415,
+      "sha256": "21421736447e752a2140f1a440345210491d74502b896806f6e7f8e133c47dfe",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g2-production-issuer-01\\root-live-control-source-02\\EXPECTED_LEAVES.json",
+      "kind": "ROOT_LOCAL_SOURCE_CORRECTION",
+      "note": ""
+    },
+    {
+      "path": "g2/live-review-preparation/inspect_live_packet.py",
+      "bytes": 3951,
+      "sha256": "3f052f60b65395f184a91a0d0e9553e0d2ac94e0915e004dd6a2cded75c96642",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g2-production-issuer-01\\live-review-preparation\\inspect_live_packet.py",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": ""
+    },
+    {
+      "path": "g2/live-review-preparation/PROCEDURE.md",
+      "bytes": 6647,
+      "sha256": "27c5bbf190fb4010bdafcddd7a446f3a64c53179dfbcb68d6553a6f8052ecf3d",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g2-production-issuer-01\\live-review-preparation\\PROCEDURE.md",
+      "kind": "ROOT_PUBLIC_SOURCE",
+      "note": ""
+    },
+    {
+      "path": "g2/public-installation-source-records/PUBLIC_OPERATOR_PREPARATION.json",
+      "bytes": 1758,
+      "sha256": "6c7a67e3bf5ee1375e221ab68162da463be2fe63788d850e88ecc4a0ca6eebcd",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g2-production-issuer-01\\root-operation-driver\\payload\\PUBLIC_OPERATOR_PREPARATION.json",
+      "kind": "HISTORICAL_PUBLIC_SOURCE_INSTALLATION_DATA",
+      "note": "No event admission, currentness or future Root authority."
+    },
+    {
+      "path": "g2/public-installation-source-records/FINAL_RECEIVER_INSTALLATION.json",
+      "bytes": 1633,
+      "sha256": "23fcaf940f2b51d321731d56fbdd217adf032a033a9cdbaca340607d468c5239",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g2-production-issuer-01\\root-operation-driver\\payload\\FINAL_RECEIVER_INSTALLATION.json",
+      "kind": "HISTORICAL_PUBLIC_SOURCE_INSTALLATION_DATA",
+      "note": "No event admission, currentness or future Root authority."
+    },
+    {
+      "path": "g2/public-installation-source-records/PUBLIC_RECEIVER_SEAL.json",
+      "bytes": 1639,
+      "sha256": "2f86492f085eae40ab35530fe1d59773116841c120b5a9bd50421e5bdf02275d",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g2-production-issuer-01\\root-operation-driver\\payload\\PUBLIC_RECEIVER_SEAL.json",
+      "kind": "HISTORICAL_PUBLIC_SOURCE_INSTALLATION_DATA",
+      "note": "No event admission, currentness or future Root authority."
+    },
+    {
+      "path": "g2/public-installation-source-records/BINDING.json",
+      "bytes": 8412,
+      "sha256": "a0750feb79bbbe00c20b852bb179989a8dce89669130effbb6a8433774f0b6e9",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g2-production-issuer-01\\root-operation-driver\\payload\\BINDING.json",
+      "kind": "HISTORICAL_PUBLIC_SOURCE_INSTALLATION_DATA",
+      "note": "No event admission, currentness or future Root authority."
+    },
+    {
+      "path": "g2/public-installation-source-records/SUCCESSOR_RUNTIME_BINDING.json",
+      "bytes": 943,
+      "sha256": "8f8b04026a9a29cbc84841c857ba1d07e717bdcf7e8283c5ee20eb433d9dd5e5",
+      "source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g2-production-issuer-01\\root-operation-driver\\payload\\SUCCESSOR_RUNTIME_BINDING.json",
+      "kind": "HISTORICAL_PUBLIC_SOURCE_INSTALLATION_DATA",
+      "note": "No event admission, currentness or future Root authority."
+    }
+  ],
+  "copy_count": 134
+}

@@ -1,0 +1,41 @@
+{
+  "utc": "2026-11-09T09:17:40.686Z",
+  "decision": "RECEIVE_SOURCE_HANDOFF_AND_DEFER_ORIGINAL_G1_LAUNCH_FOR_TWO_VERIFIED_INCOMPATIBILITIES",
+  "root": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "handoff": "d8673f3015ab5815e750a8492e7c48cf31ff4861dc23bbc11fad706b31f0e214",
+  "members": 13,
+  "root_helpers": {
+    "staged": {
+      "g1_event_config.py": "d0d17c0e42b484d7328a8a620c99ed0638a03426cd787b795aa88d0814557a26",
+      "actual_packet.py": "a12cdc5581a8b1add2b6ac82ed04ca626335388f44fc4e0baf66f50634b769ae",
+      "root_pipeline_inputs.py": "acbb55ca190c470d8250fb037391002cf6994efb4636757fbf94cbe312233547"
+    },
+    "root": "/home/agent/dg16-g1-current04-operators/root-event-helpers-01",
+    "actual_grants": 0,
+    "runtime_scope": "Source staging only; rebind affected control/binary pins when new base64 + deadline sources arrive."
+  },
+  "g3_initial_ref": "pro/dg16-g1-g3-control-04-20261109 at ea61b498, actual closing requires fresh readback",
+  "observations": [
+    "The previously selected github.fetch blob method decoded textual contents and refused a real public binary fixture. The supported github_fetch_file(path,ref=actual published commit,encoding=base64) reproduced both fixture blob identities and SHA-256 digests. Sol owns the limited adapter correction.",
+    "The real Windows/WSL split transfer passed in its original operation shapes. Its 480KB argument read took 39.769s at 4096-byte chunks and 19.776s using the already supported 8192-byte size. The issued frame deadline must bound dispatch of each effect, independently of the enclosing grant. Sol owns this small producer/consumer correction."
+  ],
+  "thermal_fixture_sessions": {
+    "combined_stress": {
+      "id": 56522,
+      "exit": 1
+    },
+    "split": {
+      "id": 11275,
+      "exit": 0
+    },
+    "optimized": {
+      "id": 60265,
+      "exit": 0
+    }
+  },
+  "original_host_published": false,
+  "original_writes": 0,
+  "real_fixture_reads_only": true,
+  "new_original_awards": [],
+  "next_root_wake": "Receive the corrected control and binary call/receiving representation, actual per-frame deadline and affected dependency pins. Use staged independent event/recipient/G3 helpers for the one genuine host operation when ready."
+}

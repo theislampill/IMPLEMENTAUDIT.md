@@ -1,0 +1,49 @@
+{
+  "schema": "dg16.current04.actual-root-offline-host-receiving.v1",
+  "utc": "2026-11-09T05:16:31.628410+00:00",
+  "actor": "/root",
+  "issuer_thread": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "state": "PASS_EXACT_PURE_REQUEST_INTEGRITY",
+  "decision": "ACCEPT_CURRENT04_FINISHED_WHOLE_HOST_SOURCE_AT_COMPOSITION_SCOPE",
+  "source_commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+  "source_tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+  "sole_parent": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+  "phase_sha256": "7a391c1c74329b1298349a85d3df25013707d0eb09044cf8583b3ea8bc9a038c",
+  "expected_tree": "8390375505282e602759c7976b6bca82a44d5737",
+  "public_overlay_additions": 49,
+  "base_leaves": 1759,
+  "total_leaves": 1808,
+  "inline": 47,
+  "reused": 2,
+  "phase": {
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-finish-01\\finish\\PHASE.json",
+    "bytes": 9198,
+    "sha256": "7a391c1c74329b1298349a85d3df25013707d0eb09044cf8583b3ea8bc9a038c"
+  },
+  "actual_independent_final": {
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-final-review\\FINAL.json",
+    "bytes": 4855,
+    "sha256": "716bbb9f96c276f189b0381124e1ee28ddccc672931bc9f7bf0077b897a58d44"
+  },
+  "independent_manifest": {
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-final-review\\MANIFEST.json",
+    "bytes": 60611,
+    "sha256": "f7d6eb5ac9a0dce9e1d35699fd62dec84797f7173f50d537671efc8eaf529c4e"
+  },
+  "review_entries_verified": 168,
+  "root_bootstrap": {
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\BOOTSTRAP_ADMISSION.json",
+    "bytes": 470,
+    "sha256": "3d47ff0eca73d2d373fb0237938e5660b79b709f71f073bb08dc010755e5dd9b"
+  },
+  "public_manifest": {
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-finish-01\\finish\\PUBLIC_PACKET_MANIFEST.json",
+    "bytes": 4886,
+    "sha256": "7c55fca176558dcbb216857e79550933b8f750ab9278ea3ece34b72098d2b5f8"
+  },
+  "host_commit_created": false,
+  "actual_host_admission": false,
+  "effect_grant": false,
+  "original_awards": [],
+  "remaining": "Fresh platform-bound supported root sender/dispatcher, exact public receiver, actual timed independent and two root decision roles and subsequent root launch/currentness decision."
+}

@@ -1,0 +1,159 @@
+{
+  "schema": "dg16.current04.secondary-final-currentness-independent-source-review.v1",
+  "authority": "NONE",
+  "verdict": "ACCEPTABLE_EXACT_SOURCE_CORRECTION_AT_DECLARED_SECONDARY_CWD_SCOPE",
+  "blocking_findings": [],
+  "candidate": {
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\original-host-01\\root-lock-and-currentness\\run.py",
+    "bytes": 158761,
+    "sha256": "b4c9013c0c665df6c2e66c609f93d5a08c2e12905a7663d3d144419b64b69865"
+  },
+  "baseline": {
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\original-host-failure-01\\candidate-v2\\run.py",
+    "bytes": 158720,
+    "sha256": "d04ebf2fa1b3f085c77996fb87464280eb75154d1fd691fb5c4e612eef7a61bd"
+  },
+  "exact_delta": [
+    "--- \n",
+    "+++ \n",
+    "@@ -846,4 +846,5 @@\n",
+    "                     state['runtime_unchanged']=runtime_snapshot(source,state,u)==state['runtime']",
+    "                     if state['all_step_children_reaped'] and state['receipt'] is not None:",
+    "+                        os.chdir(source)",
+    "                         state['final_currentness_sha256']=require_current(state,source,command,output/'private','final-currentness')",
+    "             need(not state['failed'] and state['completed']==list(STEPS) and state['operation_received']"
+  ],
+  "source_checks": {
+    "only_AST_changed_function": "execute",
+    "custody_before_chdir": [
+      "execute entry: actual output context plus selected source and .git directory identities",
+      "finalize: owned children cleanup echild required",
+      "actual NSS final readback when configured",
+      "exact setup owner SHA before policy finalization; policy command rc0 required",
+      "git_identity full selected commit/tree/parent and tracked/index cleanliness",
+      "full manifest member bytes/modes/ownership/source population verification",
+      "source_unchanged computed; runtime_snapshot equality computed before the new chdir",
+      "new chdir remains gated by all_step_children_reaped and nonnull canonical state receipt"
+    ],
+    "cwd_behavior": [
+      "execute starts with oldcwd saved, then chdir('/')",
+      "ordinary nonfinalize steps already chdir(source) after source checks",
+      "host_utility.capture Popen has no cwd override and inherits the adapter cwd",
+      "selected claim-run.sh routes require-current to rotation; exact selected discover uses Path.cwd()",
+      "new finalization chdir supplies the checked selected repository to that same owner",
+      "owner child cannot change parent cwd; finally restores oldcwd after owned cleanup/state/public handling"
+    ],
+    "guards_retained": [
+      "require_current still uses actual claim-run.sh --require-current-continuity and exact existing controller",
+      "requires actual rc0 AND stripped stdout exactly equal to state receipt; no token fabrication/fallback",
+      "30-second currentness command and original finalization/child cleanup bounds unchanged",
+      "chdir/owner exceptions enter original record_failure and finally cleanup; failure not cleared",
+      "original full STEP/operation/G3/currentness/source/runtime acceptance conjunction remains",
+      "failed prior g1 still leaves EPISODE_INCOMPLETE; correction does not award C5/G1/G3"
+    ],
+    "notes": "Runtime/source booleans are still evaluated in original final conjunction; the added chdir introduces no shortcut to that gate."
+  },
+  "selected_owner_source": {
+    "store": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\root-episode-store.git",
+    "git": "C:\\Program Files\\Git\\cmd\\git.EXE",
+    "objects": [
+      {
+        "path": "local-git-object:7e2b00b3a2a16fc6033a5eabe4fc795f6249366f:skills/implementaudit/scripts/claim-run.sh",
+        "bytes": 32290,
+        "sha256": "9bce5c887cd89c2d2991b84f1bf765787e7a6b75a2eba29a8433c3a6c05f73a3"
+      },
+      {
+        "path": "local-git-object:7e2b00b3a2a16fc6033a5eabe4fc795f6249366f:skills/implementaudit/scripts/claim-run-rotation.py",
+        "bytes": 291624,
+        "sha256": "128dfe66ce656cd194d5fe1e55b245fecb1b4fd811dea87f75f8ace4a59a0487"
+      }
+    ],
+    "selected_discovery_excerpt_AST_match": true,
+    "selected_sh_require_routes_rotation": true,
+    "object_reads": 2,
+    "network_or_native_controller_calls": 0
+  },
+  "local_checks": {
+    "candidate": {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\g1-current04-issuer\\original-host-01\\root-lock-and-currentness\\run.py",
+      "bytes": 158761,
+      "sha256": "b4c9013c0c665df6c2e66c609f93d5a08c2e12905a7663d3d144419b64b69865"
+    },
+    "baseline": {
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\original-host-failure-01\\candidate-v2\\run.py",
+      "bytes": 158720,
+      "sha256": "d04ebf2fa1b3f085c77996fb87464280eb75154d1fd691fb5c4e612eef7a61bd"
+    },
+    "changed_AST_functions": [
+      "execute"
+    ],
+    "diff": [
+      "--- \n",
+      "+++ \n",
+      "@@ -846,4 +846,5 @@\n",
+      "                     state['runtime_unchanged']=runtime_snapshot(source,state,u)==state['runtime']",
+      "                     if state['all_step_children_reaped'] and state['receipt'] is not None:",
+      "+                        os.chdir(source)",
+      "                         state['final_currentness_sha256']=require_current(state,source,command,output/'private','final-currentness')",
+      "             need(not state['failed'] and state['completed']==list(STEPS) and state['operation_received']"
+    ],
+    "passed": 6,
+    "checks": [
+      "exact_single_line_delta",
+      "all_other_functions_AST_unchanged",
+      "actual_require_current_rc0_exact_token",
+      "actual_require_current_rejects_nonzero",
+      "actual_require_current_rejects_wrong_token",
+      "same_command_controller_and30s_bound"
+    ],
+    "actual_owner_invocations": 0,
+    "native_or_host_calls": 0
+  },
+  "root_genuine_git_control_scope": "Received Root's retained six-case RED/GREEN result and inspected check_final_context.py: real Git discovery in two newly created fixture repositories; actual final-guard/require_current AST, marked inert receipt, no real owner/controller/C5 invocation. Published+diagnostic wrong-repo RED; corrected selected-repo GREEN; stale-token and owner-refusal RED; no-child-custody skips invocation. No replay by reviewer.",
+  "harness_setup_errors_preserved": [
+    {
+      "attempt": 1,
+      "result": "NameError OWNER absent from extracted-function fixture; no original owner/native call"
+    },
+    {
+      "attempt": 2,
+      "result": "Fixture assertion compared Windows Path output to POSIX literal; replaced fixture source with PurePosixPath; no original owner/native call"
+    }
+  ],
+  "historical_limit": "Actual public final command57 returned1 and finalize recorded CURRENTNESS_REFUSED; private actual stderr remains unobserved. This proves an executable cwd-routing defect and a bounded correction, not a recovered historical error message or actual final-currentness success.",
+  "not_in_scope": [
+    "primary lock origin/lifetime/repair investigation remains Sol-owned",
+    "original claim/native/host campaign, package/CI or hosted rerun",
+    "product/source integration, grant, publication or original acceptance"
+  ],
+  "next": "Root may compose this exact private correction with the separately received Sol diagnostic. Rebind only affected source pins/consumers for any later candidate and obtain separate authority for actual effects; no replay under the consumed original-host01 grant.",
+  "stop": "HOLD",
+  "supporting_files": [
+    {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/original-host-01/root-lock-and-currentness/run.py",
+      "bytes": 158761,
+      "sha256": "b4c9013c0c665df6c2e66c609f93d5a08c2e12905a7663d3d144419b64b69865"
+    },
+    {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/original-host-01/root-lock-and-currentness/ROOT_REDIAGNOSIS.json",
+      "bytes": 3973,
+      "sha256": "91030d50d0a11e2d1da5cb89b9f470dc0ec0c05205d2c7b1dc076c9530ca9cca"
+    },
+    {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/original-host-01/root-lock-and-currentness/check_final_context.py",
+      "bytes": 4960,
+      "sha256": "d407ff2b1dea3c458e95864e5cdb1242db70513a0f07619e0b2034ca61eae18a"
+    },
+    {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/original-host-01/root-lock-and-currentness/DISCOVERY_EXCERPT.py",
+      "bytes": 104,
+      "sha256": "48e257c4ebd9d809c2772b6516c06c6ba9fe11aca2d405169c82602c5a138360"
+    },
+    {
+      "path": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/sender-route/current04-public-receiver/candidate-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/host_utility.py",
+      "bytes": 54556,
+      "sha256": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c"
+    }
+  ],
+  "source_applicability_note": "Old Root/Sol checkout owner files were excluded after manifest mismatch. Exact selected7e owner objects were read from the local immutable store with GIT_NO_LAZY_FETCH=1 and matched SOURCE_MANIFEST byte counts/hashes and the discovery excerpt AST."
+}

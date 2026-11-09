@@ -1,0 +1,10 @@
+{
+  "all_step_children_reaped": true,
+  "encrypted_diagnostic_copy": "ENCRYPTED_LOCAL_NOT_PROVIDER_RECEIVED",
+  "private_outputs_uploaded": false,
+  "private_outputs_uploaded_scope": "PLAINTEXT_PRIVATE_CAPTURE_BYTES",
+  "private_retention": "ORIGINAL_RAW_LIVE_JOB_ONLY; separate encrypted diagnostic copy requires provider receiving; no acceptance custody transfer",
+  "runtime_unchanged_after_initialization": true,
+  "schema": "dg16.full-registry-episode-cleanup.v1",
+  "source_unchanged": true
+}

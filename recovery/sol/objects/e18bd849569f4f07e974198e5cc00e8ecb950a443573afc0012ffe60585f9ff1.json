@@ -1,0 +1,55 @@
+{
+  "schema": "dg16.git256-public-fixture-independent-preexecution-source-review.v1",
+  "status": "REVISE_BEFORE_EXECUTION",
+  "source": {
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\git256-package-probe-01\\public_repo_probe.py",
+    "bytes": 10485,
+    "sha256": "85e3a2d37f4e7afc6cbab44dbf3422dfdc5f0ff26ee7c636c69a855c86c71164"
+  },
+  "exact_utility": {
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-finish-01\\finish\\tree\\qualification\\dg16-r5-g1-hosted-episode\\host_utility.py",
+    "bytes": 54556,
+    "sha256": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c"
+  },
+  "findings": [
+    {
+      "id": "GIT256-PUBLIC-OVERALL-1",
+      "severity": "blocking",
+      "functions": {
+        "census": 25,
+        "observe": 91,
+        "main": 50
+      },
+      "observed": "Only command() checks overall600. Content census, copytree, wait and final COMPLETED transition have no before/during/after currentness check. Work after final Git command may cross deadline and still report COMPLETED; copy/census not within declared overall.",
+      "required": "Shared existing deadline guard around and during census/content/copy/wait and before successful completion. Preserve bounded cleanup as separate containment. Use explicit enclosing timer if hard wall termination is promised; no deadline extension."
+    },
+    {
+      "id": "GIT256-PUBLIC-STATUS-1",
+      "severity": "blocking",
+      "function_line": 96,
+      "observed": "hazardous scans only cleanup.reaped_statuses. Exact public_cleanup exports at most8 statuses, with retained_status_count/truncated flag and digest for omitted tail. A negative exit in omitted statuses is unavailable, yet current gate treats first8 nonnegative as no hazard and continues.",
+      "required": "Before no-hazard classification require complete typed status population, count equality and truncatedFalse; incomplete evidence stops UNKNOWN with first clone retained and no baseline/control/new clone. Do not infer any actual negative child from this static gap."
+    }
+  ],
+  "positive_source_scope": [
+    "One fixed HTTPS public repository clone attempt; selected7e2 commit and6d3 tree checked later; exact package824 binary and utility429 source pins.",
+    "Fresh private Root path, nonroot dedicated subreaper and zero initial children; exact capture and separately bounded owned-PIDFD stop/ECHILD; no process-name kill.",
+    "Package exec-path/template CLI and unchanged safeenv; only command-scoped protocol.https.allow=always, optional maintenance.autoDetach=false on control; no global config, GC disabling, lock deletion or original owner/native campaign.",
+    "Clone hazard stops without second download; clean prefetch baseline is full copy with content census equality; foreground copy independently checked and requires observed hazard; default stops on locks.",
+    "Captured refusals preserve available records/streams and final owned cleanup. Repository/fixture observations remain public scratch evidence only."
+  ],
+  "checks": {
+    "source_AST_parse_only": true,
+    "probe_execution": 0,
+    "Git_or_GPG_commands": 0,
+    "network_calls": 0,
+    "Root_scratch_creation_or_read": 0,
+    "original_or_protected_effects": 0
+  },
+  "limitations": [
+    "No public dataset fixture executed and no actual new namespace/child/maintenance observation obtained.",
+    "Rootselected scratch does not yet exist per commissioning message; reviewer has not probed it. Prior package/tiny receipts are bounded baseline evidence, not actual dataset result.",
+    "No conclusion about original lock name/owner, originalC5/G1/native/whole acceptance."
+  ],
+  "next": "Parent supplies separate frozen timer/status successor, preserving this first candidate. Independently receive narrow source delta before the one commissioned public-clone effect; no execution/retry authorized by this receipt."
+}

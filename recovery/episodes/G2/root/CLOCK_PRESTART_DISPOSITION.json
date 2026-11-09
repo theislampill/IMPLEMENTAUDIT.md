@@ -1,0 +1,20 @@
+{
+  "earliest_result": {
+    "status": "UNKNOWN_NO_RETRY",
+    "authority": "NONE",
+    "reason": "DRIVER_REFUSED_OR_COMPLETION_UNKNOWN",
+    "next_ordinal": 0,
+    "actual_tool_invocations": 0,
+    "configuration_sha256": "7dfaa0643161d10affb7ab196984a7ede9908b97bd85382a4a0b1a244fc0e1a8",
+    "process_exit_code": null,
+    "process_session_id": null,
+    "raw_frames_retained": false,
+    "automatic_retry": false
+  },
+  "initial_scope": "V8 admission-time check before any start or provider reservation",
+  "native_history": "Only terminal driver's UNKNOWN_NO_RETRY note command appeared at 07:35:53.404Z. The guest issued its grant at 07:35:53.721Z. There was no start-note nor operator process command. Local POSIX census independently found no driver journal, channel or terminal Session.",
+  "proved_before_start": true,
+  "unissued_provider_slots": 10,
+  "existing_unchanged_grant": "2d080291752e12137147fd12dab8b14413431b1fcd2167854e5405c8db1af775",
+  "host_job_rerun": false
+}

@@ -1,0 +1,81 @@
+{
+  "actual_independent_review_seal": "93de6a58e37cfc34e3a0901bfb27b76128e3a5598084d24a5b4d2246cae6c1ca",
+  "actual_issuer": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "actual_private_interoperability": false,
+  "candidate_seal": "9c4b01a11de9b3e064259eb3b893bfe81a5926556e147be5d60c95152641f17b",
+  "control": "pro/dg16-r5-full-g2-direct-control-01-20261109",
+  "decision_bodies": {
+    "INDEPENDENT_COLD_REVIEW.json": {
+      "bytes": 827,
+      "sha256": "d020850a427b6fb157d616470b4c87f30a8e71c9a96cdfeb6f41ba89957368d5"
+    },
+    "NATIVE_INDEPENDENT_REVIEW.json": {
+      "bytes": 2367,
+      "sha256": "dae2c6fb7181dee74026e5fc284f873273279b2f8cddcfa36de6eea5c37c88af"
+    },
+    "ROOT_NATIVE_APPLICABILITY_ADOPTION.json": {
+      "bytes": 2899,
+      "sha256": "9ebe47b3af24cc5d4076257d6fefa74002e0ecff05efc1a2dd6d9bdbec998b23"
+    },
+    "ROOT_POLICY_ADOPTION.json": {
+      "bytes": 2614,
+      "sha256": "03a3887ada1e1bae516b4444d17f370440d3af725f4224dc3635efa1361f64df"
+    }
+  },
+  "host": "pro/dg16-r5-full-g2-direct-host-01-20261109",
+  "maintained_native_readback": {
+    "adoption_sha256": "9ebe47b3af24cc5d4076257d6fefa74002e0ecff05efc1a2dd6d9bdbec998b23",
+    "authority": "NONE",
+    "bindings": {
+      "adapter_sha256": "732c89fe227289572e48a3c31ab7a83114c2979eea5f322182e9a73f68564ff9",
+      "historical_prerequisite_sha256": "770ea10da4120e22102c32b9ef75ffc5643ceb45292bfff5060b3c2ef513ac05",
+      "native_admission_sha256": "d9c0eeb25dc364e8cec1fea469129ae3b1ccc90deff32db4fa26dbf627dd1cb2",
+      "native_receiver_sha256": "40823bcdfd87f0244d1a2283432e9b2ad1ad02d1ccb4fe6e93c2bd870443b6ac",
+      "pair_driver_sha256": "59383f90a582d4af1a859827aece2e0e0f72f78fd78130c5bab9e4af4ddc5666",
+      "policy_sha256": "937d1bf922875413f5c53837d2ebb56b43832bbde48b6b80bfd42034d6411b5a",
+      "probe_sha256": "35770226c5f9afc9be3267bf173d06d02c17484a83052edc4da455c89e602d1d",
+      "profile_sha256": "c16c75039b938718ab4bfee9e49a6c55322bdfda22f25d0a526cf74f87944c3d",
+      "receiver_inputs_sha256": "b968977e6ff5483725c77af4e8293e58256b7758c8ff3d135fc623d62147c3ab",
+      "source_applicability_sha256": "8a3a3cb3ef1a99a1dce5449be652b7b430f3f8a532ee0a294a47ca5036dab17d",
+      "source_commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+      "source_manifest_sha256": "840f6c66afb0f0a50cdbf4b9dc11241ac1d1c83e4ca88d7d3436d0baccb532e8",
+      "source_tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+      "utility_sha256": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c"
+    },
+    "candidate_seal_sha256": "9c4b01a11de9b3e064259eb3b893bfe81a5926556e147be5d60c95152641f17b",
+    "current_only": true,
+    "historical_host_profile_sha256": "e59f7ecf4426d06b1c59317b83c5b424aa232a023768354614f6d72907cace0b",
+    "one_shot": true,
+    "original_awards": [],
+    "profile": "DG16_G2_SELECTED_ORDINARY_UBUNTU26_PY314_CURRENT_NATIVE_V2",
+    "review_sha256": "dae2c6fb7181dee74026e5fc284f873273279b2f8cddcfa36de6eea5c37c88af",
+    "reviewer": "/root/final_composition_receive",
+    "schema": "dg16.g2-current-native-admission-readback.v1",
+    "source_commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+    "source_tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e"
+  },
+  "maintained_policy_readback": {
+    "adoption_sha256": "03a3887ada1e1bae516b4444d17f370440d3af725f4224dc3635efa1361f64df",
+    "authority": "NONE",
+    "candidate_seal_sha256": "9c4b01a11de9b3e064259eb3b893bfe81a5926556e147be5d60c95152641f17b",
+    "decision": "EXACT_ROOT_ADOPTION_AND_INDEPENDENT_REVIEW_RECEIVED",
+    "one_shot": true,
+    "original_acceptance_granted": false,
+    "policy_sha256": "937d1bf922875413f5c53837d2ebb56b43832bbde48b6b80bfd42034d6411b5a",
+    "receiver_inputs_sha256": "b968977e6ff5483725c77af4e8293e58256b7758c8ff3d135fc623d62147c3ab",
+    "review_sha256": "d020850a427b6fb157d616470b4c87f30a8e71c9a96cdfeb6f41ba89957368d5",
+    "reviewer": "/root/final_composition_receive",
+    "schema": "dg16.actual-policy-gate-readback.v1",
+    "source_commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+    "source_tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e"
+  },
+  "native_execution": false,
+  "original_awards": [],
+  "published": false,
+  "reviewer": "/root/final_composition_receive",
+  "source_commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+  "source_tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+  "state": "ROOT_ADOPTS_EXACT_POLICY_AND_CURRENT_ONLY_NATIVE_APPLICABILITY_FOR_ONE_PROSPECTIVE_EPISODE",
+  "utc": "2026-11-09T05:43:32.294366+00:00",
+  "whole_cell_accepted": false
+}

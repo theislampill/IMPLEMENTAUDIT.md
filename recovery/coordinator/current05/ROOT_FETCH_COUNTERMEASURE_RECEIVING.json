@@ -1,0 +1,55 @@
+{
+  "schema": "dg16.root-functional-fetch-countermeasure-local-receiving.v1",
+  "utc": "2026-11-09T11:08:50.568Z",
+  "issuer": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "decision": "ACCEPT_FUNCTIONAL_FETCH_COUNTERMEASURE_AT_REPRODUCED_LOCAL_SOURCE_PREPARATION_SCOPE",
+  "actual_comparison": "PUBLIC_PROBE_RECEIVING.json SHA256 128a89fdb168f0cd0f6b505b345fb85712daa849fc6452cc832d8cdc228180eb",
+  "baseline": "c455758f324e94834b4847395517f03854f7e40909f3df4d8a7373471bd0b5f4",
+  "git_binary": "824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235",
+  "observations": {
+    "default": "Default fetch exited 0. One owned PID was signalled and reaped with -9. The empty maintenance.lock remained at both censuses; checkout was not attempted in this arm.",
+    "foreground": "From an independently copied byte-identical baseline, foreground fetch exited 0 with zero cleanup signals and no lock before checkout. Checkout also exited 0 with no lock. No retained lock was deleted or ignored.",
+    "source_checkout_note": "The local test used the same public repository and Git executable. The default arm intentionally stopped before checkout, and the controlled arm completed checkout. The pre-fetch baseline and pre-/post-fetch comparisons establish the experimental contrast."
+  },
+  "actual_unchanged_guard": {
+    "scope": "All actual files, directories and config bytes from two public scratch roots; unchanged maintained acquisition and namespace guard, not a hosted C5/G1 execution. No files written to either root.",
+    "source": "ff5dbdce5b4419268b0fc11c4659763ad68d40e32f18f721b6093a7dd269b7ab",
+    "bounds": {
+      "file_bytes": 134217728,
+      "total_bytes": 268435456,
+      "entries": 4096,
+      "depth": 40
+    },
+    "results": [
+      {
+        "arm": "default",
+        "source_bytes": 85224202,
+        "files": 29,
+        "dirs_including_root": 17,
+        "config_sha256": "e8e963eed5b4eaaa68a518f7d8db5a575c4d78381795f74f9eb2378d189a9eb4",
+        "locks": [
+          ".git/objects/maintenance.lock"
+        ],
+        "namespace_guard": "REFUSED",
+        "refusal": "unsupported external, partial or mutable Git storage"
+      },
+      {
+        "arm": "foreground",
+        "source_bytes": 251964211,
+        "files": 1790,
+        "dirs_including_root": 442,
+        "config_sha256": "e8e963eed5b4eaaa68a518f7d8db5a575c4d78381795f74f9eb2378d189a9eb4",
+        "locks": [],
+        "namespace_guard": "ACCEPTED",
+        "refusal": null
+      }
+    ]
+  },
+  "limits": "The historical hosted packet retains only the count. This does not identify its lock or establish that the subsequent runtime selection, producer, original 19-event pair, or G3 will pass.",
+  "next": "Sol prepares a fetch-only foreground scheduling change, existing finalizer cwd repair and bounded lock witness in a separately reviewed current05 candidate. Root has issued only source-composition inputs for this branch selection.",
+  "published": false,
+  "hosted_runs_in_this_phase": 0,
+  "whole_DG16": false,
+  "accepted_count": 17,
+  "total": 32
+}

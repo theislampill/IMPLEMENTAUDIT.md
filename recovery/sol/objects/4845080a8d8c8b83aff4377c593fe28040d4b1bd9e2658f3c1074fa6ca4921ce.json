@@ -1,0 +1,68 @@
+{
+  "schema": "dg16.binary-base64-readback-independent-source-review.v1",
+  "status": "PASS_SOURCE_ONLY",
+  "source": {
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\binary\\binary_publish_v3.py",
+    "bytes": 20593,
+    "sha256": "7f71f5928be04d194cdb1a19c04e6b5865173f9c488c13e0c91309a0aa6a5978"
+  },
+  "driver": {
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\binary\\binary_driver_v2.js",
+    "bytes": 20729,
+    "sha256": "445c1e7ffb393b32d5846eab2dc0fa68b0a96cd0bb8ed310dd2316be989c3d34"
+  },
+  "producer": {
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-orchestration\\root_pipeline_inputs_v2.py",
+    "bytes": 15463,
+    "sha256": "3f647d62a05a494895ab0fe0c710d5a65baebca126ce3854180e701a8da91cdf"
+  },
+  "blocking_findings": [],
+  "scope": "Independent primary-authored binary glue + separately authored producer successor; shared decoder authored by this reviewer, thus decoder correctness is NOT independently reviewed here.",
+  "checks": [
+    "Five writes remain exact CONTROL utf8 blob, INPUTS base64 blob, two-leaf tiny tree without base, sole-parent commit, exact branch compare update forcefalse.",
+    "Both file read calls are actual github_fetch_file with exact repository/path/published commit/base64; wrappers remain unchanged and their original descriptors retained; no synthesized Git API blob.",
+    "Explicit receive checks preserve original V.check_control obligations: equal opening/closing ref, published fresh commit, exactly one selected parent, expected tree ID/nottruncated, exactly two named100644blob leaves, exact SHA/size/body bytes.",
+    "New admission schema v2 binds readback_profile, exact decoderSHA, frame_seconds45, argument_chunk_bytes8192; plan same fields mandatory in V8. Old v1 admission/old plan cannot silently authorize this transport.",
+    "Durable per-intent start/end bounded by min(start45s,grant); Python checks before frame, during/after chunk read and after safe result retention. JS chunk guards + post-validation/pre-native guard preserve frame and global deadline.",
+    "Late actual result metadata/full safe wrapper retained before expiry qualification; V8 preserves safe descriptor and custody on failed local handoff, never claims local receipt or retries.",
+    "Producer v2 pins exact new binary7f71 in prospective FINAL/binary_publish_v3.py and derives matching v2 admission fields from frozen module constants. Prepared-manifest external SHA/actual admission gate retained."
+  ],
+  "controls": {
+    "binary_python": {
+      "command": "python -I -B test_binary_publish_v3.py",
+      "tests": 5,
+      "exit_code": 0
+    },
+    "binary_js": {
+      "command": "node test_binary_driver_v2.js",
+      "inert_cases": 12,
+      "exit_code": 0,
+      "happy_writes": 5,
+      "happy_reads": 6,
+      "frames": 11,
+      "chunks": 14,
+      "wrong_branch_updates": 0,
+      "bad_content_calls": 0,
+      "bad_parent_run_commit_calls": 0,
+      "bad_file_path_ref_encoding_calls": 0,
+      "expired_frame_calls": 0
+    },
+    "producer_python": {
+      "command": "python -I -B test_root_pipeline_inputs_v2.py",
+      "tests": 7,
+      "exit_code": 0
+    },
+    "effects": "All synthetic source fixtures/recording doubles; no actual Root files/private data/WSL/process/provider/native/crypto/cipher acquisition."
+  },
+  "limits": [
+    "Actual Root8192 timing qualification is Root-owned prior evidence, not repeated/independently awarded here.",
+    "No actual provider result, publication, Root admission, source installation, runtime/physical/noecho qualification or original acceptance performed.",
+    "Root must install new binary v3 plus exact sibling decoder, producer v2 and driver v2 and independently receive all exact pins before actual operation.",
+    "Old root_pipeline_inputs/acbb and old recipe binary_publish_v2/driver d955 describe historical transport; Root must select successor utility/module/driver and issue new v2 admission. CLI flag shapes remain unchanged.",
+    "Actual plan/purpose/native context/rights/current parent/terminal provenance remain Root external authentication gates, never matching JSON."
+  ],
+  "source_mutations_by_reviewer": 0,
+  "actual_effects": 0,
+  "original_acceptance": false,
+  "next": "Root independently receives exact successor source packet and installs/selects it; produces actual fresh plan/purpose/config and separately authenticates new v2 admission before one bounded existing operation; no retry or original award from source pass."
+}

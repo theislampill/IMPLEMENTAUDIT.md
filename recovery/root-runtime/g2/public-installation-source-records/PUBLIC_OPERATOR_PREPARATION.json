@@ -1,0 +1,27 @@
+{
+  "schema": "dg16.root.public-operator-preparation.v1",
+  "actor": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "scope": "Actual installation/source selection for monitored public G2 live and terminal roles. The per-role write-once reservation and metadata operations require the actual run and unique artifact once it exists. This record does not assert an event or open a native Session.",
+  "created_utc": "2026-11-09 06:00:23 UTC",
+  "source_commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+  "source_tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+  "workflow_commit": "7f618adc702912f760d87f68fe9c94cc419e844c",
+  "workflow_tree": "27bb6432546c2d0b3fb7df09f0845c3d1303bccd",
+  "workflow_branch": "pro/dg16-r5-full-g2-direct-host-01-20261109",
+  "candidate_seal": "9c4b01a11de9b3e064259eb3b893bfe81a5926556e147be5d60c95152641f17b",
+  "composition_seal": "7a202870742c3462a558960f8dbf1f73c938be877bd6e4654dcad85232f606bf",
+  "public_receiver_seal": "2f86492f085eae40ab35530fe1d59773116841c120b5a9bd50421e5bdf02275d",
+  "verified_installation_receipt": "23fcaf940f2b51d321731d56fbdd217adf032a033a9cdbaca340607d468c5239",
+  "actual_public_receiver": "/home/agent/dg16-g2-current04-public-20261109/bound-public-receiver",
+  "root_actor": "theislampill",
+  "provider_actor_id": "266501826",
+  "live_seconds": 300,
+  "scope_roles": [
+    "live",
+    "terminal"
+  ],
+  "pending": "Actual exact combined review, root physical acquisition/operator source receiving and timing coverage before host publication. After publication authentic run_id/attempt/phase-specific admission and provider history; never infer a private role or native grants from this record.",
+  "private_decrypt": false,
+  "issuer_and_resource_lease_open": false,
+  "no_rerun": true
+}

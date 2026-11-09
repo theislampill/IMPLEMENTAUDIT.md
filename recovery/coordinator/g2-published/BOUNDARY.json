@@ -1,0 +1,15 @@
+{
+  "commit": "7f618adc702912f760d87f68fe9c94cc419e844c",
+  "tree": "27bb6432546c2d0b3fb7df09f0845c3d1303bccd",
+  "intentionally_omitted_from_ZIP_overlay": [
+    "qualification/dg16-r5-full-g2-decisions/INDEPENDENT_COLD_REVIEW.json",
+    "qualification/dg16-r5-full-g2-decisions/NATIVE_INDEPENDENT_REVIEW.json",
+    "qualification/dg16-r5-full-g2-decisions/ROOT_NATIVE_APPLICABILITY_ADOPTION.json",
+    "qualification/dg16-r5-full-g2-decisions/ROOT_POLICY_ADOPTION.json",
+    "qualification/dg16-r5-full-g2/EARNED_NATIVE_PREREQUISITE_04.json",
+    "qualification/dg16-r5-full-g2/PROTECTED_RECIPIENT.json",
+    "qualification/dg16-r5-full-g2/PROTECTED_RECIPIENT.pem"
+  ],
+  "full_public_tree": "recover_git.py; published original only. Do not reuse past decisions/recipient.",
+  "superseded_generator_archive": "Original generator eagerly verifies G2_CURRENT03_SOURCE_CANDIDATE_20261107.zip, 2537258B/2d494416aed0a77d60c28ea47dc9e1cc9411fed9271b4d844aae17c453be4fc0. Fresh source work can start directly from the shipped 7f618adc host. Historical generator inputs include protected custodian material; recover/rebind only through entitled owner for the relevant operation."
+}

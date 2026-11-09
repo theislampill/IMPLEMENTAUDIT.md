@@ -1,0 +1,23 @@
+{
+  "actor": "/root",
+  "effect_grant": false,
+  "host_adoption": {
+    "bytes": 1924,
+    "sha256": "2e196b17ee1d6b8957e13d80d34ee5969a891889502b7393aaa6d5120aacf479"
+  },
+  "issuer_thread": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "maintained_source_root": "/home/agent/dg16-g2-current04-public-20261109/source",
+  "native_currentness": false,
+  "original_awards": [],
+  "output_fresh": true,
+  "private_custody_ready": false,
+  "receiver_output_root": "/home/agent/dg16-g2-current04-public-20261109/public-receiving",
+  "schema": "dg16.direct-host-public-runtime-binding.v1",
+  "session": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "source_commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+  "source_current": true,
+  "source_tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+  "status": "ACTUAL_PUBLIC_PATHS_RECEIVED_FOR_CODE_BINDING",
+  "workspace_current": true,
+  "workspace_root": "/home/agent/dg16-g2-current04-public-20261109"
+}

@@ -1,0 +1,19 @@
+{
+  "actor": "/root",
+  "author": "01a1953f-c449-72b0-9514-333b090b6dce",
+  "branch": "pro/dg16-r5-full-g2-direct-host-01-20261109",
+  "candidate_seal_sha256": "9c4b01a11de9b3e064259eb3b893bfe81a5926556e147be5d60c95152641f17b",
+  "composition_seal_sha256": "7a202870742c3462a558960f8dbf1f73c938be877bd6e4654dcad85232f606bf",
+  "control_branch": "pro/dg16-r5-full-g2-direct-control-01-20261109",
+  "effect_grant": false,
+  "final_tree": "27bb6432546c2d0b3fb7df09f0845c3d1303bccd",
+  "issuer_thread": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "native_currentness": false,
+  "original_awards": [],
+  "reviewer": "/root/dg16_bounded_andon",
+  "schema": "dg16.direct-host-public-combined-review-selection.v1",
+  "session": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "source_commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+  "source_tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+  "status": "ACTUAL_DISTINCT_REVIEWER_SELECTED_FOR_FINAL_BINDING"
+}

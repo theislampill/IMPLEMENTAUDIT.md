@@ -1,0 +1,69 @@
+{
+  "actor": "/root",
+  "actual_branch_result": {
+    "bytes": 382,
+    "path": "/workspace/scratch/52e9b813fb80/dg16-work/coordinator/g2-current03-host-admission/HOST_BRANCH_RESULT.json",
+    "sha256": "13c7beea87582589786133e8f7a555f3949c37d64a245057a8ecbe5350f4d1ff"
+  },
+  "actual_context": {
+    "bytes": 444,
+    "path": "/workspace/scratch/52e9b813fb80/dg16-work/g2-protected-full-actual-receiving-current03/CONTEXT.json",
+    "sha256": "b2c5129b8e688888005da97b03a11bf8e544e67b2f5aac08b403d36204f7d1be"
+  },
+  "admission": {
+    "bytes": 3219,
+    "path": "/workspace/scratch/52e9b813fb80/dg16-work/coordinator/g2-current03-host-admission/HOST_EPISODE_ADMISSION.json",
+    "sha256": "27a54b299c1e27fbc9e49273a6e957c1a22a01154c40ba2959476a1920547c3c"
+  },
+  "admission_consumed": true,
+  "attempt": 1,
+  "automatic_retry": false,
+  "branch": "pro/dg16-r5-full-g2-current-03-20261107",
+  "commit": "4707bd39fcb797dec98d64b02e09beced0ce687d",
+  "control_branch_absent": true,
+  "host_native_currentness_yet_received": false,
+  "hosted_slots": 1,
+  "intent": {
+    "bytes": 1457,
+    "path": "/workspace/scratch/52e9b813fb80/dg16-work/coordinator/g2-current03-host-admission/HOST_BRANCH_INTENT.json",
+    "sha256": "d2e64c700c3063ed9334e04af34817955f3c655f8e78d01281f6f0e8ad0cc6ab"
+  },
+  "job_id": 128603527611,
+  "live_review_not_yet_commissioned": true,
+  "local_native_currentness": false,
+  "observed_at": "2026-11-08T02:31:34.495652+00:00",
+  "original_awards": [],
+  "provider_run_status_at_read": "in_progress",
+  "readbacks": [
+    {
+      "bytes": 1814,
+      "path": "/workspace/scratch/52e9b813fb80/dg16-work/coordinator/g2-current03-host-admission/HOST_REF_AFTER_TRIGGER.json",
+      "sha256": "41e272f42d8a217d628b8ad511d1e16c2f21761004e0c85551ecd37cb0b6d2d9"
+    },
+    {
+      "bytes": 29728,
+      "path": "/workspace/scratch/52e9b813fb80/dg16-work/coordinator/g2-current03-host-admission/RUNS_AFTER_TRIGGER.json",
+      "sha256": "6e634e15f873277c02583e5bea3c5ecf735dd694c87f33c089bdeb94cf2f3416"
+    },
+    {
+      "bytes": 629,
+      "path": "/workspace/scratch/52e9b813fb80/dg16-work/coordinator/g2-current03-host-admission/CONTROL_REF_AFTER_TRIGGER.json",
+      "sha256": "929fdc37b1bd92a54d1a68b22cde5c9ceb70e2eab86f02af7b921970af5aac8b"
+    },
+    {
+      "bytes": 12711,
+      "path": "/workspace/scratch/52e9b813fb80/dg16-work/coordinator/g2-current03-host-admission/JOBS_FIRST_OBSERVATION.json",
+      "sha256": "7452c51bb0369471fd274ead0a5f15d204b27dc8c7ad5eb6f657131816134769"
+    },
+    {
+      "bytes": 784,
+      "path": "/workspace/scratch/52e9b813fb80/dg16-work/coordinator/g2-current03-host-admission/ARTIFACTS_FIRST_OBSERVATION.json",
+      "sha256": "e7a2716cb4eac0285551e98cfb2b9b6f0175d035f8489dc7fa5fedfcca526567"
+    }
+  ],
+  "run_id": "42438847724",
+  "schema": "dg16.current03-g2-actual-host-trigger-receiving.v1",
+  "sibling_state_changed": false,
+  "status": "EXACT_TREE_COMMIT_REF_UNIQUE_ATTEMPT1_RUN_AND_JOB_RECEIVED",
+  "tree": "2c157178f1dd6686fe5fa7259cc6b0285dc00d52"
+}

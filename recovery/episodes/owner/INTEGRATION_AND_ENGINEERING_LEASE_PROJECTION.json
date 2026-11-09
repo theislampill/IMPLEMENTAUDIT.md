@@ -1,0 +1,140 @@
+{
+  "accepted_cells_at_record": 17,
+  "dated_product_and_remote_facts": {
+    "PR255": {
+      "endpoint": "pulls/255",
+      "matches_reconciled_cutoff": true,
+      "observed": [
+        "open",
+        true,
+        "123089d1f1b9cc3650a2fba8260d322741c53070",
+        "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+        false
+      ]
+    },
+    "commit G1": {
+      "endpoint": "git/commits/dc16541c0219ce24591225258af56f32de68cef2",
+      "matches_reconciled_cutoff": true,
+      "observed": {
+        "parents": [
+          "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f"
+        ],
+        "sha": "dc16541c0219ce24591225258af56f32de68cef2",
+        "tree": "cc522f62f7f28d1e0b7c030adee11f4d6ba56670"
+      }
+    },
+    "commit G2": {
+      "endpoint": "git/commits/4707bd39fcb797dec98d64b02e09beced0ce687d",
+      "matches_reconciled_cutoff": true,
+      "observed": {
+        "parents": [
+          "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f"
+        ],
+        "sha": "4707bd39fcb797dec98d64b02e09beced0ce687d",
+        "tree": "2c157178f1dd6686fe5fa7259cc6b0285dc00d52"
+      }
+    },
+    "commit product": {
+      "endpoint": "git/commits/7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+      "matches_reconciled_cutoff": true,
+      "observed": {
+        "parents": [
+          "ea61b498d6cffd4747966e7dd716abd3b3cffc1f"
+        ],
+        "sha": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+        "tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e"
+      }
+    },
+    "main": {
+      "endpoint": "git/ref/heads/main",
+      "matches_reconciled_cutoff": true,
+      "observed": "e78f7cb21af4197d490f10bc95917a4c75f748aa"
+    },
+    "ref G1": {
+      "endpoint": "git/ref/heads/pro/dg16-r5-g1-original-g3-current-03-20261107",
+      "matches_reconciled_cutoff": true,
+      "observed": "dc16541c0219ce24591225258af56f32de68cef2"
+    },
+    "ref G2": {
+      "endpoint": "git/ref/heads/pro/dg16-r5-full-g2-current-03-20261107",
+      "matches_reconciled_cutoff": true,
+      "observed": "4707bd39fcb797dec98d64b02e09beced0ce687d"
+    },
+    "ref G2control": {
+      "endpoint": "git/ref/heads/pro/dg16-r5-full-g2-current-control-03-20261107",
+      "matches_reconciled_cutoff": true,
+      "observed": {
+        "http": 404,
+        "message": "Not Found"
+      }
+    },
+    "runs G1": {
+      "endpoint": "actions/runs?branch=pro%2Fdg16-r5-g1-original-g3-current-03-20261107&per_page=100",
+      "matches_reconciled_cutoff": true,
+      "observed": {
+        "runs": [
+          [
+            42432664333,
+            1,
+            "dc16541c0219ce24591225258af56f32de68cef2",
+            "completed",
+            "failure"
+          ]
+        ],
+        "total": 1
+      }
+    },
+    "runs G2": {
+      "endpoint": "actions/runs?branch=pro%2Fdg16-r5-full-g2-current-03-20261107&per_page=100",
+      "matches_reconciled_cutoff": true,
+      "observed": {
+        "runs": [
+          [
+            42438847724,
+            1,
+            "4707bd39fcb797dec98d64b02e09beced0ce687d",
+            "completed",
+            "failure"
+          ]
+        ],
+        "total": 1
+      }
+    }
+  },
+  "dated_receiving_utc": "2026-11-08 22:29:29 UTC",
+  "decision": "ACCEPTED_DG16_SHARED_PRODUCTION_INTEGRATION_TRANSFER_AND_GRANTED_BOUNDED_SOL_ENGINEERING",
+  "export_changes_owners": false,
+  "loss": "Verbatim original user/assistant message bodies removed. Record/turn/message identities and substantive ownership/effect facts retained; not original transcript or new authority.",
+  "new_Pro_receiving_or_transfer_receipt": "NOT_CREATED_OR_ESTABLISHED_BY_THIS_EXPORT",
+  "owner_authorization_identity": {
+    "thread": "01a1953f-c449-72b0-9514-333b090b6dce",
+    "turn": "01a1bd42-0134-7183-b1c4-d21420c0b210",
+    "user_message": "01a1bd42-0507-7762-ad8d-15f48e52c867"
+  },
+  "receiving_owner": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "schema": "dg16.owner-lease-public-facts.v1",
+  "single_writer": {
+    "current": "Astra is the sole DG16 shared-production integrator. Astra alone retains PR255 publication and formal root acceptance authority. No publication was requested at this transition.",
+    "limits": "49 G1 and 46 G2 changed paths inventoried relative to their product parent. No active provider runs in the five screened statuses. This check concerns the named commission; physical provider teardown and historical custody remain unknown. DG17 and DG18 keep their isolated commissions.",
+    "previous": "DG16 Pro expressly relinquished all shared-production integration and retained zero shared-production reservations. Keeps its isolated evidence/original-acceptance scope."
+  },
+  "sol_engineering_owner": "01a1953f-c449-72b0-9514-333b090b6dce",
+  "sol_lease": {
+    "checkpoint": "For each lane, report proved cause and independently reviewed correction; or a reviewed discriminator and its single missing observation; or the precise blocking predicate and its owner. Escalate to Astra only for a decision-changing root-only action.",
+    "g1": "Exclusive isolated g1/ successor review and candidate for the exact retained G1 operation.qualify diagnostic proposal, including a bounded run.py public projection if genuinely necessary. Obtain distinct review of the exact design and preserve original cancellation, currentness, time, cleanup, and refusal. Keep prior export repair and original false/UNKNOWN evidence.",
+    "g2": "Exclusive isolated g2/ successor source and affected controls for the current03 trusted tool and canonical-path refusal, primarily protected_preflight.py and the directly necessary bounded diagnostic exporter in the G2 adapter. Public archive/log comparison may use separately qualified metadata, path and runtime; never reconstruct the original Session.",
+    "lease_start": "On Sol receiving this root receipt and beginning engineering; checkpoint within two active engineering hours, or immediately for a decision-changing blocker.",
+    "local_root": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108",
+    "receiving": "Use read-only reference files from the sealed Pro material and matched remote heads. Only lane-local candidate files and evidence are writable under this lease. No writes to shared checkouts, sealed inputs, either published ref, PR255, main, or root ledger. No native or hosted operation, ref push, control publication, workflow, fresh security grant, issue effect or adoption is included."
+  },
+  "source_descriptor": {
+    "bytes": 26608,
+    "sha256": "2a1c257e3879b6311993001df7619c53e9da90cd7a59935a5240f093ac7238da"
+  },
+  "source_release_identity": {
+    "assistant_message": "0efe5961-efeb-54d5-b680-4398d021ba5f",
+    "record_id": "DG16-INTEGRATION-RELEASE-20261108-TO-ASTRA-01a1953f-a15b-7811-aa72-3538ebb03562",
+    "thread": "6aeed13f-cde0-83ea-825c-e16a8789bbaa",
+    "turn": "41f8380f-dc74-42d9-8b23-98adcb7caec4"
+  }
+}

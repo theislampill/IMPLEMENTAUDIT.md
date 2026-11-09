@@ -1,0 +1,57 @@
+{
+  "schema": "dg16.g1.consolidated-readback-frame-successor-independent-receiving.v1",
+  "reviewer": "/root/dg16_bounded_andon",
+  "decision": "PASS_SOURCE_RECEIVING_ONLY",
+  "blocking_findings": [],
+  "handoff_sha256": "353593079f92e55178b8c0043bb7c4a94c6bc3cdc7a671ed33061f17b920d60a",
+  "all_handoff_source_and_review_members_verified": 15,
+  "source_sha256": {
+    "file_readback.py": "ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1",
+    "control_process_v5.py": "1f78c843e942720fc0ed5ef909975dbdd9fd4595b287053bbe3384ffa265cdff",
+    "control_readback.py": "7e7d26fa8dd41eec57ac47c9280b7f2107e9df0e509fe608f4d9c4c080c5a649",
+    "control_callback_v6.js": "7760fd14ba8c4cf3fbc3f139fc6f3fd4c0df4821a3e26e1766bbce4c08180734",
+    "binary_publish_v3.py": "7f71f5928be04d194cdb1a19c04e6b5865173f9c488c13e0c91309a0aa6a5978",
+    "binary_driver_v3.js": "83f25246bbcc8f6cc5535c45a1b11b7905481eea82ef0cf65a5b1f7f5646288d",
+    "root_pipeline_inputs_v2.py": "3f647d62a05a494895ab0fe0c710d5a65baebca126ce3854180e701a8da91cdf"
+  },
+  "previous_failures_received": {
+    "blob_readback": "Actual generic github_fetch/github_fetch_blob decoding did not satisfy raw Git Data Base64/body identity and refused binary. Failure receipt cf0a621a47c871e1e5e60264ca113d5d1c4b5ab0283f193ebd907122eec9f545 remains historical.",
+    "expired_frame_dispatch": "Earlier8192 candidate checked only overall grant/cached role state after slow extraction. Its previously demonstrated post45s dispatch trace remains a real old-source blocker, without retrocredit."
+  },
+  "corrections_received": {
+    "supported_file_route": "Both consumers select actual first-party github_fetch_file(repository_full_name,path,ref=actual newly published commit,encoding=base64). Original wrappers/descriptors remain unmodified. Decoder binds actual display URL/title/encoding/GitSHA, canonical Base64, consumer maximum, decoded length/SHA256/Gitblob ID; errors/partial results refuse.",
+    "original_receiving_purpose": "Control keeps actual phase/body/context/complete population, expected recursive tree including G3 directories, selected ref/commit/sole parent and closing ref. Binary keeps two named100644 leaves, exact control purpose/nonce/recipient/index/cipher bindings, five writes and six readbacks, actual bytes and original grant. No synthetic Git Data envelope substitutes for provider evidence.",
+    "frame_binding": "Binary durable intent records start/end=min(start+45000,grant); Python frame uses remaining time, chunk reads check the same deadline, and V8 checks it during extraction and immediately after argument validation before dispatch. Control v5/v6 likewise exposes/caps the actual per-frame deadline and checks it before dispatch. No frame or grant extension.",
+    "late_evidence": "Both Python loops retain safe actual returned wrappers/descriptors before rejecting expiry. Both final callbacks preserve receipt-only returned-outcome handoff, distinguish NOT_YET_PROVED from RETAINED_ACKNOWLEDGEMENT and check captured frame/global expiry before stage advancement. Failed/extinct handoff retains outcome descriptor/custody and grants no next call/replay.",
+    "producer_v2": "Exact new binary source pin is selected. Plan/admission bind readback profile, decoder hash,45s frame and8192 chunk constants; binary admission schema v2 and prepared-manifest external SHA remain required. Actual sender outcome, plan/purpose, original expiry, parent and source/currentness bookends remain. The producer issues no admission."
+  },
+  "actual_first_party_fixture_receiving": {
+    "owner": "Root; already received public immutable fixtures, not rerun or newly authenticated from labels",
+    "SUPPORTED_BASE64_FILE_RECEIVING_sha256": "696cee1d3e51ccbaf5390513e74a520ad6576a967d1a639a3b5f6cf43cd1ad93",
+    "BASE64_ROUTE_METADATA_sha256": "5b250fa2bab9ee7b0acace4b4f0bb4cbd7bca9d999ab7859d06978b8aa935d48",
+    "observed_decoded_bytes": [5028, 343118],
+    "observed_complete_wrapper_bytes": [7298, 473275],
+    "observed_metadata_shape_matches_selected_decoder": true,
+    "scope": "Actual supported immutable Base64 transport evidence; not future original publication/closing or private interoperability. Root owns real installation/provider fixture qualification."
+  },
+  "new_isolated_entry_spot_checks": {
+    "method": "Actual exported command builders and one15-byte inert argument extraction, with injected recording tools only; no real process/provider callback or accepted-suite replay",
+    "WindowsRoleIO_sha256": "0bfbe734edcf52a59fc9f4ceb0acbeda2b15991a9ca000def8a28bea3a5c1106",
+    "normal_V5_loader": "FD/type/hash/bookend loader sets __name__=__main__ and __file__=str(selected path). Control cwd=/ is compatible: v5 locates pinned file_readback/control_readback siblings via Path(__file__).with_name and executes helpers with their own __file__.",
+    "binary_loader_and_chunk_entry": "Actual builder selects --cd=/home/agent/dg16-g1-current04-operators/root-final-operators-01, sets __file__, launches binary_publish_v3.py and read-arguments-chunk with count8192. Same-directory file_readback.py is required. Inert chunk/whole-SHA/frame/JSON extraction succeeded.",
+    "journal_dependency": "Producer and binary helper continue selecting exact control_process_v3.py c381d6faa55513ee1a3e368ec9f5d7c2867e704ca0b2ab0dae18187b36ba8f43 as Journal/guard dependency. It is distinct from the new actual control publication driver v5.",
+    "caps": "Arguments/results remain4MiB; chunks8192 and existing12288-character helper-result bound. Frame metadata does not enlarge the original45s or overall grant. Root's19.776s physical result is reused only as Root-owned transport evidence.",
+    "installed_peer_existence_or_physical_runtime_qualified_here": false
+  },
+  "scope_and_effects": {
+    "current_delta_authorship": false,
+    "disclosure": "This reviewer identified the prior frame gap and reviewed its correction; it authored no consolidated successor implementation.",
+    "accepted_controls_or_banks_repeated": false,
+    "hosted_native_provider_repository_or_private_effects": 0,
+    "only_write": "root-final-operators-02/independent/RECEIPT.json",
+    "Root_installation_source_currentness_real_fixture_admission_and_effects": "Separate Root-owned receiving remains required; this source verdict grants none."
+  },
+  "original_awards": [],
+  "effect_grant": false,
+  "original_acceptance": false
+}

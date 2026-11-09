@@ -1,0 +1,215 @@
+{
+  "DAG": {
+    "accepted": 17,
+    "edges": 89,
+    "ledger_sha256": "feb8a83c9b5f2739b8ece70ab7dbb773af7d49e8848eea9cb82aed83b97c3c15",
+    "total": 32
+  },
+  "PR255": {
+    "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/255",
+    "merged": false,
+    "state": "open"
+  },
+  "PR255_head": "123089d1f1b9cc3650a2fba8260d322741c53070",
+  "absent_ref_means": "Absent on this read, not proof that an effect never occurred; reacquire before writing.",
+  "as_of_utc": "2026-11-09T11:19:39.421422+00:00",
+  "issue209_state": "open",
+  "issue209_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/209",
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "runs": [
+    {
+      "artifacts": [
+        {
+          "digest": "sha256:28ef2877d8d5c42ff5300568cc601074b48378e609275aeea3455ac12fa3dec6",
+          "expired": false,
+          "id": 13664486900,
+          "name": "dg16-g1-hosted-42596136449-1",
+          "size_in_bytes": 10612
+        },
+        {
+          "digest": "sha256:42d32a92ee7f6563e6835fff49de74246afbba7d9349a618d78583674f57d21d",
+          "expired": false,
+          "id": 13663802128,
+          "name": "dg16-core-private-recipient-42596136449-a1",
+          "size_in_bytes": 1888
+        },
+        {
+          "digest": "sha256:ee5690d139eb982cb297bfc51e83e95b83bdd94e822df2065af35169bb74591d",
+          "expired": false,
+          "id": 13663059023,
+          "name": "dg16-core-host-tools-42596136449-a1",
+          "size_in_bytes": 1252
+        }
+      ],
+      "attempt": 1,
+      "branch": "pro/dg16-g1-original-g3-04-20261109",
+      "commit": "f9ba187e8f5520956f0f16cf13c0a706e8360b96",
+      "conclusion": "failure",
+      "event": "push",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/42596136449",
+      "jobs": [
+        {
+          "completed_at": "2026-11-09T10:00:13Z",
+          "conclusion": "failure",
+          "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/42596136449/job/129089113853",
+          "id": 129089113853,
+          "name": "qualify",
+          "started_at": "2026-11-09T09:47:59Z",
+          "status": "completed"
+        }
+      ],
+      "parents": [
+        "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f"
+      ],
+      "run_id": 42596136449,
+      "status": "completed",
+      "tree": "8390375505282e602759c7976b6bca82a44d5737",
+      "workflow": ".github/workflows/dg16-r5-g1-hosted-episode.yml"
+    },
+    {
+      "artifacts": [
+        {
+          "digest": "sha256:6b869e5e7543703e7f70def6119d4f7a7ce1aa0a9868ee7f0d11ba41542d1f31",
+          "expired": false,
+          "id": 13656518464,
+          "name": "dg16-full-registry-42579780645-1",
+          "size_in_bytes": 16572
+        },
+        {
+          "digest": "sha256:c2d590aab6a0f382435b7b6c40b205904a387eb9234845d3159f47b3c9b85aee",
+          "expired": false,
+          "id": 13656488570,
+          "name": "dg16-g2-failed-streams-42579780645-a1",
+          "size_in_bytes": 18337
+        }
+      ],
+      "attempt": 1,
+      "branch": "pro/dg16-r5-full-g2-direct-host-01-20261109",
+      "commit": "7f618adc702912f760d87f68fe9c94cc419e844c",
+      "conclusion": "failure",
+      "event": "push",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/42579780645",
+      "jobs": [
+        {
+          "completed_at": "2026-11-09T07:35:10Z",
+          "conclusion": "failure",
+          "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/42579780645/job/129035519895",
+          "id": 129035519895,
+          "name": "full-registry-raw-pair",
+          "started_at": "2026-11-09T07:30:38Z",
+          "status": "completed"
+        }
+      ],
+      "parents": [
+        "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f"
+      ],
+      "run_id": 42579780645,
+      "status": "completed",
+      "tree": "27bb6432546c2d0b3fb7df09f0845c3d1303bccd",
+      "workflow": ".github/workflows/dg16-r5-full-g2.yml"
+    },
+    {
+      "artifacts": [],
+      "attempt": 1,
+      "branch": "pro/dg16-direct-encrypt-qualification-c2c4e92d00822647f8a4c345f09c4d0f636b8334-c13302b0c1f378ca7ea9fc13f2ccf94eba02d0e5b2d53177c108e67776beea03",
+      "commit": "c2c4e92d00822647f8a4c345f09c4d0f636b8334",
+      "conclusion": "success",
+      "event": "push",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/42562408045",
+      "jobs": [
+        {
+          "completed_at": "2026-11-09T04:32:45Z",
+          "conclusion": "success",
+          "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/42562408045/job/128981492233",
+          "id": 128981492233,
+          "name": "qualify",
+          "started_at": "2026-11-09T04:32:37Z",
+          "status": "completed"
+        }
+      ],
+      "parents": [],
+      "run_id": 42562408045,
+      "status": "completed",
+      "tree": "4ad21281345493ee94cca2c49115ada5d355cec0",
+      "workflow": ".github/workflows/dg16-direct-encrypt-qualification.yml"
+    },
+    {
+      "artifacts": [],
+      "attempt": 1,
+      "branch": "pro/dg16-g2-tool-observation-01-20261108",
+      "commit": "6c5159a8b9a3d5c98ab5aff83a1796926e4cc482",
+      "conclusion": "failure",
+      "event": "push",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/42536941327",
+      "jobs": [
+        {
+          "completed_at": "2026-11-08T23:48:40Z",
+          "conclusion": "failure",
+          "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/42536941327/job/128903218561",
+          "id": 128903218561,
+          "name": "observe",
+          "started_at": "2026-11-08T23:48:36Z",
+          "status": "completed"
+        }
+      ],
+      "parents": [],
+      "run_id": 42536941327,
+      "status": "completed",
+      "tree": "144b79f8471cfcdb8f7cb095d328e6699133028b",
+      "workflow": ".github/workflows/dg16-g2-tool-observation.yml"
+    },
+    {
+      "artifacts": [
+        {
+          "digest": "sha256:d485faec14bfa02cb4e8a87647dafbaabb5589af0e79f35e48eb1db5cf33e218",
+          "expired": false,
+          "id": 13509522605,
+          "name": "dg16-installed-runtime05-42232703790-1",
+          "size_in_bytes": 6842
+        }
+      ],
+      "attempt": 1,
+      "branch": "pro/dg16-r5-installed-runtime-05r7-20261106",
+      "commit": "9493cb25ec976aebb056191ec4eafa086d6b44d6",
+      "conclusion": "success",
+      "event": "push",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/42232703790",
+      "jobs": [
+        {
+          "completed_at": "2026-11-06T14:19:29Z",
+          "conclusion": "success",
+          "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/42232703790/job/127942338030",
+          "id": 127942338030,
+          "name": "qualify-four-installed-layouts",
+          "started_at": "2026-11-06T14:18:13Z",
+          "status": "completed"
+        }
+      ],
+      "parents": [
+        "8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b"
+      ],
+      "run_id": 42232703790,
+      "status": "completed",
+      "tree": "83ef8bcf927b6ad0d16e2d479058c5fbd1b5f162",
+      "workflow": ".github/workflows/dg16-installed-runtime05.yml"
+    }
+  ],
+  "selected_remote_heads": {
+    "integration/active-rlgwo-composite-20261025": "123089d1f1b9cc3650a2fba8260d322741c53070",
+    "main": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+    "pro/dg16-direct-encrypt-qualification-c2c4e92d00822647f8a4c345f09c4d0f636b8334-c13302b0c1f378ca7ea9fc13f2ccf94eba02d0e5b2d53177c108e67776beea03": "c2c4e92d00822647f8a4c345f09c4d0f636b8334",
+    "pro/dg16-g1-carrier-control-04-20261109": "f14906583c07065a97221c739d221f4fbaa7e2b4",
+    "pro/dg16-g1-carrier-control-05-20261109": null,
+    "pro/dg16-g1-g3-control-04-20261109": "ea61b498d6cffd4747966e7dd716abd3b3cffc1f",
+    "pro/dg16-g1-g3-control-05-20261109": null,
+    "pro/dg16-g1-original-g3-04-20261109": "f9ba187e8f5520956f0f16cf13c0a706e8360b96",
+    "pro/dg16-g1-original-g3-05-20261109": null,
+    "pro/dg16-g1-tools-control-04-20261109": "a92481fb7d94d62240e3af85f608dde412fd3c32",
+    "pro/dg16-g1-tools-control-05-20261109": null,
+    "pro/dg16-g2-tool-observation-01-20261108": "6c5159a8b9a3d5c98ab5aff83a1796926e4cc482",
+    "pro/dg16-pro-successor-20261109": null,
+    "pro/dg16-r5-full-g2-direct-control-01-20261109": null,
+    "pro/dg16-r5-full-g2-direct-host-01-20261109": "7f618adc702912f760d87f68fe9c94cc419e844c",
+    "pro/dg16-r5-installed-runtime-05r7-20261106": "9493cb25ec976aebb056191ec4eafa086d6b44d6"
+  }
+}

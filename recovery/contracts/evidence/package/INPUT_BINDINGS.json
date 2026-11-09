@@ -1,0 +1,48 @@
+{
+  "actual_transport": {
+    "bytes": 2686,
+    "path": "/workspace/scratch/14a519ffa057/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/LOG_ARTIFACT_RELATIONS.json",
+    "sha256": "920cdc0c8d80b8f54af1aa29ebfda5df483f2f7091afb84a9f0dd5c58a9a1c9e"
+  },
+  "adapter": {
+    "bytes": 74835,
+    "path": "/workspace/scratch/14a519ffa057/work/package-current-receiver-source/candidate/public/qualification/dg16-installed-runtime05/run.py",
+    "sha256": "fbcb15e3c154b6558ffdac49cb86cccc8a727c67d668b3718bbda5d1a0e866c0"
+  },
+  "authority": "NONE",
+  "candidate": {
+    "bytes": 10286,
+    "member_count": 50,
+    "path": "/workspace/scratch/14a519ffa057/work/package-current-receiver-source/SEAL.json",
+    "sha256": "a635dac76daafb8edf0f65807f0fbaf3ec5182ea05a1156b0af594f9104a0ec6",
+    "verified_member_bytes": 4137274
+  },
+  "independent_review": {
+    "bytes": 3465,
+    "member_count": 17,
+    "path": "/workspace/scratch/14a519ffa057/work/package-current-receiver-source-review/SEAL.json",
+    "sha256": "2f3f4b8c417d950e0ab138e6219f845fbea28dcfc10011c96520994ae06ccd6c",
+    "verified_member_bytes": 1280340
+  },
+  "installed_receiver": {
+    "bytes": 29033,
+    "path": "/workspace/scratch/14a519ffa057/work/package-current-receiver-source/candidate/public/qualification/dg16-installed-runtime05/installed_runtime.py",
+    "sha256": "9a511c8010fd29f4c10c96d366d786660e4613e34e6fe00fdb73e0c34f2a772a"
+  },
+  "retained_applicability_analysis": {
+    "bytes": 11171,
+    "path": "/workspace/scratch/14a519ffa057/delta/lanes/dg16-q02-q04-q05-applicability/REPORT.md",
+    "sha256": "ee1eb6c6695b579a0e9c579f53acf6baf851235e647904edf38cd94d1e832e03"
+  },
+  "root_grant": {
+    "bytes": 8741,
+    "path": "/workspace/scratch/14a519ffa057/work/coordinator/package05r7-current/ROOT_EFFECT_GRANT.json",
+    "sha256": "631b7cffd8e6de93b82c6d56e78172c064105158d52d6a2d92923cc97341067e"
+  },
+  "schema": "dg16.package05r7.actual-input-bindings.v1",
+  "source_scope": {
+    "bytes": 2181,
+    "path": "/workspace/scratch/14a519ffa057/delta/lanes/dg16-installed-runtime05/ORIGINAL_SCOPE.json",
+    "sha256": "04d7417355ea449de2301dc362569faf7945a8e60a8564cbf58c7ea5d1843ecf"
+  }
+}

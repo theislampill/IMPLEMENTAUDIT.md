@@ -1,0 +1,112 @@
+{
+  "scope": "Root independent source receiving and local-only finalizer correction. No hosted job or original claim replay.",
+  "received": {
+    "decision_sha": "7effcb19011e66ca863c6f4567e02ea70811547d7a37906487a4edfded1f45bf",
+    "members": 11,
+    "independent": "PASS_SOURCE_DIAGNOSTIC_ONLY",
+    "actual_effects": 0
+  },
+  "actual_public_log": {
+    "job": 129089113853,
+    "public_log_bytes": 101434,
+    "sha256": "997589d891806589f6e7ae81b6812f7bd632eb21034de0b795ab75f461677cb5",
+    "git_versions": [
+      {
+        "line": 58,
+        "version": "git version 2.56.0"
+      },
+      {
+        "line": 731,
+        "version": "git version 2.56.0"
+      }
+    ],
+    "git_lock_or_maintenance_warnings": [],
+    "actual_auto_maintenance_lines": [],
+    "full_log_retained": false
+  },
+  "primary": {
+    "observation": "The exact 52-byte Git namespace guard refused. The full input contains one .lock-suffixed entry; owner, lifetime and exact path were not exported.",
+    "candidateMechanism": "The host executes a plain fetch while capturing with an owned-child subreaper. Git 2.56.0 can detach maintenance while owning its object-store lock. Forced termination before normal rollback could leave that entry behind. Not yet attributed to this historical run.",
+    "upstream": [
+      "https://github.com/git/git/blob/v2.56.0/builtin/fetch.c#L2926",
+      "https://github.com/git/git/blob/v2.56.0/run-command.c#L1957-L1992",
+      "https://github.com/git/git/blob/v2.56.0/builtin/gc.c#L1392-L1435",
+      "https://github.com/git/git/blob/v2.56.0/t/t7900-maintenance.sh#L1717-L1738"
+    ],
+    "verification": "Sol obtained exact original Git executable from a signed package and is testing the acquisition/child cleanup in a disposable local fixture. If reproduced, compare foreground maintenance while retaining full locks, object storage and child custody. Never remove a lock or suppress the guard."
+  },
+  "secondary": {
+    "finding": "Finalizer inherits '/' while claim-run.sh discovers the Git root from its working directory. The final public command returned 1. The actual private command error is unobserved.",
+    "candidate_sha256": "b4c9013c0c665df6c2e66c609f93d5a08c2e12905a7663d3d144419b64b69865",
+    "base": "d04ebf2fa1b3f085c77996fb87464280eb75154d1fd691fb5c4e612eef7a61bd",
+    "change": "One os.chdir(source) before final require_current after the existing source/child/receipt checks; original guard and restoration retained.",
+    "controls": {
+      "rows": [
+        {
+          "source": "published",
+          "case": "correct_repo",
+          "repo_seen": "other",
+          "consumer_succeeded": false,
+          "error": "CURRENTNESS_REFUSED"
+        },
+        {
+          "source": "diagnostic_v2",
+          "case": "correct_repo",
+          "repo_seen": "other",
+          "consumer_succeeded": false,
+          "error": "CURRENTNESS_REFUSED"
+        },
+        {
+          "source": "corrected",
+          "case": "correct_repo",
+          "repo_seen": "selected",
+          "consumer_succeeded": true,
+          "error": null
+        },
+        {
+          "source": "corrected",
+          "case": "stale_token",
+          "repo_seen": "selected",
+          "consumer_succeeded": false,
+          "error": "CURRENTNESS_REFUSED"
+        },
+        {
+          "source": "corrected",
+          "case": "owner_refuses",
+          "repo_seen": "selected",
+          "consumer_succeeded": false,
+          "error": "CURRENTNESS_REFUSED"
+        },
+        {
+          "source": "corrected",
+          "case": "no_child_custody",
+          "repo_seen": "NONE",
+          "consumer_succeeded": false,
+          "error": null
+        }
+      ],
+      "real_git": "/usr/bin/git",
+      "scope": "Git discovery and original function/guard only; marked scratch path stands in for the receipt",
+      "real_native_or_controller_calls": 0
+    }
+  },
+  "secondary_independent_receiving": {
+    "decision": "ACCEPT_EXACT_FINALIZER_CWD_SOURCE_FIX_ONLY",
+    "receipt": "independent/REVIEW.json",
+    "receipt_sha256": "d9891110ec1d3746719ae62a05b3e2ffc44635d204720792ba67d091dda9dd11"
+  },
+  "tiny_actual_exact_git_control": {
+    "git_version": "2.56.0",
+    "matches_host_binary_sha256": "824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235",
+    "fixture_sha256": "6d24f207e6a0f3ba8d4d8510a6edadceb962c8dac6bf9c4158f9793ba0a6979c",
+    "ordinary_command_returncodes": "13 zeroes",
+    "owned_fetch_cleanup": "One pidfd signal; child reaped with status zero. The record does not prove termination by signal or identify the child role.",
+    "persistent_lock": false,
+    "foreground_control_run": false,
+    "original_c5_effects": 0
+  },
+  "published": false,
+  "original_awards": [],
+  "accepted_cells": 17,
+  "total": 32
+}

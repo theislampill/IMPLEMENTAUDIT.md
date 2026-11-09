@@ -1,0 +1,57 @@
+{
+  "actual_effects": 0,
+  "fixture_executed": false,
+  "no_native_or_original_acceptance": true,
+  "product_commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+  "protected_original_private_input_reads": 0,
+  "r0038": {
+    "actual_observed_lock_link": "NOT_PROVED",
+    "creates": "common/implementaudit-r0038-snapshot-writer.lock",
+    "kind": "directory",
+    "lifetime": "held for publisher, removed on ordinary unwind; crash/cleanup residue possible",
+    "reachable_from_maintained_currentness": "NO_CALL_FOUND"
+  },
+  "schema": "dg16.g1-lock-owner-static-handoff.v1",
+  "source_action": "Preserve original refusal; privately establish exact actual owner/lifetime before choosing distinct supported full source or separately changing contract. No omit/delete/rename/relabel workaround.",
+  "source_pins": [
+    {
+      "bytes": 422801,
+      "commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+      "path": "scripts/operational-evidence.py",
+      "repository": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\root-episode-store.git",
+      "sha256": "5950164adb0e0e1d9c6ff4481ccb43cbff94a13ae1fb6578fb6a172a431e69ed"
+    },
+    {
+      "bytes": 32290,
+      "commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+      "path": "skills/implementaudit/scripts/claim-run.sh",
+      "repository": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\root-episode-store.git",
+      "sha256": "9bce5c887cd89c2d2991b84f1bf765787e7a6b75a2eba29a8433c3a6c05f73a3"
+    },
+    {
+      "bytes": 291624,
+      "commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+      "path": "skills/implementaudit/scripts/claim-run-rotation.py",
+      "repository": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\root-episode-store.git",
+      "sha256": "128dfe66ce656cd194d5fe1e55b245fecb1b4fd811dea87f75f8ace4a59a0487"
+    },
+    {
+      "bytes": 53362,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\original-host-failure-01\\source\\qualify-work-graph-prefix.py",
+      "sha256": "ff5dbdce5b4419268b0fc11c4659763ad68d40e32f18f721b6093a7dd269b7ab"
+    },
+    {
+      "bytes": 21275,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\original-host-failure-01\\source\\work-graph-c5-inputs.py",
+      "sha256": "2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a"
+    },
+    {
+      "bytes": 24898,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\original-host-failure-01\\source\\work-graph-c5-provider-inputs.py",
+      "sha256": "e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f"
+    }
+  ],
+  "status": "SOURCE_CAUSE_CANDIDATE_QUALIFIED_ACTUAL_ATTRIBUTION_UNKNOWN",
+  "terminal": "NO_ACTIVE_PROCESS_OR_EFFECT",
+  "utc": "2026-11-09T10:10:32.427076+00:00"
+}

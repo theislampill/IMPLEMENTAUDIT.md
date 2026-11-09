@@ -1,0 +1,31 @@
+{
+  "schema": "dg16.delivery-retained-cutoff.v1",
+  "authority": "NONE",
+  "observed_utc": "2026-11-08T08:43:51.888747+00:00",
+  "retained_source": "C:/workspace/ai/improveimplementaudit/plans/astra-successor-reconciliation-20261108/g1-current04-issuer/../READBACK.json",
+  "PR255": {
+    "endpoint": "pulls/255",
+    "result": [
+      "open",
+      true,
+      "123089d1f1b9cc3650a2fba8260d322741c53070",
+      "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      false
+    ]
+  },
+  "main": {
+    "endpoint": "git/ref/heads/main",
+    "result": "e78f7cb21af4197d490f10bc95917a4c75f748aa"
+  },
+  "product": {
+    "endpoint": "git/commits/7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+    "result": {
+      "sha": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+      "tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+      "parents": [
+        "ea61b498d6cffd4747966e7dd716abd3b3cffc1f"
+      ]
+    }
+  },
+  "scope": "Retained Nov8 data, not a new live provider refresh, branch mutation, merge, source adoption or exact7e CI acceptance."
+}

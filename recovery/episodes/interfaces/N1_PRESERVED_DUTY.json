@@ -1,0 +1,39 @@
+{
+  "actual_preserved_duty": {
+    "accepted_witness": null,
+    "actual_result": "PENDING",
+    "audit_state_required": true,
+    "boundary_id": "boundary-162f88f4b5482b1970418ee6b35c4f0f2e05420c7449b4e390fac781e1de1648",
+    "consumption": "PENDING",
+    "covered_boundary_ids": [],
+    "currentness": "UNRESOLVED",
+    "epoch": null,
+    "evidence": [
+      {
+        "json_pointer": "/payload/pending_boundaries/value/1",
+        "line": 17,
+        "path": "candidate/stage1/STATE.md"
+      },
+      {
+        "json_pointer": "/payload/obligations/value",
+        "line": 17,
+        "path": "candidate/stage1/ROADMAP.md"
+      }
+    ],
+    "id": "N1",
+    "next_proper_owner_action": "The existing continuity/R0033 owner must handle the actual completed-compaction/resume audit obligation within its proper bounded assignment and existing authority gates. Do not infer consumption from this review, dispatch, a reservation, an old GO or a later good response.",
+    "reason": "Outside this reader authority; preserved mandatory duty, not optional scheduling",
+    "reservation": "RESERVED",
+    "terminal_state": "deferred"
+  },
+  "fulfillment_by_this_export": false,
+  "latest_context_confirmation": "DG18 progress134 response still reports mandatory/reserved/pending/uncovered, no accepted witness; proper-owner request unfulfilled",
+  "loss": "Only exact N1 state/owner duty selected. Full progress, unrelated historical/private metadata omitted.",
+  "proper_owner": "Existing continuity/R0033 owner under actual bounded assignment and authority gates; not this exporter",
+  "schema": "dg18.n1.public-duty-projection.v1",
+  "source_pointer": "/successor_session/H0_cold_receiving_body/N1",
+  "source_progress": {
+    "bytes": 442204,
+    "sha256": "67e4fec5737b6955548ca902e29187e84249832e34431aa78660447d3c628f11"
+  }
+}

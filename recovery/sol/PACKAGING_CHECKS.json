@@ -1,0 +1,16 @@
+{
+  "schema": "dg16.sol-public-component-packaging-checks.v1",
+  "object_hash_readback": "ALL_MATCH",
+  "private_dependency_body_hash_matches": 0,
+  "actual_private_key_blocks_or_literals": 0,
+  "public_guard_marker_only": [
+    "g1/generator/source/templates/adapter/src/carrier.py",
+    "g1/late-assembly/stage/source-support/templates/adapter/src/carrier.py"
+  ],
+  "marker_note": "Initial lexical marker check stopped on the unchanged public carrier key-format guard. No key material was found; guard bytes were preserved.",
+  "raw_stdout_stderr": "Omitted from fixture projections; original receipt hashes retained",
+  "validation_scope": "Packaging only: explicit allowlist, byte/hash readback, structural private-key check and forbidden body/extension checks. No engineering tests, operator execution or provider effect.",
+  "original_or_hosted_runs": 0,
+  "source_engineering_after_stop": 0,
+  "Pro_receipt": "NOT_CLAIMED"
+}

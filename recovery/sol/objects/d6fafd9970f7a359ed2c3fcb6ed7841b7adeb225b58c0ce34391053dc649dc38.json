@@ -1,0 +1,44 @@
+{
+  "schema": "dg16.git256-tiny-scratch-independent-source-review.v1",
+  "status": "REVISE_BEFORE_EXECUTION",
+  "source": {
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\git256-package-probe-01\\tiny_git_probe.py",
+    "bytes": 8452,
+    "sha256": "a2dcd35d4367d643669db4eb5ba088432574582c2eb2561fd52e5649287d5e6d"
+  },
+  "exact_capture_utility": {
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-finish-01\\finish\\tree\\qualification\\dg16-r5-g1-hosted-episode\\host_utility.py",
+    "bytes": 54556,
+    "sha256": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c"
+  },
+  "findings": [
+    {
+      "id": "GIT256-PROBE-OVERALL-1",
+      "severity": "blocking_for_declared_120_second_bound",
+      "condition": "A plain command begins just before overall=time.monotonic()+120.",
+      "source_behavior": "command() checks now<overall once, then subprocess.run(timeout=20) and independent await_natural_children4s; no postwait overall check. It can accept/retain command success beyond the declared overall execution bound.",
+      "required": "Clip plain command timeout to min(20,overall-now); natural wait uses min(now+4,overall), refuses once overall expires and lets the existing owned-child cleanup run separately; check overall again before accepted ordinary command result. Do not expand bound or add replay."
+    }
+  ],
+  "positive_source_scope": [
+    "Fixed new nonroot Linux process; private canonical owned ROOT; fresh tiny child directory; only three empty synthetic commits/local origin and fixed file:// operations.",
+    "Exact executable and capture utility SHA literals; package helper exec-path and templates explicit; CLI-only file protocol override; U.safe_environment unchanged, disables global/system config, hooks, prompts, lazy fetch/replacement and other protocols.",
+    "Utility top-level module is definitions/constants with main guard; importing does not run native probe or host lifecycle. No product owner/native/full qualification invoked.",
+    "New process sets and reads its own subreaper bit, requires zero initial children; exact stop_owned_children uses held pidfds only for current owned children and terminal ECHILD. Outer finally retains terminal cleanup.",
+    "Plain completion observes natural terminal children; captured comparison invokes exact U.capture. First remaining lock retained; no lock removal, GC disabling, retries or configuration writes.",
+    "Foreground autoDetach=false control conditional only on captured remaining-lock observation with no plain lock."
+  ],
+  "limitations": [
+    "No actual scratch/package filesystem, binary/helper custody, package receiving or live child state verified by reviewer. Package authenticity/extraction observations are parent/Root supplied; no network/GPG/Git operation repeated.",
+    "Namespace/state sampling and actual version/lock observation remain unperformed. Source review cannot identify original-host lock filename/owner or qualify original/native G1.",
+    "Source currently finite per-command but its stated overall120 bound is not enforced by plain branch."
+  ],
+  "checks": {
+    "source_AST_parse_only": true,
+    "harness_executions": 0,
+    "git_commands": 0,
+    "network_calls": 0,
+    "host_or_original_or_protected_effects": 0
+  },
+  "next": "Parent repairs only timer accounting in a distinct successor or explicitly revises scope before execution; independently receive exact successor, then only Root/commissioned primary runs the scratch probe once. Preserve original first outcome and fixtures."
+}

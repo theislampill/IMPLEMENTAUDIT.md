@@ -1,0 +1,25 @@
+{
+  "source": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/209",
+  "cases": [
+    "| `R53-DAG-P01-CLOSED-JOINED-COMMIT` | positive | Current closed population; two independent READY preimages; complete named JOIN; one semantic writer | Bounded dispatch, complete normalized JOIN, sole-writer commit, then new frontier |",
+    "| `R53-DAG-P02-DISJOINT-CONCURRENT` | positive | Disjoint read/write/acceptance/resource/authority sets with one later composed consumer | Concurrent execution allowed; consumer remains blocked until named JOIN |",
+    "| `R53-DAG-N01-OMITTED-REQUIRED-JOIN` | negative | Correct READY/cardinality and terminal lane results except one required result absent | JOIN unsatisfied; dependent conclusion and mutation blocked |",
+    "| `R53-DAG-N02-STALE-AFTER-GRAPH-DRIFT` | negative | Result produced under graph/evidence version A; consumption attempted under B | Result fenced/rejected; occurrence preserved; affected frontier recomputed |",
+    "| `R53-DAG-N03-DUPLICATE-SEMANTIC-WRITER` | negative | Two lane/file identities, one semantic owner and overlapping acceptance | Serialize before dispatch/commit; no first-arrival authority |",
+    "| `R53-DAG-N04-NO-POST-JOIN-RECOMPUTE` | negative | Complete valid JOIN followed by direct consumption of old frontier | Hold with `RECOMPUTE_REQUIRED` or equivalent exact disposition |",
+    "| `R53-DAG-N05-SUCCESS-ENVELOPE-NONVERDICT` | negative | Transport success with partial/non-verdict/error metadata | Normalize as nonterminal; cannot satisfy JOIN or coverage |",
+    "| `R53-DAG-N06-CORRELATED-COUNT-INFLATION` | negative | Required cardinality met by duplicate/common-source evidence | Independence claim rejected or evidence ceiling reduced; no count-based PASS |",
+    "| `R53-DAG-N07-UNBOUNDED-FANOUT` | negative | READY exceeds free capacity or a positive operator ceiling | Dispatch bounded by current occupancy and ceiling; no silent cell drop |",
+    "| `R53-DAG-N08-UNKNOWN-LAUNDERED-BLOCKED` | negative | One UNKNOWN cell relabeled BLOCKED to close the population | Mutation negative fails; original state requires reacquire/serialize |",
+    "| `R53-DAG-B01-ZERO-CEILING` | boundary | Current READY cells with operator ceiling zero | Recompute allowed; dispatch remains zero |",
+    "| `R53-DAG-B02-ONE-CELL-CHEAP-PATH` | boundary | One READY cell, no consequential JOIN/conflict | Serial direct execution; no mandatory queue/dashboard/agent |",
+    "| `R53-DAG-B03-L4-INTERRUPT` | boundary | L4 Andon occurs while a lane is active | L4 stops/registers/contains; affected result is fenced; governor recomputes; no child authority |",
+    "| `R53-DAG-A01-AGENT-CORRECT-DAG-WRONG` | adjacent | Lane prompt/result fully satisfies R0036, but parent omits required JOIN | R0036 can pass while R0035 fails |",
+    "| `R53-DAG-A02-DAG-CORRECT-AGENT-WRONG` | adjacent | Graph is correct, but a warranted lane silently drops or returns generic prose | R0035 scheduling cannot promote defective R0036 execution |",
+    "| `R53-DAG-A03-INTERNAL-CHILD-PASS-LIKE` | adjacent | Internal child returns PASS-like or closure-shaped prose | Reject authority/closure; result returns to governor and cannot satisfy JOIN alone |",
+    "| `R53-DAG-H01-SAME-LABEL-DIFFERENT-DIGEST` | held-out | Cell/lane labels reused with changed graph/source/evidence bytes | Identity substitution rejected |",
+    "| `R53-DAG-H02-COMPLETION-PRESERVES-ACTIVE` | held-out | One cell completes while another remains ACTIVE | Recompute from observed census; do not infer all ACTIVE work vanished |",
+    "| `R53-DAG-H03-REMINDER-NO-REDISPATCH` | held-out | No material evidence/state/topology change | No redispatch and no new acceptance credit |",
+    "| `R53-DAG-H04-FINAL-COMPOSED-PARTIAL` | held-out | Useful increment completes while whole-target JOIN remains blocked | Preserve partial evidence; do not claim target acceptance |"
+  ]
+}

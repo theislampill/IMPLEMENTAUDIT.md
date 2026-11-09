@@ -1,0 +1,16 @@
+{
+  "first_attempt": {
+    "exit_code": 1,
+    "phase": "PPA_INRELEASE_SIGNATURE_FAILED",
+    "cause": "Current F911 signature good; second E1DD cosignature lacked public key; package had not been downloaded or executed.",
+    "disposition": "Retained; both exact public keys imported only into private scratch keyring; subsequent full signature verification exit0"
+  },
+  "owned_private_gpg_agent": {
+    "scoped_kill_command": "gpgconf --homedir /home/agent/sol-git256-package-probe-20261109-01/gpg --kill gpg-agent",
+    "returncode": 0,
+    "terminal_readback": "gpg-connect-agent --same-private-homedir --no-autostart /bye: no gpg-agent running in this session",
+    "global_keyring_or_credentials_changed": false
+  },
+  "existing_distro_git_sha256": "eb54b535467e0975c1284d4c4d08eea779aeb248a5d34b02e2ee171382e22201",
+  "actual_original_C5_or_hosted_runs": 0
+}

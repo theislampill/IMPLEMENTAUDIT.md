@@ -1,0 +1,35 @@
+{
+  "utc": "2026-11-09T09:32:08.956Z",
+  "root": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "installed": {
+    "members": {
+      "/home/agent/dg16-g1-current04-operators/public-receiver-02/root-control-v5/control_process_v5.py": "1f78c843e942720fc0ed5ef909975dbdd9fd4595b287053bbe3384ffa265cdff",
+      "/home/agent/dg16-g1-current04-operators/public-receiver-02/root-control-v5/control_readback.py": "7e7d26fa8dd41eec57ac47c9280b7f2107e9df0e509fe608f4d9c4c080c5a649",
+      "/home/agent/dg16-g1-current04-operators/public-receiver-02/root-control-v5/file_readback.py": "ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1",
+      "/home/agent/dg16-g1-current04-operators/root-final-operators-01/binary_publish_v3.py": "7f71f5928be04d194cdb1a19c04e6b5865173f9c488c13e0c91309a0aa6a5978",
+      "/home/agent/dg16-g1-current04-operators/root-final-operators-01/file_readback.py": "ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1",
+      "/home/agent/dg16-g1-current04-operators/root-final-operators-01/root_pipeline_inputs_v2.py": "3f647d62a05a494895ab0fe0c710d5a65baebca126ce3854180e701a8da91cdf"
+    },
+    "control_peers_physically_usable": true,
+    "binary_original_journal_dependency_verified": true,
+    "issuer_grants": 0
+  },
+  "previously_supplied_actual_receipts": [
+    {
+      "id": "exec-56690212-9390-4d6c-adac-da4f7a53b499",
+      "status": "COMPLETE_ACTUAL_BYTES_CHECKED",
+      "wire_bytes": 7298,
+      "live_wire_bytes": 7298,
+      "digest": "a44bfef76e823665c1ad93ae2c0785d7520c7867a4267aaa2f4affaf07f7605c"
+    },
+    {
+      "id": "exec-3a15cfc6-2eb5-40b6-bb6c-01ee70c355cd",
+      "status": "HISTORICAL_WRAPPER_REFUSAL_FILE_RESULT_FULL_COMPLETE_WRAPPER",
+      "wire_bytes": 65536,
+      "live_wire_bytes": 473275,
+      "digest": "9452fdd3a3b4911bf90e3da2aa16ea27d37f383df503626a887a55242a64887e"
+    }
+  ],
+  "large_fixture_note": "The earlier live native result was 473275 bytes and passed the exact byte count/SHA256/Git identity check. The app's historical duplicate retained only a 65536-byte reduced wrapper, which the new decoder correctly refused. Preserve the complete actual response at live receiving; do not use or replay that reduced journal copy as the original.",
+  "host_effects": 0
+}

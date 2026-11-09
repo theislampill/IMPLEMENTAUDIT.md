@@ -1,0 +1,368 @@
+{
+  "capture_observation": {
+    "Q02": false,
+    "authority": "NONE",
+    "mode": "legacy",
+    "observation": {
+      "authority": "NONE",
+      "diagnostic_complete": false,
+      "original_acceptance": false,
+      "pending_journal_update": false,
+      "primary_file": {
+        "bytes": 437,
+        "sha256": "c3114de5f7ca9af1b1d3a9aa3377e8306550f01d38f276384ffce5947ded4918"
+      },
+      "primary_precedes_journal": false,
+      "record": {
+        "Q02": false,
+        "attempt_counter_scope": "RESERVED_CALL_BOUNDARY_NOT_COMPLETION",
+        "attempts": 1,
+        "authority": "NONE",
+        "automatic_retry": false,
+        "capture_location": "RENAMED_CAPTURE",
+        "capture_record": {
+          "file": {
+            "bytes": 1123018,
+            "sha256": "bf146522240bfb2e25aa0518d291e964aebfe2e6641f2172c78e8c1e8151584f"
+          },
+          "matches_bound_source_checked_record": null,
+          "primary_exit": 1,
+          "repro_wrapper": "PRESENT_INNER_ABSENT",
+          "stderr_sha256": "450b68f799ab7b744076e247b45bf4b2c9559216cd221d5745bdab423ded19b7",
+          "stdout_sha256": "79fec1d4b57881d6573c42f99d6c27a3975cf5c9f42e3f578e4bc6a8ba5c9aa3"
+        },
+        "catalog_sha256": "76382066ebf8077f04b47c0f1912527d7e92568845bc87855ab61006e5e52cdd",
+        "censuses": [
+          {
+            "census": {
+              "bytes": 6796,
+              "sha256": "cb86bef00b6622084416575eb810e594dc3d43308f499b671614fbf36c93bd95"
+            },
+            "entry_count": 24,
+            "members": {
+              "count": 15,
+              "known": [
+                "child-environment.json",
+                "commands.bin",
+                "dist-after",
+                "dist-before",
+                "dist-namespace.json",
+                "exit-code.txt",
+                "mapping.json",
+                "portal-events",
+                "repro-artifacts.json",
+                "repro-assets",
+                "result.json",
+                "stderr.log",
+                "stdin.bin",
+                "stdin.json",
+                "stdout.log"
+              ],
+              "sha256": "8301dfd8685b4ebc5b2e075101ab84f329b74f840ee314dc62efeba9bc5506a5",
+              "unknown_count": 0,
+              "unknown_samples": [],
+              "unknown_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+              "unknown_truncated": false
+            },
+            "phase": "AFTER_OWNER",
+            "root_stamp": {
+              "bytes": 153,
+              "sha256": "3d34c3d45b3a7e6a620334eb5301d36df301e7140ee6085ce32daaa5aa2a25f2"
+            },
+            "total_bytes": 1549351
+          },
+          {
+            "census": {
+              "bytes": 6796,
+              "sha256": "cb86bef00b6622084416575eb810e594dc3d43308f499b671614fbf36c93bd95"
+            },
+            "entry_count": 24,
+            "members": {
+              "count": 15,
+              "known": [
+                "child-environment.json",
+                "commands.bin",
+                "dist-after",
+                "dist-before",
+                "dist-namespace.json",
+                "exit-code.txt",
+                "mapping.json",
+                "portal-events",
+                "repro-artifacts.json",
+                "repro-assets",
+                "result.json",
+                "stderr.log",
+                "stdin.bin",
+                "stdin.json",
+                "stdout.log"
+              ],
+              "sha256": "8301dfd8685b4ebc5b2e075101ab84f329b74f840ee314dc62efeba9bc5506a5",
+              "unknown_count": 0,
+              "unknown_samples": [],
+              "unknown_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+              "unknown_truncated": false
+            },
+            "phase": "AFTER_STREAMS",
+            "root_stamp": {
+              "bytes": 153,
+              "sha256": "3d34c3d45b3a7e6a620334eb5301d36df301e7140ee6085ce32daaa5aa2a25f2"
+            },
+            "total_bytes": 1549351
+          }
+        ],
+        "closing_censuses_equal": true,
+        "currentness_unchanged": null,
+        "custody": {
+          "flag_restored": true,
+          "live_children_refused": false,
+          "other_child_exit_count": 62,
+          "owned_pidfd_signals": 0,
+          "primary_exit": 1,
+          "quiescence": "ECHILD_ALL_CHILDREN"
+        },
+        "custody_file": {
+          "bytes": 10542,
+          "sha256": "bbdc4b985eaa81f7257e76b1acf2ad3c929435cb55eeea11d4d40eb02918939d"
+        },
+        "custody_source": "MAINTAINED_SEAL_SIDECAR",
+        "diagnostic_errors": [],
+        "differences": [],
+        "expected_names": null,
+        "full_G2": false,
+        "guard_inline_list_observation_available": false,
+        "maintained_guard_modified": false,
+        "missing_directory_created": false,
+        "mode": "legacy",
+        "ordinary_runtime_unchanged": null,
+        "original_acceptance": false,
+        "owner_exception": null,
+        "owner_frames": [],
+        "owner_return": 1,
+        "owner_sha256": "79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b",
+        "phase": "DIAGNOSTIC_REFUSED",
+        "population_guard_observed": false,
+        "preseal_equals_after_owner": null,
+        "primary_file": {
+          "bytes": 2,
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "value": 1
+        },
+        "primary_raw_values_agree": true,
+        "primary_receipt": {
+          "bytes": 437,
+          "sha256": "c3114de5f7ca9af1b1d3a9aa3377e8306550f01d38f276384ffce5947ded4918"
+        },
+        "raw_to_return_code_agrees": true,
+        "refusal_file": null,
+        "reserved": true,
+        "run_frame_code": null,
+        "schema": "dg16.g2-failed-capture-diagnostic.v1",
+        "scope": "ONE_FULL_PAIR_LEG_FAILURE_DIAGNOSTIC_ONLY",
+        "sealed_capture_acceptance": false,
+        "source_commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+        "source_status_unchanged": null,
+        "source_tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+        "stream_hashes_match_record": true,
+        "streams": {
+          "stderr": {
+            "classification_complete": true,
+            "classification_line_limit_reached": false,
+            "classification_scope": "WHOLE_STREAM",
+            "classified_bytes": 5251,
+            "classified_lines": 43,
+            "file": {
+              "bytes": 5251,
+              "sha256": "450b68f799ab7b744076e247b45bf4b2c9559216cd221d5745bdab423ded19b7"
+            },
+            "line_count": 43,
+            "match_count": 0,
+            "match_hash_scope": "ORDERED_CANONICAL_MATCH_ROWS_WITH_NEWLINES",
+            "matched_text_is_execution_proof": false,
+            "matches_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "overlong_classified_lines": 0,
+            "sample_policy": "FIRST_SIX_AND_LAST_SIX_MATCH_ROWS",
+            "samples": [],
+            "samples_truncated": false
+          },
+          "stdout": {
+            "classification_complete": true,
+            "classification_line_limit_reached": false,
+            "classification_scope": "WHOLE_STREAM",
+            "classified_bytes": 2761,
+            "classified_lines": 52,
+            "file": {
+              "bytes": 2761,
+              "sha256": "79fec1d4b57881d6573c42f99d6c27a3975cf5c9f42e3f578e4bc6a8ba5c9aa3"
+            },
+            "line_count": 52,
+            "match_count": 35,
+            "match_hash_scope": "ORDERED_CANONICAL_MATCH_ROWS_WITH_NEWLINES",
+            "matched_text_is_execution_proof": false,
+            "matches_sha256": "2ce26192dacff4f7e5d0ee8ccb8e61b3455a550e92e3129e303d47b8e976fafe",
+            "overlong_classified_lines": 0,
+            "sample_policy": "FIRST_SIX_AND_LAST_SIX_MATCH_ROWS",
+            "samples": [
+              {
+                "id": "P000012",
+                "kind": "EMITTER_PREFIX",
+                "source_line": null,
+                "stream_line": 1,
+                "stream_offset": 0
+              },
+              {
+                "id": "P000029",
+                "kind": "EMITTER_PREFIX",
+                "source_line": null,
+                "stream_line": 2,
+                "stream_offset": 43
+              },
+              {
+                "id": "P000029",
+                "kind": "EMITTER_PREFIX",
+                "source_line": null,
+                "stream_line": 3,
+                "stream_offset": 78
+              },
+              {
+                "id": "P000035",
+                "kind": "EMITTER_PREFIX",
+                "source_line": null,
+                "stream_line": 4,
+                "stream_offset": 113
+              },
+              {
+                "id": "P000021",
+                "kind": "EMITTER_PREFIX",
+                "source_line": null,
+                "stream_line": 5,
+                "stream_offset": 192
+              },
+              {
+                "id": "P000007",
+                "kind": "EMITTER_PREFIX",
+                "source_line": null,
+                "stream_line": 6,
+                "stream_offset": 213
+              },
+              {
+                "id": "P000067",
+                "kind": "EMITTER_PREFIX",
+                "source_line": null,
+                "stream_line": 47,
+                "stream_offset": 1989
+              },
+              {
+                "id": "P000067",
+                "kind": "EMITTER_PREFIX",
+                "source_line": null,
+                "stream_line": 48,
+                "stream_offset": 2112
+              },
+              {
+                "id": "P000058",
+                "kind": "EMITTER_PREFIX",
+                "source_line": null,
+                "stream_line": 49,
+                "stream_offset": 2327
+              },
+              {
+                "id": "P000051",
+                "kind": "EMITTER_PREFIX",
+                "source_line": null,
+                "stream_line": 50,
+                "stream_offset": 2461
+              },
+              {
+                "id": "P000055",
+                "kind": "EMITTER_PREFIX",
+                "source_line": null,
+                "stream_line": 50,
+                "stream_offset": 2461
+              },
+              {
+                "id": "P000081",
+                "kind": "EMITTER_PREFIX",
+                "source_line": null,
+                "stream_line": 52,
+                "stream_offset": 2693
+              }
+            ],
+            "samples_truncated": true
+          }
+        }
+      },
+      "record_file": {
+        "bytes": 6110,
+        "sha256": "099c91225b94228d79b45f333c20cc0bf09ac6737765e6083ebcff7b45da0fc4"
+      },
+      "retained_primary": {
+        "authority": "NONE",
+        "mode": "legacy",
+        "observation": {
+          "bytes": 2,
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "value": 1
+        },
+        "owner_sha256": "79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b",
+        "schema": "dg16.g2-diagnostic-durable-primary-exit.v1",
+        "source_commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+        "source_tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+        "unsealed_data_is_acceptance": false
+      },
+      "schema": "dg16.g2-diagnostic-retained-projection.v1"
+    },
+    "original_acceptance": false,
+    "reserved_modes": [
+      "legacy"
+    ],
+    "schema": "dg16.full-pair-failed-leg-observation.v1",
+    "scope": "SUPPLEMENTARY_FAILURE_DATA_NOT_FULL_PAIR_RECEIVING",
+    "selection_file": {
+      "bytes": 323,
+      "sha256": "f42e1155ad4d4656916817ac75b80b3b69cf4a371487e999c86e7552ff769917"
+    }
+  },
+  "failures": [
+    {
+      "code": "FULL_PAIR_INCOMPLETE_OR_FAILED",
+      "errno": null,
+      "exception_type": "Refusal",
+      "operation": "pair"
+    },
+    {
+      "code": "FULL_PAIR_NOT_COMPLETELY_RECEIVED",
+      "errno": null,
+      "exception_type": "Refusal",
+      "operation": "receive"
+    },
+    {
+      "code": "EPISODE_INCOMPLETE",
+      "errno": null,
+      "exception_type": "Refusal",
+      "operation": "finalize"
+    }
+  ],
+  "present": true,
+  "protected_streams": {
+    "artifact_role": "dg16-g2-failed-streams-42579780645-a1",
+    "authority": "NONE",
+    "ciphertext": {
+      "bytes": 16929,
+      "sha256": "231046871101654e0e87b916e85a1a25918afe536812d43636ac01c9bcbb4a76"
+    },
+    "crypto_child_custody": "ECHILD",
+    "custody_scope": "ENCRYPTED_DIAGNOSTIC_COPY_NOT_LIVE_ACCEPTANCE_CUSTODY",
+    "envelope": {
+      "bytes": 1124,
+      "sha256": "8ffac0d22d0475fed7f5f86d83534533ec1a2c660276f5a13cc707755c127bd3"
+    },
+    "original_acceptance": false,
+    "outcome": "RETURNED_NONZERO",
+    "provider_upload_confirmed": false,
+    "reason": null,
+    "recipient_sha256": "5adbbeaf63e38116dcba9eb58af76b0fa056808649f9aa144e3f14dee838f4b8",
+    "schema": "dg16.protected-stream-public-status.v1",
+    "status": "ENCRYPTED_LOCAL_NOT_PROVIDER_RECEIVED"
+  },
+  "schema": "dg16.full-registry-episode-failure.v1"
+}

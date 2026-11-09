@@ -1,0 +1,30 @@
+{
+  "captured_utc": "2026-11-02 15:14:06 UTC",
+  "method": "Connected GitHub get_pr_info GET only; metadata, no writes.",
+  "pr": {
+    "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/255",
+    "number": 255,
+    "state": "open",
+    "merged": false,
+    "mergeable": true,
+    "draft": true,
+    "title": "Combine active RLGWO source with custody and lifecycle repairs (draft)",
+    "base": "main",
+    "base_sha": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+    "head": "integration/active-rlgwo-composite-20261025",
+    "head_sha": "123089d1f1b9cc3650a2fba8260d322741c53070",
+    "head_repo_id": 1243475954,
+    "head_repo_full_name": "theislampill/IMPLEMENTAUDIT.md",
+    "merge_commit_sha": "b0901269aec133eb3fab1968cd0ce55352ba3568",
+    "created_at": "2026-10-25T05:50:32Z",
+    "updated_at": "2026-11-02T06:56:45Z",
+    "closed_at": null,
+    "merged_at": null,
+    "commits": 244,
+    "changed_files": 390,
+    "additions": 358009,
+    "deletions": 6371,
+    "display_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/255",
+    "display_title": "Combine active RLGWO source with custody and lifecycle repairs (draft)"
+  }
+}

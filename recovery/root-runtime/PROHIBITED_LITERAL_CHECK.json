@@ -1,0 +1,10 @@
+{
+  "schema": "dg16.pro-root-runtime-prohibited-literal-check.v1",
+  "authority": "NONE",
+  "checked_allowlisted_copied_files": 134,
+  "hits": [],
+  "runtime_or_private_directories_scanned": false,
+  "matched_original_source_bytes": true,
+  "scope": "Additional bounded literal check over explicit public-source allowlist; original source literals kept unchanged. No live artifact/raw wrapper/history/private input was selected.",
+  "does_not_qualify_runtime_or_authority": true
+}

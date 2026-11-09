@@ -1,0 +1,64 @@
+{
+  "schema": "dg18.latest-public-context-projection.v1",
+  "kind": "BOUNDED_PROVENANCE_PROJECTION_NOT_ORIGINAL_TRANSCRIPT",
+  "source_tool": "codex-app read_thread; read-only; includeOutputs=false",
+  "thread_id": "6af165bb-f9f0-83ea-8fc2-87b5df5b8c27",
+  "thread_title": "Progress Readback Files",
+  "completed_response_id": "aad7b083-ca3f-5a5b-954b-a0218a784971",
+  "latest_owner_request_turn": "2026fdc0-e224-490a-ab61-1dece7d3597e",
+  "reported_latest_saved_progress": {
+    "version": 134,
+    "bytes": 615047,
+    "sha256": "c3da6600c8acada229bb1b04ca488227d329b1ad66e95716472fde7af78422f9",
+    "body_locally_recovered": false,
+    "progress_file_id": "libfile_72c6201e5b24819185b164be96ef195a",
+    "durable_receipt_file_id": "libfile_1275bae91cd48191a0cf6ea0c4c5dc58",
+    "checkpoint_file_id": "libfile_241f7776484c81918bbd073d7671d634"
+  },
+  "reported_Startup_objects": {
+    "tree": "a9438c1012de2ddd29bfadf903d13438919524c9",
+    "commit": "c84ae003cdf2a077a919166b41e7c8fb1d7497cf",
+    "sole_parent": "8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b",
+    "tree_calls": 1,
+    "commit_calls": 1,
+    "ref_calls": 0,
+    "hosted_preparations": 0,
+    "native_operations": 0,
+    "GOs": 0,
+    "allowances": "CONSUMED; preserve published objects and receiving, no recreation or automatic retry",
+    "scope": "Actual-object stage outcomes reported in current completed response. Original stage bodies/review archives not locally recovered by this export. No raw commit-hash reconstruction or signature claim."
+  },
+  "current_resource004": "Selected DG16v25/DG17v100 assessment received as GAP. Owner commissioned bounded current Windows/source/resource successor; merely repinning R6 is insufficient. Later DG17 delta must be received; missing owner facts stay explicit refusals/unknowns.",
+  "requested_four_originals": {
+    "archive_sha256": "cab1af3c4b472729101b0540939be9da4600db70c768b44f55d6f55ce622a772",
+    "archive_bytes": 50302,
+    "status_here": "All four actual bytes, hashes and declared modes match original TRANSPORT_MANIFEST; included under DG18-requested-current03-originals/",
+    "HOST_BRANCH_RESULT.json": {"bytes": 382, "sha256": "13c7beea87582589786133e8f7a555f3949c37d64a245057a8ecbe5350f4d1ff", "mode": "0644"},
+    "HOST_TRIGGER_ROOT_RECEIVING.json": {"bytes": 3025, "sha256": "aa50afc7ca3376f24959651aa852edf0d44c5b6d096a68832f17c9783e3fba87", "mode": "0600"},
+    "BOUNDARY_17_RECONCILIATION.json": {"bytes": 1457, "sha256": "b1c18c0df4f2307d6a19bf807eb49a1d46e5c5760bb642b10a7b47b031b23d8a", "mode": "0644"},
+    "CONTEXT.json": {"bytes": 444, "sha256": "b2c5129b8e688888005da97b03a11bf8e544e67b2f5aac08b403d36204f7d1be", "mode": "0600"},
+    "limit": "Historical trigger recovery, not current resource release or operation grant. No DG18 receiving acknowledgment is asserted."
+  },
+  "episode_specific_Root_decisions_supplied": [
+    {"path": "G2/root/ROOT_TERMINAL_DECISION.json", "run": 42579780645, "job": 129035519895, "state": "Actual failed G2 received; named Root host slot released"},
+    {"path": "G1/root/ROOT_TERMINAL_DECISION.json", "run": 42596136449, "job": 129089113853, "state": "Actual failed G1 received; resource lease released after terminal"}
+  ],
+  "mandatory_distinctions_and_requests": [
+    "Old Pro current03 run42438847724 remains a distinct episode/reservation. Its recovered consumed trigger is not a terminal release. New Root G2 release is not blanket availability for every DG16/DG17 resource.",
+    "Receive dated owner-qualified resource/receiving dispositions, or explicit pending states and responsible owners, plus actual reviewer/root windows before separately admitted hosted/native work.",
+    "Startup requires genuinely current independent reviewer provenance and availability with separate root receiving; no hosted hold while assembling participants.",
+    "Tail automatic stop and Access05 separate stop remain; no retry or rerouting.",
+    "N1 remains mandatory, reserved, pending and uncovered with no accepted witness. Existing continuity/R0033 owner retains the proper bounded duty."
+  ],
+  "unattained_receipts": [
+    "Progress134 raw body/checkpoint/durable-receipt bytes",
+    "RESOURCE_OWNER_INPUT_REQUEST_001.json original body and its exact four-episode mapping",
+    "DG18 acknowledgment/functional receiving of these newly exported Root decisions",
+    "Current live sibling resource availability and actual independent reviewer/root windows",
+    "N1 accepted witness, consumption, currentness and epoch"
+  ],
+  "original_DG18_acceptance": "OPEN",
+  "physical_teardown": "UNKNOWN at reported progress134 boundary",
+  "loss": "No raw original chat transcript, signed URL, private payload or complete progress body copied. Current134 identities are report/locator-only until actual byte receiving; no manufactured source hash for thread messages.",
+  "messages_sent_or_owner_changes": 0
+}

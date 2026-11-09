@@ -1,0 +1,128 @@
+{
+  "actual_Root_effects": 0,
+  "actual_protected_body_cipher_key_reads": 0,
+  "common_adapter_decoder_Root_config_admission_v2_unchanged": true,
+  "controls": {
+    "Node_inert_cases": 15,
+    "nested_G3_tree_references": 2,
+    "python_methods": 7,
+    "result": "PASS"
+  },
+  "input_pins": [
+    {
+      "bytes": 19240,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\control_process_v5.py",
+      "sha256": "1f78c843e942720fc0ed5ef909975dbdd9fd4595b287053bbe3384ffa265cdff"
+    },
+    {
+      "bytes": 16959,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\control_callback_v6.js",
+      "sha256": "7760fd14ba8c4cf3fbc3f139fc6f3fd4c0df4821a3e26e1766bbce4c08180734"
+    },
+    {
+      "bytes": 8458,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\test_control_readback_v5.py",
+      "sha256": "04e17e0c6f9f72df7cec03faa0a530051668d4df9f58cb3725232ce7d1a4a900"
+    },
+    {
+      "bytes": 7602,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\test_control_callback_v6.js",
+      "sha256": "05d7e8713354011613f0178224d78702b4095d5a8c8bc2e75f0407c1979cf708"
+    },
+    {
+      "bytes": 2243,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\REVISE_RECEIVING.json",
+      "sha256": "9d7248601da1de74b06398d63f5b0603697f00c559df9f5581b000d44386549d"
+    },
+    {
+      "bytes": 3474,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\SUCCESSOR_README.md",
+      "sha256": "3b5aa007d53931f7b782924c7d780d398c4d146956a9222d905fa8af8bbfd2a9"
+    },
+    {
+      "bytes": 917,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\SUCCESSOR_CONTROLS.json",
+      "sha256": "d2b74e8ebb2e7cd1811106d544bee02a3b48692171ca5ad9e5dc25869296950d"
+    },
+    {
+      "bytes": 16444,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\control-driver\\js-callback\\control_callback_v4.js",
+      "sha256": "94e1f736a251f61f5817750d4ae571c8328fc769ec6f760055c7bc0240a340bb"
+    },
+    {
+      "bytes": 6009,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\control_readback.py",
+      "sha256": "7e7d26fa8dd41eec57ac47c9280b7f2107e9df0e509fe608f4d9c4c080c5a649"
+    },
+    {
+      "bytes": 4997,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\file_readback.py",
+      "sha256": "ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1"
+    },
+    {
+      "bytes": 19084,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\control_process_v4.py",
+      "sha256": "e6bc769584fa8c90a00afb446e3fcd825fcc7d6a6ef85e568c672089878c508f"
+    },
+    {
+      "bytes": 15344,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\control_callback_v5.js",
+      "sha256": "81baa77d892fb16ccb3903b4fad92b6a4f11bba3ab5e303151d047d4e8009c0a"
+    },
+    {
+      "bytes": 8789,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\FINAL.json",
+      "sha256": "1645303a8ee1c01060ec1e504ba40da960994bb71db7104a7d1ddf7d58ff6ad2"
+    },
+    {
+      "bytes": 6400,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\MANIFEST.json",
+      "sha256": "10a406891314ddb12398ac2f318eead91e7668421057cb069db42a72a0292ea1"
+    },
+    {
+      "bytes": 13266,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\windows_role_io.js",
+      "sha256": "0bfbe734edcf52a59fc9f4ceb0acbeda2b15991a9ca000def8a28bea3a5c1106"
+    },
+    {
+      "bytes": 6712,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\control-driver\\test_control_process_v3.py",
+      "sha256": "6382f0ef4303f74178aeabfb2a96402a848c00d70c0fb3099d6d51f965caf04b"
+    },
+    {
+      "bytes": 7393,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\control-driver\\js-callback\\INERT_ONLY_TRUSTED_PLAN_V3.json",
+      "sha256": "04dffc6aee216b0a44d4f8fe12602e8fc78873f7fe6586fd5c96687ae649c7b3"
+    },
+    {
+      "bytes": 3185,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\control-driver\\js-callback\\INERT_ONLY_G3_PLAN_VARIANTS_V3.json",
+      "sha256": "35694df26177443b929060166a710103fa6af1355e2c8bc4d238630e2343262a"
+    },
+    {
+      "bytes": 2026,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\binary-publication\\root_sha256_utf8.js",
+      "sha256": "940f5bbdad40ddb15a532cb7c2d49897b140d4284eb35437bbae1dcfa1606aef"
+    }
+  ],
+  "native_original_or_independent_author_award": false,
+  "next": "Parent actual delta receiving, then Root actual source/install/runtime/authentication/effect authority",
+  "original_received94e1_method_exact_after_newline_normalization": true,
+  "prior_candidate_status": "REVISE_PRESERVED_NO_RETROCREDIT",
+  "schema": "dg16.control-file-readback-corrected-handoff.v1",
+  "source_units": [
+    {
+      "bytes": 19240,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\control_process_v5.py",
+      "sha256": "1f78c843e942720fc0ed5ef909975dbdd9fd4595b287053bbe3384ffa265cdff"
+    },
+    {
+      "bytes": 16959,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\control_callback_v6.js",
+      "sha256": "7760fd14ba8c4cf3fbc3f139fc6f3fd4c0df4821a3e26e1766bbce4c08180734"
+    }
+  ],
+  "status": "CORRECTED_SUCCESSORS_INERT_CONTROLS_PASS_PENDING_PARENT_INDEPENDENT_RECEIVING",
+  "terminal": "NO_ACTIVE_PROCESS_OR_EFFECT",
+  "utc": "2026-11-09T09:24:28.342516+00:00"
+}

@@ -1,0 +1,784 @@
+{
+  "schema": "dg16.git256-tiny-ordinary-preparation-probe.v1",
+  "git_sha256": "824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235",
+  "host_utility_sha256": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c",
+  "subreaper": true,
+  "actual_version": "git version2.56.0; exacthostbinary bytes",
+  "fixture_origin_commit": "2f438682fdfc5998c737bdb194e63beccbd095ee",
+  "reproduced_persistent_lock_after_owned_capture": false,
+  "foreground_control_performed": false,
+  "trials": [
+    {
+      "trial": "plain-default",
+      "foreground_command_control": false,
+      "observations": [
+        {
+          "step": "clone",
+          "before": {
+            "entries": 0,
+            "locks": [],
+            "promisors": [],
+            "names_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "immediate": {
+            "entries": 43,
+            "locks": [],
+            "promisors": [],
+            "names_sha256": "93b29e5ed917ac8c13c465483934ead681e2fe6d1e6d55605a719dbd8dee1a52"
+          },
+          "after": {
+            "entries": 43,
+            "locks": [],
+            "promisors": [],
+            "names_sha256": "93b29e5ed917ac8c13c465483934ead681e2fe6d1e6d55605a719dbd8dee1a52"
+          }
+        },
+        {
+          "step": "fetch",
+          "before": {
+            "entries": 43,
+            "locks": [],
+            "promisors": [],
+            "names_sha256": "93b29e5ed917ac8c13c465483934ead681e2fe6d1e6d55605a719dbd8dee1a52"
+          },
+          "immediate": {
+            "entries": 44,
+            "locks": [],
+            "promisors": [],
+            "names_sha256": "f7ac55a968d58ae17558010b245f259d88b723e2a0e83f2fd9326c5432dbd37c"
+          },
+          "after": {
+            "entries": 44,
+            "locks": [],
+            "promisors": [],
+            "names_sha256": "f7ac55a968d58ae17558010b245f259d88b723e2a0e83f2fd9326c5432dbd37c"
+          }
+        },
+        {
+          "step": "detach",
+          "before": {
+            "entries": 44,
+            "locks": [],
+            "promisors": [],
+            "names_sha256": "f7ac55a968d58ae17558010b245f259d88b723e2a0e83f2fd9326c5432dbd37c"
+          },
+          "immediate": {
+            "entries": 45,
+            "locks": [],
+            "promisors": [],
+            "names_sha256": "4dc57dbf1187323b7436c3feb45bcf5e1f2ff9d78770a21c9674b88ea1ed8f80"
+          },
+          "after": {
+            "entries": 45,
+            "locks": [],
+            "promisors": [],
+            "names_sha256": "4dc57dbf1187323b7436c3feb45bcf5e1f2ff9d78770a21c9674b88ea1ed8f80"
+          }
+        },
+        {
+          "step": "optional-auto",
+          "before": {
+            "entries": 45,
+            "locks": [],
+            "promisors": [],
+            "names_sha256": "4dc57dbf1187323b7436c3feb45bcf5e1f2ff9d78770a21c9674b88ea1ed8f80"
+          },
+          "immediate": {
+            "entries": 45,
+            "locks": [],
+            "promisors": [],
+            "names_sha256": "4dc57dbf1187323b7436c3feb45bcf5e1f2ff9d78770a21c9674b88ea1ed8f80"
+          },
+          "after": {
+            "entries": 45,
+            "locks": [],
+            "promisors": [],
+            "names_sha256": "4dc57dbf1187323b7436c3feb45bcf5e1f2ff9d78770a21c9674b88ea1ed8f80"
+          }
+        }
+      ],
+      "final_namespace": {
+        "entries": 45,
+        "locks": [],
+        "promisors": [],
+        "names_sha256": "4dc57dbf1187323b7436c3feb45bcf5e1f2ff9d78770a21c9674b88ea1ed8f80"
+      }
+    },
+    {
+      "trial": "capture-default",
+      "foreground_command_control": false,
+      "observations": [
+        {
+          "step": "clone",
+          "before": {
+            "entries": 0,
+            "locks": [],
+            "promisors": [],
+            "names_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "immediate": {
+            "entries": 43,
+            "locks": [],
+            "promisors": [],
+            "names_sha256": "93b29e5ed917ac8c13c465483934ead681e2fe6d1e6d55605a719dbd8dee1a52"
+          },
+          "after": {
+            "entries": 43,
+            "locks": [],
+            "promisors": [],
+            "names_sha256": "93b29e5ed917ac8c13c465483934ead681e2fe6d1e6d55605a719dbd8dee1a52"
+          }
+        },
+        {
+          "step": "fetch",
+          "before": {
+            "entries": 43,
+            "locks": [],
+            "promisors": [],
+            "names_sha256": "93b29e5ed917ac8c13c465483934ead681e2fe6d1e6d55605a719dbd8dee1a52"
+          },
+          "immediate": {
+            "entries": 44,
+            "locks": [],
+            "promisors": [],
+            "names_sha256": "f7ac55a968d58ae17558010b245f259d88b723e2a0e83f2fd9326c5432dbd37c"
+          },
+          "after": {
+            "entries": 44,
+            "locks": [],
+            "promisors": [],
+            "names_sha256": "f7ac55a968d58ae17558010b245f259d88b723e2a0e83f2fd9326c5432dbd37c"
+          }
+        },
+        {
+          "step": "detach",
+          "before": {
+            "entries": 44,
+            "locks": [],
+            "promisors": [],
+            "names_sha256": "f7ac55a968d58ae17558010b245f259d88b723e2a0e83f2fd9326c5432dbd37c"
+          },
+          "immediate": {
+            "entries": 45,
+            "locks": [],
+            "promisors": [],
+            "names_sha256": "4dc57dbf1187323b7436c3feb45bcf5e1f2ff9d78770a21c9674b88ea1ed8f80"
+          },
+          "after": {
+            "entries": 45,
+            "locks": [],
+            "promisors": [],
+            "names_sha256": "4dc57dbf1187323b7436c3feb45bcf5e1f2ff9d78770a21c9674b88ea1ed8f80"
+          }
+        },
+        {
+          "step": "optional-auto",
+          "before": {
+            "entries": 45,
+            "locks": [],
+            "promisors": [],
+            "names_sha256": "4dc57dbf1187323b7436c3feb45bcf5e1f2ff9d78770a21c9674b88ea1ed8f80"
+          },
+          "immediate": {
+            "entries": 45,
+            "locks": [],
+            "promisors": [],
+            "names_sha256": "4dc57dbf1187323b7436c3feb45bcf5e1f2ff9d78770a21c9674b88ea1ed8f80"
+          },
+          "after": {
+            "entries": 45,
+            "locks": [],
+            "promisors": [],
+            "names_sha256": "4dc57dbf1187323b7436c3feb45bcf5e1f2ff9d78770a21c9674b88ea1ed8f80"
+          }
+        }
+      ],
+      "final_namespace": {
+        "entries": 45,
+        "locks": [],
+        "promisors": [],
+        "names_sha256": "4dc57dbf1187323b7436c3feb45bcf5e1f2ff9d78770a21c9674b88ea1ed8f80"
+      }
+    }
+  ],
+  "commands": [
+    {
+      "label": "fixture-origin-init",
+      "argv": [
+        "/home/agent/sol-git256-package-probe-20261109-01/package/usr/bin/git",
+        "--exec-path=/home/agent/sol-git256-package-probe-20261109-01/package/usr/lib/git-core",
+        "-c",
+        "protocol.file.allow=always",
+        "init",
+        "--quiet",
+        "--initial-branch=main",
+        "--template=/home/agent/sol-git256-package-probe-20261109-01/package/usr/share/git-core/templates",
+        "/home/agent/sol-git256-package-probe-20261109-01/tiny/origin"
+      ],
+      "mode": "plain",
+      "returncode": 0,
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped": []
+      },
+      "published_records": [],
+      "stdout_omitted_descriptor": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr_omitted_descriptor": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "fixture-origin-commit-0",
+      "argv": [
+        "/home/agent/sol-git256-package-probe-20261109-01/package/usr/bin/git",
+        "--exec-path=/home/agent/sol-git256-package-probe-20261109-01/package/usr/lib/git-core",
+        "-c",
+        "protocol.file.allow=always",
+        "-c",
+        "user.name=DG16 synthetic fixture",
+        "-c",
+        "user.email=dg16-fixture@example.invalid",
+        "-C",
+        "/home/agent/sol-git256-package-probe-20261109-01/tiny/origin",
+        "commit",
+        "--quiet",
+        "--allow-empty",
+        "-m",
+        "synthetic 0"
+      ],
+      "mode": "plain",
+      "returncode": 0,
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped": [
+          {
+            "pid": 727,
+            "returncode": 0
+          }
+        ]
+      },
+      "published_records": [],
+      "stdout_omitted_descriptor": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr_omitted_descriptor": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "fixture-origin-commit-1",
+      "argv": [
+        "/home/agent/sol-git256-package-probe-20261109-01/package/usr/bin/git",
+        "--exec-path=/home/agent/sol-git256-package-probe-20261109-01/package/usr/lib/git-core",
+        "-c",
+        "protocol.file.allow=always",
+        "-c",
+        "user.name=DG16 synthetic fixture",
+        "-c",
+        "user.email=dg16-fixture@example.invalid",
+        "-C",
+        "/home/agent/sol-git256-package-probe-20261109-01/tiny/origin",
+        "commit",
+        "--quiet",
+        "--allow-empty",
+        "-m",
+        "synthetic 1"
+      ],
+      "mode": "plain",
+      "returncode": 0,
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped": [
+          {
+            "pid": 730,
+            "returncode": 0
+          }
+        ]
+      },
+      "published_records": [],
+      "stdout_omitted_descriptor": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr_omitted_descriptor": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "fixture-origin-commit-2",
+      "argv": [
+        "/home/agent/sol-git256-package-probe-20261109-01/package/usr/bin/git",
+        "--exec-path=/home/agent/sol-git256-package-probe-20261109-01/package/usr/lib/git-core",
+        "-c",
+        "protocol.file.allow=always",
+        "-c",
+        "user.name=DG16 synthetic fixture",
+        "-c",
+        "user.email=dg16-fixture@example.invalid",
+        "-C",
+        "/home/agent/sol-git256-package-probe-20261109-01/tiny/origin",
+        "commit",
+        "--quiet",
+        "--allow-empty",
+        "-m",
+        "synthetic 2"
+      ],
+      "mode": "plain",
+      "returncode": 0,
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped": [
+          {
+            "pid": 733,
+            "returncode": 0
+          }
+        ]
+      },
+      "published_records": [],
+      "stdout_omitted_descriptor": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr_omitted_descriptor": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "fixture-origin-head",
+      "argv": [
+        "/home/agent/sol-git256-package-probe-20261109-01/package/usr/bin/git",
+        "--exec-path=/home/agent/sol-git256-package-probe-20261109-01/package/usr/lib/git-core",
+        "-c",
+        "protocol.file.allow=always",
+        "-C",
+        "/home/agent/sol-git256-package-probe-20261109-01/tiny/origin",
+        "rev-parse",
+        "HEAD"
+      ],
+      "mode": "plain",
+      "returncode": 0,
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped": []
+      },
+      "published_records": [],
+      "stdout_omitted_descriptor": {
+        "bytes": 41,
+        "sha256": "aa8fca28c1d135e9a69e983698dc6159b94c03a15e21ef944e87077ab5ee215f"
+      },
+      "stderr_omitted_descriptor": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "plain-default-clone",
+      "argv": [
+        "/home/agent/sol-git256-package-probe-20261109-01/package/usr/bin/git",
+        "--exec-path=/home/agent/sol-git256-package-probe-20261109-01/package/usr/lib/git-core",
+        "-c",
+        "protocol.file.allow=always",
+        "clone",
+        "--quiet",
+        "--no-local",
+        "--no-hardlinks",
+        "--no-checkout",
+        "--template=/home/agent/sol-git256-package-probe-20261109-01/package/usr/share/git-core/templates",
+        "--",
+        "file:///home/agent/sol-git256-package-probe-20261109-01/tiny/origin",
+        "/home/agent/sol-git256-package-probe-20261109-01/tiny/plain-default"
+      ],
+      "mode": "plain",
+      "returncode": 0,
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped": []
+      },
+      "published_records": [],
+      "stdout_omitted_descriptor": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr_omitted_descriptor": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "plain-default-fetch",
+      "argv": [
+        "/home/agent/sol-git256-package-probe-20261109-01/package/usr/bin/git",
+        "--exec-path=/home/agent/sol-git256-package-probe-20261109-01/package/usr/lib/git-core",
+        "-c",
+        "protocol.file.allow=always",
+        "-C",
+        "/home/agent/sol-git256-package-probe-20261109-01/tiny/plain-default",
+        "fetch",
+        "--quiet",
+        "--no-tags",
+        "--no-recurse-submodules",
+        "origin",
+        "2f438682fdfc5998c737bdb194e63beccbd095ee"
+      ],
+      "mode": "plain",
+      "returncode": 0,
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped": [
+          {
+            "pid": 754,
+            "returncode": 0
+          }
+        ]
+      },
+      "published_records": [],
+      "stdout_omitted_descriptor": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr_omitted_descriptor": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "plain-default-detach",
+      "argv": [
+        "/home/agent/sol-git256-package-probe-20261109-01/package/usr/bin/git",
+        "--exec-path=/home/agent/sol-git256-package-probe-20261109-01/package/usr/lib/git-core",
+        "-c",
+        "protocol.file.allow=always",
+        "-C",
+        "/home/agent/sol-git256-package-probe-20261109-01/tiny/plain-default",
+        "checkout",
+        "--quiet",
+        "--detach",
+        "2f438682fdfc5998c737bdb194e63beccbd095ee"
+      ],
+      "mode": "plain",
+      "returncode": 0,
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped": []
+      },
+      "published_records": [],
+      "stdout_omitted_descriptor": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr_omitted_descriptor": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "plain-default-optional-auto",
+      "argv": [
+        "/home/agent/sol-git256-package-probe-20261109-01/package/usr/bin/git",
+        "--exec-path=/home/agent/sol-git256-package-probe-20261109-01/package/usr/lib/git-core",
+        "-c",
+        "protocol.file.allow=always",
+        "-C",
+        "/home/agent/sol-git256-package-probe-20261109-01/tiny/plain-default",
+        "maintenance",
+        "run",
+        "--auto"
+      ],
+      "mode": "plain",
+      "returncode": 0,
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped": []
+      },
+      "published_records": [],
+      "stdout_omitted_descriptor": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr_omitted_descriptor": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "capture-default-clone",
+      "argv": [
+        "/home/agent/sol-git256-package-probe-20261109-01/package/usr/bin/git",
+        "--exec-path=/home/agent/sol-git256-package-probe-20261109-01/package/usr/lib/git-core",
+        "-c",
+        "protocol.file.allow=always",
+        "clone",
+        "--quiet",
+        "--no-local",
+        "--no-hardlinks",
+        "--no-checkout",
+        "--template=/home/agent/sol-git256-package-probe-20261109-01/package/usr/share/git-core/templates",
+        "--",
+        "file:///home/agent/sol-git256-package-probe-20261109-01/tiny/origin",
+        "/home/agent/sol-git256-package-probe-20261109-01/tiny/capture-default"
+      ],
+      "mode": "capture",
+      "returncode": 0,
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false
+      },
+      "published_records": [
+        {
+          "name": "capture-default-clone",
+          "process_started": true,
+          "returncode": 0,
+          "timeout": false,
+          "output_bound_exceeded": false,
+          "pidfd_acquired": true,
+          "internal_failure": null,
+          "reason_code": "EXIT_ZERO_NO_STDERR",
+          "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+          "streams_complete": true,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "cleanup": {
+            "echild": true,
+            "pidfd_signals": 0,
+            "retained_status_count": 0,
+            "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+            "reaped_statuses": [],
+            "reaped_statuses_truncated": false
+          }
+        }
+      ],
+      "stdout_omitted_descriptor": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr_omitted_descriptor": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "capture-default-fetch",
+      "argv": [
+        "/home/agent/sol-git256-package-probe-20261109-01/package/usr/bin/git",
+        "--exec-path=/home/agent/sol-git256-package-probe-20261109-01/package/usr/lib/git-core",
+        "-c",
+        "protocol.file.allow=always",
+        "-C",
+        "/home/agent/sol-git256-package-probe-20261109-01/tiny/capture-default",
+        "fetch",
+        "--quiet",
+        "--no-tags",
+        "--no-recurse-submodules",
+        "origin",
+        "2f438682fdfc5998c737bdb194e63beccbd095ee"
+      ],
+      "mode": "capture",
+      "returncode": 0,
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 1,
+        "retained_status_count": 1,
+        "retained_statuses_sha256": "042f25fa3e0f37776955feeae034e32b18d43767284f09b87e9883679f664a98",
+        "reaped_statuses": [
+          {
+            "pid": 776,
+            "returncode": 0
+          }
+        ],
+        "reaped_statuses_truncated": false
+      },
+      "published_records": [
+        {
+          "name": "capture-default-fetch",
+          "process_started": true,
+          "returncode": 0,
+          "timeout": false,
+          "output_bound_exceeded": false,
+          "pidfd_acquired": true,
+          "internal_failure": null,
+          "reason_code": "EXIT_ZERO_NO_STDERR",
+          "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+          "streams_complete": true,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "cleanup": {
+            "echild": true,
+            "pidfd_signals": 1,
+            "retained_status_count": 1,
+            "retained_statuses_sha256": "042f25fa3e0f37776955feeae034e32b18d43767284f09b87e9883679f664a98",
+            "reaped_statuses": [
+              {
+                "pid": 776,
+                "returncode": 0
+              }
+            ],
+            "reaped_statuses_truncated": false
+          }
+        }
+      ],
+      "stdout_omitted_descriptor": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr_omitted_descriptor": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "capture-default-detach",
+      "argv": [
+        "/home/agent/sol-git256-package-probe-20261109-01/package/usr/bin/git",
+        "--exec-path=/home/agent/sol-git256-package-probe-20261109-01/package/usr/lib/git-core",
+        "-c",
+        "protocol.file.allow=always",
+        "-C",
+        "/home/agent/sol-git256-package-probe-20261109-01/tiny/capture-default",
+        "checkout",
+        "--quiet",
+        "--detach",
+        "2f438682fdfc5998c737bdb194e63beccbd095ee"
+      ],
+      "mode": "capture",
+      "returncode": 0,
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false
+      },
+      "published_records": [
+        {
+          "name": "capture-default-detach",
+          "process_started": true,
+          "returncode": 0,
+          "timeout": false,
+          "output_bound_exceeded": false,
+          "pidfd_acquired": true,
+          "internal_failure": null,
+          "reason_code": "EXIT_ZERO_NO_STDERR",
+          "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+          "streams_complete": true,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "cleanup": {
+            "echild": true,
+            "pidfd_signals": 0,
+            "retained_status_count": 0,
+            "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+            "reaped_statuses": [],
+            "reaped_statuses_truncated": false
+          }
+        }
+      ],
+      "stdout_omitted_descriptor": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr_omitted_descriptor": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "capture-default-optional-auto",
+      "argv": [
+        "/home/agent/sol-git256-package-probe-20261109-01/package/usr/bin/git",
+        "--exec-path=/home/agent/sol-git256-package-probe-20261109-01/package/usr/lib/git-core",
+        "-c",
+        "protocol.file.allow=always",
+        "-C",
+        "/home/agent/sol-git256-package-probe-20261109-01/tiny/capture-default",
+        "maintenance",
+        "run",
+        "--auto"
+      ],
+      "mode": "capture",
+      "returncode": 0,
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false
+      },
+      "published_records": [
+        {
+          "name": "capture-default-optional-auto",
+          "process_started": true,
+          "returncode": 0,
+          "timeout": false,
+          "output_bound_exceeded": false,
+          "pidfd_acquired": true,
+          "internal_failure": null,
+          "reason_code": "EXIT_ZERO_NO_STDERR",
+          "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+          "streams_complete": true,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "cleanup": {
+            "echild": true,
+            "pidfd_signals": 0,
+            "retained_status_count": 0,
+            "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+            "reaped_statuses": [],
+            "reaped_statuses_truncated": false
+          }
+        }
+      ],
+      "stdout_omitted_descriptor": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr_omitted_descriptor": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "original_host_lock_filename_or_owner": "UNKNOWN; fixture is distinct",
+  "scope": "Tiny local file-transport repositories; package exec-path/template overrides; existing WSL libraries/kernel; no original owner/C5/host campaign",
+  "actual_original_or_protected_effects": 0,
+  "installed": false,
+  "global_config_changed": false,
+  "locks_deleted": false,
+  "handoff_projection": {
+    "original_receipt_sha256": "6d24f207e6a0f3ba8d4d8510a6edadceb962c8dac6bf9c4158f9793ba0a6979c",
+    "original_receipt_bytes": 22408,
+    "raw_stdout_stderr_omitted": true,
+    "no_tool_history_included": true,
+    "original_receipt_retained_by_Root": true
+  }
+}

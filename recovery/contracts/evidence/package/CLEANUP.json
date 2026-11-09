@@ -1,0 +1,11 @@
+{
+  "all_recorded_step_children_reaped": true,
+  "final_bookends_complete": true,
+  "original_acceptance": false,
+  "parent_final_currentness": true,
+  "private_outputs_uploaded": false,
+  "private_retention": "LIVE_EPHEMERAL_HOST_ONLY; UNKNOWN_INTERRUPTION_IS_NOT_PROOF_OF_ABSENCE",
+  "schema": "dg16.installed-runtime-cleanup.v1",
+  "unknown_pending_command": false,
+  "unknown_pending_step": false
+}

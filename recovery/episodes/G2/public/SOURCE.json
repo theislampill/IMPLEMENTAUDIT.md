@@ -1,0 +1,18 @@
+{
+  "after": {
+    "all_members_match": true,
+    "file_count": 1759,
+    "manifest_sha256": "840f6c66afb0f0a50cdbf4b9dc11241ac1d1c83e4ca88d7d3436d0baccb532e8",
+    "total_bytes": 166407881
+  },
+  "before": {
+    "all_members_match": true,
+    "file_count": 1759,
+    "manifest_sha256": "840f6c66afb0f0a50cdbf4b9dc11241ac1d1c83e4ca88d7d3436d0baccb532e8",
+    "total_bytes": 166407881
+  },
+  "commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+  "schema": "dg16.full-registry-episode-source.v1",
+  "tracked_source_mutations": false,
+  "tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e"
+}

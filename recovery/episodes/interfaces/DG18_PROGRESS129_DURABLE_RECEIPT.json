@@ -1,0 +1,96 @@
+{
+  "active_unsealed_sources_included": false,
+  "actor": "/root",
+  "actual_recipient_generations": {
+    "Startup08": 1,
+    "Tail06": 0
+  },
+  "guarded_transition": {
+    "actual_result_version": 129,
+    "expected_current_version": 128,
+    "prewrite_body": {
+      "bytes": 426309,
+      "path": "/workspace/scratch/27d3a9067d9e/dg18-resume/progress129-prewrite/DG18_CONTINUATION_PROGRESS_20261106.json",
+      "sha256": "1984a57ebb8fc7624dd3d652c864e42d2e1a830c777ab1c5d38bc3763c7461f6"
+    },
+    "prewrite_file_id": "file_0000000073e881fd9785a9a4a8168297",
+    "result_file_id": "file_000000000f7c81f5acb7b74bae927ff4"
+  },
+  "main_checkpoint": {
+    "bytes": 33969471,
+    "file_id": "file_000000002e6481fd9d87e76c4e57c353",
+    "library_file_id": "libfile_c36fc65e160c819188bcdd47538e60ae",
+    "local_metadata_applied": true,
+    "path": "/workspace/scratch/27d3a9067d9e/dg18-resume/deliverables/progress129/DG18_PROGRESS129_PUBLIC_RESOURCE_RECEIVING_AND_BOUNDED_SOURCE_WORK_20261108.zip",
+    "sha256": "a70ccdafcfa5d4fe6b41d5a3d7f942231db0ed52a426aba001abec3122e68593",
+    "status": "succeeded"
+  },
+  "main_readback": {
+    "bytes": 643,
+    "file_id": "file_00000000463881fdb489dc189824bc2b",
+    "library_file_id": "libfile_001a3fe8c1148191be5d4786e7f1fcb7",
+    "local_metadata_applied": true,
+    "path": "/workspace/scratch/27d3a9067d9e/dg18-resume/deliverables/progress129/DG18_PROGRESS129_ARCHIVE_READBACK_20261108.json",
+    "sha256": "050d0958a91cc20988b0818777a7b60e2cae1008a80b70b5d1cd4150b1704de6",
+    "status": "succeeded"
+  },
+  "mixed_ciphertext_archive_included": false,
+  "native_GO": false,
+  "native_currentness": false,
+  "new_hosted_preparation_attempts": 0,
+  "new_native_campaigns": 0,
+  "new_provider_or_Git_effects": 0,
+  "new_received_frontier": {
+    "Startup08": "Independent44controlPASS and separate rootsix-file functionalreceiving atpublicsource/Q03interface scope; newpublication/preparationassessmentactive",
+    "Tail06": "R1independentGAP separatelyrootreceived; boundedR2sourcecorrectionactive",
+    "resource003": "Fullselected22/96 publicintake and separate rootreceiving; source/dataonly, R6qualificationactive"
+  },
+  "original_acceptance": "OPEN",
+  "prior128_receipt": {
+    "bytes": 3238,
+    "library_file_id": "libfile_8c764c20122c819196824f7fc3ee3b1f",
+    "path": "/workspace/scratch/27d3a9067d9e/dg18-resume/deliverables/progress128/DG18_PROGRESS128_DURABLE_RECEIPT_20261108.json",
+    "sha256": "10ca7030668dbc4d9fac58e944c7889a9a52ea936e0e0fae82ba55d7d9f1a6e2"
+  },
+  "private_material_included": false,
+  "recorded_at_utc": "2026-11-08T02:26:42.853961+00:00",
+  "schema": "dg18.progress129.durable-delivery-receipt.v1",
+  "scope": "Checkpointdelivery/rootboundedreceiving only; no operationaladmission, host ororiginalacceptance.",
+  "shared_progress": {
+    "byte_identical_to_authored_final": true,
+    "bytes": 442204,
+    "file_id": "file_000000000f7c81f5acb7b74bae927ff4",
+    "fresh_latest_readback": {
+      "bytes": 442204,
+      "path": "/workspace/scratch/27d3a9067d9e/dg18-resume/progress129-live-readback/DG18_CONTINUATION_PROGRESS_20261106.json",
+      "sha256": "67e4fec5737b6955548ca902e29187e84249832e34431aa78660447d3c628f11"
+    },
+    "library_file_id": "libfile_72c6201e5b24819185b164be96ef195a",
+    "local_metadata_applied": true,
+    "path": "/workspace/scratch/27d3a9067d9e/dg18-resume/deliverables/progress129/final/DG18_CONTINUATION_PROGRESS_20261106.json",
+    "sha256": "67e4fec5737b6955548ca902e29187e84249832e34431aa78660447d3c628f11",
+    "status": "succeeded",
+    "version": 129
+  },
+  "snapshot_order": "Maincheckpoint preceded Startup08reviewcompletion. Separate immutable supplement and finalprogress body include that review, rootreceiving and nexttask. The pre-supplementdraft was never committed as sharedprogress.",
+  "startup08_supplement": {
+    "bytes": 368194,
+    "file_id": "file_000000000fe481fdbbd48d9031c6cb6f",
+    "library_file_id": "libfile_cb87eb967f8c819181748eb3856239aa",
+    "local_metadata_applied": true,
+    "path": "/workspace/scratch/27d3a9067d9e/dg18-resume/deliverables/progress129/DG18_PROGRESS129_STARTUP08_REBIND_RECEIVING_SUPPLEMENT_20261108.zip",
+    "sha256": "cbe47946762325292251512ae61d7143cc8f36a1a32a6830edf855584faaf300",
+    "status": "succeeded"
+  },
+  "status": "ALL_SAVES_SUCCEEDED_GUARDED128_TO129_AND_EXACT_FRESH_READBACK_VERIFIED",
+  "supplement_readback": {
+    "bytes": 616,
+    "file_id": "file_0000000035bc81fd8f1ff17d297dd880",
+    "library_file_id": "libfile_f2b964611ce881919d92e108a0bda9fa",
+    "local_metadata_applied": true,
+    "path": "/workspace/scratch/27d3a9067d9e/dg18-resume/deliverables/progress129/DG18_PROGRESS129_STARTUP08_SUPPLEMENT_READBACK_20261108.json",
+    "sha256": "3f08025ee0348e498d319a73aa2f0ab0a3f9e24809e08c270a67a3f107aa91be",
+    "status": "succeeded"
+  },
+  "transport_incident_preserved": "Wholemixedcarrier transfer occurred beforemanifestdisclosure; ciphertext/private memberbodies were not opened/extracted/decrypted/used;101publicallowlist records retained; mixedlocalZIP removed. Nozero-transferclaim."
+}

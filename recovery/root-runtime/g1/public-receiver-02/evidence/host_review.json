@@ -1,0 +1,85 @@
+{
+  "schema": "dg16.g1-current04-whole-host-source-independent-receiving.v1",
+  "reviewer": "/root/dg16_g1_design_review_20261108",
+  "review_completion": "COMPLETE",
+  "disposition": "ACCEPT_EXACT_CURRENT04_WHOLE_HOST_SOURCE_FOR_ROOT_DECISION_ONLY",
+  "blocking_source_findings": [],
+  "exact_subject": {
+    "finish_receipt_bytes": 1448,
+    "finish_receipt_sha256": "02be5477d80e67e00c8a103c48e0e9f76a9357262a3ea30140cce8c9f0c6bad3",
+    "finish_phase_bytes": 9198,
+    "finish_phase_sha256": "7a391c1c74329b1298349a85d3df25013707d0eb09044cf8583b3ea8bc9a038c",
+    "operation_sha256": "458ce32d996272a4049034bc372cea61b8870a6f76d6a30f3e819093b57c774d",
+    "run_sha256": "7acd7a301dfb61191c862fca6132b70226b8f1734cab6c46b071e6356ba78af0",
+    "public_manifest_sha256": "7c55fca176558dcbb216857e79550933b8f750ab9278ea3ece34b72098d2b5f8",
+    "expected_git_tree": "8390375505282e602759c7976b6bca82a44d5737",
+    "sole_parent": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f"
+  },
+  "actual_supplied_issuer_bindings": {
+    "role_selection_receipt_sha256": "0a4ab4df939a1044e996577de2ee72d069365c7dd79eda77bc814c0c7fb3f2a9",
+    "carrier_body_sha256": "643d37a7f1515f14e6514eaa2640602891848cf70213a9e69be56475cc9f7095",
+    "bootstrap_body_sha256": "3d47ff0eca73d2d373fb0237938e5660b79b709f71f073bb08dc010755e5dd9b",
+    "actual_roles": 4,
+    "retained_actual_bodies": 7,
+    "all11_private_input_hashes_matched": true,
+    "private_bodies_in_public_tree": 0,
+    "limitation": "Parent commission and pinned issuer receipts establish supplied actual issuance; reviewer did not issue bodies or independently observe native Root-message transport."
+  },
+  "independent_checks": {
+    "prepare_bind_finish_members": [26, 44, 59],
+    "finish_actual_files_including_phase": 60,
+    "public_tree_files": 49,
+    "public_manifest_members": 38,
+    "module_pins": 14,
+    "G3_data_pins": 5,
+    "carrier_loader_pins": 9,
+    "flat_core_python_behavior_checked": 15,
+    "base_git_leaves": 1759,
+    "composed_git_leaves": 1808,
+    "inline_publication_bodies": 47,
+    "source_blob_reuses": 2,
+    "all4_publication_artifacts_exact": true,
+    "byte_population_or_binding_errors": 0,
+    "static_readback_sha256": "474a5adf0141739e80d46ce10a2decfd4bbc991ce4dd17725d9ee45b26f947cd"
+  },
+  "source_semantics": {
+    "operation": "Exact previously accepted diagnostic bytes, including retained original finally",
+    "run": "Accepted diagnostic AST unchanged except BRANCH/MODULE_PINS/G3_DATA_PINS assignments",
+    "other_core": "Host composition and G3 differ only expected binding assignments; remaining flat core Python bytes unchanged",
+    "old39plus30_controls": "Reused at exact source-behavior scope; not rerun or counted as new original/runtime credit",
+    "Windows_adapter": "Pinned immutable byte view and fresh source output; not original POSIX/no-follow/native custody equivalence or general adversarial sandbox qualification"
+  },
+  "unproved_separate_gates": [
+    "Root whole-tree adoption/publication/ref/live currentness/resource-role receiving and native-host approval",
+    "Actual late sender recipient/nonce/request artifact, operation/admission/tool/private-route custody/currentness",
+    "Fresh native bank and original pair through admitted actual same-job/child route, exact source/runtime/time bounds and wait4/group cleanup",
+    "Assigned independent actual complete-pair receiver with same-job raw comparison/currentness",
+    "Both actual G3 decision owners and exact current request/proof-bound first/final decision bodies; actual held-out/original adjudication stays with Astra"
+  ],
+  "G3_source_windows_seconds": {
+    "shared_maximum": 600,
+    "first_hold": "min(300,shared_window-120)",
+    "final_request_minimum_remaining": 90,
+    "after_independent_consumer_minimum_remaining": 60,
+    "enclosing_resume_reserve": 180,
+    "actual_decisions": "Both before exact bound request expiries and while current; no source-result extension"
+  },
+  "readiness": {
+    "whole_host_source_received": true,
+    "publication_performed_or_authorized_by_this_review": false,
+    "installed_deployed_or_native_qualified": false,
+    "accepting_run_ready": false,
+    "original_G1_G3_or_whole_cell_accepted": false
+  },
+  "historical_unknowns": ["old offending member/population", "old exact raising call site", "underlying final-currentness cause"],
+  "terminal": {
+    "state": "COMPLETE_NO_RUNNING_WORK",
+    "writes": "Only current04-final-review static receipt/report/final/manifest",
+    "target_imports_or_target_generator_execution": 0,
+    "old_control_native_verifier_or_crypto_runs": 0,
+    "source_issuer_body_ref_root_ledger_or_external_mutations": 0,
+    "new_workers": 0,
+    "tooling": "Read-only source/harness/data inspection and independent data-only AST/literal/byte/Git-tree recomputation"
+  },
+  "original_awards": []
+}

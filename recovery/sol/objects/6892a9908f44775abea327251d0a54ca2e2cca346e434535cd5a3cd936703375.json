@@ -1,0 +1,61 @@
+{
+  "schema": "dg16.original-g2-first-outcome-causal-disposition.v1",
+  "utc": "2026-11-09T07:58:19.624506+00:00",
+  "subject": {
+    "product": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+    "workflow": "7f618adc702912f760d87f68fe9c94cc419e844c",
+    "run": 42579780645,
+    "job": 129035519895,
+    "attempt": 1
+  },
+  "independent_packet_receiving": {
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\original-host-diagnostic-01\\independent-terminal-receiving\\RECEIPT.json",
+    "bytes": 10926,
+    "sha256": "aedfb7c4ed2f999c6b132be5bc034af2ebf39332e43c0467c0ca2538dd6d08c3"
+  },
+  "scope": "Actual public ZIP/metadata/transport/source joins; Root native/log provenance attributed separately",
+  "actual_observations": {
+    "changed_native_cases": 2,
+    "changed_native_result": "PASS_SCOPED_CURRENT_PREREQUISITES",
+    "production_same_host_max": {
+      "plain": 268501016,
+      "cipher": 268501653,
+      "status": "OBSERVED_MAXIMUM_ENCRYPTION_WITH_COMPLETE_CUSTODY"
+    },
+    "legacy": {
+      "mapped_nodes": 119,
+      "registered_tests": 91,
+      "exit": 1,
+      "elapsed_ms": 118970,
+      "node_states": "ALL_UNSETTLED",
+      "subject_attempts": 1
+    },
+    "DAG_leg": "ABSENT",
+    "live_proof": "ABSENT",
+    "raw_relation": null
+  },
+  "causal_correction": {
+    "actual_private_message_descriptor": {
+      "bytes": 35,
+      "sha256": "7c867969f2c76556c7548ff7d493c3cd3faf3c73b014ec8a825a230960d0b1ce"
+    },
+    "independently_computed_public_source_message": "complete legacy verifier returned 1",
+    "observed_phase": "LEGACY_DECLARED_ARTIFACT_CAPTURE",
+    "matched_explicit_source_site": "pair_driver.py:697 status reduction after conditional capture and runtime observation",
+    "other_site": "pair_driver.py:710 same formatted message but phase RAW_COMPARE",
+    "collector_failure": "NOT_PROVED_BY_PHASE_LABEL",
+    "legacy_exit_cause": "UNKNOWN_FROM_RECEIVED_PUBLIC_DATA; prefix matcher samples are not per-test outcomes"
+  },
+  "diagnostic_candidate": {
+    "first": "ba8298ad REVISE: added advance/save could mask primary under Root ENOSPC control",
+    "successor": "pair_driver_noio_v2.py88afb3bf7d598c52afbaf3708d3e63ddb647768da6ce604cabc2d6d500f265be +pair_diagnosticse8678a35",
+    "Root_receiving": "Root independently executed original/candidate guards and existing failed writer; in-memory status label preserves original exception/no added file opens",
+    "integration": "HELD_ROOT_ONLY; no new pin/campaign/rerun commissioned for label"
+  },
+  "remaining": "Actual legacy exit1 diagnosis requires lawful further evidence; no functional collector fix justified. Complete original G2/DG16 conjunction remains unsatisfied.",
+  "preservation": "Actual first run failures and all historical outcomes retained; no regrading or repeated provider/host/subject operation",
+  "forbidden_effects_performed": 0,
+  "encrypted_copy_or_key_access": false,
+  "source_repair_claim": "DIAGNOSTIC_LABEL_ONLY_NOT_LEGACY_FIX",
+  "new_DAG_or_issue_acceptance": false
+}

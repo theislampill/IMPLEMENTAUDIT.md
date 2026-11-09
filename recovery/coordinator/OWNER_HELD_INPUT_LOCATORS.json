@@ -1,0 +1,51 @@
+{
+  "archive_bytes": 419616656,
+  "archive_sha256": "f53e6a1434cefe5c18b9acfdcb6517d969674940e8481371899eca6a6d36f33f",
+  "members": [
+    {
+      "required_bytes": 198602,
+      "required_name": "SOURCE_ACQUISITION.json",
+      "required_sha256": "8c3b2ddace7802d91308121f2d3f2b8f236fd5d443dcd2237164e20665cd3319",
+      "selected_archive_member": "RECOVERED/WORKSPACE/successor/coordinator/g1-final-private-inputs/SOURCE_ACQUISITION.json"
+    },
+    {
+      "required_bytes": 928,
+      "required_name": "PACKAGE_ROOT_RECEIVING.json",
+      "required_sha256": "0edff0f3d8bd6f5520ef72d4e91daba54a6b0033e85b94f041f448c2951d6691",
+      "selected_archive_member": "RECOVERED/WORKSPACE/successor/coordinator/g1-final-private-inputs/PACKAGE_ROOT_RECEIVING.json"
+    },
+    {
+      "required_bytes": 9744,
+      "required_name": "PACKAGE_BODY_RECEIVING.json",
+      "required_sha256": "8c592c76967ae2d95101af86ca25ab3bd4d09acdad486afbb976d61e7e5a7811",
+      "selected_archive_member": "RECOVERED/WORKSPACE/successor/coordinator/g1-final-private-inputs/PACKAGE_BODY_RECEIVING.json"
+    },
+    {
+      "required_bytes": 4531,
+      "required_name": "PACKAGE_TERMINAL_RECEIVING.json",
+      "required_sha256": "e213b8843f03741c48776277f9e1db8c78ea1d3f7609875ce32bcd94e5ed5b89",
+      "selected_archive_member": "RECOVERED/WORKSPACE/successor/coordinator/g1-final-private-inputs/PACKAGE_TERMINAL_RECEIVING.json"
+    },
+    {
+      "required_bytes": 29107,
+      "required_name": "placement/ACCESS09_DIAGNOSTIC.json",
+      "required_sha256": "5a56b0705e77314c587020dda0d45522a68bf5c93d4187281971b13cea4f95ae",
+      "selected_archive_member": "RECOVERED/WORKSPACE/successor/coordinator/g1-final-private-inputs/placement/ACCESS09_DIAGNOSTIC.json"
+    },
+    {
+      "required_bytes": 5113,
+      "required_name": "placement/ACCESS09_FINAL.json",
+      "required_sha256": "61d6afe0d5cb5bca26c435c4529788816161d484714ec3e89148d24186b945c1",
+      "selected_archive_member": "RECOVERED/WORKSPACE/successor/coordinator/g1-final-private-inputs/placement/ACCESS09_FINAL.json"
+    },
+    {
+      "required_bytes": 1961,
+      "required_name": "placement/ACCESS09_ROOT_RECEIVING.json",
+      "required_sha256": "40ce62326d8e9b759a5db150bf41a99dc77c05580342989aa33e06df2b0bedd3",
+      "selected_archive_member": "RECOVERED/WORKSPACE/successor/coordinator/g1-final-private-inputs/placement/ACCESS09_ROOT_RECEIVING.json"
+    }
+  ],
+  "new_per_episode": "Freshly appointed issuer binds and authenticates the other required placement/admission decisions. Old grants are history. A fresh recipient certificate/private-key lifecycle and nonce are required.",
+  "role": "Private exchange only if a freshly authorized operator needs these seven existing inputs. No bodies are included here.",
+  "source_archive": "DG16_RECOVERED_CONTINUATION_20261107.zip"
+}

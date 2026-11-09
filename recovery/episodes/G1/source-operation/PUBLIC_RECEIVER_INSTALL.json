@@ -1,0 +1,12 @@
+{
+  "root": "/home/agent/dg16-g1-current04-operators/public-receiver-02",
+  "manifest_sha256": "d121857cece0c797198d605432c17ed882b47add887ae672b29ef04b7809547d",
+  "regular_files_verified": 71,
+  "uid": 1000,
+  "gid": 1000,
+  "file_mode": "0400",
+  "directory_mode": "0700",
+  "checked_leaf_nlink_one": true,
+  "checked_leaf_attributes_empty": true,
+  "immutable_input_mode": "Installed public source only. No live Session, runtime grant or broker journal."
+}

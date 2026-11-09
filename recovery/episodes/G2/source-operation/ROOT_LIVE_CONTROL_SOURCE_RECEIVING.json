@@ -1,0 +1,12 @@
+{
+  "old_source_sha256": "dd984e823ba386110daea55ddaf367bafd58c4416587185c14c6b96bda4bd435",
+  "source": "/home/agent/dg16-g2-current04-public-20261109/root-live-control-source-02/prepare_live_control.py",
+  "sha256": "d6b5e430cbdd6ac8fc4bdf6814b35919878d1bf5813227f7d238c6e8ebce2a67",
+  "input_bytes": 254415,
+  "input_sha256": "21421736447e752a2140f1a440345210491d74502b896806f6e7f8e133c47dfe",
+  "leaves": 1805,
+  "reconstructed_tree": "27bb6432546c2d0b3fb7df09f0845c3d1303bccd",
+  "omission_rejected": true,
+  "private_inputs_read": false,
+  "real_control_issued": false
+}

@@ -1,0 +1,40 @@
+{
+  "actor": "/root",
+  "issuer_thread": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "utc": "2026-11-09 05:56:13 UTC",
+  "decision": "ACCEPT_ACTUAL_SEVEN_FILE_PUBLIC_RECEIVER_INSTALL_AND_VERIFIED_SOURCE_BINDING",
+  "installed": {
+    "action": "installed exact seven plus source seal, non-root ext4",
+    "root": "/home/agent/dg16-g2-current04-public-20261109/bound-public-receiver",
+    "sha256": "2f86492f085eae40ab35530fe1d59773116841c120b5a9bd50421e5bdf02275d",
+    "seven_members": true,
+    "file_mode": "0444",
+    "actual_uid": 1000
+  },
+  "actual_verified": {
+    "state": "ACTUAL_BOUND_PUBLIC_RECEIVER_VERIFIED_SOURCE_ONLY",
+    "candidate_seal": "9c4b01a11de9b3e064259eb3b893bfe81a5926556e147be5d60c95152641f17b",
+    "composition_seal": "7a202870742c3462a558960f8dbf1f73c938be877bd6e4654dcad85232f606bf",
+    "receiver_seal": "2f86492f085eae40ab35530fe1d59773116841c120b5a9bd50421e5bdf02275d",
+    "final_tree": "27bb6432546c2d0b3fb7df09f0845c3d1303bccd",
+    "policy": "EXACT_ROOT_ADOPTION_AND_INDEPENDENT_REVIEW_RECEIVED",
+    "modules": [
+      "capture_evidence.py",
+      "full_relation.py",
+      "host_utility.py",
+      "live_control.py",
+      "native_integration.py",
+      "native_public.py",
+      "run.py"
+    ],
+    "output_still_empty": true,
+    "origin": "installed Ubuntu read-only public receiver verified() with process/network/maintained-source execution fenced",
+    "native_execution": false,
+    "whole_dg16": false
+  },
+  "actual_combined_review": "Pending separate selected independent decision",
+  "actual_run": null,
+  "private_binding": null,
+  "effect_grant": false,
+  "original_awards": []
+}

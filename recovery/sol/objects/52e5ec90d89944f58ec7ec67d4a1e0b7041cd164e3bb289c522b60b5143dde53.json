@@ -1,0 +1,45 @@
+{
+  "schema": "dg16.public-operator-v2-independent-delta-receiving.v1",
+  "reviewer": "/root/dg16_g1_design_review_20261108",
+  "review_completion": "COMPLETE",
+  "disposition": "PASS_EXACT_V2_OPERATOR_SNAPSHOT_REPAIR_AND_INSTALLATION_DATA_FACTORY_SOURCE_ONLY",
+  "blocking_source_findings": [],
+  "exact_subject": {
+    "source_sha256": "2b481d09dd7501fa7c22a3f9cb98c3c088293322cdaf26b2e8e35b5a64c59d32",
+    "authored_v2_controls_sha256": "1b7c9a9b99a4ecd6d7d46312f201f3e9a2d5ee5e3f827718189fd617b3d1d6e8",
+    "actual_Root_installation_receipt_sha256": "23fcaf940f2b51d321731d56fbdd217adf032a033a9cdbaca340607d468c5239",
+    "actual_Root_receiver_seal_sha256": "2f86492f085eae40ab35530fe1d59773116841c120b5a9bd50421e5bdf02275d"
+  },
+  "resolved_finding": {
+    "id": "G2-OP-01",
+    "state": "RESOLVED_AT_EXACT_V2_SOURCE",
+    "preserved_predecessor": "2ceb10d705effd5a02a7c58ba85f596e0f3755c392776c311930dfd40242ee9f remains REVISE",
+    "original_failure_receipt_sha256": "af629c4a85b2e437e2d7b9661762c13fbe622af6064b1ecc458f7636358cb38e",
+    "correction": "Constructor validates and retains owned deep copies; self.b points into self.binding rather than caller binding.",
+    "independent_result": "Post-construction caller branch/final-tree/actor mutations cannot change owned subject, accepted original context or plan/journal descriptor; altered context is refused.",
+    "readback_sha256": "3b8e2ab416ebab4da983fc6c4c5747eb01a63bec23835e718788a204096dd958"
+  },
+  "delta_scope": {
+    "new": ["installation_configuration", "PublicOperator.from_received_installation", "two exact installation/seal pin constants"],
+    "changed_existing_methods": ["__init__", "control_source"],
+    "other_existing_operator_method_ASTs_unchanged": true,
+    "factory_checks": "Exact Root installation and receiver-seal hashes; seven-member receiver source seal; actual BINDING/runtime descriptors, issuer/session/tree/directory and source-only verification joins.",
+    "factory_result": "Pure owned configuration: physical_probe_performedFalse/effect_grantFalse, retains actual_runNone and pending actual combined review; wrong receiver binding is refused by control_source.",
+    "scope_limit": "Factory receives pinned actual Root data supplied by the commission. It does not perform the physical installation, authenticate native transport, issue an operator admission or promote source verification into native currentness."
+  },
+  "controls": {
+    "authored_inert_methods": 8,
+    "independent_check": "One focused permitted constructor/factory/plan mutation-and-wrong-receiver data check; no old seven-method suite replay.",
+    "actual_tools_or_history_writer_calls": 0,
+    "actual_physical_receiver_verification_by_reviewer": false
+  },
+  "preserved_real_gates": [
+    "Actual Root source-write/tool/body operator admission and private write-once durable journal",
+    "Actual authenticated supported-tool/native-history acquisition,300-second window, ordinal/no-retry/no-fallback behavior",
+    "Actual late combined exact independent review and Root control/body publication admission",
+    "No cipher/private decrypt role or historical Session/custody transplant; no original award"
+  ],
+  "readiness": {"exact_source_delta_accepted": true, "actual_operator_admission_or_acquisition_performed": false, "live_control_or_provider_effect_ready_by_this_review": false, "private_or_native_enabled": false, "original_acceptance": false},
+  "terminal": {"state": "COMPLETE_NO_RUNNING_WORK", "writes": "Only public-operator-source/v2-independent-review", "genuine_metadata_tool_body_network_native_key_crypto_provider_ref_root_ledger_effects": 0, "new_workers": 0},
+  "original_awards": []
+}

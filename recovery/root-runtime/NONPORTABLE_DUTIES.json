@@ -1,0 +1,83 @@
+{
+  "schema": "dg16.pro-root-runtime-nonportable-duties.v1",
+  "authority": "NONE",
+  "fresh_authority_required": [
+    "Actual receiving Pro custody and allowed write/effect boundaries, not merely new chat readiness.",
+    "Actual repository actor/push/control permissions; no credential/token/authorization is packaged.",
+    "Actual environment/installation/source/clock/currentness/native history/provenance qualification.",
+    "New per-event native issuer decisions, original independent/live/source-applicability receiving and exact consumer acceptance."
+  ],
+  "excluded_private_inputs": {
+    "source_public_descriptor": "g1/public-receiver-02/phase/INPUT_INDEX.json",
+    "count": 11,
+    "metadata_only": {
+      "COMPOSITION_NATIVE_APPLICABILITY_ADOPTION.json": {
+        "bytes": 627,
+        "sha256": "4cc88b1e0125d23d5a6e0975e3613fea62e5258c76e6d6dcf208cbdb356eb85d"
+      },
+      "COMPOSITION_PLACEMENT_EVIDENCE_INDEX.json": {
+        "bytes": 512,
+        "sha256": "c415420af84ac8c06372c38a3939bbce38018e68fb3dc431f1caa038f7e0ad5f"
+      },
+      "COMPOSITION_PLACEMENT_RECEIVING.json": {
+        "bytes": 886,
+        "sha256": "9bd8967a43dfb29682ea84c39c402d28d3d31aab720cf7dbd29b8e1fb02e3b1a"
+      },
+      "COMPOSITION_ROOT_ADMISSION.json": {
+        "bytes": 749,
+        "sha256": "b39c9be5fbf20b32b8687f9605e84e0b12ea42418e7a2b7c1e81feddc01faafc"
+      },
+      "PACKAGE_BODY_RECEIVING.json": {
+        "bytes": 9744,
+        "sha256": "8c592c76967ae2d95101af86ca25ab3bd4d09acdad486afbb976d61e7e5a7811"
+      },
+      "PACKAGE_ROOT_RECEIVING.json": {
+        "bytes": 928,
+        "sha256": "0edff0f3d8bd6f5520ef72d4e91daba54a6b0033e85b94f041f448c2951d6691"
+      },
+      "PACKAGE_TERMINAL_RECEIVING.json": {
+        "bytes": 4531,
+        "sha256": "e213b8843f03741c48776277f9e1db8c78ea1d3f7609875ce32bcd94e5ed5b89"
+      },
+      "SOURCE_ACQUISITION.json": {
+        "bytes": 198602,
+        "sha256": "8c3b2ddace7802d91308121f2d3f2b8f236fd5d443dcd2237164e20665cd3319"
+      },
+      "placement/ACCESS09_DIAGNOSTIC.json": {
+        "bytes": 29107,
+        "sha256": "5a56b0705e77314c587020dda0d45522a68bf5c93d4187281971b13cea4f95ae"
+      },
+      "placement/ACCESS09_FINAL.json": {
+        "bytes": 5113,
+        "sha256": "61d6afe0d5cb5bca26c435c4529788816161d484714ec3e89148d24186b945c1"
+      },
+      "placement/ACCESS09_ROOT_RECEIVING.json": {
+        "bytes": 1961,
+        "sha256": "40ce62326d8e9b759a5db150bf41a99dc77c05580342989aa33e06df2b0bedd3"
+      }
+    },
+    "bodies_packaged": false
+  },
+  "excluded_material": [
+    "Fresh/old recipient and certificate bodies",
+    "Private keys and protected secret/tool material",
+    "CMS/ciphertext and two-leaf runtime publication bodies",
+    "Assembled sender and any nonpublic runtime island",
+    "Live role/config/admission or grant bodies",
+    "Raw native/actor histories and private bookends",
+    "Actual raw tool/return/signed-download wrappers and private original pair artifacts"
+  ],
+  "runtime_gaps_that_are_not_source_missing": [
+    "Private11 exact bodies are unavailable from this package; metadata/hash equality cannot reconstruct them.",
+    "Original private key/custody and raw native history are not supplied to a GitHub-only Pro.",
+    "The old native-history module pins Root chat/header/turn/path and is not a new Pro authenticator.",
+    "Windows/Ubuntu/native/currentness/resource rights cannot be claimed from source hashes.",
+    "Real provider/private/independent original predicates remain bounded/UNKNOWN until lawfully received."
+  ],
+  "possible_hosted_route": "A new explicitly authorized/qualified actual hosted owner may preserve the original source/custody/time/provenance laws. It must not fabricate native MCP IDs/history, replay old grants/attempts or treat CI status as original acceptance.",
+  "already_spent_subjects": [
+    "G1 f9ba187e current04 published-host identity",
+    "G2 7f618adc current04 published-host identity"
+  ],
+  "whole_cell_ready_or_accepted": false
+}

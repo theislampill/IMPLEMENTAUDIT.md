@@ -1,0 +1,17 @@
+{
+  "schema": "dg16.pro-root-runtime-packaging-check.v1",
+  "authority": "NONE",
+  "copied_files": 134,
+  "receiver02_exact_files": 71,
+  "all_copied_bytes_match_originals": true,
+  "forbidden_extensions": [],
+  "embedded_PEM_bodies": [],
+  "event_role_admission_JSON_files": [],
+  "allowed_source_records": "Exact71 public receiver/source records include historical public composition/bootstrap data, not a live event admission.",
+  "unexamined_or_excluded": "All sibling live evidence/runtime/private directories excluded by explicit source allowlist; no broad private/raw log scan.",
+  "runtime_executions": 0,
+  "new_experiments": 0,
+  "provider_calls": 0,
+  "source_mutations": 0,
+  "native_effects": 0
+}

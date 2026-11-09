@@ -1,0 +1,104 @@
+{
+  "actual_root_receiving_sha256": "5b4a222314b1045d666db455dbfc125ff218e8da519a6100e46aaf6378143c7f",
+  "changed": [
+    {
+      "current": {
+        "bytes": 49927,
+        "git_blob": "bbc8b4749ede8e3a389dcbd29cc0fbdd92186fc1",
+        "mode": "100644",
+        "path": "scripts/load-work-graph-c5-executor.py",
+        "sha256": "2989ba6cb8da6f52f9a2f94f27d141a931a0bffb8ebd03172091b170646d8017"
+      },
+      "path": "scripts/load-work-graph-c5-executor.py",
+      "retained": {
+        "bytes": 48704,
+        "git_blob": "90d1b452ab3f637e4e2248587aaf6a3abd124c72",
+        "mode": "100644",
+        "path": "scripts/load-work-graph-c5-executor.py",
+        "sha256": "c62f034159d64d8b461cc0bec502b2f9ac07e05fa6b31f4c2eefc1a6f41696db"
+      }
+    },
+    {
+      "current": {
+        "bytes": 268686,
+        "git_blob": "137b11f0024badd616591a8084071a8aacfc29c6",
+        "mode": "100644",
+        "path": "scripts/qualify-work-graph-verifier.py",
+        "sha256": "79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b"
+      },
+      "path": "scripts/qualify-work-graph-verifier.py",
+      "retained": {
+        "bytes": 265973,
+        "git_blob": "958117710a7a6ca6596c529d8b4fe310e4ea6ffb",
+        "mode": "100644",
+        "path": "scripts/qualify-work-graph-verifier.py",
+        "sha256": "cff5376a90dbffdd18e762234c59b62285d8a26d35a916243a085bcf99c48b4c"
+      }
+    },
+    {
+      "current": {
+        "bytes": 10390,
+        "git_blob": "c8b287380ceda1227ae948ba95a0462e03cb0528",
+        "mode": "100644",
+        "path": "tests/c5-selected-source-fixture.py",
+        "sha256": "207a29c33806bb613b2436f420d2adc99e32045cfd234bb2a643d309d153950b"
+      },
+      "path": "tests/c5-selected-source-fixture.py",
+      "retained": {
+        "bytes": 9691,
+        "git_blob": "6706ce918f98c2fed4483848157e2c1d21f72c12",
+        "mode": "100644",
+        "path": "tests/c5-selected-source-fixture.py",
+        "sha256": "c5816b9e0e2b4753c0bad9d1d38ba05573005fda3b801cc7d7a4653ded272ce2"
+      }
+    },
+    {
+      "current": {
+        "bytes": 164145,
+        "git_blob": "930504e580686546e734e0963834560dbbd1003e",
+        "mode": "100644",
+        "path": "tests/composite-source-cases.py",
+        "sha256": "bf322d185c905ff0c7b5c35228b89daf81d6a800e489bc3c0a0315ca9bd59e53"
+      },
+      "path": "tests/composite-source-cases.py",
+      "retained": {
+        "bytes": 163871,
+        "git_blob": "967d22d4537a2fa9f08efc1754157afaae1856e9",
+        "mode": "100644",
+        "path": "tests/composite-source-cases.py",
+        "sha256": "97cc25b363453401211373f54eb7892ac97d2d371fa231e10509302604a7e5c3"
+      }
+    }
+  ],
+  "original_awards": [],
+  "physical_readback": [
+    {
+      "additional_untracked_paths": [
+        ".IMPLEMENTAUDIT/.r36-locks/namespace.gate",
+        ".IMPLEMENTAUDIT/runs/dg16-recovered-8ee4-execution-vjZs78/.claimed",
+        ".IMPLEMENTAUDIT/runs/dg16-recovered-8ee4-execution-vjZs78/.controller",
+        "scripts/__pycache__/check-auto-loom-coverage.cpython-312.pyc"
+      ],
+      "bytes": 166402972,
+      "cache": "source-8ee4",
+      "complete_tracked_population": true,
+      "files": 1759,
+      "observed_manifest_sha256": "510eafeef5bfd03ee9c37af07698df4743a1d81e182b04334fac225c9375c08f"
+    },
+    {
+      "additional_untracked_paths": [],
+      "bytes": 166407881,
+      "cache": "source-current",
+      "complete_tracked_population": true,
+      "files": 1759,
+      "observed_manifest_sha256": "0d7f57554931b9c23cac907e740b017f40dd91158404f3acb6b66e6a996dbdaf"
+    }
+  ],
+  "retained_commit": "8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b",
+  "retained_tree": "0da374609f7fea2463a2926f3603b976620bd10e",
+  "schema": "dg16.actual-cumulative-source-delta.v1",
+  "selected_commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+  "selected_tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+  "sole_parent": "ea61b498d6cffd4747966e7dd716abd3b3cffc1f",
+  "unchanged_files": 1755
+}

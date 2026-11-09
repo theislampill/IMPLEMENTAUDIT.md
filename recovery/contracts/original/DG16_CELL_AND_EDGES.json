@@ -1,0 +1,249 @@
+{
+  "schema": "dg16.original-authoritative-cell-and-applicable-edge-extract.v1",
+  "authority": "NONE",
+  "parent_graph": {
+    "path": "C:/workspace/ai/improveimplementaudit/plans/resumption-20261031/historical/dag/closure-dag.json",
+    "bytes": 344095,
+    "sha256": "88ace66898ab0383d1b0ef8de6cae0097f969d62731b20c90775c24a4fb3b4fc",
+    "cells": 32,
+    "edges": 89
+  },
+  "cell": {
+    "id": "DG16",
+    "title": "DAG Execution complete original acceptance",
+    "kind": "issue_acceptance",
+    "rlgwos": [
+      "R0035"
+    ],
+    "original_controls": [
+      "48originalrequirements;20originalcases;117originalnodes/89historicaltests;12terminalclauses;currentcomposed119/91 independently derived;8originalraw-comparator failures retained."
+    ],
+    "existing_source_owner": "R0035 original contract/compiler/verifier owner on PR246.",
+    "required_producer_or_authority": "Original physical program/provider and reproduction/portal event producers; independent correspondence evaluator and native receiver where the original contract requires it.",
+    "completion_predicate": "All48requirements/20cases/117original nodes and original terminal clauses are explicitly received, with original C5 executable qualification and the current composed registry independently proved; data factories and portable declared results are never substituted for original execution.",
+    "inputs_versions_and_currentness": [
+      "48originalrequirements;20originalcases;117originalnodes/89historicaltests;12terminalclauses;currentcomposed119/91 independently derived;8originalraw-comparator failures retained.",
+      "Read the exact selected commit/tree and the consumed file blob/mode/digest closure; this observation snapshot is not a permanent expected head.",
+      "Before dispatch compare only the material source, requirement, authority, environment and consumer dependencies of this cell. Reconcile changed dependencies; retain unchanged exact-source evidence.",
+      "A donor CI success, proposal patch, ordinary source fixture or installed copy is credited only at its recorded scope. No private receipt is presumed available or authentic."
+    ],
+    "successful_discriminators": [
+      "Original48 reproducible-release-asset C5 actually executes with full input/runtime/provider/child custody and expected reproduction evidence; original105 custody-append and affected finite profiles qualify.",
+      "Original raw stdout/stderr/environment/distribution/portal/reproduction comparison discriminators have justified exact results; actual live JOIN/frontier corroboration is independently received."
+    ],
+    "failing_discriminators": [
+      "runtime_complete=false input factory called C5execution; current119 replaces original117; synthetic HOLD fields called native; missing48private index reconstructed from memory; unsuccessful correspondence silently replayed."
+    ],
+    "previously_accepted_reusable_evidence": [
+      "Existing35historicalprofile/78pin inventory and42exactspecimens; accepted bounded node/profile coverage; DG09portable completion; previous failures and held-out results at their exact scopes."
+    ],
+    "exact_outstanding_work": [
+      "Recover authentic48-row index/dispositions from DG01 and bind to full public issue body/amendments; absence remains an explicit acceptance blocker.",
+      "Finish original C5/provider execution at actual final frontier; qualify only affected current source profiles and required full original/composed correspondence evidence; preserve prior qualified cases.",
+      "Demonstrate actual recursive same-campaign ancestor/sibling/future-prerequisite reasoning and useful independent preparation while admission remains blocked; consume a decision-changing return and recompute the real frontier.",
+      "Canonical DAG conversion and any fallback/old-consumer retirement need their original justified receiving and authority; preserve the valid serial fallback until those exact conditions hold."
+    ],
+    "dependencies": [
+      {
+        "id": "CE015",
+        "from_id": "DG05",
+        "type": "E",
+        "predicate": "Explicit exclusive source-write transfer; native/effect grants remain separate.",
+        "guard": "Always for this named operation",
+        "mode": "authority_blocker",
+        "requires_completion": true,
+        "requires_current_scoped_receipt": false
+      },
+      {
+        "id": "CE029",
+        "from_id": "DG08",
+        "type": "A",
+        "predicate": "Actual authentic JOIN evidence for an original governed live case.",
+        "guard": "Only if the actual selected original case requires this native occurrence; do not make R0039 C5 an implicit prerequisite.",
+        "mode": "hard_prerequisite",
+        "requires_completion": true,
+        "requires_current_scoped_receipt": false
+      },
+      {
+        "id": "CE030",
+        "from_id": "DG09",
+        "type": "B",
+        "predicate": "Completion/history/currentness/frontier interface independently qualified.",
+        "guard": "Always for this named operation",
+        "mode": "interface_prerequisite",
+        "requires_completion": true,
+        "requires_current_scoped_receipt": false
+      },
+      {
+        "id": "CE034",
+        "from_id": "DG06",
+        "type": "B",
+        "predicate": "Preserved completed effects/fence/journal when this original graph/recovery operation consumes them.",
+        "guard": "Only for actually effect-bearing selected operations; read-only/NO_CHANGE cases do not inherit it.",
+        "mode": "interface_prerequisite",
+        "requires_completion": true,
+        "requires_current_scoped_receipt": false
+      },
+      {
+        "id": "CE057",
+        "from_id": "DG07",
+        "type": "B",
+        "predicate": "CURRENT_RUN_TURN_INTERFACE receipt for the actual continuation consumer, preserving nonterminal yield and surviving obligations.",
+        "guard": "Only the finite source/turn interface consumed by the original operation; unchanged existing source evidence may satisfy it. No whole R0037 or native Stop prerequisite.",
+        "mode": "qualified_output_port_required",
+        "requires_completion": false,
+        "requires_current_scoped_receipt": true,
+        "receipt_selector": "CURRENT_RUN_TURN_INTERFACE"
+      }
+    ],
+    "executability": [
+      "chatgpt_pro_portable",
+      "native_codex_specific",
+      "externally_authorised"
+    ],
+    "independent_receiving": "A separate receiver checks the actual output bytes, original denominator, producer identity, source/authority/environment bindings, negative outcomes and residuals. A success-shaped sender envelope is insufficient.",
+    "verification_requirements": [
+      "Read complete original issue body and every binding comment plus acceptance-populations register; evaluate every remaining row at its original proof level.",
+      "Run only admitted, affected exact discriminators through existing canonical owners; preserve held-out/negative/failed/UNKNOWN episodes. Independent receiver signs exact scoped acceptance and all residual dispositions."
+    ],
+    "unlocks": [
+      "DG28"
+    ],
+    "whole_issue_closure_effect": "No whole-issue closure is implied; consumers receive only the named proved interface or acceptance predicate.",
+    "cost": {
+      "relative": "XL",
+      "basis": "Planning estimate from scope and observed evidence boundaries, not a timed completion forecast."
+    },
+    "read_set": [
+      "docs/maintenance/R0035-AUDIT-SPEC.md",
+      "scripts/qualify-work-graph-verifier.py",
+      "scripts/qualify-work-graph-finite-leaf.py",
+      "scripts/work-graph-c5-inputs.py",
+      "scripts/work-graph-c5-provider-inputs.py",
+      "test-support/work-graph-registry/original117/verify-package.sh",
+      "Actual original48 private criterion index and dispositions"
+    ],
+    "write_set": [
+      "docs/maintenance/R0035-AUDIT-SPEC.md",
+      "scripts/qualify-work-graph-verifier.py",
+      "scripts/qualify-work-graph-finite-leaf.py",
+      "scripts/work-graph-c5-inputs.py",
+      "scripts/work-graph-c5-provider-inputs.py",
+      "test-support/work-graph-registry/original117/verify-package.sh",
+      "Actual original48 private criterion index and dispositions"
+    ],
+    "effect_set": [
+      "only effects separately admitted for this cell; no present execution authority"
+    ],
+    "required_external_gates": [],
+    "source_references": [
+      "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/209"
+    ],
+    "evidence_limits": [],
+    "replay_rule": "Reuse unchanged evidence at its exact producer, consumer, source, environment and authority scope. Re-execute only a demonstrated affected discriminator or an unperformed original obligation; never rerun a satisfied one-shot or the protected R0039 UNKNOWN episode.",
+    "correction_cycle": "One named RED discriminator and one bounded countermeasure per admitted correction. A failed correction returns BLOCKED with retained evidence; a further cycle needs changed evidence or a materially new discriminator and the existing owner admission. No automatic replay or retry loop; existing in-flight owner bounds are preserved.",
+    "current_execution_status": "NOT_DISPATCHABLE_UNDER_ARCHITECTURE_ONLY_COMMISSION",
+    "future_admission": "Recompute READY and DISPATCHABLE from actual checkpoint outputs; the following requirements are not authority grants.",
+    "source_writer_policy": "One accountable source writer after DG05; disjoint specialists return exact evidence or patches and never become competing general-purpose branch owners.",
+    "source_change_class": "product_source_or_consumed_contract"
+  },
+  "related_edges": [
+    {
+      "id": "CE015",
+      "from_id": "DG05",
+      "to_id": "DG16",
+      "type": "E",
+      "predicate": "Explicit exclusive source-write transfer; native/effect grants remain separate.",
+      "guard": "Always for this named operation",
+      "mode": "authority_blocker",
+      "source_relationships": [],
+      "requires_completion": true,
+      "requires_current_scoped_receipt": false
+    },
+    {
+      "id": "CE029",
+      "from_id": "DG08",
+      "to_id": "DG16",
+      "type": "A",
+      "predicate": "Actual authentic JOIN evidence for an original governed live case.",
+      "guard": "Only if the actual selected original case requires this native occurrence; do not make R0039 C5 an implicit prerequisite.",
+      "mode": "hard_prerequisite",
+      "source_relationships": [
+        "E03"
+      ],
+      "requires_completion": true,
+      "requires_current_scoped_receipt": false
+    },
+    {
+      "id": "CE030",
+      "from_id": "DG09",
+      "to_id": "DG16",
+      "type": "B",
+      "predicate": "Completion/history/currentness/frontier interface independently qualified.",
+      "guard": "Always for this named operation",
+      "mode": "interface_prerequisite",
+      "source_relationships": [
+        "E04"
+      ],
+      "requires_completion": true,
+      "requires_current_scoped_receipt": false
+    },
+    {
+      "id": "CE034",
+      "from_id": "DG06",
+      "to_id": "DG16",
+      "type": "B",
+      "predicate": "Preserved completed effects/fence/journal when this original graph/recovery operation consumes them.",
+      "guard": "Only for actually effect-bearing selected operations; read-only/NO_CHANGE cases do not inherit it.",
+      "mode": "interface_prerequisite",
+      "source_relationships": [
+        "E08"
+      ],
+      "requires_completion": true,
+      "requires_current_scoped_receipt": false
+    },
+    {
+      "id": "CE049",
+      "from_id": "DG16",
+      "to_id": "DG21",
+      "type": "D",
+      "predicate": "A changed consumed shipped/source-peer/registry interface invalidates only the corresponding package/receiver claim.",
+      "guard": "Only actual consumed changes; an incomplete native-only proof is not a blocker to unrelated package/source receipts.",
+      "mode": "invalidation_only_not_all_of_barrier",
+      "source_relationships": [
+        "E12",
+        "E13"
+      ],
+      "requires_completion": false,
+      "requires_current_scoped_receipt": false
+    },
+    {
+      "id": "CE057",
+      "from_id": "DG07",
+      "to_id": "DG16",
+      "type": "B",
+      "predicate": "CURRENT_RUN_TURN_INTERFACE receipt for the actual continuation consumer, preserving nonterminal yield and surviving obligations.",
+      "guard": "Only the finite source/turn interface consumed by the original operation; unchanged existing source evidence may satisfy it. No whole R0037 or native Stop prerequisite.",
+      "mode": "qualified_output_port_required",
+      "source_relationships": [
+        "E05"
+      ],
+      "requires_completion": false,
+      "requires_current_scoped_receipt": true,
+      "receipt_selector": "CURRENT_RUN_TURN_INTERFACE"
+    },
+    {
+      "id": "CE075",
+      "from_id": "DG16",
+      "to_id": "DG28",
+      "type": "A",
+      "predicate": "Only R0035 full original acceptance is required; no sibling whole-issue certificate.",
+      "guard": "Always for this named operation",
+      "mode": "hard_prerequisite",
+      "source_relationships": [],
+      "requires_completion": true,
+      "requires_current_scoped_receipt": false
+    }
+  ],
+  "application": "Original edge guards remain operative; no blanket DG17/DG18/CI/mainline or whole sibling barrier."
+}

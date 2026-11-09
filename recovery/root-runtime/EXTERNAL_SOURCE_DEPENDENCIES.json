@@ -1,0 +1,1011 @@
+{
+  "schema": "dg16.pro-root-runtime-external-source-closure.v1",
+  "authority": "NONE",
+  "archive_lookup": "DEPENDENCIES.json",
+  "Sol_member_prefix": "recovery/sol/",
+  "required_files": [
+    {
+      "required_destination": "g1/framed-role-02/role_process_v4.py",
+      "source_file_name": "role_process_v4.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/framed-operator/role_process_v4.py",
+      "bytes": 13166,
+      "sha256": "cd9e9f34a8e1897b9adccb3bdc98ab0ee62fe1ce7099d50af32d9c940cd606a0",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\framed-operator\\role_process_v4.py"
+    },
+    {
+      "required_destination": "g1/public-receiver-02/root-control-v5/control_process_v5.py",
+      "source_file_name": "control_process_v5.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/root-readback/control/control_process_v5.py",
+      "bytes": 19240,
+      "sha256": "1f78c843e942720fc0ed5ef909975dbdd9fd4595b287053bbe3384ffa265cdff",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\control_process_v5.py"
+    },
+    {
+      "required_destination": "g1/public-receiver-02/root-control-v5/control_readback.py",
+      "source_file_name": "control_readback.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/root-readback/control/control_readback.py",
+      "bytes": 6009,
+      "sha256": "7e7d26fa8dd41eec57ac47c9280b7f2107e9df0e509fe608f4d9c4c080c5a649",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\control_readback.py"
+    },
+    {
+      "required_destination": "g1/public-receiver-02/root-control-v5/file_readback.py",
+      "source_file_name": "file_readback.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/root-readback/file_readback.py",
+      "bytes": 4997,
+      "sha256": "ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\file_readback.py"
+    },
+    {
+      "required_destination": "g1/final-callbacks/control_callback_v6.js",
+      "source_file_name": "control_callback_v6.js",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/root-readback/control/control_callback_v6.js",
+      "bytes": 16959,
+      "sha256": "7760fd14ba8c4cf3fbc3f139fc6f3fd4c0df4821a3e26e1766bbce4c08180734",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\control\\control_callback_v6.js"
+    },
+    {
+      "required_destination": "g1/root-final-operators-01/binary_publish_v3.py",
+      "source_file_name": "binary_publish_v3.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/root-readback/binary/binary_publish_v3.py",
+      "bytes": 20593,
+      "sha256": "7f71f5928be04d194cdb1a19c04e6b5865173f9c488c13e0c91309a0aa6a5978",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\binary\\binary_publish_v3.py"
+    },
+    {
+      "required_destination": "g1/root-final-operators-01/file_readback.py",
+      "source_file_name": "file_readback.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/root-readback/file_readback.py",
+      "bytes": 4997,
+      "sha256": "ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\file_readback.py"
+    },
+    {
+      "required_destination": "g1/final-callbacks/binary_driver_v3.js",
+      "source_file_name": "binary_driver_v3.js",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/root-readback/binary/binary_driver_v3.js",
+      "bytes": 20863,
+      "sha256": "83f25246bbcc8f6cc5535c45a1b11b7905481eea82ef0cf65a5b1f7f5646288d",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-readback\\binary\\binary_driver_v3.js"
+    },
+    {
+      "required_destination": "g1/root-final-operators-01/control_process_v3.py",
+      "source_file_name": "control_process_v3.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/control-driver/control_process_v3.py",
+      "bytes": 17756,
+      "sha256": "c381d6faa55513ee1a3e368ec9f5d7c2867e704ca0b2ab0dae18187b36ba8f43",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\control-driver\\control_process_v3.py"
+    },
+    {
+      "required_destination": "g1/root-final-operators-01/root_pipeline_inputs_v2.py",
+      "source_file_name": "root_pipeline_inputs_v2.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/root-orchestration/root_pipeline_inputs_v2.py",
+      "bytes": 15463,
+      "sha256": "3f647d62a05a494895ab0fe0c710d5a65baebca126ce3854180e701a8da91cdf",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-orchestration\\root_pipeline_inputs_v2.py"
+    },
+    {
+      "required_destination": "g1/final-callbacks/windows_role_io.js",
+      "source_file_name": "windows_role_io.js",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/windows_role_io.js",
+      "bytes": 13266,
+      "sha256": "0bfbe734edcf52a59fc9f4ceb0acbeda2b15991a9ca000def8a28bea3a5c1106",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\windows_role_io.js"
+    },
+    {
+      "required_destination": "g1/final-callbacks/provider_slots.js",
+      "source_file_name": "provider_slots.js",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/provider_slots.js",
+      "bytes": 5450,
+      "sha256": "3b92c9b555823fc6853d324f018e6e62eb39908160df0de677f9a7c5021a5fc0",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\provider_slots.js"
+    },
+    {
+      "required_destination": "g1/final-callbacks/root_sha256_utf8.js",
+      "source_file_name": "root_sha256_utf8.js",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/binary-publication/root_sha256_utf8.js",
+      "bytes": 2026,
+      "sha256": "940f5bbdad40ddb15a532cb7c2d49897b140d4284eb35437bbae1dcfa1606aef",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\binary-publication\\root_sha256_utf8.js"
+    },
+    {
+      "required_destination": "g1/recipes/ROOT_LIVE_SENDER_RECIPE.md",
+      "source_file_name": "ROOT_LIVE_SENDER_RECIPE.md",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/root-orchestration/ROOT_LIVE_SENDER_RECIPE.md",
+      "bytes": 16822,
+      "sha256": "8bc8e2cd6869a69e1a117ebd851a2915f76b3a130a6efbe706934a4a231fecfb",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-orchestration\\ROOT_LIVE_SENDER_RECIPE.md"
+    },
+    {
+      "required_destination": "g1/recipes/READBACK_SUCCESSOR_ADDENDUM.md",
+      "source_file_name": "READBACK_SUCCESSOR_ADDENDUM.md",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/root-orchestration/READBACK_SUCCESSOR_ADDENDUM.md",
+      "bytes": 5101,
+      "sha256": "59026e9c69d913246e3c44d3b00629020726b3d0b7881a1bcd6db2378498c60c",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\root-orchestration\\READBACK_SUCCESSOR_ADDENDUM.md"
+    },
+    {
+      "required_destination": "g1/recipes/ROOT_READBACK_FRAME_HANDOFF.json",
+      "source_file_name": "ROOT_READBACK_FRAME_HANDOFF.json",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/ROOT_READBACK_FRAME_HANDOFF.json",
+      "bytes": 10677,
+      "sha256": "353593079f92e55178b8c0043bb7c4a94c6bc3cdc7a671ed33061f17b920d60a",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\ROOT_READBACK_FRAME_HANDOFF.json"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/assemble_actual.py",
+      "source_file_name": "assemble_actual.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/assemble_actual.py",
+      "bytes": 9671,
+      "sha256": "4201abd63171b53d271fe282d114cdc6ec1de982ec8eafdd218ccab90a5ec39f",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\assemble_actual.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/late_sender_current04_v2.py",
+      "source_file_name": "late_sender_current04_v2.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/late_sender_current04_v2.py",
+      "bytes": 10770,
+      "sha256": "97408df8058e6c8c8bab754ed8f9df8edf3f930ac4f47dd466c16eda9732f3cb",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\late_sender_current04_v2.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/AUTHOR_SOURCE_INDEX.json",
+      "source_file_name": "AUTHOR_SOURCE_INDEX.json",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/AUTHOR_SOURCE_INDEX.json",
+      "bytes": 6209,
+      "sha256": "14c6e9552d55bbc3d3b53ad51f7ae4f01278a1f06e0948030021a3512fb36897",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\AUTHOR_SOURCE_INDEX.json"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/author/compose.py",
+      "source_file_name": "compose.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/author/compose.py",
+      "bytes": 17923,
+      "sha256": "59b007f8e1c979adaffa502a1651b06ff0652bdc5dc1399a77320516f9c6e800",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\author\\compose.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/author/sender_assembly.py",
+      "source_file_name": "sender_assembly.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/author/sender_assembly.py",
+      "bytes": 9221,
+      "sha256": "604922c0ee2091d2698e97915cda1636e98036389ad6302f4f976d93f43d6884",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\author\\sender_assembly.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/author/workflow.py",
+      "source_file_name": "workflow.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/author/workflow.py",
+      "bytes": 7465,
+      "sha256": "2c4348240873c9c7d816574044d6a10331805da14695438bfd5a3299da61c470",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\author\\workflow.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/inputs/TEMPLATE_INDEX.json",
+      "source_file_name": "TEMPLATE_INDEX.json",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/inputs/TEMPLATE_INDEX.json",
+      "bytes": 5155,
+      "sha256": "794223557462f723a160c76339547aa6bedc3e6c56caa0bb897ca6bf32e0a204",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\inputs\\TEMPLATE_INDEX.json"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/adapter/integration/core_prepare_entry.py",
+      "source_file_name": "core_prepare_entry.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/adapter/integration/core_prepare_entry.py",
+      "bytes": 1739,
+      "sha256": "9cc838f5dde26e8ef8ee9734d1f566fc71bcbe41f148aac51072fd362911a029",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\integration\\core_prepare_entry.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/adapter/integration/entry_common.py",
+      "source_file_name": "entry_common.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/adapter/integration/entry_common.py",
+      "bytes": 9652,
+      "sha256": "5d8fc0f0a25b80f611536a15da882b71047d760a2e42120abdcf12f1cc1f578d",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\integration\\entry_common.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/adapter/integration/host_receive_entry.py",
+      "source_file_name": "host_receive_entry.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/adapter/integration/host_receive_entry.py",
+      "bytes": 1699,
+      "sha256": "a4359863fb7e6e27a09ae588ced26b186a93b1e293fc2b668d2d876b848cc441",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\integration\\host_receive_entry.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/adapter/integration/host_request_entry.py",
+      "source_file_name": "host_request_entry.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/adapter/integration/host_request_entry.py",
+      "bytes": 1711,
+      "sha256": "88bbd38cc57b788048aa9bd28ceb314dce1048f6b886b73c913faf2fcd8838e5",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\integration\\host_request_entry.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/adapter/integration/host_tool_adopt_entry.py",
+      "source_file_name": "host_tool_adopt_entry.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/adapter/integration/host_tool_adopt_entry.py",
+      "bytes": 1699,
+      "sha256": "69e021b6b89c15e108a9ef2e8999b952ae111b270b71edad864317fd2e50e939",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\integration\\host_tool_adopt_entry.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/adapter/integration/host_tool_observe_entry.py",
+      "source_file_name": "host_tool_observe_entry.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/adapter/integration/host_tool_observe_entry.py",
+      "bytes": 1735,
+      "sha256": "2ea40d01432ef65023dd7d3049f75cf6d420e6d3e08764f02ed1a4a3bcdd610e",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\integration\\host_tool_observe_entry.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/adapter/integration/root_sender_entry.py",
+      "source_file_name": "root_sender_entry.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/adapter/integration/root_sender_entry.py",
+      "bytes": 5946,
+      "sha256": "213f64c08460efedaa03555d9f3f73e5bb9c90221bb984de7d9838a513b3b085",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\integration\\root_sender_entry.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/adapter/src/CARRIER_COMPOSITION.json",
+      "source_file_name": "CARRIER_COMPOSITION.json",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/adapter/src/CARRIER_COMPOSITION.json",
+      "bytes": 1552,
+      "sha256": "91766bdeb4566a24f17d90c50086b9b56a289cc5c30279ef88af2e3065b1a6f7",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\CARRIER_COMPOSITION.json"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/adapter/src/PRO_SENDER_COMPOSITION.json",
+      "source_file_name": "PRO_SENDER_COMPOSITION.json",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/adapter/src/PRO_SENDER_COMPOSITION.json",
+      "bytes": 402,
+      "sha256": "c24f268c71b4e558f34f03fce8cac0eacffd030df4fb5fc7d46b680e72b9479c",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\PRO_SENDER_COMPOSITION.json"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/adapter/src/bundle_codec.py",
+      "source_file_name": "bundle_codec.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/adapter/src/bundle_codec.py",
+      "bytes": 4404,
+      "sha256": "81b4494e8940f9f4a70d7359f689c099caa1a152aa6afd71008183fb2b5fd2aa",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\bundle_codec.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/adapter/src/carrier.py",
+      "source_file_name": "carrier.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/adapter/src/carrier.py",
+      "bytes": 42835,
+      "sha256": "8abaec881996c34f79ccb83616e59b4a601504e137d1165b64dc1430823e6dba",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\carrier.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/adapter/src/carrier_io.py",
+      "source_file_name": "carrier_io.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/adapter/src/carrier_io.py",
+      "bytes": 15576,
+      "sha256": "779461deb44bf0192a4253c9a257926e23b6ab73cf5da602d0dc86a31e90d274",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\carrier_io.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/adapter/src/carrier_loader.py",
+      "source_file_name": "carrier_loader.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/adapter/src/carrier_loader.py",
+      "bytes": 4677,
+      "sha256": "f816f336899af6e690e83d4f88ace046bc48a0ebe00eaf1402153097f884dc29",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\carrier_loader.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/adapter/src/carrier_policy.py",
+      "source_file_name": "carrier_policy.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/adapter/src/carrier_policy.py",
+      "bytes": 13471,
+      "sha256": "0ca420c30aa9e7176657fc6457001ecf7b3e347dde16091b4af924e6b3f09b14",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\carrier_policy.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/adapter/src/host_tools.py",
+      "source_file_name": "host_tools.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/adapter/src/host_tools.py",
+      "bytes": 26922,
+      "sha256": "876aeb6af4c5c40bc234409c60ee3d6d73421c28fbd73ef07ab212a11b501e5c",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\host_tools.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/adapter/src/maintained/COMPILER.py",
+      "source_file_name": "COMPILER.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/adapter/src/maintained/COMPILER.py",
+      "bytes": 262144,
+      "sha256": "0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\maintained\\COMPILER.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/adapter/src/maintained/QUALIFIER.py",
+      "source_file_name": "QUALIFIER.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/adapter/src/maintained/QUALIFIER.py",
+      "bytes": 268686,
+      "sha256": "79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\maintained\\QUALIFIER.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/adapter/src/provider_reader.py",
+      "source_file_name": "provider_reader.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/adapter/src/provider_reader.py",
+      "bytes": 19139,
+      "sha256": "9d1a2624796f98127214d990acbfe72e0d6f2b7a603d739ace39678e44d66726",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\provider_reader.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/adapter/src/sender_capture.py",
+      "source_file_name": "sender_capture.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/adapter/src/sender_capture.py",
+      "bytes": 16748,
+      "sha256": "232bfdfc2ad7edbbce125110518ac2ce60fc5044b00614d6b4c472c2054e783e",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\sender_capture.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/adapter/src/sender_policy.py",
+      "source_file_name": "sender_policy.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/adapter/src/sender_policy.py",
+      "bytes": 4705,
+      "sha256": "8cf06304d36c169f6ea786df99d447680a146e49ef80866cca2431bb95d67906",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\sender_policy.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/adapter/src/tool_broker.py",
+      "source_file_name": "tool_broker.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/adapter/src/tool_broker.py",
+      "bytes": 19693,
+      "sha256": "1157d3466630218093ace25ea1704c15653092b5f0aa62ff5c3254ad25afebd9",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\adapter\\src\\tool_broker.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/core/ADVERSE_APPLICABILITY.json",
+      "source_file_name": "ADVERSE_APPLICABILITY.json",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/core/ADVERSE_APPLICABILITY.json",
+      "bytes": 3848,
+      "sha256": "58e2f229417c3fb1801cc432727009c3772352ca619b1c6bc96299cd605fb504",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\ADVERSE_APPLICABILITY.json"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/core/HOST_COMPOSITION.json",
+      "source_file_name": "HOST_COMPOSITION.json",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/core/HOST_COMPOSITION.json",
+      "bytes": 1050,
+      "sha256": "8253461d93453088744f16f0381aa8b2da0926497e0b6cfa9a6e01710b3a41d3",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\HOST_COMPOSITION.json"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/core/NATIVE_SOURCE_APPLICABILITY.json",
+      "source_file_name": "NATIVE_SOURCE_APPLICABILITY.json",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/core/NATIVE_SOURCE_APPLICABILITY.json",
+      "bytes": 39297,
+      "sha256": "513ef21e27e5e41d10044f953bdc20c292dbbcccd7211ba7dc7e7d3a8d6e6438",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\NATIVE_SOURCE_APPLICABILITY.json"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/core/ORIGINAL_SCOPE.json",
+      "source_file_name": "ORIGINAL_SCOPE.json",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/core/ORIGINAL_SCOPE.json",
+      "bytes": 5524,
+      "sha256": "3671b6a45b5f9572b61b4ee24fd9a8ee5c82494a9d9d51f09479085c2913af6b",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\ORIGINAL_SCOPE.json"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/core/PROVIDER_SETUP.json",
+      "source_file_name": "PROVIDER_SETUP.json",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/core/PROVIDER_SETUP.json",
+      "bytes": 2963,
+      "sha256": "f0b0b3a4c0dda6705e6ac335fd8d501f718a9fbee23cb3b4450ddede5a57746d",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\PROVIDER_SETUP.json"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/core/SOURCE_MANIFEST.json",
+      "source_file_name": "SOURCE_MANIFEST.json",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/core/SOURCE_MANIFEST.json",
+      "bytes": 493409,
+      "sha256": "ef20f1e8bd4cb50e21a3008d53f8442b10efab4affad824e321a75a9675fbbc0",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\SOURCE_MANIFEST.json"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/core/evidence_io.py",
+      "source_file_name": "evidence_io.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/core/evidence_io.py",
+      "bytes": 6321,
+      "sha256": "c2f8d718c8acd3a223d494239e6bc19d4a90e3d5c66f49cdac8f701ce4807075",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\evidence_io.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/core/g3_receiving.py",
+      "source_file_name": "g3_receiving.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/core/g3_receiving.py",
+      "bytes": 118305,
+      "sha256": "ebef68ac881efef3c465595ce36d28ded84bbd82c9482602e7ef086ced2ca3c6",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\g3_receiving.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/core/host_composition.py",
+      "source_file_name": "host_composition.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/core/host_composition.py",
+      "bytes": 9432,
+      "sha256": "de79ed067dd11c103d7dbaabeb25a9e23d73f6e43bb55869253d1eee4ef76110",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\host_composition.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/core/host_utility.py",
+      "source_file_name": "host_utility.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/core/host_utility.py",
+      "bytes": 54556,
+      "sha256": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\host_utility.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/core/input_setup.py",
+      "source_file_name": "input_setup.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/core/input_setup.py",
+      "bytes": 11747,
+      "sha256": "d19b3109285bfb2995411c504a123240e5b0e40ae8c0f002f931a97f8fd8cb3f",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\input_setup.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/core/native_prerequisite.py",
+      "source_file_name": "native_prerequisite.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/core/native_prerequisite.py",
+      "bytes": 18541,
+      "sha256": "d9687977ead33faa926bc8c7b0a18907c7a05b7072d86183b3bad1aca7dff510",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\native_prerequisite.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/core/native_probe.py",
+      "source_file_name": "native_probe.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/core/native_probe.py",
+      "bytes": 13799,
+      "sha256": "cbccecb0cf89a58c44f4ddbb8023196f44d5d0fd0fb68fea7fd2c6a17206d426",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\native_probe.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/core/natural_inputs.py",
+      "source_file_name": "natural_inputs.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/core/natural_inputs.py",
+      "bytes": 6028,
+      "sha256": "028ba849cc9f01143641613cb30d042bf4deeb0d021bb724ee86fc88415a7eb8",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\natural_inputs.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/core/nss_configuration.py",
+      "source_file_name": "nss_configuration.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/core/nss_configuration.py",
+      "bytes": 14718,
+      "sha256": "7243b9a13f9597059d57f22e1cfd4b344a7fd0cee930e9f9d032eee6e9e42270",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\nss_configuration.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/core/operation.py",
+      "source_file_name": "operation.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/core/operation.py",
+      "bytes": 15246,
+      "sha256": "eeb18ea6ce602287483bf4e4ec81a9bbd2c481e85bd506ff5ec3f26e1b8e65c2",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\operation.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/core/proof_consumer.py",
+      "source_file_name": "proof_consumer.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/core/proof_consumer.py",
+      "bytes": 62980,
+      "sha256": "53275d8fb0b0c78db86e697d833401348e0dd8ce503f813e13870267d0ef906c",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\proof_consumer.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/core/provider_layout.py",
+      "source_file_name": "provider_layout.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/core/provider_layout.py",
+      "bytes": 4752,
+      "sha256": "0ef5ddd7562906552b88cb7638d9a6d1fffd3fdd906ec407c3c56dc2c88dc112",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\provider_layout.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/core/root_placement.py",
+      "source_file_name": "root_placement.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/core/root_placement.py",
+      "bytes": 16789,
+      "sha256": "a9cec22fbd3424b882147abe3083e7abb46b4e130c346ae883667b3bd7b048c8",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\root_placement.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/core/run.py",
+      "source_file_name": "run.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/core/run.py",
+      "bytes": 147991,
+      "sha256": "9f69165c396a771a46796984dcb10f840bb4326181c538387f8e021d1f06869d",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\run.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/templates/core/source_store.py",
+      "source_file_name": "source_store.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/templates/core/source_store.py",
+      "bytes": 6898,
+      "sha256": "100e01f0a5d0d86dad38e17bcae0cd43b3b092bcf4936531780e9e4ebca7a1e5",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "46 selected public author/template bodies",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\templates\\core\\source_store.py"
+    },
+    {
+      "required_destination": "g1/late-assembler-01/source-stage-01/source-support/root_tool_broker.py",
+      "source_file_name": "root_tool_broker.py",
+      "source_relative_to_sol": "g1-current03-recovered/current04-late-sender/source-stage-01/source-support/root_tool_broker.py",
+      "bytes": 21952,
+      "sha256": "827d4c32a2d5be3d48bdc370fdfe3df763cb7b8792421092294e3e9c65c5fbed",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\current04-late-sender\\source-stage-01\\source-support\\root_tool_broker.py"
+    },
+    {
+      "required_destination": "g1/diagnostic-predecessor/run.py",
+      "source_file_name": "run.py",
+      "source_relative_to_sol": "g1-current03-recovered/original-host-failure-01/candidate-v2/run.py",
+      "bytes": 158720,
+      "sha256": "d04ebf2fa1b3f085c77996fb87464280eb75154d1fd691fb5c4e612eef7a61bd",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Historical source dependency for bounded final-context fixture; no execution credit",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g1-current03-recovered\\original-host-failure-01\\candidate-v2\\run.py"
+    },
+    {
+      "required_destination": "g2/root-operation-driver/payload/root_operator.py",
+      "source_file_name": "root_operator.py",
+      "source_relative_to_sol": "g2-production-qualification/public-operator-source/operational/root_operator.py",
+      "bytes": 13936,
+      "sha256": "e1e26ff790e4db5fbbfa9f56c460c9eb4e3ac3b91796a89423f6c895701731b0",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\public-operator-source\\operational\\root_operator.py"
+    },
+    {
+      "required_destination": "g2/root-operation-driver/payload/concrete_root_bridge.py",
+      "source_file_name": "concrete_root_bridge.py",
+      "source_relative_to_sol": "g2-production-qualification/public-operator-source/operational/concrete_root_bridge.py",
+      "bytes": 12405,
+      "sha256": "cb9dab7c3920b7dbea359c22552501d2a434a1ef37883939eee0e7a2d1b4064f",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\public-operator-source\\operational\\concrete_root_bridge.py"
+    },
+    {
+      "required_destination": "g2/root-operation-driver/payload/public_operator_v2.py",
+      "source_file_name": "public_operator_v2.py",
+      "source_relative_to_sol": "g2-production-qualification/public-operator-source/public_operator_v2.py",
+      "bytes": 20526,
+      "sha256": "2b481d09dd7501fa7c22a3f9cb98c3c088293322cdaf26b2e8e35b5a64c59d32",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\public-operator-source\\public_operator_v2.py"
+    },
+    {
+      "required_destination": "g2/root-operation-driver/payload/core/root_acquire.py",
+      "source_file_name": "root_acquire.py",
+      "source_relative_to_sol": "g2-production-qualification/actual-host-source-01/receiver/root_acquire.py",
+      "bytes": 20704,
+      "sha256": "c4eca6f66708215aac994faa9fef1e253466f8898f17a4a612b4e0ec0d1d5c23",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\actual-host-source-01\\receiver\\root_acquire.py"
+    },
+    {
+      "required_destination": "g2/root-operation-driver/payload/core/root_common.py",
+      "source_file_name": "root_common.py",
+      "source_relative_to_sol": "g2-production-qualification/actual-host-source-01/receiver/root_common.py",
+      "bytes": 8494,
+      "sha256": "f4e2f07b78d4f9acd13f75882ee5faea411a904485a5fbb1c103b49c063615b8",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\actual-host-source-01\\receiver\\root_common.py"
+    },
+    {
+      "required_destination": "g2/root-operation-driver/payload/core/public_receiver.py",
+      "source_file_name": "public_receiver.py",
+      "source_relative_to_sol": "g2-production-qualification/actual-host-source-01/receiver/public_receiver.py",
+      "bytes": 25606,
+      "sha256": "6731aa0e20f7414326d0c93ef258dd1bd84d38cd900b01a4101ff6007bb4ecbe",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\actual-host-source-01\\receiver\\public_receiver.py"
+    },
+    {
+      "required_destination": "g2/root-operation-driver/payload/core/prepare_live_control.py",
+      "source_file_name": "prepare_live_control.py",
+      "source_relative_to_sol": "g2-production-qualification/actual-host-source-01/receiver/prepare_live_control.py",
+      "bytes": 9372,
+      "sha256": "93ae48d79b76c6775179a500107c90d24173a2fbc189182c6543a07e87a31b4f",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Sol frozen public implementation",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\actual-host-source-01\\receiver\\prepare_live_control.py"
+    },
+    {
+      "required_destination": "g2/bound-public-receiver/BINDING.json",
+      "source_file_name": "BINDING.json",
+      "source_relative_to_sol": "g2-production-qualification/final-public-binding-01/BINDING.json",
+      "bytes": 8412,
+      "sha256": "a0750feb79bbbe00c20b852bb179989a8dce89669130effbb6a8433774f0b6e9",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Historical exact public receiver/source binding; no future authority",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\final-public-binding-01\\BINDING.json"
+    },
+    {
+      "required_destination": "g2/bound-public-receiver/native_public.py",
+      "source_file_name": "native_public.py",
+      "source_relative_to_sol": "g2-production-qualification/final-public-binding-01/native_public.py",
+      "bytes": 14502,
+      "sha256": "84f4779c69c53e9cb0691bf14c5e6757bc02f1fa1c3b8129060489ebf81164bc",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Historical exact public receiver/source binding; no future authority",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\final-public-binding-01\\native_public.py"
+    },
+    {
+      "required_destination": "g2/bound-public-receiver/public_receiver.py",
+      "source_file_name": "public_receiver.py",
+      "source_relative_to_sol": "g2-production-qualification/final-public-binding-01/public_receiver.py",
+      "bytes": 26387,
+      "sha256": "6839ac3a5d2f123711b86d92f93c55a00e7dd4b016ddfee3fbc16b97af0748e0",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Historical exact public receiver/source binding; no future authority",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\final-public-binding-01\\public_receiver.py"
+    },
+    {
+      "required_destination": "g2/bound-public-receiver/SUCCESSOR_RUNTIME_BINDING.json",
+      "source_file_name": "SUCCESSOR_RUNTIME_BINDING.json",
+      "source_relative_to_sol": "g2-production-qualification/final-public-binding-01/SUCCESSOR_RUNTIME_BINDING.json",
+      "bytes": 943,
+      "sha256": "8f8b04026a9a29cbc84841c857ba1d07e717bdcf7e8283c5ee20eb433d9dd5e5",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Historical exact public receiver/source binding; no future authority",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\final-public-binding-01\\SUCCESSOR_RUNTIME_BINDING.json"
+    },
+    {
+      "required_destination": "g2/bound-public-receiver/FINAL_REVIEW_SELECTION.json",
+      "source_file_name": "FINAL_REVIEW_SELECTION.json",
+      "source_relative_to_sol": "g2-production-qualification/final-public-binding-01/FINAL_REVIEW_SELECTION.json",
+      "bytes": 950,
+      "sha256": "ce82709ecc99ff8186f47bc4a51db0d0f9878b64ea8dd9a659754e77cd2c02a9",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Exact seven-file public receiver source; historical source binding only.",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\final-public-binding-01\\FINAL_REVIEW_SELECTION.json"
+    },
+    {
+      "required_destination": "g2/bound-public-receiver/PUBLIC_BINDING_REQUIREMENTS.json",
+      "source_file_name": "PUBLIC_BINDING_REQUIREMENTS.json",
+      "source_relative_to_sol": "g2-production-qualification/final-public-binding-01/PUBLIC_BINDING_REQUIREMENTS.json",
+      "bytes": 1373,
+      "sha256": "6f6a459742ed9e7be56983e184765f5488851575715f2e80609cb0edf2617b57",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Exact seven-file public receiver source; historical source binding only.",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\final-public-binding-01\\PUBLIC_BINDING_REQUIREMENTS.json"
+    },
+    {
+      "required_destination": "g2/bound-public-receiver/admission_gate.py",
+      "source_file_name": "admission_gate.py",
+      "source_relative_to_sol": "g2-production-qualification/final-public-binding-01/admission_gate.py",
+      "bytes": 5872,
+      "sha256": "cd925fca87b8e0d4b223918064a3a2e73c10a244bc7eb004f247826439bb3d61",
+      "archive_resolution": "DEPENDENCIES.json SHA256 -> recovery/sol/... member",
+      "scope": "Exact seven-file public receiver source; historical source binding only.",
+      "original_source": "C:\\workspace\\ai\\improveimplementaudit\\plans\\sol-dg16-staged-execution-20261108\\g2-production-qualification\\final-public-binding-01\\admission_gate.py"
+    }
+  ],
+  "installation_aliases": [
+    {
+      "destination": "g2/root-operation-driver/payload/BINDING.json",
+      "bytes": 8412,
+      "sha256": "a0750feb79bbbe00c20b852bb179989a8dce89669130effbb6a8433774f0b6e9",
+      "source": {
+        "kind": "root-runtime-file",
+        "path": "g2/public-installation-source-records/BINDING.json"
+      }
+    },
+    {
+      "destination": "g2/root-operation-driver/payload/concrete_root_bridge.py",
+      "bytes": 12405,
+      "sha256": "cb9dab7c3920b7dbea359c22552501d2a434a1ef37883939eee0e7a2d1b4064f",
+      "source": {
+        "kind": "Sol-sha-lookup",
+        "path": "g2/root-operation-driver/payload/concrete_root_bridge.py"
+      }
+    },
+    {
+      "destination": "g2/root-operation-driver/payload/FINAL_RECEIVER_INSTALLATION.json",
+      "bytes": 1633,
+      "sha256": "23fcaf940f2b51d321731d56fbdd217adf032a033a9cdbaca340607d468c5239",
+      "source": {
+        "kind": "root-runtime-file",
+        "path": "g2/public-installation-source-records/FINAL_RECEIVER_INSTALLATION.json"
+      }
+    },
+    {
+      "destination": "g2/root-operation-driver/payload/operator_setup.py",
+      "bytes": 12681,
+      "sha256": "900aa7d4e7682f146923c5de2a304fdada482717da61cc2149551962b05d1ef3",
+      "source": {
+        "kind": "root-runtime-file",
+        "path": "g2/root-operation-driver/operator_setup.py"
+      }
+    },
+    {
+      "destination": "g2/root-operation-driver/payload/PUBLIC_OPERATOR_PREPARATION.json",
+      "bytes": 1758,
+      "sha256": "6c7a67e3bf5ee1375e221ab68162da463be2fe63788d850e88ecc4a0ca6eebcd",
+      "source": {
+        "kind": "root-runtime-file",
+        "path": "g2/public-installation-source-records/PUBLIC_OPERATOR_PREPARATION.json"
+      }
+    },
+    {
+      "destination": "g2/root-operation-driver/payload/public_operator_v2.py",
+      "bytes": 20526,
+      "sha256": "2b481d09dd7501fa7c22a3f9cb98c3c088293322cdaf26b2e8e35b5a64c59d32",
+      "source": {
+        "kind": "Sol-sha-lookup",
+        "path": "g2/root-operation-driver/payload/public_operator_v2.py"
+      }
+    },
+    {
+      "destination": "g2/root-operation-driver/payload/PUBLIC_RECEIVER_SEAL.json",
+      "bytes": 1639,
+      "sha256": "2f86492f085eae40ab35530fe1d59773116841c120b5a9bd50421e5bdf02275d",
+      "source": {
+        "kind": "root-runtime-file",
+        "path": "g2/public-installation-source-records/PUBLIC_RECEIVER_SEAL.json"
+      }
+    },
+    {
+      "destination": "g2/root-operation-driver/payload/record_transport.py",
+      "bytes": 6293,
+      "sha256": "ab5aabfd284bbac45a85ae7f8232afbb0335448f0c3abe5160218452282ac545",
+      "source": {
+        "kind": "root-runtime-file",
+        "path": "g2/root-operation-driver/record_transport.py"
+      }
+    },
+    {
+      "destination": "g2/root-operation-driver/payload/resolve_artifact.py",
+      "bytes": 11390,
+      "sha256": "b2ac1130149d9878a3a00c7d8ba214743920a1aede38cb6b75699e14a2d03530",
+      "source": {
+        "kind": "root-runtime-file",
+        "path": "g1/public-receiver-02/author/resolve_artifact.py"
+      }
+    },
+    {
+      "destination": "g2/root-operation-driver/payload/root_native_history.py",
+      "bytes": 4584,
+      "sha256": "71b4538d41501c017d2282f799dfbd3ad8e3435c9409c40633ed156d18529bd1",
+      "source": {
+        "kind": "root-runtime-file",
+        "path": "g2/native-history-bridge/root_native_history.py"
+      }
+    },
+    {
+      "destination": "g2/root-operation-driver/payload/root_operator.py",
+      "bytes": 13936,
+      "sha256": "e1e26ff790e4db5fbbfa9f56c460c9eb4e3ac3b91796a89423f6c895701731b0",
+      "source": {
+        "kind": "Sol-sha-lookup",
+        "path": "g2/root-operation-driver/payload/root_operator.py"
+      }
+    },
+    {
+      "destination": "g2/root-operation-driver/payload/SUCCESSOR_RUNTIME_BINDING.json",
+      "bytes": 943,
+      "sha256": "8f8b04026a9a29cbc84841c857ba1d07e717bdcf7e8283c5ee20eb433d9dd5e5",
+      "source": {
+        "kind": "root-runtime-file",
+        "path": "g2/public-installation-source-records/SUCCESSOR_RUNTIME_BINDING.json"
+      }
+    },
+    {
+      "destination": "g2/root-operation-driver/payload/test_record_transport.py",
+      "bytes": 3098,
+      "sha256": "a7628141d44260be5cc1dbb03512b51cb3d609983644decd447e9591d6dbbac4",
+      "source": {
+        "kind": "root-runtime-file",
+        "path": "g2/root-operation-driver/test_record_transport.py"
+      }
+    },
+    {
+      "destination": "g2/root-operation-driver/payload/core/prepare_live_control.py",
+      "bytes": 9372,
+      "sha256": "93ae48d79b76c6775179a500107c90d24173a2fbc189182c6543a07e87a31b4f",
+      "source": {
+        "kind": "Sol-sha-lookup",
+        "path": "g2/root-operation-driver/payload/core/prepare_live_control.py"
+      }
+    },
+    {
+      "destination": "g2/root-operation-driver/payload/core/public_receiver.py",
+      "bytes": 25606,
+      "sha256": "6731aa0e20f7414326d0c93ef258dd1bd84d38cd900b01a4101ff6007bb4ecbe",
+      "source": {
+        "kind": "Sol-sha-lookup",
+        "path": "g2/root-operation-driver/payload/core/public_receiver.py"
+      }
+    },
+    {
+      "destination": "g2/root-operation-driver/payload/core/root_acquire.py",
+      "bytes": 20704,
+      "sha256": "c4eca6f66708215aac994faa9fef1e253466f8898f17a4a612b4e0ec0d1d5c23",
+      "source": {
+        "kind": "Sol-sha-lookup",
+        "path": "g2/root-operation-driver/payload/core/root_acquire.py"
+      }
+    },
+    {
+      "destination": "g2/root-operation-driver/payload/core/root_common.py",
+      "bytes": 8494,
+      "sha256": "f4e2f07b78d4f9acd13f75882ee5faea411a904485a5fbb1c103b49c063615b8",
+      "source": {
+        "kind": "Sol-sha-lookup",
+        "path": "g2/root-operation-driver/payload/core/root_common.py"
+      }
+    },
+    {
+      "destination": "g2/root-operation-driver/payload/core/shared_broker.py",
+      "bytes": 21952,
+      "sha256": "827d4c32a2d5be3d48bdc370fdfe3df763cb7b8792421092294e3e9c65c5fbed",
+      "source": {
+        "kind": "root-runtime-file",
+        "path": "g1/receiver-binding/baseline/tool_broker.py"
+      }
+    },
+    {
+      "destination": "g2/bound-public-receiver/SEAL.json",
+      "bytes": 1639,
+      "sha256": "2f86492f085eae40ab35530fe1d59773116841c120b5a9bd50421e5bdf02275d",
+      "source": {
+        "kind": "root-runtime-file",
+        "path": "g2/public-installation-source-records/PUBLIC_RECEIVER_SEAL.json"
+      }
+    }
+  ],
+  "immutable_public_git": [
+    {
+      "repository": "theislampill/IMPLEMENTAUDIT.md",
+      "commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+      "scope": "Complete immutable maintained product/base source; acquire by original complete-source owner, not selected-text substitutes."
+    },
+    {
+      "repository": "theislampill/IMPLEMENTAUDIT.md",
+      "commit": "f9ba187e8f5520956f0f16cf13c0a706e8360b96",
+      "tree": "8390375505282e602759c7976b6bca82a44d5737",
+      "scope": "Consumed historical G1 published source; exact overlay also retained in 71-file receiver phase, no new effect authority."
+    },
+    {
+      "repository": "theislampill/IMPLEMENTAUDIT.md",
+      "commit": "7f618adc702912f760d87f68fe9c94cc419e844c",
+      "tree": "27bb6432546c2d0b3fb7df09f0845c3d1303bccd",
+      "scope": "Consumed historical G2 public host source, including old public source-only validation subjects. No retained private key, live role or rerun grant."
+    }
+  ],
+  "private_inputs_or_cert_key_cipher_bodies_included": false
+}

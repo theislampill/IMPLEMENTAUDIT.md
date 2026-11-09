@@ -1,0 +1,81 @@
+{
+  "schema": "dg16.root-public-operation-driver-install.v1",
+  "authority": "NONE",
+  "destination": "/home/agent/dg16-g2-current04-public-20261109/root-operation-driver-01",
+  "members": {
+    "BINDING.json": {
+      "bytes": 8412,
+      "sha256": "a0750feb79bbbe00c20b852bb179989a8dce89669130effbb6a8433774f0b6e9"
+    },
+    "concrete_root_bridge.py": {
+      "bytes": 12405,
+      "sha256": "cb9dab7c3920b7dbea359c22552501d2a434a1ef37883939eee0e7a2d1b4064f"
+    },
+    "FINAL_RECEIVER_INSTALLATION.json": {
+      "bytes": 1633,
+      "sha256": "23fcaf940f2b51d321731d56fbdd217adf032a033a9cdbaca340607d468c5239"
+    },
+    "operator_setup.py": {
+      "bytes": 12681,
+      "sha256": "900aa7d4e7682f146923c5de2a304fdada482717da61cc2149551962b05d1ef3"
+    },
+    "PUBLIC_OPERATOR_PREPARATION.json": {
+      "bytes": 1758,
+      "sha256": "6c7a67e3bf5ee1375e221ab68162da463be2fe63788d850e88ecc4a0ca6eebcd"
+    },
+    "public_operator_v2.py": {
+      "bytes": 20526,
+      "sha256": "2b481d09dd7501fa7c22a3f9cb98c3c088293322cdaf26b2e8e35b5a64c59d32"
+    },
+    "PUBLIC_RECEIVER_SEAL.json": {
+      "bytes": 1639,
+      "sha256": "2f86492f085eae40ab35530fe1d59773116841c120b5a9bd50421e5bdf02275d"
+    },
+    "record_transport.py": {
+      "bytes": 6293,
+      "sha256": "ab5aabfd284bbac45a85ae7f8232afbb0335448f0c3abe5160218452282ac545"
+    },
+    "resolve_artifact.py": {
+      "bytes": 11390,
+      "sha256": "b2ac1130149d9878a3a00c7d8ba214743920a1aede38cb6b75699e14a2d03530"
+    },
+    "root_native_history.py": {
+      "bytes": 4584,
+      "sha256": "71b4538d41501c017d2282f799dfbd3ad8e3435c9409c40633ed156d18529bd1"
+    },
+    "root_operator.py": {
+      "bytes": 13936,
+      "sha256": "e1e26ff790e4db5fbbfa9f56c460c9eb4e3ac3b91796a89423f6c895701731b0"
+    },
+    "SUCCESSOR_RUNTIME_BINDING.json": {
+      "bytes": 943,
+      "sha256": "8f8b04026a9a29cbc84841c857ba1d07e717bdcf7e8283c5ee20eb433d9dd5e5"
+    },
+    "test_record_transport.py": {
+      "bytes": 3098,
+      "sha256": "a7628141d44260be5cc1dbb03512b51cb3d609983644decd447e9591d6dbbac4"
+    },
+    "core/prepare_live_control.py": {
+      "bytes": 9372,
+      "sha256": "93ae48d79b76c6775179a500107c90d24173a2fbc189182c6543a07e87a31b4f"
+    },
+    "core/public_receiver.py": {
+      "bytes": 25606,
+      "sha256": "6731aa0e20f7414326d0c93ef258dd1bd84d38cd900b01a4101ff6007bb4ecbe"
+    },
+    "core/root_acquire.py": {
+      "bytes": 20704,
+      "sha256": "c4eca6f66708215aac994faa9fef1e253466f8898f17a4a612b4e0ec0d1d5c23"
+    },
+    "core/root_common.py": {
+      "bytes": 8494,
+      "sha256": "f4e2f07b78d4f9acd13f75882ee5faea411a904485a5fbb1c103b49c063615b8"
+    },
+    "core/shared_broker.py": {
+      "bytes": 21952,
+      "sha256": "827d4c32a2d5be3d48bdc370fdfe3df763cb7b8792421092294e3e9c65c5fbed"
+    }
+  },
+  "live_admission_issued": false,
+  "native_history_accessed": false
+}

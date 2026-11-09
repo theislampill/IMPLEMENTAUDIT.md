@@ -1,0 +1,41 @@
+{
+  "all_installed_populations_unchanged": true,
+  "artifacts": [
+    {
+      "bytes": 584974,
+      "cap_bytes": 589824,
+      "complete_inventory_and_source_parity": true,
+      "expanded_bytes": 2092025,
+      "inventory_members": 74,
+      "member_bytes_modes_sha256": "ef9cbbe7c2c277c434139080d548f0cb868ee091fe79aa96633dcd46cc86a117",
+      "members": 75,
+      "name": "IMPLEMENTAUDIT.plugin.zip",
+      "reserve_bytes": 2000,
+      "role": "canonical_plugin",
+      "sha256": "18bb9d7dcb876f7c6be4340bec10dbc77f091227c24504dcecdb0b7d9853f458"
+    },
+    {
+      "bytes": 580372,
+      "cap_bytes": 589824,
+      "complete_inventory_and_source_parity": true,
+      "expanded_bytes": 2087351,
+      "inventory_members": 71,
+      "member_bytes_modes_sha256": "687367382cf92717c87a5b838aaebf2a39e15e6b98ddf34baa40c0e2ff8d9b6f",
+      "members": 72,
+      "name": "IMPLEMENTAUDIT.skill",
+      "reserve_bytes": 2000,
+      "role": "standalone_compatibility",
+      "sha256": "b6fd05b9f1c0b26fe6a193b47e8f6487f3a161e51824670ca0a520772b307413"
+    }
+  ],
+  "build_command_reservations": 1,
+  "build_completion_unknown": false,
+  "build_started_observed": true,
+  "native_discovery_claimed": false,
+  "packages_unchanged": true,
+  "schema": "dg16.installed-runtime-packages.v1",
+  "source": {
+    "commit": "8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b",
+    "tree": "0da374609f7fea2463a2926f3603b976620bd10e"
+  }
+}

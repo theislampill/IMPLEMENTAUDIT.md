@@ -1,0 +1,46 @@
+{
+  "decision": "ACCEPT_R35_L04_ORIGINAL_HELD_OUT_NATURAL_BEHAVIORAL_WITNESS",
+  "utc": "2026-11-09T00:06:47.092694+00:00",
+  "receiver": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "cell": "DG16",
+  "criterion_id": "R35-L04",
+  "receiving_route": "M4_ORIGINAL_NATURAL_SHAPE",
+  "original_text": "Held-out positive has completed comparison inputs, genuinely blocked admission/effect, independent useful preparation with met actual prerequisites, and an ancestor future qualification/JOIN prerequisite. Show actual selected bounded work and a consumed decision-changing return while the blocked effect remains blocked.",
+  "selected_product_for_original48_accounting": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+  "selected_tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+  "original48_map_member": "RECOVERED/WORKSPACE/evidence-v26/work/dg16-original-conjunction-current/ORIGINAL48_CURRENT_MAP.json",
+  "original48_map_sha256": "2128ad1092e194176f84bac358e460c6a46e5a01acfad863bbe564d61b54479f",
+  "prior_receiving_delta_sha256": "283bb50236b9820554c0b6ba8d3d958a54309500ccc9ee6557a87254781d877c",
+  "original_amendment_sha256": "ea83965dfcdbc0d0311a24d9ddbe95b63f665cedf5c3b46d471839476dd53a12",
+  "independent_receiving": {
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-reconciliation-20261108\\l04-receiving\\WINDOW2_EXACT_RANGE_RECEIVING.json",
+    "sha256": "f62864833a22cde71ca6398480b50a97f3a665b446502b4dab4022c178ad978b"
+  },
+  "scope_binding": "The unchanged original row asks for one actual material transition with a specified shape. The owner map expressly permits reuse of an existing real case. Root receives window2 as that behavioral witness for the selected original-48 decision. This is a historical actor/consumer event, not a claim the selected November executable ran in September. Current compiler, G1/G2/G3/CI and package predicates require their own operations.",
+  "accepting_positive": {
+    "completed_comparison_inputs": "RECEIVED: census123025B/5cbbc680 and correspondence83579B/ad7f5754 with actual prior scoped JOINs.",
+    "blocked_admission_effect": "RECEIVED: exact source/selection/phase/currentness and actual receiving/rights remained unearned; advisory preparation had separate owner authorization. The subsequent census JOIN preserves authoritative disposition NOT_PERFORMED_GATED and no external effect.",
+    "independent_useful_preparation": "RECEIVED: BWP/AMA/CROSS separately owned comparison returns and one shared R0037 composer; source consistency was not used as proof of dispatch.",
+    "ancestor_and_future_JOIN": "RECEIVED: existing receiving-successor ancestry -> v041-campaign RLGWO receiving/admission -> material-census; shared composition consumed only exact required joined inputs and the later census consumed the composition.",
+    "actual_selected_work_and_consumed_return": "RECEIVED: exact original dispatch/message records match; BWP JOIN07:57:30, shared composition JOIN08:08:50, later census JOIN08:26:43. Artifacts contain real scope corrections rather than dispatch counts alone."
+  },
+  "root_readback": {
+    "exact_dispatch_and_delivery_ranges": 39,
+    "negative_parent_readbacks": 2,
+    "input_index_files": 30,
+    "bwp_join_utc": "2026-09-11T07:57:30.488099+00:00",
+    "shared_composition_join_utc": "2026-09-11T08:08:50.628515+00:00",
+    "result_consumed_by": "v041-campaign/material-census",
+    "final_census_join_utc": "2026-09-11T08:26:43.669510+00:00",
+    "composition_digest_in_census_inputs": "74d01006527d12a45d8784c4d3403350ffde3548d4ef6afde992626564c06e6f",
+    "blocked_authoritative_disposition": "NOT_PERFORMED_GATED",
+    "compressed_journal_sha256": "c7a0146c29c6b55e82125da0ecbaa158e3030a612f6053e907fa5991e9aa4fb2"
+  },
+  "negative_scope": "RECEIVE_ACTUAL_HISTORICAL_OMISSION_AND_ACCEPTED_DIAGNOSTIC_AT_THEIR_SCOPES",
+  "original_failure_retained": true,
+  "other_rows_awarded": [],
+  "whole_cell_accepted": false,
+  "acceptance_graph_change": false,
+  "issue_effect": false,
+  "formal_whole_dag": "17/32"
+}

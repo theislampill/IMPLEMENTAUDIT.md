@@ -1,0 +1,55 @@
+{
+  "actor": "/root",
+  "actual_combined_review": "PENDING",
+  "authority": "NONE",
+  "final_tree": "27bb6432546c2d0b3fb7df09f0845c3d1303bccd",
+  "issuer_thread": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "member_count": 7,
+  "members": [
+    {
+      "bytes": 8412,
+      "mode": "0444",
+      "path": "BINDING.json",
+      "sha256": "a0750feb79bbbe00c20b852bb179989a8dce89669130effbb6a8433774f0b6e9"
+    },
+    {
+      "bytes": 950,
+      "mode": "0444",
+      "path": "FINAL_REVIEW_SELECTION.json",
+      "sha256": "ce82709ecc99ff8186f47bc4a51db0d0f9878b64ea8dd9a659754e77cd2c02a9"
+    },
+    {
+      "bytes": 1373,
+      "mode": "0444",
+      "path": "PUBLIC_BINDING_REQUIREMENTS.json",
+      "sha256": "6f6a459742ed9e7be56983e184765f5488851575715f2e80609cb0edf2617b57"
+    },
+    {
+      "bytes": 943,
+      "mode": "0444",
+      "path": "SUCCESSOR_RUNTIME_BINDING.json",
+      "sha256": "8f8b04026a9a29cbc84841c857ba1d07e717bdcf7e8283c5ee20eb433d9dd5e5"
+    },
+    {
+      "bytes": 5872,
+      "mode": "0444",
+      "path": "admission_gate.py",
+      "sha256": "cd925fca87b8e0d4b223918064a3a2e73c10a244bc7eb004f247826439bb3d61"
+    },
+    {
+      "bytes": 14502,
+      "mode": "0444",
+      "path": "native_public.py",
+      "sha256": "84f4779c69c53e9cb0691bf14c5e6757bc02f1fa1c3b8129060489ebf81164bc"
+    },
+    {
+      "bytes": 26387,
+      "mode": "0444",
+      "path": "public_receiver.py",
+      "sha256": "6839ac3a5d2f123711b86d92f93c55a00e7dd4b016ddfee3fbc16b97af0748e0"
+    }
+  ],
+  "original_awards": [],
+  "schema": "dg16.actual-root-public-receiver-seal.v1",
+  "source_commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f"
+}

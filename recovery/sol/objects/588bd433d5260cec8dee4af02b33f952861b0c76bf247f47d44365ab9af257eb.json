@@ -1,0 +1,34 @@
+{
+  "schema": "dg16.legacy-successor-discriminator-source-scope.v1",
+  "actual_registry_sha256": "65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878",
+  "executed_source": "Public legacy record registry_sha equals exact7e2 scripts/verify-package.sh43846B; SOURCE before/after1759all_members_match plus same-livecheckout/freshcontroller. Absolute private path not exposed.",
+  "source_order": "verify-package.sh697 scarce-resource-rehearsal-contract;698 R000B-R001E-review-heldouts;699 durable-identity",
+  "candidate_test": {
+    "path": "tests/R000B-R001E-review-heldouts.test.sh",
+    "bytes": 20134,
+    "sha256": "a54b8585099eb5e6a8b814c41fc954b3ae7496d9fa35119cfe79c84aa11be9af"
+  },
+  "predecessor": {
+    "path": "tests/scarce-resource-rehearsal-contract.test.sh",
+    "bytes": 25255,
+    "sha256": "f5f8e5a17c19715b030f12887226ee3435499331019f93429f9a7962b8e8ea30"
+  },
+  "hypothesis": "Root last public prefix offset2693/total2761 leaves68B, equal to predecessor normal footer68B; candidate successor may be next. Prefix/length do not prove actual historic test outcome.",
+  "local_supported_environment": {
+    "os": "Ubuntu24.04.4WSL2",
+    "python": "3.12.3",
+    "python314_present": false,
+    "source_Git_projection_no_dotgit": true
+  },
+  "actual_host_environment": {
+    "os": "Ubuntu26.04",
+    "python": "3.14.4",
+    "source": "actual7e2maintainedC5ordinaryruntime"
+  },
+  "receipt_lookup": "MemoryR001E/#157 historicalPR237af11 tree/78-test registry, no exact7e2/119node91test receipt found; no broad archive reconstruction",
+  "decision": "No matching-host standalone check performed; source-only discriminator/candidate narrowed, actual historic failing test and legacy exit cause remain UNKNOWN",
+  "prohibited_actions_performed": 0,
+  "raw_private_or_cipher_access": false,
+  "old_subject_rerun": false,
+  "original_acceptance": false
+}

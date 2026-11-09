@@ -1,0 +1,35 @@
+{
+  "members": [
+    {
+      "bytes": 499,
+      "name": "CLEANUP.json",
+      "sha256": "f15f92398a716cc32b1999c5acd7bc9d6250b7a16910aaf0d1c79857971faaec"
+    },
+    {
+      "bytes": 13040,
+      "name": "FAILURE.json",
+      "sha256": "b63dea180a24c0f9869c676a952e15209c1c506c8156d781c9b67588d2add4f6"
+    },
+    {
+      "bytes": 41712,
+      "name": "HOST.json",
+      "sha256": "3e97492da25a223d7c4a40eeb1711a77565e2311b922b9788b6c418517abd083"
+    },
+    {
+      "bytes": 35883,
+      "name": "PROBE.json",
+      "sha256": "9e35a92ccb18546017641af9cb8034bda8bf2785bb9dcc1586c13fa0c796e188"
+    },
+    {
+      "bytes": 1534,
+      "name": "RESULT.json",
+      "sha256": "c647a9fc873851900d7b0b5c3a2d9af9f670baa7ddc8c225e175462f03e91f0f"
+    },
+    {
+      "bytes": 589,
+      "name": "SOURCE.json",
+      "sha256": "9731dce0504300e1c96fb0ef29e86eb908d70f8ef6c01d9aa75ce929b2a62fe2"
+    }
+  ],
+  "schema": "dg16.linux-host-artifacts.v1"
+}

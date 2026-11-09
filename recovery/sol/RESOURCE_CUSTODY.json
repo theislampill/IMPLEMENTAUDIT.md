@@ -1,0 +1,41 @@
+{
+  "schema": "dg16.sol-resource-stop-custody.v1",
+  "Sol_native_chat": "01a1953f-c449-72b0-9514-333b090b6dce",
+  "Root_native_chat": "01a1953f-a15b-7811-aa72-3538ebb03562",
+  "actors": [
+    {
+      "name": "/root/dg16_g1_design_review_20261108",
+      "actual_turn_state": "COMPLETED; HOLD instructed; no process/effect"
+    },
+    {
+      "name": "/root/dg16_g2_diagnostic_review_20261108",
+      "actual_turn_state": "COMPLETED; HOLD instructed; no process/effect"
+    },
+    {
+      "name": "/root/dg16_post_compaction_recovery",
+      "actual_turn_state": "COMPLETED LOAD-only; USE/JOIN held; HOLD instructed; no process/effect"
+    }
+  ],
+  "owned_live_processes": 0,
+  "owned_live_protected_effects": 0,
+  "retained_fixtures": [
+    {
+      "path": "/home/agent/sol-git256-package-probe-20261109-01",
+      "state": "Public package/tiny repositories retained; process terminal,ECHILD; private public-key-only GPG agent shut down/no-agent readback"
+    },
+    {
+      "path": "/home/agent/sol-git256-public-clone-20261109-01",
+      "state": "Public dataset/baseline/foreground retained; terminal ECHILD. Default maintenance.lock deliberately retained as evidence; not an admissible clean input; do not remove it."
+    }
+  ],
+  "leases": {
+    "source_engineering": "STOPPED/FROZEN by owner",
+    "packaging": "Only staging/sol; ends after contribution",
+    "tiny_fixture": "CONSUMED:13 ordinary commands; no lock; signal attempt/reaped0 correction retained; no foreground control",
+    "dataset_fixture": "CONSUMED:one network clone,six commands including conditional foreground fetch/detach; no repeated full campaign",
+    "current05_source": "PREEMPTED before functional patch or generator execution",
+    "current05_hosted_native_publication": "NOT_GRANTED_OR_CONSUMED_BY_SOL",
+    "future": "Human start and fresh exact Root custody/leases/approvals required; this component transfers no live authority"
+  },
+  "formal_recovery": "No qualified audit-state USE/RETURN/JOIN or pending consumption is asserted. Native currentness/epoch/owner observation remain fresh receiving obligations, not reconstructed from this packet."
+}
