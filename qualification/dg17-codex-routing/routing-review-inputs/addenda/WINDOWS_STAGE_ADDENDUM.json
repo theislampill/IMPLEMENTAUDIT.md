@@ -1,0 +1,175 @@
+{
+  "schema": "dg17.draft03.windows-stage-source-addendum.v1",
+  "created_at_utc": "2026-11-08T00:20:26.457774+00:00",
+  "disposition": "AUTHOR_CORRECTION_PENDING_AFFECTED_REVIEW",
+  "subject": "Immutable historical draft03 plus this separate sidecar",
+  "affected_finding": "F01_WINDOWS_PENDING_FRONTIER_UNRECONCILED",
+  "affected_gap": "G03_WINDOWS_ADOPTION_STATUS_SOURCE",
+  "scope": "HISTORICAL_SOURCE_DATA_ONLY",
+  "applicability": {
+    "historical_snapshot_at": "2026-11-06T23:17:29.756116+00:00",
+    "immutable_targets": [
+      {
+        "path": "/workspace/scratch/df488ab4110c/dg17-work/codex-routing-namespace01/public/qualification/dg17-codex-routing/routing-review-inputs/composition/HOST_MAP.json",
+        "bytes": 48964,
+        "sha256": "b71ee1261919ea0045fb311961fa4f54c8f0d2d781a0bf8d9e5e54c8474e5944",
+        "mode_octal": "0644",
+        "json_pointer": "/windows_shared_finding"
+      },
+      {
+        "path": "/workspace/scratch/df488ab4110c/dg17-work/codex-routing-namespace01/public/qualification/dg17-codex-routing/routing-review-inputs/composition/ORIGINAL95_SOURCE_MAP.json",
+        "bytes": 606191,
+        "sha256": "8c9bf7471118aeca67dc82990e55bb86a63e585cc30ddbd5095c2ae209c65510",
+        "mode_octal": "0644",
+        "json_pointer": "/check_registry/DG18_WINDOWS_ARTIFACT_RECEIVING"
+      }
+    ],
+    "consumption_rule": "When consuming the historical maps together with this addendum, use current_stage_projection for the isolated-source-integration stage in both locations. Keep all original bytes, paths and historical review statements intact. This sidecar does not rewrite or reissue the original14-file native-review packet.",
+    "standalone_original_packet": "Its F01 source-status ambiguity remains recorded. This correction applies only to the explicitly composed source-data view with this sidecar.",
+    "literal_claim_not_made": "The old author intended a particular meaning for adoption pending."
+  },
+  "historical_static_view": {
+    "host_status_literal": "EXACT_DG18_PROPOSAL_RECEIVED; INDEPENDENT_DG17_BOUNDED_STATIC_RECEIVING_FINAL_PASS; DG16_INTEGRATOR_ADOPTION_PENDING",
+    "host_qualification_limit_literal": "Final bounded static same-defect/proposal receiving PASS is not shared-source integration, native Windows acceptance, or an original award. DG16 adoption remains pending; resource release remains UNKNOWN.",
+    "classification": "Retained earlier static/proposal receiving view; no longer a pending isolated-source-integration edge in the corrected snapshot projection",
+    "exact_authorship_time": "UNOBSERVED; document_revision is retained metadata, not a timestamp attributed to this individual status field",
+    "static_reviewer_integration_performed": false,
+    "static_reviewer_action_limit": "False describes the static reviewer, not whether DG16 later integrated",
+    "original95_nested_static_no_adoption": "NOT_CLAIMED",
+    "unknown_resource_release": "Preserve historical UNKNOWN scope. No new resource release, current resource-absence inference, hosted slot or launch grant."
+  },
+  "current_stage_projection": {
+    "status": "RECORDED_ISOLATED_SOURCE_INTEGRATION_RECEIVED_AT8EE",
+    "historical_snapshot_at": "2026-11-06T23:17:29.756116+00:00",
+    "evidence_kind": "Exact retained DG16 source-checkpoint receipt and README, joined to exact historical DG17 intake; no new GitHub observation",
+    "proposal_owner": "DG18",
+    "sole_shared_integrator": "DG16",
+    "recorded_integration_coordinator": "/root",
+    "recorded_coordinator_interpretation": "/root in the DG16 integration receipt, not this successor root or a recreated actor identity",
+    "historical_DG17_receiver": "DG17 owner-forwarded coordinator-notice intake, schema dg17.owner-forwarded-DG16-notice-receiving.v1",
+    "source": {
+      "repository": "theislampill/IMPLEMENTAUDIT.md",
+      "branch": "pro/dg16-r5-continuity-receiver-source-01-20261106",
+      "commit": "8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b",
+      "tree": "0da374609f7fea2463a2926f3603b976620bd10e",
+      "sole_parent": "3e0f4b6d05eb086017ce721d40459fdbd68714dd"
+    },
+    "repair_patch_sha256": "47ad5ef06747c095d42a8c21c2e9a493432cf32e5b8e970cd61c92d1b2be041e",
+    "recorded_source_status": "PUBLISHED_ISOLATED_SOURCE_CHECKPOINT_INDEPENDENT_SOURCE_REVIEW_PASS_NATIVE_AND_PACKAGE_QUALIFICATION_PENDING",
+    "stages": {
+      "proposal_and_static_review": "Earlier proposal/static receiving preserved at its existing scope",
+      "isolated_source_integration": "Recorded complete at8ee and exact evidence subsequently received by DG17 before the snapshot",
+      "successor_native_qualification": "Not established by this source integration; affected current host/session/custody qualification remains separately required",
+      "native_Windows": "Unawarded by selected records; DG18 effect not authorized here",
+      "mainline_release_adoption": "Explicitly false in integration receipt at its recorded observation; no later adoption is established or authorized by this selection",
+      "downstream_adoption": "Separate obligation; no adoption authority or current-state finding from this addendum",
+      "original_acceptance": "No new original DG16/DG17/DG18 award; global current count remains null"
+    }
+  },
+  "temporal_evidence": {
+    "integration_record_observed_utc": "2026-11-06T13:52:55.825651+00:00",
+    "DG17_notice_recorded_at_utc": "2026-11-06T18:05:37.442443+00:00",
+    "draft03_snapshot_at": "2026-11-06T23:17:29.756116+00:00",
+    "ordered_before_snapshot": true,
+    "time_limit": "Recorded receipt times only; no fresh provider/host clock or actor authentication"
+  },
+  "evidence": [
+    {
+      "path": "/workspace/scratch/df488ab4110c/dg17-work/draft03-integration-evidence01/bodies/dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/INTEGRATION_RECEIPT.json",
+      "bytes": 7466,
+      "sha256": "2be3d3fd9d9900e09c4a494518075ddbd0b9d874c55b1525dd4eaa1939ec7012",
+      "mode_octal": "0644",
+      "json_pointer": "/commit"
+    },
+    {
+      "path": "/workspace/scratch/df488ab4110c/dg17-work/draft03-integration-evidence01/bodies/dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/INTEGRATION_RECEIPT.json",
+      "bytes": 7466,
+      "sha256": "2be3d3fd9d9900e09c4a494518075ddbd0b9d874c55b1525dd4eaa1939ec7012",
+      "mode_octal": "0644",
+      "json_pointer": "/observed_utc"
+    },
+    {
+      "path": "/workspace/scratch/df488ab4110c/dg17-work/draft03-integration-evidence01/bodies/dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/INTEGRATION_RECEIPT.json",
+      "bytes": 7466,
+      "sha256": "2be3d3fd9d9900e09c4a494518075ddbd0b9d874c55b1525dd4eaa1939ec7012",
+      "mode_octal": "0644",
+      "json_pointer": "/status"
+    },
+    {
+      "path": "/workspace/scratch/df488ab4110c/dg17-work/draft03-integration-evidence01/bodies/dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/INTEGRATION_RECEIPT.json",
+      "bytes": 7466,
+      "sha256": "2be3d3fd9d9900e09c4a494518075ddbd0b9d874c55b1525dd4eaa1939ec7012",
+      "mode_octal": "0644",
+      "json_pointer": "/mainline_or_release_adopted"
+    },
+    {
+      "path": "/workspace/scratch/df488ab4110c/dg17-work/draft03-integration-evidence01/bodies/dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/INTEGRATION_RECEIPT.json",
+      "bytes": 7466,
+      "sha256": "2be3d3fd9d9900e09c4a494518075ddbd0b9d874c55b1525dd4eaa1939ec7012",
+      "mode_octal": "0644",
+      "json_pointer": "/DG18_Windows_effect_authorized"
+    },
+    {
+      "path": "/workspace/scratch/df488ab4110c/dg17-work/draft03-integration-evidence01/bodies/dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/INTEGRATION_RECEIPT.json",
+      "bytes": 7466,
+      "sha256": "2be3d3fd9d9900e09c4a494518075ddbd0b9d874c55b1525dd4eaa1939ec7012",
+      "mode_octal": "0644",
+      "json_pointer": "/native_operations_completed_on_this_source"
+    },
+    {
+      "path": "/workspace/scratch/df488ab4110c/dg17-work/draft03-integration-evidence01/bodies/dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/INTEGRATION_RECEIPT.json",
+      "bytes": 7466,
+      "sha256": "2be3d3fd9d9900e09c4a494518075ddbd0b9d874c55b1525dd4eaa1939ec7012",
+      "mode_octal": "0644",
+      "json_pointer": "/original_awards"
+    },
+    {
+      "path": "/workspace/scratch/df488ab4110c/dg17-work/draft03-input-recovery01/bodies/dg17-execution/shared-notice-receiving/INTAKE.json",
+      "bytes": 35803,
+      "sha256": "6519f44446a4c5c68042490ff8e951b7b3f948f21a41e92aa2777cf82376b3f3",
+      "mode_octal": "0644",
+      "json_pointer": "/nested/1"
+    },
+    {
+      "path": "/workspace/scratch/df488ab4110c/dg17-work/draft03-input-recovery01/bodies/dg17-execution/shared-notice-receiving/INTAKE.json",
+      "bytes": 35803,
+      "sha256": "6519f44446a4c5c68042490ff8e951b7b3f948f21a41e92aa2777cf82376b3f3",
+      "mode_octal": "0644",
+      "json_pointer": "/recorded_at_utc"
+    },
+    {
+      "path": "/workspace/scratch/df488ab4110c/dg17-work/draft03-input-recovery01/bodies/dg17-execution/shared-notice-receiving/INTAKE.json",
+      "bytes": 35803,
+      "sha256": "6519f44446a4c5c68042490ff8e951b7b3f948f21a41e92aa2777cf82376b3f3",
+      "mode_octal": "0644",
+      "json_pointer": "/disposition"
+    },
+    {
+      "path": "/workspace/scratch/df488ab4110c/dg17-work/draft03-integration-evidence01/bodies/dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/README.md",
+      "bytes": 6122,
+      "sha256": "52327dcf3b99019f86fbc4fbba65e811d5b4067f7b42c6b9fc0081f616d92efe",
+      "mode_octal": "0644",
+      "section": "Actual checkpoint; Received repair and cumulative composition; Mandatory downstream and common receiving"
+    }
+  ],
+  "predicate_checks": {
+    "notice_exact_receipt_and_readme_hashes_join": true,
+    "repair_patch_identity_matches_original95": true,
+    "recorded_integration_and_notice_precede_snapshot": true,
+    "historical_static_vs_isolated_source_vs_mainline_native_stages_explicit": true,
+    "original14_modified": false,
+    "controls_or_campaigns_repeated": false,
+    "original_awards": [],
+    "global_current_acceptance_count": null,
+    "whole_DG17_complete": false,
+    "fresh_native_context_met": false,
+    "native_requirement_waived": false
+  },
+  "limits": [
+    "No new independent remote-object receiving or present source/current95 conclusion",
+    "Do not promote the source receipt or addendum into successor native or Windows qualification",
+    "No shared-production ownership, DG16 common suite, DG18 campaign, Access05 lane, T16/T17/DG29 or downstream adoption action",
+    "G02/G04 authentication remains outside this affected source-data selection",
+    "Prior claim1 and4 source-only results remain received without replay; later T15 is not reopened or used to retire historical native review"
+  ]
+}

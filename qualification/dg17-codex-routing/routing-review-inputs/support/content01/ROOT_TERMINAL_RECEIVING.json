@@ -1,0 +1,60 @@
+{
+  "actual_content_result": "NOT_COMPLETED",
+  "adopted_statuses": [
+    {
+      "command": "git-fetch",
+      "pid": 2281,
+      "returncode": 0
+    }
+  ],
+  "all_owned_captures_complete_and_reaped": true,
+  "artifact": {
+    "bytes": 5026,
+    "path": "dg17-execution/codex-content-actual01/DG17_CODEX_CONTENT_ACTUAL01_42309234920.zip",
+    "sha256": "023e6745a17890a7c6df012b1fc8a9f05187fa7fc79c2450e7110acfc660b1eb"
+  },
+  "artifact_id": 13548121225,
+  "attempt": 1,
+  "capsule_and_system_helper_snapshot": "UNPERFORMED_OR_UNRECEIVED_NULL",
+  "controller_initialization_and_currentness": "SKIPPED",
+  "exact_zip_members": 9,
+  "failure_literal_join": {
+    "finalize": "INCOMPLETE_EPISODE",
+    "method": "Exact exported byte count and SHA256 matched uniquely to the fixed literal in the reviewed parent AST.",
+    "particular_helper_and_inherited_reason": "UNKNOWN_NOT_EXPORTED",
+    "prepare": "CONTENT_SYSTEM_HELPER_REFUSED"
+  },
+  "global_current_acceptance_count": null,
+  "head": "d71008478ca23975ffc940cef366b4321d9f7df2",
+  "independent_posthoc_review": "PENDING_T14",
+  "job_id": 128206272715,
+  "native_appserver_cases_started": 0,
+  "new_original_awards": [],
+  "outer_command_count": 8,
+  "parent_source": {
+    "bytes": 165115,
+    "path": "dg17-execution/codex-content-parent01/public/qualification/dg17-isolated-episode/episode.py",
+    "sha256": "d215fb1997b42cb6f8d246a6d9785a3134d79359d52f7c77c19484b63e686b76"
+  },
+  "public_manifest": {
+    "bytes": 1240,
+    "path": "dg17-execution/codex-content-actual01/public/ARTIFACT_MANIFEST.json",
+    "sha256": "2305228e589f797c45bd0cd4e768a8910e22115547fbcb284580dd762716543c"
+  },
+  "recorded_at_utc": "2026-11-06T23:10:02.620958+00:00",
+  "rehashed_public_payload_members": 8,
+  "run_id": 42309234920,
+  "runtime_acquisition": "SKIPPED",
+  "same_job_full_private_receiving": "SKIPPED",
+  "schema": "dg17.codex-content.actual01-root-receiving.v1",
+  "source_bookends": "UNPERFORMED_NULL_NOT_DRIFT",
+  "status": "VERIFIED_PREPARATION_FAILURE_NO_NATIVE_CASE_STARTED",
+  "terminal_api": {
+    "bytes": 19550,
+    "path": "dg17-execution/codex-content-actual01/TERMINAL_API_READBACK.json",
+    "sha256": "0ec41bbb2e81e16177c99db24dbff8c5f2f56568f26e4571a933c58cdd300097"
+  },
+  "tree": "cff15a9780f59ae2b644d818301a8a6eedcae198",
+  "whole_T12": false,
+  "whole_T14": false
+}

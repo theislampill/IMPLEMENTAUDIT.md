@@ -1,0 +1,19 @@
+{
+  "bounded_receiving_complete": false,
+  "completed": [],
+  "content_validation": null,
+  "context": {
+    "attempt": 1,
+    "branch": "pro/dg17-isolated-episode-01-20261106",
+    "repository": "theislampill/IMPLEMENTAUDIT.md",
+    "run_id": "42309234920",
+    "workflow_commit": "d71008478ca23975ffc940cef366b4321d9f7df2"
+  },
+  "failed": true,
+  "local_currentness_transfer": false,
+  "new_original_awards": [],
+  "original_acceptance": false,
+  "schema": "dg17.isolated-codex-package-content-hosted-result.v1",
+  "whole_T12": false,
+  "whole_T14": false
+}

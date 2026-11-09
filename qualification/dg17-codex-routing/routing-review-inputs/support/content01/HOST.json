@@ -1,0 +1,111 @@
+{
+  "capsule": null,
+  "host": {
+    "gid": 1001,
+    "kernel": "7.0.0-1017-azure",
+    "native_internal_helper_count": "UNESTABLISHED",
+    "planned_appserver_processes": 2,
+    "planned_loopback_requests": 4,
+    "planned_native_version_commands": 1,
+    "planned_requested_builtin_reads": 2,
+    "platform": "Linux",
+    "python": [
+      3,
+      12,
+      3
+    ],
+    "tools": {
+      "bash": {
+        "available": true,
+        "bytes": 1446024,
+        "canonical": "/usr/bin/bash",
+        "requested": "/usr/bin/bash",
+        "root_owned_nonwritable_chain": true,
+        "setid_or_file_capabilities": false,
+        "sha256": "bc5945feb8bd26203ebfafea5ce1878bb2e32cb8fb50ab7ae395cfb1e1aaaef1"
+      },
+      "env": {
+        "available": true,
+        "bytes": 48072,
+        "canonical": "/usr/bin/env",
+        "requested": "/usr/bin/env",
+        "root_owned_nonwritable_chain": true,
+        "setid_or_file_capabilities": false,
+        "sha256": "886e5fa8be716b03eeda48856e0f04493f2969fc148fb7812594ffac647fa050"
+      },
+      "git": {
+        "available": true,
+        "bytes": 4640352,
+        "canonical": "/usr/bin/git",
+        "requested": "/usr/bin/git",
+        "root_owned_nonwritable_chain": true,
+        "setid_or_file_capabilities": false,
+        "sha256": "824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235"
+      },
+      "mount": {
+        "admitted_effect": "ROOT_ONLY_FIXED_TMPFS_AND_CONFIG_BIND_IN_PRIVATE_NAMESPACE",
+        "bytes": 51584,
+        "canonical": "/usr/bin/mount",
+        "ctime_ns": 1792556251998841662,
+        "device": 66305,
+        "elf64_little_endian_x86_64": true,
+        "file_capabilities": false,
+        "gid": 0,
+        "inode": 1805,
+        "mode": "0o4755",
+        "mtime_ns": 1787158071000000000,
+        "root_owned_nonwritable_chain": true,
+        "sha256": "fde2b1540ca79ea42df942653bdfd09b9b3e3ff1d4713602bd280f754033957a",
+        "uid": 0
+      },
+      "python3": {
+        "available": true,
+        "bytes": 8020928,
+        "canonical": "/usr/bin/python3.12",
+        "requested": "/usr/bin/python3",
+        "root_owned_nonwritable_chain": true,
+        "setid_or_file_capabilities": false,
+        "sha256": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f"
+      },
+      "setpriv": {
+        "available": true,
+        "bytes": 39304,
+        "canonical": "/usr/bin/setpriv",
+        "requested": "/usr/bin/setpriv",
+        "root_owned_nonwritable_chain": true,
+        "setid_or_file_capabilities": false,
+        "sha256": "62ec0120791f3afcfb689fed52384ec2b0accc6e118a6b9a1d6fcfa7450aaf37"
+      },
+      "sudo": {
+        "admitted_effect": "ROOT_WATCHDOG_PRIVATE_MOUNT_AND_NETWORK_NAMESPACES_FIXED_TMPFS_AND_EMPTY_READONLY_GITCONFIG_BIND_THEN_DROP_UID_GID_NO_NEW_PRIVILEGES",
+        "bytes": 282032,
+        "canonical": "/usr/bin/sudo",
+        "mode": "04755",
+        "root_owned_nonwritable_chain": true,
+        "sha256": "6ae6665cc51295ea8aaba94a3377dafa563f950aafc6296c0704fb33401a31ff"
+      },
+      "timeout": {
+        "available": true,
+        "bytes": 39880,
+        "canonical": "/usr/bin/timeout",
+        "requested": "/usr/bin/timeout",
+        "root_owned_nonwritable_chain": true,
+        "setid_or_file_capabilities": false,
+        "sha256": "12690a043dfd555a6c14ccc1564f5649c18f1762c0d6ff66729948130898ec52"
+      },
+      "unshare": {
+        "available": true,
+        "bytes": 43624,
+        "canonical": "/usr/bin/unshare",
+        "requested": "/usr/bin/unshare",
+        "root_owned_nonwritable_chain": true,
+        "setid_or_file_capabilities": false,
+        "sha256": "a23c8863860669003dc4660039fe642f5795c8c2195898ebc5d01afa1ac3d11c"
+      }
+    },
+    "uid": 1001,
+    "upstream_provider_calls": 0
+  },
+  "runtime": null,
+  "system_helpers": null
+}

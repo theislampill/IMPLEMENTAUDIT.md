@@ -1,0 +1,187 @@
+{
+  "body02": "Component review PASS; exact latest-head composition review pending; no new run.",
+  "both_remote_package_bytes_received": {
+    "bytes": 4637,
+    "path": "dg17-execution/codex-content-publication01/PUBLICATION_POSTCONDITION.json",
+    "sha256": "b0f900b1ef9ed75d5a9274b3442782a3297edc4a6c1932cd55cf25f597159b4a"
+  },
+  "codex_content02": "Smallest helper-refusal discriminator authoring; helper admission unchanged; no replay.",
+  "current_package_source": "8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b",
+  "frozen_native_control_source": "0d57929be5bd15682b4e9da2c0209d5dff307843",
+  "global_current_acceptance_count": null,
+  "known_active_owned_operations": [],
+  "latest_branch_head": "d71008478ca23975ffc940cef366b4321d9f7df2",
+  "latest_branch_tree": "cff15a9780f59ae2b644d818301a8a6eedcae198",
+  "metadata11": "Sealed child/independently-derived parent; combined10/11 review pending;10 is an unexecuted baseline.",
+  "new_original_awards": [],
+  "operations": [
+    {
+      "attempt": 1,
+      "id": "codex04-actual",
+      "independent_root_join": {
+        "bytes": 1830,
+        "path": "dg17-execution/codex04-actual/ROOT_INDEPENDENT_JOIN.json",
+        "sha256": "3ee24c19892c21249619d2153b502d2099b6f9f5628f1c29bf48a414e0b80b18"
+      },
+      "new_original_awards": [],
+      "owned_resource_release": {
+        "bytes": 1037,
+        "path": "dg17-execution/codex04-actual/RESOURCE_RELEASE.json",
+        "sha256": "84e588ffb6626bb0758055a10a6204df87a1101bacca71bdb122bf3fc23b8539"
+      },
+      "run_id": 42262606561,
+      "scope": "Four-RPC frozen-source candidate catalogue only; no installed activation/body/routing.",
+      "status": "CATALOGUE_AND_PRESENT_CLEANUP_RECEIVED"
+    },
+    {
+      "attempt": 1,
+      "id": "claude05-actual",
+      "independent_root_join": {
+        "bytes": 2650,
+        "path": "dg17-execution/claude05-actual/ROOT_INDEPENDENT_JOIN.json",
+        "sha256": "ec62eac878f09defc175b5a5a0037bfdf34d6ffc948132ebe8bff1ee3d68db0e"
+      },
+      "new_original_awards": [],
+      "owned_resource_release": {
+        "bytes": 1019,
+        "path": "dg17-execution/claude05-actual/RESOURCE_RELEASE.json",
+        "sha256": "c73774a0c84c42037bd839d290f482f56c34316f36a39b1865bb9b49a32109c3"
+      },
+      "run_id": 42274497655,
+      "scope": "Prior metadata failure and outer capture-shape finding retained.",
+      "status": "FAILED_RECEIVED"
+    },
+    {
+      "attempt": 1,
+      "id": "claude07-actual",
+      "independent_root_join": {
+        "bytes": 1830,
+        "path": "dg17-execution/claude07-actual/ROOT_INDEPENDENT_JOIN.json",
+        "sha256": "ec34aa04e46159294264a3186c0746cbc1962993f806a6bf552505f7952bb5c9"
+      },
+      "new_original_awards": [],
+      "owned_resource_release": {
+        "bytes": 1030,
+        "path": "dg17-execution/claude07-actual/RESOURCE_RELEASE.json",
+        "sha256": "2e4d43773385fcff3ffabb144c2ca0eea1a523d74025b93abe9d52da5b1850b7"
+      },
+      "run_id": 42284679868,
+      "scope": "Validation identity refusal retained.",
+      "status": "FAILED_RECEIVED"
+    },
+    {
+      "attempt": 1,
+      "id": "codex-activation02-actual",
+      "independent_root_join": {
+        "bytes": 1982,
+        "path": "dg17-execution/codex-activation02-actual/ROOT_INDEPENDENT_JOIN.json",
+        "sha256": "617c6481cdaa68f18077b03537e794b3462b7378bc84ffc929d866a70c4cc836"
+      },
+      "new_original_awards": [],
+      "owned_resource_release": {
+        "bytes": 910,
+        "path": "dg17-execution/codex-activation02-actual/RESOURCE_RELEASE.json",
+        "sha256": "75a4194fa52cb2f5e6b9384e48001440504201f968f23d5593ecd028f098b1d2"
+      },
+      "run_id": 42291997798,
+      "scope": "Notification envelope refusal retained.",
+      "status": "FAILED_RECEIVED"
+    },
+    {
+      "attempt": 1,
+      "id": "codex-activation03-actual",
+      "independent_root_join": {
+        "bytes": 1850,
+        "path": "dg17-execution/codex-activation03-actual/ROOT_INDEPENDENT_JOIN.json",
+        "sha256": "75b713d9b118674c57e3cbda257845278f7cdd0163e6f2f0184bc609313e36bd"
+      },
+      "new_original_awards": [],
+      "owned_resource_release": {
+        "bytes": 803,
+        "path": "dg17-execution/codex-activation03-actual/RESOURCE_RELEASE.json",
+        "sha256": "75e276b23e5f465c410a97eeaf7a881c55b058346db2490cf642aa4d7b954219"
+      },
+      "run_id": 42296706225,
+      "scope": "Unadmitted notification after initialize; private method/payload not exported; no install award.",
+      "status": "FAILED_RECEIVED"
+    },
+    {
+      "attempt": 1,
+      "id": "claude08-actual",
+      "independent_root_join": {
+        "bytes": 1996,
+        "path": "dg17-execution/claude08-actual/ROOT_INDEPENDENT_JOIN.json",
+        "sha256": "262e70084b6b693271ae72ec267229969ddb5ebd85acb3d03c546d38569b56d0"
+      },
+      "new_original_awards": [],
+      "owned_resource_release": {
+        "bytes": 720,
+        "path": "dg17-execution/claude08-actual/RESOURCE_RELEASE.json",
+        "sha256": "edf8bac76165abe2b6bbcd6141f7fb612d089b86057c8f3657409c64b3715555"
+      },
+      "run_id": 42297469329,
+      "scope": "Validation contents refusal with safe identity received; no inventory/body award.",
+      "status": "FAILED_RECEIVED"
+    },
+    {
+      "attempt": 1,
+      "id": "claude-body01-actual",
+      "independent_root_join": {
+        "bytes": 1603,
+        "path": "dg17-execution/claude-body01-actual/ROOT_INDEPENDENT_JOIN.json",
+        "sha256": "1c23b3f2ef338c17a15e406db1770fe6ceab41e63fd93cf298a2b3498b4dd86f"
+      },
+      "new_original_awards": [],
+      "owned_resource_release": {
+        "bytes": 804,
+        "path": "dg17-execution/claude-body01-actual/RESOURCE_RELEASE.json",
+        "sha256": "c2275cbf3389b83886bbd83156650a539e8d2a8ea29da2b166644e617e902cc7"
+      },
+      "run_id": 42301193244,
+      "scope": "One native CLI and local provider exchange complete; startup/private-directory guards failed; body unreceived.",
+      "status": "FAILED_RECEIVED"
+    },
+    {
+      "attempt": 1,
+      "id": "claude09-actual",
+      "independent_root_join": {
+        "bytes": 1613,
+        "path": "dg17-execution/claude09-actual/ROOT_INDEPENDENT_JOIN.json",
+        "sha256": "0eb87d57777c8c69ed1fdd9b5dac5292ffe555cc79e2c48c74ea19421835c608"
+      },
+      "new_original_awards": [],
+      "owned_resource_release": {
+        "bytes": 774,
+        "path": "dg17-execution/claude09-actual/RESOURCE_RELEASE.json",
+        "sha256": "0a5acee0fe19616d7117449816916f9d81c87f65f4fa67cca674b1d126a5ed19"
+      },
+      "run_id": 42306252082,
+      "scope": "Three metadata calls rc0; exact row/warning key sets independently received, scalar values/types unknown; contents recognition failed.",
+      "status": "FAILED_DIAGNOSTIC_RECEIVED"
+    },
+    {
+      "attempt": 1,
+      "id": "codex-content-actual01",
+      "independent_root_join": {
+        "bytes": 1716,
+        "path": "dg17-execution/codex-content-actual01/ROOT_INDEPENDENT_JOIN.json",
+        "sha256": "748d750d1e5b7bcb79273f65b3be51201e04836372928bf08b2f45497ca40109"
+      },
+      "new_original_awards": [],
+      "owned_resource_release": {
+        "bytes": 762,
+        "path": "dg17-execution/codex-content-actual01/RESOURCE_RELEASE.json",
+        "sha256": "0af3f736bab2b64a0956e2d9b799f1732d00a7c719b0c8cdb682f4f1eaba84ac"
+      },
+      "run_id": 42309234920,
+      "scope": "System-helper admission refused before runtime/controller/capsule/native cases; helper ID/code/errno unknown; all eight preparation captures reaped.",
+      "status": "PREPARATION_FAILURE_RECEIVED"
+    }
+  ],
+  "recorded_at_utc": "2026-11-06T23:17:29.756116+00:00",
+  "routing": "Pinned-source proposal received; separately bounded canonical producer authoring; no actual route or substantive scripted-review award.",
+  "schema": "dg17.native-actual-reconciliation.v1",
+  "status": "CURRENT_DRAFT_PENDING_FINAL_COMPOSITION_REVIEW",
+  "unpublished_or_global_resource_absence_claimed": false,
+  "whole_DG17_complete": false
+}

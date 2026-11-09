@@ -1,0 +1,519 @@
+{
+  "coordination": {
+    "channel_evidence": [
+      "/workspace/scratch/d13085a720fa/recovery/DG17_DG18_SELECTIVE_PARALLEL_PACKET_20261106/README.md:5\u20137",
+      "/workspace/scratch/d13085a720fa/recovery/DG17_DG18_SELECTIVE_PARALLEL_PACKET_20261106/DG16_PARALLEL_LANES_NOTICE_20261106.md:5\u201311"
+    ],
+    "current_actions_run_list": "No DG17 preparation or launch runs observed at 2026-11-06 10:17:12 UTC; not reservation evidence",
+    "current_slot": "DG18 run42201361762 IN_PROGRESS observed 2026-11-06 10:28:41 UTC",
+    "dispatch": "BLOCKED_PENDING_REAL_RESOURCE_ADMISSION; source/evidence/preparation may continue",
+    "exact_retained_channel": "Owner-mediated forwarding to separate Pro threads; packet README:5\u20137 and DG16 notice:5\u201311. No machine reservation endpoint/ledger was specified in inspected scheduling records.",
+    "external_messages_or_workflow_actions_by_this_lane": "INERT_PREPARATION_BRANCH_PUBLISHED_NO_EXTERNAL_MESSAGES_OR_NATIVE_LAUNCH",
+    "independent_resource_receiving_sha256": "a8e25fa29aa34c40e1a2fc33a0c3d91c7d441f4594b3f903e4a57147dac4fe1d",
+    "latest_dg18_checkpoint": "Version03 real H0v2 release received; later actual C02 allocation supersedes it. No DG17-specific new permission is required.",
+    "resource_record": "../RESOURCE_ADMISSION.json",
+    "resource_record_sha256": "b59b71467c6c253d32eaa8a3852523c5c71c7e9a7b93866b782db8cc5f7a91a2",
+    "resource_rule": "DG18 first claim on one additional scarce hosted/provider-backed side-lane slot; DG16 priority retained",
+    "rule_evidence": [
+      "/workspace/scratch/d13085a720fa/upload/DG17_ISOLATED_COMPLETION_COMMISSION_20261106(1).md:83",
+      "/workspace/scratch/d13085a720fa/recovery/DG17_DG18_SELECTIVE_PARALLEL_PACKET_20261106/DG18_ISOLATED_COMPLETION_COMMISSION_20261106.md:94"
+    ]
+  },
+  "discriminators": [
+    {
+      "claim": "Exact five canonical paths or intended standalone projection",
+      "covered_by_probe": "Canonical available catalog only",
+      "id": "candidate-catalog",
+      "receiver": "DG17 independent receiver",
+      "retained_preparation_status": "PREPARED_UNEXECUTED",
+      "status": "CODEX_EXACT_FIVE_SOURCE_PATHS_RECEIVED; CLAUDE05_ACTUAL_PARTIAL_METADATA_FAILED_RECEIVING_CORRECTION_ACTIVE"
+    },
+    {
+      "claim": "Actual installed/enabled projection and effective content",
+      "covered_by_probe": "Only returned metadata and configured skill catalog; no install/thread",
+      "id": "installed-loaded-content",
+      "receiver": "DG17 native producer and independent receiver",
+      "retained_preparation_status": "UNPERFORMED",
+      "status": "SEPARATE_CODEX_LOCAL_INSTALL_PREPARATION_ACTIVE; BUILT_ARCHIVE_BINDING_DISTINCT"
+    },
+    {
+      "claim": "Governed selection/return, direct Andon/actual caller, internal-child restrictions, ordinary cheap path",
+      "covered_by_probe": false,
+      "id": "prompt-independent-routing",
+      "receiver": "DG17 applicable native/cognitive receiver",
+      "retained_preparation_status": "UNPERFORMED",
+      "status": "UNPERFORMED"
+    },
+    {
+      "claim": "Origin, trust and selected configuration; loaded thread inventory where claimed",
+      "covered_by_probe": "Configuration inventory only",
+      "id": "effective-hooks",
+      "receiver": "DG17 independent receiver",
+      "retained_preparation_status": "RETAIN_0166_LOADED_COMPONENT; 0167_CONFIGURATION_PROBE_PREPARED",
+      "status": "RETAIN_0166_COMPONENT; 0167_SCOPED_METADATA_EMPTY_HOOKS_RECEIVED"
+    },
+    {
+      "claim": "Actual selected native event delivery and binding where required",
+      "covered_by_probe": false,
+      "id": "native-lifecycle",
+      "receiver": "DG17 exact host/configuration receiver",
+      "retained_preparation_status": "RETAIN_0166_COMPONENT; NEW_CLAIMS_UNPERFORMED",
+      "status": "RETAIN_0166_COMPONENT; NEW_CLAIMS_UNPERFORMED"
+    },
+    {
+      "claim": "Actual retained transport close followed by independent process/filesystem readback",
+      "covered_by_probe": true,
+      "evidence": {
+        "bytes": 1830,
+        "path": "dg17-execution/codex04-actual/ROOT_INDEPENDENT_JOIN.json",
+        "sha256": "3ee24c19892c21249619d2153b502d2099b6f9f5628f1c29bf48a414e0b80b18"
+      },
+      "id": "present-cleanup",
+      "receiver": "DG17 independent receiver before ephemeral teardown",
+      "retained_preparation_status": "PREPARED_UNEXECUTED",
+      "status": "CODEX04_NATIVE_CLOSE_AND_PARENT_FINAL_CUSTODY_RECEIVED"
+    },
+    {
+      "claim": "Reconcile shutdown-empty and later known executable presence",
+      "covered_by_probe": false,
+      "id": "historical-cleanup-cause",
+      "receiver": "Historical evidence owner; not fabricated by a fresh cleanup",
+      "retained_preparation_status": "UNKNOWN_ACTOR_CAUSE_PRESERVED",
+      "status": "UNKNOWN_ACTOR_CAUSE_PRESERVED"
+    }
+  ],
+  "document_revision": {
+    "latest_resource_update_utc": "2026-11-06T10:22:21.307603+00:00",
+    "prior_path": "t12/HOST_MAP.before-publication-79d9f58d2633c561.json",
+    "prior_sha256": "79d9f58d2633c5614cb01a4652bd24fa2d42050c667fe582511fd7122acab1cb",
+    "scope": "Preparation pointers/status only; no native result or original award",
+    "updated_utc": "2026-11-06T10:18:45.004115+00:00"
+  },
+  "execution_reconciliation": {
+    "automatic_rebase_or_source_retagging": false,
+    "claude05_disposition": "TERMINAL_FAILURE: validation shape unreceived, list session candidate observed, details text unreceived; parent receiving skipped; no source drift observed; owned slot released",
+    "claude05_run": 42274497655,
+    "current_original_receiving_ids_at8ee": [
+      "T11",
+      "Y15"
+    ],
+    "evidence": {
+      "T11": {
+        "bytes": 6598,
+        "path": "dg17-execution/t11-current-applicability/ROOT_ORIGINAL_RECEIVING.json",
+        "sha256": "3332c3e48b724d119e4de0983e78c17f063d733343d08a2bf2b21137022c78b9"
+      },
+      "Y15": {
+        "bytes": 6250,
+        "path": "dg17-execution/t11-current-applicability/y15-applicability/ROOT_ORIGINAL_RECEIVING.json",
+        "sha256": "fc2d4034895420ff5c2cfb56ff0632db88ba4666befb21ede7a2b05ba3a49b01"
+      },
+      "claude05_actual_artifact": {
+        "bytes": 9621,
+        "path": "dg17-execution/claude05-actual/artifact.zip",
+        "sha256": "eb00ad03a586e9858188dec51da93d55aef5e6c6efab5d3d65254de34e0f1fac"
+      },
+      "claude05_resource_release": {
+        "bytes": 1019,
+        "path": "dg17-execution/claude05-actual/RESOURCE_RELEASE.json",
+        "sha256": "c73774a0c84c42037bd839d290f482f56c34316f36a39b1865bb9b49a32109c3"
+      },
+      "claude_desktop_facility": {
+        "bytes": 3389,
+        "path": "dg17-execution/t12-facility-receiving/CLAUDE_DESKTOP.json",
+        "sha256": "caa08c9cfbe8ae71d34e2f219f578be9d34b0a30d45dfbf0c50506be37153f96"
+      },
+      "claude_parent05_failure_finding": {
+        "bytes": 2190,
+        "path": "dg17-execution/claude-parent05-failure-receiving-t14/VERDICT.json",
+        "sha256": "631deb2a85fae6a9f3c1e68710825048595e696efb419b5baa9d665f8f6d6c72"
+      },
+      "codex04_independent": {
+        "bytes": 5729,
+        "path": "dg17-execution/codex04-actual/receiving-t14/VERDICT.json",
+        "sha256": "cffc8621b72d9c712b9d309acc003ce2c03d930b1aac927f8a98b3a29f4f281a"
+      },
+      "codex04_release": {
+        "bytes": 1037,
+        "path": "dg17-execution/codex04-actual/RESOURCE_RELEASE.json",
+        "sha256": "84e588ffb6626bb0758055a10a6204df87a1101bacca71bdb122bf3fc23b8539"
+      },
+      "codex04_root": {
+        "bytes": 1830,
+        "path": "dg17-execution/codex04-actual/ROOT_INDEPENDENT_JOIN.json",
+        "sha256": "3ee24c19892c21249619d2153b502d2099b6f9f5628f1c29bf48a414e0b80b18"
+      },
+      "codex_activation_feasibility": {
+        "bytes": 6556,
+        "path": "dg17-execution/codex-activation-assessment01/MANIFEST.json",
+        "sha256": "da69f98743f4aff3230083d9c68842ba612761052fab75cf21070d8304afc52f"
+      },
+      "current_raw_package_bodies": {
+        "bytes": 2872,
+        "path": "dg17-execution/shared-package-inputs/ROOT_READBACK.json",
+        "sha256": "f49912e216c6a9dc96d91f37e0a985c2ffe320108812cb7429f65d92eb9a14a9"
+      },
+      "current_shared_package": {
+        "bytes": 9107,
+        "path": "dg17-execution/dg16-v26-consumer/RECEIVING.json",
+        "sha256": "87c28892c263fc423480b356305b82f30ee8339997ff3d5652e9a0a4d73b1443"
+      },
+      "forwarded_notice": {
+        "bytes": 35803,
+        "path": "dg17-execution/shared-notice-receiving/INTAKE.json",
+        "sha256": "6519f44446a4c5c68042490ff8e951b7b3f948f21a41e92aa2777cf82376b3f3"
+      },
+      "native_metadata_input_comparison": {
+        "bytes": 6609,
+        "path": "dg17-execution/current-source-comparison/METADATA_INPUT_IDENTITIES.json",
+        "sha256": "19186c605f83529a5592ca7b8dafcf9770dc7ee404a385fea6f76fbeeb67cfd9"
+      },
+      "seven_methods": {
+        "bytes": 2708,
+        "path": "dg17-execution/recovered-historical-artifacts/receipts/independent_source_receipt.json",
+        "sha256": "9ba49dfeb1ec8e7ac3c4fe122e5c89227340405fa729d48c0c651b8fa12bf07f"
+      },
+      "seven_methods_root": {
+        "bytes": 1351,
+        "path": "dg17-execution/recovered-historical-artifacts/receipts/root_component_receipt.json",
+        "sha256": "a63dc54e1812ddf4a57091360d09753fc3b0c9dae90d6cddd4bcc757bc550a64"
+      },
+      "source_applicability_five": {
+        "bytes": 2199,
+        "path": "dg17-execution/source-applicability/ROOT_RECEIVING.json",
+        "sha256": "c3d1e100ae173469228c31d9e9f6df60dd772579ffb8ad15947a99b2422726cf"
+      },
+      "source_applicability_raw_recovery_limit": {
+        "bytes": 3539,
+        "path": "dg17-review-recovery/t14/SOURCE_APPLICABILITY_RECOVERY_LIMIT.json",
+        "sha256": "5eb7ed3bf461a4f35e58ca13e627115b40cde736c12a56fd61811e704b978432"
+      }
+    },
+    "native_frozen_source_remains": "0d57929be5bd15682b4e9da2c0209d5dff307843",
+    "new_host_receipt_is_local_currentness": false,
+    "next_executable_work": [
+      "Claude child07 validation receiver and parent06 late executable gate repair, affected independent review and fresh admission",
+      "Continue existing separately reviewed Codex local source installation/enable/effective-skill operation",
+      "Separate native consumption of exact8ee canonical and standalone bodies after applicable preparation/admission; no common package build or installed-controller rerun"
+    ],
+    "raw_package_body_availability": "EXACT_REPRODUCED_BODIES_RECEIVED_AS_INPUTS; not historical execution repeated or a native grant",
+    "recorded_at_utc": "2026-11-06T19:10:31.803060+00:00",
+    "seven_methods_run": 42210454718,
+    "shared_package_run": 42232703790,
+    "shared_package_source": "8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b",
+    "source_applicability_remainder": {
+      "historical_received_scope": [
+        "T01",
+        "T02",
+        "T05",
+        "T09",
+        "T13",
+        "T14"
+      ],
+      "meaning": "Prior actual bounded receiving is preserved as historical occurrence. Detailed raw report/row bodies are unavailable; this reconciliation creates neither substitute bytes nor a new full original decision from that metadata.",
+      "prior_root_receipt_identity": {
+        "bytes": 1178,
+        "path": "dg17-execution/source-applicability-remainder/ROOT_RECEIVING.json",
+        "sha256": "773168928447bd7bee4852fa69ed426cab01377e8fcf36e43175f403e89e08b3"
+      },
+      "raw_full_packet_recovered": false
+    },
+    "status": "DRAFT",
+    "successful_codex_metadata_run": 42262606561,
+    "whole_DG17_complete": false
+  },
+  "families": [
+    {
+      "actual_evidence": {
+        "bytes": 1830,
+        "path": "dg17-execution/codex04-actual/ROOT_INDEPENDENT_JOIN.json",
+        "sha256": "3ee24c19892c21249619d2153b502d2099b6f9f5628f1c29bf48a414e0b80b18"
+      },
+      "catalog_status": "PASS_EXACT_FIVE_SOURCE_CANDIDATE_PATHS_RUN42262606561",
+      "configuration": "Fresh isolated home, explicit local marketplace, plugins enabled; offline namespace and documented minimizing overrides",
+      "host": "Codex",
+      "id": "codex-canonical",
+      "loaded_status": "CURRENT_CANDIDATE_INSTALLED_FALSE_ENABLED_FALSE; SEPARATE_OFFLINE_INSTALL_PREPARATION_ACTIVE",
+      "native_prerequisite": "Fresh hosted same-host controller, verified exact receipt, offline namespace, currentness, reviewed packet and real slot admission",
+      "next_operation_assessment": {
+        "bytes": 6556,
+        "path": "dg17-execution/codex-activation-assessment01/MANIFEST.json",
+        "sha256": "da69f98743f4aff3230083d9c68842ba612761052fab75cf21070d8304afc52f"
+      },
+      "projection": "Canonical plugin: implementaudit plus four children",
+      "receiver": "DG17/R0037 independent receiver; no original award here",
+      "retained_preparation_observation": {
+        "catalog_status": "REVIEWED_PUBLISHED_NOT_EXECUTED",
+        "loaded_status": "UNPERFORMED; plugin/read cannot establish installed/enabled context",
+        "routing_status": "UNPERFORMED; model-free catalog cannot establish governed/direct/cheap routing",
+        "version": "0.167.0-alpha.4 selected for prospective metadata probe"
+      },
+      "routing_status": "UNPERFORMED_NEW_ROUTING; RETAIN_0166_SCRIPTED_HOOK_COMPONENT_AT_ITS_SCOPE",
+      "source_claims": [
+        "/workspace/scratch/d13085a720fa/dg17-source/AGENTS.md:65\u2013115,163\u2013210",
+        "/workspace/scratch/d13085a720fa/dg17-source/README.md:1271\u20131415",
+        "/workspace/scratch/d13085a720fa/dg17-source/package/implementaudit-package.json:19\u201366"
+      ],
+      "version": "0.167.0-alpha.4"
+    },
+    {
+      "catalog_status": "UNPERFORMED",
+      "configuration": "Separate isolated standalone compatibility install",
+      "host": "Codex",
+      "id": "codex-standalone",
+      "loaded_status": "UNPERFORMED",
+      "native_prerequisite": "Admitted available runtime and independently received compatibility route",
+      "projection": "Flattened governor only; internal child procedures",
+      "receiver": "DG17/R0037 independent receiver",
+      "retained_preparation_observation": {
+        "catalog_status": "UNPERFORMED",
+        "loaded_status": "UNPERFORMED",
+        "routing_status": "UNPERFORMED where applicable; no five independent child-discovery or automatic Stop claim",
+        "version": "No live compatibility configuration qualified by this lane"
+      },
+      "routing_status": "UNPERFORMED where applicable; no five independent child-discovery or automatic Stop claim",
+      "shared_installed_cli_component": {
+        "evidence": {
+          "bytes": 9107,
+          "path": "dg17-execution/dg16-v26-consumer/RECEIVING.json",
+          "sha256": "87c28892c263fc423480b356305b82f30ee8339997ff3d5652e9a0a4d73b1443"
+        },
+        "native_application_discovery": false,
+        "source": "8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b"
+      },
+      "source_claims": [
+        "/workspace/scratch/d13085a720fa/dg17-source/AGENTS.md:65\u2013115,163\u2013210",
+        "/workspace/scratch/d13085a720fa/dg17-source/README.md:1271\u20131415",
+        "/workspace/scratch/d13085a720fa/dg17-source/skills/implementaudit/SKILL.md:66\u2013157"
+      ],
+      "version": "No live compatibility configuration qualified by this lane"
+    },
+    {
+      "actual_evidence": {
+        "bytes": 9621,
+        "path": "dg17-execution/claude05-actual/artifact.zip",
+        "sha256": "eb00ad03a586e9858188dec51da93d55aef5e6c6efab5d3d65254de34e0f1fac"
+      },
+      "catalog_status": "INCOMPLETE: validation shape unreceived; exact enabled inline session candidate listed; details text unreceived",
+      "configuration": "Exact live host/version/policy required",
+      "host": "Claude Code",
+      "id": "claude-code-canonical",
+      "loaded_status": "Persistent installation and native five-skill inventory UNPERFORMED",
+      "native_prerequisite": "Correct exact validation receiver and parent late gate; independent affected review and fresh hosted admission. Previous actual failure remains preserved.",
+      "projection": "Canonical five-skill plugin",
+      "receiver": "DG17/R0037 independent receiver",
+      "retained_preparation_observation": {
+        "catalog_status": "BLOCKED_LOCAL_FACILITY_ABSENT",
+        "loaded_status": "BLOCKED_LOCAL_FACILITY_ABSENT",
+        "routing_status": "BLOCKED_LOCAL_FACILITY_ABSENT",
+        "version": null
+      },
+      "routing_status": "UNPERFORMED",
+      "source_claims": [
+        "/workspace/scratch/d13085a720fa/dg17-source/AGENTS.md:65\u2013115,163\u2013210",
+        "/workspace/scratch/d13085a720fa/dg17-source/README.md:1271\u20131415"
+      ],
+      "version": "Pinned2.1.318 actually executed in run42274497655"
+    },
+    {
+      "additional_facility_observation": "Read-only local inventory has no Claude Desktop application; official vendor documentation lists Linux beta support. Actual claude.ai browser route showed the sign-in screen; no account interaction was performed. This is an observed required-input boundary, not unsupported/N/A.",
+      "catalog_status": "UNPERFORMED_AUTHENTICATED_DESKTOP_INPUT_NEEDED",
+      "compatibility_archive_input": {
+        "bytes": 2872,
+        "path": "dg17-execution/shared-package-inputs/ROOT_READBACK.json",
+        "sha256": "f49912e216c6a9dc96d91f37e0a985c2ffe320108812cb7429f65d92eb9a14a9"
+      },
+      "configuration": "Actual live host install/reload/configuration; OS path examples are not empirical host coverage",
+      "facility_evidence": {
+        "bytes": 3389,
+        "path": "dg17-execution/t12-facility-receiving/CLAUDE_DESKTOP.json",
+        "sha256": "caa08c9cfbe8ae71d34e2f219f578be9d34b0a30d45dfbf0c50506be37153f96"
+      },
+      "host": "Claude Desktop",
+      "id": "claude-desktop-compatibility",
+      "loaded_status": "UNPERFORMED_AUTHENTICATED_DESKTOP_INPUT_NEEDED",
+      "native_prerequisite": "Supported Linux Desktop route exists; actual authenticated account and applicable code-execution/skill policy, reviewed import/routing operation required. Exact compatibility archive body now available.",
+      "projection": "Compatibility skill projection",
+      "receiver": "DG17/R0037 independent receiver",
+      "retained_preparation_observation": {
+        "catalog_status": "BLOCKED_NO_LIVE_FACILITY_QUALIFIED",
+        "loaded_status": "BLOCKED_NO_LIVE_FACILITY_QUALIFIED",
+        "routing_status": "BLOCKED_NO_LIVE_FACILITY_QUALIFIED",
+        "version": null
+      },
+      "routing_status": "UNPERFORMED_AUTHENTICATED_DESKTOP_INPUT_NEEDED",
+      "source_claims": [
+        "/workspace/scratch/d13085a720fa/dg17-source/AGENTS.md:65\u2013115,163\u2013210",
+        "/workspace/scratch/d13085a720fa/dg17-source/README.md:1271\u20131415"
+      ],
+      "version": null
+    }
+  ],
+  "original_acceptance": {
+    "awarded_here": false,
+    "earlier_87_4_4_and_later_scoped_decisions": "Preserved at original source/consumer scope; no new aggregate",
+    "retained_component": "ACCEPTED_CURRENT_CONFIGURED_LINUX_DISCOVERY_COMPONENT",
+    "retained_component_source": "/workspace/scratch/d13085a720fa/recovered-base/evidence/DG17_NATIVE_POPULATION_ORIGINAL_RECEIVING.json:114\u2013119",
+    "whole_T12": false
+  },
+  "original_requirement": "T12 of original95; route and discriminator IDs below are mapping labels, not new acceptance rows",
+  "prospective_probe": {
+    "latest_claude_failed_run": 42274497655,
+    "prior_probe_actually_executed": 42262606561,
+    "status": "CORRECTIVE_CLAUDE_AND_SEPARATE_CODEX_ACTIVATION_PREPARATION_ACTIVE",
+    "whole_T12": false
+  },
+  "read_confirmations": {
+    "audit_playbook": "Correctness/claims and Finding Row Contract read",
+    "current_reviewers": "No current independent reviewer output used for self-certification",
+    "original_contract": "Relevant exact T12/F6/layer/amendment sections read previously in this lane; no whole-body read claim",
+    "owner_continuation": "Read full fresh continuation",
+    "retained_native": "Selected raw protocol and cleanup owner/clarification read",
+    "scheduling": "Read full selective-parallel strategy, DG16 notice, DG18 commission and provenance/parked evidence",
+    "source": "AGENTS read first; package/manifests and relevant README/routing/default and selected Stop branches read"
+  },
+  "references": {
+    "agents": "/workspace/scratch/d13085a720fa/dg17-source/AGENTS.md:65\u2013115,163\u2013210",
+    "amendment": "/workspace/scratch/d13085a720fa/contracts/issue-211-comments-current.md:85\u2013124,153\u2013194,276\u2013355,395\u2013449,493\u2013543",
+    "cleanup_clarification": "/workspace/scratch/d13085a720fa/recovered-g000f/engineering-r5/dg17-native-cleanup-clarification/REVIEW.md:7\u201330",
+    "cleanup_owner": "/workspace/scratch/d13085a720fa/recovered-g000f/engineering-r5/dg17-current-native-bridge/inputs/runtime/native_transport.py:10\u201330,71\u2013119",
+    "commission": "/workspace/scratch/d13085a720fa/upload/DG17_ISOLATED_COMPLETION_COMMISSION_20261106(1).md:55\u201385",
+    "continuation": "/workspace/scratch/d13085a720fa/upload/DG17_RECOVERY_AND_EXECUTION_CONTINUATION_20261106(1).md:sections 3\u20137",
+    "contract": "/workspace/scratch/d13085a720fa/contracts/issue-211-current.md:664\u2013673,764\u2013783,909\u2013911",
+    "default_stop": "/workspace/scratch/d13085a720fa/dg17-source/skills/implementaudit/scripts/host-stop-interlock.py:363\u2013392",
+    "installation": "/workspace/scratch/d13085a720fa/dg17-source/README.md:1271\u20131415",
+    "package": "/workspace/scratch/d13085a720fa/dg17-source/package/implementaudit-package.json:19\u201366",
+    "retained_protocol": "/workspace/scratch/d13085a720fa/recovered-g000f/engineering-r5/dg17-current-native-bridge-02/execution/native/transport/protocol.jsonl:2\u201315,22\u201340",
+    "retained_receiving": "/workspace/scratch/d13085a720fa/recovered-base/evidence/DG17_NATIVE_POPULATION_ORIGINAL_RECEIVING.json:114\u2013119",
+    "topology": "/workspace/scratch/d13085a720fa/dg17-source/skills/implementaudit/SKILL.md:66\u2013157",
+    "windows_stop": "/workspace/scratch/d13085a720fa/dg17-source/skills/implementaudit/scripts/host-stop-interlock.py:420\u2013541"
+  },
+  "retained_preparation_probe": {
+    "admission": "Parent hosted episode owns namespace creation, currentness before/after, exact receipt, protected effect and slot admission; probe validates same uid/gid, zero effective/permitted/ambient caps, NoNewPrivs, distinct parent netns, loopback-only interfaces and no external routes. Probe creates no namespace/controller.",
+    "catalogue_sha256": "525a10a749f681c5a0c27bee4e274cd8a37909684ff7c05fdc94c9be7838e139",
+    "cleanup_limits": "Retained close() is unchanged. Constructor/close exception fallback can signal only its known direct Popen child via a held pidfd. No bare discovered PID, arbitrary process-group, or post-failure file deletion; any residual/uncertain scope remains failure.",
+    "does_not_establish": [
+      "Installed/enabled plugin if metadata says otherwise",
+      "Loaded thread hooks",
+      "SessionStart/Stop delivery",
+      "Prompt-independent governed/direct/cheap routing",
+      "Model inference",
+      "Historical continuous absence or restoring actor",
+      "Original T12 or other original acceptance",
+      "Independent reviewer acceptance"
+    ],
+    "excluded_marketplace": ".agents/plugins/marketplace.json pins 8d7b638be191e6d0a4304fef58477e1b3051016f, not selected source",
+    "execution_status": "NOT_EXECUTED_RESOURCE_ADMISSION_NOT_ESTABLISHED",
+    "file": "qualification/dg17-isolated-episode/catalogue_probe.py",
+    "genuine_scope": "Available candidate catalog and configured skill/hook inventories; unchanged Native.close present behavior with independent after-close and after-seal observations",
+    "methods": [
+      "initialize",
+      "initialized notification",
+      "plugin/read",
+      "skills/list",
+      "hooks/list"
+    ],
+    "native_binary": {
+      "archive_to_binary_equality": "NOT_VERIFIED_IN_THIS_LANE",
+      "bytes": 324012616,
+      "public_distribution_pin": "CODEX_PUBLIC_RELEASE_PIN.json",
+      "sha256": "57c94ea520df28beb76955316c5c48f672550fe42c6cff7003badb76e1ee10d8",
+      "version": "0.167.0-alpha.4"
+    },
+    "public_commit": "b970a64548a1fd44b20ca1ca7063ab3f17daa4db",
+    "public_result": "OUTPUT/private/CATALOGUE_RESULT.json; <=65536 bytes; closed PUBLIC_RESULT_SCHEMA.json; eligible for root's explicit reviewed projection only",
+    "public_schema_sha256": "e5d83255fe9325e28780701912a1ea59aeaeed54d5496737955bc4940e654900",
+    "public_tree": "190668404cc3739659c037aca5f1882eee17cb60",
+    "public_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/b970a64548a1fd44b20ca1ca7063ab3f17daa4db",
+    "publication_receipt_sha256": "ec657e88930b362fee8e7dfced89dc85aab0a57252b254f3a0235d3118432464",
+    "raw_evidence": "OUTPUT/private/native-catalogue only; never publish raw home/protocol/process inventories or receipt output",
+    "selected_packet": "03",
+    "selected_packet_seal_sha256": "005912ade47cfd1e31bf3d69550c51041d374a1e4da9136b774c0e7fb0143cdf",
+    "selector": ".claude-plugin/marketplace.json / implementaudit / source ./",
+    "startup_effect_review": "STARTUP_REVIEW.md",
+    "technical_review": "TWO_FINAL_SCOPED_PASSES_EXACT_PACKET03",
+    "test_status": "INERT_ADAPTER_CONTROLS_ONLY_NO_TARGET_OR_NATIVE_EXECUTION"
+  },
+  "schema": "dg17.t12.finite-host-map.v1",
+  "selected_configurations": [
+    {
+      "evidence": [
+        "/workspace/scratch/d13085a720fa/recovered-g000f/engineering-r5/dg17-current-native-bridge-02/execution/native/transport/protocol.jsonl:2\u201315,22\u201340",
+        "/workspace/scratch/d13085a720fa/recovered-base/evidence/DG17_NATIVE_POPULATION_ORIGINAL_RECEIVING.json:114\u2013119"
+      ],
+      "id": "retained-codex-0166-linux-hook-bridge",
+      "limitations": "All six pluginId null; scripted provider; no model inference or canonical five-skill discovery; no protected principal/effect authority",
+      "observed": "Six loaded contributors after exact trust writes; native SessionStart, UserPromptSubmit, managed/project Stop, completed native turn",
+      "platform": "Linux",
+      "status": "RETAIN_ACCEPTED_COMPONENT_ONLY",
+      "version": "0.166.0"
+    },
+    {
+      "evidence": [
+        "/workspace/scratch/d13085a720fa/dg17-source/skills/implementaudit/scripts/host-stop-interlock.py:363\u2013392",
+        "/workspace/scratch/d13085a720fa/dg17-source/.codex-plugin/plugin.json:1\u201326"
+      ],
+      "id": "default-stop-adapter",
+      "observed": "Canonical manifests contain no hook registration; default script route reports unavailable for bound unsupported native effect authentication",
+      "required": "Preserve unsupported/disabled/untrusted fallback; script or manifest presence is not activation",
+      "status": "TRUTHFUL_UNSUPPORTED_NATIVE_EFFECT_AUTHENTICATION"
+    },
+    {
+      "evidence": [
+        "/workspace/scratch/d13085a720fa/dg17-source/skills/implementaudit/scripts/host-stop-interlock.py:420\u2013541"
+      ],
+      "id": "windows-task-selected-stop",
+      "observed": "Explicit --codex-stop-policy path exists and requires Windows custody owner",
+      "required": "Exact separately admitted Windows/native configuration if that selected claim is made; DG18 Python/Git evidence is not Codex Windows discovery",
+      "status": "CONDITIONAL_SELECTED_CLAIM_NO_LOCAL_NATIVE_FACILITY"
+    }
+  ],
+  "shared_dependencies": {
+    "T11": "Current8ee two-role/four-Linux installed chain and scoped original T11 receiving accepted. Exact reproduced archive bodies now available. Earlier failures remain historical; no native application discovery follows.",
+    "T14": "DG16 successor retains sole common producer authority. Current package leg received; latest received canonical run42219527505 remains failed and full conjunction unreceived. No duplicate common suite.",
+    "T16_T17_DG29": "Existing downstream owner and authority boundaries unchanged"
+  },
+  "source": {
+    "commit": "0d57929be5bd15682b4e9da2c0209d5dff307843",
+    "full_source_receiving_owner": "Root; no duplicate full intake in this lane",
+    "source_read_only": true,
+    "tree": "ee316c27250ec422d35a1ea965182ebddf7a5da0"
+  },
+  "status": "DRAFT_CURRENT_ACTUAL_RECEIVING_AND_EXECUTION_FRONTIER",
+  "windows_shared_finding": {
+    "artifact_read_scope": "Proposal paths enumerated previously; parent's final bounded static receiving status incorporated with byte-hash verification of the two named receiving artifacts. This lane does not claim independent review or replay of the proposal.",
+    "checkpoint_root": "/workspace/scratch/d13085a720fa/dg17-recovery/sibling-evidence/dg18-exact",
+    "competing_patch_authored_here": false,
+    "discriminator": "/workspace/scratch/d13085a720fa/dg17-recovery/sibling-evidence/dg18-exact/work/criteria-or/windows-receiver-proposal/receiver_discriminator.py",
+    "green": [
+      "/workspace/scratch/d13085a720fa/dg17-recovery/sibling-evidence/dg18-exact/work/criteria-or/windows-receiver-proposal/evidence/GREEN.json",
+      "/workspace/scratch/d13085a720fa/dg17-recovery/sibling-evidence/dg18-exact/work/criteria-or/windows-receiver-proposal/evidence/GREEN_EXECUTION.json",
+      "/workspace/scratch/d13085a720fa/dg17-recovery/sibling-evidence/dg18-exact/work/criteria-or/windows-receiver-proposal/evidence/GREEN.log"
+    ],
+    "independent_receiving": {
+      "integration_performed": false,
+      "native_windows_qualification": false,
+      "original_award": false,
+      "report": "/workspace/scratch/d13085a720fa/dg17-recovery/t14-review/dg18-receiving/REPORT.md",
+      "report_sha256": "96d86875a4b2435a7470978ee9cc2c9a0a04f44c56adb9da7433c871058f8d9b",
+      "review_manifest": "/workspace/scratch/d13085a720fa/dg17-recovery/t14-review/dg18-receiving/REVIEW_MANIFEST.json",
+      "review_manifest_sha256": "d5c78930d8f4139463ae1c1176a095c3234501e29c473ff6d478eb50f28d8fc5",
+      "scope": "Bounded static same-defect/proposal receiving only",
+      "status": "FINAL_PASS",
+      "status_source": "Parent supplied final receiving update; this lane verified artifact byte hashes only and did not consume the reviewer findings for self-certification"
+    },
+    "old_packet_limit": "Windows07 older unreviewed retention draft has five controls, not the newly received 17-control receiver proposal",
+    "older_distinct_packet": "/workspace/scratch/d13085a720fa/recovered-delta/lanes/windows/packet07/PARKED.md",
+    "preparation_owner": "DG18",
+    "proposal": "/workspace/scratch/d13085a720fa/dg17-recovery/sibling-evidence/dg18-exact/work/criteria-or/windows-receiver-proposal/PROPOSAL.json",
+    "qualification_limit": "Final bounded static same-defect/proposal receiving PASS is not shared-source integration, native Windows acceptance, or an original award. DG16 adoption remains pending; resource release remains UNKNOWN.",
+    "red": [
+      "/workspace/scratch/d13085a720fa/dg17-recovery/sibling-evidence/dg18-exact/work/criteria-or/windows-receiver-proposal/evidence/RED.json",
+      "/workspace/scratch/d13085a720fa/dg17-recovery/sibling-evidence/dg18-exact/work/criteria-or/windows-receiver-proposal/evidence/RED_EXECUTION.json",
+      "/workspace/scratch/d13085a720fa/dg17-recovery/sibling-evidence/dg18-exact/work/criteria-or/windows-receiver-proposal/evidence/RED.log"
+    ],
+    "reported_controls": 17,
+    "sole_shared_integrator": "DG16",
+    "status": "EXACT_DG18_PROPOSAL_RECEIVED; INDEPENDENT_DG17_BOUNDED_STATIC_RECEIVING_FINAL_PASS; DG16_INTEGRATOR_ADOPTION_PENDING"
+  }
+}

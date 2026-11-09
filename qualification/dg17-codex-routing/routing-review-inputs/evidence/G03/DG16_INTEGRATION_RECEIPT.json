@@ -1,0 +1,191 @@
+{
+  "DG18_Windows_effect_authorized": false,
+  "added": 1,
+  "all_source_tree_leaves_read_back": true,
+  "branch": "pro/dg16-r5-continuity-receiver-source-01-20261106",
+  "branch_read_back": true,
+  "c5_factory": "create_r5_hosted_ubuntu24_continuity_receiver_c5_session_v3",
+  "c5_loader": {
+    "bytes": 48704,
+    "git_blob": "90d1b452ab3f637e4e2248587aaf6a3abd124c72",
+    "mode": "100644",
+    "path": "scripts/load-work-graph-c5-executor.py",
+    "sha256": "c62f034159d64d8b461cc0bec502b2f9ac07e05fa6b31f4c2eefc1a6f41696db"
+  },
+  "c5_revision": "R5_HOSTED_UBUNTU24_CONTINUITY_RECEIVER_SOURCE_20261106_V3",
+  "candidate_seal": {
+    "bytes": 7889,
+    "path": "work/receiver-source-integration/SEAL.json",
+    "sha256": "5994b49fe42cb02244c300eee2def42455f32f80539110fc5155a878acfad534"
+  },
+  "changed_existing": 8,
+  "commit": "8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b",
+  "coordinator": "/root",
+  "core_compiler": {
+    "bytes": 262144,
+    "git_blob": "50218f4ec9c32e3cf1aa1abb6ffc61bd82cd6dc9",
+    "mode": "100755",
+    "path": "skills/implementaudit/scripts/compile-work-graph.py",
+    "sha256": "0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d"
+  },
+  "current_package_archives": null,
+  "current_package_runtime_routes_completed": 0,
+  "delta": {
+    "bytes": 2847,
+    "path": "work/receiver-source-integration/SOURCE_DELTA.json",
+    "sha256": "25ae8d62659006b19c57dca4fd5821cd730faf565d3e37c570278b418e63a67e"
+  },
+  "effect_journal": {
+    "bytes": 4258,
+    "path": "work/coordinator/receiver-source-current/EFFECT_JOURNAL.json",
+    "sha256": "190bc2af9263826ce2c3a151ba9a865624aa725c5a0fca114c39c6eec24e9330"
+  },
+  "historical_qualification_transferred": false,
+  "independent_report": {
+    "bytes": 9345,
+    "path": "work/receiver-source-integration-review/REPORT.md",
+    "sha256": "d840a3460d50d57066d8d04519047fa0586df38ba579877c3581617cf57b4683"
+  },
+  "independent_review_seal": {
+    "bytes": 3797,
+    "path": "work/receiver-source-integration-review/SEAL.json",
+    "sha256": "ab973e287751e08174ce0a81d305710ca4643388919fa537cf8d00dace5db90e"
+  },
+  "independent_verdict": {
+    "bytes": 2114,
+    "path": "work/receiver-source-integration-review/VERDICT.json",
+    "sha256": "14ea3085f74821a57cbfc4004671dcbaf89d6b6d39c585ce88f7dc1215ea8f07"
+  },
+  "mainline_or_release_adopted": false,
+  "manifest": {
+    "bytes": 493365,
+    "path": "work/receiver-source-integration/SOURCE_MANIFEST.json",
+    "sha256": "8a4ef41e03965c0a2b57e9ed6d2051cd470e3cddb5ae2690a754d58df570c947"
+  },
+  "native_89_equality": false,
+  "native_changed_dependencies": [
+    "scripts/operational-evidence.py",
+    "skills/implementaudit/scripts/compile-work-graph.py"
+  ],
+  "native_operations_completed_on_this_source": false,
+  "observed_utc": "2026-11-06T13:52:55.825651+00:00",
+  "original_awards": [],
+  "package_cap_per_role": 589824,
+  "package_reserve_per_role": 2000,
+  "peer_compiler": {
+    "bytes": 262144,
+    "git_blob": "58d62589c5d408f6f28f0498da2ba97c15044ad8",
+    "mode": "100644",
+    "path": "source-peers/route-graph/skills/implementaudit/scripts/compile-work-graph.py",
+    "sha256": "0e4747676750bfc019a24ae04029719035813f1904126389b750b4db01c44e1e"
+  },
+  "peer_manifest": {
+    "bytes": 12590,
+    "git_blob": "861b1e87c10693a48482ec120ea28896bce25f30",
+    "mode": "100644",
+    "path": "source-peers/route-graph/SOURCE_MANIFEST.json",
+    "sha256": "8de94546de6aad8897ca33e3dfbef4bdb90fac2ef047c5a7f50c49be6d24fd3d"
+  },
+  "private_input_upload": false,
+  "readbacks": {
+    "TREE_READBACK.json": {
+      "bytes": 1302559,
+      "path": "work/coordinator/receiver-source-current/TREE_READBACK.json",
+      "sha256": "cb365287e3d18f031119356e7bd5449e3c6c2d20001e2ba6b96343d05b18f242"
+    },
+    "TREE_VERIFICATION.json": {
+      "bytes": 325,
+      "path": "work/coordinator/receiver-source-current/TREE_VERIFICATION.json",
+      "sha256": "5d8b504b71dc7357a20c54bb58ba2e26b4223352810a37b99e615d25a52505e3"
+    },
+    "branch-readback.json": {
+      "bytes": 2157,
+      "path": "work/coordinator/receiver-source-current/branch-readback.json",
+      "sha256": "16b630bbef82dcccf9044488e2e836b7ae82f7e26bda0d9497618582adb84053"
+    },
+    "preref-commit.json": {
+      "bytes": 3631,
+      "path": "work/coordinator/receiver-source-current/preref-commit.json",
+      "sha256": "0a42f032cd5a069a366a6d3a2b3273da541376f04ba2562b42ca0755d11f3531"
+    },
+    "runs-readback.json": {
+      "bytes": 1115,
+      "path": "work/coordinator/receiver-source-current/runs-readback.json",
+      "sha256": "6d97b4ce230253943ea4396a47ff6fed7a019ed545eb06485dfecd69ba97f555"
+    }
+  },
+  "receiver": {
+    "bytes": 422801,
+    "git_blob": "be270565922c9b05cde93a77e6c3e81dff4f1b65",
+    "mode": "100755",
+    "path": "scripts/operational-evidence.py",
+    "sha256": "5950164adb0e0e1d9c6ff4481ccb43cbff94a13ae1fb6578fb6a172a431e69ed"
+  },
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "root_grant": {
+    "bytes": 7640,
+    "path": "work/coordinator/receiver-source-current/ROOT_EFFECT_GRANT.json",
+    "sha256": "47f924f2661e517c37bfb6d456b26b4c4ee902ba64fa32968241fd152ce1a6c6"
+  },
+  "schema": "dg16.shared-receiver-source-checkpoint-result.v1",
+  "selected_for_current_package_preparation": true,
+  "session": "f8b076e6-b438-426d-b9a1-fc6ab9f9ae6f",
+  "sole_parent": "3e0f4b6d05eb086017ce721d40459fdbd68714dd",
+  "source_ancestry": [
+    {
+      "commit": "8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b",
+      "parents": [
+        "3e0f4b6d05eb086017ce721d40459fdbd68714dd"
+      ],
+      "retained_readback": {
+        "bytes": 3631,
+        "path": "work/coordinator/receiver-source-current/preref-commit.json",
+        "sha256": "0a42f032cd5a069a366a6d3a2b3273da541376f04ba2562b42ca0755d11f3531"
+      },
+      "tree": "0da374609f7fea2463a2926f3603b976620bd10e"
+    },
+    {
+      "commit": "3e0f4b6d05eb086017ce721d40459fdbd68714dd",
+      "parents": [
+        "5c7e04401b3303d585e2c936208bfffb03df2d18"
+      ],
+      "retained_readback": {
+        "bytes": 3418,
+        "path": "work/coordinator/c5-source-current/preref-commit.json",
+        "sha256": "4cd785c5a3f0cb3d9b25666a27a18c3f2ddfaa51a11c7e5e6c0bc5b56d242803"
+      },
+      "tree": "f8741d0293ce2fd1b4b2b2e9dfa1e28d153cd81a"
+    },
+    {
+      "commit": "5c7e04401b3303d585e2c936208bfffb03df2d18",
+      "parents": [
+        "f3b7598a292d0ad3cebdc4488fb55a56f34c03a8"
+      ],
+      "retained_readback": {
+        "bytes": 3456,
+        "path": "work/coordinator/g2-source-current/preref-commit.json",
+        "sha256": "18862e010f60ea86423043856e8e7e49db75f11031ee95a9663b50d7ff0ac8e5"
+      },
+      "tree": "1b58fb701f959a986a8fc3a3c8346f20cf31086e"
+    },
+    {
+      "commit": "f3b7598a292d0ad3cebdc4488fb55a56f34c03a8",
+      "parents": [
+        "0d57929be5bd15682b4e9da2c0209d5dff307843"
+      ],
+      "retained_readback": {
+        "bytes": 3432,
+        "path": "work/coordinator/codex-home-source-current/preref-commit.json",
+        "sha256": "784ecaaef50af6855a3443c07564e01ae20cbe02ba85f20ad444eef2cbfc3e9c"
+      },
+      "tree": "579e7afd758134bfc5e7fac5a889b6a617d7f9b7"
+    }
+  ],
+  "source_branch_runs_observed": 0,
+  "source_bytes": 166402972,
+  "source_files": 1759,
+  "source_selected_for_full_original_acceptance": false,
+  "status": "PUBLISHED_ISOLATED_SOURCE_CHECKPOINT_INDEPENDENT_SOURCE_REVIEW_PASS_NATIVE_AND_PACKAGE_QUALIFICATION_PENDING",
+  "tree": "0da374609f7fea2463a2926f3603b976620bd10e",
+  "unchanged_existing": 1750
+}

@@ -1,0 +1,45 @@
+{
+  "members": [
+    {
+      "bytes": 7345,
+      "name": "CLEANUP.json",
+      "sha256": "4dc768b81b54d59ea61bdf6dc3636a10da46005dfb72958dad7eb4c8a7068134"
+    },
+    {
+      "bytes": 32,
+      "name": "CONTENT.json",
+      "sha256": "8384c9b3a3fdbd63e9179e609d1401813428468c503475b4d370a1059b75c010"
+    },
+    {
+      "bytes": 71,
+      "name": "CURRENTNESS.json",
+      "sha256": "1e435688f0a7ac948c110b6071ec94321fc2514ea122f4635bf64d8f25bf653e"
+    },
+    {
+      "bytes": 406,
+      "name": "FAILURE.json",
+      "sha256": "82504717f70b18c8eb8e91754f07b9e40e7fbf5969d4c899e5df7796a33feb1f"
+    },
+    {
+      "bytes": 3815,
+      "name": "HOST.json",
+      "sha256": "b6c61007162c57298156a29b7e13c7594df7b69e9bc0fbf5e5bd464011c96e5b"
+    },
+    {
+      "bytes": 1108,
+      "name": "PREDICATES.json",
+      "sha256": "e4993ca616765536e3d209ef21c23736a3174c9c6212cd027464f443270ed8e2"
+    },
+    {
+      "bytes": 561,
+      "name": "RESULT.json",
+      "sha256": "4c7fd10b7c06e04265fc8819525951f6f2b0d7fce4173c47edfcf79cb23c5d44"
+    },
+    {
+      "bytes": 69,
+      "name": "SOURCE.json",
+      "sha256": "ba0aed611b5b738d636b334c5b8a296481960923742240a2a94cf9d7a462fb8f"
+    }
+  ],
+  "schema": "dg17.public-artifact-manifest.v1"
+}

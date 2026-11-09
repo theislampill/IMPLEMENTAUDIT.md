@@ -1,0 +1,206 @@
+{
+  "active_command": null,
+  "active_step": null,
+  "all_recorded_commands_reaped": true,
+  "commands": [
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "git-init",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "git-remote",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 1,
+        "reaped_statuses": [
+          {
+            "pid": 2281,
+            "returncode": 0
+          }
+        ],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 1,
+        "retained_statuses_sha256": "a247aea7ee2549476d2f3e87cf8a16d0dedeba61ff6b133f2196def9f737819d"
+      },
+      "internal_failure": null,
+      "name": "git-fetch",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "git-checkout",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "head-identity",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 82,
+      "stdout_sha256": "ea66efc70cffba181b67e60216e16376d5e9d4c33f59bd7049bb09206d317ba5",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "head-parent",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 300,
+      "stdout_sha256": "69b1512e01319a3f88ce1aca1ce753ed1bffc5da5c303df89b894b0ee587c0f5",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "fresh-controller-refs",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "fresh-source-clean",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    }
+  ],
+  "declared_large_payload_owners_retained_until_disposable_host_teardown": true,
+  "private_roots_retained_until_disposable_host_teardown": true
+}

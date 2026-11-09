@@ -1,0 +1,26 @@
+{
+  "fresh_execution": false,
+  "fresh_method_count": 0,
+  "native_windows_qualification": false,
+  "new_original_awards": [],
+  "reference": {
+    "artifact_id": 13497879213,
+    "artifact_sha256": "9a285ea3756238ac689669782b690a5aa05dfdbbe14a2c285694085ce3b70847",
+    "attempt": 1,
+    "independent_receipt_sha256": "9ba49dfeb1ec8e7ac3c4fe122e5c89227340405fa729d48c0c651b8fa12bf07f",
+    "predicate_member_sha256": "9028d6711dc1e02b2babf6fc5e4e70974a99a3ed54b547d391ded3f8033af73a",
+    "root_receipt_sha256": "a63dc54e1812ddf4a57091360d09753fc3b0c9dae90d6cddd4bcc757bc550a64",
+    "run_id": 42210454718,
+    "scope": "SYNTHETIC_IDENTITY_PREDICATES_ONLY_NO_NATIVE_OR_ORIGINAL_AWARD",
+    "source_commit": "0d57929be5bd15682b4e9da2c0209d5dff307843",
+    "source_tree": "ee316c27250ec422d35a1ea965182ebddf7a5da0",
+    "test_path": "tests/shell_companion_source_custody.py",
+    "test_source_sha256": "22ffd31ff45e1f439759c45bb5c67bde5e8390b69b54030833476e80aaee7f08"
+  },
+  "source_closure": {
+    "final": false,
+    "prepare": false,
+    "receive": false
+  },
+  "status": "PRIOR_COMPONENT_NOT_REPLAYED"
+}

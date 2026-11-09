@@ -1,0 +1,38 @@
+{
+  "additive_new_original_awards": 0,
+  "base_maps": [
+    {
+      "bytes": 582700,
+      "path": "dg17-execution/current-composition-draft02/ORIGINAL95_SOURCE_MAP.json",
+      "sha256": "c0e72cf71d5830d3d134e66709bcfdcfae222c3530c32602c1b03d6e41f3acc2"
+    },
+    {
+      "bytes": 31511,
+      "path": "dg17-execution/current-composition-draft02/HOST_MAP.json",
+      "sha256": "2171e4fb4598adfaa2ef64412b84d64b483bf95089f60efd914e2a2f2230646a"
+    }
+  ],
+  "global_current_acceptance_count": null,
+  "ongoing_execution_not_exhausted": true,
+  "original95_identity_order_wording_locators_populations_historical_partitions_preserved": true,
+  "outputs": [
+    {
+      "bytes": 606191,
+      "path": "dg17-execution/current-composition-draft03/ORIGINAL95_SOURCE_MAP.json",
+      "sha256": "8c9bf7471118aeca67dc82990e55bb86a63e585cc30ddbd5095c2ae209c65510"
+    },
+    {
+      "bytes": 48964,
+      "path": "dg17-execution/current-composition-draft03/HOST_MAP.json",
+      "sha256": "b71ee1261919ea0045fb311961fa4f54c8f0d2d781a0bf8d9e5e54c8474e5944"
+    },
+    {
+      "bytes": 7991,
+      "path": "dg17-execution/current-composition-draft03/NATIVE_OPERATION_RECONCILIATION.json",
+      "sha256": "2eadb44589b5f18f7757964ca69a21ad2bf76fceab2943a6229ebcd1aba34258"
+    }
+  ],
+  "schema": "dg17.current-map-composition-checks.v2",
+  "selected_family_ids_preserved": true,
+  "status": "DRAFT_PENDING_FINAL_INDEPENDENT_COMPOSITION_REVIEW"
+}

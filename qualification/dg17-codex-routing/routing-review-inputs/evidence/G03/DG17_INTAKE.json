@@ -1,0 +1,712 @@
+{
+  "consequential_facts": [
+    "Owner delivered notice of replacement DG16 coordinator after predecessor reconciliation; sole shared-production ownership remains DG16.",
+    "Current source8ee and actual package run42232703790 match already received V26 evidence.",
+    "No raw release archive bodies supplied; request exact bodies from successor integrator only if needed.",
+    "No new canonicalG2/T14/Windows receipt or DG16 launch authorization.",
+    "DG17 current Codex04 receiving and T11 scoped original decision remain; frozen0d native source unchanged."
+  ],
+  "disposition": "RECEIVED_AS_COORDINATION_UPDATE_AND_EXACT_PRIOR_EVIDENCE; continue active DG17; no restart/new common campaign",
+  "effect_authority_created": false,
+  "native_or_target_execution": false,
+  "nested": [
+    {
+      "exact_prior_members": [
+        {
+          "bytes": 3767,
+          "path": "coordinator/EFFECT_JOURNAL.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/coordinator/package05r7-current/EFFECT_JOURNAL.json"
+          ],
+          "sha256": "e83f53c6ca9e53ca8347c680e7a3e08ed0d7d8718df957354c48d0eafbcc876f"
+        },
+        {
+          "bytes": 773,
+          "path": "coordinator/PUBLICATION_READBACK.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/coordinator/package05r7-current/PUBLICATION_READBACK.json"
+          ],
+          "sha256": "68ddf7969a9b6d3eb58db654689ee4ac0368ec92c91c08f629eb94b4d1ac9260"
+        },
+        {
+          "bytes": 8741,
+          "path": "coordinator/ROOT_EFFECT_GRANT.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/coordinator/package05r7-current/ROOT_EFFECT_GRANT.json"
+          ],
+          "sha256": "631b7cffd8e6de93b82c6d56e78172c064105158d52d6a2d92923cc97341067e"
+        },
+        {
+          "bytes": 4531,
+          "path": "coordinator/ROOT_TERMINAL_DECISION.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/coordinator/package05r7-current/ROOT_TERMINAL_DECISION.json"
+          ],
+          "sha256": "e213b8843f03741c48776277f9e1db8c78ea1d3f7609875ce32bcd94e5ed5b89"
+        },
+        {
+          "bytes": 334,
+          "path": "coordinator/TREE_VERIFICATION.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/coordinator/package05r7-current/TREE_VERIFICATION.json"
+          ],
+          "sha256": "d8b6f011e2128e8a7edd21d80bcd83d15f96bf6ee5f161a07c7421c8acee7f99"
+        },
+        {
+          "bytes": 2231,
+          "path": "independent/ACQUISITION_RECORD.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/ACQUISITION_RECORD.json"
+          ],
+          "sha256": "d41fae69d679960f3529bab0a2d4ff2f42f65ae5787b234f27413acab52bedd5"
+        },
+        {
+          "bytes": 4101,
+          "path": "independent/ACTUAL_RELATIONS.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/ACTUAL_RELATIONS.json"
+          ],
+          "sha256": "3d0772bdaee74ebc8619fc2793ddf851ba63a1bd94c2cc4082ac1e129a58024c"
+        },
+        {
+          "bytes": 696,
+          "path": "independent/BOUNDARY_REBIND.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/BOUNDARY_REBIND.json"
+          ],
+          "sha256": "24fd46afad2a57e1b32ac4897afd73ef29462cb48f955429d20a9deb5240a204"
+        },
+        {
+          "bytes": 552,
+          "path": "independent/FINAL_STATUS.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/FINAL_STATUS.json"
+          ],
+          "sha256": "24d1d3e5fa834d46323b665b85533232a2a232c96a5d06e5ffd543a3c8bce62e"
+        },
+        {
+          "bytes": 23,
+          "path": "independent/FIRST_ARTIFACTS_METADATA.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/FIRST_ARTIFACTS_METADATA.json"
+          ],
+          "sha256": "7ac69e8cc7d94c7d03c158c3948a469de546601093fa9c1b7b8cec5cb2d4a7f2"
+        },
+        {
+          "bytes": 4371,
+          "path": "independent/FIRST_JOBS_METADATA.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/FIRST_JOBS_METADATA.json"
+          ],
+          "sha256": "329731aa9638f456584804f4da0700b64798e2d747ded93ad36ca4a726a0da5c"
+        },
+        {
+          "bytes": 14964,
+          "path": "independent/FIRST_RUN_METADATA.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/FIRST_RUN_METADATA.json"
+          ],
+          "sha256": "1ec101a25d57c00f20ca2e014d7645fb6cf9e842bcbdfa228ec04f2238ff1b4f"
+        },
+        {
+          "bytes": 899,
+          "path": "independent/INDEPENDENT_ARTIFACTS_METADATA.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/INDEPENDENT_ARTIFACTS_METADATA.json"
+          ],
+          "sha256": "40296ac7e6ef8ec71ead7e930a3f4ee1ae3d277f4ac4f0a8e21873e1d4925ecc"
+        },
+        {
+          "bytes": 1385,
+          "path": "independent/INDEPENDENT_COMMIT_METADATA.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/INDEPENDENT_COMMIT_METADATA.json"
+          ],
+          "sha256": "380af6f211465d16ea29da8f674dbd63040349e1b82e6807ad1b0ba1a916692a"
+        },
+        {
+          "bytes": 4579,
+          "path": "independent/INDEPENDENT_JOBS_METADATA.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/INDEPENDENT_JOBS_METADATA.json"
+          ],
+          "sha256": "41bde9fd4183b508f75c479185edb4a9cfa7f4bee3bff9a4668cf7a95c28b108"
+        },
+        {
+          "bytes": 14967,
+          "path": "independent/INDEPENDENT_RUN_METADATA.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/INDEPENDENT_RUN_METADATA.json"
+          ],
+          "sha256": "ecd67a5021a3f2686a5cdf38712a06b6238a95a02cf394a614d4b38af1c4804e"
+        },
+        {
+          "bytes": 2191,
+          "path": "independent/INPUT_BINDINGS.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/INPUT_BINDINGS.json"
+          ],
+          "sha256": "5f35cafbfe8c8e4c570269eda641f40ded9ea939519131fbc708869969fd7f10"
+        },
+        {
+          "bytes": 2686,
+          "path": "independent/LOG_ARTIFACT_RELATIONS.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/LOG_ARTIFACT_RELATIONS.json"
+          ],
+          "sha256": "920cdc0c8d80b8f54af1aa29ebfda5df483f2f7091afb84a9f0dd5c58a9a1c9e"
+        },
+        {
+          "bytes": 9147,
+          "path": "independent/RECEIPT.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/RECEIPT.json"
+          ],
+          "sha256": "355e5b5a346f42d7917076e947e4ac31b32f8735900d950cb99943529a064897"
+        },
+        {
+          "bytes": 12564,
+          "path": "independent/REPORT.md",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/REPORT.md"
+          ],
+          "sha256": "8f0f98b79404c52b9b3ab4e11fb3cc62e2d9e81fa484e2e7ef3b128c6263c2df"
+        },
+        {
+          "bytes": 5373,
+          "path": "independent/SEAL.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/SEAL.json"
+          ],
+          "sha256": "125f53d47d02fc208e30f68702c9100aaa8231ce60be7caaea9d052129f04055"
+        },
+        {
+          "bytes": 6842,
+          "path": "independent/actual-artifact.zip",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/actual-artifact.zip"
+          ],
+          "sha256": "d485faec14bfa02cb4e8a87647dafbaabb5589af0e79f35e48eb1db5cf33e218"
+        },
+        {
+          "bytes": 64989,
+          "path": "independent/actual-job-decoded.log",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/actual-job-decoded.log",
+            "dg17-restoration/dg16-v26/work/coordinator/package05r7-current/JOB_LOG.txt"
+          ],
+          "sha256": "55895c12358d1139a5fd85f0bc225e490c410c28f64ea9aecc77827c428a4537"
+        },
+        {
+          "bytes": 16218,
+          "path": "independent/receive_actual.py",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/receive_actual.py"
+          ],
+          "sha256": "d78649bf44fb5ad81846c2e498b3baa041fcafa88fd8f4284611da90f5bd3894"
+        },
+        {
+          "bytes": 3639,
+          "path": "independent/receive_transport.py",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/receive_transport.py"
+          ],
+          "sha256": "0d15d1e91b7d104b18fa626dd382e0445466c42dd8f50d792d7e23dda944c2c1"
+        },
+        {
+          "bytes": 1306,
+          "path": "independent/terminal/ARTIFACT_MANIFEST.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/terminal/ARTIFACT_MANIFEST.json",
+            "dg17-restoration/dg16-v26/work/coordinator/package05r7-current/log-decoded/ARTIFACT_MANIFEST.json"
+          ],
+          "sha256": "53942723ea344f76bf23017ed41d41b1dfd1c02bd1c54eafbf4a201cfb19c015"
+        },
+        {
+          "bytes": 403,
+          "path": "independent/terminal/CLEANUP.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42193193831-attempt-1/terminal/CLEANUP.json",
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/terminal/CLEANUP.json",
+            "dg17-restoration/dg16-v26/work/coordinator/package05r4-current/log-decoded/CLEANUP.json",
+            "dg17-restoration/dg16-v26/work/coordinator/package05r7-current/log-decoded/CLEANUP.json"
+          ],
+          "sha256": "b03566055b551a47dcc81a4c986fda5b64e6a89326735269a06312c6b6fb7887"
+        },
+        {
+          "bytes": 150,
+          "path": "independent/terminal/FAILURE.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/terminal/FAILURE.json",
+            "dg17-restoration/dg16-v26/work/coordinator/package05r7-current/log-decoded/FAILURE.json"
+          ],
+          "sha256": "5ca7e2247359a1f58287856dc8acec02af30737b84d5dc076ed0cfc4179f6558"
+        },
+        {
+          "bytes": 2390,
+          "path": "independent/terminal/HOST.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/terminal/HOST.json",
+            "dg17-restoration/dg16-v26/work/coordinator/package05r7-current/log-decoded/HOST.json"
+          ],
+          "sha256": "886f25ae8ea71a6558aa748b794868c73a5129a63705c2d9049a5e9b23751810"
+        },
+        {
+          "bytes": 1413,
+          "path": "independent/terminal/PACKAGES.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/terminal/PACKAGES.json",
+            "dg17-restoration/dg16-v26/work/coordinator/package05r7-current/log-decoded/PACKAGES.json"
+          ],
+          "sha256": "49d6ef585f86c6be02208cbe61c1e38e9001c0049a4d29a187e80c5bc983545e"
+        },
+        {
+          "bytes": 5276,
+          "path": "independent/terminal/PHASES.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/terminal/PHASES.json",
+            "dg17-restoration/dg16-v26/work/coordinator/package05r7-current/log-decoded/PHASES.json"
+          ],
+          "sha256": "40169862055159742ee745c717a87cb48efad98e353fe5103f00bcf55c1be2a2"
+        },
+        {
+          "bytes": 1670,
+          "path": "independent/terminal/RESULT.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/terminal/RESULT.json",
+            "dg17-restoration/dg16-v26/work/coordinator/package05r7-current/log-decoded/RESULT.json"
+          ],
+          "sha256": "80c9a9bdde136fefcccaed002a67e859e922bf8d8ef296a95e2981f12bee43f0"
+        },
+        {
+          "bytes": 4090,
+          "path": "independent/terminal/ROUTES.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/terminal/ROUTES.json",
+            "dg17-restoration/dg16-v26/work/coordinator/package05r7-current/log-decoded/ROUTES.json"
+          ],
+          "sha256": "13ea56d1953317cc884f09afcbef130123f9ed72fb42f7824f056ba1588e5384"
+        },
+        {
+          "bytes": 466,
+          "path": "independent/terminal/SOURCE.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/g2-receiver/actual-results/package-run-42232703790-attempt-1/terminal/SOURCE.json",
+            "dg17-restoration/dg16-v26/work/coordinator/package05r7-current/log-decoded/SOURCE.json"
+          ],
+          "sha256": "f38a0aaafa9f384cd837b7f01ea98710aed228829f151a35388a4e894e99088a"
+        }
+      ],
+      "members": 36,
+      "name": "DG16_CURRENT_PACKAGE_RECEIPT_8ee4ae44_20261106.zip",
+      "new_members": [
+        {
+          "bytes": 6378,
+          "path": "MANIFEST.json",
+          "prior_exact_matches": [],
+          "sha256": "7dd7bbfc980fb2048d531bc2432f5ea24642fc31576035e98138688c264d3346"
+        },
+        {
+          "bytes": 2373,
+          "path": "README.md",
+          "prior_exact_matches": [],
+          "sha256": "d14c03f2fee6275b77f00be34c18023b745c9efcd1a1c7bc2e5655a7ce7d8ae8"
+        }
+      ],
+      "payloads_verified": 35,
+      "zip_file_type_metadata": "Unspecified (type bits0) for package receipt; contents treated only as inert bytes"
+    },
+    {
+      "exact_prior_members": [
+        {
+          "bytes": 2467,
+          "path": "FORWARDED_INPUT_RECEIVING.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/coordinator/incoming/DG18_INPUT_RECEIVING.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/FORWARDED_INPUT_RECEIVING.json",
+            "dg17-restoration/dg16-v26/work/receiver-source-integration/inputs/DG18_INPUT_RECEIVING.json"
+          ],
+          "sha256": "f1506d253a3b35a0348fecba5f582c6f12afbb4192b155beefd73b2127d0a23f"
+        },
+        {
+          "bytes": 7466,
+          "path": "INTEGRATION_RECEIPT.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/coordinator/receiver-source-current/SOURCE_CHECKPOINT_RESULT.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/INTEGRATION_RECEIPT.json",
+            "dg17-restoration/dg16-v26/work/package-current-receiver-source/source-readback/SOURCE_CHECKPOINT_RESULT.json"
+          ],
+          "sha256": "2be3d3fd9d9900e09c4a494518075ddbd0b9d874c55b1525dd4eaa1939ec7012"
+        },
+        {
+          "bytes": 7751,
+          "path": "PACKET_MANIFEST.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/PACKET_MANIFEST.json"
+          ],
+          "sha256": "7b2469021fb10652b1746e645763bf3cf4c9ad6e22703a96ad127f411fcc0ba1"
+        },
+        {
+          "bytes": 6122,
+          "path": "README.md",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/README.md"
+          ],
+          "sha256": "52327dcf3b99019f86fbc4fbba65e811d5b4067f7b42c6b9fc0081f616d92efe"
+        },
+        {
+          "bytes": 2847,
+          "path": "SOURCE_DELTA.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/receiver-source-integration/SOURCE_DELTA.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/SOURCE_DELTA.json"
+          ],
+          "sha256": "25ae8d62659006b19c57dca4fd5821cd730faf565d3e37c570278b418e63a67e"
+        },
+        {
+          "bytes": 493365,
+          "path": "SOURCE_MANIFEST.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/receiver-source-integration/SOURCE_MANIFEST.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/SOURCE_MANIFEST.json"
+          ],
+          "sha256": "8a4ef41e03965c0a2b57e9ed6d2051cd470e3cddb5ae2690a754d58df570c947"
+        },
+        {
+          "bytes": 3418,
+          "path": "ancestry/c5-source-current.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/coordinator/g2-full-successor08-current/effect-source.json",
+            "dg17-restoration/dg16-v26/work/coordinator/c5-source-current/preref-commit.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/ancestry/c5-source-current.json",
+            "dg17-restoration/dg16-v26/work/package-current-source-c5-review/publication-inputs/preref-commit.json"
+          ],
+          "sha256": "4cd785c5a3f0cb3d9b25666a27a18c3f2ddfaa51a11c7e5e6c0bc5b56d242803"
+        },
+        {
+          "bytes": 3432,
+          "path": "ancestry/codex-home-source-current.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/coordinator/codex-home-source-current/preref-commit.json",
+            "dg17-restoration/dg16-v26/work/coordinator/g2-source-current/effect-source.json",
+            "dg17-restoration/dg16-v26/work/coordinator/g2-source-current/admission-source.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/ancestry/codex-home-source-current.json"
+          ],
+          "sha256": "784ecaaef50af6855a3443c07564e01ae20cbe02ba85f20ad444eef2cbfc3e9c"
+        },
+        {
+          "bytes": 3456,
+          "path": "ancestry/g2-source-current.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/coordinator/c5-source-current/effect-source.json",
+            "dg17-restoration/dg16-v26/work/coordinator/c5-source-current/pre-source.json",
+            "dg17-restoration/dg16-v26/work/coordinator/g2-source-current/preref-commit.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/ancestry/g2-source-current.json"
+          ],
+          "sha256": "18862e010f60ea86423043856e8e7e49db75f11031ee95a9663b50d7ff0ac8e5"
+        },
+        {
+          "bytes": 1302559,
+          "path": "readbacks/TREE_READBACK.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/coordinator/receiver-source-current/TREE_READBACK.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/readbacks/TREE_READBACK.json",
+            "dg17-restoration/dg16-v26/work/package-current-receiver-source/source-readback/TREE_READBACK.json"
+          ],
+          "sha256": "cb365287e3d18f031119356e7bd5449e3c6c2d20001e2ba6b96343d05b18f242"
+        },
+        {
+          "bytes": 325,
+          "path": "readbacks/TREE_VERIFICATION.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/coordinator/receiver-source-current/TREE_VERIFICATION.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/readbacks/TREE_VERIFICATION.json"
+          ],
+          "sha256": "5d8b504b71dc7357a20c54bb58ba2e26b4223352810a37b99e615d25a52505e3"
+        },
+        {
+          "bytes": 191,
+          "path": "readbacks/blob01-verification.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/coordinator/receiver-source-current/blob01-verification.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/readbacks/blob01-verification.json"
+          ],
+          "sha256": "a0a32ff968a5b1f75d2f689ad299e19dc7e3f48a8fe533e093b3914134c317ed"
+        },
+        {
+          "bytes": 191,
+          "path": "readbacks/blob02-verification.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/coordinator/receiver-source-current/blob02-verification.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/readbacks/blob02-verification.json"
+          ],
+          "sha256": "aafba1696a891213cef8b30f08dcd9a5db68ce5306a1544a04e0de5948391822"
+        },
+        {
+          "bytes": 191,
+          "path": "readbacks/blob03-verification.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/coordinator/receiver-source-current/blob03-verification.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/readbacks/blob03-verification.json"
+          ],
+          "sha256": "d107ecabefc4504e2d76a1128854163e34751ce3176e6ec9586d895eb5610976"
+        },
+        {
+          "bytes": 2157,
+          "path": "readbacks/branch-readback.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/coordinator/receiver-source-current/branch-readback.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/readbacks/branch-readback.json",
+            "dg17-restoration/dg16-v26/work/package-current-receiver-source/source-readback/branch-readback.json"
+          ],
+          "sha256": "16b630bbef82dcccf9044488e2e836b7ae82f7e26bda0d9497618582adb84053"
+        },
+        {
+          "bytes": 3631,
+          "path": "readbacks/preref-commit.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/coordinator/receiver-source-current/preref-commit.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/readbacks/preref-commit.json",
+            "dg17-restoration/dg16-v26/work/package-current-receiver-source/source-readback/preref-commit.json"
+          ],
+          "sha256": "0a42f032cd5a069a366a6d3a2b3273da541376f04ba2562b42ca0755d11f3531"
+        },
+        {
+          "bytes": 1115,
+          "path": "readbacks/runs-readback.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/coordinator/receiver-source-current/runs-readback.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/readbacks/runs-readback.json",
+            "dg17-restoration/dg16-v26/work/package-current-receiver-source/source-readback/runs-readback.json"
+          ],
+          "sha256": "6d97b4ce230253943ea4396a47ff6fed7a019ed545eb06485dfecd69ba97f555"
+        },
+        {
+          "bytes": 4258,
+          "path": "root_decision/EFFECT_JOURNAL.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/coordinator/receiver-source-current/EFFECT_JOURNAL.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/root_decision/EFFECT_JOURNAL.json"
+          ],
+          "sha256": "190bc2af9263826ce2c3a151ba9a865624aa725c5a0fca114c39c6eec24e9330"
+        },
+        {
+          "bytes": 7640,
+          "path": "root_decision/ROOT_EFFECT_GRANT.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/coordinator/receiver-source-current/ROOT_EFFECT_GRANT.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/root_decision/ROOT_EFFECT_GRANT.json"
+          ],
+          "sha256": "47f924f2661e517c37bfb6d456b26b4c4ee902ba64fa32968241fd152ce1a6c6"
+        },
+        {
+          "bytes": 4797,
+          "path": "source_review/APPLICABILITY.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/receiver-source-integration-review/APPLICABILITY.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/source_review/APPLICABILITY.json"
+          ],
+          "sha256": "2b898fde5a6c6bf2d56294617b7c7bd1ce354a922ee1b461b842b9868ea6f295"
+        },
+        {
+          "bytes": 564,
+          "path": "source_review/CLOSING_VERIFICATION.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/receiver-source-integration-review/CLOSING_VERIFICATION.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/source_review/CLOSING_VERIFICATION.json"
+          ],
+          "sha256": "8fa537623c2428e0cd12a8eb09bc02352da341367a481bee2865a2c09578a8c6"
+        },
+        {
+          "bytes": 1353,
+          "path": "source_review/CONTROL_ADAPTATION.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/receiver-source-integration-review/CONTROL_ADAPTATION.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/source_review/CONTROL_ADAPTATION.json"
+          ],
+          "sha256": "ac445049aa65223f7c4453018dd0b5ecaef1bc87af0c99650de01f71eae12052"
+        },
+        {
+          "bytes": 760,
+          "path": "source_review/CONTROL_OUTPUT_ADAPTATION.diff",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/receiver-source-integration-review/CONTROL_OUTPUT_ADAPTATION.diff",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/source_review/CONTROL_OUTPUT_ADAPTATION.diff"
+          ],
+          "sha256": "7b7a231070fb88b545fe4d3f24b97c8c22568d45f44c1b63fcfd0533a5180ebd"
+        },
+        {
+          "bytes": 1685,
+          "path": "source_review/EXECUTION_NOTES.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/receiver-source-integration-review/EXECUTION_NOTES.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/source_review/EXECUTION_NOTES.json"
+          ],
+          "sha256": "3d3502376048d8889bd285adddb4db93c0a009d0ac26c75ad6ba728ae5fafcb6"
+        },
+        {
+          "bytes": 570,
+          "path": "source_review/FINDINGS.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/receiver-source-integration-review/FINDINGS.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/source_review/FINDINGS.json"
+          ],
+          "sha256": "9bc287927b9664dd85a408000344c0aff66f49d35f517497491c1cf2b4200619"
+        },
+        {
+          "bytes": 5275,
+          "path": "source_review/PACKET_CHECKS.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/receiver-source-integration-review/PACKET_CHECKS.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/source_review/PACKET_CHECKS.json"
+          ],
+          "sha256": "6b0e37bad44e29d45c00cd097f870af30b57b9efb8a93b46f3b4a6555af54d6c"
+        },
+        {
+          "bytes": 958,
+          "path": "source_review/PARTIAL.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/receiver-source-integration-review/PARTIAL.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/source_review/PARTIAL.json"
+          ],
+          "sha256": "56abaced3bebbaed4c2473018e187e27c0ed29012aab24986afff4ffcf330326"
+        },
+        {
+          "bytes": 774,
+          "path": "source_review/REPLAY_COMPARISON.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/receiver-source-integration-review/REPLAY_COMPARISON.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/source_review/REPLAY_COMPARISON.json"
+          ],
+          "sha256": "4dc79ea502c4b7040ba289639a6273fe46f6067c2a66647b422c13daee4da5a2"
+        },
+        {
+          "bytes": 9345,
+          "path": "source_review/REPORT.md",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/receiver-source-integration-review/REPORT.md",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/source_review/REPORT.md"
+          ],
+          "sha256": "d840a3460d50d57066d8d04519047fa0586df38ba579877c3581617cf57b4683"
+        },
+        {
+          "bytes": 3797,
+          "path": "source_review/SEAL.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/receiver-source-integration-review/SEAL.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/source_review/SEAL.json"
+          ],
+          "sha256": "ab973e287751e08174ce0a81d305710ca4643388919fa537cf8d00dace5db90e"
+        },
+        {
+          "bytes": 9138,
+          "path": "source_review/SEMANTIC_CHECKS.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/receiver-source-integration-review/SEMANTIC_CHECKS.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/source_review/SEMANTIC_CHECKS.json"
+          ],
+          "sha256": "27a80c64f9b2b337613cfd619b0572c37826fb75aa21382b904baf3bc4f0c735"
+        },
+        {
+          "bytes": 745,
+          "path": "source_review/SUPPLEMENTAL_STATIC_CHECKS.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/receiver-source-integration-review/SUPPLEMENTAL_STATIC_CHECKS.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/source_review/SUPPLEMENTAL_STATIC_CHECKS.json"
+          ],
+          "sha256": "293c4e25344c7b4489d889a15e2e1dc40e4d094ffa51c473d3e5b87c53aa19c7"
+        },
+        {
+          "bytes": 2114,
+          "path": "source_review/VERDICT.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/receiver-source-integration-review/VERDICT.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/source_review/VERDICT.json"
+          ],
+          "sha256": "14ea3085f74821a57cbfc4004671dcbaf89d6b6d39c585ce88f7dc1215ea8f07"
+        },
+        {
+          "bytes": 9888,
+          "path": "source_review/author-controls/fixture_and_delta_controls.py",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/receiver-source-integration-review/author-controls/fixture_and_delta_controls.py",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/source_review/author-controls/fixture_and_delta_controls.py"
+          ],
+          "sha256": "c31532f515c06ef35c53812ed0e83f0d293c569faf3cc72b8c745d7894e52cdd"
+        },
+        {
+          "bytes": 9689,
+          "path": "source_review/author-controls/loader_controls.py",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/receiver-source-integration-review/author-controls/loader_controls.py",
+            "dg17-restoration/dg16-v26/work/coordinator/receiver-integration/loader_controls.py",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/source_review/author-controls/loader_controls.py",
+            "dg17-restoration/dg16-v26/work/receiver-source-integration/controls/loader_controls.py"
+          ],
+          "sha256": "6b3446d9725d01663492d6f285516280aada6c733e58e284055789ff43efa8b1"
+        },
+        {
+          "bytes": 12469,
+          "path": "source_review/check_packet.py",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/receiver-source-integration-review/check_packet.py",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/source_review/check_packet.py"
+          ],
+          "sha256": "aebbbace31f72d1c85f957b0551ee6a3318a620e73600f6eaced5957db1cc1d9"
+        },
+        {
+          "bytes": 14686,
+          "path": "source_review/check_semantics.py",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/receiver-source-integration-review/check_semantics.py",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/source_review/check_semantics.py"
+          ],
+          "sha256": "eb9d9df276c78fa1a01e17ccbc666dde6520d985f2199735682520e7f32096ff"
+        },
+        {
+          "bytes": 31603,
+          "path": "source_review/reproduced/FIXTURE_AND_DELTA_CONTROLS.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/receiver-source-integration-review/reproduced/FIXTURE_AND_DELTA_CONTROLS.json",
+            "dg17-restoration/dg16-v26/work/coordinator/receiver-integration/FIXTURE_AND_DELTA_CONTROLS.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/source_review/reproduced/FIXTURE_AND_DELTA_CONTROLS.json",
+            "dg17-restoration/dg16-v26/work/receiver-source-integration/controls/FIXTURE_AND_DELTA_CONTROLS.json"
+          ],
+          "sha256": "6d5808f878b124b5e44d865a4f5b314caa609714d73f5cd964ae3460c70fc3bc"
+        },
+        {
+          "bytes": 2384,
+          "path": "source_review/reproduced/LOADER_CONTROLS.json",
+          "prior_exact_matches": [
+            "dg17-restoration/dg16-v26/work/receiver-source-integration-review/reproduced/LOADER_CONTROLS.json",
+            "dg17-restoration/dg16-v26/work/coordinator/receiver-integration/LOADER_CONTROLS.json",
+            "dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/source_review/reproduced/LOADER_CONTROLS.json",
+            "dg17-restoration/dg16-v26/work/receiver-source-integration/controls/LOADER_CONTROLS.json"
+          ],
+          "sha256": "10db28217dcd953eac0719d9c046e2c140adfa7062bae28c49e46c91b2c24653"
+        }
+      ],
+      "members": 39,
+      "name": "DG16_DG18_RECEIVER_INTEGRATION_8ee4ae44_20261106.zip",
+      "new_members": [],
+      "payloads_verified": 38,
+      "zip_file_type_metadata": "Explicit regular metadata"
+    }
+  ],
+  "new_text_members": [
+    "DG16_CURRENT_PACKAGE_RECEIPT_8ee4ae44_20261106.zip/README.md"
+  ],
+  "outer": {
+    "bytes": 475239,
+    "payload_count": 5,
+    "sha256": "e13fed45b253f8f9ce29dfc7673882102e6022151e8a25a86e5a8382a95e7b0d"
+  },
+  "reader_corrections": [
+    "Initial reader attempted UTF8 decode of nestedZIP before classification; no subject failure.",
+    "Initial nestedZIP metadata check required explicit regular file type; package evidenceZIP uses type bits0. Own revised intake permits unspecified type only as inert bytes and asserts no archive mode qualification."
+  ],
+  "recorded_at_utc": "2026-11-06T18:05:37.442443+00:00",
+  "reset_or_rebase": false,
+  "schema": "dg17.owner-forwarded-DG16-notice-receiving.v1",
+  "status": "FINAL"
+}

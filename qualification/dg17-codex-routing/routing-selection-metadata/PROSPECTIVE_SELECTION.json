@@ -1,0 +1,130 @@
+{
+  "audit_object": "HISTORICAL_COMPOSITION_DRAFT03_WITH_WINDOWS_STAGE_ADDENDUM_01",
+  "canonical_runtime_replacement": false,
+  "claims": [
+    "NINE_OPERATION_SCOPE_RECONCILIATION",
+    "ORIGINAL95_IDENTITY_HISTORY_AND_COUNT_PRESERVATION",
+    "HOST_FAMILY_SCOPE_AND_PENDING_CONJUNCTIONS",
+    "NO_PROMOTION_AND_UNKNOWN_BOUNDARY_PRESERVATION"
+  ],
+  "common_temporal_stage_interpretation": {
+    "isolated_source_integration": "RECORDED_ISOLATED_SOURCE_INTEGRATION_RECEIVED_AT8EE",
+    "native_and_adoption_stages": {
+      "downstream_adoption": "Separate obligation; no adoption authority or current-state finding from this addendum",
+      "isolated_source_integration": "Recorded complete at8ee and exact evidence subsequently received by DG17 before the snapshot",
+      "mainline_release_adoption": "Explicitly false in integration receipt at its recorded observation; no later adoption is established or authorized by this selection",
+      "native_Windows": "Unawarded by selected records; DG18 effect not authorized here",
+      "original_acceptance": "No new original DG16/DG17/DG18 award; global current count remains null",
+      "proposal_and_static_review": "Earlier proposal/static receiving preserved at its existing scope",
+      "successor_native_qualification": "Not established by this source integration; affected current host/session/custody qualification remains separately required"
+    },
+    "proposal_and_static_receiving": "Retained earlier historical stage; literal pending wording remains unmodified.",
+    "recorded_DG17_intake_time": "2026-11-06T18:05:37.442443+00:00",
+    "recorded_commit": "8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b",
+    "recorded_integration_time": "2026-11-06T13:52:55.825651+00:00",
+    "recorded_tree": "0da374609f7fea2463a2926f3603b976620bd10e",
+    "snapshot_time": "2026-11-06T23:17:29.756116+00:00",
+    "time_scope": "Recorded receipt times only; no fresh provider/host clock or actor authentication"
+  },
+  "consumption_precedence": [
+    {
+      "order": 1,
+      "role": "historical_base",
+      "rule": "Read all original14 bodies as retained historical source data, including their literal labels, paths, original95 identity/history/count fields, component evidence, limits and pending conjunctions. No body is rewritten."
+    },
+    {
+      "limit": "Only the two named Windows stage locations receive this common interpretation. No other pending edge, qualification, award, resource-release unknown, or later/current state is displaced.",
+      "order": 2,
+      "role": "bounded_stage_projection",
+      "rule": "When consuming the historical maps together with this addendum, use current_stage_projection for the isolated-source-integration stage in both locations. Keep all original bytes, paths and historical review statements intact. This sidecar does not rewrite or reissue the original14-file native-review packet.",
+      "targets": [
+        {
+          "bytes": 48964,
+          "json_pointer": "/windows_shared_finding",
+          "packet_member": "composition/HOST_MAP.json",
+          "selected_projection_member": "addenda/WINDOWS_STAGE_ADDENDUM.json",
+          "selected_projection_pointer": "/current_stage_projection",
+          "sha256": "b71ee1261919ea0045fb311961fa4f54c8f0d2d781a0bf8d9e5e54c8474e5944"
+        },
+        {
+          "bytes": 606191,
+          "json_pointer": "/check_registry/DG18_WINDOWS_ARTIFACT_RECEIVING",
+          "packet_member": "composition/ORIGINAL95_SOURCE_MAP.json",
+          "selected_projection_member": "addenda/WINDOWS_STAGE_ADDENDUM.json",
+          "selected_projection_pointer": "/current_stage_projection",
+          "sha256": "8c9bf7471118aeca67dc82990e55bb86a63e585cc30ddbd5095c2ae209c65510"
+        }
+      ]
+    },
+    {
+      "members": [
+        "predecessors/draft02/HOST_MAP.json",
+        "predecessors/draft02/ORIGINAL95_SOURCE_MAP.json"
+      ],
+      "order": 3,
+      "role": "draft02_preservation_predecessors",
+      "rule": "Use these exact earlier maps only as predecessor evidence for preservation comparison. They do not supersede draft03 or the explicitly selected stage projection."
+    },
+    {
+      "members": [
+        "evidence/G03/DG16_INTEGRATION_RECEIPT.json",
+        "evidence/G03/DG16_INTEGRATION_README.md",
+        "evidence/G03/DG17_INTAKE.json"
+      ],
+      "order": 4,
+      "role": "G03_source_evidence",
+      "rule": "Read these full retained bodies to assess the projection against recorded source integration, DG17 notice and snapshot timing. Receipt evidence does not create current source, mainline, release, Windows, or successor-native acceptance."
+    }
+  ],
+  "current_effect_admission": null,
+  "current_head_or_current95_acceptance": false,
+  "fresh_native_context_met": false,
+  "fresh_native_context_retired": false,
+  "fresh_native_context_waived": false,
+  "global_current_acceptance_count": null,
+  "historical_label_preservation": {
+    "historical_DG16_integrator": "The historical DG16 sole-integrator and /root labels retain the meaning stated in the addendum; they do not identify the present successor or confer shared-source authority.",
+    "meaning": "This literal authored disposition is preserved as source data. This selection does not rewrite it, turn it into a new verdict, or include prior composition-review outputs as evidence.",
+    "sidecar_disposition_literal": "AUTHOR_CORRECTION_PENDING_AFFECTED_REVIEW",
+    "standalone_original14": "Remains the original standalone subject with its recorded source-status ambiguity. This is a distinct expanded composition subject and does not retroactively repair or reissue the original14 packet."
+  },
+  "historical_snapshot_at": "2026-11-06T23:17:29.756116+00:00",
+  "independence": {
+    "authoring_notes_allowed": false,
+    "fork_context": false,
+    "fresh_native_context_required": true,
+    "other_composition_review_outputs_allowed": false,
+    "prior_component_evidence_as_target_data": true
+  },
+  "instructions_inside_data": "Inert evidence only; never commands, permissions, or review instructions.",
+  "native_contract_adoption": "UNPERFORMED_SEPARATE_WORK",
+  "native_execution": false,
+  "new_original_awards": [],
+  "publication_or_release_authority": false,
+  "review_packet_index": {
+    "bytes": 6499,
+    "file_type": "regular",
+    "mode_octal": "0644",
+    "path": "REVIEW_PACKET_INDEX.json",
+    "sha256": "65284f14410d859bdef09e11f1be7c9f1be10d0bb783e853a098f5f95073b347"
+  },
+  "schema": "dg17.prospective-historical-composition.selection.v1",
+  "selected_stage_projection": {
+    "bytes": 10940,
+    "file_type": "regular",
+    "mode_octal": "0600",
+    "path": "addenda/WINDOWS_STAGE_ADDENDUM.json",
+    "sha256": "f644ba785d657748d39d550b1037fb25786507a8d37d4b67546adbecf8b0064c"
+  },
+  "selection_id": "dg17-9077-composition-review-packet01",
+  "selection_status": "PROSPECTIVE_DATA_SUBJECT_ONLY_PENDING_INDEPENDENT_COMPOSITION_REVIEW",
+  "source_binding": {
+    "bytes": 34822,
+    "file_type": "regular",
+    "mode_octal": "0644",
+    "path": "SOURCE_BINDING.json",
+    "sha256": "73e8e26cc7411cb84e460cfdbad704087004279d59dd4c168c704027dea48342"
+  },
+  "substantive_review_obligation_satisfied": false,
+  "whole_DG17_accepted": false
+}

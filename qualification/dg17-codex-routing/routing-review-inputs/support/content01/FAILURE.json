@@ -1,0 +1,16 @@
+{
+  "failures": [
+    {
+      "exception_type": "Refusal",
+      "message_bytes": 29,
+      "message_sha256": "4e8051301affc3408ae11d73d5f92a4c14b870b03ba785d53114dc98c5333687",
+      "step": "prepare"
+    },
+    {
+      "exception_type": "Refusal",
+      "message_bytes": 18,
+      "message_sha256": "dd7d6b0ad352d3140ceb4910ee5ae6dfa87ce912040c6cd576d92bc8677536fd",
+      "step": "finalize"
+    }
+  ]
+}

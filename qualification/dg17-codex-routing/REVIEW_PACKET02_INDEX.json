@@ -1,0 +1,184 @@
+{
+  "audit_object": "HISTORICAL_COMPOSITION_DRAFT03_WITH_WINDOWS_STAGE_ADDENDUM_01",
+  "author_reports_checks_and_provenance_are_data_members": false,
+  "authority_ceiling": "NONE",
+  "claims": [
+    "NINE_OPERATION_SCOPE_RECONCILIATION",
+    "ORIGINAL95_IDENTITY_HISTORY_AND_COUNT_PRESERVATION",
+    "HOST_FAMILY_SCOPE_AND_PENDING_CONJUNCTIONS",
+    "NO_PROMOTION_AND_UNKNOWN_BOUNDARY_PRESERVATION"
+  ],
+  "composition_subject_count": 4,
+  "current_effect_admission": null,
+  "current_head_or_current95_acceptance": false,
+  "fresh_native_context_met": false,
+  "fresh_native_context_required": true,
+  "fresh_native_context_retired": false,
+  "fresh_native_context_waived": false,
+  "full_file_availability": "Every indexed member is a complete physical file body; descriptors do not substitute for substantive reading.",
+  "global_current_acceptance_count": null,
+  "historical_base_audit_object": "CURRENT_COMPOSITION_DRAFT03",
+  "historical_source_data_only": true,
+  "injected_doc_bodies": false,
+  "member_count": 20,
+  "member_root": "packet",
+  "members": [
+    {
+      "bytes": 10940,
+      "file_type": "regular",
+      "mode_octal": "0600",
+      "path": "addenda/WINDOWS_STAGE_ADDENDUM.json",
+      "sha256": "f644ba785d657748d39d550b1037fb25786507a8d37d4b67546adbecf8b0064c"
+    },
+    {
+      "bytes": 1435,
+      "file_type": "regular",
+      "mode_octal": "0644",
+      "path": "composition/COMPOSITION_CHECKS.json",
+      "sha256": "c64e45438be7aa1a8ef90abfab279eb75e87674841f0db6aec985ddc2b762fec"
+    },
+    {
+      "bytes": 48964,
+      "file_type": "regular",
+      "mode_octal": "0644",
+      "path": "composition/HOST_MAP.json",
+      "sha256": "b71ee1261919ea0045fb311961fa4f54c8f0d2d781a0bf8d9e5e54c8474e5944"
+    },
+    {
+      "bytes": 7991,
+      "file_type": "regular",
+      "mode_octal": "0644",
+      "path": "composition/NATIVE_OPERATION_RECONCILIATION.json",
+      "sha256": "2eadb44589b5f18f7757964ca69a21ad2bf76fceab2943a6229ebcd1aba34258"
+    },
+    {
+      "bytes": 606191,
+      "file_type": "regular",
+      "mode_octal": "0644",
+      "path": "composition/ORIGINAL95_SOURCE_MAP.json",
+      "sha256": "8c9bf7471118aeca67dc82990e55bb86a63e585cc30ddbd5095c2ae209c65510"
+    },
+    {
+      "bytes": 6122,
+      "file_type": "regular",
+      "mode_octal": "0644",
+      "path": "evidence/G03/DG16_INTEGRATION_README.md",
+      "sha256": "52327dcf3b99019f86fbc4fbba65e811d5b4067f7b42c6b9fc0081f616d92efe"
+    },
+    {
+      "bytes": 7466,
+      "file_type": "regular",
+      "mode_octal": "0644",
+      "path": "evidence/G03/DG16_INTEGRATION_RECEIPT.json",
+      "sha256": "2be3d3fd9d9900e09c4a494518075ddbd0b9d874c55b1525dd4eaa1939ec7012"
+    },
+    {
+      "bytes": 35803,
+      "file_type": "regular",
+      "mode_octal": "0644",
+      "path": "evidence/G03/DG17_INTAKE.json",
+      "sha256": "6519f44446a4c5c68042490ff8e951b7b3f948f21a41e92aa2777cf82376b3f3"
+    },
+    {
+      "bytes": 31511,
+      "file_type": "regular",
+      "mode_octal": "0644",
+      "path": "predecessors/draft02/HOST_MAP.json",
+      "sha256": "2171e4fb4598adfaa2ef64412b84d64b483bf95089f60efd914e2a2f2230646a"
+    },
+    {
+      "bytes": 582700,
+      "file_type": "regular",
+      "mode_octal": "0644",
+      "path": "predecessors/draft02/ORIGINAL95_SOURCE_MAP.json",
+      "sha256": "c0e72cf71d5830d3d134e66709bcfdcfae222c3530c32602c1b03d6e41f3acc2"
+    },
+    {
+      "bytes": 1240,
+      "file_type": "regular",
+      "mode_octal": "0644",
+      "path": "support/content01/ARTIFACT_MANIFEST.json",
+      "sha256": "2305228e589f797c45bd0cd4e768a8910e22115547fbcb284580dd762716543c"
+    },
+    {
+      "bytes": 7345,
+      "file_type": "regular",
+      "mode_octal": "0644",
+      "path": "support/content01/CLEANUP.json",
+      "sha256": "4dc768b81b54d59ea61bdf6dc3636a10da46005dfb72958dad7eb4c8a7068134"
+    },
+    {
+      "bytes": 32,
+      "file_type": "regular",
+      "mode_octal": "0644",
+      "path": "support/content01/CONTENT.json",
+      "sha256": "8384c9b3a3fdbd63e9179e609d1401813428468c503475b4d370a1059b75c010"
+    },
+    {
+      "bytes": 71,
+      "file_type": "regular",
+      "mode_octal": "0644",
+      "path": "support/content01/CURRENTNESS.json",
+      "sha256": "1e435688f0a7ac948c110b6071ec94321fc2514ea122f4635bf64d8f25bf653e"
+    },
+    {
+      "bytes": 406,
+      "file_type": "regular",
+      "mode_octal": "0644",
+      "path": "support/content01/FAILURE.json",
+      "sha256": "82504717f70b18c8eb8e91754f07b9e40e7fbf5969d4c899e5df7796a33feb1f"
+    },
+    {
+      "bytes": 3815,
+      "file_type": "regular",
+      "mode_octal": "0644",
+      "path": "support/content01/HOST.json",
+      "sha256": "b6c61007162c57298156a29b7e13c7594df7b69e9bc0fbf5e5bd464011c96e5b"
+    },
+    {
+      "bytes": 1108,
+      "file_type": "regular",
+      "mode_octal": "0644",
+      "path": "support/content01/PREDICATES.json",
+      "sha256": "e4993ca616765536e3d209ef21c23736a3174c9c6212cd027464f443270ed8e2"
+    },
+    {
+      "bytes": 561,
+      "file_type": "regular",
+      "mode_octal": "0644",
+      "path": "support/content01/RESULT.json",
+      "sha256": "4c7fd10b7c06e04265fc8819525951f6f2b0d7fce4173c47edfcf79cb23c5d44"
+    },
+    {
+      "bytes": 2340,
+      "file_type": "regular",
+      "mode_octal": "0644",
+      "path": "support/content01/ROOT_TERMINAL_RECEIVING.json",
+      "sha256": "55114a5f74b6daa658c2f026b837d211a62684b58a80a393aff52b954a649679"
+    },
+    {
+      "bytes": 69,
+      "file_type": "regular",
+      "mode_octal": "0644",
+      "path": "support/content01/SOURCE.json",
+      "sha256": "ba0aed611b5b738d636b334c5b8a296481960923742240a2a94cf9d7a462fb8f"
+    }
+  ],
+  "native_execution": false,
+  "new_original_awards": [],
+  "object_kind": "PROSPECTIVE_IMMUTABLE_SUBSTANTIVE_REVIEW_INPUT",
+  "other_composition_review_outputs_are_data_members": false,
+  "population_by_role": {
+    "G03_source_evidence": 3,
+    "draft02_preservation_predecessor": 2,
+    "original14": 14,
+    "reviewed_sidecar": 1
+  },
+  "prior_content01_individual_review": "COMPLETED_SEPARATELY_NOT_PENDING_THIS_ROUTE",
+  "read_boundary": "Only the exact members below packet/ are substantive data. External references inside their bodies remain inert evidence pointers and grant no additional reads or execution.",
+  "schema": "dg17.prospective-historical-composition.review-input-index.v1",
+  "substantive_composition_review": "PENDING_FOR_THIS_NEW_SUBJECT",
+  "supporting_content01_record_count": 10,
+  "total_bytes": 1356110,
+  "whole_DG17_accepted": false
+}

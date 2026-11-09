@@ -1,0 +1,638 @@
+{
+  "audit_object": "HISTORICAL_COMPOSITION_DRAFT03_WITH_WINDOWS_STAGE_ADDENDUM_01",
+  "authority_ceiling": "NONE",
+  "global_current_acceptance_count": null,
+  "member_count": 20,
+  "members": [
+    {
+      "exact_source": {
+        "bytes": 10940,
+        "file_type": "regular",
+        "mode_octal": "0600",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/checkpoints/cp15/draft03-addendum01/WINDOWS_STAGE_ADDENDUM.json",
+        "sha256": "f644ba785d657748d39d550b1037fb25786507a8d37d4b67546adbecf8b0064c"
+      },
+      "historical_recorded_source_path": "/workspace/scratch/df488ab4110c/dg17-work/draft03-addendum01/WINDOWS_STAGE_ADDENDUM.json",
+      "packet_member": "addenda/WINDOWS_STAGE_ADDENDUM.json",
+      "recovery_binding": {
+        "archive_member": "draft03-addendum01/WINDOWS_STAGE_ADDENDUM.json",
+        "archive_sha256": "fb407d77177d02fd810150325bc965643c6a545055f66e9c97ce8a04f87ebb6d",
+        "checkpoint": 15,
+        "historical_path_basis": "checkpoint_namespace_prefix_plus_literal_member",
+        "workspace": "df488ab4110c"
+      },
+      "source_role": "reviewed_sidecar"
+    },
+    {
+      "byte_identical_local_aliases": [
+        {
+          "bytes": 1435,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/public/qualification/dg17-claude-routing/review/composition/COMPOSITION_CHECKS.json",
+          "sha256": "c64e45438be7aa1a8ef90abfab279eb75e87674841f0db6aec985ddc2b762fec"
+        },
+        {
+          "bytes": 1435,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/checkpoints/cp09/codex-routing-namespace01/public/qualification/dg17-codex-routing/routing-review-inputs/composition/COMPOSITION_CHECKS.json",
+          "sha256": "c64e45438be7aa1a8ef90abfab279eb75e87674841f0db6aec985ddc2b762fec"
+        }
+      ],
+      "exact_source": {
+        "bytes": 1435,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-owner02/packet/composition/COMPOSITION_CHECKS.json",
+        "sha256": "c64e45438be7aa1a8ef90abfab279eb75e87674841f0db6aec985ddc2b762fec"
+      },
+      "historical_recorded_source_path": "/workspace/scratch/525037df8a62/dg17-successor/claude-routing-owner02/packet/composition/COMPOSITION_CHECKS.json",
+      "packet_member": "composition/COMPOSITION_CHECKS.json",
+      "recorded_path_evidence": {
+        "bytes": 22746,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/INPUT_MANIFEST.json",
+        "sha256": "6e867f4b326eaf38aaa8763b0a97b286fba78605dd139b689f329cf2980c6684"
+      },
+      "source_role": "original14"
+    },
+    {
+      "byte_identical_local_aliases": [
+        {
+          "bytes": 48964,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/public/qualification/dg17-claude-routing/review/composition/HOST_MAP.json",
+          "sha256": "b71ee1261919ea0045fb311961fa4f54c8f0d2d781a0bf8d9e5e54c8474e5944"
+        },
+        {
+          "bytes": 48964,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/checkpoints/cp09/codex-routing-namespace01/public/qualification/dg17-codex-routing/routing-review-inputs/composition/HOST_MAP.json",
+          "sha256": "b71ee1261919ea0045fb311961fa4f54c8f0d2d781a0bf8d9e5e54c8474e5944"
+        }
+      ],
+      "exact_source": {
+        "bytes": 48964,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-owner02/packet/composition/HOST_MAP.json",
+        "sha256": "b71ee1261919ea0045fb311961fa4f54c8f0d2d781a0bf8d9e5e54c8474e5944"
+      },
+      "historical_recorded_source_path": "/workspace/scratch/525037df8a62/dg17-successor/claude-routing-owner02/packet/composition/HOST_MAP.json",
+      "packet_member": "composition/HOST_MAP.json",
+      "recorded_path_evidence": {
+        "bytes": 22746,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/INPUT_MANIFEST.json",
+        "sha256": "6e867f4b326eaf38aaa8763b0a97b286fba78605dd139b689f329cf2980c6684"
+      },
+      "source_role": "original14"
+    },
+    {
+      "byte_identical_local_aliases": [
+        {
+          "bytes": 7991,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/public/qualification/dg17-claude-routing/review/composition/NATIVE_OPERATION_RECONCILIATION.json",
+          "sha256": "2eadb44589b5f18f7757964ca69a21ad2bf76fceab2943a6229ebcd1aba34258"
+        },
+        {
+          "bytes": 7991,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/checkpoints/cp09/codex-routing-namespace01/public/qualification/dg17-codex-routing/routing-review-inputs/composition/NATIVE_OPERATION_RECONCILIATION.json",
+          "sha256": "2eadb44589b5f18f7757964ca69a21ad2bf76fceab2943a6229ebcd1aba34258"
+        }
+      ],
+      "exact_source": {
+        "bytes": 7991,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-owner02/packet/composition/NATIVE_OPERATION_RECONCILIATION.json",
+        "sha256": "2eadb44589b5f18f7757964ca69a21ad2bf76fceab2943a6229ebcd1aba34258"
+      },
+      "historical_recorded_source_path": "/workspace/scratch/525037df8a62/dg17-successor/claude-routing-owner02/packet/composition/NATIVE_OPERATION_RECONCILIATION.json",
+      "packet_member": "composition/NATIVE_OPERATION_RECONCILIATION.json",
+      "recorded_path_evidence": {
+        "bytes": 22746,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/INPUT_MANIFEST.json",
+        "sha256": "6e867f4b326eaf38aaa8763b0a97b286fba78605dd139b689f329cf2980c6684"
+      },
+      "source_role": "original14"
+    },
+    {
+      "byte_identical_local_aliases": [
+        {
+          "bytes": 606191,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/public/qualification/dg17-claude-routing/review/composition/ORIGINAL95_SOURCE_MAP.json",
+          "sha256": "8c9bf7471118aeca67dc82990e55bb86a63e585cc30ddbd5095c2ae209c65510"
+        },
+        {
+          "bytes": 606191,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/checkpoints/cp09/codex-routing-namespace01/public/qualification/dg17-codex-routing/routing-review-inputs/composition/ORIGINAL95_SOURCE_MAP.json",
+          "sha256": "8c9bf7471118aeca67dc82990e55bb86a63e585cc30ddbd5095c2ae209c65510"
+        }
+      ],
+      "exact_source": {
+        "bytes": 606191,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-owner02/packet/composition/ORIGINAL95_SOURCE_MAP.json",
+        "sha256": "8c9bf7471118aeca67dc82990e55bb86a63e585cc30ddbd5095c2ae209c65510"
+      },
+      "historical_recorded_source_path": "/workspace/scratch/525037df8a62/dg17-successor/claude-routing-owner02/packet/composition/ORIGINAL95_SOURCE_MAP.json",
+      "packet_member": "composition/ORIGINAL95_SOURCE_MAP.json",
+      "recorded_path_evidence": {
+        "bytes": 22746,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/INPUT_MANIFEST.json",
+        "sha256": "6e867f4b326eaf38aaa8763b0a97b286fba78605dd139b689f329cf2980c6684"
+      },
+      "source_role": "original14"
+    },
+    {
+      "exact_source": {
+        "bytes": 6122,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/checkpoints/cp15/draft03-integration-evidence01/bodies/dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/README.md",
+        "sha256": "52327dcf3b99019f86fbc4fbba65e811d5b4067f7b42c6b9fc0081f616d92efe"
+      },
+      "historical_recorded_source_path": "/workspace/scratch/df488ab4110c/dg17-work/draft03-integration-evidence01/bodies/dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/README.md",
+      "packet_member": "evidence/G03/DG16_INTEGRATION_README.md",
+      "recovery_binding": {
+        "archive_member": "draft03-integration-evidence01/bodies/dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/README.md",
+        "archive_sha256": "fb407d77177d02fd810150325bc965643c6a545055f66e9c97ce8a04f87ebb6d",
+        "checkpoint": 15,
+        "historical_path_basis": "checkpoint_namespace_prefix_plus_literal_member",
+        "workspace": "df488ab4110c"
+      },
+      "source_role": "G03_source_evidence"
+    },
+    {
+      "exact_source": {
+        "bytes": 7466,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/checkpoints/cp15/draft03-integration-evidence01/bodies/dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/INTEGRATION_RECEIPT.json",
+        "sha256": "2be3d3fd9d9900e09c4a494518075ddbd0b9d874c55b1525dd4eaa1939ec7012"
+      },
+      "historical_recorded_source_path": "/workspace/scratch/df488ab4110c/dg17-work/draft03-integration-evidence01/bodies/dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/INTEGRATION_RECEIPT.json",
+      "packet_member": "evidence/G03/DG16_INTEGRATION_RECEIPT.json",
+      "recovery_binding": {
+        "archive_member": "draft03-integration-evidence01/bodies/dg17-restoration/dg16-v26/work/coordinator/dg18-integration-return-8ee4ae44/INTEGRATION_RECEIPT.json",
+        "archive_sha256": "fb407d77177d02fd810150325bc965643c6a545055f66e9c97ce8a04f87ebb6d",
+        "checkpoint": 15,
+        "historical_path_basis": "checkpoint_namespace_prefix_plus_literal_member",
+        "workspace": "df488ab4110c"
+      },
+      "source_role": "G03_source_evidence"
+    },
+    {
+      "exact_source": {
+        "bytes": 35803,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/checkpoints/cp15/draft03-input-recovery01/bodies/dg17-execution/shared-notice-receiving/INTAKE.json",
+        "sha256": "6519f44446a4c5c68042490ff8e951b7b3f948f21a41e92aa2777cf82376b3f3"
+      },
+      "historical_recorded_source_path": "/workspace/scratch/df488ab4110c/dg17-work/draft03-input-recovery01/bodies/dg17-execution/shared-notice-receiving/INTAKE.json",
+      "packet_member": "evidence/G03/DG17_INTAKE.json",
+      "recovery_binding": {
+        "archive_member": "draft03-input-recovery01/bodies/dg17-execution/shared-notice-receiving/INTAKE.json",
+        "archive_sha256": "fb407d77177d02fd810150325bc965643c6a545055f66e9c97ce8a04f87ebb6d",
+        "checkpoint": 15,
+        "historical_path_basis": "checkpoint_namespace_prefix_plus_literal_member",
+        "workspace": "df488ab4110c"
+      },
+      "source_role": "G03_source_evidence"
+    },
+    {
+      "exact_source": {
+        "bytes": 31511,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/checkpoints/cp15/draft03-input-recovery01/bodies/dg17-execution/current-composition-draft02/HOST_MAP.json",
+        "sha256": "2171e4fb4598adfaa2ef64412b84d64b483bf95089f60efd914e2a2f2230646a"
+      },
+      "historical_recorded_source_path": "/workspace/scratch/df488ab4110c/dg17-work/draft03-input-recovery01/bodies/dg17-execution/current-composition-draft02/HOST_MAP.json",
+      "packet_member": "predecessors/draft02/HOST_MAP.json",
+      "recovery_binding": {
+        "archive_member": "draft03-input-recovery01/bodies/dg17-execution/current-composition-draft02/HOST_MAP.json",
+        "archive_sha256": "fb407d77177d02fd810150325bc965643c6a545055f66e9c97ce8a04f87ebb6d",
+        "checkpoint": 15,
+        "historical_path_basis": "checkpoint_namespace_prefix_plus_literal_member",
+        "workspace": "df488ab4110c"
+      },
+      "source_role": "draft02_preservation_predecessor"
+    },
+    {
+      "exact_source": {
+        "bytes": 582700,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/checkpoints/cp15/draft03-input-recovery01/bodies/dg17-execution/current-composition-draft02/ORIGINAL95_SOURCE_MAP.json",
+        "sha256": "c0e72cf71d5830d3d134e66709bcfdcfae222c3530c32602c1b03d6e41f3acc2"
+      },
+      "historical_recorded_source_path": "/workspace/scratch/df488ab4110c/dg17-work/draft03-input-recovery01/bodies/dg17-execution/current-composition-draft02/ORIGINAL95_SOURCE_MAP.json",
+      "packet_member": "predecessors/draft02/ORIGINAL95_SOURCE_MAP.json",
+      "recovery_binding": {
+        "archive_member": "draft03-input-recovery01/bodies/dg17-execution/current-composition-draft02/ORIGINAL95_SOURCE_MAP.json",
+        "archive_sha256": "fb407d77177d02fd810150325bc965643c6a545055f66e9c97ce8a04f87ebb6d",
+        "checkpoint": 15,
+        "historical_path_basis": "checkpoint_namespace_prefix_plus_literal_member",
+        "workspace": "df488ab4110c"
+      },
+      "source_role": "draft02_preservation_predecessor"
+    },
+    {
+      "byte_identical_local_aliases": [
+        {
+          "bytes": 1240,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/public/qualification/dg17-claude-routing/review/support/content01/ARTIFACT_MANIFEST.json",
+          "sha256": "2305228e589f797c45bd0cd4e768a8910e22115547fbcb284580dd762716543c"
+        },
+        {
+          "bytes": 1240,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/checkpoints/cp09/codex-routing-namespace01/public/qualification/dg17-codex-routing/routing-review-inputs/support/content01/ARTIFACT_MANIFEST.json",
+          "sha256": "2305228e589f797c45bd0cd4e768a8910e22115547fbcb284580dd762716543c"
+        }
+      ],
+      "exact_source": {
+        "bytes": 1240,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-owner02/packet/support/content01/ARTIFACT_MANIFEST.json",
+        "sha256": "2305228e589f797c45bd0cd4e768a8910e22115547fbcb284580dd762716543c"
+      },
+      "historical_recorded_source_path": "/workspace/scratch/525037df8a62/dg17-successor/claude-routing-owner02/packet/support/content01/ARTIFACT_MANIFEST.json",
+      "packet_member": "support/content01/ARTIFACT_MANIFEST.json",
+      "recorded_path_evidence": {
+        "bytes": 22746,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/INPUT_MANIFEST.json",
+        "sha256": "6e867f4b326eaf38aaa8763b0a97b286fba78605dd139b689f329cf2980c6684"
+      },
+      "source_role": "original14"
+    },
+    {
+      "byte_identical_local_aliases": [
+        {
+          "bytes": 7345,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/public/qualification/dg17-claude-routing/review/support/content01/CLEANUP.json",
+          "sha256": "4dc768b81b54d59ea61bdf6dc3636a10da46005dfb72958dad7eb4c8a7068134"
+        },
+        {
+          "bytes": 7345,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/checkpoints/cp09/codex-routing-namespace01/public/qualification/dg17-codex-routing/routing-review-inputs/support/content01/CLEANUP.json",
+          "sha256": "4dc768b81b54d59ea61bdf6dc3636a10da46005dfb72958dad7eb4c8a7068134"
+        }
+      ],
+      "exact_source": {
+        "bytes": 7345,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-owner02/packet/support/content01/CLEANUP.json",
+        "sha256": "4dc768b81b54d59ea61bdf6dc3636a10da46005dfb72958dad7eb4c8a7068134"
+      },
+      "historical_recorded_source_path": "/workspace/scratch/525037df8a62/dg17-successor/claude-routing-owner02/packet/support/content01/CLEANUP.json",
+      "packet_member": "support/content01/CLEANUP.json",
+      "recorded_path_evidence": {
+        "bytes": 22746,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/INPUT_MANIFEST.json",
+        "sha256": "6e867f4b326eaf38aaa8763b0a97b286fba78605dd139b689f329cf2980c6684"
+      },
+      "source_role": "original14"
+    },
+    {
+      "byte_identical_local_aliases": [
+        {
+          "bytes": 32,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/public/qualification/dg17-claude-routing/review/support/content01/CONTENT.json",
+          "sha256": "8384c9b3a3fdbd63e9179e609d1401813428468c503475b4d370a1059b75c010"
+        },
+        {
+          "bytes": 32,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/checkpoints/cp09/codex-routing-namespace01/public/qualification/dg17-codex-routing/routing-review-inputs/support/content01/CONTENT.json",
+          "sha256": "8384c9b3a3fdbd63e9179e609d1401813428468c503475b4d370a1059b75c010"
+        }
+      ],
+      "exact_source": {
+        "bytes": 32,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-owner02/packet/support/content01/CONTENT.json",
+        "sha256": "8384c9b3a3fdbd63e9179e609d1401813428468c503475b4d370a1059b75c010"
+      },
+      "historical_recorded_source_path": "/workspace/scratch/525037df8a62/dg17-successor/claude-routing-owner02/packet/support/content01/CONTENT.json",
+      "packet_member": "support/content01/CONTENT.json",
+      "recorded_path_evidence": {
+        "bytes": 22746,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/INPUT_MANIFEST.json",
+        "sha256": "6e867f4b326eaf38aaa8763b0a97b286fba78605dd139b689f329cf2980c6684"
+      },
+      "source_role": "original14"
+    },
+    {
+      "byte_identical_local_aliases": [
+        {
+          "bytes": 71,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/public/qualification/dg17-claude-routing/review/support/content01/CURRENTNESS.json",
+          "sha256": "1e435688f0a7ac948c110b6071ec94321fc2514ea122f4635bf64d8f25bf653e"
+        },
+        {
+          "bytes": 71,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/checkpoints/cp09/codex-routing-namespace01/public/qualification/dg17-codex-routing/routing-review-inputs/support/content01/CURRENTNESS.json",
+          "sha256": "1e435688f0a7ac948c110b6071ec94321fc2514ea122f4635bf64d8f25bf653e"
+        }
+      ],
+      "exact_source": {
+        "bytes": 71,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-owner02/packet/support/content01/CURRENTNESS.json",
+        "sha256": "1e435688f0a7ac948c110b6071ec94321fc2514ea122f4635bf64d8f25bf653e"
+      },
+      "historical_recorded_source_path": "/workspace/scratch/525037df8a62/dg17-successor/claude-routing-owner02/packet/support/content01/CURRENTNESS.json",
+      "packet_member": "support/content01/CURRENTNESS.json",
+      "recorded_path_evidence": {
+        "bytes": 22746,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/INPUT_MANIFEST.json",
+        "sha256": "6e867f4b326eaf38aaa8763b0a97b286fba78605dd139b689f329cf2980c6684"
+      },
+      "source_role": "original14"
+    },
+    {
+      "byte_identical_local_aliases": [
+        {
+          "bytes": 406,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/public/qualification/dg17-claude-routing/review/support/content01/FAILURE.json",
+          "sha256": "82504717f70b18c8eb8e91754f07b9e40e7fbf5969d4c899e5df7796a33feb1f"
+        },
+        {
+          "bytes": 406,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/checkpoints/cp09/codex-routing-namespace01/public/qualification/dg17-codex-routing/routing-review-inputs/support/content01/FAILURE.json",
+          "sha256": "82504717f70b18c8eb8e91754f07b9e40e7fbf5969d4c899e5df7796a33feb1f"
+        }
+      ],
+      "exact_source": {
+        "bytes": 406,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-owner02/packet/support/content01/FAILURE.json",
+        "sha256": "82504717f70b18c8eb8e91754f07b9e40e7fbf5969d4c899e5df7796a33feb1f"
+      },
+      "historical_recorded_source_path": "/workspace/scratch/525037df8a62/dg17-successor/claude-routing-owner02/packet/support/content01/FAILURE.json",
+      "packet_member": "support/content01/FAILURE.json",
+      "recorded_path_evidence": {
+        "bytes": 22746,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/INPUT_MANIFEST.json",
+        "sha256": "6e867f4b326eaf38aaa8763b0a97b286fba78605dd139b689f329cf2980c6684"
+      },
+      "source_role": "original14"
+    },
+    {
+      "byte_identical_local_aliases": [
+        {
+          "bytes": 3815,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/public/qualification/dg17-claude-routing/review/support/content01/HOST.json",
+          "sha256": "b6c61007162c57298156a29b7e13c7594df7b69e9bc0fbf5e5bd464011c96e5b"
+        },
+        {
+          "bytes": 3815,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/checkpoints/cp09/codex-routing-namespace01/public/qualification/dg17-codex-routing/routing-review-inputs/support/content01/HOST.json",
+          "sha256": "b6c61007162c57298156a29b7e13c7594df7b69e9bc0fbf5e5bd464011c96e5b"
+        }
+      ],
+      "exact_source": {
+        "bytes": 3815,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-owner02/packet/support/content01/HOST.json",
+        "sha256": "b6c61007162c57298156a29b7e13c7594df7b69e9bc0fbf5e5bd464011c96e5b"
+      },
+      "historical_recorded_source_path": "/workspace/scratch/525037df8a62/dg17-successor/claude-routing-owner02/packet/support/content01/HOST.json",
+      "packet_member": "support/content01/HOST.json",
+      "recorded_path_evidence": {
+        "bytes": 22746,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/INPUT_MANIFEST.json",
+        "sha256": "6e867f4b326eaf38aaa8763b0a97b286fba78605dd139b689f329cf2980c6684"
+      },
+      "source_role": "original14"
+    },
+    {
+      "byte_identical_local_aliases": [
+        {
+          "bytes": 1108,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/public/qualification/dg17-claude-routing/review/support/content01/PREDICATES.json",
+          "sha256": "e4993ca616765536e3d209ef21c23736a3174c9c6212cd027464f443270ed8e2"
+        },
+        {
+          "bytes": 1108,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/checkpoints/cp09/codex-routing-namespace01/public/qualification/dg17-codex-routing/routing-review-inputs/support/content01/PREDICATES.json",
+          "sha256": "e4993ca616765536e3d209ef21c23736a3174c9c6212cd027464f443270ed8e2"
+        }
+      ],
+      "exact_source": {
+        "bytes": 1108,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-owner02/packet/support/content01/PREDICATES.json",
+        "sha256": "e4993ca616765536e3d209ef21c23736a3174c9c6212cd027464f443270ed8e2"
+      },
+      "historical_recorded_source_path": "/workspace/scratch/525037df8a62/dg17-successor/claude-routing-owner02/packet/support/content01/PREDICATES.json",
+      "packet_member": "support/content01/PREDICATES.json",
+      "recorded_path_evidence": {
+        "bytes": 22746,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/INPUT_MANIFEST.json",
+        "sha256": "6e867f4b326eaf38aaa8763b0a97b286fba78605dd139b689f329cf2980c6684"
+      },
+      "source_role": "original14"
+    },
+    {
+      "byte_identical_local_aliases": [
+        {
+          "bytes": 561,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/public/qualification/dg17-claude-routing/review/support/content01/RESULT.json",
+          "sha256": "4c7fd10b7c06e04265fc8819525951f6f2b0d7fce4173c47edfcf79cb23c5d44"
+        },
+        {
+          "bytes": 561,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/checkpoints/cp09/codex-routing-namespace01/public/qualification/dg17-codex-routing/routing-review-inputs/support/content01/RESULT.json",
+          "sha256": "4c7fd10b7c06e04265fc8819525951f6f2b0d7fce4173c47edfcf79cb23c5d44"
+        }
+      ],
+      "exact_source": {
+        "bytes": 561,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-owner02/packet/support/content01/RESULT.json",
+        "sha256": "4c7fd10b7c06e04265fc8819525951f6f2b0d7fce4173c47edfcf79cb23c5d44"
+      },
+      "historical_recorded_source_path": "/workspace/scratch/525037df8a62/dg17-successor/claude-routing-owner02/packet/support/content01/RESULT.json",
+      "packet_member": "support/content01/RESULT.json",
+      "recorded_path_evidence": {
+        "bytes": 22746,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/INPUT_MANIFEST.json",
+        "sha256": "6e867f4b326eaf38aaa8763b0a97b286fba78605dd139b689f329cf2980c6684"
+      },
+      "source_role": "original14"
+    },
+    {
+      "byte_identical_local_aliases": [
+        {
+          "bytes": 2340,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/public/qualification/dg17-claude-routing/review/support/content01/ROOT_TERMINAL_RECEIVING.json",
+          "sha256": "55114a5f74b6daa658c2f026b837d211a62684b58a80a393aff52b954a649679"
+        },
+        {
+          "bytes": 2340,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/checkpoints/cp09/codex-routing-namespace01/public/qualification/dg17-codex-routing/routing-review-inputs/support/content01/ROOT_TERMINAL_RECEIVING.json",
+          "sha256": "55114a5f74b6daa658c2f026b837d211a62684b58a80a393aff52b954a649679"
+        }
+      ],
+      "exact_source": {
+        "bytes": 2340,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-owner02/packet/support/content01/ROOT_TERMINAL_RECEIVING.json",
+        "sha256": "55114a5f74b6daa658c2f026b837d211a62684b58a80a393aff52b954a649679"
+      },
+      "historical_recorded_source_path": "/workspace/scratch/525037df8a62/dg17-successor/claude-routing-owner02/packet/support/content01/ROOT_TERMINAL_RECEIVING.json",
+      "packet_member": "support/content01/ROOT_TERMINAL_RECEIVING.json",
+      "recorded_path_evidence": {
+        "bytes": 22746,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/INPUT_MANIFEST.json",
+        "sha256": "6e867f4b326eaf38aaa8763b0a97b286fba78605dd139b689f329cf2980c6684"
+      },
+      "source_role": "original14"
+    },
+    {
+      "byte_identical_local_aliases": [
+        {
+          "bytes": 69,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/public/qualification/dg17-claude-routing/review/support/content01/SOURCE.json",
+          "sha256": "ba0aed611b5b738d636b334c5b8a296481960923742240a2a94cf9d7a462fb8f"
+        },
+        {
+          "bytes": 69,
+          "file_type": "regular",
+          "mode_octal": "0644",
+          "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/checkpoints/cp09/codex-routing-namespace01/public/qualification/dg17-codex-routing/routing-review-inputs/support/content01/SOURCE.json",
+          "sha256": "ba0aed611b5b738d636b334c5b8a296481960923742240a2a94cf9d7a462fb8f"
+        }
+      ],
+      "exact_source": {
+        "bytes": 69,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-owner02/packet/support/content01/SOURCE.json",
+        "sha256": "ba0aed611b5b738d636b334c5b8a296481960923742240a2a94cf9d7a462fb8f"
+      },
+      "historical_recorded_source_path": "/workspace/scratch/525037df8a62/dg17-successor/claude-routing-owner02/packet/support/content01/SOURCE.json",
+      "packet_member": "support/content01/SOURCE.json",
+      "recorded_path_evidence": {
+        "bytes": 22746,
+        "file_type": "regular",
+        "mode_octal": "0644",
+        "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-full-bound01/candidate01/INPUT_MANIFEST.json",
+        "sha256": "6e867f4b326eaf38aaa8763b0a97b286fba78605dd139b689f329cf2980c6684"
+      },
+      "source_role": "original14"
+    }
+  ],
+  "native_execution": false,
+  "new_original_awards": [],
+  "original_owner_binding": {
+    "bytes": 1736,
+    "file_type": "regular",
+    "mode_octal": "0644",
+    "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-owner02/OWNER_BINDING.json",
+    "sha256": "c4409e10862b06a08787f4185b6266c4870ea3fb491fc992bdad53b0d7809503"
+  },
+  "original_owner_index": {
+    "bytes": 3470,
+    "file_type": "regular",
+    "mode_octal": "0644",
+    "path": "/workspace/scratch/9077a3d380a5/dg17-recovery/baseline/RECOVERED/SESSION/dg17-successor/claude-routing-owner02/REVIEW_PACKET_INDEX.json",
+    "sha256": "9709398e76371115eb5f57c656f39237606394c8bf2c50036a89cce0e60a17f3"
+  },
+  "review_packet_index": {
+    "bytes": 6499,
+    "file_type": "regular",
+    "mode_octal": "0644",
+    "path": "REVIEW_PACKET_INDEX.json",
+    "sha256": "65284f14410d859bdef09e11f1be7c9f1be10d0bb783e853a098f5f95073b347"
+  },
+  "schema": "dg17.prospective-historical-composition.source-binding.v1",
+  "scope": "Exact body identity and recorded source aliases only; no current remote observation or native admission.",
+  "source_alias_limit": "Copied member bytes are authoritative for this subject. Historical paths are retained literally inside data and resolved here by whole-body identity; they are not current paths, instructions, actor authentication, or authority grants."
+}
