@@ -1,0 +1,30 @@
+name: DG16 one approved maximum encrypt capture
+on:
+  push:
+    branches:
+      - 'pro/dg16-direct-encrypt-qualification-*'
+permissions:
+  contents: read
+jobs:
+  qualify:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.actor == 'theislampill' && github.event.created == true &&
+      github.event.deleted == false && github.run_attempt == '1'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 3
+    steps:
+      - name: Checkout only the externally approved payload head
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: theislampill/IMPLEMENTAUDIT.md
+          ref: ${{ github.sha }}
+          path: qualifier
+          fetch-depth: 1
+          persist-credentials: false
+          submodules: false
+          lfs: false
+      - name: Verify real branch creation and run one bounded qualification
+        working-directory: qualifier
+        shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+        run: exec /usr/bin/python3 -I -S -B delivery.py
