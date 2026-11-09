@@ -18,7 +18,7 @@ MANIFEST_SHA = 'ed6a601d3a66997218195202cb5513363b5410b98489762324095a9030c261b4
 
 UTILITY_SHA = '429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c'
 
-PINS_SHA = 'd4308cec7ba203ec470da74e148c7fc3c5a330570ffd77d2058ac92ae6fa8feb'
+PINS_SHA = '6dce1cb63b1f9a06d54c09cfc0058dd1fd24dea339f51ec934d15b6e594a543f'
 
 CLAIM = 'skills/implementaudit/scripts/claim-run.sh'
 
@@ -1553,7 +1553,7 @@ def content_expected_config(ctx,port,installed):
                        'unified_exec':True,'exec_permission_approvals':False,'shell_snapshot':False,
                        'shell_snapshot_v2':False,'code_mode':False,'code_mode_only':False},
            'analytics':{'enabled':False},'feedback':{'enabled':False},
-           'shell_environment_policy':{'inherit':'none','use_profile':False,'set':{'HOME':str(ctx['home']),
+           'shell_environment_policy':{'inherit':'none','experimental_use_profile':False,'set':{'HOME':str(ctx['home']),
                  'PATH':'/usr/bin:/bin','TMPDIR':str(ctx['tmp']),'LANG':'C.UTF-8','LC_ALL':'C.UTF-8'}},
            'model_providers':{'dg17_loopback':{'name':'DG17 fixed canonical routing fixture',
                  'base_url':'http://127.0.0.1:'+str(port)+'/v1','wire_api':'responses','requires_openai_auth':False,

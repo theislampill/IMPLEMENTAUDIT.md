@@ -111,7 +111,7 @@ def base_config_document(home, tmp, port):
                        "shell_tool":True,"unified_exec":True,"exec_permission_approvals":False,
                        "shell_snapshot":False,"shell_snapshot_v2":False,"code_mode":False,"code_mode_only":False},
            "analytics":{"enabled":False}, "feedback":{"enabled":False},
-           "shell_environment_policy":{"inherit":"none","use_profile":False,
+           "shell_environment_policy":{"inherit":"none","experimental_use_profile":False,
                  "set":{"HOME":home,"PATH":"/usr/bin:/bin","TMPDIR":tmp,"LANG":"C.UTF-8","LC_ALL":"C.UTF-8"}},
            "model_providers":{PROVIDER:{"name":"DG17 fixed local content fixture",
                  "base_url":"http://127.0.0.1:"+str(port)+"/v1", "wire_api":"responses",
