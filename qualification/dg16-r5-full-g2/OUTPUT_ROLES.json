@@ -1,0 +1,628 @@
+{
+  "build_groups": [
+    {
+      "checksums": [
+        "path with spaces/CHECKSUMS.txt"
+      ],
+      "role": "release_asset",
+      "subdir": "path with spaces"
+    },
+    {
+      "checksums": [
+        "release asset with spaces/CHECKSUMS.txt",
+        "non-executable-script archive/CHECKSUMS.txt",
+        "setuid-script archive/CHECKSUMS.txt",
+        "setgid-script archive/CHECKSUMS.txt",
+        "sticky-script archive/CHECKSUMS.txt",
+        "overbroad asset/OVERBROAD-CHECKSUMS.txt",
+        "sidecar asset/SIDECAR-CHECKSUMS.txt"
+      ],
+      "role": "codex_install",
+      "subdir": "release asset with spaces"
+    },
+    {
+      "checksums": [
+        "release asset with spaces/CHECKSUMS.txt",
+        "non-executable-script archive/CHECKSUMS.txt",
+        "setuid-script archive/CHECKSUMS.txt",
+        "setgid-script archive/CHECKSUMS.txt",
+        "sticky-script archive/CHECKSUMS.txt",
+        "overbroad asset/OVERBROAD-CHECKSUMS.txt",
+        "sidecar asset/SIDECAR-CHECKSUMS.txt"
+      ],
+      "role": "claude_install",
+      "subdir": "release asset with spaces"
+    },
+    {
+      "checksums": [
+        "release asset with spaces/CHECKSUMS.txt"
+      ],
+      "role": "plugin_install",
+      "subdir": "release asset with spaces"
+    },
+    {
+      "checksums": [
+        "CHECKSUMS.txt"
+      ],
+      "role": "release_check",
+      "subdir": ""
+    }
+  ],
+  "historical_composition_sources": [
+    [
+      "claim-run.sh",
+      17368,
+      "50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383",
+      420
+    ],
+    [
+      "validate-run-root.sh",
+      61001,
+      "d8b046b5417dce13ed66a5ac5fffaf3d18fae40c97d42aef8b38470500d575a6",
+      420
+    ],
+    [
+      "claim-run-rotation.py",
+      103754,
+      "6f62f57d3a5873570161022e2ccc04cdb061655fa338bcb2c5ea1624b80454ca",
+      420
+    ],
+    [
+      "rotate-canonical-state.py",
+      92941,
+      "7989a08128fedabe531fc92114baff755e77e08aebea547253793b625496bb26",
+      493
+    ],
+    [
+      "canonical_hot_projection.py",
+      57891,
+      "fe733b91dff4f031ed3ab80761d669de59c0270cd7f85325a14a2d47f9ba5276",
+      493
+    ],
+    [
+      "canonical_custody.py",
+      33629,
+      "bfa07f0088f2df7b8c1196ccd149ebf8c6874337b35ac9a9c91ac51367a7fb1f",
+      493
+    ]
+  ],
+  "pending_ceiling": {
+    "actual_child_result_consumer": "UNQUALIFIED",
+    "authority": "NONE",
+    "canonical_currentness": false,
+    "effect_authority": false,
+    "epoch_authority": false,
+    "independent_children": "UNCHANGED",
+    "recovery_authority": false,
+    "same_failed_scope_retry": "CONDITIONAL_UNQUALIFIED"
+  },
+  "pending_limitations": [
+    "Constructed H0 attribution only; host_activation_proven=false.",
+    "Unresolved explicit resume deliveries are not physical occurrence proof.",
+    "Private native selection remains absent; no reservation or accepted native JOIN is proved.",
+    "Only process interruption/reload is tested, not power loss or directory-fsync durability."
+  ],
+  "pending_reservation_profile": {
+    "expected_reason": "NONPROTECTED_PROJECTION_PROFILE_REQUIRED",
+    "nonfinite_counter_refusal": "PENDING_STATE_JSON_CONSTANT",
+    "qualified_checkpoint": "source-sha256:5bb21eed89945a8da97857f980b1f85a06dc07df47b25475b9173f23e82ce8f8",
+    "stored_json_refusal": "PENDING_STATE_JSON"
+  },
+  "pending_source_pins": {
+    "source-peers/native-runtime/skills/implementaudit/scripts/compaction-audit-pending.py": "729f7eb108b30647bf62e19d71be4cd10e41486af020a6dc69b8aa6295d8aee5",
+    "source-peers/native-runtime/skills/implementaudit/scripts/compaction-result-observation.py": "a68145e62a0a81dfb02fc48f72cefaf3740e499bf6b85bd70f5d30cc64a038c1",
+    "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py": "5bb21eed89945a8da97857f980b1f85a06dc07df47b25475b9173f23e82ce8f8",
+    "source-peers/native-runtime/skills/implementaudit/scripts/host-session-binding.py": "f024cd50b4e5cdd3b93f16fe1d0489952a534a0a5f880c842c14afc897ac2bc7"
+  },
+  "repository_cost_metrics": [
+    "release",
+    "secure_reader_counter",
+    "constructed_publication",
+    "repository",
+    "next_transaction"
+  ],
+  "schema": "dg16.full-output-role-profile.proposed.v1",
+  "source_commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+  "source_files": {
+    "fixtures/operational-evidence/repository-fence-cost-controls.py": {
+      "bytes": 19840,
+      "mode": "100644",
+      "sha256": "eedbb1372f47bbe2b92ca9cd4ce8e7f548cba616963b1a4332d5dfd88b3775d4"
+    },
+    "scripts/build-release-asset.sh": {
+      "bytes": 29407,
+      "mode": "100755",
+      "sha256": "ff22936cb014647e3ea6884e88de65c6cd97a1d9930171fdae205be300adf708"
+    },
+    "scripts/build-source-evidence-pack.sh": {
+      "bytes": 7041,
+      "mode": "100644",
+      "sha256": "5e48975531a619c3f83b518a874be2b7dcee5af02710d097faf95bb6aad47498"
+    },
+    "scripts/install-claude-from-release.sh": {
+      "bytes": 26749,
+      "mode": "100644",
+      "sha256": "1317e8ee9d82e061d9e627458eb2efa86013aefa7e000d2fe88652d20036c260"
+    },
+    "scripts/install-codex-from-release.sh": {
+      "bytes": 25586,
+      "mode": "100644",
+      "sha256": "bc6b272b43128257956e7b2472f6c106774aae12c2f10586052998ceace606de"
+    },
+    "scripts/operational-evidence.py": {
+      "bytes": 422801,
+      "mode": "100755",
+      "sha256": "5950164adb0e0e1d9c6ff4481ccb43cbff94a13ae1fb6578fb6a172a431e69ed"
+    },
+    "scripts/package-contract.py": {
+      "bytes": 45774,
+      "mode": "100755",
+      "sha256": "ed7a1b3cc5d02660b6fef32a40a99d51e41ee3cf302a56548de8a4aca0c03960"
+    },
+    "scripts/work-graph-continuity-transport.py": {
+      "bytes": 93973,
+      "mode": "100644",
+      "sha256": "a6ecc502ef72cdd280684353899f306a3d5dbd1a858c2ae9b39269e047d04760"
+    },
+    "scripts/write-release-checksums.sh": {
+      "bytes": 2177,
+      "mode": "100755",
+      "sha256": "78bc8fa6dccb89626912f5b8dc5211622b8ffe97b24d8d09ea45bb8676c2110e"
+    },
+    "skills/implementaudit/scripts/apply-observed-mutation.sh": {
+      "bytes": 115042,
+      "mode": "100755",
+      "sha256": "0e893c6218c8105eb575630fa8fdad10ae3238b31f4fc08845b7ed540d67e590"
+    },
+    "skills/implementaudit/scripts/check-closure-surface.sh": {
+      "bytes": 94842,
+      "mode": "100644",
+      "sha256": "ba994fed1fb6c5d4688627bd31a577e7ce6fec5f6214fa3cc1093c9b70337ed7"
+    },
+    "skills/implementaudit/scripts/claim-run.sh": {
+      "bytes": 32290,
+      "mode": "100644",
+      "sha256": "9bce5c887cd89c2d2991b84f1bf765787e7a6b75a2eba29a8433c3a6c05f73a3"
+    },
+    "skills/implementaudit/scripts/validate-run-root.sh": {
+      "bytes": 114967,
+      "mode": "100644",
+      "sha256": "d51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a"
+    },
+    "source-peers/native-runtime/skills/implementaudit/scripts/compaction-audit-pending.py": {
+      "bytes": 67827,
+      "mode": "100644",
+      "sha256": "729f7eb108b30647bf62e19d71be4cd10e41486af020a6dc69b8aa6295d8aee5"
+    },
+    "source-peers/native-runtime/skills/implementaudit/scripts/compaction-result-observation.py": {
+      "bytes": 161350,
+      "mode": "100644",
+      "sha256": "a68145e62a0a81dfb02fc48f72cefaf3740e499bf6b85bd70f5d30cc64a038c1"
+    },
+    "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py": {
+      "bytes": 185531,
+      "mode": "100644",
+      "sha256": "5bb21eed89945a8da97857f980b1f85a06dc07df47b25475b9173f23e82ce8f8"
+    },
+    "source-peers/native-runtime/skills/implementaudit/scripts/host-session-binding.py": {
+      "bytes": 49273,
+      "mode": "100755",
+      "sha256": "f024cd50b4e5cdd3b93f16fe1d0489952a534a0a5f880c842c14afc897ac2bc7"
+    },
+    "tests/cognition-pending-durability.py": {
+      "bytes": 52371,
+      "mode": "100644",
+      "sha256": "9f0f3adc73a08cd50fe544e46f665240f2755eacfeb74c1ac4239059fe70c264"
+    },
+    "tests/cognition-pending-loader.py": {
+      "bytes": 18670,
+      "mode": "100644",
+      "sha256": "dd31c4e98a7bb4bc6c373e2d34cc28670ae6708a9a68d602d5a401061e828561"
+    },
+    "tests/distributed_generation_fence.py": {
+      "bytes": 65643,
+      "mode": "100644",
+      "sha256": "915f7ded56672b93f4abd30a4181932add4518c8d0ee0debc403bedc88aedce4"
+    },
+    "tests/internal-skill-routing.test.sh": {
+      "bytes": 28245,
+      "mode": "100644",
+      "sha256": "3c40c721e17a82d71a1926f01e0c3b1996799fa572817ea9507886518edfca64"
+    },
+    "tests/plugin-install.test.sh": {
+      "bytes": 22360,
+      "mode": "100755",
+      "sha256": "68785c373ebcde4784e0c2d5f07406943e58521a87897299f8555c7274f30f44"
+    },
+    "tests/release-asset-install-claude.test.sh": {
+      "bytes": 21414,
+      "mode": "100644",
+      "sha256": "b483d2144f1d754f40b8f16b6768b9966c55b151251565d4c2c41773323a869c"
+    },
+    "tests/release-asset-install.test.sh": {
+      "bytes": 22171,
+      "mode": "100644",
+      "sha256": "b55f33874b5b847eb93dd71fbbc0a3a0ca2e6784b218788932d8ca3a95794e1f"
+    },
+    "tests/release-asset.test.sh": {
+      "bytes": 72509,
+      "mode": "100755",
+      "sha256": "4645ffeb8ff1ce57260ad14acb391598e5d21416b7bb394cbab2f23dee82de7a"
+    },
+    "tests/source-evidence-pack-runnable.test.sh": {
+      "bytes": 1491,
+      "mode": "100644",
+      "sha256": "67b0edb03b747c26068f7566b21c5a588a2db17801b28af33218e5205495e86a"
+    },
+    "tests/source-evidence-pack.test.sh": {
+      "bytes": 4689,
+      "mode": "100644",
+      "sha256": "90ad7a238937048ee12a1f5998039daf36742a177f92df9168b6604f7d93a5a6"
+    },
+    "tests/turn-disposition-cases.py": {
+      "bytes": 23311,
+      "mode": "100644",
+      "sha256": "8cda9f7631a03c1e2520defb9c294a3bd5f2e7e934afbd974371250a5a09f1ab"
+    },
+    "tests/work-graph-composition-cases.py": {
+      "bytes": 7868,
+      "mode": "100644",
+      "sha256": "2bd00e60bfa4b5b9f9ed37250431293ec442d0cc7331b91f15d953b5c3feda49"
+    },
+    "tests/work-graph-historical-fixture.py": {
+      "bytes": 7294,
+      "mode": "100644",
+      "sha256": "71ab6663f68c5c948c3ee16753aef47094b342de8c1ba4b2ccb902f1209d6a46"
+    }
+  },
+  "source_pack_slots": 2,
+  "source_tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+  "status": "STATIC_SOURCE_DERIVATION_NOT_AN_EXECUTION_OR_ACCEPTANCE",
+  "turn_disposition_cases": [
+    {
+      "case": "r37-closure-ledger-closed",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": true
+    },
+    {
+      "case": "r37-closure-ledger-open",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "r37-closure-ledger-duplicate-status",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "r37-closure-ledger-duplicate-reversed-status",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "r37-closure-ledger-duplicate-decorated-status",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "r37-closure-ledger-duplicate-disposition",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "r37-closure-ledger-duplicate-consequential",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "r37-closure-ledger-duplicate-owner",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "r37-closure-phase-duplicate-status",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "r37-closure-phase-duplicate-review",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "r37-closure-explanatory-duplicate-preserved",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": true
+    },
+    {
+      "case": "r37-closure-header-case-preserved",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": true
+    },
+    {
+      "case": "r37-yield-ambiguous-ledger-is-not-closure",
+      "disposition": "NONTERMINAL_YIELD",
+      "expected_accept": true
+    },
+    {
+      "case": "r37-closure-andon-duplicate-outcome",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "r37-closure-andon-open (rerun pending)",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "r37-closure-andon-escalated (cites #1)",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "r37-closure-andon-blocked (handoff condition)",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "r37-closure-andon-missing",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "r37-closure-andon-resolved-ish",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "r37-closure-andon-resolved",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": true
+    },
+    {
+      "case": "r37-closure-andon-resolved-history",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": true
+    },
+    {
+      "case": "r37-closure-andon-unrelated-resolution",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "r37-closure-andon-cross-class-resolution",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "r37-closure-andon-legacy-resolved",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": true
+    },
+    {
+      "case": "r37-yield-open-andon",
+      "disposition": "NONTERMINAL_YIELD",
+      "expected_accept": true
+    },
+    {
+      "case": "full-state-template-positive",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": true
+    },
+    {
+      "case": "full-state-pending-continuity",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "active-rehearsal-does-not-execute",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "missing-andon-phase",
+      "disposition": "AUDITED_HANDOFF",
+      "expected_accept": false
+    },
+    {
+      "case": "andon-handoff-positive",
+      "disposition": "AUDITED_HANDOFF",
+      "expected_accept": true
+    },
+    {
+      "case": "andon-no-count-cap",
+      "disposition": "AUDITED_HANDOFF",
+      "expected_accept": false
+    },
+    {
+      "case": "applicable-plan-positive",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": true
+    },
+    {
+      "case": "omitted-applicable-plan",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "multiple-claims-positive",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": true
+    },
+    {
+      "case": "false-coverage-arithmetic",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "zero-coverage-denominator",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "valid-owner-disposition-positive",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": true
+    },
+    {
+      "case": "read-substitution-after-owner",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "added-input-after-owner",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "removed-input-after-owner",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "source-directory-ABA-after-owner",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "source-substitution-after-owner",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "declared-review-BLOCKED",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "declared-review-GAP-REVISE",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "declared-review-PASS",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": true
+    },
+    {
+      "case": "directory-ABA-after-owner",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "documented-review-not-applicable",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": true
+    },
+    {
+      "case": "yield-future-capture-is-not-required",
+      "disposition": "NONTERMINAL_YIELD",
+      "expected_accept": true
+    },
+    {
+      "case": "yield-positive",
+      "disposition": "NONTERMINAL_YIELD",
+      "expected_accept": true
+    },
+    {
+      "case": "closure-positive",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": true
+    },
+    {
+      "case": "owner-handoff-positive",
+      "disposition": "AUDITED_HANDOFF",
+      "expected_accept": true
+    },
+    {
+      "case": "crlf-packet-positive",
+      "disposition": "AUDITED_HANDOFF",
+      "expected_accept": true
+    },
+    {
+      "case": "yield-cannot-downgrade-done",
+      "disposition": "NONTERMINAL_YIELD",
+      "expected_accept": false
+    },
+    {
+      "case": "yield-terminal-response",
+      "disposition": "NONTERMINAL_YIELD",
+      "expected_accept": false
+    },
+    {
+      "case": "mixed-markers",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "structural-green-unverified",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "missing-current-anchor",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "wrong-final-order",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "nonterminal-phase",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "unverified-criterion",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "pending-child-success-is-not-closure",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "handoff-packet-alone",
+      "disposition": "AUDITED_HANDOFF",
+      "expected_accept": false
+    },
+    {
+      "case": "handoff-cannot-be-done",
+      "disposition": "AUDITED_HANDOFF",
+      "expected_accept": false
+    },
+    {
+      "case": "handoff-no-owner-source",
+      "disposition": "AUDITED_HANDOFF",
+      "expected_accept": false
+    },
+    {
+      "case": "closure-unresolved-ledger",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "conflicting-response",
+      "disposition": "AUDITED_HANDOFF",
+      "expected_accept": false
+    },
+    {
+      "case": "fifo-record",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "fifo-at-subordinate-open",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    },
+    {
+      "case": "symlink-record",
+      "disposition": "TERMINAL_CLOSURE",
+      "expected_accept": false
+    }
+  ]
+}
