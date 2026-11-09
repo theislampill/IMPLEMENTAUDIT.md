@@ -7,6 +7,7 @@ on:
     paths:
       - .github/workflows/dg17-codex-routing.yml
       - qualification/dg17-codex-routing/**
+      - qualification/dg17-codex-host-preparation02/**
 
 permissions:
   contents: read
@@ -23,7 +24,7 @@ jobs:
       github.ref == 'refs/heads/pro/dg17-isolated-episode-01-20261106' &&
       github.event.created == false && github.event.deleted == false &&
       github.event.forced == false &&
-      github.event.before == '19eff82e0b34ce2770e6c788113cab419846c245' &&
+      github.event.before == '3d3bdea363be16312fb998824d0938da73ffcab6' &&
       github.run_attempt == '1'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
@@ -38,6 +39,21 @@ jobs:
           set-safe-directory: false
           submodules: false
           lfs: false
+
+      - name: Provision the exact physical bubblewrap helper
+        id: host_preparation
+        timeout-minutes: 2
+        shell: bash
+        run: |
+          set -euo pipefail
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg17-codex-host-preparation02/prepare.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          actual="${actual%% *}"
+          if [[ "$actual" != '03afcc3f26311249459d019d15dd55fd835e99b9cc2b6f3ff9f748cf44436488' ]]; then
+            echo 'DG17 {"status":"HOST_PREPARATION_SOURCE_DIGEST_REFUSED"}'
+            exit 1
+          fi
+          /usr/bin/python3 -I -S -B "$adapter"
 
       - name: prepare
         id: prepare
