@@ -121,6 +121,8 @@ def constructed(original_bind_output=True, tied_prelude=False, *, prelude_order=
         root = Path(directory)
         P, scripts = SUPPORT.canonical_unbound_fixture(root/'public-code')
         (scripts/'route-transaction.py').write_bytes(SUPPORT.bounded_bytes(SUPPORT.ROUTE))
+        for name in ('compaction-prior-protocol.py', 'compaction-prior-mcp.py'):
+            (scripts/name).write_bytes(SUPPORT.bounded_bytes(SUPPORT.NATIVE/name))
         OBS = P.OBSERVATION
         store = root/'constructed-store'
         source = Sources(root)
