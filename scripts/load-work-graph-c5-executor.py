@@ -190,7 +190,19 @@ def validate_git_directory_selection_v1(selection):
             raise ValueError('C5 clone template declaration is contradictory')
 
 
+# Explicit prospective public refusal discriminator; no run authority.
+R5_RUNTIME_DIRECTORY_REASON_SOURCE_REVISION='R5_HOSTED_UBUNTU24_RUNTIME_DIRECTORY_REASON_SOURCE_20261110_V6'
+R5_RUNTIME_DIRECTORY_REASON_EXECUTOR_MEMBER='test-support/r5-runtime-directory-reason-source/work-graph-c5-executor.py'
+R5_RUNTIME_DIRECTORY_REASON_EXECUTOR_SHA256='3a870369ca48a489348d27dc111faf29131f0026061ff703c693fe9297d46084'
+R5_RUNTIME_DIRECTORY_REASON_PINS=types.MappingProxyType(dict(R5_TEMPLATE_POPULATION_PINS,
+    **{EXECUTOR:R5_RUNTIME_DIRECTORY_REASON_EXECUTOR_SHA256}))
+
+
 def _selection(profile,source_revision=None):
+    if source_revision == R5_RUNTIME_DIRECTORY_REASON_SOURCE_REVISION:
+        if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
+            raise ValueError('Runtime directory reason successor requires the fixed R5 hosted profile')
+        return R5_RUNTIME_DIRECTORY_REASON_PINS,R5_HOSTED_BASE_SELECTION,R5_HOSTED_PROVIDER_SELECTION,R5_TEMPLATE_POPULATION_EXECUTION_SELECTION,R5_HOSTED_ORIGINS
     if source_revision == R5_TEMPLATE_POPULATION_SOURCE_REVISION:
         if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
             raise ValueError('Template population successor requires the fixed R5 hosted profile')
@@ -304,6 +316,9 @@ def _read(name, profile=PROFILE,source_revision=None):
     retained = R5_HOSTED_PHYSICAL_HISTORY.get(name)
     if retained is not None and pins.get(name) == retained[1]:
         physical = retained[0]
+    if (source_revision == R5_RUNTIME_DIRECTORY_REASON_SOURCE_REVISION and name == EXECUTOR
+            and pins.get(name) == R5_RUNTIME_DIRECTORY_REASON_EXECUTOR_SHA256):
+        physical = R5_RUNTIME_DIRECTORY_REASON_EXECUTOR_MEMBER
     path=ROOT/physical
     if not path.is_absolute() or '..' in path.parts:raise ValueError('C5 execution source alias is unsupported')
     directory=os.open('/',os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW)
@@ -363,7 +378,7 @@ class _Engine:
                 or selection.get('profile')!=self.profile or selection.get('selection_origins')!=dict(self.origins)
                 or selection.get('original_argv')!=['bash','tests/reproducible-release-asset.test.sh']):
             raise ValueError('Unsupported fixed C5 execution selection')
-        if self.source_revision == R5_TEMPLATE_POPULATION_SOURCE_REVISION:
+        if self.source_revision in (R5_TEMPLATE_POPULATION_SOURCE_REVISION, R5_RUNTIME_DIRECTORY_REASON_SOURCE_REVISION):
             validate_git_directory_selection_v1(selection)
         # The unchanged data reader names its historical logical fixture key.
         # This explicit map binds that key to the separately captured execution
