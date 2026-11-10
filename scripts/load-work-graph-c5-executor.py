@@ -166,7 +166,35 @@ R5_INNER_CAPTURE_SOURCE_REVISION='R5_HOSTED_UBUNTU24_INNER_CAPTURE_SOURCE_202611
 R5_INNER_CAPTURE_PINS=types.MappingProxyType(dict(R5_CONTINUITY_RECEIVER_PINS,
     **{QUALIFIER:'79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b'}))
 
+# Prospective correction; all historical selections and pins stay fixed.
+R5_TEMPLATE_POPULATION_SOURCE_REVISION='R5_HOSTED_UBUNTU24_TEMPLATE_POPULATION_SOURCE_20261110_V5'
+R5_TEMPLATE_POPULATION_EXECUTION_SELECTION='fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-template-population-execution-profile.json'
+R5_TEMPLATE_POPULATION_PINS=types.MappingProxyType({
+    **{name:pin for name,pin in R5_INNER_CAPTURE_PINS.items() if name!=R5_HOSTED_EXECUTION_SELECTION},
+    R5_TEMPLATE_POPULATION_EXECUTION_SELECTION:'96f64a192d0e91bda5d740d674c05329c5ef805ddf6cbe50b0fc6b87f30839fa'})
+
+
+def validate_git_directory_selection_v1(selection):
+    """Require a closed, internally consistent fixed clone-template inventory."""
+    directories, files = selection['git_directories'], selection['git_files']
+    if type(directories) is not dict or type(files) is not dict:
+        raise ValueError('C5 clone template declaration is contradictory')
+    for parent, names in directories.items():
+        if (type(parent) is not str or not Path(parent).is_absolute()
+                or '..' in Path(parent).parts or type(names) is not list
+                or any(type(name) is not str for name in names)):
+            raise ValueError('C5 clone template declaration is contradictory')
+        children = [Path(child).name for child in (*directories, *files)
+                    if Path(child).parent == Path(parent)]
+        if names != sorted(set(children)) or len(children) != len(set(children)):
+            raise ValueError('C5 clone template declaration is contradictory')
+
+
 def _selection(profile,source_revision=None):
+    if source_revision == R5_TEMPLATE_POPULATION_SOURCE_REVISION:
+        if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
+            raise ValueError('Template population successor requires the fixed R5 hosted profile')
+        return R5_TEMPLATE_POPULATION_PINS,R5_HOSTED_BASE_SELECTION,R5_HOSTED_PROVIDER_SELECTION,R5_TEMPLATE_POPULATION_EXECUTION_SELECTION,R5_HOSTED_ORIGINS
     if source_revision == R5_INNER_CAPTURE_SOURCE_REVISION:
         if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
             raise ValueError('Unknown fixed R5 inner-capture source profile')
@@ -335,6 +363,8 @@ class _Engine:
                 or selection.get('profile')!=self.profile or selection.get('selection_origins')!=dict(self.origins)
                 or selection.get('original_argv')!=['bash','tests/reproducible-release-asset.test.sh']):
             raise ValueError('Unsupported fixed C5 execution selection')
+        if self.source_revision == R5_TEMPLATE_POPULATION_SOURCE_REVISION:
+            validate_git_directory_selection_v1(selection)
         # The unchanged data reader names its historical logical fixture key.
         # This explicit map binds that key to the separately captured execution
         # selection. The old physical selection/default loader remain untouched.
