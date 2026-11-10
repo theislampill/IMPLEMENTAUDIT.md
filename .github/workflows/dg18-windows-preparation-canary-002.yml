@@ -1,0 +1,103 @@
+name: DG18 separate Windows preparation canary 002
+
+on:
+  push:
+    branches:
+      - pro/dg18-windows-preparation-canary-002
+    paths:
+      - .github/workflows/dg18-windows-preparation-canary-002.yml
+      - qualification/dg18-windows-preparation-canary-002/**
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dg18-windows-preparation-canary-002
+  cancel-in-progress: false
+
+jobs:
+  preparation-canary:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.event.created == true &&
+      github.event.before == '0000000000000000000000000000000000000000' &&
+      github.ref == 'refs/heads/pro/dg18-windows-preparation-canary-002' &&
+      github.run_attempt == '1'
+    runs-on: windows-2022
+    timeout-minutes: 10
+    steps:
+      - name: Receive exact separately reviewed canary packet
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        env:
+          GIT_CONFIG_COUNT: '1'
+          GIT_CONFIG_KEY_0: core.autocrlf
+          GIT_CONFIG_VALUE_0: 'false'
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Receive unchanged qualified source separately
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        env:
+          GIT_CONFIG_COUNT: '1'
+          GIT_CONFIG_KEY_0: core.autocrlf
+          GIT_CONFIG_VALUE_0: 'false'
+        with:
+          ref: 8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b
+          path: qualified-source
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Select physical Python 3.12.10 x64
+        id: python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.10'
+          architecture: x64
+
+      - name: Run separately admitted preparation worker once
+        id: canary
+        shell: pwsh
+        env:
+          DG18_PHYSICAL_PYTHON: ${{ steps.python.outputs.python-path }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $entry = Join-Path $env:GITHUB_WORKSPACE 'packet/qualification/dg18-windows-preparation-canary-002/canary.py'
+          if ((Get-FileHash -Algorithm SHA256 $entry).Hash.ToLowerInvariant() -ne '49c45a06a99105bc1d7c6df91644f08ef9e410a92c3a90630b30972da25c13fa') { throw 'Canary entry digest differs' }
+          $source = Join-Path $env:GITHUB_WORKSPACE 'qualified-source'
+          & $env:DG18_PHYSICAL_PYTHON -I -X utf8 -B $entry run --source $source
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Validate the closed terminal record
+        id: public_result
+        if: always()
+        shell: pwsh
+        env:
+          DG18_PHYSICAL_PYTHON: ${{ steps.python.outputs.python-path }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $entry = Join-Path $env:GITHUB_WORKSPACE 'packet/qualification/dg18-windows-preparation-canary-002/canary.py'
+          if ((Get-FileHash -Algorithm SHA256 $entry).Hash.ToLowerInvariant() -ne '49c45a06a99105bc1d7c6df91644f08ef9e410a92c3a90630b30972da25c13fa') { throw 'Canary entry digest differs' }
+          $source = Join-Path $env:GITHUB_WORKSPACE 'qualified-source'
+          & $env:DG18_PHYSICAL_PYTHON -I -X utf8 -B $entry validate-public --source $source
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Retain only the validated canary terminal result
+        if: always() && steps.public_result.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg18-preparation-canary-002-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/dg18-preparation-canary-002-${{ github.run_id }}-${{ github.run_attempt }}/public/RESULT.json
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 1
+          compression-level: 6

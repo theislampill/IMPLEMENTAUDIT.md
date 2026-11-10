@@ -1,0 +1,196 @@
+name: DG18 isolated Windows21 exact Git custody and held one-shot W-FULL
+
+on:
+  push:
+    branches:
+      - pro/dg18-isolated-windows21-r8-20261109
+    paths:
+      - .github/workflows/dg18-isolated-windows21.yml
+      - qualification/dg18-isolated-windows21/**
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dg18-isolated-windows21-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  fresh-windows-owner:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/pro/dg18-isolated-windows21-r8-20261109' &&
+      github.run_attempt == '1'
+    runs-on: windows-2022
+    timeout-minutes: 50
+    steps:
+      - name: Check out exact reviewed workflow packet
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        env:
+          GIT_CONFIG_COUNT: '1'
+          GIT_CONFIG_KEY_0: core.autocrlf
+          GIT_CONFIG_VALUE_0: 'false'
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Check out exact qualified source separately
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        env:
+          GIT_CONFIG_COUNT: '1'
+          GIT_CONFIG_KEY_0: core.autocrlf
+          GIT_CONFIG_VALUE_0: 'false'
+        with:
+          ref: 8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b
+          path: qualified-source
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Select physical Python 3.12
+        id: python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.10'
+          architecture: x64
+
+      - name: Prepare exact source and Windows host with admitted Git custody
+        id: preparation
+        shell: pwsh
+        env:
+          DG18_PHYSICAL_PYTHON: ${{ steps.python.outputs.python-path }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $wrapper = Join-Path $env:GITHUB_WORKSPACE 'packet/qualification/dg18-isolated-windows21/held_admission.py'
+          if ((Get-FileHash -Algorithm SHA256 $wrapper).Hash.ToLowerInvariant() -ne 'bf04dc9b262a5b99864bfb20a47a03295ca3f6b99caebdf1e89636af1a92b7fd') { throw 'Reviewed admission wrapper digest differs' }
+          $source = Join-Path $env:GITHUB_WORKSPACE 'qualified-source'
+          & $env:DG18_PHYSICAL_PYTHON -I -X utf8 -B $wrapper prepare --source $source --diagnostic-wrapper-sha256 bf04dc9b262a5b99864bfb20a47a03295ca3f6b99caebdf1e89636af1a92b7fd
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Retain fresh preparation and custody for independent host review
+        if: steps.preparation.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg18-iw21-preparation-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/dg18-iw21-hold-${{ github.run_id }}-${{ github.run_attempt }}/PREPARATION.json
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 7
+          compression-level: 6
+
+      - name: Wait for exact independent host review and root GO, then dispatch at most once
+        if: steps.preparation.outcome == 'success'
+        shell: pwsh
+        env:
+          DG18_PHYSICAL_PYTHON: ${{ steps.python.outputs.python-path }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $wrapper = Join-Path $env:GITHUB_WORKSPACE 'packet/qualification/dg18-isolated-windows21/held_admission.py'
+          if ((Get-FileHash -Algorithm SHA256 $wrapper).Hash.ToLowerInvariant() -ne 'bf04dc9b262a5b99864bfb20a47a03295ca3f6b99caebdf1e89636af1a92b7fd') { throw 'Reviewed admission wrapper digest differs' }
+          $source = Join-Path $env:GITHUB_WORKSPACE 'qualified-source'
+          & $env:DG18_PHYSICAL_PYTHON -I -X utf8 -B $wrapper wait --source $source --diagnostic-wrapper-sha256 bf04dc9b262a5b99864bfb20a47a03295ca3f6b99caebdf1e89636af1a92b7fd
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Validate and emit bounded public projections before upload
+        id: public_evidence
+        if: always()
+        shell: pwsh
+        env:
+          DG18_PHYSICAL_PYTHON: ${{ steps.python.outputs.python-path }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $adapter = Join-Path $env:GITHUB_WORKSPACE 'packet/qualification/dg18-isolated-windows21/prepare_and_execute.py'
+          $out = Join-Path $env:RUNNER_TEMP ('dg18-iw21-' + $env:GITHUB_RUN_ID + '-' + $env:GITHUB_RUN_ATTEMPT)
+          if ((Get-FileHash -Algorithm SHA256 $adapter).Hash.ToLowerInvariant() -ne '8ca35fd46264b2a3c1683dab79117ea77843ceaacc5ae5b1b3fc93cd428fe40b') { throw 'Reviewed adapter digest differs' }
+          if (-not (Test-Path -LiteralPath $out -PathType Container)) {
+            Write-Host 'DG18_PUBLIC_REFUSAL {"status":"UNQUALIFIED_PUBLICATION_REFUSED","code":"OUTPUT_DIRECTORY_UNAVAILABLE","authority":"NONE","automatic_retry":false}'
+            exit 1
+          }
+          & $env:DG18_PHYSICAL_PYTHON -I -X utf8 -B $adapter --emit-public --output $out
+          $publicCode = $LASTEXITCODE
+          & $env:DG18_PHYSICAL_PYTHON -I -X utf8 -B $adapter --emit-diagnostic --output $out
+          $diagnosticCode = $LASTEXITCODE
+          if (($publicCode -eq 0) -and ($diagnosticCode -eq 0)) {
+            Add-Content -LiteralPath $env:GITHUB_OUTPUT -Value 'public_eligible=true' -Encoding utf8
+          } else { exit 1 }
+
+      - name: Validate retained diagnostic artifact independently of log emission
+        id: diagnostic_artifact
+        if: always()
+        shell: pwsh
+        env:
+          DG18_PHYSICAL_PYTHON: ${{ steps.python.outputs.python-path }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $adapter = Join-Path $env:GITHUB_WORKSPACE 'packet/qualification/dg18-isolated-windows21/prepare_and_execute.py'
+          $out = Join-Path $env:RUNNER_TEMP ('dg18-iw21-' + $env:GITHUB_RUN_ID + '-' + $env:GITHUB_RUN_ATTEMPT)
+          if ((Get-FileHash -Algorithm SHA256 $adapter).Hash.ToLowerInvariant() -ne '8ca35fd46264b2a3c1683dab79117ea77843ceaacc5ae5b1b3fc93cd428fe40b') { throw 'Reviewed adapter digest differs' }
+          & $env:DG18_PHYSICAL_PYTHON -I -X utf8 -B $adapter --validate-diagnostic-artifact --output $out
+          $artifactCode = $LASTEXITCODE
+          if ($artifactCode -ne 0) { exit $artifactCode }
+
+      - name: Retain separately validated bounded failure and phase diagnostic
+        if: always() && steps.diagnostic_artifact.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg18-iw21-diagnostic-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/dg18-iw21-${{ github.run_id }}-${{ github.run_attempt }}/public-diagnostic/DIAGNOSTIC.json
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 7
+          compression-level: 6
+
+      - name: Retain explicitly selected fresh public evidence
+        if: always() && steps.public_evidence.outcome == 'success' && steps.public_evidence.outputs.public_eligible == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg18-iw21-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/dg18-iw21-${{ github.run_id }}-${{ github.run_attempt }}/public/RESULT.json
+            ${{ runner.temp }}/dg18-iw21-${{ github.run_id }}-${{ github.run_attempt }}/public/SOURCE.json
+            ${{ runner.temp }}/dg18-iw21-${{ github.run_id }}-${{ github.run_attempt }}/public/TOOLS.json
+            ${{ runner.temp }}/dg18-iw21-${{ github.run_id }}-${{ github.run_attempt }}/public/CONTROL.json
+            ${{ runner.temp }}/dg18-iw21-${{ github.run_id }}-${{ github.run_attempt }}/public/MEASUREMENT.json
+            ${{ runner.temp }}/dg18-iw21-${{ github.run_id }}-${{ github.run_attempt }}/public/TRANSITION.json
+            ${{ runner.temp }}/dg18-iw21-${{ github.run_id }}-${{ github.run_attempt }}/public/RECEIVING.json
+            ${{ runner.temp }}/dg18-iw21-${{ github.run_id }}-${{ github.run_attempt }}/public/NATIVE_CAPTURE.json
+            ${{ runner.temp }}/dg18-iw21-${{ github.run_id }}-${{ github.run_attempt }}/public/NATIVE_RECEIVING.json
+            ${{ runner.temp }}/dg18-iw21-${{ github.run_id }}-${{ github.run_attempt }}/public/FAILURE.json
+            ${{ runner.temp }}/dg18-iw21-${{ github.run_id }}-${{ github.run_attempt }}/public/ARTIFACT_MANIFEST.json
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 7
+          compression-level: 6
+
+      - name: Validate closed admission outcome independently of original Campaign export
+        id: admission_artifact
+        if: always()
+        shell: pwsh
+        env:
+          DG18_PHYSICAL_PYTHON: ${{ steps.python.outputs.python-path }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $wrapper = Join-Path $env:GITHUB_WORKSPACE 'packet/qualification/dg18-isolated-windows21/held_admission.py'
+          if ((Get-FileHash -Algorithm SHA256 $wrapper).Hash.ToLowerInvariant() -ne 'bf04dc9b262a5b99864bfb20a47a03295ca3f6b99caebdf1e89636af1a92b7fd') { throw 'Reviewed admission wrapper digest differs' }
+          $source = Join-Path $env:GITHUB_WORKSPACE 'qualified-source'
+          & $env:DG18_PHYSICAL_PYTHON -I -X utf8 -B $wrapper export --source $source --diagnostic-wrapper-sha256 bf04dc9b262a5b99864bfb20a47a03295ca3f6b99caebdf1e89636af1a92b7fd
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Retain separately validated admission outcome
+        if: always() && steps.admission_artifact.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg18-iw21-admission-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/dg18-iw21-hold-${{ github.run_id }}-${{ github.run_attempt }}/public-admission/ADMISSION.json
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 7
+          compression-level: 6
