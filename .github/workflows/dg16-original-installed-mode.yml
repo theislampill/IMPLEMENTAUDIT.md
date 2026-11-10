@@ -1,0 +1,45 @@
+name: DG16 original installed-mode fixture
+on:
+  push:
+    branches: [pro/dg16-original-installed-mode-801a2025-20261110]
+    paths: [.github/workflows/dg16-original-installed-mode.yml]
+permissions:
+  contents: read
+jobs:
+  original-installed-modes:
+    if: github.event_name == 'push' && github.run_attempt == 1
+    runs-on: ubuntu-26.04
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          fetch-depth: 5
+      - name: Exercise the original installed-mode consumer before and after the fixture repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          test "$ImageOS" = ubuntu26
+          test "$ImageVersion" = 20261101.186.1
+          test "$GITHUB_SHA" = "$(git rev-parse HEAD)"
+          test "$(git rev-parse HEAD^)" = 801a2025b11ccce5b701e2510ba958174c073474
+          test "$(sha256sum /usr/bin/python3.14 | cut -d' ' -f1)" = be9a2a5eada8c89c1c399fdfb8397179e877c20d8db0739c802f726d4d0e69fd
+          umask 077
+          work="$(mktemp -d "$RUNNER_TEMP/dg16-mode-XXXXXX")"
+          mkdir "$work/bin"
+          ln -s /usr/bin/python3.14 "$work/bin/python"
+          export PATH="$work/bin:$PATH" PYTHONDONTWRITEBYTECODE=1
+          git worktree add --quiet --detach "$work/original" 9379e2abc040c6e5d0394371e8cc76e5d4bf71d3
+          git worktree add --quiet --detach "$work/candidate" 801a2025b11ccce5b701e2510ba958174c073474
+          (umask 022; bash qualification/dg16-original-installed-mode/receive-exact314.sh "$work/original" "$work/candidate" "$work/results")
+          python - "$work/results" <<'PY'
+          import json, os, sys
+          from pathlib import Path
+          r=Path(sys.argv[1])
+          red=json.loads((r/'red.json').read_bytes()); green=json.loads((r/'green.json').read_bytes())
+          actual=[x for x in red['cases'] if not x['passed']]
+          assert actual and actual[0]['owner']=='package-contract.py' and actual[0]['platform_model']=='nt' and actual[0]['mutation']=='positive-control'
+          assert actual[0]['message'].startswith('installed plugin member mode mismatch:')
+          print('DG16_ORIGINAL_INSTALLED_MODE '+json.dumps(dict(candidate='801a2025b11ccce5b701e2510ba958174c073474',baseline='9379e2abc040c6e5d0394371e8cc76e5d4bf71d3',image=os.environ['ImageVersion'],interpreter=list(sys.version_info[:3]),actual_first_red='package-contract.py nt positive-control: installed plugin member mode mismatch',red_passed=red['passed'],red_total=red['total'],green_passed=green['passed'],green_total=green['total'],negative_controls=sum(not x['expected_accept'] for x in green['cases']),scope='source and modeled metadata only'),sort_keys=True))
+          PY
