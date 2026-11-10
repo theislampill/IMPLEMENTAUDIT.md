@@ -1,0 +1,47 @@
+name: DG16 original AppArmor compiler cases
+on:
+  push:
+    branches: [pro/dg16-original-compiler-cases-9379e2ab-20261110]
+    paths: [.github/workflows/dg16-original-compiler-cases.yml]
+permissions:
+  contents: read
+jobs:
+  original-cases:
+    if: github.event_name == 'push' && github.run_attempt == 1
+    runs-on: ubuntu-26.04
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Run the two original no-load cases on the observed parser
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          test "$ImageOS" = ubuntu26
+          test "$ImageVersion" = 20261101.186.1
+          printf '%s\n' '955e4cd5f092604fe75131b264e26924108371a8764d02f395f7493f6bcd691a  /usr/sbin/apparmor_parser' | sha256sum -c -
+          /usr/bin/python3 -I -B - <<'PY'
+          import contextlib, hashlib, importlib.util, io, json, os, re, unittest
+          from pathlib import Path
+          path=Path('tests/composite-source-cases.py')
+          assert hashlib.sha256(path.read_bytes()).hexdigest()=='e53f4fec2488a903215b986d0db47a7c016d6f6e628578b4f4864617072dbd13'
+          assert hashlib.sha256(Path('scripts/qualify-work-graph-c5-setup.py').read_bytes()).hexdigest()=='3b3078e9c86d73c1789f102fcfbf2a4eaa9a835ba58ac9885c770dfbdaa50368'
+          spec=importlib.util.spec_from_file_location('original_composite_cases',path)
+          module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+          names=['test_c5_approved_compilation_binds_both_exact_profiles_without_loading','test_c5_provision_consumes_fresh_proofs_and_retains_pending_on_wrong_loaded_hash']
+          rows=[]
+          for name in names:
+              result=unittest.TestResult()
+              with contextlib.redirect_stdout(io.StringIO()),contextlib.redirect_stderr(io.StringIO()):
+                  unittest.TestSuite([module.CompositeSourceCases(name)]).run(result)
+              problems=result.failures+result.errors
+              frames=[]
+              for _,trace in problems:
+                  frames += [(Path(f).name,int(line),func) for f,line,func in re.findall(r'File "([^"]+)", line (\d+), in ([\w<>]+)',trace) if Path(f).name in ('qualify-work-graph-c5-setup.py','composite-source-cases.py')]
+              rows.append(dict(name=name,run=result.testsRun,skipped=len(result.skipped),errors=len(result.errors),failures=len(result.failures),frames=frames,passed=result.testsRun==1 and result.wasSuccessful() and not result.skipped))
+          out=dict(run=os.environ['GITHUB_RUN_ID'],attempt=os.environ['GITHUB_RUN_ATTEMPT'],head=os.environ['GITHUB_SHA'],image=os.environ['ImageVersion'],uid=os.getuid(),cases=rows,scope='original two cases; userspace compile with mocked kernel observations')
+          print('DG16_TWO_ORIGINAL_CASES '+json.dumps(out,sort_keys=True))
+          raise SystemExit(0 if len(rows)==2 and all(r['passed'] for r in rows) else 1)
+          PY
