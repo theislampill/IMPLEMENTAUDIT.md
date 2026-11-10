@@ -1,0 +1,29 @@
+name: DG16 no-load compiler observation
+on:
+  push:
+    branches: [pro/dg16-ubuntu26-apparmor-noload-20261110]
+    paths:
+      - .github/workflows/dg16-ubuntu26-apparmor-noload.yml
+      - qualification/dg16-ubuntu26-apparmor-noload/observe.py
+permissions:
+  contents: read
+jobs:
+  observe:
+    if: github.event_name == 'push' && github.run_attempt == 1
+    runs-on: ubuntu-26.04
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Observe the original no-load compile
+        run: /usr/bin/python3 -I -B qualification/dg16-ubuntu26-apparmor-noload/observe.py
+      - name: Retain bounded compiler results
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg16-userspace-compiler-${{ github.run_id }}-a1
+          path: observation/
+          if-no-files-found: error
+          retention-days: 2
+          compression-level: 0
