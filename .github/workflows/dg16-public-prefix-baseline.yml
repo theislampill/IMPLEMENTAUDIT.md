@@ -1,0 +1,37 @@
+name: DG16 finite public prefix baseline
+on:
+  push:
+    branches: [pro/dg16-public-prefix-baseline-01-20261110]
+    paths: [.github/workflows/dg16-public-prefix-baseline.yml]
+permissions:
+  contents: read
+jobs:
+  public-prefix-baseline:
+    if: github.event_name == 'push' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Observe the finite public prefix baseline once
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$ImageOS" = ubuntu24
+          test "$ImageVersion" = 20261101.360.1
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          test "$(git rev-parse HEAD^)" = 19c222a2db624de15b77415481f34f3d7a4475a7
+          test "$(sha256sum qualification/dg16-public-prefix-baseline/observe.py | cut -d' ' -f1)" = 136c46511132e40a4e814438d5aadcdf2f06d164253966445ebf05136845fe80
+          umask 077
+          sudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC /usr/bin/python3.12 -I -S -B qualification/dg16-public-prefix-baseline/observe.py --phase IMAGE_BASELINE > "$RUNNER_TEMP/dg16-public-prefix-baseline.json"
+          /usr/bin/python3.12 -I -B - "$RUNNER_TEMP/dg16-public-prefix-baseline.json" <<'PY'
+          from pathlib import Path
+          import hashlib,json,os,sys
+          p=Path(sys.argv[1])
+          raw=p.read_bytes();assert 0<len(raw)<=16384
+          v=json.loads(raw)
+          assert v['phase']=='IMAGE_BASELINE' and len(v['rows'])==16 and not v['setup_executed'] and v['security_or_attribute_changes']==0 and v['native_or_G1_banks']==0
+          print('DG16_PUBLIC_PREFIX_BASELINE '+json.dumps(dict(run=os.environ['GITHUB_RUN_ID'],attempt=os.environ['GITHUB_RUN_ATTEMPT'],head=os.environ['GITHUB_SHA'],image=os.environ['ImageVersion'],uid_profile='source-enforced 0/0/0/0',output_sha256=hashlib.sha256(raw).hexdigest(),observation=v),sort_keys=True))
+          PY
