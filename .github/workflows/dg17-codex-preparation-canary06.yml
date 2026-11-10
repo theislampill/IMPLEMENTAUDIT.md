@@ -1,0 +1,314 @@
+name: DG17 exact no-load preparation canary NONVERDICT
+
+on:
+  push:
+    branches:
+      - pro/dg17-isolated-episode-01-20261106
+    paths:
+      - .github/workflows/dg17-codex-preparation-canary06.yml
+      - qualification/dg17-codex-preparation-canary06/**
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dg17-preparation-canary-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  dg17-bounded:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/pro/dg17-isolated-episode-01-20261106' &&
+      github.event.created == false && github.event.deleted == false &&
+      github.event.forced == false &&
+      github.event.before == 'b3aa58580b2c22ef61e5432531f62adc1f562fda' &&
+      github.run_attempt == '1' &&
+      github.actor == 'theislampill' && github.actor_id == '266501826' &&
+      github.event.sender.login == 'theislampill' && github.event.sender.id == 266501826 &&
+      github.event.pusher.name == 'theislampill' &&
+      startsWith(github.event.head_commit.message, 'DG17_PREPARATION_CANARY06_OWNER_GRANT_V1')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out the exact reviewed canary
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Receive grant and run one exact no-load preparation
+        id: preparation_canary
+        timeout-minutes: 2
+        shell: bash
+        run: |
+          set -euo pipefail
+          /usr/bin/python3 -I -S -B -c '"""Received inline workflow bootstrap; repository imports are forbidden here."""
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import re
+          import stat
+          import sys
+          import types
+          
+          DIRECTORY = "qualification/dg17-codex-preparation-canary06"
+          PREPARATION = "qualification/dg17-codex-apparmor-preparation05"
+          HOST = "qualification/dg17-codex-host-preparation02"
+          ROUTING = "qualification/dg17-codex-routing"
+          REPOSITORY = "theislampill/IMPLEMENTAUDIT.md"
+          OWNER, OWNER_ID = "theislampill", 266501826
+          BRANCH = "pro/dg17-isolated-episode-01-20261106"
+          BASE_COMMIT = "b3aa58580b2c22ef61e5432531f62adc1f562fda"
+          WORKFLOW = ".github/workflows/dg17-codex-preparation-canary06.yml"
+          START = "DG17_PREPARATION_CANARY06_OWNER_GRANT_V1\n"
+          END = "DG17_PREPARATION_CANARY06_OWNER_GRANT_END_V1"
+          SOURCE_CAP, PUBLIC_CAP, WORKFLOW_ALLOWANCE = 4194304, 65536, 65536
+          PREPARATION_MANIFEST_SHA = "b1e0474308bee81532f8bb0777f4ebbf0f423cd07bbd6cf8c9847436cad63fdc"
+          PACKET = (
+              "addenda/WINDOWS_STAGE_ADDENDUM.json", "composition/COMPOSITION_CHECKS.json",
+              "composition/HOST_MAP.json", "composition/NATIVE_OPERATION_RECONCILIATION.json",
+              "composition/ORIGINAL95_SOURCE_MAP.json", "evidence/G03/DG16_INTEGRATION_README.md",
+              "evidence/G03/DG16_INTEGRATION_RECEIPT.json", "evidence/G03/DG17_INTAKE.json",
+              "predecessors/draft02/HOST_MAP.json", "predecessors/draft02/ORIGINAL95_SOURCE_MAP.json",
+              "support/content01/ARTIFACT_MANIFEST.json", "support/content01/CLEANUP.json",
+              "support/content01/CONTENT.json", "support/content01/CURRENTNESS.json",
+              "support/content01/FAILURE.json", "support/content01/HOST.json",
+              "support/content01/PREDICATES.json", "support/content01/RESULT.json",
+              "support/content01/ROOT_TERMINAL_RECEIVING.json", "support/content01/SOURCE.json",
+          )
+          SOURCE_PATHS = tuple(sorted(
+              [PREPARATION + "/" + p for p in ("README", "admission.py", "bridge.py", "bwrap-userns-restrict", "receiver.py", "INPUT_PINS.json")]
+              + [HOST + "/prepare.py", HOST + "/BWRAP_INPUT.b64"]
+              + [ROUTING + "/" + p for p in ("episode.py", "host_utility.py", "REVIEW_PACKET02_INDEX.json", "ROUTING_OWNER_BINDING.json",
+                                               "routing-selection-metadata/REVIEW_PACKET_INDEX.json", "routing-selection-metadata/OWNER_BINDING.json")]
+              + [ROUTING + "/routing-review-inputs/" + p for p in PACKET]
+              + [DIRECTORY + "/bootstrap.py", DIRECTORY + "/caller.py"]))
+          
+          
+          class Refusal(ValueError):
+              pass
+          
+          
+          def need(ok, code):
+              if ok is not True:
+                  raise Refusal(code)
+          
+          
+          def sha(raw):
+              return hashlib.sha256(raw).hexdigest()
+          
+          
+          def encoded(value):
+              return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True,
+                                 allow_nan=False) + "\n").encode("ascii")
+          
+          
+          def strict(raw, bound, canonical=True):
+              need(type(raw) is bytes and 0 < len(raw) <= bound, "JSON_BOUND")
+              def pairs(items):
+                  result = {}
+                  for key, value in items:
+                      need(key not in result, "JSON_DUPLICATE")
+                      result[key] = value
+                  return result
+              def reject(_):
+                  raise Refusal("JSON_NONFINITE")
+              try:
+                  value = json.loads(raw.decode("ascii" if canonical else "utf8"), object_pairs_hook=pairs, parse_constant=reject)
+              except (UnicodeError, json.JSONDecodeError):
+                  raise Refusal("JSON_SYNTAX") from None
+              need(not canonical or encoded(value) == raw, "JSON_ENCODING")
+              return value
+          
+          
+          def identity(info):
+              return tuple(getattr(info, "st_" + key) for key in
+                           ("dev", "ino", "mode", "uid", "gid", "nlink", "size", "mtime_ns", "ctime_ns"))
+          
+          
+          def read(path, bound):
+              path = Path(path)
+              need(path.is_absolute() and path.resolve(strict=True) == path, "PHYSICAL_PATH")
+              fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK | os.O_CLOEXEC)
+              try:
+                  before = os.fstat(fd)
+                  need(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and before.st_uid == os.getuid() and
+                       not before.st_mode & 0o022 and 0 < before.st_size <= bound, "READ_CUSTODY")
+                  parts, size = [], 0
+                  while size <= bound:
+                      part = os.read(fd, min(65536, bound + 1 - size))
+                      if not part:
+                          break
+                      parts.append(part); size += len(part)
+                  raw = b"".join(parts)
+                  need(len(raw) == before.st_size and identity(before) == identity(os.fstat(fd)) == identity(path.lstat()),
+                       "READ_DRIFT")
+                  return raw
+              finally:
+                  os.close(fd)
+          
+          
+          def extract_grant(message, expected_sha256):
+              need(type(message) is str and message.isascii() and 0 < len(message) <= PUBLIC_CAP and
+                   type(expected_sha256) is str and re.fullmatch("[0-9a-f]{64}", expected_sha256) is not None, "GRANT_ENVELOPE")
+              if message.endswith("\n"):
+                  message = message[:-1]
+              need(message.startswith(START) and message.endswith(END), "GRANT_ENVELOPE")
+              raw = message[len(START):-len(END)].encode("ascii")
+              need(sha(raw) == expected_sha256, "GRANT_PIN")
+              strict(raw, PUBLIC_CAP)
+              return raw
+          
+          
+          def admit_event(environment, event, expected_grant_sha256):
+              fixed = {
+                  "GITHUB_ACTIONS": "true", "RUNNER_ENVIRONMENT": "github-hosted", "RUNNER_ARCH": "X64",
+                  "RUNNER_OS": "Linux", "GITHUB_EVENT_NAME": "push", "GITHUB_REPOSITORY": REPOSITORY,
+                  "GITHUB_REPOSITORY_OWNER": OWNER, "GITHUB_REPOSITORY_OWNER_ID": str(OWNER_ID),
+                  "GITHUB_ACTOR": OWNER, "GITHUB_ACTOR_ID": str(OWNER_ID), "GITHUB_TRIGGERING_ACTOR": OWNER,
+                  "GITHUB_REF": "refs/heads/" + BRANCH, "GITHUB_RUN_ATTEMPT": "1", "GITHUB_JOB": "dg17-bounded",
+                  "GITHUB_WORKFLOW_REF": REPOSITORY + "/" + WORKFLOW + "@refs/heads/" + BRANCH,
+              }
+              need(type(environment) is dict and all(environment.get(k) == v for k, v in fixed.items()), "HOSTED_CONTEXT")
+              run_id, commit = environment.get("GITHUB_RUN_ID"), environment.get("GITHUB_SHA")
+              need(type(run_id) is str and re.fullmatch("[1-9][0-9]{0,18}", run_id) is not None and
+                   type(commit) is str and re.fullmatch("[0-9a-f]{40}", commit) is not None and
+                   environment.get("GITHUB_WORKFLOW_SHA") == commit, "ACTUAL_RUN_SOURCE")
+              need(type(event) is dict and event.get("before") == BASE_COMMIT and event.get("after") == commit and
+                   event.get("ref") == "refs/heads/" + BRANCH and
+                   all(type(event.get(k)) is bool and event[k] is False for k in ("created", "deleted", "forced")), "PUSH_BASE")
+              repository, sender, pusher, head = (event.get(k) for k in ("repository", "sender", "pusher", "head_commit"))
+              need(all(type(v) is dict for v in (repository, sender, pusher, head)), "PUSH_IDENTITIES")
+              owner = repository.get("owner")
+              need(type(owner) is dict and repository.get("full_name") == REPOSITORY and owner.get("login") == OWNER and
+                   type(owner.get("id")) is int and owner["id"] == OWNER_ID and sender.get("login") == OWNER and
+                   type(sender.get("id")) is int and sender["id"] == OWNER_ID and pusher.get("name") == OWNER and
+                   head.get("id") == commit, "PUSH_OWNER_JOIN")
+              grant = extract_grant(head.get("message"), expected_grant_sha256)
+              return {"repository": REPOSITORY, "branch": BRANCH, "run_id": run_id, "attempt": 1,
+                      "workflow_commit": commit, "job_name": "dg17-bounded"}, grant
+          
+          
+          def receive_source(source_root, expected_manifest_sha256):
+              source = Path(source_root)
+              need(source.is_absolute() and source.resolve(strict=True) == source and
+                   type(expected_manifest_sha256) is str and re.fullmatch("[0-9a-f]{64}", expected_manifest_sha256) is not None,
+                   "SOURCE_ROOT")
+              raw = read(source / DIRECTORY / "INPUT_PINS.json", PUBLIC_CAP)
+              need(sha(raw) == expected_manifest_sha256, "MANIFEST_PIN")
+              value = strict(raw, PUBLIC_CAP)
+              need(type(value) is dict and set(value) == {"schema", "files"} and
+                   value["schema"] == "dg17.apparmor.preparation-canary-source.v1", "MANIFEST_SCHEMA")
+              rows = value["files"]
+              need(type(rows) is list and len(rows) == len(SOURCE_PATHS) and all(type(r) is dict and
+                   set(r) == {"path", "bytes", "sha256"} for r in rows) and
+                   [r["path"] for r in rows] == list(SOURCE_PATHS), "SOURCE_PATHS")
+              need(all(type(r["bytes"]) is int and 0 < r["bytes"] <= SOURCE_CAP and type(r["sha256"]) is str and
+                   re.fullmatch("[0-9a-f]{64}", r["sha256"]) is not None for r in rows), "SOURCE_ROW")
+              # Includes the manifest and a conservative 64 KiB reserve for the entire
+              # independently admitted workflow, whose inline code includes this file.
+              need(sum(r["bytes"] for r in rows) + len(raw) + WORKFLOW_ALLOWANCE <= SOURCE_CAP, "SOURCE_AGGREGATE")
+              bodies = {}
+              for row in rows:
+                  body = read(source / row["path"], row["bytes"])
+                  need(len(body) == row["bytes"] and sha(body) == row["sha256"], "SOURCE_BODY")
+                  bodies[row["path"]] = body
+              need(sha(bodies[PREPARATION + "/INPUT_PINS.json"]) == PREPARATION_MANIFEST_SHA, "FROZEN_PREPARATION_PIN")
+              return raw, bodies
+          
+          
+          def receive_canary(value, context, source_pin, grant_pin, failure_codes):
+              fields = {"schema", "candidate_identity", "status", "stage", "context", "source_manifest_sha256",
+                        "owner_grant_sha256", "preparation_manifest_sha256", "host_preparation", "frozen",
+                        "source_bookends_equal", "helper_attempts", "model_calls", "policy_mutations",
+                        "new_policy_namespaces", "native_execution", "authority", "original14",
+                        "uses_transferable_readiness", "original_awards", "failure"}
+              need(type(value) is dict and set(value) == fields, "CANARY_FIELDS")
+              need(value["schema"] == "dg17.apparmor.preparation-canary.v1" and
+                   value["candidate_identity"] == "dg17-9077-codex20-preparation-canary06" and
+                   value["context"] == context and value["source_manifest_sha256"] == source_pin and
+                   value["owner_grant_sha256"] == grant_pin and value["preparation_manifest_sha256"] == PREPARATION_MANIFEST_SHA and
+                   value["status"] in ("CANARY_PREPARATION_RECEIVED", "CANARY_BOUNDED_FAILURE_RECEIVED", "CANARY_PREPARATION_UNRECEIVED") and
+                   value["stage"] in ("HOST_PREPARATION", "NO_LOAD_PREPARATION", "FROZEN_RECEIVING"), "CANARY_BINDING")
+              need(all(type(value[key]) is int and value[key] == 0 for key in
+                       ("helper_attempts", "model_calls", "policy_mutations", "new_policy_namespaces")) and
+                   value["native_execution"] is False and value["uses_transferable_readiness"] is False and
+                   value["authority"] == "NONE" and value["original14"] == "REQUIRED_UNMET_UNWAIVED_UNRETIRED" and
+                   value["original_awards"] == [] and type(value["source_bookends_equal"]) is bool, "CANARY_SCOPE")
+              need(type(value["host_preparation"]) is dict and set(value["host_preparation"]) == {"state", "returncode", "document"} and
+                   type(value["frozen"]) is dict and set(value["frozen"]) ==
+                   {"state", "status", "result", "receipt", "received_at_ns", "current_parent_host_sha256"}, "CANARY_COMPONENT_FIELDS")
+              need(type(failure_codes) is frozenset and 0 < len(failure_codes) <= 64 and
+                   all(type(code) is str and re.fullmatch("[A-Z][A-Z0-9_]{0,95}", code) is not None for code in failure_codes),
+                   "CANARY_FAILURE_ENUM")
+              failure = value["failure"]
+              if value["status"] == "CANARY_PREPARATION_UNRECEIVED":
+                  need(type(failure) is dict and set(failure) == {"code"} and type(failure["code"]) is str and
+                       failure["code"] in failure_codes, "CANARY_FAILURE")
+              else:
+                  need(failure is None, "CANARY_FAILURE")
+              need(len(encoded(value)) <= 32768, "CANARY_PUBLIC_BOUND")
+              return value
+          
+          
+          def run_received(source_root, expected_manifest_sha256, expected_context, owner_grant_raw, expected_owner_grant_sha256):
+              manifest, bodies = receive_source(source_root, expected_manifest_sha256)
+              need(type(owner_grant_raw) is bytes and 0 < len(owner_grant_raw) <= 4096 and
+                   sha(owner_grant_raw) == expected_owner_grant_sha256, "GRANT_PIN")
+              entry = str(Path(source_root) / DIRECTORY / "caller.py")
+              module = types.ModuleType("dg17_received_preparation_canary06_caller")
+              module.__file__ = entry
+              module._RECEIVED_CALLER_BYTES = bodies[DIRECTORY + "/caller.py"]
+              exec(compile(module._RECEIVED_CALLER_BYTES, entry, "exec"), module.__dict__)
+              value = module.run_parent(Path(source_root), expected_manifest_sha256, expected_context,
+                                        owner_grant_raw, expected_owner_grant_sha256)
+              need(receive_source(source_root, expected_manifest_sha256) == (manifest, bodies), "SOURCE_BOOKEND")
+              return receive_canary(value, expected_context, expected_manifest_sha256, expected_owner_grant_sha256, module.FAILURE_CODES)
+          
+          
+          def main(args):
+              need(type(args) is list and len(args) == 2 and all(type(pin) is str and
+                   re.fullmatch("[0-9a-f]{64}", pin) is not None for pin in args), "BOOTSTRAP_PINS")
+              need(os.getuid() == os.geteuid() > 0 and os.getgid() == os.getegid() > 0, "PARENT_IDENTITY")
+              event = strict(read(Path(os.environ["GITHUB_EVENT_PATH"]), PUBLIC_CAP), PUBLIC_CAP, canonical=False)
+              context, grant = admit_event(dict(os.environ), event, args[1])
+              source = Path(os.environ["GITHUB_WORKSPACE"]) / "packet"
+              result = run_received(source, args[0], context, grant, args[1])
+              raw = encoded(result)
+              public = Path(os.environ["RUNNER_TEMP"]) / ("dg17-preparation-canary-" + context["run_id"] + "-a1") / "public/CANARY.json"
+              need(read(public, 32768) == raw, "CANARY_LOG_ARTIFACT_JOIN")
+              sys.stdout.buffer.write(b"DG17_PREPARATION_CANARY06_V1 " + raw)
+              sys.stdout.buffer.flush()
+              return 0 if result["status"] == "CANARY_PREPARATION_RECEIVED" else 1
+          
+          
+          if __name__ == "__main__":
+              try:
+                  raise SystemExit(main(sys.argv[1:]))
+              except SystemExit:
+                  raise
+              except BaseException:
+                  sys.stderr.write("DG17_PREPARATION_CANARY06_BOOTSTRAP_REFUSED\n")
+                  raise SystemExit(1)
+          
+          ' 562706eb98ddce86e46e40e0e67ab41caefbfff98a973b5c4113dd416deb3448 a08ce509bac296646191fc8a8dabb0eb9e997d481550ce96a8f884aa2a994246
+
+      - name: Retain only closed public canary documents
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-preparation-canary-${{ github.run_id }}-a1
+          if-no-files-found: error
+          retention-days: 7
+          path: |
+            ${{ runner.temp }}/dg17-apparmor-${{ github.run_id }}-a1/public/RESULT.json
+            ${{ runner.temp }}/dg17-apparmor-${{ github.run_id }}-a1/public/RECEIPT.json
+            ${{ runner.temp }}/dg17-preparation-canary-${{ github.run_id }}-a1/public/CANARY.json

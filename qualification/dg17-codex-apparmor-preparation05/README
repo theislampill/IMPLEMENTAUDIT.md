@@ -1,0 +1,48 @@
+The profiles in this directory are not turned on by default because they
+are not as mature as the profiles in /etc/apparmor.d/.
+
+In some cases, it is because the profile hasn't been updated to work
+with newer code; in other cases, it because any benefit provided by the
+profile is much less than the potential for causing problems.
+
+In short, feel free to try these profiles if you wish, but be aware that
+they may not work on default configurations, let alone your specific
+configuration.
+
+To use, for example, the postfix profiles, we recommend running commands
+such as:
+
+  # cd /usr/share/apparmor/extra-profiles/
+  # cp *postfix* usr.sbin.post* /etc/apparmor.d/
+  # cp usr.bin.procmail usr.sbin.sendmail /etc/apparmor.d/
+  # aa-complain /etc/apparmor.d/*postfix*
+  # aa-complain /etc/apparmor.d/usr.sbin.post*
+  # aa-complain /etc/apparmor.d/usr.bin.procmail
+  # aa-complain /etc/apparmor.d/usr.sbin.sendmail
+  # rcpostfix restart
+  # rcapparmor restart
+    <use postfix>
+  # aa-logprof
+    <answer some questions>
+
+Once you've used the profiles enough to feel confident that they will
+work for your situation, then run commands such as the following:
+
+  # aa-enforce /etc/apparmor.d/*postfix*
+  # aa-enforce /etc/apparmor.d/usr.sbin.post*
+  # aa-enforce /etc/apparmor.d/usr.bin.procmail
+  # aa-enforce /etc/apparmor.d/usr.sbin.sendmail
+
+You may use the aa-unconfined tool to make sure your profiles are
+working as you expect.
+
+Feedback on these unsupported profiles is welcomed; any
+contributions for this directory should be clearly licensed
+-- we recommend using the GPL. Please submit bug reports to the
+AppArmor issue tracker at https://gitlab.com/apparmor/apparmor/-/issues
+Please submit proposed changes as a merge request at
+https://gitlab.com/apparmor/apparmor/merge_requests
+Alternately, you may contact us via the apparmor@lists.ubuntu.com
+mailing list: https://lists.ubuntu.com/mailman/listinfo/apparmor
+
+Thanks
