@@ -15,7 +15,7 @@ QUALIFIER = 'scripts/qualify-work-graph-verifier.py'
 COMPILER = 'skills/implementaudit/scripts/compile-work-graph.py'
 OLD_COMPILER = '3649a8dc856e29ce11b6daa5861351cc1c21bf9c7a9b4f5a2ddde12108d8581f'
 CURRENT_COMPILER = '0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d'
-CURRENT_LOADER = (49927, '2989ba6cb8da6f52f9a2f94f27d141a931a0bffb8ebd03172091b170646d8017')
+CURRENT_LOADER = (54973, '5ef6950dd88a4ad20d9239b97f1357a337c733910d985f8f7355d85da971f76d')
 HISTORICAL_LOADER = (
     'test-support/r5-windows-capture-history/d2747b7-source/' + LOADER,
     39282, '042cf21f807ce52ac3522285458f1c0407415c1f0883370f1d73404abd9e97d1')
@@ -30,6 +30,8 @@ HISTORIES = ('R4_BUILD_CACHE_PHYSICAL_HISTORY', 'R4_INITIALIZATION_PHYSICAL_HIST
 # The production loader's historical pin table and refusal on current bytes stay
 # unchanged; no fallback searches the repository for a convenient matching hash.
 RETAINED = {
+    (QUALIFIER, RETAINED_V3_QUALIFIER):
+        'test-support/r5-c5-source-history/source5c7e/' + QUALIFIER,
     (COMPILER, OLD_COMPILER):
         'test-support/r5-c5-source-history/source0d579/' + COMPILER,
     (QUALIFIER, OLD_QUALIFIER):

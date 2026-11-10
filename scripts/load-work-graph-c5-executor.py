@@ -198,7 +198,22 @@ R5_RUNTIME_DIRECTORY_REASON_PINS=types.MappingProxyType(dict(R5_TEMPLATE_POPULAT
     **{EXECUTOR:R5_RUNTIME_DIRECTORY_REASON_EXECUTOR_SHA256}))
 
 
+# Explicit source-only default ACL representation successor; no old tuple is rebound.
+R5_RUNTIME_DEFAULT_ACL_SOURCE_REVISION='R5_HOSTED_UBUNTU24_RUNTIME_DEFAULT_ACL_SOURCE_20261110_V7'
+R5_RUNTIME_DEFAULT_ACL_EXECUTOR_MEMBER='test-support/r5-runtime-default-acl-source/work-graph-c5-executor.py'
+R5_RUNTIME_DEFAULT_ACL_EXECUTOR_SHA256='b2ca6122d61d3238c853fdbf1d1c6b23e7808b2dbd18e241d41e3b310c44145a'
+R5_RUNTIME_DEFAULT_ACL_EXECUTION_SELECTION='fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-runtime-default-acl-execution-profile.json'
+R5_RUNTIME_DEFAULT_ACL_PINS=types.MappingProxyType({
+    **{name:pin for name,pin in R5_RUNTIME_DIRECTORY_REASON_PINS.items() if name!=R5_TEMPLATE_POPULATION_EXECUTION_SELECTION},
+    EXECUTOR:R5_RUNTIME_DEFAULT_ACL_EXECUTOR_SHA256,
+    R5_RUNTIME_DEFAULT_ACL_EXECUTION_SELECTION:'94782c8c05f766d0cc0eeeb75d00352e9e5ff7fa1bd2e0968b5a580daff09256'})
+
+
 def _selection(profile,source_revision=None):
+    if source_revision == R5_RUNTIME_DEFAULT_ACL_SOURCE_REVISION:
+        if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
+            raise ValueError('Runtime default ACL successor requires the fixed R5 hosted profile')
+        return R5_RUNTIME_DEFAULT_ACL_PINS,R5_HOSTED_BASE_SELECTION,R5_HOSTED_PROVIDER_SELECTION,R5_RUNTIME_DEFAULT_ACL_EXECUTION_SELECTION,R5_HOSTED_ORIGINS
     if source_revision == R5_RUNTIME_DIRECTORY_REASON_SOURCE_REVISION:
         if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
             raise ValueError('Runtime directory reason successor requires the fixed R5 hosted profile')
@@ -319,6 +334,9 @@ def _read(name, profile=PROFILE,source_revision=None):
     if (source_revision == R5_RUNTIME_DIRECTORY_REASON_SOURCE_REVISION and name == EXECUTOR
             and pins.get(name) == R5_RUNTIME_DIRECTORY_REASON_EXECUTOR_SHA256):
         physical = R5_RUNTIME_DIRECTORY_REASON_EXECUTOR_MEMBER
+    if (source_revision == R5_RUNTIME_DEFAULT_ACL_SOURCE_REVISION and name == EXECUTOR
+            and pins.get(name) == R5_RUNTIME_DEFAULT_ACL_EXECUTOR_SHA256):
+        physical = R5_RUNTIME_DEFAULT_ACL_EXECUTOR_MEMBER
     path=ROOT/physical
     if not path.is_absolute() or '..' in path.parts:raise ValueError('C5 execution source alias is unsupported')
     directory=os.open('/',os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW)
@@ -378,7 +396,8 @@ class _Engine:
                 or selection.get('profile')!=self.profile or selection.get('selection_origins')!=dict(self.origins)
                 or selection.get('original_argv')!=['bash','tests/reproducible-release-asset.test.sh']):
             raise ValueError('Unsupported fixed C5 execution selection')
-        if self.source_revision in (R5_TEMPLATE_POPULATION_SOURCE_REVISION, R5_RUNTIME_DIRECTORY_REASON_SOURCE_REVISION):
+        if self.source_revision in (R5_TEMPLATE_POPULATION_SOURCE_REVISION, R5_RUNTIME_DIRECTORY_REASON_SOURCE_REVISION,
+                                    R5_RUNTIME_DEFAULT_ACL_SOURCE_REVISION):
             validate_git_directory_selection_v1(selection)
         # The unchanged data reader names its historical logical fixture key.
         # This explicit map binds that key to the separately captured execution
