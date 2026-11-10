@@ -1135,6 +1135,70 @@ class CompositeSourceCases(unittest.TestCase):
             with self.subTest(adverse=index), self.assertRaises(ValueError):
                 owner._bwrap_v5_profiles(raw)
 
+        def permission_table_records_are_closed_typed_and_context_bound():
+            owner = load('c5_permission_records', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
+            def named(name):
+                return b'\x04' + (len(name)+1).to_bytes(2, 'little') + name + b'\0'
+            def u32(value):
+                return b'\x02' + value.to_bytes(4, 'little')
+            def policy(count=1, records=None, version=1, parent=b'policydb', extra=b''):
+                if records is None:
+                    records = (u32(0) + u32(1)*13) * count
+                table = named(b'perms') + b'\x07' + named(b'version') + u32(version)
+                table += b'\x0b' + count.to_bytes(2, 'little') + records + b'\x0c' + extra + b'\x08'
+                body = named(b'profile') + b'\x07\x05\x03\x00ci\x00'
+                body += named(b'flags') + b'\x07\x08' + named(parent) + b'\x07' + table + b'\x08\x08'
+                return named(b'version') + u32(5) + body, body
+            for count in (1, 2, 23):
+                raw, body = policy(count)
+                result = owner._bwrap_v5_profiles(raw)
+                self.assertEqual(result['ci']['sha256'], hashlib.sha256((5).to_bytes(4, 'little') + body).hexdigest())
+                self.assertEqual(result['ci']['abi'], 5)
+                self.assertIsNone(result['ci']['xmatch'])
+            invalid = [policy(version=2)[0], policy(parent=b'unrelated')[0], policy(extra=u32(0))[0],
+                       policy(records=u32(1)*14)[0], policy(records=u32(0)+u32(1)*12)[0],
+                       policy(records=u32(0)+u32(1)*14)[0],
+                       policy(records=u32(0)+u32(1)*12+b'\x01\0\0')[0],
+                       policy(records=u32(0)+u32(1)*12+named(b'foreign')+u32(1))[0]]
+            valid, _ = policy()
+            invalid += [valid[:12]+(7).to_bytes(4, 'little')+valid[16:],
+                        valid[:16]+named(b'namespace')+b'\x05\x02\0x\0'+valid[16:], valid[:-1]]
+            for raw in invalid:
+                with self.subTest(raw_sha=hashlib.sha256(raw).hexdigest()), self.assertRaises(ValueError):
+                    owner._bwrap_v5_profiles(raw)
+        def no_load_userspace_transport_keeps_original_budget_and_kernel_route():
+            owner = load('c5_userspace_transport', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
+            fixed = ['/usr/sbin/apparmor_parser', '--config-file=/dev/null', '--skip-cache',
+                     '--skip-read-cache', '--jobs=0', '--skip-kernel-load', '--stdout']
+            for version in (b'4.0.1', b'5.0.2'):
+                query = Namespace(returncode=0, stdout=b'AppArmor parser version '+version+b'\n', stderr=b'')
+                result = Namespace(returncode=0, stdout=b'SYNTHETIC_WIRE_ONLY', stderr=b'')
+                with mock.patch.object(owner.subprocess, 'run', side_effect=[query, result]) as run:
+                    self.assertEqual(owner._bwrap_compile_userspace(b'SYNTHETIC_POLICY'), result.stdout)
+                self.assertEqual(run.call_args_list[0].args[0], ['/usr/sbin/apparmor_parser', '--version'])
+                expected = fixed + (['--zstd-compress-level=0'] if version.startswith(b'5') else [])
+                self.assertEqual(run.call_args_list[1].args[0], expected)
+                self.assertLessEqual(run.call_args_list[1].kwargs['timeout'], 20)
+                self.assertEqual(run.call_args_list[1].kwargs['input'], b'SYNTHETIC_POLICY')
+            bad = Namespace(returncode=0, stdout=b'unknown compiler\n', stderr=b'')
+            with mock.patch.object(owner.subprocess, 'run', return_value=bad) as run, self.assertRaises(ValueError):
+                owner._bwrap_compile_userspace(b'SYNTHETIC_POLICY')
+            self.assertEqual(run.call_count, 1)
+            query = Namespace(returncode=0, stdout=b'AppArmor parser version 5.0.2\n', stderr=b'')
+            overflow = Namespace(returncode=0, stdout=b'x'*65536, stderr=b'')
+            with mock.patch.object(owner.subprocess, 'run', side_effect=[query, overflow]), self.assertRaises(ValueError):
+                owner._bwrap_compile_userspace(b'SYNTHETIC_POLICY')
+            with mock.patch.object(owner.subprocess, 'run', return_value=query) as run:
+                with mock.patch.object(owner.time, 'monotonic', side_effect=[0, 0, 21]), self.assertRaises(ValueError):
+                    owner._bwrap_compile_userspace(b'SYNTHETIC_POLICY')
+            self.assertEqual(run.call_count, 1)
+
+        permission_table_records_are_closed_typed_and_context_bound()
+        no_load_userspace_transport_keeps_original_budget_and_kernel_route()
+
+
+
+
     @unittest.skipUnless(sys.platform == 'linux' and Path('/usr/sbin/apparmor_parser').is_file(), 'AppArmor no-load compiler')
     def test_c5_compiled_opaque_attachment_is_bound_and_conservative(self):
         owner = load('c5_opaque_semantics', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
@@ -1144,10 +1208,7 @@ class CompositeSourceCases(unittest.TestCase):
         def compile_policy(attachment):
             source = ('abi <abi/4.0>,\nprofile ci-selected ' + attachment +
                       ' flags=(unconfined) { userns, }\n').encode()
-            result = subprocess.run(['/usr/sbin/apparmor_parser', '--config-file=/dev/null',
-                '--skip-cache', '--skip-read-cache', '--jobs=0', '--skip-kernel-load', '--stdout'],
-                input=source, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=20, check=True)
-            return result.stdout
+            return owner._bwrap_compile_userspace(source)
         raw = compile_policy('/opt/selected/program')
         profiles = receive(raw)
         self.assertEqual(set(profiles), {'ci-selected'})
@@ -1180,10 +1241,8 @@ class CompositeSourceCases(unittest.TestCase):
         owner = load('c5_approved_compiled', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
         receive = getattr(owner, '_bwrap_v5_profiles', None)
         self.assertTrue(callable(receive), 'compiled profile binding is absent')
-        result = subprocess.run(['/usr/sbin/apparmor_parser', '--config-file=/dev/null',
-            '--skip-cache', '--skip-read-cache', '--jobs=0', '--skip-kernel-load', '--stdout'],
-            input=owner.HOSTED_BWRAP_POLICY, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=20, check=True)
-        profiles = receive(result.stdout)
+        compiled = owner._bwrap_compile_userspace(owner.HOSTED_BWRAP_POLICY)
+        profiles = receive(compiled)
         self.assertEqual(set(profiles), set(owner.HOSTED_BWRAP_NAMES))
         self.assertTrue(profiles[owner.HOSTED_BWRAP_NAMES[0]]['xmatch'])
         self.assertIsNone(profiles[owner.HOSTED_BWRAP_NAMES[1]]['xmatch'])
@@ -1214,10 +1273,7 @@ class CompositeSourceCases(unittest.TestCase):
         """Actual installer/receipt flow with constructed kernel observations; no policy load."""
         owner = load('c5_provision_compiled_flow', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
         expected = owner._bwrap_expected_compilation()
-        compiled = subprocess.run(['/usr/sbin/apparmor_parser', '--config-file=/dev/null',
-            '--skip-cache', '--skip-read-cache', '--jobs=0', '--skip-kernel-load', '--stdout'],
-            input=b'abi <abi/4.0>,\nprofile ci-foreign /opt/other flags=(unconfined) { userns, }\n',
-            stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=20, check=True).stdout
+        compiled = owner._bwrap_compile_userspace(b'abi <abi/4.0>,\nprofile ci-foreign /opt/other flags=(unconfined) { userns, }\n')
         foreign = dict(attach='<unknown>', mode='unconfined', sha256=owner._bwrap_v5_profiles(compiled)['ci-foreign']['sha256'])
         before = {'ci-foreign': foreign}
         proof = {'ci-foreign': owner._bwrap_prove_nonmatch(compiled, 'ci-foreign', foreign)}

@@ -730,7 +730,7 @@ def _bwrap_v5_profiles(raw):
         value = take(number(2))
         _bwrap_need(value and value[-1] == 0, 'compiled policy string is not terminated')
         return value[:-1]
-    def node(depth=0):
+    def node(depth=0, parents=(), previous=()):
         nonlocal nodes
         nodes += 1
         _bwrap_need(depth <= 16 and nodes <= 8192, 'compiled policy structure exceeds bound')
@@ -756,17 +756,34 @@ def _bwrap_v5_profiles(raw):
             ending = {7: 8, 9: 10, 11: 12}[kind]
             value = []
             while position < len(raw) and raw[position] != ending:
-                value.append(node(depth + 1))
+                value.append(node(depth + 1, parents + ((kind, name),), value if kind == 7 and name == b'perms' else ()))
             if kind == 11 and name == b'net_allowed_af':
                 # ABI5 counts network records; each carries three unnamed
                 # u16 values (allow, audit, quiet), not one scalar element.
                 _bwrap_need(depth == 1 and all(item['kind'] == 1 and item['name'] is None
                             for item in value), 'unsupported compiled network array')
                 count *= 3
+            if kind == 11 and name is None and parents[-1:] == ((7, b'perms'),):
+                # AppArmor5 ABI5 permission tables count records, each14 U32s.
+                _bwrap_need(parents in (((7, b'profile'), (7, b'policydb'), (7, b'perms')), ((7, b'profile'), (7, b'perms')))
+                            and len(previous) == 1 and previous[0]['kind'] == 2
+                            and previous[0]['name'] == b'version' and previous[0]['value'] == 1,
+                            'unsupported compiled permission table context or version')
+                _bwrap_need(all(item['kind'] == 2 and item['name'] is None for item in value)
+                            and len(value) == count * 14
+                            and all(value[i]['value'] == 0 for i in range(0, len(value), 14)),
+                            'unsupported compiled permission record')
+                count *= 14
             _bwrap_need(number(1) == ending and (count is None or len(value) == count),
                         'compiled policy container differs')
         else:
             raise ValueError('unsupported compiled policy token')
+        if kind == 7 and name == b'perms':
+            _bwrap_need(parents in (((7, b'profile'), (7, b'policydb')), ((7, b'profile'),))
+                        and len(value) == 2 and value[0]['kind'] == 2
+                        and value[0]['name'] == b'version' and value[0]['value'] == 1
+                        and value[1]['kind'] == 11 and value[1]['name'] is None,
+                        'unsupported compiled permission table framing')
         return dict(kind=kind, name=name, value=value, start=start, end=position, data_start=data_start)
     result = {}
     while position < len(raw):
@@ -921,14 +938,40 @@ def _bwrap_resolve_opaque(inventory):
     return proofs
 
 
+def _bwrap_compile_userspace(policy):
+    """One no-load compilation; explicitly request uncompressed userspace output.
+
+    AppArmor5's -c controls only its output container. Keep old4.x argv and all
+    ABI/profile/hash/oracle checks; never use this helper for a kernel operation.
+    Version query and compile share the original20-second/64-KiB/8-KiB budget.
+    """
+    import re
+    stop = time.monotonic() + 20
+    version = subprocess.run(['/usr/sbin/apparmor_parser', '--version'], env=dict(ENV), cwd='/',
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=max(0.001, stop-time.monotonic()), check=False)
+    _bwrap_need(version.returncode == 0 and 0 < len(version.stdout) <= 2048
+                and len(version.stderr) <= 8192, 'userspace compiler version refused')
+    line = version.stdout.splitlines()[0]
+    match = re.fullmatch(rb'AppArmor parser version ([0-9]+)(?:\.[0-9]+){1,2}(?:-[A-Za-z0-9.+-]+)?', line)
+    _bwrap_need(match is not None, 'userspace compiler version shape differs')
+    argv = ['/usr/sbin/apparmor_parser', '--config-file=/dev/null', '--skip-cache',
+        '--skip-read-cache', '--jobs=0', '--skip-kernel-load', '--stdout']
+    if int(match.group(1)) >= 5:
+        argv.append('--zstd-compress-level=0')
+    remaining = stop-time.monotonic()
+    _bwrap_need(remaining > 0, 'userspace compiler deadline exhausted')
+    result = subprocess.run(argv, input=policy, env=dict(ENV), cwd='/', stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE, timeout=remaining, check=False)
+    _bwrap_need(time.monotonic() <= stop and result.returncode == 0
+                and 0 < len(result.stdout) <= 65536-len(version.stdout)
+                and len(result.stderr) <= 8192-len(version.stderr),
+                'approved policy compilation failed or exceeded bound')
+    return result.stdout
+
+
 def _bwrap_expected_compilation():
     """Compile approved bytes to stdout, with kernel loading and caches disabled."""
-    result = subprocess.run(['/usr/sbin/apparmor_parser', '--config-file=/dev/null', '--skip-cache',
-        '--skip-read-cache', '--jobs=0', '--skip-kernel-load', '--stdout'], input=HOSTED_BWRAP_POLICY,
-        env=dict(ENV), cwd='/', stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=20, check=False)
-    _bwrap_need(result.returncode == 0 and 0 < len(result.stdout) <= 65536 and len(result.stderr) <= 8192,
-                'approved policy compilation failed or exceeded bound')
-    profiles = _bwrap_v5_profiles(result.stdout)
+    profiles = _bwrap_v5_profiles(_bwrap_compile_userspace(HOSTED_BWRAP_POLICY))
     _bwrap_need(set(profiles) == set(HOSTED_BWRAP_NAMES), 'approved compiled profile population differs')
     return {name: row['sha256'] for name, row in profiles.items()}
 
