@@ -1,0 +1,48 @@
+{
+  "code_manifest_sha256": "fdaee3f0655e41d5bd025cdd36d1d0bd3b183be907769b05c7c541657bb745c6",
+  "execution_grant": false,
+  "members": {
+    "CAPTURE_DIAGNOSTIC_CATALOG.json": {
+      "bytes": 670575,
+      "sha256": "b5321499719c129b71fb3b0dba82b23582a153f830bce98005b655563894632b"
+    },
+    "bound_child.py": {
+      "bytes": 1433,
+      "sha256": "fccb0177e87989b7efa728f5d9c5618eddd4261df8015a3b85469be165833915"
+    },
+    "capture_evidence.py": {
+      "bytes": 49224,
+      "sha256": "39d8ea138dedfce118a7b2a8e040c42cec1631e99065a2d0dc855e53bdcbdca2"
+    },
+    "fs_carrier.py": {
+      "bytes": 21303,
+      "sha256": "a6eeaba52927e084194249feee364e9cad567bff09b2771cbd4da44f8111daf4"
+    },
+    "fs_command.py": {
+      "bytes": 5275,
+      "sha256": "6e9c18cf0635c07ed9530a69a14efe281145ab9aacce61a6bfd68bc5dae08804"
+    },
+    "fs_io.py": {
+      "bytes": 8395,
+      "sha256": "42563b4b9848baf1e68086e3867cbcdcbd26b21bd28509a0b228d39bba6a71d0"
+    },
+    "fs_protocol.py": {
+      "bytes": 11796,
+      "sha256": "7f0ba8b2836f0273d6bde8b5a55aece03e62205aa5ae00d190d863ec7f8ad08e"
+    },
+    "fs_runner.py": {
+      "bytes": 12295,
+      "sha256": "90f17ef142c268199062d44b4ea3b96194ef5ab9c7d7f358a13f0b6c15fba790"
+    },
+    "fs_transport.py": {
+      "bytes": 3651,
+      "sha256": "ce1e627021e531843d869f35c34001ef7e7f13b4ad09f18d55d58fed13431081"
+    },
+    "full_g2_hooks.py": {
+      "bytes": 8458,
+      "sha256": "7628608fa2e6c083fd26b7c6ec9d588d60959c5baa5100ca34f15be14afe7107"
+    }
+  },
+  "native_qualification": false,
+  "schema": "dg16.direct-openssl-local-source-seal.v1"
+}
