@@ -1,0 +1,49 @@
+{
+  "adapter_sha256": "a32163583a285044f3a08be058e6b25b2777d63839d92d8039de189d661c1009",
+  "authority": "NONE",
+  "blocking_findings": [],
+  "candidate_seal_sha256": "a3d3accc9dae097d2f2ed7deecb88f9c7b33564db2a8ece9e077fb1c6cce4a4f",
+  "changed_members": 3,
+  "current_only": true,
+  "decision": "PASS",
+  "historical_host_profile_sha256": "e59f7ecf4426d06b1c59317b83c5b424aa232a023768354614f6d72907cace0b",
+  "historical_prerequisite_sha256": "770ea10da4120e22102c32b9ef75ffc5643ceb45292bfff5060b3c2ef513ac05",
+  "host_fields": [
+    "os",
+    "architecture",
+    "kernel",
+    "python_version",
+    "tools.bash",
+    "tools.bwrap",
+    "tools.git",
+    "tools.python3"
+  ],
+  "maintained_cases": [
+    "test_native_intake_uses_current_original14_not_retired_root",
+    "test_native_intake_later_boundary_prevents_return"
+  ],
+  "native_admission_sha256": "9f9506aa2e9eb9304901700597caafaa5449288f9d264d403034a30cd52d655b",
+  "native_receiver_sha256": "34f1cce43e60e469b661d2d1806dc958767e2ca093115cdd01b3a6f35816696c",
+  "pair_driver_sha256": "374b65be7ef926b86cdf7420d4a27afc1491ab7a3c98cfc4d9209129a07378fb",
+  "policy_sha256": "8e41cf8d8f5f478aa37f4d09e9e7974970c4f1e78dfd963027f18a098d55d1dd",
+  "predicates": [
+    "fixed_receiver_identity",
+    "wrong_receiver_refusal",
+    "current_native_intake",
+    "later_invalidation_refusal",
+    "ordinary_host_source_currentness_custody"
+  ],
+  "probe_sha256": "2ff69988feca655d8851c44e27c5ba4ca47cecee8901815e38a8f2e46dbead69",
+  "profile": "DG16_G2_SELECTED_ORDINARY_UBUNTU26_PY314_CURRENT_NATIVE_V2",
+  "profile_sha256": "c16c75039b938718ab4bfee9e49a6c55322bdfda22f25d0a526cf74f87944c3d",
+  "receiver_inputs_sha256": "fa723e477d6d463b1d82ccd6cb86ff4afd2aaeec36c5921e264ce0ada950dd30",
+  "retained_unchanged_members": 86,
+  "reviewer": "/root/final_composition_receive",
+  "schema": "dg16.g2-current-native-independent-review.v1",
+  "scope": "EXACT_CURRENT_ONLY_ORDINARY_G2_SOURCE_HOST_BODY_RECEIVING",
+  "source_applicability_sha256": "af7d8addef227857fdd913abfa2c3b65e6bbbbbd6eab1f49bdf72815d038162a",
+  "source_commit": "5f899a653df20073ed6691f898d9c9f630f0c100",
+  "source_manifest_sha256": "77a8ed263c480c16348f135beda69fc1a038b3df2436eb34289248fb99bda0fc",
+  "source_tree": "e7af9906e32eea314e33bddb7aeaf6bcff9242b0",
+  "utility_sha256": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c"
+}
