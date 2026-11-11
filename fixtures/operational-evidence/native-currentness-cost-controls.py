@@ -148,7 +148,7 @@ class CurrentnessCostControls(unittest.TestCase):
         h=self.h
         # Receipt-cost controls keep their original exact helper identities.
         # Current helpers retain three reads and no historical optimization credit.
-        retained=ROOT/'fixtures/operational-evidence/native-source/skills/implementaudit/scripts'
+        retained=ROOT/'test-support/native-operational-source-history/skills/implementaudit/scripts'
         claim=(retained/('claim-run-combined.sh.fixture' if combined else 'claim-run.sh.fixture')).read_bytes()
         validate=(retained/'validate-run-root.sh.fixture').read_bytes()
         expected=h.wg._NATIVE_COMBINED_CURRENT_PAIR_V1 if combined else h.wg._NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE

@@ -22,9 +22,10 @@ def require(condition, reason):
 def functions(names):
     text = source_text('compaction-result-observation.py')
     tree = ast.parse(text)
-    body = [node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name in names | {'unique'}]
+    body = [node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name in names | {'unique', 'mechanical_context', 'mechanical_call', 'mechanical_output', 'mechanical_input'}]
     env = {'require': require, 'json': json, 're': re, 'Path': Path, 'MAX_TOTAL': 2 * 1024 * 1024, 'canonical': lambda value: json.dumps(value, sort_keys=True, separators=(',', ':')).encode(), 'HoldObservationRefusal': ValueError, 'CURRENT_BOUNDARY_PROFILE': 'old-current', 'NONPROTECTED_PROFILE': 'codex-app-bounded-public-nonprotected-v1'}
     env.update(source_profile_constants())
+    env['MECHANICAL_PROFILE'] = load('compaction-result-observation.py').MECHANICAL_PROFILE
     exec(compile(ast.Module(body=body, type_ignores=[]), '<actual-public-owner-functions>', 'exec'), env)
     return env
 
@@ -58,6 +59,15 @@ class ExistingObservationControls(unittest.TestCase):
             node = next((n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == name))
             if name == 'actual_result':
                 source_profile_constants()  # The family must remain the exact two declared profiles.
+                # The separately added mechanical route is explicitly refused,
+                # before any original R/A acquisition or accepting check.
+                refusal = ast.parse("require(not mechanical_context(context), 'MECHANICAL_PROFILE_RETURN_JOIN_NOT_ADMITTED')").body[0]
+                self.assertEqual(ast.dump(node.body[0]), ast.dump(refusal))
+                original_api = functions({'actual_result'})
+                mechanical = {'profile_id': original_api['MECHANICAL_PROFILE']}
+                with self.assertRaisesRegex(ValueError, '^MECHANICAL_PROFILE_RETURN_JOIN_NOT_ADMITTED$'):
+                    original_api['actual_result'](mechanical, None, None, None, None, None, None)
+                node.body = node.body[1:]
                 additions = [n for n in node.body if isinstance(n, ast.If)
                              and ast.unparse(n.test) in ("context['profile_id'] == NONPROTECTED_PROFILE",
                                                         "context['profile_id'] in SOURCE_PROFILES")]
@@ -79,7 +89,7 @@ class ExistingObservationControls(unittest.TestCase):
         response = {'locator': loc(40), 'row': {'payload': {'type': 'custom_tool_call_output', 'call_id': 'c'}}}
         prior = {'bind_request': {'observation_id': 'prior'}, 'bound_response': {'bound': 'prior'}, 'obligation': {'observation_id': 'prior'}}
         pair = {'call': pin(30), 'result': pin(40)}
-        env.update(profile_tool_input=lambda context, command: command, delivery_tool_input=lambda *args: 'owned input', command_response=lambda *args: (json.dumps(prior['bound_response']), copy.deepcopy(pair)), before=lambda left, right: require(left['locator']['offset'] < right['locator']['offset'], 'ORDER'))
+        env.update(profile_tool_input=lambda context, command: command, delivery_tool_input=lambda *args, context: 'owned input', command_response=lambda *args: (json.dumps(prior['bound_response']), copy.deepcopy(pair)), before=lambda left, right: require(left['locator']['offset'] < right['locator']['offset'], 'ORDER'))
         context = {'child': {'path': 'child.jsonl', 'physical': {'device': 1, 'inode': 2}}}
         proofs = [{'prior': prior, 'original': {'call': pin(10), 'result': pin(20)}}]
         return (env, context, call, [call, response], proofs, pair)

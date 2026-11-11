@@ -69,7 +69,7 @@ class ObservationCostControls(unittest.TestCase):
         self.oe = load(SOURCE / 'scripts/operational-evidence.py', 'observation_primary')
         # Cost controls inject observations in the exact historical two-file domain.
         # Arbitrary fixture bytes must not acquire the legacy source envelope.
-        historical = ROOT/'fixtures/operational-evidence/native-source/skills/implementaudit/scripts'
+        historical = ROOT/'test-support/native-operational-source-history/skills/implementaudit/scripts'
         self.claim_raw = (historical/'claim-run.sh.fixture').read_bytes()
         self.validate_raw = (historical/'validate-run-root.sh.fixture').read_bytes()
         self.continuity_sources = {'claim_sha256': hashlib.sha256(self.claim_raw).hexdigest(),
@@ -528,7 +528,8 @@ class CombinedContinuitySourceControls(unittest.TestCase):
                 members = []
                 for name, _, _, _ in adapter.ORIGINAL14_SOURCE_PROFILE_V1:
                     origin = (SOURCE/'source-peers/native-runtime/skills/implementaudit/scripts'
-                              if name in {'claim-run.sh', 'validate-run-root.sh', 'claim-run-rotation.py'}
+                              if name in {'claim-run.sh', 'validate-run-root.sh', 'claim-run-rotation.py',
+                                          'rotate-canonical-state.py', 'canonical_rotation_inputs.py'}
                               else SOURCE/'skills/implementaudit/scripts') / name
                     raw = origin.read_bytes()
                     members.append((str(owner_root/name), raw))

@@ -33,7 +33,30 @@ class PendingIntegrationControls(unittest.TestCase):
             tree = ast.parse(text)
             guards = [n.lineno for n in tree.body if isinstance(n, ast.If) and '__main__' in ast.unparse(n.test)]
             if guards:
-                self.assertTrue(all((n.lineno < guards[0] for n in tree.body if isinstance(n, (ast.FunctionDef, ast.ClassDef)))), name)
+                if name == 'compaction-source-owner-codex-app.py':
+                    # The original universal syntactic placement check was too
+                    # broad for appended imported-only fresh/mechanical APIs.
+                    # Preserve the actual two-entry ordinary CLI requirement.
+                    from native_test_support import ordinary_cli_definition_closure
+                    closure = ordinary_cli_definition_closure(text)
+                    self.assertEqual(closure['entries'], ['ordinary_receiver_check_v1', 'execute_ordinary_receiver_v1'])
+                    self.assertIn('_ordinary_selection_v1', closure['dependencies'])
+                    self.assertEqual(len(closure['after_dispatch_imported_only']), 14)
+                    # Move a REAL required selection helper after dispatch.
+                    # Its unchanged body/source pin cannot bypass the order check.
+                    moved = ast.parse(text)
+                    helper = next(n for n in moved.body if isinstance(n, ast.FunctionDef) and n.name == '_ordinary_selection_v1')
+                    moved.body.remove(helper); moved.body.append(helper)
+                    with self.assertRaisesRegex(ValueError, '^CLI_REACHABLE_LATE_DEFINITION:_ordinary_selection_v1$'):
+                        ordinary_cli_definition_closure(ast.unparse(moved))
+                    # A changed actual profile gate cannot authorize an exclusion.
+                    changed = text.replace("selected['profile_id'] == 'codex-app-ordinary-review-v1'",
+                                           "selected['profile_id'] == FRESH_CANARY_PROFILE")
+                    self.assertNotEqual(changed, text)
+                    with self.assertRaisesRegex(ValueError, '^CLI_CRITICAL_SOURCE_CHANGED:_ordinary_selection_v1$'):
+                        ordinary_cli_definition_closure(changed)
+                else:
+                    self.assertTrue(all((n.lineno < guards[0] for n in tree.body if isinstance(n, (ast.FunctionDef, ast.ClassDef)))), name)
 
     def test_current_scanner_requires_owner_selected_version_and_keeps_metadata_only(self):
         text = source_text('compaction-audit-pending.py')

@@ -891,7 +891,7 @@ SOURCE_MEMBERS = {
     'scripts/work-graph-continuity-transport.py': 'scripts/work-graph-continuity-transport.py',
     **{f'skills/implementaudit/scripts/{name}': f'source-peers/route-graph/skills/implementaudit/scripts/{name}'
        for name in ('route-transaction.py', 'route_request_policy.py', 'compile-work-graph.py')},
-    **{f'skills/implementaudit/scripts/{name}': f'fixtures/operational-evidence/native-source/skills/implementaudit/scripts/{name}.fixture'
+    **{f'skills/implementaudit/scripts/{name}': f'test-support/native-operational-source-history/skills/implementaudit/scripts/{name}.fixture'
        for name in ('claim-run.sh', 'validate-run-root.sh')},
     **{f'skills/implementaudit/scripts/{name}': f'skills/implementaudit/scripts/{name}'
        for name in ('claim-run-rotation.py',
@@ -974,7 +974,7 @@ def main():
         preconditions = {
             'route_source_pin_matches': WG._NATIVE_ROUTE_PRODUCER_PROFILES_V1.get(route_sha) == len((canonical/'skills/implementaudit/scripts/route-transaction.py').read_bytes()),
             'static_source_pin_matches': WG._NATIVE_STATIC_OWNER_SHA256 == hashes['scripts/operational-evidence.py'],
-            'portable_old18_pair_matches': tuple(hashes['fixtures/operational-evidence/native-source/skills/implementaudit/scripts/'+name+'.fixture'] for name in ('claim-run.sh','validate-run-root.sh')) == WG._NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE,
+            'portable_old18_pair_matches': tuple(hashes['test-support/native-operational-source-history/skills/implementaudit/scripts/'+name+'.fixture'] for name in ('claim-run.sh','validate-run-root.sh')) == WG._NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE,
         }
         if not preconditions['route_source_pin_matches'] or not preconditions['portable_old18_pair_matches'] or needs_static and not preconditions['static_source_pin_matches']:
             print(json.dumps({'status': 'PRECONDITION_SOURCE_PIN_MISMATCH', 'scope': 'SOURCE_INTERFACE_ONLY',

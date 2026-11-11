@@ -419,7 +419,7 @@ class OrdinaryControls(unittest.TestCase):
     def test_configuration_mismatch_stops_before_ancestry_or_native_read(self):
         owner = load_owner("compaction-source-owner-codex-app.py")
         with tempfile.TemporaryDirectory(prefix="ordinary-provider-control-") as temp:
-            selected = {}
+            selected = {"profile_id": "codex-app-ordinary-review-v1"}
             for key in ("native_executable", "desktop_executable", "desktop_asar", "config_file", "python_executable"):
                 path = Path(temp) / key; path.write_bytes(key.encode())
                 selected[key] = {"path": str(path), "bytes": path.stat().st_size, "sha256": sha(path.read_bytes())}
