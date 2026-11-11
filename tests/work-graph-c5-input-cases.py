@@ -37,29 +37,52 @@ def correspondence_profile_globals():
     old = 'FIXED_GENUINE_C5_SHARED_IMAGE_CORRESPONDENCE_20261031_V1'
     fresh = 'FIXED_GENUINE_C5_SHARED_IMAGE_CORRESPONDENCE_R4_CURRENT_HOST_20261104_V1'
     cache = 'FIXED_GENUINE_C5_SHARED_IMAGE_CORRESPONDENCE_R4_BUILD_LOCAL_COMPRESSION_20261104_V1'
+    hosted = 'FIXED_GENUINE_C5_SHARED_IMAGE_R5_HOSTED_UBUNTU24_SINGLE_COPY_20261105_V1'
     return dict(CORRESPONDENCE_PROFILE=old, R4_CORRESPONDENCE_PROFILE=fresh,
                 R4_BUILD_CACHE_PROFILE=cache, R4_HOST_PROFILES=(fresh, cache),
-                CORRESPONDENCE_PROFILES=(old, fresh, cache))
+                R5_HOSTED_PROFILE=hosted, UID0_HOST_PROFILES=(fresh, cache, hosted),
+                CORRESPONDENCE_PROFILES=(old, fresh, cache, hosted))
 
 
+def _selected_source_fixture():
+    path = ROOT / 'tests/c5-selected-source-fixture.py'
+    module = types.ModuleType('c5_input_cases_selected_source_fixture')
+    module.__file__ = str(path)
+    exec(compile(path.read_bytes(), str(path), 'exec'), module.__dict__)
+    return module
 
-def copy_c5_closed_source(destination, *, current_builder=False):
+
+def copy_c5_closed_source(destination, *, current_builder=False, profile=None, revision=None):
     """Materialize exact selected physical members, including historical owners."""
+    fixture = _selected_source_fixture()
     path = ROOT / 'scripts/load-work-graph-c5-executor.py'
     module = types.ModuleType('c5_fixture_selected_source'); module.__file__ = str(path)
     exec(compile(path.read_bytes(), str(path), 'exec'), module.__dict__)
-    profile = module.R4_BUILD_CACHE_PROFILE if current_builder else module.CORRESPONDENCE_PROFILE
-    revision = module.R4_BUILD_CACHE_SOURCE_REVISION if current_builder else module.R4_COMPOSED_SOURCE_REVISION
+    if profile is None:
+        profile = module.R4_BUILD_CACHE_PROFILE if current_builder else module.CORRESPONDENCE_PROFILE
+    if revision is None:
+        revision = module.R4_BUILD_CACHE_SOURCE_REVISION if current_builder else module.R4_COMPOSED_SOURCE_REVISION
     pins = module._selection(profile, revision)[0]
-    physical = {module.LOADER}
+    planned = {module.LOADER: module.LOADER}
     for name, pin in pins.items():
-        historical = module.R4_BUILD_CACHE_PHYSICAL_HISTORY.get(name)
-        member = (historical[0] if historical is not None and historical[1] == pin else
-                  module.R4_COPY_GATE_MEMBER if name == module.GATE and not current_builder else name)
-        physical.add(member)
-    for name in sorted(physical):
-        target = destination / name; target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_bytes((ROOT / name).read_bytes()); target.chmod(0o644)
+        physical = fixture.physical_member(module, name, pin, profile, revision)
+        source_name = fixture.RETAINED.get((name, pin), physical)
+        planned[physical] = source_name
+        planned.setdefault(name, source_name)
+    for physical, source_name in sorted(planned.items()):
+        target = destination / physical; target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes((ROOT / source_name).read_bytes()); target.chmod(0o644)
+    return planned
+
+
+def c5_ubuntu24_uid0_startup_host():
+    if os.name != "posix" or (os.getuid(), os.geteuid(), os.getgid(), os.getegid()) != (0, 0, 0, 0):
+        return False
+    target = Path("/usr/bin/python3.12")
+    if not target.is_file():
+        return False
+    pin = json.loads((ROOT / "fixtures/work-graph-c5-inputs/execution-current-composite-python312.json").read_bytes())["runtime_pins"]["/usr/bin/python3.12"]
+    return hashlib.sha256(target.read_bytes()).hexdigest() == pin["sha256"]
 
 
 class C5InputFixture:
@@ -67,7 +90,11 @@ class C5InputFixture:
         # These controls concern maintained data capture, not the legacy
         # README route's historical source identity. Select the exact closed
         # explicit composed R4 tuple; loading its bound base owner dispatches nothing.
-        path = ROOT / 'scripts/load-work-graph-c5-executor.py'
+        temporary = tempfile.TemporaryDirectory(prefix='c5-current-input-owner-')
+        self.addCleanup(temporary.cleanup)
+        source = Path(temporary.name) / 'source'
+        _selected_source_fixture().materialize(ROOT, source, 'R4_CURRENT')
+        path = source / 'scripts/load-work-graph-c5-executor.py'
         spec = importlib.util.spec_from_file_location('c5_current_input_controls', path)
         outer = importlib.util.module_from_spec(spec)
         exec(compile(path.read_bytes(), str(path), 'exec'), outer.__dict__)
@@ -105,6 +132,8 @@ class C5InputFixture:
         return destination
 
 
+@unittest.skipUnless(c5_ubuntu24_uid0_startup_host(),
+                     "fixed Ubuntu 24.04 uid0 Python 3.12 startup host absent; no host-startup credit")
 class C5InputCases(C5InputFixture, unittest.TestCase):
     def test_actual_selected_normal_startup_and_alias(self):
         """Break caught: synthetic no-site alias or unbound alias ancestry."""
@@ -243,11 +272,8 @@ class C5InputFixtureRefusalCases(C5InputFixture, unittest.TestCase):
             spec = importlib.util.spec_from_file_location('c5_current_fixture_catalog', path)
             outer = importlib.util.module_from_spec(spec)
             exec(compile(path.read_bytes(), str(path), 'exec'), outer.__dict__)
-            for name in (outer.LOADER, *outer.R4_COMPOSED_PINS[outer.CORRESPONDENCE_PROFILE]):
-                target = root / name
-                target.parent.mkdir(parents=True, exist_ok=True)
-                target.write_bytes((ROOT / name).read_bytes())
-                target.chmod(0o644)
+            copy_c5_closed_source(root, profile=outer.CORRESPONDENCE_PROFILE,
+                                  revision=outer.R4_COMPOSED_SOURCE_REVISION)
             historical = self.historical_engine(root / 'historical')
             (root / outer.PREFIX).write_bytes((historical / outer.PREFIX).read_bytes())
             selected = importlib.util.spec_from_file_location('c5_current_fixture_refusal', root / outer.LOADER)
@@ -722,7 +748,10 @@ class C5CorrespondenceLiveCases(unittest.TestCase):
             ast.unparse(ast.Module(body=functions,type_ignores=[]))+'\n'+
             'bootstrap_correspondence_pair(dict(scope=CORRESPONDENCE_PROFILE,correspondence_pair=CORRESPONDENCE_POLICY),int(sys.argv[1]))\n')
         parent,child=socket.socketpair();self.addCleanup(parent.close);self.addCleanup(child.close)
-        env=dict(fixture.env,TMPDIR=str(work),R0035_REPRO_EVENT_CAPTURE_DIR=str(work/'capture'),
+        python_bin=fixture.base/'python-bin';python_bin.mkdir()
+        (python_bin/'python').symlink_to(Path(sys.executable).resolve(strict=True))
+        env=dict(fixture.env,PATH=str(python_bin)+':/usr/bin:/bin',TMPDIR=str(work),
+                 R0035_REPRO_EVENT_CAPTURE_DIR=str(work/'capture'),
                  R0035_C5_CORRESPONDENCE_CAPTURE='FINITE_C5_ROLE_CORRESPONDENCE_V1',
                  R0035_C5_LIVE_GATE_FD=str(child.fileno()),C5_CASE_PROGRESS_LABELS='1')
         stdout=(fixture.base/'outer-stdout').open('wb');stderr=(fixture.base/'outer-stderr').open('wb')
@@ -736,7 +765,7 @@ class C5CorrespondenceLiveCases(unittest.TestCase):
             source_identity[label]=dict(path=name,bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest(),mode=stat.S_IMODE(path.stat().st_mode))
         executables={}
         for name in ('bash','git','cmp','python'):
-            path=Path(shutil.which(name)).resolve();executables[str(path)]=hashlib.sha256(path.read_bytes()).hexdigest()
+            path=Path(shutil.which(name,path=env['PATH'])).resolve();executables[str(path)]=hashlib.sha256(path.read_bytes()).hexdigest()
         gates=[];outcomes=[]
         try:
             for ordinal in range(2):
@@ -839,7 +868,10 @@ class C5CorrespondenceLiveCases(unittest.TestCase):
             ast.unparse(ast.Module(body=functions,type_ignores=[]))+'\n'+
             'bootstrap_correspondence_pair(dict(scope=CORRESPONDENCE_PROFILE,correspondence_pair=CORRESPONDENCE_POLICY),int(sys.argv[1]))\n')
         parent,child=socket.socketpair()
-        env=dict(fixture.env,TMPDIR=str(work),R0035_REPRO_EVENT_CAPTURE_DIR=str(work/'capture'),
+        python_bin=fixture.base/'python-bin';python_bin.mkdir()
+        (python_bin/'python').symlink_to(Path(sys.executable).resolve(strict=True))
+        env=dict(fixture.env,PATH=str(python_bin)+':/usr/bin:/bin',TMPDIR=str(work),
+            R0035_REPRO_EVENT_CAPTURE_DIR=str(work/'capture'),
             R0035_C5_CORRESPONDENCE_CAPTURE='FINITE_C5_ROLE_CORRESPONDENCE_V1',R0035_C5_LIVE_GATE_FD=str(child.fileno()))
         with (fixture.base/'outer-stderr').open('wb') as errors:
             process=subprocess.Popen([sys.executable,'-B',str(script),str(child.fileno())],cwd=fixture.repo,env=env,
@@ -1058,13 +1090,17 @@ class C5R4ComposedSourceCases(unittest.TestCase):
         return value
 
     def test_three_explicit_profiles_load_without_widening_execution_limits(self):
-        owner = self.module(ROOT)
-        expected = (owner.CURRENT_PROFILE, owner.CORRESPONDENCE_PROFILE,
-                    owner.R4_CORRESPONDENCE_PROFILE)
-        self.assertEqual(set(owner.R4_COMPOSED_PINS), set(expected))
+        current = self.module(ROOT)
+        expected = (current.CURRENT_PROFILE, current.CORRESPONDENCE_PROFILE,
+                    current.R4_CORRESPONDENCE_PROFILE)
+        self.assertEqual(set(current.R4_COMPOSED_PINS), set(expected))
         with mock.patch('subprocess.Popen', side_effect=AssertionError('source receiving dispatched')):
             for profile in expected:
-                with self.subTest(profile=profile):
+                with self.subTest(profile=profile), tempfile.TemporaryDirectory(prefix='c5-r4-profile-') as temporary:
+                    root = Path(temporary) / 'source'; root.mkdir()
+                    copy_c5_closed_source(root, profile=profile,
+                                          revision=current.R4_COMPOSED_SOURCE_REVISION)
+                    owner = self.module(root)
                     captured = owner._Engine(profile, source_revision=owner.R4_COMPOSED_SOURCE_REVISION)
                     engine = captured.load()
                     self.assertEqual(engine.PROFILE, profile)
@@ -1077,6 +1113,7 @@ class C5R4ComposedSourceCases(unittest.TestCase):
 
     def test_three_factories_and_unbound_source_refuse_before_output(self):
         current = self.module(ROOT)
+        fixture = _selected_source_fixture()
         factories = (
             (current.CURRENT_PROFILE, 'create_r4_composed_source_current_c5_session_v4'),
             (current.CORRESPONDENCE_PROFILE, 'create_r4_composed_source_correspondence_c5_session_v4'),
@@ -1085,21 +1122,17 @@ class C5R4ComposedSourceCases(unittest.TestCase):
             with self.subTest(profile=profile), tempfile.TemporaryDirectory(prefix='c5-r4-source-') as temporary:
                 root = Path(temporary) / 'source'; root.mkdir()
                 output = Path(temporary) / 'must-not-exist'
-                physical = {current.LOADER: current.LOADER}
-                for name, pin in current.R4_COMPOSED_PINS[profile].items():
-                    history = current.R4_BUILD_CACHE_PHYSICAL_HISTORY.get(name)
-                    member = (history[0] if history is not None and history[1] == pin else
-                              current.R4_COPY_GATE_MEMBER if name == current.GATE else name)
-                    physical[name] = member
-                for member in physical.values():
-                    target = root / member; target.parent.mkdir(parents=True, exist_ok=True)
-                    target.write_bytes((ROOT / member).read_bytes()); target.chmod(0o644)
+                copy_c5_closed_source(root, profile=profile,
+                                      revision=current.R4_COMPOSED_SOURCE_REVISION)
+                base_physical = fixture.physical_member(
+                    current, current.BASE, current.R4_COMPOSED_PINS[profile][current.BASE],
+                    profile, current.R4_COMPOSED_SOURCE_REVISION)
                 owner = self.module(root)
                 with mock.patch('subprocess.Popen', side_effect=AssertionError('invalid source dispatched')):
                     with self.assertRaisesRegex(ValueError, 'C5 post-commit comparison metadata is malformed'):
                         getattr(owner, factory)(root, output, expected_source={})
                     self.assertFalse(output.exists())
-                    (root / physical[owner.BASE]).write_bytes(b"raise AssertionError('unbound source executed')\n")
+                    (root / base_physical).write_bytes(b"raise AssertionError('unbound source executed')\n")
                     with self.assertRaisesRegex(ValueError, 'Unsupported fixed C5 execution member: ' + owner.BASE):
                         getattr(owner, factory)(root, output, expected_source={})
                     self.assertFalse(output.exists())

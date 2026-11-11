@@ -13,6 +13,7 @@ import importlib.util
 import json
 from pathlib import Path
 import stat
+import sys
 import types
 import unittest
 from unittest import mock
@@ -138,7 +139,8 @@ class CatalogCases(MiniFixture, unittest.TestCase):
         retained = [(key, value) for key, value in zip(incoming.keys, incoming.values)
                     if not isinstance(key, ast.Name) or key.id not in ("MINI_AUDIT_PROFILE", "ACTION_SELECTION_PROFILE")]
         self.assertEqual(len(retained), 34)
-        payload = "\n".join(ast.dump(ast.Tuple(elts=[key, value], ctx=ast.Load()), include_attributes=False)
+        ast_kw = {"show_empty": True} if sys.version_info >= (3, 13) else {}
+        payload = "\n".join(ast.dump(ast.Tuple(elts=[key, value], ctx=ast.Load()), include_attributes=False, **ast_kw)
                             for key, value in retained)
         self.assertEqual(hashlib.sha256(payload.encode()).hexdigest(), INCOMING_CONTRACTS_AST_SHA256)
         self.assertEqual(hashlib.sha256(H.selected_input_bytes(self.A.RUNNER,

@@ -30,6 +30,16 @@ GIT_OWNER = dict(context=Q._preflight_git_context_v1, capture=Q._preflight_git_c
 class LaunchEncodingCases(unittest.TestCase):
     """Constructed transport controls; no mocked executable success."""
     def setUp(self):
+        try:
+            import resource
+        except ImportError:
+            resource = None
+        if resource is not None:
+            soft, hard = resource.getrlimit(resource.RLIMIT_NOFILE)
+            limit = 4096 if hard == resource.RLIM_INFINITY else min(hard, 4096)
+            if soft < limit:
+                resource.setrlimit(resource.RLIMIT_NOFILE, (limit, hard))
+                self.addCleanup(resource.setrlimit, resource.RLIMIT_NOFILE, (soft, hard))
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.base = Path(self.temp.name)

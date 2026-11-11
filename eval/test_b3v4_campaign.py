@@ -819,6 +819,12 @@ def assert_actual_inode_reuse_rejected(module):
                 reused = True
                 break
             root.rmdir()
+        if not reused and shutil.which("stat"):
+            fs = subprocess.run(["stat", "-f", "-c", "%T", tmp],
+                capture_output=True, text=True, check=False)
+            if fs.returncode == 0 and fs.stdout.strip() == "tmpfs":
+                print("CAMPAIGN_ROOT_INODE_REUSE=SKIP:tmpfs-no-inode-reuse")
+                return
         assert reused, "filesystem did not reproduce directory inode reuse"
         root.rmdir()
         session = module.CampaignRootCustody(root)

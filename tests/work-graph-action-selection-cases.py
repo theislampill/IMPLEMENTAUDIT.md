@@ -5,6 +5,7 @@ import hashlib
 import importlib.util
 import os
 from pathlib import Path
+import sys
 import unittest
 from unittest import mock
 
@@ -154,7 +155,8 @@ class SourceCases(B.ProfileFixture, unittest.TestCase):
             if isinstance(key, ast.Name) and key.id in INCOMING_CONTRACT_NAMES]
         self.assertEqual(tuple(key.id for key, _ in retained), INCOMING_CONTRACT_NAMES)
         self.assertEqual(len(retained), 34)
-        payload = "\n".join(ast.dump(ast.Tuple(elts=[key, value], ctx=ast.Load()), include_attributes=False)
+        ast_kw = {"show_empty": True} if sys.version_info >= (3, 13) else {}
+        payload = "\n".join(ast.dump(ast.Tuple(elts=[key, value], ctx=ast.Load()), include_attributes=False, **ast_kw)
                             for key, value in retained)
         self.assertEqual(hashlib.sha256(payload.encode()).hexdigest(), INCOMING_CONTRACTS_AST_SHA256)
         loader = ast.parse((ROOT / "scripts/load-work-graph-readme-effect.py").read_bytes())
