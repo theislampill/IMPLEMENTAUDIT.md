@@ -44,9 +44,13 @@ class CatalogCases(unittest.TestCase):
         A, raw = shared.load("planner_copy_limits", ROOT / "scripts/qualify-work-graph-finite-leaf.py")
         parent = P.bind_session(Q.VerifierTaskSession, Q.WG, Q.ROOT,
             (Q.ROOT / "scripts/qualify-work-graph-prefix.py").read_bytes())
+        current, _ = shared.load("planner_copy_current_qualifier",
+            ROOT / "scripts/qualify-work-graph-verifier.py")
         classes = {}
         for profile in Q._FINITE_MODES.values():
-            cls = A.bind_session(Q.VerifierTaskSession, Q.WG, Q.ROOT, raw, profile=profile)
+            # Only the explicit current profile selects the current engine.
+            engine = current if profile == A.CURRENT_CUSTODY_APPEND_PROFILE else Q
+            cls = A.bind_session(engine.VerifierTaskSession, engine.WG, engine.ROOT, raw, profile=profile)
             classes[profile] = cls
             expected = dict(parent.LIMITS)
             if profile == PROFILE:

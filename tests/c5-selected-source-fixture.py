@@ -15,7 +15,7 @@ QUALIFIER = 'scripts/qualify-work-graph-verifier.py'
 COMPILER = 'skills/implementaudit/scripts/compile-work-graph.py'
 OLD_COMPILER = '3649a8dc856e29ce11b6daa5861351cc1c21bf9c7a9b4f5a2ddde12108d8581f'
 CURRENT_COMPILER = '0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d'
-CURRENT_LOADER = (54973, '5ef6950dd88a4ad20d9239b97f1357a337c733910d985f8f7355d85da971f76d')
+CURRENT_LOADER = (56600, '7efaac014d54f640af58eb75ad14bbf87a87c5a053256632a48d63ddd8016b88')
 HISTORICAL_LOADER = (
     'test-support/r5-windows-capture-history/d2747b7-source/' + LOADER,
     39282, '042cf21f807ce52ac3522285458f1c0407415c1f0883370f1d73404abd9e97d1')

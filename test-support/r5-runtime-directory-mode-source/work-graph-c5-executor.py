@@ -1,0 +1,1768 @@
+#!/usr/bin/env python3
+"""Separate fixed genuine-C5 execution owner; live gate, no native authority.
+
+The exact loader and selection buffers require independent qualification.
+Original test/capture commands, provider bytes and oracle values stay fixed.
+The separate build-local profile selects its exact package-builder successor.
+Historical profiles keep their physical owner preimages. The new fixed image assigns original mktemp/clone/build writes to the
+existing 512 MiB private-work allocation and keeps /tmp at 32 MiB. That explicit
+C5 placement policy needs execution qualification; it is not a larger scratch
+allocation. Imported JSON never constructs or restores this live session.
+"""
+import fcntl
+import hashlib
+import json
+import os
+from pathlib import Path, PurePosixPath
+import platform
+import resource
+import signal
+import socket
+import stat
+import subprocess
+import sys
+import threading
+import time
+import zlib
+
+PROFILE = 'FIXED_GENUINE_C5_PRODUCER_EFFECT_ORIGINAL48_V1'
+CORRESPONDENCE_PROFILE = 'FIXED_GENUINE_C5_SHARED_IMAGE_CORRESPONDENCE_20261031_V1'
+R4_CORRESPONDENCE_PROFILE = 'FIXED_GENUINE_C5_SHARED_IMAGE_CORRESPONDENCE_R4_CURRENT_HOST_20261104_V1'
+R4_BUILD_CACHE_PROFILE = 'FIXED_GENUINE_C5_SHARED_IMAGE_CORRESPONDENCE_R4_BUILD_LOCAL_COMPRESSION_20261104_V1'
+R4_HOST_PROFILES = (R4_CORRESPONDENCE_PROFILE, R4_BUILD_CACHE_PROFILE)
+R5_HOSTED_PROFILE = 'FIXED_GENUINE_C5_SHARED_IMAGE_R5_HOSTED_UBUNTU24_SINGLE_COPY_20261105_V1'
+UID0_HOST_PROFILES = (*R4_HOST_PROFILES, R5_HOSTED_PROFILE)
+CORRESPONDENCE_PROFILES = (CORRESPONDENCE_PROFILE, *UID0_HOST_PROFILES)
+CORRESPONDENCE_POLICY = dict(schema='implementaudit.c5-shared-image-pair.v1',
+    profile='FINITE_C5_ROLE_CORRESPONDENCE_V1', runs=2,
+    continuation='FIRST_COMPLETE_LIVE_PROFILE_AND_ACTUAL_ZERO_CHILD_EXIT_ONLY')
+BOOTSTRAP_SCHEMA = 'implementaudit.c5-execution-bootstrap.v1'
+BOOTSTRAP_REPLY = 'implementaudit.c5-execution-bootstrap-release.v1'
+SOURCE_MOUNT, WORK_MOUNT, SCRATCH_MOUNT = '/work', '/c5-work', '/tmp'
+EXECUTOR = 'scripts/work-graph-c5-executor.py'
+MAX_HEADER = 4 * 1024**2
+
+
+def need(condition, message):
+    if not condition:
+        raise ValueError(message)
+
+
+def encode(value):
+    return json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False, allow_nan=False).encode() + b'\n'
+
+
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+def stamp(info):
+    return [str(info.st_dev), str(info.st_ino), info.st_mode, info.st_nlink,
+            info.st_size, info.st_mtime_ns, info.st_ctime_ns, info.st_uid, info.st_gid]
+
+
+def anchor(info):
+    return [str(info.st_dev), str(info.st_ino), info.st_mode, info.st_uid, info.st_gid]
+
+
+def read_owned_digest(path, limit):
+    """Hash every fresh byte without materializing the whole permitted bound.
+
+    The owned-currentness consumer needs only metadata. Keep the physical
+    reader's checks and fresh no-follow ancestor walk; retain no file or digest
+    cache and never replace an input observation with a prior stat or hash.
+    """
+    path = Path(path)
+    parent = P.open_directory(path.parent)
+    fd = None
+    try:
+        before = os.stat(path.name, dir_fd=parent, follow_symlinks=False)
+        need(stat.S_ISREG(before.st_mode) and before.st_nlink == 1,
+             'input must be an ordinary single-link file')
+        need(before.st_size <= limit, 'input file byte bound exceeded')
+        fd = os.open(path.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=parent)
+        need(P.identity(os.fstat(fd)) == P.identity(before) and not os.listxattr(fd),
+             'input changed or extended metadata is unsupported')
+        digest, size = hashlib.sha256(), 0
+        block = min(1024**2, before.st_size + 1, limit + 1)
+        while True:
+            piece = os.read(fd, min(block, limit + 1 - size))
+            if not piece:
+                break
+            size += len(piece)
+            need(size <= limit, 'input file byte bound exceeded')
+            digest.update(piece)
+        need(size == before.st_size and P.identity(os.fstat(fd)) == P.identity(before)
+             and P.identity(os.stat(path.name, dir_fd=parent, follow_symlinks=False)) == P.identity(before),
+             'input changed during bounded acquisition')
+        return dict(kind='FILE', mode=stat.S_IMODE(before.st_mode), size=size,
+                    sha256=digest.hexdigest(), identity=P.identity(before))
+    finally:
+        if fd is not None:
+            os.close(fd)
+        os.close(parent)
+
+
+def send(fd, raw):
+    view = memoryview(raw)
+    while view:
+        written = os.write(fd, view)
+        need(written > 0, 'C5 bootstrap channel write made no progress')
+        view = view[written:]
+
+
+def read_fd(fd, count):
+    need(type(count) is int and 0 <= count <= MAX_HEADER, 'C5 bootstrap message exceeds fixed bound')
+    data = bytearray()
+    while len(data) < count:
+        piece = os.read(fd, min(65536, count - len(data)))
+        need(bool(piece), 'C5 bootstrap channel closed before release')
+        data.extend(piece)
+    return bytes(data)
+
+
+DEFAULT_ACL_NAME = 'system.posix_acl_default'
+DEFAULT_ACL_PATHS = ('/usr/share', '/usr/share/git-core', '/usr/share/git-core/templates',
+    '/usr/share/git-core/templates/hooks', '/usr/share/git-core/templates/info')
+DEFAULT_ACL_POLICY = dict(schema='implementaudit.c5-runtime-default-acl.v1', root='/usr/share',
+    xattr=DEFAULT_ACL_NAME, max_entries=128, max_directories=5,
+    source_revision='R5_HOSTED_UBUNTU24_RUNTIME_DIRECTORY_MODE_SOURCE_20261110_V8')
+DEFAULT_ACL_BYTES = 4 + 8 * 128
+RUNTIME_SHARE_DIRECTORY_MODES = dict.fromkeys(DEFAULT_ACL_PATHS, 0o777)
+
+
+def require_readonly_runtime_share():
+    for name in DEFAULT_ACL_PATHS:
+        need(os.statvfs(name).f_flag & os.ST_RDONLY, 'C5 runtime default ACL stage is writable')
+
+
+def default_acl_enabled():
+    policy = SPEC.get('runtime_directory_metadata_policy')
+    if policy is None:
+        return False
+    need(PROFILE == R5_HOSTED_PROFILE and policy == DEFAULT_ACL_POLICY,
+         'C5 runtime directory metadata policy is unsupported')
+    return True
+
+
+def validate_default_acl(raw):
+    need(type(raw) is bytes and 28 <= len(raw) <= DEFAULT_ACL_BYTES and (len(raw)-4) % 8 == 0
+         and int.from_bytes(raw[:4], 'little') == 2, 'C5 default ACL wire bound/version differs')
+    rows = [(int.from_bytes(raw[n:n+2], 'little'), int.from_bytes(raw[n+2:n+4], 'little'),
+             int.from_bytes(raw[n+4:n+8], 'little')) for n in range(4, len(raw), 8)]
+    tags = [row[0] for row in rows]
+    need(tags[0] == 1 and tags[-1] == 32 and tags.count(1) == tags.count(4) == tags.count(32) == 1
+         and tags.count(16) <= 1, 'C5 default ACL base entries differ')
+    order, named = [], False
+    ranks = {1:0, 2:1, 4:2, 8:3, 16:4, 32:5}
+    for tag, permissions, identity in rows:
+        need(tag in ranks and permissions <= 7, 'C5 default ACL entry differs')
+        need((identity != 0xffffffff) if tag in (2,8) else (identity == 0xffffffff),
+             'C5 default ACL entry identity differs')
+        named = named or tag in (2,8)
+        order.append((ranks[tag], identity))
+    need(order == sorted(order) and len(order) == len(set(order)) and (not named or tags.count(16) == 1),
+         'C5 default ACL order/duplicate/mask differs')
+    return raw
+
+
+def runtime_directory_metadata(fd, permitted, *, image=False):
+    """Only the fixed default ACL; values remain private captured configuration.
+
+    Host capture is size-query plus one <=1028-byte libc read with no retry.
+    Image readback uses the already selected builtin on a readonly owned stage;
+    CPython may transiently allocate its fixed64KiB xattr buffer inside the
+    unchanged address-space limit. Accepted/retained ACL bytes remain <=1028.
+    """
+    before = stamp(os.fstat(fd))
+    need(stat.S_ISDIR(before[2]), 'C5 runtime metadata requires an ordinary directory')
+    names = os.listxattr(fd)
+    need(names == [] or permitted and names == [DEFAULT_ACL_NAME],
+         'C5 runtime directory has unsupported extended metadata')
+    raw = None
+    if names:
+        if image:
+            raw = os.getxattr(fd, DEFAULT_ACL_NAME)
+        else:
+            # Lazy and host-only: no new in-image import or runtime selector.
+            import ctypes
+            libc = ctypes.CDLL(None, use_errno=True)
+            get = libc.fgetxattr
+            get.argtypes = [ctypes.c_int, ctypes.c_char_p, ctypes.c_void_p, ctypes.c_size_t]
+            get.restype = ctypes.c_ssize_t
+            size = get(fd, DEFAULT_ACL_NAME.encode(), None, 0)
+            need(28 <= size <= DEFAULT_ACL_BYTES, 'C5 default ACL capture size unavailable/unsupported')
+            buffer = ctypes.create_string_buffer(size)
+            amount = get(fd, DEFAULT_ACL_NAME.encode(), buffer, size)
+            need(amount == size, 'C5 default ACL changed/unavailable during bounded capture')
+            raw = buffer.raw[:amount]
+        validate_default_acl(raw)
+    need(os.listxattr(fd) == names and stamp(os.fstat(fd)) == before,
+         'C5 runtime directory metadata changed during capture')
+    return dict(default_acl=raw.hex() if raw is not None else None)
+
+
+def runtime_metadata_bytes(metadata):
+    values = [row['default_acl'] for row in metadata.values() if row['default_acl'] is not None]
+    need(len(values) <= len(DEFAULT_ACL_PATHS), 'C5 default ACL directory count exceeded')
+    count = sum(len(validate_default_acl(bytes.fromhex(value))) for value in values)
+    need(count <= len(DEFAULT_ACL_PATHS)*DEFAULT_ACL_BYTES, 'C5 aggregate default ACL byte bound exceeded')
+    return count
+
+
+def fixed_task_entropy_device_v1(profile=CORRESPONDENCE_PROFILE):
+    """One genuine kernel interface, not a seed, snapshot or generic device grant.
+
+    This task's rootless namespace maps host-root ownership to65534. Device
+    I/O is explicitly admitted only by the closed Git/program policy below;
+    read-only filesystem flags do not imply character-device write confinement.
+    """
+    need(profile in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', *CORRESPONDENCE_PROFILES), 'C5 entropy profile is unknown')
+    uid = 0 if profile in UID0_HOST_PROFILES else 65534
+    policy = ('C5_R5_HOSTED_FIXED_GIT_REAL_URANDOM_UID0_V1' if profile == R5_HOSTED_PROFILE
+              else 'C5_R4_FIXED_GIT_REAL_URANDOM_UID0_V1' if profile in R4_HOST_PROFILES
+              else 'C5_TASK_FIXED_GIT_REAL_URANDOM_V1')
+    path = Path('/dev/urandom')
+    before = path.lstat()
+    need(path.resolve(strict=True) == path and stat.S_ISCHR(before.st_mode)
+         and (os.major(before.st_rdev),os.minor(before.st_rdev)) == (1,9)
+         and stat.S_IMODE(before.st_mode) == 0o666 and before.st_nlink == 1
+         and (before.st_uid,before.st_gid,before.st_size) == (uid,uid,0),
+         'C5 task kernel entropy device differs')
+    mount_flags = os.statvfs(path).f_flag
+    need(not mount_flags & os.ST_NODEV,'C5 task entropy source mount forbids device I/O')
+    identity = stamp(before) + [before.st_rdev]
+    after = path.lstat()
+    need(path.resolve(strict=True) == path and stamp(after) + [after.st_rdev] == identity
+         and os.statvfs(path).f_flag == mount_flags,
+         'C5 task kernel entropy device changed during observation')
+    return dict(schema='implementaudit.c5-task-kernel-entropy.v1',
+        policy=policy,path='/dev/urandom',
+        identity=identity,mount_flags=mount_flags,major=1,minor=9,mode=0o666,uid=uid,gid=uid,
+        state='LIVE_TRUSTED_KERNEL_NONDETERMINISM_NOT_SNAPSHOTTED',
+        capability='EXACT_CHARACTER_DEVICE_IO_NOT_GENERIC_DEVICE_WRITE_CONFINEMENT',authority='NONE')
+
+
+def bootstrap():
+    """Fixed acquired-image bootstrap; preserve only the owned live channel."""
+    need(sys.argv[1:] == ['--c5-bootstrap'], 'C5 bootstrap argv differs')
+    raw = Path('/profile/c5-execution.json').read_bytes()
+    need(0 < len(raw) <= MAX_HEADER, 'C5 bootstrap configuration exceeds bound')
+    spec = json.loads(raw)
+    need(encode(spec) == raw and spec['schema'] == 'implementaudit.c5-execution-image.v1',
+         'C5 bootstrap image configuration differs')
+    fd = spec['gate_fd']
+    need(type(fd) is int and 3 <= fd < spec['limits']['descriptors']
+         and stat.S_ISSOCK(os.fstat(fd).st_mode), 'C5 bootstrap inherited channel is absent')
+    need(dict(os.environ) == spec['environment'], 'C5 image environment differs')
+    need(os.getuid() == os.geteuid() == os.getgid() == os.getegid() == 0,
+         'C5 image identity does not match the captured NSS profile')
+    need(os.getcwd() == SOURCE_MOUNT, 'C5 bootstrap cwd differs')
+    for which, key in ((resource.RLIMIT_CPU,'cpu_seconds'),(resource.RLIMIT_AS,'address_bytes'),
+                       (resource.RLIMIT_FSIZE,'file_bytes'),(resource.RLIMIT_NOFILE,'descriptors')):
+        need(resource.getrlimit(which) == (spec['limits'][key],) * 2, 'C5 inherited process bound differs')
+    os.closerange(3, fd)
+    os.closerange(fd + 1, spec['limits']['descriptors'])
+    os.set_inheritable(fd, True)
+    os.umask(0o022)
+    observations = {}
+    for name, wanted in spec['startup_files'].items():
+        path = Path(name)
+        info = path.stat()
+        need(stat.S_ISREG(info.st_mode), 'C5 startup input is not an ordinary file')
+        digest, size = hashlib.sha256(), 0
+        with path.open('rb') as stream:
+            while piece := stream.read(65536):
+                size += len(piece)
+                need(size <= wanted['bytes'], 'C5 startup input exceeds captured length')
+                digest.update(piece)
+        value = dict(bytes=size, sha256=digest.hexdigest(), mode=stat.S_IMODE(info.st_mode),
+                     resolved=str(path.resolve(strict=True)))
+        need(value == wanted, 'C5 startup input bytes/mode/alias differ: ' + name)
+        observations[name] = value
+    for name, target in spec['runtime_links'].items():
+        need(os.readlink(name) == target, 'C5 runtime link differs: ' + name)
+    if 'runtime_directory_metadata_policy' in spec:
+        require_readonly_runtime_share()
+    directory_observations={}
+    for name,wanted in spec['image_directories'].items():
+        info=Path(name).lstat()
+        need(stat.S_ISDIR(info.st_mode) and stat.S_IMODE(info.st_mode)==wanted['mode'],
+             'C5 image directory type or mode differs: '+name)
+        names=[]
+        with os.scandir(name) as entries:
+            for entry in entries:
+                names.append(entry.name)
+                need(len(names)<=len(wanted['names']),'C5 image namespace gained an unselected entry')
+        value=dict(mode=stat.S_IMODE(info.st_mode),names=sorted(names))
+        if 'runtime_directory_metadata_policy' in spec:
+            need(spec['scope'] == R5_HOSTED_PROFILE and spec['runtime_directory_metadata_policy'] == DEFAULT_ACL_POLICY,
+                 'C5 image metadata policy differs')
+            directory_fd = os.open(name, os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW|os.O_CLOEXEC)
+            try:
+                need(stamp(os.fstat(directory_fd)) == stamp(info), 'C5 image directory changed before metadata readback')
+                value.update(runtime_directory_metadata(directory_fd, name in DEFAULT_ACL_PATHS, image=True))
+            finally:
+                os.close(directory_fd)
+        need(value==wanted,'C5 complete selected image namespace differs: '+name)
+        directory_observations[name]=value
+    if 'kernel_entropy' in spec:
+        need(fixed_task_entropy_device_v1(spec['scope']) == spec['kernel_entropy'],
+             'C5 actual task entropy device differs from acquired identity')
+    null=Path('/dev/null').stat()
+    need(stat.S_ISCHR(null.st_mode) and os.major(null.st_rdev)==1 and os.minor(null.st_rdev)==3,
+         'C5 isolated null device differs')
+    for name in spec['required_absent']:
+        need(not Path(name).exists() and not Path(name).is_symlink(), 'C5 absent startup selector appeared')
+    for name in (WORK_MOUNT, SCRATCH_MOUNT):
+        fs = os.statvfs(name)
+        expected = spec['limits']['work_bytes' if name == WORK_MOUNT else 'scratch_bytes']
+        need(fs.f_blocks * fs.f_frsize == expected, 'C5 private allocation differs: ' + name)
+    need(os.statvfs(SOURCE_MOUNT).f_flag & os.ST_RDONLY, 'C5 source stage is writable')
+    need(os.statvfs('/').f_flag & os.ST_RDONLY, 'C5 base image is writable')
+    status = Path('/proc/self/status').read_text('ascii')
+    fields = {line.split(':',1)[0]:line.split(':',1)[1].strip() for line in status.splitlines() if ':' in line}
+    need(fields.get('CapEff') == '0000000000000000', 'C5 bootstrap retained capabilities')
+    namespace = os.readlink('/proc/self/ns/pid')
+    need(namespace != spec['host_pid_namespace'], 'C5 image shares the host PID namespace')
+    message = dict(schema=BOOTSTRAP_SCHEMA, image_sha256=sha(raw), actual_pid=os.getpid(),
+        actual_pid_namespace=namespace, uid=os.getuid(), gid=os.getgid(), cap_eff=fields['CapEff'],
+        startup_files=observations, image_directories=directory_observations, private_work_bytes=spec['limits']['work_bytes'],
+        scratch_bytes=spec['limits']['scratch_bytes'], source_readonly=True, root_readonly=True,
+        retained_descriptor=fd, authority='NONE')
+    if 'kernel_entropy' in spec:message['kernel_entropy']=fixed_task_entropy_device_v1(spec['scope'])
+    data = encode(message)
+    need(len(data) <= MAX_HEADER, 'C5 bootstrap observation exceeds bound')
+    send(fd, len(data).to_bytes(8,'big') + data)
+    size = int.from_bytes(read_fd(fd, 8), 'big')
+    reply = json.loads(read_fd(fd, size))
+    need(reply == dict(schema=BOOTSTRAP_REPLY, image_sha256=sha(raw), accepted=True),
+         'C5 outer owner did not release the actual bootstrap')
+    if spec['scope'] in CORRESPONDENCE_PROFILES:
+        need(spec.get('correspondence_pair') == CORRESPONDENCE_POLICY,
+             'unknown C5 shared-image pair policy')
+        bootstrap_correspondence_pair(spec, fd)
+        raise SystemExit(0)
+    need('correspondence_pair' not in spec, 'C5 pair policy is forbidden for an old profile')
+    os.execv('/usr/bin/bash', ['bash', 'tests/reproducible-release-asset.test.sh'])
+
+
+def bootstrap_correspondence_pair(spec, fd):
+    """Exactly two prospective originals in ONE unchanged readonly image.
+
+    The source-owned supervisor retains each real direct-child wait before it
+    requests continuation. An absent/unknown/nonzero first outcome never starts
+    a suffix. This is not a retry path or a general command scheduler.
+    """
+    need(spec['scope'] in CORRESPONDENCE_PROFILES and spec.get('correspondence_pair') == CORRESPONDENCE_POLICY,
+         'C5 shared-image pair is not selected')
+    receipts = Path(WORK_MOUNT) / 'pair-processes'
+    receipts.mkdir(mode=0o700)
+    seen = set()
+    for ordinal in range(2):
+        began = time.monotonic_ns()
+        child = subprocess.Popen(['bash', 'tests/reproducible-release-asset.test.sh'],
+                                 executable='/usr/bin/bash', cwd=SOURCE_MOUNT, env=dict(os.environ), close_fds=False)
+        waited = os.wait4(child.pid, 0)
+        child.returncode = os.waitstatus_to_exitcode(waited[1])
+        need(waited[0] == child.pid and child.pid not in seen, 'C5 pair child wait identity differs')
+        seen.add(child.pid)
+        outcome = dict(schema='implementaudit.c5-pair-child-outcome.v1', scope=spec['scope'],
+            image_sha256=sha(encode(spec)), ordinal=ordinal, argv=['bash', 'tests/reproducible-release-asset.test.sh'],
+            cwd=SOURCE_MOUNT, actual_pid=child.pid, parent_pid=os.getpid(),
+            pid_namespace=os.readlink('/proc/self/ns/pid'), raw_wait_status=waited[1], exit_code=child.returncode,
+            start_monotonic_ns=began, end_monotonic_ns=time.monotonic_ns())
+        raw = encode(outcome)
+        receipt_fd = os.open(receipts / (str(ordinal) + '.json'), os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+        try:
+            send(receipt_fd, raw); os.fsync(receipt_fd)
+        finally:
+            os.close(receipt_fd)
+        if child.returncode != 0:
+            # A clone/setup failure can precede the first BEFORE frame. Keep
+            # those actual durable Git exits outside the dying tmpfs image.
+            helper_path=Path(SOURCE_MOUNT)/'scripts/repro-event-capture.py'
+            capture=Path(WORK_MOUNT)/'capture'
+            module=None
+            if helper_path.is_file() and (capture/'session.json').is_file():
+                module=__import__('types').ModuleType('c5_actual_abort_capture')
+                module.__file__=str(helper_path)
+                exec(compile(helper_path.read_bytes(),str(helper_path),'exec'),module.__dict__)
+                try:module._live_snapshot(capture)
+                except (OSError,ValueError):module=None
+            if module is not None:
+                module._live_exchange(capture,'PAIR_ABORT',outcome)
+            else:
+                send(fd,len(raw).to_bytes(8,'big')+raw)
+            raise ValueError('C5 first/second original child failed; no suffix or retry')
+        send(fd, len(raw).to_bytes(8, 'big') + raw)
+        size = int.from_bytes(read_fd(fd, 8), 'big')
+        reply = json.loads(read_fd(fd, size))
+        need(reply == dict(schema='implementaudit.c5-pair-child-release.v1', image_sha256=sha(encode(spec)),
+                           ordinal=ordinal, accepted=True), 'C5 pair continuation was not released')
+        if ordinal == 0:
+            # Both originals receive exactly the same capture path/environment.
+            # All first-run bytes have already crossed the live owned channel.
+            (Path(WORK_MOUNT) / 'capture').rename(Path(WORK_MOUNT) / 'capture-first')
+
+
+if __name__ == '__main__':
+    bootstrap()
+    raise SystemExit('C5 bootstrap returned without exec')
+
+_CAPTURE = globals().pop('_R0035_C5_EXECUTOR_CAPTURE', None)
+need(type(_CAPTURE) is dict and set(_CAPTURE) == {'prefix','base','provider','gate','qualifier','sources','check','root','selection'},
+     'C5 executor requires its complete separate fixed captured-source owner')
+P, B, D, G, Q = (_CAPTURE[name] for name in ('prefix','base','provider','gate','qualifier'))
+SOURCES, CHECK, ENGINE_ROOT, SPEC = (_CAPTURE[name] for name in ('sources','check','root','selection'))
+need(SPEC.get('profile') in (PROFILE, 'FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1', 'FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', *CORRESPONDENCE_PROFILES),
+     'Unsupported fixed C5 execution profile')
+PROFILE = SPEC['profile']
+# The current prefix owner remains the one source of these production limits.
+_LIMIT_OWNER = P.bind_session(Q.VerifierTaskSession, Q.WG, ENGINE_ROOT,
+                             SOURCES['scripts/qualify-work-graph-prefix.py'][0])
+def execution_limits_v1(inherited):
+    """One prospective TASK workload contract; no general override or old rebind.
+
+    Original clone transfers produce a33,372,014-byte pack, and the current
+    tracked source includes a30,022,077-byte member. Keep the generic16MiB
+    refusal as its own valid profile;64MiB supplies bounded clone/intermediate
+    headroom inside the unchanged512MiB work and1GiB address allocations.
+    """
+    need(type(inherited) is dict and inherited.get('file_bytes') == 16*1024**2,
+         'C5 inherited file ceiling changed without resource qualification')
+    limits=dict(inherited)
+    if PROFILE in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', *CORRESPONDENCE_PROFILES):
+        policy=dict(schema='implementaudit.c5-task-resource-policy.v1',
+            identity='C5_TASK_ORIGINAL48_FILE64_V1',inherited_file_bytes=16*1024**2,file_bytes=64*1024**2)
+        need(SPEC.get('task_resource_policy') == policy,'Unsupported C5 task resource policy')
+        limits['file_bytes']=policy['file_bytes']
+    else:
+        need('task_resource_policy' not in SPEC,'C5 task resources are forbidden for another profile')
+    return limits
+
+
+LIMITS = execution_limits_v1(dict(_LIMIT_OWNER.LIMITS))
+SECCOMP = bytes(Q.VerifierTaskSession.SECCOMP)
+
+
+def task_kernel_entropy_v1(record,runtime):
+    """TASK-only original48 and exact captured Git; old profiles observe none."""
+    if PROFILE not in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', *CORRESPONDENCE_PROFILES):
+        need('kernel_entropy_policy' not in SPEC,'C5 entropy is forbidden for another profile')
+        return None
+    producers={Q.REPRO_CORRESPONDENCE_PRODUCER_SHA256}
+    if PROFILE not in CORRESPONDENCE_PROFILES:
+        producers.add('a27521758cc71e312052d7eaa7c8b488dbbe2dcc5089d6054be0923455763310')
+    entropy_policy = ('C5_R5_HOSTED_FIXED_GIT_REAL_URANDOM_UID0_V1' if PROFILE == R5_HOSTED_PROFILE
+                      else 'C5_R4_FIXED_GIT_REAL_URANDOM_UID0_V1' if PROFILE in R4_HOST_PROFILES
+                      else 'C5_TASK_FIXED_GIT_REAL_URANDOM_V1')
+    expected_git = ('824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235' if PROFILE == R5_HOSTED_PROFILE
+                    else '2a8c18fbf43da9f692d75474c72bea9dfd796c260b0f3dfe456376abc3bbd668')
+    need(SPEC.get('kernel_entropy_policy') == entropy_policy
+         and SPEC.get('original_index') == 48
+         and SPEC.get('original_argv') == ['bash','tests/reproducible-release-asset.test.sh']
+         and record['source']['state']['files']['tests/reproducible-release-asset.test.sh']['sha256'] in producers
+         and runtime['files']['/usr/bin/git']['sha256']
+             == expected_git,
+         'C5 task entropy requires its exact closed program/Git policy')
+    return fixed_task_entropy_device_v1(PROFILE)
+
+
+class CapturedSourceStage:
+    """Complete ordinary source, no projection, with live descriptor custody.
+
+    This is a private pathname bind from captured bytes. It does not claim
+    that bubblewrap binds only descriptors. Full bytes are checked before/after;
+    file/ancestor/name identities remain checked during all live handoffs.
+    """
+    def __init__(self, parent, state, objects, reserve, *, root_name='source-stage', directory_metadata=None, links=None):
+        self.closed, self.fds, self.members, self.ancestors = False, [], {}, []
+        self.state, self.objects = state, objects
+        self.directory_metadata, self.link_targets = directory_metadata, dict(links or {})
+        need(root_name in ('source-stage', 'runtime-share-stage'), 'C5 private stage name is unsupported')
+        self.root = Path(parent) / root_name
+        need(not self.root.exists() and not self.root.is_symlink(), 'C5 source stage is not fresh')
+        self.root.mkdir(mode=0o755)
+        flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC
+        def hold(fd):
+            self.fds.append(fd)
+            need(fd < LIMITS['descriptors'], 'C5 source descriptor bound exceeded')
+            return fd
+        try:
+            fd = hold(os.open('/', flags))
+            current = Path('/')
+            self.ancestors.append((None,'/',fd,anchor(os.fstat(fd))))
+            for name in self.root.parts[1:]:
+                previous = fd
+                fd = hold(os.open(name, flags, dir_fd=previous))
+                current /= name
+                self.ancestors.append((previous,name,fd,anchor(os.fstat(fd))))
+            self.members['.'] = (fd, None, None, 'directory')
+            directories = state['directories']
+            restore_share_modes = root_name == 'runtime-share-stage' and directory_metadata is not None and default_acl_enabled()
+            if restore_share_modes:
+                expected = {str(PurePosixPath(name).relative_to('/usr/share')):mode
+                            for name,mode in RUNTIME_SHARE_DIRECTORY_MODES.items()}
+                need(directories == expected, 'C5 private runtime stage mode policy differs')
+                self._require_private_mode_ancestors()
+            else:
+                need('.' in directories and directories['.'] == 0o755, 'C5 source state lacks its supported complete root')
+            os.fchmod(fd, 0o755 if restore_share_modes else directories['.'])
+            self.ancestors[-1] = (*self.ancestors[-1][:3], anchor(os.fstat(fd)))
+            for name in sorted(set(directories)-{'.'}, key=lambda value:(value.count('/'),value)):
+                parent_name = str(PurePosixPath(name).parent)
+                parent_fd = self.members[parent_name][0]
+                leaf = PurePosixPath(name).name
+                mode = 0o755 if restore_share_modes else directories[name]
+                need(mode == 0o755, 'C5 private source directory mode is unsupported')
+                os.mkdir(leaf, mode, dir_fd=parent_fd)
+                reserve(0, 'private stage directory deadline')
+                child = hold(os.open(leaf, flags, dir_fd=parent_fd))
+                os.fchmod(child, mode)
+                self.members[name] = (child, parent_fd, leaf, 'directory')
+            for name, row in sorted(state['files'].items()):
+                raw = objects[row['sha256']]
+                need(len(raw) == row['bytes'] and sha(raw) == row['sha256'], 'C5 source object unavailable')
+                reserve(len(raw), 'private source-stage file')
+                parent_fd = self.members[str(PurePosixPath(name).parent)][0]
+                leaf = PurePosixPath(name).name
+                fd = os.open(leaf, os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW|os.O_CLOEXEC,
+                             row['mode'], dir_fd=parent_fd)
+                try:
+                    send(fd, raw)
+                    os.fchmod(fd, row['mode'])
+                    os.fsync(fd)
+                finally:
+                    os.close(fd)
+                child = hold(os.open(leaf, os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK|os.O_CLOEXEC, dir_fd=parent_fd))
+                self.members[name] = (child,parent_fd,leaf,'file')
+            for name, target in sorted(self.link_targets.items()):
+                parent_fd = self.members[str(PurePosixPath(name).parent)][0]
+                leaf = PurePosixPath(name).name
+                reserve(0, 'private runtime-stage link deadline')
+                os.symlink(target, leaf, dir_fd=parent_fd)
+                self.members[name] = (None,parent_fd,leaf,'link')
+            if directory_metadata is not None:
+                need(set(directory_metadata) == set(directories), 'C5 runtime metadata omits a staged directory')
+                reserve(runtime_metadata_bytes(directory_metadata), 'private runtime-stage default ACL bytes')
+                # No descendant is created after this point: inherited access/default
+                # ACLs must never alter the selected child files or directories.
+                for name, metadata in directory_metadata.items():
+                    reserve(0, 'private runtime-stage ACL deadline')
+                    child = self.members[name][0]
+                    info = os.fstat(child)
+                    need(info.st_uid == os.geteuid() and not os.listxattr(child),
+                         'C5 new owned runtime directory has foreign custody/metadata')
+                    value = metadata['default_acl']
+                    if value is not None:
+                        raw = validate_default_acl(bytes.fromhex(value))
+                        os.setxattr(child, DEFAULT_ACL_NAME, raw, flags=os.XATTR_CREATE)
+                    need(runtime_directory_metadata(child, value is not None) == metadata,
+                         'C5 restored runtime default ACL differs')
+                    after = os.fstat(child)
+                    need(anchor(after) == anchor(info), 'C5 restored runtime directory mode/owner changed')
+            if restore_share_modes:
+                # All descendants and ACLs exist before any widening. The
+                # backing tree remains behind a stable owner-private parent;
+                # only its later read-only namespace view reaches the child.
+                self._require_private_mode_ancestors()
+                for name,mode in directories.items():
+                    reserve(0, 'private runtime-stage directory mode deadline')
+                    child,parent,leaf,kind = self.members[name]
+                    before = os.fstat(child)
+                    need(kind == 'directory' and before.st_uid == os.geteuid()
+                         and before.st_gid == os.getegid() and stat.S_IMODE(before.st_mode) == 0o755,
+                         'C5 owned runtime mode target differs')
+                    os.fchmod(child, mode)
+                    after = os.fstat(child)
+                    need(anchor(after)[:2] == anchor(before)[:2]
+                         and anchor(after)[3:] == anchor(before)[3:]
+                         and stat.S_IMODE(after.st_mode) == mode
+                         and runtime_directory_metadata(child, directory_metadata[name]['default_acl'] is not None)
+                             == directory_metadata[name], 'C5 owned runtime mode or ACL readback differs')
+                    if name != '.':
+                        need(stamp(os.stat(leaf,dir_fd=parent,follow_symlinks=False)) == stamp(after),
+                             'C5 owned runtime mode name changed')
+                self.ancestors[-1] = (*self.ancestors[-1][:3], anchor(os.fstat(self.members['.'][0])))
+            self.stamps = {name:stamp(os.fstat(row[0]) if row[3] != 'link' else
+                os.stat(row[2],dir_fd=row[1],follow_symlinks=False)) for name,row in self.members.items()}
+            self.names = {name:sorted(PurePosixPath(member).name for member in self.members
+                if member != name and str(PurePosixPath(member).parent) == name) for name in directories}
+            self.check(rehash=True)
+        except BaseException:
+            self.close()
+            raise
+
+    def _require_private_mode_ancestors(self):
+        for parent,name,fd,expected in self.ancestors[:-1]:
+            info = os.fstat(fd)
+            need(anchor(info) == expected == anchor(os.stat(name,dir_fd=parent,follow_symlinks=False))
+                 and info.st_uid in (0,os.geteuid()) and info.st_gid in (0,os.getegid())
+                 and not stat.S_IMODE(info.st_mode) & 0o022, 'C5 runtime mode stage ancestry is not private')
+        parent = self.ancestors[-2][2]
+        info = os.fstat(parent)
+        need(info.st_uid == os.geteuid() and info.st_gid == os.getegid()
+             and stat.S_IMODE(info.st_mode) == 0o700 and not os.listxattr(parent),
+             'C5 runtime mode stage parent is not owner-private')
+
+    def check(self, rehash=False):
+        need(not self.closed, 'C5 private source custody is closed')
+        for parent,name,fd,expected in self.ancestors:
+            need(anchor(os.fstat(fd)) == expected == anchor(os.stat(name,dir_fd=parent,follow_symlinks=False)),
+                 'C5 source stage ancestor changed')
+        for name,(fd,parent,leaf,kind) in self.members.items():
+            expected = self.stamps[name]
+            if kind == 'link':
+                need(stamp(os.stat(leaf,dir_fd=parent,follow_symlinks=False)) == expected
+                     and os.readlink(leaf,dir_fd=parent) == self.link_targets[name]
+                     and not os.listxattr(self.root/name,follow_symlinks=False), 'C5 staged runtime link changed')
+                continue
+            need(stamp(os.fstat(fd)) == expected, 'C5 source stage descriptor changed')
+            if kind == 'directory' and self.directory_metadata is not None:
+                need(runtime_directory_metadata(fd, self.directory_metadata[name]['default_acl'] is not None)
+                     == self.directory_metadata[name], 'C5 staged runtime directory metadata changed')
+            else:
+                need(not os.listxattr(fd), 'C5 source stage descriptor has extended metadata')
+            if parent is not None:
+                need(stamp(os.stat(leaf,dir_fd=parent,follow_symlinks=False)) == expected, 'C5 staged source name changed')
+            if kind == 'directory':
+                need(stat.S_IMODE(expected[2]) == self.state['directories'][name], 'C5 staged directory mode changed')
+                need(sorted(os.listdir(fd)) == self.names[name], 'C5 staged source population changed')
+            else:
+                row = self.state['files'][name]
+                need(expected[3] == 1 and stat.S_IMODE(expected[2]) == row['mode'], 'C5 staged file mode/links changed')
+                if rehash:
+                    digest, offset = hashlib.sha256(), 0
+                    while piece := os.pread(fd, min(65536,row['bytes']+1-offset), offset):
+                        offset += len(piece)
+                        need(offset <= row['bytes'], 'C5 staged file grew')
+                        digest.update(piece)
+                    need(offset == row['bytes'] and digest.hexdigest() == row['sha256'], 'C5 staged bytes changed')
+            need(stamp(os.fstat(fd)) == expected, 'C5 source changed during stage readback')
+        return dict(files=len(self.state['files']),directories=len(self.state['directories']),
+            file_bytes=sum(row['bytes'] for row in self.state['files'].values()),
+            held_descriptors=len(self.fds),representation='FULL_CAPTURED_SOURCE_READ_ONLY_PRIVATE_PATHNAME_BIND',authority='NONE')
+
+    def close(self):
+        for fd in reversed(self.fds):
+            os.close(fd)
+        self.fds.clear()
+        self.closed = True
+
+
+def virtual_resolve(path, links):
+    """Resolve only the finite acquired image; never follow a host link here."""
+    need(type(path) is str and path.startswith('/') and '\x00' not in path, 'Invalid C5 image path')
+    pending, current, followed = path.split('/')[1:], [], 0
+    while pending:
+        part = pending.pop(0)
+        if part in ('','.'):
+            continue
+        if part == '..':
+            need(bool(current), 'C5 runtime alias escapes root')
+            current.pop()
+            continue
+        key = '/' + '/'.join([*current,part])
+        if key in links:
+            followed += 1
+            need(followed <= 64, 'C5 runtime alias cycle or excessive depth')
+            target = links[key]
+            if target.startswith('/'):
+                current = []
+            pending = target.split('/') + pending
+        else:
+            current.append(part)
+    return '/' + '/'.join(current)
+
+
+def _runtime_directory_refusal(reason, physical):
+    """Fixed public failure reason and placement; no metadata or ownership claim."""
+    messages = {
+        'TARGET': 'C5 runtime directory target identity changed',
+        'CUSTODY': 'C5 runtime directory custody metadata changed',
+        'STATE': 'C5 runtime directory state vector changed',
+        'XATTR': 'C5 runtime directory has extended metadata',
+    }
+    def components(value):
+        if (type(value) is not str or not 1 < len(value) <= 4096
+                or not value.startswith('/') or value.startswith('//')
+                or not value.isascii()):
+            return None
+        parts = value[1:].split('/', 64)
+        if (not 1 <= len(parts) <= 64 or any(not 1 <= len(part) <= 255
+                or part in ('.', '..') or any(ord(char) < 33 or ord(char) == 127
+                for char in part) for part in parts)):
+            return None
+        return tuple(parts)
+    placement = 'OTHER'
+    parts = components(physical)
+    if parts is not None:
+        # Both prefixes already belong to this exact captured execution input.
+        # Provider placement takes precedence over its /usr system ancestor.
+        prefixes = (components(str(D.VENV)), components(ENGINE_ROOT))
+        if all(prefix is not None for prefix in prefixes):
+            if any(parts[:len(prefix)] == prefix for prefix in prefixes):
+                placement = 'SAME_JOB_DECLARED_PREFIX'
+            elif parts[0] in ('usr', 'bin', 'lib', 'lib64', 'etc'):
+                placement = 'SYSTEM_IMAGE_PREFIX'
+    message = messages.get(reason) if type(reason) is str else None
+    need(False, (message or 'C5 runtime directory diagnostic unavailable') + ' [' + placement + ']')
+
+
+def runtime_topology(runtime):
+    """Observe only path hops needed to reach the already selected data files.
+
+    The base input owner records nominal aliases and final file identities. Its
+    records do not necessarily include intermediate target links (the retained
+    awk record is one exact example). This separate execution owner closes those
+    links with no-follow directory custody and preserves the same final bytes.
+    It never selects an additional regular file through this operation.
+    """
+    selected = dict(runtime['files'])
+    for name,row in runtime['directories'].items():
+        selected[name] = dict(kind='DIRECTORY',resolved=name,identity=row['identity'])
+    provider = runtime['provider']['installation']
+    for name,row in provider['directories'].items():
+        selected[str(D.VENV/name)] = row['observation']
+    for name,row in provider['links'].items():
+        selected[str(D.VENV/name)] = row
+    result = dict(selected={},links={},directories={})
+    metadata_enabled = default_acl_enabled()
+    if metadata_enabled:result['directory_metadata'] = {}
+    flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC
+    def record(group,name,value):
+        need(name not in result[group] or result[group][name] == value,
+             'C5 runtime path observation changed during acquisition')
+        result[group][name] = value
+        need(len(result['selected'])+len(result['links'])+len(result['directories']) <= P.RUNTIME_BOUNDS['entries'],
+             'C5 complete path observation exceeds inherited runtime population bound')
+    for name,wanted in sorted(selected.items()):
+        path = PurePosixPath(name)
+        need(path.is_absolute() and '..' not in path.parts and len(path.parts) <= P.RUNTIME_BOUNDS['depth']+1,
+             'C5 selected runtime path exceeds its fixed bound')
+        fds = []
+        observations = []
+        rootfd = os.open('/',flags)
+        fds.append(rootfd)
+        stack = [rootfd]
+        directory_names = {rootfd: "/"}
+        current = []
+        pending = list(path.parts[1:])
+        followed = 0
+        try:
+            root_info = os.fstat(rootfd)
+            record('directories','/',stamp(root_info))
+            observations.append((None,'/',rootfd,stamp(root_info)))
+            if metadata_enabled:
+                record('directory_metadata', '/', runtime_directory_metadata(rootfd, False))
+            terminal = root_info
+            while pending:
+                part = pending.pop(0)
+                if part in ('','.'):
+                    continue
+                if part == '..':
+                    need(bool(current),'C5 runtime alias escapes its image root')
+                    current.pop();stack.pop()
+                    terminal=os.fstat(stack[-1])
+                    continue
+                need(len(current) < P.RUNTIME_BOUNDS['depth'],'C5 physical alias traversal exceeds inherited depth')
+                parent = stack[-1]
+                info = os.stat(part,dir_fd=parent,follow_symlinks=False)
+                physical = '/' + '/'.join([*current,part])
+                if stat.S_ISLNK(info.st_mode):
+                    followed += 1
+                    need(followed <= 64,'C5 runtime alias cycle or excessive depth')
+                    target = os.readlink(part,dir_fd=parent)
+                    need(target and '\x00' not in target and len(target.encode()) <= 4096,
+                         'C5 runtime alias target exceeds fixed path bound')
+                    need(stamp(os.stat(part,dir_fd=parent,follow_symlinks=False)) == stamp(info),
+                         'C5 runtime link changed while reading its target')
+                    record('links',physical,dict(identity=stamp(info),target=target))
+                    observations.append((parent,part,None,stamp(info)))
+                    if target.startswith('/'):
+                        current=[];stack=[rootfd];terminal=os.fstat(rootfd)
+                    pending=target.split('/')+pending
+                    continue
+                current.append(part)
+                terminal=info
+                if stat.S_ISDIR(info.st_mode):
+                    child=os.open(part,flags,dir_fd=parent)
+                    fds.append(child)
+                    observed_directory = os.fstat(child)
+                    if stamp(observed_directory) != stamp(info):
+                        if (observed_directory.st_dev, observed_directory.st_ino) != (info.st_dev, info.st_ino):
+                            _runtime_directory_refusal('TARGET', physical)
+                        elif (observed_directory.st_mode, observed_directory.st_nlink,
+                              observed_directory.st_uid, observed_directory.st_gid) != (
+                              info.st_mode, info.st_nlink, info.st_uid, info.st_gid):
+                            _runtime_directory_refusal('CUSTODY', physical)
+                        else:
+                            _runtime_directory_refusal('STATE', physical)
+                    if metadata_enabled:
+                        record('directory_metadata', physical, runtime_directory_metadata(child, physical in DEFAULT_ACL_PATHS))
+                    elif os.listxattr(child):
+                        _runtime_directory_refusal('XATTR', physical)
+                    stack.append(child)
+                    directory_names[child] = physical
+                    record('directories',physical,stamp(info))
+                    observations.append((parent,part,child,stamp(info)))
+                else:
+                    need(not pending and stat.S_ISREG(info.st_mode), 'C5 runtime traversal reached an unsupported member')
+                    observations.append((parent,part,None,stamp(info)))
+            resolved='/'+'/'.join(current)
+            need(resolved == wanted['resolved'] and P.identity(terminal) == wanted['identity'],
+                 'C5 physical topology differs from its already selected target: '+name)
+            need((wanted['kind']=='FILE' and stat.S_ISREG(terminal.st_mode))
+                 or (wanted['kind']=='DIRECTORY' and stat.S_ISDIR(terminal.st_mode)),
+                 'C5 topology target type differs from its selected input')
+            for parent,part,fd,expected in observations:
+                need(stamp(os.stat(part,dir_fd=parent,follow_symlinks=False)) == expected,
+                     'C5 runtime path hop changed during complete traversal')
+                if fd is not None:
+                    need(stamp(os.fstat(fd)) == expected,'C5 runtime directory descriptor changed')
+                    if metadata_enabled:
+                        physical = directory_names[fd]
+                        need(runtime_directory_metadata(fd, physical in DEFAULT_ACL_PATHS) == result['directory_metadata'][physical],
+                             'C5 runtime directory closing metadata differs')
+            record('selected',name,dict(kind=wanted['kind'],resolved=resolved))
+        finally:
+            for fd in reversed(fds):os.close(fd)
+    if metadata_enabled:runtime_metadata_bytes(result['directory_metadata'])
+    return result
+
+
+def runtime_layout(runtime,topology):
+    """Preserve every selected spelling and all actual intermediate link hops."""
+    logical = runtime['files']
+    links = {name:row['target'] for name,row in topology['links'].items()}
+    files = {}
+    for name,row in logical.items():
+        resolved = virtual_resolve(name,links)
+        need(resolved == row['resolved'], 'C5 image link layout differs from actual selector: ' + name)
+        descriptor = {key:row[key] for key in ('bytes','sha256','mode')}
+        need(resolved not in files or files[resolved] == descriptor, 'C5 resolved runtime bytes disagree')
+        files[resolved] = descriptor
+    if PROFILE in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1', 'FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', *CORRESPONDENCE_PROFILES):
+        selected_paths = set(logical) | set(files) | set(links)
+        need(all(not PurePosixPath(name).is_relative_to(mount)
+                 for name in selected_paths for mount in (SOURCE_MOUNT, WORK_MOUNT, SCRATCH_MOUNT)),
+             'C5 selected runtime input overlaps a later private mount')
+    directories = {name:stat.S_IMODE(observed[2]) for name,observed in topology['directories'].items()}
+    for name in ('/','/work','/c5-work','/tmp','/dev','/proc','/profile'):
+        directories.setdefault(name,0o755)
+    for name in set(files) | set(links):
+        for parent in PurePosixPath(name).parents:directories.setdefault(str(parent),0o755)
+    need(not set(files)&set(links) and not (set(files)|set(links))&set(directories),
+         'C5 runtime files, aliases and directories overlap')
+    # Each closed source profile preserves its actual provider ancestry. These
+    # fixed policies add no paths or caller-selected directory exceptions.
+    policy = SPEC['directory_mode_policy']
+    expected_policy = ({'default':0o755,'exceptions':{'/home/agent':0o750}}
+        if PROFILE in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', CORRESPONDENCE_PROFILE) else {'default':0o755,'exceptions':{}}
+        if PROFILE in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_CURRENT_COMPOSITE_20261027_V1', *UID0_HOST_PROFILES)
+        else {'default':0o755,'exceptions':{'/workspace':0o777,'/workspace/scratch':0o700}})
+    if default_acl_enabled():
+        expected_policy = {'default':0o755,'exceptions':RUNTIME_SHARE_DIRECTORY_MODES}
+    need(policy == expected_policy,
+         'C5 selected directory mode policy differs from its fixed profile')
+    need(set(policy['exceptions']) <= set(topology['directories']),
+         'C5 fixed mode exception lacks its actual captured directory')
+    need(all(type(mode) is int and mode == policy['exceptions'].get(name,policy['default'])
+             for name,mode in directories.items()),
+         'C5 selected image directory mode differs from its fixed profile')
+    need(len(files)+len(links)+len(directories) <= P.RUNTIME_BOUNDS['entries'], 'C5 image population exceeds inherited runtime bound')
+    result = dict(files=files,links=links,directories=dict(sorted(directories.items(),key=lambda item:(item[0].count('/'),item[0]))),
+        observed_logical_files=len(logical),canonical_data_files=len(files),
+        semantics='ALL_SELECTED_RUNTIME_BYTES_AND_COMPLETE_ALIAS_TOPOLOGY_PRESERVED_NO_PYTHON_WRAPPER')
+    if default_acl_enabled():
+        require_fixed_runtime_share(result)
+        result['directory_metadata'] = {name:topology['directory_metadata'].get(name, dict(default_acl=None)) for name in directories}
+        result['metadata_bytes'] = runtime_metadata_bytes(result['directory_metadata'])
+    return result
+
+
+def image_directories(source,layout,kernel_entropy=None):
+    """Exact selected image names, including every hidden/empty source directory.
+
+    The fresh procfs has a kernel-owned changing population; it is checked by
+    its separate readonly/new-PID-namespace bootstrap contract. Every other
+    selected directory is closed before the original starts.
+    """
+    modes=dict(layout['directories'])
+    files=set(layout['files'])|{'/profile/c5-executor.py','/profile/c5-execution.json','/dev/null'}
+    links=set(layout['links'])|{'/dev/fd'}
+    if kernel_entropy is not None:
+        need(PROFILE in ('FIXED_GENUINE_C5_PRODUCER_EFFECT_SOL_TASK_LINUX_20261029_V1', *CORRESPONDENCE_PROFILES)
+             and kernel_entropy['path'] == '/dev/urandom','C5 foreign entropy image entry')
+        files.add('/dev/urandom')
+    for name,mode in source['directories'].items():
+        path=SOURCE_MOUNT if name=='.' else SOURCE_MOUNT+'/'+name
+        modes[path]=mode
+    files.update(SOURCE_MOUNT+'/'+name for name in source['files'])
+    for name in files|links|set(modes):
+        for parent in PurePosixPath(name).parents:modes.setdefault(str(parent),0o755)
+    need(not files&links and not (files|links)&set(modes),'C5 complete image members overlap')
+    members=files|links|set(modes)
+    result = {name:dict(mode=mode,names=sorted(PurePosixPath(member).name for member in members
+            if member!=name and str(PurePosixPath(member).parent)==name))
+            for name,mode in sorted(modes.items()) if name!='/proc'}
+    if 'directory_metadata' in layout:
+        for name, value in result.items():
+            value.update(layout['directory_metadata'].get(name, dict(default_acl=None)))
+    return result
+
+
+def require_fixed_runtime_share(layout):
+    root = '/usr/share'
+    def selected(name):
+        return name == root or name.startswith(root + '/')
+    expected = {}
+    for name, pin in SPEC['git_files'].items():
+        if selected(name):
+            need(pin['resolved'] == name and pin['link'] is None,
+                 'C5 runtime share pinned file alias is unsupported')
+            expected[name] = {key:pin[key] for key in ('bytes','sha256','mode')}
+    need(len(expected) == 16
+         and {name:row for name,row in layout['files'].items() if selected(name)} == expected
+         and {name:mode for name,mode in layout['directories'].items() if selected(name)}
+             == RUNTIME_SHARE_DIRECTORY_MODES
+         and not any(selected(name) for name in layout['links']),
+         'C5 fixed runtime share population or pinned bytes differ')
+
+
+def runtime_share_stage(parent, layout, objects, reserve):
+    require_fixed_runtime_share(layout)
+    root = '/usr/share'
+    def selected(name):return name == root or name.startswith(root + '/')
+    def relative(name):return '.' if name == root else name[len(root)+1:]
+    need(root in layout['directories'], 'C5 default ACL stage lacks its exact selected root')
+    metadata = layout['directory_metadata']
+    need(all(row['default_acl'] is None or name in DEFAULT_ACL_PATHS for name,row in metadata.items()),
+         'C5 runtime ACL is outside its fixed selected subtree')
+    links = {relative(name):target for name,target in layout['links'].items() if selected(name)}
+    state = dict(directories={relative(name):mode for name,mode in layout['directories'].items() if selected(name)},
+                 files={relative(name):row for name,row in layout['files'].items() if selected(name)})
+    count = sum(row['bytes'] for row in state['files'].values())
+    need(count <= P.RUNTIME_BOUNDS['mounted_bytes'] and count <= P.SOURCE_BOUNDS['total_bytes']
+         and len(state['files']) + len(state['directories']) + len(links) <= min(P.SOURCE_BOUNDS['entries'],P.RUNTIME_BOUNDS['entries'])
+         and all(row['bytes'] <= min(P.SOURCE_BOUNDS['file_bytes'],P.RUNTIME_BOUNDS['file_bytes']) for row in state['files'].values())
+         and all(len(PurePosixPath(name).parts) <= min(P.SOURCE_BOUNDS['depth'],P.RUNTIME_BOUNDS['depth'])
+                 for name in set(state['directories']) | set(state['files']) | set(links)),
+         'C5 owned runtime stage exceeds inherited source/runtime allocation')
+    return CapturedSourceStage(parent,state,objects,reserve,root_name='runtime-share-stage',
+        directory_metadata={relative(name):row for name,row in metadata.items() if selected(name)},
+        links=links)
+
+
+def captured_source_identity(source,objects,expected):
+    """Bind non-authority post-commit metadata to captured actual Git bytes.
+
+    The new clean commit must remain a loose object in this explicit profile.
+    All packed/other source objects are still captured; nothing is projected
+    away and no Git command or imported completion establishes this binding.
+    """
+    files=source['state']['files']
+    raw=objects[files['.git/HEAD']['sha256']]
+    need(len(raw)<=1024,'C5 HEAD input exceeds metadata bound')
+    value=raw.decode('ascii','strict').strip()
+    if value.startswith('ref: '):
+        name=value[5:]
+        need(name.startswith('refs/heads/') and '..' not in PurePosixPath(name).parts,'Unsupported C5 HEAD reference')
+        member='.git/'+name
+        if member in files:value=objects[files[member]['sha256']].decode('ascii','strict').strip()
+        else:
+            packed=objects[files['.git/packed-refs']['sha256']].decode('ascii','strict').splitlines()
+            matched=[line.split(' ',1)[0] for line in packed if line.endswith(' '+name)]
+            need(len(matched)==1,'C5 packed HEAD reference is ambiguous')
+            value=matched[0]
+    need(value==expected['source_commit'],'Captured HEAD differs from the frozen post-commit envelope')
+    member='.git/objects/'+value[:2]+'/'+value[2:]
+    need(member in files,'C5 reviewed fresh HEAD commit must retain its loose object')
+    packed=objects[files[member]['sha256']]
+    decoder=zlib.decompressobj()
+    unpacked=decoder.decompress(packed,1024**2+1)
+    need(len(unpacked)<=1024**2 and decoder.eof and not decoder.unconsumed_tail and not decoder.unused_data,
+         'C5 loose HEAD commit metadata exceeds its explicit bound or has trailing data')
+    header,separator,body=unpacked.partition(b'\0')
+    need(separator and header==b'commit '+str(len(body)).encode('ascii') and hashlib.sha1(unpacked).hexdigest()==value,
+         'C5 captured HEAD commit object bytes do not match their Git identity')
+    first=body.partition(b'\n')[0]
+    need(first==b'tree '+expected['source_tree'].encode('ascii'),
+         'Captured HEAD tree differs from the frozen post-commit envelope')
+    return dict(source_commit=value,source_tree=expected['source_tree'],loose_commit_member=member,
+        loose_commit_sha256=files[member]['sha256'],metadata_bytes=len(unpacked),
+        basis='ACTUAL_CAPTURED_HEAD_AND_HASH_VERIFIED_COMMIT_TREE;OUTER_METADATA_IS_NOT_AUTHORITY')
+
+
+def git_inputs(objects):
+    """Exact additional clone dependencies; existing base tools remain fixed."""
+    result = dict(files={},directories={})
+    for name,pin in SPEC['git_files'].items():
+        row = B.capture_selector(name,objects,limit=P.RUNTIME_BOUNDS['file_bytes'])
+        need(row['kind'] == 'FILE' and all(row[key] == pin[key] for key in ('bytes','sha256','mode','resolved','link')),
+             'C5 clone input differs from its exact reviewed pin: ' + name)
+        result['files'][name] = row
+    for name,wanted in SPEC['git_directories'].items():
+        observed = B.capture_selector(name,{})
+        need(observed['kind'] == 'DIRECTORY', 'C5 clone template directory is absent')
+        fd = P.open_directory(observed['resolved'])
+        try:
+            before = P.identity(os.fstat(fd))
+            names = sorted(os.listdir(fd))
+            need(names == wanted, 'C5 clone template population differs')
+            B.require_same(before,P.identity(os.fstat(fd)),'clone template directory')
+        finally:
+            os.close(fd)
+        B.require_same(observed,B.capture_selector(name,{}),'clone template selector')
+        result['directories'][name] = dict(observation=observed,names=names)
+    return result
+
+
+class GenuineC5Session:
+    """One actual C5 execution and same-live-owner reuse; no receipt importer."""
+    def __init__(self, source_root, output, *, expected_source):
+        CHECK()
+        need(platform.system() == 'Linux' and platform.machine() == 'x86_64', 'C5 execution requires reviewed Linux x86_64')
+        need(hasattr(os,'pidfd_open') and hasattr(signal,'pidfd_send_signal'), 'C5 execution requires actual pidfd custody')
+        need(type(expected_source) is dict and set(expected_source)=={'source_commit','source_tree'}
+             and all(type(value) is str and len(value)==40 and all(c in '0123456789abcdef' for c in value)
+                     for value in expected_source.values()),'C5 post-commit comparison metadata is malformed')
+        self.expected_source=dict(expected_source)
+        self.source, self.output = Path(source_root).absolute(), Path(output).absolute()
+        B._ancestors(self.source)
+        B._ancestors(self.output.parent)
+        need(self.source == Path(ENGINE_ROOT), 'Fixed C5 source owner must execute its own full captured candidate')
+        need(not self.output.exists() and not self.output.is_relative_to(self.source), 'C5 evidence must be fresh and outside source')
+        self.output.mkdir(mode=0o700)
+        self.output_anchor = anchor(self.output.stat())
+        self.owner = os.getpid()
+        self.lock = threading.Lock()
+        self.owned, self.sealed, self.stage = {}, {}, None
+        self.runtime_stage, self.runtime_stage_directories, self.runtime_stage_links = None, {}, {}
+        self.runtime_stage_started = False
+        self.partial_runtime_stage = None
+        self.retained_directories, self.stage_directories = None, []
+        self.attempted, self.closed, self.result, self.acquired = False, False, None, None
+        self.reserved = 0
+        self.prepaid = {'closing-custody.json':P.MANIFEST_BOUND,'result.json':P.MANIFEST_BOUND,
+            'input-currentness-before.json':P.MANIFEST_BOUND,'input-currentness-after.json':P.MANIFEST_BOUND,
+            'input-currentness-refusal.json':P.MANIFEST_BOUND}
+        self._reserve(sum(self.prepaid.values()),'bounded closing and result metadata')
+        # Journal writes are owned by the unchanged CompletionContract. Reserve
+        # its whole existing64MiB cap plus both actual raw outer logs before launch.
+        self._reserve(64*1024**2 + 2*LIMITS['stream_bytes'],'journal and outer streams')
+        if PROFILE in CORRESPONDENCE_PROFILES:
+            need(SPEC.get('correspondence_pair') == CORRESPONDENCE_POLICY, 'unknown C5 shared-image pair selection')
+            self._reserve(64*1024**2, 'second independently retained original C5 journal')
+
+    def _reserve(self, count, label):
+        need(type(count) is int and count >= 0, 'Invalid C5 evidence reservation')
+        if getattr(self, '_staging_deadline', None) is not None:
+            need(time.monotonic() <= self._staging_deadline, 'C5 image staging exceeded existing wall allowance')
+        need(self.reserved + count <= LIMITS['evidence_bytes'], 'C5 evidence allocation exhausted: ' + label)
+        self.reserved += count
+
+    def _write(self, relative, raw):
+        need(type(raw) is bytes, 'C5 evidence must be exact bytes')
+        P.safe_name(relative)
+        path = self.output / relative
+        need(not path.exists() and not path.is_symlink(), 'C5 evidence already exists')
+        if relative in self.prepaid:
+            need(len(raw) <= self.prepaid[relative],'C5 prepaid metadata exceeds inherited manifest bound')
+        else:
+            self._reserve(len(raw),relative)
+        path.parent.mkdir(mode=0o700,parents=True,exist_ok=True)
+        B._ancestors(path.parent)
+        fd = os.open(path,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600)
+        try:
+            send(fd,raw)
+            os.fsync(fd)
+            os.fchmod(fd,0o400)
+            physical = stamp(os.fstat(fd))
+        finally:
+            os.close(fd)
+        self.owned[relative] = dict(bytes=len(raw),sha256=sha(raw),identity=physical,mode=0o400)
+
+    def _check_owned(self):
+        need(not self.closed and os.getpid() == self.owner and anchor(self.output.stat()) == self.output_anchor,
+             'C5 session owner or evidence root changed')
+        CHECK()
+        for name,row in self.owned.items():
+            path = self.output/name
+            B._ancestors(path.parent)
+            metadata = read_owned_digest(path,max(P.SOURCE_BOUNDS['file_bytes'],G.E.MAX_PROCESS_JSON))
+            need(stamp(path.lstat()) == row['identity'] and metadata['mode'] == row['mode']
+                 and metadata['size'] == row['bytes'] and metadata['sha256'] == row['sha256'], 'C5 retained evidence changed')
+        for fd,row in self.sealed.items():
+            need(stamp(os.fstat(fd)) == row['identity'] and fcntl.fcntl(fd,fcntl.F_GET_SEALS) == 15,
+                 'C5 acquired sealed input custody changed')
+        if self.stage is not None:
+            self.stage.check()
+        if self.runtime_stage is not None:
+            self.runtime_stage.check()
+        elif self.runtime_stage_directories:
+            self._check_runtime_stage_metadata()
+        if self.retained_directories is not None:
+            need(self._directory_population() == self.retained_directories,
+                 'C5 closed evidence directory population or metadata changed')
+
+    def _bind_existing(self,relative,*,mode,expected=None,limit=None,seal=False):
+        """Retain a file already produced by this owner; never import a result."""
+        P.safe_name(relative)
+        path=self.output/relative
+        B._ancestors(path.parent)
+        bound=max(P.SOURCE_BOUNDS['file_bytes'],G.E.MAX_PROCESS_JSON) if limit is None else limit
+        metadata,raw=P.read_regular(path,bound)
+        if expected is not None:
+            need(len(raw)==expected['bytes'] and sha(raw)==expected['sha256'],
+                 'C5 terminal owned bytes differ from their live producer record')
+        if seal:
+            fd=os.open(path,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK|os.O_CLOEXEC)
+            try:
+                need(P.identity(os.fstat(fd))==metadata['identity'],'C5 outer log changed before sealing')
+                os.fchmod(fd,mode)
+                physical=stamp(os.fstat(fd))
+            finally:os.close(fd)
+            need(stamp(path.lstat())==physical,'C5 outer log changed after sealing')
+            metadata,after=P.read_regular(path,bound)
+            need(after==raw,'C5 outer raw log bytes changed while sealing')
+        need(metadata['mode']==mode,'C5 terminal storage mode differs')
+        self.owned[relative]=dict(bytes=len(raw),sha256=sha(raw),identity=stamp(path.lstat()),mode=mode)
+        return {key:self.owned[relative][key] for key in ('bytes','sha256','mode')}
+
+    def _bind_gate(self,gate):
+        need(gate._closed and gate._reaped,'C5 gate evidence cannot close before actual wait custody')
+        gate._check_owned()
+        prefix=gate.output.relative_to(self.output).as_posix()
+        need(prefix in ('live','live-first','live-second'), 'unknown C5 retained live scope')
+        for relative,row in gate._owned.items():
+            path=gate.output/relative
+            need(G.file_identity(path.lstat())==row['identity'],'C5 live gate terminal identity differs')
+            self._bind_existing(prefix+'/'+relative,mode=row['mode'],expected=row,
+                                limit=max(G.E.MAX_PROCESS_JSON,G.E.MAX_FILE))
+        if gate._contract is not None:
+            journal=gate._contract.journal
+            need(journal.closed,'C5 completion writer is still live at retention')
+            lock=journal.root/'writer.lock'
+            need((lock.stat().st_dev,lock.stat().st_ino)==journal.lock_identity,
+                 'C5 completion lock changed after live close')
+            self._bind_existing(prefix+'/journal/writer.lock',mode=0o600,
+                                expected=dict(bytes=0,sha256=sha(b'')),limit=0)
+            if journal.disk is not None:
+                self._bind_existing(prefix+'/journal/history.json',mode=0o600,
+                    expected=dict(bytes=len(journal.disk),sha256=sha(journal.disk)),limit=64*1024**2)
+
+    def _bind_stage(self):
+        if self.stage is None:return
+        self.stage.check(rehash=True)
+        for name,row in self.stage.state['files'].items():
+            self._bind_existing('source-stage/'+name,mode=row['mode'],expected=row)
+        self.stage_directories=['source-stage' if name=='.' else 'source-stage/'+name
+                                for name in self.stage.state['directories']]
+
+    def _check_runtime_stage_metadata(self):
+        for name, wanted in self.runtime_stage_directories.items():
+            path = self.output/name
+            fd = P.open_directory(path)
+            try:
+                need(stamp(os.fstat(fd)) == wanted['identity'] == stamp(path.lstat())
+                     and runtime_directory_metadata(fd, wanted['metadata']['default_acl'] is not None) == wanted['metadata'],
+                     'C5 retained runtime directory custody differs')
+            finally:os.close(fd)
+        for name,wanted in self.runtime_stage_links.items():
+            path = self.output/name
+            need(stamp(path.lstat()) == wanted['identity'] and os.readlink(path) == wanted['target']
+                 and not os.listxattr(path,follow_symlinks=False), 'C5 retained runtime link differs')
+
+    def _bind_runtime_stage(self):
+        stage = self.runtime_stage
+        if stage is None:
+            if not self.runtime_stage_started:
+                return
+            path = self.output / 'runtime-share-stage'
+            try:
+                observed = path.lstat()
+            except FileNotFoundError:
+                return
+            # Construction did not transfer descriptor custody. Preserve the
+            # partial subtree and report its observed root, without claiming
+            # that unbound descendants were received or can be removed safely.
+            self.partial_runtime_stage = dict(path=path.name, observed_root=stamp(observed),
+                descendants_received=False, disposition='RETAINED_CUSTODY_UNRESOLVED')
+            need(False, 'C5 partial runtime stage retained without complete custody')
+        stage.check(rehash=True)
+        for name,row in stage.state['files'].items():
+            self._bind_existing('runtime-share-stage/'+name,mode=row['mode'],expected=row)
+        for name in stage.state['directories']:
+            relative = 'runtime-share-stage' if name == '.' else 'runtime-share-stage/'+name
+            self.runtime_stage_directories[relative] = dict(identity=stage.stamps[name],metadata=stage.directory_metadata[name])
+        for name,target in stage.link_targets.items():
+            self.runtime_stage_links['runtime-share-stage/'+name] = dict(identity=stage.stamps[name],target=target)
+        self._check_runtime_stage_metadata()
+
+    def _directory_population(self):
+        """Exact closed population, rooted in files produced by this live owner."""
+        names={'.':set()}
+        def add_directory(name):
+            names.setdefault(name,set())
+            if name!='.':
+                parent=str(PurePosixPath(name).parent)
+                add_directory(parent)
+                names[parent].add(PurePosixPath(name).name)
+        for name in self.stage_directories:add_directory(name)
+        for name in self.runtime_stage_directories:add_directory(name)
+        for name in self.runtime_stage_links:
+            add_directory(str(PurePosixPath(name).parent))
+            names[str(PurePosixPath(name).parent)].add(PurePosixPath(name).name)
+        self._check_runtime_stage_metadata()
+        for name in self.owned:
+            parent=str(PurePosixPath(name).parent)
+            add_directory(parent)
+            names[parent].add(PurePosixPath(name).name)
+        result={}
+        for name,expected in sorted(names.items()):
+            path=self.output if name=='.' else self.output/name
+            fd=P.open_directory(path)
+            try:
+                before=stamp(os.fstat(fd));observed=[]
+                with os.scandir(fd) as entries:
+                    for entry in entries:
+                        observed.append(entry.name)
+                        need(len(observed)<=len(expected),'C5 closed evidence gained an extra member')
+                need(sorted(observed)==sorted(expected) and stamp(os.fstat(fd))==before,
+                     'C5 closed evidence population changed')
+                need(stamp(path.lstat())==before,'C5 closed evidence directory changed')
+                if name in self.runtime_stage_directories:
+                    wanted = self.runtime_stage_directories[name]
+                    need(before == wanted['identity'] and runtime_directory_metadata(fd, wanted['metadata']['default_acl'] is not None) == wanted['metadata'],
+                         'C5 closed runtime directory metadata changed')
+                else:
+                    need(not os.listxattr(fd),'C5 closed evidence directory has extended metadata')
+                result[name]=dict(identity=before,names=sorted(observed))
+            finally:os.close(fd)
+        return result
+
+    def _acquire(self):
+        CHECK()
+        captured = D.C5ProviderInputs(self.source).acquire()
+        record, objects = captured['record'], dict(captured['objects'])
+        extra = git_inputs(objects)
+        P.validate_git_namespace(record['source']['state'],objects)
+        git_identity=captured_source_identity(record['source'],objects,self.expected_source)
+        runtime = dict(record['runtime'], files=dict(record['runtime']['files']))
+        for name,row in extra['files'].items():
+            need(name not in runtime['files'] or runtime['files'][name] == row, 'C5 clone/base runtime selector conflict')
+            runtime['files'][name] = row
+        runtime['directories'] = dict(runtime['directories'])
+        for name,row in extra['directories'].items():
+            need(name not in runtime['directories'], 'C5 clone directory duplicates an inherited runtime root')
+            runtime['directories'][name] = dict(identity=row['observation']['identity'],
+                ancestors=row['observation']['ancestors'],names=row['names'])
+        totals = (D.runtime_budget_v1(runtime['files'],P.RUNTIME_BOUNDS) if PROFILE == R5_HOSTED_PROFILE
+                  else P.runtime_budget(runtime['files'],P.RUNTIME_BOUNDS))
+        runtime['totals'] = totals
+        topology = runtime_topology(runtime)
+        layout = runtime_layout(runtime,topology)
+        B.require_same(topology,runtime_topology(runtime),'complete runtime topology')
+        if 'metadata_bytes' in layout:
+            for key in ('mounted_bytes','unique_bytes'):
+                need(totals[key] + layout['metadata_bytes'] <= P.RUNTIME_BOUNDS[key],
+                     'C5 runtime default ACL bytes exceed inherited runtime bound')
+            totals = dict(totals, directory_metadata_bytes=layout['metadata_bytes'],
+                accounted_mounted_bytes=totals['mounted_bytes']+layout['metadata_bytes'],
+                accounted_unique_bytes=totals['unique_bytes']+layout['metadata_bytes'])
+        B.require_same(extra,git_inputs({}),'complete clone runtime inputs')
+        CHECK()
+        metadata,launcher = P.read_regular(Path('/usr/bin/bwrap'),P.RUNTIME_BOUNDS['file_bytes'],single_link=False)
+        need(dict(bytes=len(launcher),sha256=metadata['sha256'],mode=metadata['mode']) == SPEC['launcher'], 'C5 actual namespace launcher changed')
+        observation = dict(provider=record,clone_inputs=extra,runtime_totals=totals,topology=topology,layout=layout,
+            source_commit=git_identity['source_commit'],source_tree=git_identity['source_tree'],captured_git_identity=git_identity,launcher=metadata,
+            selection_origins=SPEC['selection_origins'],executing_sources={name:dict(bytes=len(row[0]),sha256=sha(row[0])) for name,row in SOURCES.items()},
+            execution_policy='READONLY_COMPLETE_SOURCE_WORK512_FOR_ORIGINAL_TEMP_CLONES_TMP32_UNCHANGED',
+            authority='NONE')
+        entropy=task_kernel_entropy_v1(record,runtime)
+        if entropy is not None:observation['kernel_entropy']=entropy
+        return dict(observation=observation,objects=objects,runtime=runtime,key=sha(encode(observation)))
+
+    def _same_inputs(self):
+        fresh = self._acquire()
+        if fresh['observation'] != self.acquired['observation'] or fresh['key'] != self.acquired['key']:
+            # Retain the actual failed comparison, never reconstruct a lost
+            # AFTER value or change equality to admit stale inputs. These are
+            # bounded observation buffers, not new raw-object custody claims.
+            self._write('input-currentness-before.json',encode(self.acquired['observation']))
+            self._write('input-currentness-after.json',encode(fresh['observation']))
+            self._write('input-currentness-refusal.json',encode(dict(
+                schema='implementaudit.c5-input-currentness-refusal.v1',
+                before_key=self.acquired['key'],after_key=fresh['key'],
+                decision='REFUSED_UNCHANGED_COMPARATOR',
+                fresh_object_bytes='NOT_RETAINED_BY_THIS_DIAGNOSTIC',authority='NONE')))
+        need(fresh['observation'] == self.acquired['observation'] and fresh['key'] == self.acquired['key'],
+             'C5 source/runtime/provider/clone-input currentness changed')
+        self._check_owned()
+
+    def _seal(self, raw):
+        fd = Q.VerifierTaskSession._sealed(raw)
+        try:
+            need(fd < LIMITS['descriptors'] and fcntl.fcntl(fd,fcntl.F_GET_SEALS) == 15,
+                 'C5 sealed descriptor capacity/integrity differs')
+            self.sealed[fd] = dict(identity=stamp(os.fstat(fd)),bytes=len(raw),sha256=sha(raw))
+            return fd
+        except BaseException:
+            os.close(fd)
+            raise
+
+    def _image(self, gate_fd):
+        acquired, layout = self.acquired, self.acquired['observation']['layout']
+        source = acquired['observation']['provider']['source']['state']
+        environment = dict(D._ENVIRONMENT, PWD=SOURCE_MOUNT, TMPDIR=WORK_MOUNT,
+            R0035_REPRO_EVENT_CAPTURE_DIR=WORK_MOUNT+'/capture',R0035_C5_LIVE_GATE_FD=str(gate_fd))
+        if PROFILE in CORRESPONDENCE_PROFILES:
+            environment[G.E.C5_ALLOCATION_ENV]=G.E.C5_CORRESPONDENCE
+        # source and runtime are distinct existing allocations, not a new union.
+        self.stage = CapturedSourceStage(self.output,source,acquired['objects'],self._reserve)
+        if 'directory_metadata' in layout:
+            self.runtime_stage_started = True
+            self.runtime_stage = runtime_share_stage(self.output,layout,acquired['objects'],self._reserve)
+        startup = {}
+        for name,row in acquired['runtime']['files'].items():
+            startup[name] = {key:row[key] for key in ('bytes','sha256','mode','resolved')}
+        for name,row in source['files'].items():
+            path = SOURCE_MOUNT+'/'+name
+            startup[path] = dict(row,resolved=path)
+        startup['/profile/c5-executor.py']=dict(bytes=len(SOURCES[EXECUTOR][0]),sha256=sha(SOURCES[EXECUTOR][0]),
+            mode=0o444,resolved='/profile/c5-executor.py')
+        absent=set(acquired['runtime']['startup']['absent'])|set(acquired['runtime']['startup']['nscd'])
+        absent.update(name for name,row in acquired['runtime']['startup']['aliases'].items() if row['kind']=='MISSING')
+        configuration = dict(schema='implementaudit.c5-execution-image.v1',scope=PROFILE,
+            gate_fd=gate_fd,environment=environment,limits=LIMITS,startup_files=startup,
+            runtime_links=dict(layout['links'],**{'/dev/fd':'/proc/self/fd'}),required_absent=sorted(absent),
+            image_directories=image_directories(source,layout,acquired['observation'].get('kernel_entropy')),
+            host_pid_namespace=os.readlink('/proc/self/ns/pid'),authority='NONE')
+        if 'directory_metadata' in layout:
+            configuration['runtime_directory_metadata_policy'] = dict(DEFAULT_ACL_POLICY)
+        if PROFILE in CORRESPONDENCE_PROFILES:
+            configuration['correspondence_pair']=dict(CORRESPONDENCE_POLICY)
+        if 'kernel_entropy' in acquired['observation']:
+            configuration['kernel_entropy']=acquired['observation']['kernel_entropy']
+        configuration_raw = encode(configuration)
+        need(len(configuration_raw) <= MAX_HEADER, 'C5 complete in-image readback manifest exceeds existing4MiB bound')
+        support = {'/profile/c5-executor.py':(SOURCES[EXECUTOR][0],0o444),
+                   '/profile/c5-execution.json':(configuration_raw,0o444)}
+        execution_entries = dict(acquired['runtime']['files'])
+        for name,(raw,mode) in support.items():
+            execution_entries[name] = dict(bytes=len(raw),sha256=sha(raw),mode=mode)
+        if PROFILE == R5_HOSTED_PROFILE:
+            for name in support:
+                execution_entries[name]['resolved'] = name
+            image_totals = D.runtime_budget_v1(execution_entries,P.RUNTIME_BOUNDS)
+            need(image_totals['canonical_files'] == len(layout['files']) + len(support),
+                 'C5 hosted budget differs from the actual mounted layout')
+        else:
+            image_totals = P.runtime_budget(execution_entries,P.RUNTIME_BOUNDS)
+        if 'metadata_bytes' in layout:
+            for key in ('mounted_bytes','unique_bytes'):
+                need(image_totals[key] + layout['metadata_bytes'] <= P.RUNTIME_BOUNDS[key],
+                     'C5 complete runtime metadata exceeds inherited allocation')
+            image_totals = dict(image_totals, directory_metadata_bytes=layout['metadata_bytes'],
+                accounted_mounted_bytes=image_totals['mounted_bytes']+layout['metadata_bytes'],
+                accounted_unique_bytes=image_totals['unique_bytes']+layout['metadata_bytes'])
+        need(len(execution_entries)+len(layout['directories'])+len(layout['links'])
+             +int('kernel_entropy' in configuration) <= P.RUNTIME_BOUNDS['entries'],
+             'C5 complete runtime support population exceeds inherited bound')
+        args = ['--unshare-all','--unshare-user','--die-with-parent','--new-session','--clearenv','--cap-drop','ALL']
+        for name,value in sorted(environment.items()):
+            args += ['--setenv',name,value]
+        for name,mode in layout['directories'].items():
+            if name != '/' and not (self.runtime_stage is not None and (name == '/usr/share' or name.startswith('/usr/share/'))):
+                args += ['--perms',oct(mode)[2:],'--dir',name]
+        for name,target in sorted(layout['links'].items(),key=lambda item:(item[0].count('/'),item[0])):
+            if self.runtime_stage is not None and name.startswith('/usr/share/'):continue
+            args += ['--symlink',target,name]
+        for name,row in sorted(layout['files'].items()):
+            if self.runtime_stage is not None and name.startswith('/usr/share/'):continue
+            raw = acquired['objects'][row['sha256']]
+            need(len(raw) == row['bytes'] and sha(raw) == row['sha256'], 'C5 runtime object unavailable')
+            fd = self._seal(raw)
+            # The original physical executable oracle requires linked files.
+            # Copy these sealed bytes into the root image; its final remount
+            # keeps the runtime read-only without an unlinked backing inode.
+            args += ['--perms',oct(row['mode'])[2:],'--file',str(fd),name]
+        if self.runtime_stage is not None:
+            self.runtime_stage.check(rehash=True)
+            args += ['--ro-bind',str(self.runtime_stage.root),'/usr/share']
+        for name,(raw,mode) in sorted(support.items()):
+            fd = self._seal(raw)
+            args += ['--perms',oct(mode)[2:],'--ro-bind-data',str(fd),name]
+        if 'kernel_entropy' in configuration:
+            args += ['--dev-bind','/dev/urandom','/dev/urandom']
+        args += ['--ro-bind',str(self.stage.root),SOURCE_MOUNT,
+            '--proc','/proc','--remount-ro','/proc','--symlink','/proc/self/fd','/dev/fd',
+            '--dev-bind','/dev/null','/dev/null',
+            '--perms','0755','--size',str(LIMITS['work_bytes']),'--tmpfs',WORK_MOUNT,
+            '--perms','0755','--size',str(LIMITS['scratch_bytes']),'--tmpfs',SCRATCH_MOUNT,
+            '--remount-ro','/','--chdir',SOURCE_MOUNT]
+        seccomp = self._seal(SECCOMP)
+        args += ['--seccomp',str(seccomp)]
+        need(len(args) < 8500, 'C5 image argument allocation exceeded')
+        argfd = self._seal(b'\0'.join(value.encode() for value in args)+b'\0')
+        need(max([gate_fd,*self.sealed,*self.stage.fds,*(self.runtime_stage.fds if self.runtime_stage is not None else [])]) < LIMITS['descriptors'], 'C5 complete held descriptor allocation exceeded')
+        command = ['/usr/bin/bwrap','--args',str(argfd),'/usr/bin/python3.12','-I','-S','-B',
+                   '/profile/c5-executor.py','--c5-bootstrap']
+        dispatch = dict(argv=command,complete_bwrap_arguments=args,acquisition=acquired['key'],
+            image_configuration_sha256=sha(configuration_raw),runtime_budget=image_totals,
+            source_budget=dict(bytes=sum(row['bytes'] for row in source['files'].values()),
+                               files=len(source['files']),directories=len(source['directories']),limit=P.SOURCE_BOUNDS),
+            runtime_representation={key:value for key,value in layout.items() if key != 'directory_metadata'},held_source_descriptors=len(self.stage.fds),
+            inherited_sealed_descriptors=len(self.sealed),actual_gate_fd=gate_fd,argument_count=len(args),
+            private_work_policy='TMPDIR=/c5-work within existing512MiB; /tmp remains separate32MiB',
+            descendant_lifecycle='BWRAP_DIE_WITH_PARENT_FRESH_PRIVATE_PID_NAMESPACE',authority='NONE')
+        if self.runtime_stage is not None:
+            dispatch['held_runtime_stage_descriptors'] = len(self.runtime_stage.fds)
+            dispatch['runtime_directory_metadata'] = dict(bytes=layout['metadata_bytes'],
+                directories=sum(row['default_acl'] is not None for row in layout['directory_metadata'].values()),
+                sha256=sha(encode(layout['directory_metadata'])))
+        if 'kernel_entropy' in configuration:dispatch['kernel_entropy']=configuration['kernel_entropy']
+        self._write('dispatch.json',encode(dispatch))
+        return command,environment,configuration,configuration_raw
+
+    @staticmethod
+    def _contain_unconstructed(process):
+        """Fallback only before a Gate object takes exclusive wait custody."""
+        waited = os.wait4(process.pid,os.WNOHANG)
+        killed = False
+        pidfd = None
+        if not waited[0]:
+            pidfd = os.pidfd_open(process.pid)
+            try:
+                signal.pidfd_send_signal(pidfd,signal.SIGKILL,None,0)
+                killed = True
+            except ProcessLookupError:
+                pass
+            finally:
+                os.close(pidfd)
+        deadline = time.monotonic()+3
+        while not waited[0] and time.monotonic()<deadline:
+            time.sleep(0.01)
+            waited = os.wait4(process.pid,os.WNOHANG)
+        need(waited[0] == process.pid, 'C5 constructor-failure direct child did not reap')
+        process.returncode = os.waitstatus_to_exitcode(waited[1])
+        absent = False
+        while True:
+            try:
+                os.killpg(process.pid,0)
+            except ProcessLookupError:
+                absent = True
+                break
+            if time.monotonic()>=deadline:
+                break
+            time.sleep(0.01)
+        return dict(actual_pid=process.pid,wait4_reaped=True,exit_code=process.returncode,
+            wait_status=waited[1],max_rss_kib=waited[2].ru_maxrss,direct_child_killed=killed,
+            group_absent=absent,numeric_group_signalled=False)
+
+    def _release_bootstrap(self, gate, configuration, raw):
+        gate._live_child()
+        count = int.from_bytes(gate._read_exact(8),'big')
+        need(0<count<=MAX_HEADER,'C5 bootstrap observation exceeds fixed bound')
+        observed_raw = gate._read_exact(count)
+        observed = json.loads(observed_raw)
+        need(encode(observed)==observed_raw and set(observed)=={'schema','image_sha256','actual_pid',
+            'actual_pid_namespace','uid','gid','cap_eff','startup_files','image_directories','private_work_bytes','scratch_bytes',
+            'source_readonly','root_readonly','retained_descriptor','authority'}
+            |({'kernel_entropy'} if 'kernel_entropy' in configuration else set()),
+            'C5 bootstrap observation schema differs')
+        need(observed['schema']==BOOTSTRAP_SCHEMA and observed['image_sha256']==sha(raw)
+            and observed['startup_files']==configuration['startup_files']
+            and observed['image_directories']==configuration['image_directories'] and observed['uid']==observed['gid']==0
+            and observed['cap_eff']=='0000000000000000' and observed['source_readonly'] is True
+            and observed['root_readonly'] is True and type(observed['actual_pid']) is int and observed['actual_pid']>0
+            and observed['actual_pid_namespace']!=configuration['host_pid_namespace']
+            and observed['private_work_bytes']==LIMITS['work_bytes'] and observed['scratch_bytes']==LIMITS['scratch_bytes']
+            and observed['retained_descriptor']==configuration['gate_fd'] and observed['authority']=='NONE',
+            'C5 actual image readback/capacity/identity differs from reviewed acquisition')
+        if 'kernel_entropy' in configuration:
+            need(observed['kernel_entropy']==configuration['kernel_entropy'],
+                 'C5 actual entropy readback differs from acquired input')
+        self._write('bootstrap-observation.json',observed_raw)
+        self._same_inputs()
+        gate._live_child()
+        reply = encode(dict(schema=BOOTSTRAP_REPLY,image_sha256=sha(raw),accepted=True))
+        gate.channel.sendall(len(reply).to_bytes(8,'big')+reply)
+
+    def _receive_pair_outcome(self, gate, ordinal, configuration_raw, previous):
+        """Receive only the fixed acquired supervisor's actual direct-child wait."""
+        need(PROFILE in CORRESPONDENCE_PROFILES and gate.correspondence and gate._finished and not gate._failed,
+             'C5 pair outcome lacks its complete live original')
+        need(gate._pending is None and gate._event_count==19 and
+             gate._contract.frontier()['selected']==[G.FINAL],
+             'C5 first/second original lacks its final ready live frontier; no suffix')
+        gate._live_child()
+        count=int.from_bytes(gate._read_exact(8),'big')
+        need(0<count<=MAX_HEADER,'C5 actual pair outcome exceeds bound')
+        raw=gate._read_exact(count)
+        self._write('pair-processes/'+str(ordinal)+'.json',raw)
+        outcome=json.loads(raw)
+        fields={'schema','scope','image_sha256','ordinal','argv','cwd','actual_pid','parent_pid',
+                'pid_namespace','raw_wait_status','exit_code','start_monotonic_ns','end_monotonic_ns'}
+        observed=json.loads((self.output/'bootstrap-observation.json').read_bytes())
+        need(encode(outcome)==raw and type(outcome) is dict and set(outcome)==fields and
+             outcome['schema']=='implementaudit.c5-pair-child-outcome.v1' and outcome['scope']==PROFILE and
+             outcome['image_sha256']==sha(configuration_raw) and type(outcome['ordinal']) is int and
+             outcome['ordinal']==ordinal and outcome['argv']==['bash','tests/reproducible-release-asset.test.sh'] and
+             outcome['cwd']==SOURCE_MOUNT and type(outcome['actual_pid']) is int and outcome['actual_pid']>0 and
+             type(outcome['parent_pid']) is int and outcome['parent_pid']==observed['actual_pid'] and
+             outcome['actual_pid']!=outcome['parent_pid'] and outcome['pid_namespace']==observed['actual_pid_namespace'] and
+             type(outcome['raw_wait_status']) is int and 0<=outcome['raw_wait_status']<65536 and
+             type(outcome['exit_code']) is int and outcome['exit_code']==0 and
+             os.waitstatus_to_exitcode(outcome['raw_wait_status'])==outcome['exit_code'] and
+             type(outcome['start_monotonic_ns']) is int and type(outcome['end_monotonic_ns']) is int and
+             0<=outcome['start_monotonic_ns']<=outcome['end_monotonic_ns'],
+             'C5 actual original child outcome is unknown, failed or foreign; no suffix')
+        first=G.E.json_read(gate.capture/'events/00.json')
+        last=G.E.json_read(gate.capture/'events/18.json')
+        need(outcome['start_monotonic_ns']<=first['start_monotonic_ns']<=last['end_monotonic_ns']<=outcome['end_monotonic_ns'],
+             'C5 actual original child outcome crossed its event window')
+        if previous:
+            need(previous[-1]['actual_pid']!=outcome['actual_pid'] and
+                 previous[-1]['end_monotonic_ns']<=outcome['start_monotonic_ns'],
+                 'C5 pair reused or reordered an actual original child')
+        self._same_inputs();gate._check_owned();gate._live_child()
+        reply=encode(dict(schema='implementaudit.c5-pair-child-release.v1',image_sha256=sha(configuration_raw),
+                          ordinal=ordinal,accepted=True))
+        gate.channel.sendall(len(reply).to_bytes(8,'big')+reply)
+        return outcome
+
+    def run(self):
+        need(self.lock.acquire(blocking=False),'Concurrent C5 consumption is unsupported')
+        try:
+            self._check_owned()
+            if self.result is not None:
+                self._same_inputs()
+                return json.loads(encode(dict(self.result,disposition='REUSED_SAME_LIVE_PRODUCER')))
+            need(not self.attempted,'Failed/interrupted C5 execution cannot be replayed as a fresh result')
+            return self._run_once()
+        finally:
+            self.lock.release()
+
+    def _run_once(self):
+        self.attempted=True
+        self.acquired=self._acquire()
+        record=self.acquired['observation']['provider']
+        for name,value in (('provider-source.json',record['source']),('provider-runtime.json',record['runtime']),
+                           ('clone-inputs.json',self.acquired['observation']['clone_inputs'])):
+            raw=encode(value)
+            need(len(raw)<=P.MANIFEST_BOUND,'C5 retained observation exceeds inherited per-manifest bound')
+            self._write(name,raw)
+        summary={key:value for key,value in record.items() if key not in ('source','runtime')}
+        self._write('provider-input-observation.json',encode(dict(summary,source_file='provider-source.json',runtime_file='provider-runtime.json')))
+        object_bytes=sum(len(raw) for raw in self.acquired['objects'].values()) + self.acquired['observation']['layout'].get('metadata_bytes',0)
+        need(object_bytes<=LIMITS['retained_object_bytes'],'C5 object retention allocation exceeded')
+        for key,raw in sorted(self.acquired['objects'].items()):
+            need(key==sha(raw),'C5 object address differs')
+            self._write('objects/'+key,raw)
+        need(resource.getrlimit(resource.RLIMIT_NOFILE)[0]>=LIMITS['descriptors'],
+             'C5 owner has insufficient declared descriptor capacity')
+        endpoint,child_endpoint=socket.socketpair(socket.AF_UNIX,socket.SOCK_STREAM)
+        process=gate=watchdog=None
+        gates=[]
+        stop_watchdog=threading.Event()
+        timed_out=[]
+        outcome=primary_error=None
+        failure=None
+        cleanup_errors=[]
+        logs={}
+        custody=dict(actual_dispatch=False,actual_exit='UNOBSERVED')
+        began=time.monotonic()
+        self._staging_deadline = began + LIMITS['wall_seconds'] if default_acl_enabled() else None
+        owner=self
+        class BudgetedGate(G.LiveC5Gate):
+            def __init__(self,*args,**kwargs):
+                try:super().__init__(*args,**kwargs)
+                except BaseException:
+                    # Construction has not transferred wait custody to the caller.
+                    # Dispose only this partially constructed object's pidfd;
+                    # the executor retains actual Popen/wait4 containment below.
+                    if getattr(self,'pidfd',None) is not None:
+                        os.close(self.pidfd);self.pidfd=None
+                    raise
+            def _write(self,relative,raw):
+                owner._reserve(len(raw),'live gate '+relative)
+                return super()._write(relative,raw)
+        try:
+            command,environment,configuration,configuration_raw=self._image(child_endpoint.fileno())
+            self._check_owned()
+            execution_deadline = self._staging_deadline
+            remaining_wall = execution_deadline - time.monotonic() if execution_deadline is not None else LIMITS['wall_seconds']
+            need(remaining_wall > 0, 'C5 image staging exhausted existing wall allowance')
+            self._staging_deadline = None
+            def limits():
+                for which,key in ((resource.RLIMIT_CPU,'cpu_seconds'),(resource.RLIMIT_AS,'address_bytes'),
+                                  (resource.RLIMIT_FSIZE,'file_bytes'),(resource.RLIMIT_NOFILE,'descriptors')):
+                    resource.setrlimit(which,(LIMITS[key],)*2)
+            with (self.output/'stdout.log').open('xb') as stdout,(self.output/'stderr.log').open('xb') as stderr:
+                process=subprocess.Popen(command,stdin=subprocess.DEVNULL,stdout=stdout,stderr=stderr,
+                    env=environment,cwd=self.source,close_fds=True,
+                    pass_fds=tuple([*self.sealed,child_endpoint.fileno()]),start_new_session=True,preexec_fn=limits)
+                child_endpoint.close()
+                watchdog_fd=os.pidfd_open(process.pid)
+                def expire():
+                    try:
+                        wait_seconds = max(0, execution_deadline-time.monotonic()) if execution_deadline is not None else LIMITS['wall_seconds']
+                        if not stop_watchdog.wait(wait_seconds):
+                            try:
+                                signal.pidfd_send_signal(watchdog_fd,signal.SIGKILL,None,0)
+                                timed_out.append(dict(actual_pid=process.pid,signal='SIGKILL',custody='ACTUAL_PIDFD'))
+                            except ProcessLookupError:
+                                timed_out.append(dict(actual_pid=process.pid,signal='ALREADY_TERMINAL',custody='ACTUAL_PIDFD'))
+                    finally:os.close(watchdog_fd)
+                watchdog=threading.Thread(target=expire,name='owned-c5-deadline')
+                try:watchdog.start()
+                except BaseException:
+                    os.close(watchdog_fd);watchdog=None
+                    raise
+                expected_source=dict(source_commit=self.acquired['observation']['source_commit'],source_tree=self.expected_source['source_tree'])
+                for label,name in (('producer',G.E.PRODUCER),('capture_owner',G.E.OWNER)):
+                    expected_source[label]=dict(path=name,**record['source']['state']['files'][name])
+                executable_inputs={row['resolved']:row['sha256'] for row in self.acquired['runtime']['files'].values()}
+                paired=PROFILE in CORRESPONDENCE_PROFILES
+                pair_outcomes=[]
+                preconsumers=[]
+                for ordinal,name in enumerate(('live-first','live-second') if paired else ('live',)):
+                    gate=BudgetedGate(self.output/name,process,endpoint,expected_source=expected_source,
+                        expected_context=dict(repository='/work',cwd='/work',python_command='python',work_parent=WORK_MOUNT),
+                        executable_inputs=executable_inputs,acquisition_digest=self.acquired['key'],require_current=self._check_owned,
+                        wall_seconds=LIMITS['wall_seconds'],correspondence=paired)
+                    gates.append(gate)
+                    if ordinal==0:self._release_bootstrap(gate,configuration,configuration_raw)
+                    preconsumer=False
+                    frames=[]
+                    while not gate._finished:
+                        if gate._event_count==2 and gate._consumer_frontier is None and not preconsumer:
+                            self._same_inputs();preconsumer=True
+                        frame=gate.handle_next();frames.append(frame)
+                        if frame['phase']=='INIT':
+                            for role,member in (('build',G.E.BUILD),('checksum',G.E.CHECKSUM)):
+                                wanted=record['source']['state']['files'][member]
+                                actual=gate._session['source_scripts'][role]
+                                need(actual['blob']==dict(bytes=wanted['bytes'],sha256=wanted['sha256']) and actual['mode']==wanted['mode'],
+                                     'Actual Git commit scripts differ from the acquired fixed producer programs')
+                        need(not timed_out,'Actual C5 producer exceeded its120-second wall deadline')
+                        need(len(frames)<=40,'C5 original live frame count exceeded INIT+38event+FINISH population')
+                    preconsumers.append(preconsumer)
+                    if paired:
+                        pair_outcomes.append(self._receive_pair_outcome(gate,ordinal,configuration_raw,pair_outcomes))
+                components=[gates[0].finalize()]
+                if paired:components.append(gates[1].finalize(shared_wait_owner=gates[0]))
+                component=components[0]
+                stop_watchdog.set();watchdog.join(timeout=3)
+                need(not watchdog.is_alive() and not timed_out,'C5 wall watchdog did not close cleanly')
+                stdout.flush();stderr.flush();os.fsync(stdout.fileno());os.fsync(stderr.fileno())
+                need(all(preconsumers) and all(c['output_join_preceded_first_consumer'] for c in components),
+                     'Actual C5 consumer lacks required live output JOIN')
+                self._same_inputs()
+                source_stage=self.stage.check(rehash=True)
+                outcome=dict(schema='implementaudit.genuine-c5-live-result.v1',scope=PROFILE,
+                    status='SATISFIED_AT_FIXED_GENUINE_C5_EXECUTION_CONTRACT',disposition='EXECUTED',
+                    acquisition=self.acquired['key'],actual_outer_process=component['actual_outer_process'],
+                    original48_dispatches=1,validated_actual_events=19,retained_artifacts=6,
+                    package_source_commit=self.expected_source['source_commit'],package_source_tree=self.expected_source['source_tree'],
+                    complete_working_source_observation=record['observation_sha256'],
+                    provider='GENUINE_CAPTURED_ZOPFLI_0.2.3.post1_NORMAL_SITE_IN_FIXED_IMAGE',
+                    image_readback='COMPLETE_CAPTURED_SOURCE_RUNTIME_BYTES_MODES_ALIASES',
+                    source_runtime_current=True,output_join_before_first_consumer=True,final_join=component['history_digest'],
+                    actual_stage=source_stage,wall_timeout=False,original48_execution_qualified=True,
+                    canonical_acceptance='UNQUALIFIED',native_dispatch_authorized=False,R39_criterion5='NOT_ESTABLISHED',authority='NONE')
+                if paired:
+                    comparison=Q.compare_c5_correspondence(gates[0].capture,gates[1].capture,None)
+                    self._write('comparison.json',encode(comparison))
+                    need(comparison['equivalent'] and not comparison['raw_observables_equal'],
+                         'actual shared-image C5 pair did not satisfy the approved finite relation')
+                    outcome.update(schema='implementaudit.genuine-c5-shared-image-pair-result.v1',
+                        status='SATISFIED_AT_PROSPECTIVE_SHARED_IMAGE_C5_PAIR_CONTRACT',
+                        original48_dispatches=2,validated_actual_events=38,retained_artifacts=12,
+                        original48_execution_qualified=False,prospective_original19_pair_qualified=True,
+                        pair_child_outcomes=pair_outcomes,components=components,
+                        correspondence_sha256=self.owned['comparison.json']['sha256'],
+                        shared_image='ONE_HELD_SOURCE_STAGE_AND_ONE_LINKED_READONLY_RUNTIME_IMAGE')
+        except BaseException as exc:
+            primary_error=exc
+            failure=dict(type=type(exc).__name__,message=str(exc))
+        finally:
+            self._staging_deadline = None
+            stop_watchdog.set()
+            def cleanup(label,operation):
+                try:return operation()
+                except BaseException as exc:
+                    cleanup_errors.append(dict(operation=label,type=type(exc).__name__,message=str(exc)))
+                    return None
+            if gates:
+                for retained_gate in reversed(gates):
+                    if not retained_gate._reaped and any(g._reaped for g in gates):
+                        # Failure after a common outer wait still has one real
+                        # kernel wait owner. Never signal/reap that PID again.
+                        peer=next(g for g in gates if g._reaped)
+                        retained_gate._reaped=True;retained_gate._wait_result=dict(peer._wait_result)
+                    cleanup('close actual live gate',retained_gate.close)
+                    custody=retained_gate._wait_result
+                    cleanup('retain closed actual gate and journal',lambda retained_gate=retained_gate:self._bind_gate(retained_gate))
+            elif process is not None:
+                custody=cleanup('contain actual constructor-failure child',lambda:self._contain_unconstructed(process))
+            if watchdog is not None:
+                cleanup('join actual watchdog',lambda:watchdog.join(timeout=3))
+                if watchdog.is_alive():cleanup_errors.append(dict(operation='watchdog',type='LIVE_THREAD',message='actual watchdog failed to close'))
+            cleanup('retain exact staged runtime subtree',self._bind_runtime_stage)
+            if self.runtime_stage is not None:
+                cleanup('close staged runtime descriptors',self.runtime_stage.close)
+                self.runtime_stage=None
+            cleanup('retain exact staged source',self._bind_stage)
+            if self.stage is not None:
+                cleanup('close staged source descriptors',self.stage.close)
+                self.stage=None
+            cleanup('close parent channel',endpoint.close)
+            cleanup('close child channel',child_endpoint.close)
+            for fd in tuple(self.sealed):cleanup('close sealed input descriptor '+str(fd),lambda fd=fd:os.close(fd))
+            self.sealed.clear()
+            # Reaping/containment is complete before reading logs. Both failed
+            # and successful attempts keep their actual bounded stdout/stderr.
+            for name in ('stdout.log','stderr.log'):
+                if (self.output/name).exists():
+                    value=cleanup('retain '+name,lambda name=name:self._bind_existing(name,mode=0o400,
+                        limit=LIMITS['stream_bytes'],seal=True))
+                    if value is not None:logs[name]=value
+            closing=dict(schema='implementaudit.genuine-c5-closing-custody.v1',custody=custody,
+                error=failure,cleanup_errors=cleanup_errors,watchdog=timed_out,raw_outputs=logs,
+                actual_original_init_observed=gate is not None and gate._session is not None,
+                original48_success_published=False,elapsed_seconds=time.monotonic()-began,authority='NONE')
+            if self.partial_runtime_stage is not None:
+                closing['partial_runtime_stage'] = self.partial_runtime_stage
+            self._write('closing-custody.json',encode(closing))
+        if primary_error is not None:raise primary_error
+        need(not cleanup_errors and outcome is not None,'C5 actual closing custody or retained evidence failed')
+        need(custody is not None and custody['wait4_reaped'] and custody['group_absent']
+             and custody['exit_code']==0 and not timed_out,'C5 actual process did not close within the declared contract')
+        need(set(logs)=={'stdout.log','stderr.log'},'C5 actual outer output retention is incomplete')
+        self._same_inputs()
+        outcome['raw_outputs']=logs
+        outcome['closing_custody_sha256']=self.owned['closing-custody.json']['sha256']
+        self._write('result.json',encode(outcome))
+        self.retained_directories=self._directory_population()
+        self._check_owned()
+        # This is the first publication point, after child, channel, watchdog,
+        # staged/sealed descriptors and complete retained output population close.
+        self.result=outcome
+        return json.loads(encode(outcome))
+
+    def close(self):
+        need(os.getpid()==self.owner,'Transferred C5 owner cannot close or resume live custody')
+        need(self.lock.acquire(blocking=False),'Running C5 consumption must finish its owned cleanup before close')
+        try:
+            for fd in tuple(self.sealed):os.close(fd)
+            self.sealed.clear()
+            if self.stage is not None:
+                self.stage.close();self.stage=None
+            if self.runtime_stage is not None:
+                self.runtime_stage.close();self.runtime_stage=None
+            self.closed=True
+        finally:self.lock.release()
