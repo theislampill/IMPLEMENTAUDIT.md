@@ -1,0 +1,54 @@
+name: DG16 selected directory modes
+on:
+  push:
+    branches: [pro/dg16-g1-selected-mode-observation-01-20261110]
+    paths: [.github/workflows/dg16-g1-selected-mode-observation.yml]
+permissions:
+  contents: read
+jobs:
+  selected-directory-modes:
+    if: github.event_name == 'push' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 32
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Observe exact selected directory modes once
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$ImageOS" = ubuntu24
+          test "$ImageVersion" = 20261101.360.1
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          test "$(/usr/bin/git -C "$GITHUB_WORKSPACE/packet" rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(/usr/bin/git -C "$GITHUB_WORKSPACE/packet" rev-parse HEAD^)" = 64219c67e9f1dc1e54c6be9ed8e56f26ab313606
+          sudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \
+            GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \
+            GITHUB_REPOSITORY="$GITHUB_REPOSITORY" GITHUB_EVENT_NAME="$GITHUB_EVENT_NAME" \
+            GITHUB_REF="$GITHUB_REF" GITHUB_RUN_ATTEMPT="$GITHUB_RUN_ATTEMPT" GITHUB_RUN_ID="$GITHUB_RUN_ID" \
+            GITHUB_SHA="$GITHUB_SHA" GITHUB_JOB="$GITHUB_JOB" GITHUB_WORKFLOW_SHA="$GITHUB_WORKFLOW_SHA" \
+            GITHUB_WORKFLOW_REF="$GITHUB_WORKFLOW_REF" GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \
+            RUNNER_TEMP="$RUNNER_TEMP" ImageOS="$ImageOS" ImageVersion="$ImageVersion" \
+            /usr/bin/python3.12 -I -S -B - "$GITHUB_WORKSPACE/packet/qualification/dg16-g1-selected-mode-observation/observe.py" 5a5d80fd3aec7b8bf13c2edd4dc01848842e73d11059bf3083d8638cf1b7e883 <<'PY'
+          import hashlib, os, stat, sys
+          from pathlib import Path
+          path = Path(sys.argv[1])
+          before = path.lstat()
+          assert path.resolve(strict=True) == path and stat.S_ISREG(before.st_mode)
+          assert before.st_nlink == 1 and 0 < before.st_size <= 65536
+          fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC)
+          try:
+              raw = os.pread(fd, 65537, 0)
+              assert len(raw) == before.st_size and hashlib.sha256(raw).hexdigest() == sys.argv[2]
+              def stamp(info):
+                  return (info.st_dev, info.st_ino, info.st_mode, info.st_nlink, info.st_size,
+                          info.st_mtime_ns, info.st_ctime_ns, info.st_uid, info.st_gid)
+              assert stamp(os.fstat(fd)) == stamp(path.lstat()) == stamp(before)
+          finally:
+              os.close(fd)
+          exec(compile(raw, str(path), 'exec'), {'__name__': '__main__', '__file__': str(path)})
+          PY
