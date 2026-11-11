@@ -10,6 +10,7 @@ from pathlib import Path
 import shutil
 import stat
 import struct
+import sys
 import tempfile
 import unittest
 
@@ -113,7 +114,7 @@ class SourceCases(SourceFixture):
             self.snapshot()
 
     def test_full_root_currentness_includes_hidden_git_and_replacement(self):
-        path = self.add(".git/opaque", b"one")
+        path = self.add(".git/opaque", b"1")
         first, stamps1, _ = self.snapshot()
         path.write_bytes(b"two")
         second, stamps2, _ = self.snapshot()
@@ -499,13 +500,14 @@ class WiringCases(unittest.TestCase):
         # Compare all35 incoming contracts after the six forward runner-pin
         # advances; never restore the historical stale RETENTION value.
         self.assertEqual(len(keep), 35)
-        self.assertEqual(hashlib.sha256(ast.dump(contracts, include_attributes=False).encode()).hexdigest(),
+        ast_kw = {"show_empty": True} if sys.version_info >= (3, 13) else {}
+        self.assertEqual(hashlib.sha256(ast.dump(contracts, include_attributes=False, **ast_kw).encode()).hexdigest(),
                          "8de1e9654c055e0291aecf68ae08ea0f65834251df7976976c521248afeff2ab")
         old33 = [(key, value) for key, value in keep
                  if not (isinstance(key, ast.Name) and key.id in ("MINI_AUDIT_PROFILE", "ACTION_SELECTION_PROFILE"))]
         old33_contracts = ast.Dict(keys=[key for key, _ in old33], values=[value for _, value in old33])
         self.assertEqual(len(old33), 33)
-        self.assertEqual(hashlib.sha256(ast.dump(old33_contracts, include_attributes=False).encode()).hexdigest(),
+        self.assertEqual(hashlib.sha256(ast.dump(old33_contracts, include_attributes=False, **ast_kw).encode()).hexdigest(),
                          "74d15a92028e607bf63729a67e5acef566fb5785317dfd79bbf74b694672d280")
         text = runner.decode()
         code = text.split("  exec \"${r0035_census_python[@]}\" -c '\n", 1)[1].split(

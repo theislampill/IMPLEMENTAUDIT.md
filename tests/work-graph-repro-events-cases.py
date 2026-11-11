@@ -78,6 +78,8 @@ fi
 class Fixture:
     """Real local Git clones, real ZIP producers and real cmp/checksum consumers."""
     def __init__(self):
+        if hasattr(os, "umask"):
+            os.umask(0o022)
         self.temporary = tempfile.TemporaryDirectory(prefix="repro-c5-fixture-", dir="/tmp")
         self.base = Path(self.temporary.name)
         self.repo = self.base / "product"
@@ -96,6 +98,12 @@ class Fixture:
                            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         self.commit = subprocess.check_output(["git", "-C", str(self.repo), "rev-parse", "HEAD"]).decode().strip()
         self.env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1")
+        resolved_python = shutil.which("python", path=self.env.get("PATH"))
+        if resolved_python is None or Path(resolved_python).resolve().stat().st_size > 16 * 1024 * 1024:
+            python_bin = self.base / "python-bin"
+            python_bin.mkdir()
+            (python_bin / "python").symlink_to(Path(sys.executable).resolve(strict=True))
+            self.env["PATH"] = str(python_bin) + ":" + self.env.get("PATH", "/usr/bin:/bin")
         for key in list(self.env):
             if key.startswith(("REPRO_RETAINED_", "R0035_REPRO_EVENT_")) or key == "REPRO_SOURCE_REF":
                 del self.env[key]
@@ -108,12 +116,14 @@ class Fixture:
         capture = self.base / name
         env = dict(self.env, R0035_REPRO_EVENT_CAPTURE_DIR=str(capture), **overrides)
         result = subprocess.run(["bash", "tests/reproducible-release-asset.test.sh"], cwd=self.repo,
-                                env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                                env=env, umask=0o022, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         return capture, result
 
     def cli(self, *args, env=None, **kwargs):
-        return subprocess.run(["python", str(self.repo / "scripts/repro-event-capture.py"), *map(str, args)],
-                              cwd=self.repo, env=env or self.env, stdout=subprocess.PIPE,
+        effective_env = env or self.env
+        py = shutil.which("python", path=effective_env.get("PATH")) or sys.executable
+        return subprocess.run([py, str(self.repo / "scripts/repro-event-capture.py"), *map(str, args)],
+                              cwd=self.repo, env=effective_env, umask=0o022, stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE, **kwargs)
 
     def prefix(self):
@@ -1041,17 +1051,27 @@ class DurabilityCases(unittest.TestCase):
         self.assertFalse(record["assessment"]["complete"])
 
 
+@unittest.skipUnless(importlib.util.find_spec("zopfli") is not None,
+                     "zopfli 0.2.3.post1 required for live release-asset build")
 class Lifecycle(unittest.TestCase):
     def test_original_consumers_and_inputs_survive_cleanup(self):
         """Deleting capture at the original producer sites loses these inputs."""
+        if hasattr(os, "umask"):
+            os.umask(0o022)
         evidence = os.environ.get("R0035_REPRO_CASE_ARTIFACTS")
         with tempfile.TemporaryDirectory(prefix="repro-c5-case-", dir="/tmp") as temporary:
             target = Path(temporary)
             capture = target / "capture"
             env = dict(os.environ, R0035_REPRO_EVENT_CAPTURE_DIR=str(capture),
                        PYTHONDONTWRITEBYTECODE="1")
+            resolved_python = shutil.which("python", path=env.get("PATH"))
+            if resolved_python is None or Path(resolved_python).resolve().stat().st_size > 16 * 1024 * 1024:
+                python_bin = target / "python-bin"
+                python_bin.mkdir()
+                (python_bin / "python").symlink_to(Path(sys.executable).resolve(strict=True))
+                env["PATH"] = str(python_bin) + ":" + env.get("PATH", "/usr/bin:/bin")
             result = subprocess.run(["bash", "tests/reproducible-release-asset.test.sh"],
-                                    cwd=ROOT, env=env, stdout=subprocess.PIPE,
+                                    cwd=ROOT, env=env, umask=0o022, stdout=subprocess.PIPE,
                                     stderr=subprocess.PIPE)
             (target / "stdout.bin").write_bytes(result.stdout)
             (target / "stderr.bin").write_bytes(result.stderr)

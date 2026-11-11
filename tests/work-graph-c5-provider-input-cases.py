@@ -3,6 +3,7 @@
 import builtins
 from contextlib import contextmanager
 import importlib.util
+import os
 from pathlib import Path
 import shutil
 import tempfile
@@ -10,6 +11,7 @@ import unittest
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
+ORIGINAL48_PROVIDER_ROOT = Path("/workspace/scratch/112e7cba6e41/work/provider-inputs/venv")
 
 
 @contextmanager
@@ -30,6 +32,8 @@ def loader():
     return module
 
 
+@unittest.skipUnless(os.name == "posix" and ORIGINAL48_PROVIDER_ROOT.is_dir(),
+                     "fixed original48 provider data input absent; no provider-input credit")
 class C5ProviderInputCases(unittest.TestCase):
     def test_actual_provider_complete_data_only(self):
         """Break caught: substituted provider, omitted inputs or false runtime credit."""

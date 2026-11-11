@@ -86,6 +86,35 @@ def kernel_export_fixture(root, name, raw, ident='1'):
     return entry
 
 
+def apparmor_abi5_compiler():
+    """Host-only check: AppArmor parser exists and emits Ubuntu ABI5 wire bytes."""
+    parser = Path('/usr/sbin/apparmor_parser')
+    if sys.platform != 'linux' or not parser.is_file():
+        return False
+    env = {'PATH': '/usr/bin:/bin', 'LANG': 'C', 'LC_ALL': 'C', 'TZ': 'UTC'}
+    try:
+        version = subprocess.run([str(parser), '--version'], env=env, cwd='/',
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=10, check=False)
+        if version.returncode != 0 or not version.stdout:
+            return False
+        match = re.fullmatch(rb'AppArmor parser version ([0-9]+)(?:\.[0-9]+){1,2}(?:-[A-Za-z0-9.+-]+)?',
+            version.stdout.splitlines()[0])
+        if match is None:
+            return False
+        argv = [str(parser), '--config-file=/dev/null', '--skip-cache',
+            '--skip-read-cache', '--jobs=0', '--skip-kernel-load', '--stdout']
+        if int(match.group(1)) >= 5:
+            argv.append('--zstd-compress-level=0')
+        probe = subprocess.run(argv, input=b'abi <abi/4.0>,\nprofile abi5-probe /nonexistent flags=(unconfined) { userns, }\n',
+            env=env, cwd='/', stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=10, check=False)
+    except (OSError, subprocess.SubprocessError):
+        return False
+    return probe.returncode == 0 and probe.stdout.startswith(b'\x04\x08\x00version\x00\x02\x05\x00\x00\x00')
+
+
+APPARMOR_ABI5_COMPILER = apparmor_abi5_compiler()
+
+
 class CompositeSourceCases(unittest.TestCase):
     def c5_selected_source_fixture(self, mode):
         """Explicit historical/current source data; no host or native receipt."""
@@ -1199,7 +1228,7 @@ class CompositeSourceCases(unittest.TestCase):
 
 
 
-    @unittest.skipUnless(sys.platform == 'linux' and Path('/usr/sbin/apparmor_parser').is_file(), 'AppArmor no-load compiler')
+    @unittest.skipUnless(APPARMOR_ABI5_COMPILER, 'AppArmor ABI5 no-load compiler')
     def test_c5_compiled_opaque_attachment_is_bound_and_conservative(self):
         owner = load('c5_opaque_semantics', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
         receive = getattr(owner, '_bwrap_v5_profiles', None)
@@ -1236,7 +1265,7 @@ class CompositeSourceCases(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, 'attachment'):
                     prove(competing, 'ci-selected', dict(row, sha256=bound['sha256']))
 
-    @unittest.skipUnless(sys.platform == 'linux' and Path('/usr/sbin/apparmor_parser').is_file(), 'AppArmor no-load compiler')
+    @unittest.skipUnless(APPARMOR_ABI5_COMPILER, 'AppArmor ABI5 no-load compiler')
     def test_c5_approved_compilation_binds_both_exact_profiles_without_loading(self):
         owner = load('c5_approved_compiled', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
         receive = getattr(owner, '_bwrap_v5_profiles', None)
@@ -1268,7 +1297,7 @@ class CompositeSourceCases(unittest.TestCase):
         with self.assertRaises(ValueError):
             owner.hosted_bwrap_policy_observation(legacy, context, loaded)
 
-    @unittest.skipUnless(sys.platform == 'linux' and Path('/usr/sbin/apparmor_parser').is_file(), 'AppArmor no-load compiler')
+    @unittest.skipUnless(APPARMOR_ABI5_COMPILER, 'AppArmor ABI5 no-load compiler')
     def test_c5_provision_consumes_fresh_proofs_and_retains_pending_on_wrong_loaded_hash(self):
         """Actual installer/receipt flow with constructed kernel observations; no policy load."""
         owner = load('c5_provision_compiled_flow', ROOT / 'scripts/qualify-work-graph-c5-setup.py')
