@@ -515,7 +515,8 @@ class CapturedSourceStage:
                 parent_fd = self.members[parent_name][0]
                 leaf = PurePosixPath(name).name
                 mode = 0o755 if restore_share_modes else directories[name]
-                need(mode == 0o755, 'C5 private source directory mode is unsupported')
+                need(mode in ((0o700,0o755) if root_name == 'source-stage' and PROFILE == R5_HOSTED_PROFILE else (0o755,)),
+                     'C5 private source directory mode is unsupported')
                 os.mkdir(leaf, mode, dir_fd=parent_fd)
                 reserve(0, 'private stage directory deadline')
                 child = hold(os.open(leaf, flags, dir_fd=parent_fd))

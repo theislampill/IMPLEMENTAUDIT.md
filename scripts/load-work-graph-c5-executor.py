@@ -212,7 +212,7 @@ R5_RUNTIME_DEFAULT_ACL_PINS=types.MappingProxyType({
 # Prospective exact runtime-mode representation; earlier routes are unchanged.
 R5_RUNTIME_DIRECTORY_MODE_SOURCE_REVISION='R5_HOSTED_UBUNTU24_RUNTIME_DIRECTORY_MODE_SOURCE_20261110_V8'
 R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_MEMBER='test-support/r5-runtime-directory-mode-source/work-graph-c5-executor.py'
-R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_SHA256='e6e2a46bc8965b92355fe5f2bab1c90e4bc59c983ddacca70ba67865d3c11c5b'
+R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_SHA256 = '5c74e75e6a88121918d0c254c5964f6efe950c09fcc5560ef698080254839b20'
 R5_RUNTIME_DIRECTORY_MODE_EXECUTION_SELECTION='fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-runtime-directory-mode-execution-profile.json'
 R5_RUNTIME_DIRECTORY_MODE_PINS=types.MappingProxyType({
     **{name:pin for name,pin in R5_RUNTIME_DEFAULT_ACL_PINS.items() if name!=R5_RUNTIME_DEFAULT_ACL_EXECUTION_SELECTION},
