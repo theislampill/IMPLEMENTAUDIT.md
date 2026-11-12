@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -12,6 +13,7 @@ import shlex
 import subprocess
 import sys
 import tempfile
+import time
 
 ROOT = Path(__file__).resolve().parents[1]
 HELPER = ROOT / "skills/implementaudit/scripts/validate-run-root.sh"
@@ -586,7 +588,425 @@ def background_read_set_controls(parent, *, selected=None):
     return count
 
 
+def _bash():
+    # Windows SearchPath can choose System32/bash.exe (WSL) before PATH. Use the
+    # same explicit Git Bash owner as the validator and read-canonical-pair.py.
+    return str(Path(r'C:\Program Files\Git') / 'bin/bash.exe') if os.name == 'nt' else 'bash'
+
+
+def _bounded(command, *, cwd=None, environment=None, seconds=120):
+    """Run a real owner; an unbounded wait is a failed control, never a pass."""
+    options = ({'start_new_session': True} if os.name == 'posix'
+               else {'creationflags': subprocess.CREATE_NEW_PROCESS_GROUP})
+    process = subprocess.Popen(command, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=cwd,
+        env=os.environ | {'PYTHONDONTWRITEBYTECODE': '1'} | (environment or {}), **options)
+    try:
+        stdout, stderr = process.communicate(timeout=seconds)
+    except subprocess.TimeoutExpired:
+        if os.name == 'posix':
+            os.killpg(process.pid, signal.SIGKILL)
+        else:
+            subprocess.run([str(Path(os.environ.get('SystemRoot', 'C:/Windows')) / 'System32/taskkill.exe'),
+                            '/PID', str(process.pid), '/T', '/F'], capture_output=True)
+        raise AssertionError('owner did not return inside the control bound: ' + ' '.join(command[1:4]))
+    return subprocess.CompletedProcess(command, process.returncode, stdout, stderr)
+
+
+def claimed_family(parent, count):
+    """Claim, author and activate real controller-bound roots through the maintained owners.
+
+    Constructed source evidence only: a private repository, the existing claim
+    owner and the existing initialization author. Siblings are dispositioned and
+    activated first; the target is last and then records ordinary progress.
+    """
+    repo = parent / 'claimed-family'; repo.mkdir()
+    environment = {'GIT_CONFIG_GLOBAL': os.devnull, 'GIT_CONFIG_NOSYSTEM': '1'}
+    def owner(arguments):
+        result = _bounded(arguments, cwd=str(repo), environment=environment)
+        assert result.returncode == 0, 'claimed fixture owner refused: ' + ' '.join(arguments[1:5]) + '\n' + result.stdout + result.stderr
+        return result.stdout
+    for arguments in (['init', '-q', '-b', 'main', '.'], ['config', 'user.name', 'yield-fixture'],
+                      ['config', 'user.email', 'fixture@invalid.example'], ['config', 'core.autocrlf', 'false']):
+        owner(['git', *arguments])
+    (repo / 'README.md').write_bytes(b'constructed fixture repository\n')
+    (repo / '.gitignore').write_bytes(b'.IMPLEMENTAUDIT/\n')
+    owner(['git', 'add', 'README.md', '.gitignore'])
+    owner(['git', 'commit', '-q', '-m', 'constructed fixture'])
+    claim = (ROOT / 'skills/implementaudit/scripts/claim-run.sh').as_posix()
+    spec = importlib.util.spec_from_file_location('yield_fixture_author',
+                                                  ROOT / 'fixtures/controller-initialization/author_checkpoint.py')
+    author = importlib.util.module_from_spec(spec); spec.loader.exec_module(author)
+    roots = {}
+    for index in [*range(1, count), 0]:
+        controller = 'yield-family-' + str(index)
+        relative = owner([_bash(), claim, '--controller', controller, 'root' + str(index)]).strip().splitlines()[-1]
+        root = repo / relative; state = root / 'STATE.md'
+        author.author(str(repo), relative, str(ROOT),
+                      'Constructed claimed root ' + str(index) + ' for the composed yield control',
+                      'Run the remaining evidence-consumption control')
+        if index:
+            state.write_bytes(state.read_bytes().rstrip(b'\n')
+                              + b'\n\nPARALLEL: Distinct constructed sibling with its own controller.\n')
+        token = json.loads(owner([_bash(), claim, '--inspect-controller-initialization', controller,
+                                  '--run-root', relative]))['initialization_token']
+        owner([_bash(), claim, '--activate-controller', controller, '--run-root', relative,
+               '--expected-initialization', token])
+        if not index:
+            # Initialization requires a truthful initial state. Progress is a
+            # later ordinary checkpoint of the same controller-bound root.
+            text = state.read_bytes().decode('utf-8')
+            for key, value in (('Status', 'IN_PHASE'), ('Owner/source', 'issue207/211 governor'),
+                               ('Last check', 'Focused input validation completed at checkpoint C1'),
+                               ('Authorization state', 'Portable read-only qualification authorized by task grant')):
+                rows = [line for line in text.splitlines() if line.startswith('| ' + key + ' |')]
+                assert len(rows) == 1, key + ': authored current-phase field is missing or ambiguous'
+                text = text.replace(rows[0], '| ' + key + ' | ' + value + ' |', 1)
+            anchor = [line for line in text.splitlines() if line.startswith('| Authorization state |')][0]
+            text = text.replace(anchor + '\n', anchor + '\n'
+                + '| Re-entry condition | Re-read checkpoint C1 and verify current inputs before continuation |\n'
+                + '| Current checkpoint | C1 input-validation boundary |\n'
+                + '| Last completed step | Smoke A input validation |\n', 1)
+            state.write_bytes(text.encode('utf-8'))
+        roots[index] = root
+    return repo, roots[0], [roots[index] for index in range(1, count)]
+
+
+def windows_containment_controls(parent):
+    """A failed job boundary must never start the real owner uncontained."""
+    if os.name != 'nt':
+        print('SKIP Windows containment controls: non-Windows host')
+        return 0
+    import ast
+    import ctypes
+    import threading
+    from unittest import mock
+
+    source = HELPER.read_text().split("<<'PYDISPOSITION'\n", 1)[1].split('\nPYDISPOSITION', 1)[0]
+    definitions = [node for node in ast.parse(source).body
+                   if isinstance(node, (ast.FunctionDef, ast.ClassDef))
+                   and node.name in {'refuse', 'OwnerTimeout', 'windows_owner'}]
+    namespace = dict(os=os, subprocess=subprocess, tempfile=tempfile, time=time,
+                     Path=Path, live=[], gate=threading.Lock())
+    exec(compile(ast.Module(body=definitions, type_ignores=[]), str(HELPER), 'exec'), namespace)
+    original_dll, original_popen = ctypes.WinDLL, subprocess.Popen
+    original_temporary_file = tempfile.TemporaryFile
+    failures = []
+
+    class Call:
+        def __init__(self, function): self.function = function
+        def __call__(self, *args): return self.function(*args)
+
+    for failure in (None, 'CreateJobObjectW', 'SetInformationJobObject', 'AssignProcessToJobObject',
+                    'TemporaryFile', 'Popen', 'AssignProcessToJobObjectError'):
+        label = failure or 'owned-positive'
+        marker = parent / (label + '.started')
+        processes, jobs, containment = [], [], []
+        kernel = original_dll('kernel32')
+        kernel.CreateJobObjectW.restype = ctypes.c_void_p
+        kernel.CloseHandle.argtypes = [ctypes.c_void_p]
+        kernel.GetHandleInformation.argtypes = [ctypes.c_void_p, ctypes.POINTER(ctypes.c_ulong)]
+
+        def create(*args):
+            if failure == 'CreateJobObjectW': return None
+            job = kernel.CreateJobObjectW(*args)
+            if job: jobs.append(job)
+            return job
+
+        class Kernel:
+            CreateJobObjectW = Call(create)
+            def __getattr__(self, name):
+                if name == 'AssignProcessToJobObject' and failure == 'AssignProcessToJobObjectError':
+                    def unavailable(*args): raise OSError('injected assignment failure')
+                    return Call(unavailable)
+                if name == failure: return Call(lambda *args: 0)
+                return getattr(kernel, name)
+
+        def dll(name, *args, **kwargs):
+            return Kernel() if name == 'kernel32' else original_dll(name, *args, **kwargs)
+
+        def launch(*args, **kwargs):
+            limits = ctypes.create_string_buffer(144 if ctypes.sizeof(ctypes.c_void_p) == 8 else 112)
+            assert jobs and kernel.QueryInformationJobObject(jobs[-1], 9, ctypes.byref(limits), len(limits), None)
+            containment.append(int.from_bytes(limits.raw[16:20], 'little') == 0x2000)
+            if failure == 'Popen': raise OSError('injected process creation failure')
+            process = original_popen(*args, **kwargs)
+            processes.append(process)
+            return process
+
+        def temporary_file(*args, **kwargs):
+            if failure == 'TemporaryFile': raise OSError('injected temporary file failure')
+            return original_temporary_file(*args, **kwargs)
+
+        command = [sys.executable, '-I', '-B', '-c',
+                   'from pathlib import Path;import sys;Path(sys.argv[1]).write_text("started")', str(marker)]
+        error = None; result = None
+        began = time.monotonic()
+        try:
+            with mock.patch.object(ctypes, 'WinDLL', side_effect=dll), \
+                    mock.patch.object(subprocess, 'Popen', side_effect=launch), \
+                    mock.patch.object(tempfile, 'TemporaryFile', side_effect=temporary_file):
+                try: result = namespace['windows_owner'](command)
+                except (ValueError, OSError) as exc: error = exc
+            if failure:
+                assert isinstance(error, ValueError) and str(error).startswith('unsupported Windows owner '), \
+                    'containment failure was not refused: ' + repr((error, result))
+                assert not marker.exists(), 'owner executed after containment failed'
+                if failure in {'CreateJobObjectW', 'SetInformationJobObject', 'TemporaryFile', 'Popen'}:
+                    assert not processes, 'owner created without a job handle'
+            else:
+                assert error is None and result[0] == 0 and marker.read_text() == 'started', (error, result)
+            assert time.monotonic() - began < 5, 'containment failure exceeded bounded cleanup'
+            assert all(containment), 'owner started without kill-on-close containment'
+            assert all(process.poll() is not None for process in processes), 'suspended owner survived refusal'
+            assert not namespace['live'], 'owner cleanup remained registered'
+            flags = ctypes.c_ulong()
+            assert all(not kernel.GetHandleInformation(job, ctypes.byref(flags)) for job in jobs), \
+                'owner left a job handle open'
+            print('PASS Windows-owner-' + label)
+        except AssertionError as exc:
+            failures.append(label + ': ' + str(exc))
+            print('FAIL Windows-owner-' + label + ': ' + str(exc))
+        finally:
+            # These are only handles returned by this control's real Popen.
+            for process in processes:
+                if process.poll() is None: process.kill()
+                process.wait(timeout=2)
+            for job in jobs:
+                flags = ctypes.c_ulong()
+                if kernel.GetHandleInformation(job, ctypes.byref(flags)): kernel.CloseHandle(job)
+    assert not failures, '\n'.join(failures)
+    return 7
+
+
+def owner_timeout_controls(parent, *, selected=None):
+    """An owner that cannot finish inside its fixed bound is not a refused record."""
+    def wanted(name): return selected is None or name in selected
+    helper = HELPER.as_posix(); count = 0
+    def composed(root, *, cwd=None, environment=None):
+        return _bounded([_bash(), helper, '--turn-disposition', 'NONTERMINAL_YIELD', root.as_posix()],
+                        cwd=cwd, environment=environment)
+    if wanted('forced-owner-timeout'):
+        # Hold only the inner owner's late yield predicate past the unchanged
+        # ten-second bound. The record itself is the ordinary valid positive.
+        root = write_case(parent / 'forced-owner-timeout')
+        state = root / 'STATE.md'; state.write_bytes(state.read_bytes().replace(b'\r\n', b'\n'))
+        schedule = parent / 'forced-owner-timeout.bash'; trigger = parent / 'forced-owner-timeout.trigger'
+        schedule.write_bytes(('python() {\n'
+            '  if [ "$#" -eq 4 ] && [ "$1" = -B ] && [ "$2" = - ]; then\n'
+            '    case "$3" in */STATE.md) printf reached > ' + shlex.quote(trigger.as_posix()) + '; sleep 14 ;; esac\n'
+            '  fi\n  ' + shlex.quote(Path(sys.executable).as_posix()) + ' "$@"\n}\nexport -f python\n').encode())
+        before = inventory(root)
+        result = composed(root, environment={'BASH_ENV': schedule.as_posix()})
+        assert trigger.exists(), 'forced-owner-timeout: scheduled owner boundary was not reached\n' + result.stdout + result.stderr
+        assert result.returncode == 1 and result.stdout == '', 'forced-owner-timeout: an unfinished owner must still block\n' + result.stdout + result.stderr
+        assert result.stderr == 'validate-run-root: OWNER_TIMEOUT: packaged owner read timed out; no disposition\n', \
+            'forced-owner-timeout: unfinished owner misreported as a record finding: ' + result.stderr
+        assert inventory(root) == before, 'forced-owner-timeout: validator mutated its inputs'
+        count += 1; print('PASS owner-timeout-is-not-record-refusal')
+    if wanted('interlock-timeout-reason'):
+        spec = importlib.util.spec_from_file_location('yield_stop_reason',
+                                                      ROOT / 'skills/implementaudit/scripts/host-stop-interlock.py')
+        stop = importlib.util.module_from_spec(spec); spec.loader.exec_module(stop)
+        receipt = Path('native-stop-receipt.json')
+        refused = stop.block_reason(receipt, None,
+            'validate-run-root: RECORD_REFUSED: requested yield cannot downgrade actual claims; no disposition\n')
+        unfinished = stop.block_reason(receipt, None,
+            'validate-run-root: OWNER_TIMEOUT: packaged owner read timed out; no disposition\n')
+        outer = stop.block_reason(receipt, {'type': 'TimeoutExpired', 'phase': 'record_validation'}, '')
+        other = stop.block_reason(receipt, {'type': 'InterlockUnavailable', 'phase': 'record_validation'},
+            'validate-run-root: OWNER_TIMEOUT: packaged owner read timed out; no disposition\n')
+        assert 'correct the actual refusal' in refused and 'OWNER_TIMEOUT' not in refused, refused
+        assert unfinished == outer and 'OWNER_TIMEOUT' in unfinished and 'correct the actual refusal' not in unfinished \
+            and 'do not alter the record' in unfinished and str(receipt) in unfinished, unfinished
+        assert other == refused, 'a non-timeout interlock failure must keep the existing refusal instruction'
+        count += 1; print('PASS interlock-timeout-reason-is-distinct-and-blocking')
+    if wanted('claimed-multi-root-composed'):
+        repo, target, siblings = claimed_family(parent, 3)
+        direct = _bounded([_bash(), helper, '--nonterminal-yield', target.as_posix()], cwd=str(repo))
+        assert direct.returncode == 0 and 'nonterminal yield record ok' in direct.stdout, \
+            'claimed-multi-root: direct owner refused the constructed valid record\n' + direct.stdout + direct.stderr
+        before = {str(root): inventory(root) for root in (target, *siblings)}
+        result = composed(target, cwd=str(repo))
+        assert 'RECORD_REFUSED' not in result.stderr and 'OUT_OF_PROFILE' not in result.stderr \
+            and result.stderr.count('no disposition') <= 1, \
+            'claimed-multi-root: valid record reported as a record finding: ' + result.stderr
+        assert result.returncode == 0 and json.loads(result.stdout).get('record_disposition') == 'NONTERMINAL_YIELD', \
+            'claimed-multi-root: valid record received no disposition inside the unchanged owner bound: ' + result.stdout + result.stderr
+        assert before == {str(root): inventory(root) for root in (target, *siblings)}, \
+            'claimed-multi-root: composed validator mutated a claimed root'
+        count += 1; print('PASS claimed-multi-root-composed-yield')
+    if wanted('timeout-orphan-no-survivor'):
+        # The held owner also leaves a grandchild whose own parent has already
+        # exited and which inherited the owner's output handles. A kill that
+        # follows parent links cannot find it. The unchanged bound must still
+        # return promptly and must end that grandchild too.
+        root = write_case(parent / 'timeout-orphan')
+        state = root / 'STATE.md'; state.write_bytes(state.read_bytes().replace(b'\r\n', b'\n'))
+        schedule = parent / 'timeout-orphan.bash'; program = parent / 'timeout-orphan.py'
+        identity = parent / 'timeout-orphan.pid'; beat = parent / 'timeout-orphan.beat'
+        program.write_bytes(b'import os,sys,time\n'
+                            b'open(sys.argv[1],"w").write(str(os.getpid()))\n'
+                            b'for n in range(450):\n'
+                            b'    open(sys.argv[2],"w").write(str(n));time.sleep(0.1)\n'
+                            b'open(sys.argv[2],"w").write("finished")\n')
+        real = shlex.quote(Path(sys.executable).as_posix())
+        schedule.write_bytes(('python() {\n'
+            '  if [ "$#" -eq 4 ] && [ "$1" = -B ] && [ "$2" = - ]; then\n'
+            '    case "$3" in */STATE.md) ( ' + real + ' -B ' + shlex.quote(program.as_posix()) + ' '
+            + shlex.quote(identity.as_posix()) + ' ' + shlex.quote(beat.as_posix()) + ' & ); sleep 14 ;; esac\n'
+            '  fi\n  ' + real + ' "$@"\n}\nexport -f python\n').encode())
+        before = inventory(root); began = time.monotonic()
+        result = composed(root, environment={'BASH_ENV': schedule.as_posix()})
+        elapsed = time.monotonic() - began
+        assert identity.exists(), 'timeout-orphan: scheduled owner boundary was not reached\n' + result.stdout + result.stderr
+        seen = beat.read_bytes(); time.sleep(1.0); alive = beat.read_bytes() != seen
+        if alive:
+            # End only the process this control created, then fail below.
+            if os.name == 'posix':
+                try: os.kill(int(identity.read_bytes()), signal.SIGKILL)
+                except ProcessLookupError: pass
+            else:
+                subprocess.run([str(Path(os.environ.get('SystemRoot', 'C:/Windows')) / 'System32/taskkill.exe'),
+                                '/PID', identity.read_bytes().decode(), '/F'], capture_output=True)
+        assert result.returncode == 1 and result.stdout == '' and result.stderr == \
+            'validate-run-root: OWNER_TIMEOUT: packaged owner read timed out; no disposition\n', \
+            'timeout-orphan: unfinished owner must block with the fixed reason\n' + result.stdout + result.stderr
+        assert elapsed < 15, 'timeout-orphan: validator returned %.1f s after start; the ten-second owner bound ' \
+            'plus five seconds was exceeded (grandchild heartbeat %s)' % (elapsed, seen.decode())
+        assert not alive and seen != b'finished', \
+            'timeout-orphan: the grandchild outlived the owner bound (heartbeat %s)' % seen.decode()
+        assert inventory(root) == before, 'timeout-orphan: validator mutated its inputs'
+        count += 1; print('PASS owner-timeout-returns-and-leaves-no-descendant')
+    if wanted('concurrent-serial-precedence'):
+        # Sibling selections and dependency rechecks may overlap, but what is
+        # reported must be what the one-at-a-time order reports. Each case holds
+        # the earlier member so that a later member finishes first.
+        repo, target, siblings = claimed_family(parent, 3)
+        first, second = sorted(siblings, key=lambda path: path.name)
+        real = shlex.quote(Path(sys.executable).as_posix())
+        def direct(name=None, body=''):
+            environment = None
+            if name:
+                schedule = parent / (name + '.bash')
+                schedule.write_bytes(('python() {\n' + body + '  ' + real + ' "$@"\n}\nexport -f python\n').encode())
+                environment = {'BASH_ENV': schedule.as_posix()}
+            return _bounded([_bash(), helper, '--nonterminal-yield', target.as_posix()], cwd=str(repo), environment=environment)
+        def outcome(result): return (result.returncode, result.stdout, result.stderr)
+        def held(root): return ('  if [ "${3:-}" = --run-root ]; then case "$4" in */' + root.name + ') sleep 3 ;; esac; fi\n')
+        disposition = b'\n\nPARALLEL: Distinct constructed sibling with its own controller.\n'
+        before = {str(root): inventory(root) for root in (target, *siblings)}
+        # Final recheck: the earlier dependency fails late and plainly, a later
+        # one is out of profile at once. The earlier failure is still reported
+        # first, and the out-of-profile exit then ends the run as before.
+        marks = [(parent / ('serial-precedence-mark-' + str(n))).as_posix() for n in (1, 2)]
+        result = direct('serial-precedence-recheck',
+            '  if [ "$#" -eq 7 ] && [ "$6" = --optional ]; then\n'
+            '    case "$7" in\n'
+            '      */' + first.name + '/.claimed) if [ -e ' + shlex.quote(marks[0]) + ' ]; then sleep 2; return 1; fi; : > ' + shlex.quote(marks[0]) + ' ;;\n'
+            '      */' + second.name + '/.claimed) if [ -e ' + shlex.quote(marks[1]) + ' ]; then return 3; fi; : > ' + shlex.quote(marks[1]) + ' ;;\n'
+            '    esac\n'
+            '  fi\n')
+        assert outcome(result) == (3, 'validate-run-root: nonterminal yield record ok (source-only; host enforcement unavailable)\n',
+            'validate-run-root: ERROR: yield read-set dependency recheck failed\n'
+            'validate-run-root: ERROR: yield read-set consumed dependency changed during validation\n'), \
+            'serial-precedence: recheck outcomes must be consumed in dependency order\n' + result.stdout + result.stderr
+        assert before == {str(root): inventory(root) for root in (target, *siblings)}, \
+            'serial-precedence: recheck validator mutated a claimed root'
+        # Late drift: two consumed sibling files change after their capture and
+        # before the final recheck. Both changes are still found and reported.
+        drift = [first / 'STATE.md', second / '.claimed']
+        kept = [path.read_bytes() for path in drift]
+        result = direct('serial-precedence-drift',
+            '  if [ "$#" -eq 4 ] && [ "$1" = -B ] && [ "$2" = - ]; then\n'
+            '    case "$3" in */STATE.md) '
+            + ' '.join("printf '\\n' >> " + shlex.quote(path.as_posix()) + ';' for path in drift) + ' ;; esac\n'
+            '  fi\n')
+        changed = [path.read_bytes() for path in drift]
+        for path, data in zip(drift, kept): path.write_bytes(data)
+        assert changed == [data + b'\n' for data in kept], \
+            'serial-precedence: scheduled late drift boundary was not reached exactly once'
+        assert outcome(result) == (1, 'validate-run-root: nonterminal yield record ok (source-only; host enforcement unavailable)\n',
+            'validate-run-root: ERROR: yield read-set consumed dependency changed during validation\n' * 2
+            + 'validate-run-root: 2 error(s)\n'), \
+            'serial-precedence: late drift of consumed sibling files must still be refused\n' + result.stdout + result.stderr
+        assert before == {str(root): inventory(root) for root in (target, *siblings)}, \
+            'serial-precedence: drift control did not restore the claimed roots'
+        original = {}
+        for sibling in (first, second):
+            state = sibling / 'STATE.md'; original[sibling] = state.read_bytes()
+            assert original[sibling].count(disposition) == 1, 'serial-precedence: constructed sibling disposition is missing'
+            state.write_bytes(original[sibling].replace(disposition, b'\n'))
+        before = {str(root): inventory(root) for root in (target, *siblings)}
+        plain = direct()
+        assert outcome(plain) == (1, '', ''.join('validate-run-root: ERROR: newly claimed root has undispositioned sibling: '
+            + sibling.name + '\n' for sibling in (first, second)) + 'validate-run-root: 2 error(s)\n'), \
+            'serial-precedence: two refusing siblings must be reported in sibling order\n' + plain.stdout + plain.stderr
+        for name, root in (('held-first', first), ('held-second', second)):
+            result = direct('serial-precedence-' + name, held(root))
+            assert outcome(result) == outcome(plain), \
+                'serial-precedence: ' + name + ' changed the reported refusals\n' + result.stdout + result.stderr
+        result = composed(target, cwd=str(repo))
+        assert outcome(result) == (1, '', 'validate-run-root: RECORD_REFUSED: packaged owner refused: validate-run-root.sh\n'
+            + plain.stdout + plain.stderr + '; no disposition\n'), \
+            'serial-precedence: composed owner must report the same ordered refusals\n' + result.stdout + result.stderr
+        assert before == {str(root): inventory(root) for root in (target, *siblings)}, \
+            'serial-precedence: validator mutated a claimed root'
+        for sibling in (first, second): (sibling / 'STATE.md').write_bytes(original[sibling])
+        count += 1; print('PASS concurrent-schedule-keeps-serial-refusal-precedence')
+    if wanted('timely-exit-lingering-descendant'):
+        # The owner itself finishes well inside the bound, but it leaves a
+        # running descendant that inherited its output. Before the output went
+        # to files, the open pipe kept such an owner from counting as complete.
+        # It must still not count, and the descendant must not outlive the bound.
+        root = write_case(parent / 'lingering-descendant')
+        state = root / 'STATE.md'; state.write_bytes(state.read_bytes().replace(b'\r\n', b'\n'))
+        schedule = parent / 'lingering-descendant.bash'; program = parent / 'lingering-descendant.py'
+        identity = parent / 'lingering-descendant.pid'; beat = parent / 'lingering-descendant.beat'
+        program.write_bytes(b'import os,sys,time\n'
+                            b'open(sys.argv[1],"w").write(str(os.getpid()))\n'
+                            b'for n in range(450):\n'
+                            b'    open(sys.argv[2],"w").write(str(n));time.sleep(0.1)\n'
+                            b'open(sys.argv[2],"w").write("finished")\n')
+        real = shlex.quote(Path(sys.executable).as_posix())
+        schedule.write_bytes(('python() {\n'
+            '  if [ "$#" -eq 4 ] && [ "$1" = -B ] && [ "$2" = - ]; then\n'
+            '    case "$3" in */STATE.md) ( ' + real + ' -B ' + shlex.quote(program.as_posix()) + ' '
+            + shlex.quote(identity.as_posix()) + ' ' + shlex.quote(beat.as_posix()) + ' & ) ;; esac\n'
+            '  fi\n  ' + real + ' "$@"\n}\nexport -f python\n').encode())
+        before = inventory(root); began = time.monotonic()
+        result = composed(root, environment={'BASH_ENV': schedule.as_posix()})
+        elapsed = time.monotonic() - began
+        assert identity.exists(), 'lingering-descendant: scheduled owner boundary was not reached\n' + result.stdout + result.stderr
+        while not beat.exists() and time.monotonic() - began < elapsed + 5: time.sleep(0.1)
+        seen = beat.read_bytes(); time.sleep(1.0); alive = beat.read_bytes() != seen
+        if alive:
+            # End only the process this control created, then fail below.
+            if os.name == 'posix':
+                try: os.kill(int(identity.read_bytes()), signal.SIGKILL)
+                except ProcessLookupError: pass
+            else:
+                subprocess.run([str(Path(os.environ.get('SystemRoot', 'C:/Windows')) / 'System32/taskkill.exe'),
+                                '/PID', identity.read_bytes().decode(), '/F'], capture_output=True)
+        assert result.returncode == 1 and result.stdout == '' and result.stderr == \
+            'validate-run-root: OWNER_TIMEOUT: packaged owner read timed out; no disposition\n', \
+            'lingering-descendant: an owner whose descendant is still running must block with the fixed reason\n' \
+            + result.stdout + result.stderr
+        assert elapsed < 15, 'lingering-descendant: validator returned %.1f s after start; the ten-second owner bound ' \
+            'plus five seconds was exceeded (descendant heartbeat %s)' % (elapsed, seen.decode())
+        assert not alive and seen != b'finished', \
+            'lingering-descendant: the descendant outlived the owner bound (heartbeat %s)' % seen.decode()
+        assert inventory(root) == before, 'lingering-descendant: validator mutated its inputs'
+        count += 1; print('PASS timely-owner-exit-with-running-descendant-is-not-complete')
+    if selected is not None:
+        assert count == len(selected), 'unknown or unavailable owner-timeout selector'
+    return count
+
+
 def main():
+    if sys.argv[1:] == ['--windows-containment-controls']:
+        with tempfile.TemporaryDirectory(prefix='.owner-containment-', dir=ROOT) as temporary:
+            windows_containment_controls(Path(temporary))
+        return
     cases = []
     # A valid current progress record must pass; missing mode is an explicit
     # feature-gap assertion on the old owner, never an accidental import error.
@@ -697,7 +1117,8 @@ def main():
     with tempfile.TemporaryDirectory(prefix="r37-yield-") as temporary:
         parent = Path(temporary)
         dependency_count = (consumed_read_set_controls(parent) + dependency_profile_controls(parent)
-                            + background_read_set_controls(parent) + successor_review_controls(parent))
+                            + background_read_set_controls(parent) + successor_review_controls(parent)
+                            + owner_timeout_controls(parent) + windows_containment_controls(parent))
         for index, (name, want, changes, kwargs, suffix) in enumerate(cases):
             root = write_case(parent / str(index), changes, suffix=suffix, **kwargs)
             before = inventory(root)

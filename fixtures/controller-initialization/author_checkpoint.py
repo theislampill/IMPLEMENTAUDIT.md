@@ -118,9 +118,12 @@ def main():
     if a.activate or a.activate_only:
         helper=pathlib.Path(a.source).absolute()/'skills/implementaudit/scripts/claim-run.sh'
         controller=(pathlib.Path(a.repo)/a.run_root/'.controller').read_text().strip().split('=',1)[1]
-        inspect=subprocess.run(['bash',str(helper),'--inspect-controller-initialization',controller,'--run-root',a.run_root],cwd=a.repo,capture_output=True,text=True,check=True)
+        bash=shutil.which('bash')
+        if bash is None:raise SystemExit('controller initialization requires Bash')
+        bash=str(pathlib.Path(bash).absolute())
+        inspect=subprocess.run([bash,str(helper),'--inspect-controller-initialization',controller,'--run-root',a.run_root],cwd=a.repo,capture_output=True,text=True,check=True)
         token=json.loads(inspect.stdout)['initialization_token']
-        active=subprocess.run(['bash',str(helper),'--activate-controller',controller,'--run-root',a.run_root,'--expected-initialization',token],cwd=a.repo,capture_output=True,text=True,check=True)
+        active=subprocess.run([bash,str(helper),'--activate-controller',controller,'--run-root',a.run_root,'--expected-initialization',token],cwd=a.repo,capture_output=True,text=True,check=True)
         result={'authored_files':result,'activation':json.loads(active.stdout),'normal_currentness':'NOT_YET_ASSERTED'}
     print(json.dumps(result,indent=2))
 

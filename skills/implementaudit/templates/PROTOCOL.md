@@ -1231,9 +1231,13 @@ not native-host unavailability. Broader captures, reviews, lesson-lift records
 and publication keep their actual original checks and acceptance requirements.
 An `OUT_OF_PROFILE` refusal (exit 3) selects no disposition; use the original
 full owners for those broader inputs. `RECORD_REFUSED` (exit 1) identifies an
-input failure or contradiction that remains unresolved. Neither authorizes
-closure, waives a required check or creates a fallback permission. Preserve
-the exact unavailable or unproved input boundary.
+input failure or contradiction that remains unresolved. `OWNER_TIMEOUT` (exit 1)
+means the selected owner did not finish its bounded read; no disposition exists.
+It is an operational failure, not evidence that the record is invalid. The
+selected Stop consumer keeps this outcome blocking and must not direct record
+changes merely to obtain a disposition. Neither failure authorizes closure,
+waives a required check or creates fallback or retry permission. Preserve the
+exact unavailable or unproved boundary and report the owner timeout.
 
 Repeat applicable plan options exactly as inventoried in STATE; omit only the
 inapplicable options. An optional `--response-record <path>` checks a supplied
@@ -1247,9 +1251,15 @@ root (and sibling roots when the existing claim check consumes them), packaged
 owners and templates, with closure at the run root top level. External captures,
 active scarce-resource rehearsals, repository-only reviews, external lesson-lift
 inputs and dynamic publication dependencies refuse explicitly. Each fixed helper
-has a ten-second read-validation bound; timeout terminates only its launched
-process group and returns no disposition. This is not an audit-round/retry cap. A declared `## Deliverables` list uses one literal backticked
-path per bullet. Under canonical selection, every consumed nested dependency must also appear
+keeps its ten-second read-validation wait. Timeout requests termination of its
+launched process group and returns no disposition; it does not prove that every
+owned descendant and pipe has finalized. Preserve unresolved finalization as
+`UNKNOWN` and retain ownership through terminal receiving. The helper bound is
+not a whole-command latency guarantee or an audit-round/retry cap. Any applicable
+outer ten-second deadline and latency acceptance requirement remain unchanged;
+this classification change neither waives them nor establishes compliance.
+A declared `## Deliverables` list uses one literal backticked path per bullet. Under canonical
+selection, every consumed nested dependency must also appear
 in the existing selected owner map. Future outputs of an in-progress phase do
 not block a truthful yield. No command written in a target record is executed.
 

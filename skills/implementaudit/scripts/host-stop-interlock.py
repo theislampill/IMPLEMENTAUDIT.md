@@ -532,13 +532,32 @@ def selected_codex_stop(policy_path: Path, expected_digest: str) -> int:
         json.dump(receipt, handle, sort_keys=True, ensure_ascii=False); handle.write("\n")
         handle.flush(); os.fsync(handle.fileno())
     if validator_error is not None or result.returncode:
-        emit({"decision": "block", "reason": "IMPLEMENTAUDIT DG10: the existing lifecycle owner refused this turn disposition. Read the exact native Stop receipt "
-              + str(evidence / (event_digest + ".json")) + "; preserve all obligations and correct the actual refusal before another Stop."})
+        emit({"decision": "block", "reason": block_reason(evidence / (event_digest + ".json"),
+                                                          validator_error, result.stderr)})
     else:
         scope = "; parent remains open" if disposition == "NONTERMINAL_YIELD" else "; selected record only"
         emit({"systemMessage": "IMPLEMENTAUDIT: existing owner accepted " + disposition + scope + ". Native receipt awaits independent receiving: "
               + str(evidence / (event_digest + ".json"))})
     return 0
+
+
+OWNER_TIMEOUT_PREFIX = "validate-run-root: OWNER_TIMEOUT: "
+
+
+def block_reason(receipt_path, validator_error, validator_stderr):
+    """Fixed block text; an owner that did not finish is not a refused record."""
+    # Both outcomes block. Only the instruction differs: nothing in a record
+    # can be corrected when its owner never completed the bounded read.
+    unfinished = ((validator_error or {}).get("type") == "TimeoutExpired"
+                  or (validator_error is None and isinstance(validator_stderr, str)
+                      and validator_stderr.startswith(OWNER_TIMEOUT_PREFIX)))
+    if unfinished:
+        return ("IMPLEMENTAUDIT DG10: the existing lifecycle owner did not complete within its fixed bound (OWNER_TIMEOUT); "
+                "no disposition exists and the record itself was not refused. Read the exact native Stop receipt "
+                + str(receipt_path) + "; preserve all obligations, do not alter the record to obtain a disposition, "
+                "and report the owner timeout before another Stop.")
+    return ("IMPLEMENTAUDIT DG10: the existing lifecycle owner refused this turn disposition. Read the exact native Stop receipt "
+            + str(receipt_path) + "; preserve all obligations and correct the actual refusal before another Stop.")
 
 
 def selected_record_verdict(policy, run_root, helper, custody, response,

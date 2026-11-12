@@ -5690,6 +5690,16 @@ _R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (32290, '58b2d0a257f9
 
 _R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (32290, '9bce5c887cd89c2d2991b84f1bf765787e7a6b75a2eba29a8433c3a6c05f73a3'), 'claim-run-rotation.py': (291624, '128dfe66ce656cd194d5fe1e55b245fecb1b4fd811dea87f75f8ace4a59a0487')},)
 
+# Exact DG17 timeout classification source; no latency, cleanup or native admission.
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (32290, '167a5c2570efbbfccd8aee506fde244118878c52ca0ae8c17af05bf22292e706'), 'claim-run-rotation.py': (291624, 'ad4afefacddefe7bb153ab12f0c68bf4ad919eb7794217aecec05730fba72630')},)
+
+# Exact DG17 yield scheduling and Windows owner-tree bound source; no native admission.
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (32290, 'a58d27accd96b91c4fcd66efa9680360ca45394505b22572ea114541a1449728'), 'claim-run-rotation.py': (291624, '860fb174149c7c35a18e7b1ceea6cef6eefef6f7f055e4235f8eeea0de9450e8')},)
+
+# Exact DG17 Windows job-completion source; no native admission.
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (32290, '5b8f88cbf8d9ab5c2d9c3f5647887578eb7fd52913c673c6eb947f41ce8cb196'), 'claim-run-rotation.py': (291624, '8da36303035cad030e01331ca1eafb0968137e0e42004e908e85d37cd8cffa2a')},)
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (32290, '0a1966997827478a4aa017712be3b668b7896dc4fe97d6e8b7bc6e572e4277fb'), 'claim-run-rotation.py': (291624, '7523ed5fd31c498f0ef32cf1be5ea5c14f1ba969cc1e780cfe788d685995693a')},)
+
 def original14_retained_predecessor_v1(
     repo, token, fields, *, controller, claim, run_identity, generation,
     current_receipt, explicit_run_root,

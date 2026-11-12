@@ -19,11 +19,15 @@ if [ "${1:-}" = "--turn-disposition" ]; then
   elif command -v py >/dev/null 2>&1; then disposition_py=(py -3 -B)
   else printf 'validate-run-root: Python required for disposition records\n' >&2; exit 2; fi
   "${disposition_py[@]}" - "${BASH_SOURCE[0]}" "$@" <<'PYDISPOSITION'
-import argparse,hashlib,json,os,re,signal,stat,subprocess,sys,tempfile
+import argparse,concurrent.futures,hashlib,json,os,re,signal,stat,subprocess,sys,tempfile,threading,time
 from pathlib import Path
 
 def refuse(message):
     raise ValueError(message)
+class OwnerTimeout(Exception):
+    # A bounded owner that did not finish says nothing about the record it was
+    # reading. It is neither a record refusal nor an out-of-profile input.
+    pass
 def safe_read(path):
     path=Path(os.path.abspath(path))
     for node in (path,*path.parents):
@@ -62,6 +66,63 @@ def inventory(directory):
             if len(entries)>4096: refuse('unsupported read-set size')
     return entries
 
+live=[];gate=threading.Lock() # stop actions of running owners
+def windows_owner(command):
+    # Start only in a kill-on-close job; never fall back to an uncontained owner.
+    import ctypes
+    class BasicLimits(ctypes.Structure):
+        _fields_=[('times',ctypes.c_longlong*2),('flags',ctypes.c_ulong),
+                  ('working_set',ctypes.c_size_t*2),('active',ctypes.c_ulong),
+                  ('affinity',ctypes.c_size_t),('classes',ctypes.c_ulong*2)]
+    class ExtendedLimits(ctypes.Structure):
+        _fields_=[('basic',BasicLimits),('io',ctypes.c_ulonglong*6),('memory',ctypes.c_size_t*4)]
+    kernel=ctypes.WinDLL('kernel32');handle=ctypes.c_void_p
+    kernel.CreateJobObjectW.restype=handle
+    kernel.AssignProcessToJobObject.argtypes=[handle,handle];kernel.TerminateJobObject.argtypes=[handle,ctypes.c_uint]
+    kernel.CloseHandle.argtypes=[handle];kernel.QueryInformationJobObject.argtypes=[handle,ctypes.c_int,handle,ctypes.c_ulong,handle]
+    kernel.SetInformationJobObject.argtypes=[handle,ctypes.c_int,handle,ctypes.c_ulong]
+    job=kernel.CreateJobObjectW(None,None)
+    if not job:refuse('unsupported Windows owner containment')
+    process=None;owned=False;stop=None
+    try:
+        limits=ExtendedLimits();limits.basic.flags=0x2000 # KILL_ON_JOB_CLOSE; no breakaway.
+        if not kernel.SetInformationJobObject(job,9,ctypes.byref(limits),ctypes.sizeof(limits)):
+            refuse('unsupported Windows owner containment')
+        with tempfile.TemporaryFile(mode='w+') as out,tempfile.TemporaryFile(mode='w+') as err:
+            process=subprocess.Popen(command,stdout=out,stderr=err,creationflags=subprocess.CREATE_NEW_PROCESS_GROUP|4) # CREATE_SUSPENDED
+            owned=bool(kernel.AssignProcessToJobObject(job,int(process._handle)))
+            if not owned:refuse('unsupported Windows owner containment')
+            def stop():
+                kernel.TerminateJobObject(job,1)
+                if process.poll() is None:process.kill()
+            live.append(stop)
+            deadline=time.monotonic()+10;count=(ctypes.c_ulong*12)()
+            ctypes.WinDLL('ntdll').NtResumeProcess(handle(int(process._handle)))
+            try:
+                process.wait(timeout=10)
+                # Completion requires an empty job (active-process count[10]).
+                while owned:
+                    if kernel.QueryInformationJobObject(job,1,count,48,None) and not count[10]:break
+                    if time.monotonic()>deadline:raise subprocess.TimeoutExpired(command,10)
+                    time.sleep(0.01)
+            except subprocess.TimeoutExpired:
+                stop()
+                raise OwnerTimeout('packaged owner read timed out')
+            out.seek(0);err.seek(0)
+            return process.returncode,out.read(),err.read()
+    except OSError as exc:
+        refuse('unsupported Windows owner setup: '+str(exc))
+    finally:
+        with gate:
+            if stop in live:live.remove(stop)
+        try:
+            if owned:kernel.TerminateJobObject(job,1)
+            if process is not None:
+                if process.poll() is None:process.kill()
+                try:process.wait(timeout=2)
+                except subprocess.TimeoutExpired:raise OwnerTimeout('packaged owner read timed out')
+        finally:kernel.CloseHandle(job)
+
 def run(command,allowed=(0,)):
     # This bounds a read-only helper, never the governor's audit/retry lifecycle.
     if os.name=='nt' and command[0]=='bash':
@@ -69,24 +130,23 @@ def run(command,allowed=(0,)):
         # Use the same explicit Git Bash owner as read-canonical-pair.py.
         command=[str(Path(r'C:\Program Files\Git')/'bin/bash.exe'),
                  *(value.replace('\\','/') if re.match(r'^[A-Za-z]:\\',value) else value for value in command[1:])]
-    options={'start_new_session':True} if os.name=='posix' else {'creationflags':subprocess.CREATE_NEW_PROCESS_GROUP}
-    process=subprocess.Popen(command,text=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,**options)
-    try:
-        stdout,stderr=process.communicate(timeout=10)
-    except subprocess.TimeoutExpired:
-        if os.name=='posix':
+    if os.name=='nt':result=subprocess.CompletedProcess(command,*windows_owner(command))
+    else:
+        process=subprocess.Popen(command,text=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+        stop=lambda:process.poll() is None and os.killpg(process.pid,signal.SIGKILL)
+        live.append(stop)
+        try:
+            stdout,stderr=process.communicate(timeout=10)
+        except subprocess.TimeoutExpired:
             try:os.killpg(process.pid,signal.SIGKILL)
             except ProcessLookupError:pass
-        else:
-            killer=str(Path(os.environ.get('SystemRoot','C:/Windows'))/'System32/taskkill.exe')
-            try:subprocess.run([killer,'/PID',str(process.pid),'/T','/F'],capture_output=True,timeout=3)
-            except (OSError,subprocess.TimeoutExpired):pass
-            if process.poll() is None:process.kill()
-        try:process.communicate(timeout=2)
-        except subprocess.TimeoutExpired:
-            process.stdout.close();process.stderr.close()
-        refuse('packaged owner read timed out; no disposition')
-    result=subprocess.CompletedProcess(command,process.returncode,stdout,stderr)
+            try:process.communicate(timeout=2)
+            except subprocess.TimeoutExpired:
+                process.stdout.close();process.stderr.close()
+            raise OwnerTimeout('packaged owner read timed out')
+        finally:
+            with gate:live.remove(stop)
+        result=subprocess.CompletedProcess(command,process.returncode,stdout,stderr)
     if result.returncode not in allowed:
         refuse('packaged owner refused: '+Path(command[1]).name+'\n'+result.stdout+result.stderr)
     return result
@@ -170,6 +230,16 @@ try:
     with tempfile.TemporaryDirectory(prefix='disposition-pair-') as tmp:
         pair=Path(tmp)/'pair';pair.mkdir()
         reader=[sys.executable,'-B',str(owner/'read-canonical-pair.py'),'--run-root',str(root),'--output',str(pair),'--native-guards']
+        ahead=None
+        if args.disposition=='NONTERMINAL_YIELD':
+            # Scheduling only. The yield owner is an independent read-only read
+            # of the same root: it starts beside the selection and is consumed
+            # at its serial place, so every earlier refusal still comes first.
+            # The review owner is captured first so its guard spans the owner.
+            review_path=owner.parents[2]/'scripts/check-cold-review-contract.sh' # source repo
+            try:review_first=[safe_read(review_path)[1] if os.path.lexists(review_path) else None]
+            except (OSError,ValueError):review_first=[]
+            ahead=concurrent.futures.ThreadPoolExecutor(1).submit(run,['bash',str(helper),'--nonterminal-yield',str(root)],(0,3))
         selected=run(reader,allowed=(0,3))
         state_path=pair/'native-STATE.md' if selected.returncode==0 else root/'STATE.md'
         roadmap_path=pair/'native-ROADMAP.md' if selected.returncode==0 else root/'ROADMAP.md'
@@ -199,6 +269,7 @@ try:
             review_owner=owner.parents[2]/'scripts/check-cold-review-contract.sh'  # source repo checker; absent from installed skill by design
             try:review_owner_before=safe_read(review_owner)[1] if os.path.lexists(review_owner) else None
             except (OSError,ValueError) as exc:refuse('unsupported repository review owner: '+str(exc))
+            if ahead and review_first!=[review_owner_before]:refuse('unsupported repository review owner changed during disposition validation')
         for phase in (root/'phases').glob('phase-*.md'):
             # Check the supported dependency profile, leaving DONE applicability
             # and missing required captures with their existing semantic owner.
@@ -211,7 +282,7 @@ try:
             repo=run(['git','rev-parse','--show-toplevel']).stdout.strip()
             git_identity=lambda:tuple(run(command).stdout for command in (['git','-C',repo,'rev-parse','HEAD'],['git','-C',repo,'rev-parse','--abbrev-ref','HEAD'],['git','-C',repo,'status','--porcelain']))
             repo_before=git_identity()
-        structural=run(['bash',str(helper)]+(['--nonterminal-yield'] if args.disposition=='NONTERMINAL_YIELD' else [])+[str(root)],allowed=(0,3) if args.disposition=='NONTERMINAL_YIELD' else (0,))
+        structural=ahead.result() if ahead else run(['bash',str(helper),str(root)])
         if structural.returncode==3:refuse('unsupported yield read-set profile: '+structural.stderr.strip())
         if closure:
             text=safe_read(closure)[0].decode('utf-8');data=fields(text)
@@ -335,11 +406,17 @@ try:
         if source_before!=source_identity():refuse('packaged owner source changed during validation')
         if args.disposition!='NONTERMINAL_YIELD' and repo_before!=git_identity():refuse('repository identity changed during disposition validation')
     print(json.dumps({'record_disposition':args.disposition,'authority':'NONE','native_enforcement':False,'effect_authority':False,'scope':'constructed record validation; authentic lifecycle acceptance not established'},sort_keys=True))
-except (OSError,UnicodeError,ValueError,ZeroDivisionError) as exc:
-    outside=str(exc).startswith('unsupported ')
-    kind='OUT_OF_PROFILE' if outside else 'RECORD_REFUSED'
+except (OwnerTimeout,OSError,UnicodeError,ValueError,ZeroDivisionError) as exc:
+    outside=not isinstance(exc,OwnerTimeout) and str(exc).startswith('unsupported ')
+    kind='OWNER_TIMEOUT' if isinstance(exc,OwnerTimeout) else ('OUT_OF_PROFILE' if outside else 'RECORD_REFUSED')
     print('validate-run-root: '+kind+': '+str(exc)+'; no disposition',file=sys.stderr)
     raise SystemExit(3 if outside else 1)
+finally:
+    # An owner started ahead and not consumed must not outlive this command.
+    with gate:
+        for stop in live:
+            try:stop()
+            except OSError:pass
 PYDISPOSITION
   exit $?
 fi
@@ -1087,7 +1164,7 @@ canonical_roots=()
 canonical_snapshots=()
 reader="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/read-canonical-pair.py"
 validation_snapshots="$(mktemp -d)" || exit 1
-trap 'rm -rf "$validation_snapshots"' EXIT
+trap 'wait 2>/dev/null; rm -rf "$validation_snapshots"' EXIT
 reader_py=()
 canonical_selection() {
   local selected_root="$1" output="$2"
@@ -1350,6 +1427,46 @@ fi
 
 claim="$run_root/.claimed"
 claim_mode=""
+# Scheduling only. A sibling's chain (claim and controller capture, then its
+# canonical selection, then STATE capture) is independent and read-only, so
+# the chains start here and run beside the remaining root checks, at most
+# four at once. Their output and results are replayed below in the original
+# sibling order, so messages and refusal precedence match the serial run.
+sibling_paths=(); sibling_pids=()
+sibling_start() {
+  local n=${#sibling_paths[@]}; local work="$validation_snapshots/sibling.$n"
+  sibling_paths+=("$1")
+  [ "$n" -lt 4 ] || wait "${sibling_pids[$((n-4))]}" 2>/dev/null
+  ( sibling_capture() { # stage, operation, path
+      local identity
+      [ "$nonterminal_yield" = yes ] || return 0
+      identity="$(yield_read_identity "$2" "$3")" || { printf '%s %s\n' "$1" "${rc-}" >"$work.result"; exit; }
+      printf '%s' "$identity" >"$work.$1"
+    }
+    sibling_capture claim --optional "$1/.claimed"
+    sibling_capture controller --optional "$1/.controller"
+    mkdir "$work" || { echo snapshot >"$work.result"; exit; }
+    canonical_selection "$1" "$work"; rc=$?
+    case "$rc" in
+      0) sibling_capture state --capture "$work/native-STATE.md" ;;
+      3) sibling_capture state --capture "$1/STATE.md" ;;
+    esac
+    printf 'done %s\n' "$rc" >"$work.result" ) >"$work.out" 2>"$work.err" &
+  sibling_pids[$n]=$!
+}
+sibling_track() { # mode, path, captured identity: recorded as yield_track_dependency records it
+  [ "$nonterminal_yield" = yes ] || return 0
+  local identity=""
+  IFS= read -r -d '' identity <"$3"
+  yield_dependency_modes+=("$1"); yield_dependency_paths+=("$2")
+  yield_dependency_identities+=("$identity"); yield_dependency_snapshots+=("")
+}
+if [ -f "$claim" ]; then
+  for sibling in "$(dirname "$run_root")"/*; do
+    [ -d "$sibling" ] || continue
+    [ "$sibling" = "$run_root" ] || sibling_start "$sibling"
+  done
+fi
 if [ "$mode" = micro ] && [ ! -f "$claim" ]; then
   err "micro root is missing .claimed metadata"
 fi
@@ -1489,11 +1606,20 @@ if [ -f "$claim" ]; then
     [ -d "$sibling" ] || continue
     [ "$sibling" = "$run_root" ] && continue
     sibling_state="$sibling/STATE.md"
-    yield_track_dependency --optional "$sibling/.claimed" || { err "yield read-set sibling claim capture failed"; continue; }
-    yield_track_dependency --optional "$sibling/.controller" || { err "yield read-set sibling controller capture failed"; continue; }
-    sibling_snapshot="$(mktemp -d "$validation_snapshots/sibling.XXXXXX")" || exit 1
-    canonical_selection "$sibling" "$sibling_snapshot"
-    sibling_rc=$?
+    sibling_slot=""
+    for i in "${!sibling_paths[@]}"; do [ "${sibling_paths[$i]}" != "$sibling" ] || sibling_slot="$i"; done
+    # A sibling that appeared after the early start is read here, as before.
+    [ -n "$sibling_slot" ] || { sibling_slot=${#sibling_paths[@]}; sibling_start "$sibling"; }
+    sibling_snapshot="$validation_snapshots/sibling.$sibling_slot"
+    wait "${sibling_pids[$sibling_slot]}" 2>/dev/null
+    [ ! -s "$sibling_snapshot.out" ] || cat "$sibling_snapshot.out"
+    [ ! -s "$sibling_snapshot.err" ] || cat "$sibling_snapshot.err" >&2
+    read -r sibling_result sibling_rc 2>/dev/null <"$sibling_snapshot.result" || sibling_result=snapshot
+    [ "$sibling_result" != claim ] || { err "yield read-set sibling claim capture failed"; continue; }
+    sibling_track --optional "$sibling/.claimed" "$sibling_snapshot.claim"
+    [ "$sibling_result" != controller ] || { err "yield read-set sibling controller capture failed"; continue; }
+    sibling_track --optional "$sibling/.controller" "$sibling_snapshot.controller"
+    [ "$sibling_result" != snapshot ] || exit 1
     case "$sibling_rc" in
       0) sibling_state="$sibling_snapshot/native-STATE.md"
          canonical_roots+=("$sibling")
@@ -1501,7 +1627,8 @@ if [ -f "$claim" ]; then
       3) : ;;
       *) err "sibling canonical selection refused: $(basename "$sibling")"; continue ;;
     esac
-    yield_track_dependency --capture "$sibling_state" || { err "yield read-set sibling STATE capture failed"; continue; }
+    [ "$sibling_result" != state ] || { err "yield read-set sibling STATE capture failed"; continue; }
+    sibling_track --capture "$sibling_state" "$sibling_snapshot.state"
     if [ ! -f "$sibling_state" ] || ! grep -Eq \
       '^(AUDIT_COMPLETE|IMPLEMENTAUDIT_RUN_COMPLETE|AUDIT_HANDOFF|ANDON_HANDOFF|COMPLETE|HANDOFF|SUPERSEDED_BY:[[:space:]].+|PARALLEL:[[:space:]].+)$' \
       "$sibling_state"; then
@@ -2077,18 +2204,30 @@ fi
 if [ "$nonterminal_yield" = yes ] && [ "$err_count" -eq 0 ]; then
   yield_final_identity="$(yield_read_identity)" || err "yield read-set recheck failed"
   [ "$yield_initial_identity" = "$yield_final_identity" ] || err "yield read-set changed during validation"
+  recheck_pids=()
   for i in "${!yield_dependency_paths[@]}"; do
     dependency_arguments=("${yield_dependency_modes[$i]}" "${yield_dependency_paths[$i]}")
     if [ -n "${yield_dependency_snapshots[$i]}" ]; then
       dependency_arguments+=("${yield_dependency_snapshots[$i]}")
     fi
-    dependency_identity="$(yield_read_identity "${dependency_arguments[@]}")"
-    capture_rc=$?
+    # Scheduling only: every dependency is still re-read and compared, four
+    # at a time; the outcomes are consumed below in the original order.
+    [ "$i" -lt 4 ] || wait "${recheck_pids[$((i-4))]}" 2>/dev/null
+    ( dependency_identity="$(yield_read_identity "${dependency_arguments[@]}")"
+      capture_rc=$?
+      [ "${yield_dependency_identities[$i]}" = "$dependency_identity" ]
+      printf '%s %s\n' "$capture_rc" "$?" >"$validation_snapshots/recheck.$i" ) 2>"$validation_snapshots/recheck.$i.err" &
+    recheck_pids[$i]=$!
+  done
+  for i in "${!yield_dependency_paths[@]}"; do
+    wait "${recheck_pids[$i]}" 2>/dev/null
+    [ ! -s "$validation_snapshots/recheck.$i.err" ] || cat "$validation_snapshots/recheck.$i.err" >&2
+    read -r capture_rc dependency_changed 2>/dev/null <"$validation_snapshots/recheck.$i" || { capture_rc=1; dependency_changed=1; }
     if [ "$capture_rc" -ne 0 ]; then
       [ "$capture_rc" -ne 3 ] || exit 3
       err "yield read-set dependency recheck failed"
     fi
-    [ "${yield_dependency_identities[$i]}" = "$dependency_identity" ] || err "yield read-set consumed dependency changed during validation"
+    [ "$dependency_changed" = 0 ] || err "yield read-set consumed dependency changed during validation"
   done
 fi
 

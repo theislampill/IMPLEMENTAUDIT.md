@@ -1770,7 +1770,7 @@ class CompositeSourceCases(unittest.TestCase):
         previous = transport.SOURCE_PROFILES_V1['composite-20261029-dg18-native-resume-v1-core']
         self.assertEqual(transport.SOURCE_PROFILES_V1['composite-20261029-dg18-native-resume-v1-original14'][2][1:3],
                          (246657, '82ddcbb3cf476098fbcac57c0550d4240457688df2c4504c8ab8caea2c3367b1'))
-        profile = transport.SOURCE_PROFILES_V1['composite-20261105-r5-h0-mechanical-template-v1-core']
+        profile = transport.SOURCE_PROFILES_V1['composite-20261112-dg17-unowned-containment-v1-core']
         self.assertTrue(transport._windows_core_profile_v1(historical))
         self.assertTrue(transport._windows_core_profile_v1(previous))
         self.assertTrue(transport._windows_core_profile_v1(profile))
@@ -1802,9 +1802,33 @@ class CompositeSourceCases(unittest.TestCase):
         """Break caught: repaired helper bytes cannot reach a fixed accepting consumer."""
         transport = load("engineered_continuity_transport", ROOT / "scripts/work-graph-continuity-transport.py")
         owner = load("engineered_continuity_receiver", ROOT / "scripts/operational-evidence.py")
-        prefix = "composite-20261105-r5-h0-mechanical-template-v1-"
+        prefix = "composite-20261112-dg17-unowned-containment-v1-"
         previous = {name: rows for name, rows in transport.SOURCE_PROFILES_V1.items()
                     if not name.startswith(prefix)}
+        self.assertEqual(len(previous), 46)
+        self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
+                         separators=(",", ":")).encode()).hexdigest(),
+                         '2deeb7a3c915f2bf8e68c48f6320a3dcbf152593ef708aa4d4fe41adbf64f8b5')
+        previous = {name: rows for name, rows in previous.items()
+                    if not name.startswith("composite-20261112-dg17-windows-job-completion-v1-")}
+        self.assertEqual(len(previous), 45)
+        self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
+                         separators=(",", ":")).encode()).hexdigest(),
+                         '5b8171a819cd3b4bfd297d1d8f5a6fe53a4a9a1581c334e61170b537a05d584c')
+        previous = {name: rows for name, rows in previous.items()
+                    if not name.startswith("composite-20261112-dg17-yield-schedule-owner-tree-v1-")}
+        self.assertEqual(len(previous), 44)
+        self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
+                         separators=(",", ":")).encode()).hexdigest(),
+                         '1899dd0a22eef54a19f16d4fd1e7e25b545c6c48a92c893af954629a3e92d98a')
+        previous = {name: rows for name, rows in previous.items()
+                    if not name.startswith("composite-20261111-dg17-owner-timeout-reason-v1-")}
+        self.assertEqual(len(previous), 43)
+        self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
+                         separators=(",", ":")).encode()).hexdigest(),
+                         'afbb513e6bad640b77568a6bc53472a4abf62bf48a59322f12e702bd05e7d596')
+        previous = {name: rows for name, rows in previous.items()
+                    if not name.startswith("composite-20261105-r5-h0-mechanical-template-v1-")}
         self.assertEqual(len(previous), 42)
         self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
                          separators=(",", ":")).encode()).hexdigest(),
@@ -1844,7 +1868,7 @@ class CompositeSourceCases(unittest.TestCase):
         self.assertEqual(hashlib.sha256(json.dumps(historical, sort_keys=True,
                          separators=(",", ":")).encode()).hexdigest(),
                          "50c356cb09ebd3bf3b5be64bab44ba966f758e0abe7f24b8d87c17ef2978dda6")
-        self.assertEqual(len(transport.SOURCE_PROFILES_V1), 43)
+        self.assertEqual(len(transport.SOURCE_PROFILES_V1), 47)
         for kind, directory in (("core", CORE), ("original14", PEER)):
             with self.subTest(kind=kind):
                 selected_name = prefix + kind if kind == "core" else "composite-20261104-dg17-dg18-custody-v1-original14"
@@ -1872,7 +1896,7 @@ class CompositeSourceCases(unittest.TestCase):
         import types
         owner = load("capture_receiver_shapes", ROOT / "scripts/operational-evidence.py")
         transport = load("capture_transport_shapes", ROOT / "scripts/work-graph-continuity-transport.py")
-        profile = transport.SOURCE_PROFILES_V1['composite-20261105-r5-h0-mechanical-template-v1-core']
+        profile = transport.SOURCE_PROFILES_V1['composite-20261112-dg17-unowned-containment-v1-core']
         pair = dict(claim_sha256=profile[0][2], validate_sha256=profile[1][2])
         source = ROOT / "scripts/work-graph-continuity-transport.py"
         raw = source.read_bytes()
@@ -2367,6 +2391,13 @@ else:
                 self.assertEqual(path, target / "route-transaction.py")
                 self.assertEqual(captured, raw)
                 self.assertTrue(callable(module.read_current_route_scope_v1))
+                current_pair = {name: (len((CORE / name).read_bytes()),
+                    hashlib.sha256((CORE / name).read_bytes()).hexdigest())
+                    for name in ("claim-run.sh", "claim-run-rotation.py")}
+                self.assertIn(current_pair, module._R0039_RETAINED_PREDECESSOR_OWNERS_V1)
+                changed_pair = dict(current_pair)
+                changed_pair["claim-run.sh"] = (current_pair["claim-run.sh"][0], "0" * 64)
+                self.assertNotIn(changed_pair, module._R0039_RETAINED_PREDECESSOR_OWNERS_V1)
                 (target / "route-transaction.py").write_bytes(raw + b"\n")
                 with self.assertRaisesRegex(graph.WorkGraphError, "source identity changed"):
                     graph._native_route_scope_module_v1()
@@ -2430,6 +2461,48 @@ else:
                 with self.assertRaisesRegex(graph.WorkGraphError, "native continuity transport source identity changed"):
                     graph._native_six_source_transport_v1(owner, claim, validate)
                 self.assertFalse(marker.exists())
+
+    def test_selected_record_owner_pin_refuses_stale_source_before_dispatch(self):
+        """Actual digest guard with inert custody/dispatch seams; no native Stop."""
+        from types import SimpleNamespace
+        stop = load("selected_record_pin_guard", CORE / "host-stop-interlock.py")
+        helper = CORE / "validate-run-root.sh"
+        raw = helper.read_bytes()
+        expected = "9ffd7a2ae38ba9c1fea49738168b26c840856d88be5b80f4532562ca09981d20"
+        self.assertEqual(hashlib.sha256(raw).hexdigest(), expected)
+        policy = {"bash": "INERT_NO_EXECUTION", "validator_sha256": expected,
+                  "binding": {"repository_identity": str(ROOT)},
+                  "timeout_seconds": 10, "path": ""}
+        # Captured source data only: Windows handle custody is not exercised.
+        held = SimpleNamespace(read=mock.Mock(return_value=raw), verify=mock.Mock())
+        custody = SimpleNamespace(
+            Directory=lambda path: contextlib.nullcontext(path),
+            File=lambda *args, **kwargs: contextlib.nullcontext(held))
+        timeout = subprocess.CompletedProcess([], 1, "",
+            "validate-run-root: OWNER_TIMEOUT: packaged owner read timed out; no disposition\n")
+        with mock.patch.object(stop.subprocess, "run", return_value=timeout) as dispatch:
+            result = stop.selected_record_verdict(policy, ROOT, helper, custody,
+                ROOT / "INERT_RESPONSE.md", "NONTERMINAL_YIELD", None)
+        self.assertIs(result, timeout)
+        self.assertEqual(result.returncode, 1)
+        self.assertEqual(dispatch.call_count, 1)
+        self.assertEqual(dispatch.call_args.kwargs["timeout"], 10)
+        held.verify.assert_called_once_with()
+        reason = stop.block_reason("INERT_RECEIPT.json", None, result.stderr)
+        self.assertIn("OWNER_TIMEOUT", reason)
+        self.assertIn("no disposition exists and the record itself was not refused", reason)
+        for digest, captured in (("d51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a", raw),
+                                 ("9b23638dcc3b9d13c7297068132c68fee8c553b8ab27aab214685f1be29e8ece", raw),
+                                 ("06ba1dd6e516348b1248bae502361b1e610c06a19950b9cd03ecdcc25575b562", raw),
+                                 ("ee2bb6e5b49d56be8541816d3e906998b0083d8446d56c89667a7213a79acc13", raw),
+                                 (expected, raw[:-1] + (b"X" if raw[-1:] != b"X" else b"Y"))):
+            with self.subTest(digest=digest):
+                held.read.return_value = captured
+                with mock.patch.object(stop.subprocess, "run") as dispatch:
+                    with self.assertRaisesRegex(stop.InterlockUnavailable, "selected lifecycle owner differs"):
+                        stop.selected_record_verdict(policy | {"validator_sha256": digest}, ROOT,
+                            helper, custody, ROOT / "INERT_RESPONSE.md", "NONTERMINAL_YIELD", None)
+                    dispatch.assert_not_called()
 
     def test_overlay_retains_lifecycle_record_interface(self):
         result = subprocess.run([shutil.which("bash"), (PEER / "validate-run-root.sh").as_posix(),

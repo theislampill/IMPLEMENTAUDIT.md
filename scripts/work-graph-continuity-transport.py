@@ -431,6 +431,50 @@ SOURCE_PROFILES_V1['composite-20261105-r5-h0-mechanical-template-v1-core'] = (
     ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
     ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
 )
+# Exact DG17 owner-timeout reason successor; every prior profile is retained unchanged.
+SOURCE_PROFILES_V1['composite-20261111-dg17-owner-timeout-reason-v1-core'] = (
+    ('claim-run.sh', 32290, '167a5c2570efbbfccd8aee506fde244118878c52ca0ae8c17af05bf22292e706', 420),
+    ('validate-run-root.sh', 115445, '9b23638dcc3b9d13c7297068132c68fee8c553b8ab27aab214685f1be29e8ece', 420),
+    ('claim-run-rotation.py', 291624, 'ad4afefacddefe7bb153ab12f0c68bf4ad919eb7794217aecec05730fba72630', 420),
+    ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+)
+# Exact DG17 yield scheduling and Windows owner-tree bound successor; every prior profile is retained unchanged.
+SOURCE_PROFILES_V1['composite-20261112-dg17-yield-schedule-owner-tree-v1-core'] = (
+    ('claim-run.sh', 32290, 'a58d27accd96b91c4fcd66efa9680360ca45394505b22572ea114541a1449728', 420),
+    ('validate-run-root.sh', 121794, '06ba1dd6e516348b1248bae502361b1e610c06a19950b9cd03ecdcc25575b562', 420),
+    ('claim-run-rotation.py', 291624, '860fb174149c7c35a18e7b1ceea6cef6eefef6f7f055e4235f8eeea0de9450e8', 420),
+    ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+)
+# Exact DG17 Windows job-completion successor; every prior profile is retained unchanged.
+SOURCE_PROFILES_V1['composite-20261112-dg17-windows-job-completion-v1-core'] = (
+    ('claim-run.sh', 32290, '5b8f88cbf8d9ab5c2d9c3f5647887578eb7fd52913c673c6eb947f41ce8cb196', 420),
+    ('validate-run-root.sh', 122448, 'ee2bb6e5b49d56be8541816d3e906998b0083d8446d56c89667a7213a79acc13', 420),
+    ('claim-run-rotation.py', 291624, '8da36303035cad030e01331ca1eafb0968137e0e42004e908e85d37cd8cffa2a', 420),
+    ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+)
+# Unowned Windows processes are refused before execution; prior profiles remain historical.
+SOURCE_PROFILES_V1['composite-20261112-dg17-unowned-containment-v1-core'] = (
+    ('claim-run.sh', 32290, '0a1966997827478a4aa017712be3b668b7896dc4fe97d6e8b7bc6e572e4277fb', 420),
+    ('validate-run-root.sh', 122768, '9ffd7a2ae38ba9c1fea49738168b26c840856d88be5b80f4532562ca09981d20', 420),
+    ('claim-run-rotation.py', 291624, '7523ed5fd31c498f0ef32cf1be5ea5c14f1ba969cc1e780cfe788d685995693a', 420),
+    ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+)
 ORIGINAL14_SOURCE_PROFILES_V1 = tuple(rows for rows in SOURCE_PROFILES_V1.values() if rows[0][3] is None)
 ORIGINAL14_SOURCE_PROFILE_V1 = SOURCE_PROFILES_V1["r0039-original14-windows"]
 
@@ -528,10 +572,17 @@ _WINDOWS_R5_WINDOWS_LOAD_BINDING_CORE8_PAIR_V1 = ('58b2d0a257f90fcf50a87e9b4f317
 
 _WINDOWS_H0_TEMPLATE_CORE8_PAIR_V1 = ('9bce5c887cd89c2d2991b84f1bf765787e7a6b75a2eba29a8433c3a6c05f73a3', 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a')
 
+_WINDOWS_DG17_OWNER_TIMEOUT_REASON_CORE8_PAIR_V1 = ('167a5c2570efbbfccd8aee506fde244118878c52ca0ae8c17af05bf22292e706', '9b23638dcc3b9d13c7297068132c68fee8c553b8ab27aab214685f1be29e8ece')
+
+_WINDOWS_DG17_YIELD_SCHEDULE_OWNER_TREE_CORE8_PAIR_V1 = ('a58d27accd96b91c4fcd66efa9680360ca45394505b22572ea114541a1449728', '06ba1dd6e516348b1248bae502361b1e610c06a19950b9cd03ecdcc25575b562')
+
+_WINDOWS_DG17_WINDOWS_JOB_COMPLETION_CORE8_PAIR_V1 = ('5b8f88cbf8d9ab5c2d9c3f5647887578eb7fd52913c673c6eb947f41ce8cb196', 'ee2bb6e5b49d56be8541816d3e906998b0083d8446d56c89667a7213a79acc13')
+_WINDOWS_DG17_UNOWNED_CONTAINMENT_CORE8_PAIR_V1 = ('0a1966997827478a4aa017712be3b668b7896dc4fe97d6e8b7bc6e572e4277fb', '9ffd7a2ae38ba9c1fea49738168b26c840856d88be5b80f4532562ca09981d20')
+
 def _windows_core_profile_v1(profile):
     return len(profile)==8 and tuple(row[2] for row in profile[:2]) in (
         _WINDOWS_CORE8_PAIR_V1, _WINDOWS_DG18_CORE8_PAIR_V1,
-        _WINDOWS_DG17_DG18_CUSTODY_CORE8_PAIR_V1, _WINDOWS_R4_CANARY_CORE8_PAIR_V1, _WINDOWS_R4_INITIALIZATION_CORE8_PAIR_V1, _WINDOWS_R5_WINDOWS_INITIALIZATION_CORE8_PAIR_V1, _WINDOWS_R5_WINDOWS_CAPTURE_CORE8_PAIR_V1, _WINDOWS_R5_WINDOWS_LOAD_BINDING_CORE8_PAIR_V1, _WINDOWS_H0_TEMPLATE_CORE8_PAIR_V1)
+        _WINDOWS_DG17_DG18_CUSTODY_CORE8_PAIR_V1, _WINDOWS_R4_CANARY_CORE8_PAIR_V1, _WINDOWS_R4_INITIALIZATION_CORE8_PAIR_V1, _WINDOWS_R5_WINDOWS_INITIALIZATION_CORE8_PAIR_V1, _WINDOWS_R5_WINDOWS_CAPTURE_CORE8_PAIR_V1, _WINDOWS_R5_WINDOWS_LOAD_BINDING_CORE8_PAIR_V1, _WINDOWS_H0_TEMPLATE_CORE8_PAIR_V1, _WINDOWS_DG17_OWNER_TIMEOUT_REASON_CORE8_PAIR_V1, _WINDOWS_DG17_YIELD_SCHEDULE_OWNER_TREE_CORE8_PAIR_V1, _WINDOWS_DG17_WINDOWS_JOB_COMPLETION_CORE8_PAIR_V1, _WINDOWS_DG17_UNOWNED_CONTAINMENT_CORE8_PAIR_V1)
 
 def _platform_source_profile_v1(profile):
     if os.name=='nt' and _windows_core_profile_v1(profile):

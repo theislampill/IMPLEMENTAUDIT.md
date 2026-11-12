@@ -2102,6 +2102,49 @@ _NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
     ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
     ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
 ),)
+# Exact DG17 owner-timeout reason source admission, with no authentic telemetry admission.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 32290, '167a5c2570efbbfccd8aee506fde244118878c52ca0ae8c17af05bf22292e706', 420),
+    ('validate-run-root.sh', 115445, '9b23638dcc3b9d13c7297068132c68fee8c553b8ab27aab214685f1be29e8ece', 420),
+    ('claim-run-rotation.py', 291624, 'ad4afefacddefe7bb153ab12f0c68bf4ad919eb7794217aecec05730fba72630', 420),
+    ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+),)
+# Exact DG17 yield scheduling and Windows owner-tree bound source admission, with no authentic telemetry admission.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 32290, 'a58d27accd96b91c4fcd66efa9680360ca45394505b22572ea114541a1449728', 420),
+    ('validate-run-root.sh', 121794, '06ba1dd6e516348b1248bae502361b1e610c06a19950b9cd03ecdcc25575b562', 420),
+    ('claim-run-rotation.py', 291624, '860fb174149c7c35a18e7b1ceea6cef6eefef6f7f055e4235f8eeea0de9450e8', 420),
+    ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+),)
+# Exact DG17 Windows job-completion source admission, with no authentic telemetry admission.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 32290, '5b8f88cbf8d9ab5c2d9c3f5647887578eb7fd52913c673c6eb947f41ce8cb196', 420),
+    ('validate-run-root.sh', 122448, 'ee2bb6e5b49d56be8541816d3e906998b0083d8446d56c89667a7213a79acc13', 420),
+    ('claim-run-rotation.py', 291624, '8da36303035cad030e01331ca1eafb0968137e0e42004e908e85d37cd8cffa2a', 420),
+    ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+),)
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 32290, '0a1966997827478a4aa017712be3b668b7896dc4fe97d6e8b7bc6e572e4277fb', 420),
+    ('validate-run-root.sh', 122768, '9ffd7a2ae38ba9c1fea49738168b26c840856d88be5b80f4532562ca09981d20', 420),
+    ('claim-run-rotation.py', 291624, '7523ed5fd31c498f0ef32cf1be5ea5c14f1ba969cc1e780cfe788d685995693a', 420),
+    ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+),)
 _NATIVE_LEGACY_CONTINUITY_PAIRS_V1 = (
     ('07e09843b2831149dc43e5f0dc458e82ae5cf9614b116393ac774ddea19390c7',
      'fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5'),
@@ -2164,6 +2207,13 @@ _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['39fd9e9a2c9f07bbf10569e2811043e33b9097
 
 _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['a6ecc502ef72cdd280684353899f306a3d5dbd1a858c2ae9b39269e047d04760'] = 93973
 
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['c513f29781da905be428172cd5a3c0dfce96f337b1b9a5ef83e533752b2bb0b3'] = 95279
+
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['c7b34db11a5db190556cfc8d9a70590f91556a72ee6abd37bc1b0af6815d6322'] = 96625
+
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['53dc52b18f5be2dda4cebbe066025412842e149471abba4185af71377158e2cb'] = 97939
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['ecbfaf090b65e0b94023316752787138ddc0d70d6518d095398ca05044c27af4'] = 99245
+
 def _native_check_continuity_closure_v1(value, repository, compiler_path, pair):
     """Check the complete live source set at fixed paths, never captured paths.
 
@@ -2177,6 +2227,10 @@ def _native_check_continuity_closure_v1(value, repository, compiler_path, pair):
     if os.name == "nt" and helper_pair in (
         ('dce0e6af8ce69e63283d0ed5ad1496779d5f2c1b90024c79228af5e22df75d4c', 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a'),
         ('9bce5c887cd89c2d2991b84f1bf765787e7a6b75a2eba29a8433c3a6c05f73a3', 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a'),
+        ('167a5c2570efbbfccd8aee506fde244118878c52ca0ae8c17af05bf22292e706', '9b23638dcc3b9d13c7297068132c68fee8c553b8ab27aab214685f1be29e8ece'),
+        ('a58d27accd96b91c4fcd66efa9680360ca45394505b22572ea114541a1449728', '06ba1dd6e516348b1248bae502361b1e610c06a19950b9cd03ecdcc25575b562'),
+        ('5b8f88cbf8d9ab5c2d9c3f5647887578eb7fd52913c673c6eb947f41ce8cb196', 'ee2bb6e5b49d56be8541816d3e906998b0083d8446d56c89667a7213a79acc13'),
+        ('0a1966997827478a4aa017712be3b668b7896dc4fe97d6e8b7bc6e572e4277fb', '9ffd7a2ae38ba9c1fea49738168b26c840856d88be5b80f4532562ca09981d20'),
     ):
         profiles = tuple(tuple((*row[:3], None) for row in profile) for profile in profiles)
     if not profiles:
