@@ -39,3 +39,7 @@ Source identity is necessary but does not establish scientific truth, source ind
 Add a new version or a clearly versioned documentary receiving increment when a new qualified subject, actual central receipt, recovered original or publication approval changes the evidence. Recheck affected statements, source identities, private/public boundaries, the complete scientific family and overlapping branch owners. Preserve earlier objects and adverse history; do not conduct new research or alter the scientific cohorts’ registers.
 
 This layer adds no runtime mode, family executor, governance controller, package payload, mandatory worksheet or issue quota.
+
+## Dated receiving increments
+
+The [23:12:39 UTC increment](increments/2026-11-12-231239Z.md) preserves the initial registry. SSS substantive A receiving is established for the unchanged qualified subject, while central application is explicitly staged only. SSD author completion and LAW/DRF partial receiving do not establish qualification. The captured central count is not recomputed by C or presented as a live shared-head state.

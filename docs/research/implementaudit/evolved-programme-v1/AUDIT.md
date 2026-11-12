@@ -51,3 +51,7 @@ Publish only the owner-authorized safe metadata, existing public predecessor int
 ## Validation and next evidence
 
 Baseline: portal **45/45**, original genealogy positive/negative controls, 4/4 families, 12/12 lineages, 658/658 properties; historical baseline 658/658; public-claim boundaries and README TOC passed. Final candidate evidence belongs in [QUALIFICATION.md](QUALIFICATION.md). Initial visual automation failed before page navigation due a local socket denial; later actual preview evidence, if obtained, must be recorded separately rather than rewriting that failure.
+
+## Publication-boundary successor observation — 23:30:03 UTC
+
+Main and PRs #224/#254 retained the previously recorded heads. [PR #255 successor `dc9ef638`](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/dc9ef638b5fd0e7f238080da7470105ee8aa8bb4), tree `2680f46a97456987f0413af67405abf0711ea5ee`, reports 509 total changed files. Its [delta from `14adb7c4`](https://github.com/theislampill/IMPLEMENTAUDIT.md/compare/14adb7c4c8e9b3b9394eea78e2ca3589d5cd832c...dc9ef638b5fd0e7f238080da7470105ee8aa8bb4) contains four paths: `.github/workflows/validate.yml`, `IMPLICIT_STATES.md`, `scripts/check-validation-registry.sh` and `tests/validation-registry.test.sh`. None intersects C's initial 37-path candidate. No donor file or workflow change was adopted. The original census and earlier successor remain historical snapshots.

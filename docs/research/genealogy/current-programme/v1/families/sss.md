@@ -4,6 +4,10 @@
 
 Evidence cutoff: 2026-11-12 22:31:39 UTC. This version is a public-safe receiving projection, not a new scientific verdict. Detailed protected studies are not included.
 
+## Later receiving — 23:12:39 UTC checkpoint
+
+A acknowledged substantive receiving of this same r16 scientific subject and its existing qualification/reviews. Central application is explicitly staged only, with no application receipt. See the [versioned receiving record](../increments/2026-11-12-231239Z.md) and [exact metadata](../increments/2026-11-12-231239Z.json). The initial evidence snapshot below remains preserved.
+
 ## Four scientific identities
 
 | Unit | Exact programme identity | Historical rows | Documentary receiving |

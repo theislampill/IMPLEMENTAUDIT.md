@@ -4,7 +4,11 @@ This explicitly versioned layer describes **eight families, 24 constituent linea
 
 Repository baseline: [`e78f7cb21af4197d490f10bc95917a4c75f748aa`](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/e78f7cb21af4197d490f10bc95917a4c75f748aa), tree `e0263d4455549a47243d82f45cf31101c6b94df2`. Scientific receiving cutoff: **2026-11-12 22:31:39 UTC**. This is Cohort C’s documentary projection, not Cohort A’s central scientific registry.
 
-## Family map
+## Later receiving increment
+
+The [23:12:39 UTC increment](increments/2026-11-12-231239Z.md) records SSS receiving acknowledged by A with central application still staged, SSD successor author completion under fidelity review, and later LAW/DRF partial returns. It adds no scientific qualification and preserves the initial snapshot below. [Exact receiving metadata](increments/2026-11-12-231239Z.json) binds the unchanged scientific identities and actual new receipts.
+
+## Initial snapshot family map
 
 | Family | L1 / L2 / L3 in exact programme order | Historical constituent property rows | Received synthesis state |
 |---|---|---:|---|

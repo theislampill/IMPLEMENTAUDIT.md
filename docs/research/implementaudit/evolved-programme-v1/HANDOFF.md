@@ -40,3 +40,9 @@ An existing synthesis host can carry the separate undertaking without creating a
 ## Recovery and reversal
 
 The public branch and exact committed source provide the public recovery point. The private receiving/review record is handed off separately. Private archive/access identifiers and protected bodies remain outside Git; the permitted scientific subject and receipt hashes are public in PROGRAMME.json. A later reversal uses a normal bounded revert of C’s commits, preserving historical scientific sources and other owners’ branches. Do not force-push or rewrite another owner’s work.
+
+## Receiving successor and first branch delivery
+
+The initial reviewed documentation was committed and remotely verified at [`66e8c08d2e67f42c7b9fe79fe60794dcba36b6af`](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/66e8c08d2e67f42c7b9fe79fe60794dcba36b6af), tree `51c5dc1a804a72b03b8ee1c4300168bb3c251dc4`. The [dated scientific receiving increment](../../genealogy/current-programme/v1/increments/2026-11-12-231239Z.md) is a separate documentary successor: no new qualification or central application is claimed. The original issue/native baseline and rough outlines remain unchanged.
+
+At 23:30:03 UTC, main remained at the base and PR #255 was `dc9ef638b5fd0e7f238080da7470105ee8aa8bb4`, tree `2680f46a97456987f0413af67405abf0711ea5ee`, with 509 total changed files. Its four-path delta from the 23:06 observation has no overlap with C's initial 37 paths. This remains a dated observation; obtain fresh exact heads and owner checkpoints before any future composition.

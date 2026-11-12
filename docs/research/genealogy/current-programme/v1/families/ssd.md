@@ -4,6 +4,10 @@
 
 Evidence cutoff: 2026-11-12 22:31:39 UTC. This version is a public-safe receiving projection, not a new scientific verdict. Detailed protected studies are not included.
 
+## Later receiving — 23:12:39 UTC checkpoint
+
+A completed successor author subject is now received and full fidelity review is active. It remains unqualified; the prior GAP_REVISE stays attached to its earlier subject. See the [versioned receiving record](../increments/2026-11-12-231239Z.md) and [exact metadata](../increments/2026-11-12-231239Z.json). The initial evidence snapshot below remains preserved.
+
 ## Four scientific identities
 
 | Unit | Exact programme identity | Historical rows | Documentary receiving |

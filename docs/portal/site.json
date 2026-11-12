@@ -756,7 +756,9 @@
         "docs/research/genealogy/CORPUS_MANIFEST.json",
         "docs/research/genealogy/PROPERTY_MASTER_INDEX.json",
         "docs/research/genealogy/REPLICATION_GUIDE.md",
-        "docs/research/implementaudit/evolved-programme-v1/RLGWO_REGISTRY.json"
+        "docs/research/implementaudit/evolved-programme-v1/RLGWO_REGISTRY.json",
+        "docs/research/genealogy/current-programme/v1/increments/2026-11-12-231239Z.md",
+        "docs/research/genealogy/current-programme/v1/increments/2026-11-12-231239Z.json"
       ]
     },
     "research-lineage-evolved-sss": {
@@ -769,7 +771,9 @@
         "docs/research/implementaudit/sss-synthesis-qualification.md",
         "docs/research/implementaudit/r003d-maintenance-qualification.md",
         "docs/research/implementaudit/r003c-interaction-qualification.md",
-        "docs/research/implementaudit/r003b-configuration-qualification.md"
+        "docs/research/implementaudit/r003b-configuration-qualification.md",
+        "docs/research/genealogy/current-programme/v1/increments/2026-11-12-231239Z.md",
+        "docs/research/genealogy/current-programme/v1/increments/2026-11-12-231239Z.json"
       ]
     },
     "research-lineage-evolved-bwp": {

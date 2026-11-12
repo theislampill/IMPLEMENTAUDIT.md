@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import hashlib
 import json
 import re
 from pathlib import Path
@@ -13,6 +14,7 @@ from pathlib import Path
 PROGRAMME = Path("docs/research/genealogy/current-programme/v1/PROGRAMME.json")
 FIXTURE = Path("fixtures/public-projection/evolved-programme-v1.json")
 INTEGRATION = Path("docs/research/implementaudit/evolved-programme-v1")
+RECEIVING_INCREMENT = PROGRAMME.parent / "increments/2026-11-12-231239Z.json"
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 ACCEPTED_VERDICTS = {"ACCEPT", "ACCEPTED_AT_DECLARED_SCOPE", "ACCEPT_WITH_NONMATERIAL_ERRATUM"}
 PROGRAMME_REFERENCE = "../../genealogy/current-programme/v1/PROGRAMME.json"
@@ -137,6 +139,43 @@ def validate_integration(registry: dict, programme: dict, fixture: dict, root: P
     return errors
 
 
+def validate_increment(increment: dict, programme: dict, root: Path) -> list[str]:
+    """Keep a later receiving event from silently rewriting the frozen science."""
+    errors = []
+
+    def require(condition, message):
+        if not condition:
+            errors.append("receiving increment: " + message)
+
+    require(increment.get("schema") == "implementaudit.evolved-programme-receiving-increment.v1", "schema")
+    require(increment.get("initial_programme") == "../PROGRAMME.json", "initial source route")
+    require(increment.get("initial_programme_sha256") == hashlib.sha256((root / PROGRAMME).read_bytes()).hexdigest(), "initial registry changed")
+    require(increment.get("catalogue_units_unchanged") == 32 and increment.get("new_scientific_qualifications") == 0, "receiving promoted to qualification")
+    require(increment.get("family_membership_changed") is False and increment.get("native_implementation_credit") is False, "custody promoted to family or runtime change")
+    require(increment.get("source_access") == "private_custody_metadata_only" and increment.get("public_body_clearance") == "not_verified_do_not_publish", "source access upgraded")
+    require(not PRIVATE_LOCATION.search(json.dumps(increment)), "private locator")
+    central = increment.get("central_snapshot", {})
+    require([central.get(k) for k in ("qualified_lineage_outcomes", "qualified_synthesis_outcomes", "selected_final_review_bindings")] == [24, 1, 50], "staged total substituted for captured central total")
+    require(central.get("observed_live_authoritative_head") is False and central.get("central_totals_recomputed_by_C") is False, "captured record promoted to live authority")
+    sss = next(u for u in programme["units"] if u["unit_id"] == "SSS-S")
+    received = increment.get("SSS_S_receiving", {})
+    require(received.get("unit_id") == "SSS-S" and received.get("subject") == sss["frozen_subject"] and received.get("qualification") == sss["qualification_receipt"], "SSS receiving bound to changed science")
+    require(received.get("accepted_reviews") == [{"role": r["role"], "receipt": r["receipt"]} for r in sss["accepted_reviews"]], "SSS receiving bound to changed reviews")
+    require(received.get("central_selection_status") == "STAGED_ONLY_NO_SHARED_MUTATION", "staging promoted to selection")
+    require(all(k in received and received[k] is None for k in ("registry_application_receipt", "selected_at_utc")), "unobserved central application supplied")
+    require(all(received.get(k) is False for k in ("authoritative_selection_applied", "master_writes", "new_final_scientific_review", "new_scientific_qualification")), "receiving promoted to application or review")
+    updates = increment.get("operational_updates", [])
+    require([u.get("unit_id") for u in updates] == ["LAW-S", "DRF-S", "SSD-S"], "operational update population")
+    for update in updates:
+        uid = update.get("unit_id")
+        require(update.get("scientific_status") == "unfinished" and update.get("new_qualification") is False and update.get("native_implementation_credit") is False, f"{uid}: author progress promoted")
+        if uid == "SSD-S":
+            require(update.get("fidelity_status") == "ACTIVE" and update.get("current_subject_final_acceptance") is False and update.get("previous_verdict_transfers_to_new_subject") is False, "SSD review/subject history upgrade")
+        else:
+            require(update.get("latest_partial_scientific_receiving") == "PENDING" and update.get("whole_reviews") == "BLOCKED" and update.get("new_final_acceptance") is False, f"{uid}: partial return promoted")
+    return errors
+
+
 def check_files(root: Path, programme: dict, fixture: dict) -> list[str]:
     errors = []
     site = load(root / "docs/portal/site.json")
@@ -150,8 +189,9 @@ def check_files(root: Path, programme: dict, fixture: dict) -> list[str]:
             errors.append(f"{page_id}: missing programme source binding")
     registry = load(root / INTEGRATION / "RLGWO_REGISTRY.json")
     errors.extend(validate_integration(registry, programme, fixture, root))
+    errors.extend(validate_increment(load(root / RECEIVING_INCREMENT), programme, root))
     files = list((root / PROGRAMME.parent).rglob("*.md")) + list((root / INTEGRATION).glob("*.md"))
-    files += [root / PROGRAMME, root / INTEGRATION / "RLGWO_REGISTRY.json"]
+    files += list((root / PROGRAMME.parent).rglob("*.json")) + [root / INTEGRATION / "RLGWO_REGISTRY.json"]
     for path in files:
         text = path.read_text(encoding="utf-8")
         if PRIVATE_LOCATION.search(text):
@@ -191,7 +231,20 @@ def negative_controls(programme: dict, fixture: dict, root: Path) -> int:
         changed["rows"][0][field] = [target] if field == "sources" else target
         if not validate_integration(changed, programme, fixture, root):
             raise ValueError(f"negative registry-source control unexpectedly accepted: {field}={target}")
-    return len(mutations) + 3
+    increment = load(root / RECEIVING_INCREMENT)
+    def receiving_subject(data): data["SSS_S_receiving"]["subject"]["sha256"] = "0" * 64
+    def receiving_review(data): data["SSS_S_receiving"]["accepted_reviews"][0]["receipt"]["sha256"] = "0" * 64
+    def receiving_application(data): data["SSS_S_receiving"]["authoritative_selection_applied"] = True
+    def receiving_commit(data): data["SSS_S_receiving"]["registry_application_receipt"] = {"sha256": "0" * 64}
+    def receiving_total(data): data["central_snapshot"]["qualified_synthesis_outcomes"] = 4
+    def author_acceptance(data): next(u for u in data["operational_updates"] if u["unit_id"] == "SSD-S")["current_subject_final_acceptance"] = True
+    receiving_mutations = [receiving_subject, receiving_review, receiving_application, receiving_commit, receiving_total, author_acceptance]
+    for mutation in receiving_mutations:
+        changed = copy.deepcopy(increment)
+        mutation(changed)
+        if not validate_increment(changed, programme, root):
+            raise ValueError(f"negative receiving control unexpectedly accepted: {mutation.__name__}")
+    return len(mutations) + 3 + len(receiving_mutations)
 
 
 def main() -> int:

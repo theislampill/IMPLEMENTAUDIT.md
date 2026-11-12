@@ -4,6 +4,10 @@
 
 Evidence cutoff: 2026-11-12 22:31:39 UTC. This version is a public-safe receiving projection, not a new scientific verdict. Detailed protected studies are not included.
 
+## Later receiving — 23:12:39 UTC checkpoint
+
+A newer I002 partial author increment is closed and byte-received; its scientific receiving is pending. Whole synthesis author work and qualification remain unfinished. See the [versioned receiving record](../increments/2026-11-12-231239Z.md) and [exact metadata](../increments/2026-11-12-231239Z.json). The initial evidence snapshot below remains preserved.
+
 ## Four scientific identities
 
 | Unit | Exact programme identity | Historical rows | Documentary receiving |

@@ -1,0 +1,169 @@
+{
+  "schema": "implementaudit.evolved-programme-receiving-increment.v1",
+  "increment_id": "2026-11-12-231239Z",
+  "scope": "Dated documentary receiving; no scientific requalification or central register mutation",
+  "initial_programme": "../PROGRAMME.json",
+  "initial_programme_sha256": "692fe69ba64eef5ee5486a5f401f5408df5c440dcdbda5a73daf9d546ccc9ebb",
+  "checkpoint_created_at_utc": "2026-11-12T23:12:39.111360+00:00",
+  "operational_observation_through_utc": "2026-11-12T23:11:02.583898+00:00",
+  "catalogue_units_unchanged": 32,
+  "new_scientific_qualifications": 0,
+  "family_membership_changed": false,
+  "public_body_clearance": "not_verified_do_not_publish",
+  "native_implementation_credit": false,
+  "central_snapshot": {
+    "qualified_lineage_outcomes": 24,
+    "qualified_synthesis_outcomes": 1,
+    "selected_final_review_bindings": 50,
+    "observed_live_authoritative_head": false,
+    "catalogue_identity": {
+      "sha256": "c548d7b92b4cf41c2ea04b586a06174f943b6014d38f8e3c3b1b2614f7c8b29b",
+      "bytes": 597160
+    },
+    "selection_record_identity": {
+      "sha256": "1d3e59e0ebf946074eb7221c9b005cd9edda8ad7b498e39e1cc79e65523d229c",
+      "bytes": 1468
+    },
+    "central_totals_recomputed_by_C": false
+  },
+  "SSS_S_receiving": {
+    "unit_id": "SSS-S",
+    "revision": "r16_s004",
+    "subject": {
+      "sha256": "a2d040804fbd01ad6f26f5350a122c33830bde0d61ea4d1e1f079ba1717eb6bb",
+      "bytes": 539336
+    },
+    "qualification": {
+      "sha256": "7bd97c54fd8381420161a88c0fdee3f04b8497e59b72c41581e792eb67add217",
+      "bytes": 44920
+    },
+    "accepted_reviews": [
+      {
+        "role": "fidelity",
+        "receipt": {
+          "sha256": "5ed3a75a4392dca2e8a103dff5d182fe940b141fa7b5354afe1cb68036e4a283",
+          "bytes": 17030
+        }
+      },
+      {
+        "role": "adversarial",
+        "receipt": {
+          "sha256": "8e993b581bcfc6a9c503be5a87dfe4490ca9fae0ff3d919f4e4635766f2230c3",
+          "bytes": 59107
+        }
+      }
+    ],
+    "acknowledged_at_utc": "2026-11-12T23:09:39.237747+00:00",
+    "received_at_utc": "2026-11-12T23:03:25.711551+00:00",
+    "acknowledgment": {
+      "sha256": "e70d94965235125908a40ac9a7c58fcb246241e4c3a99a4f003a76f96f0e8622",
+      "bytes": 6489
+    },
+    "root_receiving": {
+      "sha256": "836380ad66a5976b948fa81ec12108109bcbadfe5e58180824c2bea2cbb74f93",
+      "bytes": 5626
+    },
+    "substantive_receiving": {
+      "sha256": "7167912b899176f846e26b7a502b6ba02d7cefac6f51c8b66e1203c383732b15",
+      "bytes": 7168
+    },
+    "staged_certificate": {
+      "sha256": "e1768303caf65c9ce30ba5d76722c7f946ce90c8f0c80b05189c74303e6d610a",
+      "bytes": 3414
+    },
+    "disposition": "RECEIVED_QUALIFIED_AT_DECLARED_SCOPE",
+    "new_final_scientific_review": false,
+    "new_scientific_qualification": false,
+    "lineage_increment": 0,
+    "central_selection_status": "STAGED_ONLY_NO_SHARED_MUTATION",
+    "registry_application_receipt": null,
+    "authoritative_selection_applied": false,
+    "selected_at_utc": null,
+    "master_writes": false,
+    "missing_application_evidence": "Guarded current authoritative-head transaction and recoverable shared-register commit receipt"
+  },
+  "operational_updates": [
+    {
+      "unit_id": "LAW-S",
+      "scientific_status": "unfinished",
+      "new_qualification": false,
+      "native_implementation_credit": false,
+      "author_status": "PARTIAL_INCREMENT_CLOSED_WHOLE_UNFINISHED",
+      "partial_subject": {
+        "sha256": "c0e6c86af124f6d9ed4626c8a36e78117727ee77239ae03268fa2a21e3f7c19e",
+        "bytes": 50417
+      },
+      "partial_subject_scope": "partial author increment, not a complete synthesis",
+      "prior_partial_scientific_receiving": {
+        "sha256": "027df9f068dd2aad38b13cacf816a45b31070b78d376c06a1934f2bc667ad09f",
+        "bytes": 12592
+      },
+      "latest_partial_scientific_receiving": "PENDING",
+      "whole_reviews": "BLOCKED",
+      "new_final_acceptance": false
+    },
+    {
+      "unit_id": "DRF-S",
+      "scientific_status": "unfinished",
+      "new_qualification": false,
+      "native_implementation_credit": false,
+      "author_status": "PARTIAL_INCREMENT_CLOSED_WHOLE_UNFINISHED",
+      "partial_subject": {
+        "sha256": "61985578d36fe5fbb92e4211c2f7c10d283321e527deca1e92f53434ebeefaf1",
+        "bytes": 8556
+      },
+      "partial_subject_scope": "partial author increment, not a complete synthesis",
+      "prior_partial_scientific_receiving": {
+        "sha256": "c8c5ed4fd72b8a6384842d0244ca100b5a4801c3b17ee43212c0c0855a34f8d5",
+        "bytes": 12737
+      },
+      "latest_partial_scientific_receiving": "PENDING",
+      "whole_reviews": "BLOCKED",
+      "new_final_acceptance": false
+    },
+    {
+      "unit_id": "SSD-S",
+      "scientific_status": "unfinished",
+      "new_qualification": false,
+      "native_implementation_credit": false,
+      "author_status": "COMPLETE_FROZEN_AND_RECEIVED",
+      "author_subject": {
+        "sha256": "68e16a0ae9a001f93c7df9fcc7a940f90e154357042f86f8b83d9ba05d55ba73",
+        "bytes": 253534
+      },
+      "author_receiving": {
+        "sha256": "761114922b1b47a752d64838d358f33975e02ac18a0241f0c2b096b170fdd4fb",
+        "bytes": 8454
+      },
+      "author_completion_receipt": {
+        "sha256": "131a327ba9ee96ffebae7c48e68e05114cd7ef96a50b4f508c22c06e2ddf2205",
+        "bytes": 2244
+      },
+      "fidelity_status": "ACTIVE",
+      "fidelity_dispatched_at_utc": "2026-11-12T22:50:17.109886+00:00",
+      "fidelity_dispatch_receipt": {
+        "sha256": "b5f7c59c92b81d1bceee7379f88d82c2d6d0f9ad3f39766baa4a56e3fc5c935b",
+        "bytes": 1083
+      },
+      "current_subject_final_acceptance": false,
+      "previous_adverse_subject_sha256": "83252fbfe0c0cec201c63b6ff1a7189e4a34e6c7638a89c028f1c06f5c772bc7",
+      "previous_adverse_verdict": "GAP_REVISE",
+      "previous_verdict_transfers_to_new_subject": false,
+      "distinct_adversary_required": true
+    }
+  ],
+  "verification_scope": {
+    "selected_current_records_and_subject_seals_rehashed": 20,
+    "selected_record_hash_errors": 0,
+    "all_checkpoint_payloads_verified": false,
+    "scientific_programs_executed_by_C": false
+  },
+  "source_access": "private_custody_metadata_only",
+  "interpretation_limits": [
+    "Existing qualified subjects and final reviews remain unchanged.",
+    "Earlier adverse verdicts remain bound to their actual subjects; no verdict transfers to a changed subject.",
+    "A staged prospective central total is not an applied total.",
+    "Checkpoint timestamps do not prove a live authoritative writer or change scientific family ownership.",
+    "Public metadata identifiers are not public source-body downloads."
+  ]
+}
