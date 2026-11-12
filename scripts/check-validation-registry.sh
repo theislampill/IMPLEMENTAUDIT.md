@@ -50,6 +50,11 @@ def invocation_count(text: str, ref: str) -> int:
     return len(pattern.findall(text))
 
 failures = []
+if "/usr/bin/python3.12" in ci:
+    package = re.search(r"(?ms)^  package:\s*\n(.*?)(?=^  [A-Za-z0-9_-]+:|\Z)", ci)
+    runner = re.search(r"(?m)^    runs-on:\s*([^\n#]+)", package.group(1)) if package else None
+    if runner is None or runner.group(1).strip().strip("\"'") != "ubuntu-24.04":
+        failures.append("fixed Python 3.12 CI prerequisites require the qualified ubuntu-24.04 image")
 for name in tests:
     ref = f"tests/{name}"
     if invocation_count(verify_pkg, ref) != 1:

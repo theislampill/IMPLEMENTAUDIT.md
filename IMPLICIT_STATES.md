@@ -83,3 +83,23 @@ establish current runtime state, grant authority, or certify a native episode.
 - Evidence: the original bare invocation returned Linux while PATH selected Git
   Bash; `tests/continuity-contract.test.sh` passed after the fixture used that path.
   This is local fixture qualification, not programme controller recovery.
+
+## CI-FIXED-RUNTIME-IMAGE
+
+- Sources: `.github/workflows/validate.yml`,
+  `scripts/qualify-work-graph-c5-setup.py`, and
+  `scripts/check-validation-registry.sh`.
+- Requested runner label, actual image, interpreter availability, attempted
+  provisioning, program entry and qualified prerequisites are separate states.
+  A moving image alias can lose the fixed `/usr/bin/python3.12` prerequisite
+  before any qualification program runs.
+- Guard: the canonical validation job pins `ubuntu-24.04` while using that fixed
+  interpreter. Existing observation/provision/receiving/finalization commands,
+  privilege scope and timeouts remain unchanged. The actual image still needs
+  the existing prerequisite observations; a label is not host qualification.
+- Evidence: CI run 43324726224 selected Ubuntu26 and refused missing Python3.12
+  before the scoped provisioning program. The registry's positive and negative
+  workflow controls prevent this known label/runtime mismatch from recurring.
+- Failure/recovery: retain the failed run; correct source and publish a reviewed
+  increment through the same guarded route. No manual campaign or privilege
+  broadening follows from this source correction.
