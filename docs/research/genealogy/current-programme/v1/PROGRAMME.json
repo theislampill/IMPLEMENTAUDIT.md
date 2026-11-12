@@ -1,0 +1,1592 @@
+{
+  "schema": "implementaudit.evolved-programme-documentation.v1",
+  "version": 1,
+  "snapshot_date": "2026-11-12",
+  "repository_base": {
+    "commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+    "tree": "e0263d4455549a47243d82f45cf31101c6b94df2"
+  },
+  "scientific_evidence_cutoff_utc": "2026-11-12T22:31:39Z",
+  "documentary_role": "Cohort C receiving projection; not scientific adjudication or the central registry",
+  "counts": {
+    "families": 8,
+    "lineages": 24,
+    "syntheses": 8,
+    "scientific_units": 32,
+    "potential_integration_responsibilities": 32
+  },
+  "historical_original_corpus": {
+    "families": 4,
+    "lineages": 12,
+    "property_rows": 658,
+    "source": "docs/research/genealogy/CORPUS_SOURCE_LOCK.json",
+    "commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa"
+  },
+  "historical_all_lineage_property_rows": 1629,
+  "count_limits": [
+    "Synthesis rows reuse their constituent population and are not added again.",
+    "Property identities, claim records, memberships, source works, reviews, scientific units and implemented features are separate denominators."
+  ],
+  "received_snapshot_counts": {
+    "central_A_declared_qualified_lineages": 24,
+    "central_A_declared_qualified_syntheses": 1,
+    "central_A_selection_time_utc": "2026-11-12T22:28:01Z",
+    "lineage_qualification_receipts_verified": 23,
+    "lineage_final_review_receipts_verified": 46,
+    "lineage_frozen_subjects_rehashed": 21,
+    "synthesis_qualification_receipts_verified": 4,
+    "synthesis_final_review_receipts_verified": 8,
+    "B_local_qualified_syntheses": [
+      "CSS-S",
+      "BWP-S",
+      "SSS-S"
+    ],
+    "B_synthesis_central_application": "not_observed_in_received_A_records",
+    "central_totals_recomputed_by_C": false
+  },
+  "disclosure": {
+    "publication_scope": "Owner-authorized public-safe unit names, typed counts, receipt identifiers, status distinctions and evidence gaps.",
+    "protected_bodies_included": false,
+    "private_source_or_download_locations_included": false,
+    "claim_limit": "Metadata makes receiving inspectable; it does not make the protected scientific bodies publicly reproducible.",
+    "detailed_interpretations": "Privately staged; publication requires a source-specific disclosure decision."
+  },
+  "families": [
+    {
+      "family": "LAW",
+      "lineages": [
+        "LAW-L1",
+        "LAW-L2",
+        "LAW-L3"
+      ],
+      "synthesis": "LAW-S",
+      "historical_lineage_property_rows": 106,
+      "complete_scientific_receipt_set_received": false,
+      "public_projection": "metadata_and_public_predecessor_context",
+      "authoritative_native_integration": "not_granted",
+      "document": "families/law.md"
+    },
+    {
+      "family": "CSS",
+      "lineages": [
+        "CSS-L1",
+        "CSS-L2",
+        "CSS-L3"
+      ],
+      "synthesis": "CSS-S",
+      "historical_lineage_property_rows": 195,
+      "complete_scientific_receipt_set_received": true,
+      "public_projection": "metadata_and_public_predecessor_context",
+      "authoritative_native_integration": "not_granted",
+      "document": "families/css.md"
+    },
+    {
+      "family": "SSD",
+      "lineages": [
+        "SSD-L1",
+        "SSD-L2",
+        "SSD-L3"
+      ],
+      "synthesis": "SSD-S",
+      "historical_lineage_property_rows": 198,
+      "complete_scientific_receipt_set_received": false,
+      "public_projection": "metadata_and_public_predecessor_context",
+      "authoritative_native_integration": "not_granted",
+      "document": "families/ssd.md"
+    },
+    {
+      "family": "DRF",
+      "lineages": [
+        "DRF-L1",
+        "DRF-L2",
+        "DRF-L3"
+      ],
+      "synthesis": "DRF-S",
+      "historical_lineage_property_rows": 159,
+      "complete_scientific_receipt_set_received": false,
+      "public_projection": "metadata_and_public_predecessor_context",
+      "authoritative_native_integration": "not_granted",
+      "document": "families/drf.md"
+    },
+    {
+      "family": "SSS",
+      "lineages": [
+        "SSS-L1",
+        "SSS-L2",
+        "SSS-L3"
+      ],
+      "synthesis": "SSS-S",
+      "historical_lineage_property_rows": 235,
+      "complete_scientific_receipt_set_received": true,
+      "public_projection": "metadata_and_public_predecessor_context",
+      "authoritative_native_integration": "not_granted",
+      "document": "families/sss.md"
+    },
+    {
+      "family": "BWP",
+      "lineages": [
+        "BWP-L1",
+        "BWP-L2",
+        "BWP-L3"
+      ],
+      "synthesis": "BWP-S",
+      "historical_lineage_property_rows": 234,
+      "complete_scientific_receipt_set_received": true,
+      "public_projection": "metadata_and_public_predecessor_context",
+      "authoritative_native_integration": "not_granted",
+      "document": "families/bwp.md"
+    },
+    {
+      "family": "AMA",
+      "lineages": [
+        "AMA-L1",
+        "AMA-L2",
+        "AMA-L3"
+      ],
+      "synthesis": "AMA-S",
+      "historical_lineage_property_rows": 278,
+      "complete_scientific_receipt_set_received": false,
+      "public_projection": "metadata_and_public_predecessor_context",
+      "authoritative_native_integration": "not_granted",
+      "document": "families/ama.md"
+    },
+    {
+      "family": "SPR",
+      "lineages": [
+        "SPR-L1",
+        "SPR-L2",
+        "SPR-L3"
+      ],
+      "synthesis": "SPR-S",
+      "historical_lineage_property_rows": 224,
+      "complete_scientific_receipt_set_received": false,
+      "public_projection": "metadata_and_public_predecessor_context",
+      "authoritative_native_integration": "not_granted",
+      "document": "families/spr.md"
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "LAW-L1",
+      "family": "LAW",
+      "kind": "lineage",
+      "name": "Lean",
+      "lineage_identity": "EVOLVED_LEAN",
+      "historical_property_rows": 40,
+      "selected_property_identities": 40,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "bc3e5ea99fa7d14ad8a93336fa4b038f3e9aa0e4b8b7f3e6cce196b3ce25c136",
+        "bytes": 6227
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "73f39a747a60f0aaad3cd6bc06914468b231aab5ac1604ff0031e88da628f6f4",
+        "bytes": 5449
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "1dd01936e4f3b7de1d8fa541d83d9c9c14f3b5994074808549e26b48b0eb86b3",
+            "bytes": 12168
+          },
+          "accepted_subject_sha256": "bc3e5ea99fa7d14ad8a93336fa4b038f3e9aa0e4b8b7f3e6cce196b3ce25c136",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "46deb266826d948cea5779ecb305497d588a5674797593775522546166263da4",
+            "bytes": 15045
+          },
+          "accepted_subject_sha256": "bc3e5ea99fa7d14ad8a93336fa4b038f3e9aa0e4b8b7f3e6cce196b3ce25c136",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "LAW-L2",
+      "family": "LAW",
+      "kind": "lineage",
+      "name": "Agile",
+      "lineage_identity": "EVOLVED_AGILE",
+      "historical_property_rows": 28,
+      "selected_property_identities": 28,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+        "bytes": 10189
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "79a75ba0766a278afd3dabfdd36a490a85b87328ecebcce647176efc670508a0",
+        "bytes": 7896
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "adb0c36bac9781dbb8c67c1138b5263d9a06cf0a700cf9fb5ed6cfb7bf870b22",
+            "bytes": 9600
+          },
+          "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "7b470304f30b9006474b0a1bf3bf6a3a32bab91608a6f5a86465879b3bb6c056",
+            "bytes": 13240
+          },
+          "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "LAW-L3",
+      "family": "LAW",
+      "kind": "lineage",
+      "name": "Waterfall / plan-driven assurance",
+      "lineage_identity": "EVOLVED_WATERFALL",
+      "historical_property_rows": 38,
+      "selected_property_identities": 38,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+        "bytes": 5580
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "12221beed2736ed92cad6f311e262a8db20476291919d200f9df62fc00751993",
+        "bytes": 5024
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "ddb660d05bd1939c7fcf4202c9f3242d75467065afd3bf1abcbe99ece1868bc4",
+            "bytes": 7529
+          },
+          "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "f3b25fb674cc10d2e746f55a1725e6f3ee3d8498b9d6972ccaf30abd8ec7454e",
+            "bytes": 15912
+          },
+          "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "LAW-S",
+      "family": "LAW",
+      "kind": "synthesis",
+      "name": "LAW synthesis",
+      "lineage_identity": null,
+      "historical_property_rows": 106,
+      "selected_property_identities": 106,
+      "scientific_status": "unfinished",
+      "qualification_origin": "scientific_owner_frontier",
+      "reported_disposition": "FULL_AUTHOR_STUDY_UNFINISHED_NO_SYNTHESIS_QUALIFICATION",
+      "frozen_subject": null,
+      "subject_receiving": "NOT_ACQUIRED",
+      "qualification_receipt": null,
+      "accepted_reviews": [],
+      "central_selection": "not_qualified_in_received_snapshot",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": [
+        "Full author study remains unfinished in the received source. Scientific custody transfer does not qualify the subject."
+      ]
+    },
+    {
+      "unit_id": "CSS-L1",
+      "family": "CSS",
+      "kind": "lineage",
+      "name": "Cognitive Systems Engineering",
+      "lineage_identity": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING",
+      "historical_property_rows": 62,
+      "selected_property_identities": 63,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "45802b8614ffea83bf28ab0f00dd660366fad1700d2bd819ac57a06c13e44695",
+        "bytes": 24939
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "c1883437f82cb756753390b451fb42903c4eabdc9f009eafda49d291775b032d",
+        "bytes": 7230
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "ad3d6f997d31ea7ab67449506f18d3226e8fd1f9f3afeb3a13493d9b482c2e8c",
+            "bytes": 7336
+          },
+          "accepted_subject_sha256": "45802b8614ffea83bf28ab0f00dd660366fad1700d2bd819ac57a06c13e44695",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "53e893238256c8447b9a5a5a87cb019119fc761980b832b577b425bf924de946",
+            "bytes": 12107
+          },
+          "accepted_subject_sha256": "45802b8614ffea83bf28ab0f00dd660366fad1700d2bd819ac57a06c13e44695",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "CSS-L2",
+      "family": "CSS",
+      "kind": "lineage",
+      "name": "Statistical Engineering",
+      "lineage_identity": "EVOLVED_STATISTICAL_ENGINEERING",
+      "historical_property_rows": 65,
+      "selected_property_identities": 65,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "4596e030b9a33cd5a8669d19caa07388c2f9a7cb0e02a1505d382cd178419042",
+        "bytes": 21382
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "b2f53e0600422d75d13cffaab3d9193d12456fc38a5c087c6d596debe680cbbb",
+        "bytes": 9700
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "d3e899f8973a44758a00dea40822a3cfaf1a6738cfe7fc6fe56d42c636d609e7",
+            "bytes": 15501
+          },
+          "accepted_subject_sha256": "4596e030b9a33cd5a8669d19caa07388c2f9a7cb0e02a1505d382cd178419042",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "7415e59a00e0c6af35b34bb93e7a4e17e385efcb5b6e7b6cd450205037f4d0c0",
+            "bytes": 12939
+          },
+          "accepted_subject_sha256": "4596e030b9a33cd5a8669d19caa07388c2f9a7cb0e02a1505d382cd178419042",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "CSS-L3",
+      "family": "CSS",
+      "kind": "lineage",
+      "name": "Systems Safety",
+      "lineage_identity": "EVOLVED_SYSTEMS_SAFETY",
+      "historical_property_rows": 68,
+      "selected_property_identities": 68,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "e9e0bf64463a764ac5b232cbf2c34533eda87b3dd49a262171f67fb53f05bd7b",
+        "bytes": 49646
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "06e8f904637897240b6e5ff4e743529c4ca94e23e77d4bf5d3b6a0c324ec7a7a",
+        "bytes": 12770
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "29d60e34d1dadf60d4ffac559589598cee7b0690f99268b7debee8c432b3eb20",
+            "bytes": 13602
+          },
+          "accepted_subject_sha256": "e9e0bf64463a764ac5b232cbf2c34533eda87b3dd49a262171f67fb53f05bd7b",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "169dd7128276e703a07edc088b87c24284d40d3ca327947ed1ed56e3a2fce9a6",
+            "bytes": 16560
+          },
+          "accepted_subject_sha256": "e9e0bf64463a764ac5b232cbf2c34533eda87b3dd49a262171f67fb53f05bd7b",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "CSS-S",
+      "family": "CSS",
+      "kind": "synthesis",
+      "name": "CSS synthesis",
+      "lineage_identity": null,
+      "historical_property_rows": 195,
+      "selected_property_identities": 196,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "local_cohort_B",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "80ac8bf91f9850999cd9c9fceb3f12fde76b911097da31e78dc3bc72038858aa",
+        "bytes": 534025
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "3b9dba6bd68ff3745afa350a03d1e4b7af2c9c2afb2011851bb76c31ed03d3e8",
+        "bytes": 16178
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "92719d1814c5e28df7b9ba4a3dbedcc4356262b09ad74fbdd66e18a86f53a6ba",
+            "bytes": 9975
+          },
+          "accepted_subject_sha256": "80ac8bf91f9850999cd9c9fceb3f12fde76b911097da31e78dc3bc72038858aa",
+          "reported_verdict": "ACCEPT",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "237f73b7d4ca9570a9b784d755ff3ba6f426c03fd1246e5be36f46310f3de27c",
+            "bytes": 11932
+          },
+          "accepted_subject_sha256": "80ac8bf91f9850999cd9c9fceb3f12fde76b911097da31e78dc3bc72038858aa",
+          "reported_verdict": "ACCEPT",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "not_observed_for_this_newer_local_synthesis",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": [
+        "NEW_NEUTRAL_STUDY. Does not recover or requalify the missing original historical CSS synthesis or executed prompt; historical-original increment remains zero."
+      ]
+    },
+    {
+      "unit_id": "SSD-L1",
+      "family": "SSD",
+      "kind": "lineage",
+      "name": "Systems Engineering",
+      "lineage_identity": "EVOLVED_SYSTEMS_ENGINEERING",
+      "historical_property_rows": 72,
+      "selected_property_identities": 72,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "c84586d47b329c9f6982da8331b2a4b45b77bb1be74acbbc47d28387209acc3b",
+        "bytes": 63889
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "d684e59c98a199b1f25a594a380de74f64abd77455cfbdad14459ec6419b3b48",
+        "bytes": 9292
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "cc7fe9c033ab2444f7da1ab33905963c11ad4ac3c9038cba7bfcbcc32f3e6e2b",
+            "bytes": 11342
+          },
+          "accepted_subject_sha256": "c84586d47b329c9f6982da8331b2a4b45b77bb1be74acbbc47d28387209acc3b",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "a9d0a0899167da23d9347377e3ff001b3707620363877a966cffb80359f39fb3",
+            "bytes": 75713
+          },
+          "accepted_subject_sha256": "c84586d47b329c9f6982da8331b2a4b45b77bb1be74acbbc47d28387209acc3b",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "SSD-L2",
+      "family": "SSD",
+      "kind": "lineage",
+      "name": "Systems Security Engineering",
+      "lineage_identity": "EVOLVED_SYSTEMS_SECURITY_ENGINEERING",
+      "historical_property_rows": 60,
+      "selected_property_identities": 60,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "c94ef360fb6c3115df8ef58256694433149f1744775d430406f1fedddebd7632",
+        "bytes": 26279
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "7256afb2eed9891011936cf0e37372f0f8c6c82a0cd9c361ffa29ae3c87e10a7",
+        "bytes": 8628
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "68ac673ebe52d2c6d58f6c6a805b6129c4e276481c85585607e8ab7138322231",
+            "bytes": 15091
+          },
+          "accepted_subject_sha256": "c94ef360fb6c3115df8ef58256694433149f1744775d430406f1fedddebd7632",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "0a73723336183ec748ed6e90c9b63c57078a35f3d8c6f3de12ca6864f0a80b69",
+            "bytes": 12516
+          },
+          "accepted_subject_sha256": "c94ef360fb6c3115df8ef58256694433149f1744775d430406f1fedddebd7632",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "SSD-L3",
+      "family": "SSD",
+      "kind": "lineage",
+      "name": "Decision and Operations Engineering",
+      "lineage_identity": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING",
+      "historical_property_rows": 66,
+      "selected_property_identities": 66,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "cbecc352d720c34f7502c5219496f07777a7b79c25b9d4834ef1368a4e737e0f",
+        "bytes": 24184
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "71d910d5ac377ca56c11ea1aadd0ebe050319cb6e758d5a0daef7facabe9c436",
+        "bytes": 7046
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "64498c52533d55b6d38ff78da7d63ccfcccf7179ddd6cfe4632fbe9ae4cdf8e8",
+            "bytes": 10240
+          },
+          "accepted_subject_sha256": "cbecc352d720c34f7502c5219496f07777a7b79c25b9d4834ef1368a4e737e0f",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "c93f2c354a8699ad3e64813c2506ef4bd591aeca457fcba16abf62de66d8c5f4",
+            "bytes": 19432
+          },
+          "accepted_subject_sha256": "cbecc352d720c34f7502c5219496f07777a7b79c25b9d4834ef1368a4e737e0f",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "SSD-S",
+      "family": "SSD",
+      "kind": "synthesis",
+      "name": "SSD synthesis",
+      "lineage_identity": null,
+      "historical_property_rows": 198,
+      "selected_property_identities": 198,
+      "scientific_status": "unfinished",
+      "qualification_origin": "scientific_owner_frontier",
+      "reported_disposition": "LATEST_WHOLE_FIDELITY_GAP_REVISE_SUCCESSOR_COMPOSITION_ACTIVE_NO_QUALIFICATION",
+      "frozen_subject": null,
+      "subject_receiving": "NOT_ACQUIRED",
+      "qualification_receipt": null,
+      "accepted_reviews": [],
+      "central_selection": "not_qualified_in_received_snapshot",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": [
+        "Latest received whole-study fidelity remains GAP_REVISE; successor composition continues. No synthesis qualification was received."
+      ]
+    },
+    {
+      "unit_id": "DRF-L1",
+      "family": "DRF",
+      "kind": "lineage",
+      "name": "Distributed Systems Engineering",
+      "lineage_identity": "EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING",
+      "historical_property_rows": 54,
+      "selected_property_identities": 54,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "04f846274086b4e3802c9facb57ab4a731f113a2a418844f05255727d5067ad4",
+        "bytes": 73989
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "4993aaa304d72b56c83d2e57f45a5fd68edf3d31380c554d8ef97aae4abe2a14",
+        "bytes": 6367
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "bb42a9453c0276ca872f8566fde93d1ec07ae1d782abb7118b8bcec4481a792b",
+            "bytes": 32128
+          },
+          "accepted_subject_sha256": "04f846274086b4e3802c9facb57ab4a731f113a2a418844f05255727d5067ad4",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "d73eb75d61816c19c06c4eb99eee2c8241587908639c0ac8f412c55c90c181fc",
+            "bytes": 32285
+          },
+          "accepted_subject_sha256": "04f846274086b4e3802c9facb57ab4a731f113a2a418844f05255727d5067ad4",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "DRF-L2",
+      "family": "DRF",
+      "kind": "lineage",
+      "name": "Reliability and Maintainability Engineering",
+      "lineage_identity": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING",
+      "historical_property_rows": 55,
+      "selected_property_identities": 55,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "78661aa22d6ec0ad738e229a8aedde5927b655a9c8a5545cd3b82960bc69d03c",
+        "bytes": 53469
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "18fb9309de1e93eb47fb9ea98510934f25c1dd1dc9adc4946fbff145b075c1a8",
+        "bytes": 6394
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "1ea7204af8f8ba5453e2524971e2067795b777ff7718b44c81c8d23fd0084e04",
+            "bytes": 9060
+          },
+          "accepted_subject_sha256": "78661aa22d6ec0ad738e229a8aedde5927b655a9c8a5545cd3b82960bc69d03c",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "8e09fc2d0b57bf68b9f4252057ad4cb12ecbe8c816fd4ea0b5b7e4e963445fc7",
+            "bytes": 32409
+          },
+          "accepted_subject_sha256": "78661aa22d6ec0ad738e229a8aedde5927b655a9c8a5545cd3b82960bc69d03c",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "DRF-L3",
+      "family": "DRF",
+      "kind": "lineage",
+      "name": "Formal Methods and Verification Engineering",
+      "lineage_identity": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING",
+      "historical_property_rows": 50,
+      "selected_property_identities": 50,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "d6cc9b3754b9a194d0654a610b768601d1a539e511db03ed8e62fa89acb3a821",
+        "bytes": 38434
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "077cf6416c8b5d8b43115afe5fbe6c780f1a3b43b59a16db2f90404558c70abc",
+        "bytes": 6617
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "6eaa075cf5a9f99a83bd4e9284e101f2faa59e92821a203a8825c2b1ee59a02e",
+            "bytes": 11872
+          },
+          "accepted_subject_sha256": "d6cc9b3754b9a194d0654a610b768601d1a539e511db03ed8e62fa89acb3a821",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "3072d8b5b648b33bcd07cc568a4c1cfbc149f1c5cc8eb1dea7a925e7661f58ab",
+            "bytes": 18703
+          },
+          "accepted_subject_sha256": "d6cc9b3754b9a194d0654a610b768601d1a539e511db03ed8e62fa89acb3a821",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "DRF-S",
+      "family": "DRF",
+      "kind": "synthesis",
+      "name": "DRF synthesis",
+      "lineage_identity": null,
+      "historical_property_rows": 159,
+      "selected_property_identities": 159,
+      "scientific_status": "unfinished",
+      "qualification_origin": "scientific_owner_frontier",
+      "reported_disposition": "FULL_AUTHOR_STUDY_UNFINISHED_NO_SYNTHESIS_QUALIFICATION",
+      "frozen_subject": null,
+      "subject_receiving": "NOT_ACQUIRED",
+      "qualification_receipt": null,
+      "accepted_reviews": [],
+      "central_selection": "not_qualified_in_received_snapshot",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": [
+        "Full author study remains unfinished in the received source. Scientific custody transfer does not qualify the subject."
+      ]
+    },
+    {
+      "unit_id": "SSS-L1",
+      "family": "SSS",
+      "kind": "lineage",
+      "name": "Software Architecture",
+      "lineage_identity": "EVOLVED_SOFTWARE_ARCHITECTURE",
+      "historical_property_rows": 68,
+      "selected_property_identities": 68,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "6be1f9a29ebfae1df91df68de438926a29320be6a582187e09aa7eb2f7a742dc",
+        "bytes": 14990
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "10280082670c707b147872084bd57ea0a065847759e6e18d5adf7555d91dc62c",
+        "bytes": 8778
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "fc9cb3b7cee1850fd5f52c046b97a25be83652757fa1566874bbeca0e9d6cd41",
+            "bytes": 17362
+          },
+          "accepted_subject_sha256": "6be1f9a29ebfae1df91df68de438926a29320be6a582187e09aa7eb2f7a742dc",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "a44e9d640683a3f94275f193cd091bc2abd1de04bfd5c5c7df7221bbdc703012",
+            "bytes": 23515
+          },
+          "accepted_subject_sha256": "6be1f9a29ebfae1df91df68de438926a29320be6a582187e09aa7eb2f7a742dc",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "SSS-L2",
+      "family": "SSS",
+      "kind": "lineage",
+      "name": "Software Maintenance and Evolution — canonical",
+      "lineage_identity": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION",
+      "historical_property_rows": 105,
+      "selected_property_identities": 105,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "47c2bc5894a6c4a98efe5278e86a6bc3f9c551bd5cab6e173565885115cbcb33",
+        "bytes": 71477
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "f2f7f78b7c70f5f89678758011746611ce5d111f34bd72c939824cea337f4743",
+        "bytes": 20202
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "9afcdd4bf1db4c24d053ef07513cce654a6a6f66dd8c370207dc096d242b142e",
+            "bytes": 17933
+          },
+          "accepted_subject_sha256": "47c2bc5894a6c4a98efe5278e86a6bc3f9c551bd5cab6e173565885115cbcb33",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "d5f1b6c64b1c79899f23c148e139289c83b40391b0ed71a258f052da6d42d5e7",
+            "bytes": 21778
+          },
+          "accepted_subject_sha256": "47c2bc5894a6c4a98efe5278e86a6bc3f9c551bd5cab6e173565885115cbcb33",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "SSS-L3",
+      "family": "SSS",
+      "kind": "lineage",
+      "name": "Software Product Line Engineering",
+      "lineage_identity": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING",
+      "historical_property_rows": 62,
+      "selected_property_identities": 62,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "107089602777ade226d1c49ff940e428bcaa27415ecdc3062f4a7367b7c6b5d7",
+        "bytes": 54007
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "4841e7dd94cd1c725ebb2ca7186072be6d42531386d66730803c80a1f60b04f8",
+        "bytes": 12778
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "2514e403d969f9c716e357b978943f70af9e84e02b7d8f4bd72b9e53e5d3b6a3",
+            "bytes": 38929
+          },
+          "accepted_subject_sha256": "107089602777ade226d1c49ff940e428bcaa27415ecdc3062f4a7367b7c6b5d7",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "3a71b180dc8ce83c14ceb4f9506ab9ac5a5936fe470d1dd4573620e9c29db678",
+            "bytes": 40184
+          },
+          "accepted_subject_sha256": "107089602777ade226d1c49ff940e428bcaa27415ecdc3062f4a7367b7c6b5d7",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "SSS-S",
+      "family": "SSS",
+      "kind": "synthesis",
+      "name": "SSS synthesis",
+      "lineage_identity": null,
+      "historical_property_rows": 235,
+      "selected_property_identities": 235,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "local_cohort_B",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "a2d040804fbd01ad6f26f5350a122c33830bde0d61ea4d1e1f079ba1717eb6bb",
+        "bytes": 539336
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "7bd97c54fd8381420161a88c0fdee3f04b8497e59b72c41581e792eb67add217",
+        "bytes": 44920
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "5ed3a75a4392dca2e8a103dff5d182fe940b141fa7b5354afe1cb68036e4a283",
+            "bytes": 17030
+          },
+          "accepted_subject_sha256": "a2d040804fbd01ad6f26f5350a122c33830bde0d61ea4d1e1f079ba1717eb6bb",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "8e993b581bcfc6a9c503be5a87dfe4490ca9fae0ff3d919f4e4635766f2230c3",
+            "bytes": 59107
+          },
+          "accepted_subject_sha256": "a2d040804fbd01ad6f26f5350a122c33830bde0d61ea4d1e1f079ba1717eb6bb",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "not_observed_for_this_newer_local_synthesis",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "BWP-L1",
+      "family": "BWP",
+      "kind": "lineage",
+      "name": "Business Process Management",
+      "lineage_identity": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT",
+      "historical_property_rows": 73,
+      "selected_property_identities": 73,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "de20a6a26b21fd3c6e73d1182db53a77a66ea49e498760029ebaa3334c1254bc",
+        "bytes": 19496
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "51260ea5933922412cc4087fa7d69a1f45f79ae323b5a435bfa01b58626ad4fa",
+        "bytes": 9969
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "bcd548137953c251efe263fa8b8343791a2288c6c3ff201ea0daadb3e54c1ee7",
+            "bytes": 11114
+          },
+          "accepted_subject_sha256": "de20a6a26b21fd3c6e73d1182db53a77a66ea49e498760029ebaa3334c1254bc",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "36a91fe649d63cd6967f09be2756f6f7bac37c0a3665fe8fc72c3815c8612af3",
+            "bytes": 16227
+          },
+          "accepted_subject_sha256": "de20a6a26b21fd3c6e73d1182db53a77a66ea49e498760029ebaa3334c1254bc",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "BWP-L2",
+      "family": "BWP",
+      "kind": "lineage",
+      "name": "Workflow Management",
+      "lineage_identity": "EVOLVED_WORKFLOW_MANAGEMENT",
+      "historical_property_rows": 77,
+      "selected_property_identities": 77,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "34fd59ab85661f9a47c16db924a78c4721334edd5a8f0dabd2013ffe15ff99ab",
+        "bytes": 32198
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "e7bc375197e49f01726ca725dedf6921557c86ef48492f375aff6b0b7a57d135",
+        "bytes": 9721
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "8a66ae7f4158ff7934784b0680e1294106288960f04a92d6ad94b07049be1c03",
+            "bytes": 14347
+          },
+          "accepted_subject_sha256": "34fd59ab85661f9a47c16db924a78c4721334edd5a8f0dabd2013ffe15ff99ab",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "4f5c6766ff03ac13a481bc6815c086087897a72046a6ea0a92a74c7147dcfb48",
+            "bytes": 25501
+          },
+          "accepted_subject_sha256": "34fd59ab85661f9a47c16db924a78c4721334edd5a8f0dabd2013ffe15ff99ab",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "BWP-L3",
+      "family": "BWP",
+      "kind": "lineage",
+      "name": "Process Mining",
+      "lineage_identity": "EVOLVED_PROCESS_MINING",
+      "historical_property_rows": 84,
+      "selected_property_identities": 84,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "903171314772325506ca2fe5bda7c3728606a4a488fb406508dc5dd0c6181c6d",
+        "bytes": 24924
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "c2bd03f55f3aa1fd501b9963a737da9e701ac90e4da4117e1d7596b22961d6ac",
+        "bytes": 19772
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "dd8e3346072c11f4b58071f417f0e3c87b76a5624cb15eb679db8fb6d0c4fae9",
+            "bytes": 12952
+          },
+          "accepted_subject_sha256": "903171314772325506ca2fe5bda7c3728606a4a488fb406508dc5dd0c6181c6d",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "1aa353f1a91fa10a094237e008020588b64d8615449fad64923d6b35b7954141",
+            "bytes": 38385
+          },
+          "accepted_subject_sha256": "903171314772325506ca2fe5bda7c3728606a4a488fb406508dc5dd0c6181c6d",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "BWP-S",
+      "family": "BWP",
+      "kind": "synthesis",
+      "name": "BWP synthesis",
+      "lineage_identity": null,
+      "historical_property_rows": 234,
+      "selected_property_identities": 234,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "local_cohort_B",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7",
+        "bytes": 46181
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "df68381df01150adcc9776ab294cdd7d27d0e12102878511add089bf44b62044",
+        "bytes": 12480
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "fcecaf4f7d0cb81db4660019246ae5df6f1c958fc9f18039a68b659ae251a9c0",
+            "bytes": 9253
+          },
+          "accepted_subject_sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7",
+          "reported_verdict": "ACCEPT",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "236f63bc16dcb7564770f8297e033009a0ef04493f5bb40791606ed5c258216f",
+            "bytes": 10511
+          },
+          "accepted_subject_sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7",
+          "reported_verdict": "ACCEPT",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "not_observed_for_this_newer_local_synthesis",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "AMA-L1",
+      "family": "AMA",
+      "kind": "lineage",
+      "name": "Autonomous Agents",
+      "lineage_identity": "EVOLVED_AUTONOMOUS_AGENTS",
+      "historical_property_rows": 70,
+      "selected_property_identities": 70,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "594dfaa5c71a8e907b437a22d2e3bfb717dc078565048c040538df6cda3a7bb6",
+        "bytes": 17566
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "07cefbbbfc374a419865dcb2066981105b204ffe1fe72162015552da2d57c2f6",
+        "bytes": 9110
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "0c9af893175a4ebc94c84c098d6f329fb35984e3afe3a65b9211ecd98fbcd77d",
+            "bytes": 10789
+          },
+          "accepted_subject_sha256": "594dfaa5c71a8e907b437a22d2e3bfb717dc078565048c040538df6cda3a7bb6",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "863105cce10513536a735d7c589b6d178dd98de1966da28540bf79d8258a6e71",
+            "bytes": 32630
+          },
+          "accepted_subject_sha256": "594dfaa5c71a8e907b437a22d2e3bfb717dc078565048c040538df6cda3a7bb6",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "AMA-L2",
+      "family": "AMA",
+      "kind": "lineage",
+      "name": "Multi-Agent Systems",
+      "lineage_identity": "EVOLVED_MULTI_AGENT_SYSTEMS",
+      "historical_property_rows": 76,
+      "selected_property_identities": 76,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "791620825f2a382e291f05befea096a5eda481f0b9d7b99dc5f7363f7784c0ed",
+        "bytes": 42408
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "a187680730038ceff5218f3f1f6b7a86f87a591762c1ee8030355ff0466496f5",
+        "bytes": 16868
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "c28b0984c23f6d4dc7aad8a3f814da01775325431e2b2d939d1eab1aba52f85f",
+            "bytes": 19883
+          },
+          "accepted_subject_sha256": "791620825f2a382e291f05befea096a5eda481f0b9d7b99dc5f7363f7784c0ed",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "bf128cde04f483535ad6cb19c01cc9e9b2b851b753d311875fb16b268a17aabe",
+            "bytes": 13493
+          },
+          "accepted_subject_sha256": "791620825f2a382e291f05befea096a5eda481f0b9d7b99dc5f7363f7784c0ed",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "AMA-L3",
+      "family": "AMA",
+      "kind": "lineage",
+      "name": "Agent-Oriented Software Engineering — canonical",
+      "lineage_identity": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING",
+      "historical_property_rows": 132,
+      "selected_property_identities": 132,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "d60a32e34fc19d30f4b41272a1883a514daebec22196f448b3528b87b80f25fa",
+        "bytes": 13824
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "62016d4cd961d62f16bcc84dfd371ef914d572a3ff93a231c3ea5cf740a88e8a",
+        "bytes": 11375
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "865897c66ed66bf1e7e45bc635e136d1816f14778fa9783046a5a37fae99a9d5",
+            "bytes": 60486
+          },
+          "accepted_subject_sha256": "d60a32e34fc19d30f4b41272a1883a514daebec22196f448b3528b87b80f25fa",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "517cda00c3f14ed676e2253a6ecac7f8c54728be89e2280ab84cfff59e271559",
+            "bytes": 56272
+          },
+          "accepted_subject_sha256": "d60a32e34fc19d30f4b41272a1883a514daebec22196f448b3528b87b80f25fa",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "AMA-S",
+      "family": "AMA",
+      "kind": "synthesis",
+      "name": "AMA synthesis",
+      "lineage_identity": null,
+      "historical_property_rows": 278,
+      "selected_property_identities": 278,
+      "scientific_status": "unfinished",
+      "qualification_origin": "scientific_owner_frontier",
+      "reported_disposition": "R13_GAP_REVISE_R14_AUTHOR_ACTIVE_NO_CURRENT_QUALIFICATION",
+      "frozen_subject": null,
+      "subject_receiving": "NOT_ACQUIRED",
+      "qualification_receipt": null,
+      "accepted_reviews": [],
+      "central_selection": "not_qualified_in_received_snapshot",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": [
+        "Latest received frontier: r13 GAP_REVISE; r14 authoring active, without a final freeze or acceptance at that snapshot."
+      ]
+    },
+    {
+      "unit_id": "SPR-L1",
+      "family": "SPR",
+      "kind": "lineage",
+      "name": "System Identification — canonical",
+      "lineage_identity": "EVOLVED_SYSTEM_IDENTIFICATION",
+      "historical_property_rows": 83,
+      "selected_property_identities": 83,
+      "scientific_status": "historical_qualified_outcome_preserved_receipts_missing",
+      "qualification_origin": "central_cohort_A_history",
+      "reported_disposition": "HISTORICAL_QUALIFIED_OUTCOME_RETAINED_ORIGINAL_FINAL_PACKET_RECOVERY_INCOMPLETE",
+      "frozen_subject": {
+        "sha256": "79d4948f842bad4064eae852a61d0380ec88f635f750a3a9ed8737fe4a5b17c9",
+        "bytes": 1199123
+      },
+      "subject_receiving": "NOT_ACQUIRED",
+      "qualification_receipt": null,
+      "accepted_reviews": [],
+      "central_selection": "preserved_historical_outcome_receipts_missing",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": [
+        "The historical central selection remains preserved; original qualification and both final reviews are missing. No replacement receipts are invented."
+      ]
+    },
+    {
+      "unit_id": "SPR-L2",
+      "family": "SPR",
+      "kind": "lineage",
+      "name": "Programming Language Theory",
+      "lineage_identity": "EVOLVED_PROGRAMMING_LANGUAGE_THEORY",
+      "historical_property_rows": 69,
+      "selected_property_identities": 69,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "423762e1d9e9e9fa2466a787672d166c49e5ad3a1da310e8a52936c8bb63f35e",
+        "bytes": 51611
+      },
+      "subject_receiving": "DESCRIPTOR_VERIFIED_BYTES_NOT_ACQUIRED_IN_THIS_LANE",
+      "qualification_receipt": {
+        "sha256": "1dd4e6ed24b45657f842be899008bdf61ff424c2967cc07ee11a5948c82f6041",
+        "bytes": 7838
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "f31a4f212bb87ef688f96bcf1f5edca8d4ae2bd6e7c7a0603105e9fa05904726",
+            "bytes": 10673
+          },
+          "accepted_subject_sha256": "423762e1d9e9e9fa2466a787672d166c49e5ad3a1da310e8a52936c8bb63f35e",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "9df64ed8df4480d1c6bbeff8399f5003024b4dc8f982f51df31d359ab65d6059",
+            "bytes": 57538
+          },
+          "accepted_subject_sha256": "423762e1d9e9e9fa2466a787672d166c49e5ad3a1da310e8a52936c8bb63f35e",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": [
+        "Qualification and both final reviews were byte-verified; the frozen subject descriptor was verified, but subject bytes were not acquired in this receiving slice."
+      ]
+    },
+    {
+      "unit_id": "SPR-L3",
+      "family": "SPR",
+      "kind": "lineage",
+      "name": "Requirements Engineering",
+      "lineage_identity": "EVOLVED_REQUIREMENTS_ENGINEERING",
+      "historical_property_rows": 72,
+      "selected_property_identities": 72,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "fc48f0f8c45eedbb477ddd1f82d5e3b4f02849b08a0789cc40a89969e91f9417",
+        "bytes": 51421
+      },
+      "subject_receiving": "DESCRIPTOR_VERIFIED_BYTES_NOT_ACQUIRED_IN_THIS_LANE",
+      "qualification_receipt": {
+        "sha256": "7902146774aaf1f365179c4d7a4e66c5cdef36abf38d33bdb611da4da159e970",
+        "bytes": 7492
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "86ae3d53b87c4bcaea7a803c6bcea2aab05d0e92838307318e1d2057579cffc0",
+            "bytes": 68335
+          },
+          "accepted_subject_sha256": "fc48f0f8c45eedbb477ddd1f82d5e3b4f02849b08a0789cc40a89969e91f9417",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "7326cdde512092b3ec65e9561a129adeaa8ce4db6b00fabc283c3fc6979b7256",
+            "bytes": 26015
+          },
+          "accepted_subject_sha256": "fc48f0f8c45eedbb477ddd1f82d5e3b4f02849b08a0789cc40a89969e91f9417",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": [
+        "Qualification and both final reviews were byte-verified; the frozen subject descriptor was verified, but subject bytes were not acquired in this receiving slice."
+      ]
+    },
+    {
+      "unit_id": "SPR-S",
+      "family": "SPR",
+      "kind": "synthesis",
+      "name": "SPR synthesis",
+      "lineage_identity": null,
+      "historical_property_rows": 224,
+      "selected_property_identities": 224,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE_WITH_EXPLICIT_NONMATERIAL_ERRATUM",
+      "frozen_subject": {
+        "sha256": "00ade914cedac23c9170375823ef1496dd369cc0e90a3fcc2160ba83a5689183",
+        "bytes": 16022
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "0a312bcd111cbcd5eb82eb83b219bf83a8c7d070457d56a3c2430b0bd37853e4",
+        "bytes": 12447
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "fdb5f22e7ee504b8a915d6d7719be9709f7c204e1074e3d57d213293b3174506",
+            "bytes": 9645
+          },
+          "accepted_subject_sha256": "00ade914cedac23c9170375823ef1496dd369cc0e90a3fcc2160ba83a5689183",
+          "reported_verdict": "ACCEPT",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "ee6a7df169718c31a980774680818af25150f3e5b55e5a4eea1bff8abbc26d31",
+            "bytes": 9305
+          },
+          "accepted_subject_sha256": "00ade914cedac23c9170375823ef1496dd369cc0e90a3fcc2160ba83a5689183",
+          "reported_verdict": "ACCEPT_WITH_NONMATERIAL_ERRATUM",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": [
+        "Qualification retains accepted nonmaterial erratum SPR-S-B34-E01: the overview says two useful partial pairs; detailed records correctly have three. The frozen subject is unchanged."
+      ]
+    }
+  ]
+}

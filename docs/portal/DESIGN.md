@@ -29,8 +29,8 @@ plain-first forms when introducing specialist terms.
 ## Architecture
 
 The portal is intentionally split into an overview, onboarding pages, audience
-pages, core model pages, evidence pages, closure pages, repository pages, and
-reference pages.
+pages, core model pages, evidence pages, closure pages, repository pages,
+research and engineering lineage pages, and reference pages.
 
 - Overview pages carry the product thesis and first-read onboarding.
 - First-run pages answer what to paste, what gets written, and what outcomes are
@@ -43,6 +43,9 @@ reference pages.
   evidence inputs.
 - Closure pages explain completion semantics and continuity/resume behavior.
 - Repository pages explain repo layout, package contents, and the repo record.
+- Research & Engineering Lineage pages distinguish original public genealogy, the
+  versioned eight-family programme, current scientific receiving and target
+  implementation. The research group adds no runtime mode.
 - Reference pages hold terminology and the final index.
 
 There is no separate `Maintainers` sidebar group. Maintainer-facing surfaces are
@@ -80,7 +83,8 @@ The sidebar order is part of the product contract. Keep it chronological:
 5. Evidence.
 6. Closure.
 7. Repository.
-8. References.
+8. Research & Engineering Lineage.
+9. References.
 
 Navigation rules:
 
@@ -246,3 +250,15 @@ Before claiming the portal is ready:
    active right-side TOC, and code/table wrapping.
 8. Keep release/publication/provenance claims separate unless those gates were
    actually authorized and verified.
+
+## Versioned programme projection
+
+The eight-family route extends the existing research group and preserves every
+original route. Current-programme source lives in
+`docs/research/genealogy/current-programme/v1/`; repository-specific preparation
+lives in `docs/research/implementaudit/evolved-programme-v1/`. Public source metadata
+binds these documents as well as the original source lock and corpus indexes.
+Protected scientific bodies never become portal assets. The 32 scientific units,
+1,629 historical property rows and historical 658-property corpus have separate
+subjects and denominators. `check-evolved-programme-docs.py` guards their structure
+and non-upgrade boundaries; it does not requalify the science.

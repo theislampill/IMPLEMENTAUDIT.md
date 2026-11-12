@@ -101,6 +101,7 @@ assert groups["Closure"] == ["completion-semantics", "continuity-and-sidecars"]
 assert groups["Repository"] == ["repo-layout", "package-contents", "audit-trail"]
 assert groups["Research & Engineering Lineage"] == [
     "research-lineage-overview",
+    "research-programme",
     "research-lineage-lean",
     "research-lineage-agile",
     "research-lineage-waterfall",
@@ -117,6 +118,10 @@ assert groups["Research & Engineering Lineage"] == [
     "research-lineage-statistical-engineering",
     "research-lineage-systems-safety",
     "research-lineage-evolved-css",
+    "research-lineage-evolved-sss",
+    "research-lineage-evolved-bwp",
+    "research-lineage-evolved-ama",
+    "research-lineage-evolved-spr",
     "research-lineage-s3e",
 ]
 assert groups["References"] == ["terminology", "reference-index"]
@@ -1216,6 +1221,12 @@ else
   ok "check-public-claim-boundaries.sh rejects an absolute forward-only release policy"
 fi
 rm -f "$host_claim_fixture"
+
+if "${py_cmd[@]}" scripts/check-evolved-programme-docs.py --self-test >/dev/null; then
+  ok "versioned programme preserves 32 units, source custody and non-upgrade boundaries"
+else
+  fail_check "versioned programme or its negative controls failed"
+fi
 
 if bash scripts/verify-docs-portal.sh >/dev/null; then
   ok "verify-docs-portal.sh passes generated output"

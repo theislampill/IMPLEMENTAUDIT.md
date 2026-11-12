@@ -1517,12 +1517,17 @@ release reports.
 
 The repository's
 [Research & Engineering Lineage source](docs/portal/pages/research-lineage-overview.html)
-explains Evolved-LAW, Evolved-CSS, Evolved-SSD and Evolved-DRF at property level.
+links the current eight-family programme: Evolved-LAW, Evolved-CSS, Evolved-SSD,
+Evolved-DRF, Evolved-SSS, Evolved-BWP, Evolved-AMA and Evolved-SPR. The
+[versioned programme index](docs/research/genealogy/current-programme/v1/README.md)
+records 24 constituent lineages and eight separate fourth-stage syntheses, with
+scientific qualification, central receiving, documentation and native implementation
+kept distinct. Original family explanations retain their historical scope.
 The [repository genealogy corpus](docs/research/genealogy/README.md) is retained
 in the v0.4.0.0 source tree as exact research memory, remains excluded from both
 runtime package projections, and does not activate the deferred v0.4.1
 reabsorption campaign.
-The integrated research route reports 658/658 property disposition accounting, not 658 source
+The historical integrated research route reports 658/658 property disposition accounting, not 658 source
 changes. It preserves rejected, unresolved and owner-decision evidence and adds
 no nine runtimes, lineage selector, methodology mode, or universal-effectiveness
 claim. Hosted-current status still requires separate Pages publication and

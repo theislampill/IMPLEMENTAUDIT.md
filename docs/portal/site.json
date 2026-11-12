@@ -98,6 +98,7 @@
       "group": "Research & Engineering Lineage",
       "pages": [
         "research-lineage-overview",
+        "research-programme",
         "research-lineage-lean",
         "research-lineage-agile",
         "research-lineage-waterfall",
@@ -114,6 +115,10 @@
         "research-lineage-statistical-engineering",
         "research-lineage-systems-safety",
         "research-lineage-evolved-css",
+        "research-lineage-evolved-sss",
+        "research-lineage-evolved-bwp",
+        "research-lineage-evolved-ama",
+        "research-lineage-evolved-spr",
         "research-lineage-s3e"
       ]
     },
@@ -521,7 +526,12 @@
         "CHANGELOG.md",
         "docs/audits/archive/v0.3.3.3-release-report.md",
         "fixtures/public-projection/lineage-reader-questions.json",
-        "skills/implementaudit/references/terminology-integration.md"
+        "skills/implementaudit/references/terminology-integration.md",
+        "docs/research/genealogy/current-programme/v1/README.md",
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
+        "docs/research/genealogy/current-programme/v1/SOURCE_STATUS.md",
+        "docs/research/genealogy/README.md",
+        "docs/research/implementaudit/r0043-eaose-ama-qualification.md"
       ]
     },
     "research-lineage-lean": {
@@ -566,7 +576,11 @@
         "skills/implementaudit/references/planning-depth.md",
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/convergence-mode.md",
-        "skills/implementaudit/references/repo-state-comparison.md"
+        "skills/implementaudit/references/repo-state-comparison.md",
+        "docs/research/genealogy/current-programme/v1/README.md",
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
+        "docs/research/genealogy/current-programme/v1/SOURCE_STATUS.md",
+        "docs/research/genealogy/README.md"
       ]
     },
     "research-lineage-systems-engineering": {
@@ -609,7 +623,11 @@
         "fixtures/public-projection/lineage-reader-questions.json",
         "CHANGELOG.md",
         "skills/implementaudit/references/planning-depth.md",
-        "skills/implementaudit/references/child-agents.md"
+        "skills/implementaudit/references/child-agents.md",
+        "docs/research/genealogy/current-programme/v1/README.md",
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
+        "docs/research/genealogy/current-programme/v1/SOURCE_STATUS.md",
+        "docs/research/genealogy/README.md"
       ]
     },
     "research-lineage-evolved-ssd": {
@@ -620,7 +638,11 @@
         "fixtures/public-projection/lineage-reader-questions.json",
         "CHANGELOG.md",
         "skills/implementaudit/references/repo-state-comparison.md",
-        "skills/implementaudit/references/continuity.md"
+        "skills/implementaudit/references/continuity.md",
+        "docs/research/genealogy/current-programme/v1/README.md",
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
+        "docs/research/genealogy/current-programme/v1/SOURCE_STATUS.md",
+        "docs/research/genealogy/README.md"
       ]
     },
     "research-lineage-distributed-systems-engineering": {
@@ -661,7 +683,11 @@
         "fixtures/public-projection/lineage-reader-questions.json",
         "CHANGELOG.md",
         "skills/implementaudit/references/lean-operating-discipline.md",
-        "skills/implementaudit/references/repo-state-comparison.md"
+        "skills/implementaudit/references/repo-state-comparison.md",
+        "docs/research/genealogy/current-programme/v1/README.md",
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
+        "docs/research/genealogy/current-programme/v1/SOURCE_STATUS.md",
+        "docs/research/genealogy/README.md"
       ]
     },
     "research-lineage-cognitive-systems-engineering": {
@@ -715,6 +741,66 @@
         "docs/portal/site.json",
         "README.md",
         "AGENTS.md"
+      ]
+    },
+    "research-programme": {
+      "title": "Eight-family programme",
+      "path": "research-engineering-lineage/programme/",
+      "source": "research-programme.html",
+      "sources": [
+        "docs/research/genealogy/current-programme/v1/README.md",
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
+        "docs/research/genealogy/current-programme/v1/SOURCE_STATUS.md",
+        "docs/research/genealogy/README.md",
+        "docs/research/genealogy/CORPUS_SOURCE_LOCK.json",
+        "docs/research/genealogy/CORPUS_MANIFEST.json",
+        "docs/research/genealogy/PROPERTY_MASTER_INDEX.json",
+        "docs/research/genealogy/REPLICATION_GUIDE.md",
+        "docs/research/implementaudit/evolved-programme-v1/RLGWO_REGISTRY.json"
+      ]
+    },
+    "research-lineage-evolved-sss": {
+      "title": "Evolved-SSS",
+      "path": "research-engineering-lineage/evolved-sss/",
+      "source": "research-lineage-evolved-sss.html",
+      "sources": [
+        "docs/research/genealogy/current-programme/v1/families/sss.md",
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
+        "docs/research/implementaudit/sss-synthesis-qualification.md",
+        "docs/research/implementaudit/r003d-maintenance-qualification.md",
+        "docs/research/implementaudit/r003c-interaction-qualification.md",
+        "docs/research/implementaudit/r003b-configuration-qualification.md"
+      ]
+    },
+    "research-lineage-evolved-bwp": {
+      "title": "Evolved-BWP",
+      "path": "research-engineering-lineage/evolved-bwp/",
+      "source": "research-lineage-evolved-bwp.html",
+      "sources": [
+        "docs/research/genealogy/current-programme/v1/families/bwp.md",
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
+        "docs/research/implementaudit/r0040-event-meaning-qualification.md"
+      ]
+    },
+    "research-lineage-evolved-ama": {
+      "title": "Evolved-AMA",
+      "path": "research-engineering-lineage/evolved-ama/",
+      "source": "research-lineage-evolved-ama.html",
+      "sources": [
+        "docs/research/genealogy/current-programme/v1/families/ama.md",
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
+        "docs/research/implementaudit/r0043-eaose-ama-qualification.md",
+        "docs/research/implementaudit/r0044-emas-qualification.md",
+        "docs/research/implementaudit/r0045-attribution-qualification.md"
+      ]
+    },
+    "research-lineage-evolved-spr": {
+      "title": "Evolved-SPR",
+      "path": "research-engineering-lineage/evolved-spr/",
+      "source": "research-lineage-evolved-spr.html",
+      "sources": [
+        "docs/research/genealogy/current-programme/v1/families/spr.md",
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json"
       ]
     }
   }

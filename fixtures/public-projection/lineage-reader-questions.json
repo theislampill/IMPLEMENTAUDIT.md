@@ -142,6 +142,7 @@
   ],
   "public_pages": [
     "research-lineage-overview",
+    "research-programme",
     "research-lineage-lean",
     "research-lineage-agile",
     "research-lineage-waterfall",
@@ -158,6 +159,10 @@
     "research-lineage-statistical-engineering",
     "research-lineage-systems-safety",
     "research-lineage-evolved-css",
+    "research-lineage-evolved-sss",
+    "research-lineage-evolved-bwp",
+    "research-lineage-evolved-ama",
+    "research-lineage-evolved-spr",
     "research-lineage-s3e"
   ],
   "first_reader_contract": {
