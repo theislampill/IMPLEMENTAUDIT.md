@@ -9,6 +9,7 @@ import ast
 import base64
 import copy
 import hashlib
+import inspect
 import importlib.util
 import json
 from pathlib import Path
@@ -138,7 +139,10 @@ class CatalogCases(MiniFixture, unittest.TestCase):
         retained = [(key, value) for key, value in zip(incoming.keys, incoming.values)
                     if not isinstance(key, ast.Name) or key.id not in ("MINI_AUDIT_PROFILE", "ACTION_SELECTION_PROFILE")]
         self.assertEqual(len(retained), 34)
-        payload = "\n".join(ast.dump(ast.Tuple(elts=[key, value], ctx=ast.Load()), include_attributes=False)
+        dump_options = {"include_attributes": False}
+        if "show_empty" in inspect.signature(ast.dump).parameters:
+            dump_options["show_empty"] = True
+        payload = "\n".join(ast.dump(ast.Tuple(elts=[key, value], ctx=ast.Load()), **dump_options)
                             for key, value in retained)
         self.assertEqual(hashlib.sha256(payload.encode()).hexdigest(), INCOMING_CONTRACTS_AST_SHA256)
         self.assertEqual(hashlib.sha256(H.selected_input_bytes(self.A.RUNNER,

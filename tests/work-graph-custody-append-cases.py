@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Original105 source/effect controls; actual receiving is separately allocated."""
 import ast
+import inspect
 import copy
 import hashlib
 import importlib.util
@@ -499,13 +500,16 @@ class WiringCases(unittest.TestCase):
         # Compare all35 incoming contracts after the six forward runner-pin
         # advances; never restore the historical stale RETENTION value.
         self.assertEqual(len(keep), 35)
-        self.assertEqual(hashlib.sha256(ast.dump(contracts, include_attributes=False).encode()).hexdigest(),
+        dump_options = {"include_attributes": False}
+        if "show_empty" in inspect.signature(ast.dump).parameters:
+            dump_options["show_empty"] = True
+        self.assertEqual(hashlib.sha256(ast.dump(contracts, **dump_options).encode()).hexdigest(),
                          "8de1e9654c055e0291aecf68ae08ea0f65834251df7976976c521248afeff2ab")
         old33 = [(key, value) for key, value in keep
                  if not (isinstance(key, ast.Name) and key.id in ("MINI_AUDIT_PROFILE", "ACTION_SELECTION_PROFILE"))]
         old33_contracts = ast.Dict(keys=[key for key, _ in old33], values=[value for _, value in old33])
         self.assertEqual(len(old33), 33)
-        self.assertEqual(hashlib.sha256(ast.dump(old33_contracts, include_attributes=False).encode()).hexdigest(),
+        self.assertEqual(hashlib.sha256(ast.dump(old33_contracts, **dump_options).encode()).hexdigest(),
                          "74d15a92028e607bf63729a67e5acef566fb5785317dfd79bbf74b694672d280")
         text = runner.decode()
         code = text.split("  exec \"${r0035_census_python[@]}\" -c '\n", 1)[1].split(
