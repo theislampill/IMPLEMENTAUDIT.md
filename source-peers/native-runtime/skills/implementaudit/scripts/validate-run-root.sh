@@ -10,6 +10,340 @@ err() {
 warn() { printf 'validate-run-root: WARNING: %s\n' "$*" >&2; }
 has_non_whitespace() { LC_ALL=C grep -q '[^[:space:]]' "$1" 2>/dev/null; }
 
+# Portable composition of the existing record owners. This is not a host Stop
+# adapter, an authority resolver, or an alternative lifecycle controller.
+if [ "${1:-}" = "--turn-disposition" ]; then
+  shift
+  if command -v python >/dev/null 2>&1; then disposition_py=(python -B)
+  elif command -v python3 >/dev/null 2>&1; then disposition_py=(python3 -B)
+  elif command -v py >/dev/null 2>&1; then disposition_py=(py -3 -B)
+  else printf 'validate-run-root: Python required for disposition records\n' >&2; exit 2; fi
+  "${disposition_py[@]}" - "${BASH_SOURCE[0]}" "$@" <<'PYDISPOSITION'
+import argparse,hashlib,json,os,re,signal,stat,subprocess,sys,tempfile
+from pathlib import Path
+
+def refuse(message):
+    raise ValueError(message)
+def safe_read(path):
+    path=Path(os.path.abspath(path))
+    for node in (path,*path.parents):
+        info=node.lstat()
+        if stat.S_ISLNK(info.st_mode) or getattr(info,'st_file_attributes',0)&0x400:
+            refuse('aliased read-set member: '+str(path))
+    info=path.lstat()
+    if not stat.S_ISREG(info.st_mode) or info.st_nlink!=1 or info.st_size>1_000_000:
+        refuse('nonregular or oversized read-set member: '+str(path))
+    signature=lambda x:(x.st_dev,x.st_ino,x.st_size,x.st_mtime_ns,x.st_ctime_ns)
+    fd=os.open(path,os.O_RDONLY|getattr(os,'O_NOFOLLOW',0)|getattr(os,'O_NONBLOCK',0))
+    with os.fdopen(fd,'rb') as handle:
+        opened=os.fstat(handle.fileno())
+        if not stat.S_ISREG(opened.st_mode): refuse('nonregular opened read-set member')
+        data=handle.read(1_000_001);closed=os.fstat(handle.fileno())
+    if len(data)>1_000_000 or not signature(info)==signature(opened)==signature(closed)==signature(path.lstat()):
+        refuse('read-set member changed during capture: '+str(path))
+    return data,(signature(closed),hashlib.sha256(data).hexdigest())
+def inventory(directory):
+    if not stat.S_ISDIR(Path(directory).lstat().st_mode):refuse('non-directory read-set root')
+    entries={};total=0
+    for parent,dirs,files in os.walk(directory,followlinks=False):
+        info=Path(parent).lstat()
+        if not stat.S_ISDIR(info.st_mode) or getattr(info,'st_file_attributes',0)&0x400:refuse('changed inventory directory')
+        entries[str(parent)]=('directory',info.st_dev,info.st_ino,info.st_mtime_ns,info.st_ctime_ns)
+        for name in dirs+files:
+            path=Path(parent)/name;info=path.lstat()
+            if stat.S_ISLNK(info.st_mode) or getattr(info,'st_file_attributes',0)&0x400:
+                refuse('aliased inventory member: '+str(path))
+            if name in dirs:
+                if not stat.S_ISDIR(info.st_mode): refuse('changed inventory directory')
+            else:
+                total+=info.st_size
+                if total>16_000_000:refuse('unsupported read-set byte budget')
+                entries[str(path)]=safe_read(path)[1]
+            if len(entries)>4096: refuse('unsupported read-set size')
+    return entries
+
+def run(command,allowed=(0,)):
+    # This bounds a read-only helper, never the governor's audit/retry lifecycle.
+    if os.name=='nt' and command[0]=='bash':
+        # Windows SearchPath can choose System32/bash.exe (WSL) before PATH.
+        # Use the same explicit Git Bash owner as read-canonical-pair.py.
+        command=[str(Path(r'C:\Program Files\Git')/'bin/bash.exe'),
+                 *(value.replace('\\','/') if re.match(r'^[A-Za-z]:\\',value) else value for value in command[1:])]
+    options={'start_new_session':True} if os.name=='posix' else {'creationflags':subprocess.CREATE_NEW_PROCESS_GROUP}
+    process=subprocess.Popen(command,text=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,**options)
+    try:
+        stdout,stderr=process.communicate(timeout=10)
+    except subprocess.TimeoutExpired:
+        if os.name=='posix':
+            try:os.killpg(process.pid,signal.SIGKILL)
+            except ProcessLookupError:pass
+        else:
+            killer=str(Path(os.environ.get('SystemRoot','C:/Windows'))/'System32/taskkill.exe')
+            try:subprocess.run([killer,'/PID',str(process.pid),'/T','/F'],capture_output=True,timeout=3)
+            except (OSError,subprocess.TimeoutExpired):pass
+            if process.poll() is None:process.kill()
+        try:process.communicate(timeout=2)
+        except subprocess.TimeoutExpired:
+            process.stdout.close();process.stderr.close()
+        refuse('packaged owner read timed out; no disposition')
+    result=subprocess.CompletedProcess(command,process.returncode,stdout,stderr)
+    if result.returncode not in allowed:
+        refuse('packaged owner refused: '+Path(command[1]).name+'\n'+result.stdout+result.stderr)
+    return result
+
+def fields(text,section=None):
+    if section:
+        blocks=re.findall(r'(?ms)^## '+re.escape(section)+r'\s*\n(.*?)(?=^## |\Z)',text)
+        if len(blocks)!=1: refuse('expected one '+section+' section')
+        text=blocks[0]
+    result={}
+    for line in text.splitlines():
+        cells=[x.strip(' \t`') for x in line.split('|')[1:-1]] if line.startswith('|') else []
+        match=re.match(r'^(?:- )?([^:]+):\s*(.*)$',line)
+        if len(cells)==2 and cells[0] not in {'Field','Input'} and not cells[0].startswith('---'):
+            key,value=cells
+        elif match and '|' not in line: key,value=match.groups();value=value.strip(' \t`')
+        else: continue
+        if key in result: refuse('duplicate record field: '+key)
+        result[key]=value
+    return result
+
+def concrete(value):
+    return bool(value and len(value.strip())>3 and value.lower() not in {'none','unknown','pending','todo','tbd','continue','wait'})
+def needed(mapping,key):
+    value=mapping.get(key,'')
+    if not concrete(value): refuse('missing concrete '+key)
+    return value
+
+def table_rows(text, *, unique_headers=False, decision_columns=()):
+    header=None
+    for line in text.splitlines():
+        if not line.startswith('|'): header=None;continue
+        cells=[c.strip(' \t`') for c in line.split('|')[1:-1]]
+        if cells and all(re.fullmatch(r':?-+:?',c) for c in cells):continue
+        if header is None:
+            # Only decision tables require unique keys; explanatory tables keep
+            # their existing grammar. Never let dictionary projection hide a duty.
+            names=set(cells)
+            decision=any(set(columns)<=names for columns in decision_columns)
+            if (unique_headers or decision) and len(cells)!=len(names):refuse('duplicate record table header')
+            header=cells;continue
+        if len(cells)!=len(header):refuse('malformed record table')
+        yield dict(zip(header,cells))
+
+try:
+    parser=argparse.ArgumentParser(prog='validate-run-root.sh --turn-disposition')
+    parser.add_argument('disposition',choices=['TERMINAL_CLOSURE','AUDITED_HANDOFF','NONTERMINAL_YIELD'])
+    parser.add_argument('run_root')
+    for name in ('closure-record','handoff-packet','response-record'):parser.add_argument('--'+name)
+    for name in ('superseded-plan','plan-cycle-record'):parser.add_argument('--'+name,action='append',default=[])
+    helper=Path(os.path.abspath(sys.argv[1]));args=parser.parse_args(sys.argv[2:]);owner=helper.parent
+    root=Path(os.path.abspath(args.run_root))
+    for node in (root,*root.parents):
+        info=node.lstat()
+        if not stat.S_ISDIR(info.st_mode) or stat.S_ISLNK(info.st_mode) or getattr(info,'st_file_attributes',0)&0x400:refuse('unsafe run-root directory ancestry')
+    bound_members=None
+    def contained(raw,optional=False):
+        if any(p in {'.','..'} for p in re.split(r'[/\\]',str(raw))):refuse('lexical path alias')
+        path=Path(raw);path=path if path.is_absolute() else root/path
+        try:path.relative_to(root)
+        except ValueError:refuse('unsupported external read dependency: '+str(path))
+        if optional and not os.path.lexists(path):return path
+        if bound_members is not None and path.relative_to(root).as_posix() not in bound_members:refuse('unsupported unmapped canonical record dependency: '+str(path))
+        safe_read(path)
+        return path
+    closure=contained(args.closure_record) if args.closure_record else None
+    packet=contained(args.handoff_packet) if args.handoff_packet else None
+    response=contained(args.response_record) if args.response_record else None
+    if args.disposition=='TERMINAL_CLOSURE' and (not closure or packet):refuse('closure requires only --closure-record')
+    if args.disposition=='AUDITED_HANDOFF' and (not packet or closure):refuse('handoff requires only --handoff-packet')
+    if args.disposition=='NONTERMINAL_YIELD' and (closure or packet or args.superseded_plan or args.plan_cycle_record):refuse('yield cannot consume closure/handoff inputs')
+    if args.disposition!='TERMINAL_CLOSURE' and (args.superseded_plan or args.plan_cycle_record):refuse('plan inputs apply only to closure')
+    plans=[contained(p) for p in args.superseded_plan];cycles=[contained(p) for p in args.plan_cycle_record]
+    # The existing full validator compares siblings only for a claimed root.
+    # Capture that optional family and the templates it actually consumes too.
+    read_root=root.parent if (root/'.claimed').exists() else root
+    def source_identity():
+        return inventory(owner.parent) # Packaged directory identities, references, templates and executable source.
+    before=inventory(read_root);source_before=source_identity()
+    review_owner=None;review_owner_before=None
+    with tempfile.TemporaryDirectory(prefix='disposition-pair-') as tmp:
+        pair=Path(tmp)/'pair';pair.mkdir()
+        reader=[sys.executable,'-B',str(owner/'read-canonical-pair.py'),'--run-root',str(root),'--output',str(pair),'--native-guards']
+        selected=run(reader,allowed=(0,3))
+        state_path=pair/'native-STATE.md' if selected.returncode==0 else root/'STATE.md'
+        roadmap_path=pair/'native-ROADMAP.md' if selected.returncode==0 else root/'ROADMAP.md'
+        state=safe_read(state_path)[0].decode('utf-8');roadmap=safe_read(roadmap_path)[0].decode('utf-8')
+        current=fields(state,'Current phase')
+        documents=[state]+[safe_read(p)[0].decode('utf-8') for p in (closure,packet,response) if p]
+        markers=lambda text:re.findall(r'(?m)^\s*(AUDIT_START|AUDIT_VERIFY|AUDIT_GAPS|AUDIT_COMPLETE|IMPLEMENTAUDIT_RUN_COMPLETE|AUDIT_HANDOFF|ANDON_HANDOFF)\s*$',text)
+        claims=[m for text in documents for m in markers(text)]
+        terminal=any(m in claims for m in ('AUDIT_COMPLETE','IMPLEMENTAUDIT_RUN_COMPLETE')) or current.get('Status')=='DONE' or current.get('Audit object state','').startswith('terminal')
+        handoff=any(m in claims for m in ('AUDIT_HANDOFF','ANDON_HANDOFF'))
+        if terminal and handoff:refuse('conflicting terminal and handoff claims')
+        if args.disposition=='NONTERMINAL_YIELD' and (terminal or handoff):refuse('requested yield cannot downgrade actual claims')
+        if args.disposition=='TERMINAL_CLOSURE' and (not terminal or handoff):refuse('closure claim mismatch')
+        if args.disposition=='AUDITED_HANDOFF' and (not handoff or terminal):refuse('handoff claim mismatch')
+        # Keep optional repo-only and active replay dependencies out of this
+        # bounded source record cell; their native owners retain admission.
+        record_root=pair/'native-records' if selected.returncode==0 else root
+        if selected.returncode==0:
+            bound_members={p.relative_to(record_root).as_posix() for p in record_root.rglob('*') if p.is_file()}
+            for path in [p for p in (closure,packet,response) if p]+plans+cycles:contained(path)
+            if closure and (root/'deferrals.jsonl').exists():contained('deferrals.jsonl')
+            for path in root.glob('*'):
+                if path.suffix.lower()=='.md' and ('steer' in path.name.lower() or 'advisory' in path.name.lower()):contained(path)
+        direct_records=[safe_read(p)[0].decode('utf-8') for p in record_root.glob('*.md')]
+        if any(re.search(r'(?m)^(successor-review:|lane-status: status: REVIEWER_RUNTIME_NON_VERDICT)',text) for text in direct_records):
+            if args.disposition!='NONTERMINAL_YIELD':refuse('unsupported repository-only review dependency')
+            review_owner=owner.parents[2]/'scripts/check-cold-review-contract.sh'  # source repo checker; absent from installed skill by design
+            try:review_owner_before=safe_read(review_owner)[1] if os.path.lexists(review_owner) else None
+            except (OSError,ValueError) as exc:refuse('unsupported repository review owner: '+str(exc))
+        for phase in (root/'phases').glob('phase-*.md'):
+            # Check the supported dependency profile, leaving DONE applicability
+            # and missing required captures with their existing semantic owner.
+            contained(phase)
+            phase_text=safe_read(phase)[0].decode('utf-8')
+            for raw in re.findall(r';\s*capture:\s*([^;]+);',phase_text):
+                raw=raw.strip().strip('`')
+                contained(raw.replace('<run-root>/',str(root)+'/'),optional=True)
+        if args.disposition!='NONTERMINAL_YIELD':
+            repo=run(['git','rev-parse','--show-toplevel']).stdout.strip()
+            git_identity=lambda:tuple(run(command).stdout for command in (['git','-C',repo,'rev-parse','HEAD'],['git','-C',repo,'rev-parse','--abbrev-ref','HEAD'],['git','-C',repo,'status','--porcelain']))
+            repo_before=git_identity()
+        structural=run(['bash',str(helper)]+(['--nonterminal-yield'] if args.disposition=='NONTERMINAL_YIELD' else [])+[str(root)],allowed=(0,3) if args.disposition=='NONTERMINAL_YIELD' else (0,))
+        if structural.returncode==3:refuse('unsupported yield read-set profile: '+structural.stderr.strip())
+        if closure:
+            text=safe_read(closure)[0].decode('utf-8');data=fields(text)
+            if closure.parent!=root:refuse('closure record must be a run-root sibling of deferrals.jsonl')
+            if current.get('Status')!='DONE' or current.get('Audit object state')!='terminal verified closure':refuse('closure requires DONE and terminal verified closure')
+            sequence=markers(text)
+            if sequence[-2:]!=['AUDIT_COMPLETE','IMPLEMENTAUDIT_RUN_COMPLETE'] or sequence.count('AUDIT_COMPLETE')!=1 or sequence.count('IMPLEMENTAUDIT_RUN_COMPLETE')!=1:refuse('exclusive final terminal marker order is missing')
+            if 'AUDIT_START' not in sequence or 'AUDIT_VERIFY' not in sequence or sequence.index('AUDIT_VERIFY')<sequence.index('AUDIT_START'):refuse('final audit start/verify record is absent')
+            last_start=max(i for i,m in enumerate(sequence) if m=='AUDIT_START')
+            if sequence[last_start:]!=['AUDIT_START','AUDIT_VERIFY','AUDIT_COMPLETE','IMPLEMENTAUDIT_RUN_COMPLETE']:refuse('last audit round retains gaps or lacks verification')
+            for key in ('AUDIT_START_ANCHOR','AUDIT_VERIFY_ANCHOR','REANCHOR_DISPOSITION','REANCHOR_EVIDENCE','equivalent_config_attempts','stochasticity_budget','terminal_qualification'):
+                if not data.get(key):refuse('required final audit identity missing: '+key)
+            if data['terminal_qualification']!='QUALIFIED':refuse('final candidate is not QUALIFIED')
+            coverage=re.findall(r'(?m)^re_verified / \(re_verified \+ trust_prior\) = ([0-9]+) / \(([0-9]+) \+ ([0-9]+)\) = ([01](?:\.[0-9]+)?|[0-9]+/[0-9]+)\s*$',text)
+            if len(coverage)!=1:refuse('one concrete coverage calculation is required')
+            numerator,fresh,prior=map(int,coverage[0][:3])
+            from fractions import Fraction
+            if numerator!=fresh or fresh+prior<=0 or abs(Fraction(coverage[0][3])-Fraction(fresh,fresh+prior))>Fraction(1,10000):refuse('coverage arithmetic does not match its nonzero population')
+            claim_rows=[line for line in text.splitlines() if line.startswith('claim:')]
+            if not claim_rows or any(not re.search(r'\|\s*status:\s*(verified|not-applicable)(?:\s*\||\s*$)',line) for line in claim_rows):refuse('unclosed required closure claim')
+            # Hosted publication may perform live retrieval and dynamically select
+            # dependencies; it needs its own authorized accepting executor.
+            if re.search(r'(?m)^publication-identity:|^claim:.*\|\s*surface:\s*publication\b',text):refuse('unsupported dynamic publication dependency')
+            for rel in re.findall(r'(?:evidence-file|record-file|readback-file):\s*([^|\n]+)',text):contained(rel.strip())
+            inventory_sections=re.findall(r'(?ms)^(?:## Final closure checker inputs|Final closure checker inputs:)\s*\n(.*?)(?=^## |\Z)',state)
+            if len(inventory_sections)!=1:refuse('expected one Final closure checker inputs inventory')
+            inventory_fields=fields(inventory_sections[0])
+            for key,provided in (('Superseded plans',plans),('Cycle-accounted plans',cycles)):
+                raw=inventory_fields.get(key)
+                if raw is None:refuse('missing Final closure checker inputs: '+key)
+                declared=[] if raw=='none' else [contained(p.strip(' `')) for p in raw.split(',')]
+                if sorted(map(str,provided))!=sorted(map(str,declared)) or len(set(provided))!=len(provided):refuse('applicable plan inventory differs from supplied inputs')
+            if inventory_fields.get('Steer directory') not in {str(root),'<run-root>'}:refuse('closure steer inventory does not select this run root')
+            phases=[row for row in table_rows(roadmap, decision_columns=(('Status','Phase'),('Status','#'))) if 'Status' in row and ('Phase' in row or '#' in row)]
+            if not phases:refuse('no declared phase population')
+            for row in phases:
+                review=row.get('Review')
+                if review is not None and review not in {'PASS','not applicable','not-applicable'} and not re.fullmatch(r'not[- ]applicable: .+',review):refuse('nonterminal declared phase review')
+                number=row.get('#',row.get('Phase',''))
+                if not re.fullmatch(r'[1-9][0-9]*',number):refuse('unsupported phase identity')
+                phase=contained('phases/phase-'+number+'.md');phase_text=safe_read(phase)[0].decode('utf-8')
+                if any(value.strip() not in {'','none'} for value in re.findall(r'(?m)^Scarce resource budget:(.*)$',safe_read(phase)[0].decode('utf-8'))):refuse('unsupported active rehearsal dependency')
+                run(['bash',str(owner/'validate-phase.sh'),str(phase)])
+                deferred=row['Status'].lower().startswith('deferred')
+                if row['Status'].lower() not in {'done','verified','pass','complete','completed','closed'} and not deferred:refuse('nonterminal declared phase')
+                tail=phase_text.split('IMPLEMENTAUDIT_PHASE_DONE')[-1]
+                if not re.search(r'(?m)^Status:\s*(done|verified|pass|complete|completed|closed|deferred)\b',tail,re.I):refuse('phase lacks terminal DONE evidence')
+                if deferred:
+                    if not concrete(fields(phase_text).get('Owner decision')):refuse('deferred phase lacks owner decision')
+                elif re.search(r'(?m)^\s*- \[ \]',phase_text):refuse('phase has unverified required criterion')
+            for verdict in re.findall(r'(?m)^cold-review: disposition: ([^|]+)',state):
+                if verdict.strip()!='PASS':refuse('nonterminal current cold-review disposition')
+            for section,allowed in (('AGENTS_UPDATE_DECISION',{'updated','not warranted','OWNER DECISION'}),('CONTINUITY_DECISION',{'none','updated','deferred','OWNER DECISION'})):
+                if re.search(r'(?m)^## '+section+r'\s*$',state) and fields(state,section).get('Status') not in allowed:refuse('nonterminal '+section)
+            # An occurrence can retain earlier probe/escalation history. Only a
+            # later row for that same occurrence, phase and abnormality class
+            # supersedes its outcome; another remedy cannot close this one.
+            andon_blocks=re.findall(r'(?mis)^## Andon log\s*\n(.*?)(?=^## |\Z)',state)
+            if len(andon_blocks)!=1:refuse('expected one current Andon log')
+            latest={};row_ids=set()
+            for row in table_rows(andon_blocks[0], unique_headers=True):
+                if not {'#','Phase','Class','Outcome'}<=row.keys():refuse('malformed Andon outcome record')
+                number=row['#']
+                if not re.fullmatch(r'[1-9][0-9]*',number) or number in row_ids:refuse('ambiguous Andon row identity')
+                row_ids.add(number)
+                outcome=row['Outcome']
+                if outcome not in {'resolved','open (rerun pending)','blocked (handoff condition)'} and not re.fullmatch(r'escalated \(cites #[1-9][0-9]*(?:, #[1-9][0-9]*)*\)',outcome):refuse('unknown or missing Andon outcome')
+                occurrence=row.get('Occ')
+                if occurrence is not None and not occurrence:refuse('missing Andon occurrence identity')
+                key=('occ',occurrence,row['Phase'],row['Class']) if occurrence is not None else ('legacy-row',number)
+                latest[key]=outcome
+            if any(outcome!='resolved' for outcome in latest.values()):refuse('unresolved current Andon outcome prevents terminal closure')
+            for row in table_rows(state, decision_columns=(('Finding','Status'),('Consequential',),('Disposition',))):
+                if 'Finding' in row and 'Status' in row and row['Status'].lower() not in {'closed','done','verified','resolved','not-applicable','deferred'}:refuse('nonterminal in-scope ledger item')
+                if row.get('Consequential','').lower()=='yes' and row.get('Disposition') in {'pending','unresolved',''}:refuse('unresolved consequential residual')
+                if row.get('Disposition') in {'deferred','transferred','owner-assigned','risk-accepted'} and not concrete(row.get('Owner / policy ref')):refuse('residual lacks owner/policy disposition')
+            deliverables=re.findall(r'(?ms)^## Deliverables\s*\n(.*?)(?=^## |\Z)',roadmap)
+            for block in deliverables:
+                for line in block.splitlines():
+                    if not line.strip():continue
+                    match=re.fullmatch(r'- `([^`]+)`',line)
+                    if not match:refuse('unsupported deliverable declaration; requires one literal path per bullet')
+                    if not safe_read(contained(match[1]))[0].strip():refuse('empty declared deliverable')
+            if re.search(r'environment-quirk|destination:\s*(?:checker|deterministic test)',text,re.I):refuse('unsupported external lesson-lift dependency')
+            run(['bash',str(owner/'check-lesson-lift.sh'),str(closure),'--repo-root',repo])
+            command=['bash',str(owner/'check-closure-surface.sh'),str(closure),'--steer-dir',str(root)]
+            for flag,paths in (('--superseded-plan',plans),('--plan-cycle-record',cycles)):
+                for path in paths:command.extend([flag,str(path)])
+            run(command)
+        if packet:
+            text=safe_read(packet)[0].decode('utf-8');data=fields(text)
+            if current.get('Status')!='BLOCKED' or current.get('Audit object state')!='open':refuse('handoff requires BLOCKED/open state')
+            for key in ('Blocker','Owner/source','Next action','Re-entry condition'):needed(current,key)
+            evidence=contained(needed(current,'Handoff evidence'))
+            if not safe_read(evidence)[0].strip():refuse('empty handoff evidence')
+            if not re.fullmatch(r'[0-9a-f]{64}',data.get('packet_content_hash','')):refuse('handoff requires exact SHA-256 packet content hash')
+            body=''.join(line for line in text.splitlines(keepends=True) if not re.match(r'^packet_content_hash:',line,re.I))
+            if hashlib.sha256(body.encode('utf-8')).hexdigest()!=data['packet_content_hash']:refuse('handoff packet digest mismatch')
+            packet_markers=markers(text)
+            if len(packet_markers)!=1 or packet_markers[0] not in {'AUDIT_HANDOFF','ANDON_HANDOFF'}:refuse('one exclusive handoff marker is required')
+            if current.get('Handoff basis')=='owner-request':
+                if packet_markers[0]!='AUDIT_HANDOFF':refuse('owner-request handoff is AUDIT_HANDOFF')
+            elif current.get('Handoff basis')=='andon':
+                for key in ('Failing criterion','Probe and escalation history','Handoff trigger','Remaining blocker','Next owner action'):needed(data,key)
+                if data.get('Handoff trigger') not in {'owner-decision','unsafe-scope','missing-authorization','external-dependency','irreproducibility','missing-tool-or-access','no-bounded-countermeasure'}:refuse('not an existing Andon handoff condition')
+                if not re.fullmatch(r'[1-9][0-9]*',data.get('Phase','')) or data.get('Phase')!=current.get('Phase'):refuse('Andon handoff phase mismatch')
+                if data['Remaining blocker']!=current['Blocker'] or data['Next owner action']!=current['Next action']:refuse('Andon handoff record differs from current blocker/action')
+                phase=contained('phases/phase-'+data['Phase']+'.md')
+                if any(value.strip() not in {'','none'} for value in re.findall(r'(?m)^Scarce resource budget:(.*)$',safe_read(phase)[0].decode('utf-8'))):refuse('unsupported active rehearsal dependency')
+                run(['bash',str(owner/'validate-phase.sh'),str(phase)])
+                if not re.search(r'IMPLEMENTAUDIT_PHASE_DONE[\s\S]*^Status:\s*blocked\b',safe_read(phase)[0].decode(),re.M):refuse('Andon handoff lacks blocked phase evidence')
+                if not any(row.get('Phase')==data['Phase'] and row.get('Outcome')=='blocked (handoff condition)' and row.get('Rerun evidence')==current['Handoff evidence'] for row in table_rows(state)):refuse('Andon handoff lacks exact blocked log/evidence')
+            else:refuse('handoff basis must be owner-request or andon')
+            run(['bash',str(owner/'check-handoff-packet.sh'),str(packet),'--repo-root',repo])
+        if selected.returncode==0:run(reader+['--verify-current'])
+        if review_owner is not None:
+            try:review_owner_after=safe_read(review_owner)[1] if os.path.lexists(review_owner) else None
+            except (OSError,ValueError) as exc:refuse('unsupported repository review owner: '+str(exc))
+            if review_owner_before!=review_owner_after:refuse('unsupported repository review owner changed during disposition validation')
+        if before!=inventory(read_root):refuse('read-set changed during disposition validation')
+        if source_before!=source_identity():refuse('packaged owner source changed during validation')
+        if args.disposition!='NONTERMINAL_YIELD' and repo_before!=git_identity():refuse('repository identity changed during disposition validation')
+    print(json.dumps({'record_disposition':args.disposition,'authority':'NONE','native_enforcement':False,'effect_authority':False,'scope':'constructed record validation; authentic lifecycle acceptance not established'},sort_keys=True))
+except (OSError,UnicodeError,ValueError,ZeroDivisionError) as exc:
+    outside=str(exc).startswith('unsupported ')
+    kind='OUT_OF_PROFILE' if outside else 'RECORD_REFUSED'
+    print('validate-run-root: '+kind+': '+str(exc)+'; no disposition',file=sys.stderr)
+    raise SystemExit(3 if outside else 1)
+PYDISPOSITION
+  exit $?
+fi
+
 if [ "${1:-}" = "--claim-only" ]; then
   run_arg="${2:-}"; [ "${3:-}" = "--repo-root" ] && repo_arg="${4:-}" || repo_arg=""
   [ -n "$run_arg" ] && [ -n "$repo_arg" ] && [ "$#" -eq 4 ] || { printf 'usage: validate-run-root.sh --claim-only <run-root> --repo-root <repo-root>\n' >&2; exit 2; }
@@ -434,8 +768,7 @@ PY
 fi
 
 check_recurrence_decision() {
-  local ledger="$1" findings invalid_lines missing_classes trajectory_missing
-  local -a recurrence_py
+  local ledger="$1" findings invalid_lines missing_classes
   findings="$(awk -F'|' '
     function trim(v) { gsub(/^[ \t]+|[ \t]+$/, "", v); return v }
     function owner_source(v) {
@@ -493,215 +826,6 @@ check_recurrence_decision() {
   if [ -n "$missing_classes" ]; then
     err "Andon class(es) $missing_classes reached 3 distinct linked occurrences with the last 2 repairs on one owner/source; add a following Mechanism-replacement decision:"
   fi
-
-  trajectory_missing=""
-  if grep -q '^cold-review:' "$ledger"; then
-    recurrence_py=()
-    if command -v python >/dev/null 2>&1; then recurrence_py=(python)
-    elif command -v python3 >/dev/null 2>&1; then recurrence_py=(python3)
-    elif command -v py >/dev/null 2>&1; then recurrence_py=(py -3)
-    else
-      err "python, python3, or py -3 is required for digest-bound recurrence validation"
-    fi
-    if [ "${#recurrence_py[@]}" -gt 0 ]; then
-      if ! trajectory_missing="$("${recurrence_py[@]}" - "$ledger" <<'PY'
-import hashlib
-import re
-import subprocess
-import sys
-from collections import defaultdict
-from pathlib import Path, PurePosixPath
-
-ledger_path = Path(sys.argv[1]).resolve()
-run_root = ledger_path.parent
-try:
-    lines = ledger_path.read_text(encoding="utf-8").splitlines()
-except (OSError, UnicodeError):
-    raise SystemExit(0)
-
-
-def trim(value):
-    return value.strip(" \t")
-
-
-def table_rows(section):
-    active = False
-    for line_number, line in enumerate(lines, 1):
-        if line == section:
-            active = True
-            continue
-        if active and line.startswith("## "):
-            active = False
-        if not active or not line.startswith("|") or not line.endswith("|"):
-            continue
-        cells = [trim(cell) for cell in line.split("|")[1:-1]]
-        yield line_number, cells
-
-
-def contained_bytes(relative, declared_digest):
-    normalized = relative.replace("\\", "/")
-    pure = PurePosixPath(normalized)
-    if (not normalized or pure.is_absolute() or normalized != str(pure)
-            or any(part in ("", ".", "..") for part in pure.parts)
-            or pure.parts[0] == ".git"
-            or re.match(r"^[A-Za-z]:", normalized)):
-        return None
-    lexical = run_root.joinpath(*pure.parts)
-    try:
-        resolved = lexical.resolve(strict=True)
-        resolved.relative_to(run_root)
-    except (OSError, ValueError):
-        return None
-    if not lexical.is_file() or lexical.is_symlink():
-        return None
-    try:
-        payload = resolved.read_bytes()
-    except OSError:
-        return None
-    digest = hashlib.sha256(payload).hexdigest()
-    if digest != declared_digest:
-        return None
-    return resolved, payload
-
-
-prospective_re = re.compile(
-    r"^cold-review: disposition: (PASS|GAP-REVISE|BLOCKED|OWNER DECISION) "
-    r"\| attestation: ([A-Za-z0-9._/-]+) "
-    r"\| attestation_sha256: ([0-9a-f]{64}) "
-    r"\| packet: ([A-Za-z0-9._/-]+) "
-    r"\| packet_sha256: ([0-9a-f]{64}) "
-    r"\| base_sha: ([0-9a-f]{40}) \| head_sha: ([0-9a-f]{40})$"
-)
-attestation_keys = (
-    "reviewer_identity", "requested_model", "actual_model",
-    "authoring_context_reuse", "other_reviewer_output_seen",
-    "base_sha", "head_sha",
-)
-
-
-def qualified_review(line):
-    match = prospective_re.fullmatch(line)
-    if not match or match.group(1) != "GAP-REVISE":
-        return None
-    disposition, report_rel, report_digest, packet_rel, packet_digest, base, head = match.groups()
-    report_bound = contained_bytes(report_rel, report_digest)
-    packet_bound = contained_bytes(packet_rel, packet_digest)
-    if not report_bound or not packet_bound:
-        return None
-    try:
-        report = report_bound[0].read_text(encoding="utf-8").splitlines()
-    except (OSError, UnicodeError):
-        return None
-    if report.count("Report state: FINAL") != 1 or report.count("Reviewer attestation:") != 1:
-        return None
-    header = report.index("Reviewer attestation:")
-    block = report[header + 1:header + 1 + len(attestation_keys)]
-    if len(block) != len(attestation_keys):
-        return None
-    values = {}
-    for index, key in enumerate(attestation_keys):
-        prefix = f"- {key}:"
-        exact = [item for item in report if item.startswith(prefix)]
-        if len(exact) != 1 or block[index] != exact[0]:
-            return None
-        values[key] = exact[0].split(":", 1)[1].strip()
-    if (values["authoring_context_reuse"] != "no"
-            or values["base_sha"] != base or values["head_sha"] != head):
-        return None
-    nonempty = [item for item in report if item.strip()]
-    if not nonempty or nonempty[-1] != disposition:
-        return None
-    terminal = [item for item in report if item in {"PASS", "GAP-REVISE", "BLOCKED", "OWNER DECISION"}]
-    if terminal != [disposition]:
-        return None
-    for prefix in ("Verdict:", "Disposition:", "cold-review-disposition:"):
-        for item in report:
-            if item.startswith(prefix) and item.split(":", 1)[1].strip() != disposition:
-                return None
-    def git(*args):
-        return subprocess.run(
-            ["git", "-C", str(run_root), *args],
-            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
-            check=False,
-        )
-    for sha in (base, head):
-        resolved = git("cat-file", "-t", sha)
-        if resolved.returncode != 0 or resolved.stdout.strip() != "commit":
-            return None
-    if base == head or git("merge-base", "--is-ancestor", base, head).returncode != 0:
-        return None
-    return report_rel, report_digest, packet_digest, head
-
-
-qualified = {}
-for line in lines:
-    identity = qualified_review(line)
-    if identity:
-        qualified[identity[0]] = identity
-
-
-def owner_source(value):
-    match = re.search(r"owner/source\s*=\s*([^\s;,)]+)", value)
-    if not match:
-        return ""
-    owner = match.group(1).replace("\\", "/")
-    while owner.startswith("./"):
-        owner = owner[2:]
-    return owner
-
-
-groups = defaultdict(dict)
-for line_number, cells in table_rows("## Andon log"):
-    if len(cells) != 8 or not re.fullmatch(r"[0-9]+", cells[0]):
-        continue
-    review_match = re.fullmatch(r"`([^`]+)`", cells[6])
-    if not review_match:
-        continue
-    identity = qualified.get(review_match.group(1))
-    occurrence = cells[1]
-    owner = owner_source(cells[5])
-    family = cells[3]
-    if identity and occurrence and owner and family:
-        groups[(family, owner)].setdefault((*identity[1:], occurrence), line_number)
-
-decision_pattern = re.compile(
-    r"^Mechanism-replacement decision:\s*"
-    r"(?:replace-mechanism|continue|escalate-to-convergence-mode)\s*"
-    r"\([^()]*[A-Za-z0-9][^()]*\)\s*$"
-)
-decisions = [number for number, line in enumerate(lines, 1) if decision_pattern.fullmatch(line)]
-audit_complete = next(
-    (number for number, line in enumerate(lines, 1) if line.strip() == "AUDIT_COMPLETE"),
-    0,
-)
-for (family, owner), entries_by_key in sorted(groups.items()):
-    entries = [(*key, line_number) for key, line_number in entries_by_key.items()]
-    trigger_lines = [
-        max(left[4], right[4])
-        for index, left in enumerate(entries)
-        for right in entries[index + 1:]
-        if (left[0] != right[0] and left[1] != right[1]
-            and left[2] != right[2] and left[3] != right[3])
-    ]
-    if not trigger_lines:
-        continue
-    trigger_line = min(trigger_lines)
-    if not any(number > trigger_line and (not audit_complete or number < audit_complete)
-               for number in decisions):
-        print(f"{family}\t{owner}")
-PY
-)"; then
-        err "digest-bound recurrence evidence could not be parsed"
-        trajectory_missing=""
-      fi
-    fi
-  fi
-  if [ -n "$trajectory_missing" ]; then
-    while IFS=$'\t' read -r family owner; do
-      [ -n "$family" ] || continue
-      err "Andon family '$family' has 2 distinct digest-bound GAP-REVISE reviews on owner/source '$owner'; add a following Mechanism-replacement decision:"
-    done <<< "$trajectory_missing"
-  fi
 }
 
 intent_value() { sed -n "s/^$2:[[:space:]]*//p" "$1" | head -n1; }
@@ -754,13 +878,31 @@ intent_has_invalid_closed_anchor() {
   ' "$1"
 }
 check_background_chains() {
-  local root="$1" state="$2" chain id intent status budget signal expected timeout mode cadence why es ts polls line pid boot created rc
+  local root="$1" state="$2" chain source_chain id intent status budget signal expected timeout mode cadence why es ts polls line pid boot created rc
   [ -d "$root/background" ] || return
+  local content_only=()
+  # Temporary copy pathnames must not masquerade as an owned process selector.
+  [ "$nonterminal_yield" != yes ] || content_only=(-h)
   for chain in "$root"/background/*; do
     [ -d "$chain" ] || continue; id="$(basename "$chain")"
+    source_chain="$chain"
+    if [ "$nonterminal_yield" = yes ]; then
+      # Read the original owner's grammar from safe copies. Rechecks below bind
+      # the original paths; a later FIFO swap cannot block the shell consumers.
+      # Display IDs can collide (for example after trailing-newline removal).
+      # Each original chain needs private completion/status/recursive copies.
+      chain="$(mktemp -d "$validation_snapshots/background.XXXXXXXX")" \
+        || { err "yield read-set background snapshot allocation failed"; continue; }
+      yield_track_dependency --capture "$source_chain/launch-intent.md" "$chain/launch-intent.md" \
+        || { err "yield read-set background intent capture failed"; continue; }
+    fi
     intent="$chain/launch-intent.md"; status="$chain/chain-status.txt"
     [ -f "$intent" ] || { err "background/$id missing launch-intent.md"; continue; }
     if intent_has_closed_window "$intent"; then
+      if [ "$nonterminal_yield" = yes ]; then
+        yield_track_dependency --background-presence "$source_chain/chain.done" "$chain/chain.done" \
+          || { err "yield read-set background completion capture failed"; continue; }
+      fi
       [ -f "$chain/chain.done" ] \
         || err "background/$id closed verification window lacks chain.done"
       if intent_has_invalid_closed_anchor "$intent"; then
@@ -787,7 +929,15 @@ check_background_chains() {
     es="$(duration_seconds "$expected" 2>/dev/null || :)"; ts="$(duration_seconds "$timeout" 2>/dev/null || :)"
     [ -n "$es" ] || err "background/$id invalid expected_duration"; [ -n "$ts" ] || err "background/$id invalid transport_timeout"
     if [ -n "$es" ] && [ -n "$ts" ] && [ "$mode" = inline ] && [ "$es" -ge "$ts" ]; then err "background/$id inline launch meets/exceeds ceiling"; fi
+    if [ "$nonterminal_yield" = yes ]; then
+      yield_track_dependency --background-status "$source_chain/chain-status.txt" "$status" \
+        || { err "yield read-set background status capture failed"; continue; }
+    fi
     [ -f "$status" ] || continue
+    if [ "$nonterminal_yield" = yes ]; then
+      yield_track_dependency --background-scan "$source_chain" "$chain" \
+        || { err "yield read-set background scan capture failed"; continue; }
+    fi
     polls="$(grep -c '^probe:' "$status" 2>/dev/null || :)"
     if [[ "$budget" =~ ^[1-9][0-9]*$ ]] && [ "$polls" -gt "$budget" ] &&
        { [ ! -f "$state" ] || ! awk -v n="$budget" 'index(tolower($0),"hung-command")&&index(tolower($0),"supervision-overrun")&&index(tolower($0),"poll_budget " n " exceeded"){f=1} END{exit !f}' "$state"; }; then
@@ -797,7 +947,7 @@ check_background_chains() {
     elif [ "$cadence" = terminal-only ] && grep -q '^report: item=' "$status"; then err "background/$id terminal-only narrated item"; fi
     awk '/^checkpoint:/{c=NR}/^wait: blocking/{if(!c||c>=NR)b=1}END{exit b}' "$status" || err "background/$id wait lacks checkpoint"
     grep -R -E -q "Name[[:space:]]*=[[:space:]]*['\"][^'\"]*\\.exe|pkill[[:space:]]+-f|taskkill([.]exe)?[[:space:]].*/IM|Get-CimInstance[[:space:]]+Win32_Process" "$chain" 2>/dev/null && err "background/$id broad kill authority"
-    if grep -R -E 'Get-Process([[:space:]]|$)' "$chain" 2>/dev/null | grep -Evq 'Get-Process[[:space:]]+-Id([[:space:]]|$)'; then err "background/$id broad Get-Process"; fi
+    if grep -R "${content_only[@]}" -E 'Get-Process([[:space:]]|$)' "$chain" 2>/dev/null | grep -Evq 'Get-Process[[:space:]]+-Id([[:space:]]|$)'; then err "background/$id broad Get-Process"; fi
     while IFS= read -r line; do
       pid="$(sed -n 's/.*pid=\([0-9][0-9]*\).*/\1/p' <<<"$line")"; boot="$(sed -n 's/.*host_boot_id=\([^ |]*\).*/\1/p' <<<"$line")"; created="$(sed -n 's/.*process_creation_time=\([^ |]*\).*/\1/p' <<<"$line")"
       if [ -z "$pid" ] || [ -z "$boot" ] || [ -z "$created" ] || [ ! -f "$chain/process-started.json" ]; then err "background/$id kill lacks process-started.json identity"; continue; fi
@@ -832,7 +982,7 @@ check_done_phase_captures() {
     :
   elif is_nonterminal_phase_status "$status"; then
     return 0
-  elif [ -f "$run_root/ROADMAP.md" ]; then
+  elif [ -f "$roadmap" ]; then
     phase_n="$(basename "$phase" | sed -n 's/^phase-\([0-9][0-9]*\)\.md$/\1/p')"
     status="$(awk -F'|' -v n="$phase_n" '
       function trim(v) { gsub(/^[ \t]+|[ \t]+$/, "", v); return v }
@@ -849,7 +999,7 @@ check_done_phase_captures() {
         next
       }
       phase_table && NF && $0 !~ /^[ \t]*$/ { phase_table=0 }
-    ' "$run_root/ROADMAP.md")"
+    ' "$roadmap")"
     is_terminal_phase_status "$status" || return 0
   else
     return 0
@@ -874,6 +1024,9 @@ check_done_phase_captures() {
       ./evidence/*) target="$run_root/${capture#./}" ;;
       *) continue ;;
     esac
+    if ! yield_track_dependency --capture "$target"; then
+      err "yield read-set DONE capture failed: $capture"; continue
+    fi
     if [ ! -f "$target" ]; then
       err "DONE phase $(basename "$phase") declared capture is missing: $capture"
     elif ! has_non_whitespace "$target"; then
@@ -885,6 +1038,7 @@ check_done_phase_captures() {
 }
 
 mode=full
+nonterminal_yield=no
 if [ "${1:-}" = "--micro" ]; then
   mode=micro
   shift
@@ -892,22 +1046,17 @@ elif [ "${1:-}" = "--ledger" ]; then
   mode=ledger
   shift
 elif [ "${1:-}" = "--nonterminal-yield" ]; then
-  mode=nonterminal-yield
-  shift
-elif [ "${1:-}" = "--audited-handoff" ]; then
-  mode=audited-handoff
+  nonterminal_yield=yes
   shift
 fi
 run_root="${1:-}"
-if [ -z "$run_root" ]; then
+if [ -z "$run_root" ] || { [ "$nonterminal_yield" = yes ] && [ "$#" -ne 1 ]; }; then
   if [ "$mode" = micro ]; then
     printf 'usage: validate-run-root.sh --micro <run-root>\n' >&2
   elif [ "$mode" = ledger ]; then
     printf 'usage: validate-run-root.sh --ledger <markdown-ledger>\n' >&2
-  elif [ "$mode" = nonterminal-yield ]; then
+  elif [ "$nonterminal_yield" = yes ]; then
     printf 'usage: validate-run-root.sh --nonterminal-yield <run-root>\n' >&2
-  elif [ "$mode" = audited-handoff ]; then
-    printf 'usage: validate-run-root.sh --audited-handoff <run-root>\n' >&2
   else
     printf 'usage: validate-run-root.sh <run-root>\n' >&2
   fi
@@ -924,6 +1073,277 @@ fi
   exit 0
 }
 [ -d "$run_root" ] || { printf 'validate-run-root: not a directory: %s\n' "$run_root" >&2; exit 2; }
+
+# Claim-owned canonical selection precedes every native STATE/ROADMAP guard.
+# The original legacy parser remains intact; typed projection custody alone
+# cannot discharge an unmapped native semantic guard.
+state="$run_root/STATE.md"
+roadmap="$run_root/ROADMAP.md"
+canonical_record_root="$run_root"
+canonical_roots=()
+canonical_snapshots=()
+reader="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/read-canonical-pair.py"
+validation_snapshots="$(mktemp -d)" || exit 1
+trap 'rm -rf "$validation_snapshots"' EXIT
+reader_py=()
+canonical_selection() {
+  local selected_root="$1" output="$2"
+  if [ "${#reader_py[@]}" -eq 0 ]; then
+    if command -v python >/dev/null 2>&1; then reader_py=(python -B)
+    elif command -v python3 >/dev/null 2>&1; then reader_py=(python3 -B)
+    elif command -v py >/dev/null 2>&1; then reader_py=(py -3 -B)
+    else printf 'validate-run-root: Python is required for canonical selection\n' >&2; return 1; fi
+  fi
+  PYTHONDONTWRITEBYTECODE=1 "${reader_py[@]}" "$reader" --run-root "$selected_root" --output "$output" --native-guards
+}
+mkdir "$validation_snapshots/pair" || exit 1
+canonical_selection "$run_root" "$validation_snapshots/pair"
+selection_rc=$?
+case "$selection_rc" in
+  0)
+    state="$validation_snapshots/pair/native-STATE.md"
+    roadmap="$validation_snapshots/pair/native-ROADMAP.md"
+    canonical_record_root="$validation_snapshots/pair/native-records"
+    canonical_roots+=("$run_root")
+    canonical_snapshots+=("$validation_snapshots/pair")
+    ;;
+  3) : ;; # Physical absence/unbound structural legacy profile; no currentness claim.
+  *) err "canonical pair selection refused; root compatibility fallback is forbidden"; exit 1 ;;
+esac
+
+
+# Selected-record consistency for the additive yield mode. This is read evidence,
+# not controller/host currentness. Legacy records otherwise have no final pair
+# token, so a stable individual late read would miss earlier structural drift.
+yield_read_identity() {
+  "${reader_py[@]}" - "$state" "$roadmap" "$run_root" "$@" <<'PYIDENTITY'
+import hashlib,json,os,re,stat,sys
+from contextlib import nullcontext
+from pathlib import Path,PurePosixPath
+state,roadmap,root=map(Path,sys.argv[1:4])
+operation=sys.argv[4:]
+records={}
+class Unsupported(ValueError): pass
+def read(path,textual=True,snapshot=None):
+    path=path.absolute()
+    for node in (path,*path.parents):
+        info=node.lstat()
+        if stat.S_ISLNK(info.st_mode) or getattr(info,'st_file_attributes',0)&0x400:
+            raise ValueError('aliased yield read-set member')
+    info=path.lstat()
+    if not stat.S_ISREG(info.st_mode) or info.st_nlink!=1 or (textual and info.st_size>1_000_000):
+        raise ValueError('unsafe yield read-set member')
+    signature=lambda x:[x.st_dev,x.st_ino,x.st_size,x.st_mtime_ns,x.st_ctime_ns]
+    if snapshot is not None:snapshot.parent.mkdir(parents=True,exist_ok=True)
+    fd=os.open(path,os.O_RDONLY|getattr(os,'O_NOFOLLOW',0)|getattr(os,'O_NONBLOCK',0))
+    with os.fdopen(fd,'rb') as handle, (snapshot.open('wb') if snapshot is not None else nullcontext()) as copied:
+        opened=os.fstat(handle.fileno())
+        if not stat.S_ISREG(opened.st_mode):
+            raise ValueError('nonregular yield read-set member after open')
+        digest=hashlib.sha256()
+        if textual:
+            data=handle.read(1_000_001);digest.update(data)
+            if copied is not None:copied.write(data)
+        else:
+            # A consumed capture is fingerprinted as bytes. Its native owner
+            # decides content applicability; no text encoding or log-size cap.
+            data=None
+            while True:
+                chunk=handle.read(65536)
+                if not chunk:break
+                digest.update(chunk)
+                if copied is not None:copied.write(chunk)
+        closed=os.fstat(handle.fileno())
+    if (textual and len(data)>1_000_000) or not signature(info)==signature(opened)==signature(closed)==signature(path.lstat()):
+        raise ValueError('yield read-set changed during capture')
+    records[str(path)]=[signature(closed),digest.hexdigest()]
+    return data.decode('utf-8') if textual else ''
+def optional(path):
+    if not os.path.lexists(path):
+        records[str(path.absolute())]=None
+        return ''
+    return read(path)
+def presence(path):
+    if not os.path.lexists(path): records[str(path.absolute())]=None; return
+    info=path.lstat()
+    if not stat.S_ISREG(info.st_mode) or getattr(info,'st_file_attributes',0)&0x400:
+        raise ValueError('unsafe yield read-set presence dependency')
+    records[str(path.absolute())]=['present-file',info.st_dev,info.st_ino]
+def background_directory(path):
+    for node in (path,*path.parents):
+        info=node.lstat()
+        if not stat.S_ISDIR(info.st_mode) or getattr(info,'st_file_attributes',0)&0x400:
+            raise ValueError('unsafe yield read-set background directory')
+    return path.lstat()
+def background_namespace(path):
+    key='background-chains:'+str(path.absolute())
+    if not os.path.lexists(path):records[key]=None;return
+    info=background_directory(path);chains=[]
+    for child in sorted(path.iterdir()):
+        if child.name.startswith('.'):continue
+        entry=child.lstat()
+        if stat.S_ISLNK(entry.st_mode) or getattr(entry,'st_file_attributes',0)&0x400:
+            raise ValueError('aliased yield read-set background chain')
+        if stat.S_ISDIR(entry.st_mode):chains.append([str(child),entry.st_dev,entry.st_ino])
+    records[key]=[[info.st_dev,info.st_ino],chains]
+def background_scan(path,snapshot=None):
+    info=background_directory(path);children=sorted(path.iterdir())
+    records['background-members:'+str(path.absolute())]=[
+        [info.st_dev,info.st_ino,info.st_mtime_ns,info.st_ctime_ns],[p.name for p in children]]
+    for child in children:
+        entry=child.lstat();target=snapshot/child.name if snapshot is not None else None
+        if stat.S_ISDIR(entry.st_mode):background_scan(child,target)
+        else:read(child,textual=False,snapshot=target)
+def members(directory,pattern,recursive=False):
+    if not os.path.lexists(directory):
+        records['members:'+str(directory)+':'+pattern]=None
+        return []
+    if not stat.S_ISDIR(directory.lstat().st_mode) or directory.is_symlink():
+        raise ValueError('unsafe yield read-set directory')
+    if recursive:
+        selected=sorted(p for p in directory.rglob(pattern) if p.is_file() and not p.is_symlink())
+    else:
+        selected=sorted(p for p in directory.glob(pattern) if p.is_file() or p.is_symlink())
+    records['members:'+str(directory)+':'+pattern]=[str(p) for p in selected]
+    return selected
+def successor_review(path,snapshot=None,*,capture=False):
+    # This read map is qualified only for the exact repository checker below.
+    # Its semantic parser remains the sole owner of row/schema acceptance.
+    references=set();expected={}
+    if snapshot is not None and capture:snapshot.mkdir(parents=True,exist_ok=True)
+    direct=members(path,'*.md')
+    for source in direct:
+        text=read(source,snapshot=snapshot/source.name if snapshot is not None and capture else None)
+        expected[source.name]=records[str(source.absolute())][1]
+        fenced=False
+        for line in text.splitlines():
+            if line.startswith('```'):fenced=not fenced;continue
+            if fenced:continue
+            if line.startswith('successor-review:'):
+                file_fields={'predecessor_packet_scope_file','packet_scope_file'}
+                finding_fields={'provisional_findings_carried'}
+            elif line.startswith('lane-status:'):
+                file_fields=set();finding_fields={'provisional_findings'}
+            else:continue
+            for part in line.split('|')[1:]:
+                key,separator,value=part.partition(':');key=key.strip();value=value.strip()
+                if not separator:continue
+                if key in file_fields:references.add(value)
+                elif key in finding_fields and value!='none':
+                    references.update(ref.strip().split('#',1)[0] for ref in value.split(','))
+    for raw in sorted(references):
+        pure=PurePosixPath(raw)
+        if pure.is_absolute() or '..' in pure.parts or '.' in pure.parts or ':' in raw or '\\' in raw:
+            raise ValueError('unsafe yield read-set successor reference')
+        relative=Path(*pure.parts)
+        source=path/relative
+        read(source,textual=False,snapshot=snapshot/relative if snapshot is not None and capture else None)
+        expected[relative.as_posix()]=records[str(source.absolute())][1]
+    if snapshot is not None:
+        # Expected members and bytes come from the original safe reads, never
+        # from parsing the private copy. A copied row cannot hide a dependency.
+        if [p.name for p in members(snapshot,'*.md')]!=[p.name for p in direct]:
+            raise ValueError('successor snapshot direct membership differs from source capture')
+        info=snapshot.lstat()
+        records['successor-snapshot:'+str(snapshot.absolute())]=[info.st_dev,info.st_ino]
+        for relative,digest in sorted(expected.items()):
+            copied=snapshot/relative
+            read(copied,textual=False)
+            if records[str(copied.absolute())][1]!=digest:
+                raise ValueError('successor snapshot bytes differ from source capture')
+try:
+    if operation:
+        kind,raw,*destination=operation;path=Path(raw)
+        if len(destination)>1:raise ValueError('invalid yield snapshot destination')
+        snapshot=Path(destination[0]) if destination else None
+        if kind=='--successor-owner':
+            try:read(path,snapshot=snapshot)
+            except (OSError,ValueError) as exc:
+                raise Unsupported('repository successor review owner unavailable: '+str(exc))
+            if records[str(path.absolute())][1]!='9f762b1e602154bd37d561b3564ad58720934467f26a760a8cffec29727e55d1':
+                raise Unsupported('repository successor review owner bytes are not qualified')
+        elif kind in {'--successor-review','--successor-review-current'}:
+            if snapshot is None:raise ValueError('successor snapshot destination is required')
+            successor_review(path,snapshot,capture=kind=='--successor-review')
+        elif kind=='--capture':read(path,textual=False,snapshot=snapshot)
+        elif kind=='--background-status':
+            if os.path.lexists(path):read(path,textual=False,snapshot=snapshot)
+            else:records[str(path.absolute())]=None
+        elif kind=='--background-presence':
+            background_directory(path.parent);presence(path)
+            if os.path.lexists(path):
+                if path.lstat().st_nlink!=1:raise ValueError('aliased yield read-set completion presence')
+                if snapshot is not None:snapshot.touch()
+        elif kind=='--background-scan':background_scan(path,snapshot)
+        elif kind=='--optional':optional(path)
+        elif kind=='--presence':presence(path)
+        elif kind=='--respec':
+            # Select the same normalized fields and path as the respec owner.
+            lines=read(path).splitlines()
+            def field(name):
+                prefix=name+':'
+                values=[line[len(prefix):].strip() for line in lines if line.startswith(prefix)]
+                if len(values)!=1 or not values[0]:raise ValueError('ambiguous respec dependency field: '+name)
+                return values[0]
+            if field('Replacement')=='yes':
+                replacement=Path(field('Replacement path'))
+                if not replacement.is_absolute():replacement=path.parent/replacement
+                read(replacement,textual=False)
+        else:raise ValueError('unknown yield read-set operation')
+    else:
+        text=read(state);read(roadmap)
+        for name in ('PROTOCOL.md','THINKING.md','sidecars.md','tools.md','context.md'):
+            read(root/name)
+        optional(root/'.claimed');optional(root/'.controller')
+        # The structural owner scans every phase and every direct Markdown
+        # record, but not arbitrary nested evidence or still-producing logs.
+        for path in members(root/'phases','phase-*.md',recursive=True):read(path)
+        record_root=state.parent/'native-records' if state.name=='native-STATE.md' else root
+        for path in members(record_root,'*.md'):
+            read(path)
+        # Match the late Current phase parser, including backtick normalization.
+        lines=text.splitlines()
+        if lines.count('## Current phase')==1:
+            for line in lines[lines.index('## Current phase')+1:]:
+                if line.startswith('## '):break
+                if line.startswith('|'):
+                    cells=[cell.strip(' \t`') for cell in line.split('|')[1:-1]]
+                    if len(cells)==2 and cells[0]=='Phase' and re.fullmatch(r'[1-9][0-9]*',cells[1]):
+                        read(root/'phases'/('phase-'+cells[1]+'.md'))
+        if (root/'.claimed').is_file():
+            siblings=sorted(str(p) for p in root.parent.iterdir()
+                            if not p.name.startswith('.') and p.is_dir() and p!=root)
+            records['sibling-members:'+str(root.parent)]=siblings
+        background_namespace(root/'background')
+    sys.stdout.write(json.dumps(records,sort_keys=True,separators=(',',':'))+'\n')
+except Unsupported as exc:
+    sys.stderr.write('validate-run-root: OUT_OF_PROFILE: unsupported yield read-set dependency: '+str(exc)+'; no yield disposition\n')
+    raise SystemExit(3)
+except (OSError,ValueError) as exc:
+    sys.stderr.write('validate-run-root: yield read-set unavailable: '+str(exc)+'\n')
+    raise SystemExit(1)
+PYIDENTITY
+}
+yield_initial_identity=""
+yield_dependency_modes=(); yield_dependency_paths=(); yield_dependency_identities=(); yield_dependency_snapshots=()
+yield_track_dependency() {
+  [ "$nonterminal_yield" = yes ] || return 0
+  local identity mode="$1" snapshot=""
+  identity="$(yield_read_identity "$@")" || return $?
+  if [ "$mode" = --successor-review ]; then
+    mode=--successor-review-current; snapshot="$3"
+  fi
+  yield_dependency_modes+=("$mode"); yield_dependency_paths+=("$2")
+  yield_dependency_identities+=("$identity"); yield_dependency_snapshots+=("$snapshot")
+}
+if [ "$nonterminal_yield" = yes ]; then
+  yield_initial_identity="$(yield_read_identity)"
+  capture_rc=$?
+  if [ "$capture_rc" -ne 0 ]; then
+    [ "$capture_rc" -ne 3 ] || exit 3
+    err "yield read-set capture failed"; exit 1
+  fi
+fi
 
 claim="$run_root/.claimed"
 claim_mode=""
@@ -944,220 +1364,57 @@ if [ -f "$claim" ]; then
 
   claimed_templates="$(awk -F= '$1 == "templates" { print substr($0, index($0, "=") + 1); exit }' "$claim")"
   for f in $claimed_templates; do
+    yield_track_dependency --presence "$run_root/$f" || err "yield read-set claimed-artifact capture failed"
     [ -f "$run_root/$f" ] || err "claimed $f is missing — sentinel/artifact drift"
   done
 fi
 
 if [ "$mode" = micro ]; then
-  [ -f "$run_root/STATE.md" ] || err "missing required artifact: STATE.md"
+  [ -f "$state" ] || err "missing required artifact: STATE.md"
 else
-  status_line="$(grep -E '^\| Status \|' "$run_root/STATE.md" | head -1 || true)"
-  status_value="$(printf '%s' "$status_line" | awk -F'|' '{gsub(/^[ \t]+|[ \t]+$/, "", $3); print $3}')"
   root_done=no
-  [ "$status_value" = DONE ] && root_done=yes
+  if grep -Eq '^\|[[:space:]]*Status[[:space:]]*\|[[:space:]]*DONE[[:space:]]*\|' \
+    "$state" 2>/dev/null; then
+    root_done=yes
+  fi
   template_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/../templates" && pwd)"
   for f in STATE.md PROTOCOL.md; do
-    if [ ! -f "$run_root/$f" ]; then err "missing required artifact: $f"
-    elif ! has_non_whitespace "$run_root/$f"; then err "required artifact is blank: $f"; fi
+    artifact_path="$run_root/$f"; [ "$f" != STATE.md ] || artifact_path="$state"
+    if [ ! -f "$artifact_path" ]; then err "missing required artifact: $f"
+    elif ! has_non_whitespace "$artifact_path"; then err "required artifact is blank: $f"; fi
   done
   for f in ROADMAP.md THINKING.md sidecars.md tools.md context.md; do
-    if [ ! -f "$run_root/$f" ]; then err "missing planning artifact: $f (required for dispatched phase runs)"
-    elif ! has_non_whitespace "$run_root/$f"; then err "planning artifact is blank: $f"; fi
-    if [ "$root_done" = yes ] && [ -f "$run_root/$f" ] &&
-       cmp -s "$run_root/$f" "$template_dir/$f"; then
+    artifact_path="$run_root/$f"; [ "$f" != ROADMAP.md ] || artifact_path="$roadmap"
+    artifact_status="$(awk -F'|' -v artifact="<run-root>/$f" '
+      function trim(v) { gsub(/^[ \t`]+|[ \t`]+$/, "", v); return v }
+      trim($2) == artifact { print tolower(trim($3)); exit }
+    ' "$state" 2>/dev/null)"
+    if [ ! -f "$artifact_path" ]; then err "missing planning artifact: $f (required for dispatched phase runs)"
+    elif ! has_non_whitespace "$artifact_path"; then err "planning artifact is blank: $f"; fi
+    if [ "$root_done" = yes ] && [ "$artifact_status" = complete ] &&
+       [ -f "$artifact_path" ] &&
+       cmp -s "$artifact_path" "$template_dir/$f"; then
       err "planning artifact remains an unfilled template at DONE: $f"
     fi
   done
 fi
 
-if { [ "$mode" = full ] || [ "$mode" = nonterminal-yield ] || [ "$mode" = audited-handoff ]; } && [ -d "$run_root/phases" ]; then
+if [ "$mode" = full ] && [ -d "$run_root/phases" ]; then
   while IFS= read -r phase; do check_done_phase_captures "$phase"; done \
     < <(find "$run_root/phases" -type f -name 'phase-*.md' -print | sort)
 fi
 
-state="$run_root/STATE.md"
 if [ -f "$state" ]; then
-  if [ "$mode" = full ] || [ "$mode" = nonterminal-yield ] || [ "$mode" = audited-handoff ]; then
+  if [ "$mode" = full ]; then
+    status_line="$(grep -E '^\| Status \|' "$state" | head -1 || true)"
     if [ -z "$status_line" ]; then
       err "STATE.md has no '| Status |' row in the Current phase table"
     else
+      status_value="$(printf '%s' "$status_line" | awk -F'|' '{gsub(/^[ \t]+|[ \t]+$/, "", $3); print $3}')"
       case "$status_value" in
         open|READY_TO_DISPATCH|IN_PHASE|PAUSED|BLOCKED|INTERRUPTED|DONE) : ;;
         *) err "STATE.md Status '$status_value' is not a contract token (open / READY_TO_DISPATCH / IN_PHASE / PAUSED / BLOCKED / INTERRUPTED / DONE)" ;;
       esac
-    fi
-  fi
-
-  if [ "$mode" = nonterminal-yield ] || [ "$mode" = audited-handoff ]; then
-    state_field() {
-      awk -F'|' -v wanted="$1" '
-        function trim(value) { gsub(/^[ \t`]+|[ \t`]+$/, "", value); return value }
-        /^\|/ && trim($2) == wanted { print trim($3) }
-      ' "$state"
-    }
-    require_state_field() {
-      local field="$1" value count
-      value="$(state_field "$field")"
-      count="$(printf '%s\n' "$value" | awk 'NF { n++ } END { print n + 0 }')"
-      if [ "$count" -ne 1 ] || [ -z "$value" ] || [ "$value" = none ] || [ "$value" = pending ]; then
-        err "STATE.md nonterminal yield requires one nonempty '$field' value"
-      fi
-    }
-
-    if [ "$mode" = audited-handoff ]; then
-      [ "$status_value" = BLOCKED ] \
-        || err "STATE.md audited handoff requires Status 'BLOCKED'"
-    else
-      case "$status_value" in
-        open|READY_TO_DISPATCH|IN_PHASE|PAUSED|BLOCKED|INTERRUPTED) : ;;
-        *) err "STATE.md Status '$status_value' cannot represent a nonterminal yield" ;;
-      esac
-    fi
-    audit_object_state="$(state_field 'Audit object state')"
-    [ "$audit_object_state" = open ] \
-      || err "STATE.md nonterminal yield requires Audit object state 'open'"
-    for field in 'Phase' 'Route' 'Owner/source' 'Last check' 'Next action'; do
-      require_state_field "$field"
-    done
-    phase_value="$(state_field 'Phase')"
-    if [ "$mode" = nonterminal-yield ] && grep -Eq '^(AUDIT_COMPLETE|IMPLEMENTAUDIT_RUN_COMPLETE|AUDIT_HANDOFF|ANDON_HANDOFF)$' "$state"; then
-      err "STATE.md nonterminal yield cannot carry a terminal or handoff marker"
-    fi
-    if [ "$status_value" = BLOCKED ] || [ "$status_value" = INTERRUPTED ]; then
-      open_andon="$(awk -F'|' -v current_phase="$phase_value" '
-        function trim(value) { gsub(/^[ \t]+|[ \t]+$/, "", value); return value }
-        function blank(value) { return value ~ /^[ \t]*$/ }
-        function table_like(value, normalized, pipes) {
-          normalized=value
-          sub(/^[ \t]+/, "", normalized)
-          pipes=gsub(/\|/, "|", normalized)
-          return substr(normalized, 1, 1) == "|" || pipes >= 2
-        }
-        function normalize(value, first, last, previous) {
-          value=trim(value)
-          do {
-            previous=value
-            first=substr(value, 1, 1); last=substr(value, length(value), 1)
-            if ((first == "`" && last == "`") || (first == "*" && last == "*") \
-                || (first == "_" && last == "_") || (first == "\"" && last == "\"") \
-                || (first == "\047" && last == "\047") || (first == "[" && last == "]") \
-                || (first == "<" && last == ">")) {
-              value=trim(substr(value, 2, length(value) - 2))
-            }
-          } while (value != previous && length(value) >= 2)
-          return tolower(value)
-        }
-        function substantive(value, normalized) {
-          normalized=normalize(value)
-          return normalized != "" && normalized != "-" && normalized != "none" && normalized != "pending" \
-            && normalized != "n/a" && normalized != "na" && normalized != "not applicable" \
-            && normalized != "tbd" && normalized != "todo" && normalized != "unknown"
-        }
-        function canonical_class(value) {
-          return value == "failed-criterion" || value == "regression" || value == "hung-command" \
-            || value == "substituted-command" || value == "owner-unclear" \
-            || value == "generated-artifact-mismatch" || value == "stale-sidecar" \
-            || value == "policy-conflict" || value == "impossible-criterion" \
-            || value == "evidence-mismatch" || value == "transport-infrastructure" \
-            || value == "misplacement" || value == "false-closure"
-        }
-        function outcome_state(value, normalized) {
-          normalized=normalize(value)
-          if (normalized == "open (rerun pending)" \
-              || normalized ~ /^escalated \(cites #[0-9]+\)$/ \
-              || normalized == "blocked (handoff condition)") return "active"
-          if (normalized ~ /^(resolved|closed|done)$/ \
-              || normalized ~ /^(resolved|closed|done) [^ ].*$/ \
-              || normalized ~ /^(resolved|closed|done)\([^()]+\)$/) return "terminal"
-          return "invalid"
-        }
-        function semantic_andon_heading(value, normalized) {
-          normalized=value
-          if (normalized !~ /^ {0,3}##[ \t]+/) return 0
-          sub(/^ {0,3}##[ \t]+/, "", normalized)
-          normalized=tolower(normalized)
-          sub(/[ \t]+#+[ \t]*$/, "", normalized)
-          normalized=trim(normalized)
-          return normalized ~ /^andon[ \t]+log$/
-        }
-        semantic_andon_heading($0) {
-          semantic_section_count++
-          if ($0 != "## Andon log") malformed=1
-        }
-        $0 == "## Andon log" {
-          section_count++
-          if (in_andon) malformed=1
-          in_andon=1
-          stage="preamble"
-          next
-        }
-        in_andon && /^## / {
-          if (stage == "expect-separator") malformed=1
-          in_andon=0
-          stage=""
-          next
-        }
-        in_andon {
-          if ($0 == "| # | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |") {
-            if (stage != "preamble" || header_count != 0) malformed=1
-            header_count++
-            stage="expect-separator"
-            next
-          }
-          if ($0 == "|---|---|---|---|---|---|---|---|") {
-            if (stage != "expect-separator" || separator_count != 0) malformed=1
-            separator_count++
-            stage="body"
-            next
-          }
-          if (stage == "expect-separator") {
-            malformed=1
-            next
-          }
-          if (stage == "preamble" || stage == "after-body") {
-            if (table_like($0)) malformed=1
-            next
-          }
-          if (stage != "body") {
-            malformed=1
-            next
-          }
-          if (blank($0)) {
-            stage="after-body"
-            next
-          }
-          if (substr($0, 1, 1) != "|" || substr($0, length($0), 1) != "|" || NF != 10) {
-            malformed=1
-            next
-          }
-          row_id=trim($2)
-          if (row_id !~ /^[0-9]+$/) { malformed=1; next }
-          occ=trim($3); phase=trim($4); class=trim($5); abnormality=trim($6)
-          countermeasure=trim($7); rerun=trim($8); outcome=trim($9)
-          state=outcome_state(outcome)
-          valid=substantive(occ) && substantive(phase) && canonical_class(class) \
-            && substantive(abnormality) && substantive(countermeasure) && substantive(rerun) \
-            && substantive(outcome) && state != "invalid"
-          if (!valid) {
-            malformed=1
-          } else {
-            key=tolower(normalize(occ)) SUBSEP tolower(class)
-            if (key in seen) duplicate=1
-            seen[key]=1
-            current=(normalize(phase) == normalize(current_phase))
-            if (state == "active" && !current) malformed=1
-            if (current && state == "active") open=1
-          }
-        }
-        END {
-          if (in_andon && stage == "expect-separator") malformed=1
-          if (semantic_section_count != 1 || section_count != 1 \
-              || header_count != 1 || separator_count != 1) malformed=1
-          print open && !malformed && !duplicate ? "yes" : "no"
-        }
-      ' "$state")"
-      [ "$open_andon" = yes ] \
-        || err "STATE.md $status_value nonterminal yield requires an unresolved Andon row"
     fi
   fi
 
@@ -1188,6 +1445,8 @@ if [ -f "$state" ]; then
   elif ! grep -qi '| Class | Abnormality | Countermeasure | Rerun evidence | Outcome |' "$state"; then
     err "STATE.md Andon log table is missing the contract columns (# | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome; legacy shape without Occ also accepted)"
   fi
+  check_recurrence_decision "$state"
+
   if [ "$mode" = micro ]; then
     terminal_line="$(awk 'NF { last=$0 } END { print last }' "$state")"
     case "$terminal_line" in
@@ -1201,7 +1460,7 @@ if [ -f "$state" ]; then
     if find "$run_root/phases" -type f -name 'phase-*.md' -print -quit 2>/dev/null | grep -q .; then
       err "micro root contains phase specs; phased dispatch requires a full run root"
     fi
-    if [ -f "$run_root/ROADMAP.md" ] && grep -Eq '^\|[[:space:]]*[0-9]+[[:space:]]*\|' "$run_root/ROADMAP.md"; then
+    if [ -f "$roadmap" ] && grep -Eq '^\|[[:space:]]*[0-9]+[[:space:]]*\|' "$roadmap"; then
       err "micro root contains a ROADMAP phase table; phased dispatch requires a full run root"
     fi
     if grep -R -E -q '^(Stage 6\.i|Stage 6\.2|Independent cold-review disposition|Review disposition):' "$run_root" \
@@ -1227,6 +1486,19 @@ if [ -f "$claim" ]; then
     [ -d "$sibling" ] || continue
     [ "$sibling" = "$run_root" ] && continue
     sibling_state="$sibling/STATE.md"
+    yield_track_dependency --optional "$sibling/.claimed" || { err "yield read-set sibling claim capture failed"; continue; }
+    yield_track_dependency --optional "$sibling/.controller" || { err "yield read-set sibling controller capture failed"; continue; }
+    sibling_snapshot="$(mktemp -d "$validation_snapshots/sibling.XXXXXX")" || exit 1
+    canonical_selection "$sibling" "$sibling_snapshot"
+    sibling_rc=$?
+    case "$sibling_rc" in
+      0) sibling_state="$sibling_snapshot/native-STATE.md"
+         canonical_roots+=("$sibling")
+         canonical_snapshots+=("$sibling_snapshot") ;;
+      3) : ;;
+      *) err "sibling canonical selection refused: $(basename "$sibling")"; continue ;;
+    esac
+    yield_track_dependency --capture "$sibling_state" || { err "yield read-set sibling STATE capture failed"; continue; }
     if [ ! -f "$sibling_state" ] || ! grep -Eq \
       '^(AUDIT_COMPLETE|IMPLEMENTAUDIT_RUN_COMPLETE|AUDIT_HANDOFF|ANDON_HANDOFF|COMPLETE|HANDOFF|SUPERSEDED_BY:[[:space:]].+|PARALLEL:[[:space:]].+)$' \
       "$sibling_state"; then
@@ -1329,15 +1601,20 @@ if [ -f "$state" ] && grep -qi '^[[:space:]]*cold-review[[:space:]]*:' "$state";
     err "python, python3, or py -3 is required for cold-review attestation validation"
   fi
   if [ "${#cold_py[@]}" -gt 0 ]; then
+    if [ "$nonterminal_yield" = yes ]; then
+      while IFS= read -r attestation; do
+        yield_track_dependency --capture "$canonical_record_root/$attestation" || err "yield read-set cold-review capture failed"
+      done < <(sed -nE 's/^cold-review:.*\| attestation: ([A-Za-z0-9._/-]+) \|.*/\1/p' "$state")
+    fi
     cold_error=""
-    if ! cold_error="$("${cold_py[@]}" - "$run_root" "$state" <<'PY'
-import hashlib
+    if ! cold_error="$("${cold_py[@]}" - "$run_root" "$state" "$canonical_record_root" <<'PY'
 import pathlib
 import re
 import subprocess
 import sys
 
-root = pathlib.Path(sys.argv[1]).resolve()
+repository_run = pathlib.Path(sys.argv[1]).resolve()
+root = pathlib.Path(sys.argv[3]).resolve()
 state = pathlib.Path(sys.argv[2])
 lines = state.read_text(encoding="utf-8").splitlines()
 
@@ -1352,17 +1629,9 @@ exact = [line for line in lines if line.startswith("cold-review:")]
 if len(near) != len(exact):
     die("STATE.md cold-review rows must use exact lowercase column-zero grammar")
 
-legacy_row_re = re.compile(
+row_re = re.compile(
     r"^cold-review: disposition: (PASS|GAP-REVISE|BLOCKED|OWNER DECISION) "
     r"\| attestation: ([A-Za-z0-9._/-]+) "
-    r"\| base_sha: ([0-9a-f]{40}) \| head_sha: ([0-9a-f]{40})$"
-)
-prospective_row_re = re.compile(
-    r"^cold-review: disposition: (PASS|GAP-REVISE|BLOCKED|OWNER DECISION) "
-    r"\| attestation: ([A-Za-z0-9._/-]+) "
-    r"\| attestation_sha256: ([0-9a-f]{64}) "
-    r"\| packet: ([A-Za-z0-9._/-]+) "
-    r"\| packet_sha256: ([0-9a-f]{64}) "
     r"\| base_sha: ([0-9a-f]{40}) \| head_sha: ([0-9a-f]{40})$"
 )
 keys = (
@@ -1372,24 +1641,13 @@ keys = (
 )
 
 for line in exact:
-    prospective = prospective_row_re.fullmatch(line)
-    match = prospective or legacy_row_re.fullmatch(line)
+    match = row_re.fullmatch(line)
     if not match:
         die("STATE.md cold-review row must use exact disposition and attestation grammar")
     disposition = match.group(1)
     rel = match.group(2)
-    if prospective:
-        declared_attestation_sha = match.group(3)
-        packet_rel = match.group(4)
-        declared_packet_sha = match.group(5)
-        declared_base = match.group(6)
-        declared_head = match.group(7)
-    else:
-        declared_attestation_sha = None
-        packet_rel = None
-        declared_packet_sha = None
-        declared_base = match.group(3)
-        declared_head = match.group(4)
+    declared_base = match.group(3)
+    declared_head = match.group(4)
     pure = pathlib.PurePosixPath(rel)
     if pure.is_absolute() or ".." in pure.parts or "." in pure.parts or ":" in rel or "\\" in rel:
         die("cold-review attestation path must be safe and run-root-relative")
@@ -1401,24 +1659,6 @@ for line in exact:
         die("cold-review attestation escapes the run root")
     if not artifact_path.is_file() or artifact_path.is_symlink():
         die("cold-review attestation must resolve to a regular non-symlink file")
-    artifact_bytes = artifact.read_bytes()
-    if declared_attestation_sha is not None:
-        if hashlib.sha256(artifact_bytes).hexdigest() != declared_attestation_sha:
-            die("cold-review attestation SHA-256 must match the contained report bytes")
-        packet_pure = pathlib.PurePosixPath(packet_rel)
-        if (packet_pure.is_absolute() or ".." in packet_pure.parts or "." in packet_pure.parts
-                or ":" in packet_rel or "\\" in packet_rel):
-            die("cold-review packet path must be safe and run-root-relative")
-        packet_path = root / pathlib.Path(*packet_pure.parts)
-        packet = packet_path.resolve()
-        try:
-            packet.relative_to(root)
-        except ValueError:
-            die("cold-review packet escapes the run root")
-        if not packet_path.is_file() or packet_path.is_symlink():
-            die("cold-review packet must resolve to a regular non-symlink file")
-        if hashlib.sha256(packet.read_bytes()).hexdigest() != declared_packet_sha:
-            die("cold-review packet SHA-256 must match the contained packet bytes")
     report = artifact.read_text(encoding="utf-8").splitlines()
     if report.count("Reviewer attestation:") != 1:
         die("cold-review artifact requires exactly one Reviewer attestation header")
@@ -1495,7 +1735,7 @@ for line in exact:
 
     def git(*args):
         return subprocess.run(
-            ["git", "-C", str(root), *args],
+            ["git", "-C", str(repository_run), *args],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
@@ -1522,10 +1762,6 @@ PY
   fi
 fi
 
-# Cold-review grammar and owner bindings are validated before the recurrence
-# consumer can count any prospective GAP-REVISE record.
-check_recurrence_decision "$state"
-
 # The repository-side #86 successor/non-verdict parser is mandatory whenever a
 # live record root carries those prospective rows. Direct Markdown files are
 # the record surface; nested installs, frozen repositories, and fixture corpora
@@ -1533,13 +1769,33 @@ check_recurrence_decision "$state"
 # Installed consumers without the repo checker still fail closed for an actual
 # direct live row instead of silently treating the contract as optional.
 if grep -E -q '^(successor-review:|lane-status: status: REVIEWER_RUNTIME_NON_VERDICT)' \
-  "$run_root"/*.md 2>/dev/null; then
+  "$canonical_record_root"/*.md 2>/dev/null; then
   validator_repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." 2>/dev/null && pwd || true)"
   live_cold_checker="$validator_repo_root/scripts/check-cold-review-contract.sh" # source repo checker; absent from installed skill by design
   if [ -z "$validator_repo_root" ] || [ ! -f "$live_cold_checker" ] || [ -L "$live_cold_checker" ]; then
+    if [ "$nonterminal_yield" = yes ]; then
+      printf 'validate-run-root: OUT_OF_PROFILE: repository successor review owner unavailable; no yield disposition\n' >&2
+      exit 3
+    fi
     err "live successor/non-verdict rows require the repository cold-review checker"
-  elif ! bash "$live_cold_checker" --run-root "$run_root" >/dev/null; then
-    err "live successor/non-verdict contract failed"
+  else
+    cold_checker_args=(--run-root "$canonical_record_root")
+    if [ "$nonterminal_yield" = yes ]; then
+      if review_snapshot="$(mktemp -d "$validation_snapshots/review.XXXXXXXX")" &&
+         yield_track_dependency --successor-owner "$live_cold_checker" "$review_snapshot/check-cold-review-contract.sh" &&
+         yield_track_dependency --successor-owner "$review_snapshot/check-cold-review-contract.sh" &&
+         yield_track_dependency --successor-review "$canonical_record_root" "$review_snapshot/records"; then
+        live_cold_checker="$review_snapshot/check-cold-review-contract.sh"
+        cold_checker_args=(--repo-root "$validator_repo_root" --run-root "$review_snapshot/records")
+      else
+        capture_rc=$?; [ "$capture_rc" -ne 3 ] || exit 3
+        err "yield read-set successor review capture failed"
+        live_cold_checker=""
+      fi
+    fi
+    if [ -n "$live_cold_checker" ] && ! bash "$live_cold_checker" "${cold_checker_args[@]}" >/dev/null; then
+      err "live successor/non-verdict contract failed"
+    fi
   fi
 fi
 
@@ -1560,13 +1816,20 @@ if [ -f "$state" ] && grep -qi '^## Context epochs and instruction applicability
   if [ -n "$bad_epoch_id" ]; then
     err "STATE.md epoch row(s) use malformed durable generation identities: $(printf '%s' "$bad_epoch_id" | tr '\n' ' ')"
   fi
-  bad_prov="$(awk -F'|' '
+  native_rotation_epoch=""
+  [ "$selection_rc" -ne 0 ] || native_rotation_epoch="$current_epoch"
+  bad_prov="$(awk -F'|' -v native_epoch="$native_rotation_epoch" '
     /^## Context epochs and instruction applicability/ { f=1; next }
     f && /^## / { f=0 }
     f && /^\|[[:space:]]*(e[1-9][0-9]*|G[0-9A-F]{4})[[:space:]]*\|/ {
       p=$3; gsub(/^[ \t]+|[ \t]+$/, "", p)
       e=$2; gsub(/^[ \t]+|[ \t]+$/, "", e)
-      if (p !~ /^(host-reported-compaction|new-session|handoff-resume|manual-resume|inferred-context-gap)$/) print e
+      note=$7; gsub(/^[ \t]+|[ \t]+$/, "", note)
+      bound_rotation=(native_epoch != "" && p == "canonical-state-rotation" &&
+                      (e != native_epoch || note == "native pointer JOIN"))
+      bound_correction=(native_epoch != "" && p == "erroneous-invalidation-correction" &&
+                        e == native_epoch && note == "native pointer JOIN")
+      if (p !~ /^(host-reported-compaction|new-session|handoff-resume|manual-resume|inferred-context-gap)$/ && !bound_rotation && !bound_correction) print e
     }' "$state")"
   if [ -n "$bad_prov" ]; then
     err "STATE.md epoch row(s) with invalid boundary provenance: $(printf '%s' "$bad_prov" | tr '\n' ' ') (allowed: host-reported-compaction / new-session / handoff-resume / manual-resume / inferred-context-gap; never fabricate a compaction)"
@@ -1608,18 +1871,222 @@ if [ -f "$state" ]; then
   fi
 fi
 
-if [ -f "$run_root/ROADMAP.md" ] && [ -d "$run_root/phases" ]; then
+if [ -f "$roadmap" ] && [ -d "$run_root/phases" ]; then
   while IFS= read -r n; do
     [ -f "$run_root/phases/phase-$n.md" ] || err "ROADMAP names phase $n but phases/phase-$n.md is missing"
-  done < <(grep -oE '^\| *[0-9]+ *\|' "$run_root/ROADMAP.md" 2>/dev/null | grep -oE '[0-9]+' | sort -un)
+  done < <(grep -oE '^\| *[0-9]+ *\|' "$roadmap" 2>/dev/null | grep -oE '[0-9]+' | sort -un)
 fi
 
 check_background_chains "$run_root" "$state"
 
+# R0037's additive record predicate shares the selected canonical pair and the
+# ordinary structural checks above. It neither binds a host session nor grants
+# Stop, currentness, effect, handoff or closure authority. Native callers must
+# establish their authentic binding/currentness through the existing owners.
+if [ "$nonterminal_yield" = yes ] && [ "$err_count" -eq 0 ]; then
+  if ! "${reader_py[@]}" - "$state" "$run_root" <<'PY'
+import os
+from pathlib import Path
+import re
+import stat
+import sys
+
+state, root = map(Path, sys.argv[1:])
+
+def refuse(reason):
+    raise SystemExit("validate-run-root: nonterminal yield refused: " + reason)
+
+def read_regular(path):
+    try:
+        before = path.lstat()
+        if (not stat.S_ISREG(before.st_mode) or before.st_nlink != 1
+                or getattr(before, 'st_file_attributes', 0) & 0x400
+                or before.st_size > 1_000_000):
+            refuse("unsafe or oversized record: " + path.name)
+        fd = os.open(path, os.O_RDONLY | getattr(os, 'O_NOFOLLOW', 0) | getattr(os, 'O_NONBLOCK', 0))
+        with os.fdopen(fd, 'rb') as stream:
+            opened = os.fstat(stream.fileno())
+            if not stat.S_ISREG(opened.st_mode):
+                refuse("nonregular record after open: " + path.name)
+            data = stream.read(1_000_001)
+            after = os.fstat(stream.fileno())
+        signature = lambda value: (value.st_dev, value.st_ino, value.st_size, value.st_mtime_ns, value.st_ctime_ns)
+        if (len(data) > 1_000_000 or signature(before) != signature(opened)
+                or signature(opened) != signature(after) or signature(after) != signature(path.lstat())):
+            refuse("record changed while read: " + path.name)
+        return data.decode('utf-8', 'strict').splitlines()
+    except (OSError, UnicodeError) as exc:
+        refuse("unreadable record: " + str(exc))
+
+lines = read_regular(state)
+if lines.count('## Current phase') != 1:
+    refuse("exactly one Current phase section is required")
+fields = {}
+for line in lines[lines.index('## Current phase') + 1:]:
+    if line.startswith('## '):
+        break
+    if not line.startswith('|'):
+        continue
+    cells = [cell.strip(' \t`') for cell in line.split('|')[1:-1]]
+    if len(cells) != 2:
+        refuse("malformed Current phase row")
+    key, value = cells
+    if key == 'Field' or re.fullmatch(r'[-:]+', key or ' '):
+        continue
+    if key in fields:
+        refuse("duplicate Current phase field: " + key)
+    fields[key] = value
+
+placeholders = {'', '-', 'none', 'pending', 'todo', 'tbd', 'unknown', 'n/a', 'not applicable'}
+def required(key):
+    value = fields.get(key, '')
+    if value.strip(' <>[]').lower() in placeholders or not value.strip():
+        refuse("missing concrete " + key)
+    return value
+
+def action(key):
+    value = required(key).lower()
+    # Record concreteness is not a closed English verb grammar or proof of
+    # semantic sufficiency. Reject unresolved templates and bare continuations.
+    ignored = {'a', 'an', 'and', 'at', 'for', 'from', 'it', 'now', 'of', 'on', 'or', 'that', 'the', 'then', 'this', 'to', 'with'} | placeholders
+    words = re.findall(r'[a-z0-9]+', value)
+    # Recognized placeholders remain unresolved inside paths or with suffixes.
+    # Indexed expressions, parameterized tests and shell variables stay literal.
+    token = r'(?:command|target|path|file|name|value|action|probe|todo|tbd)'
+    template = r'<\s*' + token + r'\s*>|(?<![\w$])(?:\[\s*' + token + r'\s*\]|\{\s*' + token + r'\s*\})'
+    if (re.search(template, value)
+            or len(words) < 2 or not any(word not in ignored for word in words[1:])):
+        refuse("non-actionable " + key)
+
+status = required('Status')
+if status not in {'open', 'READY_TO_DISPATCH', 'IN_PHASE', 'PAUSED', 'BLOCKED', 'INTERRUPTED'}:
+    refuse("status is not nonterminal")
+if required('Audit object state') != 'open':
+    refuse("audit object is not explicitly open")
+for key in ('Phase', 'Last check', 'Owner/source', 'Authorization state', 'Re-entry condition'):
+    required(key)
+action('Next action')
+if any(line.strip() in {'AUDIT_COMPLETE', 'IMPLEMENTAUDIT_RUN_COMPLETE', 'AUDIT_HANDOFF', 'ANDON_HANDOFF'} for line in lines):
+    refuse("terminal or handoff claim cannot use the yield predicate")
+
+phase = fields['Phase']
+if re.fullmatch(r'[1-9][0-9]*', phase):
+    phase_path = root / 'phases' / ('phase-' + phase + '.md')
+    if not phase_path.parent.is_dir() or phase_path.parent.is_symlink():
+        refuse("current phase directory is absent or aliased")
+    phase_lines = read_regular(phase_path)
+    phase_ids = {match.group(1) for line in phase_lines
+                 if (match := re.match(r'^(?:Phase:\s*|# Phase\s+)([1-9][0-9]*)(?:\s|$)', line))}
+    if phase_ids != {phase}:
+        refuse("current phase specification identity differs")
+elif status not in {'open', 'READY_TO_DISPATCH', 'PAUSED', 'BLOCKED', 'INTERRUPTED'}:
+    refuse("active phase must identify its specification")
+
+if status == 'IN_PHASE':
+    required('Current checkpoint')
+    required('Last completed step')
+elif status == 'PAUSED':
+    required('Pause reason')
+    required('Resume point')
+    trigger = required('Pause trigger')
+    if trigger not in {'clarification', 'owner-authority', 'external-wait', 'user-interruption'}:
+        refuse("unknown pause trigger")
+    if trigger == 'external-wait':
+        required('Blocker')
+        required('Containment')
+        action('Next probe')
+    if trigger == 'user-interruption':
+        context = required('Pause phase context')
+        if context not in {'IN_PROGRESS', 'OUTSIDE_PHASE'}:
+            refuse("unknown pause phase context")
+        # Phase specs contain START/DONE template anchors before execution.
+        # Applicability is an explicit supplied fact, not inferred chronology.
+        if context == 'OUTSIDE_PHASE':
+            if 'IMPLEMENTAUDIT_PAUSE' in lines:
+                refuse("out-of-phase user pause cannot fabricate an in-phase pause record")
+        else:
+            if not re.fullmatch(r'[1-9][0-9]*', phase):
+                refuse("in-progress user pause requires a numbered phase")
+            if lines.count('IMPLEMENTAUDIT_PAUSE') != 1:
+                refuse("user interruption requires its existing pause record")
+            start = lines.index('IMPLEMENTAUDIT_PAUSE') + 1
+            block = lines[start:start + 4]
+            if (len(block) != 4 or block[0] != 'Phase: ' + phase
+                    or block[1] not in {'Status: paused at boundary', 'Status: paused mid-step'}
+                    or not block[2].startswith('Last completed step: ')
+                    or block[2].split(':', 1)[1].strip().lower() in placeholders
+                    or block[3] != 'STATE.md: updated'):
+                refuse("pause record is incomplete, foreign or not durable")
+            if ('Last completed step' in fields
+                    and block[2].split(':', 1)[1].strip() != fields['Last completed step']):
+                refuse("pause record contradicts the current last completed step")
+elif status == 'BLOCKED':
+    required('Blocker')
+    required('Containment')
+    action('Next probe')
+elif status == 'INTERRUPTED':
+    source = required('Stop source')
+    point = required('Interruption point')
+    log_id = required('Interruption log')
+    in_log, matching = False, []
+    for line in lines:
+        if line.startswith('## '):
+            in_log = line == '## Andon log'
+        elif in_log and line.startswith('|'):
+            cells = [cell.strip() for cell in line.split('|')[1:-1]]
+            if cells and cells[0] == log_id:
+                matching.append(cells)
+    def exact_phrase(value, text):
+        return re.search(r'(?<![A-Za-z0-9_.:@+/-])' + re.escape(value)
+                         + r'(?![A-Za-z0-9_.:@+/-])', text) is not None
+    row = matching[0] if len(matching) == 1 else []
+    # Preserve both existing Andon shapes (with and without Occ).
+    phase_index, text_index = (2, 4) if len(row) == 8 else (1, 3)
+    if (len(row) not in {7, 8} or not exact_phrase(source, row[text_index])
+            or not exact_phrase(point, row[text_index])
+            or (re.fullmatch(r'[1-9][0-9]*', phase) and row[phase_index] != phase)):
+        refuse("owner stop/interruption point lacks its exact durable log row")
+else:
+    required('Pending decision')
+
+sys.stdout.write('validate-run-root: nonterminal yield record ok (source-only; host enforcement unavailable)\n')
+PY
+  then
+    err "nonterminal-yield predicate failed"
+  fi
+fi
+
 if [ -f "$run_root/respec-impact-set.md" ]; then
+  yield_track_dependency --respec "$run_root/respec-impact-set.md" || err "yield read-set respec replacement capture failed"
   respec_checker="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/check-respec-impact-set.sh"
   respec_output="$(bash "$respec_checker" "$run_root/respec-impact-set.md" 2>&1)" \
     || err "respec-impact-set.md invalid: $respec_output"
+fi
+
+if [ "$err_count" -eq 0 ]; then
+  for i in "${!canonical_roots[@]}"; do
+    PYTHONDONTWRITEBYTECODE=1 "${reader_py[@]}" "$reader" --run-root "${canonical_roots[$i]}" \
+      --output "${canonical_snapshots[$i]}" --native-guards --verify-current \
+      || err "canonical inputs changed before native validation completed"
+  done
+fi
+
+if [ "$nonterminal_yield" = yes ] && [ "$err_count" -eq 0 ]; then
+  yield_final_identity="$(yield_read_identity)" || err "yield read-set recheck failed"
+  [ "$yield_initial_identity" = "$yield_final_identity" ] || err "yield read-set changed during validation"
+  for i in "${!yield_dependency_paths[@]}"; do
+    dependency_arguments=("${yield_dependency_modes[$i]}" "${yield_dependency_paths[$i]}")
+    if [ -n "${yield_dependency_snapshots[$i]}" ]; then
+      dependency_arguments+=("${yield_dependency_snapshots[$i]}")
+    fi
+    dependency_identity="$(yield_read_identity "${dependency_arguments[@]}")"
+    capture_rc=$?
+    if [ "$capture_rc" -ne 0 ]; then
+      [ "$capture_rc" -ne 3 ] || exit 3
+      err "yield read-set dependency recheck failed"
+    fi
+    [ "${yield_dependency_identities[$i]}" = "$dependency_identity" ] || err "yield read-set consumed dependency changed during validation"
+  done
 fi
 
 if [ "$err_count" -gt 0 ]; then

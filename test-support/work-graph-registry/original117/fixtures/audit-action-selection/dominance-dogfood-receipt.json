@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "kind": "implementaudit-improve-dominance-cross-repository-dogfood",
+  "source_population": "improve-main(3).zip frozen 63-property denominator",
+  "candidate_package": {
+    "bytes": 227502,
+    "sha256": "1a5f4f25aad1af0271c39e9646cfbcb34c9a06970eba49c755c64cbf1603c623"
+  },
+  "disposable_repository": {
+    "tree": "7d793cac92af6dcecff4f802ad9107dbea7cef32",
+    "dirty_after": false
+  },
+  "activation_prompt_leakage": false,
+  "subagents_used": false,
+  "cells": [
+    {
+      "id": "DOG-C01-ready-frontier",
+      "artifact_sha256": "998d66bb93d834c18aa0c0b6403f508ff1864efc920b311ee3a58d808cf049bf",
+      "disposition": "PASS",
+      "established": "newly available capacity activates one ready cell under the owner ceiling; the ordinary small-task route remains direct and serial"
+    },
+    {
+      "id": "DOG-C02-conditional-separation",
+      "artifact_sha256": "cbce5a9ca99ee8dcebd0d859b66464f6f06b39e9724ec9fe544809f563cf93c4",
+      "disposition": "PASS",
+      "established": "contested self-confirmation risk selects a bounded executor and fresh reviewer; ordinary narrow reversible work remains same-root"
+    },
+    {
+      "id": "DOG-C03-capability-fit",
+      "artifact_sha256": "b8f6b2724e1083c47671c8be9277fb8979ff450e8167514e263fb10c6f9ca761",
+      "disposition": "PASS",
+      "established": "the least-cost sufficiently capable authorised route is selected and insufficient capability stops for reconciliation"
+    },
+    {
+      "id": "DOG-C04-context-capsule-boundary",
+      "artifact_sha256": "23896e4316248572732c4e2598a87dd612eedacfd2f3f94f02780ec71a10b168",
+      "disposition": "PASS",
+      "established": "an isolated worker refuses to infer missing acceptance and rollback state and requires explicit reconstruction"
+    },
+    {
+      "id": "DOG-C05-source-revalidation",
+      "artifact_sha256": "fd287e8c587f17f64b9ac06c9fc20b58285cbb4258845f011718480379f06571",
+      "disposition": "PASS_WITH_TEST_EXECUTION_BLOCKED",
+      "established": "a worker report is rejected after fresh source and test-owner reads disprove it; the model runner policy blocked its attempted test command"
+    },
+    {
+      "id": "DOG-C06-cold-executor-reconstruction",
+      "artifact_sha256": "23d45ba962a3c5c4d9b02e32220ae379373a389aaae7c8634032d23412c7b351",
+      "disposition": "PASS",
+      "established": "a fresh process restricted to the durable plan reconstructed exact files, edits, verification, STOP conditions, and authority limits"
+    },
+    {
+      "id": "DOG-R01-combined-cell-timeout",
+      "artifact_sha256": "4cd91022cfa4e724f4a8c2898f42f9232bc8c67d9bffa286cb28f62cb2bb6519",
+      "disposition": "REJECTED_NON_VERDICT",
+      "established": "nothing; the timed-out combined cell was split into bounded successor cells"
+    }
+  ],
+  "evidence_boundary": "The receipt proves bounded behavior of the exact candidate package in one unfamiliar disposable repository. Final 63-property dominance remains reserved for the exact installed composed v0.3.3.3 candidate."
+}

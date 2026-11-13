@@ -57,6 +57,29 @@ def project_native(preimage, transition=None):
                                 archive_pointers=F.archive_pointers(preimage, "G0003"), **F.LIMITS)
 
 
+class NativeResumePreparationPolicy(unittest.TestCase):
+    def test_windows_resume_has_distinct_prospective_preparation_policy(self):
+        historical = copy.deepcopy(H.calibration_contract_v1())
+        correction = copy.deepcopy(H.c02_preparation_policy_v1("windows"))
+        policy = H.native_resume_preparation_policy_v1("windows")
+        self.assertEqual(policy["schema"], "implementaudit.native-resume-preparation-policy.v1")
+        self.assertEqual(policy["maximum_runtime_ms"], 60000)
+        self.assertEqual(policy["windows_full_operation_peak_job_bytes"], 201326592)
+        self.assertEqual(policy["helper_memory_guard_unchanged_bytes"], 67108864)
+        self.assertEqual(policy["host_qualification"], "SEPARATE_NOT_INFERRED")
+        self.assertNotEqual(policy, correction)
+        H._check_calibration(policy)
+        self.assertEqual(H.calibration_contract_v1(), historical)
+        self.assertEqual(H.c02_preparation_policy_v1("windows"), correction)
+
+    def test_other_hosts_keep_frozen_policy_and_unknown_platform_refuses(self):
+        self.assertEqual(H.native_resume_preparation_policy_v1("other"), H.calibration_contract_v1())
+        with self.assertRaises(H.RotationError):
+            H.native_resume_preparation_policy_v1("unknown")
+        with self.assertRaises(H.RotationError):
+            H._check_calibration(dict(H.native_resume_preparation_policy_v1("windows"), maximum_runtime_ms=60001))
+
+
 class NativeResumeAlgebra(unittest.TestCase):
     def test_native_resume_preserves_actual_boundary_payload_and_archive_genealogy(self):
         preimage = migrated_preimage()
@@ -362,6 +385,28 @@ class NativeResumeArchive(unittest.TestCase):
             self.prepare_native()
         self.assertEqual(H.read_canonical_generation(self.subject["repo"], self.subject["run"], output["pointer"])
                           ["protected_manifest"]["MONOTONIC_TRANSITION"]["boundary"], "manual-resume")
+
+    def test_completed_historical_preparation_keeps_its_original_policy(self):
+        choose = H.native_resume_preparation_policy_v1
+        with mock.patch.object(H, "native_resume_preparation_policy_v1", side_effect=
+                lambda host=None: H.calibration_contract_v1() if host is None else choose(host)):
+            prepared = self.prepare_native()
+        before = A.git(self.subject["repo"], "for-each-ref", "--format=%(refname) %(objectname)")
+        self.assertEqual(prepared["calibration"], H.calibration_contract_v1())
+        self.assertEqual(self.prepare_native(), prepared)
+        self.assertEqual(A.git(self.subject["repo"], "for-each-ref", "--format=%(refname) %(objectname)"), before)
+
+    def test_windows_resume_policy_cannot_substitute_rotation_or_correction(self):
+        s = self.subject
+        for native, kind, correction in ((False, "native-resume", None), (True, "c02-correction", "a" * 40)):
+            before = A.git(s["repo"], "for-each-ref", "--format=%(refname) %(objectname)")
+            with self.subTest(native=native, kind=kind), self.assertRaises(H.RotationError):
+                H._prepare_canonical_draft(s["repo"], s["run"], s["predecessor"]["controller"],
+                    "G0003", s["owner_map"], s["predecessor"],
+                    H.native_resume_preparation_policy_v1("windows"), native_resume=native,
+                    preservation_kind=kind, correction_record_oid=correction)
+            self.assertEqual(A.git(s["repo"], "for-each-ref", "--format=%(refname) %(objectname)"), before)
+        self.assertFalse((s["run"] / "state-generations/G0003").exists())
 
     def test_native_generations_retain_complete_archive_guard_population_after_gc(self):
         prepared = self.prepare_native()

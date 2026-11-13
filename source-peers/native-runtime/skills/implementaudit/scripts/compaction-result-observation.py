@@ -16,6 +16,16 @@ BOUNDARY_PROFILES = (BOUNDARY_PROFILE, CURRENT_BOUNDARY_PROFILE)
 MAX_RECORD = 256 * 1024
 MAX_TOTAL = 2 * 1024 * 1024
 MAX_RECORDS = 64
+# Owner code is a separate pinned artifact, not a native evidence window.
+MAX_SOURCE_OWNER_BYTES = 256 * 1024
+# Fixed physical-acquisition policy, versioned by the existing code/P pins.
+# These are not selected-evidence limits or caller-configurable allowances.
+NATIVE_ACQUISITION_POLICY = 'codex-nonprotected-acquisition-v1'
+MAX_NATIVE_SOURCE_PREFIX_BYTES = 128 * 1024 * 1024
+MAX_NATIVE_TURN_BYTES = 16 * 1024 * 1024
+MAX_NATIVE_TURN_RECORDS = 4096
+MAX_NATIVE_TURN_FRAME = 2 * 1024 * 1024
+NONPROTECTED_HOLD_RECORDS = 512
 
 def require(condition, reason):
     if not condition:
@@ -72,7 +82,9 @@ def current_retained_locator(row, context):
     require(m['client_authored'] is False and r['complete'] is True and (identity['message_id'] == p.get('id')) and (identity['role'] == p.get('role') == 'assistant') and isinstance(identity['turn_id'], str) and (re.fullmatch(uuid, identity['turn_id']) is not None) and isinstance(r['revision'], str) and (re.fullmatch('retained_' + uuid, r['revision']) is not None), 'CURRENT_PUBLIC_RETAINED_ID_OR_COMPLETENESS')
     return r
 
-def current_record_metadata(row, context, active_turn=None):
+def current_record_metadata(row, context, active_turn=None, native_current_hold=False):
+    if mechanical_context(context):
+        return _mechanical_protocol(context).metadata_ok(row, active_turn)
     if 'metadata' not in row:
         return row['payload'].get('type') != 'message' or row['payload'].get('role') != 'assistant'
     if context.get('profile_id') not in (CURRENT_BOUNDARY_PROFILE, NONPROTECTED_PROFILE):
@@ -84,12 +96,16 @@ def current_record_metadata(row, context, active_turn=None):
         r = current_retained_locator(row, context)
         return active_turn is None or r['id']['turn_id'] == active_turn
     if kind in ('custom_tool_call_output', 'function_call', 'function_call_output'):
+        if native_current_hold and isinstance(m, dict) and set(m) == {'client_authored', 'user_input_order'}:
+            return m['client_authored'] is False and type(m['user_input_order']) is int and m['user_input_order'] >= 0
         return m == {'client_authored': False, 'fallback_token_limit_override': 12000}
     if kind == 'message' and p.get('role') == 'user' and (m == {'client_authored': False, 'mcp_attribution': {'status': 'none'}}):
         return True
     return (kind == 'agent_message' or (kind == 'message' and p.get('role') == 'user')) and isinstance(m, dict) and (set(m) == {'client_authored', 'user_input_order'}) and (m['client_authored'] is False) and (type(m['user_input_order']) is int) and (m['user_input_order'] >= 0)
 
 def public_message(row, phase='commentary', context=None):
+    if context is not None and mechanical_context(context):
+        return _mechanical_protocol(context).public_text(row, phase)
     payload = row['payload']
     native_current = context is not None and context.get('profile_id') in (CURRENT_BOUNDARY_PROFILE, NONPROTECTED_PROFILE)
     if native_current:
@@ -128,7 +144,7 @@ def before(first, second):
 
 def resolve_record(context, role, locator):
     source = context[role]
-    observed = _nonprotected_read_records(context, role, [source['metadata'], locator]) if context['profile_id'] == NONPROTECTED_PROFILE else read_records(source['path'], [source['metadata'], locator], source['allowed_ranges'], source['physical'])
+    observed = _nonprotected_read_records(context, role, [source['metadata'], locator]) if context['profile_id'] in PREPARATION_PROFILES else read_records(source['path'], [source['metadata'], locator], source['allowed_ranges'], source['physical'])
     meta, selected = observed['records']
     require(meta['row']['type'] == 'session_meta' and digest(canonical(meta['row']['payload'])) == source['metadata_payload_digest'], 'SOURCE_METADATA_CHANGED')
     require(role != 'child' or selected['row']['ordinal'] >= source['history_start_ordinal'], 'INHERITED_CHILD_RECORD')
@@ -155,8 +171,41 @@ def current_history_metadata_shape(metadata):
     require(all(present) and all((metadata[key] is None for key in keys)), 'CURRENT_CHILD_HISTORY_METADATA_UNSUPPORTED')
     return 'PRESENT_NULL_PAIR'
 
+def qualified_async_spawn(context):
+    """Select the causal rule by the exact bound header, not a caller flag."""
+    if mechanical_context(context):
+        source = context['child']
+        row = read_records(source['path'], [source['metadata']], source['allowed_ranges'], source['physical'])['records'][0]['row']
+        require(digest(canonical(row['payload'])) == source['metadata_payload_digest'], 'SOURCE_METADATA_CHANGED')
+        return row['payload'].get('cli_version') == '0.166.0'
+    if context.get('profile_id') != NONPROTECTED_PROFILE:
+        return False
+    source = context['child']
+    row = read_records(source['path'], [source['metadata']], source['allowed_ranges'], source['physical'])['records'][0]['row']
+    require(row['type'] == 'session_meta' and row['ordinal'] == 0 and
+            digest(canonical(row['payload'])) == source['metadata_payload_digest'], 'SOURCE_METADATA_CHANGED')
+    return row['payload'].get('cli_version') == '0.164.0-alpha.11.1'
+
+
+def spawn_event_order(context, call, response, activation):
+    """A child may activate before its spawn RPC returns."""
+    before(call, response)
+    before(call if qualified_async_spawn(context) else response, activation)
+
+
+def load_acknowledgement_order(context, load_identity, route_pin):
+    if qualified_async_spawn(context):
+        before(context['child_activation'], load_identity['call'])
+        before(context['spawn_output'], route_pin)
+    else:
+        before(context['spawn_output'], load_identity['call'])
+    before(load_identity['result'], route_pin)
+
+
 def fresh_child_boundary(context):
-    require(context.get('profile_id') in (CURRENT_BOUNDARY_PROFILE, NONPROTECTED_PROFILE), 'CURRENT_FRESH_PROFILE_REQUIRED')
+    if mechanical_context(context):
+        return mechanical_fresh_boundary(context)
+    require(context.get('profile_id') in (CURRENT_BOUNDARY_PROFILE, *SOURCE_PROFILES), 'CURRENT_FRESH_PROFILE_REQUIRED')
     source = context['child']
     metadata = read_records(source['path'], [source['metadata']], source['allowed_ranges'], source['physical'])['records'][0]['row']
     require(metadata['type'] == 'session_meta' and metadata['ordinal'] == 0 and (digest(canonical(metadata['payload'])) == source['metadata_payload_digest']), 'SOURCE_METADATA_CHANGED')
@@ -169,8 +218,7 @@ def fresh_child_boundary(context):
     require(fork == 'none', 'CURRENT_FRESH_SPAWN_REQUIRED')
     activation, pin = resolve_record(context, 'child', context['child_activation']['locator'])
     require(pin['locator']['offset'] == source['metadata']['bytes'] and activation['ordinal'] == 1 and (activation['type'] == 'event_msg') and (activation['payload'].get('type') == 'task_started') and isinstance(activation['payload'].get('turn_id'), str) and activation['payload']['turn_id'] and ('metadata' not in activation), 'CHILD_ACTIVATION_BOUNDARY')
-    before(call_pin, result_pin)
-    before(result_pin, pin)
+    spawn_event_order(context, call_pin, result_pin, pin)
     return {'schema': FRESH_CHILD_BOUNDARY_SCHEMA, 'metadata_shape': shape, 'metadata_field_presence': {key: key in metadata['payload'] for key in ('forked_from_id', 'subagent_history_start_ordinal')}, 'metadata': source['metadata'], 'actual_spawn_call': call_pin, 'actual_spawn_output': result_pin, 'observed_fork_turns': fork, 'actual_activation': pin, 'history_start_ordinal_from_activation': activation['ordinal'], 'authority_ceiling': 'NONE'}
 
 def shell_literal(text):
@@ -181,17 +229,25 @@ def tool_input(command):
 
 def profile_tool_input(context, command):
     """Match the exact terminal LF emitted by this current host profile only."""
+    if mechanical_context(context):
+        return command
     require(isinstance(command, str) and (not command.endswith('\n')), 'TOOL_INPUT_BASE_SHAPE')
     if context.get('source_association') in ('PUBLIC_OPEN_SPAWN_ACTIVATION_STRUCTURAL_UNQUALIFIED', 'PUBLIC_BOUNDARY_CHILD_STRUCTURAL_UNQUALIFIED'):
         return command + '\n'
     return command
 
-def load_tool_input(skill_pin):
+def load_tool_input(skill_pin, context=None):
+    if context is not None and mechanical_context(context):
+        return mechanical_tool_input(context, 'LOAD', skill_pin)
     command = '$p = ' + shell_literal(skill_pin['path']) + '\n$b = [IO.File]::ReadAllBytes($p)\n'
     command += '[PSCustomObject]@{path=$p;bytes=$b.Length;sha256=(Get-FileHash -LiteralPath $p -Algorithm SHA256).Hash.ToLowerInvariant();utf8=[Text.Encoding]::UTF8.GetString($b)} | ConvertTo-Json -Compress'
     return tool_input(command)
 
-def delivery_tool_input(store, session, owner, request):
+def delivery_tool_input(store, session, owner, request, context=None):
+    if context is not None and mechanical_context(context):
+        require(context['_mechanical_pending_owner'] == {'store': str(store), 'session_id': session, 'owner_id': owner}, 'MECHANICAL_FIXED_PENDING_OWNER_DIFFERS')
+        require(request.get('phase') in ('deliver', 'bind'), 'MECHANICAL_OPERATION_UNSUPPORTED')
+        return mechanical_tool_input(context, request['phase'].upper(), request)
     pending = Path(__file__).resolve().with_name('compaction-audit-pending.py')
     command = shell_literal(json.dumps(request, sort_keys=True)) + ' | & ' + shell_literal(sys.executable)
     command += ' -I -S -B ' + shell_literal(pending) + ' --store ' + shell_literal(store)
@@ -220,6 +276,8 @@ def artifact(pin, maximum=1024 * 1024, admitted=None):
     return (raw, identity(before_stat))
 
 def command_response(context, role, call_locator, result_locator, expected_input):
+    if mechanical_context(context):
+        return mechanical_command_response(context, role, call_locator, result_locator, expected_input)
     call_row, call_pin = resolve_record(context, role, call_locator)
     output_row, output_pin = resolve_record(context, role, result_locator)
     call = call_row['payload']
@@ -234,21 +292,20 @@ def command_response(context, role, call_locator, result_locator, expected_input
 
 def authorization(context, prepared, evidence, skill_pin):
     closed(evidence, ('load_call', 'load_output', 'route', 'authorization'), 'AUTHORIZATION_EVIDENCE_SHAPE')
-    loaded_text, load_identity = command_response(context, 'child', evidence['load_call'], evidence['load_output'], profile_tool_input(context, load_tool_input(skill_pin)))
+    loaded_text, load_identity = command_response(context, 'child', evidence['load_call'], evidence['load_output'], profile_tool_input(context, load_tool_input(skill_pin, context=context)))
     loaded = json.loads(loaded_text, object_pairs_hook=unique)
     closed(loaded, ('path', 'bytes', 'sha256', 'utf8'), 'FULL_LOAD_CONTENT_SHAPE')
     skill_raw, _ = artifact(skill_pin)
     require({key: loaded[key] for key in ('path', 'bytes', 'sha256')} == skill_pin and loaded['utf8'].encode('utf-8') == skill_raw, 'ACTUAL_FULL_SKILL_LOAD_DIFFERS')
-    before(context['spawn_output'], load_identity['call'])
     route_row, route_pin = resolve_record(context, 'parent', evidence['route'])
-    task = context['actual_child_identity']['agent_path'].removeprefix('/root/')
+    task = context['canonical_logical_task'] if mechanical_context(context) else context['actual_child_identity']['agent_path'].removeprefix('/root/')
     visible(route_row, {'CHILD_TASK': task, 'CHILD_SKILL_ROUTE': 'audit-state', 'LOAD': 'VERIFIED'}, context=context)
     row, record_pin = resolve_record(context, 'parent', evidence['authorization'])
     value = typed_message(row, ('schema', 'action', 'parent_identity', 'actual_child_identity', 'obligation_digest', 'observation_id', 'load_observation_identity', 'selected_child', 'skill_source_pin', 'authority_ceiling'), 'implementaudit.compaction-use-authorization.v1', 'AUTHORIZE_BOUNDED_POST_COMPACTION_RECONCILIATION', context=context)
     obligation = prepared['obligation']
     expected = {'schema': 'implementaudit.compaction-use-authorization.v1', 'action': 'AUTHORIZE_BOUNDED_POST_COMPACTION_RECONCILIATION', 'parent_identity': obligation['parent_identity'], 'actual_child_identity': obligation['actual_child_identity'], 'obligation_digest': prepared['obligation_pin']['sha256'], 'observation_id': obligation['observation_id'], 'load_observation_identity': digest(canonical(load_identity)), 'selected_child': 'audit-state', 'skill_source_pin': skill_pin, 'authority_ceiling': 'NONE'}
     require(value == expected, 'AUTHORIZATION_EXACT_OBLIGATION_OR_LOAD_IDENTITY')
-    before(load_identity['result'], route_pin)
+    load_acknowledgement_order(context, load_identity, route_pin)
     before(route_pin, record_pin)
     return {'value': value, 'text': public_message(row, context=context), 'record': record_pin, 'load_identity': load_identity, 'route_record': route_pin, 'evidence': evidence}
 
@@ -262,14 +319,41 @@ def completed_exchange(context, prepared, request, store, session, owner, skill_
     require(prepared['authorization'] is not None and prepared.get('delivery_request') is not None, 'OBLIGATION_NOT_DELIVERED')
     validated = authorization(context, prepared, prepared['authorization']['evidence'], skill_pin)
     require(validated == prepared['authorization'], 'PUBLIC_AUTHORIZATION_CHANGED')
-    text, identity = command_response(context, 'child', request['call'], request['result'], profile_tool_input(context, delivery_tool_input(store, session, owner, prepared['delivery_request'])))
+    text, identity = command_response(context, 'child', request['call'], request['result'], profile_tool_input(context, delivery_tool_input(store, session, owner, prepared['delivery_request'], context=context)))
     packet = json.loads(text, object_pairs_hook=unique)
     require(packet == delivery_packet(prepared, validated), 'ACTUAL_FULL_OBLIGATION_AUTHORIZATION_RESPONSE_DIFFERS')
     before(validated['record'], identity['call'])
     return {'identity': digest(canonical(identity)), 'records': identity, 'evidence': request}
 
-def allow_current_settings_event(context, record):
-    """Treat only the pinned first post-refusal host settings row as inert."""
+def inert_preload_tool_declaration(record, before_load):
+    """One closed startup declaration; never authorization for a tool call."""
+    row = record['row']
+    declaration = row.get('payload', {})
+    metadata = row.get('metadata')
+    return (type(before_load) is int and
+        record['locator']['offset'] < before_load and
+        row.get('type') == 'response_item' and declaration.get('type') == 'additional_tools' and
+        isinstance(metadata, dict) and set(metadata) == {'client_authored', 'mcp_attribution'} and
+        metadata['client_authored'] is False and metadata['mcp_attribution'] == {'status': 'none'} and
+        set(declaration) == {'type', 'id', 'role', 'tools'} and
+        declaration['role'] == 'developer' and isinstance(declaration['id'], str) and
+        0 < len(declaration['id']) <= 128 and isinstance(declaration['tools'], list) and
+        0 < len(declaration['tools']) <= 64 and all(isinstance(item, dict) for item in declaration['tools']))
+
+
+def allow_current_settings_event(context, record, native_current_hold=False, before_load=None):
+    """Admit only the exact selected settings event at its allowed boundary."""
+    if native_current_hold:
+        row = record['row']; payload = row.get('payload', {})
+        expected = context.get('_current_child_settings_sha256')
+        return (type(before_load) is int and record['locator']['offset'] < before_load and
+                row.get('type') == 'event_msg' and 'metadata' not in row and
+                set(payload) == {'type', 'thread_id', 'thread_settings'} and
+                payload['type'] == 'thread_settings_applied' and
+                payload['thread_id'] == context['actual_child_identity']['thread_id'] and
+                isinstance(payload['thread_settings'], dict) and isinstance(expected, str) and
+                re.fullmatch('[0-9a-f]{64}', expected) is not None and
+                digest(canonical(payload['thread_settings'])) == expected)
     if context.get('source_association') != 'PUBLIC_OPEN_SPAWN_ACTIVATION_STRUCTURAL_UNQUALIFIED':
         return False
     child = context['child']
@@ -328,6 +412,9 @@ def hold_records(context, cutoff=None, prior=None, until_call=None):
         position = history['bytes']
         previous_ordinal = history['last_embedded_ordinal']
         physical_count = history['physical_records']
+    # A fresh native child can contain more physical host rows than the selected
+    # evidence window. Keep inherited/other-profile histories at the old bound.
+    record_limit = NONPROTECTED_HOLD_RECORDS if context.get('profile_id') in (NONPROTECTED_PROFILE, MECHANICAL_PROFILE) and source['history_start_ordinal'] == 1 and 'historical_prefix' not in source else MAX_RECORDS
     wires = []
     activation_seen = False
     original_seen = False
@@ -343,7 +430,7 @@ def hold_records(context, cutoff=None, prior=None, until_call=None):
                 remaining -= len(chunk)
             require(digestor.hexdigest() == history['sha256'], 'HOLD_HISTORY_PREFIX_CHANGED')
         while position < end:
-            require(len(records) < MAX_RECORDS, 'HOLD_RECORD_COUNT_BOUND')
+            require(len(records) < record_limit, 'HOLD_RECORD_COUNT_BOUND')
             wire = stream.readline(min(MAX_RECORD, end - position))
             require(0 < len(wire) <= MAX_RECORD and wire.endswith(b'\n') and (wire.count(b'\n') == 1) and (b'\r' not in wire) and (b'\x00' not in wire), 'HOLD_PARTIAL_OR_OVERFLOW_FRAME')
             row = json.loads(wire.decode('utf-8'), object_pairs_hook=unique)
@@ -363,7 +450,7 @@ def hold_records(context, cutoff=None, prior=None, until_call=None):
                         require(row['ordinal'] == source['history_start_ordinal'], 'HOLD_ACTIVATION_COVERAGE_MISSING')
                     activation_seen = True
             if discovering and position == original['offset']:
-                require(all((locator[key] == original[key] for key in ('offset', 'bytes', 'sha256', 'embedded_ordinal'))) and (original['physical_line'] is None or locator['physical_line'] == original['physical_line']) and (row['type'] == 'response_item') and (row['payload'].get('type') == 'custom_tool_call') and (row['payload'].get('name') == 'exec') and (row['payload'].get('call_id') == until_call['call_id']), 'HOLD_ORIGINAL_CALL_DIFFERS')
+                require(all((locator[key] == original[key] for key in ('offset', 'bytes', 'sha256', 'embedded_ordinal'))) and (original['physical_line'] is None or locator['physical_line'] == original['physical_line']) and (row['type'] == 'response_item') and mechanical_call(context, row['payload']) and (row['payload'].get('call_id') == until_call['call_id']), 'HOLD_ORIGINAL_CALL_DIFFERS')
                 original_seen = True
             elif discovering and position > original['offset']:
                 require(original_seen, 'HOLD_ORIGINAL_CALL_NOT_COVERED')
@@ -372,7 +459,7 @@ def hold_records(context, cutoff=None, prior=None, until_call=None):
             digestor.update(wire)
             position += len(wire)
             physical_count += 1
-            if discovering and original_seen and (row['type'] == 'response_item') and (row['payload'].get('type') == 'custom_tool_call_output') and (row['payload'].get('call_id') == until_call['call_id']):
+            if discovering and original_seen and (row['type'] == 'response_item') and mechanical_output(context, row['payload']) and (row['payload'].get('call_id') == until_call['call_id']):
                 break
         if prior is not None and history is not None:
             stream.seek(0)
@@ -410,9 +497,47 @@ def original_bind_records(context, prepared, bind_request, store, session, owner
     records, prefix = hold_records(context, prior=prior, until_call={'path': context['child']['path'], 'physical': context['child']['physical'], 'locator': original['locator'], 'call_id': call_id})
     last = records[-1]
     completed = None
-    if last['row']['payload'].get('type') == 'custom_tool_call_output' and last['row']['payload'].get('call_id') == call_id:
+    if mechanical_output(context, last['row']['payload']) and last['row']['payload'].get('call_id') == call_id:
         completed = {key: resolve_record(context, 'child', locator)[1] for key, locator in (('call', original['locator']), ('result', last['locator']))}
     return (records, prefix, completed)
+
+def qualified_same_source_ticks(context, records):
+    if mechanical_context(context):
+        return (context['child']['history_start_ordinal'] == 1 and 'historical_prefix' not in context['child']
+                and records[0]['row']['payload'].get('cli_version') == '0.166.0'
+                and records[0]['row']['payload'].get('id') == context['actual_child_identity']['thread_id']
+                and records[0]['row']['payload'].get('session_id') == context['parent_identity']['thread_id'])
+    admitted = (
+        context['profile_id'] == OWNED_STDIO_PROFILE and
+        context.get('source_association') == 'PUBLIC_BOUNDARY_CHILD_STRUCTURAL_UNQUALIFIED' and
+        context['child']['history_start_ordinal'] == 1 and
+        'historical_prefix' not in context['child'] and
+        records[0]['row']['payload'].get('cli_version') == '0.153.4' and
+        records[0]['row']['payload'].get('id') == context['actual_child_identity']['thread_id'] and
+        records[0]['row']['payload'].get('session_id') == context['parent_identity']['thread_id'])
+    # The selected 0.164 writer can emit consecutive physical
+    # events within one clock tick. This is same-source order only; cross-source
+    # before() remains strict, and gaps/reversal are still refused.
+    # Eligibility uses metadata already checked by hold_records; this
+    # helper itself supplies no native producer authentication.
+    admitted = admitted or (
+        context['profile_id'] == NONPROTECTED_PROFILE and
+        context.get('source_association') == 'PUBLIC_BOUNDARY_CHILD_STRUCTURAL_UNQUALIFIED' and
+        context['child']['history_start_ordinal'] == 1 and
+        'historical_prefix' not in context['child'] and
+        records[0]['row']['payload'].get('cli_version') == '0.164.0-alpha.11.1' and
+        records[0]['row']['payload'].get('id') == context['actual_child_identity']['thread_id'] and
+        records[0]['row']['payload'].get('session_id') == context['parent_identity']['thread_id'])
+    return admitted
+
+
+def physical_history_ordered(previous_record, record, previous_stamp, stamp, equal_ticks):
+    return previous_stamp is None or previous_stamp < stamp or (
+        equal_ticks and previous_stamp == stamp and
+        previous_record['row']['ordinal'] + 1 == record['row']['ordinal'] and
+        previous_record['locator']['physical_line'] + 1 == record['locator']['physical_line'] and
+        previous_record['locator']['offset'] + previous_record['locator']['bytes'] == record['locator']['offset'])
+
 
 def history_with_priors(context, prepared, exchange, bind_request, store, session, owner, prior_context, cache, occurrence_sink=None):
     """Refuse any actual exact-episode USE while the observation hold is open.
@@ -438,7 +563,7 @@ def history_with_priors(context, prepared, exchange, bind_request, store, sessio
             actual = indexed.get(pin['locator']['offset'])
             require(pin['path'] == context['child']['path'] and pin['physical'] == context['child']['physical'] and (pin['role'] == 'child') and (pin['locator']['embedded_ordinal'] >= context['child']['history_start_ordinal']) and (actual is not None) and all((actual['locator'][key] == pin['locator'][key] for key in ('offset', 'bytes', 'sha256', 'embedded_ordinal'))) and (pin['locator']['physical_line'] is None or actual['locator']['physical_line'] == pin['locator']['physical_line']), 'HOLD_ANCHOR_COVERAGE_DIFFERS')
         current_pairs[pair['call']['locator']['offset']] = pair['result']['locator']['offset']
-    bind_input = profile_tool_input(context, delivery_tool_input(store, session, owner, bind_request))
+    bind_input = profile_tool_input(context, delivery_tool_input(store, session, owner, bind_request, context=context))
     marker = '// COMPACTION_OBSERVATION_EXCHANGE=' + exchange['identity'] + '\n'
 
     def witnessed(condition, reason, record):
@@ -457,6 +582,14 @@ def history_with_priors(context, prepared, exchange, bind_request, store, sessio
     calls = {}
     completed = set()
     previous = None
+    previous_record = None
+    # Same-source chronology comes from the complete checked physical history.
+    # Cross-source before() and original call/result pairing remain unchanged.
+    owned_physical_order = qualified_same_source_ticks(context, records)
+    native_current_hold = context['profile_id'] in (NONPROTECTED_PROFILE, MECHANICAL_PROFILE) and owned_physical_order
+    load_offset = prepared['authorization']['load_identity']['call']['locator']['offset']
+    settings_required = native_current_hold and context.get('_current_child_settings_sha256') is not None
+    settings_seen = 0
     active_turn = None
     for record in records[1:]:
         row = record['row']
@@ -467,39 +600,52 @@ def history_with_priors(context, prepared, exchange, bind_request, store, sessio
         except ValueError:
             raise HoldObservationRefusal('HOLD_EVENT_TIMESTAMP', prefix, record) from None
         try:
-            ordered = previous is None or previous < stamp
+            ordered = physical_history_ordered(previous_record, record, previous, stamp, owned_physical_order)
         except TypeError:
             ordered = False
         witnessed(ordered, 'HOLD_EVENT_ORDER', record)
         previous = stamp
+        previous_record = record
         if context.get('source_association') in ('PUBLIC_OPEN_SPAWN_ACTIVATION_STRUCTURAL_UNQUALIFIED', 'PUBLIC_BOUNDARY_CHILD_STRUCTURAL_UNQUALIFIED'):
             if row['type'] == 'event_msg':
                 if row['payload'].get('type') == 'task_started':
                     active_turn = row['payload'].get('turn_id')
                 if row['payload'].get('type') == 'thread_settings_applied':
-                    witnessed(allow_current_settings_event(context, record), 'HOLD_UNCLASSIFIED_EVENT', record)
+                    witnessed(allow_current_settings_event(context, record, native_current_hold, load_offset), 'HOLD_UNCLASSIFIED_EVENT', record)
+                    if native_current_hold:
+                        settings_seen += 1
+                        witnessed(settings_seen == 1, 'HOLD_INITIAL_SETTINGS_COUNT', record)
                     continue
                 witnessed(row['payload'].get('type') in ('task_started', 'item_completed', 'token_count', 'task_complete'), 'HOLD_UNCLASSIFIED_EVENT', record)
                 continue
             if row['type'] in ('world_state', 'turn_context', 'token_usage_record', 'inter_agent_communication_metadata'):
                 continue
-        witnessed(row['type'] == 'response_item' and (current_record_metadata(row, context, active_turn) if context['profile_id'] in (CURRENT_BOUNDARY_PROFILE, NONPROTECTED_PROFILE) else 'metadata' not in row), 'HOLD_UNCLASSIFIED_EVENT', record)
+        if native_current_hold and row.get('type') == 'response_item' and row['payload'].get('type') == 'additional_tools':
+            witnessed(inert_preload_tool_declaration(record, load_offset),
+                'HOLD_UNQUALIFIED_TOOL_DECLARATION', record)
+            # The declaration is inert. Actual calls still pass the unchanged
+            # operation, provenance, pairing and early-USE guards below.
+            continue
+        witnessed(row['type'] == 'response_item' and (current_record_metadata(row, context, active_turn, native_current_hold) if context['profile_id'] in (CURRENT_BOUNDARY_PROFILE, NONPROTECTED_PROFILE, MECHANICAL_PROFILE) else 'metadata' not in row), 'HOLD_UNCLASSIFIED_EVENT', record)
         payload = row['payload']
         kind = payload.get('type')
-        if kind == 'custom_tool_call':
-            command = payload.get('input')
+        if kind == 'custom_tool_call' or (mechanical_context(context) and mechanical_call(context, payload)):
+            try:
+                command = mechanical_input(context, payload)
+            except ValueError as exc:
+                raise HoldObservationRefusal('HOLD_UNCLASSIFIED_TOOL_CALL:' + str(exc), prefix, record) from exc
             call_id = payload.get('call_id')
-            witnessed(payload.get('name') == 'exec' and isinstance(command, str) and isinstance(call_id, str) and call_id, 'HOLD_UNCLASSIFIED_TOOL_CALL', record)
+            witnessed(mechanical_call(context, payload) and isinstance(command, str) and isinstance(call_id, str) and call_id, 'HOLD_UNCLASSIFIED_TOOL_CALL', record)
             witnessed(not command.startswith(marker), 'HOLD_EARLY_SAME_EPISODE_USE', record)
             if record['locator']['offset'] in prior_occurrences:
                 continue
             witnessed(call_id not in calls, 'HOLD_UNCLASSIFIED_TOOL_CALL', record)
             if classify_prior_retry(context, record, records, prefix, current_call['locator']['offset'], prior_proofs, prior_occurrences, store, session, owner, occurrence_sink=occurrences if occurrence_sink is not None else None):
                 continue
-            foreign = re.match('^// COMPACTION_OBSERVATION_EXCHANGE=([0-9a-f]{64})\\n\\S', command)
+            foreign = None if mechanical_context(context) else re.match('^// COMPACTION_OBSERVATION_EXCHANGE=([0-9a-f]{64})\\n\\S', command)
             witnessed(record['locator']['offset'] in current_pairs or foreign is not None, 'HOLD_UNCLASSIFIED_TOOL_CALL', record)
             calls[call_id] = record['locator']['offset']
-        elif kind == 'custom_tool_call_output':
+        elif mechanical_output(context, payload):
             if record['locator']['offset'] in prior_occurrences:
                 continue
             call_id = payload.get('call_id')
@@ -511,16 +657,18 @@ def history_with_priors(context, prepared, exchange, bind_request, store, sessio
             continue
         elif context.get('source_association') in ('PUBLIC_OPEN_SPAWN_ACTIVATION_STRUCTURAL_UNQUALIFIED', 'PUBLIC_BOUNDARY_CHILD_STRUCTURAL_UNQUALIFIED') and kind == 'reasoning':
             continue
-        elif (context.get('source_association') == 'PUBLIC_OPEN_SPAWN_ACTIVATION_STRUCTURAL_UNQUALIFIED' or context['profile_id'] in (CURRENT_BOUNDARY_PROFILE, NONPROTECTED_PROFILE)) and kind == 'function_call':
+        elif (context.get('source_association') == 'PUBLIC_OPEN_SPAWN_ACTIVATION_STRUCTURAL_UNQUALIFIED' or context['profile_id'] in (CURRENT_BOUNDARY_PROFILE, *SOURCE_PROFILES)) and kind == 'function_call':
             call_id = payload.get('call_id')
             witnessed(payload.get('namespace') == 'collaboration' and payload.get('name') in ('send_message', 'wait_agent') and isinstance(payload.get('arguments'), str) and isinstance(call_id, str) and call_id and (call_id not in calls), 'HOLD_UNCLASSIFIED_TOOL_CALL', record)
             calls[call_id] = record['locator']['offset']
-        elif (context.get('source_association') == 'PUBLIC_OPEN_SPAWN_ACTIVATION_STRUCTURAL_UNQUALIFIED' or context['profile_id'] in (CURRENT_BOUNDARY_PROFILE, NONPROTECTED_PROFILE)) and kind == 'function_call_output':
+        elif (context.get('source_association') == 'PUBLIC_OPEN_SPAWN_ACTIVATION_STRUCTURAL_UNQUALIFIED' or context['profile_id'] in (CURRENT_BOUNDARY_PROFILE, *SOURCE_PROFILES)) and kind == 'function_call_output':
             call_id = payload.get('call_id')
             witnessed(isinstance(call_id, str) and call_id in calls and (call_id not in completed), 'HOLD_UNPAIRED_TOOL_OUTPUT', record)
             completed.add(call_id)
         else:
             raise HoldObservationRefusal('HOLD_UNCLASSIFIED_EVENT', prefix, record)
+    if settings_required:
+        witnessed(settings_seen == 1, 'HOLD_INITIAL_SETTINGS_COUNT', records[-1])
     outstanding = [offset for call_id, offset in calls.items() if call_id not in completed]
     require(not outstanding or (completed_bind is None and outstanding == [current_offset]), 'HOLD_UNSETTLED_TOOL_CALL')
     if retry:
@@ -557,13 +705,13 @@ def history_with_priors(context, prepared, exchange, bind_request, store, sessio
 
 def bind_entry_record(context, records, bind_request, store, session, owner):
     """Select the first physical original attempt, never a later same-ID reply."""
-    expected = profile_tool_input(context, delivery_tool_input(store, session, owner, bind_request))
-    matches = [record for record in records[1:] if record['row']['ordinal'] >= context['child']['history_start_ordinal'] and record['row']['type'] == 'response_item' and (record['row']['payload'].get('type') == 'custom_tool_call') and (record['row']['payload'].get('name') == 'exec') and (record['row']['payload'].get('input') == expected)]
+    expected = profile_tool_input(context, delivery_tool_input(store, session, owner, bind_request, context=context))
+    matches = [record for record in records[1:] if record['row']['ordinal'] >= context['child']['history_start_ordinal'] and record['row']['type'] == 'response_item' and mechanical_call(context, record['row']['payload']) and (mechanical_input(context, record['row']['payload']) == expected)]
     require(len(matches) == 1, 'HOLD_ORIGINAL_BIND_CALL_UNPROVED')
     original = matches[0]
     identifier = original['row']['payload'].get('call_id')
     require(isinstance(identifier, str) and identifier, 'HOLD_ORIGINAL_BIND_CALL_UNPROVED')
-    require(not any((record['locator']['offset'] > original['locator']['offset'] and record['row']['payload'].get('type') == 'custom_tool_call_output' and (record['row']['payload'].get('call_id') == identifier) for record in records)), 'HOLD_ORIGINAL_BIND_NOT_PENDING_AT_ENTRY')
+    require(not any((record['locator']['offset'] > original['locator']['offset'] and mechanical_output(context, record['row']['payload']) and (record['row']['payload'].get('call_id') == identifier) for record in records)), 'HOLD_ORIGINAL_BIND_NOT_PENDING_AT_ENTRY')
     return original
 
 def prior_candidate_shape(context, current, identifier, prior):
@@ -642,13 +790,13 @@ def classify_prior_retry(context, record, records, prefix, boundary, proofs, adm
     indexed = {item['locator']['offset']: item for item in records}
     for proof in proofs:
         prior, original = (proof['prior'], proof['original'])
-        bind_input = profile_tool_input(context, delivery_tool_input(store, session, owner, prior['bind_request']))
+        bind_input = profile_tool_input(context, delivery_tool_input(store, session, owner, prior['bind_request'], context=context))
         end = original['result']['locator']['offset'] + original['result']['locator']['bytes']
-        if not end <= offset < boundary or payload.get('input') != bind_input:
+        if not end <= offset < boundary or mechanical_input(context, payload) != bind_input:
             continue
         call_id = payload.get('call_id')
-        following = [item for item in records if offset < item['locator']['offset'] < boundary and item['row']['payload'].get('call_id') == call_id and (item['row']['payload'].get('type') in ('custom_tool_call', 'custom_tool_call_output'))]
-        require(following and following[0]['row']['payload'].get('type') == 'custom_tool_call_output', 'HOLD_PRIOR_RETRY_COMPLETION_UNPROVED')
+        following = [item for item in records if offset < item['locator']['offset'] < boundary and item['row']['payload'].get('call_id') == call_id and (mechanical_call(context, item['row']['payload']) or mechanical_output(context, item['row']['payload']))]
+        require(following and mechanical_output(context, following[0]['row']['payload']), 'HOLD_PRIOR_RETRY_COMPLETION_UNPROVED')
         response = following[0]
         try:
             text, pair = command_response(context, 'child', record['locator'], response['locator'], bind_input)
@@ -686,7 +834,7 @@ def _hold_history_unheld(context, prepared, exchange, bind_request, store, sessi
             source_request['child_thread_id'] = context['actual_child_identity']['thread_id']
         if context['profile_id'] in BOUNDARY_PROFILES:
             source_request['child_activation'] = context['child_activation']['locator']
-        if context['profile_id'] == NONPROTECTED_PROFILE:
+        if context['profile_id'] in PREPARATION_PROFILES:
             nominations = {key: context[key]['locator'] for key in ('open', 'spawn_call', 'spawn_output', 'child_activation', 'parent_turn_start')}
             rebound = bind_nonprotected_sources(nominations, context['_source_profile_code_pins'])
             require(rebound['canonical_episode_binding']['opening_digest'] == context['canonical_episode_binding']['opening_digest'], 'NONPROTECTED_PRIOR_CANONICAL_OPEN_CHANGED')
@@ -697,13 +845,14 @@ def _hold_history_unheld(context, prepared, exchange, bind_request, store, sessi
     return history_with_priors(context, prepared, exchange, bind_request, store, session, owner, candidates, {}, occurrence_sink=occurrence_sink)
 
 def actual_result(context, prepared, evidence, store, session, owner, skill_pin, prior_context=None):
+    require(not mechanical_context(context), 'MECHANICAL_PROFILE_RETURN_JOIN_NOT_ADMITTED')
     closed(evidence, ('bound_exchange', 'use', 'child_final', 'parent_delivery'), 'ACTUAL_RESULT_EVIDENCE_SHAPE')
     require(prepared.get('exchange') is not None and prepared.get('bound_response') is not None, 'ACTUAL_CHILD_OBSERVATION_MISSING')
     exchange = completed_exchange(context, prepared, prepared['exchange']['evidence'], store, session, owner, skill_pin)
     require(exchange == prepared['exchange'], 'OBSERVED_EXCHANGE_CHANGED')
     closed(evidence['bound_exchange'], ('call', 'result'), 'BOUND_EXCHANGE_SHAPE')
     selected_occurrences = []
-    held = hold_history(context, prepared, exchange, prepared['bind_request'], store, session, owner, prior_context=prior_context, occurrence_sink=selected_occurrences if context['profile_id'] == NONPROTECTED_PROFILE else None)
+    held = hold_history(context, prepared, exchange, prepared['bind_request'], store, session, owner, prior_context=prior_context, occurrence_sink=selected_occurrences if context['profile_id'] in SOURCE_PROFILES else None)
     bound_identity = held['original_bind']
     for key in ('call', 'result'):
         locator = evidence['bound_exchange'][key]
@@ -757,7 +906,7 @@ def actual_result(context, prepared, evidence, store, session, owner, skill_pin,
         require(total <= MAX_TOTAL, 'RESULT_CLOSURE_BYTE_BOUND')
         member_identities.append({'pin': member, 'physical': member_physical})
     identity = {'obligation_digest': bindings['obligation_digest'], 'observation_id': bindings['observation_id'], 'child_observation_exchange_identity': exchange['identity'], 'scope': obligation['covered_boundary_versions'], 'result_pin': returned['result_bytes_identity'], 'result_physical': result_physical, 'members': member_identities, 'child_final': final_pin, 'parent_delivery': delivered_pin, 'bound_exchange': bound_identity, 'use': use_identity, 'authorization_record': prepared['authorization']['record'], 'hold_history': held}
-    if context['profile_id'] == NONPROTECTED_PROFILE:
+    if context['profile_id'] in SOURCE_PROFILES:
         identity['selected_occurrences'] = selected_occurrences
     return {'identity': identity, 'return_digest': digest(canonical(identity)), 'status': result['status'], 'currentness': result['currentness'], 'measured_epoch': result['measured_epoch'], 'frontier': result['frontier'], 'observation_id': bindings['observation_id'], 'evidence': evidence}
 
@@ -771,8 +920,10 @@ def acceptance(context, prepared, result, locator):
     return {'record': record_pin, 'value': value}
 
 def fixed_policy(code_pins, profile_id=None):
-    require(profile_id == NONPROTECTED_PROFILE, 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED')
-    return nonprotected_fixed_policy(code_pins)
+    require(profile_id in PREPARATION_PROFILES, 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED')
+    policy = nonprotected_fixed_policy(code_pins)
+    require(policy['descriptor']['profile_id'] == profile_id, 'FIXED_SELECTED_PROFILE_DIFFERS')
+    return policy
 
 def custody_record(path, root):
     """Read a deterministic external record, bounded before content I/O."""
@@ -867,10 +1018,10 @@ def terminal_release_identity(context, prepared, candidate):
 def source_owner_attestation(owner, candidate, candidate_pin, context, prepared, result, accepted, policy, q_pin, custody_root, release_evidence):
     """Verify a source-owned issuer selected by fixed P, never by a caller."""
     pin = owner['module_pin']
-    raw, _ = artifact(pin, maximum=65536)
+    raw, _ = artifact(pin, maximum=MAX_SOURCE_OWNER_BYTES)
     path, _ = physical(pin['path'])
     require(path.parent == Path(__file__).resolve().parent and digest(raw) == pin['sha256'], 'SOURCE_OWNER_MODULE_PIN_CHANGED')
-    if context['profile_id'] == NONPROTECTED_PROFILE:
+    if context['profile_id'] in SOURCE_PROFILES:
         import types
         module = types.ModuleType('_fixed_compaction_source_owner')
         module.__file__ = str(path)
@@ -887,14 +1038,17 @@ def source_owner_attestation(owner, candidate, candidate_pin, context, prepared,
 def validate_source_owner_attestation_record(value, owner, candidate, candidate_pin, context, prepared, result, accepted, policy, q_pin, release_evidence):
     release = terminal_release_identity(context, prepared, candidate)
     expected = {'schema': 'implementaudit.source-owner-episode-attestation.v1', 'issuer_id': owner['issuer_id'], 'policy_digest': policy['policy_digest'], 'candidate_sha256': candidate_pin['sha256'], 'Q_sha256': q_pin['sha256'], 'parent_identity': candidate['parent_identity'], 'actual_child_identity': candidate['actual_child_identity'], 'obligation_digest': candidate['obligation_digest'], 'result_digest': result['return_digest'], 'acceptance_digest': candidate['exact_acceptance_digest'], 'parent_source_physical': context['parent']['physical'], 'child_source_physical': context['child']['physical'], 'terminal_effect_release': release, 'authority_ceiling': 'NONE'}
-    extra = ('current_public_record_binding',) if context['profile_id'] in (CURRENT_BOUNDARY_PROFILE, NONPROTECTED_PROFILE) else ()
+    extra = ('current_public_record_binding',) if context['profile_id'] in (CURRENT_BOUNDARY_PROFILE, *SOURCE_PROFILES) else ()
     closed(value, (*expected, 'host_source_binding', 'release_evidence', *extra), 'SOURCE_OWNER_ATTESTATION_SHAPE')
-    if context['profile_id'] == NONPROTECTED_PROFILE:
+    if context['profile_id'] in SOURCE_PROFILES:
         _validate_nonprotected_public_proof(value['current_public_record_binding'], context)
     elif extra:
         proof = closed(value['current_public_record_binding'], ('schema', 'records', 'source_prefixes', 'anchor_response_sha256s', 'authority_ceiling'), 'CURRENT_PUBLIC_BINDING_SHAPE')
         require(proof['schema'] == 'implementaudit.current-native-public-record-binding.v1' and proof['authority_ceiling'] == 'NONE' and (len(proof['records']) == 6), 'CURRENT_PUBLIC_BINDING_SHAPE')
     require(all((value[key] == item for key, item in expected.items())) and value['release_evidence'] == release_evidence, 'SOURCE_OWNER_ATTESTATION_OR_RELEASE_DIFFERS')
+    if context['profile_id'] == OWNED_STDIO_PROFILE:
+        _validate_owned_stdio_host_binding_v1(value['host_source_binding'], owner, context, policy)
+        return value
     binding = closed(value['host_source_binding'], ('schema', 'native_reader_sha256', 'provider_selection_sha256', 'native_version', 'native_executable_sha256', 'desktop_executable_sha256', 'desktop_asar_sha256', 'config_sha256', 'parent_thread_read_response_sha256', 'child_thread_read_response_sha256', 'parent_source_physical', 'child_source_physical', 'authority_ceiling'), 'SOURCE_OWNER_HOST_BINDING_SHAPE')
     require(binding['schema'] == 'implementaudit.codex-app-exact-source-binding.v1' and binding['native_reader_sha256'] == owner['native_reader_pin']['sha256'] and (binding['provider_selection_sha256'] == policy['descriptor']['exact_host_tuple']['provider_selection_sha256']) and (binding['native_version'] == policy['descriptor']['exact_host_tuple']['native_version']) and (binding['native_executable_sha256'] == owner['native_binary']['sha256']) and (binding['desktop_executable_sha256'] == owner['desktop_executable']['sha256']) and (binding['desktop_asar_sha256'] == owner['desktop_asar']['sha256']) and (binding['config_sha256'] == owner['config_file']['sha256']) and (binding['parent_source_physical'] == context['parent']['physical']) and (binding['child_source_physical'] == context['child']['physical']) and (binding['authority_ceiling'] == 'NONE') and all((isinstance(binding[key], str) and re.fullmatch('[0-9a-f]{64}', binding[key]) for key in ('parent_thread_read_response_sha256', 'child_thread_read_response_sha256'))), 'SOURCE_OWNER_HOST_BINDING_CHANGED')
     return value
@@ -986,7 +1140,11 @@ checked against actual wire bytes, with no assumption that the two are equal.
     require(identity(after_path) == identity(after_open) == identity(before) and (before.st_size, before.st_mtime_ns) == (after_open.st_size, after_open.st_mtime_ns) == (after_path.st_size, after_path.st_mtime_ns), 'SOURCE_CHANGED_DURING_READ')
     return {'path': str(path), 'physical': identity(before), 'records': records, 'host_producer_authenticated': False}
 NONPROTECTED_PROFILE = 'codex-app-bounded-public-nonprotected-v1'
-BOUNDARY_PROFILES = (*BOUNDARY_PROFILES, NONPROTECTED_PROFILE)
+OWNED_STDIO_PROFILE = 'codex-app-server-0.153.4-owned-stdio-candidate-v1'
+SOURCE_PROFILES = (NONPROTECTED_PROFILE, OWNED_STDIO_PROFILE)
+MECHANICAL_PROFILE = 'codex-app-server-0.166.0-linux-prior-mechanical-v1'
+PREPARATION_PROFILES = (*SOURCE_PROFILES, MECHANICAL_PROFILE)
+BOUNDARY_PROFILES = (*BOUNDARY_PROFILES, *PREPARATION_PROFILES)
 
 def _nonprotected_source_owner(code_pins):
     """Load the existing owner by exact verified bytes; never execute a reread."""
@@ -995,7 +1153,7 @@ def _nonprotected_source_owner(code_pins):
     key = str(Path('implementaudit/scripts/compaction-source-owner-codex-app.py'))
     require(key in code_pins, 'NONPROTECTED_OWNER_CODE_PIN_ABSENT')
     pin = {'path': str(path), 'bytes': path.stat().st_size, 'sha256': code_pins[key]}
-    raw, _ = artifact(pin, maximum=128 * 1024)
+    raw, _ = artifact(pin, maximum=MAX_SOURCE_OWNER_BYTES)
     module = types.ModuleType('_nonprotected_source_owner')
     module.__file__ = str(path)
     exec(compile(raw, str(path), 'exec', dont_inherit=True), module.__dict__)
@@ -1020,7 +1178,7 @@ def _nonprotected_read_records(context, role, selectors):
         return read_records(source['path'], selectors, source['allowed_ranges'], source['physical'])
 
 def hold_history(context, prepared, exchange, bind_request, store, session, owner, prior_context=None, occurrence_sink=None):
-    if context['profile_id'] != NONPROTECTED_PROFILE:
+    if context['profile_id'] not in PREPARATION_PROFILES:
         return _hold_history_unheld(context, prepared, exchange, bind_request, store, session, owner, prior_context=prior_context, occurrence_sink=occurrence_sink)
     code_pins = context['_source_profile_code_pins']
     source_owner = _nonprotected_source_owner(code_pins)
@@ -1029,7 +1187,8 @@ def hold_history(context, prepared, exchange, bind_request, store, session, owne
 
 def _validate_nonprotected_public_proof(proof, context):
     closed(proof, ('schema', 'records', 'source_prefixes', 'anchor_response_sha256s', 'canonical_episode_binding', 'authority_ceiling'), 'NONPROTECTED_PUBLIC_BINDING_SHAPE')
-    require(proof['schema'] == 'implementaudit.nonprotected-native-public-record-binding.v1' and proof['authority_ceiling'] == 'NONE' and (len(proof['records']) == 6) and (proof['canonical_episode_binding']['schema'] == 'implementaudit.r0033-current-episode-binding.v1') and (proof['canonical_episode_binding']['opening_digest'] == context['canonical_episode_binding']['opening_digest']) and (proof['canonical_episode_binding']['host_and_scope']['host_session_id'] == context['parent_identity']['thread_id']), 'NONPROTECTED_PUBLIC_CANONICAL_BINDING')
+    schema = 'implementaudit.owned-stdio-native-public-record-binding.v1' if context['profile_id'] == OWNED_STDIO_PROFILE else 'implementaudit.nonprotected-native-public-record-binding.v1'
+    require(proof['schema'] == schema and proof['authority_ceiling'] == 'NONE' and (len(proof['records']) == 6) and (proof['canonical_episode_binding']['schema'] == 'implementaudit.r0033-current-episode-binding.v1') and (proof['canonical_episode_binding']['opening_digest'] == context['canonical_episode_binding']['opening_digest']) and (proof['canonical_episode_binding']['host_and_scope']['host_session_id'] == context['parent_identity']['thread_id']), 'NONPROTECTED_PUBLIC_CANONICAL_BINDING')
 
 def export_selected_occurrences(context, prepared, exchange, bind_request, store, session, owner, prior_context=None):
     """Expose classifications only from successful existing owner branches.
@@ -1142,7 +1301,8 @@ def validate_frozen_episode_export_v1(value):
         return value
     require(value['reason_code'] is None, 'EPISODE_EXPORT_PRESENT_REASON')
     owner = closed(value['owner'], ('profile_id', 'issuer_id', 'policy_digest', 'code_pins', 'canonical_opening_digest', 'canonical_route', 'host_and_scope'), 'EPISODE_EXPORT_OWNER_SHAPE')
-    require(owner['profile_id'] == NONPROTECTED_PROFILE and owner['issuer_id'] == 'codex-app-canonical-episode-public-source-v1', 'EPISODE_EXPORT_OWNER_BINDING')
+    issuers = {NONPROTECTED_PROFILE: 'codex-app-canonical-episode-public-source-v1', OWNED_STDIO_PROFILE: 'codex-owned-stdio-canonical-episode-public-source-v1'}
+    require(owner['profile_id'] in issuers and owner['issuer_id'] == issuers[owner['profile_id']], 'EPISODE_EXPORT_OWNER_BINDING')
     _episode_export_code_pins(owner['code_pins'])
     episode = closed(value['episode'], ('parent_identity', 'actual_child_identity', 'assignment_identity', 'obligation_digest', 'observation_id', 'covered_boundary_versions', 'result_digest', 'acceptance_digest', 'Q_digest', 'E_digest'), 'EPISODE_EXPORT_EPISODE_SHAPE')
     parent = closed(episode['parent_identity'], ('thread_id', 'agent_path'), 'EPISODE_EXPORT_PARENT_SHAPE')
@@ -1612,3 +1772,115 @@ def ordinary_command_response_v1(call_row, output_row, expected_input):
     require(type(nested['exit_code']) is int and nested['exit_code'] == 0 and type(nested['output']) is str and
             0 < len(nested['output'].encode()) <= MAX_RECORD, 'ORDINARY_PROCESS_NOT_SUCCEEDED')
     return nested['output']
+
+
+def _validate_owned_stdio_host_binding_v1(binding, owner, context, policy):
+    closed(binding, ('schema', 'native_reader_sha256', 'provider_selection_sha256', 'native_version',
+        'native_executable_sha256', 'producer_capture_sha256', 'codex_home',
+        'parent_thread_read_response_sha256', 'child_thread_read_response_sha256',
+        'parent_source_physical', 'child_source_physical', 'authority_ceiling'), 'OWNED_STDIO_HOST_BINDING_SHAPE')
+    host = policy['descriptor']['exact_host_tuple']
+    require(binding['schema'] == 'implementaudit.codex-owned-stdio-exact-source-binding.v1' and
+        binding['native_reader_sha256'] == owner['native_reader_pin']['sha256'] and
+        binding['provider_selection_sha256'] == host['provider_selection_sha256'] and
+        binding['native_version'] == host['native_version'] == 'codex-cli 0.153.4' and
+        binding['native_executable_sha256'] == owner['native_binary']['sha256'] and
+        binding['producer_capture_sha256'] == owner['producer_capture_pin']['sha256'] == host['producer_capture_sha256'] and
+        binding['codex_home'] == host['codex_home'] and binding['parent_source_physical'] == context['parent']['physical'] and
+        binding['child_source_physical'] == context['child']['physical'] and binding['authority_ceiling'] == 'NONE' and
+        all(type(binding[key]) is str and re.fullmatch('[0-9a-f]{64}', binding[key])
+            for key in ('parent_thread_read_response_sha256', 'child_thread_read_response_sha256')), 'OWNED_STDIO_HOST_BINDING_CHANGED')
+
+
+# Proposed additions to the existing compaction-result-observation.py owner.
+# This fragment is assembled, never imported or executed during preparation.
+
+def _mechanical_protocol(context):
+    import types
+    key = 'implementaudit/scripts/compaction-prior-protocol.py'
+    pins = context['_source_profile_code_pins']
+    require(key in pins, 'MECHANICAL_PROTOCOL_CODE_PIN_ABSENT')
+    path = Path(__file__).resolve().with_name('compaction-prior-protocol.py')
+    raw, _ = artifact({'path': str(path), 'bytes': path.stat().st_size,
+                       'sha256': pins[key]}, maximum=128 * 1024)
+    module = types.ModuleType('_codex0166_mechanical_protocol')
+    exec(compile(raw, str(path), 'exec', dont_inherit=True), module.__dict__)
+    require(module.PROFILE == MECHANICAL_PROFILE, 'MECHANICAL_PROTOCOL_PROFILE')
+    return module
+
+
+def mechanical_context(context):
+    return context.get('profile_id') == MECHANICAL_PROFILE
+
+
+def mechanical_call(context, payload):
+    if mechanical_context(context):
+        return _mechanical_protocol(context).is_call(payload)
+    return payload.get('type') == 'custom_tool_call' and payload.get('name') == 'exec'
+
+
+def mechanical_output(context, payload):
+    if mechanical_context(context):
+        return _mechanical_protocol(context).is_output(payload)
+    return payload.get('type') == 'custom_tool_call_output'
+
+
+def mechanical_input(context, payload):
+    if mechanical_context(context):
+        return _mechanical_protocol(context).call_input(payload)
+    return payload.get('input')
+
+
+def mechanical_tool_input(context, operation, request):
+    protocol = _mechanical_protocol(context)
+    return protocol.arguments_wire(protocol.arguments(
+        context['_mechanical_selection_sha256'], operation, request))
+
+
+def mechanical_command_response(context, role, call_locator, result_locator, expected_input):
+    require(role == 'child', 'MECHANICAL_CHILD_TOOL_REQUIRED')
+    call, call_pin = resolve_record(context, role, call_locator)
+    output, output_pin = resolve_record(context, role, result_locator)
+    protocol = _mechanical_protocol(context)
+    turn = call['payload'].get('internal_chat_message_metadata_passthrough', {}).get('turn_id')
+    require(call['type'] == output['type'] == 'response_item'
+            and protocol.metadata_ok(call, turn) and protocol.metadata_ok(output, turn),
+            'ACTUAL_HOST_CALL_RESULT_ASSOCIATION')
+    value = protocol.response_text(call['payload'], output['payload'], expected_input)
+    before(call_pin, output_pin)
+    return value, {'call': call_pin, 'result': output_pin}
+
+
+def mechanical_fresh_boundary(context):
+    source = context['child']
+    require(source['history_start_ordinal'] == 1 and 'historical_prefix' not in source,
+            'MECHANICAL_FRESH_CHILD_REQUIRED')
+    child = read_records(source['path'], [source['metadata']], source['allowed_ranges'], source['physical'])['records'][0]['row']
+    parent_source = context['parent']
+    parent = read_records(parent_source['path'], [parent_source['metadata']],
+                          parent_source['allowed_ranges'], parent_source['physical'])['records'][0]['row']
+    require(child['type'] == parent['type'] == 'session_meta' and child['ordinal'] == parent['ordinal'] == 0
+            and digest(canonical(child['payload'])) == source['metadata_payload_digest']
+            and digest(canonical(parent['payload'])) == parent_source['metadata_payload_digest'],
+            'SOURCE_METADATA_CHANGED')
+    call, call_pin = resolve_record(context, 'parent', context['spawn_call']['locator'])
+    output, output_pin = resolve_record(context, 'parent', context['spawn_output']['locator'])
+    bound = _mechanical_protocol(context).native_spawn_identity(
+        parent['payload'], child['payload'], call['payload'], output['payload'],
+        context['canonical_episode_binding'])
+    require(bound['actual_child_identity'] == context['actual_child_identity']
+            and bound['parent_identity'] == context['parent_identity'], 'MECHANICAL_CHILD_CHANGED')
+    activation, activation_pin = resolve_record(context, 'child', context['child_activation']['locator'])
+    require(activation_pin['locator']['offset'] == source['metadata']['bytes'] and activation['ordinal'] == 1
+            and activation['type'] == 'event_msg' and activation['payload'].get('type') == 'task_started'
+            and type(activation['payload'].get('turn_id')) is str and 'metadata' not in activation,
+            'CHILD_ACTIVATION_BOUNDARY')
+    before(call_pin, output_pin)
+    before(call_pin, activation_pin)
+    return {'schema': 'implementaudit.codex0166-fresh-mechanical-boundary.v1',
+            'metadata': source['metadata'], 'metadata_shape': current_history_metadata_shape(child['payload']),
+            'actual_spawn_call': call_pin, 'actual_spawn_output': output_pin,
+            'observed_fork_context': False, 'actual_activation': activation_pin,
+            'history_start_ordinal_from_activation': 1,
+            'native_agent_path': None, 'canonical_logical_task': bound['canonical_logical_task'],
+            'authority_ceiling': 'NONE'}

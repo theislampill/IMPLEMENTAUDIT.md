@@ -48,9 +48,11 @@ require skills/implementaudit/SKILL.md "IMPLEMENTAUDIT_CONTINUITY_SAVED"
 require skills/implementaudit/references/plan-lifecycle.md "Bounded continuity preload"
 require skills/implementaudit/references/plan-lifecycle.md "Continuity from any source never overrides"
 require skills/implementaudit/SKILL.md "references/plan-lifecycle.md#2b-planner-stages-for-goal-synthesis-and-phased-audit-closure"
-require skills/implementaudit/SKILL.md "Emit each final audit marker exactly once per run."
+require skills/implementaudit/SKILL.md "Repeat nonterminal audit markers per round; emit final audit closure once."
 require skills/implementaudit/SKILL.md "Do not replay a completion marker in a later summary or final response."
-require skills/implementaudit/references/transcript-contract.md "Emit each final audit marker exactly once per run."
+require skills/implementaudit/references/transcript-contract.md 'Emit `AUDIT_START`, `AUDIT_VERIFY`, and applicable `AUDIT_GAPS`/`AUDIT_WARNING`'
+require skills/implementaudit/references/transcript-contract.md 'per final-audit round. Emit `AUDIT_COMPLETE`, `AUDIT_HANDOFF` and'
+require skills/implementaudit/references/transcript-contract.md '`IMPLEMENTAUDIT_RUN_COMPLETE` once per run.'
 require skills/implementaudit/references/transcript-contract.md "Do not replay a completion marker in a later summary or final response."
 require skills/implementaudit/templates/STATE.md "Continuity decision"
 require skills/implementaudit/templates/PROTOCOL.md "CONTINUITY_DECISION"

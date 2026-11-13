@@ -1,0 +1,65 @@
+{
+  "source_commit": "823da9f5dc356be769e3d9f04d91ed089693e065",
+  "source_tree": "dad11f64c57a537e977beeea6724b457cbe70a97",
+  "complete_pins": {
+    "scripts/qualify-work-graph-prefix.py": "ff5dbdce5b4419268b0fc11c4659763ad68d40e32f18f721b6093a7dd269b7ab",
+    "scripts/work-graph-c5-inputs.py": "3a03594eb9b33cb54f93605c4943ee6ffba1b5684743dcc21392270bb32af0ba",
+    "scripts/work-graph-c5-provider-inputs.py": "deacb319babab06f0346215972a17843d68cfff4c64234cbe3b4e119ff38524c",
+    "scripts/repro-event-capture.py": "f8238acbb6aea7bb1c246774ee780149abad56c9221fe31640d522e53f8da443",
+    "scripts/work-graph-completion.py": "70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb",
+    "skills/implementaudit/scripts/compile-work-graph.py": "f39b0140d8966ed60c30e1a2752fcb6b30efa1cbf080642bb4295f64e2ace304",
+    "scripts/qualify-work-graph-verifier.py": "f8f161b57bc6978bdb1da4a9334210629d268e5a2f403acd48441518038eacb1",
+    "scripts/work-graph-c5-live-gate.py": "5221b3039263ba42ededa080591cd9e23608e44ee601ad8b72b7eba590a7be60",
+    "scripts/work-graph-c5-executor.py": "540e3fd7dd059c8bf0e1ca98580e6c232da11e29ad14ee364569856999441837",
+    "fixtures/work-graph-c5-inputs/execution-current-composite-python312.json": "88f4ca9e83145e25b335e6c6ebc413e57e27a80a4659276ba8b7a6cd58e1ca74",
+    "fixtures/work-graph-c5-inputs/package-current-venv-python312.json": "7a2bf024717d56bf5316fe70227d14202509bde0bbd39a20214b39f97986d923",
+    "fixtures/work-graph-c5-inputs/genuine-current-execution-profile.json": "40803e190ad9f4c017407d17b6a5560bfb5de1518d766277c97349b88907d033"
+  },
+  "specimens": [
+    {
+      "path": "scripts/work-graph-c5-inputs.py",
+      "bytes": 21030,
+      "sha256": "3a03594eb9b33cb54f93605c4943ee6ffba1b5684743dcc21392270bb32af0ba"
+    },
+    {
+      "path": "scripts/work-graph-c5-provider-inputs.py",
+      "bytes": 18995,
+      "sha256": "deacb319babab06f0346215972a17843d68cfff4c64234cbe3b4e119ff38524c"
+    },
+    {
+      "path": "scripts/work-graph-c5-executor.py",
+      "bytes": 61798,
+      "sha256": "540e3fd7dd059c8bf0e1ca98580e6c232da11e29ad14ee364569856999441837"
+    },
+    {
+      "path": "fixtures/work-graph-c5-inputs/execution-current-composite-python312.json",
+      "bytes": 8372,
+      "sha256": "88f4ca9e83145e25b335e6c6ebc413e57e27a80a4659276ba8b7a6cd58e1ca74"
+    },
+    {
+      "path": "fixtures/work-graph-c5-inputs/package-current-venv-python312.json",
+      "bytes": 9472,
+      "sha256": "7a2bf024717d56bf5316fe70227d14202509bde0bbd39a20214b39f97986d923"
+    },
+    {
+      "path": "fixtures/work-graph-c5-inputs/genuine-current-execution-profile.json",
+      "bytes": 7675,
+      "sha256": "40803e190ad9f4c017407d17b6a5560bfb5de1518d766277c97349b88907d033"
+    }
+  ],
+  "original_default_pins": {
+    "scripts/qualify-work-graph-prefix.py": "86f4e02dbf7b25ee3a4dab2fb90ef4dd3e21cfe350e8ce38470e36c4f4733016",
+    "scripts/work-graph-c5-inputs.py": "c9dc12fb3d9c12c8161426956944730ba543f66ffec0c36abd8a1193f3c5cd4f",
+    "scripts/work-graph-c5-provider-inputs.py": "9b29c100a2b89fe6f53072f726f990ecd115cdb6f7bff574e2e62b48099baff4",
+    "scripts/repro-event-capture.py": "f8238acbb6aea7bb1c246774ee780149abad56c9221fe31640d522e53f8da443",
+    "scripts/work-graph-completion.py": "1a73009c7085c66797d9310258b2b1d723f304a0034cbc6a7ce16e1c97283b92",
+    "skills/implementaudit/scripts/compile-work-graph.py": "1824b1f9d38c53d45016ed249926784c958cfd24b59920df2252ef366f6ec46b",
+    "scripts/qualify-work-graph-verifier.py": "b06561d44f48d49aef97f9a29364e4016cdff44782381d1cca258a86420171a0",
+    "scripts/work-graph-c5-live-gate.py": "5221b3039263ba42ededa080591cd9e23608e44ee601ad8b72b7eba590a7be60",
+    "scripts/work-graph-c5-executor.py": "3be657bce635eafccf0b000dedb85e2ae62cb95c874b03c953c192738b9524ce",
+    "fixtures/work-graph-c5-inputs/execution-system-python312.json": "c22e25897db88cb86a345a79ff5da39ef7b335571aff8786617ea6c82a4ac1fa",
+    "fixtures/work-graph-c5-inputs/package-venv-python312.json": "c6ba97cd3be936284eab790b3b35cec92c4f84252086c817eabbd372c2c68014",
+    "fixtures/work-graph-c5-inputs/genuine-execution-profile.json": "5dbcaddb4d33ee046592030c49108e859fd104c75e138d3be614b4cc82c194b1"
+  },
+  "scope": "Immutable actual immediate pre-change CURRENT tuple; previous exact qualification remains historical"
+}

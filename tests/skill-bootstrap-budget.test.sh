@@ -89,7 +89,14 @@ check("complete-progressive-route", None)
 binding = json.loads((target / "fixtures/semantic-preservation/cases.json").read_text())["bootstrap_route"]
 route = binding["governor_route"]
 text = original_governor.decode()
-assert route in text
+assert text.count(route) == 1
+# Route wrappers need neutral fixture headroom so they reach their own gate.
+# Keep the exact route and every nonempty line; the real-source reserve and
+# one-byte boundary above remain unchanged and use original_governor.
+prefix, suffix = text.split(route)
+text = prefix.replace("\n\n", "\n") + route + suffix.replace("\n\n", "\n")
+governor.write_text(text, encoding="utf-8", newline="")
+check("route-fixture-neutral-spacing", None)
 for label, replacement in (
     ("missing-trigger-reference-still-present", ""),
     ("commented-trigger", "<!--\n" + route + "\n-->"),
@@ -100,7 +107,7 @@ for label, replacement in (
     governor.write_text(text.replace(route, replacement), encoding="utf-8", newline="")
     check(label, "active planner route")
 run_root_edge = route.split("\n\n")[-1]
-assert run_root_edge.startswith("When a run root is needed, claim it with")
+assert run_root_edge.startswith("Run `scripts/claim-run.sh <task>`, initialize from canonical templates, then")
 governor.write_text(text.replace(run_root_edge, "<!--\n" + run_root_edge + "\n-->"),
                    encoding="utf-8", newline="")
 check("inert-run-root-edge-with-stage-owner-retained", "active planner route")

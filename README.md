@@ -1229,6 +1229,27 @@ Choose the source deliberately:
 - a local archive is evidence only for the exact source tree from which it was
   built.
 
+The repository-owned release helpers require a **clean checkout at the
+archive's recorded build commit**, not just the same runtime version or tree.
+They compare the embedded contract, inventory source identity and complete
+payload with the checkout running the helper. Use the corresponding release-era
+helper for a published archive; use the local build route for current source.
+
+For the published `v0.4.0.0` archive, the build commit is
+`71a7101ade904f5482cbc25c5154e1eadea0c7be`. Its release tag targets merge commit
+`4414d897d40298bc3e0a7778b7ca1b05ca680621`: the trees match, but the commit
+identities differ. Run the published-asset helper commands below from the exact
+build checkout, for example:
+
+```bash
+git worktree add --detach ../IMPLEMENTAUDIT-v0400-installer 71a7101ade904f5482cbc25c5154e1eadea0c7be
+cd ../IMPLEMENTAUDIT-v0400-installer
+```
+
+Keep that checkout clean. The [release report](docs/audits/archive/v0.4.0.0-release-report.md)
+binds the historical build and public asset identities. A checksum alone does
+not replace this source-pairing requirement or establish provenance.
+
 The current product surface includes shipped-helper reachability, executor-ready
 work orders, bounded state-space convergence, engineering-value and
 informational-independence controls, evaluator and candidate-controlled

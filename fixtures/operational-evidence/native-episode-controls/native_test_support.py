@@ -57,6 +57,26 @@ def functions(name, selected, env):
     return env
 
 
+def source_profile_constants():
+    """Read the real profile declarations without importing an owner or store."""
+    tree = ast.parse(source_text('compaction-result-observation.py'))
+    names = ('NONPROTECTED_PROFILE', 'OWNED_STDIO_PROFILE')
+    values = {}
+    for name in names:
+        nodes = [n for n in tree.body if isinstance(n, ast.Assign) and len(n.targets) == 1
+                 and isinstance(n.targets[0], ast.Name) and n.targets[0].id == name]
+        if len(nodes) != 1 or not isinstance(nodes[0].value, ast.Constant) or type(nodes[0].value.value) is not str:
+            raise ValueError('profile literal declaration changed: ' + name)
+        values[name] = nodes[0].value.value
+    families = [n for n in tree.body if isinstance(n, ast.Assign) and len(n.targets) == 1
+                and isinstance(n.targets[0], ast.Name) and n.targets[0].id == 'SOURCE_PROFILES']
+    if (len(families) != 1 or not isinstance(families[0].value, ast.Tuple)
+            or [n.id if isinstance(n, ast.Name) else None for n in families[0].value.elts] != list(names)):
+        raise ValueError('source profile family declaration changed')
+    values['SOURCE_PROFILES'] = tuple(values[name] for name in names)
+    return values
+
+
 def load(name):
     if name in _MODULES: return _MODULES[name]
     if name not in PUBLIC_OWNERS or name == 'compaction-audit-pending.py':
@@ -79,7 +99,8 @@ def load(name):
 def source_api():
     """Synthetic fixture adapter replacing the former private investigation wrapper."""
     owner = load('bounded_source_owner.py'); reader = load('bounded_native_reader.py')
-    selection = {'root_thread_id': 'fixture-root', 'cli_version': '0.163.0-alpha.10.2', 'cwd': str(SCRATCH)}
+    selection = {'root_thread_id': 'fixture-root', 'cli_version': '0.163.0-alpha.10.2',
+        'native_version': 'codex-cli 0.163.0-alpha.10.2', 'cwd': str(SCRATCH)}
     return types.SimpleNamespace(owner=owner, reader=reader, ROOT_ID=selection['root_thread_id'],
         CLI_VERSION=selection['cli_version'], CWD=SCRATCH, ROOT_SOURCE=SCRATCH / 'fixture-root.jsonl',
         public_record=owner.public_record, physical=owner.physical, read_public=owner.read_public,
@@ -108,6 +129,8 @@ def canonical_unbound_fixture(directory):
     root = Path(directory)
     scripts = root / 'skills/implementaudit/scripts'; scripts.mkdir(parents=True)
     for name in PUBLIC_OWNERS: (scripts / name).write_bytes(bounded_bytes(source_path(name)))
+    for name in ('compaction-prior-protocol.py', 'compaction-prior-mcp.py'):
+        (scripts / name).write_bytes(bounded_bytes(NATIVE / name))
     (scripts / 'host-session-binding.py').write_bytes(bounded_bytes(NATIVE / 'host-session-binding.py'))
     for name in CORE_FILES:
         target = root / name; target.parent.mkdir(parents=True, exist_ok=True)
@@ -127,3 +150,64 @@ def guard_ast_digest(node):
         if isinstance(value, list): return [stable(item) for item in value]
         return value
     return hashlib.sha256(json.dumps(stable(node), sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+
+
+def ordinary_cli_definition_closure(text):
+    """Check actual ordinary CLI dependencies, not unrelated imported-only APIs.
+
+    The only excluded call is the exact fresh-profile branch of the pinned
+    provider guard. Both pinned CLI entries obtain their runtime through the
+    pinned selection owner, whose exact ordinary profile excludes that branch.
+    Unknown source shapes and any genuinely reachable late definition refuse.
+    """
+    tree = ast.parse(text)
+    guards = [n for n in tree.body if isinstance(n, ast.If) and '__main__' in ast.unparse(n.test)]
+    if len(guards) != 1:
+        raise ValueError('CLI_GUARD_POPULATION')
+    guard = guards[0]
+    dispatch = tree.body.index(guard)
+    groups = {}
+    for index, node in enumerate(tree.body):
+        if isinstance(node, (ast.FunctionDef, ast.ClassDef)):
+            groups.setdefault(node.name, []).append((index, node))
+    # Resolve the binding that actually exists at dispatch. An imported-only
+    # redefinition after dispatch cannot stand in for a missing earlier one.
+    definitions = {name: next((v for v in reversed(values) if v[0] < dispatch), values[0])
+                   for name, values in groups.items()}
+    pins = {'_ordinary_selection_v1': 'f61a7760c52b2adb5e50c327bd9d8213551b46d3a146804773f329ab20ec58df', '_ordinary_modules_v1': 'b0dce0205e6ea8f8bbd4266d9d32fd6521dd8302168b92feb3524509a54bf81e', 'ordinary_receiver_check_v1': '53dc1d0ea52d826e2fa6b53be81c3ef8d1d46e81d581631ee026b7397cd7a7f9', 'execute_ordinary_receiver_v1': 'cf8095b65ada47263113f7dfcd231f0a4b462f2c5f38303adc6b15f0402bfb42', '_ordinary_provider_guard_v1': 'f44779c99d9f67cd72506e6b888875913f3caabca92d428f28a076c5f2221b1c', '__ordinary_cli_guard__': 'f1495caea4e203f81ac3bed53d946581a60362828b180b82c103b84d5ab54176'}
+    if guard_ast_digest(guard) != pins['__ordinary_cli_guard__']:
+        raise ValueError('CLI_ARGUMENTS_OR_DISPATCH_CHANGED')
+    for name, expected in pins.items():
+        if name == '__ordinary_cli_guard__':
+            continue
+        if name not in definitions or guard_ast_digest(definitions[name][1]) != expected:
+            raise ValueError('CLI_CRITICAL_SOURCE_CHANGED:' + name)
+    constants = {n.targets[0].id: n.value.value for n in tree.body[:dispatch]
+                 if isinstance(n, ast.Assign) and len(n.targets) == 1 and isinstance(n.targets[0], ast.Name)
+                 and isinstance(n.value, ast.Constant)}
+    if constants.get('FRESH_CANARY_PROFILE') != 'codex-app-server-0.166.0-linux-fresh-canary-v1':
+        raise ValueError('CLI_EXCLUDED_PROFILE_CHANGED')
+    provider = ast.parse(ast.unparse(definitions['_ordinary_provider_guard_v1'][1])).body[0]
+    excluded = ast.parse("if selected['profile_id'] == FRESH_CANARY_PROFILE:\n    return _fresh_canary_provider_guard_v1(runtime)").body[0]
+    matches = [n for n in provider.body if ast.dump(n) == ast.dump(excluded)]
+    if len(matches) != 1:
+        raise ValueError('CLI_EXCLUDED_BRANCH_SHAPE')
+    provider.body.remove(matches[0])
+    roots = ('ordinary_receiver_check_v1', 'execute_ordinary_receiver_v1')
+    parents = {name: None for name in roots}
+    queue = list(roots)
+    while queue:
+        name = queue.pop(0)
+        index, node = definitions[name]
+        if index >= dispatch:
+            raise ValueError('CLI_REACHABLE_LATE_DEFINITION:' + name)
+        if name == '_ordinary_provider_guard_v1':
+            node = provider
+        for reference in ast.walk(node):
+            if (isinstance(reference, ast.Name) and isinstance(reference.ctx, ast.Load)
+                    and reference.id in definitions and reference.id not in parents):
+                parents[reference.id] = name
+                queue.append(reference.id)
+    return dict(entries=list(roots), dependencies=sorted(parents),
+                excluded_branch='EXACT_FRESH_PROFILE_BRANCH_REJECTED_BY_PINNED_ORDINARY_SELECTION',
+                after_dispatch_imported_only=sorted(n for n, (index, _) in definitions.items() if index > dispatch))

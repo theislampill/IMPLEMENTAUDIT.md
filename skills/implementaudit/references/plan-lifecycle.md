@@ -271,6 +271,25 @@ pending-effect disposition, authority/capability, discrepancy, and receiver live
 verification. Material source/model/interface/config/environment/authority/
 requirement change invalidates only affected readiness/evidence until observed
 re-establishment.
+For `check-handoff-packet.sh --receiver-requires-reproduction`, bind the packet
+with a recomputed SHA-256 and the existing `claimed_tree` full HEAD commit
+identity. The checker captures a packet once and uses those same bytes for
+parsing and hashing. Packets are nonempty, NUL-free text of at most 1 MiB;
+the hash excludes its own physical line while retaining other LF/CRLF bytes
+and an unterminated final line. `current_state_ref` is `git:HEAD`, `git:<full-commit>`, or
+`file:<repo-relative-path>#sha256=<64-hex>`; file paths contain no empty, `.` or
+`..` components and resolve to regular files without symlink aliases. Missing
+or changed bytes, unbound references and stale commits block even when
+`has_state_claims: no`. A `provenance_ref: packet:<id>` must name this packet.
+File inspection re-stats the live file, parent directories and receiver root
+against captured descriptors before completion. These sequential observations
+do not lock the paths or guarantee that state remains unchanged afterward.
+Mechanical completeness verifies identity at inspection; it does not establish
+state semantics, authority, integration acceptance or a protected effect.
+Hosts without secure file opening refuse that reference form; the exact Git
+reference route remains available without an unsafe path fallback.
+The receiver must still perform the recorded live verification; its text is
+never executed by the checker. Re-establish affected bindings after changes.
 When no independent reproduction is required, retain the ordinary
 implementation-only handoff path without manufacturing an acceptance bundle.
 

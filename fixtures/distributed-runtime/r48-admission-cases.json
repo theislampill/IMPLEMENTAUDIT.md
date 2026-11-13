@@ -1,0 +1,102 @@
+{
+  "schema": "implementaudit.distributed-runtime.admission-cases.v1",
+  "cell": "D48-C04",
+  "cases": [
+    {
+      "id": "D48-C04-01-eligible-capacity-admitted",
+      "observations": {
+        "distributed_trigger": true,
+        "cheap_local_operation": false,
+        "semantic_retry_eligible": true,
+        "effect_state": "FAILED_NO_EFFECT",
+        "deadline_remaining_ms": 60000,
+        "queue_age_ms": 1000,
+        "max_queue_age_ms": 5000,
+        "requested_units": 1,
+        "downstream_available_units": 2,
+        "recovery_available_units": 1
+      },
+      "expected": "ADMIT"
+    },
+    {
+      "id": "D48-C04-02-downstream-exhausted",
+      "observations": {
+        "distributed_trigger": true,
+        "cheap_local_operation": false,
+        "semantic_retry_eligible": true,
+        "effect_state": "FAILED_NO_EFFECT",
+        "deadline_remaining_ms": 60000,
+        "queue_age_ms": 1000,
+        "max_queue_age_ms": 5000,
+        "requested_units": 1,
+        "downstream_available_units": 0,
+        "recovery_available_units": 2
+      },
+      "expected": "REFUSE"
+    },
+    {
+      "id": "D48-C04-03-recovery-exhausted",
+      "observations": {
+        "distributed_trigger": true,
+        "cheap_local_operation": false,
+        "semantic_retry_eligible": true,
+        "effect_state": "FAILED_NO_EFFECT",
+        "deadline_remaining_ms": 60000,
+        "queue_age_ms": 1000,
+        "max_queue_age_ms": 5000,
+        "requested_units": 1,
+        "downstream_available_units": 2,
+        "recovery_available_units": 0
+      },
+      "expected": "REFUSE"
+    },
+    {
+      "id": "D48-C04-04-unknown-effect-not-retriable",
+      "observations": {
+        "distributed_trigger": true,
+        "cheap_local_operation": false,
+        "semantic_retry_eligible": true,
+        "effect_state": "UNKNOWN",
+        "deadline_remaining_ms": 60000,
+        "queue_age_ms": 1000,
+        "max_queue_age_ms": 5000,
+        "requested_units": 1,
+        "downstream_available_units": 2,
+        "recovery_available_units": 2
+      },
+      "expected": "REFUSE"
+    },
+    {
+      "id": "D48-C04-05-expired-deadline",
+      "observations": {
+        "distributed_trigger": true,
+        "cheap_local_operation": false,
+        "semantic_retry_eligible": true,
+        "effect_state": "FAILED_NO_EFFECT",
+        "deadline_remaining_ms": 0,
+        "queue_age_ms": 1000,
+        "max_queue_age_ms": 5000,
+        "requested_units": 1,
+        "downstream_available_units": 2,
+        "recovery_available_units": 2
+      },
+      "expected": "REFUSE"
+    },
+    {
+      "id": "D48-C04-06-local-cheap-path",
+      "observations": {
+        "distributed_trigger": false,
+        "cheap_local_operation": true,
+        "semantic_retry_eligible": false,
+        "effect_state": "NOT_STARTED",
+        "deadline_remaining_ms": 0,
+        "queue_age_ms": 0,
+        "max_queue_age_ms": 0,
+        "requested_units": 0,
+        "downstream_available_units": 0,
+        "recovery_available_units": 0
+      },
+      "expected": "CHEAP_PATH"
+    }
+  ]
+}

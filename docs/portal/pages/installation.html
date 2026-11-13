@@ -25,6 +25,16 @@
       </div>
       <p>Repeat with <code>--host claude</code> for the separate staged Claude projection check. Passing either route does not establish native discovery, invocation, marketplace behavior, publication, or public-download identity.</p>
 
+      <h2 id="release-helper-source">Choose the matching helper checkout</h2>
+      <p>The repository-owned release helpers require a clean checkout at the archive's recorded build commit. They compare the embedded contract, inventory source identity and complete payload with that checkout; matching runtime versions or trees alone do not satisfy the check. Use a release-era helper for a published archive, or build the current source locally.</p>
+      <p>The published <code>v0.4.0.0</code> archive records build commit <code>71a7101ade904f5482cbc25c5154e1eadea0c7be</code>. The release tag targets merge commit <code>4414d897d40298bc3e0a7778b7ca1b05ca680621</code>, with the same tree and a different commit identity. Run the published-asset helper commands below from the build checkout:</p>
+      <div class="term-window example-console">
+        <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Published-asset helper source</em><span class="term-badge">source prerequisite</span></div>
+        <pre><span class="k-cyan">$ git worktree add --detach ../IMPLEMENTAUDIT-v0400-installer 71a7101ade904f5482cbc25c5154e1eadea0c7be</span>
+<span class="k-cyan">$ cd ../IMPLEMENTAUDIT-v0400-installer</span></pre>
+      </div>
+      <p>Keep that checkout clean. The release report binds the historical build and asset identities. A checksum verifies the named bytes; it does not replace source pairing or establish provenance.</p>
+
       <h2 id="claude">Standalone compatibility path for Claude Desktop</h2>
       <p>If the host requires a standalone skill copy instead of the canonical plugin package, use the generated <code>IMPLEMENTAUDIT.skill</code> compatibility artifact and verify the host separately.</p>
       <p>If you are copying a release asset into a Claude Desktop-style local skill directory, use the repo helper and pass the actual session skill directory you inspected:</p>

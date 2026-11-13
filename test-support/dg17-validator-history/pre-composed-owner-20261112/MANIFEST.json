@@ -1,0 +1,20 @@
+{
+  "schema": "implementaudit.retained-source-member.v1",
+  "scope": "Exact prior validator for historical Windows source-profile fixtures; no current-source fallback or native qualification transfer",
+  "source_commit": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+  "same_bytes_at_profile_ancestry": {
+    "eb504b84": "eb504b84c423ff836e5bc7f8106870f62aea45f5",
+    "35bf9823": "35bf9823856eb4efe254b882954120480632230e"
+  },
+  "member": {
+    "path": "skills/implementaudit/scripts/validate-run-root.sh",
+    "bytes": 114967,
+    "sha256": "d51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a",
+    "mode": "100644"
+  },
+  "historical_profile_ids": [
+    "composite-20261105-r5-windows-load-binding-v1-core",
+    "composite-20261105-r5-windows-companion-capture-v1-core"
+  ],
+  "authority": "NONE"
+}

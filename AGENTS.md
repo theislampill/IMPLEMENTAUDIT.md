@@ -32,6 +32,9 @@ keywords (`skills/implementaudit/references/planning-depth.md`).
 - Packaged references/templates/scripts: `skills/implementaudit/references/`,
   `skills/implementaudit/templates/`, and `skills/implementaudit/scripts/`.
 - Canonical package contract: `package/implementaudit-package.json`.
+- Consult `IMPLICIT_STATES.md` before changing a listed lifecycle, containment,
+  pinning or publication transition. It records source-linked guards and gaps;
+  live operation records remain authoritative for what actually occurred.
 - Dual-host plugin manifests: `.codex-plugin/plugin.json` and
   `.claude-plugin/plugin.json`; both expose the same `implementaudit` governor
   from `./skills/`.

@@ -1708,6 +1708,582 @@ def _native_continuity_source_files_v1():
     return claim_path, claim_raw, validate_path, validate_raw
 
 
+_NATIVE_CONTINUITY_SIX_SOURCE_PROFILE_V1 = (
+    ("claim-run.sh", 17368, "50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383", 0o644),
+    ("validate-run-root.sh", 61001, "d8b046b5417dce13ed66a5ac5fffaf3d18fae40c97d42aef8b38470500d575a6", 0o644),
+    ("claim-run-rotation.py", 103754, "6f62f57d3a5873570161022e2ccc04cdb061655fa338bcb2c5ea1624b80454ca", 0o644),
+    ("rotate-canonical-state.py", 92941, "7989a08128fedabe531fc92114baff755e77e08aebea547253793b625496bb26", 0o755),
+    ("canonical_hot_projection.py", 57891, "fe733b91dff4f031ed3ab80761d669de59c0270cd7f85325a14a2d47f9ba5276", 0o755),
+    ("canonical_custody.py", 33629, "bfa07f0088f2df7b8c1196ccd149ebf8c6874337b35ac9a9c91ac51367a7fb1f", 0o755),
+)
+# Receiving-owner allowlist: complete independently acquired fixed profiles.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 = (
+    (
+        ('claim-run.sh', 17368, '50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383', 0o644),
+        ('validate-run-root.sh', 61001, 'd8b046b5417dce13ed66a5ac5fffaf3d18fae40c97d42aef8b38470500d575a6', 0o644),
+        ('claim-run-rotation.py', 103754, '6f62f57d3a5873570161022e2ccc04cdb061655fa338bcb2c5ea1624b80454ca', 0o644),
+        ('rotate-canonical-state.py', 92941, '7989a08128fedabe531fc92114baff755e77e08aebea547253793b625496bb26', 0o755),
+        ('canonical_hot_projection.py', 57891, 'fe733b91dff4f031ed3ab80761d669de59c0270cd7f85325a14a2d47f9ba5276', 0o755),
+        ('canonical_custody.py', 33629, 'bfa07f0088f2df7b8c1196ccd149ebf8c6874337b35ac9a9c91ac51367a7fb1f', 0o755),
+    ),
+    (
+        ('claim-run.sh', 17368, '50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383', 0o644),
+        ('validate-run-root.sh', 96597, '77f324a5d87f49dbd870e9fdc23d2e4d252d2bdb4244d523408245fbd6dbbbb3', 0o644),
+        ('claim-run-rotation.py', 103754, '6f62f57d3a5873570161022e2ccc04cdb061655fa338bcb2c5ea1624b80454ca', 0o644),
+        ('rotate-canonical-state.py', 92941, '7989a08128fedabe531fc92114baff755e77e08aebea547253793b625496bb26', 0o755),
+        ('canonical_hot_projection.py', 57891, 'fe733b91dff4f031ed3ab80761d669de59c0270cd7f85325a14a2d47f9ba5276', 0o755),
+        ('canonical_custody.py', 33629, 'bfa07f0088f2df7b8c1196ccd149ebf8c6874337b35ac9a9c91ac51367a7fb1f', 0o755),
+    ),
+    (
+        ('claim-run.sh', 17368, '50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383', 0o644),
+        ('validate-run-root.sh', 61001, 'd8b046b5417dce13ed66a5ac5fffaf3d18fae40c97d42aef8b38470500d575a6', 0o644),
+        ('claim-run-rotation.py', 104704, 'f6e6d93c9ca103c21ce4f316ec7688f2e3750749d074e22f0ed16d3f612fa795', 0o644),
+        ('rotate-canonical-state.py', 92941, '7989a08128fedabe531fc92114baff755e77e08aebea547253793b625496bb26', 0o755),
+        ('canonical_hot_projection.py', 57891, 'fe733b91dff4f031ed3ab80761d669de59c0270cd7f85325a14a2d47f9ba5276', 0o755),
+        ('canonical_custody.py', 33629, 'bfa07f0088f2df7b8c1196ccd149ebf8c6874337b35ac9a9c91ac51367a7fb1f', 0o755),
+    ),
+    (
+        ('claim-run.sh', 17368, '50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383', 0o644),
+        ('validate-run-root.sh', 96597, '77f324a5d87f49dbd870e9fdc23d2e4d252d2bdb4244d523408245fbd6dbbbb3', 0o644),
+        ('claim-run-rotation.py', 104704, 'f6e6d93c9ca103c21ce4f316ec7688f2e3750749d074e22f0ed16d3f612fa795', 0o644),
+        ('rotate-canonical-state.py', 92941, '7989a08128fedabe531fc92114baff755e77e08aebea547253793b625496bb26', 0o755),
+        ('canonical_hot_projection.py', 57891, 'fe733b91dff4f031ed3ab80761d669de59c0270cd7f85325a14a2d47f9ba5276', 0o755),
+        ('canonical_custody.py', 33629, 'bfa07f0088f2df7b8c1196ccd149ebf8c6874337b35ac9a9c91ac51367a7fb1f', 0o755),
+    ),
+    (
+        ('claim-run.sh', 17632, '78c6391743132b5265d415bf73435cb0ee11f3e32d09d8b280018e949745e5ac', 0o644),
+        ('validate-run-root.sh', 61188, '73bce773c2fa43aa1f42584121824b8179356ca6bf6348c6e10492e2f128313d', 0o644),
+        ('claim-run-rotation.py', 213510, 'f2cb06e57e1b46dd7e679019acc780b7ffbfeaf21516cf53e5e0fb14eae90660', 0o644),
+        ('rotate-canonical-state.py', 125155, 'c505832360e0e245aca51d1c14ee8c9d9c330d0300684a77aa6c5bd8803bad74', 0o755),
+        ('canonical_hot_projection.py', 58417, 'b3fd58cef5bf79cbd8f109b352a9b80c230127bf35db0dbac2ef41a7490d967f', 0o755),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 0o755),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 0o644),
+    ),
+    (
+        ('claim-run.sh', 17632, '78c6391743132b5265d415bf73435cb0ee11f3e32d09d8b280018e949745e5ac', 0o644),
+        ('validate-run-root.sh', 96784, '23afb71f4e6660301912d97142ad087391e0308d828fecce8e45b5e2aae8b295', 0o644),
+        ('claim-run-rotation.py', 213510, 'f2cb06e57e1b46dd7e679019acc780b7ffbfeaf21516cf53e5e0fb14eae90660', 0o644),
+        ('rotate-canonical-state.py', 125155, 'c505832360e0e245aca51d1c14ee8c9d9c330d0300684a77aa6c5bd8803bad74', 0o755),
+        ('canonical_hot_projection.py', 58417, 'b3fd58cef5bf79cbd8f109b352a9b80c230127bf35db0dbac2ef41a7490d967f', 0o755),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 0o755),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 0o644),
+    ),
+    (
+        ('claim-run.sh', 17632, '78c6391743132b5265d415bf73435cb0ee11f3e32d09d8b280018e949745e5ac', 0o644),
+        ('validate-run-root.sh', 61188, '73bce773c2fa43aa1f42584121824b8179356ca6bf6348c6e10492e2f128313d', 0o644),
+        ('claim-run-rotation.py', 245953, '36da48d5e81218ff020c5fdb85fe0797e19a61459b4c167f137109e279e7f7aa', 0o644),
+        ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', 0o755),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 0o755),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 0o755),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 0o644),
+    ),
+    (
+        ('claim-run.sh', 17632, '78c6391743132b5265d415bf73435cb0ee11f3e32d09d8b280018e949745e5ac', 0o644),
+        ('validate-run-root.sh', 96784, '23afb71f4e6660301912d97142ad087391e0308d828fecce8e45b5e2aae8b295', 0o644),
+        ('claim-run-rotation.py', 245953, '36da48d5e81218ff020c5fdb85fe0797e19a61459b4c167f137109e279e7f7aa', 0o644),
+        ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', 0o755),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 0o755),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 0o755),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 0o644),
+    ),
+    (
+        ('claim-run.sh', 99730, '405ab3853dfb88c007ea2f8f8dd98fb8e9c6e77552b172f2f71a8751364ea20f', None),
+        ('validate-run-root.sh', 61188, '73bce773c2fa43aa1f42584121824b8179356ca6bf6348c6e10492e2f128313d', None),
+        ('claim-run-rotation.py', 213510, 'f2cb06e57e1b46dd7e679019acc780b7ffbfeaf21516cf53e5e0fb14eae90660', None),
+        ('rotate-canonical-state.py', 125155, 'c505832360e0e245aca51d1c14ee8c9d9c330d0300684a77aa6c5bd8803bad74', None),
+        ('canonical_hot_projection.py', 58417, 'b3fd58cef5bf79cbd8f109b352a9b80c230127bf35db0dbac2ef41a7490d967f', None),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None),
+    ),
+    (
+        ('claim-run.sh', 99730, '405ab3853dfb88c007ea2f8f8dd98fb8e9c6e77552b172f2f71a8751364ea20f', None),
+        ('validate-run-root.sh', 61188, '73bce773c2fa43aa1f42584121824b8179356ca6bf6348c6e10492e2f128313d', None),
+        ('claim-run-rotation.py', 245953, '36da48d5e81218ff020c5fdb85fe0797e19a61459b4c167f137109e279e7f7aa', None),
+        ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', None),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None),
+    ),
+    (
+        ('claim-run.sh', 99730, '405ab3853dfb88c007ea2f8f8dd98fb8e9c6e77552b172f2f71a8751364ea20f', None),
+        ('validate-run-root.sh', 96784, '23afb71f4e6660301912d97142ad087391e0308d828fecce8e45b5e2aae8b295', None),
+        ('claim-run-rotation.py', 213510, 'f2cb06e57e1b46dd7e679019acc780b7ffbfeaf21516cf53e5e0fb14eae90660', None),
+        ('rotate-canonical-state.py', 125155, 'c505832360e0e245aca51d1c14ee8c9d9c330d0300684a77aa6c5bd8803bad74', None),
+        ('canonical_hot_projection.py', 58417, 'b3fd58cef5bf79cbd8f109b352a9b80c230127bf35db0dbac2ef41a7490d967f', None),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None),
+    ),
+    (
+        ('claim-run.sh', 99730, '405ab3853dfb88c007ea2f8f8dd98fb8e9c6e77552b172f2f71a8751364ea20f', None),
+        ('validate-run-root.sh', 96784, '23afb71f4e6660301912d97142ad087391e0308d828fecce8e45b5e2aae8b295', None),
+        ('claim-run-rotation.py', 245953, '36da48d5e81218ff020c5fdb85fe0797e19a61459b4c167f137109e279e7f7aa', None),
+        ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', None),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None),
+    ),
+    # Same independently acquired eight-member receiving domain; no admission.
+    (
+        ('claim-run.sh', 99730, '405ab3853dfb88c007ea2f8f8dd98fb8e9c6e77552b172f2f71a8751364ea20f', None),
+        ('validate-run-root.sh', 61188, '73bce773c2fa43aa1f42584121824b8179356ca6bf6348c6e10492e2f128313d', None),
+        ('claim-run-rotation.py', 246657, '4dbbd07b5a792289c13c1225a8099900682b3657396f60f4b74867502cbadf97', None),
+        ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', None),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None),
+    ),
+    # Same exact eight-member captured-companion domain; no native admission.
+    (
+        ('claim-run.sh', 104155, 'bd0c6d2ab1ec8f695fe34e459b25d9344e11c5930d3f62d0919b29d9bc4a44ee', None),
+        ('validate-run-root.sh', 61188, '73bce773c2fa43aa1f42584121824b8179356ca6bf6348c6e10492e2f128313d', None),
+        ('claim-run-rotation.py', 246657, '4dbbd07b5a792289c13c1225a8099900682b3657396f60f4b74867502cbadf97', None),
+        ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', None),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None),
+    ),
+    (
+        ('claim-run.sh', 21636, '35232762fdd76d000bcca774a0f6f53f3d26dfb9229d9795d397b81d7ef8483e', 0o644),
+        ('validate-run-root.sh', 61001, 'd8b046b5417dce13ed66a5ac5fffaf3d18fae40c97d42aef8b38470500d575a6', 0o644),
+        ('claim-run-rotation.py', 103754, '6f62f57d3a5873570161022e2ccc04cdb061655fa338bcb2c5ea1624b80454ca', 0o644),
+        ('rotate-canonical-state.py', 92941, '7989a08128fedabe531fc92114baff755e77e08aebea547253793b625496bb26', 0o755),
+        ('canonical_hot_projection.py', 57891, 'fe733b91dff4f031ed3ab80761d669de59c0270cd7f85325a14a2d47f9ba5276', 0o755),
+        ('canonical_custody.py', 33629, 'bfa07f0088f2df7b8c1196ccd149ebf8c6874337b35ac9a9c91ac51367a7fb1f', 0o755),
+    ),
+)
+# Exact current peer-shell/core-module closure; Windows gate and admission remain separate.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += (
+    (('claim-run.sh', 104155, 'bd0c6d2ab1ec8f695fe34e459b25d9344e11c5930d3f62d0919b29d9bc4a44ee', None), ('validate-run-root.sh', 113863, '66c0f6d3df8c0f1702864055f3fcc4ee3cf5403982de81fba71389cdc5860283', None), ('claim-run-rotation.py', 246657, '4dbbd07b5a792289c13c1225a8099900682b3657396f60f4b74867502cbadf97', None), ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', None), ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None), ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None), ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None)),
+    # Current-core POSIX closure; no receipt-schema or native-currentness substitution.
+    (
+        ('claim-run.sh', 22057, '7402bc1b77db0009746b10e8a97b19e680d2ad24b5eb91c5c9b4918409d4f7f6', 420),
+        ('validate-run-root.sh', 113863, '66c0f6d3df8c0f1702864055f3fcc4ee3cf5403982de81fba71389cdc5860283', 420),
+        ('claim-run-rotation.py', 246657, '4dbbd07b5a792289c13c1225a8099900682b3657396f60f4b74867502cbadf97', 420),
+        ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', 493),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 420),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+    ),
+)
+# Current core successor; retained native and historical tuples remain separate.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 22199, '34054952e3bbf13ae6ca381d4cf0d9d72bccaed10c8dd879de9351f5c0e2594b', 420),
+    ('validate-run-root.sh', 113863, '66c0f6d3df8c0f1702864055f3fcc4ee3cf5403982de81fba71389cdc5860283', 420),
+    ('claim-run-rotation.py', 258400, '27ae194fc92a37bd12e0fe378ffc07f788a3bffec28ebd1c0a5e3c8e1c73695e', 420),
+    ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+),)
+# DG07 current core; source selection supplies no native authority.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 22199, '7d257a9b3502a78d458f80bd0c20fe4594b049a93c819aa3bc91de577bfa34af', 420),
+    ('validate-run-root.sh', 113863, '66c0f6d3df8c0f1702864055f3fcc4ee3cf5403982de81fba71389cdc5860283', 420),
+    ('claim-run-rotation.py', 259408, '551b1a798161fdd20cb9eebd56fb1d8a0245ec48a74f05b29f6253d8228c49cb', 420),
+    ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+),)
+# DG07 current core; source selection supplies no native authority.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 30189, '23b828f298c3f21b86d9f7a2228d74ffb34d67d7b7bedc34ceca2ad754d2cbe7', 420),
+    ('validate-run-root.sh', 113863, '66c0f6d3df8c0f1702864055f3fcc4ee3cf5403982de81fba71389cdc5860283', 420),
+    ('claim-run-rotation.py', 259408, '551b1a798161fdd20cb9eebd56fb1d8a0245ec48a74f05b29f6253d8228c49cb', 420),
+    ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+),)
+# CAS phase owner; prior source profiles remain unchanged.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 31259, 'a3ecb4d56f8b12fcfc7237906f6547bd2205b1c04cf1c843d2782c86c67ee798', 420),
+    ('validate-run-root.sh', 113863, '66c0f6d3df8c0f1702864055f3fcc4ee3cf5403982de81fba71389cdc5860283', 420),
+    ('claim-run-rotation.py', 259408, '551b1a798161fdd20cb9eebd56fb1d8a0245ec48a74f05b29f6253d8228c49cb', 420),
+    ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+),)
+# Current preparation-template source tuples; no native admission.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 31259, 'cee4c3225be8df9c62fcc8adb4c1af18a38bd1237adac39b0ce5d5a1bce47765', 420),
+    ('validate-run-root.sh', 113863, '66c0f6d3df8c0f1702864055f3fcc4ee3cf5403982de81fba71389cdc5860283', 420),
+    ('claim-run-rotation.py', 259408, '8edf14f8aea58573c1eb8a3a2bd6a42394aa8ea419217606994c81b1ba162ca9', 420),
+    ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+), (
+    ('claim-run.sh', 104155, '322f17d86170e34788833a619586e8cb9fcc066a70933342ad3f28f036446d0d', None),
+    ('validate-run-root.sh', 113863, '66c0f6d3df8c0f1702864055f3fcc4ee3cf5403982de81fba71389cdc5860283', None),
+    ('claim-run-rotation.py', 246657, '31e30b564e83db80c11c18b3bf83eab9d901bf089af7dd7ebd2e7d823f5105f8', None),
+    ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', None),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None),
+    ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None),
+),)
+# Exact DG08 source-only tuples; historical receipt scopes remain unchanged.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += (
+    (
+        ('claim-run.sh', 31259, 'e1b686be7aba7da12163810e1c99c0033bad2ec949bdc5436fb177ba2491a790', 420),
+        ('validate-run-root.sh', 113863, '66c0f6d3df8c0f1702864055f3fcc4ee3cf5403982de81fba71389cdc5860283', 420),
+        ('claim-run-rotation.py', 259408, '348c492cafdb3ed7d41f360ff8c219316257bdd18c4e4f22646aa7e66cb84d9e', 420),
+        ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', 493),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 420),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+    ),
+    (
+        ('claim-run.sh', 104155, 'd7db3595bfdd6b79e822375df5744597111148315cce6c980dc063792774dc36', None),
+        ('validate-run-root.sh', 113863, '66c0f6d3df8c0f1702864055f3fcc4ee3cf5403982de81fba71389cdc5860283', None),
+        ('claim-run-rotation.py', 246657, '4a4dc5a997f3d485c7c43be31cb45818907e1685c8506fbabcb8bcee0872aed6', None),
+        ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', None),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None),
+    ),
+)
+# Exact DG08 source-only tuples; historical receipt scopes remain unchanged.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += (
+    (
+        ('claim-run.sh', 31259, '0d1829770e3ce8da613cb48646391fc65641636ac4cd42a97149b3e8f57750b9', 420),
+        ('validate-run-root.sh', 113863, '66c0f6d3df8c0f1702864055f3fcc4ee3cf5403982de81fba71389cdc5860283', 420),
+        ('claim-run-rotation.py', 259408, 'c91e7c3aa243919c4cdb398f999f28734f1a630511a99f6b1aa9dc477b2fae3c', 420),
+        ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', 493),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 420),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+    ),
+    (
+        ('claim-run.sh', 104155, '5cca165879cb272a8cb494fcdc12ac461ec53c4d9c95fcb13882ea44397be529', None),
+        ('validate-run-root.sh', 113863, '66c0f6d3df8c0f1702864055f3fcc4ee3cf5403982de81fba71389cdc5860283', None),
+        ('claim-run-rotation.py', 246657, '908cce5054dc23a9e74b6af695204fc6d9889681611311c7136f087fe0be1663', None),
+        ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', None),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None),
+    ),
+)
+# Current closure-parser source tuples; no native acceptance is inherited.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += (
+    (
+        ('claim-run.sh', 31259, '0d1829770e3ce8da613cb48646391fc65641636ac4cd42a97149b3e8f57750b9', 420),
+        ('validate-run-root.sh', 114294, 'e7a20d7d5eab497338327814367fe8c7221a35cfe61bdfaadd91d84101f0d250', 420),
+        ('claim-run-rotation.py', 259408, 'c91e7c3aa243919c4cdb398f999f28734f1a630511a99f6b1aa9dc477b2fae3c', 420),
+        ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', 493),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 420),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+    ),
+    (
+        ('claim-run.sh', 104155, '5cca165879cb272a8cb494fcdc12ac461ec53c4d9c95fcb13882ea44397be529', None),
+        ('validate-run-root.sh', 114294, 'e7a20d7d5eab497338327814367fe8c7221a35cfe61bdfaadd91d84101f0d250', None),
+        ('claim-run-rotation.py', 246657, '908cce5054dc23a9e74b6af695204fc6d9889681611311c7136f087fe0be1663', None),
+        ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', None),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None),
+    ),
+)
+# Current terminal-inventory owner binding; historical subjects remain unchanged.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((('claim-run.sh', 31259, '7cfd59d8569ad04221cd4779a803dfc451d5e47b2d4674ad657090564c6c174d', 420), ('validate-run-root.sh', 114294, 'e7a20d7d5eab497338327814367fe8c7221a35cfe61bdfaadd91d84101f0d250', 420), ('claim-run-rotation.py', 259408, '1c70c0612bad4b2311bb89ddad60484937b5d195bf98380c3ef3e0d30d6cd94b', 420), ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', 493), ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493), ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 420), ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493)), (('claim-run.sh', 104155, '10baf97b4c773d8ac386627a455bb480e8353ccfdb909fc5253d3ac4c65ecd0f', None), ('validate-run-root.sh', 114294, 'e7a20d7d5eab497338327814367fe8c7221a35cfe61bdfaadd91d84101f0d250', None), ('claim-run-rotation.py', 246657, 'bc862f87428e86c608ddc5fe31ad8a3e2c8324b52c09ba379163db160ad70e93', None), ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', None), ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None), ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None), ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None)))
+# DG10 current Windows transport binding; all historical subjects retained.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((('claim-run.sh', 31259, '7cfd59d8569ad04221cd4779a803dfc451d5e47b2d4674ad657090564c6c174d', 420), ('validate-run-root.sh', 114674, 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978', 420), ('claim-run-rotation.py', 259408, '1c70c0612bad4b2311bb89ddad60484937b5d195bf98380c3ef3e0d30d6cd94b', 420), ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', 493), ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493), ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 420), ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493)), (('claim-run.sh', 104155, '10baf97b4c773d8ac386627a455bb480e8353ccfdb909fc5253d3ac4c65ecd0f', None), ('validate-run-root.sh', 114674, 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978', None), ('claim-run-rotation.py', 246657, 'bc862f87428e86c608ddc5fe31ad8a3e2c8324b52c09ba379163db160ad70e93', None), ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', None), ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None), ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None), ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None)))
+# DG18 current source tuple; no historical qualification expansion.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((('claim-run.sh', 31259, '1c00c1707443886a2eff09785fa945b8361f34fd1ee84b082a1326428456c3a7', 420), ('validate-run-root.sh', 114674, 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978', 420), ('claim-run-rotation.py', 259408, '969618c330cb4ae450af60431db9ab5e3a148610724e7fd674db10e2117103e8', 420), ('rotate-canonical-state.py', 127297, '8ea4b99162ebaf4f1338fbb9086b4da2fd58d94dea3cac6d82d64744520de631', 493), ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493), ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 420), ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493)), (('claim-run.sh', 104155, '472b9f6493fa5a6c11a4ce24ca7f64176a98de6756d2ac0eca3b25397ab331e6', None), ('validate-run-root.sh', 114674, 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978', None), ('claim-run-rotation.py', 246657, '82ddcbb3cf476098fbcac57c0550d4240457688df2c4504c8ab8caea2c3367b1', None), ('rotate-canonical-state.py', 127297, '8ea4b99162ebaf4f1338fbb9086b4da2fd58d94dea3cac6d82d64744520de631', None), ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None), ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None), ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None)))
+# Current repaired source closure only; historical/native acceptance is not inherited.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += (
+    (
+        ('claim-run.sh', 31259, '2405210c86bb842fcd3a1304e83f2a14eceb4c9f06a5d16f40c8a8e4531d4e28', 420),
+        ('validate-run-root.sh', 114674, 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978', 420),
+        ('claim-run-rotation.py', 259820, '2a35fc864297604be1839024fca899b3fb2becdb8d0f08377629b026d107051e', 420),
+        ('rotate-canonical-state.py', 127297, '8ea4b99162ebaf4f1338fbb9086b4da2fd58d94dea3cac6d82d64744520de631', 493),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 420),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+    ),
+    (
+        ('claim-run.sh', 104155, '83411f994564f7d5e87cbfe61ba093bf0bfc338ea6b55b1bf4fa561883b7bd2a', None),
+        ('validate-run-root.sh', 114674, 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978', None),
+        ('claim-run-rotation.py', 247069, '60b96654209ffa21091ce0bdcda1135d73ff0c116750842277019a1b26787a4f', None),
+        ('rotate-canonical-state.py', 127297, '8ea4b99162ebaf4f1338fbb9086b4da2fd58d94dea3cac6d82d64744520de631', None),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None),
+    ),
+)
+# Explicit R4 source domains; no prior native/campaign acceptance is inherited.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += (
+    (
+        ('claim-run.sh', 31259, 'cade5a010143b131ac70758ef68d907c4238dc5a596f341cc1be108eb1a147a0', 420),
+        ('validate-run-root.sh', 114674, 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978', 420),
+        ('claim-run-rotation.py', 264505, 'b599e7efbdac3008b5720f2b65796851eb163a2c287753d68abd232211c5d82a', 420),
+        ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+        ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+    ),
+)
+# R4 initialization source domain; currentness still requires the original strict owner operations.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 31280, 'ad0dac4014087970c4898bf574207a871b8e08929a605889e038fe4dfdec404d', 420),
+    ('validate-run-root.sh', 114967, 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a', 420),
+    ('claim-run-rotation.py', 288433, '5ccadac1f8576d647b26a8dcb95beda1de55fd9abba280410087f96310d01adc', 420),
+    ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+),)
+# R5 Windows path initialization source domain; currentness still requires the original strict owner operations.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 31280, '7320327b903714358647bdee550bd795e087cc83db3b756e804264ad5bbf7be3', 420),
+    ('validate-run-root.sh', 114967, 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a', 420),
+    ('claim-run-rotation.py', 288439, 'ce40c4410011e46b209df718207b58c15d18e60db1379e7b66b24f04616637f9', 420),
+    ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+),)
+# R5 Windows companion capture source domain; currentness still requires the original strict owner operations.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 32290, 'dce0e6af8ce69e63283d0ed5ad1496779d5f2c1b90024c79228af5e22df75d4c', 420),
+    ('validate-run-root.sh', 114967, 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a', 420),
+    ('claim-run-rotation.py', 288439, 'ce40c4410011e46b209df718207b58c15d18e60db1379e7b66b24f04616637f9', 420),
+    ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+),)
+# R5 Windows internal load binding; original owner/currentness checks remain required.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 32290, '58b2d0a257f90fcf50a87e9b4f31789bdf2bea1574d75ff55bcef7f80fd8e1bc', 420),
+    ('validate-run-root.sh', 114967, 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a', 420),
+    ('claim-run-rotation.py', 289555, '5563f6a8ccbdfdfeea25b6370a4fc7a94ca44f424187b6527d6103a9e56ba8bc', 420),
+    ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+),)
+# Exact H0 source-template admission, with no authentic telemetry admission.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 32290, '9bce5c887cd89c2d2991b84f1bf765787e7a6b75a2eba29a8433c3a6c05f73a3', 420),
+    ('validate-run-root.sh', 114967, 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a', 420),
+    ('claim-run-rotation.py', 291624, '128dfe66ce656cd194d5fe1e55b245fecb1b4fd811dea87f75f8ace4a59a0487', 420),
+    ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+),)
+# Exact DG17 owner-timeout reason source admission, with no authentic telemetry admission.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 32290, '167a5c2570efbbfccd8aee506fde244118878c52ca0ae8c17af05bf22292e706', 420),
+    ('validate-run-root.sh', 115445, '9b23638dcc3b9d13c7297068132c68fee8c553b8ab27aab214685f1be29e8ece', 420),
+    ('claim-run-rotation.py', 291624, 'ad4afefacddefe7bb153ab12f0c68bf4ad919eb7794217aecec05730fba72630', 420),
+    ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+),)
+# Exact DG17 yield scheduling and Windows owner-tree bound source admission, with no authentic telemetry admission.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 32290, 'a58d27accd96b91c4fcd66efa9680360ca45394505b22572ea114541a1449728', 420),
+    ('validate-run-root.sh', 121794, '06ba1dd6e516348b1248bae502361b1e610c06a19950b9cd03ecdcc25575b562', 420),
+    ('claim-run-rotation.py', 291624, '860fb174149c7c35a18e7b1ceea6cef6eefef6f7f055e4235f8eeea0de9450e8', 420),
+    ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+),)
+# Exact DG17 Windows job-completion source admission, with no authentic telemetry admission.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 32290, '5b8f88cbf8d9ab5c2d9c3f5647887578eb7fd52913c673c6eb947f41ce8cb196', 420),
+    ('validate-run-root.sh', 122448, 'ee2bb6e5b49d56be8541816d3e906998b0083d8446d56c89667a7213a79acc13', 420),
+    ('claim-run-rotation.py', 291624, '8da36303035cad030e01331ca1eafb0968137e0e42004e908e85d37cd8cffa2a', 420),
+    ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+),)
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 32290, '0a1966997827478a4aa017712be3b668b7896dc4fe97d6e8b7bc6e572e4277fb', 420),
+    ('validate-run-root.sh', 122768, '9ffd7a2ae38ba9c1fea49738168b26c840856d88be5b80f4532562ca09981d20', 420),
+    ('claim-run-rotation.py', 291624, '7523ed5fd31c498f0ef32cf1be5ea5c14f1ba969cc1e780cfe788d685995693a', 420),
+    ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
+),)
+_NATIVE_LEGACY_CONTINUITY_PAIRS_V1 = (
+    ('07e09843b2831149dc43e5f0dc458e82ae5cf9614b116393ac774ddea19390c7',
+     'fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5'),
+    ('9665ba20e02c02882f3172549e90d78e790c6c0133cd31749a30e1d29c3cc0ce',
+     'fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5'),
+)
+
+_NATIVE_CONTINUITY_TRANSPORT_SHA256 = 'de6025b8c5e48d924643387e85c1554d60b4208c751e0b5f64376cb53368f2ce'
+_NATIVE_CONTINUITY_TRANSPORT_BYTES = 40203
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1 = {
+    _NATIVE_CONTINUITY_TRANSPORT_SHA256: _NATIVE_CONTINUITY_TRANSPORT_BYTES,
+    # Same six-source runtime plus the exact combined original14 source selector.
+    'ba79f1ba7d7f8908f869141ca3bfd950430e63932bbffdb5994892c54a052b01': 41212,
+    # Exact current-core POSIX profile with unchanged command/execution guards.
+    'b481e9bbad4564a3cf4cc12a67b3deafa76aaedaa01ef2407fa0b3d4b54c2720': 42323,
+    # Exact donor and composed three-profile additions; no native credit.
+    '84e2230251a98802b1f2500bce6e6ad58763c0931fda1ae6693a69579b519f36': 43200,
+    'a532deae6bfd9360308dea01e4b9e2d492ccbe132c5850cac530d12d0f7d664e': 45320,
+    '447d6eec38c60215b0e2b9a1f6f69044fb448325258de80f48fc643f78acec6a': 46368,
+    # Exact DG07 profile addition; retained transports remain historical.
+    '0c3e00bce07d0f5c58a00777aa40f52bbbf752e29ad8251cf023b4252e2e8c0f': 48446,
+    '174553905a3f18929dfa08ce35a557feceb9d381b2661ea18a9f50b6fc9de5c2': 49494,
+    # Exact DG07 profile addition; retained transports remain historical.
+    'd1ccf5b3507c63c2586828a74d3a33dd7513ef2c3dbe3618b9a54a329f61acaf': 47400,
+    '0dfdd58d07784164581e265d0db8a52cc08270e791bf29e6d9e1f9814113a171': 51541,
+    # Exact DG08 source-only profile addition; no native credit.
+    '7dfa4f3ff1d09855472cd1f8764e53f3c9f1a08ac8f85f363d6364ce429e6cd0': 53560,
+    # Exact DG08 source-only profile addition; no native credit.
+    '797382b4d87a3c03a64e2dfb48b1dd90860b060e177685ebda837d797931be68': 55589,
+    # Exact current closure-parser source selection; historical transports retained.
+    'aeb7aaf05214c65707205f53d6cfa4ec95347e1358073003a0d96280435a5ee1': 57615,
+}
+# Current terminal-inventory owner binding; historical subjects remain unchanged.
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['46c043889d7bd6ec4c39992d98a5d9db15c710b06af59dad1c1b0ee817e2c912'] = 59668
+# DG10 current Windows transport binding; all historical subjects retained.
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['ed2305671968f08090e4be5eeb9e5a129ecb4ed34cd077fb2fc883cd938a2fcc'] = 61705
+
+
+# Current canonical snapshot/NTFS CORE8 source; all qualified historical entries retained.
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['47898b1057aa02a3841d38a90d347cfaba311025914cf267421c01c95671fd07'] = 81384
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['9ac6eb3862a95df809449a53ef81753b34823a0cdbcce10fa6d5f959bbac9eab'] = 83563
+# Prospective Windows fullsnapshot containment; all old transport identities remain.
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['e74b75859e471a3ddad6e04c645e61ff7e3b9974a511b524114913d010cf5c5e'] = 83793
+
+
+# Current repaired transport; every earlier exact transport remains retained.
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['7f6fbc766be6f6232d70cb4862f7b9298b27389bbbd408ed1bf76f475ed21bbb'] = 86153
+
+
+# Exact R4 transport; every prior receiver remains retained.
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['24f316c7a2eb83e7c11d39dcbeea6c00fc998b3bb03d8c4070ff4edb3ac3594c'] = 87494
+
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['9948c6a866ed780ef862719397b47871aa0acf5e5db1b7d161ad92e85208ddfb'] = 88790
+
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['aa98b1a45b9345d3ccf88611a7b90cd2939e04ee3f520b82610546ba96b77d48'] = 90101
+
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['d198e8c65c30c20cd33d0e3acf1e3a27f67b200e3bce521f018f8a947b9bf967'] = 91399
+
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['39fd9e9a2c9f07bbf10569e2811043e33b9097dcbd2126825e7e0c018f5ee2a3'] = 92708
+
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['a6ecc502ef72cdd280684353899f306a3d5dbd1a858c2ae9b39269e047d04760'] = 93973
+
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['c513f29781da905be428172cd5a3c0dfce96f337b1b9a5ef83e533752b2bb0b3'] = 95279
+
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['c7b34db11a5db190556cfc8d9a70590f91556a72ee6abd37bc1b0af6815d6322'] = 96625
+
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['53dc52b18f5be2dda4cebbe066025412842e149471abba4185af71377158e2cb'] = 97939
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['ecbfaf090b65e0b94023316752787138ddc0d70d6518d095398ca05044c27af4'] = 99245
+
+def _native_check_continuity_closure_v1(value, repository, compiler_path, pair):
+    """Check the complete live source set at fixed paths, never captured paths.
+
+    The compiler's context owns execution and currentness. This receiving check
+    independently binds its complete profile output to this same source checkout. A
+    retained JSON object alone is not execution or native acceptance evidence.
+    """
+    helper_pair = (pair.get("claim_sha256"), pair.get("validate_sha256"))
+    profiles = tuple(profile for profile in _NATIVE_CONTINUITY_SOURCE_PROFILES_V1
+                     if (profile[0][2], profile[1][2]) == helper_pair)
+    if os.name == "nt" and helper_pair in (
+        ('dce0e6af8ce69e63283d0ed5ad1496779d5f2c1b90024c79228af5e22df75d4c', 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a'),
+        ('9bce5c887cd89c2d2991b84f1bf765787e7a6b75a2eba29a8433c3a6c05f73a3', 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a'),
+        ('167a5c2570efbbfccd8aee506fde244118878c52ca0ae8c17af05bf22292e706', '9b23638dcc3b9d13c7297068132c68fee8c553b8ab27aab214685f1be29e8ece'),
+        ('a58d27accd96b91c4fcd66efa9680360ca45394505b22572ea114541a1449728', '06ba1dd6e516348b1248bae502361b1e610c06a19950b9cd03ecdcc25575b562'),
+        ('5b8f88cbf8d9ab5c2d9c3f5647887578eb7fd52913c673c6eb947f41ce8cb196', 'ee2bb6e5b49d56be8541816d3e906998b0083d8446d56c89667a7213a79acc13'),
+        ('0a1966997827478a4aa017712be3b668b7896dc4fe97d6e8b7bc6e572e4277fb', '9ffd7a2ae38ba9c1fea49738168b26c840856d88be5b80f4532562ca09981d20'),
+    ):
+        profiles = tuple(tuple((*row[:3], None) for row in profile) for profile in profiles)
+    if not profiles:
+        if value is not None or helper_pair not in _NATIVE_LEGACY_CONTINUITY_PAIRS_V1:
+            _error("OE_NATIVE_CURRENT_SOURCE", "$native.continuity_closure", "unknown or incomplete source closure")
+        return
+    root = pathlib.Path(__file__).absolute().parents[1]
+    source_root = root / "skills/implementaudit/scripts"
+    if pathlib.Path(compiler_path).absolute() != source_root / "compile-work-graph.py":
+        _error("OE_NATIVE_CURRENT_SOURCE", "$native.continuity_closure", "closure compiler is outside the receiving source checkout")
+    windows = profiles[0][0][3] is None
+    if windows and os.name != "nt":
+        _error("OE_NATIVE_CURRENT_SOURCE", "$native.continuity_closure", "original14 requires qualified Windows custody")
+    rows, identity = [], []
+    for index, (name, _, _, _) in enumerate(profiles[0]):
+        path = source_root / name
+        raw = _native_file(path, "$native.continuity_closure", max(p[index][1] for p in profiles))
+        info = path.lstat()
+        size, digest, mode = len(raw), hashlib.sha256(raw).hexdigest(), stat.S_IMODE(info.st_mode)
+        if info.st_nlink != 1:
+            _error("OE_NATIVE_CURRENT_CHANGED", "$native.continuity_closure", "continuity source is aliased")
+        identity.append((name, size, digest, mode))
+        row = dict(name=name, path=str(path), bytes=size, sha256=digest, mode=mode, links=1)
+        row.update(dict(held=True) if windows else dict(readonly=True, seals=15))
+        rows.append(row)
+    if not any(len(identity) == len(profile) and all(actual[:3] == expected[:3] and (expected[3] is None or actual[3] == expected[3])
+                       for actual, expected in zip(identity, profile)) for profile in profiles):
+        _error("OE_NATIVE_CURRENT_CHANGED", "$native.continuity_closure", "continuity source differs from the qualified closure")
+    path = root / "scripts/work-graph-continuity-transport.py"
+    raw = _native_file(path, "$native.continuity_transport",
+                       max(_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1.values()))
+    info = path.lstat()
+    if (_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1.get(hashlib.sha256(raw).hexdigest()) != len(raw)
+            or info.st_nlink != 1):
+        _error("OE_NATIVE_CURRENT_CHANGED", "$native.continuity_transport", "transport source differs from the executed profile")
+    execution = dict(schema="implementaudit.continuity-source-closure.v2",
+                     repository=str(pathlib.Path(repository).absolute()), members=rows,
+                     startup=dict(profile="ISOLATED_CPYTHON_V1", isolated=True,
+                                  no_site=True, dont_write_bytecode=True))
+    if windows:
+        execution = dict(schema="implementaudit.continuity-windows-source-closure.v1",
+                         repository=str(pathlib.Path(repository).absolute()), members=rows,
+                         custody="WINDOWS_HELD_FILES_V1")
+    expected = dict(schema="implementaudit.native-continuity-closure.v1",
+        execution=execution,
+        transport=dict(path=str(path), bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest(),
+                       mode=stat.S_IMODE(info.st_mode)))
+    # Equality also refuses aliases, extra members, reordered members and
+    # foreign captured path strings without ever opening those supplied paths.
+    if type(value) is not dict or canonical_json_v1(value) != canonical_json_v1(expected):
+        _error("OE_NATIVE_CURRENT_SOURCE", "$native.continuity_closure", "executed closure differs from fixed receiving sources")
+
+
 def _native_require_current_receipt(repo, controller, receipt, route_module):
     claim_path, claim_raw, validate_path, validate_raw = _native_continuity_source_files_v1()
     closure = None
@@ -1839,19 +2415,25 @@ def _native_current_observation_v1(
     observe = getattr(compiler, "observe_native_run_v1", None)
     source_observation = False
     episode_observation = False
+    source_version = 1
+    closure_observation = None
     if continuity_sources is not None:
         if (type(continuity_sources) is not dict or
                 set(continuity_sources) != {"claim_sha256", "validate_sha256"} or
                 any(type(value) is not str or not re.fullmatch(r"[0-9a-f]{64}", value)
                     for value in continuity_sources.values())):
             _error("OE_NATIVE_CURRENT_SOURCE", "$native.continuity_sources", "invalid executed-source constraint")
-        observe_sources = getattr(compiler, "observe_native_run_sources_v1", None)
+        observe_sources = getattr(compiler, "observe_native_run_sources_v2", None)
+        if observe_sources is not None:
+            source_version = 2
+        else:
+            observe_sources = getattr(compiler, "observe_native_run_sources_v1", None)
         if observe_sources is not None and repository == source_repository:
             if not callable(observe_sources) or not callable(observe):
                 _error("OE_NATIVE_CURRENT_SOURCE", "$native.continuity_sources", "incomplete source-observation interface")
             observe, source_observation = observe_sources, True
             if _episode_output is not None:
-                observe_episode = getattr(compiler, "observe_native_run_episode_sources_v1", None)
+                observe_episode = getattr(compiler, f"observe_native_run_episode_sources_v{source_version}", None)
                 if observe_episode is not None:
                     if not callable(observe_episode):
                         _error("OE_NATIVE_CURRENT_SOURCE", "$native.episode", "malformed enclosing episode owner")
@@ -1899,14 +2481,21 @@ def _native_current_observation_v1(
             graph = decode_strict_json_bytes(raw, "native owner observation")
             if source_observation:
                 fields = {"schema", "projection", "continuity_sources"}
+                if source_version == 2:
+                    fields.add("continuity_closure")
                 if episode_observation:
                     fields.add("ordinary_episode")
                 _object(graph, "$native.continuity_sources", exact_keys=fields, required=fields)
-                schema = ("implementaudit.native-run-episode-source-observation.v1" if episode_observation
-                          else "implementaudit.native-run-source-observation.v1")
+                schema = (f"implementaudit.native-run-episode-source-observation.v{source_version}" if episode_observation
+                          else f"implementaudit.native-run-source-observation.v{source_version}")
                 if (graph["schema"] != schema or
                         graph["continuity_sources"] != continuity_sources):
                     _error("OE_NATIVE_CURRENT_SOURCE", "$native.continuity_sources", "executed helper sources differ")
+                if source_version == 2:
+                    closure_observation = graph["continuity_closure"]
+                    _native_check_continuity_closure_v1(closure_observation, repository, compiler_path, continuity_sources)
+                elif (continuity_sources.get("claim_sha256"), continuity_sources.get("validate_sha256")) not in _NATIVE_LEGACY_CONTINUITY_PAIRS_V1:
+                    _error("OE_NATIVE_CURRENT_SOURCE", "$native.continuity_closure", "complete continuity composition requires the v2 observation")
                 if episode_observation:
                     _episode_output.append(graph["ordinary_episode"])
                 graph = graph["projection"]
@@ -1930,6 +2519,8 @@ def _native_current_observation_v1(
                        "provisional native projection was mutated")
         # Context exit retains the owner's fresh source/readset/continuity,
         # semantic route, receipt, ref and producer-source validation.
+        if source_observation and source_version == 2:
+            _native_check_continuity_closure_v1(closure_observation, repository, compiler_path, continuity_sources)
     except OperationalEvidenceError:
         raise
     except (Exception, SystemExit):

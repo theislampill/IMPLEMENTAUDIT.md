@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import hashlib
 import contextlib
+import gc
 import importlib.util
 import json
 import os
@@ -26,6 +27,10 @@ POST = BASE / "skills/implementaudit/scripts"
 EVIDENCE = Path(os.environ.get("R0039_CLAIM_EVIDENCE_DIR") or tempfile.mkdtemp(prefix="claim-evidence-")).absolute()
 EVIDENCE.mkdir(parents=True, exist_ok=True)
 CONTROLLER = "transaction-test"
+# Original117 is a retained six-source subject, not a pending-initialization
+# caller. Keep its actual authoring protocol without probing unsupported modes.
+LEGACY_CLAIM_SHA256 = "50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383"
+LEGACY_SOURCE_SHA256 = "3b026c414bac82243bc46bf44b18d531e78e6887849c2372430dac5be59aa9e3"
 
 
 def run(argv, *, cwd, input_bytes=None):
@@ -42,18 +47,31 @@ def run(argv, *, cwd, input_bytes=None):
 
 
 class Fixture:
-    def __init__(self, *, seed_receipt=True, persistent_repo=None):
+    def __init__(self, *, seed_receipt=True, persistent_repo=None, source_scripts=None):
+        # Completed test cases contain cyclic module globals; retire them before
+        # measuring another invocation in this long-lived test process.
+        gc.collect()
         self.directory = None if persistent_repo is not None else tempfile.TemporaryDirectory(prefix="case-", dir=EVIDENCE)
         self.repo = Path(persistent_repo) if persistent_repo is not None else Path(self.directory.name)
         if persistent_repo is not None:
             self.repo.mkdir(parents=True, exist_ok=False)
         self.scripts = self.repo / "skills/implementaudit/scripts"
-        self.scripts.mkdir(parents=True)
+        selected_scripts = POST if source_scripts is None else Path(source_scripts)
+        shutil.copytree(BASE / 'skills/implementaudit/scripts', self.scripts)
+        shutil.copytree(BASE / 'skills/implementaudit/templates', self.scripts.parent / 'templates')
         for name in ("claim-run.sh", "claim-run-rotation.py", "validate-run-root.sh",
                      "rotate-canonical-state.py", "canonical_hot_projection.py", "canonical_custody.py"):
-            chosen = POST / name if (POST / name).is_file() else BASE / "skills/implementaudit/scripts" / name
+            chosen = selected_scripts / name if (selected_scripts / name).is_file() else BASE / "skills/implementaudit/scripts" / name
             if chosen.is_file():
                 shutil.copyfile(chosen, self.scripts / name)
+        self.legacy_initialization = hashlib.sha256((self.scripts / 'claim-run.sh').read_bytes()).hexdigest() == LEGACY_CLAIM_SHA256
+        if self.legacy_initialization:
+            names = ("claim-run.sh", "claim-run-rotation.py", "validate-run-root.sh",
+                     "rotate-canonical-state.py", "canonical_hot_projection.py", "canonical_custody.py")
+            members = [(name, len((self.scripts / name).read_bytes()),
+                        hashlib.sha256((self.scripts / name).read_bytes()).hexdigest()) for name in names]
+            if hashlib.sha256(json.dumps(members, separators=(',', ':')).encode()).hexdigest() != LEGACY_SOURCE_SHA256:
+                raise ValueError('retained original117 initialization source population differs')
         self.git("init", "-q")
         self.git("config", "user.name", "claim transaction fixture")
         self.git("config", "user.email", "claim-transaction@example.invalid")
@@ -64,8 +82,16 @@ class Fixture:
         if claimed.returncode:
             raise RuntimeError(claimed.stderr.decode())
         self.run_root = self.repo / claimed.stdout.decode().strip()
-        for name in ("STATE.md", "ROADMAP.md", "PROTOCOL.md", "THINKING.md", "sidecars.md", "tools.md", "context.md"):
-            (self.run_root / name).write_text(name + " fixture\n")
+        if self.legacy_initialization:
+            for name in ("STATE.md", "ROADMAP.md", "PROTOCOL.md", "THINKING.md", "sidecars.md", "tools.md", "context.md"):
+                (self.run_root / name).write_text(name + " fixture\n")
+        else:
+            initialized = run([sys.executable, BASE / 'fixtures/controller-initialization/author_checkpoint.py',
+                '--repo', self.repo, '--run-root', self.run_root.relative_to(self.repo).as_posix(),
+                '--source', self.repo, '--purpose', 'Qualify claim-owned canonical generation transaction and reader guards on this disposable subject.',
+                '--next-action', 'Exercise the declared canonical transaction discriminator and retain its actual result', '--activate'], cwd=self.repo)
+            if initialized.returncode:
+                raise RuntimeError(initialized.stderr.decode())
         self.head = self.git("rev-parse", "HEAD")
         self.tree = self.git("rev-parse", "HEAD^{tree}")
         if not seed_receipt:
@@ -77,6 +103,15 @@ class Fixture:
         self.receipt = receipt.stdout.decode().strip()
 
     def close(self):
+        # These modules belong to this disposable physical installation. Keeping
+        # their per-path cache entries after deleting it pollutes later process
+        # peak checks. Shared custody modules and other fixtures remain intact.
+        retired = {str((self.scripts / name).absolute()) for name in (
+            "rotate-canonical-state.py", "canonical_hot_projection.py",
+            "canonical_rotation_inputs.py")}
+        for name, module in tuple(sys.modules.items()):
+            if getattr(module, "__file__", None) in retired:
+                sys.modules.pop(name, None)
         if self.directory is not None:
             self.directory.cleanup()
 
@@ -93,10 +128,20 @@ class Fixture:
         return self.git("hash-object", "-w", "--stdin", input_bytes=data)
 
     def write_state(self, epoch, boundary):
-        (self.run_root / "STATE.md").write_text(
-            "# STATE\n\n| Next action | continue exact action |\n"
-            + "Current epoch: " + epoch + "\n"
-            + f"| {epoch} | {boundary} | fixture | repo at `{self.head}` / `{self.tree}` | yes | fixture |\n")
+        if self.legacy_initialization:
+            (self.run_root / "STATE.md").write_text(
+                "# STATE\n\n| Next action | continue exact action |\n"
+                + "Current epoch: " + epoch + "\n"
+                + f"| {epoch} | {boundary} | fixture | repo at `{self.head}` / `{self.tree}` | yes | fixture |\n")
+            return
+        import re
+        path = self.run_root / 'STATE.md'
+        text = path.read_text()
+        text = re.sub(r'^\| Next action \|.*$', '| Next action | continue exact action |', text, flags=re.M)
+        text = re.sub(r'^Current epoch: .+$', 'Current epoch: ' + epoch, text, flags=re.M)
+        text = re.sub(r'^\| G[0-9A-F]{4} \|[^\n]*$',
+            f'| {epoch} | {boundary} | fixture | repo at `{self.head}` / `{self.tree}` | yes | actual fixture source reconciled |', text, flags=re.M)
+        path.write_text(text)
 
     def malformed_marker(self):
         self.git("update-ref", f"refs/implementaudit/current-generation-migrations/{CONTROLLER}",
@@ -252,6 +297,49 @@ class FixtureProjection:
         return {"state_bytes": state, "roadmap_bytes": road,
                 "protected_manifest": json.loads(protected), "archive_manifest": json.loads(archive),
                 "state_path": generation / "STATE.md", "roadmap_path": generation / "ROADMAP.md"}
+
+
+class FixtureLifecycleControls(unittest.TestCase):
+    def test_retained_and_current_callers_select_their_actual_initialization_protocols(self):
+        historical = BASE / 'test-support/work-graph-registry/original117/skills/implementaudit/scripts'
+        with mock.patch.dict(globals(), POST=historical):
+            for selected, legacy in ((None, True), (BASE / 'skills/implementaudit/scripts', False)):
+                with self.subTest(legacy=legacy):
+                    subject = Fixture(source_scripts=selected)
+                    try:
+                        self.assertEqual(subject.legacy_initialization, legacy)
+                        current = subject.claim('--require-current-continuity', CONTROLLER)
+                        self.assertEqual(current.returncode, 0, current.stderr.decode())
+                        self.assertEqual(current.stdout.decode().strip(), subject.receipt)
+                        self.assertEqual(len(list((subject.repo / '.IMPLEMENTAUDIT/runs').iterdir())), 1)
+                    finally:
+                        subject.close()
+
+    def test_disposal_removes_only_the_retired_installations_modules(self):
+        import types
+        with tempfile.TemporaryDirectory(prefix="fixture-disposal-", dir=EVIDENCE) as directory:
+            fixture = Fixture.__new__(Fixture)
+            fixture.repo = Path(directory) / "retired"
+            fixture.scripts = fixture.repo / "skills/implementaudit/scripts"
+            fixture.directory = None
+            entries = {}
+            for label, path in {
+                    "projection": fixture.scripts / "rotate-canonical-state.py",
+                    "nested": fixture.scripts / "canonical_hot_projection.py",
+                    "native": fixture.scripts / "canonical_rotation_inputs.py",
+                    "other": Path(directory) / "active/rotate-canonical-state.py",
+                    "shared": fixture.scripts / "canonical_custody.py"}.items():
+                name = "fixture_disposal_control_" + label
+                self.assertNotIn(name, sys.modules)
+                module = types.ModuleType(name); module.__file__ = str(path.absolute())
+                entries[name] = module; sys.modules[name] = module
+                self.addCleanup(sys.modules.pop, name, None)
+            fixture.close()
+            for label in ("projection", "nested", "native"):
+                self.assertNotIn("fixture_disposal_control_" + label, sys.modules)
+            for label in ("other", "shared"):
+                name = "fixture_disposal_control_" + label
+                self.assertIs(sys.modules[name], entries[name])
 
 
 class TransactionControls(unittest.TestCase):
@@ -471,15 +559,25 @@ class TransactionControls(unittest.TestCase):
         path = self.fixture.run_root / "STATE.md"
         saved = path.read_bytes()
         times = path.stat()
+        attempted, denied = False, False
         def write_restore(*args):
+            nonlocal attempted, denied
             prepared = original(*args)
-            path.write_bytes(saved + b"transient mutation\n")
+            attempted = True
+            try:
+                path.write_bytes(saved + b"transient mutation\n")
+            except PermissionError:
+                denied = True  # A held Windows handle may prevent the mutation itself.
+                raise
             path.write_bytes(saved)
             os.utime(path, ns=(times.st_atime_ns, times.st_mtime_ns))
             return prepared
         with mock.patch.object(self.projection, "prepare_canonical_draft", side_effect=write_restore):
-            with self.assertRaises(self.owner.RotationError):
+            with self.assertRaises((self.owner.RotationError, PermissionError)) as failure:
                 self.rotate()
+        self.assertTrue(attempted, "the source-mutation attack point was not exercised")
+        self.assertEqual(isinstance(failure.exception, PermissionError), denied)
+        self.assertEqual(path.read_bytes(), saved)
         self.assertIsNone(self.owner.read_ref(self.fixture.repo, self.context["invalidation_ref"]))
         self.assertIsNone(self.owner.read_ref(self.fixture.repo, self.owner.epoch_ref(self.context, "G0002")))
         self.assertEqual(self.fixture.claim("--require-current-continuity", CONTROLLER).stdout.decode().strip(), self.fixture.receipt)
@@ -618,7 +716,8 @@ class RealHelperIntegration(unittest.TestCase):
             for item in bodies[role]["artifact_refs"]:
                 if item["role"] == "CONTINUITY_RECEIPT":
                     item["locator"] = rref
-        bodies["STATE"]["history"][0]["payload"]["text"] += " Historical exact observation." * 6500
+        bodies["STATE"]["history"][0]["payload"]["text"] += getattr(
+            self, 'history_text', " Historical exact observation." * 6500)
         raw = self.factory.render_pair(bodies)
         self.original_pair = raw
         for role in ("STATE", "ROADMAP"):

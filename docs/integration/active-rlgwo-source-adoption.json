@@ -1,0 +1,5019 @@
+{
+  "scope": "COMPLETE_ENGINEERING_SOURCE_ADOPTION_NOT_ACCEPTANCE",
+  "base_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+  "base_tree": "e0263d4455549a47243d82f45cf31101c6b94df2",
+  "engineering_commit": "4b681652f4106f57b6e02bcf8b9b0e771370ea04",
+  "engineering_tree": "947945d7f3295a8779dd32ecef8cc18bbff0823d",
+  "unchanged_main_complement_rule": "Every path in the exact base tree outside affected_paths remains that exact mode/blob; machine equality verified. Later integration report/adoption/dependency documents are derived evidence, not additional runtime source.",
+  "unchanged_main_paths": 1314,
+  "donors": [
+    {
+      "pr": 246,
+      "commit": "cbb616cc7e0f9abafebe9bbdeee202ede7feb94e",
+      "tree": "471704013df55215bb8249dcf72ae20f62c2f54e",
+      "parents": [
+        "e2f23a1408955643e09a8f9cd81ad7dee77fdbb6"
+      ],
+      "merge_base": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "changed_paths": [
+        "docs/maintenance/R0035-ANDON-CLASS.md",
+        "docs/maintenance/R0035-AUDIT-SPEC.md",
+        "docs/maintenance/R0035-COMPLETION-CONTRACT.md",
+        "docs/maintenance/R0035-FINITE-ACTION-SELECTION-PROFILE.md",
+        "docs/maintenance/R0035-FINITE-AUDIT-OBJECT-CONTRACT-PROFILE.md",
+        "docs/maintenance/R0035-FINITE-AUDIT-RETENTION-PROFILE.md",
+        "docs/maintenance/R0035-FINITE-AUDIT-ROUTING-PROFILE.md",
+        "docs/maintenance/R0035-FINITE-BOOTSTRAP-BUDGET-PROFILE.md",
+        "docs/maintenance/R0035-FINITE-CLAIM-BOUNDARY-PROFILE.md",
+        "docs/maintenance/R0035-FINITE-ENTRY.md",
+        "docs/maintenance/R0035-FINITE-FANOUT-PROFILE.md",
+        "docs/maintenance/R0035-FINITE-INSTALLED-PROFILE.md",
+        "docs/maintenance/R0035-FINITE-INTERNAL-SKILL-ROUTING-PROFILE.md",
+        "docs/maintenance/R0035-FINITE-LEAF.md",
+        "docs/maintenance/R0035-FINITE-LEAN-DISCIPLINE-PROFILE.md",
+        "docs/maintenance/R0035-FINITE-LITERAL-PROFILES.md",
+        "docs/maintenance/R0035-FINITE-MINI-AUDIT-LOOP-PROFILE.md",
+        "docs/maintenance/R0035-FINITE-NATIVE-INTEGRATION-PROFILE.md",
+        "docs/maintenance/R0035-FINITE-NEXT-PROFILES.md",
+        "docs/maintenance/R0035-FINITE-PACKAGE-SHAPE-CLAIMS-PROFILE.md",
+        "docs/maintenance/R0035-FINITE-PLANNER-COPY-PROFILE.md",
+        "docs/maintenance/R0035-FINITE-PLANNING-PROFILES.md",
+        "docs/maintenance/R0035-FINITE-RECURSIVE-PROFILES.md",
+        "docs/maintenance/R0035-FINITE-RESPEC-IMPACT-SET-PROFILE.md",
+        "docs/maintenance/R0035-FINITE-ROUTING-PROFILE.md",
+        "docs/maintenance/R0035-FINITE-SAFEGUARD-PROFILE.md",
+        "docs/maintenance/R0035-FINITE-SKILL-LAYOUT-PRESENT-GIT.md",
+        "docs/maintenance/R0035-FINITE-SKILL-LAYOUT-PROFILE.md",
+        "docs/maintenance/R0035-FINITE-TERMINOLOGY-PROFILE.md",
+        "docs/maintenance/R0035-FINITE-TOPOLOGY-PROFILE.md",
+        "docs/maintenance/R0035-PORTABLE-VERIFIER.md",
+        "docs/maintenance/R0035-PREFIX24.md",
+        "docs/maintenance/R0035-PROCESS-DELIVERY-CONTROLS.md",
+        "docs/maintenance/r0035-correspondence-preflight.md",
+        "docs/maintenance/work-graph-readme-effect.md",
+        "docs/operational-evidence.md",
+        "docs/superpowers/plans/2026-10-17-r0035-portable-successor.md",
+        "fixtures/operational-evidence/native-currentness-cost-controls.py",
+        "fixtures/operational-evidence/native-observation-cost-controls.py",
+        "fixtures/operational-evidence/native-peer-controls.py",
+        "fixtures/semantic-preservation/cases.json",
+        "fixtures/work-graph-mini-audit-loop/git-template-corpus.json",
+        "scripts/build-docs-portal.py",
+        "scripts/check-auto-loom-coverage.py",
+        "scripts/check-docs-portal.py",
+        "scripts/load-work-graph-readme-effect.py",
+        "scripts/operational-evidence.py",
+        "scripts/portal-event-capture.py",
+        "scripts/qualify-work-graph-finite-leaf.py",
+        "scripts/qualify-work-graph-prefix.py",
+        "scripts/qualify-work-graph-verifier.py",
+        "scripts/readme-effect-bootstrap.py",
+        "scripts/repro-event-capture.py",
+        "scripts/run-work-graph-verifier.sh",
+        "scripts/verify-package.sh",
+        "scripts/work-graph-completion.py",
+        "scripts/work-graph-continuity-transport.py",
+        "scripts/work-graph-readme-effect.py",
+        "skills/implementaudit/SKILL.md",
+        "skills/implementaudit/references/repo-state-comparison.md",
+        "skills/implementaudit/references/work-graph-contract.md",
+        "skills/implementaudit/scripts/compile-work-graph.py",
+        "source-peers/README.md",
+        "source-peers/route-graph/SOURCE_MANIFEST.json",
+        "source-peers/route-graph/skills/implementaudit/scripts/compile-work-graph.py",
+        "tests/docs-portal.test.sh",
+        "tests/native-work-graph-cases.py",
+        "tests/native-work-graph.test.sh",
+        "tests/reproducible-release-asset.test.sh",
+        "tests/routing.test.sh",
+        "tests/work-graph-action-selection-cases.py",
+        "tests/work-graph-andon-cases.py",
+        "tests/work-graph-audit-object-contract-cases.py",
+        "tests/work-graph-audit-retention-cases.py",
+        "tests/work-graph-audit-routing-cases.py",
+        "tests/work-graph-audit-spec-cases.py",
+        "tests/work-graph-bootstrap-budget-cases.py",
+        "tests/work-graph-claim-boundary-cases.py",
+        "tests/work-graph-compiler.test.sh",
+        "tests/work-graph-completion-cases.py",
+        "tests/work-graph-completion-transition-cases.py",
+        "tests/work-graph-composition-cases.py",
+        "tests/work-graph-continuity-cases.py",
+        "tests/work-graph-correspondence-preflight-cases.py",
+        "tests/work-graph-fanout-cases.py",
+        "tests/work-graph-finite-batch-cases.py",
+        "tests/work-graph-finite-entry-cases.py",
+        "tests/work-graph-finite-next-cases.py",
+        "tests/work-graph-installed-cases.py",
+        "tests/work-graph-internal-routing-cases.py",
+        "tests/work-graph-lean-discipline-cases.py",
+        "tests/work-graph-literal-cases.py",
+        "tests/work-graph-mini-audit-loop-cases.py",
+        "tests/work-graph-native-integration-cases.py",
+        "tests/work-graph-operation-cases.py",
+        "tests/work-graph-package-shape-claims-cases.py",
+        "tests/work-graph-pending-settlement-cases.py",
+        "tests/work-graph-planner-copy-cases.py",
+        "tests/work-graph-planning-cases.py",
+        "tests/work-graph-prefix-cases.py",
+        "tests/work-graph-process-delivery-cases.py",
+        "tests/work-graph-readme-effect-cases.py",
+        "tests/work-graph-recursive-cases.py",
+        "tests/work-graph-registry-cases.py",
+        "tests/work-graph-repro-events-cases.py",
+        "tests/work-graph-respec-impact-set-cases.py",
+        "tests/work-graph-reuse-cases.py",
+        "tests/work-graph-routing-cases.py",
+        "tests/work-graph-safeguard-cases.py",
+        "tests/work-graph-skill-layout-cases.py",
+        "tests/work-graph-source-observation-cases.py",
+        "tests/work-graph-stream-cases.py",
+        "tests/work-graph-terminology-cases.py",
+        "tests/work-graph-topology-cases.py",
+        "tests/work-graph-verifier-cases.py",
+        "tests/work-graph-verifier.test.sh"
+      ]
+    },
+    {
+      "pr": 251,
+      "commit": "45853f9403f5ffaad100df1686fe5320f72e19b7",
+      "tree": "a89bf2fadb155840334efd067ade3658ce8c164c",
+      "parents": [
+        "f1332a580faf1289005616fb8ee57969f6e3b745"
+      ],
+      "merge_base": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "changed_paths": [
+        "docs/maintenance/four-rockstar-continuation.md",
+        "docs/maintenance/four-rockstar-integration.md",
+        "docs/superpowers/plans/2026-10-23-four-rockstar-integration.md",
+        "fixtures/audit-action-selection/engineering-value-cases.json",
+        "fixtures/audit-action-selection/security-profile-cases.json",
+        "fixtures/distributed-runtime/r48-admission-cases.json",
+        "fixtures/distributed-runtime/r48-fencing-cases.json",
+        "fixtures/semantic-preservation/cases.json",
+        "scripts/check-action-selection-contract.sh",
+        "scripts/verify-package.sh",
+        "skills/implementaudit/references/audit-playbook.md",
+        "skills/implementaudit/references/canonical-state-rotation.md",
+        "skills/implementaudit/references/child-agents.md",
+        "skills/implementaudit/references/lean-operating-discipline.md",
+        "skills/implementaudit/references/plan-lifecycle.md",
+        "skills/implementaudit/references/planning-depth.md",
+        "skills/implementaudit/references/repo-state-comparison.md",
+        "skills/implementaudit/scripts/apply-observed-mutation.sh",
+        "skills/implementaudit/scripts/check-handoff-packet.sh",
+        "skills/implementaudit/scripts/claim-run-rotation.py",
+        "tests/action-selection-contract.test.sh",
+        "tests/canonical-state-rotation.test.sh",
+        "tests/canonical_source_custody.py",
+        "tests/distributed-runtime-contract.test.sh",
+        "tests/distributed_generation_fence.py",
+        "tests/handoff-packet-contract.test.sh",
+        "tests/observation-bound-mutation-integrity.test.sh"
+      ]
+    },
+    {
+      "pr": 252,
+      "commit": "124e4b5eed90ca031a18b6be72104c802ea6ca91",
+      "tree": "1e7d4d063a9d18e67dc8db2fda18673b994786a2",
+      "parents": [
+        "7a89c484b6c0884c0fb7be46423600cf1fe53d0d"
+      ],
+      "merge_base": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "changed_paths": [
+        "docs/research/implementaudit/r0039-portable-integration-checkpoint.md",
+        "docs/research/implementaudit/r0039-token-input-qualification.json",
+        "fixtures/canonical-state-rotation/c02_cli_test.py",
+        "fixtures/canonical-state-rotation/c02_native_source_test.py",
+        "fixtures/canonical-state-rotation/c02_owner_selection_test.py",
+        "fixtures/canonical-state-rotation/c02_projection_test.py",
+        "fixtures/canonical-state-rotation/c02_publication_test.py",
+        "fixtures/canonical-state-rotation/c02_reader_test.py",
+        "fixtures/canonical-state-rotation/claim_transaction_test.py",
+        "fixtures/canonical-state-rotation/native_claim_test.py",
+        "fixtures/canonical-state-rotation/native_episode_projection_test.py",
+        "fixtures/canonical-state-rotation/native_input_adapter_test.py",
+        "fixtures/canonical-state-rotation/native_or_rotation_test.py",
+        "fixtures/canonical-state-rotation/native_preflight_test.py",
+        "fixtures/canonical-state-rotation/native_preparation_test.py",
+        "fixtures/canonical-state-rotation/occurrence_preservation_test.py",
+        "fixtures/canonical-state-rotation/owned_stdio_source_boundaries_test.py",
+        "fixtures/canonical-state-rotation/ref_group_test.py",
+        "fixtures/canonical-state-rotation/token_admission_test.py",
+        "fixtures/operational-evidence/native-currentness-cost-controls.py",
+        "fixtures/operational-evidence/native-episode-controls/native_test_support.py",
+        "fixtures/operational-evidence/native-episode-controls/test_canonical_episode_binding.py",
+        "fixtures/operational-evidence/native-episode-controls/test_episode_export.py",
+        "fixtures/operational-evidence/native-episode-controls/test_existing_owner_additions.py",
+        "fixtures/operational-evidence/native-observation-cost-controls.py",
+        "fixtures/operational-evidence/native-peer-controls.py",
+        "fixtures/operational-evidence/native-source/skills/implementaudit/scripts/claim-run-combined.sh.fixture",
+        "scripts/check-helper-reachability.sh",
+        "scripts/verify-package.sh",
+        "skills/implementaudit/references/canonical-state-ref-namespaces.json",
+        "skills/implementaudit/references/canonical-state-rotation.md",
+        "skills/implementaudit/references/continuity.md",
+        "skills/implementaudit/references/repo-state-comparison.md",
+        "skills/implementaudit/scripts/canonical_custody.py",
+        "skills/implementaudit/scripts/canonical_hot_projection.py",
+        "skills/implementaudit/scripts/canonical_rotation_inputs.py",
+        "skills/implementaudit/scripts/claim-run-rotation.py",
+        "skills/implementaudit/scripts/claim-run.sh",
+        "skills/implementaudit/scripts/read-canonical-pair.py",
+        "skills/implementaudit/scripts/rotate-canonical-state.py",
+        "skills/implementaudit/scripts/validate-run-root.sh",
+        "source-peers/README.md",
+        "source-peers/native-runtime/SOURCE_MANIFEST.json",
+        "source-peers/native-runtime/skills/implementaudit/scripts/bounded_file_custody.py",
+        "source-peers/native-runtime/skills/implementaudit/scripts/bounded_native_reader.py",
+        "source-peers/native-runtime/skills/implementaudit/scripts/bounded_source_owner.py",
+        "source-peers/native-runtime/skills/implementaudit/scripts/canonical_hot_projection.py",
+        "source-peers/native-runtime/skills/implementaudit/scripts/claim-run.sh",
+        "source-peers/native-runtime/skills/implementaudit/scripts/compaction-audit-pending.py",
+        "source-peers/native-runtime/skills/implementaudit/scripts/compaction-result-observation.py",
+        "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
+        "source-peers/native-runtime/skills/implementaudit/scripts/rotate-canonical-state.py",
+        "source-peers/native-runtime/skills/implementaudit/scripts/validate-run-root.sh",
+        "source-peers/route-graph/SOURCE_MANIFEST.json",
+        "source-peers/route-graph/skills/implementaudit/scripts/compile-work-graph.py",
+        "source-peers/route-graph/skills/implementaudit/scripts/route-transaction.py",
+        "tests/canonical-state-rotation.test.sh",
+        "tests/canonical_source_custody.py",
+        "tests/helper-reachability.test.sh"
+      ]
+    },
+    {
+      "pr": 253,
+      "commit": "1aee08958ccbe570dd2bccd400e4a631ca0ddd0a",
+      "tree": "760bac5ae0a73c92d001491ebef7667348f775cc",
+      "parents": [
+        "8210a63ec4d852d87dd6f8a5293b2335705ba274"
+      ],
+      "merge_base": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "changed_paths": [
+        "docs/audits/INDEX.md",
+        "docs/audits/archive/r0033-r0037-integration/CONTINUATION.md",
+        "docs/audits/archive/r0033-r0037-integration/R0033-ACCEPTANCE.md",
+        "docs/audits/archive/r0033-r0037-integration/R0037-ACCEPTANCE.md",
+        "docs/audits/archive/r0033-r0037-integration/README.md",
+        "docs/audits/archive/r0033-r0037-integration/SOURCE-IDENTITIES.json",
+        "docs/superpowers/plans/2026-10-23-r0033-r0037-integration.md",
+        "fixtures/operational-evidence/native-observation-cost-controls.py",
+        "fixtures/semantic-preservation/cases.json",
+        "scripts/check-helper-reachability.sh",
+        "scripts/check-no-terminal-cap.sh",
+        "skills/audit-implement/SKILL.md",
+        "skills/implementaudit/SKILL.md",
+        "skills/implementaudit/references/host-session-binding.md",
+        "skills/implementaudit/references/repo-state-comparison.md",
+        "skills/implementaudit/references/transcript-contract.md",
+        "skills/implementaudit/scripts/resolve-internal-skill.py",
+        "skills/implementaudit/scripts/validate-audit-implement-return.py",
+        "skills/implementaudit/scripts/validate-run-root.sh",
+        "skills/implementaudit/templates/PROTOCOL.md",
+        "source-peers/native-runtime/SOURCE_MANIFEST.json",
+        "source-peers/native-runtime/skills/implementaudit/scripts/compaction-audit-pending.py",
+        "source-peers/route-graph/SOURCE_MANIFEST.json",
+        "source-peers/route-graph/skills/implementaudit/scripts/compile-work-graph.py",
+        "source-peers/route-graph/skills/implementaudit/scripts/route-transaction.py",
+        "tests/cognition-lifecycle-composition.py",
+        "tests/cognition-obligation-cases.py",
+        "tests/cognition-pending-durability.py",
+        "tests/continuity.test.sh",
+        "tests/evidential-support-cases.py",
+        "tests/helper-reachability.test.sh",
+        "tests/internal-skill-resolver-custody.py",
+        "tests/internal-skill-routing.test.sh",
+        "tests/marker-order.test.sh",
+        "tests/no-terminal-cap.test.sh",
+        "tests/nonterminal-yield-cases.py",
+        "tests/run-root-validation.test.sh",
+        "tests/turn-disposition-cases.py"
+      ]
+    },
+    {
+      "pr": 254,
+      "commit": "21befe99a7d48baa3089381595a7ccb29cb00cd8",
+      "tree": "a5b4a525c0d80ee990796b62b1b7822c6b446c78",
+      "parents": [
+        "a08eed19ffd6b40addce1276ab827c03b24ad8d1"
+      ],
+      "merge_base": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "changed_paths": [
+        "docs/portal/pages/research-lineage-overview.html",
+        "docs/portal/site.json",
+        "docs/research/implementaudit/r003f-actual-receiving.json",
+        "docs/research/implementaudit/r003f-member-qualification.json",
+        "docs/research/implementaudit/r003f-r0041-bwp-ledger.json",
+        "docs/research/implementaudit/r003f-r0041-bwp-receiving.json",
+        "docs/research/implementaudit/r003f-r0041-engineering-evidence.json",
+        "docs/research/implementaudit/r003f-r0041-owner-interface-qualification.json",
+        "docs/research/implementaudit/r003f-r0041-preparation-inputs.json",
+        "docs/research/implementaudit/r003f-r0041-preparation-receiving.json",
+        "docs/research/implementaudit/r003f-r0041-preparation-recovery.json",
+        "docs/research/implementaudit/r003f-r0041-qualification.md",
+        "docs/research/implementaudit/r003f-r0041-receiving-inputs.json",
+        "docs/research/implementaudit/r0041-actual-receiving.json",
+        "docs/research/implementaudit/r0041-member-qualification.json"
+      ]
+    }
+  ],
+  "affected_paths": [
+    {
+      "path": "docs/audits/INDEX.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "13bd91bfcd161cac59ebc613c36c3d19d3a7b3be"
+      },
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "71a750d6bd4457d83010d853e53dd932e81bb38a"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "71a750d6bd4457d83010d853e53dd932e81bb38a"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "docs/audits/archive/r0033-r0037-integration/CONTINUATION.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "c9dd6b8352496898260d51975f8da4e48e1404b3"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "c9dd6b8352496898260d51975f8da4e48e1404b3"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "docs/audits/archive/r0033-r0037-integration/R0033-ACCEPTANCE.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "fb2b05dc23e10c08bc04944b8f099f27c593ed9b"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "fb2b05dc23e10c08bc04944b8f099f27c593ed9b"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "docs/audits/archive/r0033-r0037-integration/R0037-ACCEPTANCE.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "1d0f8a1b3dcfef7b99ee1c82a2164797371c37e1"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "1d0f8a1b3dcfef7b99ee1c82a2164797371c37e1"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "docs/audits/archive/r0033-r0037-integration/README.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "df7cc9cad540933940c3283d504c7274dc3172b7"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "df7cc9cad540933940c3283d504c7274dc3172b7"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "docs/audits/archive/r0033-r0037-integration/SOURCE-IDENTITIES.json",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "ba98fc9ec4076746280bc4de84893de9f4d3c803"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "ba98fc9ec4076746280bc4de84893de9f4d3c803"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-ANDON-CLASS.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "d44f0fd80144019016f52f3d69c927d9fea866b3"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "d44f0fd80144019016f52f3d69c927d9fea866b3"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-AUDIT-SPEC.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "cee0ec4440cce9569496a2d122ddaa29aba387e4"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "cee0ec4440cce9569496a2d122ddaa29aba387e4"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-COMPLETION-CONTRACT.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "2a351f2017c6cb26d1f7b96da32438a19929f755"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "2a351f2017c6cb26d1f7b96da32438a19929f755"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-ACTION-SELECTION-PROFILE.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "33bff67cdec72acd4f79bccbf358762461f2c879"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "33bff67cdec72acd4f79bccbf358762461f2c879"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-AUDIT-OBJECT-CONTRACT-PROFILE.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "a44d059606e0ebee2f1bc0bf36b895b0f505d091"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "a44d059606e0ebee2f1bc0bf36b895b0f505d091"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-AUDIT-RETENTION-PROFILE.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "7f6aa8c48e102f6b96f1019273730f32034fd727"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "7f6aa8c48e102f6b96f1019273730f32034fd727"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-AUDIT-ROUTING-PROFILE.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "5949cf04e67bdb93e1cd8c3ec6d90953e79d2c9b"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "5949cf04e67bdb93e1cd8c3ec6d90953e79d2c9b"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-BOOTSTRAP-BUDGET-PROFILE.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "ac75a9a4745be4d3798798e0d7ff0c9cd9aefb68"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "ac75a9a4745be4d3798798e0d7ff0c9cd9aefb68"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-CLAIM-BOUNDARY-PROFILE.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "9bccf7ba10a78a3344a409609b98bea3df6302ed"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "9bccf7ba10a78a3344a409609b98bea3df6302ed"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-ENTRY.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "1768b25b8d1561d5e670e6fbb0cc53d378116b8f"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "1768b25b8d1561d5e670e6fbb0cc53d378116b8f"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-FANOUT-PROFILE.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "eddc1abe997f8083abba841d5a3a6dfc019b7223"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "eddc1abe997f8083abba841d5a3a6dfc019b7223"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-INSTALLED-PROFILE.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "cdffd43f6739ff76fae3d14639a522459c51858b"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "cdffd43f6739ff76fae3d14639a522459c51858b"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-INTERNAL-SKILL-ROUTING-PROFILE.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "e963881b51a64c6057341f642f9980f20351552b"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "e963881b51a64c6057341f642f9980f20351552b"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-LEAF.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "913acee7ee72ac2d5c8ac7d9c75c6ee9eaa11588"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "913acee7ee72ac2d5c8ac7d9c75c6ee9eaa11588"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-LEAN-DISCIPLINE-PROFILE.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "e5c40afc903b6fb515a647daf85b6d839e73ef88"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "e5c40afc903b6fb515a647daf85b6d839e73ef88"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-LITERAL-PROFILES.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "e47e96f120186afbd0e63a6b4a0de98bb2b4fcb6"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "e47e96f120186afbd0e63a6b4a0de98bb2b4fcb6"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-MINI-AUDIT-LOOP-PROFILE.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "c1c5d4e0c4b90eb322311fc89938e0d7e927c5ea"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "c1c5d4e0c4b90eb322311fc89938e0d7e927c5ea"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-NATIVE-INTEGRATION-PROFILE.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "a2141293731f16ba18dd52337f2dfdff2d41bdef"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "a2141293731f16ba18dd52337f2dfdff2d41bdef"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-NEXT-PROFILES.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "da50c874358ff32780f0f0ac6dc0d4f42d48be58"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "da50c874358ff32780f0f0ac6dc0d4f42d48be58"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-PACKAGE-SHAPE-CLAIMS-PROFILE.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "0757968ae39db03aefa560c2d551a63c70f16cb6"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "0757968ae39db03aefa560c2d551a63c70f16cb6"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-PLANNER-COPY-PROFILE.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "dc85c6b925e8a7fd1dcd7ea7490fe2c61ff1d4ef"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "dc85c6b925e8a7fd1dcd7ea7490fe2c61ff1d4ef"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-PLANNING-PROFILES.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "952030a2b7b059151f009046eac8ed43c22dd609"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "952030a2b7b059151f009046eac8ed43c22dd609"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-RECURSIVE-PROFILES.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "6d4aa7233d4acc0342ba285b7417964b1760da35"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "6d4aa7233d4acc0342ba285b7417964b1760da35"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-RESPEC-IMPACT-SET-PROFILE.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "4d4076ab6463c2685316f190fdf4204b2bb62388"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "4d4076ab6463c2685316f190fdf4204b2bb62388"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-ROUTING-PROFILE.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "b5643dcd3b0a4144815db21cf9e67ae656feef9b"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "b5643dcd3b0a4144815db21cf9e67ae656feef9b"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-SAFEGUARD-PROFILE.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "8ae7706f96ef0ca0cc635b3f4860100601f6b085"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "8ae7706f96ef0ca0cc635b3f4860100601f6b085"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-SKILL-LAYOUT-PRESENT-GIT.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "ff5d7f5c9bdbe3415d813b4050865c4a65d3463e"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "ff5d7f5c9bdbe3415d813b4050865c4a65d3463e"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-SKILL-LAYOUT-PROFILE.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "7012878804a9de57002aae42e113cfea74d9d7a5"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "7012878804a9de57002aae42e113cfea74d9d7a5"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-TERMINOLOGY-PROFILE.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "71617df06c35bbbce2a5684800f02d3e7e80b081"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "71617df06c35bbbce2a5684800f02d3e7e80b081"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-FINITE-TOPOLOGY-PROFILE.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "acf5457a7bedd7598e4c87484b5fa9cd67b05dca"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "acf5457a7bedd7598e4c87484b5fa9cd67b05dca"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-PORTABLE-VERIFIER.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "dc9b783ee19779af8d0afe2f32912fc876bf4c67"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "dc9b783ee19779af8d0afe2f32912fc876bf4c67"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-PREFIX24.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "1210ef03b7841ad615476702a4286572049cbc13"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "1210ef03b7841ad615476702a4286572049cbc13"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/R0035-PROCESS-DELIVERY-CONTROLS.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "9edc1799596d394c9def75e47e9460bda9ebbdf2"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "9edc1799596d394c9def75e47e9460bda9ebbdf2"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/four-rockstar-continuation.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 251,
+          "mode": "100644",
+          "blob": "d97056f34aa99e57f67f3bee96d9d941d7697a7c"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "d97056f34aa99e57f67f3bee96d9d941d7697a7c"
+      },
+      "identical_donors": [
+        251
+      ]
+    },
+    {
+      "path": "docs/maintenance/four-rockstar-integration.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 251,
+          "mode": "100644",
+          "blob": "fd772cc4f9f605b1e97d869bf7cc726afc6c7367"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "fd772cc4f9f605b1e97d869bf7cc726afc6c7367"
+      },
+      "identical_donors": [
+        251
+      ]
+    },
+    {
+      "path": "docs/maintenance/r0035-correspondence-preflight.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "4e1b357adc10154bf7ac32ff3cc9d1da14482037"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "4e1b357adc10154bf7ac32ff3cc9d1da14482037"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/maintenance/work-graph-readme-effect.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "e2e934b92d76162e5a96fb961230384695690273"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "e2e934b92d76162e5a96fb961230384695690273"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/operational-evidence.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "6ee33028cee27c30495a4f4f971e71271e87dc25"
+      },
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "8261543a8fba346c4d298f871ee7785c8df0efbf"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "8261543a8fba346c4d298f871ee7785c8df0efbf"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/portal/pages/research-lineage-overview.html",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "7abe91a990f3b342372757a31f4cf13fa6a3bbf8"
+      },
+      "donors": [
+        {
+          "pr": 254,
+          "mode": "100644",
+          "blob": "c378af09032e389b72020bfab5069e187fefd40b"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "c378af09032e389b72020bfab5069e187fefd40b"
+      },
+      "identical_donors": [
+        254
+      ]
+    },
+    {
+      "path": "docs/portal/site.json",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "a29e0b4fa4fdc41916806fc1d3dd54a3ceecb7b3"
+      },
+      "donors": [
+        {
+          "pr": 254,
+          "mode": "100644",
+          "blob": "37429f650bf6c31c46521d3379c3ee3349709426"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "37429f650bf6c31c46521d3379c3ee3349709426"
+      },
+      "identical_donors": [
+        254
+      ]
+    },
+    {
+      "path": "docs/research/implementaudit/r0039-portable-integration-checkpoint.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "88d85101db1a3469d24d9fbe1f1464927a38a8c5"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "d2c6874ba8b654c990c83c1efce1fdcdb31ad8d5"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "d2c6874ba8b654c990c83c1efce1fdcdb31ad8d5"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "docs/research/implementaudit/r0039-token-input-qualification.json",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "3902040cf263f5e94932f5a32a162ab08e568eb3"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "3902040cf263f5e94932f5a32a162ab08e568eb3"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "docs/research/implementaudit/r003f-actual-receiving.json",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 254,
+          "mode": "100644",
+          "blob": "7efd4d92b2782f6097c2bff5187ce76945069fc2"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "7efd4d92b2782f6097c2bff5187ce76945069fc2"
+      },
+      "identical_donors": [
+        254
+      ]
+    },
+    {
+      "path": "docs/research/implementaudit/r003f-member-qualification.json",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 254,
+          "mode": "100644",
+          "blob": "f196015ea802dfb6f4adb62ca8f627bea2e80993"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "f196015ea802dfb6f4adb62ca8f627bea2e80993"
+      },
+      "identical_donors": [
+        254
+      ]
+    },
+    {
+      "path": "docs/research/implementaudit/r003f-r0041-bwp-ledger.json",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 254,
+          "mode": "100644",
+          "blob": "00b0bff15adb0b8636b04eaae7b7cafc52421a09"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "00b0bff15adb0b8636b04eaae7b7cafc52421a09"
+      },
+      "identical_donors": [
+        254
+      ]
+    },
+    {
+      "path": "docs/research/implementaudit/r003f-r0041-bwp-receiving.json",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 254,
+          "mode": "100644",
+          "blob": "973b5ac5920b4fa7abd150bf97f3fadb4f436159"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "973b5ac5920b4fa7abd150bf97f3fadb4f436159"
+      },
+      "identical_donors": [
+        254
+      ]
+    },
+    {
+      "path": "docs/research/implementaudit/r003f-r0041-engineering-evidence.json",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 254,
+          "mode": "100644",
+          "blob": "d167070ae080005868375ca233c4619fe8b38499"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "d167070ae080005868375ca233c4619fe8b38499"
+      },
+      "identical_donors": [
+        254
+      ]
+    },
+    {
+      "path": "docs/research/implementaudit/r003f-r0041-owner-interface-qualification.json",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 254,
+          "mode": "100644",
+          "blob": "5ba57504a855eeb6364bb398fde20e6759a06226"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "5ba57504a855eeb6364bb398fde20e6759a06226"
+      },
+      "identical_donors": [
+        254
+      ]
+    },
+    {
+      "path": "docs/research/implementaudit/r003f-r0041-preparation-inputs.json",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 254,
+          "mode": "100644",
+          "blob": "1f1d51b4854b7a170240610a4d5bf85b439734ba"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "1f1d51b4854b7a170240610a4d5bf85b439734ba"
+      },
+      "identical_donors": [
+        254
+      ]
+    },
+    {
+      "path": "docs/research/implementaudit/r003f-r0041-preparation-receiving.json",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 254,
+          "mode": "100644",
+          "blob": "602e9b626135c99f9a5cddcacac39ecb4ec6d5ba"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "602e9b626135c99f9a5cddcacac39ecb4ec6d5ba"
+      },
+      "identical_donors": [
+        254
+      ]
+    },
+    {
+      "path": "docs/research/implementaudit/r003f-r0041-preparation-recovery.json",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 254,
+          "mode": "100644",
+          "blob": "d6fe31fc1d0a71a5b9f2ca0af95057892c271b39"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "d6fe31fc1d0a71a5b9f2ca0af95057892c271b39"
+      },
+      "identical_donors": [
+        254
+      ]
+    },
+    {
+      "path": "docs/research/implementaudit/r003f-r0041-qualification.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 254,
+          "mode": "100644",
+          "blob": "29c1640b225d01e22b5c29c879c2b7c72215e901"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "29c1640b225d01e22b5c29c879c2b7c72215e901"
+      },
+      "identical_donors": [
+        254
+      ]
+    },
+    {
+      "path": "docs/research/implementaudit/r003f-r0041-receiving-inputs.json",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 254,
+          "mode": "100644",
+          "blob": "280fa9c7e5f3b754b006772db621af4c32abf258"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "280fa9c7e5f3b754b006772db621af4c32abf258"
+      },
+      "identical_donors": [
+        254
+      ]
+    },
+    {
+      "path": "docs/research/implementaudit/r0041-actual-receiving.json",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 254,
+          "mode": "100644",
+          "blob": "0f7ec7244f482bb15ffbdf24221a1bc3ba0bcb68"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "0f7ec7244f482bb15ffbdf24221a1bc3ba0bcb68"
+      },
+      "identical_donors": [
+        254
+      ]
+    },
+    {
+      "path": "docs/research/implementaudit/r0041-member-qualification.json",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 254,
+          "mode": "100644",
+          "blob": "6509746c6bf56e2434261fe19d9d75c8e7d1df4c"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "6509746c6bf56e2434261fe19d9d75c8e7d1df4c"
+      },
+      "identical_donors": [
+        254
+      ]
+    },
+    {
+      "path": "docs/superpowers/plans/2026-10-17-r0035-portable-successor.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "a30ac7d6a88644de7742192d6892be9c41e6c944"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "a30ac7d6a88644de7742192d6892be9c41e6c944"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "docs/superpowers/plans/2026-10-23-four-rockstar-integration.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 251,
+          "mode": "100644",
+          "blob": "a2264b9c522e00ffcd6868b6a57750c0e8d66fa3"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "a2264b9c522e00ffcd6868b6a57750c0e8d66fa3"
+      },
+      "identical_donors": [
+        251
+      ]
+    },
+    {
+      "path": "docs/superpowers/plans/2026-10-23-r0033-r0037-integration.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "c13c76f8f1e88777a8241f7074db7f98c9627a21"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "c13c76f8f1e88777a8241f7074db7f98c9627a21"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "fixtures/audit-action-selection/engineering-value-cases.json",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "87a591c572e65b39a27981311704ba5b107662be"
+      },
+      "donors": [
+        {
+          "pr": 251,
+          "mode": "100644",
+          "blob": "899e06a309e86e0d9decd868201001d507ad18f7"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "899e06a309e86e0d9decd868201001d507ad18f7"
+      },
+      "identical_donors": [
+        251
+      ]
+    },
+    {
+      "path": "fixtures/audit-action-selection/security-profile-cases.json",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 251,
+          "mode": "100644",
+          "blob": "9c878133584a2e847242735f3b5b99d95fb89706"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "9c878133584a2e847242735f3b5b99d95fb89706"
+      },
+      "identical_donors": [
+        251
+      ]
+    },
+    {
+      "path": "fixtures/canonical-state-rotation/c02_cli_test.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "73543a73a8aaac2d1842da66912825f6b1236df8"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "73543a73a8aaac2d1842da66912825f6b1236df8"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "fixtures/canonical-state-rotation/c02_native_source_test.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "13154de640102b29d8e1329add59b5984508265d"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "13154de640102b29d8e1329add59b5984508265d"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "fixtures/canonical-state-rotation/c02_owner_selection_test.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "2b333da5dfd4009f7c8406616237e3f4aee58ce9"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "2b333da5dfd4009f7c8406616237e3f4aee58ce9"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "fixtures/canonical-state-rotation/c02_projection_test.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "39ac30e55b62bc282d59a717689ac41cb57a4345"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "39ac30e55b62bc282d59a717689ac41cb57a4345"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "fixtures/canonical-state-rotation/c02_publication_test.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "15da9377a71af3e4c613a49bef41848383496dd6"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "15da9377a71af3e4c613a49bef41848383496dd6"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "fixtures/canonical-state-rotation/c02_reader_test.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "adefedd72d106fc40d5ca0d7a1df54e2f666f3ac"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "adefedd72d106fc40d5ca0d7a1df54e2f666f3ac"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "fixtures/canonical-state-rotation/claim_transaction_test.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "36466976fed57bcc98a3261eaf9cd90a8592ef27"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "48ac58a0288631793aefa87e0401d65308958321"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "48ac58a0288631793aefa87e0401d65308958321"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "fixtures/canonical-state-rotation/native_claim_test.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "40280888a54e3de3989d33bfbdab20558cf06680"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "40280888a54e3de3989d33bfbdab20558cf06680"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "fixtures/canonical-state-rotation/native_episode_projection_test.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "5765539b4eb96fc8a4ca255113fcedb0ee190e18"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "5765539b4eb96fc8a4ca255113fcedb0ee190e18"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "fixtures/canonical-state-rotation/native_input_adapter_test.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "4ea3399f4b78b8034fe9b93489d963b093e6b094"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "4ea3399f4b78b8034fe9b93489d963b093e6b094"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "fixtures/canonical-state-rotation/native_or_rotation_test.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "12566c271bf7894cf9433f2acc5c40f205535f81"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "12566c271bf7894cf9433f2acc5c40f205535f81"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "fixtures/canonical-state-rotation/native_preflight_test.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "3aefaebe100d75d2d92039823c022a34e2a1fc28"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "3aefaebe100d75d2d92039823c022a34e2a1fc28"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "fixtures/canonical-state-rotation/native_preparation_test.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "c61a4bf9c63e9747931effdae2e32336b46997ec"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "c61a4bf9c63e9747931effdae2e32336b46997ec"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "fixtures/canonical-state-rotation/occurrence_preservation_test.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "3d1d98eeac3ef4dafad19da332a40bdad5297e5e"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "3d1d98eeac3ef4dafad19da332a40bdad5297e5e"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "fixtures/canonical-state-rotation/owned_stdio_source_boundaries_test.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "759a67f934cca8ae760e0d36ed267cd50f49220e"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "759a67f934cca8ae760e0d36ed267cd50f49220e"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "fixtures/canonical-state-rotation/ref_group_test.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "cf57bc9b17928d4a34d423b932f92e7e9f97844f"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "cf57bc9b17928d4a34d423b932f92e7e9f97844f"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "fixtures/canonical-state-rotation/token_admission_test.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "adcb57a62724266847ce01194cbffe41979a8447"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "adcb57a62724266847ce01194cbffe41979a8447"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "fixtures/distributed-runtime/r48-admission-cases.json",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 251,
+          "mode": "100644",
+          "blob": "8302aedef20814417cc7dc7da09a1c08f3543c60"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "8302aedef20814417cc7dc7da09a1c08f3543c60"
+      },
+      "identical_donors": [
+        251
+      ]
+    },
+    {
+      "path": "fixtures/distributed-runtime/r48-fencing-cases.json",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 251,
+          "mode": "100644",
+          "blob": "0170bfebb8620ecdd171907d0a8285f34b982061"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "0170bfebb8620ecdd171907d0a8285f34b982061"
+      },
+      "identical_donors": [
+        251
+      ]
+    },
+    {
+      "path": "fixtures/operational-evidence/native-currentness-cost-controls.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "6388d967aa38f09ceb0d482ee0b2b8c1910ac72c"
+      },
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "2ca9fb44e4f59beddb53fbca88b328033dc77102"
+        },
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "16e157b4512d03fca0e1bebc9af83ce110415cdd"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "2ca9fb44e4f59beddb53fbca88b328033dc77102"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "fixtures/operational-evidence/native-episode-controls/native_test_support.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "ed6965e9368e3999df9b03d733683a483c074d59"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "37a6152acb454b34260e1951d81a423373c8adb1"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "37a6152acb454b34260e1951d81a423373c8adb1"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "fixtures/operational-evidence/native-episode-controls/test_canonical_episode_binding.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "6b47cfa477ea9a9772c28a746cd6bf787f4119fb"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "37af86d5112338a7572398080ee81a64496e6234"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "37af86d5112338a7572398080ee81a64496e6234"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "fixtures/operational-evidence/native-episode-controls/test_episode_export.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "4571528c5b6f7ffe580d515881068d3d025549f5"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "1f1eaaa6aa3801bd4492ddd19beab6981100f4f7"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "1f1eaaa6aa3801bd4492ddd19beab6981100f4f7"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "fixtures/operational-evidence/native-episode-controls/test_existing_owner_additions.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "737c224b16390f5c8eb8a90e7ba124ec059e2aef"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "f24a707a497a5438435afd6d5b0ae84ceeb35f68"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "f24a707a497a5438435afd6d5b0ae84ceeb35f68"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "fixtures/operational-evidence/native-observation-cost-controls.py",
+      "classification": "COMBINED_RECONCILIATION",
+      "main": {
+        "mode": "100644",
+        "blob": "18a56bfd618a69a2abeaf4e1c765c4fed01991eb"
+      },
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "68159782f5bc79763a4ecb7be68975b0c7784efa"
+        },
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "ebd7e10c18f2a355f86b36970b75428c030e83a2"
+        },
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "2d9e84421caa88f4c96aa68976c3873657c8e46a"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "a022f7a22672c23f95c8e90f06e3e2e6f668f223"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "fixtures/operational-evidence/native-peer-controls.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "1af0bf3ee2a400e564e3f4631030a36c6e84b834"
+      },
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "94e3112b1de413e2c9c78a4bea42ec8681969c56"
+        },
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "a4f0a43ec4a076bb983f4c6ca03d2dfc5e395377"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "94e3112b1de413e2c9c78a4bea42ec8681969c56"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "fixtures/operational-evidence/native-source/skills/implementaudit/scripts/claim-run-combined.sh.fixture",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "56da15476e168606963b7a39830700ced6ad5686"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "56da15476e168606963b7a39830700ced6ad5686"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "fixtures/semantic-preservation/cases.json",
+      "classification": "COMBINED_RECONCILIATION",
+      "main": {
+        "mode": "100644",
+        "blob": "cf046aeec6be24ba1b299b0bbd0a6ccbea385e2a"
+      },
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "3288cee712a374621fe13ec6a710888965c6678d"
+        },
+        {
+          "pr": 251,
+          "mode": "100644",
+          "blob": "6b1f08090542cc40c10d7e2e38ad59f3862a0dd2"
+        },
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "156a9daa90273a794824f949a76993a52b789a9c"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "e069173ccba2c3deb439b465ee5cf63b3e20ae7f"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "fixtures/work-graph-mini-audit-loop/git-template-corpus.json",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "c73039dd24a90f9a4b9783540b630e17092afc54"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "c73039dd24a90f9a4b9783540b630e17092afc54"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "scripts/build-docs-portal.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "f95628dfeddba4d6a893080bfe9cca07f9faddf3"
+      },
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "1539b70a8f2ee06eabcff47a4b16f0facfe202b1"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "1539b70a8f2ee06eabcff47a4b16f0facfe202b1"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "scripts/check-action-selection-contract.sh",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "778dd541206364dc9f88636506111a3a1db02475"
+      },
+      "donors": [
+        {
+          "pr": 251,
+          "mode": "100644",
+          "blob": "7c520b3553e32755b6934cd554bdb3bacf5b095c"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "7c520b3553e32755b6934cd554bdb3bacf5b095c"
+      },
+      "identical_donors": [
+        251
+      ]
+    },
+    {
+      "path": "scripts/check-auto-loom-coverage.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "2ab7671676a7a39d5092d6cf85a244fd608818c6"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "2ab7671676a7a39d5092d6cf85a244fd608818c6"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "scripts/check-docs-portal.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "eedebcefc84abd3ba9af8aacc05e9e5436ee293f"
+      },
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "1be71a211291ebab62d7d6ae33729adad83a215c"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "1be71a211291ebab62d7d6ae33729adad83a215c"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "scripts/check-helper-reachability.sh",
+      "classification": "COMBINED_RECONCILIATION",
+      "main": {
+        "mode": "100755",
+        "blob": "2dbabe314a29638a99085e647f3f182cfcc923be"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100755",
+          "blob": "342bd9e9e1114b8c0ba3eae0ececf63312a68cda"
+        },
+        {
+          "pr": 253,
+          "mode": "100755",
+          "blob": "9bf7ccec71b4a46d96ce23e350496cdf10f6d131"
+        }
+      ],
+      "selected": {
+        "mode": "100755",
+        "blob": "4c43a742cbb3371773be442f3ddee6757a411361"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "scripts/check-no-terminal-cap.sh",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "310c3e5e46d400ccec618ba4aff1c028cd35062a"
+      },
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "6608cda478d038e8520f04938c9c94fe437b8ebc"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "6608cda478d038e8520f04938c9c94fe437b8ebc"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "scripts/load-work-graph-readme-effect.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "3c1c1aa9a26f5a2bed073648da2c4c0fccea026e"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "3c1c1aa9a26f5a2bed073648da2c4c0fccea026e"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "scripts/operational-evidence.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100755",
+        "blob": "a8ff9ba00b89ba0b27b63974b2d71707078721e7"
+      },
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100755",
+          "blob": "afb94914a58619a3ccaaab8526f537e5f2991d63"
+        }
+      ],
+      "selected": {
+        "mode": "100755",
+        "blob": "afb94914a58619a3ccaaab8526f537e5f2991d63"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "scripts/portal-event-capture.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "f75911d401e0e082f6eaa92a2d6446308af6d7f9"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "f75911d401e0e082f6eaa92a2d6446308af6d7f9"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "scripts/qualify-work-graph-finite-leaf.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "0d40925d5b60e7b1be5954d8e04ef3dd65ffc2dd"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "0d40925d5b60e7b1be5954d8e04ef3dd65ffc2dd"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "scripts/qualify-work-graph-prefix.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "b60caea58ee022d0cff0de9ebb827dba862627cd"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "b60caea58ee022d0cff0de9ebb827dba862627cd"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "scripts/qualify-work-graph-verifier.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "ae8ace675413f835ace0ac08f735453264d6f76c"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "ae8ace675413f835ace0ac08f735453264d6f76c"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "scripts/readme-effect-bootstrap.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "eb492b15a70307cfd2af68afd693a41a922cf758"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "eb492b15a70307cfd2af68afd693a41a922cf758"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "scripts/repro-event-capture.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "884d86b927acfbc90a4b280d3b75c410de6f8c84"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "884d86b927acfbc90a4b280d3b75c410de6f8c84"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "scripts/run-work-graph-verifier.sh",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "175ef2c027e587393f2fe91aa762500ae7568865"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "175ef2c027e587393f2fe91aa762500ae7568865"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "scripts/verify-package.sh",
+      "classification": "COMBINED_RECONCILIATION",
+      "main": {
+        "mode": "100755",
+        "blob": "c295c943d3c7e080d8006689d1a8e6583469ab7a"
+      },
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100755",
+          "blob": "ba76bb07c7dcd98d9047bd7109b905a81661d70a"
+        },
+        {
+          "pr": 251,
+          "mode": "100755",
+          "blob": "26ccf01cce9a2e4afe2a35de761e3c9f7947a158"
+        },
+        {
+          "pr": 252,
+          "mode": "100755",
+          "blob": "6149883b2388d95f07823c144d447879dec9c9ba"
+        }
+      ],
+      "selected": {
+        "mode": "100755",
+        "blob": "e6a33828ee58d3aa36e8fbffefcb1186d1d948c5"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "scripts/work-graph-completion.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "4e6c5e655139835a43b1c039a12a4a9ef98e7ccf"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "4e6c5e655139835a43b1c039a12a4a9ef98e7ccf"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "scripts/work-graph-continuity-transport.py",
+      "classification": "INTEGRATION_REPAIR_OR_ADDITION",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "326bac4247a8143135b4c4adebd40eb710530a8e"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "4e8242a2e86070b01505e7862658b5155a57150e"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "scripts/work-graph-readme-effect.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "79af64c44ee10b5a9fe85a657aa5de66b9ce5509"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "79af64c44ee10b5a9fe85a657aa5de66b9ce5509"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "skills/audit-implement/SKILL.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "89fdc056a29526cce4400a7b2fa9f2921f1e1e6c"
+      },
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "2930052b574a188f6ef6a37018acdf7dcd4240eb"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "2930052b574a188f6ef6a37018acdf7dcd4240eb"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "skills/implementaudit/SKILL.md",
+      "classification": "COMBINED_RECONCILIATION",
+      "main": {
+        "mode": "100644",
+        "blob": "14e5b75c2d160781ac4c3df9e8410bc0150a9c82"
+      },
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "e069f3efb0d1fcd6e2f259ed691c893d2fcc7630"
+        },
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "690804425fec47e69d73655870c33df51e593d99"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "31a74f174dd31b1dbde3d0dd41d46ab690c68a65"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "skills/implementaudit/references/audit-playbook.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "566f0811c2e42cfedcedeaa9003e8af5f1d514ef"
+      },
+      "donors": [
+        {
+          "pr": 251,
+          "mode": "100644",
+          "blob": "05dec3ab7cf7ee3d57e515e1ed7f6469667bd2ae"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "05dec3ab7cf7ee3d57e515e1ed7f6469667bd2ae"
+      },
+      "identical_donors": [
+        251
+      ]
+    },
+    {
+      "path": "skills/implementaudit/references/canonical-state-ref-namespaces.json",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "a2e584481701ca473c2f6ddedd35977511dc5295"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "60c6354a57fb7e5a257dda29c9f3c06a467dbc53"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "60c6354a57fb7e5a257dda29c9f3c06a467dbc53"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "skills/implementaudit/references/canonical-state-rotation.md",
+      "classification": "COMBINED_RECONCILIATION",
+      "main": {
+        "mode": "100644",
+        "blob": "fb6e3ce84aaff88edc722274b1a9e5ce7dea9ec8"
+      },
+      "donors": [
+        {
+          "pr": 251,
+          "mode": "100644",
+          "blob": "e57fa68921b47b730a38b3315bb0a37fe7ed3020"
+        },
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "019b6b6da947d5f057df11a323ec2e7f7ab894cf"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "96fcb7755651fd63afe5ae1b87f15b5dd08b35b0"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "skills/implementaudit/references/child-agents.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "7d53b95e6e8fb1d78237a8cb956d153795b0a421"
+      },
+      "donors": [
+        {
+          "pr": 251,
+          "mode": "100644",
+          "blob": "9b093c5e92c4e989a8d0bcc0da893f6dc301d0ab"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "9b093c5e92c4e989a8d0bcc0da893f6dc301d0ab"
+      },
+      "identical_donors": [
+        251
+      ]
+    },
+    {
+      "path": "skills/implementaudit/references/continuity.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "db7b699d8979bc6f2a2082c23e7938c3da2f7b4f"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "5b3c69b9ed33f8e536aee105f26537dda3047430"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "5b3c69b9ed33f8e536aee105f26537dda3047430"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "skills/implementaudit/references/host-session-binding.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "4c8d8002e2e5ec050a4b38936af6e97a464ca2a2"
+      },
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "9fd16bd9fb1f9a1faec7d471dd22802e591eb782"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "9fd16bd9fb1f9a1faec7d471dd22802e591eb782"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "skills/implementaudit/references/lean-operating-discipline.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "69aadc478b3ce15d74448d7372e076104cc02398"
+      },
+      "donors": [
+        {
+          "pr": 251,
+          "mode": "100644",
+          "blob": "b27a3f48e8c0a7169fe4d2cb6242bf242d090e4d"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "b27a3f48e8c0a7169fe4d2cb6242bf242d090e4d"
+      },
+      "identical_donors": [
+        251
+      ]
+    },
+    {
+      "path": "skills/implementaudit/references/plan-lifecycle.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "9d2656821fdabb756d9073738af682fc45db7221"
+      },
+      "donors": [
+        {
+          "pr": 251,
+          "mode": "100644",
+          "blob": "5d93f7a61ff58b92fca383fdd720de81cecdc3b4"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "5d93f7a61ff58b92fca383fdd720de81cecdc3b4"
+      },
+      "identical_donors": [
+        251
+      ]
+    },
+    {
+      "path": "skills/implementaudit/references/planning-depth.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "4b1ac7984568453507c4988f1d4cbc82365f2448"
+      },
+      "donors": [
+        {
+          "pr": 251,
+          "mode": "100644",
+          "blob": "ec026656bf8dae38d4512c9496dc6ffe983a5125"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "ec026656bf8dae38d4512c9496dc6ffe983a5125"
+      },
+      "identical_donors": [
+        251
+      ]
+    },
+    {
+      "path": "skills/implementaudit/references/repo-state-comparison.md",
+      "classification": "COMBINED_RECONCILIATION",
+      "main": {
+        "mode": "100644",
+        "blob": "b8cd5569e62259a311f30a9e61a2ef0cc5ace65c"
+      },
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "10cc8ef9a4cb36689ac049320da7d3176765cb76"
+        },
+        {
+          "pr": 251,
+          "mode": "100644",
+          "blob": "da64e55fafea7a418ab4bb53267dc1fb43524d99"
+        },
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "18964ed25b9f77fdfd10e58c836308b447dc1eb4"
+        },
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "db25a103bdf0d49b5a00bf7935546cb4f98c438c"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "c2de46c6a557364a1458e01beb1801af35df376d"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "skills/implementaudit/references/transcript-contract.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "7665cfd16fcc2f132dcfe7191261f1c4c9eb39c7"
+      },
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "07ec8767e640421de26a161c9835d678f329252e"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "07ec8767e640421de26a161c9835d678f329252e"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "skills/implementaudit/references/work-graph-contract.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "8a84ed0afc9d050f4c591de82e1f58f57c65f4b3"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "8a84ed0afc9d050f4c591de82e1f58f57c65f4b3"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "skills/implementaudit/scripts/apply-observed-mutation.sh",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100755",
+        "blob": "3704f4ec910b105a571e87c9d44de798e5459284"
+      },
+      "donors": [
+        {
+          "pr": 251,
+          "mode": "100755",
+          "blob": "a8f8e6d5a59cde2812db754eef7662b59be5aaf6"
+        }
+      ],
+      "selected": {
+        "mode": "100755",
+        "blob": "a8f8e6d5a59cde2812db754eef7662b59be5aaf6"
+      },
+      "identical_donors": [
+        251
+      ]
+    },
+    {
+      "path": "skills/implementaudit/scripts/canonical_custody.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100755",
+        "blob": "0928b7baf76d7fb29f8bf4943d24077161fee1f1"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100755",
+          "blob": "434f8cb1579d3dfff2ba8a6fad91849f32ef927e"
+        }
+      ],
+      "selected": {
+        "mode": "100755",
+        "blob": "434f8cb1579d3dfff2ba8a6fad91849f32ef927e"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "skills/implementaudit/scripts/canonical_hot_projection.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100755",
+        "blob": "6319117ba0ce9f04a3a4143a91fe657c7f133c29"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100755",
+          "blob": "37dc7e3bb0b82220c551af5e5b2f59a91d24aab6"
+        }
+      ],
+      "selected": {
+        "mode": "100755",
+        "blob": "37dc7e3bb0b82220c551af5e5b2f59a91d24aab6"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "skills/implementaudit/scripts/canonical_rotation_inputs.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "973f3bf01473796063a465a534020140aa57bff2"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "973f3bf01473796063a465a534020140aa57bff2"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "skills/implementaudit/scripts/check-handoff-packet.sh",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "73f022a3e5418af31df983975e343ad53962bd79"
+      },
+      "donors": [
+        {
+          "pr": 251,
+          "mode": "100644",
+          "blob": "de16f6f7ba76657ca2aae660bd2d9c7b3d16286f"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "de16f6f7ba76657ca2aae660bd2d9c7b3d16286f"
+      },
+      "identical_donors": [
+        251
+      ]
+    },
+    {
+      "path": "skills/implementaudit/scripts/claim-run-rotation.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "4d16c14b418aba4810f4dd649977cdccd20a6d70"
+      },
+      "donors": [
+        {
+          "pr": 251,
+          "mode": "100644",
+          "blob": "fe4b8288602d58b7d9ba22d9d8e9154522219f5b"
+        },
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "b8fa7f280cb7a6988d8ef41defa3dfb11fcda330"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "b8fa7f280cb7a6988d8ef41defa3dfb11fcda330"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "skills/implementaudit/scripts/claim-run.sh",
+      "classification": "INTEGRATION_REPAIR_OR_ADDITION",
+      "main": {
+        "mode": "100644",
+        "blob": "aae213fa358141aeeb6b289f2c806dbc65845696"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "df53f3114f0d6cb0cce62ef1aada63d407a79b99"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "7e83fb812706946679a367d4760a7a7113d193fe"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "skills/implementaudit/scripts/compile-work-graph.py",
+      "classification": "INTEGRATION_REPAIR_OR_ADDITION",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100755",
+          "blob": "3edb7479eb0663be4a1c60fd382732d3a9b6190e"
+        }
+      ],
+      "selected": {
+        "mode": "100755",
+        "blob": "2865fc3cbd0e9a1e53d62ea700fdbfa6f177d725"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "skills/implementaudit/scripts/read-canonical-pair.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100755",
+        "blob": "c4d5de6cd62677ebaa12eaf4ac95159bc012bd28"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100755",
+          "blob": "9ed59beff4bd403e2a606aa15c646157833e937e"
+        }
+      ],
+      "selected": {
+        "mode": "100755",
+        "blob": "9ed59beff4bd403e2a606aa15c646157833e937e"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "skills/implementaudit/scripts/resolve-internal-skill.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "1381c99520f4cad9d95edec194655afb6a4bd9a8"
+      },
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "c1ccf59aba121c8271ef2a954698b5c92611eac1"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "c1ccf59aba121c8271ef2a954698b5c92611eac1"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "skills/implementaudit/scripts/rotate-canonical-state.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100755",
+        "blob": "f14bed7a5d230cc84c93caef7974e082e1eeec59"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100755",
+          "blob": "24ce219cdaed2c2de78e6a2dcf8737f77d161984"
+        }
+      ],
+      "selected": {
+        "mode": "100755",
+        "blob": "24ce219cdaed2c2de78e6a2dcf8737f77d161984"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "skills/implementaudit/scripts/validate-audit-implement-return.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100755",
+          "blob": "eb2c2f510716b5785bdb3936dc3358de082f38f8"
+        }
+      ],
+      "selected": {
+        "mode": "100755",
+        "blob": "eb2c2f510716b5785bdb3936dc3358de082f38f8"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "skills/implementaudit/scripts/validate-run-root.sh",
+      "classification": "COMBINED_RECONCILIATION",
+      "main": {
+        "mode": "100644",
+        "blob": "f9dc102ee5bbbfc87dea7ca50c94eea0b4854af1"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "114807e4a3d7cf560c3bc526bc9a1cf85a94b31a"
+        },
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "6bc195b34594123728105f18c784b859405c2c47"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "09e8ddaf6dd745fb5fd0b972e3c28693de1b4937"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "skills/implementaudit/templates/PROTOCOL.md",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "be8b7b7a6f5d16ec3c8f672f2935045200c2c919"
+      },
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "ab2c5023463f8bf252c08b6791f0295d544878e8"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "ab2c5023463f8bf252c08b6791f0295d544878e8"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "source-peers/README.md",
+      "classification": "COMBINED_RECONCILIATION",
+      "main": {
+        "mode": "100644",
+        "blob": "06d66b879c61152365c95ae34500671c67ccb2aa"
+      },
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "9fe7bd12bf903b0ec256cb387264b786e96574d5"
+        },
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "cda40250509401df5e3daa119d00d401f5eccf81"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "11dde9303d2d1043b20412fac07f0f90b537f82b"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "source-peers/native-runtime/SOURCE_MANIFEST.json",
+      "classification": "COMBINED_RECONCILIATION",
+      "main": {
+        "mode": "100644",
+        "blob": "d6be06af8d6c07e1115c9cc139e4f9d066aa9e40"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "5eec31b9c0c4695857dd085f90a6e4349d1aff97"
+        },
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "468168f1e2089c9fb581ff97b882bf1c2eede451"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "10a379d49b62a7a79c4508dc8f8c305a5059fc4e"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_file_custody.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "842e97e21a51239b19e936be79e1c7124368ba2f"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "c387db383608f94b4aa1fb0af14fb551934f949d"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "c387db383608f94b4aa1fb0af14fb551934f949d"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_native_reader.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "f921a7a50d63bcdfb375a3ec53f33b6bc6939e29"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "af568a8fbf125b348b5a2b4bc14a7c4154a2e65f"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "af568a8fbf125b348b5a2b4bc14a7c4154a2e65f"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_source_owner.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "0fa1cc5762b296a2fd32ff8fa31dac7c6e0a9c27"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "fbca53952f48a88c9a572491d3442288607478b5"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "fbca53952f48a88c9a572491d3442288607478b5"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/canonical_hot_projection.py",
+      "classification": "INTEGRATION_REPAIR_OR_ADDITION",
+      "main": {
+        "mode": "100755",
+        "blob": "f279932d75a51f6b0cd0ec084b2f9cdb073fad00"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100755",
+          "blob": "b8309cf8686c25d7b5bc42eebdd0f12c0b5f6f45"
+        }
+      ],
+      "selected": {
+        "mode": "100755",
+        "blob": "37dc7e3bb0b82220c551af5e5b2f59a91d24aab6"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/claim-run.sh",
+      "classification": "INTEGRATION_REPAIR_OR_ADDITION",
+      "main": {
+        "mode": "100644",
+        "blob": "56da15476e168606963b7a39830700ced6ad5686"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "26b0d2994b5c8523e65097512e32be8c1d69fc07"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "ad90931a83a46565ca7e5ffe1298f9392bd70d73"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-audit-pending.py",
+      "classification": "COMBINED_RECONCILIATION",
+      "main": {
+        "mode": "100644",
+        "blob": "db66a35f5397ffccd0d343b6fbee558ff1955ac3"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "e143da26cf3f79b71ce72fc56ef9cd642d219947"
+        },
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "ff64a1e7ad31141412c750f6198d6566700ad556"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "43714f392f4cb63b2159e41056b6e4e1ffa81969"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-result-observation.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "1f01db1a1c70b11ad55f3347a02bd74b1a51badb"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "087ee6bb55925daab3821db8c402384a0e29d338"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "087ee6bb55925daab3821db8c402384a0e29d338"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "1f443d129ea6f6b7ff9f713688aa9a8d15043219"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "2c28a3108799af2cb35353cc6b704443f49bbb16"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "2c28a3108799af2cb35353cc6b704443f49bbb16"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/rotate-canonical-state.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100755",
+        "blob": "49c305b4979f0eaa292d0ccb7ef1047d32333364"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100755",
+          "blob": "24ce219cdaed2c2de78e6a2dcf8737f77d161984"
+        }
+      ],
+      "selected": {
+        "mode": "100755",
+        "blob": "24ce219cdaed2c2de78e6a2dcf8737f77d161984"
+      },
+      "identical_donors": [
+        252
+      ]
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/validate-run-root.sh",
+      "classification": "INTEGRATION_REPAIR_OR_ADDITION",
+      "main": {
+        "mode": "100644",
+        "blob": "1f9f422c291ce0169e89a66dfb2b5443d0a15629"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "114807e4a3d7cf560c3bc526bc9a1cf85a94b31a"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "09e8ddaf6dd745fb5fd0b972e3c28693de1b4937"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "source-peers/route-graph/SOURCE_MANIFEST.json",
+      "classification": "COMBINED_RECONCILIATION",
+      "main": {
+        "mode": "100644",
+        "blob": "da24f5006f8a797a62ec35966cf38937135a51ea"
+      },
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "491146102eb888dab94dc7910d8a428a047f1da1"
+        },
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "63d3f1374e7ce15b208df24646b47c728262929b"
+        },
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "0470bb18c976f7f2f1102e8b2586fe5104bc48e0"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "d29ca1322e39c7c65cc03ad3bb05b5a5f0c9ea64"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "source-peers/route-graph/skills/implementaudit/scripts/compile-work-graph.py",
+      "classification": "COMBINED_RECONCILIATION",
+      "main": {
+        "mode": "100644",
+        "blob": "ca8f8041c63b145700d5eda5e97bd46db6045d81"
+      },
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "3edb7479eb0663be4a1c60fd382732d3a9b6190e"
+        },
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "6c7ec3f3b3124ec7b3f39548beca88b4301bf5b8"
+        },
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "2acea6b4fd26e45a1856a55bb1e0d27296a9011a"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "19831e671278baae9f3713e9bbec2052e657a42e"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "source-peers/route-graph/skills/implementaudit/scripts/route-transaction.py",
+      "classification": "COMBINED_RECONCILIATION",
+      "main": {
+        "mode": "100755",
+        "blob": "341d3c4f78d312a224d186b8792cbfae3be64a49"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100755",
+          "blob": "0676920d4018cfd0e917be1eecf40af25c7d9dba"
+        },
+        {
+          "pr": 253,
+          "mode": "100755",
+          "blob": "310f258b4446d8ffc177524261604861537f789f"
+        }
+      ],
+      "selected": {
+        "mode": "100755",
+        "blob": "a3c50e7fe5c5286be632c77a59d1a004c51b5934"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "tests/action-selection-contract.test.sh",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "206eb5c8098040a34c2593aaa745943551a6108a"
+      },
+      "donors": [
+        {
+          "pr": 251,
+          "mode": "100644",
+          "blob": "c254bdca2f7eddd6af81e93e6dc45f58ff1cf044"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "c254bdca2f7eddd6af81e93e6dc45f58ff1cf044"
+      },
+      "identical_donors": [
+        251
+      ]
+    },
+    {
+      "path": "tests/canonical-state-rotation.test.sh",
+      "classification": "COMBINED_RECONCILIATION",
+      "main": {
+        "mode": "100755",
+        "blob": "641322d16b9b8d873378091d9f578be77c6b44f9"
+      },
+      "donors": [
+        {
+          "pr": 251,
+          "mode": "100755",
+          "blob": "48f792e525b1d0744dc042a392ec42e5f35ef87d"
+        },
+        {
+          "pr": 252,
+          "mode": "100755",
+          "blob": "deb114678998d891ed457bd12dd5872e2590ea3f"
+        }
+      ],
+      "selected": {
+        "mode": "100755",
+        "blob": "8ef8a865384002a81ef1d7010cdd772ef3403b72"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "tests/canonical_source_custody.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 251,
+          "mode": "100644",
+          "blob": "f6a45135b4a6ae10e3a6f6f48f2a0363b9d5d6d9"
+        },
+        {
+          "pr": 252,
+          "mode": "100644",
+          "blob": "f6a45135b4a6ae10e3a6f6f48f2a0363b9d5d6d9"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "f6a45135b4a6ae10e3a6f6f48f2a0363b9d5d6d9"
+      },
+      "identical_donors": [
+        251,
+        252
+      ]
+    },
+    {
+      "path": "tests/cognition-lifecycle-composition.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "d45dda1aee21c72cb33db364d8ea982d9fe5a921"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "d45dda1aee21c72cb33db364d8ea982d9fe5a921"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "tests/cognition-obligation-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "6724c5503d49ac8d5ab7b2cbda8e77b6357e7b22"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "6724c5503d49ac8d5ab7b2cbda8e77b6357e7b22"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "tests/cognition-pending-durability.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "41535ba08afbadb6353e85641dfe044a2973b04f"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "41535ba08afbadb6353e85641dfe044a2973b04f"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "tests/composite-source-cases.py",
+      "classification": "INTEGRATION_REPAIR_OR_ADDITION",
+      "main": null,
+      "donors": [],
+      "selected": {
+        "mode": "100644",
+        "blob": "9f7920d1f780c939f8afea5ee8b2bb9bd3a781de"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "tests/composite-source.test.sh",
+      "classification": "INTEGRATION_REPAIR_OR_ADDITION",
+      "main": null,
+      "donors": [],
+      "selected": {
+        "mode": "100644",
+        "blob": "4b51a245f5eec3d5d74711564ebd7ff9acfb8be6"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "tests/continuity.test.sh",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "c104f6cf31219ddcbcfdf6e3babb37b231cc291c"
+      },
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "a450230bd2ee3c630ecfc95d735030b9415b1aee"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "a450230bd2ee3c630ecfc95d735030b9415b1aee"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "tests/distributed-runtime-contract.test.sh",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 251,
+          "mode": "100644",
+          "blob": "33227b5348f3f950c289d51495f3be8f81f5ff8e"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "33227b5348f3f950c289d51495f3be8f81f5ff8e"
+      },
+      "identical_donors": [
+        251
+      ]
+    },
+    {
+      "path": "tests/distributed_generation_fence.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 251,
+          "mode": "100644",
+          "blob": "bdd2abf579534b8d4c9f2cce3060efc920cb528e"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "bdd2abf579534b8d4c9f2cce3060efc920cb528e"
+      },
+      "identical_donors": [
+        251
+      ]
+    },
+    {
+      "path": "tests/docs-portal.test.sh",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "58d4e9371d772a962bef2621c2e5ce442d48525a"
+      },
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "9238473737134961a5bbc08b1c5ac9ab4b6389bf"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "9238473737134961a5bbc08b1c5ac9ab4b6389bf"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/evidential-support-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "8106de99b38a64317264f8aac0e3e459fcc2602a"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "8106de99b38a64317264f8aac0e3e459fcc2602a"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "tests/handoff-packet-contract.test.sh",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "50b5d91cfae97fcb5770ad113fa88413216d0667"
+      },
+      "donors": [
+        {
+          "pr": 251,
+          "mode": "100644",
+          "blob": "462394ebb15bc57698a0efcef1eebb566354f5f1"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "462394ebb15bc57698a0efcef1eebb566354f5f1"
+      },
+      "identical_donors": [
+        251
+      ]
+    },
+    {
+      "path": "tests/helper-reachability.test.sh",
+      "classification": "COMBINED_RECONCILIATION",
+      "main": {
+        "mode": "100755",
+        "blob": "fc116ea784a02e04ee939c292e30915a100c623d"
+      },
+      "donors": [
+        {
+          "pr": 252,
+          "mode": "100755",
+          "blob": "d84e5c9bf85ea8e02b967333da9e4adead2a61b6"
+        },
+        {
+          "pr": 253,
+          "mode": "100755",
+          "blob": "cc184800c3d01a6224767dcd9cbc4e34d991611c"
+        }
+      ],
+      "selected": {
+        "mode": "100755",
+        "blob": "6cc1c60b7734d7f2e554ff89801ad0aea19b007a"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "tests/internal-skill-resolver-custody.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "19bfc497b70f2c78735c011a820b5d1b201532e6"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "19bfc497b70f2c78735c011a820b5d1b201532e6"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "tests/internal-skill-routing.test.sh",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "d05732d3e2acdff30422dba9a4277b40b2d4255a"
+      },
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "c500eee43097234de0a57ab65dee855e5156ac4e"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "c500eee43097234de0a57ab65dee855e5156ac4e"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "tests/marker-order.test.sh",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100755",
+        "blob": "99710ceb0ee5fa5673fc197ea4372e9a5d3a5d4a"
+      },
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100755",
+          "blob": "c3819a09059af707caa0d490006fa4ec4ca93124"
+        }
+      ],
+      "selected": {
+        "mode": "100755",
+        "blob": "c3819a09059af707caa0d490006fa4ec4ca93124"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "tests/native-work-graph-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "0f1f139de82b9bba08df3aead813c52ab48891a3"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "0f1f139de82b9bba08df3aead813c52ab48891a3"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/native-work-graph.test.sh",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "21acb190cd671edf0a650a5fac66c90225c31535"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "21acb190cd671edf0a650a5fac66c90225c31535"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/no-terminal-cap.test.sh",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "09b17d5c1698999673d3e55c99ecf39b8fedb3cf"
+      },
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "d06ed28ed0c67bc290904d8827600a5b1c5b531b"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "d06ed28ed0c67bc290904d8827600a5b1c5b531b"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "tests/nonterminal-yield-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "44825880badeb7379036649ab87104fdce2d531c"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "44825880badeb7379036649ab87104fdce2d531c"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "tests/observation-bound-mutation-integrity.test.sh",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100755",
+        "blob": "7e55b5d6117687b12a05c015935e3613bbdaa99a"
+      },
+      "donors": [
+        {
+          "pr": 251,
+          "mode": "100755",
+          "blob": "eb6bd10b102e73a8c81fa29fe18d44b55252830f"
+        }
+      ],
+      "selected": {
+        "mode": "100755",
+        "blob": "eb6bd10b102e73a8c81fa29fe18d44b55252830f"
+      },
+      "identical_donors": [
+        251
+      ]
+    },
+    {
+      "path": "tests/reproducible-release-asset.test.sh",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100755",
+        "blob": "c80b8911be1c4e6002ab7547bab13c0618d4206d"
+      },
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100755",
+          "blob": "286e077bc5ffe081b791530094582549436ab7a4"
+        }
+      ],
+      "selected": {
+        "mode": "100755",
+        "blob": "286e077bc5ffe081b791530094582549436ab7a4"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/routing.test.sh",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100755",
+        "blob": "c3edd695fc31e2b3cded013e1dffd0bc827ce4f1"
+      },
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100755",
+          "blob": "c73a2d408bce6cd5bb6372bcb6357cf2bf1c37de"
+        }
+      ],
+      "selected": {
+        "mode": "100755",
+        "blob": "c73a2d408bce6cd5bb6372bcb6357cf2bf1c37de"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/run-root-validation.test.sh",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": {
+        "mode": "100644",
+        "blob": "a36c56ceac1b3bc432ec4094cf4a781a41960a72"
+      },
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "20f26d24d814eca7db7bde0ac421e6deea3b41a4"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "20f26d24d814eca7db7bde0ac421e6deea3b41a4"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "tests/shell_companion_source_custody.py",
+      "classification": "INTEGRATION_REPAIR_OR_ADDITION",
+      "main": null,
+      "donors": [],
+      "selected": {
+        "mode": "100644",
+        "blob": "fcf8da3cfb0055f12b4a802eaa4bee3aabdf1afd"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "tests/turn-disposition-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 253,
+          "mode": "100644",
+          "blob": "0fd125091f3e0d72af91a6101d5805c363b44f67"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "0fd125091f3e0d72af91a6101d5805c363b44f67"
+      },
+      "identical_donors": [
+        253
+      ]
+    },
+    {
+      "path": "tests/work-graph-action-selection-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "6ee286d42134bf31225206bb9867d107f14fc6f2"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "6ee286d42134bf31225206bb9867d107f14fc6f2"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-andon-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "5d0767ce953b904df15cdcf791208036abc4d176"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "5d0767ce953b904df15cdcf791208036abc4d176"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-audit-object-contract-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "54e38b80bc246794f6bac112a2859c6830c1f70f"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "54e38b80bc246794f6bac112a2859c6830c1f70f"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-audit-retention-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "e54bb0f0cbb9698e59233ebdefd46ee37742be1f"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "e54bb0f0cbb9698e59233ebdefd46ee37742be1f"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-audit-routing-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "4a219d014c38b52eb01a47ce275176c49efbd92c"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "4a219d014c38b52eb01a47ce275176c49efbd92c"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-audit-spec-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "0bba1023cef9db03af08ba8d192909fe3e11a6f3"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "0bba1023cef9db03af08ba8d192909fe3e11a6f3"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-bootstrap-budget-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "088ce2c1cf6aa5104dad09ade4691300b15937c5"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "088ce2c1cf6aa5104dad09ade4691300b15937c5"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-claim-boundary-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "93e557db459057f5262058e173ecbf05aeff91e0"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "93e557db459057f5262058e173ecbf05aeff91e0"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-compiler.test.sh",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100755",
+          "blob": "76dbce9937737400a740c5d965f6787935aeba6e"
+        }
+      ],
+      "selected": {
+        "mode": "100755",
+        "blob": "76dbce9937737400a740c5d965f6787935aeba6e"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-completion-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "2aaa435b2dc27f8ed733ee596685d52fb93ecc26"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "2aaa435b2dc27f8ed733ee596685d52fb93ecc26"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-completion-transition-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "04e824496b96fb807df0df13e0456dfb76902640"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "04e824496b96fb807df0df13e0456dfb76902640"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-composition-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "af7ff8cb374765d5988b615fc2a4d0193dd43507"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "af7ff8cb374765d5988b615fc2a4d0193dd43507"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-continuity-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "c8efde51dd0a005a881d80a3711b851685500b59"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "c8efde51dd0a005a881d80a3711b851685500b59"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-correspondence-preflight-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "fcf082c83618a1904f308a50d1c76c5b0b9296c2"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "fcf082c83618a1904f308a50d1c76c5b0b9296c2"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-fanout-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "26795046a1987dfeedfe76adab9a7583c97a0bd9"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "26795046a1987dfeedfe76adab9a7583c97a0bd9"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-finite-batch-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "8a0f1cdae3ef2e97279839560715d48f5e17c9b9"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "8a0f1cdae3ef2e97279839560715d48f5e17c9b9"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-finite-entry-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "2dc6c64edc8e7912ad34e501b76a47353fa71dc7"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "2dc6c64edc8e7912ad34e501b76a47353fa71dc7"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-finite-next-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "a46c24bbe6746fc4048950805548d318c0ac5863"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "a46c24bbe6746fc4048950805548d318c0ac5863"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-installed-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "33166015c0b42ab66efa87df8c4b49e7bc639f7a"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "33166015c0b42ab66efa87df8c4b49e7bc639f7a"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-internal-routing-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "d1a6223f8bfca65fb2395cbd86cd7b271ebcc76b"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "d1a6223f8bfca65fb2395cbd86cd7b271ebcc76b"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-lean-discipline-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "9224886c907b2a5a655711708ec94152770b451f"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "9224886c907b2a5a655711708ec94152770b451f"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-literal-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "1d96ba9b58fb2b0bede6a7e6ff2b6780364b64b4"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "1d96ba9b58fb2b0bede6a7e6ff2b6780364b64b4"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-mini-audit-loop-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "a49b917a549a4621c6f085ef5044d11c6cefd719"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "a49b917a549a4621c6f085ef5044d11c6cefd719"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-native-integration-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "1edad79f16c37541049bb780a9fde0b262cc4692"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "1edad79f16c37541049bb780a9fde0b262cc4692"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-operation-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "fc907930bbf6d10fa0caf3af9c8023e141ca2ad8"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "fc907930bbf6d10fa0caf3af9c8023e141ca2ad8"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-package-shape-claims-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "b32c5915b2a378765a33ea5a41eb5f5485c151bd"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "b32c5915b2a378765a33ea5a41eb5f5485c151bd"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-pending-settlement-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "83027479f87f321f7389afcb5fd98a967f6c7577"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "83027479f87f321f7389afcb5fd98a967f6c7577"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-planner-copy-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "29cb416cf382448e55b9516b4022f868d4d791d3"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "29cb416cf382448e55b9516b4022f868d4d791d3"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-planning-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "bd103a6738c078728b17a128ed2aad4ad709795e"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "bd103a6738c078728b17a128ed2aad4ad709795e"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-prefix-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "f09117e6a41da40d8552104a978902f99d2a9f82"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "f09117e6a41da40d8552104a978902f99d2a9f82"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-process-delivery-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "d8b52425869999ed9da46ae67a624d7e9f80b5ea"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "d8b52425869999ed9da46ae67a624d7e9f80b5ea"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-readme-effect-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "8c3af4c750675269ded9367e893132dd3e5f02da"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "8c3af4c750675269ded9367e893132dd3e5f02da"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-recursive-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "ce268e8cfeb776b0bf9806036eca5a6ef35aefa0"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "ce268e8cfeb776b0bf9806036eca5a6ef35aefa0"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-registry-cases.py",
+      "classification": "INTEGRATION_REPAIR_OR_ADDITION",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "6c9d99197db18d9803fe1ccd5bdf4f029203df5b"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "d661522a1974340714bfb1b086e96635774f2796"
+      },
+      "identical_donors": []
+    },
+    {
+      "path": "tests/work-graph-repro-events-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "88a860805848c9ff8f9650d16889c45caf920cf1"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "88a860805848c9ff8f9650d16889c45caf920cf1"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-respec-impact-set-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "e8840436f7a36dce89257e809bda2831d8104faa"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "e8840436f7a36dce89257e809bda2831d8104faa"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-reuse-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "3018bbd7c3c5d2c5a21579610825992b1b8b0cf6"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "3018bbd7c3c5d2c5a21579610825992b1b8b0cf6"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-routing-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "42a8a88158f761b5a56d5f810fcc308c260c6d20"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "42a8a88158f761b5a56d5f810fcc308c260c6d20"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-safeguard-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "934048cae31091ef9ed1051ef6683724b068dbe9"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "934048cae31091ef9ed1051ef6683724b068dbe9"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-skill-layout-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "18aacb16abe0d9869e4ec0c6546b8092e769dbd9"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "18aacb16abe0d9869e4ec0c6546b8092e769dbd9"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-source-observation-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "503b08fa18a0331be1668d783e9f25661eb51794"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "503b08fa18a0331be1668d783e9f25661eb51794"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-stream-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "056d4a6bb0edae53d8a9cba239b16e22e7497468"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "056d4a6bb0edae53d8a9cba239b16e22e7497468"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-terminology-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "40be22b2de18eee0dffd76b70a4f533bc35b48aa"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "40be22b2de18eee0dffd76b70a4f533bc35b48aa"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-topology-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "beb1758aa2f0d7a29eeaef780f35f9300f9570b4"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "beb1758aa2f0d7a29eeaef780f35f9300f9570b4"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-verifier-cases.py",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "bdf7501344ebbfe62c8eb69b06306bf2bb4f8c61"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "bdf7501344ebbfe62c8eb69b06306bf2bb4f8c61"
+      },
+      "identical_donors": [
+        246
+      ]
+    },
+    {
+      "path": "tests/work-graph-verifier.test.sh",
+      "classification": "UNCHANGED_DONOR_SOURCE",
+      "main": null,
+      "donors": [
+        {
+          "pr": 246,
+          "mode": "100644",
+          "blob": "064547c3abdcc76e5a4bfc95cf733ec6c5522a1d"
+        }
+      ],
+      "selected": {
+        "mode": "100644",
+        "blob": "064547c3abdcc76e5a4bfc95cf733ec6c5522a1d"
+      },
+      "identical_donors": [
+        246
+      ]
+    }
+  ],
+  "deferred_or_reconciled_implementations": [
+    {
+      "donor_pr": 252,
+      "path": "source-peers/route-graph/skills/implementaudit/scripts/compile-work-graph.py",
+      "scope": "inline _native_original14_sources_v1 and _native_original14_claim_call_v1",
+      "disposition": "R0035 already owns equivalent factored eight-member Windows transport plus whole-closure rechecks; no second transport owner adopted. Exact composite profile was added and source-only controls executed."
+    }
+  ],
+  "unpublished_proposals": [
+    {
+      "owner": "R0039",
+      "source": "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/252#issuecomment-6393556153",
+      "patch_sha256": "e3e2c08631a84346a54e61c74197de4bd556a08444b4a7371a89b74562783d57",
+      "companion_preimage_sha256": "4dbbd07b5a792289c13c1225a8099900682b3657396f60f4b74867502cbadf97",
+      "disposition": "Applied to integration only; Windows test adaptation and peer application separately reviewable."
+    }
+  ],
+  "initial_reviewed_commit": "55b46ac762aa351e36ccd80da8eadd13f5b86e3e",
+  "initial_reviewed_tree": "106979b17fe1a33e9128d1ea958c7e9d5c16b3f6"
+}

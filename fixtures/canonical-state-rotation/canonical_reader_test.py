@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import ast
 import importlib.util
+import io
 import json
 import os
 from pathlib import Path
@@ -13,6 +14,7 @@ import re
 import subprocess
 import sys
 import tempfile
+import tokenize
 import unittest
 from unittest import mock
 
@@ -49,10 +51,11 @@ class CanonicalReaderTests(unittest.TestCase):
         claimed = self.claim("--controller", CONTROLLER, "canonical reader")
         self.assertEqual(claimed.returncode, 0, claimed.stderr.decode())
         self.run = self.repo / claimed.stdout.decode().strip()
-        for name in ("STATE.md", "ROADMAP.md", "PROTOCOL.md", "THINKING.md", "sidecars.md", "tools.md", "context.md"):
-            shutil.copyfile(self.scripts.parent / "templates" / name, self.run / name)
-        (self.run / "phases").mkdir()
-        (self.run / "phases/phase-1.md").write_text("open fixture phase\n")
+        initialized = command([sys.executable, ROOT / 'fixtures/controller-initialization/author_checkpoint.py',
+            '--repo', self.repo, '--run-root', self.run.relative_to(self.repo).as_posix(), '--source', self.repo,
+            '--purpose', 'Qualify canonical reader custody and preservation of native structural guards on this disposable subject.',
+            '--next-action', 'Exercise the selected reader discriminator and receive its actual currentness result', '--activate'], self.repo)
+        self.assertEqual(initialized.returncode, 0, initialized.stderr.decode())
         self.output = self.repo / "read-output"
         self.output.mkdir()
 
@@ -143,7 +146,7 @@ class CanonicalReaderTests(unittest.TestCase):
         self.put_ref("current-generation-migrations")
         self.assertNotEqual(self.phase_authority().returncode, 0, "phase authority used a retired ROADMAP")
 
-    def make_real_generation(self, *, native=False, state_edit=None, roadmap_edit=None, extra_artifacts=None):
+    def make_real_generation(self, *, native=False, state_edit=None, roadmap_edit=None, extra_artifacts=None, artifact_overrides=None):
         factory_path = ROOT / "fixtures/canonical-state-rotation/protected_projection_v2_test.py"
         spec = importlib.util.spec_from_file_location("canonical_reader_factory", factory_path)
         factory = importlib.util.module_from_spec(spec)
@@ -163,12 +166,20 @@ class CanonicalReaderTests(unittest.TestCase):
                 if item["role"] == "CONTINUITY_RECEIPT":
                     item["locator"] = receipt_ref
         artifacts = {key: text.encode() for key, text in source["artifact_texts"].items()}
+        for key, raw in (artifact_overrides or {}).items():
+            self.assertIn(key, artifacts)
+            self.assertIsInstance(raw, bytes)
+            artifacts[key] = raw
         if native:
             self.write_phase()
             continuation = bodies["STATE"]["payload"]["continuation"]["value"]
             continuation.update(status="IN_PHASE", phase="1")
             native_state = (self.run / "STATE.md").read_text().replace("| Status | open |", "| Status | IN_PHASE |")
-            native_state = native_state.replace("| Next action |  |", "| Next action | " + continuation["next_action"] + " |")
+            native_state, mirrored_rows = re.subn(
+                r"(?m)^\| Next action \| [^\n]* \|$",
+                lambda _: "| Next action | " + continuation["next_action"] + " |",
+                native_state)
+            self.assertEqual(mirrored_rows, 1, "native checkpoint must have one Next action row")
             native_state = re.sub(r"(?m)^Current epoch:.*\n", "", native_state)
             native_roadmap = (self.run / "ROADMAP.md").read_text()
             if state_edit:
@@ -418,7 +429,11 @@ class CanonicalReaderTests(unittest.TestCase):
             b"profile epoch row collides with the derived live epoch")
 
     def test_native_phase_table_cannot_be_hidden_by_stale_roadmap(self):
-        self.make_real_generation(native=True, roadmap_edit=lambda s: s.replace("| 1 |  |  | - |  |  |  | open |", ""))
+        def remove_phase(text):
+            changed, removed_rows = re.subn(r"(?m)^\| 1 \|[^\n]*$", "", text)
+            self.assertEqual(removed_rows, 1, "control must remove the actual authored phase row")
+            return changed
+        self.make_real_generation(native=True, roadmap_edit=remove_phase)
         shutil.copyfile(self.scripts.parent / "templates/ROADMAP.md", self.run / "ROADMAP.md")
         result = self.phase_authority()
         self.assertNotEqual(result.returncode, 0)
@@ -934,12 +949,15 @@ class SharedContractTests(unittest.TestCase):
         path = ROOT / "scripts/check-helper-reachability.sh"
         text = path.read_text().split("<<'PY'\n", 1)[1].rsplit("\nPY", 1)[0]
         tree = ast.parse(text)
-        names = {"shell_code", "python_array_invokes", "captured_python_library", "caller_invokes", "claim_public_modes"}
+        names = {"shell_code", "python_array_invokes", "captured_python_library",
+                 "captured_shell_companion", "caller_invokes", "claim_public_modes"}
         functions = [node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name in names]
         self.assertEqual({node.name for node in functions}, names)
-        self.scope = {"ast": ast, "hashlib": hashlib, "re": re,
+        self.scope = {"ast": ast, "hashlib": hashlib, "io": io, "json": json,
+                      "re": re, "tokenize": tokenize,
                       "projection_payloads": {"standalone_compatibility": {
-                          "scripts/canonical_hot_projection.py": (SCRIPTS / "canonical_hot_projection.py").read_bytes()}}}
+                          "scripts/canonical_hot_projection.py": (SCRIPTS / "canonical_hot_projection.py").read_bytes(),
+                          "scripts/claim-run-rotation.py": (SCRIPTS / "claim-run-rotation.py").read_bytes()}}}
         exec(compile(ast.Module(body=functions, type_ignores=[]), str(path), "exec"), self.scope)
 
     def test_complete_new_helper_population_has_actual_callers(self):

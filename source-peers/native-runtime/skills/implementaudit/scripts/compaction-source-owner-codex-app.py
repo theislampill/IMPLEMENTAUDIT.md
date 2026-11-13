@@ -13,18 +13,21 @@ def require(value, reason):
         raise ValueError(reason)
 
 def observation(policy):
-    require(policy['descriptor']['profile_id'] == NONPROTECTED_PROFILE, 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED')
+    require(policy['descriptor']['profile_id'] in SOURCE_PROFILES, 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED')
     key = str(Path('implementaudit/scripts/compaction-result-observation.py'))
     return _np_module({'path': str(OBSERVATION), 'bytes': OBSERVATION.stat().st_size, 'sha256': policy['code_and_skill_pins'][key]}, 'compaction-result-observation.py')
 
 def host_binding(obs, context, policy):
-    require(context['profile_id'] == NONPROTECTED_PROFILE, 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED')
+    require(context['profile_id'] in SOURCE_PROFILES, 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED')
     return nonprotected_host_binding(obs, context, policy)
 
 def sealed_prefix(obs, context, role, end):
     source = context[role]
     path, first = obs.physical(source['path'])
-    require(obs.identity(first) == source['physical'] and type(end) is int and (source['metadata']['bytes'] <= end <= first.st_size) and (end <= obs.MAX_TOTAL), 'CURRENT_PUBLIC_PREFIX_BOUND')
+    # The complete registered-source prefix is distinct from selected evidence.
+    # Preserve the existing owned-stdio and historical-profile acquisition bound.
+    maximum = obs.MAX_NATIVE_SOURCE_PREFIX_BYTES if context.get('profile_id') == obs.NONPROTECTED_PROFILE else obs.MAX_TOTAL
+    require(obs.identity(first) == source['physical'] and type(end) is int and (source['metadata']['bytes'] <= end <= first.st_size) and (end <= maximum), 'CURRENT_PUBLIC_PREFIX_BOUND')
     h = hashlib.sha256()
     with path.open('rb') as stream:
         require(obs.identity(os.fstat(stream.fileno())) == source['physical'], 'CURRENT_PUBLIC_PREFIX_CHANGED')
@@ -39,35 +42,48 @@ def sealed_prefix(obs, context, role, end):
     return {'role': role, 'physical': source['physical'], 'prefix_bytes': end, 'prefix_sha256': h.hexdigest()}
 
 def active_public_turn(obs, context, role, pin, retained):
-    """Only the declared native-turn interval; private content supplies no proof."""
+    """Stream the whole declared physical turn under the pinned acquisition policy.
+
+    Selected records retain their separate 64-row / 2 MiB / 256 KiB limits.
+    Larger physical turns supply no host authentication or acceptance authority.
+    """
+    expanded = context.get('profile_id') == obs.NONPROTECTED_PROFILE
+    maximum = obs.MAX_NATIVE_TURN_BYTES if expanded else obs.MAX_TOTAL
+    frame_limit = obs.MAX_NATIVE_TURN_FRAME if expanded else obs.MAX_RECORD
+    record_limit = obs.MAX_NATIVE_TURN_RECORDS if expanded else obs.MAX_RECORDS
     anchor = context['parent_turn_start'] if role == 'parent' else context['child_activation']
     start = anchor['locator']['offset']
     end = pin['locator']['offset'] + pin['locator']['bytes']
-    require(0 <= start < end and end - start <= obs.MAX_TOTAL, 'CURRENT_PUBLIC_TURN_RANGE_BOUND')
+    require(0 <= start < end and end - start <= maximum, 'CURRENT_PUBLIC_TURN_RANGE_BOUND')
     path, info = obs.physical(context[role]['path'])
     require(obs.identity(info) == context[role]['physical'], 'CURRENT_PUBLIC_PREFIX_CHANGED')
     active = None
     count = 0
     with path.open('rb') as stream:
+        require(obs.identity(os.fstat(stream.fileno())) == context[role]['physical'], 'CURRENT_PUBLIC_PREFIX_CHANGED')
         stream.seek(start)
         position = start
         while position < end:
-            raw = stream.readline(min(obs.MAX_RECORD + 1, end - position))
-            require(raw and raw.endswith(b'\n') and (len(raw) <= obs.MAX_RECORD), 'CURRENT_PUBLIC_TURN_FRAME')
+            raw = stream.readline(min(frame_limit + 1, end - position))
+            require(raw and raw.endswith(b'\n') and (len(raw) <= frame_limit), 'CURRENT_PUBLIC_TURN_FRAME')
             row = obs.json.loads(raw, object_pairs_hook=obs.unique)
             count += 1
             require(isinstance(row, dict) and isinstance(row.get('payload'), dict) and isinstance(row.get('type'), str), 'CURRENT_PUBLIC_TURN_FRAME')
-            require(count <= obs.MAX_RECORDS, 'CURRENT_PUBLIC_TURN_RANGE_BOUND')
+            require(count <= record_limit, 'CURRENT_PUBLIC_TURN_RANGE_BOUND')
             if row.get('type') == 'event_msg' and row['payload'].get('type') == 'task_started' or row.get('type') == 'turn_context':
                 active = row['payload'].get('turn_id')
             position += len(raw)
+        final = os.fstat(stream.fileno())
+        require(obs.identity(final) == context[role]['physical'] and final.st_size >= end, 'CURRENT_PUBLIC_PREFIX_CHANGED')
+    _, last = obs.physical(path)
+    require(obs.identity(last) == context[role]['physical'] and last.st_size >= end, 'CURRENT_PUBLIC_PREFIX_CHANGED')
     require(active == retained['id']['turn_id'], 'CURRENT_PUBLIC_WRONG_ACTIVE_TURN')
 
 def native_public_binding(obs, context, policy, pins):
-    require(context['profile_id'] == NONPROTECTED_PROFILE, 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED')
+    require(context['profile_id'] in SOURCE_PROFILES, 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED')
     return nonprotected_public_binding(obs, context, policy, pins)
 
-def tool_calls(obs, records):
+def tool_calls(obs, records, context=None, before_load=None):
     calls = {}
     completed = set()
     inventory = []
@@ -90,6 +106,11 @@ def tool_calls(obs, records):
             completed.add(call_id)
             item = next((value for value in inventory if value['call_id'] == call_id))
             item['output'] = record['locator']
+        elif kind == 'additional_tools':
+            require(context is not None and context.get('profile_id') == obs.NONPROTECTED_PROFILE and
+                obs.qualified_same_source_ticks(context, records) and
+                obs.inert_preload_tool_declaration(record, before_load),
+                'SOURCE_OWNER_UNQUALIFIED_TOOL_DECLARATION')
         elif kind not in ('reasoning', 'message', 'agent_message'):
             raise ValueError('SOURCE_OWNER_UNCLASSIFIED_EFFECT_ROW')
     require(set(calls) == completed, 'SOURCE_OWNER_UNSETTLED_EFFECT_CALL')
@@ -129,10 +150,10 @@ def release_subject(obs, context, prepared, result, accepted, candidate_pin, q_p
         require(terminal_row['payload'].get('turn_id') == activation['payload'].get('turn_id') and isinstance(terminal_row['payload'].get('turn_id'), str) and terminal_row['payload']['turn_id'], 'SOURCE_OWNER_TERMINAL_TURN_DIFFERS')
     records, prefix = obs.hold_records(context, cutoff=end)
     require(records[-1]['locator'] == terminal_pin['locator'], 'SOURCE_OWNER_TERMINAL_PREFIX_DIFFERS')
-    if context['profile_id'] in (obs.CURRENT_BOUNDARY_PROFILE, NONPROTECTED_PROFILE):
+    if context['profile_id'] in (obs.CURRENT_BOUNDARY_PROFILE, *SOURCE_PROFILES):
         require(policy is not None, 'CURRENT_PUBLIC_POLICY_REQUIRED')
         native_public_binding(obs, context, policy, [context['open'], prepared['authorization']['route_record'], prepared['authorization']['record'], result['identity']['child_final'], accepted['record']])
-    return {'schema': 'implementaudit.compaction-boundary-release.v1' if general else 'implementaudit.compaction-current-release.v1', **({'covered_boundary_versions': prepared['obligation']['covered_boundary_versions']} if general else {}), 'child_id': context['actual_child_identity']['agent_path'], 'observation_id': prepared['obligation']['observation_id'], 'candidate_sha256': candidate_pin['sha256'], 'Q_sha256': q_pin['sha256'], 'result_digest': result['return_digest'], 'acceptance_digest': obs.digest(obs.canonical(accepted)), 'child_terminal': child_terminal, 'child_prefix_sha256': prefix['prefix_sha256'], 'observed_tool_calls_sha256': tool_calls(obs, records), 'effect_reconciliation': 'NO_UNRECONCILED_EFFECTS', 'explicit_release': 'GRANTED', 'authority_ceiling': 'NONE'}
+    return {'schema': 'implementaudit.compaction-boundary-release.v1' if general else 'implementaudit.compaction-current-release.v1', **({'covered_boundary_versions': prepared['obligation']['covered_boundary_versions']} if general else {}), 'child_id': context['actual_child_identity']['agent_path'], 'observation_id': prepared['obligation']['observation_id'], 'candidate_sha256': candidate_pin['sha256'], 'Q_sha256': q_pin['sha256'], 'result_digest': result['return_digest'], 'acceptance_digest': obs.digest(obs.canonical(accepted)), 'child_terminal': child_terminal, 'child_prefix_sha256': prefix['prefix_sha256'], 'observed_tool_calls_sha256': tool_calls(obs, records, context, prepared['authorization']['load_identity']['call']['locator']['offset']), 'effect_reconciliation': 'NO_UNRECONCILED_EFFECTS', 'explicit_release': 'GRANTED', 'authority_ceiling': 'NONE'}
 
 def _validate_source_episode(candidate, candidate_pin, context, prepared, result, accepted, policy, q_pin, custody_root, release_evidence):
     obs = observation(policy)
@@ -148,7 +169,7 @@ def _validate_source_episode(candidate, candidate_pin, context, prepared, result
     terminal_pin = obs.resolve_record(context, 'child', release_evidence['child_terminal'])[1]
     obs.before(terminal_pin, release_pin)
     public_binding = None
-    if context['profile_id'] in (obs.CURRENT_BOUNDARY_PROFILE, NONPROTECTED_PROFILE):
+    if context['profile_id'] in (obs.CURRENT_BOUNDARY_PROFILE, *SOURCE_PROFILES):
         public_binding = native_public_binding(obs, context, policy, [context['open'], prepared['authorization']['route_record'], prepared['authorization']['record'], result['identity']['child_final'], accepted['record'], release_pin])
     return {'schema': 'implementaudit.source-owner-episode-attestation.v1', 'issuer_id': policy['descriptor']['authenticating_source_owner']['issuer_id'], 'policy_digest': policy['policy_digest'], 'candidate_sha256': candidate_pin['sha256'], 'Q_sha256': q_pin['sha256'], 'parent_identity': candidate['parent_identity'], 'actual_child_identity': candidate['actual_child_identity'], 'obligation_digest': candidate['obligation_digest'], 'result_digest': result['return_digest'], 'acceptance_digest': candidate['exact_acceptance_digest'], 'parent_source_physical': context['parent']['physical'], 'child_source_physical': context['child']['physical'], 'host_source_binding': binding, 'release_evidence': release_evidence, 'terminal_effect_release': obs.terminal_release_identity(context, prepared, candidate), 'authority_ceiling': 'NONE', **({'current_public_record_binding': public_binding} if public_binding is not None else {})}
 NONPROTECTED_PROFILE = 'codex-app-bounded-public-nonprotected-v1'
@@ -189,8 +210,9 @@ def _np_module(pin, basename, custody=None):
 
 def _np_selection():
     import json
-    require(NONPROTECTED_SELECTION_PIN is not None, 'NONPROTECTED_FIXED_SELECTION_UNBOUND')
-    raw = _np_read_pin(NONPROTECTED_SELECTION_PIN, 256 * 1024)
+    pin = selected_source_pin_v1()
+    require(pin is not None, 'NONPROTECTED_FIXED_SELECTION_UNBOUND')
+    raw = _np_read_pin(pin, 256 * 1024)
 
     def unique(pairs):
         result = {}
@@ -199,18 +221,34 @@ def _np_selection():
             result[key] = value
         return result
     selected = json.loads(raw, object_pairs_hook=unique)
+    if MECHANICAL_SELECTION_PIN is not None:
+        return validate_mechanical_selection_v1(selected)
+    if OWNED_STDIO_SELECTION_PIN is not None:
+        return validate_owned_stdio_selection_shape_v1(selected)
     required = {'schema', 'profile_id', 'root_thread_id', 'root_agent_path', 'root_source', 'session_root', 'cwd', 'cli_version', 'native_version', 'desktop_version', 'host_process', 'desktop_process', 'native_executable', 'desktop_executable', 'desktop_asar', 'config_file', 'runtime_helpers', 'episode_owner', 'pending_owner'}
-    require(isinstance(selected, dict) and set(selected) == required and (selected['schema'] == 'implementaudit.codex-nonprotected-provider-selection.v1') and (selected['profile_id'] == NONPROTECTED_PROFILE) and (set(selected['runtime_helpers']) == {'bounded_native_reader.py', 'bounded_source_owner.py', 'bounded_file_custody.py'}), 'NONPROTECTED_FIXED_SELECTION_SHAPE')
+    require(isinstance(selected, dict) and required <= set(selected) <= required | {'child_initial_settings_sha256'} and (selected['schema'] == 'implementaudit.codex-nonprotected-provider-selection.v1') and (selected['profile_id'] == NONPROTECTED_PROFILE) and (set(selected['runtime_helpers']) == {'bounded_native_reader.py', 'bounded_source_owner.py', 'bounded_file_custody.py'}), 'NONPROTECTED_FIXED_SELECTION_SHAPE')
+    if 'child_initial_settings_sha256' in selected:
+        require(selected['native_version'] == 'codex-cli 0.164.0-alpha.11.1' and
+                isinstance(selected['child_initial_settings_sha256'], str) and
+                re.fullmatch('[0-9a-f]{64}', selected['child_initial_settings_sha256']) is not None,
+                'NONPROTECTED_CHILD_SETTINGS_BASELINE')
     pointer = selected['pending_owner']
     require(isinstance(pointer, dict) and set(pointer) == {'store', 'session_id', 'owner_id'} and isinstance(pointer['store'], str) and Path(pointer['store']).is_absolute() and (pointer['session_id'] == selected['root_thread_id']) and isinstance(pointer['owner_id'], str) and pointer['owner_id'], 'NONPROTECTED_FIXED_PENDING_OWNER_SHAPE')
     return selected
 
+def selected_custody_v1(selected):
+    custody = _np_module(selected['runtime_helpers']['bounded_file_custody.py'], 'bounded_file_custody.py')
+    if selected.get('profile_id') in (FRESH_CANARY_PROFILE, MECHANICAL_PROFILE):
+        return FreshCanaryPosixCustodyV1()
+    return custody
+
 def _np_runtime(obs, code_pins):
     selected = _np_selection()
-    custody = _np_module(selected['runtime_helpers']['bounded_file_custody.py'], 'bounded_file_custody.py')
+    custody = selected_custody_v1(selected)
     protocol = _np_module(selected['runtime_helpers']['bounded_native_reader.py'], 'bounded_native_reader.py', custody)
     helpers = _np_module(selected['runtime_helpers']['bounded_source_owner.py'], 'bounded_source_owner.py', custody)
     protocol.custody = helpers.custody = custody
+    helpers._observation_owner = obs
     reader_key = str(Path('implementaudit/scripts/codex-recovery-native-reader.py'))
     require(reader_key in code_pins, 'NONPROTECTED_READER_CODE_PIN_ABSENT')
     reader_pin = {'path': str(READER), 'bytes': READER.stat().st_size, 'sha256': code_pins[reader_key]}
@@ -239,13 +277,15 @@ def _np_episode(runtime):
 
 def _np_subject(runtime):
     episode = _np_episode(runtime)
-    subject = runtime[3]._subject_from_episode_v1(runtime, episode, _np_call)
+    subject = (runtime[3]._subject_from_owned_stdio_episode_v1 if runtime[0]['profile_id'] == OWNED_STDIO_PROFILE else runtime[3]._subject_from_episode_v1)(runtime, episode, _np_call)
     require(_np_episode(runtime) == episode, 'NONPROTECTED_CANONICAL_EPISODE_CHANGED_DURING_NATIVE_READ')
     return subject
 
 
 def nonprotected_bind_sources(obs, request, code_pins):
     """Bind actual source-selected child to canonical OPEN and real host events."""
+    if _np_selection()['profile_id'] == MECHANICAL_PROFILE:
+        return _mechanical_bind_sources_v1(obs, request, code_pins)
     import contextlib
     import json
     require(isinstance(request, dict) and set(request) == {'open', 'spawn_call', 'spawn_output', 'child_activation', 'parent_turn_start'}, 'NONPROTECTED_PUBLIC_LOCATOR_REQUEST_SHAPE')
@@ -254,7 +294,9 @@ def nonprotected_bind_sources(obs, request, code_pins):
     with _np_provider_guard(runtime):
         subject = _np_subject(runtime)
         require(subject['episode']['selected_child_role'] == 'audit-state', 'NONPROTECTED_RECONCILIATION_ROLE_REQUIRED')
-        context = {'profile_id': NONPROTECTED_PROFILE, 'parent_identity': subject['parent_identity'], 'actual_child_identity': subject['actual_child_identity'], 'logical_child_id': subject['actual_child_identity']['agent_path'], 'canonical_episode_binding': subject['episode'], '_source_profile_code_pins': code_pins, 'source_association': 'PUBLIC_BOUNDARY_CHILD_STRUCTURAL_UNQUALIFIED', 'host_producer_authenticated': False}
+        context = {'profile_id': selected['profile_id'], 'parent_identity': subject['parent_identity'], 'actual_child_identity': subject['actual_child_identity'], 'logical_child_id': subject['actual_child_identity']['agent_path'], 'canonical_episode_binding': subject['episode'], '_source_profile_code_pins': code_pins, 'source_association': 'PUBLIC_BOUNDARY_CHILD_STRUCTURAL_UNQUALIFIED', 'host_producer_authenticated': False}
+        if 'child_initial_settings_sha256' in selected:
+            context['_current_child_settings_sha256'] = selected['child_initial_settings_sha256']
         for role in ('parent', 'child'):
             source = subject['sources'][role]
             prefix = source['header_prefix']
@@ -283,8 +325,7 @@ def nonprotected_bind_sources(obs, request, code_pins):
             require(activation['type'] == 'event_msg' and activation['payload'].get('type') == 'task_started' and (activation['ordinal'] == 1) and (request['child_activation']['offset'] == context['child']['metadata']['bytes']) and (turn['type'] == 'event_msg') and (turn['payload'].get('type') == 'task_started'), 'NONPROTECTED_ACTIVATION_BOUNDARY')
             obs.before(turn_pin, open_pin)
             obs.before(open_pin, spawn_pin)
-            obs.before(spawn_pin, output_pin)
-            obs.before(output_pin, activation_pin)
+            obs.spawn_event_order(context, spawn_pin, output_pin, activation_pin)
         context.update(open=open_pin, spawn_call=spawn_pin, spawn_output=output_pin, child_activation=activation_pin, parent_turn_start=turn_pin)
         with contextlib.ExitStack() as held:
             for role in ('parent', 'child'):
@@ -294,7 +335,11 @@ def nonprotected_bind_sources(obs, request, code_pins):
         return context
 
 def nonprotected_fixed_policy(obs, code_pins):
-    selected, _, _, _, _ = _np_runtime(obs, code_pins)
+    selected, _, _, helpers, _ = _np_runtime(obs, code_pins)
+    if selected['profile_id'] == MECHANICAL_PROFILE:
+        return _mechanical_fixed_policy_v1(obs, code_pins, selected)
+    if selected['profile_id'] == OWNED_STDIO_PROFILE:
+        return _as_fixed_policy_v1(obs, code_pins, selected)
     require(isinstance(selected['episode_owner'], dict) and selected['episode_owner'].get('module_pin') is not None, 'NONPROTECTED_CANONICAL_EPISODE_OWNER_UNBOUND')
 
     def code_pin(filename):
@@ -304,13 +349,19 @@ def nonprotected_fixed_policy(obs, code_pins):
         _np_read_pin(pin, 512 * 1024)
         return pin
     provider = {'profile_id': NONPROTECTED_PROFILE, 'selection_pin': dict(NONPROTECTED_SELECTION_PIN), 'native_version': selected['native_version'], 'native_executable': selected['native_executable'], 'desktop_version': selected['desktop_version'], 'desktop': selected['desktop_executable'], 'desktop_asar': selected['desktop_asar'], 'config_identity_only': selected['config_file']}
-    descriptor = {'schema': 'implementaudit.compaction-fixed-acquisition-policy.v1', 'profile_id': NONPROTECTED_PROFILE, 'custody_namespace': 'result-observations-v1', 'qualification_key': 'qualification/Q.json', 'provider_selection': provider, 'authenticating_source_owner': {'issuer_id': 'codex-app-canonical-episode-public-source-v1', 'module_pin': code_pin('compaction-source-owner-codex-app.py'), 'native_reader_pin': code_pin('codex-recovery-native-reader.py'), 'native_binary': selected['native_executable'], 'desktop_executable': selected['desktop_executable'], 'desktop_asar': selected['desktop_asar'], 'config_file': selected['config_file']}, 'exact_host_tuple': {'source_header_cli_version': selected['cli_version'], 'provider_selection_sha256': NONPROTECTED_SELECTION_PIN['sha256'], 'native_version': selected['native_version'], 'native_executable_sha256': selected['native_executable']['sha256'], 'desktop_package_version': selected['desktop_version'], 'desktop_executable_sha256': selected['desktop_executable']['sha256'], 'desktop_asar_sha256': selected['desktop_asar']['sha256'], 'config_sha256': selected['config_file']['sha256']}}
+    descriptor = {'schema': 'implementaudit.compaction-fixed-acquisition-policy.v1', 'profile_id': NONPROTECTED_PROFILE, 'custody_namespace': 'result-observations-v1', 'qualification_key': 'qualification/Q.json', 'provider_selection': provider, 'authenticating_source_owner': {'issuer_id': 'codex-app-canonical-episode-public-source-v1', 'module_pin': code_pin('compaction-source-owner-codex-app.py'), 'native_reader_pin': code_pin('codex-recovery-native-reader.py'), 'native_binary': selected['native_executable'], 'desktop_executable': selected['desktop_executable'], 'desktop_asar': selected['desktop_asar'], 'config_file': selected['config_file']}, 'exact_host_tuple': {'source_header_cli_version': selected['cli_version'], 'child_source_header_cli_version': helpers.child_cli_version(selected), 'provider_selection_sha256': NONPROTECTED_SELECTION_PIN['sha256'], 'native_version': selected['native_version'], 'native_executable_sha256': selected['native_executable']['sha256'], 'desktop_package_version': selected['desktop_version'], 'desktop_executable_sha256': selected['desktop_executable']['sha256'], 'desktop_asar_sha256': selected['desktop_asar']['sha256'], 'config_sha256': selected['config_file']['sha256']}}
+    if 'child_initial_settings_sha256' in selected:
+        descriptor['exact_host_tuple']['child_initial_settings_sha256'] = selected['child_initial_settings_sha256']
     value = {'descriptor': descriptor, 'code_and_skill_pins': code_pins}
     return {**value, 'policy_digest': obs.digest(obs.canonical(value))}
 
 def _np_provider_guard(runtime):
     import contextlib
     selected, custody, protocol, helpers, _ = runtime
+    if selected['profile_id'] == MECHANICAL_PROFILE:
+        return _fresh_canary_provider_guard_v1(runtime)
+    if selected['profile_id'] == OWNED_STDIO_PROFILE:
+        return _as_provider_guard_v1(runtime)
 
     @contextlib.contextmanager
     def guard():
@@ -343,6 +394,8 @@ def _np_provider_guard(runtime):
 def nonprotected_host_binding(obs, context, policy):
     runtime = _np_runtime(obs, policy['code_and_skill_pins'])
     selected = runtime[0]
+    if selected['profile_id'] == OWNED_STDIO_PROFILE:
+        return _as_host_binding_v1(obs, context, policy, runtime)
     require(nonprotected_fixed_policy(obs, policy['code_and_skill_pins']) == policy, 'NONPROTECTED_FIXED_P_CHANGED')
     with _np_provider_guard(runtime):
         subject = _np_subject(runtime)
@@ -356,7 +409,9 @@ def nonprotected_host_binding(obs, context, policy):
 def nonprotected_public_binding(obs, context, policy, pins):
     runtime = _np_runtime(obs, policy['code_and_skill_pins'])
     selected, custody, _, _, _ = runtime
-    require(context['profile_id'] == NONPROTECTED_PROFILE and 0 < len(pins) <= 16, 'NONPROTECTED_PUBLIC_SCOPE')
+    if selected['profile_id'] == OWNED_STDIO_PROFILE:
+        return _as_public_binding_v1(obs, context, policy, pins, runtime)
+    require(context['profile_id'] in SOURCE_PROFILES and 0 < len(pins) <= 16, 'NONPROTECTED_PUBLIC_SCOPE')
     with _np_provider_guard(runtime):
         episode = _np_episode(runtime)
         require(episode['opening_digest'] == context['canonical_episode_binding']['opening_digest'], 'NONPROTECTED_OPEN_BINDING_CHANGED')
@@ -396,13 +451,15 @@ def nonprotected_public_binding(obs, context, policy, pins):
     return {'schema': 'implementaudit.nonprotected-native-public-record-binding.v1', 'records': records, 'source_prefixes': prefixes, 'anchor_response_sha256s': [], 'canonical_episode_binding': episode, 'authority_ceiling': 'NONE'}
 
 def nonprotected_sources_guard(obs, context, code_pins):
+    if context.get('profile_id') == MECHANICAL_PROFILE:
+        return _mechanical_sources_guard_v1(obs, context, code_pins)
     import contextlib
     runtime = _np_runtime(obs, code_pins)
     selected, custody, _, helpers, _ = runtime
 
     @contextlib.contextmanager
     def guard():
-        require(context['profile_id'] == NONPROTECTED_PROFILE and context['parent_identity']['thread_id'] == selected['root_thread_id'], 'NONPROTECTED_SOURCE_GUARD_SCOPE')
+        require(context['profile_id'] in SOURCE_PROFILES and context['profile_id'] == selected['profile_id'] and context['parent_identity']['thread_id'] == selected['root_thread_id'], 'NONPROTECTED_SOURCE_GUARD_SCOPE')
         expected = selected['root_agent_path'] + '/' + context['canonical_episode_binding']['logical_task']
         with contextlib.ExitStack() as stack:
             for role in ('parent', 'child'):
@@ -414,7 +471,7 @@ def nonprotected_sources_guard(obs, context, code_pins):
                     require(path.is_relative_to(custody.lexical_path(selected['session_root'])) and path.name.endswith('-' + context['actual_child_identity']['thread_id'] + '.jsonl'), 'NONPROTECTED_CHILD_SOURCE_NAMESPACE')
                 stack.enter_context(custody.held_file(path))
                 observed = helpers.header({'path': str(path)})
-                require({key: observed['physical'][key] for key in ('device', 'inode')} == source['physical'] and observed['header_prefix']['sha256'] == source['metadata']['sha256'] and (observed['metadata']['cli_version'] == selected['cli_version']), 'NONPROTECTED_SOURCE_GUARD_CHANGED')
+                require({key: observed['physical'][key] for key in ('device', 'inode')} == source['physical'] and observed['header_prefix']['sha256'] == source['metadata']['sha256'] and (observed['metadata']['cli_version'] == (selected['cli_version'] if role == 'parent' else helpers.child_cli_version(selected))), 'NONPROTECTED_SOURCE_GUARD_CHANGED')
                 if role == 'child':
                     require(observed['metadata'].get('id') == context['actual_child_identity']['thread_id'] and observed['metadata'].get('parent_thread_id') == selected['root_thread_id'] and (observed['metadata'].get('agent_path') == expected), 'NONPROTECTED_CHILD_HEADER_BINDING')
             yield
@@ -422,7 +479,7 @@ def nonprotected_sources_guard(obs, context, code_pins):
 
 def validate(candidate, candidate_pin, context, prepared, result, accepted, policy, q_pin, custody_root, release_evidence):
     """The original final validator runs under the new source custody guard."""
-    if context['profile_id'] != NONPROTECTED_PROFILE:
+    if context['profile_id'] not in SOURCE_PROFILES:
         return _validate_source_episode(candidate, candidate_pin, context, prepared, result, accepted, policy, q_pin, custody_root, release_evidence)
     obs = observation(policy)
     with nonprotected_sources_guard(obs, context, policy['code_and_skill_pins']):
@@ -521,6 +578,8 @@ def ordinary_receiver_tool_input_v1():
 def _ordinary_provider_guard_v1(runtime):
     import contextlib
     selected, custody, protocol, helpers, _ = runtime
+    if selected['profile_id'] == FRESH_CANARY_PROFILE:
+        return _fresh_canary_provider_guard_v1(runtime)
     @contextlib.contextmanager
     def guard():
         with contextlib.ExitStack() as stack:
@@ -851,6 +910,1164 @@ def execute_ordinary_receiver_v1():
         selected['episode_owner']['controller'], policy)
 
 
+# Distinct owned-stdio source profile. No caller field can select this issuer.
+OWNED_STDIO_PROFILE = 'codex-app-server-0.153.4-owned-stdio-candidate-v1'
+FRESH_CANARY_PROFILE = 'codex-app-server-0.166.0-linux-fresh-canary-v1'
+FRESH_CANARY_BINARY_SHA256 = 'b8a11fedf24b2dfb59a70c9e52b030f9a508dcd49cd2dd0d41956f4c785156b8'
+OWNED_STDIO_SELECTION_PIN = None
+MECHANICAL_PROFILE = 'codex-app-server-0.166.0-linux-prior-mechanical-v1'
+MECHANICAL_SELECTION_PIN = None
+SOURCE_PROFILES = (NONPROTECTED_PROFILE, OWNED_STDIO_PROFILE)
+
+def selected_source_pin_v1():
+    selected = [pin for pin in (NONPROTECTED_SELECTION_PIN, OWNED_STDIO_SELECTION_PIN, MECHANICAL_SELECTION_PIN) if pin is not None]
+    require(len(selected) <= 1 and not (selected and ORDINARY_SELECTION_PIN is not None), 'FIXED_SOURCE_SELECTION_AMBIGUOUS')
+    return selected[0] if selected else None
+
+def selected_source_profile_v1():
+    if selected_source_pin_v1() is None:
+        return None
+    return _np_selection()['profile_id']
+
+def validate_owned_stdio_selection_shape_v1(selected):
+    if type(selected) is dict and selected.get('profile_id') == FRESH_CANARY_PROFILE:
+        return validate_fresh_canary_selection_v1(selected)
+    required = {'schema', 'profile_id', 'root_thread_id', 'root_agent_path', 'root_source',
+        'session_root', 'cwd', 'cli_version', 'native_version', 'native_executable', 'codex_home',
+        'runtime_helpers', 'episode_owner', 'pending_owner', 'producer_capture_pin', 'capture_producer_pin', 'tool_evidence_contract'}
+    require(type(selected) is dict and set(selected) - {'c02_adjudication', 'rotation_input_owner', 'producer_dependencies'} == required and
+        selected['schema'] == 'implementaudit.codex-owned-stdio-provider-selection.v1' and
+        selected['profile_id'] == OWNED_STDIO_PROFILE and selected['cli_version'] == '0.153.4' and
+        selected['native_version'] == 'codex-cli 0.153.4' and selected['root_agent_path'] == '/root' and
+        selected['tool_evidence_contract'] == 'EXACT_ORIGINAL_CUSTOM_EXEC_AND_COLLABORATION_V1' and
+        set(selected['runtime_helpers']) == {'bounded_native_reader.py', 'bounded_source_owner.py', 'bounded_file_custody.py'},
+        'OWNED_STDIO_FIXED_SELECTION_SHAPE')
+    uuid = r'[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}'
+    require(type(selected['root_thread_id']) is str and re.fullmatch(uuid, selected['root_thread_id']), 'OWNED_STDIO_ROOT_IDENTITY')
+    for key in ('root_source', 'session_root', 'cwd', 'codex_home'):
+        path = Path(selected[key])
+        require(path.is_absolute() and path.resolve(strict=True) == path, 'OWNED_STDIO_SELECTED_PATH_ALIAS')
+    require(Path(selected['session_root']) == Path(selected['codex_home']) / 'sessions' and
+        Path(selected['root_source']).is_relative_to(Path(selected['session_root'])) and
+        Path(selected['root_source']).name.endswith('-' + selected['root_thread_id'] + '.jsonl'), 'OWNED_STDIO_SOURCE_NAMESPACE')
+    pointer = selected['pending_owner']
+    require(type(pointer) is dict and set(pointer) == {'store', 'session_id', 'owner_id'} and
+        type(pointer['store']) is str and Path(pointer['store']).is_absolute() and
+        pointer['session_id'] == selected['root_thread_id'] and type(pointer['owner_id']) is str and pointer['owner_id'],
+        'OWNED_STDIO_PENDING_OWNER_SHAPE')
+    require(type(selected['episode_owner']) is dict and set(selected['episode_owner']) == {'module_pin', 'repository', 'controller'},
+        'OWNED_STDIO_R0033_OWNER_SHAPE')
+    c02 = selected.get('c02_adjudication')
+    if c02 is not None:
+        require(type(c02) is dict and set(c02) == {'issuer','census_owner','decision_path','owner_decision_locator','source_contract_locator'}
+            and all(type(value) is str and value for value in c02.values())
+            and Path(c02['decision_path']).is_absolute(), 'C02_CONFIGURED_OWNER_ROUTE_SHAPE')
+    return selected
+
+def transfer_owned_stdio_interval_v1(runtime, producer, *, after_c5):
+    require(type(after_c5) is bool and OWNED_STDIO_SELECTION_PIN is not None and runtime[0] == _np_selection(),
+            'LIVE_INTERVAL_FIXED_SELECTION_REQUIRED')
+    executing = __import__('types').SimpleNamespace(**globals())
+    def read_release():
+        path = HERE / 'compaction-audit-pending.py'
+        pin = {'path':str(path),'bytes':path.stat().st_size,'sha256':hashlib.sha256(path.read_bytes()).hexdigest()}
+        pending = _np_module(pin,'compaction-audit-pending.py',runtime[1])
+        return pending.read_selected_accepted_episode_v1()
+    with _as_provider_guard_v1(runtime):
+        return runtime[3].transfer_live_interval_v1(runtime,producer,executing,read_release if after_c5 else None)
+
+def own_live_stdio_process_v1(native_process, producer_pins, *, emit, native_module=None):
+    # An unadmitted capture factory, not a profile/grant or subprocess launcher.
+    require(type(producer_pins) is dict and set(producer_pins) == {'helper','runner','loop','claim','source_owner'},
+            'LIVE_PRODUCER_PIN_POPULATION')
+    require(producer_pins['source_owner']['path'] == str(Path(__file__).absolute()), 'LIVE_ACTUAL_PRODUCER_SOURCE_PATH')
+    helper = _np_module(producer_pins['helper'],'bounded_source_owner.py')
+    claim = helper.load_live_claim_v1(producer_pins['claim'],_np_read_pin)
+    executing_owner = __import__('types').SimpleNamespace(**globals())
+    return helper.OwnedStdioLiveProducerV1(native_process, executing_owner, claim,
+        producer_pins, emit=emit, native_module=native_module)
+
+def _as_capture_v1(selected, custody=None):
+    import json
+    raw = _np_read_pin(selected['producer_capture_pin'], 512 * 1024, custody)
+    capture = json.loads(raw, object_pairs_hook=_ordinary_unique_v1)
+    producer = _np_read_pin(selected['capture_producer_pin'], 128 * 1024, custody)
+    schema = capture.get('schema')
+    if schema == 'implementaudit.owned-stdio-live-acquisition.v1':
+        helper = _np_module(selected['runtime_helpers']['bounded_source_owner.py'], 'bounded_source_owner.py', custody)
+        return helper.validate_live_capture_v1(selected, capture, lambda pin, bound: _np_read_pin(pin,bound,custody))
+    require('producer_dependencies' not in selected, 'CLOSED_CAPTURE_HAS_LIVE_ONLY_DEPENDENCIES')
+    generic = schema == 'implementaudit.owned-stdio-source-acquisition.v1'
+    require((generic and capture.get('status') == 'SOURCE_CAPTURED_UNADMITTED' or
+        schema == 'r0039.native-two-boundary-capture.v1' and capture.get('status') == 'ACTUAL_TWO_BOUNDARY_CAPTURED_UNADMITTED') and
+        capture.get('thread_id') == selected['root_thread_id'] and
+        capture.get('native_version') == selected['native_version'] and
+        capture.get('native_executable_sha256') == selected['native_executable']['sha256'] and
+        capture.get('process_exit_code') == 0 and capture.get('transport') == 'dedicated-owner-started-stdio' and
+        capture.get('profile_admission') == 'UNADMITTED' and capture.get('native_pending_consumption') is False and
+        capture.get('capture_script_sha256') == hashlib.sha256(producer).hexdigest() and
+        Path(capture.get('codex_home', '')) == Path(selected['codex_home']) and
+        Path(capture.get('cwd', '')) == Path(selected['cwd']) and
+        (generic and type(capture.get('source')) is dict or not generic and len(capture.get('boundaries', [])) == 2),
+        'OWNED_STDIO_PRODUCER_CAPTURE_BINDING')
+    # This historical acquisition record remains unadmitted. Selection never
+    # rewrites its H0/currentness/epoch labels or supplies missing child evidence.
+    sources = [capture['source']] if generic else [boundary['source'] for boundary in capture['boundaries']]
+    for source in sources:
+        require(Path(source['path']) == Path(selected['root_source']) and
+            source['metadata']['id'] == source['metadata']['session_id'] == selected['root_thread_id'] and
+            source['metadata']['cli_version'] == selected['cli_version'], 'OWNED_STDIO_CAPTURE_SOURCE_CHANGED')
+    return capture
+
+def _as_provider_guard_v1(runtime):
+    import contextlib
+    selected, custody, protocol, helpers, _ = runtime
+    if selected['profile_id'] == FRESH_CANARY_PROFILE:
+        return _fresh_canary_provider_guard_v1(runtime)
+    @contextlib.contextmanager
+    def guard():
+        with contextlib.ExitStack() as held:
+            binary = selected['native_executable']
+            held.enter_context(custody.held_file(binary['path'], allow_append=False))
+            held.enter_context(custody.held_file(selected['producer_capture_pin']['path'], allow_append=False))
+            before = protocol.file_pin(Path(binary['path']))
+            require(before['sha256'] == binary['sha256'] and before['bytes'] == binary['bytes'], 'OWNED_STDIO_BINARY_CHANGED')
+            capture = _as_capture_v1(selected, custody)
+            if capture['schema'] == 'implementaudit.owned-stdio-live-acquisition.v1':
+                claim_pin = selected['producer_dependencies']['claim-run-rotation.py']
+                claim = _np_module(claim_pin, 'claim-run-rotation.py', custody)
+                held.enter_context(helpers.held_live_capture_v1(selected,capture,claim))
+            source = helpers.header({'path': selected['root_source']})
+            frozen = capture['source'] if capture['schema'] in {'implementaudit.owned-stdio-source-acquisition.v1','implementaudit.owned-stdio-live-acquisition.v1'} else capture['boundaries'][-1]['source']
+            require({key: source['physical'][key] for key in ('device', 'inode')} == frozen['physical'], 'OWNED_STDIO_CAPTURE_PHYSICAL_CHANGED')
+            context = {'parent': {'path': selected['root_source'], 'physical': frozen['physical'],
+                'metadata': {'bytes': source['header_prefix']['bytes']}}}
+            # Existing prefix owner; no transcript body is copied into evidence.
+            obs = helpers._observation_owner
+            prefix = sealed_prefix(obs, context, 'parent', frozen['bytes'])
+            require(prefix['prefix_sha256'] == frozen['sha256'], 'OWNED_STDIO_CAPTURE_PREFIX_CHANGED')
+            yield {'native_executable': before, 'producer_capture_pin': selected['producer_capture_pin']}
+            require(protocol.file_pin(Path(binary['path'])) == before and _as_capture_v1(selected, custody) == capture and
+                sealed_prefix(obs, context, 'parent', frozen['bytes']) == prefix, 'OWNED_STDIO_PROVIDER_CHANGED_DURING_READ')
+    return guard()
+
+def _as_fixed_policy_v1(obs, code_pins, selected):
+    def code_pin(name):
+        path = HERE / name
+        pin = {'path': str(path), 'bytes': path.stat().st_size,
+            'sha256': code_pins[str(Path('implementaudit/scripts') / name)]}
+        _np_read_pin(pin, 512 * 1024)
+        return pin
+    capture = _as_capture_v1(selected)
+    descriptor = {'schema': 'implementaudit.compaction-fixed-acquisition-policy.v1',
+        'profile_id': OWNED_STDIO_PROFILE, 'custody_namespace': 'result-observations-v1', 'qualification_key': 'qualification/Q.json',
+        'provider_selection': {'profile_id': OWNED_STDIO_PROFILE, 'selection_pin': dict(OWNED_STDIO_SELECTION_PIN),
+            'native_version': selected['native_version'], 'native_executable': selected['native_executable'],
+            'codex_home': selected['codex_home'], 'producer_capture_pin': selected['producer_capture_pin'],
+            'capture_producer_pin': selected['capture_producer_pin'],
+            'tool_evidence_contract': selected['tool_evidence_contract']},
+        'authenticating_source_owner': {'issuer_id': 'codex-owned-stdio-canonical-episode-public-source-v1',
+            'module_pin': code_pin('compaction-source-owner-codex-app.py'),
+            'native_reader_pin': code_pin('codex-recovery-native-reader.py'), 'native_binary': selected['native_executable'],
+            'producer_capture_pin': selected['producer_capture_pin']},
+        'exact_host_tuple': {'source_header_cli_version': selected['cli_version'],
+            'provider_selection_sha256': OWNED_STDIO_SELECTION_PIN['sha256'], 'native_version': selected['native_version'],
+            'native_executable_sha256': selected['native_executable']['sha256'],
+            'producer_capture_sha256': selected['producer_capture_pin']['sha256'], 'codex_home': selected['codex_home']}}
+    if capture['schema'] == 'implementaudit.owned-stdio-live-acquisition.v1':
+        descriptor['provider_selection']['producer_dependencies'] = selected['producer_dependencies']
+    value = {'descriptor': descriptor, 'code_and_skill_pins': code_pins}
+    return {**value, 'policy_digest': obs.digest(obs.canonical(value))}
+
+def _as_host_binding_v1(obs, context, policy, runtime):
+    selected = runtime[0]
+    require(_as_fixed_policy_v1(obs, policy['code_and_skill_pins'], selected) == policy, 'OWNED_STDIO_FIXED_POLICY_CHANGED')
+    with _np_provider_guard(runtime):
+        subject = _np_subject(runtime)
+        require(subject['parent_identity'] == context['parent_identity'] and subject['actual_child_identity'] == context['actual_child_identity'] and
+            subject['episode']['opening_digest'] == context['canonical_episode_binding']['opening_digest'], 'OWNED_STDIO_CANONICAL_CONTEXT_CHANGED')
+        for role in ('parent', 'child'):
+            require(subject['sources'][role]['physical']['path'] == context[role]['path'] and
+                {key: subject['sources'][role]['physical'][key] for key in ('device', 'inode')} == context[role]['physical'],
+                'OWNED_STDIO_CONTEXT_PHYSICAL_CHANGED')
+        responses = subject['metadata']['responses']
+    return {'schema': 'implementaudit.codex-owned-stdio-exact-source-binding.v1',
+        'native_reader_sha256': policy['descriptor']['authenticating_source_owner']['native_reader_pin']['sha256'],
+        'provider_selection_sha256': OWNED_STDIO_SELECTION_PIN['sha256'], 'native_version': selected['native_version'],
+        'native_executable_sha256': selected['native_executable']['sha256'],
+        'producer_capture_sha256': selected['producer_capture_pin']['sha256'], 'codex_home': selected['codex_home'],
+        'parent_thread_read_response_sha256': responses[0]['response_sha256'], 'child_thread_read_response_sha256': responses[1]['response_sha256'],
+        'parent_source_physical': context['parent']['physical'], 'child_source_physical': context['child']['physical'], 'authority_ceiling': 'NONE'}
+
+def _as_public_turn_v1(obs, context, role, pin):
+    runtime = _np_runtime(obs, context['_source_profile_code_pins'])
+    return runtime[3].owned_stdio_public_turn_v2(obs, context, role, pin)
+
+def _as_public_binding_v1(obs, context, policy, pins, runtime):
+    import contextlib
+    selected, custody, _, _, _ = runtime
+    require(context['profile_id'] == OWNED_STDIO_PROFILE and 0 < len(pins) <= 8, 'OWNED_STDIO_PUBLIC_SCOPE')
+    with _np_provider_guard(runtime):
+        episode = _np_episode(runtime)
+        require(episode['opening_digest'] == context['canonical_episode_binding']['opening_digest'], 'OWNED_STDIO_PUBLIC_OPEN_CHANGED')
+        requests, originals, ends = [], [], {}
+        for pin in pins:
+            role = pin['role']
+            with custody.held_file(context[role]['path']):
+                row, checked = obs.resolve_record(context, role, pin['locator'])
+                require(checked == pin, 'OWNED_STDIO_PUBLIC_PIN_CHANGED')
+                body = obs.public_message(row, row['payload']['phase'], context=context).encode('utf-8')
+                turn = _as_public_turn_v1(obs, context, role, pin)
+            expected = {'id': row['payload']['id'], 'turn_id': turn, 'phase': row['payload']['phase'],
+                'body_bytes': len(body), 'body_sha256': obs.digest(body)}
+            requests.append(('thread/items/list', {'threadId': context[role + '_identity']['thread_id'] if role == 'parent' else context['actual_child_identity']['thread_id'],
+                'turnId': turn, 'limit': 64, 'cursor': None, 'sortDirection': 'asc'}))
+            originals.append((pin, expected))
+            ends[role] = max(ends.get(role, 0), pin['locator']['offset'] + pin['locator']['bytes'])
+        prefixes = [sealed_prefix(obs, context, role, end) for role, end in sorted(ends.items())]
+        report = _np_call(runtime, requests, context['actual_child_identity']['thread_id'])
+        records = []
+        for (pin, expected), response in zip(originals, report['responses']):
+            require(response.get('page_complete') is True and [item for item in response['items'] if item['id'] == expected['id']] == [expected],
+                'OWNED_STDIO_NATIVE_PUBLIC_DIFFERS')
+            records.append({'role': pin['role'], 'pin': pin, **expected,
+                'source_semantics': 'ORIGINAL_NATIVE_RECORD', 'native_response_sha256': response['response_sha256']})
+        require([sealed_prefix(obs, context, role, end) for role, end in sorted(ends.items())] == prefixes and _np_episode(runtime) == episode,
+            'OWNED_STDIO_PUBLIC_CUTOFF_OR_EPISODE_CHANGED')
+    return {'schema': 'implementaudit.owned-stdio-native-public-record-binding.v1', 'records': records,
+        'source_prefixes': prefixes, 'anchor_response_sha256s': [], 'canonical_episode_binding': episode, 'authority_ceiling': 'NONE'}
+
+
+import threading
+import queue
+
+
+class QuiescenceRefusal(ValueError):
+    pass
+
+
+class OwnedStdioQuiescenceV1:
+    def __init__(self, existing_queue, *, selected_thread_id=None, native_process=None):
+        if type(existing_queue) is not queue.Queue:
+            raise QuiescenceRefusal('EXISTING_OWNER_QUEUE_REQUIRED')
+        self.queue = existing_queue
+        self.native_process = native_process
+        self._selected_thread_id = selected_thread_id
+        self._lock = threading.RLock()
+        self._pending, self._seen_ids = {}, set()
+        self._turns, self._items, self._completed = set(), {}, set()
+        self._mcp, self._remote_seen = {}, False
+        self._lifecycle = False
+        self._lifecycle_validator = None
+        self._compaction_expected = 0
+        self._children = set()
+        self._revision = 0
+        self._initialized = False
+        self._notified = False
+        self._thread = None
+        self._announced_thread = None
+        self._last_completed = None
+        self._fence = None
+        self._failure = None
+        self._reservations = []
+
+    def _deny(self, reason):
+        self._failure = reason
+        raise QuiescenceRefusal(reason)
+
+    def _poison_all(self):
+        errors = []
+        for reservation in tuple(self._reservations):
+            try:
+                reservation.cancel_now()
+            except BaseException as exc:
+                errors.append(exc)
+        self._fence = None
+        if errors:
+            self._failure = 'OWNER_CANCELLATION_FAILED'
+            raise errors[0]
+
+    def before_send(self, message):
+        with self._lock:
+            self._poison_all()  # ALL immediate vetoes, no durable cleanup here.
+            if self._failure and not (self._lifecycle and self._failure == 'NONACCEPTING_LIFECYCLE_INTERVAL'):
+                self._deny(self._failure)
+            if type(message) is not dict or type(message.get('method')) is not str:
+                self._deny('UNKNOWN_OWNER_REQUEST')
+            method = message['method']
+            if method == 'initialized' and 'id' not in message:
+                if not self._initialized or self._notified:
+                    self._deny('INITIALIZATION_ORDER')
+                self._notified = True
+                return
+            identity = message.get('id')
+            if type(identity) not in (str, int):
+                self._deny('DUPLICATE_OR_UNKNOWN_REQUEST_ID')
+            identity_key = (type(identity), identity)
+            if identity_key in self._seen_ids:
+                self._deny('DUPLICATE_OR_UNKNOWN_REQUEST_ID')
+            if method not in {'initialize', 'thread/start', 'thread/resume', 'turn/start', 'thread/read'} | ({'thread/compact/start'} if self._lifecycle else set()):
+                self._deny('REQUEST_OUTSIDE_CONSERVATIVE_PROFILE')
+            if method == 'initialize':
+                if self._initialized or self._pending or self._seen_ids:
+                    self._deny('INITIALIZATION_ORDER')
+            elif not self._notified:
+                self._deny('REQUEST_BEFORE_INITIALIZATION')
+            params = message.get('params', {})
+            if type(params) is not dict:
+                self._deny('REQUEST_PARAMS_SHAPE')
+            if method in {'thread/start','thread/resume'} and (self._thread is not None
+                    or any(value in {'thread/start','thread/resume'} for value in self._pending.values())):
+                self._deny('SECOND_SESSION_OR_THREAD_NOT_ADMITTED')
+            if method == 'thread/resume' and (not self._selected_thread_id or params.get('threadId') != self._selected_thread_id):
+                self._deny('UNSELECTED_NATIVE_RESUME')
+            if method == 'turn/start' and (self._turns or 'turn/start' in self._pending.values()):
+                self._deny('OVERLAPPING_TURN_NOT_ADMITTED')
+            if method == 'thread/compact/start':
+                if self._compaction_expected or self._turns or self._items: self._deny('COMPACTION_WITH_OUTSTANDING_WORK')
+                self._compaction_expected = 1
+            if method in {'turn/start', 'thread/read', 'thread/compact/start'} and (self._thread is None or params.get('threadId') != self._thread):
+                self._deny('FOREIGN_REQUEST_SCOPE')
+            self._seen_ids.add(identity_key)
+            self._pending[identity_key] = method
+
+    def send_failed(self):
+        with self._lock:
+            self._poison_all()
+            self._deny('OUTGOING_EFFECT_UNKNOWN')
+
+    def after_record(self, message):
+        with self._lock:
+            self._poison_all()
+            self._revision += 1
+            if self._failure and not (self._lifecycle and self._failure == 'NONACCEPTING_LIFECYCLE_INTERVAL'):
+                self._deny(self._failure)
+            if type(message) is not dict:
+                self._deny('UNKNOWN_NATIVE_RECORD')
+            if 'id' in message:
+                if set(message) != {'id', 'result'}:
+                    self._deny('UNKNOWN_NATIVE_RESPONSE_ENVELOPE')
+                if 'method' in message:
+                    self._deny('NATIVE_SERVER_REQUEST_NOT_ADMITTED')
+                identity = message['id']
+                if type(identity) not in (str, int):
+                    self._deny('NATIVE_RESPONSE_ID_TYPE')
+                identity_key = (type(identity), identity)
+                if identity_key not in self._pending or 'error' in message or 'result' not in message:
+                    self._deny('UNKNOWN_DUPLICATE_OR_FAILED_RESPONSE')
+                method = self._pending.pop(identity_key)
+                result = message['result']
+                if type(result) is not dict:
+                    self._deny('RESPONSE_SHAPE')
+                if method == 'initialize':
+                    self._initialized = True
+                elif method in {'thread/start','thread/resume'}:
+                    thread = result.get('thread', {}).get('id')
+                    if not isinstance(thread, str) or not thread or (self._announced_thread and thread != self._announced_thread):
+                        self._deny('THREAD_CREATION_SCOPE')
+                    self._thread = thread
+                    if self._selected_thread_id and thread != self._selected_thread_id:
+                        self._deny('SELECTED_THREAD_RESPONSE_CHANGED')
+                elif method == 'turn/start':
+                    turn = result.get('turn', {}).get('id')
+                    if not isinstance(turn, str) or not turn:
+                        self._deny('TURN_CREATION_SCOPE')
+                    if turn not in self._completed:
+                        self._turns.add(turn)
+                elif method == 'thread/read':
+                    if result.get('thread', {}).get('id') != self._thread:
+                        self._deny('READ_FENCE_SCOPE')
+                    if not self._pending and not self._turns and not self._items and self._last_completed and all(v == 'ready' for v in self._mcp.values()):
+                        self._fence = self._revision
+                return
+            self._notification(message)
+
+    def _notification(self, message):
+        def need(ok, reason='UNKNOWN_NATIVE_NOTIFICATION_SHAPE'):
+            if not ok: self._deny(reason)
+        need(set(message) in ({'method','params'}, {'method','params','emittedAtMs'}))
+        need('emittedAtMs' not in message or type(message['emittedAtMs']) is int and 0 <= message['emittedAtMs'] < 2**63)
+        method, p = message['method'], message['params']
+        need(type(method) is str and type(p) is dict)
+        if method == 'remoteControl/status/changed':
+            need(set(p) <= {'installationId','serverName','status','environmentId'} and
+                 {'installationId','serverName','status'} <= set(p) and not self._remote_seen and
+                 p['status'] == 'disabled' and p.get('environmentId') is None and
+                 all(type(p[k]) is str and p[k] for k in ('installationId','serverName')))
+            self._remote_seen = True
+            return
+        if method == 'account/rateLimits/updated':
+            need(set(p) == {'rateLimits'} and type(p['rateLimits']) is dict and set(p['rateLimits']) <=
+                 {'credits','individualLimit','limitId','limitName','planType','primary','secondary','rateLimitReachedType','spendControlReached'})
+            return
+        if method == 'thread/started':
+            need(set(p) == {'thread'} and type(p['thread']) is dict)
+            identity = p['thread'].get('id')
+            need(type(identity) is str and identity and not self._announced_thread and
+                 (not self._thread or identity == self._thread) and
+                 (not self._selected_thread_id or identity == self._selected_thread_id), 'UNEXPECTED_NATIVE_THREAD')
+            self._announced_thread = identity
+            return
+        need(self._thread is not None and p.get('threadId') == self._thread, 'FOREIGN_OR_UNKNOWN_NATIVE_SCOPE')
+        if method == 'mcpServer/startupStatus/updated':
+            need({'threadId','name','status'} <= set(p) <= {'threadId','name','status','error','failureReason'} and
+                 type(p['name']) is str and p['name'] and p.get('error') is None and p.get('failureReason') is None)
+            name, status = p['name'], p['status']
+            need(status == 'starting' and name not in self._mcp or status == 'ready' and self._mcp.get(name) == 'starting',
+                 'MCP_STARTUP_NOT_SETTLED')
+            self._mcp[name] = status
+        elif method == 'thread/goal/cleared':
+            need(set(p) == {'threadId'} and not self._turns and not self._last_completed)
+        elif method == 'thread/status/changed':
+            need(set(p) == {'threadId','status'} and p['status'] in ({'type':'idle'}, {'type':'active','activeFlags':[]}))
+            need(p['status']['type'] != 'active' or self._turns or 'turn/start' in self._pending.values() or self._compaction_expected)
+        elif method in {'turn/started','turn/completed'}:
+            need(set(p) == {'threadId','turn'} and type(p['turn']) is dict)
+            turn = p['turn']; identity = turn.get('id')
+            need(type(identity) is str and identity and set(turn) <=
+                 {'id','status','items','itemsView','startedAt','completedAt','durationMs','error'})
+            if method == 'turn/started':
+                need(identity not in self._completed and (identity in self._turns or 'turn/start' in self._pending.values() or self._compaction_expected == 1),
+                     'UNREQUESTED_NATIVE_TURN')
+                self._turns.add(identity); self._compaction_expected = 0
+            else:
+                need(identity in self._turns and turn.get('status') == 'completed' and not self._items,
+                     'TURN_TERMINAL_WITH_PENDING_OR_UNKNOWN_WORK')
+                self._turns.remove(identity); self._completed.add(identity); self._last_completed = identity
+        else:
+            need(p.get('turnId') in self._turns, 'FOREIGN_OR_INACTIVE_NATIVE_TURN')
+            if method in {'item/started','item/completed'}:
+                clock = 'startedAtMs' if method == 'item/started' else 'completedAtMs'
+                need({'threadId','turnId','item'} <= set(p) <= {'threadId','turnId','item',clock} and
+                     (clock not in p or type(p[clock]) is int and p[clock] >= 0) and type(p['item']) is dict)
+                item = p['item']; identity = item.get('id'); kind = item.get('type')
+                need(type(kind) is str and kind in {'userMessage','agentMessage','reasoning'} | ({'commandExecution','mcpToolCall','dynamicToolCall','collabAgentToolCall','contextCompaction'} if self._lifecycle else set()) and type(identity) is str and identity,
+                     'TOOLS_OR_UNKNOWN_ITEM_NOT_ADMITTED')
+                if kind not in {'userMessage','agentMessage','reasoning'}:
+                    need(callable(self._lifecycle_validator), 'PINNED_LIFECYCLE_VALIDATOR_REQUIRED')
+                    self._lifecycle_validator(self,item,method=='item/completed')
+                if method == 'item/started':
+                    need(identity not in self._items, 'DUPLICATE_ITEM'); self._items[identity] = kind
+                else:
+                    need(self._items.get(identity) == kind, 'UNKNOWN_ITEM_COMPLETION')
+                    if kind == 'collabAgentToolCall':
+                        self._children.update(item['receiverThreadIds'])
+                    del self._items[identity]
+            elif method == 'item/agentMessage/delta':
+                need(set(p) == {'threadId','turnId','itemId','delta'} and type(p['delta']) is str and
+                     self._items.get(p['itemId']) == 'agentMessage', 'UNKNOWN_DELTA_ITEM')
+            elif method == 'rawResponseItem/completed':
+                need(set(p) == {'threadId','turnId','item'} and type(p['item']) is dict)
+                item = p['item']
+                if self._lifecycle and item.get('type') in {'function_call','function_call_output','custom_tool_call','custom_tool_call_output','reasoning'}:
+                    need(callable(self._lifecycle_validator), 'PINNED_LIFECYCLE_VALIDATOR_REQUIRED')
+                    self._lifecycle_validator(self,item,True,raw=True)
+                    return
+                need({'type','id','role','content'} <= set(item) <=
+                     {'type','id','role','content','internal_chat_message_metadata_passthrough','phase'} and
+                     item['type'] == 'message' and type(item['id']) is str and
+                     item['role'] in {'system','developer','user','assistant'} and type(item['content']) is list and
+                     ('phase' not in item or item['phase'] in {None,'commentary','final_answer'}), 'RAW_TOOLS_OR_UNKNOWN_ITEM')
+            elif self._lifecycle and method in {'item/commandExecution/outputDelta','item/reasoning/textDelta','item/reasoning/summaryTextDelta','item/reasoning/summaryPartAdded'}:
+                need(p.get('itemId') in self._items and set(p) <= {'threadId','turnId','itemId','delta','contentIndex','summaryIndex'})
+            elif method == 'rawResponse/completed':
+                need({'threadId','turnId','responseId','usage'} <= set(p) <=
+                     {'threadId','turnId','responseId','usage','usageMetadata'} and type(p['usage']) is dict and
+                     type(p['responseId']) is str and ('usageMetadata' not in p or type(p['usageMetadata']) is dict))
+            elif method == 'thread/tokenUsage/updated':
+                need(set(p) == {'threadId','turnId','tokenUsage'} and type(p['tokenUsage']) is dict)
+            elif method == 'turn/moderationMetadata':
+                need(set(p) == {'threadId','turnId','metadata'} and type(p['metadata']) is dict)
+            else: self._deny('UNKNOWN_NATIVE_EVENT_REQUIRES_PROFILE_REVIEW')
+
+    def ingest(self, message):
+        with self._lock:
+            self.after_record(message)
+            try:
+                self.queue.put_nowait(message)
+            except queue.Full:
+                self._deny('OWNED_QUEUE_REJECTED_INGRESS')
+
+    def disconnect(self):
+        with self._lock:
+            self._poison_all()
+            self._deny('NATIVE_INGRESS_CLOSED_OR_UNKNOWN')
+
+    def acquire(self, *reservations):
+        with self._lock:
+            if (self._failure or not self._initialized or not self._notified or not self._thread
+                    or self._pending or self._turns or self._items or not self._last_completed
+                    or self._fence != self._revision or not self.queue.empty()):
+                raise QuiescenceRefusal('NO_COMPLETE_CURRENT_OWNER_QUIESCENCE_FENCE')
+            if any(not callable(getattr(value, 'cancel_now', None)) for value in reservations):
+                raise QuiescenceRefusal('MISSING_IMMEDIATE_CANCELLATION')
+            self._reservations.extend(reservations)
+            return _OwnedQuiescenceReceipt(self, self._revision, self._thread, self._last_completed)
+
+
+class _OwnedQuiescenceReceipt:
+    def __init__(self, owner, revision, thread_id, turn_id):
+        self._owner, self._revision = owner, revision
+        self.thread_id, self.turn_id = thread_id, turn_id
+
+    def verify(self):
+        value = self._owner
+        with value._lock:
+            if (value._failure or value._revision != self._revision or value._fence != self._revision
+                    or value._pending or value._turns or value._items or not value.queue.empty()):
+                raise QuiescenceRefusal('OWNED_QUIESCENCE_ADVANCED_OR_WITHDRAWN')
+
+    def checkpoint(self):
+        self.verify()
+        return self._revision
+
+import contextlib as _c02_contextlib
+import contextvars as _c02_contextvars
+import json as _c02_json
+import threading as _c02_threading
+
+_C02_SELECTED_SESSION_V1 = _c02_contextvars.ContextVar('selected_owned_stdio_c02', default=None)
+_C02_SOURCE_BINDING_SEAL_V1 = object()
+
+
+class OwnedStdioC02CensusV1:
+    def __init__(self, selected, claim_owner, context, ledger):
+        require(selected.get('profile_id') in {OWNED_STDIO_PROFILE, FRESH_CANARY_PROFILE}, 'C02_SELECTED_PROFILE_REQUIRED')
+        self.selected, self.owner, self.context, self.ledger = selected, claim_owner, context, ledger
+        self._cancelled = _c02_threading.Event()
+        self._receipt = None
+        self._events = []
+        self._record_oids = set()
+        self._original = None
+        self._fence = None
+        self.expected_old = None
+        self._source_check = None
+        self._production_binding = None
+        self._fault_inflight = False
+
+    def cancel_now(self):
+        self._cancelled.set()  # No namespace lock, file I/O or cleanup.
+
+    def unknown_owner_event(self):
+        self.cancel_now()
+
+    def arm(self, scanned):
+        require(self._receipt is None, 'C02_INTERVAL_ALREADY_ARMED')
+        receipt = self.ledger.acquire(self)
+        fence = scanned.get('c02_terminal_fence')
+        require(type(fence) is dict and fence.get('session_id') == self.selected['root_thread_id'] == receipt.thread_id
+                and fence.get('turn_id') == receipt.turn_id, 'C02_TERMINAL_AND_LIVE_RPC_FENCE_DISAGREE')
+        require(not self.owner._c02_retained_decisions_v1(self.context)[0], 'C02_CONTROLLED_SUBJECT_HAS_PRIOR_ADJUDICATIONS')
+        joined=self.owner.require_current_generation_join_v1(self.context)
+        expected = self.owner.managed(self.context)
+        require(expected['pointer']==joined['pointer_oid'] and expected['marker']==joined['marker_oid']
+                and expected['invalidation']==joined['pointer']['invalidation_oid'],
+                'C02_CURRENT_PREIMAGE_CHANGED_BEFORE_INTERVAL_ARM')
+        receipt.verify()
+        require(not self._cancelled.is_set(), 'C02_INGRESS_DURING_ARM')
+        self._fence = _c02_json.loads(_c02_json.dumps(fence))
+        self.expected_old = dict(expected)
+        self._receipt = receipt
+
+    def verify(self):
+        require(self._receipt is not None and not self._cancelled.is_set(), 'C02_LIVE_INTERVAL_UNAVAILABLE')
+        self._receipt.verify()
+        if self._source_check is not None:
+            self._source_check()
+        require(not self._cancelled.is_set(), 'C02_LIVE_INTERVAL_ADVANCED')
+
+    def checkpoint(self):
+        self.verify()
+        return self._receipt.checkpoint(), self._fence['source_sha256'], self._fence['source_bytes']
+
+    @property
+    def source_cutoff(self):
+        self.verify()
+        return self.selected['root_thread_id'] + ':' + str(self._fence['source_bytes']) + ':' + self._fence['source_sha256']
+
+    def observe_engineered_invalidation(self, oid, event, expected_old):
+        self.verify()
+        require(self._production_binding is None or self._fault_inflight,
+                'C02_CANNOT_RETROACTIVELY_LABEL_A_NATIVE_EVENT_AS_CONTROLLED')
+        require(self._original is None and expected_old == self.expected_old and oid!=expected_old['invalidation'], 'C02_FAULT_CALLBACK_SCOPE_OR_REPLAY')
+        actual = self.owner.invalidation_record(self.context, oid)
+        require(actual == {'event':event,'boundary':'new-session','oid':oid}, 'C02_CONTROLLED_FAULT_READBACK_MISMATCH')
+        self.owner.require_anchor(self.context, oid)
+        self._original = oid
+        self._events.append({'sequence':1,'kind':'native-boundary','event_id':event,
+                             'invalidation_oid':oid,'boundary':'new-session'})
+        self.verify()
+
+    def inject_controlled_fault(self, event):
+        require(self._production_binding is _C02_SOURCE_BINDING_SEAL_V1, 'C02_SELECTED_LIVE_SOURCE_REQUIRED')
+        source=self
+        class Guard:
+            def ref_guards_v1(self):
+                source.verify()
+                return source.owner.owner_guards(source.context,source.expected_old,exclude=('invalidation',))
+            def verify(self): source.verify()
+            def before_effect(self): return source.checkpoint()
+            def after_effect(self, stamp):
+                source.verify()
+                require(stamp==source.checkpoint(), 'C02_CONTROLLED_FAULT_OUTCOME_UNKNOWN')
+        self._fault_inflight=True
+        try:
+            self.verify()
+            with self.owner.RetainedInputs(self.owner.retained_owner_paths(self.context)) as retained:
+                token=self.owner.invalidate_current_generation_v1(self.context,'new-session',event,
+                    _expected_old=self.expected_old,
+                    _observation=self.owner._NativePublicationInputs(retained,Guard()))
+                oid=self.owner.exact_authority_token(self.context,'invalidation',token)
+                self.observe_engineered_invalidation(oid,event,self.expected_old)
+                return token
+        except BaseException as exc:
+            self.cancel_now()
+            raise ValueError('C02_CONTROLLED_FAULT_OUTCOME_UNKNOWN_READBACK_REQUIRED') from exc
+        finally:
+            self._fault_inflight=False
+
+    def observe_adjudication(self, oid):
+        self.verify()
+        require(self._original is not None, 'C02_ADJUDICATION_BEFORE_FAULT_CALLBACK')
+        record = self.owner._c02_read_correction_v1(self.context, oid)
+        require(record['observation']['invalidation_oid'] == self._original, 'C02_FOREIGN_ADJUDICATION_CALLBACK')
+        if oid not in self._record_oids:
+            self._record_oids.add(oid)
+            self._events.append({'sequence':len(self._events)+1,'kind':'adjudication','record_oid':oid})
+        self.verify()
+
+    def census_facts_v1(self):
+        self.verify()
+        require(self._production_binding is _C02_SOURCE_BINDING_SEAL_V1,
+                'C02_SELECTED_LIVE_SOURCE_REQUIRED')
+        require(self._original is not None, 'C02_EXACT_CONTROLLED_EVENT_NOT_OBSERVED')
+        retained, _ = self.owner._c02_retained_decisions_v1(self.context)
+        require({oid for _,oid in retained} == self._record_oids, 'C02_UNOBSERVED_OWNER_ADJUDICATION')
+        result = {'schema':'implementaudit.c02-owned-interval.v1',
+            'source_owner':self.selected['pending_owner']['owner_id'],
+            'source_cutoff':self.source_cutoff,
+            'subject':{key:self.context[key] for key in ('controller','claim_id','run_root_identity')},
+            'interval_start':1,'interval_end':len(self._events),'complete':True,
+            'covered_boundary_kinds':sorted(self.owner.BOUNDARIES),'covers_adjudications':True,
+            'events':_c02_json.loads(_c02_json.dumps(self._events))}
+        self.verify()
+        return result
+
+    def census(self, request):
+        result = self.census_facts_v1()
+        configured = self.selected.get('c02_adjudication')
+        require(type(configured) is dict and
+                configured.get('census_owner') == result['source_owner'],
+                'C02_CONFIGURED_CENSUS_OWNER_MISMATCH')
+        return result
+
+
+class ConfiguredC02IssuerV1:
+    def __init__(self, configured, subject, *, claim_owner=None):
+        required = {'issuer','census_owner','decision_path','owner_decision_locator','source_contract_locator'}
+        require(type(configured) is dict and set(configured) == required
+                and all(type(x) is str and x for x in configured.values()), 'C02_OWNER_ROUTE_NOT_SELECTED')
+        self.configured, self.subject = dict(configured), dict(subject)
+        self.path = Path(configured['decision_path'])
+        require(self.path.is_absolute() and self.path.resolve(strict=True) == self.path, 'C02_ISSUER_LOCATOR_ALIAS')
+        require(claim_owner is not None, 'C02_EXISTING_CLAIM_CUSTODY_REQUIRED')
+        self._withdrawn = _c02_threading.Event()
+        # Reuse the sole publisher's retained parent/file custody. A resolved
+        # path followed by open() can block on a FIFO or follow a replacement;
+        # equal JSON bytes do not preserve the issuer's physical revision.
+        self._held = claim_owner.PinnedFile(self.path, max_bytes=65536)
+        try:
+            self._raw, self._identity, self.decision = self._read()
+            self.verify()
+        except BaseException:
+            self.close()
+            raise
+
+    def _read(self):
+        raw = self._held.read()
+        require(0 < len(raw) <= 65536, 'C02_ISSUER_DECISION_BOUND')
+        def unique(pairs):
+            value = {}
+            for key,item in pairs:
+                require(key not in value, 'C02_DUPLICATE_ISSUER_FIELD')
+                value[key]=item
+            return value
+        value = _c02_json.loads(raw.decode('utf-8'),object_pairs_hook=unique)
+        keys={'schema','issuer','role','subject','decision_id','revoked','qualification','expected_old',
+              'source_cutoff','append_grant','conditional_fresh_grant'}
+        require(type(value) is dict and set(value)==keys
+                and value['schema']=='implementaudit.c02-configured-owner-decision.v1'
+                and value['issuer']==self.configured['issuer'] and value['role']=='CONTINUITY_ADJUDICATION_OWNER'
+                and value['subject']==self.subject and value['revoked'] is False
+                and value['qualification']=='CONTROLLED_NONPROTECTED_FAULT_INJECTION', 'C02_SCOPED_ISSUER_DECISION_UNAVAILABLE')
+        # PinnedFile.verify checks the exact file and ancestor identity on every
+        # read, including aliases, link count, change time and Windows reparse.
+        descriptor = self._held.native.fd if self._held.native is not None else self._held.fd
+        physical = os.fstat(descriptor)
+        self._held.verify()
+        return raw,(physical.st_dev,physical.st_ino),value
+
+    def cancel_now(self):
+        self._withdrawn.set()
+
+    def close(self):
+        self.cancel_now()
+        self._held.close()
+
+    def verify(self):
+        require(not self._withdrawn.is_set(), 'C02_ISSUER_WITHDRAWN')
+        raw,identity,_ = self._read()
+        require(raw==self._raw and identity==self._identity and not self._withdrawn.is_set(), 'C02_ISSUER_REVISION_CHANGED')
+
+    def checkpoint(self):
+        self.verify()
+        return hashlib.sha256(self._raw).hexdigest(), self._identity
+
+    def grant(self, request):
+        self.verify()
+        require(request['decision_id']==self.decision['decision_id']
+                and request['source_cutoff']==self.decision['source_cutoff']
+                and request['expected_old']==self.decision['expected_old'], 'C02_ISSUER_EXACT_SUBJECT_CHANGED')
+        key='conditional_fresh_grant' if request['effect']=='C02_FRESH_TRANSITION' else 'append_grant'
+        result=_c02_json.loads(_c02_json.dumps(self.decision[key]))
+        require(type(result) is dict, 'C02_EFFECT_NOT_GRANTED')
+        if key=='conditional_fresh_grant':
+            require(result.get('scope',{}).get('correction_record_oid')=='$OBSERVED_EXACT_APPEND'
+                    and request.get('correction_record_oid'), 'C02_CONDITIONAL_APPEND_NOT_BOUND')
+            result['scope']['correction_record_oid']=request['correction_record_oid']
+        self.verify()
+        return result
+
+
+@_c02_contextlib.contextmanager
+def selected_c02_materializer_session_v1(runtime, context, source):
+    selected=runtime[0]
+    require(OWNED_STDIO_SELECTION_PIN is not None and selected==_np_selection()
+            and selected.get('profile_id') in {OWNED_STDIO_PROFILE, FRESH_CANARY_PROFILE}
+            and type(source) is OwnedStdioC02CensusV1 and source.selected is selected
+            and source._production_binding is _C02_SOURCE_BINDING_SEAL_V1
+            and source.context is context and _C02_SELECTED_SESSION_V1.get() is None,
+            'C02_SELECTED_SOURCE_SESSION_UNAVAILABLE')
+    source.verify()
+    subject={key:context[key] for key in ('controller','claim_id','run_root_identity')}
+    issuer=ConfiguredC02IssuerV1(selected.get('c02_adjudication'),subject,claim_owner=source.owner)
+    try:
+        require(issuer.decision['source_cutoff']==source.source_cutoff
+                and issuer.decision['expected_old']==source.expected_old, 'C02_ISSUER_SOURCE_CUTOFF_CHANGED')
+        value=(context,source,issuer)
+        token=_C02_SELECTED_SESSION_V1.set(value)
+        try:
+            yield value
+            source.verify(); issuer.verify()
+        except BaseException:
+            source.cancel_now(); raise
+        finally:
+            _C02_SELECTED_SESSION_V1.reset(token)
+    finally:
+        issuer.close()  # The enclosing interval owns successful source disposal.
+
+
+def get_selected_c02_materializer_v1(context, request):
+    value=_C02_SELECTED_SESSION_V1.get()
+    require(OWNED_STDIO_SELECTION_PIN is not None and value is not None and value[0] is context,
+            'C02_SOURCE_AND_ACTUAL_ISSUER_NOT_SELECTED')
+    _,source,issuer=value
+    source.verify(); issuer.verify()
+    selected={key:context[key] for key in ('controller','claim_id','run_root_identity')}
+    selected.update(repo=str(context['repo']),**{key:issuer.configured[key] for key in
+        ('census_owner','issuer','source_contract_locator','owner_decision_locator')})
+    return selected,source,issuer
+
+
+@_c02_contextlib.contextmanager
+def acquire_selected_c02_interval_v1(runtime, claim_owner, context, ledger, native_process, code_pins):
+    import subprocess
+    import os
+    selected=runtime[0]
+    require(OWNED_STDIO_SELECTION_PIN is not None and selected==_np_selection()
+            and type(ledger) is (FreshCanaryQuiescenceV1 if selected['profile_id'] == FRESH_CANARY_PROFILE else OwnedStdioQuiescenceV1)
+            and ledger.native_process is native_process
+            and type(native_process) is subprocess.Popen and native_process.poll() is None
+            and native_process.stdin is not None and native_process.stdout is not None
+            and native_process.args==[selected['native_executable']['path'],'app-server','--listen','stdio://'],
+            'C02_ACTUAL_SELECTED_OWNED_STDIO_REQUIRED')
+    key=str(Path('implementaudit/scripts/compaction-audit-pending.py'))
+    require(key in code_pins, 'C02_EXISTING_SCANNER_CODE_PIN_REQUIRED')
+    path=HERE/'compaction-audit-pending.py'
+    pending=_np_module({'path':str(path),'bytes':path.stat().st_size,'sha256':code_pins[key]},
+                       'compaction-audit-pending.py',runtime[1])
+    with _as_provider_guard_v1(runtime):
+        if selected['profile_id'] == FRESH_CANARY_PROFILE:
+            _fresh_canary_live_claim_join_v1(runtime, claim_owner, context, ledger, native_process)
+        else:
+            episode=_np_episode(runtime)
+            require(episode['host_and_scope']['host_session_id']==selected['root_thread_id'], 'C02_R0033_EPISODE_SCOPE')
+        source=OwnedStdioC02CensusV1(selected,claim_owner,context,ledger)
+        def physical_revision():
+            value=os.stat(selected['root_source'])
+            return value.st_dev,value.st_ino,value.st_size,value.st_mtime_ns,value.st_ctime_ns
+        before=physical_revision()
+        scanned=pending.scan_source(Path(selected['root_source']),require_c02_terminal=True)
+        require(physical_revision()==before, 'C02_SOURCE_CHANGED_DURING_FULL_SCAN')
+        source.arm(scanned)
+        def check_source():
+            require(native_process.poll() is None, 'C02_NATIVE_OWNER_EXITED')
+            require(physical_revision()==before, 'C02_ORIGINAL_SOURCE_ADVANCED')
+        source._source_check=check_source
+        source._production_binding=_C02_SOURCE_BINDING_SEAL_V1
+        try:
+            source.verify()
+            yield source
+            source.verify()
+        finally:
+            source.cancel_now()
+
+
+class OwnedStdioC02HooksV1:
+    def __init__(self, runtime, claim_owner, context, invalidation_token, decision, *, source_owner_module):
+        require(OWNED_STDIO_SELECTION_PIN is not None
+                and runtime[0]['profile_id'] == OWNED_STDIO_PROFILE,
+                'C02_OWNED_STDIO_PROFILE_NOT_ADMITTED')
+        self.runtime, self.owner, self.context = runtime, claim_owner, context
+        self.invalidation_token, self.decision = invalidation_token, decision
+        self.source_owner_module = source_owner_module
+        self._held = None
+        self._operation = None
+
+    def __enter__(self):
+        import contextlib
+        require(self._held is None, 'C02_OWNED_OPERATION_REPLAY')
+        held = contextlib.ExitStack()
+        try:
+            held.enter_context(_as_provider_guard_v1(self.runtime))
+            operation = held.enter_context(self.owner.c02_owned_operation_v1(
+                self.context, self.invalidation_token, self.decision,
+                _selected_source_owner=self.source_owner_module))
+        except BaseException:
+            held.close()
+            raise
+        self._held, self._operation = held, operation
+        return self
+
+    def __exit__(self, kind, value, traceback):
+        held, self._held = self._held, None
+        if held is None:return False
+        try:
+            return held.__exit__(kind, value, traceback)
+        finally:
+            self._operation = None
+
+    def _active(self):
+        require(self._operation is not None, 'C02_OWNED_OPERATION_NOT_ACTIVE')
+        return self._operation
+
+    def before_context_request(self, method):
+        self._active().before_context_request(method)
+
+    def cancel_now(self):
+        self._active().cancel_now()
+
+    def after_native_record(self):
+        self._active().after_native_record()
+
+    def disconnect(self):
+        self._active().disconnect()
+
+    def issuer_withdrawn(self):
+        self._active().issuer_withdrawn()
+
+    def append(self):
+        self._active().verify()
+        self.owner.materialize_c02_owner_revisions_v1(
+            self.context, self.invalidation_token, self.decision)
+        prepared = self.owner.prepare_c02_correction_v1(
+            self.context, self.invalidation_token, self.decision)
+        result = self.owner.publish_c02_correction_v1(self.context, prepared)
+        self._active().source.observe_adjudication(result['record_oid'])
+        self._active().verify()
+        return result
+
+    def apply_conditional_successor(self, correction_record_oid):
+        self._active().verify()
+        self.owner.materialize_c02_owner_revisions_v1(self.context, self.invalidation_token,
+            self.decision, correction_record_oid=correction_record_oid)
+        result = self.owner.run_c02_correction_v1(self.context, correction_record_oid)
+        self._active().verify()
+        return result
+
+
+def notify_owned_c02_and_rotation_v1(reservations, method, *arguments):
+    if method not in {'before_context_request', 'after_native_record', 'disconnect'}:
+        raise ValueError('unsupported existing owned-stdio hook')
+    errors = []
+    for reservation in reservations:
+        try:
+            reservation.cancel_now()
+        except BaseException as exc:
+            errors.append(exc)
+    for reservation in reservations:
+        try:
+            getattr(reservation, method)(*arguments)
+        except BaseException as exc:
+            errors.append(exc)
+    if errors:
+        raise errors[0]
+
+
+def owned_stdio_ingest_v1(ledger, reservations, message):
+    errors=[]
+    for reservation in reservations:
+        try: reservation.cancel_now()
+        except BaseException as exc: errors.append(exc)
+    try: ledger.ingest(message)
+    except BaseException as exc: errors.append(exc)
+    for reservation in reservations:
+        try: reservation.after_native_record()
+        except BaseException as exc: errors.append(exc)
+    if errors: raise errors[0]
+
+
+def owned_stdio_before_send_v1(ledger, reservations, message):
+    errors=[]
+    for reservation in reservations:
+        try: reservation.cancel_now()
+        except BaseException as exc: errors.append(exc)
+    try: ledger.before_send(message)
+    except BaseException as exc: errors.append(exc)
+    for reservation in reservations:
+        try: reservation.before_context_request(message.get('method'))
+        except BaseException as exc: errors.append(exc)
+    if errors: raise errors[0]
+
+
+def owned_stdio_disconnect_v1(ledger, reservations):
+    errors=[]
+    for reservation in reservations:
+        try: reservation.cancel_now()
+        except BaseException as exc: errors.append(exc)
+    try: ledger.disconnect()
+    except BaseException as exc: errors.append(exc)
+    for reservation in reservations:
+        try: reservation.disconnect()
+        except BaseException as exc: errors.append(exc)
+    if errors: raise errors[0]
+
+
+def rotation_input_owner_selection_v1():
+    if OWNED_STDIO_SELECTION_PIN is None:
+        return None
+    selected = _np_selection()
+    owner = selected.get('rotation_input_owner')
+    if owner is None:
+        return None
+    fields = {'repo', 'controller', 'claim_id', 'run_root_identity', 'issuer',
+              'source_contract_sha256', 'owner_decision_locator'}
+    require(type(owner) is dict and set(owner) == fields
+            and all(type(value) is str and value for value in owner.values()),
+            'ROTATION_INPUT_PRIVATE_OWNER_SHAPE')
+    return dict(owner, source_owner='codex-owned-stdio-canonical-episode-public-source-v1',
+                provider_selection_sha256=OWNED_STDIO_SELECTION_PIN['sha256'],
+                producer_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
+
+
+def prepare_rotation_input_v1(runtime, producer, owner, context):
+    # Inert readiness only; never start a model/API turn.
+    return owner.native_preparation_for_owned_stdio_v1(runtime,producer,context,__file__)
+
+
+class OwnedStdioRotationReservationV1:
+    def __init__(self, runtime, native_state, native_process, claim_owner, claim_context, grant):
+        import os
+        import secrets
+        import subprocess
+        import threading
+        selected = runtime[0]
+        require(OWNED_STDIO_SELECTION_PIN is not None and selected['profile_id'] == OWNED_STDIO_PROFILE,
+                'ROTATION_SOURCE_PROFILE_NOT_ADMITTED')
+        require(type(native_process) is subprocess.Popen and native_process.poll() is None
+                and native_process.stdin is not None and native_process.stdout is not None,
+                'ROTATION_REQUIRES_EXISTING_OWNER_STDIO_HANDLES')
+        require(native_process.args == [selected['native_executable']['path'], 'app-server', '--listen', 'stdio://'],
+                'ROTATION_REQUIRES_EXACT_OWNED_STDIO_LAUNCH_WITHOUT_SECOND_TRANSPORT')
+        episode = _np_episode(runtime)
+        require(episode['host_and_scope']['host_session_id'] == native_state._binding['thread_id'],
+                'ROTATION_NATIVE_EPISODE_DOES_NOT_MATCH_H0')
+        policy = claim_owner._native_selection_v1(claim_context)
+        require(policy['provider_selection_sha256'] == OWNED_STDIO_SELECTION_PIN['sha256']
+                and grant.get('episode_binding_sha256') == episode['binding_digest']
+                and policy['producer_sha256'] == hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                'ROTATION_SOURCE_CODE_PROFILE_OR_ISSUER_EPISODE_DIFFERS')
+        native = claim_owner.projection_helper().native_inputs_module_v1()
+        require(type(native_state) is native.NativeInputState, 'ROTATION_NATIVE_STATE_SOURCE_DIFFERS')
+        reservation_id, signal = claim_owner.native_rotation_parts_v1(claim_context,native_state,grant)
+        try:
+            with native_state._signal_lock:
+                native_state._verify(native_state._binding['subject'], native_state._binding['source_bytes'],
+                                     native_state._binding['source_tokens'])
+                snapshot = {'schema': 'implementaudit.native-rotation-source.v3', 'phase': 'READY',
+                    'binding': native_state._binding, 'exact_usage': native_state._snapshot,
+                    'reported_window': native_state._reported_window,
+                    'cutoff_revision': native_state._revision,
+                    'observed_monotonic_ns': native_state._received_monotonic_ns,
+                    'reservation_id': reservation_id,
+                    'producer_process': claim_owner.native_process_identity_v1(os.getpid()),
+                    'host_process': claim_owner.native_process_identity_v1(native_process.pid),
+                    'cancellation': signal.descriptor, 'episode_binding_sha256': episode['binding_digest'],
+                    **{key: policy[key] for key in ('source_owner', 'source_contract_sha256', 'provider_selection_sha256')}}
+            snapshot = claim_owner.bind_native_preparation_v1(claim_context,snapshot)
+            claim_owner._validate_native_revision_v1(claim_context, snapshot, grant, native)
+        except BaseException:
+            signal.signal()
+            signal.close()  # No READY publication was attempted by this constructor.
+            raise
+        self.owner, self.context, self.native = claim_owner, claim_context, native
+        self.host_process, self.native_state, self.signal = native_process, native_state, signal
+        self.runtime, self.episode_binding = runtime, episode['binding_digest']
+        self.snapshot = claim_owner.decode_json(claim_owner.canonical(snapshot))
+        self.grant = claim_owner.decode_json(claim_owner.canonical(grant))
+        self.refs = claim_owner.native_input_revision_refs_v1(claim_context)
+        self._lock = threading.RLock()  # Materialization/cleanup only, NEVER ingress cancellation.
+        self._published = self._ready_attempted = self._closed = False
+        self._terminal_error = None
+        self.ready_outcome = 'NOT_ATTEMPTED'
+
+    def _cancel_first(self):
+        try:
+            self.signal.signal()
+        except BaseException as exc:
+            self._terminal_error = self._terminal_error or exc
+            self.host_process.terminate()
+            raise
+
+    def _raise_poisoned(self):
+        if self._terminal_error is not None:
+            raise self._terminal_error
+
+    def cancel_now(self):
+        self._cancel_first()
+
+    def _poison(self, error):
+        self._cancel_first()
+        self._terminal_error = self._terminal_error or error
+        if self._ready_attempted or self._published:
+            self.host_process.terminate()
+
+    def _check_source(self):
+        self.signal.check()
+        require(_np_episode(self.runtime)['binding_digest'] == self.episode_binding,
+                'ROTATION_CANONICAL_EPISODE_CHANGED')
+        self.owner._validate_native_revision_v1(self.context, self.snapshot, self.grant, self.native)
+        with self.native_state._signal_lock:
+            self.native_state._verify(self.snapshot['binding']['subject'],
+                self.snapshot['binding']['source_bytes'], self.snapshot['binding']['source_tokens'])
+            require(self.native_state._revision == self.snapshot['cutoff_revision'], 'ROTATION_NATIVE_STREAM_ADVANCED')
+        self.signal.check()
+
+    def publish_ready(self):
+        owner = self.owner
+        with owner._CUSTODY.git_scope(self.context['repo'], owner.fixed_git(), owner.git_environment()):
+            return self._publish_ready_with_custody()
+
+    def _publish_ready_with_custody(self):
+        with self._lock:
+            self._raise_poisoned()
+            require(not self._published and not self._closed and not self._ready_attempted, 'ROTATION_RESERVATION_REPLAY')
+            owner, context = self.owner, self.context
+            try:
+                self._check_source()
+                previous = owner.read_refs(context['repo'], self.refs.values())
+                if owner.native_preparation_prior_v1(context,previous): pass
+                elif previous[self.refs['source']] is not None:
+                    old = owner.decode_json(owner.read_blob(context['repo'], previous[self.refs['source']]))
+                    prior_resolved = (old.get('phase') == 'CLOSED'
+                        and old.get('resolution', {}).get('status') == 'EXACT_CANONICAL_JOIN_VERIFIED')
+                    require(old.get('phase') in {'REVOKED', 'CLOSED'}
+                            and ('transaction_id' not in old or prior_resolved)
+                            and old.get('exact_usage', {}).get('response_id') != self.snapshot['exact_usage']['response_id'],
+                            'ROTATION_PRIOR_CONSUMPTION_REQUIRES_RECONCILIATION')
+                predecessor = owner.resolve_predecessor(context)
+                require(owner.projection_helper()._native_subject(predecessor) == self.snapshot['binding']['subject'],
+                        'ROTATION_SOURCE_PREDECESSOR_CHANGED')
+                plan = owner.prepare_native_source_update_v1(context, self.snapshot, self.grant,
+                    expected_source_oid=previous[self.refs['source']], expected_grant_oid=previous[self.refs['grant']])
+                source_oid = owner.write_blob(context, plan['source_bytes'])
+                grant_oid = owner.write_blob(context, plan['grant_bytes'])
+                updates = owner.retention_updates(context, [source_oid, grant_oid, *previous.values()])
+                updates.update(plan['updates'])
+                self.signal.check()
+                self._ready_attempted = True
+                self.ready_outcome = 'MAY_HAVE_PUBLISHED'  # BEFORE any READY CAS.
+                owner.update_refs(context, updates, owner.predecessor_guards(context, predecessor))
+                self._published = True
+                self.ready_outcome = 'EXACT_READY_READBACK'
+                self._check_source()
+            except BaseException as exc:
+                self._poison(exc)
+                try:
+                    self._revoke('READY attempt refused or outcome uncertain')
+                except BaseException:
+                    pass  # Original failure plus sticky cancellation/containment survive.
+                raise
+
+    def _revoke(self, reason):
+        owner = self.owner
+        with owner._CUSTODY.git_scope(self.context['repo'], owner.fixed_git(), owner.git_environment()):
+            return self._revoke_with_custody(reason)
+
+    def _revoke_with_custody(self, reason):
+        with self._lock:
+            if self._closed:
+                return
+            if not (self._ready_attempted or self._published):
+                self._closed = True
+                return
+            owner, context = self.owner, self.context
+            source_oid = owner.read_ref(context['repo'], self.refs['source'])
+            if source_oid is None:
+                self._closed = True  # Exact absence, not a successful READY claim.
+                return
+            current = owner.decode_json(owner.read_blob(context['repo'], source_oid))
+            require(current.get('reservation_id') == self.snapshot['reservation_id'], 'ROTATION_RESERVATION_REPLACED')
+            if current.get('phase') in {'REVOKED', 'CLOSED'}:
+                self._closed = True
+                return
+            require(current.get('phase') in {'READY', 'CLAIMED'}, 'ROTATION_SOURCE_PHASE_UNKNOWN')
+            ended = dict(current, phase='REVOKED', terminal_reason=str(reason)[:256])
+            oid = owner.write_blob(context, owner.canonical(ended))
+            updates = owner.retention_updates(context, [oid, source_oid])
+            updates[self.refs['source']] = (oid, source_oid)
+            owner.update_refs(context, updates, {})
+            self._closed = True
+
+    def _cleanup_after_signal(self, reason):
+        try:
+            self._revoke(reason)
+        except BaseException as exc:
+            self._poison(exc)
+            raise
+        self._raise_poisoned()  # A later successful cleanup never clears UNKNOWN.
+
+    def before_context_request(self, method):
+        self._cancel_first()
+        self._cleanup_after_signal('before context request: ' + str(method))
+
+    def after_native_record(self):
+        self._cancel_first()
+        self._cleanup_after_signal('native stream advanced after cutoff')
+
+    def disconnect(self):
+        self._cancel_first()
+        self._cleanup_after_signal('native connection closed or uncertain')
+
+    def before_grant_withdrawal(self):
+        self._cancel_first()
+        self._cleanup_after_signal('before independent issuer withdrawal')
+
+    def finish(self):
+        self._cancel_first()
+        self._cleanup_after_signal('owner finished; explicit effect reconciliation required')
+
+
 if __name__ == '__main__':
     import json
     import sys
@@ -861,3 +2078,794 @@ if __name__ == '__main__':
     except (Exception, SystemExit) as error:
         sys.stderr.write(json.dumps({'schema': 'implementaudit.ordinary-receiver-refusal.v1', 'reason': str(error)}) + '\n')
         raise SystemExit(2)
+
+
+# This additive profile admits only controlled, newly-created Linux subjects.
+# It never admits a native audit-state result, real provider usage, or Windows
+# kernel accounting. Historical 0.153.4 profiles and their rules stay intact.
+def validate_fresh_canary_selection_v1(selected):
+    required = {'schema','profile_id','root_thread_id','root_agent_path','root_source',
+        'session_root','cwd','cli_version','native_version','native_executable','codex_home',
+        'runtime_helpers','episode_owner','pending_owner','producer_capture_pin',
+        'capture_producer_pin','tool_evidence_contract','c02_adjudication'}
+    require(type(selected) is dict and set(selected) in (required, required | {'fresh_rotation_issuer'}) and
+        selected['schema'] == 'implementaudit.codex-fresh-canary-provider-selection.v1' and
+        selected['profile_id'] == FRESH_CANARY_PROFILE and
+        selected['cli_version'] == '0.166.0' and selected['native_version'] == 'codex-cli 0.166.0' and
+        selected['root_agent_path'] == '/root' and
+        selected['tool_evidence_contract'] == 'REAL_NATIVE_TRANSPORT_EMULATED_RESPONSES_NO_RESULT_AUTHORITY_V1' and
+        set(selected['runtime_helpers']) == {'bounded_native_reader.py','bounded_source_owner.py','bounded_file_custody.py'},
+        'FRESH_CANARY_SELECTION_SHAPE')
+    require(re.fullmatch(r'[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}', selected['root_thread_id']) is not None,
+        'FRESH_CANARY_THREAD_ID')
+    for key in ('root_source','session_root','cwd','codex_home'):
+        path = Path(selected[key])
+        require(path.is_absolute() and path.resolve(strict=True) == path, 'FRESH_CANARY_PATH_ALIAS')
+    require(Path(selected['session_root']) == Path(selected['codex_home'])/'sessions' and
+        Path(selected['root_source']).is_relative_to(Path(selected['session_root'])) and
+        Path(selected['root_source']).name.endswith('-'+selected['root_thread_id']+'.jsonl'), 'FRESH_CANARY_SOURCE_NAMESPACE')
+    require(selected['native_executable'].get('sha256') == FRESH_CANARY_BINARY_SHA256,
+        'FRESH_CANARY_REVIEWED_NATIVE_BINARY_REQUIRED')
+    pending = selected['pending_owner']; episode = selected['episode_owner']; c02 = selected['c02_adjudication']
+    require(type(pending) is dict and set(pending) == {'store','session_id','owner_id'} and
+        Path(pending['store']).is_absolute() and pending['session_id'] == selected['root_thread_id'] and
+        type(pending['owner_id']) is str and pending['owner_id'], 'FRESH_CANARY_PENDING_OWNER')
+    require(type(episode) is dict and set(episode) == {'module_pin','repository','controller'} and
+        episode['repository'] == selected['cwd'] and type(episode['controller']) is str and episode['controller'],
+        'FRESH_CANARY_CLAIM_SCOPE')
+    require(type(c02) is dict and set(c02) == {'issuer','census_owner','decision_path','owner_decision_locator','source_contract_locator'} and
+        all(type(v) is str and v for v in c02.values()) and Path(c02['decision_path']).is_absolute(), 'FRESH_CANARY_C02_ROUTE')
+    return selected
+
+
+class FreshCanaryQuiescenceV1(OwnedStdioQuiescenceV1):
+    """Closed current-native wire dialect; receives the actual owned pipe."""
+    def __init__(self, existing_queue, *, selected_thread_id=None, native_process=None):
+        super().__init__(existing_queue, selected_thread_id=selected_thread_id, native_process=native_process)
+        self._hooks = {}
+        self._early_mcp = []
+        self._lifecycle = True
+        self._lifecycle_validator = self._only_compaction
+        self._usage = None
+        self._rotation_records = []
+
+    def after_record(self, message):
+        with self._lock:
+            super().after_record(message)
+            if self._thread is not None and self._early_mcp:
+                pending, self._early_mcp = self._early_mcp, []
+                for notification in pending:
+                    if notification['params']['threadId'] != self._thread:
+                        self._deny('FRESH_CANARY_EARLY_MCP_SCOPE_MISMATCH')
+                    self._notification(notification)
+
+    def _only_compaction(self, ledger, item, completed, raw=False):
+        if (raw or set(item) != {'type','id','startedAtMs','completedAtMs'} or item.get('type') != 'contextCompaction'
+                or type(item['startedAtMs']) is not int or item['startedAtMs'] < 0
+                or (completed and (type(item['completedAtMs']) is not int or item['completedAtMs'] < item['startedAtMs']))
+                or (not completed and item['completedAtMs'] is not None)):
+            self._deny('FRESH_CANARY_TOOL_OR_RESULT_AUTHORITY_NOT_ADMITTED')
+
+    def _notification(self, message):
+        import copy
+        def need(ok, reason='FRESH_CANARY_UNKNOWN_WIRE_SHAPE'):
+            if not ok: self._deny(reason)
+        need(type(message) is dict and set(message) in ({'method','params'},{'method','params','emittedAtMs'}))
+        need('emittedAtMs' not in message or type(message['emittedAtMs']) is int and 0 <= message['emittedAtMs'] < 2**63)
+        method, p = message.get('method'), message.get('params')
+        need(type(method) is str and type(p) is dict)
+        if method == 'mcpServer/startupStatus/updated' and self._thread is None:
+            need(sum(v in {'thread/start','thread/resume'} for v in self._pending.values()) == 1 and
+                len(self._early_mcp) < 16 and type(p.get('threadId')) is str and
+                re.fullmatch('[0-9a-f-]{36}',p['threadId']) is not None,
+                'FRESH_CANARY_UNSOLICITED_EARLY_MCP')
+            if self._early_mcp:
+                need(p['threadId'] == self._early_mcp[0]['params']['threadId'], 'FRESH_CANARY_EARLY_MCP_SCOPE_MISMATCH')
+            self._early_mcp.append(copy.deepcopy(message))
+            return
+
+        if method == 'deprecationNotice':
+            need(p == {'summary':'Full-history hydration is deprecated for paginated threads; omit `includeTurns` or set it to `false`, then page with `thread/turns/list` and `thread/items/list`.','details':None})
+            return
+        if method == 'warning':
+            need(set(p) == {'threadId','message'} and p['threadId'] == self._thread and
+                p['message'] == 'Model metadata for `dg18-emulated-model` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.')
+            return
+        if method in {'hook/started','hook/completed'}:
+            need(set(p) == {'threadId','turnId','run'} and p['threadId'] == self._thread and p['turnId'] in self._turns)
+            run = p['run']; keys = {'id','eventName','handlerType','executionMode','scope','sourcePath','source','displayOrder','status','statusMessage','startedAt','completedAt','durationMs','entries'}
+            need(type(run) is dict and set(run) == keys and run['id'] == 'stop:1:/etc/codex/config.toml' and
+                run['eventName'] == 'stop' and run['handlerType'] == 'mcpTool' and run['executionMode'] == 'sync' and
+                run['scope'] == 'turn' and run['sourcePath'] == '/etc/codex/config.toml' and run['source'] == 'system' and
+                run['displayOrder'] == 1 and run['statusMessage'] is None and type(run['startedAt']) is int)
+            key = p['turnId'], run['id']
+            if method == 'hook/started':
+                need(key not in self._hooks and run['status'] == 'running' and run['completedAt'] is None and
+                    run['durationMs'] is None and run['entries'] == [])
+                self._hooks[key] = run['startedAt']
+            else:
+                need(self._hooks.get(key) == run['startedAt'] and run['status'] == 'completed' and
+                    type(run['completedAt']) is int and run['completedAt'] >= run['startedAt'] and
+                    type(run['durationMs']) is int and run['durationMs'] >= 0 and
+                    run['entries'] == [{'kind':'warning','text':'DG17_LOCAL_MCP_CANARY_ACK'}])
+                del self._hooks[key]
+            return
+        if method == 'thread/readState/changed':
+            need(set(p) == {'threadId','readState'} and p['threadId'] == self._thread)
+            state = p['readState']
+            need(type(state) is dict and set(state) == {'firstUnread','revision'} and
+                type(state['revision']) is str and re.fullmatch(r'[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}', state['revision']))
+            unread = state['firstUnread']
+            need(type(unread) is dict and set(unread) == {'type','turnId'} and unread['type'] == 'turn' and
+                unread['turnId'] in self._turns | self._completed)
+            return
+        normalized = copy.deepcopy(message)
+        if method == 'rawResponseItem/completed':
+            item = normalized['params'].get('item')
+            need(type(item) is dict)
+            if 'status' in item:
+                need(item.get('type') == 'message' and item.get('role') == 'assistant' and
+                    item['status'] == 'completed', 'FRESH_CANARY_RAW_ITEM_STATUS')
+                item.pop('status')
+        if method == 'account/rateLimits/updated':
+            limits = normalized['params'].get('rateLimits')
+            need(type(limits) is dict and limits.get('normalModelSlug') is None)
+            limits.pop('normalModelSlug',None)
+        if method in {'turn/started','turn/completed'}:
+            turn = normalized['params'].get('turn')
+            need(type(turn) is dict and turn.get('rootTurnId') == turn.get('id'))
+            turn.pop('rootTurnId')
+            if method == 'turn/completed': need(not self._hooks, 'FRESH_CANARY_PENDING_HOOK')
+        super()._notification(normalized)
+        if method == 'thread/tokenUsage/updated':
+            self._usage = copy.deepcopy(p)
+        if method in {'rawResponse/completed','thread/tokenUsage/updated','turn/completed'}:
+            import time
+            self._rotation_records.append({'message':copy.deepcopy(message),
+                'received_at_unix_ms':time.time_ns()//1000000,
+                'received_monotonic_ns':time.monotonic_ns(),'stream_revision':self._revision})
+            if len(self._rotation_records) > 64:
+                self._rotation_records = self._rotation_records[-64:]
+
+
+    def acquire(self, *reservations):
+        with self._lock:
+            if self._hooks: raise QuiescenceRefusal('FRESH_CANARY_PENDING_HOOK')
+            return super().acquire(*reservations)
+
+
+@_c02_contextlib.contextmanager
+def _fresh_canary_provider_guard_v1(runtime):
+    selected, custody, protocol, helpers, _ = runtime
+    import json
+    with _c02_contextlib.ExitStack() as held:
+        binary = selected['native_executable']
+        held.enter_context(custody.held_file(binary['path'], allow_append=False))
+        held.enter_context(custody.held_file(selected['producer_capture_pin']['path'], allow_append=False))
+        observed = protocol.file_pin(Path(binary['path']))
+        require(observed['sha256'] == FRESH_CANARY_BINARY_SHA256 == binary['sha256'] and
+            observed['bytes'] == binary['bytes'], 'FRESH_CANARY_NATIVE_BINARY_CHANGED')
+        raw = _np_read_pin(selected['producer_capture_pin'], 512*1024, custody)
+        producer = _np_read_pin(selected['capture_producer_pin'], 512*1024, custody)
+        capture = json.loads(raw)
+        require(set(capture) == {'schema','thread_id','native_version','native_executable_sha256','pid','proc_start_ticks',
+                'argv','cwd','codex_home','source','capture_script_sha256','usage_origin','authority_ceiling','proc_host_pid'} and
+            capture['schema'] == 'implementaudit.fresh-native-live-canary-capture.v1' and
+            capture['thread_id'] == selected['root_thread_id'] and capture['native_version'] == selected['native_version'] and
+            capture['native_executable_sha256'] == FRESH_CANARY_BINARY_SHA256 and capture['argv'] ==
+                [binary['path'],'app-server','--listen','stdio://'] and
+            capture['cwd'] == selected['cwd'] and capture['codex_home'] == selected['codex_home'] and
+            capture['capture_script_sha256'] == hashlib.sha256(producer).hexdigest() and
+            capture['usage_origin'] == 'DETERMINISTIC_LOCAL_RESPONSES_EMULATION' and capture['authority_ceiling'] == 'NONE',
+            'FRESH_CANARY_CAPTURE_DESCRIPTOR')
+        frozen = capture['source']
+        require(set(frozen) == {'path','bytes','sha256','physical'} and frozen['path'] == selected['root_source'],
+            'FRESH_CANARY_CAPTURE_SOURCE')
+        with custody.held_file(frozen['path']):
+            physical = Path(frozen['path']).stat()
+            require({'device':physical.st_dev,'inode':physical.st_ino} == frozen['physical'], 'FRESH_CANARY_SOURCE_PHYSICAL')
+            context = {'parent':{'path':frozen['path'],'physical':frozen['physical'],'metadata':{'bytes':1}}}
+            prefix = sealed_prefix(helpers._observation_owner, context, 'parent', frozen['bytes'])
+            require(prefix['prefix_sha256'] == frozen['sha256'], 'FRESH_CANARY_CAPTURE_PREFIX')
+            yield capture
+            require(protocol.file_pin(Path(binary['path'])) == observed and
+                _np_read_pin(selected['producer_capture_pin'],512*1024,custody) == raw and
+                sealed_prefix(helpers._observation_owner,context,'parent',frozen['bytes']) == prefix,
+                'FRESH_CANARY_PROVIDER_ADVANCED')
+
+
+def _fresh_canary_live_claim_join_v1(runtime, claim_owner, context, ledger, process, *, allow_legacy=False):
+    import os, json
+    selected = runtime[0]
+    capture = json.loads(_np_read_pin(selected['producer_capture_pin'],512*1024,runtime[1]))
+    require(type(ledger) is FreshCanaryQuiescenceV1 and ledger.native_process is process and
+        process.pid == capture['pid'] and process.poll() is None and ledger._thread == selected['root_thread_id'],
+        'FRESH_CANARY_ACTUAL_PROCESS_LEDGER_JOIN')
+    observed_process = fresh_canary_process_identity_v1(process)
+    require(observed_process['host_pid'] == capture['proc_host_pid'], 'FRESH_CANARY_PROCESS_NAMESPACE_CHANGED')
+    proc = Path('/proc')/str(observed_process['host_pid'])
+    require(os.name == 'posix' and (proc/'exe').resolve(strict=True) == Path(selected['native_executable']['path']) and
+        (proc/'cwd').resolve(strict=True) == Path(selected['cwd']) and
+        (proc/'cmdline').read_bytes().split(b'\0')[:-1] == [s.encode() for s in capture['argv']] and
+        (proc/'stat').read_text().rsplit(')',1)[1].split()[19] == capture['proc_start_ticks'],
+        'FRESH_CANARY_KERNEL_PROCESS_IDENTITY')
+    env = dict(row.split(b'=',1) for row in (proc/'environ').read_bytes().split(b'\0') if b'=' in row)
+    require(env.get(b'CODEX_HOME') == selected['codex_home'].encode() and env.get(b'HOME') == selected['codex_home'].encode(),
+        'FRESH_CANARY_ISOLATED_PROCESS_HOME')
+    require(Path(selected['episode_owner']['repository']) == context['repo'] and
+        selected['episode_owner']['controller'] == context['controller'] and
+        ledger._selected_thread_id in (None, selected['root_thread_id']), 'FRESH_CANARY_CURRENT_CLAIM_SCOPE')
+    if allow_legacy:
+        claim_owner.resolve_predecessor(context)
+    else:
+        claim_owner.require_current_generation_join_v1(context)
+    receipt = ledger.acquire(); receipt.verify()
+    return {'authority_ceiling':'NONE','thread_id':receipt.thread_id,'turn_id':receipt.turn_id,
+        'pid':process.pid,'proc_start_ticks':capture['proc_start_ticks']}
+
+
+def fresh_canary_process_identity_v1(process):
+    """Resolve the actual kernel pidfd across the proc mount's PID namespace."""
+    import os
+    require(os.name == 'posix' and process.poll() is None and hasattr(os, 'pidfd_open'),
+        'FRESH_CANARY_LINUX_LIVE_PROCESS_REQUIRED')
+    # pidfd_open uses the caller namespace; fdinfo exposes the proc namespace.
+    # No guessed PID and no enumeration of other processes is required.
+    fd = os.pidfd_open(process.pid)
+    try:
+        info = dict(line.split(':',1) for line in (Path('/proc/self/fdinfo')/str(fd)).read_text().splitlines() if ':' in line)
+        nspids = [int(v) for v in info['NSpid'].split()]
+        host_pid = int(info['Pid'].strip())
+        require(host_pid > 0 and nspids[0] == host_pid and nspids[-1] == process.pid,
+            'FRESH_CANARY_PIDFD_NAMESPACE_MISMATCH')
+        path = Path('/proc')/str(host_pid)
+        own_status = dict(line.split(':',1) for line in Path('/proc/self/status').read_text().splitlines() if ':' in line)
+        child_status = dict(line.split(':',1) for line in (path/'status').read_text().splitlines() if ':' in line)
+        require(int(child_status['PPid']) == int(own_status['Pid']) and
+            [int(v) for v in child_status['NSpid'].split()] == nspids and process.poll() is None,
+            'FRESH_CANARY_ACTUAL_OWNED_CHILD_REQUIRED')
+        return {'host_pid':host_pid,'pid':process.pid,
+            'proc_start_ticks':(path/'stat').read_text().rsplit(')',1)[1].split()[19],
+            'pid_namespace_chain':nspids,'pidfd_verified':True}
+    finally:
+        os.close(fd)
+
+
+class FreshCanaryPosixCustodyV1:
+    """Explicit Linux successor custody; no Windows deny-delete guarantee.
+
+    Open every component relative to a retained no-follow directory fd. Check
+    each lexical namespace binding again at release. Immutable leaves reject
+    every observed stat revision; append leaves rely on the separately sealed
+    prefix digest. This adapter is selected only by FRESH_CANARY_PROFILE.
+    """
+    @staticmethod
+    def lexical_path(value):
+        text = str(value)
+        require(os.name == 'posix' and text.startswith('/') and not text.startswith('//') and
+            os.path.normpath(text) == text and '\x00' not in text, 'FRESH_CANARY_POSIX_LEXICAL_PATH')
+        return Path(text)
+
+    @_c02_contextlib.contextmanager
+    def _held(self, value, *, directory, allow_append, directory_entries_mutable=False):
+        import stat
+        path = self.lexical_path(value)
+        require(path != Path('/'), 'FRESH_CANARY_POSIX_LEAF_REQUIRED')
+        fds = []; records = []; stream = None
+        flags = os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW | os.O_NONBLOCK
+        def identity(info): return (info.st_dev,info.st_ino,info.st_mode,info.st_nlink)
+        def revision(info): return identity(info)+(info.st_size,info.st_mtime_ns,info.st_ctime_ns)
+        try:
+            fds.append(os.open('/',flags|os.O_DIRECTORY))
+            root_info = os.fstat(fds[0]); records.append((Path('/'),root_info,None))
+            current = Path('/')
+            for index,name in enumerate(path.parts[1:]):
+                current = current/name
+                is_directory = index < len(path.parts)-2 or directory
+                parent = fds[-1]
+                fd = os.open(name,flags|(os.O_DIRECTORY if is_directory else 0),dir_fd=parent)
+                fds.append(fd); info = os.fstat(fd)
+                require(stat.S_ISDIR(info.st_mode) if is_directory else
+                    stat.S_ISREG(info.st_mode) and info.st_nlink == 1, 'FRESH_CANARY_POSIX_SOURCE_KIND')
+                records.append((current,info,parent))
+            before = records[-1][1]
+            if directory: yield path
+            else:
+                stream = os.fdopen(os.dup(fds[-1]),'rb',buffering=0)
+                yield stream
+            after = os.fstat(fds[-1])
+            require(identity(after) == identity(before), 'FRESH_CANARY_POSIX_HELD_IDENTITY')
+            if directory and directory_entries_mutable:
+                pass  # Explicit Git routing directory: authorized ref/lock entries may change.
+            elif not allow_append:
+                require(revision(after) == revision(before), 'FRESH_CANARY_POSIX_REVISION_CHANGED')
+            else:
+                require(after.st_size >= before.st_size, 'FRESH_CANARY_POSIX_SOURCE_TRUNCATED')
+            for lexical,info,parent in records:
+                now = os.lstat(lexical)
+                require(identity(now) == identity(info), 'FRESH_CANARY_POSIX_PATH_CHANGED')
+                if parent is not None:
+                    linked = os.stat(lexical.name,dir_fd=parent,follow_symlinks=False)
+                    require(identity(linked) == identity(info), 'FRESH_CANARY_POSIX_PARENT_LINK_CHANGED')
+        finally:
+            if stream is not None: stream.close()
+            for fd in reversed(fds): os.close(fd)
+
+    def held_file(self, value, *, allow_append=True):
+        return self._held(value,directory=False,allow_append=allow_append)
+
+    def held_directory(self, value):
+        return self._held(value,directory=True,allow_append=False)
+
+    def held_git_routing_directory(self, value):
+        return self._held(value,directory=True,allow_append=False,directory_entries_mutable=True)
+
+# A distinct, prospective single-operation canary. This is an in-process Linux
+# source lease, not a Windows cross-process cancellation-handle qualification.
+_FRESH_ROTATION_SESSION_V1 = _c02_contextvars.ContextVar('fresh_native_rotation_source', default=None)
+_FRESH_ROTATION_SEAL_V1 = object()
+
+
+class FreshCanaryRotationSourceV1:
+    def __init__(self, runtime, claim_owner, context, ledger, process):
+        import copy, time
+        self.runtime, self.owner, self.context = runtime, claim_owner, context
+        self.ledger, self.process = ledger, process
+        self.cancelled = _c02_threading.Event()
+        self._seal = None
+        self.receipt = ledger.acquire(self)
+        self.state = self.prepared = self.claimed = None
+        self.expected = None
+        self.held = _c02_contextlib.ExitStack()
+        try:
+            selected = runtime[0]
+            configured = selected.get('fresh_rotation_issuer')
+            require(type(configured) is dict and set(configured) == {'issuer','policy_pin','decision_path'},
+                'FRESH_ROTATION_PROSPECTIVE_ISSUER_UNAVAILABLE')
+            self.policy_file = self.held.enter_context(claim_owner.PinnedFile(Path(configured['policy_pin']['path'])))
+            policy_raw = self.policy_file.read()
+            require(len(policy_raw) == configured['policy_pin']['bytes'] and
+                hashlib.sha256(policy_raw).hexdigest() == configured['policy_pin']['sha256'],
+                'FRESH_ROTATION_PROSPECTIVE_POLICY_CHANGED')
+            self.policy = _c02_json.loads(policy_raw)
+            keys = {'schema','issuer','authority_ceiling','subject','source_bytes','source_tokens',
+                'thread_id','host','budget_policy','tokenizer','semantic_contract_sha256'}
+            require(type(self.policy) is dict and set(self.policy) == keys and
+                self.policy['schema'] == 'implementaudit.fresh-native-rotation-issuer-policy.v1' and
+                self.policy['issuer'] == configured['issuer'] and
+                self.policy['authority_ceiling'] == 'ONE_FRESH_CANONICAL_ROTATION_INPUT_ONLY' and
+                self.policy['thread_id'] == selected['root_thread_id'] == self.receipt.thread_id,
+                'FRESH_ROTATION_PROSPECTIVE_POLICY_SCOPE')
+            self.decision_file = self.held.enter_context(claim_owner.PinnedFile(Path(configured['decision_path'])))
+            self.decision_raw = self.decision_file.read()
+            self.decision = _c02_json.loads(self.decision_raw)
+            rows = [copy.deepcopy(row) for row in ledger._rotation_records
+                    if row['message']['params'].get('threadId') == self.receipt.thread_id and
+                    (row['message']['params'].get('turnId') or row['message']['params'].get('turn',{}).get('id')) == self.receipt.turn_id]
+            by_method = {}
+            for row in rows: by_method.setdefault(row['message']['method'], []).append(row)
+            require(set(by_method) == {'rawResponse/completed','thread/tokenUsage/updated','turn/completed'} and
+                all(len(v) == 1 for v in by_method.values()), 'FRESH_ROTATION_ONE_ACTUAL_RAW_CUTOFF_REQUIRED')
+            self.raw = by_method['rawResponse/completed'][0]
+            self.window = by_method['thread/tokenUsage/updated'][0]
+            self.completion = by_method['turn/completed'][0]
+            require(self.raw['stream_revision'] < self.window['stream_revision'] < self.completion['stream_revision'] <= self.receipt.checkpoint(),
+                'FRESH_ROTATION_WIRE_ORDER_CHANGED')
+            expected_decision = {'schema':'implementaudit.fresh-native-rotation-issuer-decision.v1',
+                'issuer':configured['issuer'],'policy_sha256':hashlib.sha256(policy_raw).hexdigest(),
+                'subject':self.policy['subject'],'thread_id':self.receipt.thread_id,'turn_id':self.receipt.turn_id,
+                'response_id':self.raw['message']['params']['responseId'],
+                'raw_event_sha256':hashlib.sha256(claim_owner.canonical(self.raw['message'])).hexdigest(),
+                'usage_origin':'DETERMINISTIC_LOCAL_RESPONSES_EMULATION',
+                'authority_ceiling':'ONE_FRESH_CANONICAL_ROTATION_INPUT_ONLY'}
+            require(self.decision == expected_decision, 'FRESH_ROTATION_ACTUAL_SOURCE_AND_ISSUER_DISAGREE')
+            self.native = claim_owner.projection_helper().native_inputs_module_v1()
+            self.binding = {key:copy.deepcopy(self.policy[key]) for key in
+                ('issuer','semantic_contract_sha256','host','budget_policy','tokenizer','subject','source_bytes','source_tokens')}
+            self.binding.update(grant_sha256=hashlib.sha256(self.decision_raw).hexdigest(),
+                producer_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                thread_id=self.receipt.thread_id, turn_id=self.receipt.turn_id)
+            require(self.native.fresh_canary_binding_v1(self.binding), 'FRESH_ROTATION_EXPLICIT_POLICY_REQUIRED')
+            self.native._validate_binding(self.binding)
+            self.snapshot = self.native.parse_exact_usage_v1(self.raw['message'],self.receipt.thread_id,
+                self.receipt.turn_id,self.raw['received_at_unix_ms'],self.raw['stream_revision'])
+            w = self.window
+            self.reported_window = self.native.validate_reported_window_v1({
+                'schema':'implementaudit.native-reported-window.v1','thread_id':self.receipt.thread_id,
+                'turn_id':self.receipt.turn_id,'model_context_window':w['message']['params']['tokenUsage']['modelContextWindow'],
+                'received_at_unix_ms':w['received_at_unix_ms'],'received_monotonic_ns':w['received_monotonic_ns'],
+                'stream_revision':w['stream_revision']},self.binding,self.snapshot,self.receipt.checkpoint())
+            self.source_stat = os.stat(selected['root_source'])
+            self.source_identity = self._physical()
+            self.process_identity = fresh_canary_process_identity_v1(process)
+            self._acquire_git_routing_v1()
+            self.verify()
+        except BaseException as primary:
+            try:
+                self.close()
+            except BaseException as cleanup:
+                primary.add_note('Fresh source cleanup also refused: '+str(cleanup))
+            raise
+
+    def _git_route_v1(self):
+        return self.owner.git(self.context['repo'],'rev-parse','--path-format=absolute',
+            '--git-common-dir','--git-dir','--show-object-format','--show-toplevel')
+
+    def _acquire_git_routing_v1(self):
+        import stat
+        require(os.name == 'posix', 'FRESH_ROTATION_POSIX_GIT_REQUIRED')
+        self.git_route_raw = self._git_route_v1()
+        rows = self.git_route_raw.decode('utf-8','strict').splitlines()
+        repo = self.context['repo'].absolute(); gitdir = repo/'.git'
+        require(rows == [str(gitdir),str(gitdir),'sha1',str(repo)],
+            'FRESH_ROTATION_STANDALONE_SHA1_REPOSITORY_REQUIRED')
+        custody = FreshCanaryPosixCustodyV1(); self.git_directory_identities = {}
+        for path in (repo,gitdir):
+            self.held.enter_context(custody.held_git_routing_directory(path))
+            value = os.lstat(path)
+            require(stat.S_ISDIR(value.st_mode), 'FRESH_ROTATION_GIT_DIRECTORY_KIND')
+            self.git_directory_identities[str(path)] = (value.st_dev,value.st_ino,value.st_mode)
+        self.git_config = self.held.enter_context(self.owner.PinnedFile(gitdir/'config'))
+        self.git_config_raw = self.git_config.read()
+        storage = self.owner.git_process(repo,'config','--get','extensions.refStorage')
+        require(storage.returncode in (0,1) and
+            (storage.returncode != 0 or storage.stdout.strip() in (b'',b'files')),
+            'FRESH_ROTATION_GIT_FILES_BACKEND_REQUIRED')
+        self.verify_git_routing_v1(self.context)
+
+    def verify_git_routing_v1(self, context, scope=None):
+        require(context == self.context and (scope is None or
+            scope.repo == context['repo'].absolute() and scope.executable == self.owner.fixed_git()),
+            'FRESH_ROTATION_GIT_SCOPE_CHANGED')
+        for path, expected in self.git_directory_identities.items():
+            value = os.lstat(path)
+            require((value.st_dev,value.st_ino,value.st_mode) == expected,
+                'FRESH_ROTATION_GIT_DIRECTORY_CHANGED')
+        self.git_config.verify()
+        require(self.git_config.read() == self.git_config_raw and self._git_route_v1() == self.git_route_raw,
+            'FRESH_ROTATION_GIT_ROUTING_CHANGED')
+
+    def _physical(self):
+        value = os.stat(self.runtime[0]['root_source'])
+        return value.st_dev,value.st_ino,value.st_size,value.st_mtime_ns,value.st_ctime_ns
+
+    def cancel_now(self):
+        self.cancelled.set()
+
+    def check(self):
+        self.verify()
+
+    def verify(self):
+        import time
+        self.verify_git_routing_v1(self.context)
+        require(not self.cancelled.is_set(), 'FRESH_ROTATION_SOURCE_OR_ISSUER_WITHDRAWN')
+        self.receipt.verify()
+        require(self.process.poll() is None and self._physical() == self.source_identity,
+            'FRESH_ROTATION_NATIVE_PROCESS_OR_SOURCE_CHANGED')
+        self.policy_file.verify(); self.decision_file.verify()
+        require(self.decision_file.read() == self.decision_raw, 'FRESH_ROTATION_ISSUER_DECISION_CHANGED')
+        age = time.monotonic_ns() - self.raw['received_monotonic_ns']
+        wall_age = time.time_ns()//1000000 - self.raw['received_at_unix_ms']
+        maximum = self.binding['budget_policy']['maximum_age_ms']
+        require(0 <= age <= maximum*1000000 and 0 <= wall_age <= maximum,
+            'FRESH_ROTATION_ACTUAL_CUTOFF_EXPIRED')
+        if self.expected is not None:
+            require(self.owner.read_refs(self.context['repo'],self.expected) == self.expected,
+                'FRESH_ROTATION_SOURCE_OR_GRANT_REF_CHANGED')
+        require(not self.cancelled.is_set(), 'FRESH_ROTATION_INGRESS_DURING_VERIFY')
+
+    def prepare_v1(self, native_subject, source_bytes, source_tokens, predecessor):
+        import copy, secrets
+        self.verify()
+        require(self._seal is _FRESH_ROTATION_SEAL_V1 and self.prepared is None and
+            native_subject == self.policy['subject'] and source_bytes == self.policy['source_bytes'] and
+            source_tokens == self.policy['source_tokens'], 'FRESH_ROTATION_PREPARED_SUBJECT_CHANGED_OR_REPLAY')
+        refs = self.owner.native_input_revision_refs_v1(self.context)
+        heads = self.owner.read_refs(self.context['repo'],refs.values())
+        require(all(v is None for v in heads.values()), 'FRESH_ROTATION_EXISTING_INPUT_REQUIRES_RECONCILIATION')
+        grant = copy.deepcopy(self.decision)
+        source = {'schema':'implementaudit.fresh-canary-native-source.v1','phase':'READY',
+            'reservation_id':secrets.token_hex(16),'binding':self.binding,'exact_usage':self.snapshot,
+            'reported_window':self.reported_window,'cutoff_revision':self.receipt.checkpoint(),
+            'observed_monotonic_ns':self.raw['received_monotonic_ns'],
+            'kernel_process_identity':self.process_identity,'source_profile':FRESH_CANARY_PROFILE,
+            'source_file_identity':list(self.source_identity),'provider_usage_origin':grant['usage_origin'],
+            'authority_ceiling':'FRESH_CONTROLLED_INPUT_ONLY_NO_ORIGINAL_OR_WINDOWS_ACCEPTANCE'}
+        so = self.owner.write_blob(self.context,self.owner.canonical(source))
+        go = self.owner.write_blob(self.context,self.owner.canonical(grant))
+        require(hashlib.sha256(self.owner.canonical(grant)).hexdigest() == self.binding['grant_sha256'],
+            'FRESH_ROTATION_GRANT_CANONICAL_BYTES_CHANGED')
+        updates = self.owner.retention_updates(self.context,[so,go])
+        updates.update({refs['source']:(so,None),refs['grant']:(go,None)})
+        self.verify()
+        self.owner.update_refs(self.context,updates,self.owner.predecessor_guards(self.context,predecessor))
+        self.expected = {refs['source']:so,refs['grant']:go}
+        self.prepared = source
+        self.verify()
+        state = self.native.NativeInputState(self.binding)
+        state._snapshot = copy.deepcopy(self.snapshot)
+        state._reported_window = copy.deepcopy(self.reported_window)
+        state._received_monotonic_ns = self.raw['received_monotonic_ns']
+        state._revision = self.receipt.checkpoint()
+        state._quiescent = True
+        state._native_cancellation_wait = self
+        self.state = state
+
+    def resolve_v1(self, native, controller):
+        import copy, secrets
+        self.verify()
+        require(self._seal is _FRESH_ROTATION_SEAL_V1 and native is self.native and
+            controller == self.context['controller'] and self.state is not None,
+            'FRESH_ROTATION_EXISTING_OWNER_NOT_PREPARED')
+        if self.claimed is None:
+            predecessor = self.owner.resolve_predecessor(self.context)
+            require(self.owner.projection_helper()._native_subject(predecessor) == self.policy['subject'],
+                'FRESH_ROTATION_CANONICAL_SOURCE_CHANGED')
+            refs = self.owner.native_input_revision_refs_v1(self.context)
+            old = self.expected[refs['source']]
+            claimed = dict(self.prepared,phase='CLAIMED',ready_oid=old,
+                transaction_id=secrets.token_hex(16),executor_pid=os.getpid())
+            oid = self.owner.write_blob(self.context,self.owner.canonical(claimed))
+            updates = self.owner.retention_updates(self.context,[oid,old,*self.expected.values()])
+            updates[refs['source']] = (oid,old)
+            guards = self.owner.predecessor_guards(self.context,predecessor)
+            guards[refs['grant']] = self.expected[refs['grant']]
+            self.verify()
+            self.owner.update_refs(self.context,updates,guards)
+            self.expected = dict(self.expected,**{refs['source']:oid})
+            self.state._native_revision_guards = dict(self.expected)
+            self.claimed = claimed
+        self.verify()
+        return self.state
+
+    def close(self):
+        self.cancel_now()
+        self.held.close()
+
+
+@_c02_contextlib.contextmanager
+def fresh_canary_rotation_session_v1(runtime, claim_owner, context, ledger, native_process):
+    import subprocess
+    require(runtime[0] == _np_selection() and runtime[0]['profile_id'] == FRESH_CANARY_PROFILE and
+        type(ledger) is FreshCanaryQuiescenceV1 and ledger.native_process is native_process and
+        type(native_process) is subprocess.Popen and native_process.poll() is None and
+        native_process.stdin is not None and native_process.stdout is not None and
+        native_process.args == [runtime[0]['native_executable']['path'],'app-server','--listen','stdio://'] and
+        _FRESH_ROTATION_SESSION_V1.get() is None, 'FRESH_ROTATION_ACTUAL_OWNER_SELECTION_REQUIRED')
+    with _as_provider_guard_v1(runtime):
+        _fresh_canary_live_claim_join_v1(runtime,claim_owner,context,ledger,native_process,allow_legacy=True)
+        source = FreshCanaryRotationSourceV1(runtime,claim_owner,context,ledger,native_process)
+        source._seal = _FRESH_ROTATION_SEAL_V1
+        token = _FRESH_ROTATION_SESSION_V1.set((context,source))
+        try:
+            yield source
+            source.verify()
+        finally:
+            import sys
+            primary = sys.exc_info()[1]
+            _FRESH_ROTATION_SESSION_V1.reset(token)
+            try:
+                source.close()
+            except BaseException as cleanup:
+                if primary is None:
+                    raise
+                primary.add_note('Fresh source cleanup also refused: '+str(cleanup))
+
+
+def get_selected_fresh_rotation_v1(context):
+    value = _FRESH_ROTATION_SESSION_V1.get()
+    require(value is not None and value[0] is context and type(value[1]) is FreshCanaryRotationSourceV1 and
+        value[1]._seal is _FRESH_ROTATION_SEAL_V1, 'FRESH_ROTATION_SOURCE_NOT_SELECTED')
+    value[1].verify()
+    return value[1]
+
+
+# Proposed additions to the existing compaction-source-owner-codex-app.py.
+# No issuer, grant, selection or native process is created by this fragment.
+
+def validate_mechanical_selection_v1(selected):
+    required = {'schema', 'profile_id', 'root_thread_id', 'root_agent_path', 'root_source',
+                'session_root', 'cwd', 'cli_version', 'native_version', 'native_executable',
+                'codex_home', 'runtime_helpers', 'episode_owner', 'pending_owner',
+                'producer_capture_pin', 'capture_producer_pin', 'tool_evidence_contract',
+                'mechanical_tool'}
+    require(type(selected) is dict and set(selected) == required
+            and selected['schema'] == 'implementaudit.codex0166-mechanical-selection.v1'
+            and selected['profile_id'] == MECHANICAL_PROFILE
+            and selected['cli_version'] == '0.166.0' and selected['native_version'] == 'codex-cli 0.166.0'
+            and selected['root_agent_path'] == '/root'
+            and selected['tool_evidence_contract'] == 'ACTUAL_NATIVE_MCP_PRIOR_ONLY_EMULATED_PROVIDER_V1'
+            and selected['native_executable']['sha256'] == FRESH_CANARY_BINARY_SHA256
+            and set(selected['runtime_helpers']) == {'bounded_native_reader.py', 'bounded_source_owner.py', 'bounded_file_custody.py'},
+            'MECHANICAL_FIXED_SELECTION_SHAPE')
+    require(re.fullmatch(r'[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}', selected['root_thread_id']),
+            'MECHANICAL_ROOT_IDENTITY')
+    for key in ('root_source', 'session_root', 'cwd', 'codex_home'):
+        path = Path(selected[key])
+        require(path.is_absolute() and path.resolve(strict=True) == path, 'MECHANICAL_PATH_ALIAS')
+    require(Path(selected['session_root']) == Path(selected['codex_home']) / 'sessions'
+            and Path(selected['root_source']).is_relative_to(Path(selected['session_root']))
+            and Path(selected['root_source']).name.endswith('-' + selected['root_thread_id'] + '.jsonl'),
+            'MECHANICAL_SOURCE_NAMESPACE')
+    pending = selected['pending_owner']; episode = selected['episode_owner']; tool = selected['mechanical_tool']
+    require(type(pending) is dict and set(pending) == {'store', 'session_id', 'owner_id'}
+            and Path(pending['store']).is_absolute() and pending['session_id'] == selected['root_thread_id']
+            and type(pending['owner_id']) is str and pending['owner_id'], 'MECHANICAL_PENDING_OWNER')
+    require(type(episode) is dict and set(episode) == {'module_pin', 'repository', 'controller'}
+            and episode['repository'] == selected['cwd'] and type(episode['controller']) is str
+            and episode['controller'], 'MECHANICAL_CANONICAL_OWNER_REQUIRED')
+    require(type(tool) is dict and set(tool) == {'server_pin', 'protocol_pin', 'config_pin', 'python_pin'}
+            and tool['server_pin']['path'] == str(HERE / 'compaction-prior-mcp.py')
+            and tool['protocol_pin']['path'] == str(HERE / 'compaction-prior-protocol.py')
+            and tool['config_pin']['path'] == str(Path(selected['codex_home']) / 'config.toml'),
+            'MECHANICAL_FIXED_TOOL_CONFIGURATION')
+    return selected
+
+
+def _mechanical_fixed_policy_v1(obs, code_pins, selected):
+    for key, name in (('server_pin', 'compaction-prior-mcp.py'), ('protocol_pin', 'compaction-prior-protocol.py')):
+        pin = selected['mechanical_tool'][key]
+        require(pin['sha256'] == code_pins['implementaudit/scripts/' + name], 'MECHANICAL_TOOL_CODE_CHANGED')
+        _np_read_pin(pin, 128 * 1024)
+    import tomllib
+    config_raw = _np_read_pin(selected['mechanical_tool']['config_pin'], 128 * 1024)
+    tool = selected['mechanical_tool']
+    _np_read_pin(tool['python_pin'], 32 * 1024 * 1024)
+    configured = tomllib.loads(config_raw.decode('utf-8')).get('mcp_servers', {}).get('dg18prior')
+    require(configured == {'command': tool['python_pin']['path'],
+                           'args': [str(HERE / 'compaction-prior-mcp.py'), '--source-owner',
+                                    str(HERE / 'compaction-source-owner-codex-app.py')]},
+            'MECHANICAL_NATIVE_TOOL_CONFIG_DIFFERS')
+    value = {'descriptor': {
+        'schema': 'implementaudit.compaction-fixed-acquisition-policy.v1',
+        'profile_id': MECHANICAL_PROFILE, 'selection_pin': dict(MECHANICAL_SELECTION_PIN),
+        'tool_evidence_contract': selected['tool_evidence_contract'],
+        'mechanical_tool': selected['mechanical_tool'],
+        'native_executable': selected['native_executable'],
+        'producer_capture_pin': selected['producer_capture_pin'],
+        'capture_producer_pin': selected['capture_producer_pin'],
+        'authority_ceiling': 'NONE', 'result_admission': 'UNQUALIFIED',
+        'return_join_admission': 'REFUSED'}, 'code_and_skill_pins': code_pins}
+    return {**value, 'policy_digest': obs.digest(obs.canonical(value))}
+
+
+def _mechanical_sources_guard_v1(obs, context, code_pins):
+    import contextlib
+    runtime = _np_runtime(obs, code_pins)
+    selected, custody, _, helpers, _ = runtime
+
+    @contextlib.contextmanager
+    def guard():
+        current = _np_episode(runtime)
+        require(selected['profile_id'] == context['profile_id'] == MECHANICAL_PROFILE
+                and context['_mechanical_selection_sha256'] == MECHANICAL_SELECTION_PIN['sha256']
+                and current['opening_digest'] == context['canonical_episode_binding']['opening_digest']
+                and current['logical_task'] == context['canonical_episode_binding']['logical_task'],
+                'MECHANICAL_SOURCE_SCOPE_OR_OPEN_CHANGED')
+        with contextlib.ExitStack() as held:
+            for role in ('parent', 'child'):
+                source = context[role]; path = custody.lexical_path(source['path'])
+                require(path.is_relative_to(custody.lexical_path(selected['session_root'])), 'MECHANICAL_SOURCE_NAMESPACE')
+                if role == 'parent':
+                    require(str(path) == selected['root_source'], 'MECHANICAL_ROOT_SOURCE_CHANGED')
+                held.enter_context(custody.held_file(path))
+                header = helpers.header({'path': str(path)})
+                require({k: header['physical'][k] for k in ('device', 'inode')} == source['physical']
+                        and header['header_prefix']['sha256'] == source['metadata']['sha256']
+                        and header['metadata'].get('cli_version') == '0.166.0', 'MECHANICAL_SOURCE_CHANGED')
+                expected = context['parent_identity' if role == 'parent' else 'actual_child_identity']['thread_id']
+                require(header['metadata'].get('id') == expected and path.name.endswith('-' + expected + '.jsonl'),
+                        'MECHANICAL_SOURCE_IDENTITY_CHANGED')
+                if role == 'child':
+                    require(header['metadata'].get('session_id') == selected['root_thread_id']
+                            and header['metadata'].get('parent_thread_id') == selected['root_thread_id']
+                            and header['metadata'].get('agent_path') is None, 'MECHANICAL_CHILD_RELATION_CHANGED')
+            yield
+            require(_np_episode(runtime) == current, 'MECHANICAL_OPEN_CHANGED_DURING_READ')
+    return guard()
+
+
+def _mechanical_child_path_v1(selected, identifier):
+    """Bounded source nomination by the actual native spawn-result UUID."""
+    require(re.fullmatch(r'[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}', identifier),
+            'MECHANICAL_NATIVE_CHILD_ID_ABSENT')
+    pending = [(Path(selected['session_root']), 0)]
+    candidates = []
+    entries = 0
+    files = 0
+    while pending:
+        directory, depth = pending.pop()
+        require(not directory.is_symlink(), 'MECHANICAL_SOURCE_NAMESPACE_ALIAS')
+        with os.scandir(directory) as stream:
+            for entry in stream:
+                entries += 1
+                require(entries <= 64 and not entry.is_symlink(), 'MECHANICAL_FRESH_NAMESPACE_BOUND')
+                if entry.is_dir(follow_symlinks=False):
+                    require(depth < 3, 'MECHANICAL_FRESH_NAMESPACE_DEPTH')
+                    pending.append((Path(entry.path), depth + 1))
+                else:
+                    require(entry.is_file(follow_symlinks=False) and entry.name.endswith('.jsonl'),
+                            'MECHANICAL_FRESH_NAMESPACE_KIND')
+                    files += 1
+                    require(files <= 16, 'MECHANICAL_FRESH_SESSION_FILE_BOUND')
+                    if entry.name.endswith('-' + identifier + '.jsonl'):
+                        candidates.append(Path(entry.path))
+    require(len(candidates) == 1, 'MECHANICAL_UNIQUE_NATIVE_CHILD_REQUIRED')
+    return candidates[0]
+
+
+def _mechanical_bind_sources_v1(obs, request, code_pins):
+    import contextlib
+    import json
+    require(type(request) is dict and set(request) ==
+            {'open', 'spawn_call', 'spawn_output', 'child_activation', 'parent_turn_start'},
+            'NONPROTECTED_PUBLIC_LOCATOR_REQUEST_SHAPE')
+    runtime = _np_runtime(obs, code_pins)
+    selected, custody, _, helpers, _ = runtime
+    episode = _np_episode(runtime)
+    context = {'profile_id': MECHANICAL_PROFILE, 'canonical_episode_binding': episode,
+               '_source_profile_code_pins': code_pins,
+               '_mechanical_selection_sha256': MECHANICAL_SELECTION_PIN['sha256'],
+               '_mechanical_pending_owner': selected['pending_owner'],
+               'source_association': 'PUBLIC_BOUNDARY_CHILD_STRUCTURAL_UNQUALIFIED',
+               'host_producer_authenticated': False}
+    protocol = obs._mechanical_protocol(context)
+    protocol.spawn_message(episode)
+
+    def source(path, role):
+        info = helpers.header({'path': str(path)})
+        prefix = info['header_prefix']
+        with custody.held_file(path) as stream:
+            raw = stream.read(prefix['bytes'])
+        row = json.loads(raw, object_pairs_hook=obs.unique)
+        require(obs.digest(raw) == prefix['sha256'] and row['type'] == 'session_meta'
+                and row['ordinal'] == 0 and row['payload'].get('cli_version') == '0.166.0',
+                'MECHANICAL_SOURCE_HEADER')
+        return row, {'path': str(path), 'physical': {k: info['physical'][k] for k in ('device', 'inode')},
+                     'metadata': {'offset': 0, 'bytes': prefix['bytes'], 'sha256': prefix['sha256'],
+                                  'embedded_ordinal': 0, 'physical_line': 1},
+                     'metadata_payload_digest': obs.digest(obs.canonical(row['payload'])),
+                     'history_start_ordinal': 1 if role == 'child' else 0,
+                     'allowed_ranges': [{'offset': i * obs.MAX_TOTAL, 'bytes': obs.MAX_TOTAL} for i in range(obs.MAX_RECORDS)],
+                     'canonical_open_binding_digest': episode['opening_digest']}
+
+    with _np_provider_guard(runtime), contextlib.ExitStack() as held:
+        held.enter_context(custody.held_file(selected['root_source']))
+        parent, context['parent'] = source(selected['root_source'], 'parent')
+        # Child selection comes from the held parent's actual spawn result.
+        observed = obs.read_records(context['parent']['path'], [request['spawn_call'], request['spawn_output']],
+                                    context['parent']['allowed_ranges'], context['parent']['physical'])['records']
+        spawn, reply = (r['row'] for r in observed)
+        answer = protocol.parse(reply['payload'].get('output'))
+        ident = answer.get('agent_id') if type(answer) is dict else None
+        require(type(ident) is str and re.fullmatch(protocol.UUID, ident), 'MECHANICAL_NATIVE_CHILD_ID_ABSENT')
+        child_path = _mechanical_child_path_v1(selected, ident)
+        held.enter_context(custody.held_file(child_path))
+        child, context['child'] = source(child_path, 'child')
+        association = protocol.native_spawn_identity(parent['payload'], child['payload'],
+                                                     spawn['payload'], reply['payload'], episode)
+        context.update({key: association[key] for key in ('parent_identity', 'actual_child_identity')})
+        context['canonical_logical_task'] = association['canonical_logical_task']
+        context['logical_task_basis'] = association['logical_task_basis']
+        context['native_agent_path'] = None
+        for key, role in (('open', 'parent'), ('spawn_call', 'parent'), ('spawn_output', 'parent'),
+                          ('child_activation', 'child'), ('parent_turn_start', 'parent')):
+            row, pin = obs.resolve_record(context, role, request[key])
+            context[key] = pin
+            if key == 'open':
+                obs.visible(row, {'CHILD_TASK': episode['logical_task'], 'CHILD_SKILL_SELECTED': 'audit-state',
+                                  'STATUS': 'OPEN', 'LOAD': 'UNVERIFIED'}, context=context)
+            if key == 'parent_turn_start':
+                require(row['type'] == 'event_msg' and row['payload'].get('type') == 'task_started', 'MECHANICAL_PARENT_TURN')
+        obs.before(context['parent_turn_start'], context['open'])
+        obs.before(context['open'], context['spawn_call'])
+        context['fresh_child_boundary'] = obs.fresh_child_boundary(context)
+        # Pin the actual startup settings content, never a caller-supplied hash.
+        records, _ = obs.hold_records(context)
+        settings = [r for r in records if r['row']['type'] == 'event_msg'
+                    and r['row']['payload'].get('type') == 'thread_settings_applied']
+        require(len(settings) == 1 and settings[0]['row']['payload'].get('thread_id') == ident,
+                'MECHANICAL_INITIAL_SETTINGS_REQUIRED')
+        context['_current_child_settings_sha256'] = obs.digest(obs.canonical(settings[0]['row']['payload']['thread_settings']))
+        require(_np_episode(runtime) == episode, 'MECHANICAL_OPEN_CHANGED_DURING_BIND')
+    return context

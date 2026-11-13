@@ -103,19 +103,28 @@ R0039_BUDGETS = {
     }
     for role in EXPECTED_PROJECTIONS
 }
-EXPECTED_BUDGET_REVISION = {
-    "revision": 3,
-    "applicability": "prospective",
-    "owner": "R003A",
-    "supersedes_revision": 2,
-    "owner_approval": {
-        "path": "package/budgets/r003a-v3-owner-approval.md",
-        "sha256": "21e1affebd7de32a91e578a601671efd1c1acdd8a06df2074eda287e0c9cf0d1",
-    },
-}
-EXPECTED_BUDGETS = {
+R003A_BUDGETS = {
     role: {**budget, "cap_bytes": 458752, "owner": "R003A"}
     for role, budget in R0039_BUDGETS.items()
+}
+EXPECTED_BUDGET_REVISION = {
+    "revision": 5,
+    "applicability": "prospective",
+    "owner": "PR255_COMPOSITE",
+    "supersedes_revision": 4,
+    "owner_approval": {
+        "path": "package/budgets/pr255-v5-owner-approval.md",
+        "sha256": "9cce88d8d9822c42fcaa485ffbb8a82cf9b53256c93ca926969448d3affc1538"
+    }
+}
+PR255_V4_BUDGETS = {
+    role: {**budget, "cap_bytes": 589824, "owner": "PR255_COMPOSITE"}
+    for role, budget in R003A_BUDGETS.items()
+}
+# Revision 5: one bounded owner exception, canonical plugin only; caps unchanged.
+EXPECTED_BUDGETS = {
+    **PR255_V4_BUDGETS,
+    "canonical_plugin": {**PR255_V4_BUDGETS["canonical_plugin"], "reserve_bytes": 1240},
 }
 TEXT_SUFFIXES = {".md", ".txt", ".sh", ".json", ".yaml", ".yml"}
 INVENTORY_NAME = "IMPLEMENTAUDIT_INVENTORY.json"
@@ -220,7 +229,8 @@ def validate_contract(root: Path) -> dict[str, Any]:
         "budget_revision", contract.get("budget_revision"), EXPECTED_BUDGET_REVISION
     )
     require_equal("budget_history", contract.get("budget_history"),
-                  {"1": HISTORICAL_BUDGETS, "2": R0039_BUDGETS})
+                  {"1": HISTORICAL_BUDGETS, "2": R0039_BUDGETS, "3": R003A_BUDGETS,
+                   "4": PR255_V4_BUDGETS})
     require_equal("budgets", contract.get("budgets"), EXPECTED_BUDGETS)
     require_equal(
         "generic_activegraph_dependency",
@@ -336,6 +346,54 @@ def inventory_bytes(
         "members": members,
     }
     return (json.dumps(value, indent=2, sort_keys=True) + "\n").encode("utf-8")
+
+
+class _BuildLocalZopfli:
+    """Reuse exact canonical inputs for one build, never across build calls.
+
+    Retained source plus zlib-stream bytes are limited to 8 MiB, with at most
+    256 entries of fixed-shape metadata. Other option sets and input types go
+    straight to the native provider. Every ZIP member still independently
+    checks both round trips in CanonicalZopfliCompressor, including cache hits.
+    """
+
+    MAX_BYTES = 8 * 1024**2
+    MAX_ENTRIES = 256
+    _OPTIONS = (("numiterations", 15), ("blocksplitting", 1),
+                ("blocksplittinglast", 0), ("blocksplittingmax", 15))
+
+    def __init__(self, zopfli_module: Any):
+        self._native = zopfli_module
+        self._entries: dict[tuple, bytes] = {}
+        self._retained_bytes = 0
+
+    def compress(self, source: bytes, **options: Any) -> bytes:
+        if (type(source) is not bytes or len(options) != len(self._OPTIONS)
+                or any(type(options.get(name)) is not int or options[name] != value
+                       for name, value in self._OPTIONS)):
+            return self._native.compress(source, **options)
+        # Python's dictionary resolves hash collisions by full bytes/tuple
+        # equality; no digest stands in for the exact source or parameters.
+        key = (source, tuple(sorted(options.items())))
+        if key in self._entries:
+            return self._entries[key]
+        stream = self._native.compress(source, **options)
+        if type(stream) is not bytes:
+            return stream
+        size = len(source) + len(stream)
+        if size <= self.MAX_BYTES:
+            while (len(self._entries) >= self.MAX_ENTRIES
+                   or self._retained_bytes + size > self.MAX_BYTES):
+                oldest = next(iter(self._entries))
+                removed = self._entries.pop(oldest)
+                self._retained_bytes -= len(oldest[0]) + len(removed)
+            self._entries[key] = stream
+            self._retained_bytes += size
+        return stream
+
+    def clear(self) -> None:
+        self._entries.clear()
+        self._retained_bytes = 0
 
 
 class CanonicalZopfliCompressor:
@@ -550,11 +608,14 @@ def build_artifacts(root: Path, output_dir: Path, contract: dict[str, Any]) -> l
     )
     standalone_entries.append((INVENTORY_NAME, standalone_inventory, 0o644))
 
-    zopfli_module = require_zopfli()
+    zopfli_module = _BuildLocalZopfli(require_zopfli())
     plugin_path = output_dir / contract["generated_projections"]["canonical_plugin"]["artifact"]
     standalone_path = output_dir / contract["generated_projections"]["standalone_compatibility"]["artifact"]
-    write_archive(plugin_path, plugin_entries, zopfli_module)
-    write_archive(standalone_path, standalone_entries, zopfli_module)
+    try:
+        write_archive(plugin_path, plugin_entries, zopfli_module)
+        write_archive(standalone_path, standalone_entries, zopfli_module)
+    finally:
+        zopfli_module.clear()
     verify_artifact(root, "canonical_plugin", plugin_path, contract)
     verify_artifact(root, "standalone_compatibility", standalone_path, contract)
     return [plugin_path, standalone_path]

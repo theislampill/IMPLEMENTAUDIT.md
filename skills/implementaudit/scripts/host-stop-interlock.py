@@ -13,7 +13,6 @@ import subprocess
 import sys
 import types
 from pathlib import Path
-from typing import Any
 
 
 
@@ -57,14 +56,14 @@ class InterlockUnavailable(RuntimeError):
     """The Stop event cannot be safely translated into an owner result."""
 
 
-def unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+def unique_object(pairs):
     value = dict(pairs)
     if len(value) != len(pairs):
         raise InterlockUnavailable("hook input contains a duplicate JSON member")
     return value
 
 
-def exact_identifier(value: Any, label: str) -> str:
+def exact_identifier(value, label):
     if (
         not isinstance(value, str)
         or len(value.encode("utf-8")) > MAX_IDENTIFIER_BYTES
@@ -74,7 +73,7 @@ def exact_identifier(value: Any, label: str) -> str:
     return value
 
 
-def ignored_text(value: Any, label: str) -> None:
+def ignored_text(value, label):
     if (
         not isinstance(value, str)
         or len(value.encode("utf-8")) > MAX_IGNORED_TEXT
@@ -83,7 +82,7 @@ def ignored_text(value: Any, label: str) -> None:
         raise InterlockUnavailable(f"invalid {label}")
 
 
-def assistant_message(value: Any) -> str:
+def assistant_message(value):
     if (
         not isinstance(value, str)
         or not value
@@ -94,8 +93,9 @@ def assistant_message(value: Any) -> str:
     return value
 
 
-def read_event() -> dict[str, Any]:
-    raw = sys.stdin.buffer.read(MAX_INPUT_BYTES + 1)
+def read_event(raw = None):
+    if raw is None:
+        raw = sys.stdin.buffer.read(MAX_INPUT_BYTES + 1)
     if len(raw) > MAX_INPUT_BYTES:
         raise InterlockUnavailable("hook input is oversized")
     try:
@@ -123,7 +123,7 @@ def read_event() -> dict[str, Any]:
     return value
 
 
-def exact_installed_path(raw: str, *, directory: bool) -> Path:
+def exact_installed_path(raw, *, directory):
     """Use the recovery input adapter's physical, non-aliased path contract."""
     if (not isinstance(raw, str) or not raw or len(raw) > 4096
             or any(ord(character) < 32 for character in raw)):
@@ -145,7 +145,7 @@ def exact_installed_path(raw: str, *, directory: bool) -> Path:
     return path
 
 
-def path_present(path: Path) -> bool:
+def path_present(path):
     """Only a definite missing path is absence; custody errors refuse."""
     try:
         os.lstat(path)
@@ -154,7 +154,7 @@ def path_present(path: Path) -> bool:
     return True
 
 
-def plugin_store() -> Path:
+def plugin_store():
     """Bind H0 to both physical owner components, never a flattened name."""
     if not (sys.flags.isolated and sys.flags.no_site and sys.flags.dont_write_bytecode):
         raise InterlockUnavailable("isolated fixed hook invocation required")
@@ -179,7 +179,7 @@ def plugin_store() -> Path:
     raw_data = os.environ.get("PLUGIN_DATA")
     if raw_data not in (str(owner_data), str(native_data)):
         raise InterlockUnavailable("PLUGIN_DATA differs from physical owner")
-    def optional_directory(path: Path) -> Path:
+    def optional_directory(path):
         # An ordinary session need not have created plugin data. Validate the
         # physical existing ancestor without creating or enumerating anything.
         ancestor = path
@@ -202,8 +202,8 @@ def plugin_store() -> Path:
 
 
 def json_result(
-    result: subprocess.CompletedProcess[str], label: str, *, permit_stderr: bool = False
-) -> dict[str, Any]:
+    result, label, *, permit_stderr = False
+):
     if (
         (result.stderr and not permit_stderr)
         or not result.stdout.endswith("\n")
@@ -219,7 +219,7 @@ def json_result(
     return value
 
 
-def stop_event_id(event: dict[str, Any], binding: dict[str, Any]) -> str:
+def stop_event_id(event, binding):
     identity = {
         "schema": "implementaudit.codex-stop-event.v1",
         "host_id": HOST_NAMESPACE,
@@ -238,12 +238,12 @@ def stop_event_id(event: dict[str, Any], binding: dict[str, Any]) -> str:
 
 
 def consume_proximal_selection(
-    store: Path,
-    event: dict[str, Any],
-    binding: dict[str, Any],
-    binding_core: Path,
-    selection: dict[str, Any],
-) -> dict[str, Any]:
+    store,
+    event,
+    binding,
+    binding_core,
+    selection,
+):
     """Mechanical custody API only; native Stop never calls this operation."""
     command = [
         sys.executable, str(binding_core), "--store", str(store),
@@ -277,32 +277,55 @@ BINDING_CORE_SHA256 = '8b4f91a51e2e2d45c4bd72b58fb1e115981903f8a752f95eb71cda64b
 MAX_CORE_BYTES = 131072
 
 
-def emit(payload: dict[str, Any]) -> None:
+def emit(payload):
+    if len(sys.argv) > 1 and sys.argv[1] == "--codex-stop-policy":
+        # Codex StopCommandOutputWire denies unknown fields. Proof metadata
+        # belongs in private receipts, never in the native control response.
+        permitted = {"decision", "reason", "systemMessage"}
+        print(json.dumps({key: value for key, value in payload.items() if key in permitted},
+                         sort_keys=True, separators=(",", ":")))
+        return
     value = {"schema": RESULT_SCHEMA, **payload, "host_activation_proven": False,
              "enforcement_available": False, "effect_accepted": False}
     print(json.dumps(value, sort_keys=True, separators=(",", ":")))
 
 
-def load_binding_core(path: Path):
+def load_pinned_owner(path, expected_path, expected_sha256, maximum):
     """Compile exactly one buffer selected by this owner's fixed source pin."""
-    expected_path = Path(__file__).absolute().parent / "host-session-binding.py"
     if path != expected_path:
         raise InterlockUnavailable("foreign binding source member")
+    nodes = []
     for node in (path, *path.parents):
         info = node.lstat()
         if stat.S_ISLNK(info.st_mode) or getattr(info, "st_file_attributes", 0) & 0x400:
             raise InterlockUnavailable("aliased binding source")
-    fd = os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_BINARY", 0))
+        nodes.append((node, info))
+    selected = nodes[0][1]
+    if not stat.S_ISREG(selected.st_mode) or selected.st_nlink != 1 or selected.st_size > maximum:
+        raise InterlockUnavailable("unsafe binding source")
+
+    def identity(info):
+        return (info.st_dev, info.st_ino, info.st_mode, info.st_nlink,
+                info.st_size, info.st_mtime_ns, info.st_ctime_ns)
+
+    fd = os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0)
+                 | getattr(os, "O_BINARY", 0) | getattr(os, "O_NONBLOCK", 0))
     with os.fdopen(fd, "rb") as handle:
         before = os.fstat(handle.fileno())
-        if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or before.st_size > MAX_CORE_BYTES:
-            raise InterlockUnavailable("unsafe binding source")
-        raw = handle.read(MAX_CORE_BYTES + 1)
+        if identity(before) != identity(selected):
+            raise InterlockUnavailable("binding source changed before capture")
+        raw = handle.read(maximum + 1)
         after = os.fstat(handle.fileno())
-    if (len(raw) > MAX_CORE_BYTES or before.st_size != len(raw)
-            or (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns) !=
-               (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns)
-            or hashlib.sha256(raw).hexdigest() != BINDING_CORE_SHA256):
+        if identity(before) != identity(after) or identity(path.lstat()) != identity(before):
+            raise InterlockUnavailable("binding source changed during capture")
+        for node, observed in nodes[1:]:
+            current = node.lstat()
+            if ((current.st_dev, current.st_ino, current.st_mode) !=
+                    (observed.st_dev, observed.st_ino, observed.st_mode)
+                    or getattr(current, "st_file_attributes", 0) & 0x400):
+                raise InterlockUnavailable("binding source ancestor changed during capture")
+    if (len(raw) > maximum or before.st_size != len(raw)
+            or hashlib.sha256(raw).hexdigest() != expected_sha256):
         raise InterlockUnavailable("binding source differs from selected owner")
     module = types.ModuleType("r003a_stop_binding_core")
     module.__file__ = str(path)
@@ -310,8 +333,17 @@ def load_binding_core(path: Path):
     return module
 
 
-def run_binding_core(path: Path, arguments: list[str], *, input_text: str = ""):
+def load_binding_core(path):
+    return load_pinned_owner(path, Path(__file__).absolute().parent / "host-session-binding.py",
+                             BINDING_CORE_SHA256, MAX_CORE_BYTES)
+
+
+def run_binding_core(path, arguments, *, input_text = ""):
     module = load_binding_core(path)
+    return run_owner_module(module, path, arguments, input_text=input_text)
+
+
+def run_owner_module(module, path, arguments, *, input_text = ""):
     output = io.StringIO()
     old_argv, old_stdin = sys.argv, sys.stdin
     try:
@@ -327,8 +359,12 @@ def run_binding_core(path: Path, arguments: list[str], *, input_text: str = ""):
     return subprocess.CompletedProcess(arguments, code, output.getvalue(), "")
 
 
-def main() -> int:
+def main():
     try:
+        if len(sys.argv) > 1 and sys.argv[1] == "--codex-stop-policy":
+            if len(sys.argv) != 4:
+                raise InterlockUnavailable("selected Stop requires policy and digest")
+            return selected_codex_stop(Path(sys.argv[2]), sys.argv[3])
         event = read_event()
         store = plugin_store()
         if not path_present(store):
@@ -348,10 +384,261 @@ def main() -> int:
         # cannot authorize a current dependent effect. Do not call route,
         # compiler, disposition, consumption or lifecycle owners here.
         raise InterlockUnavailable("UNSUPPORTED_HOST_EFFECT_AUTHENTICATION")
-    except (InterlockUnavailable, OSError, RuntimeError, KeyError, TypeError, ValueError) as error:
+    except (InterlockUnavailable, OSError, RuntimeError, KeyError, TypeError, ValueError,
+            subprocess.SubprocessError) as error:
         emit({"status": "UNAVAILABLE", "decision": "block", "disposition": "BLOCK",
               "active_audit_object": None, "reason": str(error)})
     return 0
+
+
+def selected_disposition(policy, run_root):
+    """Select an explicit record consumer; never infer or downgrade a claim."""
+    if policy["schema"] == "implementaudit.codex-stop-policy.v1":
+        if "disposition" in policy:
+            raise InterlockUnavailable("v1 Stop policy permits only nonterminal yield")
+        return "NONTERMINAL_YIELD", None
+    selected = policy.get("disposition")
+    if not isinstance(selected, dict) or selected.get("kind") not in {
+            "NONTERMINAL_YIELD", "TERMINAL_CLOSURE", "AUDITED_HANDOFF"}:
+        raise InterlockUnavailable("missing exact Stop disposition")
+    kind = selected["kind"]
+    if kind == "NONTERMINAL_YIELD":
+        if set(selected) != {"kind"}:
+            raise InterlockUnavailable("yield cannot consume a terminal or handoff record")
+        return kind, None
+    if set(selected) != {"kind", "record", "sha256"} or not isinstance(selected["sha256"], str) or not re.fullmatch(r"[0-9a-f]{64}", selected["sha256"]):
+        raise InterlockUnavailable("terminal or handoff record must be exactly pinned")
+    record = exact_installed_path(selected["record"], directory=False)
+    try:
+        record.relative_to(run_root)
+    except ValueError as error:
+        raise InterlockUnavailable("disposition record is outside the selected run") from error
+    return kind, (record, selected["sha256"])
+
+
+def selected_codex_stop(policy_path, expected_digest):
+    """Task-selected native hook transport; receipts need independent host receiving.
+
+    The exact command/policy must be reviewed and trusted by Codex. This function
+    cannot grant that trust, authenticate a caller-supplied JSON event, or mint
+    lifecycle/currentness authority. Only the host consumes its Stop response.
+    """
+    if not (sys.flags.isolated and sys.flags.no_site and sys.flags.dont_write_bytecode):
+        raise InterlockUnavailable("isolated fixed hook invocation required")
+    policy_path = exact_installed_path(str(policy_path), directory=False)
+    selected = policy_path.lstat()
+    fd = os.open(policy_path, os.O_RDONLY | getattr(os, "O_BINARY", 0)
+                 | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_NONBLOCK", 0))
+    with os.fdopen(fd, "rb") as handle:
+        before = os.fstat(handle.fileno())
+        if not stat.S_ISREG(before.st_mode) or (before.st_dev, before.st_ino) != (selected.st_dev, selected.st_ino):
+            raise InterlockUnavailable("selected Stop policy changed before capture")
+        raw_policy = handle.read(MAX_PROXIMAL_SELECTION_BYTES + 1)
+        after = os.fstat(handle.fileno())
+        identity = lambda info: (info.st_dev, info.st_ino, info.st_mode, info.st_nlink,
+                                 info.st_size, info.st_mtime_ns, info.st_ctime_ns)
+        if identity(before) != identity(after) or identity(policy_path.lstat()) != identity(selected):
+            raise InterlockUnavailable("selected Stop policy changed during capture")
+    if (len(raw_policy) > MAX_PROXIMAL_SELECTION_BYTES
+            or hashlib.sha256(raw_policy).hexdigest() != expected_digest):
+        raise InterlockUnavailable("selected Stop policy differs")
+    policy = json.loads(raw_policy, object_pairs_hook=unique_object)
+    if policy.get("schema") not in {"implementaudit.codex-stop-policy.v1", "implementaudit.codex-stop-policy.v2"}:
+        raise InterlockUnavailable("unsupported Stop policy")
+    raw_event = sys.stdin.buffer.read(MAX_INPUT_BYTES + 1)
+    if len(raw_event) > MAX_INPUT_BYTES:
+        raise InterlockUnavailable("hook input is oversized")
+    selection = json.loads(raw_event.decode("utf-8"), object_pairs_hook=unique_object)
+    if not isinstance(selection, dict):
+        raise InterlockUnavailable("hook input has the wrong shape")
+    if selection.get("session_id") != policy["session_id"]:
+        emit({"status": "UNBOUND", "disposition": "NO_SELECTED_TASK"})
+        return 0
+    evidence = exact_installed_path(policy["evidence_directory"], directory=True)
+    ingress = evidence / ("input-" + hashlib.sha256(raw_event).hexdigest() + ".json")
+    with ingress.open("xb") as handle:
+        handle.write(raw_event); handle.flush(); os.fsync(handle.fileno())
+    event = read_event(raw_event)
+    if event.get("cwd") != policy["cwd"]:
+        raise InterlockUnavailable("Stop working directory differs from selected task")
+    store = exact_installed_path(policy["binding_store"], directory=True)
+    binding_core = exact_installed_path(policy["binding_owner"], directory=False)
+    native_owner = load_pinned_owner(binding_core, binding_core,
+        policy["binding_owner_sha256"], MAX_CORE_BYTES)
+    looked_up = run_owner_module(native_owner, binding_core, ["--store", str(store), "lookup",
+        "--host-id", HOST_NAMESPACE, "--host-session-id", event["session_id"]])
+    bound = json_result(looked_up, "selected Stop binding")
+    binding = bound.get("binding")
+    if looked_up.returncode != 0 or bound.get("status") != "BOUND" or not isinstance(binding, dict):
+        raise InterlockUnavailable("selected Stop has no active exact binding")
+    for field, value in policy["binding"].items():
+        if binding.get(field) != value:
+            raise InterlockUnavailable("selected Stop binding differs: " + field)
+    run_root = exact_installed_path(binding["explicit_run_root"], directory=True)
+    disposition, record_binding = selected_disposition(policy, run_root)
+    helper = exact_installed_path(policy["validator"], directory=False)
+    if os.name != "nt":
+        raise InterlockUnavailable("selected native qualification requires the Windows custody owner")
+    custody_path = Path(__file__).absolute().with_name("canonical_custody.py")
+    custody = load_pinned_owner(custody_path, custody_path,
+        "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389", 36367)
+    event_digest = hashlib.sha256(json.dumps(event, sort_keys=True, separators=(",", ":"),
+        ensure_ascii=False).encode("utf-8")).hexdigest()
+    response_dir = run_root / "evidence" / "native-stop-responses"
+    response_dir.mkdir(parents=True, exist_ok=True)
+    exact_installed_path(str(response_dir), directory=True)
+    response = response_dir / (event_digest + ".md")
+    text = event["last_assistant_message"] or ""
+    with response.open("xb") as handle:
+        handle.write(text.encode("utf-8")); handle.flush(); os.fsync(handle.fileno())
+    result = None
+    output = None
+    validator_error = None
+    try:
+        result = selected_record_verdict(policy, run_root, helper, custody, response,
+                                         disposition, record_binding)
+        if result.returncode == 0:
+            output = json_result(result, "lifecycle disposition")
+            if output.get("record_disposition") != disposition:
+                raise InterlockUnavailable("lifecycle owner returned another disposition")
+    except (InterlockUnavailable, OSError, RuntimeError, KeyError, TypeError, ValueError,
+            subprocess.SubprocessError) as error:
+        # Failure is still an observation. Do not lose the selected event and
+        # validator diagnostics by escaping before the receipt is durable. The
+        # exception message/command may contain unrelated sensitive arguments;
+        # retain its type and bounded partial streams instead.
+        validator_error = {"type": type(error).__name__, "phase": "record_validation"}
+        output = None
+        if result is None:
+            def partial_text(value):
+                if isinstance(value, bytes):
+                    return value[:MAX_INPUT_BYTES].decode("utf-8", errors="replace")
+                return value[:MAX_INPUT_BYTES] if isinstance(value, str) else ""
+            result = subprocess.CompletedProcess([], None,
+                partial_text(getattr(error, "stdout", None)),
+                partial_text(getattr(error, "stderr", None)))
+    receipt = {"schema": "implementaudit.codex-stop-observation.v1",
+        "event": event, "event_sha256": event_digest, "policy_sha256": expected_digest,
+        "binding": binding, "validator_exit": result.returncode,
+        "validator_accepted": validator_error is None and result.returncode == 0,
+        "validator_stdout": result.stdout, "validator_stderr": result.stderr,
+        "record_disposition": output, "selected_disposition": disposition,
+        "host_execution_authenticated": False,
+        "acceptance": "REQUIRES_INDEPENDENT_NATIVE_HOOK_AND_CONTINUATION_RECEIVING"}
+    if validator_error is not None:
+        receipt["validator_error"] = validator_error
+    with (evidence / (event_digest + ".json")).open("x", encoding="utf-8") as handle:
+        json.dump(receipt, handle, sort_keys=True, ensure_ascii=False); handle.write("\n")
+        handle.flush(); os.fsync(handle.fileno())
+    if validator_error is not None or result.returncode:
+        emit({"decision": "block", "reason": block_reason(evidence / (event_digest + ".json"),
+                                                          validator_error, result.stderr)})
+    else:
+        scope = "; parent remains open" if disposition == "NONTERMINAL_YIELD" else "; selected record only"
+        emit({"systemMessage": "IMPLEMENTAUDIT: existing owner accepted " + disposition + scope + ". Native receipt awaits independent receiving: "
+              + str(evidence / (event_digest + ".json"))})
+    return 0
+
+
+OWNER_TIMEOUT_PREFIX = "validate-run-root: OWNER_TIMEOUT: "
+
+
+def block_reason(receipt_path, validator_error, validator_stderr):
+    """Fixed block text; an owner that did not finish is not a refused record."""
+    # Both outcomes block. Only the instruction differs: nothing in a record
+    # can be corrected when its owner never completed the bounded read.
+    unfinished = ((validator_error or {}).get("type") == "TimeoutExpired"
+                  or (validator_error is None and isinstance(validator_stderr, str)
+                      and validator_stderr.startswith(OWNER_TIMEOUT_PREFIX)))
+    if unfinished:
+        return ("IMPLEMENTAUDIT DG10: the existing lifecycle owner did not complete within its fixed bound (OWNER_TIMEOUT); "
+                "no disposition exists and the record itself was not refused. Read the exact native Stop receipt "
+                + str(receipt_path) + "; preserve all obligations, do not alter the record to obtain a disposition, "
+                "and report the owner timeout before another Stop.")
+    return ("IMPLEMENTAUDIT DG10: the existing lifecycle owner refused this turn disposition. Read the exact native Stop receipt "
+            + str(receipt_path) + "; preserve all obligations and correct the actual refusal before another Stop.")
+
+
+def windows_owner(command, *, cwd, env, timeout, **_):
+    # Private kill-on-close job, file output: a killed direct child can leave
+    # descendants holding output pipes past the bound. As the validator's own
+    # owner: never start uncontained; complete only when the job is empty.
+    import ctypes, tempfile, time
+    size, long, handle = ctypes.c_size_t, ctypes.c_ulong, ctypes.c_void_p
+    class Basic(ctypes.Structure):
+        _fields_ = [("times", ctypes.c_longlong * 2), ("flags", long), ("working_set", size * 2),
+                    ("active", long), ("affinity", size), ("classes", long * 2)]
+    class Extended(ctypes.Structure):
+        _fields_ = [("basic", Basic), ("io", ctypes.c_ulonglong * 6), ("memory", size * 4)]
+    kernel = ctypes.WinDLL("kernel32"); kernel.CreateJobObjectW.restype = handle
+    job = handle(kernel.CreateJobObjectW(None, None)); process = None
+    limits = Extended(); limits.basic.flags = 0x2000  # KILL_ON_JOB_CLOSE; no breakaway.
+    try:
+        if not (job and kernel.SetInformationJobObject(job, 9, ctypes.byref(limits), ctypes.sizeof(limits))):
+            raise InterlockUnavailable("Windows owner containment unavailable")
+        with tempfile.TemporaryFile() as out, tempfile.TemporaryFile() as err:
+            process = subprocess.Popen(command, cwd=cwd, env=env, stdin=subprocess.DEVNULL,
+                                       stdout=out, stderr=err, creationflags=4)  # CREATE_SUSPENDED
+            owned = handle(int(process._handle))
+            if not kernel.AssignProcessToJobObject(job, owned):
+                raise InterlockUnavailable("Windows owner containment unavailable")
+            deadline = time.monotonic() + timeout; count = (long * 12)()
+            ctypes.WinDLL("ntdll").NtResumeProcess(owned)
+            try:
+                process.wait(timeout)
+                # Active-process count[10] must reach zero inside the same bound.
+                while not kernel.QueryInformationJobObject(job, 1, count, 48, None) or count[10]:
+                    if time.monotonic() > deadline:
+                        raise subprocess.TimeoutExpired(command, timeout)
+                    time.sleep(0.01)
+            except subprocess.TimeoutExpired as error:
+                kernel.TerminateJobObject(job, 1)
+                out.seek(0); err.seek(0); error.stdout, error.stderr = out.read(), err.read()
+                raise
+            out.seek(0); err.seek(0)
+            return subprocess.CompletedProcess(command, process.returncode,
+                *(io.TextIOWrapper(io.BytesIO(stream.read()), encoding="utf-8").read() for stream in (out, err)))
+    finally:
+        try:
+            kernel.TerminateJobObject(job, 1)
+            if process:
+                if process.poll() is None:
+                    process.kill()
+                process.wait(2)
+        finally:
+            kernel.CloseHandle(job)
+
+
+def selected_record_verdict(policy, run_root, helper, custody, response,
+                            disposition, record_binding):
+    """Execute the existing record owner with custody; grant no native authority."""
+    # No block-count escape, fallback or stop_hook_active exemption.
+    command = [policy["bash"], str(helper), "--turn-disposition", disposition,
+               str(run_root), "--response-record", str(response)]
+    if record_binding is not None:
+        command += ["--closure-record" if disposition == "TERMINAL_CLOSURE" else "--handoff-packet",
+                    str(record_binding[0])]
+    with contextlib.ExitStack() as stack:
+        directory = stack.enter_context(custody.Directory(helper.parent))
+        held = stack.enter_context(custody.File(directory, helper.name, maximum=1024 * 1024))
+        if hashlib.sha256(held.read()).hexdigest() != policy["validator_sha256"]:
+            raise InterlockUnavailable("selected lifecycle owner differs")
+        record_held = None
+        if record_binding is not None:
+            record_path, record_digest = record_binding
+            record_directory = stack.enter_context(custody.Directory(record_path.parent))
+            record_held = stack.enter_context(custody.File(record_directory, record_path.name,
+                                                          maximum=1_000_000))
+            if hashlib.sha256(record_held.read()).hexdigest() != record_digest:
+                raise InterlockUnavailable("selected disposition record differs")
+        run = windows_owner if os.name == "nt" else subprocess.run
+        result = run(command, cwd=policy["binding"]["repository_identity"],
+            stdin=subprocess.DEVNULL, capture_output=True, text=True, encoding="utf-8",
+            timeout=policy["timeout_seconds"], env=os.environ | {"PATH": policy["path"]})
+        held.verify()
+        if record_held is not None:
+            record_held.verify()
+    return result
 
 
 if __name__ == "__main__":

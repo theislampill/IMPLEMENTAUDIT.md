@@ -1,4 +1,4 @@
-from native_test_support import source_path, source_text, functions as selected_functions, load, source_api, SCRATCH, PUBLIC_OWNERS, guard_ast_digest, canonical_unbound_fixture, bounded_bytes
+from native_test_support import source_path, source_text, functions as selected_functions, load, source_api, SCRATCH, PUBLIC_OWNERS, guard_ast_digest, canonical_unbound_fixture, bounded_bytes, source_profile_constants
 from unittest import mock
 import os
 import subprocess
@@ -22,8 +22,10 @@ def require(condition, reason):
 def functions(names):
     text = source_text('compaction-result-observation.py')
     tree = ast.parse(text)
-    body = [node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name in names | {'unique'}]
+    body = [node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name in names | {'unique', 'mechanical_context', 'mechanical_call', 'mechanical_output', 'mechanical_input'}]
     env = {'require': require, 'json': json, 're': re, 'Path': Path, 'MAX_TOTAL': 2 * 1024 * 1024, 'canonical': lambda value: json.dumps(value, sort_keys=True, separators=(',', ':')).encode(), 'HoldObservationRefusal': ValueError, 'CURRENT_BOUNDARY_PROFILE': 'old-current', 'NONPROTECTED_PROFILE': 'codex-app-bounded-public-nonprotected-v1'}
+    env.update(source_profile_constants())
+    env['MECHANICAL_PROFILE'] = load('compaction-result-observation.py').MECHANICAL_PROFILE
     exec(compile(ast.Module(body=body, type_ignores=[]), '<actual-public-owner-functions>', 'exec'), env)
     return env
 
@@ -56,7 +58,24 @@ class ExistingObservationControls(unittest.TestCase):
         for name in ('actual_result', 'acceptance'):
             node = next((n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == name))
             if name == 'actual_result':
-                node.body = [n for n in node.body if not (isinstance(n, ast.Assign) and any((isinstance(t, ast.Name) and t.id == 'selected_occurrences' for t in n.targets))) and (not (isinstance(n, ast.If) and ast.unparse(n.test) == "context['profile_id'] == NONPROTECTED_PROFILE"))]
+                source_profile_constants()  # The family must remain the exact two declared profiles.
+                # The separately added mechanical route is explicitly refused,
+                # before any original R/A acquisition or accepting check.
+                refusal = ast.parse("require(not mechanical_context(context), 'MECHANICAL_PROFILE_RETURN_JOIN_NOT_ADMITTED')").body[0]
+                self.assertEqual(ast.dump(node.body[0]), ast.dump(refusal))
+                original_api = functions({'actual_result'})
+                mechanical = {'profile_id': original_api['MECHANICAL_PROFILE']}
+                with self.assertRaisesRegex(ValueError, '^MECHANICAL_PROFILE_RETURN_JOIN_NOT_ADMITTED$'):
+                    original_api['actual_result'](mechanical, None, None, None, None, None, None)
+                node.body = node.body[1:]
+                additions = [n for n in node.body if isinstance(n, ast.If)
+                             and ast.unparse(n.test) in ("context['profile_id'] == NONPROTECTED_PROFILE",
+                                                        "context['profile_id'] in SOURCE_PROFILES")]
+                self.assertEqual(len(additions), 1)
+                expected = ast.parse("identity['selected_occurrences'] = selected_occurrences").body
+                self.assertEqual([ast.dump(n) for n in additions[0].body], [ast.dump(n) for n in expected])
+                self.assertEqual(additions[0].orelse, [])
+                node.body = [n for n in node.body if n is not additions[0] and not (isinstance(n, ast.Assign) and any((isinstance(t, ast.Name) and t.id == 'selected_occurrences' for t in n.targets)))]
                 for item in ast.walk(node):
                     if isinstance(item, ast.Call) and isinstance(item.func, ast.Name) and (item.func.id == 'hold_history'):
                         item.keywords = [k for k in item.keywords if k.arg != 'occurrence_sink']
@@ -70,7 +89,7 @@ class ExistingObservationControls(unittest.TestCase):
         response = {'locator': loc(40), 'row': {'payload': {'type': 'custom_tool_call_output', 'call_id': 'c'}}}
         prior = {'bind_request': {'observation_id': 'prior'}, 'bound_response': {'bound': 'prior'}, 'obligation': {'observation_id': 'prior'}}
         pair = {'call': pin(30), 'result': pin(40)}
-        env.update(profile_tool_input=lambda context, command: command, delivery_tool_input=lambda *args: 'owned input', command_response=lambda *args: (json.dumps(prior['bound_response']), copy.deepcopy(pair)), before=lambda left, right: require(left['locator']['offset'] < right['locator']['offset'], 'ORDER'))
+        env.update(profile_tool_input=lambda context, command: command, delivery_tool_input=lambda *args, context: 'owned input', command_response=lambda *args: (json.dumps(prior['bound_response']), copy.deepcopy(pair)), before=lambda left, right: require(left['locator']['offset'] < right['locator']['offset'], 'ORDER'))
         context = {'child': {'path': 'child.jsonl', 'physical': {'device': 1, 'inode': 2}}}
         proofs = [{'prior': prior, 'original': {'call': pin(10), 'result': pin(20)}}]
         return (env, context, call, [call, response], proofs, pair)

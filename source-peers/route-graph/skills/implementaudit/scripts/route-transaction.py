@@ -3440,6 +3440,48 @@ def current_controller(
     return _current_controller_from_owner_read_v1(repo, controller, parts, receipt)
 
 
+def _r0039_original14_current_view_v1(repo, controller, parts, receipt, fields):
+    """Derive a read view only from the original owner's complete live JOIN.
+
+    Fourteen-field receipt bytes are not an alternate eighteen-field record.
+    The fixed sibling claim owner verifies its original pointer, exact receipt,
+    allocation/publication, permanent marker and retained archive before this
+    consumer extracts the unchanged R0033 currentness fields.
+    """
+    if len(fields) != 14:
+        fail("original14 currentness view has a foreign receipt domain")
+    claim = Path(__file__).with_name("claim-run.sh")
+    raw = run([str(trusted_host_executable(repo, "bash")), bash_script_path(claim),
+        "--resolve-canonical-generation", controller], cwd=repo,
+        label="original14 canonical owner resolution", environment=sanitized_action_environment())
+    try:
+        resolved = json.loads(raw, object_pairs_hook=unique_object)
+    except (ValueError, UnicodeError):
+        fail("original14 owner resolution is malformed")
+    keys = {"schema", "controller", "claim_id", "run_root_identity", "pointer_token", "receipt_token",
+        "marker_oid", "state_path", "roadmap_path", "protected_manifest_path", "archive_manifest_path", "pointer"}
+    if type(resolved) is not dict or set(resolved) != keys:
+        fail("original14 owner resolution shape differs")
+    root_identity = Path(parts[2]).resolve(strict=True).relative_to(repo.resolve(strict=True)).as_posix()
+    pointer = resolved["pointer"]
+    if (resolved["schema"] != "implementaudit.canonical-generation-resolution.v1" or
+            resolved["controller"] != controller or resolved["claim_id"] != parts[3] or
+            resolved["run_root_identity"] != root_identity or resolved["receipt_token"] != receipt or
+            type(pointer) is not dict or pointer.get("projection_schema") != "implementaudit.protected-projection.v2"):
+        fail("original14 owner resolution is foreign or stale")
+    pointer_ref = "refs/implementaudit/current-generations/" + controller
+    token = resolved["pointer_token"]
+    if not isinstance(token, str) or not re.fullmatch(re.escape(pointer_ref) + r"@[0-9a-f]{40}", token):
+        fail("original14 pointer token is malformed")
+    expected = ["implementaudit.continuity-receipt.v3", controller, parts[3], root_identity,
+        pointer["continuity_epoch"], pointer["invalidation_oid"], pointer_ref, token.split("@", 1)[1],
+        pointer["state_sha256"], pointer["roadmap_sha256"], pointer["protected_manifest_sha256"],
+        pointer["archive_manifest_sha256"], pointer["exact_next_action"], pointer["predecessor_receipt_ref_oid"]]
+    if fields != expected or not OID_RE.fullmatch(resolved["marker_oid"]):
+        fail("original14 receipt differs from the verified current owner view")
+    return pointer["invalidation_oid"], pointer["exact_next_action"]
+
+
 def _current_controller_from_owner_read_v1(repo, controller, parts, receipt):
     """Parse actual fixed-owner output inside its enclosing live read.
 
@@ -3481,6 +3523,11 @@ def _current_controller_from_owner_read_v1(repo, controller, parts, receipt):
         invalidation_oid = receipt_fields[8]
         boundary_kind = receipt_fields[9]
         next_action = receipt_fields[11]
+    elif schema == "implementaudit.continuity-receipt.v3" and len(receipt_fields) == 14:
+        if (not receipt_raw.endswith(b"\n") or receipt_raw.endswith(b"\n\n") or b"\n" in receipt_raw[:-1]):
+            fail("original14 continuity receipt framing is malformed")
+        invalidation_oid, next_action = _r0039_original14_current_view_v1(repo, controller, parts, receipt, receipt_fields)
+        boundary_kind = ""
     elif schema == "implementaudit.continuity-receipt.v3":
         if (
             len(receipt_fields) != 18
@@ -3825,6 +3872,12 @@ def executing_package_evidence(
         Path(__file__).resolve(),
         Path(__file__).resolve().with_name("claim-run.sh"),
     ]
+    # This composition delegates migrated authority to the original R0039
+    # owner. Bind the complete adjacent delegation chain into the existing
+    # package/source fingerprint; later drift invalidates the route.
+    source_paths.extend(Path(__file__).resolve().with_name(name) for name in (
+        "claim-run-rotation.py", "rotate-canonical-state.py", "canonical_hot_projection.py",
+        "canonical_custody.py", "canonical_rotation_inputs.py", "read-canonical-pair.py", "validate-run-root.sh"))
     reason = mechanical_required_reason(request["action"]["argv"])
     if decision == "REQUIRED" and reason in CHILD_ROUTE_MAP:
         source_paths.append(Path(__file__).resolve().with_name("resolve-internal-skill.py"))
@@ -4579,7 +4632,7 @@ def skill_frontmatter_identity(raw: bytes, label: str) -> tuple[str, str]:
     return name.group(1), version.group(1)
 
 
-def child_delivery_snapshot(path: Path, label: str) -> tuple[bytes, tuple[int, ...]]:
+def child_delivery_snapshot(path: Path, label: str, *, max_bytes: int | None = None) -> tuple[bytes, tuple[int, ...]]:
     """Read one exact delivery input and retain its physical identity for reread."""
     def identity(info: os.stat_result) -> tuple[int, ...]:
         if (not stat.S_ISREG(info.st_mode) or stat.S_ISLNK(info.st_mode)
@@ -4590,11 +4643,24 @@ def child_delivery_snapshot(path: Path, label: str) -> tuple[bytes, tuple[int, .
         if path.absolute() != path.resolve(strict=True):
             fail(f"{label} traverses a delivery input alias")
         before = identity(os.lstat(path))
-        with path.open("rb") as stream:
-            opened = identity(os.fstat(stream.fileno()))
-            raw = stream.read()
-            finished = identity(os.fstat(stream.fileno()))
-        if before != opened or opened != finished or finished != identity(os.lstat(path)) or len(raw) != before[2]:
+        if max_bytes is not None and before[2] > max_bytes:
+            fail(f"{label} exceeds its exact source bound")
+        flags = (os.O_RDONLY | getattr(os, "O_BINARY", 0) | getattr(os, "O_NONBLOCK", 0)
+                 | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_CLOEXEC", 0))
+        descriptor = os.open(path, flags)
+        try:
+            opened = identity(os.fstat(descriptor))
+            if before != opened:
+                fail(f"{label} changed while its delivery bytes were read")
+            with os.fdopen(descriptor, "rb") as stream:
+                descriptor = None
+                raw = stream.read() if max_bytes is None else stream.read(max_bytes + 1)
+                finished = identity(os.fstat(stream.fileno()))
+        finally:
+            if descriptor is not None:
+                os.close(descriptor)
+        if (before != opened or opened != finished or finished != identity(os.lstat(path))
+                or len(raw) != before[2] or (max_bytes is not None and len(raw) > max_bytes)):
             fail(f"{label} changed while its delivery bytes were read")
         return raw, before
     except OSError as exc:
@@ -4719,7 +4785,7 @@ def standalone_child_delivery_identity(
 def resolved_child_delivery_path(mapped_child: str, governor: Path, resolver: Path) -> Path:
     before = child_delivery_snapshot(resolver, "internal-child resolver")
     if (hashlib.sha256(before[0]).hexdigest() ==
-            'be553c29e1092643a71e6b50260d760bab15bbc76cd3c2091d05c4b52b8f302e'
+            '97ce587a295cfa0f13276a8dfccf63ca9f679352fdcf0d769a095eab5284b67d'
             and mapped_child in {'audit-state', 'audit-assess', 'audit-implement', 'audit-andon'}):
         import io
         import functools
@@ -5573,6 +5639,154 @@ def split_continuity_token(
     return ref, oid
 
 
+# Only this exact read-only owner version understands the new CLI. An older
+# claim shell treats an unknown option as a task title; never probe it by call.
+_R0039_RETAINED_PREDECESSOR_OWNER_V1 = {
+    "claim-run.sh": (22199, "34054952e3bbf13ae6ca381d4cf0d9d72bccaed10c8dd879de9351f5c0e2594b"),
+    "claim-run-rotation.py": (258400, "27ae194fc92a37bd12e0fe378ffc07f788a3bffec28ebd1c0a5e3c8e1c73695e"),
+}
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 = (
+    _R0039_RETAINED_PREDECESSOR_OWNER_V1,
+    {
+        "claim-run.sh": (22199, "7d257a9b3502a78d458f80bd0c20fe4594b049a93c819aa3bc91de577bfa34af"),
+        "claim-run-rotation.py": (259408, "551b1a798161fdd20cb9eebd56fb1d8a0245ec48a74f05b29f6253d8228c49cb"),
+    },
+    {
+        "claim-run.sh": (30189, "23b828f298c3f21b86d9f7a2228d74ffb34d67d7b7bedc34ceca2ad754d2cbe7"),
+        "claim-run-rotation.py": (259408, "551b1a798161fdd20cb9eebd56fb1d8a0245ec48a74f05b29f6253d8228c49cb"),
+    },
+    {
+        "claim-run.sh": (31259, "a3ecb4d56f8b12fcfc7237906f6547bd2205b1c04cf1c843d2782c86c67ee798"),
+        "claim-run-rotation.py": (259408, "551b1a798161fdd20cb9eebd56fb1d8a0245ec48a74f05b29f6253d8228c49cb"),
+    },
+)
+
+
+# Current canonical read-only owner; prior exact owner pairs remain retained.
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (31259, 'cee4c3225be8df9c62fcc8adb4c1af18a38bd1237adac39b0ce5d5a1bce47765'), 'claim-run-rotation.py': (259408, '8edf14f8aea58573c1eb8a3a2bd6a42394aa8ea419217606994c81b1ba162ca9')},)
+# Current DG08 source-only predecessor pair; no native admission.
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (31259, 'e1b686be7aba7da12163810e1c99c0033bad2ec949bdc5436fb177ba2491a790'), 'claim-run-rotation.py': (259408, '348c492cafdb3ed7d41f360ff8c219316257bdd18c4e4f22646aa7e66cb84d9e')},)
+# Current DG08 source-only predecessor pair; no native admission.
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (31259, '0d1829770e3ce8da613cb48646391fc65641636ac4cd42a97149b3e8f57750b9'), 'claim-run-rotation.py': (259408, 'c91e7c3aa243919c4cdb398f999f28734f1a630511a99f6b1aa9dc477b2fae3c')},)
+# Current terminal-inventory owner binding; historical subjects remain unchanged.
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (31259, '7cfd59d8569ad04221cd4779a803dfc451d5e47b2d4674ad657090564c6c174d'), 'claim-run-rotation.py': (259408, '1c70c0612bad4b2311bb89ddad60484937b5d195bf98380c3ef3e0d30d6cd94b')},)
+
+# Exact DG18 snapshot-budget dependency pair; original14 only, no native admission.
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (31259, '1c00c1707443886a2eff09785fa945b8361f34fd1ee84b082a1326428456c3a7'), 'claim-run-rotation.py': (259408, '969618c330cb4ae450af60431db9ab5e3a148610724e7fd674db10e2117103e8')},)
+
+# Exact repaired read-only CORE owner; native companion still lacks this CLI.
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (31259, '2405210c86bb842fcd3a1304e83f2a14eceb4c9f06a5d16f40c8a8e4531d4e28'), 'claim-run-rotation.py': (259820, '2a35fc864297604be1839024fca899b3fb2becdb8d0f08377629b026d107051e')},)
+
+# Exact R4 CORE read-only owner. Historical/native companion scopes are unchanged.
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (31259, 'cade5a010143b131ac70758ef68d907c4238dc5a596f341cc1be108eb1a147a0'), 'claim-run-rotation.py': (264505, 'b599e7efbdac3008b5720f2b65796851eb163a2c287753d68abd232211c5d82a')},)
+
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (31280, 'ad0dac4014087970c4898bf574207a871b8e08929a605889e038fe4dfdec404d'), 'claim-run-rotation.py': (288433, '5ccadac1f8576d647b26a8dcb95beda1de55fd9abba280410087f96310d01adc')},)
+
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (31280, '7320327b903714358647bdee550bd795e087cc83db3b756e804264ad5bbf7be3'), 'claim-run-rotation.py': (288439, 'ce40c4410011e46b209df718207b58c15d18e60db1379e7b66b24f04616637f9')},)
+
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (32290, 'dce0e6af8ce69e63283d0ed5ad1496779d5f2c1b90024c79228af5e22df75d4c'), 'claim-run-rotation.py': (288439, 'ce40c4410011e46b209df718207b58c15d18e60db1379e7b66b24f04616637f9')},)
+
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (32290, '58b2d0a257f90fcf50a87e9b4f31789bdf2bea1574d75ff55bcef7f80fd8e1bc'), 'claim-run-rotation.py': (289555, '5563f6a8ccbdfdfeea25b6370a4fc7a94ca44f424187b6527d6103a9e56ba8bc')},)
+
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (32290, '9bce5c887cd89c2d2991b84f1bf765787e7a6b75a2eba29a8433c3a6c05f73a3'), 'claim-run-rotation.py': (291624, '128dfe66ce656cd194d5fe1e55b245fecb1b4fd811dea87f75f8ace4a59a0487')},)
+
+# Exact DG17 timeout classification source; no latency, cleanup or native admission.
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (32290, '167a5c2570efbbfccd8aee506fde244118878c52ca0ae8c17af05bf22292e706'), 'claim-run-rotation.py': (291624, 'ad4afefacddefe7bb153ab12f0c68bf4ad919eb7794217aecec05730fba72630')},)
+
+# Exact DG17 yield scheduling and Windows owner-tree bound source; no native admission.
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (32290, 'a58d27accd96b91c4fcd66efa9680360ca45394505b22572ea114541a1449728'), 'claim-run-rotation.py': (291624, '860fb174149c7c35a18e7b1ceea6cef6eefef6f7f055e4235f8eeea0de9450e8')},)
+
+# Exact DG17 Windows job-completion source; no native admission.
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (32290, '5b8f88cbf8d9ab5c2d9c3f5647887578eb7fd52913c673c6eb947f41ce8cb196'), 'claim-run-rotation.py': (291624, '8da36303035cad030e01331ca1eafb0968137e0e42004e908e85d37cd8cffa2a')},)
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (32290, '0a1966997827478a4aa017712be3b668b7896dc4fe97d6e8b7bc6e572e4277fb'), 'claim-run-rotation.py': (291624, '7523ed5fd31c498f0ef32cf1be5ea5c14f1ba969cc1e780cfe788d685995693a')},)
+
+def original14_retained_predecessor_v1(
+    repo, token, fields, *, controller, claim, run_identity, generation,
+    current_receipt, explicit_run_root,
+):
+    """Receive one actual original14 link; native18's contiguous law is separate."""
+    if not isinstance(explicit_run_root, str) or not isinstance(current_receipt, str):
+        fail("original14 history requires its enclosing current receipt and full run root", decision="REQUIRED")
+    try:
+        root = Path(explicit_run_root)
+        if root.absolute() != root.resolve(strict=True) or root.name != run_identity:
+            raise ValueError("foreign or aliased run root")
+        relative_root = root.relative_to(repo.resolve(strict=True)).as_posix()
+    except (OSError, RuntimeError, ValueError):
+        fail("original14 history full run root is foreign or unreadable", decision="REQUIRED")
+    pointer_ref = "refs/implementaudit/current-generations/" + controller
+    receipt_prefix = "refs/implementaudit/continuity-receipts/" + controller + "/"
+    if (len(fields) != 14 or fields[:5] != ["implementaudit.continuity-receipt.v3",
+            controller, claim, relative_root, generation] or fields[6] != pointer_ref
+            or not all(OID_RE.fullmatch(item) for item in (fields[5], fields[7]))
+            or not all(re.fullmatch(r"[0-9a-f]{64}", item) for item in fields[8:12])
+            or not re.fullmatch(re.escape(receipt_prefix) + r"G[0-9A-F]{4}@[0-9a-f]{40}", current_receipt)):
+        fail("original14 history receipt or enclosing identity is malformed or foreign", decision="REQUIRED")
+    predecessor = re.fullmatch(re.escape(receipt_prefix) + r"(G[0-9A-F]{4})@[0-9a-f]{40}", fields[13])
+    if predecessor is None or int(predecessor[1][1:], 16) >= int(generation[1:], 16):
+        fail("original14 history predecessor is not a strictly earlier canonical receipt", decision="REQUIRED")
+
+    captured = {}
+    for name in _R0039_RETAINED_PREDECESSOR_OWNER_V1:
+        length = max(profile[name][0] for profile in _R0039_RETAINED_PREDECESSOR_OWNERS_V1)
+        path = Path(__file__).with_name(name)
+        snapshot = child_delivery_snapshot(path, "original14 history owner " + name, max_bytes=length)
+        captured[name] = (path, snapshot)
+    if not any(all((len(snapshot[0]), hashlib.sha256(snapshot[0]).hexdigest()) == profile[name]
+                   for name, (_, snapshot) in captured.items())
+               for profile in _R0039_RETAINED_PREDECESSOR_OWNERS_V1):
+        fail("original14 history owner source profile is unsupported", decision="REQUIRED")
+    claim_path, shell_snapshot = captured["claim-run.sh"]
+    # Execute the same shell bytes just checked. Preserve physical $0 for the
+    # fixed sibling launcher, which verifies and executes captured companion bytes.
+    command = [str(trusted_host_executable(repo, "bash")), "-c",
+        shell_snapshot[0].decode("utf-8", "strict"), bash_script_path(claim_path),
+        "--resolve-retained-continuity-predecessor", controller,
+        "--receipt", token, "--expected-current", current_receipt]
+    try:
+        completed = subprocess.run(command, cwd=repo, env=sanitized_action_environment(),
+                                   capture_output=True, check=False)
+    except OSError as exc:
+        fail(f"original14 historical owner is unavailable: {exc}", decision="REQUIRED")
+    for name, (path, snapshot) in captured.items():
+        if child_delivery_snapshot(path, "original14 history owner " + name,
+                max_bytes=len(snapshot[0])) != snapshot:
+            fail("original14 history owner source changed during observation", decision="REQUIRED")
+    if completed.returncode:
+        detail = completed.stderr.decode("utf-8", "replace").strip()
+        fail("original14 historical owner refused: " + (detail or str(completed.returncode)), decision="REQUIRED")
+    try:
+        observed = json.loads(completed.stdout.decode("utf-8", "strict"), object_pairs_hook=unique_object)
+    except (ValueError, UnicodeError):
+        fail("original14 historical owner returned malformed JSON", decision="REQUIRED")
+    keys = {"schema", "receipt_domain", "controller", "claim_id", "run_root_identity",
+        "current_receipt_token", "current_pointer_token", "receipt_token", "continuity_epoch",
+        "pointer_token", "predecessor_receipt_token", "authority_ceiling", "grants"}
+    if (type(observed) is not dict or set(observed) != keys
+            or any(type(observed[key]) is not str for key in keys - {"grants"})
+            or type(observed["grants"]) is not dict
+            or set(observed["grants"]) != {"currentness", "effect", "native"}
+            or any(value is not False for value in observed["grants"].values())):
+        fail("original14 historical observation has a foreign shape or authority grant", decision="REQUIRED")
+    canonical = json.dumps(observed, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8") + b"\n"
+    if completed.stdout != canonical:
+        fail("original14 historical observation framing is noncanonical", decision="REQUIRED")
+    expected = {
+        "schema": "implementaudit.retained-continuity-predecessor-observation.v1",
+        "receipt_domain": "ORIGINAL14", "controller": controller, "claim_id": claim,
+        "run_root_identity": relative_root, "current_receipt_token": current_receipt,
+        "current_pointer_token": pointer_ref + "@" + canonical_ref_oid(repo, pointer_ref, "current generation pointer"),
+        "receipt_token": token, "continuity_epoch": generation,
+        "pointer_token": pointer_ref + "@" + fields[7], "predecessor_receipt_token": fields[13],
+        "authority_ceiling": "HISTORICAL_LINK_ONLY",
+        "grants": {"currentness": False, "effect": False, "native": False},
+    }
+    receipt_ref, receipt_oid = split_continuity_token(token, controller, generation, "continuity receipt")
+    if observed != expected or canonical_ref_oid(repo, receipt_ref, "continuity receipt") != receipt_oid:
+        fail("original14 historical observation differs from the exact retained/current owner view", decision="REQUIRED")
+    return fields[13]
+
+
 def validated_v3_predecessor(
     repo: Path,
     token: str,
@@ -5581,6 +5795,8 @@ def validated_v3_predecessor(
     claim: str,
     run_identity: str,
     generation: str,
+    current_receipt: str | None = None,
+    explicit_run_root: str | None = None,
 ) -> str:
     """Validate one canonical immutable v3 receipt and return its exact predecessor token."""
     ref, oid = split_continuity_token(token, controller, generation, "continuity receipt")
@@ -5595,12 +5811,16 @@ def validated_v3_predecessor(
     ):
         fail("continuity receipt bytes are not canonical", decision="REQUIRED")
     fields_raw = raw[:-1].split(b"\t")
-    if len(fields_raw) != 18 or any(field == b"" for field in fields_raw):
+    if len(fields_raw) not in {14, 18} or any(field == b"" for field in fields_raw):
         fail("continuity receipt has a malformed field layout", decision="REQUIRED")
     try:
         fields = [field.decode("utf-8", "strict") for field in fields_raw]
     except UnicodeDecodeError:
         fail("continuity receipt is not strict UTF-8", decision="REQUIRED")
+    if len(fields) == 14:
+        return original14_retained_predecessor_v1(repo, token, fields,
+            controller=controller, claim=claim, run_identity=run_identity, generation=generation,
+            current_receipt=current_receipt, explicit_run_root=explicit_run_root)
     (
         schema,
         receipt_controller,
@@ -5665,8 +5885,14 @@ def validate_terminal_continuity_chain(
     current_generation: Any,
     current_receipt: Any,
     require_current_v3: bool = False,
+    explicit_run_root: str | None = None,
+    owner_tip_receipt: str | None = None,
 ) -> list[tuple[str, str]]:
-    """Require a bounded contiguous canonical v3 chain back to the terminal receipt."""
+    """Require exact retained links within the bounded generation span.
+
+    Original14 recovery can skip an allocated epoch with no minted receipt;
+    its owner proves that edge. Native18 validation still requires every epoch.
+    """
     if (
         not isinstance(terminal_generation, str)
         or not isinstance(current_generation, str)
@@ -5706,9 +5932,13 @@ def validate_terminal_continuity_chain(
                 claim=claim,
                 run_identity=run_identity,
                 generation=candidate_generation,
+                current_receipt=current_receipt if owner_tip_receipt is None else owner_tip_receipt,
+                explicit_run_root=explicit_run_root,
             )
-            candidate_generation = f"G{int(candidate_generation[1:], 16) - 1:04X}"
+            candidate_generation = candidate_receipt.split("@", 1)[0].rsplit("/", 1)[1]
             reverse_links.append((candidate_generation, candidate_receipt))
+            if int(candidate_generation[1:], 16) <= terminal_ordinal:
+                break
         if candidate_generation != terminal_generation or candidate_receipt != terminal_receipt:
             fail("continuity receipt chain does not reach the terminal route receipt", decision="REQUIRED")
     if canonical_ref_oid(repo, terminal_ref, "terminal continuity receipt") != terminal_oid:
@@ -5739,12 +5969,36 @@ def is_exact_preserved_unopenable_required_record(record_oid: str, record: dict[
     )
 
 
+def retained_route_source_digests_v1(value: Any, preserved_unopenable: bool) -> dict[str, str]:
+    """Validate the closed retained source-map domains; confer no route authority."""
+    source_digest_keys = {
+        "SKILL.md", "route-obligations.md", "route-transaction.py", "claim-run.sh"
+    }
+    if not preserved_unopenable:
+        source_digest_keys.add("resolve-internal-skill.py")
+        # Preserve the exact legacy domain while receiving the complete current
+        # original14 owner read set. Partial or additional domains still refuse.
+        current_source_digest_keys = source_digest_keys | {
+            "claim-run-rotation.py", "rotate-canonical-state.py", "canonical_hot_projection.py",
+            "canonical_custody.py", "canonical_rotation_inputs.py", "read-canonical-pair.py",
+            "validate-run-root.sh",
+        }
+        if isinstance(value, dict) and set(value) == current_source_digest_keys:
+            source_digest_keys = current_source_digest_keys
+    source_digests = exact_keys(value, source_digest_keys, "stale unsatisfied route package source digests")
+    if any(not isinstance(item, str) or not HEX_RE.fullmatch(item) for item in source_digests.values()):
+        fail("stale unsatisfied route package source digest is malformed", decision="REQUIRED")
+    return source_digests
+
+
 def validate_stale_unsatisfied_custody(
     repo: Path,
     common: str,
     record_oid: str,
     record: dict[str, Any],
     retained_request: dict[str, Any],
+    *,
+    owner_tip_receipt: str | None = None,
 ) -> None:
     """Authenticate one lifecycle-free required record from retained exact semantics."""
     preserved_unopenable = is_exact_preserved_unopenable_required_record(record_oid, record)
@@ -5815,10 +6069,12 @@ def validate_stale_unsatisfied_custody(
                 controller=record["controller_id"],
                 claim=record["claim_id"],
                 run_identity=Path(record["explicit_run_root"]).name,
+                explicit_run_root=record["explicit_run_root"],
                 terminal_generation=predecessor.get("continuity_generation"),
                 terminal_receipt=predecessor.get("continuity_receipt"),
                 current_generation=record.get("continuity_generation"),
                 current_receipt=record.get("continuity_receipt"),
+                owner_tip_receipt=owner_tip_receipt,
                 require_current_v3=predecessor_state in {"UNSATISFIED", "OPEN", "RETURNED"},
             )
             predecessor_binding = predecessor.get("host_binding_generation")
@@ -5862,18 +6118,7 @@ def validate_stale_unsatisfied_custody(
         repo, "rev-parse", "HEAD^{tree}"
     ):
         fail("stale unsatisfied route package has foreign repository identity", decision="REQUIRED")
-    source_digest_keys = {
-        "SKILL.md", "route-obligations.md", "route-transaction.py", "claim-run.sh"
-    }
-    if not preserved_unopenable:
-        source_digest_keys.add("resolve-internal-skill.py")
-    source_digests = exact_keys(
-        package["source_digests"],
-        source_digest_keys,
-        "stale unsatisfied route package source digests",
-    )
-    if any(not isinstance(value, str) or not HEX_RE.fullmatch(value) for value in source_digests.values()):
-        fail("stale unsatisfied route package source digest is malformed", decision="REQUIRED")
+    retained_route_source_digests_v1(package["source_digests"], preserved_unopenable)
     expected_executable = {
         "requested": "route-trigger",
         "resolved": "R0033:unadmitted" if preserved_unopenable else "R0033:built-in",
@@ -6112,6 +6357,7 @@ def require_terminal_route_reentry(
         controller=args.controller,
         claim=current["claim_id"],
         run_identity=Path(current["explicit_run_root"]).name,
+        explicit_run_root=current["explicit_run_root"],
         terminal_generation=old.get("continuity_generation"),
         terminal_receipt=old.get("continuity_receipt"),
         current_generation=current["continuity_generation"],
@@ -6172,12 +6418,15 @@ def require_active_route_recovery(
     if any(old.get(key) != value for key, value in unchanged_owner.items()):
         fail("active route recovery changed controller, claim, run, host, or session identity", decision="REQUIRED")
     if unsatisfied:
-        validate_stale_unsatisfied_custody(repo, common, old_oid, old, retained_request)
+        # A retained segment can end before the actual live owner tip.
+        validate_stale_unsatisfied_custody(repo, common, old_oid, old, retained_request,
+                                           owner_tip_receipt=current["continuity_receipt"])
     continuity_links = validate_terminal_continuity_chain(
         repo,
         controller=args.controller,
         claim=current["claim_id"],
         run_identity=Path(current["explicit_run_root"]).name,
+        explicit_run_root=current["explicit_run_root"],
         terminal_generation=old.get("continuity_generation"),
         terminal_receipt=old.get("continuity_receipt"),
         current_generation=current["continuity_generation"],
@@ -6586,6 +6835,7 @@ def command_decide(args: argparse.Namespace) -> None:
                     controller=args.controller,
                     claim=current["claim_id"],
                     run_identity=Path(current["explicit_run_root"]).name,
+                    explicit_run_root=current["explicit_run_root"],
                     terminal_generation=old.get("continuity_generation"),
                     terminal_receipt=old.get("continuity_receipt"),
                     current_generation=current["continuity_generation"],

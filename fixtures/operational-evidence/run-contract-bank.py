@@ -17,7 +17,7 @@ def main():
     root = Path(sys.argv[1]).resolve()
     bash = sys.argv[2]
     fixture = root / "fixtures/operational-evidence"
-    source = fixture / "native-source"
+    source = root / "test-support/native-operational-source-history"
     manifest = json.loads((source / "manifest.json").read_text(encoding="utf-8"))
     if manifest["scope"] != "FIXTURE_ONLY_NOT_NATIVE_ADMISSION" or len(manifest["files"]) != 11:
         raise SystemExit("R0038 fixture dependency population differs")

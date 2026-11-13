@@ -17,6 +17,9 @@ Installs IMPLEMENTAUDIT.skill into a Codex-style skill directory:
   $CODEX_HOME/skills/implementaudit
 
 This script validates archive shape and checksum when a manifest is supplied.
+Run it from a clean checkout at the archive inventory's exact source.commit;
+contract, commit/tree and payload must match, including for --url and --tag.
+The v0.4.0.0 asset records build commit 71a7101a, not its merge/tag commit.
 It does not install Graphify, install ActiveGraph, index, configure event stores,
 push, tag, release, or publish provenance.
 EOF
@@ -41,7 +44,8 @@ checksum=""
 checksum_url=""
 tag=""
 repo="theislampill/IMPLEMENTAUDIT.md"
-codex_home="${CODEX_HOME:-$HOME/.codex}"
+codex_home=""
+codex_home_supplied="0"
 expected_version="0.4.0"
 allow_downgrade="0"
 
@@ -80,6 +84,7 @@ while [ "$#" -gt 0 ]; do
     --codex-home)
       [ "$#" -ge 2 ] || fail "--codex-home requires a path"
       codex_home="$2"
+      codex_home_supplied="1"
       shift 2
       ;;
     --version)
@@ -100,6 +105,10 @@ while [ "$#" -gt 0 ]; do
       ;;
   esac
 done
+
+if [ "$codex_home_supplied" = "0" ]; then
+  codex_home="${CODEX_HOME:-$HOME/.codex}"
+fi
 
 if [ -n "$tag" ]; then
   [ -z "$asset" ] || fail "use either --tag or --asset, not both"

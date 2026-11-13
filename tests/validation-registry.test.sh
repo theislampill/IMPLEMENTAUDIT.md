@@ -67,4 +67,26 @@ if bash scripts/check-validation-registry.sh --repo-root "$tmp/drift" >/dev/null
   exit 1
 fi
 
+# 8. A fixed system interpreter must not inherit a moving hosted image.
+cat > "$tmp/drift/.github/workflows/validate.yml" <<'YAML'
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - run: /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py
+      - run: bash scripts/verify-package.sh
+YAML
+if bash scripts/check-validation-registry.sh --repo-root "$tmp/drift" >/dev/null 2>&1; then
+  printf 'validation-registry.test: floating image accepted for fixed Python 3.12 prerequisites\n' >&2
+  exit 1
+fi
+sed 's/ubuntu-latest/ubuntu-24.04/' "$tmp/drift/.github/workflows/validate.yml" > "$tmp/fixed.yml"
+cp "$tmp/fixed.yml" "$tmp/drift/.github/workflows/validate.yml"
+bash scripts/check-validation-registry.sh --repo-root "$tmp/drift"
+sed 's/ubuntu-24.04/ubuntu-26.04/' "$tmp/fixed.yml" > "$tmp/drift/.github/workflows/validate.yml"
+if bash scripts/check-validation-registry.sh --repo-root "$tmp/drift" >/dev/null 2>&1; then
+  printf 'validation-registry.test: incompatible image accepted for fixed Python 3.12 prerequisites\n' >&2
+  exit 1
+fi
+
 printf 'validation-registry.test: ok\n'

@@ -153,6 +153,14 @@ actionable information, bounded cost, and an exit. Retain an option only while
 information value exceeds carrying cost and its exit condition remains current.
 No trigger means no new record, ceremony, or runtime mode.
 
+For retry, recovery, or redispatch, admit only when semantic eligibility,
+deadline and queue-age policy, downstream capacity, and recovery headroom all
+pass for the requested work. Free host slots or queue depth alone never
+authorise admission. Refuse unknown effect state and incomplete capacity
+evidence; keep definitive untriggered local work on the serial cheap path.
+That cheap path requires canonical `NOT_STARTED`, no retry eligibility, and no
+requested work or queue/recovery accounting; contradictory records refuse.
+
 Use these lifecycle dispositions:
 
 - **Retain** while the consumer and consequence remain live and no cheaper

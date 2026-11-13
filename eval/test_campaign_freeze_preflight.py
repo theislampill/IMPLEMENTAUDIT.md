@@ -301,11 +301,13 @@ def production_fixture(base):
     base = pathlib.Path(base)
     repo = pathlib.Path(__file__).resolve().parent.parent
     clone_source = repo
-    if os.name == "posix" and (repo / ".git").is_file():
-        primary = repo.parent / "IMPLEMENTAUDIT"
-        assert (primary / ".git").is_dir(), primary
+    gitdir_value = ""
+    if (repo / ".git").is_file():
         gitdir_value = (repo / ".git").read_text(
             encoding="utf-8").strip().removeprefix("gitdir: ")
+    if os.name == "posix" and pathlib.PureWindowsPath(gitdir_value).drive.endswith(":"):
+        primary = repo.parent / "IMPLEMENTAUDIT"
+        assert (primary / ".git").is_dir(), primary
         drive, suffix = gitdir_value.split(":", 1)
         gitdir = pathlib.Path("/mnt") / drive.lower() / suffix.lstrip("/")
         head_value = (gitdir / "HEAD").read_text(encoding="utf-8").strip()
