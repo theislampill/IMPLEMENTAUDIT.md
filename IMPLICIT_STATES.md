@@ -285,3 +285,55 @@ establish current runtime state, grant authority, or certify a native episode.
   these members exists in a non-plain form (normalized or AST digest). None was found.
 - Failure/recovery: a failed check holds the candidate. Re-run propagation from the
   immutable base plus the semantic edit; do not hand-edit single literals.
+
+## G2-SEALED-RECEIVER-AND-LIVE-OUTPUT
+
+- Scope/owner: Root's full-G2 public receiver installation and live/terminal
+  acquisition. The maintained owners are `root_operator.py:OperationalSession`,
+  `public_operator_v2.py:control_source`, and
+  `prepare_live_control.py:verify_seal` in the DG16 receiving source.
+- Dimensions: the seven immutable receiver files and seal; runtime output root;
+  per-role write-once journal; actual acquisition; independent live review;
+  later Root control preparation. Source verification alone proves no live step.
+- Original guards: each role requires a fresh journal directory; the later
+  control consumer requires the receiver directory's complete file population
+  to equal its sealed members plus `SEAL.json`.
+- Invariant: runtime output must be disjoint from the sealed receiver source.
+  If `receiver_output_root` names that source directory, successful acquisition
+  writes `live/*` beneath it and necessarily causes the later seal check to fail.
+- Observed source defect: an unlaunched successor binding selected the same
+  directory for both roles. It was retained unchanged; no native effect or
+  original acceptance is attributed to that binding.
+- Correction: a fresh binding uses a separate `public-acquisition` sibling for
+  role outputs. The hosted source, report profile, recipient and witnessed
+  component are unaffected. Refresh only the local runtime, composition,
+  receiver and dependent operator bindings and their independent receiving.
+- Failure/recovery: preserve the defective sealed view and any actual effects;
+  never ignore extra seal members, move a live journal, or replay an uncertain
+  role to make a source check pass. Current operation records own the actual
+  paths, review identities and effect state.
+
+## DG16-TOOL-RESULT-AND-NATIVE-LOG-PROJECTION
+
+- Scope/owners: Root's first-party GitHub calls, the actual returned tool value,
+  the native `McpToolCall` event projection, and the selected receiving protocol.
+  `root_native_history.py:receive` requires the complete original byte count and
+  digest; the G1 framed role retains actual complete results supplied by Root.
+- Independent dimensions: call completion; complete returned value; native-log
+  representation; authenticated custody; receiver disposition. A completed call
+  does not establish that its native-log projection contains the complete value.
+- Observed boundary: a G124 workflow response was 80,067 bytes, while its native
+  log contained a 65,521-byte text projection without `structuredContent`.
+  The strict history reader refused the mismatch. Root retained the complete
+  actual first-party response directly, and the original G1 framed role received
+  its exact bytes; the truncated log was not credited as complete history.
+- Relevant control: the exact G213 workflow response was 49,617 bytes and matched
+  its complete native event. This is evidence for that response, not a universal
+  transport limit or a promise about future source changes.
+- Invariants: never reconstruct missing native bytes, substitute a text projection
+  for the original result, or infer authenticity from matching labels. Preserve
+  the selected protocol's actual provenance requirements. G2's exact history
+  comparison remains unchanged; incomplete history must still refuse.
+- Failure/recovery: reconcile the actual call and retained carriers before any
+  further operation. Ordinary read-only preflight observations and protected
+  one-shot role effects are distinct; a lost protected frame is not replayable.
