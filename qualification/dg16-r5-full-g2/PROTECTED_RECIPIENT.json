@@ -1,0 +1,49 @@
+{
+  "actor": "/root",
+  "automatic_retry": false,
+  "branch": "pro/dg16-r5-full-g2-direct-host-17-20261113",
+  "component_code_manifest_sha256": "f1ee813249f67b92777719f956acf9bf9d1d23dbb7d6984e9ab4870aa2cbf5a4",
+  "component_seal_sha256": "e653951703aa71933569ba2e4e40877eae469a53ef43de5178abc20f340d53bb",
+  "control_branch": "pro/dg16-r5-full-g2-direct-control-17-20261113",
+  "effect_grant": false,
+  "host_gate": "MAXIMUM_OPAQUE_PLAINTEXT_ENCRYPTION_BEFORE_EITHER_MAINTAINED_LEG",
+  "host_qualification": {
+    "independent": {
+      "bytes": 6502,
+      "sha256": "46cafda3b5ca85b5d53acddf34c214b5b1fcc024b443ed97de1ccb5c58b59adb"
+    },
+    "provider": {
+      "bytes": 888,
+      "sha256": "e0610c731130869be5fe6153b854bd3f848dfb520730249e5c4e7aa99c13ba97"
+    },
+    "public": {
+      "bytes": 8407,
+      "sha256": "0b66c69de2a657f9eb62f55c2fa120a7f4aa677366ec84d3af29cc529642f4ab"
+    },
+    "root": {
+      "bytes": 4968,
+      "sha256": "5c21c522864fe38a6c35cf537e9716dc702b054c9486d459ae92f79c863dec33"
+    },
+    "source_root": {
+      "bytes": 1367,
+      "sha256": "36914395f9b08e83f943a5b599b7e0da399ba0908552a5ed1d5b4592753d869d"
+    }
+  },
+  "isolated_maximum_encrypt_capture_received": true,
+  "issuer_thread": "01a1cf82-cdd6-7053-b7b7-32f5c3d93d21",
+  "original_awards": [],
+  "private_authenticated_interoperability": "NOT_ESTABLISHED_BY_THIS_ADOPTION",
+  "private_key_on_host": false,
+  "recipient": {
+    "bytes": 1533,
+    "sha256": "2ddc65245fbff6d48f1c62c38c2f3803ef6bdfd21a0692f1c13c911cf4fb63b3"
+  },
+  "root_receiving": {
+    "bytes": 4968,
+    "sha256": "5c21c522864fe38a6c35cf537e9716dc702b054c9486d459ae92f79c863dec33"
+  },
+  "schema": "dg16.protected-full-g2-direct-host-recipient-adoption.v2",
+  "source_commit": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+  "source_tree": "ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7",
+  "status": "ACTUAL_RECIPIENT_AND_QUALIFIED_HOST_PROFILE_SELECTED"
+}
