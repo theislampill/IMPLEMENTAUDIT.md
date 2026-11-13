@@ -1,0 +1,414 @@
+{
+  "schema": "implementaudit.evolved-programme-documentary-continuation.v1",
+  "increment_id": "2026-11-13-documentary-continuation-05",
+  "scope": "Exact AMA r17 adverse review, isolated SSD S006 whole-author freeze, partial LAW/DRF/AMA author continuation and bounded authority chronology.",
+  "documentary_baseline_commit": "0800a76adb8be51cdedafd9629797e7b6c1c589e",
+  "documentary_record_created_at_utc": "2026-11-13T07:38:04.019500+00:00",
+  "initial_programme": "../PROGRAMME.json",
+  "initial_programme_sha256": "692fe69ba64eef5ee5486a5f401f5408df5c440dcdbda5a73daf9d546ccc9ebb",
+  "previous_increment": "2026-11-13-documentary-continuation-04.json",
+  "previous_increment_sha256": "08398edc9bff05f89ae9b3815a05745dba2598fce5b5aac4d8710f03dee41b6b",
+  "catalogue_units_unchanged": 32,
+  "family_membership_changed": false,
+  "new_whole_scientific_qualifications": 0,
+  "new_central_applications_observed": 0,
+  "source_capture_limits": {
+    "A_bounded_discovery_ended_at_utc": "2026-11-13T07:16:56.757Z",
+    "B_bounded_discovery_ended_at_utc": "2026-11-13T07:17:37Z",
+    "newly_discovered_does_not_mean_newly_occurred": true,
+    "live_shared_scientific_head_observed": false,
+    "discovery_exhaustive_global_absence_proof": false
+  },
+  "SSD_S": {
+    "isolated_S006": {
+      "public_statement": "The isolated SSD continuation now has a distinct frozen whole-author S006 subject and later author byte readback; it remains unqualified, with no matching final independent review supplied by this capture.",
+      "subject": {
+        "bytes": 342420,
+        "sha256": "d8c74c0c4357d5caea91eea5fb8d2b84464081700be5bf60e3088dfe3f5cbc50"
+      },
+      "parent_subject": {
+        "bytes": 311145,
+        "sha256": "5f0d278b4ea8f740fe228017d2c9cb533cf54a4a117e75be9169865033478b32"
+      },
+      "completed_parent_review": {
+        "bytes": 4296,
+        "sha256": "7e91e57600fecd1fed15fff463ca59f7aa86e2458048f6bf027c0c5dae57034f"
+      },
+      "status": "WHOLE_AUTHOR_STUDY_COMPLETE_UNQUALIFIED",
+      "events": [
+        {
+          "event_kind": "isolated S006 whole author subject frozen",
+          "at_utc": "2026-11-13T06:44:26.645570+00:00",
+          "original_pin": {
+            "bytes": 342420,
+            "sha256": "d8c74c0c4357d5caea91eea5fb8d2b84464081700be5bf60e3088dfe3f5cbc50"
+          },
+          "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CUTOFF"
+        },
+        {
+          "event_kind": "isolated S006 author freeze receipt completed",
+          "at_utc": "2026-11-13T06:44:26.680871+00:00",
+          "original_pin": {
+            "bytes": 972,
+            "sha256": "5ac5099121ee50b05836a4ebf5db8d5427f022205b136166681fb58c5bb27255"
+          },
+          "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CUTOFF"
+        },
+        {
+          "event_kind": "isolated S006 later author byte readback",
+          "at_utc": "2026-11-13T06:44:56.953319+00:00",
+          "original_pin": {
+            "bytes": 1092,
+            "sha256": "5ff9272eb2e0cfe5b91b91fc2372ac3fa8bf366f739ae63098bb53712b2c4400"
+          },
+          "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CUTOFF"
+        },
+        {
+          "event_kind": "isolated S006 author terminal observation",
+          "at_utc": "2026-11-13T06:45:07.413374+00:00",
+          "original_pin": {
+            "bytes": 920,
+            "sha256": "f9b8cf428ab28ef809869e8ef81f742cdd075e3835a591a140ca6f5a75ed4a33"
+          },
+          "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CUTOFF"
+        }
+      ],
+      "limits": [
+        "The preparatory records precede the whole freeze and explicitly contain no whole subject or verdict.",
+        "Archive capture and transport verification do not select a branch or supply a final scientific verdict.",
+        "The original source body and executed prompt remain separately unlocated or unknown."
+      ]
+    },
+    "other_histories": {
+      "public_statement": "The owner and reconciled SSD histories remain distinct from the new isolated S006; their earlier subject identities and captured receipt states are preserved.",
+      "subjects": {
+        "original_later_candidate": {
+          "bytes": 38020,
+          "sha256": "fd9611ad0233b63f21efb724e2139da7e4bf01318a17fc80a63a55fa03989ae0"
+        },
+        "isolated_S005": {
+          "bytes": 311145,
+          "sha256": "5f0d278b4ea8f740fe228017d2c9cb533cf54a4a117e75be9169865033478b32"
+        },
+        "owner_S005": {
+          "bytes": 329272,
+          "sha256": "36c3644b80cd9b46f04867396738550586036b8b326671e6419522d878483622"
+        },
+        "reconciled_S005": {
+          "bytes": 314300,
+          "sha256": "3cf588be9c0cd95be6a7d77f3530e65185d9c2d9aa0a6c9105b16eda6ca75bb7"
+        }
+      },
+      "unchanged_states": [
+        "The original later SSD candidate retains its adverse review.",
+        "The isolated and owner S005 each retain their own returned GAP_REVISE.",
+        "The owner S006 external receipt verifies only the prior partial checkpoint.",
+        "The reconciled S005 retains its previously captured returning-review dispatch; no later final receipt was discovered here."
+      ],
+      "events": [
+        {
+          "event_kind": "owner S006 partial external byte verification",
+          "at_utc": "2026-11-13T06:25:15.389359+00:00",
+          "original_pin": {
+            "bytes": 2118,
+            "sha256": "2fd14412e392534bd01cf5bee749d528b84043c65cc666b57727daa0f3bcb99d"
+          },
+          "relative_to_prior_discovery_cutoff": "PREEXISTING_EVENT_NEWLY_DISCOVERED"
+        }
+      ],
+      "limits": [
+        "No verdict or ancestry transfers across these subjects.",
+        "No global current-state or absence claim follows from this finite refresh."
+      ]
+    },
+    "scientifically_qualified": false
+  },
+  "LAW_S": {
+    "public_statement": "Original LAW I021 is newly received as an exact frozen author increment; its freeze predates the prior discovery cutoff. Later A source records adopt partial I022 work and preserve an unfinished whole study.",
+    "subject": {
+      "bytes": 248480,
+      "sha256": "e5b248f1b808b87d50a8c36575dc25e3eb438d7872167df808872741dc1097d8"
+    },
+    "parent_subject": {
+      "bytes": 231858,
+      "sha256": "084d3b8f93b9777f7cd9492c5aa605d849c918b933ea22d19af2f283802f6b00"
+    },
+    "author_checkpoint": {
+      "bytes": 3937,
+      "sha256": "0de0e863ca33ca943fc3346111dac8f98b520b2c9c4abd0971baecb5703db25a"
+    },
+    "events": [
+      {
+        "event_kind": "original LAW I021 author increment frozen",
+        "at_utc": "2026-11-13T05:34:53.615066+00:00",
+        "original_pin": {
+          "bytes": 248480,
+          "sha256": "e5b248f1b808b87d50a8c36575dc25e3eb438d7872167df808872741dc1097d8"
+        },
+        "relative_to_prior_discovery_cutoff": "PREEXISTING_EVENT_NEWLY_DISCOVERED"
+      },
+      {
+        "event_kind": "LAW I021 separate author byte readback completion",
+        "at_utc": "2026-11-13T05:34:58.558022+00:00",
+        "original_pin": {
+          "bytes": 2266,
+          "sha256": "4405bab298269e183d38080ddd3faeaa4b65be797b140e1182b4b9f0aa0fd541"
+        },
+        "relative_to_prior_discovery_cutoff": "PREEXISTING_EVENT_NEWLY_DISCOVERED"
+      },
+      {
+        "event_kind": "A source-byte receiving of original LAW I021 and later effects",
+        "at_utc": "2026-11-13T07:07:14.893474+00:00",
+        "original_pin": {
+          "bytes": 335720,
+          "sha256": "c4f69760c2d5ae45f2e9a27f05a3629665f4ca15681f90bab169634dae350464"
+        },
+        "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CUTOFF"
+      },
+      {
+        "event_kind": "A author adoption of partial LAW I022",
+        "at_utc": "2026-11-13T07:08:41.080804+00:00",
+        "original_pin": {
+          "bytes": 75790,
+          "sha256": "c71a87da36ce0692ed0bc8bb982090efeba07b23c810d8f9debcb80f26bd57f7"
+        },
+        "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CUTOFF"
+      },
+      {
+        "event_kind": "A LAW partial scientific checkpoint",
+        "at_utc": "2026-11-13T07:12:17.260611+00:00",
+        "original_pin": {
+          "bytes": 1506,
+          "sha256": "bf56768b49c66a5c6bb5e6c0672bf9ff69598554f92946aca854d55cfcd94e26"
+        },
+        "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CUTOFF"
+      }
+    ],
+    "limits": [
+      "Author adoption is distinct from independent review or original root scientific receiving.",
+      "No later original LAW whole-study acceptance or central selection is established."
+    ],
+    "original_I021_status": "COHERENT_AUTHOR_INCREMENT_WHOLE_STUDY_UNFINISHED",
+    "later_I022_checkpoint_status": "PARTIAL_NOT_FINAL_FROZEN_SUBJECT"
+  },
+  "DRF_S": {
+    "public_statement": "Later A source records receive original partial DRF I010 material and record author adoption into a partial scientific boundary; whole author completion and final review remain pending.",
+    "inherited_closed_increment": {
+      "bytes": 9505,
+      "sha256": "373a357cfa6e11298b8edb4ce2810e159be7389bcdd85b9f179b5d826c5e8a69"
+    },
+    "partial_boundary": {
+      "bytes": 2437,
+      "sha256": "b1955b762cbb4ebef335e4e97e3f48eef2c68a3b3a0218c3873559aba6f473cd"
+    },
+    "status": "AUTHOR_PARTIAL_WHOLE_STUDY_UNFINISHED",
+    "events": [
+      {
+        "event_kind": "original DRF I010 partial source-byte receiving",
+        "at_utc": "2026-11-13T07:07:02.941624+00:00",
+        "original_pin": {
+          "bytes": 12670,
+          "sha256": "b1ce40a4ae9e89bc0fe758c519944992420ae1be82ab17d40c95dad66cd8c2f9"
+        },
+        "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CUTOFF"
+      },
+      {
+        "event_kind": "DRF inherited dependency data receiving",
+        "at_utc": "2026-11-13T07:09:30.842417+00:00",
+        "original_pin": {
+          "bytes": 10612,
+          "sha256": "a532ec6c55798d7ee8cc1c6de7d14cc36db8c9549369f0f8e45f3c95120c8c0b"
+        },
+        "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CUTOFF"
+      },
+      {
+        "event_kind": "A author adoption of partial DRF I010",
+        "at_utc": "2026-11-13T07:12:06.867650+00:00",
+        "original_pin": {
+          "bytes": 24753,
+          "sha256": "f869b783547b015687c4dbe3ca6c75b45155ef79527060c22b0882e14bb3630f"
+        },
+        "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CUTOFF"
+      },
+      {
+        "event_kind": "DRF A partial scientific boundary",
+        "at_utc": "2026-11-13T07:12:58.126632+00:00",
+        "original_pin": {
+          "bytes": 2437,
+          "sha256": "b1955b762cbb4ebef335e4e97e3f48eef2c68a3b3a0218c3873559aba6f473cd"
+        },
+        "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CUTOFF"
+      }
+    ],
+    "limits": [
+      "The captured original I010 namespace lacks its original checkpoint manifest, checkpoint receipt and report.",
+      "The A author projection does not create independent acceptance or a qualified whole study.",
+      "The inherited I009 subject and receipt remain byte-identical."
+    ]
+  },
+  "AMA_S": {
+    "public_statement": "The exact AMA R17 final adversarial GAP_REVISE is newly discovered; the original seal predates the prior cutoff. Later A records preserve parent-byte receiving and a partial R18 author correction, without a new whole freeze or independent acceptance.",
+    "reviewed_subject": {
+      "bytes": 53515,
+      "sha256": "84a912acff761a23bed92845ac0474ad06157e1f5c11b4fb1bfd3a35fc97c837"
+    },
+    "final_adversarial_receipt": {
+      "bytes": 21316,
+      "sha256": "5faf56de421fa4a1fd9547a441eb585b660486ad8e07e75dae09cf7ff2e3113a"
+    },
+    "status": "FINAL_REVIEW_COMPLETE_GAP_REVISE_ON_R17; R18_PARTIAL_NOT_WHOLE_FREEZE",
+    "events": [
+      {
+        "event_kind": "original AMA R17 final adverse adversarial receipt sealed",
+        "at_utc": "2026-11-13T05:45:16.680120+00:00",
+        "original_pin": {
+          "bytes": 21316,
+          "sha256": "5faf56de421fa4a1fd9547a441eb585b660486ad8e07e75dae09cf7ff2e3113a"
+        },
+        "relative_to_prior_discovery_cutoff": "PREEXISTING_EVENT_NEWLY_DISCOVERED"
+      },
+      {
+        "event_kind": "AMA R17 parent byte receiving in A",
+        "at_utc": "2026-11-13T07:07:24.221384+00:00",
+        "original_pin": {
+          "bytes": 58962,
+          "sha256": "4854c5ff3415e4b95f8eb110698905641b4bd7f02497a8e5fb8499da31e78e8e"
+        },
+        "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CUTOFF"
+      },
+      {
+        "event_kind": "A AMA R18 partial checkpoint",
+        "at_utc": "2026-11-13T07:14:10.677552+00:00",
+        "original_pin": {
+          "bytes": 1262,
+          "sha256": "95189877f81a64fba313bcff0c08c837f6c5816fe1af110062fef7a4584b450b"
+        },
+        "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CUTOFF"
+      }
+    ],
+    "limits": [
+      "The R17 verdict remains bound to its exact reviewed subject.",
+      "A parent receiving record is data custody, not acceptance of changed R18 science.",
+      "Detailed findings, source-specific reasons and scientific counters remain private."
+    ],
+    "selected_r17_fidelity": {
+      "bytes": 18281,
+      "sha256": "fc7276e4390fedb0b4efc5f4c24a62a20da9ee0c05f0f163d31498724a25a9f7",
+      "verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+      "unchanged": true
+    },
+    "r18_checkpoint_status": "PARTIAL_OWNER_SOURCE_CORRECTED_NOT_WHOLE_FREEZE",
+    "r18_whole_subject_frozen": false,
+    "independent_acceptance_of_r18": false,
+    "r17_adversarial_scope": "Final adversarial-validity return at its declared reading and exposure scope; attributed upstream judgment, not C scientific re-adjudication."
+  },
+  "source_authority_chronology": {
+    "public_statement": "Later isolated A author records attribute the return of unfinished LAW/DRF/AMA work to A and withdrawal of earlier B work authority to a later owner directive. The earlier A-to-B notice remains preserved as a distinct historical source.",
+    "evidence_class": "ATTRIBUTED_SOURCE_CONTROL_ASSERTIONS; ORIGINAL_LATER_OWNER_DIRECTIVE_NOT_SEPARATELY_CAPTURED",
+    "control_pins": {
+      "LAW_source_snapshot": {
+        "bytes": 53793,
+        "sha256": "464b8c2faaa97c6f73e60c81ca34c5767f99cff0811c858264703eb479b32307"
+      },
+      "DRF_author_control": {
+        "bytes": 3048,
+        "sha256": "0345319d3455eec02657747f1a1db1eb3b688f17dd9c9d614064f0004aa0bc34"
+      },
+      "AMA_author_control": {
+        "bytes": 1271,
+        "sha256": "c5cc6bb96bde5cd5f81247cd47d195e929df10053f5f205a28a8cf4744f1559c"
+      },
+      "earlier_A_to_B_notice": {
+        "bytes": 11789,
+        "sha256": "01dea22a20a6ea224d01ea205e74f194a596b4d28716846246294566d4469cfc"
+      }
+    },
+    "events": [
+      {
+        "event_kind": "A DRF partial author and authority-control record",
+        "at_utc": "2026-11-13T07:06:39.829760+00:00",
+        "original_pin": {
+          "bytes": 3048,
+          "sha256": "0345319d3455eec02657747f1a1db1eb3b688f17dd9c9d614064f0004aa0bc34"
+        },
+        "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CUTOFF"
+      },
+      {
+        "event_kind": "A AMA partial author and withdrawal-control record",
+        "at_utc": "2026-11-13T07:05:52.776855+00:00",
+        "original_pin": {
+          "bytes": 1271,
+          "sha256": "c5cc6bb96bde5cd5f81247cd47d195e929df10053f5f205a28a8cf4744f1559c"
+        },
+        "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CUTOFF"
+      },
+      {
+        "event_kind": "earlier A-to-B isolated continuation clarification issued",
+        "at_utc": "2026-11-13T06:28:49.670621+00:00",
+        "original_pin": {
+          "bytes": 11789,
+          "sha256": "01dea22a20a6ea224d01ea205e74f194a596b4d28716846246294566d4469cfc"
+        },
+        "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CUTOFF"
+      }
+    ],
+    "limits": [
+      "These control-record timestamps are not the issuance time of the later owner directive.",
+      "Predecessor process cessation remains unknown; effective shared writer exclusion is not established.",
+      "No scientific acceptance, central application or retrospective rewrite of earlier receiving is inferred."
+    ]
+  },
+  "central_and_original_receiving_boundaries": {
+    "public_statement": "The finite refresh supplies no newer central selector or live common-head proof. The four inherited central originals remain exact local historical evidence; later author progress does not itself advance original root scientific receiving or central application.",
+    "central_historical_pins": {
+      "central_selector": {
+        "bytes": 1468,
+        "sha256": "1d3e59e0ebf946074eb7221c9b005cd9edda8ad7b498e39e1cc79e65523d229c"
+      },
+      "central_subject_index": {
+        "bytes": 29697,
+        "sha256": "92bb3ea51ba89640bfd76722b9e1fcc2090cbc472bffe39ceae0838e10eb8f00"
+      },
+      "central_programme_status": {
+        "bytes": 34560,
+        "sha256": "d92411be93d75cc1a269d613fdd8ae6060b0f4827e2ac9bfce28e082b3af80b5"
+      },
+      "central_review_inventory": {
+        "bytes": 88767,
+        "sha256": "7c5cb2d974c7236abb9b836a42754f468c96bbb2719489f27879ac1855e48b9d"
+      }
+    },
+    "original_receiving_status": "Prior LAW I015/I016 and DRF I006 scientific receiving remains distinct from later original author increments and successor author adoption.",
+    "limits": [
+      "The captured historical selector remains SPR-only; this is not a verified live master head.",
+      "Later A author records refer to preserved accepted syntheses but supply no new central-selector body.",
+      "No new scientific-custody activation or effective shared-writer fence is proved by these documentary checks."
+    ]
+  },
+  "preserved_B_boundary": {
+    "LAW": "I019 data received",
+    "DRF": "I008 data received; I009 observed without sealed B receiving",
+    "B_scientific_adoption": false,
+    "B_scientific_custody_activation": false,
+    "scope": "Preserved B notice boundary; later A-owned science is separately attributed."
+  },
+  "preserved_scientific_qualifications": [
+    "24 constituent lineages",
+    "SPR-S",
+    "CSS-S",
+    "BWP-S",
+    "SSS-S"
+  ],
+  "non_effects": {
+    "whole_qualification_created": false,
+    "central_master_written": false,
+    "B_custody_activated": false,
+    "predecessor_process_cessation_proved": false,
+    "shared_writer_exclusion_proved": false,
+    "native_implementation_or_runtime_behavior_proved": false,
+    "Pages_deployed": false,
+    "new_RLGWO_issued": false,
+    "rough_responsibility_mapping_changed": false
+  },
+  "public_boundary": "Permitted subject/review/control identities, event times and attributed bounded status only. Protected bodies, findings, scientific counters and acquisition identities remain private."
+}

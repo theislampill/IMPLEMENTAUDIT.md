@@ -2,7 +2,7 @@
 
 [Programme index](../README.md) · [Exact metadata registry](../PROGRAMME.json)
 
-Evidence cutoff: 2026-11-12 22:31:39 UTC. This version is a public-safe receiving projection, not a new scientific verdict. Detailed protected studies are not included.
+Initial evidence cutoff: 2026-11-12 22:31:39 UTC. [Latest received state](#latest-receiving-at-continuation-05) is recorded separately below. This version is a public-safe receiving projection, not a new scientific verdict. Detailed protected studies are not included.
 
 ## Later receiving — 23:12:39 UTC checkpoint
 
@@ -75,3 +75,9 @@ Original-root scientific receiving is now supplied for I013 and I014 at their de
 Original-root bounded scientific receiving advances through I015 and I016. Later author bytes reach I020, received at 05:14:17 UTC with scientific receiving still pending for that increment. B separately receives data through I019 without activating exclusive scientific custody. Whole authorship and qualification remain unfinished; the detailed directional counters remain private.
 
 The [third documentary continuation](../increments/2026-11-13-documentary-continuation-03.md) and its [exact metadata](../increments/2026-11-13-documentary-continuation-03.json) preserve each subject, review, source event and receiving scope. Scientific acceptance, central application, documentation, public source access and native implementation remain separate.
+
+## Latest receiving at continuation 05
+
+Original I021 is newly received as exact subject `e5b248f1…`, frozen at 05:34:53.615066 UTC within an unfinished whole study. Later A author adoption of I022 and its checkpoint remain partial, without a final whole subject or independent acceptance. Those author events do not advance original-root scientific receiving beyond its recorded scope. Later A controls attribute continuation to changed owner allocation; the separate directive and its issuance time were not captured, and predecessor cessation remains unknown. LAW remains unqualified.
+
+The [fifth receiving record](../increments/2026-11-13-documentary-continuation-05.md) and [exact metadata](../increments/2026-11-13-documentary-continuation-05.json) preserve original event kinds, custody chronology and finite capture limits. No central application or native implementation follows.

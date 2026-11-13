@@ -55,3 +55,7 @@ The [third receiving increment](increments/2026-11-13-documentary-continuation-0
 ## Subject-bound adverse receiving — continuation 04
 
 The [fourth increment](increments/2026-11-13-documentary-continuation-04.md) receives two exact S005 adverse whole-fidelity returns while separately receiving a third frozen S005 on a different parent-review context. A review verdict belongs to its exact subject; neither a shared revision label nor a shared parent transfers that verdict. Exposed author-support assessment, partial S006 checkpoint, whole-author freeze, final independent review, scientific qualification and central selection remain separate. Source event kinds are retained, including earlier events newly discovered in later custody records.
+
+## Late adverse review and author continuation — continuation 05
+
+The [fifth increment](increments/2026-11-13-documentary-continuation-05.md) distinguishes newly discovered AMA r17 and LAW I021 events from later-occurring SSD S006 and partial author work. Final adverse review, whole-author freeze, partial author adoption and scientific qualification retain separate meanings. Later A authority statements are attributed source controls; they do not supply the missing direct owner directive or its decision time, global process cessation, effective shared exclusion or central application. Earlier B receiving and transfer records remain historical evidence. All protected source-body and implementation limits continue.

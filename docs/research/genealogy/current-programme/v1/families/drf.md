@@ -2,7 +2,7 @@
 
 [Programme index](../README.md) · [Exact metadata registry](../PROGRAMME.json)
 
-Evidence cutoff: 2026-11-12 22:31:39 UTC. This version is a public-safe receiving projection, not a new scientific verdict. Detailed protected studies are not included.
+Initial evidence cutoff: 2026-11-12 22:31:39 UTC. [Latest received state](#latest-receiving-at-continuation-05) is recorded separately below. This version is a public-safe receiving projection, not a new scientific verdict. Detailed protected studies are not included.
 
 ## Later receiving — 23:12:39 UTC checkpoint
 
@@ -75,3 +75,9 @@ Original-root scientific receiving is now supplied for I005 at its bounded autho
 Original-root bounded scientific receiving advances through I006. Later author bytes reach I009, received at 05:14:17 UTC with scientific receiving still pending for that increment. B separately receives data through I008; its reported later I009 observation is not a sealed B receiving event. Exclusive scientific custody remains inactive, and whole authorship and qualification remain unfinished.
 
 The [third documentary continuation](../increments/2026-11-13-documentary-continuation-03.md) and its [exact metadata](../increments/2026-11-13-documentary-continuation-03.json) preserve each subject, review, source event and receiving scope. Scientific acceptance, central application, documentation, public source access and native implementation remain separate.
+
+## Latest receiving at continuation 05
+
+Later records receive original partial I010 and record A author adoption at 07:12:06.867650 UTC, followed by an unfinished partial boundary with final review pending. The inherited I009 manifest and receipt remain unchanged. Missing original I010 checkpoint/report material and the lost earlier receiving record are not reconstructed by this projection. Later A controls report prior B work authority withdrawn while predecessor cessation remains unknown. These attributed controls prove neither shared writer exclusion nor independent acceptance. DRF remains unqualified.
+
+The [fifth receiving record](../increments/2026-11-13-documentary-continuation-05.md) and [exact metadata](../increments/2026-11-13-documentary-continuation-05.json) preserve original event kinds, custody chronology and finite capture limits. No central application or native implementation follows.

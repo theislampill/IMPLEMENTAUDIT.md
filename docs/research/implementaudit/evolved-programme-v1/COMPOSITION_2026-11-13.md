@@ -52,6 +52,12 @@ Starting from C commit `abfaf5919b0d492c331c4493675611eb85332891`, site preimage
 
 The 06:31:21 UTC readback retains the exact #224/#254/#255 and historical branch heads recorded above. This increment changes no donor-owned source body; `site.json` remains the shared-file overlap. The same bounded union recipes, donor dependency files and source-owner checkpoints remain necessary before any composed-tree acceptance. No donor tree, release metadata or native behavior is adopted.
 
+## Continuation 05 source-list composition
+
+The accepted continuation04 C source is commit `0800a76adb8be51cdedafd9629797e7b6c1c589e`, site blob `52845afecf23e37fb8e11fd5242054882e1f7144`. Continuation05 appends its Markdown/JSON receiving pair to the programme and AMA Page source lists; its resulting site blob is `9e332a9d363211245698f0b88f04b93f2edb8054`. Every earlier source binding, navigation/Page object and release field is preserved. Only site.json among the donor-shared inputs changes in this increment; all other donor recipes retain their exact owners and inputs.
+
+The latest pre-edit readback retains #224 `e6b43a40e844cb02fa2839f6e3fce892e885c9e6`, #254 `0358c6b2dc5d16df50713911ed5b58a390864065`, #255 `ed2c060daa41b6b88c1d49b325a3aa920088aed8` and historical preparation `1018f5bf2fecc2a5f321d451cbaf5a911c18dfa9`. The bounded source-list union remains unadopted; owner dependency intake and composed-source acceptance remain outstanding. Preserve the new C source pairs when any later bounded donor composition is prepared. No donor source body or native behavior is imported here.
+
 ## Bounded composition recipes
 
 | Owner file | Required composition | Verification and remaining dependency |

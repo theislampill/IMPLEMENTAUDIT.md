@@ -2,7 +2,7 @@
 
 [Programme index](../README.md) · [Exact metadata registry](../PROGRAMME.json)
 
-Evidence cutoff: 2026-11-12 22:31:39 UTC. This version is a public-safe receiving projection, not a new scientific verdict. Detailed protected studies are not included.
+Initial evidence cutoff: 2026-11-12 22:31:39 UTC. [Latest received state](#latest-receiving-at-continuation-05) is recorded separately below. This version is a public-safe receiving projection, not a new scientific verdict. Detailed protected studies are not included.
 
 ## Later receiving — 23:12:39 UTC checkpoint
 
@@ -81,3 +81,9 @@ The [third documentary continuation](../increments/2026-11-13-documentary-contin
 The isolated and owner S005 subjects now have distinct received whole-fidelity **GAP_REVISE** outcomes. A third S005 is separately frozen on the reconciled continuation, explicitly bound to the later owner-S004 review; its returning whole fidelity is dispatched, with no final current-subject receipt in its captured source. A separate exposed author-support assessment concerns the owner S005, not that third subject. No verdict transfers between these identities.
 
 Captured isolated and owner S006 records remain partial: neither supplies a frozen whole S006 subject or final independent verdict. The [fourth receiving record](../increments/2026-11-13-documentary-continuation-04.md) and [exact metadata](../increments/2026-11-13-documentary-continuation-04.json) preserve original event kinds and newly discovered earlier events. SSD remains scientifically unqualified, with no new central application or native implementation credit.
+
+## Latest receiving at continuation 05
+
+The isolated S006 is now a frozen whole-author subject, `d8c74c0c…`, at 06:44:26.645570 UTC, with later author byte readback. It binds isolated S005 `5f0d278b…` and that subject's exact adverse fidelity receipt `7e91e576…`; it remains unqualified, with no matching final independent review supplied here. Owner S005, reconciled S005, the original later candidate and the owner S006 partial checkpoint retain separate identities and captured outcomes. Earlier partial isolated records are preserved at their own event times.
+
+The [fifth receiving record](../increments/2026-11-13-documentary-continuation-05.md) and [exact metadata](../increments/2026-11-13-documentary-continuation-05.json) preserve original event kinds, custody chronology and finite capture limits. No central application or native implementation follows.

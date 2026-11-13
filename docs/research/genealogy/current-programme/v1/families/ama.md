@@ -2,7 +2,7 @@
 
 [Programme index](../README.md) · [Exact metadata registry](../PROGRAMME.json)
 
-Initial evidence cutoff: 2026-11-12 22:31:39 UTC. [Latest received review state](#later-review-and-author-receiving--continuation-03) is recorded separately below. This version is a public-safe receiving projection, not a new scientific verdict. Detailed protected studies are not included.
+Initial evidence cutoff: 2026-11-12 22:31:39 UTC. [Latest received review state](#latest-receiving-at-continuation-05) is recorded separately below. This version is a public-safe receiving projection, not a new scientific verdict. Detailed protected studies are not included.
 
 ## Four scientific identities
 
@@ -80,3 +80,9 @@ The exact r17 author subject is now frozen and independently byte-received. Whol
 The unchanged frozen r17 subject now has a selected independent whole-fidelity ACCEPTED_AT_DECLARED_SCOPE receipt, root receiving and release to a distinct adversary. The captured 05:32:53 UTC source reports a material adversarial concern, but no final sealed receipt has been received. A separate earlier original fidelity acceptance is preserved without replacing the selected review. The r16 adverse history remains intact; AMA is still scientifically unqualified.
 
 The [third documentary continuation](../increments/2026-11-13-documentary-continuation-03.md) and its [exact metadata](../increments/2026-11-13-documentary-continuation-03.json) preserve each subject, review, source event and receiving scope. Scientific acceptance, central application, documentation, public source access and native implementation remain separate.
+
+## Latest receiving at continuation 05
+
+Exact r17 now has a received final adversarial **GAP_REVISE**, sealed at 05:45:16.680120 UTC on unchanged subject `84a912ac…`. Selected fidelity acceptance remains at its declared scope; it does not override the adverse return. The verdict is newly discovered evidence with an earlier event time. A later r18 checkpoint is partial author correction without a whole freeze or independent acceptance. AMA remains unqualified; the r13/r16 adverse and earlier pending-receipt histories remain intact.
+
+The [fifth receiving record](../increments/2026-11-13-documentary-continuation-05.md) and [exact metadata](../increments/2026-11-13-documentary-continuation-05.json) preserve original event kinds, custody chronology and finite capture limits. No central application or native implementation follows.

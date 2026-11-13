@@ -16,6 +16,8 @@ The [third 13 November continuation](increments/2026-11-13-documentary-continuat
 
 The [fourth 13 November continuation](increments/2026-11-13-documentary-continuation-04.md) receives distinct GAP_REVISE fidelity returns for the isolated and owner SSD S005 subjects, a third frozen reconciled S005 with returning fidelity still pending at its source capture, and separate partial S006 records. It preserves the distinction between newly discovered evidence and original event time. No whole qualification, central application or B custody activation follows.
 
+The [fifth 13 November continuation](increments/2026-11-13-documentary-continuation-05.md) receives AMA r17's final adversarial GAP_REVISE and an isolated frozen whole-author SSD S006. LAW I021 is an exact earlier author increment; later LAW I022, DRF I010 and AMA r18 remain partial author work. Later A authority assertions are attributed without inventing the original directive's issuance time or predecessor cessation. All four syntheses remain unqualified, with no new central application.
+
 ## Initial snapshot family map
 
 | Family | L1 / L2 / L3 in exact programme order | Historical constituent property rows | Received synthesis state |
