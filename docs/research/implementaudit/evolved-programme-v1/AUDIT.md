@@ -55,3 +55,9 @@ Baseline: portal **45/45**, original genealogy positive/negative controls, 4/4 f
 ## Publication-boundary successor observation — 23:30:03 UTC
 
 Main and PRs #224/#254 retained the previously recorded heads. [PR #255 successor `dc9ef638`](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/dc9ef638b5fd0e7f238080da7470105ee8aa8bb4), tree `2680f46a97456987f0413af67405abf0711ea5ee`, reports 509 total changed files. Its [delta from `14adb7c4`](https://github.com/theislampill/IMPLEMENTAUDIT.md/compare/14adb7c4c8e9b3b9394eea78e2ca3589d5cd832c...dc9ef638b5fd0e7f238080da7470105ee8aa8bb4) contains four paths: `.github/workflows/validate.yml`, `IMPLICIT_STATES.md`, `scripts/check-validation-registry.sh` and `tests/validation-registry.test.sh`. None intersects C's initial 37-path candidate. No donor file or workflow change was adopted. The original census and earlier successor remain historical snapshots.
+
+## Successor ownership readback — 13 November 2026
+
+The [bounded composition record](COMPOSITION_2026-11-13.md) binds the 03:03:40 UTC readback. Main, delivered C, #224, #254 and the historical preparation head were unchanged. #255 advanced to `ed2c060daa41b6b88c1d49b325a3aa920088aed8`; its 16-path delta has no intersection with C's 39 delivered paths. The existing shared-file composition obligations remain. All 19 #254 file versions equal #255 by blob and mode, while the current #254 tip is not an ancestor; equality is not merge or acceptance evidence. No donor change was adopted.
+
+The [13 November documentary receiving increment](../../genealogy/current-programme/v1/increments/2026-11-13-documentary-successor-01.md) adds exact later author/partial-subject metadata without new qualification, central application, historical reconstruction or native credit. The original programme, preceding increment and rough responsibility registry retain their own cutoffs.

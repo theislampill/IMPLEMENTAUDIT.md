@@ -58,3 +58,7 @@ This establishes programme identity, documentary receiving and an accessible dis
 - [r0045-attribution-qualification.md](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/implementaudit/r0045-attribution-qualification.md) — immutable public predecessor at `e78f7cb21af4197d490f10bc95917a4c75f748aa`.
 
 The registry’s SHA-256 values identify received scientific objects; they are not public download locators. [Source and status boundaries](../SOURCE_STATUS.md) explain the limits and receiving rules. Historical adverse findings, missing originals and accepted errata are preserved in custody and are not rewritten by this projection.
+
+## Later documentary receiving — 13 November
+
+The r16 whole author study is frozen and byte-received. Its later whole fidelity receipt records GAP_REVISE on that exact subject, so it remains scientifically unqualified. A later r17 author was reported dispatched, but no frozen r17 subject was observed in the received successor state. See the [versioned successor receiving record](../increments/2026-11-13-documentary-successor-01.md); it preserves the earlier snapshot and does not establish native implementation.

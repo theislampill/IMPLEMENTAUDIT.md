@@ -43,3 +43,5 @@ This layer adds no runtime mode, family executor, governance controller, package
 ## Dated receiving increments
 
 The [23:12:39 UTC increment](increments/2026-11-12-231239Z.md) preserves the initial registry. SSS substantive A receiving is established for the unchanged qualified subject, while central application is explicitly staged only. SSD author completion and LAW/DRF partial receiving do not establish qualification. The captured central count is not recomputed by C or presented as a live shared-head state.
+
+The [13 November successor](increments/2026-11-13-documentary-successor-01.md) records later frozen author subjects, exact adverse fidelity returns and original partial receiving, while preserving the earlier qualified outcomes. Exact selected manifest bytes are received; omitted inherited dependency graphs remain outside this receiving scope. Active reviews, data receiving and owner allocation do not establish acceptance, central application or completed operational custody.

@@ -8,6 +8,8 @@ Repository baseline: [`e78f7cb21af4197d490f10bc95917a4c75f748aa`](https://github
 
 The [23:12:39 UTC increment](increments/2026-11-12-231239Z.md) records SSS receiving acknowledged by A with central application still staged, SSD successor author completion under fidelity review, and later LAW/DRF partial returns. It adds no scientific qualification and preserves the initial snapshot below. [Exact receiving metadata](increments/2026-11-12-231239Z.json) binds the unchanged scientific identities and actual new receipts.
 
+The [13 November documentary successor](increments/2026-11-13-documentary-successor-01.md) receives SSD S003 and AMA r16, their later GAP_REVISE fidelity returns, and later original LAW/DRF partial subjects through I013/I005. All four remain scientifically unqualified. The existing four synthesis qualifications and staged-only CSS/BWP/SSS central intents retain their separate evidence boundaries.
+
 ## Initial snapshot family map
 
 | Family | L1 / L2 / L3 in exact programme order | Historical constituent property rows | Received synthesis state |

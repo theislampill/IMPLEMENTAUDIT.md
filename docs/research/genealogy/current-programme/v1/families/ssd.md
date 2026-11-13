@@ -61,3 +61,7 @@ This establishes programme identity, documentary receiving and an accessible dis
 - [README.md](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/ssd/README.md) — immutable public predecessor at `e78f7cb21af4197d490f10bc95917a4c75f748aa`.
 
 The registry’s SHA-256 values identify received scientific objects; they are not public download locators. [Source and status boundaries](../SOURCE_STATUS.md) explain the limits and receiving rules. Historical adverse findings, missing originals and accepted errata are preserved in custody and are not rewritten by this projection.
+
+## Later documentary receiving — 13 November
+
+The S003 whole author study is frozen and byte-received. Its later returning whole fidelity receipt records GAP_REVISE on that exact subject and root receiving preserves that outcome. It remains scientifically unqualified. S002 GAP_REVISE stays with S002; later original-branch attribution is a different subject. See the [versioned successor receiving record](../increments/2026-11-13-documentary-successor-01.md); it preserves the earlier snapshot and does not establish native implementation.
