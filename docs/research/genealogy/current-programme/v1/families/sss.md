@@ -45,6 +45,18 @@ Direct observation, a simpler product, no product-family mechanism, an unchanged
 
 Negative, rejected, deferred, unresolved and research-only records remain distinct from absent analysis. Neither no-material-at-this-scope nor zero admitted novelty is a universal impossibility claim. More elaborate composition is warranted only when it changes a supported decision.
 
+## Already-public repository examples
+
+The older [R003D::SSS-SYNTHESIS record](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/implementaudit/sss-synthesis-qualification.md#required-receiving-families-and-preserved-limits) makes the separate predicates concrete. These examples explain that public target undertaking; they do not disclose or replace the protected current r16 scientific model.
+
+| Public example | Supported distinction and retained limit |
+|---|---|
+| A consistent architectural model with a wrong realized artifact | Model consistency survives as bounded evidence, but does not qualify the realized product or whole group. |
+| A closed release with supported older consumers | Stopping new admissions does not remove pending consequences, support obligations or the need to retain their usable records. |
+| Regeneration that reduces implementation effort | An implementation-only saving does not establish durable maintenance benefit across later tasks, regressions and support costs. The record's later-task cost card is expressly constructed stimulus, not a real study. |
+
+Its [five retained research questions](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/implementaudit/sss-synthesis-qualification.md#five-distinct-research-frontiers) concern autonomous architecting, restoration of change capability, durable net maintainability, sustained unattended maintenance, and regeneration versus maintained variability. Their populations and evidence needs remain distinct. One observation or reused study cannot resolve all five. The [later receiving outcome](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/implementaudit/sss-synthesis-qualification.md#later-whole-population-receiving-outcome) preserves 150 member actions with no additional target intervention, 80 bounded receiving decisions and five unresolved questions. Those are action scopes, not 235 executed mechanisms or a newly qualified restoration or transition. Prior exposure and shared evidence prevent independent-replication credit.
+
 ## Current qualification, novelty and limits
 
 The current r16 scientific acceptance is distinct from the older bounded R003D::SSS-SYNTHESIS target receipt. Its protected detailed model is not republished here. The canonical maintenance population is 105; the earlier alternative 98- and 74-row bodies are preserved history, not extra constituents.

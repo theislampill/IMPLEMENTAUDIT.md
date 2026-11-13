@@ -69,3 +69,9 @@ The S003 whole author study is frozen and byte-received. Its later returning who
 ## Later frozen-author receiving — continuation 02
 
 Two distinct S004 subjects are now frozen: the isolated continuation (`261895c2…`) and the owner successor (`89759a09…`). A separate original-author whole subject (`fd9611ad…`) is also received. Each has its own receiving and review boundary; none has a received whole qualifier or current accepted final-review pair. No cross-branch supersession or central selection is inferred, and S003 GAP_REVISE stays with S003. The [dated continuation and full identities](../increments/2026-11-13-documentary-continuation-02.md) preserve these distinctions and all earlier snapshots.
+
+## Later review and author receiving — continuation 03
+
+Both distinct S004 subjects now have received GAP_REVISE fidelity records; the owner S004 has two separately identified review contexts. A local reconciliation selects that unchanged subject for review only, not central selection. Two distinct S005 authors are frozen and byte-received from their respective earlier S004 reviews. Neither establishes correction of the later reconciled review, whose own frozen successor was absent from the captured source. The separate original-author whole study also received GAP_REVISE. No current whole qualification follows.
+
+The [third documentary continuation](../increments/2026-11-13-documentary-continuation-03.md) and its [exact metadata](../increments/2026-11-13-documentary-continuation-03.json) preserve each subject, review, source event and receiving scope. Scientific acceptance, central application, documentation, public source access and native implementation remain separate.

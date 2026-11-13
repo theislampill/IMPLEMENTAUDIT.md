@@ -580,7 +580,8 @@
         "docs/research/genealogy/current-programme/v1/README.md",
         "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
         "docs/research/genealogy/current-programme/v1/SOURCE_STATUS.md",
-        "docs/research/genealogy/README.md"
+        "docs/research/genealogy/README.md",
+        "docs/research/genealogy/current-programme/v1/families/law.md"
       ]
     },
     "research-lineage-systems-engineering": {
@@ -591,7 +592,9 @@
         "fixtures/public-projection/lineage-reader-questions.json",
         "skills/implementaudit/references/repo-state-comparison.md",
         "skills/implementaudit/references/phase-design.md",
-        "skills/implementaudit/references/plan-lifecycle.md"
+        "skills/implementaudit/references/plan-lifecycle.md",
+        "docs/research/genealogy/current-programme/v1/families/ssd.md",
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json"
       ]
     },
     "research-lineage-systems-security-engineering": {
@@ -601,7 +604,9 @@
       "sources": [
         "fixtures/public-projection/lineage-reader-questions.json",
         "skills/implementaudit/references/repo-state-comparison.md",
-        "skills/implementaudit/references/continuity.md"
+        "skills/implementaudit/references/continuity.md",
+        "docs/research/genealogy/current-programme/v1/families/ssd.md",
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json"
       ]
     },
     "research-lineage-decision-operations-engineering": {
@@ -612,7 +617,9 @@
         "fixtures/public-projection/lineage-reader-questions.json",
         "skills/implementaudit/references/planning-depth.md",
         "skills/implementaudit/references/lean-operating-discipline.md",
-        "skills/implementaudit/references/child-agents.md"
+        "skills/implementaudit/references/child-agents.md",
+        "docs/research/genealogy/current-programme/v1/families/ssd.md",
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json"
       ]
     },
     "research-lineage-evolved-css": {
@@ -627,7 +634,8 @@
         "docs/research/genealogy/current-programme/v1/README.md",
         "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
         "docs/research/genealogy/current-programme/v1/SOURCE_STATUS.md",
-        "docs/research/genealogy/README.md"
+        "docs/research/genealogy/README.md",
+        "docs/research/genealogy/current-programme/v1/families/css.md"
       ]
     },
     "research-lineage-evolved-ssd": {
@@ -642,7 +650,8 @@
         "docs/research/genealogy/current-programme/v1/README.md",
         "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
         "docs/research/genealogy/current-programme/v1/SOURCE_STATUS.md",
-        "docs/research/genealogy/README.md"
+        "docs/research/genealogy/README.md",
+        "docs/research/genealogy/current-programme/v1/families/ssd.md"
       ]
     },
     "research-lineage-distributed-systems-engineering": {
@@ -652,7 +661,9 @@
       "sources": [
         "fixtures/public-projection/lineage-reader-questions.json",
         "skills/implementaudit/references/repo-state-comparison.md",
-        "skills/implementaudit/references/continuity.md"
+        "skills/implementaudit/references/continuity.md",
+        "docs/research/genealogy/current-programme/v1/families/drf.md",
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json"
       ]
     },
     "research-lineage-reliability-maintainability-engineering": {
@@ -662,7 +673,9 @@
       "sources": [
         "fixtures/public-projection/lineage-reader-questions.json",
         "skills/implementaudit/references/lean-operating-discipline.md",
-        "skills/implementaudit/references/planning-depth.md"
+        "skills/implementaudit/references/planning-depth.md",
+        "docs/research/genealogy/current-programme/v1/families/drf.md",
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json"
       ]
     },
     "research-lineage-formal-methods-verification-engineering": {
@@ -672,7 +685,9 @@
       "sources": [
         "fixtures/public-projection/lineage-reader-questions.json",
         "skills/implementaudit/references/phase-design.md",
-        "skills/implementaudit/references/repo-state-comparison.md"
+        "skills/implementaudit/references/repo-state-comparison.md",
+        "docs/research/genealogy/current-programme/v1/families/drf.md",
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json"
       ]
     },
     "research-lineage-evolved-drf": {
@@ -687,7 +702,8 @@
         "docs/research/genealogy/current-programme/v1/README.md",
         "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
         "docs/research/genealogy/current-programme/v1/SOURCE_STATUS.md",
-        "docs/research/genealogy/README.md"
+        "docs/research/genealogy/README.md",
+        "docs/research/genealogy/current-programme/v1/families/drf.md"
       ]
     },
     "research-lineage-cognitive-systems-engineering": {
@@ -698,7 +714,9 @@
         "fixtures/public-projection/lineage-reader-questions.json",
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/phase-design.md",
-        "skills/implementaudit/references/plan-lifecycle.md"
+        "skills/implementaudit/references/plan-lifecycle.md",
+        "docs/research/genealogy/current-programme/v1/families/css.md",
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json"
       ]
     },
     "research-lineage-statistical-engineering": {
@@ -708,7 +726,9 @@
       "sources": [
         "fixtures/public-projection/lineage-reader-questions.json",
         "skills/implementaudit/references/phase-design.md",
-        "scripts/check-acceptance-instrument-discipline.sh"
+        "scripts/check-acceptance-instrument-discipline.sh",
+        "docs/research/genealogy/current-programme/v1/families/css.md",
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json"
       ]
     },
     "research-lineage-systems-safety": {
@@ -718,7 +738,9 @@
       "sources": [
         "fixtures/public-projection/lineage-reader-questions.json",
         "skills/implementaudit/references/lean-operating-discipline.md",
-        "skills/implementaudit/references/planning-depth.md"
+        "skills/implementaudit/references/planning-depth.md",
+        "docs/research/genealogy/current-programme/v1/families/css.md",
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json"
       ]
     },
     "research-lineage-s3e": {
@@ -762,7 +784,9 @@
         "docs/research/genealogy/current-programme/v1/increments/2026-11-13-documentary-successor-01.md",
         "docs/research/genealogy/current-programme/v1/increments/2026-11-13-documentary-successor-01.json",
         "docs/research/genealogy/current-programme/v1/increments/2026-11-13-documentary-continuation-02.md",
-        "docs/research/genealogy/current-programme/v1/increments/2026-11-13-documentary-continuation-02.json"
+        "docs/research/genealogy/current-programme/v1/increments/2026-11-13-documentary-continuation-02.json",
+        "docs/research/genealogy/current-programme/v1/increments/2026-11-13-documentary-continuation-03.md",
+        "docs/research/genealogy/current-programme/v1/increments/2026-11-13-documentary-continuation-03.json"
       ]
     },
     "research-lineage-evolved-sss": {
@@ -799,7 +823,9 @@
         "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
         "docs/research/implementaudit/r0043-eaose-ama-qualification.md",
         "docs/research/implementaudit/r0044-emas-qualification.md",
-        "docs/research/implementaudit/r0045-attribution-qualification.md"
+        "docs/research/implementaudit/r0045-attribution-qualification.md",
+        "docs/research/genealogy/current-programme/v1/increments/2026-11-13-documentary-continuation-03.md",
+        "docs/research/genealogy/current-programme/v1/increments/2026-11-13-documentary-continuation-03.json"
       ]
     },
     "research-lineage-evolved-spr": {

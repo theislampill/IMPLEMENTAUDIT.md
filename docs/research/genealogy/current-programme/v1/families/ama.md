@@ -2,7 +2,7 @@
 
 [Programme index](../README.md) · [Exact metadata registry](../PROGRAMME.json)
 
-Evidence cutoff: 2026-11-12 22:31:39 UTC. This version is a public-safe receiving projection, not a new scientific verdict. Detailed protected studies are not included.
+Initial evidence cutoff: 2026-11-12 22:31:39 UTC. [Latest received review state](#later-review-and-author-receiving--continuation-03) is recorded separately below. This version is a public-safe receiving projection, not a new scientific verdict. Detailed protected studies are not included.
 
 ## Four scientific identities
 
@@ -41,9 +41,17 @@ A direct single actor, simpler coordination or no delegation can be appropriate.
 
 Negative, rejected, deferred, unresolved and research-only records remain distinct from absent analysis. Neither no-material-at-this-scope nor zero admitted novelty is a universal impossibility claim. More elaborate composition is warranted only when it changes a supported decision.
 
-## Current qualification, novelty and limits
+## Already-public responsibility and comparison examples
 
-The current scientific AMA synthesis is unfinished after a received r13 adverse review, despite the older bounded R0043::AMA-CONTINUATION acceptance. The earlier target undertaking has 278 originals and 32 groups. Its 32 groups are unrelated to this programme’s 32 scientific units.
+The public [R0043 receiving record](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/implementaudit/r0043-eaose-ama-qualification.md#actual-receiving-of-the-recovered-records) preserves an accountable parent who uses valid child facts while retaining integration responsibility and the human approval boundary. A child's useful contribution does not authorize merge, and a proposed collective completion with unassigned responsibility was rejected. An adequate directly commissioned path remained admissible. These are documentary receiving decisions at the recorded scope, with disclosed prior exposure and coverage limits; they do not establish general autonomy or native lifecycle acceptance.
+
+The separate [R0044 comparison](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/implementaudit/r0044-emas-qualification.md#one-fair-comparison-and-its-real-consumer) actually received both complete documentary alternatives. One direct report satisfied all six required evidence units. Two partial reports satisfied three each and were assembled and checked against the same full outcome. Actual integration mattered: two available partial reports alone were not the complete result.
+
+Both alternatives met that documentary criterion, but **total cost remained INCONCLUSIVE**. Observed intervals did not measure tokens, money or active compute; receiving, rework, coordination and integration were real costs, and order/cache/shared-source dependence limited inference. The adequate direct alternative therefore remains available. This older comparison is not a new trial, independent replication, general multi-agent advantage, native JOIN or qualification of the later AMA scientific subject.
+
+## Initial qualification snapshot — 12 November 2026, 22:31:39 UTC
+
+At the initial cutoff, the scientific AMA synthesis was unfinished after a received r13 adverse review, despite the older bounded R0043::AMA-CONTINUATION acceptance. The earlier target undertaking has 278 originals and 32 groups. Its 32 groups are unrelated to this programme’s 32 scientific units.
 
 This public metadata projection makes no new scientific novelty claim. The exact accepted novelty verdict, higher-order inquiry, directional ledgers, adverse history and review exposure limits remain attached to their frozen scientific subject. Detailed successor interpretation is privately staged pending publication clearance; a public predecessor is not silently substituted for it.
 
@@ -66,3 +74,9 @@ The r16 whole author study is frozen and byte-received. Its later whole fidelity
 ## Later frozen-author receiving — continuation 02
 
 The exact r17 author subject is now frozen and independently byte-received. Whole fidelity remains in progress in the received later state, and the final subject is not released to the distinct adversary. Closed bounded support and preparatory records supply no whole verdict. AMA remains unqualified, with r16 GAP_REVISE preserved on r16. See the [dated continuation and exact identities](../increments/2026-11-13-documentary-continuation-02.md); the earlier observation that r17 was not yet frozen remains history at its own cutoff.
+
+## Later review and author receiving — continuation 03
+
+The unchanged frozen r17 subject now has a selected independent whole-fidelity ACCEPTED_AT_DECLARED_SCOPE receipt, root receiving and release to a distinct adversary. The captured 05:32:53 UTC source reports a material adversarial concern, but no final sealed receipt has been received. A separate earlier original fidelity acceptance is preserved without replacing the selected review. The r16 adverse history remains intact; AMA is still scientifically unqualified.
+
+The [third documentary continuation](../increments/2026-11-13-documentary-continuation-03.md) and its [exact metadata](../increments/2026-11-13-documentary-continuation-03.json) preserve each subject, review, source event and receiving scope. Scientific acceptance, central application, documentation, public source access and native implementation remain separate.

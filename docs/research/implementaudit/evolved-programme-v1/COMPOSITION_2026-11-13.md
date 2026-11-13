@@ -38,7 +38,13 @@ All entries below are mode `100644`. The main base above supplies the common anc
 
 The two #254 portal blobs equal the #255 overview and `site.json` entries above. This successor's `site.json` blob is `000adbe436a32bc4736dcef817d7916831b0d122`; its only change from the pinned C version appends the Markdown and JSON paths for `2026-11-13-documentary-successor-01` to `pages.research-programme.sources`. Preserve those paths when refreshing a later composition.
 
-The next documentary continuation starts from accepted C commit `fbbd60d9049c9b889e3daac4c3a8ddd87ef8d8d0`. Its `site.json` preimage for later composition is `7d912b9e16df972a1629426c0517b8699e86f00f`: the only additional structural change appends the Markdown and JSON paths for `2026-11-13-documentary-continuation-02` to the same programme source list. Preserve all three dated receiving source pairs. The fresh donor comparison found no changed donor head or shared-file input; the recipes and owner dependencies below remain bounded to those donor pins. Re-read the actual successor head and this file blob before applying a composition.
+The accepted second continuation at C commit `dd862aac9f42eabbcd1e6ad2b1ebb01fb01c2579`, whose parent is `fbbd60d9049c9b889e3daac4c3a8ddd87ef8d8d0`, contains `site.json` blob `7d912b9e16df972a1629426c0517b8699e86f00f`: its additional structural change appends the Markdown and JSON paths for `2026-11-13-documentary-continuation-02` to the same programme source list. Preserve all three dated receiving source pairs. The fresh donor comparison found no changed donor head or shared-file input; the recipes and owner dependencies below remain bounded to those donor pins. Re-read the actual successor head and this file blob before applying a composition.
+
+## Continuation 03 source-list composition
+
+The new correction starts from accepted C `dd862aac9f42eabbcd1e6ad2b1ebb01fb01c2579` and the `7d912b9e16df972a1629426c0517b8699e86f00f` site preimage. Its resulting site blob is `664593671683a2ff68a110698511cac3e2b51a7c`. It adds exact current-family/registry sources for nine historical constituent Pages, exact family sources for the four original family Pages, and the continuation-03 Markdown/JSON pair to the programme and AMA Pages. Preserve these bounded source bindings as well as all earlier receiving pairs when applying the union recipe below.
+
+The fresh donor readback retains the pinned #224/#254/#255 heads and their shared-file identities. None of the seventeen family/constituent Page bodies changed by this normalization intersects those donors' actual changed-path populations. `site.json` remains a shared owner file: its new source bindings are C's additions, while the donor's semantic-source and overview-source additions retain their own exact dependencies. No donor tree or release metadata is adopted. Actual source-owner checkpoints and final composed-source qualification remain outstanding.
 
 ## Bounded composition recipes
 

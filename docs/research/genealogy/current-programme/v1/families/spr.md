@@ -21,7 +21,7 @@ The synthesis row reuses the constituent population; do not add it to the lineag
 - Programming Language Theory: constituent identity and historical 69-row population received.
 - Requirements Engineering: constituent identity and historical 72-row population received.
 
-These descriptions use the public predecessor context where linked below. They do not claim that the historical publication is the later corrected frozen subject. Exact current subject and review identifiers are recorded per unit in the registry.
+These descriptions are received programme identity and population metadata. No public immutable SPR scientific body was verified in this documentary slice, so they are not an interpretation of such a body. Exact current subject and review identifiers, together with the source-access gaps, are recorded per unit in the registry.
 
 ## Composition, directions and joint effects
 

@@ -69,3 +69,9 @@ The earlier I010 pending boundary is preserved. Later original-root partial scie
 ## Later partial scientific receiving — continuation 02
 
 Original-root scientific receiving is now supplied for I013 and I014 at their declared partial scopes. The latest received original frozen partial subject is I017; I015/I016/I017 scientific receiving remains pending at the later original frontier. B separately has data through I016 but has not activated scientific custody. Whole LAW remains unfinished and unqualified. See the [dated continuation](../increments/2026-11-13-documentary-continuation-02.md) for exact source boundaries; the earlier pending observations remain dated history.
+
+## Later review and author receiving — continuation 03
+
+Original-root bounded scientific receiving advances through I015 and I016. Later author bytes reach I020, received at 05:14:17 UTC with scientific receiving still pending for that increment. B separately receives data through I019 without activating exclusive scientific custody. Whole authorship and qualification remain unfinished; the detailed directional counters remain private.
+
+The [third documentary continuation](../increments/2026-11-13-documentary-continuation-03.md) and its [exact metadata](../increments/2026-11-13-documentary-continuation-03.json) preserve each subject, review, source event and receiving scope. Scientific acceptance, central application, documentation, public source access and native implementation remain separate.
