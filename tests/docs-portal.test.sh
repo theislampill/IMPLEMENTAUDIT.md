@@ -123,6 +123,9 @@ assert groups["Research & Engineering Lineage"] == [
     "research-lineage-software-product-line-engineering",
     "research-lineage-evolved-sss",
     "research-lineage-evolved-bwp",
+    "research-lineage-evolved-bwp-business-process-management",
+    "research-lineage-evolved-bwp-workflow-management",
+    "research-lineage-evolved-bwp-process-mining",
     "research-lineage-evolved-ama",
     "research-lineage-evolved-spr",
     "research-lineage-s3e",
@@ -1123,14 +1126,25 @@ import subprocess
 import tempfile
 from pathlib import Path
 
+scientific_examples = [
+    "What evidence establishes or defeats the scoped criterion: preserved obligations.",
+    "Hidden code or vendor-specific behaviour defeats validation, portability or operator understanding.",
+    "Provide an abstention path where uncertainty defeats actionability.",
+    "A counterexample with a simpler adequate workflow defeats the universal claim.",
+    "A necessary feedback loop or independent parallel activity defeats the mandatory-serial claim.",
+]
 cases = [
-    ("What evidence establishes or defeats the scoped criterion: preserved obligations.", True),
+    (" ".join(scientific_examples), True),
     ("This product defeats its competitor.", False),
     ("What evidence establishes or defeats the scoped criterion: preserved obligations. "
      "This product defeats its competitor.", False),
     ("What evidence establishes or defeats the scoped criterion: preserved obligations. "
      "This product beats every alternative.", False),
     ("This product is better than X.", False),
+    (scientific_examples[1] + " This product defeats its competitor.", False),
+    (scientific_examples[2] + " This product defeats its competitor.", False),
+    ("This product defeats its competitor. " + scientific_examples[3], False),
+    (scientific_examples[4] + " This product beats every alternative.", False),
 ]
 with tempfile.NamedTemporaryFile(
     mode="w", encoding="utf-8", prefix=".claim-language-", suffix=".html",

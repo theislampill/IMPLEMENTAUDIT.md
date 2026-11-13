@@ -120,6 +120,9 @@
         "research-lineage-software-product-line-engineering",
         "research-lineage-evolved-sss",
         "research-lineage-evolved-bwp",
+        "research-lineage-evolved-bwp-business-process-management",
+        "research-lineage-evolved-bwp-workflow-management",
+        "research-lineage-evolved-bwp-process-mining",
         "research-lineage-evolved-ama",
         "research-lineage-evolved-spr",
         "research-lineage-s3e"
@@ -782,7 +785,7 @@
       ]
     },
     "research-lineage-s3e": {
-      "title": "S³E",
+      "title": "S\u00b3E",
       "path": "research-engineering-lineage/s3e/",
       "source": "research-lineage-s3e.html",
       "sources": [
@@ -863,7 +866,12 @@
       "sources": [
         "docs/research/genealogy/current-programme/v1/families/bwp.md",
         "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
-        "docs/research/implementaudit/r0040-event-meaning-qualification.md"
+        "docs/research/implementaudit/r0040-event-meaning-qualification.md",
+        "docs/research/genealogy/current-programme/v1/families/bwp/README.md",
+        "docs/research/genealogy/current-programme/v1/families/bwp/BWP-S.md",
+        "docs/research/genealogy/current-programme/v1/families/bwp/GENEALOGY.md",
+        "docs/research/genealogy/current-programme/v1/families/bwp/COMPLETENESS.json",
+        "docs/research/genealogy/current-programme/v1/families/bwp/RLGWO_OUTLINES.md"
       ]
     },
     "research-lineage-evolved-ama": {
@@ -948,6 +956,42 @@
         "docs/research/genealogy/current-programme/v1/families/sss/COMPLETENESS.md",
         "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
         "docs/research/genealogy/current-programme/v1/families/sss.md"
+      ]
+    },
+    "research-lineage-evolved-bwp-business-process-management": {
+      "title": "Business Process Management",
+      "path": "research-engineering-lineage/evolved-bwp-business-process-management/",
+      "source": "research-lineage-evolved-bwp-business-process-management.html",
+      "sources": [
+        "docs/research/genealogy/current-programme/v1/families/bwp/BWP-L1.md",
+        "docs/research/genealogy/current-programme/v1/families/bwp/SOURCE_MANIFEST.json",
+        "docs/research/genealogy/current-programme/v1/families/bwp/HISTORICAL_PROPERTY_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/bwp/PROPERTY_OWNER_MAP.json",
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json"
+      ]
+    },
+    "research-lineage-evolved-bwp-workflow-management": {
+      "title": "Workflow Management",
+      "path": "research-engineering-lineage/evolved-bwp-workflow-management/",
+      "source": "research-lineage-evolved-bwp-workflow-management.html",
+      "sources": [
+        "docs/research/genealogy/current-programme/v1/families/bwp/BWP-L2.md",
+        "docs/research/genealogy/current-programme/v1/families/bwp/SOURCE_MANIFEST.json",
+        "docs/research/genealogy/current-programme/v1/families/bwp/HISTORICAL_PROPERTY_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/bwp/PROPERTY_OWNER_MAP.json",
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json"
+      ]
+    },
+    "research-lineage-evolved-bwp-process-mining": {
+      "title": "Process Mining",
+      "path": "research-engineering-lineage/evolved-bwp-process-mining/",
+      "source": "research-lineage-evolved-bwp-process-mining.html",
+      "sources": [
+        "docs/research/genealogy/current-programme/v1/families/bwp/BWP-L3.md",
+        "docs/research/genealogy/current-programme/v1/families/bwp/SOURCE_MANIFEST.json",
+        "docs/research/genealogy/current-programme/v1/families/bwp/HISTORICAL_PROPERTY_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/bwp/PROPERTY_OWNER_MAP.json",
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json"
       ]
     }
   }

@@ -465,3 +465,5 @@ The [four detailed CSS outlines](../../genealogy/current-programme/v1/families/c
 ### SSS whole-family documentary continuation
 
 [Four detailed SSS rough responsibilities](../../genealogy/current-programme/v1/families/sss/RLGWO_OUTLINES.md) separately retain Architecture, canonical Maintenance/Evolution, Product Line Engineering and the embedded synthesis receiving responsibility. They preserve the existing 32 slots, issue owners, protected-current-source limits and adequate/no-change outcomes. They do not create issues or authorise a new RLGWO campaign.
+
+BWP whole-family continuation: [four detailed rough responsibilities](../../genealogy/current-programme/v1/families/bwp/RLGWO_OUTLINES.md) preserve BWP-L1 R003F/#225, BWP-L2 R0041/#230, BWP-L3 R0040/#229 and BWP-S R003F::BWP-LANE-CONTINUATION as four separately assessed components. The complete historical 234-property owner map and private current scientific account do not authorise new issues, reopening or a full RLGWO campaign.

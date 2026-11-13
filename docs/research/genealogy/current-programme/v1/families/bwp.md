@@ -65,3 +65,10 @@ This establishes programme identity, documentary receiving and an accessible dis
 - [Existing embedded BWP undertaking](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/225#issuecomment-5638961875) and [open documentation continuation PR #254](https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/254). Their target scope and branch state remain separate from new scientific qualification.
 
 The registry’s SHA-256 values identify received scientific objects; they are not public download locators. [Source and status boundaries](../SOURCE_STATUS.md) explain the limits and receiving rules. Historical adverse findings, missing originals and accepted errata are preserved in custody and are not rewritten by this projection.
+
+
+## Whole-family successor documentation
+
+The [four-unit documentary package](bwp/README.md) now supplies complete individually addressable historical property readers for [Business Process Management](bwp/BWP-L1.md), [Workflow Management](bwp/BWP-L2.md) and [Process Mining](bwp/BWP-L3.md), a [separate fourth-stage account](bwp/BWP-S.md), [layered genealogy](bwp/GENEALOGY.md), the [complete historical owner map](bwp/PROPERTY_OWNER_MAP.json) and [four rough responsibilities](bwp/RLGWO_OUTLINES.md). Its [eight-component assessment](bwp/COMPLETENESS.json) distinguishes the authorised public scope from protected current scientific content and review/rendering gates.
+
+The complete selected current scientific account is retained privately with four specific disclosure proposals. All remain PENDING. The full public current scientific account is not complete while those substantive protected interpretations remain withheld. New documentary bytes require fresh review; existing scientific acceptances bind their original subjects only. This addition creates no scientific requalification, central application, implementation acceptance, new issue or RLGWO campaign.

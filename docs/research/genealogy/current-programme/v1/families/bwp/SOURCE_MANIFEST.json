@@ -1,0 +1,279 @@
+{
+  "schema": "cohort-c-bwp-public-source-custody/1",
+  "historical_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+  "historical_tree": "4732d73a103c72178120532c695f7b23d3a528a1",
+  "verification": "Complete historical source bodies matched exact size, SHA-256 and Git blob identity against the authenticated recursive Git tree. No current protected scientific body is used by the public reader generator.",
+  "sources": [
+    {
+      "unit_id": "BWP-L1",
+      "kind": "ALREADY_PUBLIC_HISTORICAL_SOURCE",
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PROPERTY_LEDGER.json",
+      "commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "git_blob_sha1": "a29cc0b4250311183270584b8650afe62eeba178",
+      "bytes": 1072094,
+      "sha256": "7d6217f869a8085e61a1b2c8bec7652efabc718e1aa03845e5c6b44493e924f3",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PROPERTY_LEDGER.json"
+    },
+    {
+      "unit_id": "BWP-L1",
+      "kind": "ALREADY_PUBLIC_HISTORICAL_SOURCE",
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_SOURCE_TABLE.json",
+      "commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "git_blob_sha1": "752c772342613b9faa88953309ccbe2adba021c3",
+      "bytes": 132848,
+      "sha256": "268c84bb082ccafb2ca4f99cade4099e5b8d48214dc9cc9820f26bd441b00440",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_SOURCE_TABLE.json"
+    },
+    {
+      "unit_id": "BWP-L1",
+      "kind": "ALREADY_PUBLIC_HISTORICAL_SOURCE",
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_COMPOSITION_MODEL.json",
+      "commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "git_blob_sha1": "d723066d260eb61134a58d5bda5bcd9583c75229",
+      "bytes": 428485,
+      "sha256": "5959234839358d9bcad8969060d5bd81b026f98a534c756fbe4c51efdd661281",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_COMPOSITION_MODEL.json"
+    },
+    {
+      "unit_id": "BWP-L1",
+      "kind": "ALREADY_PUBLIC_HISTORICAL_SOURCE",
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "git_blob_sha1": "8203b57215ae2c9aa642eff0ddc6d20f38bd3dc7",
+      "bytes": 22872,
+      "sha256": "b65e032f83fa7fa313d73b73e1da3e584e3f0aeac9cee31e4f565a507d67a7e1",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PUBLIC_DOCUMENTATION_INTAKE.md"
+    },
+    {
+      "unit_id": "BWP-L1",
+      "kind": "ALREADY_PUBLIC_HISTORICAL_SOURCE",
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_REPORT.md",
+      "commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "git_blob_sha1": "31b8a1920df3548b4657bdf342f805518bb3c978",
+      "bytes": 322958,
+      "sha256": "2ec53faf86722487859aa6777ef49a2abd1dbca6dd9e34db5023b04cfec86d8b",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_REPORT.md"
+    },
+    {
+      "unit_id": "BWP-L1",
+      "kind": "ALREADY_PUBLIC_HISTORICAL_SOURCE",
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_MANIFEST.json",
+      "commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "git_blob_sha1": "cbdf44b4ccfc9ef8879562f72ece873ffdb6a6d1",
+      "bytes": 22271,
+      "sha256": "5f6286ef670308609381bc22fad3bc9da8cc9fb1bc0823b9aa4954c3dc741643",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_MANIFEST.json"
+    },
+    {
+      "unit_id": "BWP-L1",
+      "kind": "ALREADY_PUBLIC_HISTORICAL_SOURCE",
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_RESEARCH_COVERAGE.json",
+      "commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "git_blob_sha1": "7407b1326efcbdebad60b57c9eeca8107572203a",
+      "bytes": 35897,
+      "sha256": "ab80dfb7efe31880c9ddc5439dce3ed63c10bfef41e701bc74958d425c0c9c20",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_RESEARCH_COVERAGE.json"
+    },
+    {
+      "unit_id": "BWP-L2",
+      "kind": "ALREADY_PUBLIC_HISTORICAL_SOURCE",
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_PROPERTY_LEDGER.json",
+      "commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "git_blob_sha1": "b6e73acb6febd93745c8307be1037f29a09e26c6",
+      "bytes": 1095256,
+      "sha256": "e1e7fabf894e9d2dee8eed20888fb561c8aa356a57a288c88dac635563f9262c",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_PROPERTY_LEDGER.json"
+    },
+    {
+      "unit_id": "BWP-L2",
+      "kind": "ALREADY_PUBLIC_HISTORICAL_SOURCE",
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_SOURCE_TABLE.json",
+      "commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "git_blob_sha1": "26070dbe5d4658a06420486faaec02a8d7751e6c",
+      "bytes": 86047,
+      "sha256": "e3d40e2befea3dfcec003d532905171d4d6283148a7612ac69ab1002b905d36c",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_SOURCE_TABLE.json"
+    },
+    {
+      "unit_id": "BWP-L2",
+      "kind": "ALREADY_PUBLIC_HISTORICAL_SOURCE",
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_COMPOSITION_MODEL.json",
+      "commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "git_blob_sha1": "d91b82973774dad80a36bc6d0cf6356e6eaa861a",
+      "bytes": 806187,
+      "sha256": "ba6121eb3a9ee8e322b635472528f8819952264776b04ac238593bfd61b86137",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_COMPOSITION_MODEL.json"
+    },
+    {
+      "unit_id": "BWP-L2",
+      "kind": "ALREADY_PUBLIC_HISTORICAL_SOURCE",
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "git_blob_sha1": "2812b7a9a6ab68da07d65166bd1f19714b01edf6",
+      "bytes": 11107,
+      "sha256": "53b6d58f31c4702bb6047195e30aa354b3b9fb86fd4890cfce332fde5ebdf4fb",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_PUBLIC_DOCUMENTATION_INTAKE.md"
+    },
+    {
+      "unit_id": "BWP-L2",
+      "kind": "ALREADY_PUBLIC_HISTORICAL_SOURCE",
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_FROZEN_REPORT.md",
+      "commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "git_blob_sha1": "0f88074c817366c2eae9a38dfcad4837dc75033d",
+      "bytes": 269451,
+      "sha256": "6fb3f75e6352cb2d90fcee79b3fcc28d7984cf262fa69b64afab9377729d69a2",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_FROZEN_REPORT.md"
+    },
+    {
+      "unit_id": "BWP-L2",
+      "kind": "ALREADY_PUBLIC_HISTORICAL_SOURCE",
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_FROZEN_MANIFEST.json",
+      "commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "git_blob_sha1": "713956e7aa4a7d33e92cc420c5fc2f34c85f738f",
+      "bytes": 14605,
+      "sha256": "69dd419cb5ebf3eae661042660f936783ff92e7d930369e0faa849e3d568401f",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_FROZEN_MANIFEST.json"
+    },
+    {
+      "unit_id": "BWP-L2",
+      "kind": "ALREADY_PUBLIC_HISTORICAL_SOURCE",
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_RESEARCH_COVERAGE.json",
+      "commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "git_blob_sha1": "ffab3bfeba9861469a047877af5ed5e3c22b87ff",
+      "bytes": 54652,
+      "sha256": "1ebf8485e4da80919052476e08d9b5fddf4839f61ecebd9074e2e581a34479f2",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_RESEARCH_COVERAGE.json"
+    },
+    {
+      "unit_id": "BWP-L3",
+      "kind": "ALREADY_PUBLIC_HISTORICAL_SOURCE",
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_PROPERTY_LEDGER.json",
+      "commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "git_blob_sha1": "87889551a3ec43e005b64eeb0d0e2be22a8b11e6",
+      "bytes": 1053080,
+      "sha256": "c4d19d8f6b053606a4a44740ab4d70862561bf9954de8807bca26d72ff3bb019",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_PROPERTY_LEDGER.json"
+    },
+    {
+      "unit_id": "BWP-L3",
+      "kind": "ALREADY_PUBLIC_HISTORICAL_SOURCE",
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_SOURCE_TABLE.json",
+      "commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "git_blob_sha1": "117b8a55605753e0f0948b95c5cd688a0fcf5064",
+      "bytes": 221420,
+      "sha256": "5398ea3380ab5634e4233c1612f939cc414301e5dd15026cb8dca17d5181acd7",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_SOURCE_TABLE.json"
+    },
+    {
+      "unit_id": "BWP-L3",
+      "kind": "ALREADY_PUBLIC_HISTORICAL_SOURCE",
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_COMPOSITION_MODEL.json",
+      "commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "git_blob_sha1": "a9b7c5fc75e03f06c3896a4aefe15478da037593",
+      "bytes": 607307,
+      "sha256": "37216d6ba50efd147f8d72b29516e46012931332cac0c2f9c76e0064963756db",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_COMPOSITION_MODEL.json"
+    },
+    {
+      "unit_id": "BWP-L3",
+      "kind": "ALREADY_PUBLIC_HISTORICAL_SOURCE",
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "git_blob_sha1": "fea0f0965614f3ec9a536fe104646d6aae62289a",
+      "bytes": 10676,
+      "sha256": "1b2eb4438c6fb62dd60e244d1004b1e1bd0f12c0e352d387cb8410d434dcbf07",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_PUBLIC_DOCUMENTATION_INTAKE.md"
+    },
+    {
+      "unit_id": "BWP-L3",
+      "kind": "ALREADY_PUBLIC_HISTORICAL_SOURCE",
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_FROZEN_REPORT.md",
+      "commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "git_blob_sha1": "87f8df777d546c07f737193f0f52bdd9f577be84",
+      "bytes": 256626,
+      "sha256": "b09aaa9c70e32166b720a4913b151ba2dfb2f016dae94f4adad10c0167931ead",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_FROZEN_REPORT.md"
+    },
+    {
+      "unit_id": "BWP-L3",
+      "kind": "ALREADY_PUBLIC_HISTORICAL_SOURCE",
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_FROZEN_MANIFEST.json",
+      "commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "git_blob_sha1": "928aad209ff966c1c6f2665ae5d9d948b5db9dc0",
+      "bytes": 12229,
+      "sha256": "0a733f6a496c567044e8ec324038d57c5f0f7af5803413f0ae8b415b7c5a3677",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_FROZEN_MANIFEST.json"
+    },
+    {
+      "unit_id": "BWP-L3",
+      "kind": "ALREADY_PUBLIC_HISTORICAL_SOURCE",
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_RESEARCH_COVERAGE.json",
+      "commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "git_blob_sha1": "d40003d0aa52141dc495e958ffd231eb16595226",
+      "bytes": 34847,
+      "sha256": "78fd3dcf3b9d2b343bbbc736b056955ae73dd6e7fb560c794f8f54a7608ad84c",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_RESEARCH_COVERAGE.json"
+    },
+    {
+      "unit_id": "BWP-S",
+      "kind": "ALREADY_PUBLIC_HISTORICAL_ARCHIVE",
+      "path": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "git_blob_sha1": "f224af8b13f1e2b78096c892c8f63e0c6fe0e139",
+      "bytes": 5322062,
+      "sha256": "6e3c95f7c81e5bbac67880f6ff58d360112e706d3469edbd8da425cb61233214",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip"
+    },
+    {
+      "source": "historical_target",
+      "commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/implementaudit/triad-integration/DISPOSITIONS.json",
+      "path": "docs/research/implementaudit/triad-integration/DISPOSITIONS.json",
+      "bytes": 2209426,
+      "sha256": "616584f2e13d41fd8afb116f2b81b035d2f4600a13814f7523ebff4010a05dab",
+      "rows_root": "properties",
+      "scope": "Existing public historical corrected-target records; later private continuation remains separate, and public custody is not receiving acceptance.",
+      "git_blob_sha1": "5e94bd9c4f899aa3cbc11fe7da8698620f379e8d"
+    },
+    {
+      "source": "shared_bridge_source",
+      "commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "path": "docs/research/implementaudit/triad-integration/COMPOSITION_FINDINGS.json",
+      "url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/implementaudit/triad-integration/COMPOSITION_FINDINGS.json",
+      "bytes": 22814,
+      "sha256": "7f6930b34a88553bf6cac0b4d1f1ab1a8eb2a0847220be80bf1952f4e4a1af47",
+      "selector": "findings with the seven exact IDs in shared_bridge_target_meanings; complete original fields and parents remain accessible.",
+      "git_blob_sha1": "e2c2eb857a3aeb4f21f0563d7631c594d43251c3"
+    },
+    {
+      "kind": "EXISTING_PUBLIC_ISSUE",
+      "number": 225,
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/225",
+      "state_at_retrieval": "open",
+      "updated_at": "2026-10-16T03:18:54Z",
+      "body_sha256": "c82f5dfd9d0829e7635df732ba549e603d63fd6a7fede19dac1e0253ac29b019",
+      "meaning": "Actual issue state only; bounded source ownership, not comprehensive implementation acceptance."
+    },
+    {
+      "kind": "EXISTING_PUBLIC_ISSUE",
+      "number": 230,
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/230",
+      "state_at_retrieval": "open",
+      "updated_at": "2026-09-11T18:28:27Z",
+      "body_sha256": "0a3ed67c70aa5698590945d2a132014a5b6c0adff07e902469b96280a2f8a24f",
+      "meaning": "Actual issue state only; bounded source ownership, not comprehensive implementation acceptance."
+    },
+    {
+      "kind": "EXISTING_PUBLIC_ISSUE",
+      "number": 229,
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/229",
+      "state_at_retrieval": "closed",
+      "updated_at": "2026-10-16T03:26:09Z",
+      "body_sha256": "94fcfd6362a3902e1ce56245e5fe5a64becad00c204f4df335c17365f6de2dbc",
+      "meaning": "Actual issue state only; bounded source ownership, not comprehensive implementation acceptance."
+    }
+  ],
+  "current_scientific_metadata_source": "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
+  "historical_original_executed_commissions": "UNKNOWN; packaged prompts or manifests alone do not authenticate execution or steers.",
+  "current_private_bodies": "WITHHELD_PENDING_FOUR_SOURCE_SPECIFIC_DISCLOSURE_DECISIONS"
+}

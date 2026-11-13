@@ -1,0 +1,46 @@
+{
+  "schema": "bwp-documentary-review-public-receiving-v1",
+  "received_date_utc": "2026-11-13",
+  "documentary_manifest": {
+    "bytes": 154503,
+    "sha256": "ef65485c1dae42959629062055649ceeeceb452b02b55c800e0dc69d07c09506",
+    "payloads": 519
+  },
+  "independent_content_verdict": "PASS_AT_DECLARED_DOCUMENTARY_SCOPE",
+  "required_corrections": [],
+  "review_report": {
+    "bytes": 26982,
+    "sha256": "1db5e8d3fdd7b54bc64bcdcee435bbeed06e37f6af9333b7165fcc81b92aa17e"
+  },
+  "review_receipt": {
+    "bytes": 3639,
+    "sha256": "e1e1503048b8b642e0672c70d83986435c3c863322d489c40aaf3124ac17776e"
+  },
+  "read_mask": {
+    "bytes": 20239,
+    "sha256": "a1dd637fa5c9771a4807718bc8ce286abdff192e79d560fa462747e634643a18"
+  },
+  "whole_public_current_science": "INCOMPLETE_PROTECTED_SUBSTANTIVE_INTERPRETATIONS_WITHHELD",
+  "disclosure_decisions": {
+    "BWP-DISCLOSURE-L1": "PENDING",
+    "BWP-DISCLOSURE-L2": "PENDING",
+    "BWP-DISCLOSURE-L3": "PENDING",
+    "BWP-DISCLOSURE-S": "PENDING"
+  },
+  "visual_status": "UNVERIFIED_ENVIRONMENT_BLOCKED",
+  "publication_gates": [
+    "exact expected parent and complete affected bytes",
+    "independent final integration delta review",
+    "portal generation and structural/link checks",
+    "portal regression including negative claim controls",
+    "programme and original genealogy preservation controls",
+    "post-publication full file and tree readback"
+  ],
+  "scope_limits": [
+    "This content receipt does not itself certify the later integrated tree or publication.",
+    "Complete mechanical correspondence does not claim fresh semantic reading of every scientific relation or primary source.",
+    "Original executed commissions and steering remain UNKNOWN.",
+    "Protected current science, acquisition records and private review bodies remain private.",
+    "No central application, native implementation, issue action, main merge or Pages deployment is established."
+  ]
+}

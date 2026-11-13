@@ -302,9 +302,19 @@ for path in Path(".").rglob("*"):
                 # claim, including another comparison on this same line.
                 claim_line = line
                 if phrase == "defeats":
-                    claim_line = claim_line.replace(
-                        "establishes or defeats the scoped criterion", "criterion discrimination"
-                    )
+                    # Exact historical failure/criterion statements are not
+                    # product comparisons. Mask only these clauses so a separate
+                    # superiority claim on the same line remains detectable.
+                    for scientific_clause in (
+                        "establishes or defeats the scoped criterion",
+                        "hidden code or vendor-specific behaviour defeats validation, "
+                        "portability or operator understanding",
+                        "uncertainty defeats actionability",
+                        "a counterexample with a simpler adequate workflow defeats the universal claim",
+                        "a necessary feedback loop or independent parallel activity "
+                        "defeats the mandatory-serial claim",
+                    ):
+                        claim_line = claim_line.replace(scientific_clause, "criterion discrimination")
                 if phrase in claim_line:
                     failures.append(f"{path}:{line_no}: {reason}: {phrase}")
 

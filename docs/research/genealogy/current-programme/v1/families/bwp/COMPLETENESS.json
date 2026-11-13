@@ -1,0 +1,138 @@
+{
+  "schema": "cohort-c-bwp-eight-component-completeness/1",
+  "family": "BWP",
+  "units": [
+    "BWP-L1",
+    "BWP-L2",
+    "BWP-L3",
+    "BWP-S"
+  ],
+  "new_documentary_candidate": "NEW_RECONSTRUCTION_FROM_AUTHENTIC_SOURCES_NOT_BYTE_IDENTICAL_PREDECESSOR_AUTHOR_OUTPUT",
+  "full_private_scientific_documentation": "COMPLETE_AT_DECLARED_DOCUMENTARY_SCOPE_INDEPENDENT_CONTENT_REVIEW_PASS",
+  "currently_authorised_public_scope": "CONTENT_ACCEPTED_AT_DECLARED_SCOPE_SEPARATE_INTEGRATION_AND_VISUAL_GATES",
+  "full_public_current_scientific_account": "INCOMPLETE_PROTECTED_SUBSTANTIVE_INTERPRETATIONS_WITHHELD",
+  "disclosure_decisions": [
+    {
+      "id": "BWP-DISCLOSURE-L1",
+      "state": "PENDING",
+      "unit": "BWP-L1"
+    },
+    {
+      "id": "BWP-DISCLOSURE-L2",
+      "state": "PENDING",
+      "unit": "BWP-L2"
+    },
+    {
+      "id": "BWP-DISCLOSURE-L3",
+      "state": "PENDING",
+      "unit": "BWP-L3"
+    },
+    {
+      "id": "BWP-DISCLOSURE-S",
+      "state": "PENDING",
+      "unit": "BWP-S"
+    }
+  ],
+  "components": [
+    {
+      "id": 1,
+      "component": "Source-grounded genealogy of three lineages and synthesis",
+      "private": "Complete selected sources and layered manuscript accounts retained; original executed commissions/steers remain UNKNOWN.",
+      "public": "Historical genealogy, exact current subject/review identities and source-layer boundaries documented. Protected current scientific genealogy details require the relevant disclosure decision.",
+      "evidence": [
+        "GENEALOGY.md",
+        "SOURCE_MANIFEST.json",
+        "BWP-L1.md",
+        "BWP-L2.md",
+        "BWP-L3.md",
+        "BWP-S.md"
+      ]
+    },
+    {
+      "id": 2,
+      "component": "Three distinct lineage accounts, properties, predicates and limits",
+      "private": "All 234 current native property records, every field, and all selected scientific payloads retained; connected manuscripts cover specific predicates, findings, assumptions and limitations.",
+      "public": "All 234 original historical property records with all fields and individual anchors; selected current bodies remain protected. Equality of old/current counts is not sameness of science.",
+      "evidence": [
+        "HISTORICAL_PROPERTY_MAP.json",
+        "BWP-L1.md",
+        "BWP-L2.md",
+        "BWP-L3.md"
+      ]
+    },
+    {
+      "id": 3,
+      "component": "Separate guarded fourth-stage synthesis",
+      "private": "Current accepted r7 recovered successor003 whole account and native records retained separately from the three constituents.",
+      "public": "Separate historical/public synthesis explanation and exact current qualification metadata; protected current full interpretation withheld pending BWP-DISCLOSURE-S.",
+      "evidence": [
+        "BWP-S.md",
+        "GENEALOGY.md"
+      ]
+    },
+    {
+      "id": 4,
+      "component": "Material directions, higher-order findings, counterexamples, alternatives, negatives and novelty",
+      "private": "Current exact native records, actual repair account, connected manuscript and complete higher-order reader retained, including execution/read limits and adverse history.",
+      "public": "Concrete already-public guarded directions, reverse distinctions, historical higher-order and novelty results, alternatives and constructed target examples; newer protected findings withheld.",
+      "evidence": [
+        "BWP-S.md",
+        "BWP-L1.md",
+        "BWP-L2.md",
+        "BWP-L3.md"
+      ]
+    },
+    {
+      "id": 5,
+      "component": "Maintained Pages sources, navigation and cross-links",
+      "private": "Proposed public sources and integration instructions frozen for independent review.",
+      "public": "Three complete lineage readers and the expanded synthesis Page are connected through maintained navigation and the reference index. Integrated generation, links and regression remain distinct from actual desktop/mobile visual acceptance.",
+      "evidence": [
+        "../../../..",
+        "HISTORICAL_PROPERTY_MAP.json"
+      ]
+    },
+    {
+      "id": 6,
+      "component": "Four rough RLGWO responsibilities with real owners and residual boundaries",
+      "private": "Four-unit responsibilities use existing public carriers and historical row-specific source-owner evidence; no new implementation decision.",
+      "public": "R003F/#225, R0041/#230, R0040/#229 and the separately accepted embedded R003F::BWP-LANE-CONTINUATION. All 234 historical owner/target records retained; 32 programme conceptual slots unchanged.",
+      "evidence": [
+        "RLGWO_OUTLINES.md",
+        "PROPERTY_OWNER_MAP.json"
+      ]
+    },
+    {
+      "id": 7,
+      "component": "Consistent terminology and scientific/native/publication distinctions",
+      "private": "Original and current sources, native and wrapper qualifications, scientific and documentary reviews, source acquisition, public disclosure and implementation receipts kept distinct.",
+      "public": "Source-specific pending disclosure states and original/current identity boundaries visible; no central application, native acceptance, new issue or deployment inferred.",
+      "evidence": [
+        "README.md",
+        "GENEALOGY.md",
+        "BWP-S.md",
+        "RLGWO_OUTLINES.md"
+      ]
+    },
+    {
+      "id": 8,
+      "component": "Independent fidelity, documentary, safety review and applicable checks",
+      "private": "Fresh independent documentary fidelity, source-safety and completeness review passed on the exact new frozen package. Existing scientific reviews retain their distinct accepted subjects and scopes.",
+      "public": "The bounded review record identifies fresh content acceptance. Final integrated-tree review, automated checks and publication readback are recorded separately; visual acceptance remains UNVERIFIED_ENVIRONMENT_BLOCKED.",
+      "evidence": [
+        "SOURCE_MANIFEST.json",
+        "README.md",
+        "REVIEW_STATUS.json"
+      ]
+    }
+  ],
+  "review_state": "PASS_AT_DECLARED_DOCUMENTARY_SCOPE",
+  "automated_checks": "CURRENT_INTEGRATED_PORTAL_PROGRAMME_GENEALOGY_AND_REGRESSION_RESULTS_RECORDED_WITH_PUBLICATION",
+  "rendering": "UNVERIFIED_ENVIRONMENT_BLOCKED",
+  "scientific_qualification": "EXISTING_QUALIFICATION_RECEIVED_NOT_CHANGED",
+  "central_application": "BWP-S_NOT_ESTABLISHED_BY_THIS_DOCUMENTATION",
+  "branch_publication": "ONLY_EXACT_ROOT_PUBLICATION_RECORD_CAN_ESTABLISH_IT",
+  "native_implementation_acceptance": false,
+  "original_executed_commissions": "UNKNOWN; retained historical limitation, not proof of failure of newer accepted studies",
+  "rlgwo_campaign": "NOT_AUTHORISED; FOUR_EXISTING_ROUGH_RESPONSIBILITIES_ONLY"
+}
