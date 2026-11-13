@@ -313,6 +313,11 @@ for path in Path(".").rglob("*"):
                         "a counterexample with a simpler adequate workflow defeats the universal claim",
                         "a necessary feedback loop or independent parallel activity "
                         "defeats the mandatory-serial claim",
+                        "unrepresented correlation, regime change or model-form failure defeats the recommendation",
+                        "compromise of a shared control plane defeats many controls",
+                        "disclosure, reverse engineering, insider knowledge or widespread deployment defeats mechanisms whose safety rests on hidden design",
+                        "rollback defeats remediation",
+                        "encryption defeats recovery",
                     ):
                         claim_line = claim_line.replace(scientific_clause, "criterion discrimination")
                 if phrase in claim_line:

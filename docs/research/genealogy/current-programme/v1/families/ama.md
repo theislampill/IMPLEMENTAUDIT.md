@@ -2,7 +2,11 @@
 
 [Programme index](../README.md) · [Exact metadata registry](../PROGRAMME.json)
 
-Initial evidence cutoff: 2026-11-12 22:31:39 UTC. [Latest received review state](#latest-receiving-at-continuation-06) is recorded separately below. This version is a public-safe receiving projection, not a new scientific verdict. Detailed protected studies are not included.
+Initial evidence cutoff: 2026-11-12 22:31:39 UTC. [Latest received review state](#latest-receiving-at-continuation-07) is recorded separately below. This version is a public-safe receiving projection, not a new scientific verdict. Detailed protected studies are not included.
+
+## Latest receiving at continuation 07
+
+AMA-S r18_a002 is now qualified at its declared scope. Its exact final subject has both accepted independent final reviews and a qualification issued at 08:44:32.009463 UTC on 13 November 2026. The [seventh continuation](../increments/2026-11-13-documentary-continuation-07.md) and [exact metadata](../increments/2026-11-13-documentary-continuation-07.json) bind the real evidence and preserve earlier adverse subjects. Staged central intent remains unapplied in this evidence. Protected current interpretation and whole-family documentary acceptance are separate.
 
 ## Four scientific identities
 
@@ -92,3 +96,11 @@ The [fifth receiving record](../increments/2026-11-13-documentary-continuation-0
 AMA r18 is now a frozen corrected whole-author subject, `4fd89fbb…`: its subject record was created at 07:35:39.949838 UTC and its author freeze sealed at 07:35:40.193723 UTC. Separate root byte receiving followed at 07:37:45.355912 UTC. A later exact whole-fidelity receipt at 07:59:20.162633 UTC is ACCEPTED_AT_DECLARED_SCOPE for unchanged r18, retaining its nonblind exposure and fresh/reused reading limits. Root receiving followed at 08:01:30.765085 UTC; the distinct adversary's 08:11:19.539162 UTC checkpoint is active without a verdict. AMA remains unqualified; no r17 fidelity acceptance or adverse judgment transfers to changed r18 science. The exact parent r17 GAP_REVISE and earlier partial-r18 observations remain preserved.
 
 The [sixth receiving record](../increments/2026-11-13-documentary-continuation-06.md) and [exact metadata](../increments/2026-11-13-documentary-continuation-06.json) preserve typed source events and finite receiving limits. No central application or native implementation follows.
+
+## Current four-unit AMA package and separately verified r18 qualification
+
+See [C07 exact receiving](../increments/2026-11-13-documentary-continuation-07.md).
+
+This additive receiving entry preserves the older v1 and continuation 03/05/06 states as dated history. The recovered AMA-S r18 subject is SHA-256 `4fd89fbb8867b55788cf083523a6546b3ded8e515567de85b0db2e548377232e`; both final independent reviews accept that exact subject and the separate qualification receipt is SHA-256 `365aaf9f5859e5e0203cb2a48c9f8da245ca0ec11b7b7bea961bb14bcfba4782`. The earlier r17 GAP_REVISE and partial null remain unchanged. The central intent is staged, zero-effect and null-commit; no live central-master application count is inferred.
+
+The [four-unit package](ama/README.md) provides the three individually addressable historical lineage readers, exact 278-row field/owner mapping, layered genealogy, a whole historical synthesis and four existing-issue-linked rough responsibilities. It separates old 70/76/132 rows and older synthesis from the complete current accepted studies preserved privately. All four source-specific current-text disclosure proposals remain PENDING; the full current public scientific account is not complete while those bodies remain withheld. [Eight-component assessment](ama/COMPLETENESS.md)

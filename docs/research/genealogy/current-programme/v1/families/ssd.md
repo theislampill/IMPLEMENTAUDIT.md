@@ -1,8 +1,20 @@
 # SSD — current-programme documentary view v1
 
+> **Current orientation — S009:** the earlier sections below are preserved
+> dated receiving snapshots, including their then-unqualified states. The
+> [later S009 section](#later-qualified-s009-and-four-unit-documentation)
+> records the subsequently verified scientific qualification. The
+> [four-unit package](ssd/README.md) preserves complete historical public
+> readers and separately identifies the protected current accounts.
+
+
 [Programme index](../README.md) · [Exact metadata registry](../PROGRAMME.json)
 
-Initial evidence cutoff: 2026-11-12 22:31:39 UTC. [Latest received state](#latest-receiving-at-continuation-06) is recorded separately below. This version is a public-safe receiving projection, not a new scientific verdict. Detailed protected studies are not included.
+Initial evidence cutoff: 2026-11-12 22:31:39 UTC. [Latest received state](#latest-receiving-at-continuation-07) is recorded separately below. This version is a public-safe receiving projection, not a new scientific verdict. Detailed protected studies are not included.
+
+## Latest receiving at continuation 07
+
+SSD-S S009 is now qualified at its declared scope. Its exact final subject has both accepted independent final reviews and a qualification issued at 12:24:12.931052 UTC on 13 November 2026. The [seventh continuation](../increments/2026-11-13-documentary-continuation-07.md) and [exact metadata](../increments/2026-11-13-documentary-continuation-07.json) bind the real evidence, retain the failed derivative-summary comparison and preserve the distinct adverse and missing historical subjects. No live central application, native implementation or protected-source disclosure follows.
 
 ## Later receiving — 23:12:39 UTC checkpoint
 
@@ -93,3 +105,21 @@ The [fifth receiving record](../increments/2026-11-13-documentary-continuation-0
 The new reconciled S007 subject, `865e97f0…`, is frozen whole-author science with an exposed author/controller. Its later author byte readback is not independent scientific acceptance; fresh whole fidelity and a distinct adversarial acceptance remain pending. Separately received surviving receipts describe an earlier owner S006 freeze, `435aba60…`, but explicitly leave that subject's manifest and former whole body unavailable. It is descriptor-only subject evidence, distinct from received isolated S006 `d8c74c0c…`. Original neutral-source limits and every earlier subject/review history remain intact; SSD remains unqualified.
 
 The [sixth receiving record](../increments/2026-11-13-documentary-continuation-06.md) and [exact metadata](../increments/2026-11-13-documentary-continuation-06.json) preserve typed source events and finite receiving limits. No central application or native implementation follows.
+
+## Later qualified S009 and four-unit documentation
+
+The exact S009 whole subject now has both required same-subject independent
+final acceptances and a received qualification. See [continuation 07](../increments/2026-11-13-documentary-continuation-07.md)
+and the [separate synthesis account](ssd/SSD-S.md). The initial registry and
+every earlier subject/review snapshot above retain their historical meaning;
+later qualification does not erase earlier adverse findings or authenticate
+missing original source bodies.
+
+The [whole-family package](ssd/README.md) contains three complete historical
+property readers (72 + 60 + 66), four unit accounts, layered genealogy, source
+maps, four existing-owner rough responsibilities and an eight-component
+private/public completeness assessment. Full current interpretations are
+privately preserved. All four disclosure decisions remain PENDING and full
+public current science remains PARTIAL. Central selection is staged with zero
+pre-commit count effect and no commit receipt; documentary publication is not
+central application or native implementation.

@@ -467,3 +467,15 @@ The [four detailed CSS outlines](../../genealogy/current-programme/v1/families/c
 [Four detailed SSS rough responsibilities](../../genealogy/current-programme/v1/families/sss/RLGWO_OUTLINES.md) separately retain Architecture, canonical Maintenance/Evolution, Product Line Engineering and the embedded synthesis receiving responsibility. They preserve the existing 32 slots, issue owners, protected-current-source limits and adequate/no-change outcomes. They do not create issues or authorise a new RLGWO campaign.
 
 BWP whole-family continuation: [four detailed rough responsibilities](../../genealogy/current-programme/v1/families/bwp/RLGWO_OUTLINES.md) preserve BWP-L1 R003F/#225, BWP-L2 R0041/#230, BWP-L3 R0040/#229 and BWP-S R003F::BWP-LANE-CONTINUATION as four separately assessed components. The complete historical 234-property owner map and private current scientific account do not authorise new issues, reopening or a full RLGWO campaign.
+
+### AMA family completion — four source-specific responsibility outlines
+
+The [AMA four-unit package](../../genealogy/current-programme/v1/families/ama/README.md) adds three full historical property readers, a connected historical synthesis and exact current qualification metadata. The [AMA outline expansion](../../genealogy/current-programme/v1/families/ama/RLGWO_OUTLINES.md) supplies distinct AMA-L1, AMA-L2, AMA-L3 and AMA-S responsibilities under their actual existing carriers and native owners. It preserves the 32-slot population, closed-issue limits, source-specific predicates, historical/current source distinction and separate required future authority. Current AMA-S r18 qualification is separately pinned; the old v1 row remains historical. No issue or full campaign is authorized.
+
+### SSD family completion — four existing-owner responsibilities
+
+The [SSD four-unit package](../../genealogy/current-programme/v1/families/ssd/README.md) retains all 198 historical properties and separately receives the qualified S009 synthesis. Its [four rough outlines](../../genealogy/current-programme/v1/families/ssd/RLGWO_OUTLINES.md) distinguish Systems Engineering, Systems Security Engineering, Decision and Operations Engineering, and whole-family composition under the actual existing carriers. They preserve closed-issue limits, the 32 conceptual slots, protected current science and separate future integration authority. No new issue, reopening or native implementation follows.
+
+### SPR family documentation — four existing responsibility slots
+
+The [SPR four-unit guide](../../genealogy/current-programme/v1/families/spr/README.md) records complete private scientific accounts and the explicit public-source boundary. Its [four rough responsibilities](../../genealogy/current-programme/v1/families/spr/RLGWO_OUTLINES.md) retain the existing32-slot contract and distinguish real existing candidate owners from proven SPR implementation coverage. A separately warranted exact-current receiving case is required before native or issue work. The original L1 final evidence gap and four PENDING disclosure decisions remain explicit. No new synthesis umbrella or issue is created.

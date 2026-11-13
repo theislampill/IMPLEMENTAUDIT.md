@@ -1,8 +1,10 @@
 # SPR — current-programme documentary view v1
 
+> **Current orientation — 13 November 2026:** the earlier sections retain their initial receiving cutoff. [Later source recovery](#later-source-recovery-and-four-unit-documentation) records the newly recovered private subjects and four-unit guide. Current live central-master state remains UNKNOWN; the retained selection is a historical observation.
+
 [Programme index](../README.md) · [Exact metadata registry](../PROGRAMME.json)
 
-Evidence cutoff: 2026-11-12 22:31:39 UTC. This version is a public-safe receiving projection, not a new scientific verdict. Detailed protected studies are not included.
+Initial evidence cutoff: 2026-11-12 22:31:39 UTC. This version is a public-safe receiving projection, not a new scientific verdict. Detailed protected studies are not included.
 
 ## Four scientific identities
 
@@ -56,3 +58,44 @@ This establishes programme identity, documentary receiving and an accessible dis
 - No public immutable scientific body was verified. [PROGRAMME.json](../PROGRAMME.json) publishes the permitted custody identifiers and explicit gaps; protected originals remain outside Git.
 
 The registry’s SHA-256 values identify received scientific objects; they are not public download locators. [Source and status boundaries](../SOURCE_STATUS.md) explain the limits and receiving rules. Historical adverse findings, missing originals and accepted errata are preserved in custody and are not rewritten by this projection.
+
+## Later source recovery and four-unit documentation
+
+This additive receiving record preserves the earlier acquisition observations above. The [four-unit guide](spr/README.md) separates private scientific coverage from permitted public metadata.
+
+### Current recovered scientific identities
+
+| Unit | Exact identity | Historical rows | Current source receiving |
+|---|---|---:|---|
+| SPR-L1 | System Identification — canonical | 83 | Historical qualified outcome preserved; original final qualification, final-subject join and two final reviews remain unavailable. |
+| SPR-L2 | Programming Language Theory | 69 | Qualified at the accepted r3 scientific scope; exact final subject, qualification and two final review objects recovered. |
+| SPR-L3 | Requirements Engineering | 72 | Qualified at the accepted r2 scientific scope; exact final subject, qualification and two final review objects recovered. |
+| SPR-S | SPR synthesis | 224 | Scientifically qualified at the declared scope; central selection is the historical B30-I09/B38 observation. Current live central-master state remains UNKNOWN. Accepted nonmaterial erratum SPR-S-B34-E01 is retained. |
+
+The synthesis reuses the constituent rows. L1’s available r4 candidate is not a fabricated final qualification join. Exact accepted L2, L3 and SPR-S subject bodies and review joins are privately recovered; earlier “subject bytes not acquired” text describes the previous receiving slice.
+
+### Four-unit reading route
+
+Three private lineage manuscripts and a separate synthesis account retain scientific predicates, genealogy, guarded directions, alternatives, negative/unresolved outcomes, higher-order findings and source-specific limits. Complete private current and historical readers preserve 83 + 69 + 72 rows. No authenticated public scientific body was found in the bounded Git/history search; public property-reader completeness is therefore not claimed.
+
+The maintained family Page and three new lineage Page sources expose permitted identity and receiving metadata. Their detailed scientific counterparts require four exact source-specific disclosure decisions, all **PENDING**. [Source map](spr/SOURCE_MAP.json) · [Property boundary](spr/PUBLIC_PROPERTY_SOURCE_MAP.json).
+
+### Composition and evidence boundary
+
+Use A × B × C under explicit guards and applicable contexts as a conceptual reminder to examine interactions. It is not arithmetic, a claim that every pair relates or a requirement to use all three in every task. A supported forward contribution does not establish its reverse. Useful partial evidence can constrain a receiver before it proves that receiver’s entire predicate; the receiving use still has to be real and within scope.
+
+A common premise, context, configuration or witness must support a claimed joint result. Shared evidence is counted once, and uncertainty stays attached to its actual predicate. Negative, rejected, unresolved and research-only records remain distinct from absent analysis.
+
+### Qualification, erratum and original limits
+
+SPR-S is independently accepted at its declared scope. Central selection is the historical B30-I09/B38 observation; current live central-master state remains UNKNOWN. Explicit nonmaterial erratum SPR-S-B34-E01 is retained. Its exact accepted source remains unmodified. The external accepted SPR r2 is a historical dependency, not the programme qualification. SPR-L1’s historical qualified outcome remains preserved while its original final qualification, final-subject join and two reviews remain unavailable. All original source-access and executed-commission limits survive.
+
+### Existing responsibility and what follows
+
+[Four rough SPR responsibilities](spr/RLGWO_OUTLINES.md) preserve the programme’s 32 slots and identify actual existing candidate/native owners. Current API states and source paths are observations, not proof of SPR implementation coverage or a defect. No new work order, identity, native mechanism, issue, runtime action, merge or deployment is issued. [Owner map](spr/OWNER_MAP.json).
+
+Scientific qualification, recovery, independent documentary acceptance, disclosure and native implementation remain separate. New author bytes require fresh independent documentary review. [Eight-component scope](spr/COMPLETENESS.md) records that whole public current science remains incomplete.
+
+### Sources
+
+[PROGRAMME.json](../PROGRAMME.json), [source/status boundaries](../SOURCE_STATUS.md), [unit source map](spr/SOURCE_MAP.json) and the linked public issue heads provide the permitted metadata. Protected hashes identify custody; they are not public scientific download locators.

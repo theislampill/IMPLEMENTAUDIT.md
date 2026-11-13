@@ -1,0 +1,62 @@
+{
+  "schema": "ama-documentary-review-public-receiving-v1",
+  "received_date_utc": "2026-11-13",
+  "documentary_manifest": {
+    "bytes": 319876,
+    "sha256": "3aaf6f7e82503ddf34a31440ff942c22121f38fe9699bb3b79c40c31b14a7243",
+    "payloads": 1210
+  },
+  "original_public_projection_verdict": "GAP_REVISE",
+  "corrected_public_projection_verdict": "PASS_AT_DECLARED_DOCUMENTARY_SCOPE",
+  "accepted_projection": {
+    "files": 15,
+    "bytes": 9319002,
+    "public_only_git_tree": "a58c7c4e6a8defba723d02aa4a8ff5080de18a99",
+    "not_a_complete_repository_tree": true
+  },
+  "required_correction": {
+    "id": "AMA-DOC-SAFE-001",
+    "disposition": "RESOLVED_IN_EXACT_REPAIRED_PROJECTION",
+    "private_record_locator_fields_removed": 12,
+    "repaired_source_map": {
+      "bytes": 17527,
+      "sha256": "ff904a424377434dbf295583dca9781cb7cefd67cf98ea1727572cfe8a4aab53"
+    },
+    "frozen_original_preserved": true
+  },
+  "review_report": {
+    "bytes": 23433,
+    "sha256": "ac89f92a46797e430c0469c42c65d8965ab89855bd01bbf84e35933c310a4e62"
+  },
+  "review_receipt": {
+    "bytes": 5627,
+    "sha256": "b13c3870d480dd4db513d239233e17330d39131468e3de04982d298c7be1f686"
+  },
+  "read_mask": {
+    "bytes": 34499,
+    "sha256": "c53bfc0a9347d8246a599bf35ee8ceedcf9f468d72dc0bd7631a05189336f72a"
+  },
+  "whole_public_current_science": "INCOMPLETE_SOURCE_SPECIFIC_DISCLOSURE_PENDING",
+  "disclosure_decisions": {
+    "AMA-DISCLOSE-AMA-L1": "PENDING",
+    "AMA-DISCLOSE-AMA-L2": "PENDING",
+    "AMA-DISCLOSE-AMA-L3": "PENDING",
+    "AMA-DISCLOSE-AMA-S": "PENDING"
+  },
+  "visual_status": "UNVERIFIED_ENVIRONMENT_BLOCKED",
+  "publication_gates": [
+    "exact expected parent and complete affected bytes",
+    "independent final integration delta review",
+    "portal generation and structural/link checks",
+    "portal regression including negative claim controls",
+    "programme and original genealogy preservation controls",
+    "post-publication full file and tree readback"
+  ],
+  "scope_limits": [
+    "This content receipt does not certify the later integrated tree or publication.",
+    "Mechanical correspondence does not claim fresh semantic reading of every scientific relation or primary source.",
+    "The original author candidate retains its adverse source-safety disposition; acceptance is specific to the exact repaired projection.",
+    "Protected current science and private acquisition/review bodies remain private.",
+    "No central application, native implementation, issue action, main merge or Pages deployment is established."
+  ]
+}

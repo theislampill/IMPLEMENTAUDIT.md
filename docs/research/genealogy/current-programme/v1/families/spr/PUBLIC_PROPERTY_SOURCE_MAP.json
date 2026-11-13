@@ -1,0 +1,31 @@
+{
+  "schema": "spr-public-property-source-boundary/1",
+  "historical_rows": 224,
+  "distinct_scientific_lineage_claims": 222,
+  "published_property_rows": 0,
+  "public_complete_reader_claimed": false,
+  "private_historical_rows": 224,
+  "private_current_rows": 224,
+  "units": [
+    {
+      "unit": "SPR-L1",
+      "historical_rows": 83,
+      "public_source_body": null,
+      "state": "PRIVATE_READER_PREPARED_PUBLIC_DISCLOSURE_PENDING"
+    },
+    {
+      "unit": "SPR-L2",
+      "historical_rows": 69,
+      "public_source_body": null,
+      "state": "PRIVATE_READER_PREPARED_PUBLIC_DISCLOSURE_PENDING"
+    },
+    {
+      "unit": "SPR-L3",
+      "historical_rows": 72,
+      "public_source_body": null,
+      "state": "PRIVATE_READER_PREPARED_PUBLIC_DISCLOSURE_PENDING"
+    }
+  ],
+  "synthesis_not_additive": true,
+  "permission_basis": "Historical private custody does not establish public clearance. All four exact source-specific decisions remain PENDING."
+}

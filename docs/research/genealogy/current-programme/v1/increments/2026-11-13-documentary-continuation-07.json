@@ -1,0 +1,244 @@
+{
+  "schema": "implementaudit.cohort-c.documentary-qualified-synthesis-receiving.v1",
+  "record_id": "COHORT-C-CONTINUATION-07",
+  "prepared_at_utc": "2026-11-13T13:57:05.559160+00:00",
+  "initial_programme": "../PROGRAMME.json",
+  "initial_programme_sha256": "692fe69ba64eef5ee5486a5f401f5408df5c440dcdbda5a73daf9d546ccc9ebb",
+  "prior_increment": "2026-11-13-documentary-continuation-06.json",
+  "role": "Receive existing independently qualified scientific subjects; no requalification or central application",
+  "new_scientific_qualifications_created_by_C": 0,
+  "new_existing_qualifications_received": 2,
+  "scientific_programme_report": {
+    "qualified_constituent_lineages": 24,
+    "constituent_total": 24,
+    "qualified_syntheses": 6,
+    "synthesis_total": 8,
+    "qualified_synthesis_ids": [
+      "SPR-S",
+      "CSS-S",
+      "BWP-S",
+      "SSS-S",
+      "AMA-S",
+      "SSD-S"
+    ],
+    "unfinished_synthesis_ids": [
+      "LAW-S",
+      "DRF-S"
+    ],
+    "qualification_receipt_source": "SSD-S S009 qualification metadata",
+    "historical_SPR_L1_final_evidence": "Missing original final receipt/review evidence remains a recovery limitation; retained qualification is not re-created"
+  },
+  "central_application": {
+    "current_total": null,
+    "live_master_head_verified": false,
+    "old_SPR_only_snapshot_is_current": false,
+    "C_performed_central_write": false,
+    "new_AMASSD_intents_applied": false
+  },
+  "units": [
+    {
+      "unit_id": "AMA-S",
+      "revision": "r18_a002",
+      "scientific_status": "QUALIFIED_AT_DECLARED_SCOPE",
+      "qualified_at_utc": "2026-11-13T08:44:32.009463+00:00",
+      "subject": {
+        "bytes": 82725,
+        "sha256": "4fd89fbb8867b55788cf083523a6546b3ded8e515567de85b0db2e548377232e"
+      },
+      "qualification_receipt": {
+        "bytes": 24346,
+        "sha256": "365aaf9f5859e5e0203cb2a48c9f8da245ca0ec11b7b7bea961bb14bcfba4782"
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "bytes": 5640,
+            "sha256": "e117607cafb1e65a41b3f28eae6c35db97de6a83dd5f9b9e8693ea51d943345a"
+          },
+          "review_subject": {
+            "bytes": 9890,
+            "sha256": "9e13203d9144edd804089f686315bf75f10d3e3ecfac1fe15d035bc36a6f141b"
+          },
+          "later_readback": {
+            "bytes": 67796,
+            "sha256": "0fdb5b6b5a003b150e37f748d75c7750d29597219f695a556fcfc22bd3da8d65"
+          },
+          "accepted_scientific_subject_sha256": "4fd89fbb8867b55788cf083523a6546b3ded8e515567de85b0db2e548377232e",
+          "verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "verdict_at_utc": "2026-11-13T07:59:20.162633+00:00",
+          "read_scope": "Explicit current and attributed prior reading; not blind or fresh full-primary-source replication",
+          "scientific_authorship": false
+        },
+        {
+          "role": "distinct_adversarial",
+          "receipt": {
+            "bytes": 6090,
+            "sha256": "15227ba5f07cb35b8f8a7515d41418aa56a466c8b527a29a79b9cc1b4cf74681"
+          },
+          "review_subject": {
+            "bytes": 10842,
+            "sha256": "ae13449ece51bdec50f54b466fb6a28e9806d66305b8d1f1b3b9d0d9ba203a17"
+          },
+          "later_readback": {
+            "bytes": 177563,
+            "sha256": "83a369826aaf87fdead4e530574282ab9cdb9e203dd7efcdee2c20b86434fb0c"
+          },
+          "accepted_scientific_subject_sha256": "4fd89fbb8867b55788cf083523a6546b3ded8e515567de85b0db2e548377232e",
+          "verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "verdict_at_utc": "2026-11-13T08:34:39.590936+00:00",
+          "read_scope": "Explicit current and attributed prior reading; not blind or fresh full-primary-source replication",
+          "scientific_authorship": false
+        }
+      ],
+      "same_frozen_subject": true,
+      "root_receiving": {
+        "bytes": 118391,
+        "sha256": "3cce7be820cef252f0c27162889ffe20926330355ea9af10b7f7849c7ac0a97b"
+      },
+      "central_intent": {
+        "identity": {
+          "bytes": 6007,
+          "sha256": "e8b38ae56355478ff111aa1cef0b01e3157042ebd99f656125ae364b6f14255f"
+        },
+        "state": "STAGED_ONLY_NO_SHARED_AUTHORITATIVE_WRITE",
+        "authoritative_mutation": false,
+        "central_count_effect_before_commit": 0,
+        "commit_receipt": null
+      },
+      "protected_scientific_body_and_interpretation_publication": "NOT_AUTHORISED",
+      "native_implementation_credit": false
+    },
+    {
+      "unit_id": "SSD-S",
+      "revision": "S009",
+      "scientific_status": "QUALIFIED_AT_DECLARED_SCOPE",
+      "qualified_at_utc": "2026-11-13T12:24:12.931052+00:00",
+      "subject": {
+        "bytes": 26174,
+        "sha256": "aa53149fd110cce51bad79eb01e373146efae3b0ebd6d142efe7cc1316402c3c"
+      },
+      "qualification_receipt": {
+        "bytes": 48071,
+        "sha256": "5b1cecbe96e2e3c3b51878f8704e4fd75746a7f3e7255227a4b3a6552f156f97"
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "bytes": 5867,
+            "sha256": "31cd38afe54e2b49e610199318360869b10bcd07c39703d22a94d28e214e5068"
+          },
+          "review_subject": {
+            "bytes": 6908,
+            "sha256": "6629723e6b7253103c67d37b765880b7519ba011e57ff9b5f5ddcef17170259a"
+          },
+          "later_readback": {
+            "bytes": 49772,
+            "sha256": "5a6a96dcf1b58bb030dec0c3dc20d35dca36ebfadccda2ecee9a429565b1675a"
+          },
+          "accepted_scientific_subject_sha256": "aa53149fd110cce51bad79eb01e373146efae3b0ebd6d142efe7cc1316402c3c",
+          "verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "verdict_at_utc": "2026-11-13T11:47:02.863293+00:00",
+          "read_scope": "Explicit current and attributed prior reading; not blind or fresh full-primary-source replication",
+          "scientific_authorship": false
+        },
+        {
+          "role": "distinct_adversarial",
+          "receipt": {
+            "bytes": 6641,
+            "sha256": "8eb9c7427e5dc093bccaac85b0cbf7aeb9429e9149e26f3a9ffa470e3125ce81"
+          },
+          "review_subject": {
+            "bytes": 8883,
+            "sha256": "4321f1b8527e6cc3a3394781b4e6fdd8471559099c92bd6360525a4485dbfb3c"
+          },
+          "later_readback": {
+            "bytes": 42461,
+            "sha256": "79c8b3771e69672c7c6c6405f26b87b948427b88ca5dbc50f6d50eb4859814d7"
+          },
+          "accepted_scientific_subject_sha256": "aa53149fd110cce51bad79eb01e373146efae3b0ebd6d142efe7cc1316402c3c",
+          "verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "verdict_at_utc": "2026-11-13T12:15:02.593691+00:00",
+          "read_scope": "Explicit current and attributed prior reading; not blind or fresh full-primary-source replication",
+          "scientific_authorship": false
+        }
+      ],
+      "same_frozen_subject": true,
+      "root_receiving": {
+        "bytes": 183567,
+        "sha256": "b0287e4cb73d832df7d6479344b37383a7a54b6e3d2adcace734f64dc6419d98"
+      },
+      "central_intent": {
+        "identity": {
+          "bytes": 5962,
+          "sha256": "3f6b47387cd919954a78bfd210960a5b1fb9a760ec111f4c1a4e28f1a898f0fd"
+        },
+        "state": "STAGED_ONLY_NO_SHARED_AUTHORITATIVE_WRITE",
+        "authoritative_mutation": false,
+        "central_count_effect_before_commit": 0,
+        "commit_receipt": null
+      },
+      "protected_scientific_body_and_interpretation_publication": "NOT_AUTHORISED",
+      "native_implementation_credit": false
+    }
+  ],
+  "receiving_scope": {
+    "independent_restored_lane": "Exact compact-source identity, qualification, final-review, receiving and staged-intent checks",
+    "fresh_comparisons": 1810,
+    "fresh_mismatches": 0,
+    "pre_transition_comparisons": 1945,
+    "pre_transition_mismatches": 0,
+    "old_observations_relabelled_fresh": false,
+    "SSD_fresh_available_author_payloads": 7,
+    "SSD_full_author_payloads": 91,
+    "SSD_final_review_payloads_verified": 70,
+    "AMA_author_and_review_payloads_verified": 440,
+    "scientific_requalification": false,
+    "full_documentary_family_acceptance": false
+  },
+  "retained_limits": [
+    "All earlier adverse and provisional observations remain tied to their exact subjects.",
+    "SSD-S retains nonmaterial derivative-summary limitations; the failed summary comparison is not converted into a pass by successful identity checks.",
+    "Detailed current scientific predicates, findings, source bodies and acquisition routes remain private pending source-specific disclosure.",
+    "Central application, documentary receiving, Git publication, Pages deployment and native acceptance remain separate.",
+    "Actual desktop/mobile rendering remains UNVERIFIED_ENVIRONMENT_BLOCKED.",
+    "Inaccessible predecessor process cessation remains UNKNOWN."
+  ],
+  "family_membership_changed": false,
+  "potential_integration_responsibilities": 32,
+  "new_issues_or_RLGWO_campaign": false,
+  "native_implementation_credit": false,
+  "public_safe_metadata_only": true,
+  "independent_programme_receiving": {
+    "original_increment_002_report": {
+      "bytes": 24375,
+      "sha256": "7a6cfc3030182bc02668b3981cb9949c4c0ed41c4ec2396fb3c9ecacf1eb9262"
+    },
+    "original_increment_002_record": {
+      "bytes": 230175,
+      "sha256": "dc8248f1d398633b5ba26b0bd996ef14f18e9eee1e9e133df209a2d52339e636"
+    },
+    "original_increment_002_archive": {
+      "bytes": 5586348,
+      "sha256": "696a242e0b5351e15596c12181c2df70defac79ae00024a60e39ec31ed5305a4"
+    },
+    "later_preparation_report": {
+      "bytes": 15839,
+      "sha256": "e383af158808b17e5c718d19d2c5c7a2b35433a11c6256ed09e3cc4b70ca3cc6"
+    },
+    "later_preparation_index": {
+      "bytes": 362973,
+      "sha256": "01475695ab54928057d59ea5803e07703f2491bf8a110fbce08c621abc424287"
+    },
+    "prior_receiver_reported_checks": 1067,
+    "later_preparation_receiver_reported_checks": 2059,
+    "root_reexecuted_those_checks": false,
+    "root_freshly_verified_outer_manifest_payloads": 148,
+    "historical_final_review_bindings": 60,
+    "available_original_final_review_receipts": 58,
+    "live_central_head_verified": false,
+    "new_shared_master_mutation": false,
+    "scope": "Original reports and exact manifest-bound bytes received; their scientific judgments and earlier full-corpus read scopes remain attributed."
+  }
+}

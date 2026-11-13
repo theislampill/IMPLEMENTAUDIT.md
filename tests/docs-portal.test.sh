@@ -127,6 +127,12 @@ assert groups["Research & Engineering Lineage"] == [
     "research-lineage-evolved-bwp-workflow-management",
     "research-lineage-evolved-bwp-process-mining",
     "research-lineage-evolved-ama",
+    "research-lineage-autonomous-agents",
+    "research-lineage-multi-agent-systems",
+    "research-lineage-agent-oriented-software-engineering",
+    "research-lineage-system-identification",
+    "research-lineage-programming-language-theory",
+    "research-lineage-requirements-engineering",
     "research-lineage-evolved-spr",
     "research-lineage-s3e",
 ]
@@ -1132,6 +1138,11 @@ scientific_examples = [
     "Provide an abstention path where uncertainty defeats actionability.",
     "A counterexample with a simpler adequate workflow defeats the universal claim.",
     "A necessary feedback loop or independent parallel activity defeats the mandatory-serial claim.",
+    "Unrepresented correlation, regime change or model-form failure defeats the recommendation.",
+    "Compromise of a shared control plane defeats many controls.",
+    "Disclosure, reverse engineering, insider knowledge or widespread deployment defeats mechanisms whose safety rests on hidden design.",
+    "Rollback defeats remediation.",
+    "Encryption defeats recovery.",
 ]
 cases = [
     (" ".join(scientific_examples), True),
@@ -1146,6 +1157,11 @@ cases = [
     ("This product defeats its competitor. " + scientific_examples[3], False),
     (scientific_examples[4] + " This product beats every alternative.", False),
 ]
+for scientific_example in scientific_examples[5:]:
+    cases.extend([
+        ("This product defeats its competitor. " + scientific_example, False),
+        (scientific_example + " This product beats every alternative.", False),
+    ])
 with tempfile.NamedTemporaryFile(
     mode="w", encoding="utf-8", prefix=".claim-language-", suffix=".html",
     dir="docs/portal/pages", delete=False

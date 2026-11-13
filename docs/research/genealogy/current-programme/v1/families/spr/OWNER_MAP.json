@@ -1,0 +1,284 @@
+{
+  "schema": "spr-public-owner-metadata/1",
+  "responsibility_slots": 32,
+  "SPR_slots": 4,
+  "current_issue_heads": [
+    {
+      "number": 195,
+      "title": "R002B (legacy R43) — Evolved Statistical Engineering — measurement fitness, variation and discrimination, experimentation/stopping discipline, evaluator validity, proxy resistance and evidence-efficient decisions",
+      "state": "closed",
+      "updated_at": "2026-08-17T07:01:42Z",
+      "closed_at": "2026-08-17T07:01:42Z",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/195",
+      "body_bytes": 46028,
+      "body_sha256": "cd2491c7c2bc8d191304fafa40616769c0a82de9bea32823115d7137b8443495",
+      "state_source": "Fresh GitHub API field; retained body OPEN labels are historical.",
+      "scope": "Existing named native responsibility; SPR scientific coverage remains unproved."
+    },
+    {
+      "number": 197,
+      "title": "R002D (legacy R45) — Evolved Systems Engineering — current intent, architecture, interfaces, configuration, integration, V&V, model credibility and lifecycle coherence",
+      "state": "open",
+      "updated_at": "2026-09-11T22:10:56Z",
+      "closed_at": null,
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/197",
+      "body_bytes": 28394,
+      "body_sha256": "35ecac26609bdf30ddd782168145d7ede8023e5dcab09d135ad20e2f81d46896",
+      "state_source": "Fresh GitHub API field; retained body OPEN labels are historical.",
+      "scope": "Existing named native responsibility; SPR scientific coverage remains unproved."
+    },
+    {
+      "number": 199,
+      "title": "R002F (legacy R47) — Evolved Decision & Operations Engineering — decision framing, alternatives, constrained resources, capacity and backpressure, uncertainty, scheduling, value of information, robustness, and adaptive decisions",
+      "state": "closed",
+      "updated_at": "2026-08-17T07:01:54Z",
+      "closed_at": "2026-08-17T07:01:54Z",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/199",
+      "body_bytes": 20368,
+      "body_sha256": "a33a64b919d76fb86a48d8a3a171c2bec5c103539aabde26468f2d40f6a7716a",
+      "state_source": "Fresh GitHub API field; retained body OPEN labels are historical.",
+      "scope": "Existing named native responsibility; SPR scientific coverage remains unproved."
+    },
+    {
+      "number": 214,
+      "title": "R0038 — Deterministic operational evidence substrate: current-state compilation and zero-token CODE, OWNERSHIP, EXECUTION, EVIDENCE, FAILURE and RELEASE projections",
+      "state": "closed",
+      "updated_at": "2026-10-22T10:40:17Z",
+      "closed_at": "2026-10-22T10:40:17Z",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/214",
+      "body_bytes": 58741,
+      "body_sha256": "f9b029677c74ca4936faf107284668f93828295b8d57ba1c6b10b798edd6f09b",
+      "state_source": "Fresh GitHub API field; retained body OPEN labels are historical.",
+      "scope": "Existing named native responsibility; SPR scientific coverage remains unproved."
+    },
+    {
+      "number": 202,
+      "title": "R0032 (legacy R50) — Evolved Formal Methods and Verification Engineering — precise specifications, invariants and temporal properties, abstraction/refinement, compositional contracts, mechanical checking, proof/toolchain trust and proof currentness",
+      "state": "closed",
+      "updated_at": "2026-08-17T07:02:04Z",
+      "closed_at": "2026-08-17T07:02:04Z",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/202",
+      "body_bytes": 30127,
+      "body_sha256": "5ac7d5ac18a34121fc46cea40c6e43bc7228466d0643b5617aaa758b3db814c2",
+      "state_source": "Fresh GitHub API field; retained body OPEN labels are historical.",
+      "scope": "Existing named native responsibility; SPR scientific coverage remains unproved."
+    },
+    {
+      "number": 158,
+      "title": "R001F (legacy R31) — Executor-ready issue work orders - ship the material-finding and multi-issue reconciliation method currently stranded in R-series tracker precedent",
+      "state": "closed",
+      "updated_at": "2026-10-15T02:27:10Z",
+      "closed_at": "2026-10-15T02:27:10Z",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/158",
+      "body_bytes": 49930,
+      "body_sha256": "da417eed3db225246fa7ef258ab6db967b565f9370d8a163793e785f511b9165",
+      "state_source": "Fresh GitHub API field; retained body OPEN labels are historical.",
+      "scope": "Existing named native responsibility; SPR scientific coverage remains unproved."
+    },
+    {
+      "number": 85,
+      "title": "R000C (legacy R12) — Acceptance-predicate and instrument discipline: paired controls, prompt independence, instrument parity, instrument liveness",
+      "state": "closed",
+      "updated_at": "2026-08-16T15:37:30Z",
+      "closed_at": "2026-08-06T04:56:29Z",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/85",
+      "body_bytes": 36922,
+      "body_sha256": "67364eeb279eccca487af1b6c047a64bc7713ec23594ad09481a152c01802353",
+      "state_source": "Fresh GitHub API field; retained body OPEN labels are historical.",
+      "scope": "Existing named native responsibility; SPR scientific coverage remains unproved."
+    },
+    {
+      "number": 164,
+      "title": "R0023 (legacy R35) — Proxy resistance for evaluator mutation: measurement changes require independent justification against the underlying property",
+      "state": "closed",
+      "updated_at": "2026-08-16T15:38:09Z",
+      "closed_at": "2026-08-12T22:02:42Z",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/164",
+      "body_bytes": 32464,
+      "body_sha256": "c7e15e2685aeafb25293c8fb8c3448f776ed43f72a150c0d07dc578f1bcf7a40",
+      "state_source": "Fresh GitHub API field; retained body OPEN labels are historical.",
+      "scope": "Existing named native responsibility; SPR scientific coverage remains unproved."
+    },
+    {
+      "number": 167,
+      "title": "R0024 (legacy R36) — Observation-bound mutation integrity - partial or stale observations must not authorise destructive writes beyond established state",
+      "state": "closed",
+      "updated_at": "2026-08-16T15:38:11Z",
+      "closed_at": "2026-08-12T22:02:42Z",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/167",
+      "body_bytes": 9945,
+      "body_sha256": "069d376a8fba350431a051c47f929ec49cbf6c40af6c2a9515b71d1032a1b81f",
+      "state_source": "Fresh GitHub API field; retained body OPEN labels are historical.",
+      "scope": "Existing named native responsibility; SPR scientific coverage remains unproved."
+    }
+  ],
+  "rows": [
+    {
+      "slot": "SPR-L1",
+      "candidate_issue_numbers": [
+        195,
+        197,
+        199,
+        214
+      ],
+      "related_native_issue_numbers": [],
+      "responsibility": "Exact-current identification, observation, model/decision and derived-evidence receiving discrimination.",
+      "matched_published_SPR_carrier": false,
+      "proven_current_native_defect": false,
+      "new_issue_warranted": false,
+      "executor_ready": false,
+      "allocation": "EXISTING_SLOT_RETAINED",
+      "native_coverage": "UNPROVED_COMPARISON_ONLY",
+      "future_scope": "After current open RLGWOs finish, separately commissioned exact-current discrimination; retain adequate/no-change/partial/research outcomes."
+    },
+    {
+      "slot": "SPR-L2",
+      "candidate_issue_numbers": [
+        202
+      ],
+      "related_native_issue_numbers": [
+        85,
+        164
+      ],
+      "responsibility": "Exact interpretation, specification, acceptance-instrument and evaluator-mutation receiving discrimination.",
+      "matched_published_SPR_carrier": false,
+      "proven_current_native_defect": false,
+      "new_issue_warranted": false,
+      "executor_ready": false,
+      "allocation": "EXISTING_SLOT_RETAINED",
+      "native_coverage": "UNPROVED_COMPARISON_ONLY",
+      "future_scope": "After current open RLGWOs finish, separately commissioned exact-current discrimination; retain adequate/no-change/partial/research outcomes."
+    },
+    {
+      "slot": "SPR-L3",
+      "candidate_issue_numbers": [
+        197,
+        158
+      ],
+      "related_native_issue_numbers": [
+        167
+      ],
+      "responsibility": "Requirement meaning, intrinsic/external evidence, bounded commissions and observation-bound mutation receiving discrimination.",
+      "matched_published_SPR_carrier": false,
+      "proven_current_native_defect": false,
+      "new_issue_warranted": false,
+      "executor_ready": false,
+      "allocation": "EXISTING_SLOT_RETAINED",
+      "native_coverage": "UNPROVED_COMPARISON_ONLY",
+      "future_scope": "After current open RLGWOs finish, separately commissioned exact-current discrimination; retain adequate/no-change/partial/research outcomes."
+    },
+    {
+      "slot": "SPR-S",
+      "candidate_issue_numbers": [],
+      "related_native_issue_numbers": [],
+      "responsibility": "Actual shared-consumer composition across existing native owners; no necessary synthesis umbrella established.",
+      "matched_published_SPR_carrier": false,
+      "proven_current_native_defect": false,
+      "new_issue_warranted": false,
+      "executor_ready": false,
+      "allocation": "EXISTING_SLOT_RETAINED",
+      "native_coverage": "UNPROVED_COMPARISON_ONLY",
+      "future_scope": "After current open RLGWOs finish, separately commissioned exact-current discrimination; retain adequate/no-change/partial/research outcomes."
+    }
+  ],
+  "source_paths": {
+    "repository_head_observed": "fb76121e06cc2336d7874910dd5cb4e39c016eb5",
+    "rows": [
+      {
+        "path": "skills/implementaudit/references/phase-design.md",
+        "exists": true,
+        "bytes": 20396,
+        "sha256": "65756c5b90280795d20c5235f5c74359d2179befa408e72e26d12182344105a0",
+        "read_scope": "PATH_EXISTENCE_AND_EXACT_BYTE_IDENTITY_ONLY; no native adequacy adjudication or execution"
+      },
+      {
+        "path": "skills/implementaudit/references/issue-ready-work-orders.md",
+        "exists": true,
+        "bytes": 18210,
+        "sha256": "fc9bf75e9a4274af94b6df4ffc863eeae54dc096ea1422db5740b96030493b04",
+        "read_scope": "PATH_EXISTENCE_AND_EXACT_BYTE_IDENTITY_ONLY; no native adequacy adjudication or execution"
+      },
+      {
+        "path": "skills/implementaudit/references/planning-depth.md",
+        "exists": true,
+        "bytes": 18762,
+        "sha256": "dd72b40052defebad79a6d041051641e5c5568dab6cf1093cbad37c04924a98b",
+        "read_scope": "PATH_EXISTENCE_AND_EXACT_BYTE_IDENTITY_ONLY; no native adequacy adjudication or execution"
+      },
+      {
+        "path": "skills/implementaudit/references/repo-state-comparison.md",
+        "exists": true,
+        "bytes": 33879,
+        "sha256": "f580001a2bb15d12817bccf71a20a0832daf2cc7eccff0417097eb2abf33131d",
+        "read_scope": "PATH_EXISTENCE_AND_EXACT_BYTE_IDENTITY_ONLY; no native adequacy adjudication or execution"
+      },
+      {
+        "path": "skills/implementaudit/references/sidecars.md",
+        "exists": true,
+        "bytes": 5673,
+        "sha256": "6ee357d04dd0321c13fd56436a0efa30341423742afeb0e3669dab81929d38e7",
+        "read_scope": "PATH_EXISTENCE_AND_EXACT_BYTE_IDENTITY_ONLY; no native adequacy adjudication or execution"
+      },
+      {
+        "path": "skills/implementaudit/references/plan-lifecycle.md",
+        "exists": true,
+        "bytes": 30905,
+        "sha256": "482418733316fcffc478a86f925f421a7f0ccf9a82b43ab94808d0fa51c8e9c1",
+        "read_scope": "PATH_EXISTENCE_AND_EXACT_BYTE_IDENTITY_ONLY; no native adequacy adjudication or execution"
+      },
+      {
+        "path": "skills/implementaudit/scripts/check-evidence-anchor.sh",
+        "exists": true,
+        "bytes": 43368,
+        "sha256": "b52984cf1c3f68ccaa288fc8e543468aa547029dd27ad177ddcab904450a7e76",
+        "read_scope": "PATH_EXISTENCE_AND_EXACT_BYTE_IDENTITY_ONLY; no native adequacy adjudication or execution"
+      },
+      {
+        "path": "skills/implementaudit/scripts/check-handoff-packet.sh",
+        "exists": true,
+        "bytes": 8912,
+        "sha256": "72a04a5311c988da1e745fdb368d95ac0125124919185bf0b87432c4c2b60ffc",
+        "read_scope": "PATH_EXISTENCE_AND_EXACT_BYTE_IDENTITY_ONLY; no native adequacy adjudication or execution"
+      },
+      {
+        "path": "skills/implementaudit/scripts/apply-observed-mutation.sh",
+        "exists": true,
+        "bytes": 56144,
+        "sha256": "eec9f0eaa80905cdd9187810449f6401d97912e0d1721abaf6a15b937c946d39",
+        "read_scope": "PATH_EXISTENCE_AND_EXACT_BYTE_IDENTITY_ONLY; no native adequacy adjudication or execution"
+      },
+      {
+        "path": "scripts/check-acceptance-instrument-discipline.sh",
+        "exists": true,
+        "bytes": 40864,
+        "sha256": "112a17dfe87a8b8f2364b2b33b62d0ab636bc1cf0ce57b8f7943d76ad6054db0",
+        "read_scope": "PATH_EXISTENCE_AND_EXACT_BYTE_IDENTITY_ONLY; no native adequacy adjudication or execution"
+      },
+      {
+        "path": "scripts/check-action-selection-contract.sh",
+        "exists": true,
+        "bytes": 42909,
+        "sha256": "38e7b277b8429b0d13fb7710f47e4f144dde693504c8640463c2ab074f8cc6bb",
+        "read_scope": "PATH_EXISTENCE_AND_EXACT_BYTE_IDENTITY_ONLY; no native adequacy adjudication or execution"
+      },
+      {
+        "path": "tests/acceptance-instrument-discipline.test.sh",
+        "exists": true,
+        "bytes": 40972,
+        "sha256": "85671a1d0b2e353995b3a3eb34fe3a063bfa3b51f2076ffa17b7369163c77c4b",
+        "read_scope": "PATH_EXISTENCE_AND_EXACT_BYTE_IDENTITY_ONLY; no native adequacy adjudication or execution"
+      },
+      {
+        "path": "tests/action-selection-contract.test.sh",
+        "exists": true,
+        "bytes": 36803,
+        "sha256": "f49fdde27d2e23558bd1e8cc74c66fb30520953426e4b5166ebcb93dffaec0b0",
+        "read_scope": "PATH_EXISTENCE_AND_EXACT_BYTE_IDENTITY_ONLY; no native adequacy adjudication or execution"
+      }
+    ],
+    "all_reads_only": true
+  },
+  "source_scope": "Read-only source identities and public issue metadata; no native behavior or SPR coverage adjudication.",
+  "new_issues_authorized": false,
+  "executor_ready": false
+}
