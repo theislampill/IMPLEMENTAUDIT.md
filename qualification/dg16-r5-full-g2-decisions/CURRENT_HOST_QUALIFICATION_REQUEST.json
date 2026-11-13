@@ -1,0 +1,179 @@
+{
+  "actor": "/root",
+  "bank_tests": [
+    "test_actual_later_invalidation_prevents_return",
+    "test_derivative_snapshot_change_after_use_prevents_return",
+    "test_native_intake_later_boundary_prevents_return",
+    "test_native_intake_rejects_opaque_fixture_work_graph",
+    "test_native_intake_rejects_unowned_nested_record",
+    "test_native_intake_uses_current_original14_not_retired_root",
+    "test_protected_document_change_after_use_prevents_return",
+    "test_real_original14_documents_reach_unchanged_graph_parser",
+    "test_valid_original14_owner_does_not_supply_missing_graph_document"
+  ],
+  "boot_policy": "BIND_ACTUAL_PRE_SETUP_BOOT_AND_HOLD_THIS_JOB",
+  "branch": "pro/dg16-r5-full-g2-direct-host-16-20261113",
+  "control_branch": "pro/dg16-r5-full-g2-direct-control-16-20261113",
+  "current_port_tests": [
+    "test_native_intake_uses_current_original14_not_retired_root",
+    "test_native_intake_later_boundary_prevents_return"
+  ],
+  "decision": "REQUEST_ONE_FRESH_CURRENT_HOST_QUALIFICATION",
+  "effect_grant": false,
+  "issuer_thread": "01a1cf82-cdd6-7053-b7b7-32f5c3d93d21",
+  "limits": {
+    "bank_seconds": 600,
+    "command_metadata_bytes": 131072,
+    "command_records": 32,
+    "entries": 4096,
+    "file_bytes": 4194304,
+    "private_bytes": 67108864
+  },
+  "one_shot": true,
+  "original_awards": [],
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "schema": "dg16.prospective-current-host-qualification-request.v2",
+  "scope": "QUALIFICATION_ONLY_NO_PAIR_OR_PROVIDER_AUTHORITY",
+  "source_bindings": {
+    "integration_sha256": "c6f2b17e59369a04db2062b79ea2150c54d978fd1c0f18a9b25e094e303bc266",
+    "native_admission_sha256": "d1185f851ca95be5250a0370c93161865e0c67dc117791715b15ac8c85f74d15",
+    "native_receiver_sha256": "119bb6f090a849bbfa12ca463d118d6443e3c9fa3a9d4174913ab3d601a04fa8",
+    "pair_driver_sha256": "55e28d3989e066dad4843a993e9fe04351ec5e0c34755499917a6afc7eec8414",
+    "policy_sha256": "931d08c1c561c8044732181a80c7406b2bd4fb5c4440b5393de0993e27775e9c",
+    "probe_sha256": "344aa4fc4bad285c0572bd31fb6029d220df125b7a05a22c2ff46675b13a64e8",
+    "profile_sha256": "c16c75039b938718ab4bfee9e49a6c55322bdfda22f25d0a526cf74f87944c3d",
+    "qualification_sha256": "a4850efa6d2ca00c241d42974aaa55b2796836b862e0d25ab6282c69cc73be8c",
+    "receiver_inputs_sha256": "60f45c4ccdde588e53b94cc07dbb89d095e30ed687be0aef565e7a04ca5e16b5",
+    "source_applicability_sha256": "600618dcd0aedb67cb2cbfc1f51ab9d67fb0d64047d066455f0443e5edc18909",
+    "source_manifest_sha256": "3b77dc0ef2e2c70b1cfc56b92f730958aebb82cb51b03e6fee9ed26c15887a23",
+    "utility_sha256": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c"
+  },
+  "source_commit": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+  "source_tree": "ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7",
+  "target_hosts": [
+    {
+      "architecture": "x86_64",
+      "credentials": {
+        "egid": 1001,
+        "euid": 1001,
+        "gid": 1001,
+        "sgid": 1001,
+        "suid": 1001,
+        "uid": 1001
+      },
+      "image_os": "ubuntu26",
+      "image_version": "20261111.82.6",
+      "kernel": "7.0.0-1016-aws",
+      "os": {
+        "ID": "ubuntu",
+        "VERSION_ID": "26.04"
+      },
+      "python_version": [
+        3,
+        14,
+        4
+      ],
+      "tools": {
+        "bash": {
+          "available": true,
+          "bytes": 1540520,
+          "canonical": "/usr/bin/bash",
+          "requested": "/usr/bin/bash",
+          "root_owned_nonwritable_chain": true,
+          "setid_or_file_capabilities": false,
+          "sha256": "450c68376d14e5040d36cce58605c35b2211d244f3079297440dc9d602ee4994"
+        },
+        "bwrap": {
+          "available": true,
+          "bytes": 80424,
+          "canonical": "/usr/bin/bwrap",
+          "requested": "/usr/bin/bwrap",
+          "root_owned_nonwritable_chain": true,
+          "setid_or_file_capabilities": false,
+          "sha256": "a85b0ff8664c52ab923e0daf7e20cbc394272cd3831cc492ab144105d8091361"
+        },
+        "git": {
+          "available": true,
+          "bytes": 4771424,
+          "canonical": "/usr/bin/git",
+          "requested": "/usr/bin/git",
+          "root_owned_nonwritable_chain": true,
+          "setid_or_file_capabilities": false,
+          "sha256": "8fb7c4c2a0e5ec847626098c2a375ff01d6a9e5f81352e3ae56f30b41ec850cd"
+        },
+        "python3": {
+          "available": true,
+          "bytes": 7468968,
+          "canonical": "/usr/bin/python3.14",
+          "requested": "/usr/bin/python3",
+          "root_owned_nonwritable_chain": true,
+          "setid_or_file_capabilities": false,
+          "sha256": "be9a2a5eada8c89c1c399fdfb8397179e877c20d8db0739c802f726d4d0e69fd"
+        }
+      },
+      "uid": 1001
+    },
+    {
+      "architecture": "x86_64",
+      "credentials": {
+        "egid": 1001,
+        "euid": 1001,
+        "gid": 1001,
+        "sgid": 1001,
+        "suid": 1001,
+        "uid": 1001
+      },
+      "image_os": "ubuntu26",
+      "image_version": "20261111.196.1",
+      "kernel": "7.0.0-1019-azure",
+      "os": {
+        "ID": "ubuntu",
+        "VERSION_ID": "26.04"
+      },
+      "python_version": [
+        3,
+        14,
+        4
+      ],
+      "tools": {
+        "bash": {
+          "available": true,
+          "bytes": 1540520,
+          "canonical": "/usr/bin/bash",
+          "requested": "/usr/bin/bash",
+          "root_owned_nonwritable_chain": true,
+          "setid_or_file_capabilities": false,
+          "sha256": "450c68376d14e5040d36cce58605c35b2211d244f3079297440dc9d602ee4994"
+        },
+        "bwrap": {
+          "available": true,
+          "bytes": 80424,
+          "canonical": "/usr/bin/bwrap",
+          "requested": "/usr/bin/bwrap",
+          "root_owned_nonwritable_chain": true,
+          "setid_or_file_capabilities": false,
+          "sha256": "a85b0ff8664c52ab923e0daf7e20cbc394272cd3831cc492ab144105d8091361"
+        },
+        "git": {
+          "available": true,
+          "bytes": 4771424,
+          "canonical": "/usr/bin/git",
+          "requested": "/usr/bin/git",
+          "root_owned_nonwritable_chain": true,
+          "setid_or_file_capabilities": false,
+          "sha256": "8fb7c4c2a0e5ec847626098c2a375ff01d6a9e5f81352e3ae56f30b41ec850cd"
+        },
+        "python3": {
+          "available": true,
+          "bytes": 7468968,
+          "canonical": "/usr/bin/python3.14",
+          "requested": "/usr/bin/python3",
+          "root_owned_nonwritable_chain": true,
+          "setid_or_file_capabilities": false,
+          "sha256": "be9a2a5eada8c89c1c399fdfb8397179e877c20d8db0739c802f726d4d0e69fd"
+        }
+      },
+      "uid": 1001
+    }
+  ]
+}
