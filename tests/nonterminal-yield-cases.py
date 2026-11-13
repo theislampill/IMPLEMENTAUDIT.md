@@ -778,6 +778,98 @@ def windows_containment_controls(parent):
     return 7
 
 
+def interlock_containment_controls(parent):
+    """The Stop interlock's own owner must refuse, never start uncontained."""
+    if os.name != 'nt':
+        print('SKIP Windows interlock containment controls: non-Windows host')
+        return 0
+    import ctypes
+    from unittest import mock
+
+    spec = importlib.util.spec_from_file_location('yield_stop_owner',
+                                                  ROOT / 'skills/implementaudit/scripts/host-stop-interlock.py')
+    stop = importlib.util.module_from_spec(spec); spec.loader.exec_module(stop)
+    original_dll, original_popen = ctypes.WinDLL, subprocess.Popen
+    failures = []
+
+    class Call:
+        def __init__(self, function): self.function = function
+        def __call__(self, *args): return self.function(*args)
+
+    for failure in (None, 'CreateJobObjectW', 'SetInformationJobObject', 'AssignProcessToJobObject', 'Popen'):
+        label = failure or 'owned-positive'
+        marker = parent / ('interlock-' + label + '.started')
+        processes, jobs, containment = [], [], []
+        kernel = original_dll('kernel32')
+        kernel.CreateJobObjectW.restype = ctypes.c_void_p
+        kernel.CloseHandle.argtypes = [ctypes.c_void_p]
+        kernel.GetHandleInformation.argtypes = [ctypes.c_void_p, ctypes.POINTER(ctypes.c_ulong)]
+        kernel.QueryInformationJobObject.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_void_p,
+                                                     ctypes.c_ulong, ctypes.c_void_p]
+
+        def create(*args):
+            if failure == 'CreateJobObjectW': return None
+            job = kernel.CreateJobObjectW(*args)
+            if job: jobs.append(job)
+            return job
+
+        class Kernel:
+            CreateJobObjectW = Call(create)
+            def __getattr__(self, name):
+                if name == failure: return Call(lambda *args: 0)
+                return getattr(kernel, name)
+
+        def dll(name, *args, **kwargs):
+            return Kernel() if name == 'kernel32' else original_dll(name, *args, **kwargs)
+
+        def launch(*args, **kwargs):
+            limits = ctypes.create_string_buffer(144 if ctypes.sizeof(ctypes.c_void_p) == 8 else 112)
+            assert jobs and kernel.QueryInformationJobObject(jobs[-1], 9, limits, len(limits), None)
+            containment.append(int.from_bytes(limits.raw[16:20], 'little') == 0x2000)
+            if failure == 'Popen': raise OSError('injected process creation failure')
+            process = original_popen(*args, **kwargs)
+            processes.append(process)
+            return process
+
+        command = [sys.executable, '-I', '-B', '-c',
+                   'from pathlib import Path;import sys;Path(sys.argv[1]).write_text("started")', str(marker)]
+        error = None; result = None
+        began = time.monotonic()
+        try:
+            with mock.patch.object(ctypes, 'WinDLL', side_effect=dll), \
+                    mock.patch.object(subprocess, 'Popen', side_effect=launch):
+                try: result = stop.windows_owner(command, cwd=str(parent), env=dict(os.environ), timeout=10)
+                except (stop.InterlockUnavailable, OSError) as exc: error = exc
+            if failure:
+                assert isinstance(error, OSError if failure == 'Popen' else stop.InterlockUnavailable), \
+                    'containment failure was not refused: ' + repr((error, result))
+                assert not marker.exists(), 'owner executed after containment failed'
+                if failure != 'AssignProcessToJobObject':
+                    assert not processes, 'owner created without a configured job'
+            else:
+                assert error is None and result.returncode == 0 and marker.read_text() == 'started', (error, result)
+            assert time.monotonic() - began < 5, 'containment failure exceeded bounded cleanup'
+            assert all(containment), 'owner started without kill-on-close containment'
+            assert all(process.poll() is not None for process in processes), 'suspended owner survived refusal'
+            flags = ctypes.c_ulong()
+            assert all(not kernel.GetHandleInformation(job, ctypes.byref(flags)) for job in jobs), \
+                'owner left a job handle open'
+            print('PASS Windows-interlock-owner-' + label)
+        except AssertionError as exc:
+            failures.append(label + ': ' + str(exc))
+            print('FAIL Windows-interlock-owner-' + label + ': ' + str(exc))
+        finally:
+            # These are only handles returned by this control's real Popen.
+            for process in processes:
+                if process.poll() is None: process.kill()
+                process.wait(timeout=2)
+            for job in jobs:
+                flags = ctypes.c_ulong()
+                if kernel.GetHandleInformation(job, ctypes.byref(flags)): kernel.CloseHandle(job)
+    assert not failures, '\n'.join(failures)
+    return 5
+
+
 def owner_timeout_controls(parent, *, selected=None):
     """An owner that cannot finish inside its fixed bound is not a refused record."""
     def wanted(name): return selected is None or name in selected
@@ -881,7 +973,8 @@ def owner_timeout_controls(parent, *, selected=None):
         # Sibling selections and dependency rechecks may overlap, but what is
         # reported must be what the one-at-a-time order reports. Each case holds
         # the earlier member so that a later member finishes first.
-        repo, target, siblings = claimed_family(parent, 3)
+        fresh = parent / 'concurrent-serial-precedence'; fresh.mkdir()
+        repo, target, siblings = claimed_family(fresh, 3)
         first, second = sorted(siblings, key=lambda path: path.name)
         real = shlex.quote(Path(sys.executable).as_posix())
         def direct(name=None, body=''):
@@ -1118,7 +1211,8 @@ def main():
         parent = Path(temporary)
         dependency_count = (consumed_read_set_controls(parent) + dependency_profile_controls(parent)
                             + background_read_set_controls(parent) + successor_review_controls(parent)
-                            + owner_timeout_controls(parent) + windows_containment_controls(parent))
+                            + owner_timeout_controls(parent) + windows_containment_controls(parent)
+                            + interlock_containment_controls(parent))
         for index, (name, want, changes, kwargs, suffix) in enumerate(cases):
             root = write_case(parent / str(index), changes, suffix=suffix, **kwargs)
             before = inventory(root)

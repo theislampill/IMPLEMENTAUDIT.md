@@ -2492,7 +2492,9 @@ else:
             File=lambda *args, **kwargs: contextlib.nullcontext(held))
         timeout = subprocess.CompletedProcess([], 1, "",
             "validate-run-root: OWNER_TIMEOUT: packaged owner read timed out; no disposition\n")
-        with mock.patch.object(stop.subprocess, "run", return_value=timeout) as dispatch:
+        # One dispatch seam per platform: the contained Windows owner, else run().
+        seam = (stop, "windows_owner") if os.name == "nt" else (stop.subprocess, "run")
+        with mock.patch.object(*seam, return_value=timeout) as dispatch:
             result = stop.selected_record_verdict(policy, ROOT, helper, custody,
                 ROOT / "INERT_RESPONSE.md", "NONTERMINAL_YIELD", None)
         self.assertIs(result, timeout)
@@ -2510,7 +2512,7 @@ else:
                                  (expected, raw[:-1] + (b"X" if raw[-1:] != b"X" else b"Y"))):
             with self.subTest(digest=digest):
                 held.read.return_value = captured
-                with mock.patch.object(stop.subprocess, "run") as dispatch:
+                with mock.patch.object(*seam) as dispatch:
                     with self.assertRaisesRegex(stop.InterlockUnavailable, "selected lifecycle owner differs"):
                         stop.selected_record_verdict(policy | {"validator_sha256": digest}, ROOT,
                             helper, custody, ROOT / "INERT_RESPONSE.md", "NONTERMINAL_YIELD", None)

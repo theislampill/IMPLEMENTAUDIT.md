@@ -1180,8 +1180,8 @@ with zipfile.ZipFile(asset) as zf:
     # Final bytes cannot select or raise their own cap.
     package_budget = json.loads(zf.read("IMPLEMENTAUDIT_PACKAGE.json"))
     declared_budget = package_budget["budgets"]["standalone_compatibility"]
-    if package_budget["budget_revision"]["revision"] != 4:
-        raise SystemExit("standalone budget is not prospective PR255 revision 4")
+    if package_budget["budget_revision"]["revision"] != 5:
+        raise SystemExit("standalone budget is not prospective PR255 revision 5")
     if (declared_budget["cap_bytes"], declared_budget["reserve_bytes"]) != (589824, 2000):
         raise SystemExit("standalone declaration differs from the approved PR255 budget")
     historical_budget = package_budget["budget_history"]["3"]["standalone_compatibility"]

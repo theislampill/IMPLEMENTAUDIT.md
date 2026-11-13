@@ -108,18 +108,23 @@ R003A_BUDGETS = {
     for role, budget in R0039_BUDGETS.items()
 }
 EXPECTED_BUDGET_REVISION = {
-    "revision": 4,
+    "revision": 5,
     "applicability": "prospective",
     "owner": "PR255_COMPOSITE",
-    "supersedes_revision": 3,
+    "supersedes_revision": 4,
     "owner_approval": {
-        "path": "package/budgets/pr255-v4-owner-approval.md",
-        "sha256": "e4af32dc219e8c041d62170b960cdb465f0cdfebdb7e414d0f45b7726cc31488"
+        "path": "package/budgets/pr255-v5-owner-approval.md",
+        "sha256": "9cce88d8d9822c42fcaa485ffbb8a82cf9b53256c93ca926969448d3affc1538"
     }
 }
-EXPECTED_BUDGETS = {
+PR255_V4_BUDGETS = {
     role: {**budget, "cap_bytes": 589824, "owner": "PR255_COMPOSITE"}
     for role, budget in R003A_BUDGETS.items()
+}
+# Revision 5: one bounded owner exception, canonical plugin only; caps unchanged.
+EXPECTED_BUDGETS = {
+    **PR255_V4_BUDGETS,
+    "canonical_plugin": {**PR255_V4_BUDGETS["canonical_plugin"], "reserve_bytes": 1240},
 }
 TEXT_SUFFIXES = {".md", ".txt", ".sh", ".json", ".yaml", ".yml"}
 INVENTORY_NAME = "IMPLEMENTAUDIT_INVENTORY.json"
@@ -224,7 +229,8 @@ def validate_contract(root: Path) -> dict[str, Any]:
         "budget_revision", contract.get("budget_revision"), EXPECTED_BUDGET_REVISION
     )
     require_equal("budget_history", contract.get("budget_history"),
-                  {"1": HISTORICAL_BUDGETS, "2": R0039_BUDGETS, "3": R003A_BUDGETS})
+                  {"1": HISTORICAL_BUDGETS, "2": R0039_BUDGETS, "3": R003A_BUDGETS,
+                   "4": PR255_V4_BUDGETS})
     require_equal("budgets", contract.get("budgets"), EXPECTED_BUDGETS)
     require_equal(
         "generic_activegraph_dependency",

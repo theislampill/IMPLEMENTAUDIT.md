@@ -79,13 +79,13 @@
     ]
   },
   "budget_revision": {
-    "revision": 4,
+    "revision": 5,
     "applicability": "prospective",
     "owner": "PR255_COMPOSITE",
-    "supersedes_revision": 3,
+    "supersedes_revision": 4,
     "owner_approval": {
-      "path": "package/budgets/pr255-v4-owner-approval.md",
-      "sha256": "e4af32dc219e8c041d62170b960cdb465f0cdfebdb7e414d0f45b7726cc31488"
+      "path": "package/budgets/pr255-v5-owner-approval.md",
+      "sha256": "9cce88d8d9822c42fcaa485ffbb8a82cf9b53256c93ca926969448d3affc1538"
     }
   },
   "budget_history": {
@@ -150,6 +150,24 @@
         "reserve_bytes": 2000,
         "owner": "R003A"
       }
+    },
+    "4": {
+      "canonical_plugin": {
+        "artifact_role": "canonical_plugin",
+        "measurement": "final_deterministic_compressed_bytes",
+        "rounding_unit_bytes": 65536,
+        "cap_bytes": 589824,
+        "reserve_bytes": 2000,
+        "owner": "PR255_COMPOSITE"
+      },
+      "standalone_compatibility": {
+        "artifact_role": "standalone_compatibility",
+        "measurement": "final_deterministic_compressed_bytes",
+        "rounding_unit_bytes": 65536,
+        "cap_bytes": 589824,
+        "reserve_bytes": 2000,
+        "owner": "PR255_COMPOSITE"
+      }
     }
   },
   "budgets": {
@@ -158,7 +176,7 @@
       "measurement": "final_deterministic_compressed_bytes",
       "rounding_unit_bytes": 65536,
       "cap_bytes": 589824,
-      "reserve_bytes": 2000,
+      "reserve_bytes": 1240,
       "owner": "PR255_COMPOSITE"
     },
     "standalone_compatibility": {
