@@ -65,3 +65,7 @@ The registry’s SHA-256 values identify received scientific objects; they are n
 ## Later documentary receiving — 13 November
 
 The S003 whole author study is frozen and byte-received. Its later returning whole fidelity receipt records GAP_REVISE on that exact subject and root receiving preserves that outcome. It remains scientifically unqualified. S002 GAP_REVISE stays with S002; later original-branch attribution is a different subject. See the [versioned successor receiving record](../increments/2026-11-13-documentary-successor-01.md); it preserves the earlier snapshot and does not establish native implementation.
+
+## Later frozen-author receiving — continuation 02
+
+Two distinct S004 subjects are now frozen: the isolated continuation (`261895c2…`) and the owner successor (`89759a09…`). A separate original-author whole subject (`fd9611ad…`) is also received. Each has its own receiving and review boundary; none has a received whole qualifier or current accepted final-review pair. No cross-branch supersession or central selection is inferred, and S003 GAP_REVISE stays with S003. The [dated continuation and full identities](../increments/2026-11-13-documentary-continuation-02.md) preserve these distinctions and all earlier snapshots.

@@ -62,3 +62,7 @@ The registry’s SHA-256 values identify received scientific objects; they are n
 ## Later documentary receiving — 13 November
 
 The r16 whole author study is frozen and byte-received. Its later whole fidelity receipt records GAP_REVISE on that exact subject, so it remains scientifically unqualified. A later r17 author was reported dispatched, but no frozen r17 subject was observed in the received successor state. See the [versioned successor receiving record](../increments/2026-11-13-documentary-successor-01.md); it preserves the earlier snapshot and does not establish native implementation.
+
+## Later frozen-author receiving — continuation 02
+
+The exact r17 author subject is now frozen and independently byte-received. Whole fidelity remains in progress in the received later state, and the final subject is not released to the distinct adversary. Closed bounded support and preparatory records supply no whole verdict. AMA remains unqualified, with r16 GAP_REVISE preserved on r16. See the [dated continuation and exact identities](../increments/2026-11-13-documentary-continuation-02.md); the earlier observation that r17 was not yet frozen remains history at its own cutoff.

@@ -10,6 +10,8 @@ The [23:12:39 UTC increment](increments/2026-11-12-231239Z.md) records SSS recei
 
 The [13 November documentary successor](increments/2026-11-13-documentary-successor-01.md) receives SSD S003 and AMA r16, their later GAP_REVISE fidelity returns, and later original LAW/DRF partial subjects through I013/I005. All four remain scientifically unqualified. The existing four synthesis qualifications and staged-only CSS/BWP/SSS central intents retain their separate evidence boundaries.
 
+The [second 13 November continuation](increments/2026-11-13-documentary-continuation-02.md) distinguishes two frozen SSD S004 subjects and a separate original-author whole study, receives frozen AMA r17, and advances bounded LAW/DRF scientific receiving. Later partials remain pending. All four syntheses remain unqualified; no central application or custody activation is inferred. Earlier observations below and in the preceding increments remain dated history.
+
 ## Initial snapshot family map
 
 | Family | L1 / L2 / L3 in exact programme order | Historical constituent property rows | Received synthesis state |

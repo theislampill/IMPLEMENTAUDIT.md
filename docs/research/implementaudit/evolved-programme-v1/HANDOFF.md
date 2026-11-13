@@ -54,3 +54,9 @@ Continue from the existing delivered branch and the [new documentary receiving r
 The [exact donor composition record](COMPOSITION_2026-11-13.md) supplies pinned source blobs, concrete shared-file union recipes and explicit dependencies. Its proposals preserve current C documentation and donor ownership, and do not adopt a donor tree. Refresh the actual C successor head and all affected owners before integration.
 
 The new rendering attempts remain blocked before site observation, as recorded in [QUALIFICATION.md](QUALIFICATION.md#successor-rendering-attempt--13-november-2026). Actual desktop/mobile visual acceptance remains a merge-preparation hold. No main merge, deployment or final RLGWO campaign has been performed or authorized by this continuation.
+
+## Further documentary receiving — continuation 02
+
+The [next dated receiving record](../../genealogy/current-programme/v1/increments/2026-11-13-documentary-continuation-02.md) distinguishes both frozen S004 subjects and a separate original-author SSD study, receives frozen AMA r17, and records actual bounded LAW I013/I014 and DRF I005 scientific receiving. Latest original LAW I017/DRF I007 remain partial, with their declared scientific receiving pending. No new whole qualification, central application, cross-branch subject selection or B custody activation is established. All prior source histories and rough RLGWO responsibilities remain intact.
+
+The donor recipe now pins the additional programme-source entries. Unchanged donor heads do not replace source-owner checkpoints before future intake. The renewed renderer capability check still failed before navigation; actual desktop/mobile acceptance remains unverified. Continue exact documentary receiving without inferring source-body disclosure, merge, deployment or native authority.

@@ -65,3 +65,7 @@ The registry’s SHA-256 values identify received scientific objects; they are n
 ## Later documentary receiving — 13 November
 
 The earlier I004 pending boundary is preserved. Later original-root partial scientific receiving closes I004 and its F1 correction at their declared scopes; latest original I005 is frozen and byte-received with partial scientific receiving still pending. The whole study remains unfinished and unqualified, and B mutable custody remains inactive in the later received state. See the [versioned successor receiving record](../increments/2026-11-13-documentary-successor-01.md); it preserves the earlier snapshot and does not establish native implementation.
+
+## Later partial scientific receiving — continuation 02
+
+Original-root scientific receiving is now supplied for I005 at its bounded author scope. The latest received original frozen partial subject is I007; I006/I007 scientific receiving remains pending. B separately has I007 data but has not activated scientific custody. Whole DRF remains unfinished and unqualified. See the [dated continuation](../increments/2026-11-13-documentary-continuation-02.md); the I004/F1 chronology and earlier pending observations remain preserved.
