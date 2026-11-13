@@ -81,6 +81,26 @@ class HistoricalInputCases(unittest.TestCase):
                     H.original(name)
             self.assertEqual(path.read_bytes(), changed)
 
+    def test_registry_preimages_refuse_current_pins_and_changed_specimens(self):
+        for name, expected in A.contract_for(A.REGISTRY_PROFILE)["programs"].items():
+            with self.subTest(path=name):
+                old = H.selected_input_bytes(name, expected)
+                current = (ROOT / name).read_bytes()
+                self.assertNotEqual(old, current)
+                self.assertEqual(H.input_mode(name), 0o644)
+                with self.assertRaisesRegex(ValueError, "selected source pin"):
+                    H.selected_input_bytes(name, hashlib.sha256(current).hexdigest())
+                with tempfile.TemporaryDirectory() as temporary:
+                    collection = Path(temporary)
+                    path = collection / H.SUPPLEMENTAL[name]["specimen"]
+                    path.parent.mkdir(parents=True)
+                    changed = old[:-1] + b"X"
+                    path.write_bytes(changed)
+                    with mock.patch.object(H, "COLLECTION", collection):
+                        with self.assertRaisesRegex(ValueError, "historical specimen changed"):
+                            H.selected_input_bytes(name, expected)
+                    self.assertEqual(path.read_bytes(), changed)
+
     @unittest.skipUnless(sys.platform == "linux", "physical source descriptors require Linux")
     def test_readme_fixture_preserves_completion_pin_and_refuses_current_substitution(self):
         name = "scripts/work-graph-completion.py"
@@ -153,8 +173,9 @@ class HistoricalInputCases(unittest.TestCase):
 
 @unittest.skipUnless(sys.platform == "linux", "finite source admission requires Linux")
 class ChangedCurrentInputCases(unittest.TestCase):
-    def test_all_twelve_changed_populations_refuse_before_runtime_or_receipt(self):
+    def test_all_changed_populations_refuse_before_runtime_or_receipt(self):
         cases = {
+            A.REGISTRY_PROFILE: ("finite-batch", "RegistryAdmissionCases"),
             A.ACTION_SELECTION_PROFILE: ("action-selection", "SourceCases"),
             A.INTERNAL_ROUTING_PROFILE: ("internal-routing", "AdmissionCases"),
             A.AUDIT_OBJECT_CONTRACT_PROFILE: ("audit-object-contract", "AdmissionCases"),

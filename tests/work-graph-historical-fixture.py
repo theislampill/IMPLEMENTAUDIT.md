@@ -19,6 +19,14 @@ assert MANIFEST["scope"] == "HISTORICAL_INPUTS_ONLY_NOT_CURRENT_ACCEPTANCE"
 # Previously unchanged files absent from the original fixture manifest.
 # Retain exact cbb616cc bytes without editing that manifest or its source pins.
 SUPPLEMENTAL = {
+    "tests/validation-registry.test.sh": {
+        "specimen": "original117-registry/tests/validation-registry.test.sh", "bytes": 3683,
+        "sha256": "ac9459ec5485ae550251924f0e2365dec0ff86859e2b74fca44bebdcd752250e", "mode": 0o644,
+    },
+    "scripts/check-validation-registry.sh": {
+        "specimen": "original117-registry/scripts/check-validation-registry.sh", "bytes": 2299,
+        "sha256": "c7c6b0f26111c44c4caaf5e1ffc20979e48cc15ca83600f3fea16514e9d02fee", "mode": 0o644,
+    },
     "scripts/run-work-graph-verifier.sh": {
         "specimen": "original117-runner/run-work-graph-verifier.sh", "bytes": 14452,
         "sha256": "532b06dbe91298bf71d44c88ecf20186adc93b4e3fb16ee2c4d12bc2edee45ff", "mode": 0o644,

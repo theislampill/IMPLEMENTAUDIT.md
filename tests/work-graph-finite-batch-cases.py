@@ -106,7 +106,8 @@ class RegistryAdmissionCases(RegistryFixture, unittest.TestCase):
         self.assertIn("registry_membership", stamps)
         self.assertNotIn(hashlib.sha256(sentinel).hexdigest(), objects)
         wrapper = state["files"][REGISTRY_PROGRAM]
-        self.assertEqual(objects[wrapper["sha256"]], (ROOT / REGISTRY_PROGRAM).read_bytes())
+        self.assertEqual(wrapper["sha256"], self.A.contract_for(self.profile)["programs"][REGISTRY_PROGRAM])
+        self.assertEqual(objects[wrapper["sha256"]], H.original(REGISTRY_PROGRAM))
 
     def test_registry_addition_deletion_and_dot_names_are_observed(self):
         before, _, _ = self.snapshot()
@@ -238,7 +239,7 @@ class RegistryLiveCases(RegistryFixture, BatchLiveFixture, unittest.TestCase):
         image = json.loads((Path(first["evidence_directory"]) / "image.json").read_bytes())
         members = {item["path"]: item for item in image["files"]}
         wrapper = members["/work/" + REGISTRY_PROGRAM]
-        self.assertEqual(wrapper["sha256"], hashlib.sha256((ROOT / REGISTRY_PROGRAM).read_bytes()).hexdigest())
+        self.assertEqual(wrapper["sha256"], self.A.contract_for(self.profile)["programs"][REGISTRY_PROGRAM])
         self.assertGreater(wrapper["bytes"], 0)
         for name in self.members:
             if "tests/" + name != REGISTRY_PROGRAM:

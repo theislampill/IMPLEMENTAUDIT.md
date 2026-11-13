@@ -152,3 +152,24 @@ establish current runtime state, grant authority, or certify a native episode.
   test, covers current/frozen loading, captured and fresh drift refusal, exact
   producer/payload rejection and preservation of prior pin/revision tables.
   These source controls do not qualify original C5 execution or JOIN.
+
+## FINITE-REGISTRY-HISTORICAL-INPUTS
+
+- Sources: `tests/work-graph-historical-fixture.py`,
+  `tests/work-graph-historical-fixture-cases.py`, and
+  `tests/work-graph-finite-batch-cases.py`; original pins remain owned by
+  `scripts/qualify-work-graph-finite-leaf.py`.
+- Current checker/wrapper bytes, a frozen profile's required hashes, explicit
+  retained specimens, fixture construction, acquisition and live execution are
+  separate states. CI681 exposed formerly identical paths after the current CI
+  image guard changed the checker and wrapper.
+- Root owns this fixture repair. The supplemental catalog retains exact
+  `cbb616cc` preimages for both registry files. Only fixture construction selects
+  them; acquisition never repairs a subject or accepts current substitution.
+  Historical image assertions use the original contract, not current path bytes.
+- The closed changed-profile census includes the registry wrapper. Source controls
+  require its positive snapshot and reject current substitutions before runtime,
+  dispatch or receipts; same-size retained-specimen corruption also refuses.
+- Original contracts and the original117 manifest remain unchanged. Source
+  regression checks grant no historical bank replay or original live-leaf credit;
+  the corresponding live assertions remain separately unexecuted here.
