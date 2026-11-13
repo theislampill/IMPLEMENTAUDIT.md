@@ -46,6 +46,12 @@ The new correction starts from accepted C `dd862aac9f42eabbcd1e6ad2b1ebb01fb01c2
 
 The fresh donor readback retains the pinned #224/#254/#255 heads and their shared-file identities. None of the seventeen family/constituent Page bodies changed by this normalization intersects those donors' actual changed-path populations. `site.json` remains a shared owner file: its new source bindings are C's additions, while the donor's semantic-source and overview-source additions retain their own exact dependencies. No donor tree or release metadata is adopted. Actual source-owner checkpoints and final composed-source qualification remain outstanding.
 
+## Continuation 04 source-list composition
+
+Starting from C commit `abfaf5919b0d492c331c4493675611eb85332891`, site preimage `664593671683a2ff68a110698511cac3e2b51a7c`, this receiving increment yields site blob `52845afecf23e37fb8e11fd5242054882e1f7144`. Its only structural site change appends the `2026-11-13-documentary-continuation-04` Markdown/JSON pair to `pages.research-programme.sources`. Preserve every earlier receiving pair and the continuation-03 family/registry bindings.
+
+The 06:31:21 UTC readback retains the exact #224/#254/#255 and historical branch heads recorded above. This increment changes no donor-owned source body; `site.json` remains the shared-file overlap. The same bounded union recipes, donor dependency files and source-owner checkpoints remain necessary before any composed-tree acceptance. No donor tree, release metadata or native behavior is adopted.
+
 ## Bounded composition recipes
 
 | Owner file | Required composition | Verification and remaining dependency |

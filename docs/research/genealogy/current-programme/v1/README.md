@@ -14,6 +14,8 @@ The [second 13 November continuation](increments/2026-11-13-documentary-continua
 
 The [third 13 November continuation](increments/2026-11-13-documentary-continuation-03.md) receives selected AMA r17 fidelity acceptance with the final adversarial receipt pending; distinguishes separate SSD S004 review contexts and S005 authors; and advances original LAW/DRF scientific receiving to I016/I006 and author-byte receiving to I020/I009. All four syntheses remain unqualified. B custody remains inactive and central application is unchanged in the received records.
 
+The [fourth 13 November continuation](increments/2026-11-13-documentary-continuation-04.md) receives distinct GAP_REVISE fidelity returns for the isolated and owner SSD S005 subjects, a third frozen reconciled S005 with returning fidelity still pending at its source capture, and separate partial S006 records. It preserves the distinction between newly discovered evidence and original event time. No whole qualification, central application or B custody activation follows.
+
 ## Initial snapshot family map
 
 | Family | L1 / L2 / L3 in exact programme order | Historical constituent property rows | Received synthesis state |

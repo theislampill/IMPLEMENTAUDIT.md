@@ -51,3 +51,7 @@ The [second 13 November continuation](increments/2026-11-13-documentary-continua
 ## Later review and normalization boundary — continuation 03
 
 The [third receiving increment](increments/2026-11-13-documentary-continuation-03.md) adds permitted exact review, author and receiving metadata, without publishing protected finding details or directional counters. A received fidelity acceptance remains distinct from adversarial acceptance and whole qualification; a local subject choice for review remains distinct from central selection. The new explanatory examples in SSS/BWP/AMA family records are explicitly attributed to already-public immutable repository predecessors, not to protected corrected studies. SPR descriptions remain identity/population metadata because no public immutable SPR scientific body was verified.
+
+## Subject-bound adverse receiving — continuation 04
+
+The [fourth increment](increments/2026-11-13-documentary-continuation-04.md) receives two exact S005 adverse whole-fidelity returns while separately receiving a third frozen S005 on a different parent-review context. A review verdict belongs to its exact subject; neither a shared revision label nor a shared parent transfers that verdict. Exposed author-support assessment, partial S006 checkpoint, whole-author freeze, final independent review, scientific qualification and central selection remain separate. Source event kinds are retained, including earlier events newly discovered in later custody records.
