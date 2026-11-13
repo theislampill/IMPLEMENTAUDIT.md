@@ -47,6 +47,9 @@ HOSTED_R5_WINDOWS_INITIALIZATION_LOADER_PIN = {'bytes': 39282, 'sha256': '042cf2
 HOSTED_R5_WINDOWS_CAPTURE_LOADER_PIN = {'bytes': 42146, 'sha256': 'ca1647e90d766fb7035c4bdba06c2d7d6651ddca505b6ce98863e76ea8348e5d'}
 
 
+HOSTED_R5_DG17_COMPOSED_LOADER_PIN = {'bytes': 58016, 'sha256': 'fb416808867945e763d5ed175d49722fc21ca4e4cc933deb5471fd43ada1a33c'}
+
+
 class HostedPrerequisiteDeadline(BaseException):
     """End the whole operation; ordinary input refusals must not consume this."""
 
@@ -61,7 +64,7 @@ def hosted_current_owner(root):
         opening = identity(os.fstat(fd))
         pins = (HOSTED_LOADER_PIN, HOSTED_PUBLIC_STREAMING_LOADER_PIN,
                 HOSTED_CURRENT105_LOADER_PIN, HOSTED_CURRENT105_COMPOSED_LOADER_PIN,
-                HOSTED_R4_COMPOSED_LOADER_PIN, HOSTED_R4_BUILD_LOCAL_LOADER_PIN, HOSTED_R4_INITIALIZATION_LOADER_PIN, HOSTED_R5_WINDOWS_INITIALIZATION_LOADER_PIN, HOSTED_R5_WINDOWS_CAPTURE_LOADER_PIN)
+                HOSTED_R4_COMPOSED_LOADER_PIN, HOSTED_R4_BUILD_LOCAL_LOADER_PIN, HOSTED_R4_INITIALIZATION_LOADER_PIN, HOSTED_R5_WINDOWS_INITIALIZATION_LOADER_PIN, HOSTED_R5_WINDOWS_CAPTURE_LOADER_PIN, HOSTED_R5_DG17_COMPOSED_LOADER_PIN)
         if not stat.S_ISREG(opening[2]) or opening[3] != 1 or opening[4] not in tuple(pin['bytes'] for pin in pins):
             raise ValueError('hosted current loader pin differs')
         raw = os.pread(fd, max(pin['bytes'] for pin in pins) + 1, 0)
@@ -94,6 +97,9 @@ def hosted_current_owner(root):
         elif observed == HOSTED_R5_WINDOWS_INITIALIZATION_LOADER_PIN:
             current = module._Engine(module.R4_BUILD_CACHE_PROFILE,
                 source_revision=module.R5_WINDOWS_INITIALIZATION_SOURCE_REVISION).load()
+        elif observed == HOSTED_R5_DG17_COMPOSED_LOADER_PIN:
+            current = module._Engine(module.R5_HOSTED_PROFILE,
+                source_revision=module.R5_DG17_COMPOSED_SOURCE_REVISION).load()
         else:
             current = module._Engine(module.R4_BUILD_CACHE_PROFILE,
                 source_revision=module.R5_WINDOWS_CAPTURE_SOURCE_REVISION).load()

@@ -1546,6 +1546,14 @@ class CompositeSourceCases(unittest.TestCase):
         yield root, root.parent / "evidence"
 
 
+    @unittest.skipUnless(os.name == "posix", "held C5 source loading")
+    def test_hosted_current_reader_loads_actual_source_without_dispatch(self):
+        """A stale loader pin must fail even if CI receiving continues on error."""
+        owner = load("hosted_current_source_reader", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        with mock.patch("subprocess.Popen", side_effect=AssertionError("source loading dispatched a producer")):
+            selected = owner.hosted_current_owner(ROOT)
+            self.assertTrue(callable(selected.GenuineC5Session))
+
     def test_current_c5_unknown_selection_refuses(self):
         """Break caught: a caller can supply an unreviewed source policy."""
         owner = load("unknown_current_c5", ROOT / "scripts/load-work-graph-c5-executor.py")
@@ -1705,14 +1713,16 @@ class CompositeSourceCases(unittest.TestCase):
         self.assertEqual(len(selected), 1)
         profile = ast.literal_eval(selected[0].value)
         history = ROOT / "test-support/r5-h0-template-history/eb504b84-source/skills/implementaudit/scripts"
+        prior_validator = ROOT / "test-support/dg17-validator-history/pre-composed-owner-20261112/skills/implementaudit/scripts/validate-run-root.sh"
         overrides = {"claim-run.sh", "claim-run-rotation.py"}
         self.assertEqual({path.name for path in history.iterdir()}, overrides)
         for name, size, digest, mode in profile:
-            path = (history if name in overrides else CORE) / name
+            path = prior_validator if name == "validate-run-root.sh" else (history if name in overrides else CORE) / name
             raw = path.read_bytes()
             self.assertEqual((len(raw), hashlib.sha256(raw).hexdigest()), (size, digest))
         for name in overrides:
             self.assertNotEqual((history / name).read_bytes(), (CORE / name).read_bytes())
+        self.assertNotEqual(prior_validator.read_bytes(), (CORE / "validate-run-root.sh").read_bytes())
 
     def test_prior_windows_capture_profile_has_exact_physical_members(self):
         """Actual copied file bytes; profile selection only, no native qualification."""
@@ -1728,6 +1738,7 @@ class CompositeSourceCases(unittest.TestCase):
         self.assertEqual(len(declarations), 1)
         profile = ast.literal_eval(declarations[0].value)
         history = ROOT / "test-support/r5-windows-load-binding-history/35bf982-source/skills/implementaudit/scripts"
+        prior_validator = ROOT / "test-support/dg17-validator-history/pre-composed-owner-20261112/skills/implementaudit/scripts/validate-run-root.sh"
         overrides = {"claim-run.sh", "claim-run-rotation.py"}
         self.assertEqual({path.name for path in history.iterdir()}, overrides)
         self.assertEqual(profile[0][1:3],
@@ -1737,7 +1748,7 @@ class CompositeSourceCases(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="prior-windows-capture-source-") as temporary:
             destination = Path(temporary)
             for name, size, digest, mode in profile:
-                selected = (history if name in overrides else CORE) / name
+                selected = prior_validator if name == "validate-run-root.sh" else (history if name in overrides else CORE) / name
                 raw = selected.read_bytes()
                 self.assertEqual((len(raw), hashlib.sha256(raw).hexdigest()), (size, digest))
                 target = destination / name
@@ -1751,6 +1762,7 @@ class CompositeSourceCases(unittest.TestCase):
             self.assertEqual(len(observed), 8)
         for name in overrides:
             self.assertNotEqual((history / name).read_bytes(), (CORE / name).read_bytes())
+        self.assertNotEqual(prior_validator.read_bytes(), (CORE / "validate-run-root.sh").read_bytes())
 
     def test_retained_native_dependency_and_new_core_profiles_are_distinct(self):
         manifest = json.loads((ROOT / "source-peers/native-runtime/SOURCE_MANIFEST.json").read_bytes())

@@ -15,7 +15,7 @@ QUALIFIER = 'scripts/qualify-work-graph-verifier.py'
 COMPILER = 'skills/implementaudit/scripts/compile-work-graph.py'
 OLD_COMPILER = '3649a8dc856e29ce11b6daa5861351cc1c21bf9c7a9b4f5a2ddde12108d8581f'
 CURRENT_COMPILER = '0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d'
-CURRENT_LOADER = (56602, '3bd0ef2176f4e14e30f18a3af9fdff3ed0945de49bd4080d1375fb6bec29c5a5')
+CURRENT_LOADER = (58016, 'fb416808867945e763d5ed175d49722fc21ca4e4cc933deb5471fd43ada1a33c')
 HISTORICAL_LOADER = (
     'test-support/r5-windows-capture-history/d2747b7-source/' + LOADER,
     39282, '042cf21f807ce52ac3522285458f1c0407415c1f0883370f1d73404abd9e97d1')
@@ -25,10 +25,10 @@ CURRENT_QUALIFIER = '79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525
 MODES = ('HISTORICAL_HOSTED_READER', 'R4_CURRENT', 'R5_RETAINED_V3', 'R5_CURRENT_V4')
 HISTORIES = ('R4_BUILD_CACHE_PHYSICAL_HISTORY', 'R4_INITIALIZATION_PHYSICAL_HISTORY',
     'R5_WINDOWS_INITIALIZATION_PHYSICAL_HISTORY', 'R5_WINDOWS_CAPTURE_PHYSICAL_HISTORY',
-    'R5_HOSTED_PHYSICAL_HISTORY')
-# Each historical substitution is explicit and belongs to this fixture only.
-# The production loader's historical pin table and refusal on current bytes stay
-# unchanged; no fallback searches the repository for a convenient matching hash.
+    'R5_HOSTED_PHYSICAL_HISTORY', 'R5_CONTINUITY_COMPILER_PHYSICAL_HISTORY')
+# HISTORIES names production-declared physical history; these mappings are shared.
+# RETAINED below adds fixture-only substitutions without changing production pins.
+# Neither path searches the repository for a convenient matching hash.
 RETAINED = {
     (QUALIFIER, RETAINED_V3_QUALIFIER):
         'test-support/r5-c5-source-history/source5c7e/' + QUALIFIER,
@@ -168,7 +168,13 @@ def write_plan(source, destination, mode, owner, loader_raw, loader_permissions)
         require(len(members) <= 96, 'producer/payload member bound')
         for name in sorted(members):
             if name not in buffers:
-                buffers[relative(name)] = read_member(source, name)
+                if name == COMPILER:
+                    # This fixture is explicitly V3/V4. Keep its logical
+                    # compiler in the same frozen tuple as its retained owner.
+                    selected = next(row for row in plan.values() if row['logical'] == COMPILER)
+                    buffers[name] = buffers[selected['physical']]
+                else:
+                    buffers[relative(name)] = read_member(source, name)
     require(0 < len(buffers) <= 128 and sum(len(raw) for raw, _ in buffers.values()) <= 8 * 1024**2,
             'fixture population/byte bound')
     require(not destination.exists(), 'destination already exists')

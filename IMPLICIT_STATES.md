@@ -52,6 +52,12 @@ establish current runtime state, grant authority, or certify a native episode.
 - Failure/recovery: a partial generation or failed size check holds that candidate.
   Regenerate from its immutable base and reconcile actual output before retry;
   never promote a successful writer command into source or package acceptance.
+- Historical fixture populations must use their exact retained physical members.
+  CI680 found two historical Windows profiles falling through to today's validator
+  after it changed. Their unchanged hashes now select the explicit prior member in
+  `test-support/dg17-validator-history/pre-composed-owner-20261112/`; the historical
+  profile tests still reject current bytes as substitutes. This retains the old
+  source relation rather than rebasing historical evidence onto the new owner.
 
 ## PR255-GUARDED-PUBLICATION
 
@@ -103,3 +109,46 @@ establish current runtime state, grant authority, or certify a native episode.
 - Failure/recovery: retain the failed run; correct source and publish a reviewed
   increment through the same guarded route. No manual campaign or privilege
   broadening follows from this source correction.
+
+## CI-PREREQUISITE-RECEIVING-OUTCOME
+
+- Sources: `.github/workflows/validate.yml` and `hosted_current_owner` in
+  `scripts/qualify-work-graph-c5-setup.py`.
+- Step conclusion, process exit, structured observation, current source binding
+  and prerequisite qualification are independent dimensions. `continue-on-error`
+  can leave a successful step conclusion after the receiving program exits one.
+- CI680 did that when the selected current loader was absent from the held-source
+  pin table. The step label did not qualify the prerequisite; the refusal and
+  subsequent composite test failures remain evidence.
+- Guard: receive the actual process result and scoped observation against exact
+  source pins before claiming qualification. Missing/stale source refuses; source
+  repair does not authorize a manual privileged retry or a broader host profile.
+- `test_hosted_current_reader_loads_actual_source_without_dispatch` in
+  `tests/composite-source-cases.py` loads the actual current source while forbidding
+  producer dispatch. A stale loader pin fails this canonical regression even when
+  the observational workflow step continues after an error.
+- The retained-policy finalizer is read/record only. Its success is a snapshot of
+  retained policy and receipt state, not policy removal or physical VM disposal.
+
+## C5-EXPLICIT-CURRENT-VERSUS-FROZEN-SOURCE
+
+- Sources: `scripts/load-work-graph-c5-executor.py`,
+  `scripts/qualify-work-graph-c5-setup.py`, and
+  `tests/c5-selected-source-fixture.py`; exact retained compiler identity lives in
+  `test-support/r5-continuity-compiler-history/MANIFEST.json`.
+- Logical revision, physical source member, executed loader bytes, captured
+  compiler, producer/payload census and native admission are separate dimensions.
+  An unchanged historical tuple cannot acquire current compiler bytes merely
+  because both occupied the same repository path at different times.
+- The C5 source owners define exact selection; Root receives and publishes the
+  reviewed source. The held loader pin selects V9 with its current compiler.
+  Frozen V3-V8 tuples retain their original compiler through explicit physical
+  history. V3/V4 fixture logical inputs use that same frozen compiler.
+- Unknown, mixed, drifted or wrong-profile inputs refuse. Capture and closing
+  identity/hash checks remain required; no hash search or current/historical
+  wildcard is introduced. Repair uses a separate source revision and preserves
+  old tuples and failures; source receiving never grants native dispatch.
+- `tests/c5-current-source-receiving.py`, invoked by the canonical composite
+  test, covers current/frozen loading, captured and fresh drift refusal, exact
+  producer/payload rejection and preservation of prior pin/revision tables.
+  These source controls do not qualify original C5 execution or JOIN.
