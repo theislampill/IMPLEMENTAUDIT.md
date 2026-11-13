@@ -1,0 +1,223 @@
+{
+  "schema": "sss-existing-owner-map-v1",
+  "status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+  "snapshot_source": "docs/research/implementaudit/evolved-programme-v1/RLGWO_REGISTRY.json",
+  "snapshot_source_sha256": "76a745b3cceb7250436a29c122d6c70d421aa7bc9eeb4d9571cdf5526c87f960",
+  "observed_github_utc": "2026-11-12T22:47:37Z",
+  "new_issue_warranted": false,
+  "new_native_defect_claimed": false,
+  "canonical_main_high_water": "R003A",
+  "rows": [
+    {
+      "slot": "SSS-L1",
+      "trifecta": "SSS",
+      "responsibility": "L1",
+      "lineage_or_scope": "Software Architecture",
+      "original_property_count": 68,
+      "carrier_kind": "published_lineage_issue_canonically_unallocated",
+      "issue_numbers": [
+        228
+      ],
+      "issue_states": {
+        "228": "closed"
+      },
+      "shared_native_owners": [
+        "R002D/#197",
+        "R0035/#209",
+        "R0037/#211",
+        "R001F/#158",
+        "R001D/#155"
+      ],
+      "observed_disposition": "R003C closed; bounded documentary/selected-consumer qualification merged in #242",
+      "claim_limit": "Complete member disposition/continuation does not mean full operative absorption. These published R IDs remain outside main canonical registry high-water R003A.",
+      "new_issue_warranted": false,
+      "proven_current_native_defect": false,
+      "canonical_display_name": "Software Architecture",
+      "canonical_lineage_id": "EVOLVED_SOFTWARE_ARCHITECTURE",
+      "historical_property_rows": 68,
+      "scientific_selected_current_property_identities": 68,
+      "property_count_scope": "Historical public work-order/corpus population; scientific selected-current identities are separately labelled and confer no implementation credit.",
+      "programme_identity_source": "../../genealogy/current-programme/v1/PROGRAMME.json",
+      "sources": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/228",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/228#issuecomment-6220063875",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/242"
+      ],
+      "scientific_unit_id": "SSS-L1",
+      "scientific_unit_name": "Software Architecture",
+      "scientific_status": "qualified_at_declared_scope",
+      "central_selection": "selected_at_captured_A_boundary",
+      "documentation_status": "prepared_on_C_branch_at_v1_subject",
+      "source_owner": "Scientific cohort custody recorded at the scientific snapshot; later transfers do not alter family membership.",
+      "consumer_owners": [
+        "R002D/#197",
+        "R0035/#209",
+        "R0037/#211",
+        "R001F/#158",
+        "R001D/#155"
+      ],
+      "future_owner_decision": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "possible_native_change": "Undetermined. At most a bounded change to an existing native owner if a later exact-current witness proves a residual.",
+      "unproven_candidate": true
+    },
+    {
+      "slot": "SSS-L2",
+      "trifecta": "SSS",
+      "responsibility": "L2",
+      "lineage_or_scope": "Software Maintenance and Evolution — canonical",
+      "original_property_count": 105,
+      "carrier_kind": "published_lineage_issue_canonically_unallocated",
+      "issue_numbers": [
+        227
+      ],
+      "issue_states": {
+        "227": "closed"
+      },
+      "shared_native_owners": [
+        "R002D/#197",
+        "R0035/#209",
+        "R0037/#211",
+        "R001F/#158",
+        "R001D/#155"
+      ],
+      "observed_disposition": "R003D closed; bounded documentary/selected-consumer qualification merged in #243",
+      "claim_limit": "Complete member disposition/continuation does not mean full operative absorption. These published R IDs remain outside main canonical registry high-water R003A.",
+      "new_issue_warranted": false,
+      "proven_current_native_defect": false,
+      "canonical_display_name": "Software Maintenance and Evolution — canonical",
+      "canonical_lineage_id": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION",
+      "historical_property_rows": 105,
+      "scientific_selected_current_property_identities": 105,
+      "property_count_scope": "Historical public work-order/corpus population; scientific selected-current identities are separately labelled and confer no implementation credit.",
+      "programme_identity_source": "../../genealogy/current-programme/v1/PROGRAMME.json",
+      "sources": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/227",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/227#issuecomment-6226963101",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/243"
+      ],
+      "scientific_unit_id": "SSS-L2",
+      "scientific_unit_name": "Software Maintenance and Evolution — canonical",
+      "scientific_status": "qualified_at_declared_scope",
+      "central_selection": "selected_at_captured_A_boundary",
+      "documentation_status": "prepared_on_C_branch_at_v1_subject",
+      "source_owner": "Scientific cohort custody recorded at the scientific snapshot; later transfers do not alter family membership.",
+      "consumer_owners": [
+        "R002D/#197",
+        "R0035/#209",
+        "R0037/#211",
+        "R001F/#158",
+        "R001D/#155"
+      ],
+      "future_owner_decision": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "possible_native_change": "Undetermined. At most a bounded change to an existing native owner if a later exact-current witness proves a residual.",
+      "unproven_candidate": true
+    },
+    {
+      "slot": "SSS-L3",
+      "trifecta": "SSS",
+      "responsibility": "L3",
+      "lineage_or_scope": "Software Product Line Engineering",
+      "original_property_count": 62,
+      "carrier_kind": "published_lineage_issue_canonically_unallocated",
+      "issue_numbers": [
+        226
+      ],
+      "issue_states": {
+        "226": "closed"
+      },
+      "shared_native_owners": [
+        "R002D/#197",
+        "R0035/#209",
+        "R0037/#211",
+        "R001F/#158",
+        "R001D/#155"
+      ],
+      "observed_disposition": "R003B closed; bounded documentary/selected-consumer qualification merged in #241",
+      "claim_limit": "Complete member disposition/continuation does not mean full operative absorption. These published R IDs remain outside main canonical registry high-water R003A.",
+      "new_issue_warranted": false,
+      "proven_current_native_defect": false,
+      "canonical_display_name": "Software Product Line Engineering",
+      "canonical_lineage_id": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING",
+      "historical_property_rows": 62,
+      "scientific_selected_current_property_identities": 62,
+      "property_count_scope": "Historical public work-order/corpus population; scientific selected-current identities are separately labelled and confer no implementation credit.",
+      "programme_identity_source": "../../genealogy/current-programme/v1/PROGRAMME.json",
+      "sources": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/226",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/226#issuecomment-6213852045",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/241"
+      ],
+      "scientific_unit_id": "SSS-L3",
+      "scientific_unit_name": "Software Product Line Engineering",
+      "scientific_status": "qualified_at_declared_scope",
+      "central_selection": "selected_at_captured_A_boundary",
+      "documentation_status": "prepared_on_C_branch_at_v1_subject",
+      "source_owner": "Scientific cohort custody recorded at the scientific snapshot; later transfers do not alter family membership.",
+      "consumer_owners": [
+        "R002D/#197",
+        "R0035/#209",
+        "R0037/#211",
+        "R001F/#158",
+        "R001D/#155"
+      ],
+      "future_owner_decision": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "possible_native_change": "Undetermined. At most a bounded change to an existing native owner if a later exact-current witness proves a residual.",
+      "unproven_candidate": true
+    },
+    {
+      "slot": "SSS-S",
+      "trifecta": "SSS",
+      "responsibility": "S",
+      "lineage_or_scope": "SSS synthesis",
+      "original_property_count": 235,
+      "carrier_kind": "embedded_synthesis_unit",
+      "issue_numbers": [
+        227
+      ],
+      "issue_states": {
+        "227": "closed"
+      },
+      "shared_native_owners": [
+        "R002D/#197",
+        "R0035/#209",
+        "R0037/#211",
+        "R001F/#158"
+      ],
+      "observed_disposition": "R003D::SSS-SYNTHESIS, ::RECEIPT and local ::C1; separate bounded acceptance in closed #227",
+      "claim_limit": "235 originals/34 groups/672 memberships; host ESME105 is inside235. Bounded acceptance retains conditional/rejected/research outcomes and does not close R002D or create a fourth lineage/issue.",
+      "new_issue_warranted": false,
+      "proven_current_native_defect": false,
+      "canonical_display_name": "SSS synthesis",
+      "canonical_lineage_id": null,
+      "historical_property_rows": 235,
+      "scientific_selected_current_property_identities": 235,
+      "property_count_scope": "Historical public work-order/corpus population; scientific selected-current identities are separately labelled and confer no implementation credit.",
+      "programme_identity_source": "../../genealogy/current-programme/v1/PROGRAMME.json",
+      "sources": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/227#issuecomment-5638961880",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/227#issuecomment-6227000944",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/243"
+      ],
+      "scientific_unit_id": "SSS-S",
+      "scientific_unit_name": "SSS synthesis",
+      "scientific_status": "qualified_at_declared_scope",
+      "central_selection": "not_observed_for_this_newer_local_synthesis",
+      "documentation_status": "prepared_on_C_branch_at_v1_subject",
+      "source_owner": "Scientific cohort custody recorded at the scientific snapshot; later transfers do not alter family membership.",
+      "consumer_owners": [
+        "R002D/#197",
+        "R0035/#209",
+        "R0037/#211",
+        "R001F/#158"
+      ],
+      "future_owner_decision": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "possible_native_change": "Undetermined. At most a bounded change to an existing native owner if a later exact-current witness proves a residual.",
+      "unproven_candidate": true
+    }
+  ],
+  "issue_states_are_snapshot_not_live_refresh": true
+}

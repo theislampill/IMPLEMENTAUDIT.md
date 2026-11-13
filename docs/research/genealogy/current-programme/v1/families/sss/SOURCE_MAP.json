@@ -1,0 +1,339 @@
+{
+  "schema": "sss-public-documentation-source-map-v1",
+  "public_scope": "Authenticated historical public sources plus already-permitted current metadata; protected scientific bodies excluded.",
+  "historical_sources": [
+    {
+      "source_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "source_tree": "4732d73a103c72178120532c695f7b23d3a528a1",
+      "source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+      "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+      "bytes": 969783,
+      "sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+      "public_source_url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json"
+    },
+    {
+      "source_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "source_tree": "4732d73a103c72178120532c695f7b23d3a528a1",
+      "source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+      "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+      "bytes": 6059346,
+      "sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+      "public_source_url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json"
+    },
+    {
+      "source_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "source_tree": "4732d73a103c72178120532c695f7b23d3a528a1",
+      "source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+      "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+      "bytes": 1172693,
+      "sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+      "public_source_url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json"
+    },
+    {
+      "source_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "source_tree": "4732d73a103c72178120532c695f7b23d3a528a1",
+      "source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_COMPOSITION_MODEL.json",
+      "git_blob_sha1": "53b3b0ff3b56d5aeb5d7105b9e1e9a80fb93c8ce",
+      "bytes": 82429,
+      "sha256": "c6f6df8aba685c2da1da109022532bf0e0cdbfcd49b59189d983c23aea213033",
+      "public_source_url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_COMPOSITION_MODEL.json"
+    },
+    {
+      "source_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "source_tree": "4732d73a103c72178120532c695f7b23d3a528a1",
+      "source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "git_blob_sha1": "08e5a383e78039d96fb4590cb7ddc517dfc1dc9e",
+      "bytes": 16150,
+      "sha256": "bac8aad14208a31b50a6cf32fd84bc67d227330241b983cfdd151e7da7ba5fea",
+      "public_source_url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PUBLIC_DOCUMENTATION_INTAKE.md"
+    },
+    {
+      "source_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "source_tree": "4732d73a103c72178120532c695f7b23d3a528a1",
+      "source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_RESEARCH_COVERAGE.json",
+      "git_blob_sha1": "c2c28e9fb34f5a67fadaf6901995ebb9e9a7e39c",
+      "bytes": 190851,
+      "sha256": "54ce3f1ba95024582bd21ba907267ff456f5d2cb44c60a247bbec7df456eb6fc",
+      "public_source_url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_RESEARCH_COVERAGE.json"
+    },
+    {
+      "source_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "source_tree": "4732d73a103c72178120532c695f7b23d3a528a1",
+      "source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_SOURCE_TABLE.json",
+      "git_blob_sha1": "7f5e258f8e9c517fce41d0d8e0bd4260608a09ec",
+      "bytes": 124133,
+      "sha256": "2effa898057f3a41fbc6dfa405c455c4ed2e18cc85e5077de037fa7262040101",
+      "public_source_url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_SOURCE_TABLE.json"
+    },
+    {
+      "source_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "source_tree": "4732d73a103c72178120532c695f7b23d3a528a1",
+      "source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_COMPOSITION_MODEL.json",
+      "git_blob_sha1": "c062b8687efc55cb2771110ef58bcbc9e713087d",
+      "bytes": 209612,
+      "sha256": "a6f0e91bd22809c94c12e34016d26f98b6ec7d963e507a70f9c66de66a18000b",
+      "public_source_url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_COMPOSITION_MODEL.json"
+    },
+    {
+      "source_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "source_tree": "4732d73a103c72178120532c695f7b23d3a528a1",
+      "source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "git_blob_sha1": "574725d9a718ef9331506ea1e777373c49e44bf1",
+      "bytes": 9984,
+      "sha256": "6c8ba9c6dbd5a2960c811623b9231c688b40cdcffbd0a9c3c43a487b6fb35abd",
+      "public_source_url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PUBLIC_DOCUMENTATION_INTAKE.md"
+    },
+    {
+      "source_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "source_tree": "4732d73a103c72178120532c695f7b23d3a528a1",
+      "source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_RESEARCH_COVERAGE.json",
+      "git_blob_sha1": "0df1282be69144014534f15f340d38a586120b55",
+      "bytes": 71826,
+      "sha256": "d8fb6d34803cf6f6f93d271b62626e33ccbb2e8873343e9d23aaf7c149d42fb2",
+      "public_source_url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_RESEARCH_COVERAGE.json"
+    },
+    {
+      "source_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "source_tree": "4732d73a103c72178120532c695f7b23d3a528a1",
+      "source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_SOURCE_TABLE.json",
+      "git_blob_sha1": "c28073c21420a210cc7777892c008a25b0ef98dc",
+      "bytes": 488432,
+      "sha256": "3ce71e85f89b992330dce243b6de5a168820c6fc957f98421114ef50fe150a02",
+      "public_source_url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_SOURCE_TABLE.json"
+    },
+    {
+      "source_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "source_tree": "4732d73a103c72178120532c695f7b23d3a528a1",
+      "source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_COMPOSITION_MODEL.json",
+      "git_blob_sha1": "60a27b64c0584de98338fd28900aba839d7b418c",
+      "bytes": 146005,
+      "sha256": "10ba3605e763d61759ee68fff56747bfc9619e93e0f65195a5267a917cc3e71e",
+      "public_source_url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_COMPOSITION_MODEL.json"
+    },
+    {
+      "source_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "source_tree": "4732d73a103c72178120532c695f7b23d3a528a1",
+      "source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "git_blob_sha1": "d1ab57640d9188d50e602cbddb59bd693d5a6a2a",
+      "bytes": 10369,
+      "sha256": "478ac25588e345cebf827ca58e0668472fb4c496a6d654bd459ee84b100c1344",
+      "public_source_url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md"
+    },
+    {
+      "source_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "source_tree": "4732d73a103c72178120532c695f7b23d3a528a1",
+      "source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_RESEARCH_COVERAGE.json",
+      "git_blob_sha1": "8ac50a419a81801ef9e3516c0fe555b335cb22aa",
+      "bytes": 39495,
+      "sha256": "7c1a74ce5eed1400e5aa877366158ec4c861f9cd58445ce47a0b1a17e3758991",
+      "public_source_url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_RESEARCH_COVERAGE.json"
+    },
+    {
+      "source_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+      "source_tree": "4732d73a103c72178120532c695f7b23d3a528a1",
+      "source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_SOURCE_TABLE.json",
+      "git_blob_sha1": "2a9954a5329407fb2b0c89653421101af99f88b9",
+      "bytes": 111369,
+      "sha256": "ad2ce62e0ff0d341dddda637c348465ec5c1912f9b37a4f5837366938f88cfec",
+      "public_source_url": "https://raw.githubusercontent.com/theislampill/IMPLEMENTAUDIT.md/cacfe97da7656b472bf4f11e50c9d106a6c3f92a/docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_SOURCE_TABLE.json"
+    }
+  ],
+  "current_scientific_metadata": [
+    {
+      "unit_id": "SSS-L1",
+      "family": "SSS",
+      "kind": "lineage",
+      "name": "Software Architecture",
+      "lineage_identity": "EVOLVED_SOFTWARE_ARCHITECTURE",
+      "historical_property_rows": 68,
+      "selected_property_identities": 68,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "6be1f9a29ebfae1df91df68de438926a29320be6a582187e09aa7eb2f7a742dc",
+        "bytes": 14990
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "10280082670c707b147872084bd57ea0a065847759e6e18d5adf7555d91dc62c",
+        "bytes": 8778
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "fc9cb3b7cee1850fd5f52c046b97a25be83652757fa1566874bbeca0e9d6cd41",
+            "bytes": 17362
+          },
+          "accepted_subject_sha256": "6be1f9a29ebfae1df91df68de438926a29320be6a582187e09aa7eb2f7a742dc",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "a44e9d640683a3f94275f193cd091bc2abd1de04bfd5c5c7df7221bbdc703012",
+            "bytes": 23515
+          },
+          "accepted_subject_sha256": "6be1f9a29ebfae1df91df68de438926a29320be6a582187e09aa7eb2f7a742dc",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "SSS-L2",
+      "family": "SSS",
+      "kind": "lineage",
+      "name": "Software Maintenance and Evolution — canonical",
+      "lineage_identity": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION",
+      "historical_property_rows": 105,
+      "selected_property_identities": 105,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "47c2bc5894a6c4a98efe5278e86a6bc3f9c551bd5cab6e173565885115cbcb33",
+        "bytes": 71477
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "f2f7f78b7c70f5f89678758011746611ce5d111f34bd72c939824cea337f4743",
+        "bytes": 20202
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "9afcdd4bf1db4c24d053ef07513cce654a6a6f66dd8c370207dc096d242b142e",
+            "bytes": 17933
+          },
+          "accepted_subject_sha256": "47c2bc5894a6c4a98efe5278e86a6bc3f9c551bd5cab6e173565885115cbcb33",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "d5f1b6c64b1c79899f23c148e139289c83b40391b0ed71a258f052da6d42d5e7",
+            "bytes": 21778
+          },
+          "accepted_subject_sha256": "47c2bc5894a6c4a98efe5278e86a6bc3f9c551bd5cab6e173565885115cbcb33",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "SSS-L3",
+      "family": "SSS",
+      "kind": "lineage",
+      "name": "Software Product Line Engineering",
+      "lineage_identity": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING",
+      "historical_property_rows": 62,
+      "selected_property_identities": 62,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "107089602777ade226d1c49ff940e428bcaa27415ecdc3062f4a7367b7c6b5d7",
+        "bytes": 54007
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "4841e7dd94cd1c725ebb2ca7186072be6d42531386d66730803c80a1f60b04f8",
+        "bytes": 12778
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "2514e403d969f9c716e357b978943f70af9e84e02b7d8f4bd72b9e53e5d3b6a3",
+            "bytes": 38929
+          },
+          "accepted_subject_sha256": "107089602777ade226d1c49ff940e428bcaa27415ecdc3062f4a7367b7c6b5d7",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "3a71b180dc8ce83c14ceb4f9506ab9ac5a5936fe470d1dd4573620e9c29db678",
+            "bytes": 40184
+          },
+          "accepted_subject_sha256": "107089602777ade226d1c49ff940e428bcaa27415ecdc3062f4a7367b7c6b5d7",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "selected_at_captured_A_boundary",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    },
+    {
+      "unit_id": "SSS-S",
+      "family": "SSS",
+      "kind": "synthesis",
+      "name": "SSS synthesis",
+      "lineage_identity": null,
+      "historical_property_rows": 235,
+      "selected_property_identities": 235,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "local_cohort_B",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "a2d040804fbd01ad6f26f5350a122c33830bde0d61ea4d1e1f079ba1717eb6bb",
+        "bytes": 539336
+      },
+      "subject_receiving": "EXACT_BYTES_VERIFIED",
+      "qualification_receipt": {
+        "sha256": "7bd97c54fd8381420161a88c0fdee3f04b8497e59b72c41581e792eb67add217",
+        "bytes": 44920
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "5ed3a75a4392dca2e8a103dff5d182fe940b141fa7b5354afe1cb68036e4a283",
+            "bytes": 17030
+          },
+          "accepted_subject_sha256": "a2d040804fbd01ad6f26f5350a122c33830bde0d61ea4d1e1f079ba1717eb6bb",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "8e993b581bcfc6a9c503be5a87dfe4490ca9fae0ff3d919f4e4635766f2230c3",
+            "bytes": 59107
+          },
+          "accepted_subject_sha256": "a2d040804fbd01ad6f26f5350a122c33830bde0d61ea4d1e1f079ba1717eb6bb",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "central_selection": "not_observed_for_this_newer_local_synthesis",
+      "source_access": "private_custody_metadata_only",
+      "body_publication_clearance": "not_verified_do_not_publish",
+      "native_implementation_credit": false,
+      "limitations": []
+    }
+  ],
+  "current_metadata_source": "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
+  "historical_target_baseline": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+  "source_tables_are_not_independent_studies": true,
+  "new_current_disclosure": "PENDING_FOUR_SOURCE_SPECIFIC_DECISIONS"
+}

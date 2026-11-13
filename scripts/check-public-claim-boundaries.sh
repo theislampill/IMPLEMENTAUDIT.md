@@ -297,7 +297,15 @@ for path in Path(".").rglob("*"):
     if len(path.parts) >= 3 and path.parts[0] == "docs" and path.parts[1] == "portal":
         for phrase, reason in portal_public_phrases:
             for line_no, line in enumerate(lowered.splitlines(), start=1):
-                if phrase in line:
+                # A historical criterion can be defeated without comparing
+                # products. Preserve the source wording and inspect every other
+                # claim, including another comparison on this same line.
+                claim_line = line
+                if phrase == "defeats":
+                    claim_line = claim_line.replace(
+                        "establishes or defeats the scoped criterion", "criterion discrimination"
+                    )
+                if phrase in claim_line:
                     failures.append(f"{path}:{line_no}: {reason}: {phrase}")
 
     for phrase, reason in stale_current_release_claims:

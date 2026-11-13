@@ -115,6 +115,9 @@
         "research-lineage-statistical-engineering",
         "research-lineage-systems-safety",
         "research-lineage-evolved-css",
+        "research-lineage-software-architecture",
+        "research-lineage-software-maintenance-and-evolution",
+        "research-lineage-software-product-line-engineering",
         "research-lineage-evolved-sss",
         "research-lineage-evolved-bwp",
         "research-lineage-evolved-ama",
@@ -842,7 +845,15 @@
         "docs/research/implementaudit/r003c-interaction-qualification.md",
         "docs/research/implementaudit/r003b-configuration-qualification.md",
         "docs/research/genealogy/current-programme/v1/increments/2026-11-12-231239Z.md",
-        "docs/research/genealogy/current-programme/v1/increments/2026-11-12-231239Z.json"
+        "docs/research/genealogy/current-programme/v1/increments/2026-11-12-231239Z.json",
+        "docs/research/genealogy/current-programme/v1/families/sss/README.md",
+        "docs/research/genealogy/current-programme/v1/families/sss/GENEALOGY.md",
+        "docs/research/genealogy/current-programme/v1/families/sss/SSS-S.md",
+        "docs/research/genealogy/current-programme/v1/families/sss/SOURCE_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/sss/OWNER_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/sss/RLGWO_OUTLINES.md",
+        "docs/research/genealogy/current-programme/v1/families/sss/COMPLETENESS.md",
+        "docs/research/genealogy/current-programme/v1/families/sss/PUBLIC_PROPERTY_SOURCE_MAP.json"
       ]
     },
     "research-lineage-evolved-bwp": {
@@ -880,6 +891,63 @@
       "sources": [
         "docs/research/genealogy/current-programme/v1/families/spr.md",
         "docs/research/genealogy/current-programme/v1/PROGRAMME.json"
+      ]
+    },
+    "research-lineage-software-architecture": {
+      "title": "Software Architecture",
+      "path": "research-engineering-lineage/software-architecture/",
+      "source": "research-lineage-software-architecture.html",
+      "sources": [
+        "docs/research/genealogy/current-programme/v1/families/sss/README.md",
+        "docs/research/genealogy/current-programme/v1/families/sss/GENEALOGY.md",
+        "docs/research/genealogy/current-programme/v1/families/sss/SSS-L1.md",
+        "docs/research/genealogy/current-programme/v1/families/sss/SSS-L1-HISTORICAL-PROPERTIES.md",
+        "docs/research/genealogy/current-programme/v1/families/sss/SSS-L1-HISTORICAL-RECORDS.json",
+        "docs/research/genealogy/current-programme/v1/families/sss/PUBLIC_PROPERTY_SOURCE_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/sss/SOURCE_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/sss/OWNER_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/sss/RLGWO_OUTLINES.md",
+        "docs/research/genealogy/current-programme/v1/families/sss/COMPLETENESS.md",
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
+        "docs/research/genealogy/current-programme/v1/families/sss.md"
+      ]
+    },
+    "research-lineage-software-maintenance-and-evolution": {
+      "title": "Software Maintenance and Evolution",
+      "path": "research-engineering-lineage/software-maintenance-and-evolution/",
+      "source": "research-lineage-software-maintenance-and-evolution.html",
+      "sources": [
+        "docs/research/genealogy/current-programme/v1/families/sss/README.md",
+        "docs/research/genealogy/current-programme/v1/families/sss/GENEALOGY.md",
+        "docs/research/genealogy/current-programme/v1/families/sss/SSS-L2.md",
+        "docs/research/genealogy/current-programme/v1/families/sss/SSS-L2-HISTORICAL-PROPERTIES.md",
+        "docs/research/genealogy/current-programme/v1/families/sss/SSS-L2-HISTORICAL-RECORDS.json",
+        "docs/research/genealogy/current-programme/v1/families/sss/PUBLIC_PROPERTY_SOURCE_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/sss/SOURCE_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/sss/OWNER_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/sss/RLGWO_OUTLINES.md",
+        "docs/research/genealogy/current-programme/v1/families/sss/COMPLETENESS.md",
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
+        "docs/research/genealogy/current-programme/v1/families/sss.md"
+      ]
+    },
+    "research-lineage-software-product-line-engineering": {
+      "title": "Software Product Line Engineering",
+      "path": "research-engineering-lineage/software-product-line-engineering/",
+      "source": "research-lineage-software-product-line-engineering.html",
+      "sources": [
+        "docs/research/genealogy/current-programme/v1/families/sss/README.md",
+        "docs/research/genealogy/current-programme/v1/families/sss/GENEALOGY.md",
+        "docs/research/genealogy/current-programme/v1/families/sss/SSS-L3.md",
+        "docs/research/genealogy/current-programme/v1/families/sss/SSS-L3-HISTORICAL-PROPERTIES.md",
+        "docs/research/genealogy/current-programme/v1/families/sss/SSS-L3-HISTORICAL-RECORDS.json",
+        "docs/research/genealogy/current-programme/v1/families/sss/PUBLIC_PROPERTY_SOURCE_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/sss/SOURCE_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/sss/OWNER_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/sss/RLGWO_OUTLINES.md",
+        "docs/research/genealogy/current-programme/v1/families/sss/COMPLETENESS.md",
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
+        "docs/research/genealogy/current-programme/v1/families/sss.md"
       ]
     }
   }

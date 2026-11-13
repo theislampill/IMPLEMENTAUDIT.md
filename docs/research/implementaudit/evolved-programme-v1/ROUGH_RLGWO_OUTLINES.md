@@ -461,3 +461,7 @@ The [four detailed CSS outlines](../../genealogy/current-programme/v1/families/c
 - Potential bounded response: preserve no-change and partial inputs; change an existing owner only after a concrete discriminator. Do not create a family runtime or duplicate governance.
 - Dependencies and decision: scientific state is **Qualified and centrally selected; accepted erratum retained**. Reconcile the completed open RLGWO baseline and complete-family gate before authoritative integration; owner approval is required for final drafting, issue changes and native execution.
 - Residual limit: No public immutable SPR source locator was verified by this ownership lane. Absence of a named issue does not prove absence of native coverage or require a new R ID. Exact-current native owner/consumer coverage remains unproved; no defect is asserted.
+
+### SSS whole-family documentary continuation
+
+[Four detailed SSS rough responsibilities](../../genealogy/current-programme/v1/families/sss/RLGWO_OUTLINES.md) separately retain Architecture, canonical Maintenance/Evolution, Product Line Engineering and the embedded synthesis receiving responsibility. They preserve the existing 32 slots, issue owners, protected-current-source limits and adequate/no-change outcomes. They do not create issues or authorise a new RLGWO campaign.

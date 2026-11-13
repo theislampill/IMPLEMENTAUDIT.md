@@ -118,6 +118,9 @@ assert groups["Research & Engineering Lineage"] == [
     "research-lineage-statistical-engineering",
     "research-lineage-systems-safety",
     "research-lineage-evolved-css",
+    "research-lineage-software-architecture",
+    "research-lineage-software-maintenance-and-evolution",
+    "research-lineage-software-product-line-engineering",
     "research-lineage-evolved-sss",
     "research-lineage-evolved-bwp",
     "research-lineage-evolved-ama",
@@ -1111,6 +1114,47 @@ if "${py_cmd[@]}" scripts/build-docs-portal.py --out . >/dev/null 2>&1; then
   fail_check "build-docs-portal.py accepted repo root as output"
 else
   ok "build-docs-portal.py refuses unsafe output directories"
+fi
+
+# Historical scientific source wording is preserved. A legitimate criterion
+# question must not suppress a separate comparative claim on the same line.
+if "${py_cmd[@]}" <<'PY'
+import subprocess
+import tempfile
+from pathlib import Path
+
+cases = [
+    ("What evidence establishes or defeats the scoped criterion: preserved obligations.", True),
+    ("This product defeats its competitor.", False),
+    ("What evidence establishes or defeats the scoped criterion: preserved obligations. "
+     "This product defeats its competitor.", False),
+    ("What evidence establishes or defeats the scoped criterion: preserved obligations. "
+     "This product beats every alternative.", False),
+    ("This product is better than X.", False),
+]
+with tempfile.NamedTemporaryFile(
+    mode="w", encoding="utf-8", prefix=".claim-language-", suffix=".html",
+    dir="docs/portal/pages", delete=False
+) as handle:
+    fixture = Path(handle.name)
+try:
+    for text, allowed in cases:
+        fixture.write_text("<p>" + text + "</p>\n", encoding="utf-8")
+        result = subprocess.run(
+            ["bash", "scripts/check-public-claim-boundaries.sh"],
+            capture_output=True, text=True,
+        )
+        assert (result.returncode == 0) == allowed, (text, result.stdout, result.stderr)
+        if not allowed:
+            assert str(fixture.resolve().relative_to(Path.cwd())) in result.stderr
+            assert "superiority" in result.stderr
+finally:
+    fixture.unlink()
+PY
+then
+  ok "public claim checker preserves criterion questions and rejects separate superiority claims"
+else
+  fail_check "public claim checker confused criterion questions and superiority claims"
 fi
 
 "${py_cmd[@]}" - "$host_claim_fixture" <<'PY'

@@ -1,0 +1,54 @@
+{
+  "schema": "sss-documentary-review-public-receiving-v1",
+  "received_date_utc": "2026-11-13",
+  "documentary_subject": {
+    "bytes": 10978,
+    "sha256": "50ba37f8ca55e609041f26f4bee5105a83a37a5d30d66b2fb1e8f512644c4b1c",
+    "payloads": 53
+  },
+  "independent_content_verdict": "PASS_AT_DECLARED_DOCUMENTARY_SCOPE",
+  "required_corrections": [],
+  "review_report": {
+    "bytes": 16132,
+    "sha256": "3e987e2af67c25b3eafdaa174204a5a63bab04baa911540aa2402cee385156dd"
+  },
+  "review_receipt": {
+    "bytes": 1764,
+    "sha256": "17896fa027f0b4623aaa3cce3de10f5573ad4d3293723a79739744f585f99d77"
+  },
+  "checks": {
+    "bytes": 9375,
+    "sha256": "547a3318d5de8309dfcfc5bf2efdd4f6029084eab89dcdd0eb22e09d5fd8802d"
+  },
+  "read_mask": {
+    "bytes": 49631,
+    "sha256": "dc9aac0f7b2bba3377db6cf5840c093275edd4844da6a5d7e955297c1e2f4bb4"
+  },
+  "public_projection": "AUTHENTICATED_HISTORICAL_CONTENT_AND_PERMITTED_CURRENT_METADATA",
+  "private_current_documentary_account": "ACCEPTED_AT_DECLARED_DOCUMENTARY_SCOPE",
+  "whole_public_current_science": "PARTIAL",
+  "disclosure_decisions": {
+    "SSS-D1": "PENDING",
+    "SSS-D2": "PENDING",
+    "SSS-D3": "PENDING",
+    "SSS-D4": "PENDING"
+  },
+  "publication_gates": [
+    "exact expected parent and complete affected bytes",
+    "independent final integration delta review",
+    "portal generation and structural/link checks",
+    "portal regression including negative claim controls",
+    "programme checker with negative self-tests",
+    "original genealogy preservation controls",
+    "post-publication full file and tree readback"
+  ],
+  "expected_parent": "66c192ed018c165dbe9031c1f33bc5c5a101b3ae",
+  "visual_status": "UNVERIFIED_ENVIRONMENT_BLOCKED",
+  "scope_limits": [
+    "The frozen content receipt does not by itself cover the later integration delta or publication.",
+    "A complete mechanical projection is not a fresh semantic reading of every scientific relation or primary work.",
+    "Original executed steering and the declared missing historical operation evidence remain unresolved.",
+    "Protected scientific text, private review bodies and source acquisition records remain private.",
+    "No new scientific qualification, central application, native implementation, issue publication or Pages deployment is established."
+  ]
+}

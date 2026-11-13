@@ -75,3 +75,7 @@ This establishes programme identity, documentary receiving and an accessible dis
 - [r003b-configuration-qualification.md](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/implementaudit/r003b-configuration-qualification.md) — immutable public predecessor at `e78f7cb21af4197d490f10bc95917a4c75f748aa`.
 
 The registry’s SHA-256 values identify received scientific objects; they are not public download locators. [Source and status boundaries](../SOURCE_STATUS.md) explain the limits and receiving rules. Historical adverse findings, missing originals and accepted errata are preserved in custody and are not rewritten by this projection.
+
+## Whole-family documentary continuation
+
+The [four-unit family package](sss/README.md) connects the three complete historical lineage readers, the separately qualified SSS-S identity, layered genealogy and four existing-owner rough responsibilities. Its [eight-component assessment](sss/COMPLETENESS.md) distinguishes the authorised public scope from protected current interpretation and unresolved visual qualification.
