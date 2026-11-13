@@ -635,7 +635,15 @@
         "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
         "docs/research/genealogy/current-programme/v1/SOURCE_STATUS.md",
         "docs/research/genealogy/README.md",
-        "docs/research/genealogy/current-programme/v1/families/css.md"
+        "docs/research/genealogy/current-programme/v1/families/css.md",
+        "docs/research/genealogy/current-programme/v1/families/css/README.md",
+        "docs/research/genealogy/current-programme/v1/families/css/GENEALOGY.md",
+        "docs/research/genealogy/current-programme/v1/families/css/RLGWO_OUTLINES.md",
+        "docs/research/genealogy/current-programme/v1/families/css/SOURCE_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/css/OWNER_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/css/COMPLETENESS.md",
+        "docs/research/genealogy/current-programme/v1/families/css/OWNER_COMPOSITION.md",
+        "docs/research/genealogy/current-programme/v1/families/css/CSS-S.md"
       ]
     },
     "research-lineage-evolved-ssd": {
@@ -716,7 +724,16 @@
         "skills/implementaudit/references/phase-design.md",
         "skills/implementaudit/references/plan-lifecycle.md",
         "docs/research/genealogy/current-programme/v1/families/css.md",
-        "docs/research/genealogy/current-programme/v1/PROGRAMME.json"
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
+        "docs/research/genealogy/current-programme/v1/families/css/README.md",
+        "docs/research/genealogy/current-programme/v1/families/css/GENEALOGY.md",
+        "docs/research/genealogy/current-programme/v1/families/css/RLGWO_OUTLINES.md",
+        "docs/research/genealogy/current-programme/v1/families/css/SOURCE_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/css/OWNER_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/css/COMPLETENESS.md",
+        "docs/research/genealogy/current-programme/v1/families/css/OWNER_COMPOSITION.md",
+        "docs/research/genealogy/current-programme/v1/families/css/CSS-L1.md",
+        "docs/research/genealogy/current-programme/v1/families/css/PUBLIC_PROPERTY_SOURCE_MAP.json"
       ]
     },
     "research-lineage-statistical-engineering": {
@@ -728,7 +745,16 @@
         "skills/implementaudit/references/phase-design.md",
         "scripts/check-acceptance-instrument-discipline.sh",
         "docs/research/genealogy/current-programme/v1/families/css.md",
-        "docs/research/genealogy/current-programme/v1/PROGRAMME.json"
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
+        "docs/research/genealogy/current-programme/v1/families/css/README.md",
+        "docs/research/genealogy/current-programme/v1/families/css/GENEALOGY.md",
+        "docs/research/genealogy/current-programme/v1/families/css/RLGWO_OUTLINES.md",
+        "docs/research/genealogy/current-programme/v1/families/css/SOURCE_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/css/OWNER_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/css/COMPLETENESS.md",
+        "docs/research/genealogy/current-programme/v1/families/css/OWNER_COMPOSITION.md",
+        "docs/research/genealogy/current-programme/v1/families/css/CSS-L2.md",
+        "docs/research/genealogy/current-programme/v1/families/css/PUBLIC_PROPERTY_SOURCE_MAP.json"
       ]
     },
     "research-lineage-systems-safety": {
@@ -740,7 +766,16 @@
         "skills/implementaudit/references/lean-operating-discipline.md",
         "skills/implementaudit/references/planning-depth.md",
         "docs/research/genealogy/current-programme/v1/families/css.md",
-        "docs/research/genealogy/current-programme/v1/PROGRAMME.json"
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
+        "docs/research/genealogy/current-programme/v1/families/css/README.md",
+        "docs/research/genealogy/current-programme/v1/families/css/GENEALOGY.md",
+        "docs/research/genealogy/current-programme/v1/families/css/RLGWO_OUTLINES.md",
+        "docs/research/genealogy/current-programme/v1/families/css/SOURCE_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/css/OWNER_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/css/COMPLETENESS.md",
+        "docs/research/genealogy/current-programme/v1/families/css/OWNER_COMPOSITION.md",
+        "docs/research/genealogy/current-programme/v1/families/css/CSS-L3.md",
+        "docs/research/genealogy/current-programme/v1/families/css/PUBLIC_PROPERTY_SOURCE_MAP.json"
       ]
     },
     "research-lineage-s3e": {

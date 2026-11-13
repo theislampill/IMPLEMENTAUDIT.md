@@ -1,5 +1,7 @@
 # CSS — current-programme documentary view v1
 
+The [CSS family documentation package](css/README.md) provides the three individually readable historical property lanes, layered genealogy, synthesis explanation, four detailed rough owner outlines and an explicit [component assessment](css/COMPLETENESS.md). Detailed corrected scientific interpretation is prepared privately; this overview and the public package do not certify whole-family completion.
+
 [Programme index](../README.md) · [Exact metadata registry](../PROGRAMME.json)
 
 Evidence cutoff: 2026-11-12 22:31:39 UTC. This version is a public-safe receiving projection, not a new scientific verdict. Detailed protected studies are not included.

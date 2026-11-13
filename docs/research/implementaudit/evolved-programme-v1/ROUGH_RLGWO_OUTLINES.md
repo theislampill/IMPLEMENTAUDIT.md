@@ -134,6 +134,8 @@ Each row below is a preliminary research-to-consumer question. It is neither a p
 
 ### CSS four-unit outline
 
+The [four detailed CSS outlines](../../genealogy/current-programme/v1/families/css/RLGWO_OUTLINES.md) supplement this preserved programme snapshot with individual cognitive, statistical, safety and synthesis responsibilities, exact existing owners, stronger alternatives and active-campaign limits. They are rough research preparation, not new work orders.
+
 #### CSS-L1 — Cognitive Systems Engineering
 
 - Research/verification question: Cognitive Systems Engineering: joint work, state/mode understanding, capability, coordination and intervention. Which exact current consumer uses the supported part, with which assumptions and actual receiving evidence?
