@@ -2,7 +2,7 @@
 
 [Programme index](../README.md) · [Exact metadata registry](../PROGRAMME.json)
 
-Initial evidence cutoff: 2026-11-12 22:31:39 UTC. [Latest received review state](#latest-receiving-at-continuation-05) is recorded separately below. This version is a public-safe receiving projection, not a new scientific verdict. Detailed protected studies are not included.
+Initial evidence cutoff: 2026-11-12 22:31:39 UTC. [Latest received review state](#latest-receiving-at-continuation-06) is recorded separately below. This version is a public-safe receiving projection, not a new scientific verdict. Detailed protected studies are not included.
 
 ## Four scientific identities
 
@@ -86,3 +86,9 @@ The [third documentary continuation](../increments/2026-11-13-documentary-contin
 Exact r17 now has a received final adversarial **GAP_REVISE**, sealed at 05:45:16.680120 UTC on unchanged subject `84a912ac…`. Selected fidelity acceptance remains at its declared scope; it does not override the adverse return. The verdict is newly discovered evidence with an earlier event time. A later r18 checkpoint is partial author correction without a whole freeze or independent acceptance. AMA remains unqualified; the r13/r16 adverse and earlier pending-receipt histories remain intact.
 
 The [fifth receiving record](../increments/2026-11-13-documentary-continuation-05.md) and [exact metadata](../increments/2026-11-13-documentary-continuation-05.json) preserve original event kinds, custody chronology and finite capture limits. No central application or native implementation follows.
+
+## Latest receiving at continuation 06
+
+AMA r18 is now a frozen corrected whole-author subject, `4fd89fbb…`: its subject record was created at 07:35:39.949838 UTC and its author freeze sealed at 07:35:40.193723 UTC. Separate root byte receiving followed at 07:37:45.355912 UTC. A later exact whole-fidelity receipt at 07:59:20.162633 UTC is ACCEPTED_AT_DECLARED_SCOPE for unchanged r18, retaining its nonblind exposure and fresh/reused reading limits. Root receiving followed at 08:01:30.765085 UTC; the distinct adversary's 08:11:19.539162 UTC checkpoint is active without a verdict. AMA remains unqualified; no r17 fidelity acceptance or adverse judgment transfers to changed r18 science. The exact parent r17 GAP_REVISE and earlier partial-r18 observations remain preserved.
+
+The [sixth receiving record](../increments/2026-11-13-documentary-continuation-06.md) and [exact metadata](../increments/2026-11-13-documentary-continuation-06.json) preserve typed source events and finite receiving limits. No central application or native implementation follows.

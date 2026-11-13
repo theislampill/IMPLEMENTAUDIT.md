@@ -18,6 +18,8 @@ The [fourth 13 November continuation](increments/2026-11-13-documentary-continua
 
 The [fifth 13 November continuation](increments/2026-11-13-documentary-continuation-05.md) receives AMA r17's final adversarial GAP_REVISE and an isolated frozen whole-author SSD S006. LAW I021 is an exact earlier author increment; later LAW I022, DRF I010 and AMA r18 remain partial author work. Later A authority assertions are attributed without inventing the original directive's issuance time or predecessor cessation. All four syntheses remain unqualified, with no new central application.
 
+The [sixth 13 November continuation](increments/2026-11-13-documentary-continuation-06.md) receives frozen AMA r18 and its exact scoped fidelity acceptance, with a distinct adversary active without a verdict; exposed SSD S007 remains a whole-author subject pending independent acceptance. It preserves earlier owner S006 receipts as descriptor evidence with its whole body unavailable and records DRF directional author completion with whole integration pending. All four unfinished syntheses remain unqualified. The newer central receipt explicitly preserves staged, unapplied CSS/BWP/SSS intents and the prior SPR selection.
+
 ## Initial snapshot family map
 
 | Family | L1 / L2 / L3 in exact programme order | Historical constituent property rows | Received synthesis state |

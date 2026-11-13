@@ -80,3 +80,9 @@ Its site/test text can merge at the probed inputs, but whole-file adoption would
 Obtain the current source-owner checkpoint for the selected native and custody contributions, rederive exact changed-path and blob identities, and choose the integration order explicitly. #254/#255 equality means their matching content is received once; it does not settle which PR the owner will integrate.
 
 Verify the resulting composed source with the applicable genealogy, programme, portal and reader-contract checks. Actual desktop/mobile inspection remains outstanding in an allowed rendering environment. Separate owner authorization remains necessary for main integration and Pages deployment. No new RLGWO, issue action, scientific qualification, body-publication permission or native implementation result is created by this composition record.
+
+## Continuation06 source-list preservation
+
+Input C commit `b8d83433a6f0f15467d84a697f33bfac425ebe88` has site blob `9e332a9d363211245698f0b88f04b93f2edb8054`. Continuation06 appends its Markdown/JSON receiving pair only to the programme and AMA Page source lists, producing site blob `7c91a8fb7897faa6e554ec9b94072189c1358bb6`. All earlier source entries, navigation, Page objects and release fields remain intact. Fresh pre-edit GitHub checks retain the same exact #224, #254, #255 and historical preparation heads recorded above.
+
+The bounded stable union still requires the same 12 semantic-source and 11 overview-source additions, with 16 distinct owner dependency files absent from C. The updated private proposal preserves the new C receiving pair and changes no other C fields. It remains unadopted and not composed-source merge-qualified. Source-owner intake, actual composed-source checks and observed desktop/mobile qualification remain outstanding.

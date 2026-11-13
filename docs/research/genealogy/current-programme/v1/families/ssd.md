@@ -2,7 +2,7 @@
 
 [Programme index](../README.md) · [Exact metadata registry](../PROGRAMME.json)
 
-Initial evidence cutoff: 2026-11-12 22:31:39 UTC. [Latest received state](#latest-receiving-at-continuation-05) is recorded separately below. This version is a public-safe receiving projection, not a new scientific verdict. Detailed protected studies are not included.
+Initial evidence cutoff: 2026-11-12 22:31:39 UTC. [Latest received state](#latest-receiving-at-continuation-06) is recorded separately below. This version is a public-safe receiving projection, not a new scientific verdict. Detailed protected studies are not included.
 
 ## Later receiving — 23:12:39 UTC checkpoint
 
@@ -87,3 +87,9 @@ Captured isolated and owner S006 records remain partial: neither supplies a froz
 The isolated S006 is now a frozen whole-author subject, `d8c74c0c…`, at 06:44:26.645570 UTC, with later author byte readback. It binds isolated S005 `5f0d278b…` and that subject's exact adverse fidelity receipt `7e91e576…`; it remains unqualified, with no matching final independent review supplied here. Owner S005, reconciled S005, the original later candidate and the owner S006 partial checkpoint retain separate identities and captured outcomes. Earlier partial isolated records are preserved at their own event times.
 
 The [fifth receiving record](../increments/2026-11-13-documentary-continuation-05.md) and [exact metadata](../increments/2026-11-13-documentary-continuation-05.json) preserve original event kinds, custody chronology and finite capture limits. No central application or native implementation follows.
+
+## Latest receiving at continuation 06
+
+The new reconciled S007 subject, `865e97f0…`, is frozen whole-author science with an exposed author/controller. Its later author byte readback is not independent scientific acceptance; fresh whole fidelity and a distinct adversarial acceptance remain pending. Separately received surviving receipts describe an earlier owner S006 freeze, `435aba60…`, but explicitly leave that subject's manifest and former whole body unavailable. It is descriptor-only subject evidence, distinct from received isolated S006 `d8c74c0c…`. Original neutral-source limits and every earlier subject/review history remain intact; SSD remains unqualified.
+
+The [sixth receiving record](../increments/2026-11-13-documentary-continuation-06.md) and [exact metadata](../increments/2026-11-13-documentary-continuation-06.json) preserve typed source events and finite receiving limits. No central application or native implementation follows.
